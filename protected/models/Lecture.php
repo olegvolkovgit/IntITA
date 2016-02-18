@@ -613,4 +613,68 @@ class Lecture extends CActiveRecord
         $this->order--;
         $this->update(array('order'));
     }
+
+    public static function getLecturesList() {
+        $criteria = new CDbCriteria();
+
+        $criteria->addCondition('idModule > 0 and `order` > 0');
+        $criteria->order = 'isFree DESC';
+        $lectures = Lecture::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($lectures as $record) {
+            $row = array();
+            $row[0] = CHtml::encode(($record->idModule)? $record->ModuleTitle->title_ua : "");
+            $row[1] = $record->order;
+            $row[2] = CHtml::encode($record->title_ua);
+            $row[3] = $record->type->title_ua;
+            $row[4] = ($record->isFree)?'безкоштовне':'платне';
+
+            if($record->isFree){
+                $url = Yii::app()->createUrl("/_teacher/_admin/freeLectures/setPaidLessons", array("id"=>$record->id));
+                $row[5] = "<a href='#' onclick='setLectureStatus(\"".$url."\", \"Позначити заняття ".CHtml::encode($record->title_ua)." як платне?\")'><img src=".StaticFilesHelper::createPath('image', 'editor', 'paid.png')."></i></a>";
+            } else {
+                $url = Yii::app()->createUrl("/_teacher/_admin/freeLectures/setFreeLessons", array("id"=>$record->id));
+                $row[5] = "<a href='#' onclick='setLectureStatus(\"" . $url . "\", \"Позначити заняття " . CHtml::encode($record->title_ua) . " як безкоштовне?\")'><img src=" . StaticFilesHelper::createPath('image', 'editor', 'free.png') . "></i></a>";
+            }
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    /*
+     *
+     * @param $type int (0 - not verified, 1 - verified)
+     * @return JSON for table in admin
+     */
+    public static function getLecturesListByStatus($isVerified) {
+        $criteria = new CDbCriteria();
+
+        $criteria->addCondition('idModule > 0 and `order` > 0');
+        $criteria->addCondition('verified = '.$isVerified);
+        $lectures = Lecture::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($lectures as $record) {
+            $row = array();
+            $row[0] = CHtml::encode(($record->idModule)? $record->ModuleTitle->title_ua : "");
+            $row[1] = $record->order;
+            $row[2] = "<a href=\"".Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0))."\">".CHtml::encode($record->title_ua)."</a>";
+            $row[3] = $record->type->title_ua;
+
+            if(!$isVerified){
+                $url = Yii::app()->createUrl("/_teacher/_admin/verifyContent/confirm", array("id"=>$record->id));
+                $row[4] = "<a href='#' onclick='setVerifyStatus(\"".$url."\", \"Затвердити зміни у занятті ".CHtml::encode($record->title_ua)."?\")'>Затвердити</a>";
+            } else {
+                $url = Yii::app()->createUrl("/_teacher/_admin/verifyContent/cancel", array("id"=>$record->id));
+                $row[4] = "<a href='#' onclick='setVerifyStatus(\"" . $url . "\", \"Позначити заняття " . CHtml::encode($record->title_ua) . " як незатверджене?\")'>Скасувати</a>";
+            }
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+
 }

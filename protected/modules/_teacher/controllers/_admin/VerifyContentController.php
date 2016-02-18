@@ -5,7 +5,7 @@ class VerifyContentController extends TeacherCabinetController
 
     public function actionIndex()
     {
-        $this->render('index');
+        $this->renderPartial('index', array(), false, true);
     }
 
     public function actionInitializeDir()
@@ -15,8 +15,6 @@ class VerifyContentController extends TeacherCabinetController
         }
         $this->initializeModules();
         $this->initializeLectures();
-
-        $this->redirect($this->pathToCabinet());
     }
 
     public function initializeModules()
@@ -70,7 +68,7 @@ class VerifyContentController extends TeacherCabinetController
             $model->verified = 0;
             $model->save();
         } else {
-            throw new CException("Такої лекції немає!");
+            throw new \application\components\Exceptions\IntItaException(404, "Такої лекції немає!");
         }
         $this->redirect($this->pathToCabinet());
     }
@@ -80,5 +78,11 @@ class VerifyContentController extends TeacherCabinetController
         $this->redirect(Config::getBaseUrl() . '/lesson/saveLectureContent/?idLecture=' . $model->id);
     }
 
+    public function actionWaitLecturesList(){
+        echo Lecture::getLecturesListByStatus(0); // 0 - not verified lectures
+    }
 
+    public function actionVerifiedLecturesList(){
+        echo Lecture::getLecturesListByStatus(1); // 1 - verified lectures
+    }
 }

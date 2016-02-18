@@ -1,7 +1,3 @@
-
-/**
- * Initialises students table
- */
 function initTranslatesList() {
     return $jq('#translatesTable').DataTable( {
         "ajax": {
@@ -25,4 +21,4 @@ function initTranslatesList() {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     } );
-};
+}

@@ -137,7 +137,7 @@ function confirm(url, id) {
             }
             else {
                 bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail", refresh);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, refresh);
             }
         })
         .fail(function () {
