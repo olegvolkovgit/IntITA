@@ -137,12 +137,12 @@ function confirm(url, id) {
             }
             else {
                 bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, refresh);
             }
         })
         .fail(function () {
             bootbox.alert("Договір " + id + " не підтверджений. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+                "операцію пізніше або напишіть на адресу " + adminEmail, refresh);
         });
 }
 
@@ -154,12 +154,12 @@ function cancel(url, id) {
             }
             else {
                 bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, refresh);
             }
         })
         .fail(function () {
             bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу antongriadchenko@gmail.com.", refresh);
+                "операцію пізніше або напишіть на адресу " + adminEmail, refresh);
         });
 }
 

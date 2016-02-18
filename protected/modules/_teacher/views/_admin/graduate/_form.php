@@ -3,7 +3,6 @@
 /* @var $model Graduate */
 /* @var $form CActiveForm */
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'translateTeacherName.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css'); ?>"/>
 
 <div class="form">

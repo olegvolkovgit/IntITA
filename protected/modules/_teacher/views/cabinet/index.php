@@ -58,6 +58,7 @@
     basePath = '<?=Config::getBaseUrl()?>';
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';
+    adminEmail = '<?=Config::getAdminEmail();?>';
 </script>
 <body ng-app="teacherApp">
 

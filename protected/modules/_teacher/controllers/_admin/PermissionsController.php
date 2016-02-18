@@ -249,24 +249,6 @@ class PermissionsController extends TeacherCabinetController
         $this->redirect($this->pathToCabinet());
     }
 
-    public function actionSetFreeLessons($id)
-    {
-        Lecture::model()->updateByPk($id, array('isFree' => 1));
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionSetPaidLessons($id)
-    {
-        Lecture::model()->updateByPk($id, array('isFree' => 0));
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
     public function actionSetUserVerification($id)
     {
         StudentReg::model()->updateByPk($id, array('status' => 1));

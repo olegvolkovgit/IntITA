@@ -3,11 +3,7 @@
 /* @var $model AboutusSlider */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
-<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', '_admin/aboutus.css') ?>"/>
-
 <div class="form">
-
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'aboutus-slider-form',
         'htmlOptions' => array(
