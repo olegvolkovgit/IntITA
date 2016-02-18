@@ -1,5 +1,23 @@
 <div class="col-lg-2  value">
-    <select class="selectpicker" ng-model="compareFull[$parent.$index][$index].first"  ng-options="first.value as first.index disable when (first.value%3==1 && !args[Math.floor(first.value/3)-1].etalon_value[$parent.$index]) for first in indexes | filter: filterList('value', !finalResult.etalon)" ng-change="updateCompare(compareFull[$parent.$index][$index])"></select>
+    <select
+            class="selectpicker"
+            ng-model="compareFull[$parent.$index][$index].first"
+            ng-options="first.value as first.index disable when
+            (first.value>2 && first.value%3==1 && !args[Math.floor(first.value/3)-1].etalon_value[$parent.$index])
+            for first in indexes | filter: filterList('value', !finalResult.etalon, !function.results[$parent.$index])"
+            ng-change="updateCompare(compareFull[$parent.$index][$index])">
+    </select>
     <label>=</label>
-    <select class="selectpicker" ng-model="compareFull[$parent.$index][$index].second"  ng-options="last.value as last.index disable when (Math.floor(function.checkable_args_indexes[$parent.$index][$index].first/3)-1!=-1 && (last.value%3==1 && !args[Math.floor(last.value/3)-1].etalon_value[$parent.$index] || (Math.floor(last.value/3)-1!=-1 && args[Math.floor(function.checkable_args_indexes[$parent.$index][$index].first/3)-1].is_array!=args[Math.floor(last.value/3)-1].is_array))) for last in indexes | filter: filterList('value', !finalResult.etalon)" ng-change="updateCompare(compareFull[$parent.$index][$index])"></select>
+    <select
+            class="selectpicker"
+            ng-model="compareFull[$parent.$index][$index].second"
+            ng-options="last.value as last.index disable when
+            (last.value!=function.checkable_args_indexes[$parent.$index][$index].first &&
+            (last.value>2 && ((last.value%3==1 && !args[Math.floor(last.value/3)-1].etalon_value[$parent.$index]) ||
+            (function.checkable_args_indexes[$parent.$index][$index].first>2 && args[Math.floor(function.checkable_args_indexes[$parent.$index][$index].first/3)-1].is_array!=args[Math.floor(last.value/3)-1].is_array) ||
+            ((function.checkable_args_indexes[$parent.$index][$index].first==1 || function.checkable_args_indexes[$parent.$index][$index].first==2) && function.array_type!=args[Math.floor(last.value/3)-1].is_array)) ||
+            ((last.value==1 || last.value==2) && function.array_type!=args[Math.floor(function.checkable_args_indexes[$parent.$index][$index].first/3)-1].is_array)))
+            for last in indexes | filter: filterList('value', !finalResult.etalon, !function.results[$parent.$index])"
+            ng-change="updateCompare(compareFull[$parent.$index][$index])">
+    </select>
 </div>
