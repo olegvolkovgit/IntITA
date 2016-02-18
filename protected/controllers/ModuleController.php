@@ -176,9 +176,18 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * @throws CException
+     * @throws \application\components\Exceptions\ModuleNotFoundException
+     */
     public function actionLecturesUpdate()
     {
-        $model = Module::model()->findByPk($_POST['idmodule']);
+        $idModule = Yii::app()->request->getParam('idmodule');
+
+        $model = Module::model()->findByPk($idModule);
+
+        $this->checkModelInstance($model);
+
         $this->renderPartial('_addLessonForm', array('newmodel' => $model), false, true);
     }
 
@@ -192,7 +201,6 @@ class ModuleController extends Controller
     {
         $model = $this->loadModel($id);
         if (isset($_POST['Module'])) {
-            $model->oldLogo = $model->module_img;
             $imageName = $_FILES['Module']['name']['module_img'];
             $tmpName = $_FILES['Module']['tmp_name']['module_img'];
             if (!empty($imageName)) {

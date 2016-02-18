@@ -7,6 +7,7 @@
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
+        <!-- Nav tabs -->
         <ul class="nav nav-tabs">
             <li><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
             </li>
@@ -39,6 +40,9 @@
         </div>
     </div>
 </div>
+<!-- DataTables JavaScript -->
+
+
 <script>
     $jq(document).ready(function () {
         $jq('#adminsTable, #accountantsTable, #usersTable, #teachersTable').DataTable({
@@ -48,10 +52,12 @@
             }
         );
         studentTable = initStudentsList();
+
+        $jq("#startDatePeriod").datepicker(lang);
+        $jq("#endDatePeriod").datepicker(lang);
+
     });
 
-    $jq("#startDate").datepicker(lang);
-    $jq("#endDate").datepicker(lang);
 </script>
 
 

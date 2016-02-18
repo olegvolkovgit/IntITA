@@ -1,7 +1,7 @@
 <?php
 
 use application\components\Exceptions\ForumException;
-use \application\components\Exceptions\MailException;
+use application\components\Exceptions\MailException;
 
 class SiteController extends Controller
 {
@@ -351,9 +351,8 @@ class SiteController extends Controller
             $secondName = ($userModel->secondName) ? $userModel->secondName : '';
             $name = $firstName . ' ' . $secondName;
             Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                'username_clean' => $name,
+                'username_clean' => $name.$email,
             ), 'user_id=:id', array(':id' => $userModel->id));
-
 
             if (Yii::app()->user->isGuest && $model->login())
                 $this->redirect(Yii::app()->createUrl('/site/resetemailinfo'));

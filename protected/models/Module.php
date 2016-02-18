@@ -333,6 +333,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getModuleByAlias($alias, $idCourse)
     {
+
         if ($module = Module::model()->find(array(
             'condition' => 'alias = :alias',
             'params' => array('alias' => $alias),
@@ -341,6 +342,12 @@ class Module extends CActiveRecord implements IBillableObject
             return $module;
         } else {
             if ($idCourse != null) {
+                if(!CourseModules::model()->exists('id_course = :course and `order` = :order', array(
+                    'course' => $idCourse,
+                    'order' => $alias
+                )))
+                    throw new \application\components\Exceptions\IntItaException(404, 'Такого модуля у цьому курсі немає.');
+
                 $idModule = CourseModules::model()->findByAttributes(array(
                     'id_course' => $idCourse,
                     'order' => $alias

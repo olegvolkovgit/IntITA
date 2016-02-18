@@ -283,4 +283,43 @@ class CourseModules extends CActiveRecord
         }
     }
 
+    /**
+     * Deletes specified module from specified course and update orders.
+     * @param $idCourse
+     * @param $idModule
+     * @return bool
+     * @throws ModuleDelitingException if nothing to delete and rollback transaction
+     * @throws Exception
+     */
+    public static function deleteModuleFromCourse($idCourse, $idModule) {
+
+        $criteria = new CDbCriteria();
+        $criteria->select = '`order`';
+        $criteria->condition = '`id_course`='.$idCourse.' AND `id_module` ='.$idModule;
+        $order = CourseModules::model()->find($criteria)->order;
+
+        $sqlDeleteRecord = "DELETE FROM course_modules WHERE id_course = $idCourse AND id_module = $idModule";
+        $sqlUpdateOrder = "UPDATE `course_modules` SET `order`=`order`-1 WHERE `id_course` = $idCourse AND `order` > $order";
+
+        $connection = Yii::app()->db;
+        $transaction=$connection->beginTransaction();
+        try
+        {
+            $rowAffected = $connection->createCommand($sqlDeleteRecord)->execute();
+            if ($rowAffected == 0) {
+                throw new \application\components\Exceptions\ModuleDelitingException;
+            }
+            $connection->createCommand($sqlUpdateOrder)->execute();
+            $transaction->commit();
+        }
+        catch(Exception $e)
+        {
+            $transaction->rollback();
+            throw $e;
+        }
+
+        return true;
+
+    }
+
 }
