@@ -100,6 +100,9 @@ class StudentRegController extends Controller
 
     public function actionIndex($email = '')
     {
+        if (!Yii::app()->user->isGuest) {
+            throw new \application\components\Exceptions\IntItaException('403', 'Ти вже зареєстрований');
+        }
         $model = new StudentReg('reguser');
         $this->render("studentreg", array('model' => $model, 'email' => $email));
     }

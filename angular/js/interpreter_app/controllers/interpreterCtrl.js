@@ -25,7 +25,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         {name:'>', value:3, bool:false},
         {name:'>=', value:4, bool:false},
         {name:'!=', value:5, bool:false},
-        {name:'==', value:1, bool:true},
+        {name:'==', value:2, bool:true},
         {name:'!=', value:5, bool:true}
     ];
     $scope.indexes = [
@@ -38,7 +38,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //init obj
     $scope.results=[];
     $scope.etalon='';
-    $scope.compare_marks=[0];
+    $scope.compare_marks=[2];
     $scope.tests_code_arr=[];
     $scope.compareFull=[
         [{
@@ -112,10 +112,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 value: [],
                 is_array: 0,
                 etalon_value: [''],
-                compare_mark: [0]
+                compare_mark: [2]
             });
             for (var j=1;j<$scope.units.length;j++){
-                $scope.args[$scope.args.length-1].compare_mark.push(0);
+                $scope.args[$scope.args.length-1].compare_mark.push(2);
                 $scope.args[$scope.args.length-1].etalon_value.push('');
             }
             for (var i=0;i<3;i++)
@@ -137,9 +137,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             $scope.units.push({
                 result: ''
             });
-            $scope.function.compare_mark[$scope.units.length-1]=0;
+            $scope.function.compare_mark[$scope.units.length-1]=2;
             for (var i=0;i<$scope.function.args.length;i++){
-                $scope.function.args[i].compare_mark[$scope.units.length-1]=0;
+                $scope.function.args[i].compare_mark[$scope.units.length-1]=2;
             }
             $scope.compareFull.push(
                 [{
@@ -423,12 +423,14 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     $scope.updateResultPattern($scope.function.type,$scope.function.size);
     $scope.positiveIntPattern=/^[1-9]\d*$/;
 
-    $scope.filterList = function(prop,etalon){
+    $scope.filterList = function(prop,etalon,result_etalon){
         return function(item){
-            if(etalon){
+            if(item[prop]==1 && result_etalon) {
+                return false;
+            }else if(etalon){
                 return (item[prop]%3!=2);
             }else{
-                return true;
+                return (item[prop]%3!=1);
             }
         }
     }
