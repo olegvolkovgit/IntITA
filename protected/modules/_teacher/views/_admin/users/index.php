@@ -9,7 +9,7 @@
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-            <li><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
+            <li class="active"><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
             </li>
             <li><a href="#accountant" data-toggle="tab">Бухгалтери (<?=count($accountants);?>)</a>
             </li>

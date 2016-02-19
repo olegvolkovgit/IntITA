@@ -7,7 +7,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <ul class="nav nav-tabs">
-            <li><a href="#new" data-toggle="tab">Нові задачі (<?=count($plainTaskAnswers);?>)</a>
+            <li class="active"><a href="#new" data-toggle="tab">Нові задачі (<?=count($plainTaskAnswers);?>)</a>
             </li>
             <li><a href="#appointed" data-toggle="tab">Призначено консультантів (<?=count($tasks);?>)</a>
             </li>

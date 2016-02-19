@@ -16,7 +16,7 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-tabs">
-                <li><a href="#wait" data-toggle="tab">Очікують підтвердження</a>
+                <li class="active"><a href="#wait" data-toggle="tab">Очікують підтвердження</a>
                 </li>
                 <li><a href="#verified" data-toggle="tab">Затверджені</a>
                 </li>

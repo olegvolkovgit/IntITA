@@ -89,7 +89,7 @@ class Mail {
     {
         if($pay instanceof Course){
             $id = $pay->course_ID;
-            $link = Config::getBaseUrl() . Yii::app()->createUrl('course/index', array('id' => $pay->course_ID));
+            $link = Yii::app()->createAbsoluteUrl('course/index', array('id' => $pay->course_ID));
             $theme = 'Оплата курсу';
             $access = 'курсу';
         }
@@ -97,7 +97,7 @@ class Mail {
         {
             $theme = 'Оплата модуля';
             $id = $pay->module_ID;
-            $link = Yii::app()->createUrl('module/index', array('idModule' =>$id));
+            $link = Yii::app()->createAbsoluteUrl('module/index', array('idModule' =>$id));
             $access = 'модуля';
         }
 
@@ -105,8 +105,8 @@ class Mail {
 
         $model= new Letters();
 
-        $moduleLink = Yii::app()->createUrl('module/index', array('idModule' =>$pay->module_ID));
-        $linkForLetter = "<a href =".$moduleLink.">". $title . " </a>";
+        //$moduleLink = Yii::app()->createUrl('module/index', array('idModule' =>$pay->module_ID));
+        $linkForLetter = "<a href =".$link.">". $title . " </a>";
 
         $model->addressee_id = $user;
         $model->sender_id = Yii::app()->user->id;
@@ -121,7 +121,7 @@ class Mail {
             $mail = new Mail();
             $mail->headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
             $addresse = StudentReg::model()->findByPk($user)->email;
-            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".Config::getBaseUrl().$moduleLink.".
+            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".$link.".
             ​З повагою, INTITA​";
             mail($addresse,$theme,$text, $mail->headers);
             return true;
