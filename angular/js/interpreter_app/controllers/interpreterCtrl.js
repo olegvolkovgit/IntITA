@@ -380,8 +380,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             $scope.editedJson=response;
             //load json for edit if it is
             if ($scope.editedJson != undefined){
-                $scope.editedJson=$scope.editedJson.replace(/\r|\n/g, ' ');
-                $scope.editedJson=JSON.parse($scope.editedJson);
+                $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
                 $scope.results=$scope.editedJson.function.results;
                 $scope.compare_marks=$scope.editedJson.function.compare_mark;
                 $scope.tests_code_arr=$scope.editedJson.function.tests_code;

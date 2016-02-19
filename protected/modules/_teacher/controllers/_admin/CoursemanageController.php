@@ -30,6 +30,7 @@ class CoursemanageController extends TeacherCabinetController
                 $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             }
             $model->attributes = $_POST['Course'];
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if($model->save()){
                 if ($model->course_img == Null) {
                     $thisModel = new Course;
@@ -59,7 +60,6 @@ class CoursemanageController extends TeacherCabinetController
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
 //         $this->performAjaxValidation($model);
-
         if(isset($_POST['Course']))
         {
             $model->oldLogo=$model->course_img;
@@ -70,6 +70,7 @@ class CoursemanageController extends TeacherCabinetController
                 $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             }
             $model->attributes=$_POST['Course'];
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if($model->save()){
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
