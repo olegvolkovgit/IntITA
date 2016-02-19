@@ -13,7 +13,8 @@ function deleteDialog(url, partner1, partner2) {
         })
         .done(function () {
             $jq("#deleteDialog").modal("hide");
-            location.reload();
+            bootbox.alert("Діалог успішно видалено.");
+            load(basePath + '/_teacher/messages/index', 'Листування');
         })
         .fail(function () {
             bootbox.alert("На сайті виникла помилка.\n" +
