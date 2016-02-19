@@ -25,7 +25,7 @@
         <div class="container-fluid">
             <div class="row col header">
                 Назва функції
-                <input class="form-control" placeholder="Назва функції" ng-model="function.function_name" required />
+                <input class="form-control" ng-pattern="/^[^\s]*$/" placeholder="Назва функції" ng-model="function.function_name" required />
             </div>
         </div>
         <h2 id="title">Параметри функції</h2>
