@@ -53,17 +53,21 @@
     display: inline-block;
     position: relative;
     width: 160px;
-    height: 30px;
+    height: 40px;
     border-radius: 7px;
     border: none;
     border-top: 1px solid #9fb5ce;
     background: #4b75a4;
     box-shadow: 0px 2px 0px #7f7f7f;
-    font: normal 400 28px/50px "MyriadPro2";
-    font-size: 14px;
+    color:#ffffff;
     letter-spacing: 1px;
-    line-height: 32px;
-    margin-left: 200px;
+    margin-left: 250px;
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 #saveButton a{
