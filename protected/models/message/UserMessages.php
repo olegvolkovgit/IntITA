@@ -51,7 +51,6 @@ class UserMessages extends Messages implements IMessage
         return array(
             array('id_message', 'required'),
             array('id_message', 'numerical', 'integerOnly' => true),
-            array('text', 'length', 'max' => 255),
             // The following rule is used by search().
             array('id_message, text, subject', 'safe', 'on' => 'search'),
         );
