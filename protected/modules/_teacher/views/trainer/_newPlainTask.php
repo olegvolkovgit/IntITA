@@ -31,7 +31,7 @@ if (!empty($plainTasksAnswers)) {
                             <tr>
                                 <td><?php echo $plainTaskAnswer->id; ?></td>
                                 <td><?php echo $plainTaskAnswer->getStudentName(); ?></td>
-                                <td><?php echo substr($plainTaskAnswer->answer, 0, 25) . '...'; ?></td>
+                                <td><?php echo $plainTaskAnswer->getShortDescription(); ?></td>
                                 <td><?php echo $module->title_ua; ?></td>
                                 <td>
                                     <a href="javascript:chooseTrainer('<?php echo $plainTaskAnswer->id ?>',

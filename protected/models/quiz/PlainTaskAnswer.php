@@ -137,7 +137,7 @@ class PlainTaskAnswer extends CActiveRecord
     public function getCondition()
     {
         $plainTask = $this->plainTask;
-                return $plainTask->lectureElement->html_block;
+        return $plainTask->lectureElement->html_block;
     }
 
     public static function getAllPlainTaskAnswers(){
@@ -214,7 +214,7 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getShortDescription()
     {
-        return substr($this->answer,0,25).'....';
+        return substr($this->answer,0,100).'....';
     }
 
     public static function getTaskWithTrainer()
