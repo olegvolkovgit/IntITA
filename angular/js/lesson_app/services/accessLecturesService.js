@@ -17,7 +17,7 @@ angular
                     //console.log(response.data);
                     $rootScope.lectures=response.data;
                 }, function errorCallback(response) {
-                    alert('Error getAccessLectures');
+                    console.log('Error getAccessLectures');
                 });
             };
         }
