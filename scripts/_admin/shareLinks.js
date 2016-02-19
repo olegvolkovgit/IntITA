@@ -38,7 +38,7 @@ function initShareLinks() {
 
 function deleteLink(url) {
     bootbox.confirm('Видалити посилання для викладачів?', function (result) {
-        if (result != null) {
+        if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
@@ -52,7 +52,7 @@ function deleteLink(url) {
                 }
             });
         } else {
-            showDialog("Операцію не вдалося виконати.");
+            showDialog("Операцію відмінено.");
         }
     });
 }

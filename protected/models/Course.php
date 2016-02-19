@@ -36,6 +36,8 @@
 class Course extends CActiveRecord implements IBillableObject
 {
     const MAX_LEVEL = 5;
+    const AVAILABLE = 0;
+    const DELETED = 1;
     public $logo = array(), $oldLogo;
 
 
@@ -754,6 +756,34 @@ class Course extends CActiveRecord implements IBillableObject
         if (CourseModules::deleteModuleFromCourse($this->course_ID, $idModule)) {
             $this->updateCount();
         }
+    }
 
+    public static function coursesList(){
+        $courses = Course::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($courses as $record) {
+            $row = array();
+
+            $row["id"] = $record->course_ID;
+            $row["alias"] = $record->alias;
+            $row["lang"] = $record->language;
+            $row["title"] = CHtml::encode($record->title_ua);
+            $row["status"] = ($record->cancelled == Course::AVAILABLE)?'доступний':'видалений';
+            $row["level"] = $record->level0->title_ua;
+            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
+            $row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
+
+            if($record->cancelled == Course::AVAILABLE){
+                $row["status"] = 'доступний';
+                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
+            } else {
+                $row["status"] = 'видалений';
+                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
+            }
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }
