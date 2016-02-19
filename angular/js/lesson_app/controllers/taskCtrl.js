@@ -39,15 +39,19 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                             getTaskResult();
                             break;
                         case 'done':
-                            $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning,$scope.userId)
-                                .then(function(setMarkResponse) {
-                                    pagesUpdateService.pagesDataUpdate();
-                                    openDialogsService.openTrueDialog();
-                                });
+                            if(serverResponse.done){
+                                $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning,$scope.userId)
+                                    .then(function(setMarkResponse) {
+                                        pagesUpdateService.pagesDataUpdate();
+                                        openDialogsService.openTrueDialog();
+                                    });
+                            }else{
+                                $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
+                                openDialogsService.openFalseDialog();
+                            }
                             break;
                         case 'failed':
-                            $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
-                            openDialogsService.openFalseDialog();
+                            bootbox.alert("Твій код не скомпілювався. Виправ помилки та спробуй ще раз.<br>Помилка: <br>"+serverResponse.warning);
                             break;
                         case 'error':
                             bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
