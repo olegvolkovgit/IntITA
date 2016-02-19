@@ -40,18 +40,15 @@
         </div>
     </div>
 </div>
-<!-- DataTables JavaScript -->
-
 
 <script>
     $jq(document).ready(function () {
-        $jq('#adminsTable, #accountantsTable, #usersTable, #teachersTable').DataTable({
-                language: {
-                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
+        initAdminsTable();
+        initAccountantsTable();
         studentTable = initStudentsList();
+        initUsersTable();
+        initTeachersTable();
+
 
         $jq("#startDatePeriod").datepicker(lang);
         $jq("#endDatePeriod").datepicker(lang);

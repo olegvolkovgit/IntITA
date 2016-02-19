@@ -30,6 +30,7 @@
  * @property string $middle_name_ru
  * @property string $last_name_ru
  *
+ * @property StudentReg $user
  */
 class Teacher extends CActiveRecord
 {
@@ -733,5 +734,24 @@ class Teacher extends CActiveRecord
         if ($this->isPrint)
             return 'активний';
         else return 'видалений';
+    }
+
+    public static function teachersList(){
+        $users = Teacher::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($users as $record) {
+            $row = array();
+            $row["name"] = $record->last_name." ".$record->first_name." ".$record->middle_name;
+            $row["email"] = $record->user->email;
+            $row["profile"] = Config::getBaseUrl()."/teacher/".$record->teacher_id;
+            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                'scenario' => 'message',
+                'receiver' => $record->user_id
+            ));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }
