@@ -51,7 +51,7 @@ class VerifyContentController extends TeacherCabinetController
         $model = Lecture::model()->findByPk($id);
 
         if ($model) {
-            echo $model->setVerified();die;
+            $model->setVerified();
             $this->generateLecturePages($model);
         } else {
             throw new CException("Такої лекції немає!");
