@@ -150,3 +150,6 @@ body.ie8 #hambMenu {
     background-color: #e5e5e5;
     border-color: #b7b7b7;
 }
+.nav-tabs>li>a{
+    background-color: #e0e0e0;
+}
