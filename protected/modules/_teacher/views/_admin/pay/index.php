@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
+
 <?php
 /* @var $this PayController */
 ?>
@@ -27,15 +27,13 @@
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <div id="addAccessModule">
-            <div id="findModule" class="form-group row">
+            <div id="findModule" class="form-group">
                 <form name='findUsers' method="POST">
-                    <div class="col-md-10">
-                        <input type="text" id='find' name="find" class="form-control"
+                    <div >
+                        <input type="text" id='find' name="find" class="form-control" style="max-width: 496px;"
                                placeholder="Введіть e-mail користувача">
-                    </div>
-
-                    <div class="col-md-2">
-                        <input type="button" class="btn btn-default" value="Знайти користувача"
+<br>
+                        <input type="button" id="searchBtn" class="btn btn-default" value="Знайти користувача"
                                onclick="findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')">
                     </div>
                 </form>
