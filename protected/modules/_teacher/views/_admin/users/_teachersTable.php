@@ -20,24 +20,10 @@
                         <th>ФІО</th>
                         <th>Email</th>
                         <th>Персональна сторінка</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    foreach ($teachers as $user) {
-                        ?>
-                        <tr class="odd gradeX">
-                            <td><?= $user->userName(); ?></td>
-                            <td class="center"><?= $user->email; ?></td>
-                            <td class="center"><a href="<?=Yii::app()->createUrl('profile/index', array('idTeacher' => $user->getTeacherId()));?>">сторінка</a>
-                                <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                                    'scenario' => 'message',
-                                    'receiver' => $user->id
-                                ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>">
-                                    <i class="fa fa-envelope fa-fw"></i></a>
-                            </td>
-                        </tr>
-                    <?php } ?>
                     </tbody>
                 </table>
             </div>
