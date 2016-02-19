@@ -8,7 +8,7 @@ angular
 function profileCtrl($http,$scope) {
     $scope.getProfileData=function (userId) {
         var promise = $http({
-            url: basePath+'/studentReg/getProfileData',
+            url: basePath+'/studentreg/getProfileData',
             method: "POST",
             data: $.param({id: userId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
