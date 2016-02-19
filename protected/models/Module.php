@@ -802,6 +802,10 @@ class Module extends CActiveRecord implements IBillableObject
     {
         return round($lesson_count * 7 / ($hours_in_day * $days_in_week));
     }
+    public function averageModuleDuration()
+    {
+        return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));
+    }
 
     public static function getModuleProgress($module_ID, $user)
     {

@@ -270,4 +270,60 @@ class CourseController extends Controller
         if ($model === null)
             throw new \application\components\Exceptions\CourseNotFoundException();
     }
+    public function actionModulesData()
+    {
+        $data = [];
+        $data["courseId"] = Yii::app()->request->getPost('id');
+        $data["userId"] = Yii::app()->user->getId();
+        $data["isAdmin"] = StudentReg::isAdmin();
+        //if guest or admin return json
+        if(!$data["userId"] || $data["isAdmin"]){
+            $modules=Course::model()->modulesInCourse($data["courseId"]);
+
+            for($i = 0;$i < count($modules);$i++){
+                $module=Module::model()->findByPk($modules[$i]['id_module']);
+                $data["modules"][$modules[$i]['id_module']]['time']= $module->averageModuleDuration();
+                $data["modules"][$modules[$i]['id_module']]['title']=CHtml::decode($module->getTitle());
+            }
+            echo CJSON::encode($data);
+            return;
+        }
+
+        $user=Studentreg::model()->findByPk($data["userId"]);
+        if($user->isTeacher()){
+            $data["teacherId"] = $user->teacher->teacher_id;
+            $data["isPaidCourse"]=false;
+        }else{
+            $data["teacherId"] = false;
+            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
+        }
+
+        $modules=Course::model()->modulesInCourse($data["courseId"]);
+
+        for($i = 0;$i < count($modules);$i++){
+            $module=Module::model()->findByPk($modules[$i]['id_module']);
+            $data["modules"][$modules[$i]['id_module']]['time']= $module->averageModuleDuration();
+            $data["modules"][$modules[$i]['id_module']]['title']=CHtml::decode($module->getTitle());
+
+            if( $data["teacherId"]){
+                $data["modules"][$modules[$i]['id_module']]['isAuthor']=Teacher::isTeacherIdAuthorModule( $data["teacherId"], $modules[$i]['id_module']);
+            }else{
+                $data["modules"][$modules[$i]['id_module']]['isAuthor']=false;
+            }
+            if($data["isPaidCourse"]){
+                if($module->firstLectureID() && $module->lastLectureID()){
+                    $firstQuiz = LecturePage::getFirstQuiz($module->firstLectureID());
+                    $lastQuiz = LecturePage::getLastQuiz($module->lastLectureID());
+                    if ($firstQuiz)
+                        $data["modules"][$modules[$i]['id_module']]['startTime'] = Module::getModuleStartTime($firstQuiz, $data["userId"]);
+                    else $data["modules"][$modules[$i]['id_module']]['startTime'] = false;
+                    if ($lastQuiz)
+                        $data["modules"][$modules[$i]['id_module']]['finishTime'] = Module::getModuleFinishedTime($lastQuiz, $data["userId"]);
+                    else $data["modules"][$modules[$i]['id_module']]['finishTime'] = false;
+                }
+            }
+
+        }
+        echo CJSON::encode($data);
+    }
 }

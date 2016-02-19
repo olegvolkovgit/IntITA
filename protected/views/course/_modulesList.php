@@ -1,7 +1,7 @@
 <?php
 $editMode = ($canEdit) ? 'true' : '';
 ?>
-<div class="courseModules">
+<div class="courseModules" ng-cloak ng-controller="moduleListCtrl">
     <?php
     if ($canEdit) {
         ?>
@@ -97,11 +97,17 @@ $editMode = ($canEdit) ? 'true' : '';
                 'cssClassExpression' => 'Module::moduleAccessStyle($data)',
                 'headerHtmlOptions' => array('style' => 'width:0%; display:none'),
                 'value' => function ($data) {
-                    $title = Module::getModuleTitleParam();
-                    $moduleTitle = Module::getDefaultModuleName($data->moduleInCourse->$title);
-                    $value = '<span class="moduleOrder">' . Yii::t('course', '0364') . ' ' . $data->order . '.</span>
-                    <span class="moduleLink"> ' . CHtml::encode($data->moduleInCourse->$moduleTitle) . '</span>';
-                    return Module::moduleProgressDescription($data, $value);
+                    return
+                        '<a ng-class="{disableModule: !modulesProgress.userId}" href="'.Yii::app()->createUrl("module/index", array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)).'">
+                        <span class="moduleOrder">'.Yii::t('course', '0364').' '.$data->order.'.</span>
+                        <span class="moduleLink">{{modulesProgress.modules['.$data->moduleInCourse->module_ID.'].title}}</span>
+                        <div class="moduleProgress">'.Yii::t('module', '0647').': '.'{{modulesProgress.modules['.$data->moduleInCourse->module_ID.'].time}}
+                        <img ng-hide="modulesProgress.isAdmin" src="{{basePath}}/images/module/{{modulesProgress.ico}}" alt="" />
+                        </div>
+                        </a>';
+                    return CHtml::link($value . '<div class="moduleProgress">' . Yii::t('module', '0647') . ': ' . $time . ' ' .
+                        CommonHelper::getDaysTermination($time) . '</div>', Yii::app()->createUrl("module/index",
+                        array("idModule" => $data->moduleInCourse->module_ID, "idCourse" => $data->id_course)));
                 }
             ),
         ),

@@ -577,6 +577,11 @@ class Teacher extends CActiveRecord
         }
         if (isset($author)) return true; else return false;
     }
+    public static function isTeacherIdAuthorModule($idTeacher, $idModule)
+    {
+        $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $idTeacher, 'idModule' => $idModule));
+        if (isset($author)) return true; else return false;
+    }
 
     public static function getConsultantModules($teacher)
     {
