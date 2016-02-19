@@ -51,13 +51,11 @@ class VerifyContentController extends TeacherCabinetController
         $model = Lecture::model()->findByPk($id);
 
         if ($model) {
-            $model->setVerified();
+            echo $model->setVerified();die;
             $this->generateLecturePages($model);
         } else {
             throw new CException("Такої лекції немає!");
         }
-
-        $this->redirect($this->pathToCabinet());
     }
 
     public function actionCancel($id)
@@ -69,7 +67,6 @@ class VerifyContentController extends TeacherCabinetController
         } else {
             throw new \application\components\Exceptions\IntItaException(404, "Такої лекції немає!");
         }
-        $this->redirect($this->pathToCabinet());
     }
 
     public function generateLecturePages(Lecture $model)
