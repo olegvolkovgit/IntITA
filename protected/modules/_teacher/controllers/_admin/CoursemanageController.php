@@ -195,7 +195,7 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionRestore($id){
         Course::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionAdmin();
+        $this->actionIndex();
     }
 
     public function actionGenerateSchema($id){
