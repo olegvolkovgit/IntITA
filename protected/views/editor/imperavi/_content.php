@@ -15,10 +15,10 @@
                 $this->renderPartial('/editor/imperavi/_textBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 3:
-                $this->renderPartial('/editor/imperavi/_exampleBlock', array('data'=>$data, 'editMode' => $editMode));
+                $this->renderPartial('/editor/imperavi/_codeBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 4:
-                $this->renderPartial('/editor/imperavi/_codeBlock', array('data'=>$data, 'editMode' => $editMode));
+                $this->renderPartial('/editor/imperavi/_exampleBlock', array('data'=>$data, 'editMode' => $editMode));
                 break;
             case 7:
                 $this->renderPartial('/editor/imperavi/_instructionBlock', array('data'=>$data, 'editMode' => $editMode));
