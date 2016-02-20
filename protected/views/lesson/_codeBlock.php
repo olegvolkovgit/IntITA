@@ -7,7 +7,11 @@
  */
 ?>
 <div class="element">
-    <div class="code" id="<?php echo "t" . $data['block_order'];?>">
+    <div id="<?php echo "t" . $data['block_order'];?>">
+        <pre>
+            <code>
     <?php echo $data['html_block'];?>
+            </code>
+        </pre>
     </div>
 </div>
