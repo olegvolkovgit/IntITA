@@ -45,13 +45,13 @@
     $jq(document).ready(function () {
         initAdminsTable();
         initAccountantsTable();
-        studentTable = initStudentsList();
+        initStudentsList();
         initUsersTable();
         initTeachersTable();
 
 
-        $jq("#startDatePeriod").datepicker(lang);
-        $jq("#endDatePeriod").datepicker(lang);
+        $jq("#startDate").datepicker(lang);
+        $jq("#endDate").datepicker(lang);
 
     });
 
