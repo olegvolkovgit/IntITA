@@ -435,8 +435,8 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     }
     $scope.updateCompare = function(a){
         if(a.first==null)
-        a.first=0;
+        a.first=a.second;
         if(a.second==null)
-            a.second=0;
+            a.second=a.first;
     }
 }
