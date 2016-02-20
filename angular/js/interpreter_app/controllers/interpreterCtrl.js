@@ -244,7 +244,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 case 2:
                     $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.args[index].compare_mark[i]=5;
+                        $scope.function.args[index].compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -287,7 +287,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 case 2:
                     $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.compare_mark[i]=5;
+                        $scope.function.compare_mark[i]=2;
                     }
                     break;
                 case 3:
