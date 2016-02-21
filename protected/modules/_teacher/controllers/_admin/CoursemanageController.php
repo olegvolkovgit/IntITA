@@ -94,34 +94,15 @@ class CoursemanageController extends TeacherCabinetController
     public function actionDelete($id)
     {
         Course::model()->updateByPk($id, array('cancelled' => 1));
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-
-        if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
     /**
      * Lists all models.
      */
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Course');
-        $this->renderPartial('index',array(
-            'dataProvider'=>$dataProvider,
-        ),false,true);
+        $this->renderPartial('admin', array(),false,true);
     }
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model=new Course('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Course']))
-            $model->attributes=$_GET['Course'];
-        $this->renderPartial('admin',array(
-            'model'=>$model,
-        ),false,true);
-    }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -214,7 +195,7 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionRestore($id){
         Course::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionAdmin();
+        $this->actionIndex();
     }
 
     public function actionGenerateSchema($id){
@@ -251,5 +232,9 @@ class CoursemanageController extends TeacherCabinetController
         $result = Module::showAvailableModule($course);
 
         echo $result;
+    }
+
+    public function actionGetCoursesList(){
+        echo Course::coursesList();
     }
 }

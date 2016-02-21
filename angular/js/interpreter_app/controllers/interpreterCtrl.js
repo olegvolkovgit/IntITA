@@ -222,9 +222,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.args[index].pattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.args[index].pattern=/^(true|false|[01])$/;
+                    $scope.args[index].pattern=/^(true|false)$/;
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.args[index].compare_mark[i]=5;
+                        $scope.function.args[index].compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -242,9 +242,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.args[index].pattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.args[index].compare_mark[i]=5;
+                        $scope.function.args[index].compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -265,9 +265,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.resultPattern=/^(true|false|[01])$/;
+                    $scope.resultPattern=/^(true|false)$/;
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.compare_mark[i]=5;
+                        $scope.function.compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -285,9 +285,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.compare_mark[i]=5;
+                        $scope.function.compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -309,7 +309,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.editedJson.function.args[index].pattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.editedJson.function.args[index].pattern=/^(true|false|[01])$/;
+                    $scope.editedJson.function.args[index].pattern=/^(true|false)$/;
                     break;
                 case 3:
                     $scope.editedJson.function.args[index].pattern=/./;
@@ -326,7 +326,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.editedJson.function.args[index].pattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.editedJson.function.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     break;
                 case 3:
                     $scope.editedJson.function.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -346,7 +346,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.resultPattern=/^(true|false|[01])$/;
+                    $scope.resultPattern=/^(true|false)$/;
                     break;
                 case 3:
                     $scope.resultPattern=/./;
@@ -363,7 +363,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -435,8 +435,8 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     }
     $scope.updateCompare = function(a){
         if(a.first==null)
-        a.first=0;
+        a.first=a.second;
         if(a.second==null)
-            a.second=0;
+            a.second=a.first;
     }
 }

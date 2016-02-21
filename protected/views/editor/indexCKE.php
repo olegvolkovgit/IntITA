@@ -37,8 +37,6 @@ if ($idCourse != 0) {
 <link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 
 
-
-
 <script type="text/javascript">
     lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
@@ -46,8 +44,9 @@ if ($idCourse != 0) {
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/><!-- highlight include -->
 <link rel="stylesheet" type="text/css" href="http://latex.codecogs.com/css/equation-embed.css"/>
+
 <!--[if lte IE 7]>
 <link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>
 <![endif]-->
@@ -244,4 +243,8 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'skipTask.js'); ?>"></script>
+<!-- highlight include -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script type='text/javascript'>hljs.initHighlightingOnLoad();</script>
 

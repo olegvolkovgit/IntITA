@@ -48,9 +48,9 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                            data-message-id="<?=$message->id_message;?>">Видалити це повідомлення</a>
                                     </li>
                                     <?php }?>
-                                    <li class="divider"></li>
-                                    <li><a href="#" data-toggle="modal" data-target="#deleteDialog">Видалити діалог</a>
-                                    </li>
+<!--                                    <li class="divider"></li>-->
+<!--                                    <li><a href="#" data-toggle="modal" data-target="#deleteDialog">Видалити діалог</a>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
                         </div>

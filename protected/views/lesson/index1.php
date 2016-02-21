@@ -130,3 +130,8 @@ $finishedLecture = $lecture->isFinished($user);
 </div>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SidebarLesson.js'); ?>"></script>
+
+<!-- highlight include -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script type='text/javascript'>hljs.initHighlightingOnLoad();</script>

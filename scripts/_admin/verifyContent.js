@@ -68,7 +68,7 @@ function initVerifiedLectures() {
 
 function setVerifyStatus(url) {
     bootbox.confirm('Змінити статус лекції?', function (result) {
-        if (result != null) {
+        if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
@@ -82,7 +82,7 @@ function setVerifyStatus(url) {
                 }
             });
         } else {
-            showDialog("Операцію не вдалося виконати.");
+            showDialog("Операцію відмінено.");
         }
     });
 }

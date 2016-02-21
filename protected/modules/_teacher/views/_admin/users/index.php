@@ -9,7 +9,7 @@
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-            <li><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
+            <li class="active"><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
             </li>
             <li><a href="#accountant" data-toggle="tab">Бухгалтери (<?=count($accountants);?>)</a>
             </li>
@@ -40,21 +40,18 @@
         </div>
     </div>
 </div>
-<!-- DataTables JavaScript -->
-
 
 <script>
     $jq(document).ready(function () {
-        $jq('#adminsTable, #accountantsTable, #usersTable, #teachersTable').DataTable({
-                language: {
-                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-        studentTable = initStudentsList();
+        initAdminsTable();
+        initAccountantsTable();
+        initStudentsList();
+        initUsersTable();
+        initTeachersTable();
 
-        $jq("#startDatePeriod").datepicker(lang);
-        $jq("#endDatePeriod").datepicker(lang);
+
+        $jq("#startDate").datepicker(lang);
+        $jq("#endDate").datepicker(lang);
 
     });
 

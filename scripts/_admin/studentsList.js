@@ -16,7 +16,7 @@ function initStudentsList() {
             { className: "center" },
             { className: "center" }],
 
-        "createdRow": function ( row, data, index ) {
+        "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
             console.log($jq(row).attr('class'));
         },

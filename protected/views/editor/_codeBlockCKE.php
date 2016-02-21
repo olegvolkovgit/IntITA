@@ -6,6 +6,7 @@
  * Time: 18:37
  */
 ?>
+
 <div class="element">
     <?php $this->renderPartial('/editor/_editToolbarCKE', array(
         'idLecture' => $data['id_lecture'],
@@ -13,7 +14,12 @@
         'editMode' => $editMode,
     ));?>
 
-    <div edit-block class="code" id="<?php echo "t" . $data['block_order'];?>" >
-    <?php echo $data['html_block'];?>
+
+    <div edit-block id="<?php echo "t" . $data['block_order'];?>" >
+        <pre>
+             <code>
+                <?php echo $data['html_block'];?>
+            </code>
+        </pre>
     </div>
 </div>
