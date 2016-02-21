@@ -45,6 +45,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox,getTaskJson,sendTaskJs
     $scope.editorOptions = {
         language: lang
     };
+    $scope.editorOptionsCode = {
+        language: lang,
+        enterMode: CKEDITOR.ENTER_BR
+    };
     $scope.editorOptionsTask = {
         language: lang,
         toolbar: 'task'
@@ -190,7 +194,14 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox,getTaskJson,sendTaskJs
             $scope.instructionStyle=false;
         }
         document.getElementById('addBlock').style.display = 'block';
-        document.getElementById('blockForm').style.display = 'block';
-        document.getElementById('blockType').value = type;
+        if(type==3) {
+            document.getElementById('blockForm').style.display = 'none';
+            document.getElementById('blockFormCode').style.display = 'block';
+            document.getElementById('blockTypeCode').value = type;
+        }else{
+            document.getElementById('blockFormCode').style.display = 'none';
+            document.getElementById('blockForm').style.display = 'block';
+            document.getElementById('blockType').value = type;
+        }
     }
 }
