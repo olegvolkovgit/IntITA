@@ -8,7 +8,7 @@
 
 namespace application\components\Exceptions;
 
-class LastModuleUpException extends IntItaException
+class LastModuleDownException extends IntItaException
 {
     public function __construct()
     {
