@@ -153,3 +153,7 @@ body.ie8 #hambMenu {
 .nav-tabs>li>a{
     background-color: #e0e0e0;
 }
+
+.tt-suggestion.tt-cursor,.tt-suggestion:hover {
+    background-color: #d6e4f0;
+}
