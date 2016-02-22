@@ -786,4 +786,24 @@ class Course extends CActiveRecord implements IBillableObject
 
         return json_encode($return);
     }
+
+    /**
+     * Shifts up specified module;
+     * @param $idModule
+     * @throws Exception
+     */
+    public function upModule($idModule) {
+
+        CourseModules::upModuleInCourse($this->course_ID, $idModule);
+
+    }
+
+    /**
+     * Shifts down specified module;
+     * @param $idModule
+     * @throws Exception
+     */
+    public function downModule($idModule) {
+        CourseModules::downModuleInCourse($this->course_ID, $idModule);
+    }
 }

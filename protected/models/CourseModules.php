@@ -293,10 +293,7 @@ class CourseModules extends CActiveRecord
      */
     public static function deleteModuleFromCourse($idCourse, $idModule) {
 
-        $criteria = new CDbCriteria();
-        $criteria->select = '`order`';
-        $criteria->condition = '`id_course`='.$idCourse.' AND `id_module` ='.$idModule;
-        $order = CourseModules::model()->find($criteria)->order;
+        $order = CourseModules::getModuleOrderInCourse($idCourse, $idModule);
 
         $sqlDeleteRecord = "DELETE FROM course_modules WHERE id_course = $idCourse AND id_module = $idModule";
         $sqlUpdateOrder = "UPDATE `course_modules` SET `order`=`order`-1 WHERE `id_course` = $idCourse AND `order` > $order";
@@ -320,6 +317,89 @@ class CourseModules extends CActiveRecord
 
         return true;
 
+    }
+
+    /**
+     * Shifts up module in course
+     * @param $idCourse
+     * @param $idModule
+     * @throws Exception
+     */
+    public static function upModuleInCourse($idCourse, $idModule) {
+
+        $order = CourseModules::getModuleOrderInCourse($idCourse, $idModule);
+        $prevOrder = $order - 1;
+
+        $sqlDownPrevModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $idCourse AND `order` = $prevOrder";
+        $sqlUpModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $idCourse AND id_module = $idModule;";
+
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+        try
+        {
+            $rowAffected = $connection->createCommand($sqlDownPrevModule)->execute();
+            if ($rowAffected == 0) {
+                throw new \application\components\Exceptions\FirstModuleUpException();
+            }
+            $connection->createCommand($sqlUpModule)->execute();
+            $transaction->commit();
+        }
+        catch(Exception $e)
+        {
+            $transaction->rollback();
+            if (!($e instanceof \application\components\Exceptions\FirstModuleUpException)) {
+                throw $e;
+            }
+        }
+    }
+
+
+    /**
+     * Shifts down module in course
+     * @param $idCourse
+     * @param $idModule
+     * @throws Exception
+     */
+    public static function downModuleInCourse($idCourse, $idModule) {
+
+        $order = CourseModules::getModuleOrderInCourse($idCourse, $idModule);
+        $nextOrder = $order + 1;
+
+        $sqlUpNextModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $idCourse AND `order` = $nextOrder";
+        $sqlDownModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $idCourse AND id_module = $idModule;";
+
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+        try
+        {
+            $rowAffected = $connection->createCommand($sqlUpNextModule)->execute();
+            if ($rowAffected == 0) {
+                throw new \application\components\Exceptions\LastModuleUpException();
+            }
+            $connection->createCommand($sqlDownModule)->execute();
+            $transaction->commit();
+        }
+        catch(Exception $e)
+        {
+            $transaction->rollback();
+            if (!($e instanceof \application\components\Exceptions\LastModuleUpException)) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Returns the order of module in course
+     * @param $idCourse
+     * @param $idModule
+     * @return int - module's order in course
+     * @return null if such course+module wasn't found
+     */
+    private static function getModuleOrderInCourse($idCourse, $idModule) {
+        $criteria = new CDbCriteria();
+        $criteria->select = '`order`';
+        $criteria->condition = '`id_course`='.$idCourse.' AND `id_module` ='.$idModule;
+        return CourseModules::model()->find($criteria)->order;
     }
 
 }
