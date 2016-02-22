@@ -294,6 +294,11 @@ class CourseModules extends CActiveRecord
     public static function deleteModuleFromCourse($idCourse, $idModule) {
 
         $order = CourseModules::getModuleOrderInCourse($idCourse, $idModule);
+        if ($order == null) {
+            // Now this method is called from a course instance,
+            // so $order can be null only if specified module is absent in the course.
+            throw new \application\components\Exceptions\ModuleNotFoundException();
+        }
 
         $sqlDeleteRecord = "DELETE FROM course_modules WHERE id_course = $idCourse AND id_module = $idModule";
         $sqlUpdateOrder = "UPDATE `course_modules` SET `order`=`order`-1 WHERE `id_course` = $idCourse AND `order` > $order";
@@ -328,6 +333,11 @@ class CourseModules extends CActiveRecord
     public static function upModuleInCourse($idCourse, $idModule) {
 
         $order = CourseModules::getModuleOrderInCourse($idCourse, $idModule);
+        if ($order == null) {
+            // Now this method is called from a course instance,
+            // so $order can be null only if specified module is absent in the course.
+            throw new \application\components\Exceptions\ModuleNotFoundException();
+        }
         $prevOrder = $order - 1;
 
         $sqlDownPrevModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $idCourse AND `order` = $prevOrder";
@@ -363,6 +373,12 @@ class CourseModules extends CActiveRecord
     public static function downModuleInCourse($idCourse, $idModule) {
 
         $order = CourseModules::getModuleOrderInCourse($idCourse, $idModule);
+        if ($order == null) {
+            // Now this method is called from a course instance,
+            // so $order can be null only if specified module is absent in the course.
+            throw new \application\components\Exceptions\ModuleNotFoundException();
+        }
+
         $nextOrder = $order + 1;
 
         $sqlUpNextModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $idCourse AND `order` = $nextOrder";
@@ -374,7 +390,7 @@ class CourseModules extends CActiveRecord
         {
             $rowAffected = $connection->createCommand($sqlUpNextModule)->execute();
             if ($rowAffected == 0) {
-                throw new \application\components\Exceptions\LastModuleUpException();
+                throw new \application\components\Exceptions\LastModuleDownException();
             }
             $connection->createCommand($sqlDownModule)->execute();
             $transaction->commit();
@@ -382,7 +398,7 @@ class CourseModules extends CActiveRecord
         catch(Exception $e)
         {
             $transaction->rollback();
-            if (!($e instanceof \application\components\Exceptions\LastModuleUpException)) {
+            if (!($e instanceof \application\components\Exceptions\LastModuleDownException)) {
                 throw $e;
             }
         }
