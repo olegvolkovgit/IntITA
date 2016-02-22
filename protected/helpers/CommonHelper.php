@@ -61,35 +61,6 @@ class CommonHelper
         return $term;
     }
 
-    public static function getDaysTermination($num)
-    {
-        //Оставляем две последние цифры от $num
-        $number = substr($num, -2);
-
-        //Если 2 последние цифры входят в диапазон от 11 до 14
-        //Тогда подставляем окончание
-        if ($number > 10 and $number < 15) {
-            $term = Yii::t('module', '0653');
-        } else {
-
-            $number = substr($number, -1);
-
-            if ($number == 0) {
-                $term = Yii::t('module', '0653');
-            }
-            if ($number == 1) {
-                $term = Yii::t('module', '0654');
-            }
-            if ($number > 1) {
-                $term = Yii::t('module', '0655');
-            }
-            if ($number > 4) {
-                $term = Yii::t('module', '0653');
-            }
-        }
-        return $term;
-    }
-
     static function detectBrowser($userAgent = null)
     {
         is_null($userAgent) && ($userAgent = $_SERVER['HTTP_USER_AGENT']);
