@@ -149,36 +149,6 @@ div.courseShortInfoTable{
     padding-bottom: 7px;
     margin-bottom: 5px;
 }
-.courseTeacherImg{
-    display:inline-block;
-    width: 85px;
-}
-.courseTeacherImg img{
-    width: 80px;
-    height: 100px;
-    border: 1px solid #cccccc;
-}
-.courseTeacherInfo{
-    overflow: hidden;
-    font-size: 14px;
-    display:inline-block;
-    width: 210px;
-    vertical-align: top;
-}
-.courseTeacherInfo h3{
-    font-size: 18px;
-    font-weight: inherit;
-    color: #4B75A4;
-    margin: -2px 0 5px 0;
-    line-height: 1.2;
-}
-.courseTeachers article + span{
-    text-align: right;
-    margin-top: 5px;
-    font-size: 15px;
-    color: #4b75a4;
-    cursor: pointer;
-}
 #spoilerPay + span{
     text-align: right;
     margin-top: 5px;
@@ -282,11 +252,6 @@ p.subCourseInfo, p.courseAboutTeacher{
     margin-right: 20px;
     display: none;
 }
-#editIco{
-    float:right;
-    margin-top: 20px;
-    margin-right: 20px;
-}
 #newModuleName{
     height: 25px;
     width: 500px;
@@ -378,7 +343,6 @@ padding-left: 0px;
     height: 50px;
     border-radius: 50px;
     background: #0080c2;
-    display: none;
     border-style: none;
 }
 #addModule:hover{
@@ -391,59 +355,6 @@ padding-left: 0px;
 #ajaxaddmodule-form input[type="submit"]{
     background-image: url('../images/editor/add_lesson.png');
 }
-body .grid-view table.items td{
-    font-size: 16px;
-    background-color: white;
-}
-
-body .grid-view table.items td.button-column{
-    background-color: white;
-    min-width: 70px;
-}
-
-body .grid-view table.items td.aliasColumn{
-    vertical-align: top;
-    white-space: nowrap;
-    background-color: #efefef;
-    width: 1%;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid #000000;
-    min-height: 64px;
-}
-body .grid-view table.items td.aliasColumn img {
-    position: relative;
-    vertical-align: bottom;
-    margin-right: 5px;
-}
-
-body .grid-view table.items td.moduleLink{
-    vertical-align: top;
-    float:left;
-    margin: 0;
-    padding: 0;
-    width:590px;
-    min-height: 64px;
-}
-.grid-view table.items td.titleColumn a{
-    width: 100%;
-    word-wrap: break-word;
-}
-.grid-view table.items tr.odd,.grid-view table.items tr.even{
-    background: #ffffff;
-}
-
-.grid-view table.items tr.odd:hover, .grid-view table.items tr.even:hover{
-    background: #ffffff;
-}
-
-.grid-view table.items{
-    border:none;
-}
-
-.grid-view{
-    padding-top: 0px;
-}
 #addLessonButton{
     float:right;
     margin-top: 20px;
@@ -453,14 +364,14 @@ body .grid-view table.items td.moduleLink{
 
 #editIco{
     float:right;
-    margin-top: 20px;
-    margin-right: 40px;
+    margin-right: 30px;
+    margin-top: 40px;
+    cursor: pointer;
 }
 
 #lessonForm{
     display: none;
 }
-
 #formLabel{
     color:green;
     font-size: 16px;
@@ -499,23 +410,6 @@ input[type="submit"][disabled]#submitButton {
 .controlButtons{
     width: 20px;
     height: 20px;
-}
-.titleColumn a {
-    color: #4b75a4;
-    text-decoration:none;
-    float:left;
-}
-.titleColumn img {
-    display: inline-block;
-    vertical-align: bottom;
-    margin: 5px 5px 0 5px;
-}
-.grid-view table.items tr td{
-    /*padding: 0;*/
-    vertical-align: top;
-}
-a.disableModule{
-    color:#666666;
 }
 .courseShortInfoTable table.mainPay{
     display: inline-block;
@@ -587,15 +481,6 @@ input.paymentPlan_value{
     background: #454545;
     cursor: pointer;
 }
-.grid-view table.items th, .grid-view table.items td
-{
-    border:none;
-}
-.grid-view table.items
-{
-    border-collapse: separate;
-    border-spacing: 0 4px;
-}
 .moduleProgress{
     text-align: right;
     margin-top: 20px;
@@ -604,59 +489,62 @@ input.paymentPlan_value{
     color:#666666;
     font-weight: 500;
 }
-body .grid-view table.items td.disableModuleStyle,body .grid-view table.items td.availableModuleStyle {
-    background-color: #efefef;
-    border-bottom: 1px solid #666666;
-}
-body .grid-view table.items td.titleColumn {
+/*modulesList*/
+.modulesTitle {
     padding: 5px;
+    overflow: hidden;
+    margin-bottom: 5px;
 }
-body .grid-view table.items td.titleColumn .moduleOrder{
-    color:#666666;
+.moduleButtons{
+    width: 70px;
+}
+.moduleButtons img{
+    float:left;
+    cursor: pointer;
+}
+#modulesList .modulesTitle a {
+    width: 100%;
+    word-wrap: break-word;
+    text-decoration: none;
+    float: left;
+}
+#modulesList img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 4px;
+}
+#modulesList .moduleOrder {
+    color: #666666;
     font-weight: 500;
 }
-body .grid-view table.items td.titleColumn .moduleLink{
+#modulesList .moduleLink{
     font-weight: 500;
 }
-
-body .grid-view table.items td.availableModuleStyle .moduleLink{
-    color:#4e739e;
-    font-weight: 500;
+#modulesList .disableModuleStyle>a{
+    color: #666666;
 }
-body .grid-view table.items td.inlineModuleStyle{
+#modulesList .disableModuleStyle,#modulesList .availableModuleStyle,#modulesList .inlineModuleStyle{
     background-color: #efefef;
     border-bottom: 1px solid #666666;
 }
-body .grid-view table.items td.inProgressModuleStyle{
+#modulesList .inProgressModuleStyle{
     background-color: #cce0eb;
     border-bottom: 1px solid #4b75a4;
 }
-table.items td.inlineModuleStyle .moduleProgress{
-    color:#666666;
-}
-
-table.items td.inProgressModuleStyle .moduleProgress{
-    color:#7a8e98;
-}
-table.items td.inProgressModuleStyle .moduleLink{
-    color:#3c72a2;
-    font-weight: 500;
-}
-
-body .grid-view table.items td.inFinishedModuleStyle{
+#modulesList .inFinishedModuleStyle{
     background-color: #eaf5e5;
     border-bottom: 1px solid #666666;
 }
-table.items td.inFinishedModuleStyle .moduleProgress{
-    color:#7a8e98;
+#modulesList .inFinishedModuleStyle .greenFinished {
+    color: #339900;
 }
-table.items td.inFinishedModuleStyle .moduleLink{
-    color:#3c72a2;
-    font-weight: 500;
+#modulesList .inFinishedModuleStyle .redFinished {
+    color: #bc1000;
 }
-table.items td.inFinishedModuleStyle .greenFinished{
-    color:#339900;
+#modulesList .inFinishedModuleStyle .moduleProgress,#modulesList .inProgressModuleStyle .moduleProgress {
+    color: #7a8e98;
 }
-table.items td.inFinishedModuleStyle .redFinished{
-    color:#bc1000;
+#modulesList .inlineModuleStyle .moduleProgress {
+    color: #666666;
 }
+/*modulesList*/
