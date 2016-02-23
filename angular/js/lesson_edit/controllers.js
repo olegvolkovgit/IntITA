@@ -163,8 +163,15 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox,getTaskJson,sendTaskJs
                         if (response != undefined){
                             $scope.editedJson=response;
                             $scope.editedJson=JSON.parse($scope.editedJson);
+                            var tempLang=originLang;
                             $scope.editedJson.lang=selectedLang;
-                            sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson);
+                            sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
+                                if(!response){
+                                    editTaskCondition(blockId, tempLang).then(function() {
+                                        $("select#programLang option[value="+"'"+ tempLang +"'"+ "]").attr('selected', 'true');
+                                    })
+                                }
+                            });
                         }
                     });
                 }else{
@@ -173,11 +180,12 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox,getTaskJson,sendTaskJs
             });
     };
 
-    function editTaskCondition(blockId) {
+    function editTaskCondition(blockId,lng) {
+        lng = typeof lng !== 'undefined' ? lng : selectedLang;
         var promise = $http({
             url: basePath + '/task/editTaskCKE',
             method: "POST",
-            data: $.param({idTaskBlock: blockId, condition: $scope.editTask, lang:selectedLang}),
+            data: $.param({idTaskBlock: blockId, condition: $scope.editTask, lang:lng}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             return true;

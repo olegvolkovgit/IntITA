@@ -56,7 +56,6 @@ function moduleListCtrl($http,$scope) {
             bootbox.addLocale('en', { OK: 'OK', CANCEL: 'Cancel', CONFIRM: 'Yes' });
             bootbox.setLocale(lang);
         }
-        console.log($scope.modulesProgress);
     });
     $scope.daysTermination=function(day){
         day=day.toString();
