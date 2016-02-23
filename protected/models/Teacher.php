@@ -5,18 +5,9 @@
  *
  * The followings are the available columns in table 'teacher':
  * @property integer $teacher_id
- * @property string $first_name
- * @property string $middle_name
- * @property string $last_name
- * @property string $foto_url
- * @property string $subjects
  * @property string $profile_text_first
  * @property string $profile_text_short
  * @property string $profile_text_last
- * @property string $readMoreLink
- * @property string $email
- * @property string $tel
- * @property string $skype
  * @property integer $rate_knowledge
  * @property integer $rate_efficiency
  * @property integer $rate_relations
@@ -34,8 +25,8 @@
  */
 class Teacher extends CActiveRecord
 {
-    public $avatar = array(), $oldAvatar;
-    //array of teacher modules
+    const ACTIVE = 1;
+    const DELETED = 0;
 
     /**
      * @return string the associated database table name
@@ -53,24 +44,14 @@ class Teacher extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('first_name, middle_name, last_name,first_name_en, middle_name_en, last_name_en,first_name_ru,
+            array('first_name_en, middle_name_en, last_name_en,first_name_ru,
              middle_name_ru,last_name_ru, user_id', 'required', 'message' => 'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
-            array('first_name, middle_name, last_name', 'length', 'max' => 35),
             array('first_name_en, middle_name_en, last_name_en', 'match', 'pattern' => '/^([a-zA-Z0-9_ ])+$/', 'message' => 'Недопустимі символи!'),
             array('first_name_ru, middle_name_ru, last_name_ru', 'match', 'pattern' => '/^([а-яА-ЯёЁ ])+$/u', 'message' => 'Недопустимі символи!'),
-            array('first_name, middle_name, last_name', 'match', 'pattern' => '/^([а-яіїёА-ЯІЇЁєЄ\s\'’ ])+$/u', 'message' => 'Недопустимі символи!'),
-            array('tel', 'match', 'pattern' => '/^[0-9]+$/u', 'message' => 'Недопустимі символи!', 'except' => 'imageUpload',),
-            array('tel', 'length', 'max' => 13, 'message' => 'Недопустимі символи!', 'except' => 'imageUpload'),
-            array('subjects', 'length', 'max' => 100),
-            array('foto_url', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
-            array('readMoreLink', 'length', 'max' => 255),
-            array('email, skype, first_name_en, middle_name_en, last_name_en', 'length', 'max' => 50),
-            array('email', 'email', 'message' => 'Невірна електронна адреса'),
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
-            array('teacher_id, first_name, middle_name, last_name, foto_url, subjects, profile_text_first,
-            profile_text_short, profile_text_last, readMoreLink, email, tel, skype, rate_knowledge, rate_efficiency,
+            array('teacher_id, profile_text_first, profile_text_short, profile_text_last, rate_knowledge, rate_efficiency,
             rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en,first_name_ru, middle_name_ru, last_name_ru',
                 'safe', 'on' => 'search'),
         );
@@ -99,18 +80,9 @@ class Teacher extends CActiveRecord
     {
         return array(
             'teacher_id' => 'ID',
-            'first_name' => 'Ім&#8217;я',
-            'middle_name' => 'По батькові',
-            'last_name' => 'Прізвище',
-            'foto_url' => 'Фото',
-            'subjects' => 'Предмети',
             'profile_text_first' => 'Текст профілю (1)',
             'profile_text_short' => 'Короткий опис (сторінка викладачів)',
             'profile_text_last' => 'Текст профілю (2)',
-            'readMoreLink' => 'Посилання на профіль(детальніше)',
-            'email' => 'Email',
-            'tel' => 'Телефон',
-            'skype' => 'Skype',
             'rate_knowledge' => 'Рівень знань',
             'rate_efficiency' => 'Рівень ефективності',
             'rate_relations' => 'Рівень відношення',
@@ -141,18 +113,9 @@ class Teacher extends CActiveRecord
     {
         $criteria = new CDbCriteria;
         $criteria->compare('teacher_id', $this->teacher_id);
-        $criteria->compare('first_name', $this->first_name, true);
-        $criteria->compare('middle_name', $this->middle_name, true);
-        $criteria->compare('last_name', $this->last_name, true);
-        $criteria->compare('foto_url', $this->foto_url, true);
-        $criteria->compare('subjects', $this->subjects, true);
         $criteria->compare('profile_text_first', $this->profile_text_first, true);
         $criteria->compare('profile_text_short', $this->profile_text_short, true);
         $criteria->compare('profile_text_last', $this->profile_text_last, true);
-        $criteria->compare('readMoreLink', $this->readMoreLink, true);
-        $criteria->compare('email', $this->email, true);
-        $criteria->compare('tel', $this->tel, true);
-        $criteria->compare('skype', $this->skype, true);
         $criteria->compare('rate_knowledge', $this->rate_knowledge);
         $criteria->compare('rate_efficiency', $this->rate_efficiency);
         $criteria->compare('rate_relations', $this->rate_relations);
@@ -240,24 +203,6 @@ class Teacher extends CActiveRecord
         return TeacherModule::model()->exists($criteria);
     }
 
-    protected function beforeSave()
-    {
-        if (!Avatar::saveTeachersAvatar($this, 'foto')) {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function beforeDelete()
-    {
-        $src = Yii::getPathOfAlias('webroot') . "/images/teachers/" . $this->foto_url;
-        if (is_file($src))
-            unlink($src);
-        return true;
-    }
-
-
     public static function updateFirstText($id, $firstText)
     {
         return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
@@ -281,8 +226,8 @@ class Teacher extends CActiveRecord
 
     public static function getFullName($id)
     {
-        $teacher = Teacher::model()->findByPk($id);
-        return $teacher->last_name . " " . $teacher->first_name . " " . $teacher->middle_name;
+        $user = Teacher::model()->findByPk($id)->user;
+        return $user->secondName . " " . $user->firstName . " " . $user->middleName;
     }
 
     public static function getLectureTeacher($idLecture)
@@ -328,7 +273,6 @@ class Teacher extends CActiveRecord
             'criteria' => $criteriaData,
             'pagination' => false,
         ));
-        //var_dump($dataProvider);
         return $dataProvider;
     }
 
@@ -419,17 +363,16 @@ class Teacher extends CActiveRecord
 
     public function getName()
     {
-        return $this->last_name . " " . $this->first_name . " " . $this->middle_name;
+        return $this->user->secondName . " " . $this->user->firstName . " " . $this->user->middleName;
     }
 
     public static function generateTeachersList()
     {
         $teachers = Teacher::model()->findAll();
-        $count = count($teachers);
         $result = [];
-        for ($i = 0; $i < $count; $i++) {
-            $result[$i]['id'] = $teachers[$i]->teacher_id;
-            $result[$i]['alias'] = $teachers[$i]->first_name . " " . $teachers[$i]->last_name . ", " . $teachers[$i]->email;
+        foreach ($teachers as $key=>$teacher) {
+            $result[$key]['id'] = $teacher->teacher_id;
+            $result[$key]['alias'] = $teacher->user->firstName . " " . $teacher->user->secondName . ", " . $teacher->email;
         }
         return $result;
     }
@@ -452,24 +395,26 @@ class Teacher extends CActiveRecord
 
     public static function getTeacherName($id)
     {
+        $model = Teacher::model()->findByPk($id);
         if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != ''
-                && Teacher::model()->findByPk($id)->last_name_en != ''
-            ) {
-                return Teacher::model()->findByPk($id)->last_name_en . " " . Teacher::model()->findByPk($id)->first_name_en;
+            if (Yii::app()->session['lg'] == 'en' && $model->first_name_en != ''
+                && $model->last_name_en != '')
+            {
+                return $model->last_name_en . " " . $model->first_name_en;
             }
         }
-        return Teacher::model()->findByPk($id)->last_name . " " . Teacher::model()->findByPk($id)->first_name;
+        return $model->user->secondName . " " . $model->user->firstName;
     }
 
     public static function getTeacherLastName($id)
     {
+        $model = Teacher::model()->findByPk($id);
         if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->last_name_en != '') {
-                return Teacher::model()->findByPk($id)->last_name_en;
+            if (Yii::app()->session['lg'] == 'en' && $model->last_name_en != '') {
+                return $model->last_name_en;
             }
         }
-        return Teacher::model()->findByPk($id)->last_name;
+        return $model->user->secondName;
     }
 
     public function lastName()
@@ -482,13 +427,13 @@ class Teacher extends CActiveRecord
                 return $this->last_name_ru;
             }
         }
-        return $this->last_name;
+        return $this->user->secondName;
     }
 
     public function getLastFirstName()
     {
-        $last = $this->last_name;
-        $first = $this->first_name;
+        $last = $this->user->secondName;
+        $first = $this->user->firstName;
         if (isset(Yii::app()->session['lg'])) {
             if (Yii::app()->session['lg'] == 'en') {
                 if ($this->last_name_en != '') $last = $this->last_name_en;
@@ -504,12 +449,13 @@ class Teacher extends CActiveRecord
 
     public static function getTeacherFirstName($id)
     {
+        $model = Teacher::model()->findByPk($id);
         if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && Teacher::model()->findByPk($id)->first_name_en != '') {
-                return Teacher::model()->findByPk($id)->first_name_en;
+            if (Yii::app()->session['lg'] == 'en' && $model->first_name_en != '') {
+                return $model->first_name_en;
             }
         }
-        return Teacher::model()->findByPk($id)->first_name;
+        return $model->user->firstName;
     }
 
     public function firstName()
@@ -522,7 +468,7 @@ class Teacher extends CActiveRecord
                 return $this->first_name_ru;
             }
         }
-        return $this->first_name;
+        return $this->user->firstName;
     }
 
     public function middleName()
@@ -535,9 +481,8 @@ class Teacher extends CActiveRecord
                 return $this->middle_name_ru;
             }
         }
-        return $this->middle_name;
+        return $this->user->middleName;
     }
-
 
     public static function getTeacherId($user)
     {
@@ -747,7 +692,7 @@ class Teacher extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"] = $record->last_name." ".$record->first_name." ".$record->middle_name;
+            $row["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["email"] = $record->user->email;
             $row["profile"] = Config::getBaseUrl()."/teacher/".$record->teacher_id;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
@@ -758,5 +703,54 @@ class Teacher extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public function avatar(){
+        return $this->user->avatar;
+    }
+
+    public function skype(){
+        return $this->user->skype;
+    }
+
+    public static function teachersAdminList(){
+        $users = Teacher::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($users as $record) {
+            $row = array();
+            $row["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $row["email"] = $record->user->email;
+            $row["profile"] = Config::getBaseUrl()."/teacher/".$record->teacher_id;
+            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                'scenario' => 'message',
+                'receiver' => $record->user_id
+            ));
+            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->teacher_id))."'";
+            $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id'=>$record->teacher_id))."'";
+            if($record->isActive()){
+                $row["status"] = "активний";
+                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
+            } else {
+                $row["status"] = 'видалений';
+                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
+            }
+            array_push($return['data'], $row);
+        }
+        return json_encode($return);
+    }
+
+    public function isActive(){
+        return $this->isPrint == Teacher::ACTIVE;
+    }
+
+    public function setActive(){
+        $this->isPrint = Teacher::ACTIVE;
+        $this->save();
+    }
+
+    public function setDeleted(){
+        $this->isPrint = Teacher::DELETED;
+        $this->save();
     }
 }

@@ -50,26 +50,11 @@ class TeachersController extends TeacherCabinetController{
         $model = new Teacher;
 
         if (isset($_POST['Teacher'])) {
-
-            if(!empty($_FILES['Teacher']['name']['foto_url'])){
-                $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
-                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
-                $model->avatar = $_FILES['Teacher'];
-            }
-
             $model->attributes = $_POST['Teacher'];
-
             if ($model->save()) {
-
-                if (!empty($_POST['Teacher']['foto_url'])) {
-                    ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id .
-                        '.' . $fileInfo->getExtension(),210
-                    );
-                }
-                StudentReg::model()->updateByPk($_POST['Teacher']['user_id'], array('role' => 1));
                 $this->redirect($this->pathToCabinet());
+            } else {
+                throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
             }
         }
 
@@ -126,24 +111,11 @@ class TeachersController extends TeacherCabinetController{
          $this->performAjaxValidation($model);
 
         if (isset($_POST['Teacher'])) {
-            $model->oldAvatar = $model->foto_url;
-            $fileInfo = new SplFileInfo($_FILES['Teacher']['name']['foto_url']);
-            if(!empty($_FILES['Teacher']['name']['foto_url'])){
-                $_POST['Teacher']['foto_url'] = date('YmdHis').'.'.$fileInfo->getExtension();
-            }
             $model->attributes = $_POST['Teacher'];
-            $model->avatar = $_FILES['Teacher'];
             if ($model->save())
-                if (!empty($_POST['Teacher']['foto_url'])) {
-                    ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/" . $_POST['Teacher']['foto_url'],
-                        Yii::getPathOfAlias('webroot') . "/images/teachers/share/shareTeacherAvatar_" . $model->teacher_id . '.' . $fileInfo->getExtension(),
-                        210
-                    );
-                }
             $this->redirect($this->pathToCabinet());
         }
-        $this->render('update', array(
+        $this->renderPartial('update', array(
             'model' => $model,
         ),false);
     }
@@ -188,18 +160,20 @@ class TeachersController extends TeacherCabinetController{
         ));
     }
 
-     /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
-     */
     public function actionDelete($id)
     {
-        Teacher::model()->updateByPk($id, array('isPrint' => 0));
+        $model = Teacher::model()->findByPk($id);
+        $model->setDeleted();
+        if(!$model->isActive()) echo 'success';
+        else echo "error";
+    }
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+    public function actionRestore($id)
+    {
+        $model = Teacher::model()->findByPk($id);
+        $model->setActive();
+        if($model->isActive()) echo 'success';
+        else echo "error";
     }
 
     public function actionShowRoles($id)
@@ -279,4 +253,18 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
+    public function actionGetTeachersAdminList()
+    {
+        echo Teacher::teachersAdminList();
+    }
+
+    public function actionUsersByQuery($query)
+    {
+        if ($query) {
+            $users = StudentReg::usersWithoutTeachers($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
 }

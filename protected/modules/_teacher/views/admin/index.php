@@ -185,6 +185,7 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/coursesList.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/studentsList.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/teachersList.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/shareLinks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/usersManage.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'translateTeacherName.js'); ?>"></script>

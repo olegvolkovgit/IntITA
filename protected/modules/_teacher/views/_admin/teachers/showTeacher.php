@@ -40,7 +40,7 @@
         </li>
     </ul>
 
-    <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>"
+    <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->avatar()); ?>"
          class="img-thumbnail" style="height:200px">
     <ul class="list-group">
         <li class="list-group-item">
@@ -48,7 +48,7 @@
         <li class="list-group-item">Ім'я:
             <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
                 <?php echo $teacher->getName() ?></a></li>
-        <li class="list-group-item">Електронна пошта: <?php echo $teacher->email ?></li>
+        <li class="list-group-item">Електронна пошта: <?php echo $teacher->user->email ?></li>
         <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus() ?></em></li>
 
         <?php if (!empty($teacher->roles)) { ?>
