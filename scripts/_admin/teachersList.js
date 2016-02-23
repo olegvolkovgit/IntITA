@@ -52,14 +52,27 @@ function initTeachersAdminTable() {
 
 function generateEnglishName(first, last, middle) {
     if (document.getElementById("Teacher_first_name_en").value == '') {
-        $("#Teacher_first_name_en").val(toEnglish(first));
+        generateFirst(first);
     }
     if (document.getElementById("Teacher_middle_name_en").value == '') {
-        $("#Teacher_middle_name_en").val(toEnglish(middle));
+        generateMiddle(middle);
     }
     if (document.getElementById("Teacher_last_name_en").value == '') {
-        $("#Teacher_last_name_en").val(toEnglish(last));
+        generateLast(last);
     }
+}
+
+
+function generateFirst(first){
+    $("#Teacher_first_name_en").val(toEnglish(first));
+}
+
+function generateMiddle(middle){
+    $("#Teacher_middle_name_en").val(toEnglish(middle));
+}
+
+function generateLast(last){
+    $("#Teacher_last_name_en").val(toEnglish(last));
 }
 
 function loadTeachersIndex() {

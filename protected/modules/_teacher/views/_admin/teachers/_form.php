@@ -2,17 +2,9 @@
 /* @var $model Teacher */
 /* @var $form CActiveForm */
 /* @var $scenario string */
-$models = StudentReg::model()->findAll(
-    array('condition' => 'role<>1', 'order' => 'id'));
-
-// format models as $key=>$value with listData
-$list = CHtml::listData($models,
-    'id', 'email');
 ?>
-<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
-
 <div class="form">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'teacher-form',
             'htmlOptions' => array(
@@ -44,6 +36,10 @@ $list = CHtml::listData($models,
             <?php echo $form->textField($model, 'first_name_en',
                 array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
             <?php echo $form->error($model, 'first_name_en'); ?>
+            <?php if ($scenario == "update") { ?>
+            <a href="#" onclick="generateFirst('<?=$model->user->firstName;?>'); return false;">
+                Згенерувати автоматично</a>
+            <?php } ?>
         </div>
 
         <div class="form-group">
@@ -51,6 +47,10 @@ $list = CHtml::listData($models,
             <?php echo $form->textField($model, 'middle_name_en',
                 array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
             <?php echo $form->error($model, 'middle_name_en'); ?>
+            <?php if ($scenario == "update") { ?>
+            <a href="#" onclick="generateMiddle('<?=$model->user->middleName;?>'); return false;">
+                Згенерувати автоматично</a>
+            <?php } ?>
         </div>
 
         <div class="form-group">
@@ -58,6 +58,10 @@ $list = CHtml::listData($models,
             <?php echo $form->textField($model, 'last_name_en',
                 array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
             <?php echo $form->error($model, 'last_name_en'); ?>
+            <?php if ($scenario == "update") { ?>
+            <a href="#" onclick="generateLast('<?=$model->user->secondName;?>'); return false;">
+                Згенерувати автоматично</a>
+            <?php } ?>
         </div>
 
         <div class="form-group">
