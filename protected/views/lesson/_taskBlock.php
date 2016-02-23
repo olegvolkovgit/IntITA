@@ -1,3 +1,11 @@
+
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.css'); ?>"/>
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/theme/rubyblue.css'); ?>"/>
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('css', 'codemirror.css'); ?>"/>
+
 <?php if($data['id_type'] == 5 || $data['id_type'] == 6){?>
     <div class="element">
         <div class="lessonTask">
@@ -33,3 +41,16 @@
 <?php }else{
     echo 'До цієї сторінки лекції завдання не додано.';
 }?>
+
+
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/javascript/javascript.js'); ?>"></script>
+<script>
+    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('code<?php echo $data['block_order'];?>'), {
+       // lineNumbers: true,             // показывать номера строк
+        matchBrackets: true,             // подсвечивать парные скобки
+        mode: "javascript",
+        theme: "rubyblue",               // стиль подсветки
+        indentUnit: 4                    // размер табуляции
+    });
+</script>

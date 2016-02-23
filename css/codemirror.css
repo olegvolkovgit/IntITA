@@ -1,0 +1,13 @@
+.CodeMirror {
+    min-height:150px;
+    height: auto;
+}
+.CodeMirror-scroll {
+    overflow: hidden !important;
+}
+.CodeMirror-vscrollbar {
+    overflow-y: hidden;
+}
+.CodeMirror-hscrollbar {
+    overflow-x: hidden;
+}
