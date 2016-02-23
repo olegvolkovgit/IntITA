@@ -342,7 +342,13 @@ class SiteController extends Controller
     {
         $model = $this->getToken($token);
         if ($model) {
-            $model->updateByPk($model->id, array('email' => $email));
+            //XOR email hash
+            $key='ababagalamaga';
+            $mailDeHash = Mail::strcode(base64_decode($email), $key);
+            if(!preg_match('/.+@.+\..+/i',$mailDeHash))
+                throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');
+
+            $model->updateByPk($model->id, array('email' => $mailDeHash));
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
 
@@ -351,7 +357,7 @@ class SiteController extends Controller
             $secondName = ($userModel->secondName) ? $userModel->secondName : '';
             $name = $firstName . ' ' . $secondName;
             Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                'username_clean' => $name.$email,
+                'username_clean' => $name.$mailDeHash,
             ), 'user_id=:id', array(':id' => $userModel->id));
 
             if (Yii::app()->user->isGuest && $model->login())
@@ -544,8 +550,12 @@ class SiteController extends Controller
     public function actionLinkingEmailToNetwork($network, $token, $email, $lang)
     {
         $model = $this->getTokenAcc($token);
+        $key='codename41';
+        $mailDeHash = Mail::strcode(base64_decode($email), $key);
+        if(!preg_match('/.+@.+\..+/i',$mailDeHash))
+            throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');
 
-        $modelEmail = StudentReg::model()->findByAttributes(array('email' => $email));
+        $modelEmail = StudentReg::model()->findByAttributes(array('email' => $mailDeHash));
         if ($model->token == $modelEmail->token && $model->network == $network) {
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('status' => 1));
@@ -556,7 +566,7 @@ class SiteController extends Controller
             $app->session['lg'] = $lang;
 
             $this->redirect(Yii::app()->createUrl('/site/networkLinking', array(
-                'email' => $email,'network' => $network,
+                'email' => $mailDeHash,'network' => $network,
             )));
         } else {
             throw new CHttpException(404, Yii::t('exception', '0237'));
