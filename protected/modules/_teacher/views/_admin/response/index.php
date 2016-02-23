@@ -1,129 +1,33 @@
-<?php
-/* @var $this ResponseController */
-/* @var $dataProvider CActiveDataProvider */
-/* @var $data Response */
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#response-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
-?>
-
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'response-grid',
-    'summaryText' => '',
-    'dataProvider'=>$model->search(),
-//    'filter'=>$model,
-    'columns'=>array(
-        array(
-            'header' => 'Автор',
-            'value' => '$data->getResponseAuthorName()',
-        ),
-        array(
-            'header' => 'Про кого',
-            'value' => '$data->getResponseAboutTeacherName()',
-        ),
-        array(
-            'header' => 'Дата відгуку',
-            'value' => '$data->timeDesc()'
-        ),
-        array(
-            'header' => 'Опис',
-            'value' => '$data->shortDescription()',
-        ),
-        array(
-            'header' => 'Статус',
-            'value' => '$data->isPublish()',
-        ),
-        'rate',
-        array(
-            'class'=>'CButtonColumn',
-            'header'=>'Модерація',
-            'template'=>'{free} {paid} {view} {update} {delete}',
-            'buttons'=>array
-            (
-                'free' => array
-                (
-                    'label'=>'Опублікувати',
-                    'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/setPublish", array("id"=>$data->id))',
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('response-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                        $.fn.yiiGridView.update('response-grid');
-                        }
-                        })
-                        return false;
-                    }
-                    ",
-                ),
-                'paid' => array
-                (
-                    'label'=>'Скасувати',
-                    'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/unsetPublish", array("id"=>$data->id))',
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('response-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                        $.fn.yiiGridView.update('response-grid');
-                        }
-                        })
-                        return false;
-                    }
-                    ",
-                ),
-                'view' => array
-                (
-                    'label'=>'Переглянути',
-                    'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/view", array("id"=>$data->id))',
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('response-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                                fillContainer(data);
-                        }
-                        })
-                        return false;
-                    }
-                    ",
-                ),
-                'update' => array
-                (
-                    'label'=>'Редагувати',
-                    'url'=>'Yii::app()->createUrl("/_teacher/_admin/response/update", array("id"=>$data->id))',
-                    'click'=>"function(){
-                        $.fn.yiiGridView.update('response-grid', {
-                            type:'POST',
-                            url:$(this).attr('href'),
-                            success:function(data) {
-                                fillContainer(data);
-                        }
-                        })
-                        return false;
-                    }
-                    ",
-                ),
-                'delete' => array
-                (
-                    'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити цей відгук?',$(this).attr('href'))
-                                    return false;
-                              }
-                     ",
-                    'label' => 'Видалити',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/response/delete", array("id"=>$data->id))',
-                ),
-            ),
-        ),
-    ),
-)); ?>
+<div class="col-md-12">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover" id="teacherResponsesTable">
+                        <thead>
+                        <tr>
+                            <th>Автор</th>
+                            <th>Про кого</th>
+                            <th>Дата відгуку</th>
+                            <th>Текст</th>
+                            <th>Оцінка</th>
+                            <th>Статус</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $jq(document).ready(function () {
+        initTeacherResponsesTable();
+    });
+</script>
