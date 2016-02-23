@@ -60,16 +60,8 @@ class ResponseController extends TeacherCabinetController{
      */
     public function actionIndex()
     {
-        $model=new Response('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Response']))
-            $model->attributes=$_GET['Response'];
 
-        $dataProvider=new CActiveDataProvider('Response');
-        $this->renderPartial('index',array(
-            'model' => $model,
-            'dataProvider'=>$dataProvider,
-        ),false,true);
+        $this->renderPartial('index',array(),false,true);
     }
 
     /**
@@ -103,8 +95,7 @@ class ResponseController extends TeacherCabinetController{
     public function actionSetPublish($id)
     {
         $response=Response::model()->findByPk($id);
-        Response::model()->updateByPk($id, array('is_checked' => 1));
-
+        $response->setPublish();
         $response->setTeacherRating();
 
         // if AJAX request, we should not redirect the browser
@@ -115,8 +106,7 @@ class ResponseController extends TeacherCabinetController{
     public function actionUnsetPublish($id)
     {
         $response=Response::model()->findByPk($id);
-        Response::model()->updateByPk($id, array('is_checked' => 0));
-
+        $response->setHidden();
         $response->setTeacherRating();
 
         // if AJAX request, we should not redirect the browser
@@ -134,6 +124,8 @@ class ResponseController extends TeacherCabinetController{
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
     }
 
-
+    public function actionGetTeacherResponsesList(){
+        echo Response::getTeacherResponsesData();
+    }
 
 }
