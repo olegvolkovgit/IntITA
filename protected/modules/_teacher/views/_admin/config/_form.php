@@ -48,7 +48,7 @@
     <div class="form-group">
         <?php echo $form->labelEx($model, 'label', array('for' => 'label')); ?>
         <?php echo $form->textField($model, 'label', array('size' => 60, 'maxlength' => 255, 'class' => "form-control",
-            'id' => 'label')); ?>
+            'id' => 'label1')); ?>
         <?php echo $form->error($model, 'label'); ?>
     </div>
 

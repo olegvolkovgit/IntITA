@@ -139,6 +139,10 @@ body.ie8 #hambMenu {
     color: green;
     font: 16px/30px "MyriadPro";
 }
+#label1{
+    color: green;
+    font: 16px/30px "MyriadPro";
+}
 #searchBtn{
     background-color: #f5f5f5;
     border: 1px solid #cccccc;
