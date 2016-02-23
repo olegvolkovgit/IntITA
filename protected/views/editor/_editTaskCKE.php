@@ -41,6 +41,7 @@
 </div>
 <script>
     var selectLang='<?php echo Task::getTaskLang($idBlock); ?>';
+    originLang=selectLang;
     selectedLang=selectLang;
     $("select#programLang option[value="+"'"+ selectLang +"'"+ "]").attr('selected', 'true');
     function langChoose(src)
