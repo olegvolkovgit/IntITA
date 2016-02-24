@@ -144,8 +144,8 @@ class CourseController extends Controller
 
     public function actionUnableModule()
     {
-        $idModule = $_POST['idModule'];
-        $idCourse = $_POST['idCourse'];
+        $idCourse = Yii::app()->request->getParam('idCourse');
+        $idModule = Yii::app()->request->getParam('idModule');
 
         $course = Course::model()->with('module')->findByPk($idCourse);
 
@@ -160,20 +160,15 @@ class CourseController extends Controller
 
     public function actionUpModule()
     {
-        $idModule = $_POST['idModule'];
-        $idCourse = $_POST['idCourse'];
+        $idCourse = Yii::app()->request->getParam('idCourse');
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        $order = CourseModules::model()->findByPk(array('id_course' => $idCourse, 'id_module' => $idModule))->order;
+        $course = Course::model()->with("module")->findByPk($idCourse);
 
-        if ($order > 1) {
-            $idPrev = CourseModules::getPrevModule($idCourse, $order);
-            $prevRecord = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idPrev));
+        $this->checkInstance($course);
 
-            CourseModules::model()->updateByPk(array('id_course' => $idCourse, 'id_module' => $idModule),
-                array('order' => $prevRecord->order));
-            $prevRecord->order = $order;
-            $prevRecord->save();
-        }
+        $course->upModule($idModule);
+
 //        // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -181,23 +176,15 @@ class CourseController extends Controller
 
     public function actionDownModule()
     {
-        $idModule = $_POST['idModule'];
-        $idCourse = $_POST['idCourse'];
+        $idCourse = Yii::app()->request->getParam('idCourse');
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        $count = Course::model()->findByPk($idCourse)->modules_count;
-        $order = CourseModules::model()->findByPk(array('id_course' => $idCourse, 'id_module' => $idModule))->order;
+        $course = Course::model()->with("module")->findByPk($idCourse);
 
-        if ($order < $count) {
-            $idNext = CourseModules::getNextModule($idCourse, $order);
-            $nextRecord = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idNext));
+        $this->checkInstance($course);
 
-            CourseModules::model()->updateByPk(array(
-                'id_course' => $idCourse,
-                'id_module' => $idModule),
-                array('order' => $nextRecord->order));
-            $nextRecord->order = $order;
-            $nextRecord->save();
-        }
+        $course->downModule($idModule);
+
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
