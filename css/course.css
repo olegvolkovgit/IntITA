@@ -547,4 +547,7 @@ input.paymentPlan_value{
 #modulesList .inlineModuleStyle .moduleProgress {
     color: #666666;
 }
+#modulesLoading{
+    display: none;
+}
 /*modulesList*/

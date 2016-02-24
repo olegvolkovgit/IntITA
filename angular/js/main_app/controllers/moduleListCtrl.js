@@ -9,6 +9,7 @@ function moduleListCtrl($http,$scope) {
     var date = new Date();
     var currentTime=Math.round(date.getTime()/1000);
     $scope.getModuleProgressForUser=function (idCourse) {
+        $('#modulesLoading').show();
         var promise = $http({
             url: basePath+'/course/modulesData',
             method: "POST",
@@ -43,13 +44,18 @@ function moduleListCtrl($http,$scope) {
                 }
                 else if($scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
                     $scope.modulesProgress.modules[i].progress='finished';
-                    $scope.modulesProgress.modules[i].progress='finished';
                     var days=Math.round(($scope.modulesProgress.modules[i].finishTime-$scope.modulesProgress.modules[i].startTime)/86400)+1;
+                    $scope.modulesProgress.modules[i].spentTime=days;
+                    $scope.modulesProgress.modules[i].ico='finished.png';
+                }else if(!$scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
+                    $scope.modulesProgress.modules[i].progress='finished';
+                    var days=1;
                     $scope.modulesProgress.modules[i].spentTime=days;
                     $scope.modulesProgress.modules[i].ico='finished.png';
                 }
             }
         }
+        $('#modulesLoading').hide();
         if($scope.modulesProgress.isAdmin){
             bootbox.addLocale('uk', { OK: 'Добре', CANCEL: 'Ні', CONFIRM: 'Так' });
             bootbox.addLocale('ru', { OK: 'Хорошо', CANCEL: 'Нет', CONFIRM: 'Да' });
