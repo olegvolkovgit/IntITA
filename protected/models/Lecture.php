@@ -384,7 +384,7 @@ class Lecture extends CActiveRecord
     {
         $model = Lecture::model()->findByPk($dp->lecture_id);
         if ($model && $model->idModule!=0){
-            return CHtml::link(CHtml::encode($model->title()),array("/lesson/index", "id" => $model->id, "idCourse" => 0),array("target"=>"_blank"));
+            return CHtml::link($model->title(),array("/lesson/index", "id" => $model->id, "idCourse" => 0),array("target"=>"_blank"));
         }
         else return Yii::t('profile', '0717');
     }
