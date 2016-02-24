@@ -190,24 +190,18 @@ class LessonController extends Controller
 
     public function actionCreateNewBlockCKE()
     {
-        $model = new LectureElement();
 
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
-
         $htmlBlock = Yii::app()->request->getPost('editorAdd');
-        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
 
-        $model->html_block = $htmlBlock;
-        $model->id_type = $idType;
+        $idLecture = Yii::app()->request->getPost('idLecture');
 
-        $model->save();
+        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
 
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+        $this->checkInstanse($lecture);
 
-        LecturePage::addTextBlock($id, $pageId);
+        $lecture->createNewBlockCKE($htmlBlock, $idType, $pageOrder);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -759,5 +753,10 @@ class LessonController extends Controller
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    private function checkInstanse($model) {
+        if ($model === null)
+            throw new \application\components\Exceptions\LessonNotFoundException();
     }
 }

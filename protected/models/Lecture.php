@@ -695,4 +695,19 @@ class Lecture extends CActiveRecord
         $this->verified = self::NOVERIFIED;
         return $this->save();
     }
+
+    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
+
+        $model = new LectureElement();
+        $model->id_lecture = $this->id;
+        $model->block_order = LectureElement::getNextOrder($this->id);
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+
+        LecturePage::addTextBlock($id, $pageId);
+    }
 }
