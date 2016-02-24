@@ -88,51 +88,6 @@ class Mail {
         return $lang;
     }
 
-    public static function sendPayLetter($user,$pay)
-    {
-        if($pay instanceof Course){
-            $id = $pay->course_ID;
-            $link = Yii::app()->createAbsoluteUrl('course/index', array('id' => $pay->course_ID));
-            $theme = 'Оплата курсу';
-            $access = 'курсу';
-        }
-        elseif ($pay instanceof Module)
-        {
-            $theme = 'Оплата модуля';
-            $id = $pay->module_ID;
-            $link = Yii::app()->createAbsoluteUrl('module/index', array('idModule' =>$id));
-            $access = 'модуля';
-        }
-
-        $title = $pay->title_ua;
-
-        $model= new Letters();
-
-        //$moduleLink = Yii::app()->createUrl('module/index', array('idModule' =>$pay->module_ID));
-        $linkForLetter = "<a href =".$link.">". $title . " </a>";
-
-        $model->addressee_id = $user;
-        $model->sender_id = Yii::app()->user->id;
-        $model->text_letter = "Вітаємо!"."<br>".
-            "Тобі надано доступ до ".$access ." : " . $title . ".<br>" .
-            "Щоб розпочати навчання, перейди за посиланням: ".$linkForLetter."<br>
-            ​З повагою, INTITA​";
-        $model->date = date("Y-m-d H:i:s");
-        $model->theme = $theme;
-        if($model->validate()) {
-            $model->save();
-            $mail = new Mail();
-            $mail->headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
-            $addresse = StudentReg::model()->findByPk($user)->email;
-            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".$link.".
-            ​З повагою, INTITA​";
-            mail($addresse,$theme,$text, $mail->headers);
-            return true;
-        }
-
-        return false;
-    }
-
     public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
     {
         $consultant = Teacher::model()->findByPk($consult);
@@ -154,8 +109,6 @@ class Mail {
 
         }
     }
-
-
 
     public static function sendVerificationEmailMail($model)
     {
@@ -190,6 +143,7 @@ class Mail {
     {
        return '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>';
     }
+
     public static function strcode($str, $passw="")
     {
         $salt = "Dn8*#2n!9j";

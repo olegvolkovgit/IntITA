@@ -54,7 +54,7 @@ class LessonController extends Controller
     public function actionIndex($id, $idCourse = 0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
 
         $this->initialize($id, $editMode, $idCourse);
 
@@ -472,7 +472,7 @@ class LessonController extends Controller
     {
 
         $idModule = Lecture::model()->findByPk($id)->idModule;
-        if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
+        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule)) {
             return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse,
                 'idModule' => $idModule));
         } else {
@@ -495,7 +495,7 @@ class LessonController extends Controller
         $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
         $idModule = Lecture::model()->findByPk($idLecture)->idModule;
 
-        if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
+        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule)) {
             $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
             $dataProvider = $page->getPageTextList();
 
@@ -581,7 +581,7 @@ class LessonController extends Controller
     public function actionEditPage($id, $page, $idCourse=0, $cke = false)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
         if (!$editMode) {
             throw new CHttpException(403, 'Ви запросили сторінку, доступ до якої обмежений спеціальними правами.
             Для отримання доступу увійдіть на сайт з логіном автора модуля.');
@@ -643,7 +643,7 @@ class LessonController extends Controller
         $id = Yii::app()->request->getPost('lecture');
 
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
 
         $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
 
@@ -689,7 +689,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $page_order = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, $user);
+        $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
         $this->initialize($id, $editMode);
 
@@ -705,7 +705,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
         $page_order = $_GET['page'];
-        $editMode = PayModules::checkEditMode($lecture->idModule, $user);
+        $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
         $this->initialize($id, $editMode);
 
@@ -725,7 +725,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $page_order = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
         $this->initialize($id, $editMode);
 
