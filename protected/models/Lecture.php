@@ -329,14 +329,6 @@ class Lecture extends CActiveRecord
         return Lecture::model()->findAll($criteria);
     }
 
-    protected function afterSave()
-    {
-        if ($this->verified == 1) {
-            $this->verified = 0;
-            $this->save();
-        }
-    }
-
     /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
 Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
 Якщо $order>$enabledOrder то недоступна*/
