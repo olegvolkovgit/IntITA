@@ -23,7 +23,7 @@
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
 <body ng-app="interpreterApp">
 <div ng-controller="interpreterCtrl">
-    <form name="interpreterForm" ng-cloak>
+    <form id="interpreterForm" name="interpreterForm" ng-cloak>
         <label>Памятка: <input type="checkbox" ng-model="legend" ng-init="legend=false" /></label><br/>
         <div ng-if="legend">
             <pre>

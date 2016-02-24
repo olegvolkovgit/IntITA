@@ -143,6 +143,7 @@ div.courseShortInfoTable{
     margin-bottom: 10px;
     font-weight: inherit;
     color: #4B75A4;
+    display: inline-block;
 }
 .courseTeacher{
     border-bottom: 1px solid #cccccc;
@@ -546,5 +547,8 @@ input.paymentPlan_value{
 }
 #modulesList .inlineModuleStyle .moduleProgress {
     color: #666666;
+}
+#modulesLoading{
+    display: none;
 }
 /*modulesList*/

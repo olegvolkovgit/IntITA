@@ -129,3 +129,6 @@ textarea.ng-invalid, textarea.ng-invalid:focus, input.ng-invalid, input.ng-inval
     display: inline-block;
     width: 15%;
 }
+#interpreterForm input,#interpreterForm label{
+    font-size: 12px;
+}

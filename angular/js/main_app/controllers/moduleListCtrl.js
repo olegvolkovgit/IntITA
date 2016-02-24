@@ -9,6 +9,7 @@ function moduleListCtrl($http,$scope) {
     var date = new Date();
     var currentTime=Math.round(date.getTime()/1000);
     $scope.getModuleProgressForUser=function (idCourse) {
+        $('#modulesLoading').show();
         var promise = $http({
             url: basePath+'/course/modulesData',
             method: "POST",
@@ -43,13 +44,18 @@ function moduleListCtrl($http,$scope) {
                 }
                 else if($scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
                     $scope.modulesProgress.modules[i].progress='finished';
-                    $scope.modulesProgress.modules[i].progress='finished';
                     var days=Math.round(($scope.modulesProgress.modules[i].finishTime-$scope.modulesProgress.modules[i].startTime)/86400)+1;
+                    $scope.modulesProgress.modules[i].spentTime=days;
+                    $scope.modulesProgress.modules[i].ico='finished.png';
+                }else if(!$scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
+                    $scope.modulesProgress.modules[i].progress='finished';
+                    var days=1;
                     $scope.modulesProgress.modules[i].spentTime=days;
                     $scope.modulesProgress.modules[i].ico='finished.png';
                 }
             }
         }
+        $('#modulesLoading').hide();
         if($scope.modulesProgress.isAdmin){
             bootbox.addLocale('uk', { OK: 'Добре', CANCEL: 'Ні', CONFIRM: 'Так' });
             bootbox.addLocale('ru', { OK: 'Хорошо', CANCEL: 'Нет', CONFIRM: 'Да' });
@@ -81,6 +87,7 @@ function moduleListCtrl($http,$scope) {
         return term;
     };
     $scope.upModule=function (idModule,idCourse) {
+        $('#moduleForm').hide();
         $http({
             url: basePath+'/course/upModule',
             method: "POST",
@@ -89,12 +96,14 @@ function moduleListCtrl($http,$scope) {
         }).then(function successCallback() {
             $scope.getModuleProgressForUser(idCourse).then(function (response) {
                 $scope.modulesProgress = response;
+                $('#modulesLoading').hide();
             });
         }, function errorCallback() {
             bootbox.alert('Не вдалось перемістити модуль');
         });
     }
     $scope.downModule=function (idModule,idCourse) {
+        $('#moduleForm').hide();
         $http({
             url: basePath+'/course/downModule',
             method: "POST",
@@ -103,12 +112,14 @@ function moduleListCtrl($http,$scope) {
         }).then(function successCallback() {
             $scope.getModuleProgressForUser(idCourse).then(function (response) {
                 $scope.modulesProgress = response;
+                $('#modulesLoading').hide();
             });
         }, function errorCallback() {
             bootbox.alert('Не вдалось перемістити модуль');
         });
     }
     $scope.deleteModule=function (idModule,idCourse) {
+        $('#moduleForm').hide();
         var msg;
         switch (lang) {
             case 'uk':
@@ -135,6 +146,7 @@ function moduleListCtrl($http,$scope) {
                 }).then(function successCallback() {
                     $scope.getModuleProgressForUser(idCourse).then(function (response) {
                         $scope.modulesProgress = response;
+                        $('#modulesLoading').hide();
                     });
                 }, function errorCallback() {
                     bootbox.alert('Не вдалось дезактивувати модуль');
