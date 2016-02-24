@@ -291,11 +291,13 @@ class Lecture extends CActiveRecord
     public static function getTextList($idLecture, $order)
     {
         $idElement = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;
+
         $page = Yii::app()->db->createCommand()
             ->select('page')
             ->from('lecture_element_lecture_page')
             ->where('element=:element', array(':element' => $idElement))
             ->queryScalar();
+
         $model = LecturePage::model()->findByPk($page);
         return $model->getBlocksListById();
     }
@@ -709,5 +711,61 @@ class Lecture extends CActiveRecord
         $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
 
         LecturePage::addTextBlock($id, $pageId);
+    }
+
+    /**
+     * Shifts up lesson element.
+     * @param $elementOrder - order of element to be shifted
+     * @throws CDbException
+     */
+    public function upElement($elementOrder) {
+        $criteria = new CDbCriteria();
+        $criteria->order = "block_order ASC";
+        $criteria->condition = "id_lecture=:id_lecture";
+        $criteria->params = array (':id_lecture' => $this->id);
+
+        $lectureElementModels = LectureElement::model()->findAll($criteria);
+
+        foreach ($lectureElementModels as $key => $element) {
+            if ($element->block_order == $elementOrder && $key != 0) {
+                $prevElement = $lectureElementModels[$key-1];
+
+                $swapOrder = $prevElement->block_order;
+                $prevElement->block_order = $element->block_order;
+                $element->block_order = $swapOrder;
+
+                $prevElement->update(array('block_order'));
+                $element->update(array('block_order'));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Shifts down lesson element.
+     * @param $elementOrder - order of element to be shifted
+     * @throws CDbException
+     */
+    public function downElement($elementOrder) {
+        $criteria = new CDbCriteria();
+        $criteria->order = "block_order ASC";
+        $criteria->condition = "id_lecture=:id_lecture";
+        $criteria->params = array (':id_lecture' => $this->id);
+
+        $lectureElementModels = LectureElement::model()->findAll($criteria);
+
+        foreach ($lectureElementModels as $key => $element) {
+            if ($element->block_order == $elementOrder && $key != count($lectureElementModels)-1) {
+                $nextElement = $lectureElementModels[$key+1];
+
+                $swapOrder = $nextElement->block_order;
+                $nextElement->block_order = $element->block_order;
+                $element->block_order = $swapOrder;
+
+                $nextElement->update(array('block_order'));
+                $element->update(array('block_order'));
+                break;
+            }
+        }
     }
 }

@@ -211,10 +211,16 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
+
         //if exists prev element, reorder current and prev elements
-        $textList = Lecture::getTextList($idLecture, $order);
-        $prevElement = LectureElement::getPrevElement($textList, $order);
-        LectureElement::swapBlock($idLecture, $prevElement, $order);
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->upElement($order);
+
+//        $textList = Lecture::getTextList($idLecture, $order);
+//        $prevElement = LectureElement::getPrevElement($textList, $order);
+//        LectureElement::swapBlock($idLecture, $prevElement, $order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -226,10 +232,10 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-        //if exists next element, reorder current and next elements
-        $textList = Lecture::getTextList($idLecture, $order);
-        $nextElement = LectureElement::getNextElement($textList, $order);
-        LectureElement::swapBlock($idLecture, $nextElement, $order);
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->downElement($order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
