@@ -2,7 +2,7 @@
 
 class MailTransport implements IMailSender{
 
-    public $viewPath = 'application.views.mail';
+    public $viewPath = 'application.views.layouts';
     private $template = '';
 
     public function send($mailto, $nameFrom, $subject, $text)
@@ -16,7 +16,7 @@ class MailTransport implements IMailSender{
             $text = $this->template;
         }
 
-        $message = Yii::app()->controller->renderFile($this->viewPath . DIRECTORY_SEPARATOR . 'layout.php', array(
+        $message = Yii::app()->controller->renderFile($this->viewPath . DIRECTORY_SEPARATOR . 'mailLayout.php', array(
             'content' => $text,
             'userEmail' => $mailto
         ), true);

@@ -5,7 +5,7 @@
 */
 $model = $params[0];
 ?>
-Вітаємо!
+<h4>Вітаємо!</h4>
 <br>
 Тобі надано доступ до курса <strong><?=$model->title_ua;?></strong>.
 <br>
