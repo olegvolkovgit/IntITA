@@ -28,7 +28,7 @@ class MailTransport implements IMailSender{
     }
 
     public function renderBodyTemplate($template, $params){
-        $this->viewPath = ($dir = Yii::getPathOfAlias($this->templatePath)) ? $dir : Yii::app()->viewPath;
+        $this->templatePath = ($dir = Yii::getPathOfAlias($this->templatePath)) ? $dir : Yii::app()->viewPath;
         $this->template = Yii::app()->controller->renderFile($this->templatePath. DIRECTORY_SEPARATOR . 'templates'. DIRECTORY_SEPARATOR .$template.'.php', array(
             'params' => $params,
         ), true);
