@@ -87,6 +87,7 @@ function moduleListCtrl($http,$scope) {
         return term;
     };
     $scope.upModule=function (idModule,idCourse) {
+        $('#moduleForm').hide();
         $http({
             url: basePath+'/course/upModule',
             method: "POST",
@@ -95,12 +96,14 @@ function moduleListCtrl($http,$scope) {
         }).then(function successCallback() {
             $scope.getModuleProgressForUser(idCourse).then(function (response) {
                 $scope.modulesProgress = response;
+                $('#modulesLoading').hide();
             });
         }, function errorCallback() {
             bootbox.alert('Не вдалось перемістити модуль');
         });
     }
     $scope.downModule=function (idModule,idCourse) {
+        $('#moduleForm').hide();
         $http({
             url: basePath+'/course/downModule',
             method: "POST",
@@ -109,12 +112,14 @@ function moduleListCtrl($http,$scope) {
         }).then(function successCallback() {
             $scope.getModuleProgressForUser(idCourse).then(function (response) {
                 $scope.modulesProgress = response;
+                $('#modulesLoading').hide();
             });
         }, function errorCallback() {
             bootbox.alert('Не вдалось перемістити модуль');
         });
     }
     $scope.deleteModule=function (idModule,idCourse) {
+        $('#moduleForm').hide();
         var msg;
         switch (lang) {
             case 'uk':
@@ -141,6 +146,7 @@ function moduleListCtrl($http,$scope) {
                 }).then(function successCallback() {
                     $scope.getModuleProgressForUser(idCourse).then(function (response) {
                         $scope.modulesProgress = response;
+                        $('#modulesLoading').hide();
                     });
                 }, function errorCallback() {
                     bootbox.alert('Не вдалось дезактивувати модуль');

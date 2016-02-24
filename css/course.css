@@ -143,6 +143,7 @@ div.courseShortInfoTable{
     margin-bottom: 10px;
     font-weight: inherit;
     color: #4B75A4;
+    display: inline-block;
 }
 .courseTeacher{
     border-bottom: 1px solid #cccccc;
