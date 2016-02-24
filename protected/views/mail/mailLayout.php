@@ -39,8 +39,8 @@
                 <a href="<?=Config::getBaseUrl();?>" style="color: #4b75a4; font: 18px Arial, sans-serif; line-height: 12px; -webkit-text-size-adjust:none; display: block;" target="_blank"><?=Config::getBaseUrl();?></a><br>
                 <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"> телефон: <?=Yii::t('footer', '0023');?>.</span>
                 <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;">тел. моб. <?=Yii::t('footer', '0024');?>.</span>
-                <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"> ел. пошта:<a href="mailto:<?=Yii::t('footer', '0025');?>" target="_blank" style=""> <?=Yii::t('footer', '0025');?></a>.</span>
-                <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block; padding-bottom:20px;">skype: <?=Yii::t('footer', '0026');?></span></td>
+                <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block;"> ел. пошта:<a href="mailto:intita.hr@gmail.com." target="_blank" style=""> intita.hr@gmail.com.</a>.</span>
+                <span style="color: #333333; font: 10px Arial, sans-serif; line-height: 10px; -webkit-text-size-adjust:none; display: block; padding-bottom:20px;">skype: int.ita</span></td>
             <td width="60px;"></td>
         </tr>
         </table>
