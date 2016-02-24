@@ -72,7 +72,8 @@ function setVerifyStatus(url) {
             $jq.ajax({
                 url: url,
                 type: "POST",
-                success: function () {
+                success: function (data) {
+                    alert(data);
                     bootbox.confirm("Операцію успішно виконано.", function () {
                         load(basePath + "/_teacher/_admin/verifyContent/index");
                     });

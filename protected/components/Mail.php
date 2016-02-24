@@ -143,6 +143,7 @@ class Mail {
     {
        return '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>';
     }
+
     public static function strcode($str, $passw="")
     {
         $salt = "Dn8*#2n!9j";
