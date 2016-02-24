@@ -3,10 +3,10 @@
 class CabinetController extends TeacherCabinetController
 {
 
-    public function actionIndex($scenario="dashboard", $receiver=0)
+    public function actionIndex($scenario = "dashboard", $receiver = 0)
     {
         $model = Yii::app()->user->model;
-        if(!$model){
+        if (!$model) {
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
         $newReceivedMessages = $model->newReceivedMessages();
@@ -114,7 +114,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionLoadDashboard($user)
     {
-        $model = StudentReg::model()->findByPk($user);
+        $model = RegisteredUser::userById($user);
         $this->rolesDashboard($model);
     }
 
@@ -134,11 +134,12 @@ class CabinetController extends TeacherCabinetController
         if ($user->isTeacher()) {
             $teacher = Teacher::model()->findByPk($user->getTeacherId());
             if ($inRole == null) {
-                $roles = $teacher->roles();
+                $roles = $user->roles;
             } else $roles = $inRole;
+            var_dump($roles);die;
 
             foreach ($roles as $role) {
-                switch ($role->getRole()) {
+                switch ($role) {
                     case 'trainer':
                         $this->renderTrainerDashboard($teacher, $user, $role);
                         break;
@@ -167,28 +168,23 @@ class CabinetController extends TeacherCabinetController
 
     }
 
-    public function renderSidebarByRole($role)
+    public function renderSidebarByRole(UserRoles $role)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
         $user = Yii::app()->user->model;
-        if ($role) {
-            switch (strtolower($role->title_en)) {
-                case 'trainer' :
-                    $this->renderPartial('/trainer/sidebar', array(
-                        'teacher' => $teacher,
-                        'user' => $user,
-                        'role' => $role
-                    ));
-                    break;
-                case 'consultant' :
-                    $this->renderPartial('/consultant/sidebar', array(
-                        'teacher' => $teacher,
-                        'user' => $user,
-                        'role' => $role
-                    ));
-                    break;
-
-            }
+        switch ($role) {
+            case 'trainer' :
+                $this->renderPartial('/trainer/sidebar', array(
+                    'teacher' => $teacher,
+                    'user' => $user
+                ));
+                break;
+            case 'consultant' :
+                $this->renderPartial('/consultant/sidebar', array(
+                    'teacher' => $teacher,
+                    'user' => $user
+                ));
+                break;
         }
     }
 

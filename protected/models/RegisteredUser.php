@@ -66,7 +66,8 @@ class RegisteredUser
                 (select "consultant", id_user from user_consultant acs where acs.id_user = '.$this->id.' and end_date IS NULL)';
         $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = array_map(function($row){return new UserRoles($row[0]);}, $rolesArray);
+        $result = array_map(function($row){return new UserRoles($row["admin"]);}, $rolesArray);
+
         return $result;
     }
     

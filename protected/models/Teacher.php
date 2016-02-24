@@ -35,7 +35,6 @@
 class Teacher extends CActiveRecord
 {
     public $avatar = array(), $oldAvatar;
-    //array of teacher modules
 
     /**
      * @return string the associated database table name
@@ -87,8 +86,6 @@ class Teacher extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
             'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
-            'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
-            'roles' => array(self::HAS_MANY, 'Roles', 'role', 'through' => 'teacherRoles'),
         );
     }
 
@@ -436,18 +433,8 @@ class Teacher extends CActiveRecord
 
     public static function generateTeacherRolesList($id)
     {
-        $criteria = new CDbCriteria();
-        $criteria->select = 'role';
-        $criteria->distinct = true;
-        $criteria->order = 'role';
-        $criteria->condition = 'teacher=' . $id;
-        $roles = TeacherRoles::model()->findAll($criteria);
-        $result = [];
-        for ($i = 0, $count = count($roles); $i < $count; $i++) {
-            $result[$i]['id'] = $roles[$i]->role;
-            $result[$i]['alias'] = Roles::model()->findByPk($roles[$i]->role)->title_ua;
-        }
-        return $result;
+        $model = RegisteredUser::userById($id);
+        return $model->getRoles();
     }
 
     public static function getTeacherName($id)
@@ -494,7 +481,7 @@ class Teacher extends CActiveRecord
                 if ($this->last_name_en != '') $last = $this->last_name_en;
                 if ($this->first_name_en != '') $first = $this->first_name_en;
             }
-            if (Yii::app()->session['lg'] == 'ru'){
+            if (Yii::app()->session['lg'] == 'ru') {
                 if ($this->last_name_ru != '' && $this->last_name_ru != 'не указано') $last = $this->last_name_ru;
                 if ($this->first_name_ru != '' && $this->first_name_ru != 'не указано') $first = $this->first_name_ru;
             }
@@ -550,18 +537,16 @@ class Teacher extends CActiveRecord
 
     public function roles()
     {
-        return $this->roles;
+        $model =RegisteredUser::userById($this->teacher_id);
+        return $model->getRoles();
     }
 
     public static function getAllTrainers()
     {
         $criteria = new CDbCriteria();
-        $criteria->join = 'LEFT JOIN teacher_roles ON teacher_roles.teacher = teacher_id';
-        $criteria->addCondition('teacher_roles.role = 1');
+        $criteria->join = 'LEFT JOIN user_trainer ut ON ut.teacher = teacher_id';
 
-        $result = Teacher::model()->findAll($criteria);
-
-        return $result;
+        return Teacher::model()->findAll($criteria);
     }
 
     public static function getTeacherNameByUserId($user)
@@ -578,6 +563,7 @@ class Teacher extends CActiveRecord
         }
         if (isset($author)) return true; else return false;
     }
+
     public static function isTeacherIdAuthorModule($idTeacher, $idModule)
     {
         $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $idTeacher, 'idModule' => $idModule));
@@ -714,23 +700,9 @@ class Teacher extends CActiveRecord
         }
     }
 
+    // todo rewrite
     public function setTeacherRole($roleId)
     {
-        if (TeacherRoles::model()->exists('teacher=:teacher and role=:attribute', array('teacher' => $this->teacher_id,
-            'attribute' => $roleId))
-        ) {
-            $model = TeacherRoles::model()->findByAttributes(array('teacher' => $this->teacher_id, 'role' => $roleId));
-        } else {
-            $model = new TeacherRoles();
-            $model->teacher = $this->teacher_id;
-            $model->role = $roleId;
-        }
-        $model->start_date = date("Y-m-d H:i");
-
-        if ($model->validate()) {
-            $model->save();
-            return true;
-        }
         return false;
     }
 
@@ -741,15 +713,16 @@ class Teacher extends CActiveRecord
         else return 'видалений';
     }
 
-    public static function teachersList(){
+    public static function teachersList()
+    {
         $users = Teacher::model()->findAll();
         $return = array('data' => array());
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"] = $record->last_name." ".$record->first_name." ".$record->middle_name;
+            $row["name"] = $record->last_name . " " . $record->first_name . " " . $record->middle_name;
             $row["email"] = $record->user->email;
-            $row["profile"] = Config::getBaseUrl()."/teacher/".$record->teacher_id;
+            $row["profile"] = Config::getBaseUrl() . "/teacher/" . $record->teacher_id;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->user_id

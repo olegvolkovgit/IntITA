@@ -32,12 +32,6 @@
                 ролі
             </button>
         </li>
-        <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles'); ?>')">
-                Ролі викладачів
-            </button>
-        </li>
     </ul>
 
     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>"

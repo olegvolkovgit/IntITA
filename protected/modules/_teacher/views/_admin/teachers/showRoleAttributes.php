@@ -1,6 +1,5 @@
 <?php
 /* @var $this RolesController */
-/* @var $model Roles */
 ?>
     <ul class="list-inline">
         <li>
@@ -8,11 +7,6 @@
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addRoleAttribute/role/',
                         array('id' => $model->id)); ?>')">
                 Додати атрибут ролі</button>
-        </li>
-        <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/roles');?>')">
-                Список ролей</button>
         </li>
     </ul>
 
