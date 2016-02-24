@@ -234,4 +234,14 @@ class CabinetController extends TeacherCabinetController
         return $this->renderPartial('/accountant/index');
     }
 
+    public function actionUsersByQuery($query)
+    {
+        if ($query) {
+            $users = StudentReg::allUsers($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
 }

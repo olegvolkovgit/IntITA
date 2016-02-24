@@ -64,23 +64,17 @@ class ModuleController extends TeacherCabinetController
 
     public function actionRestore($id)
     {
-        $model = Module::model()->findByPk($id);
-        $model->cancelled = 0;
-        $this->saveModel($model);
+        Module::model()->updateByPk($id, array('cancelled' => 0));
     }
 
     public function actionUpStatus($id)
     {
-        $model = Module::model()->findByPk($id);
-        $model->status = 0;
-        $this->saveModel($model);
+        Module::model()->updateByPk($id, array('status' => 0));
     }
 
     public function actionDownStatus($id)
     {
-        $model = Module::model()->findByPk($id);
-        $model->status = 1;
-        $this->saveModel($model);
+        Module::model()->updateByPk($id, array('status' => 1));
     }
 
     public function actionView($id)
