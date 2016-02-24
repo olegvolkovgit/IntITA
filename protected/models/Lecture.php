@@ -335,7 +335,7 @@ class Lecture extends CActiveRecord
     public static function accessLecture($id, $order, $enabledOrder,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         $user = Yii::app()->user->getId();
         if (StudentReg::isAdmin() || $editMode) {
             return true;
