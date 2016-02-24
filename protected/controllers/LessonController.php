@@ -190,24 +190,18 @@ class LessonController extends Controller
 
     public function actionCreateNewBlockCKE()
     {
-        $model = new LectureElement();
 
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
-
         $htmlBlock = Yii::app()->request->getPost('editorAdd');
-        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
 
-        $model->html_block = $htmlBlock;
-        $model->id_type = $idType;
+        $idLecture = Yii::app()->request->getPost('idLecture');
 
-        $model->save();
+        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
 
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+        $this->checkInstanse($lecture);
 
-        LecturePage::addTextBlock($id, $pageId);
+        $lecture->createNewBlockCKE($htmlBlock, $idType, $pageOrder);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -217,10 +211,16 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
+
         //if exists prev element, reorder current and prev elements
-        $textList = Lecture::getTextList($idLecture, $order);
-        $prevElement = LectureElement::getPrevElement($textList, $order);
-        LectureElement::swapBlock($idLecture, $prevElement, $order);
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->upElement($order);
+
+//        $textList = Lecture::getTextList($idLecture, $order);
+//        $prevElement = LectureElement::getPrevElement($textList, $order);
+//        LectureElement::swapBlock($idLecture, $prevElement, $order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -232,10 +232,10 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-        //if exists next element, reorder current and next elements
-        $textList = Lecture::getTextList($idLecture, $order);
-        $nextElement = LectureElement::getNextElement($textList, $order);
-        LectureElement::swapBlock($idLecture, $nextElement, $order);
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->downElement($order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -759,5 +759,10 @@ class LessonController extends Controller
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    private function checkInstanse($model) {
+        if ($model === null)
+            throw new \application\components\Exceptions\LessonNotFoundException();
     }
 }
