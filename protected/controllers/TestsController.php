@@ -122,4 +122,16 @@ class TestsController extends Controller
             LecturePage::unableQuiz($pageId);
         }
     }
+    public function actionDataTest()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $data["condition"] =  Tests::getTestCondition($idBlock);
+        $answers=TestsAnswers::getTestAnswers($idBlock);
+        $valid=TestsAnswers::getTestValidCKE($idBlock);
+        $data["answers"]=$answers;
+        $data["valid"]=$valid;
+
+        echo CJSON::encode($data);
+    }
 }

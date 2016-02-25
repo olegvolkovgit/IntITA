@@ -83,4 +83,12 @@ class TaskController extends Controller
             LecturePage::unableQuiz($pageId);
         }
     }
+    public function actionDataTask()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $data["condition"] =  Task::getTaskCondition($idBlock);
+
+        echo CJSON::encode($data);
+    }
 }
