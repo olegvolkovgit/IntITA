@@ -1011,7 +1011,7 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        return $this->getFirstLectureWithQuiz(array_reverse($this->lectures));
+        return $this->findFirstQuizId(array_reverse($this->lectures));
     }
 
     /**
@@ -1024,7 +1024,7 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        return $this->getFirstLectureWithQuiz($this->lectures);
+        return $this->findFirstQuizId($this->lectures);
     }
 
     /**
@@ -1032,7 +1032,7 @@ class Module extends CActiveRecord implements IBillableObject
      * @param $lectures - array of lectures
      * @return bool $lectureElement->idBlock or false if nothing found
      */
-    private function getFirstLectureWithQuiz($lectures) {
+    private function findFirstQuizId($lectures) {
         foreach ($lectures as $lecture) {
             $idBlock = $lecture->isContainsQuiz();
             if ($idBlock != null) {
