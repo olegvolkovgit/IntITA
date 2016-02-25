@@ -414,4 +414,20 @@ class LectureElement extends CActiveRecord
     {
         return self::model()->findByPk($id)->plainTask;
     }
+
+    /**
+     * Returns true if lecture element is quiz or false if not
+     * @return bool
+     */
+    public function isQuiz() {
+        if ($this->id_type == 6  || //plain task
+            $this->id_type == 12 || //test
+            $this->id_type == 5  || //task
+            $this->id_type == 9 ) { //skip task
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
