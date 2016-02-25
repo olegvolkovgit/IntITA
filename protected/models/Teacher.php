@@ -559,14 +559,16 @@ class Teacher extends CActiveRecord
     {
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser))) {
             $teacherId = Teacher::model()->findByAttributes(array('user_id' => $idUser));
-            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule));
+            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule), 'end_time IS NULL');
         }
         if (isset($author)) return true; else return false;
     }
 
     public static function isTeacherIdAuthorModule($idTeacher, $idModule)
     {
-        $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $idTeacher, 'idModule' => $idModule));
+        $author = TeacherModule::model()->findByAttributes(
+            array('idTeacher'=>$idTeacher,'idModule'=>$idModule), 'end_time IS NULL'
+        );
         if (isset($author)) return true; else return false;
     }
 

@@ -1,8 +1,8 @@
 <?php
 /**
-* @var $params array
-* @var $model Course
-*/
+ * @var $params array
+ * @var $model Course
+ */
 $model = $params[0];
 ?>
 <h4>Вітаємо!</h4>
