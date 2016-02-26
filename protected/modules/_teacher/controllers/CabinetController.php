@@ -21,10 +21,10 @@ class CabinetController extends TeacherCabinetController
 
     public function actionLoadPage($page)
     {
-        $page = strtolower($page);
+        $page = strtoupper($page);
 
-        $role = Roles::model()->findByAttributes(array('title_en' => $page));
         $model = Yii::app()->user->model;
+        $role = new UserRoles($page);
 
         if ($role && $model)
             $this->rolesDashboard($model, array($role));
@@ -134,38 +134,35 @@ class CabinetController extends TeacherCabinetController
         if ($user->isTeacher()) {
             $teacher = Teacher::model()->findByPk($user->getTeacherId());
             if ($inRole == null) {
-                $roles = $user->roles;
+                $roles = $user->getRoles();
             } else $roles = $inRole;
-            var_dump($roles);die;
 
             foreach ($roles as $role) {
                 switch ($role) {
-                    case 'trainer':
+                    case "trainer":
                         $this->renderTrainerDashboard($teacher, $user, $role);
                         break;
-                    case 'author':
+                    case "author":
                         $this->renderAuthorDashboard($teacher, $user, $role);
                         break;
                     case 'consultant':
                         $this->renderConsultantDashboard($teacher, $user, $role);
                         break;
-                    case 'leader':
-                        $this->renderLeaderDashboard($teacher, $user, $role);
+                    case 'student':
+                        $this->renderStudentDashboard($user);
+                        break;
+                    case 'admin':
+                        $this->renderAdminDashboard();
+                        break;
+                    case 'accountant':
+                        $this->renderAccountantDashboard();
                         break;
                     default:
                         throw new CHttpException(400, 'Неправильно вибрана роль!');
                         break;
                 }
             }
-        } else {
-            if ($user->isAdmin()) {
-                $this->renderAdminDashboard();
-            }
-            if ($user->isAccountant()) {
-                $this->renderAccountantDashboard();
-            }
         }
-
     }
 
     public function renderSidebarByRole(UserRoles $role)
@@ -205,6 +202,14 @@ class CabinetController extends TeacherCabinetController
             'role' => $role,
         ));
     }
+
+    private function renderStudentDashboard(RegisteredUser $user)
+    {
+        return $this->renderPartial('/student/_dashboard', array(
+            'user' => $user->registrationData
+        ));
+    }
+
 
     private function renderConsultantDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {

@@ -9,7 +9,7 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#" onclick="loadPage('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-                array('page' => 'consultant'));?>','Консультант')">Дошка</a>
+                array('page' => 'trainer'));?>','Консультант')">Дошка</a>
         </li>
         <li>
             <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/teacher/manageConsult') ?>',

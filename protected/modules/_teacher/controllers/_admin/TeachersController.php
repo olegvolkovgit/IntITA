@@ -31,9 +31,15 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionShowTeacher($id)
     {
-        $teacher = Teacher::model()->findByPk($id);
+        $user = RegisteredUser::userById($id);
+        if(!$user->isTeacher()){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
+        }
+        $teacher = $user->getTeacher();
+
         $this->renderPartial('showTeacher',array(
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'user' => $user
         ),false,true);
     }
 
@@ -123,8 +129,9 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionCancelTeacherRole($id)
     {
-        $teacher = Teacher::model()->findByPk($id);
-        $roles = $teacher->roles();
+        $user = RegisteredUser::userById($id);
+        $roles = $user->getRoles();
+        $teacher = $user->getTeacher();
 
         $this->renderPartial('cancelTeacherRole', array(
             'teacher' => $teacher,
@@ -132,13 +139,65 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    //todo rewrite teacher roles list
-    public function actionAddTeacherRoleAttribute($teacher)
+    public function actionAddTeacherRole($id)
     {
-        $model = Teacher::model()->findByPk(intval($teacher));
-        $roles = Roles::generateRolesList();
+        $user = RegisteredUser::userById($id);
+        $teacher = $user->getTeacher();
+        $roles = UserRoles::teachersRolesList();
+
+        $this->renderPartial('addTeacherRole', array(
+            'teacher' => $teacher,
+            'roles' => $roles,
+        ),false,true);
+    }
+
+    //todo rewrite
+    public function actionUnsetTeacherRole()
+    {
+        $id = Yii::app()->request->getPost('teacher');
+        $role = Yii::app()->request->getPost('role');
+
+        $user = RegisteredUser::userById($id);
+        $teacher = $user->getTeacher();
+        if ($id && $role) {
+            if ($teacher->unsetTeacherRole(new UserRoles($role))) {
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
+        }
+    }
+
+    public function actionSetTeacherRole()
+    {
+        $id = Yii::app()->request->getPost('teacher', 0);
+        $role = Yii::app()->request->getPost('role', '');
+
+        $user = RegisteredUser::userById($id);
+        $teacher = $user->getTeacher();
+        if ($id && $role) {
+            if ($teacher->setTeacherRole(new UserRoles($role))) {
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
+        }
+    }
+
+
+    //todo rewrite teacher roles list
+    public function actionAddTeacherRoleAttribute($id)
+    {
+        $user = RegisteredUser::userById($id);
+        $roles = $user->getRoles();
+        $teacher = $user->getTeacher();
+
         $this->renderPartial('addTeacherRoleAttribute', array(
-            'model' => $model,
+            'model' => $teacher,
             'roles' => $roles,
         ),false,true);
     }

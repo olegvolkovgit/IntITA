@@ -26,7 +26,7 @@ function cancelTeacherRole(url)
         async: true,
         data: {role: role, teacher: teacher},
         success: function (data) {
-            fillContainer(data);
+            alert(data);
         },
         error: function () {
             showDialog();

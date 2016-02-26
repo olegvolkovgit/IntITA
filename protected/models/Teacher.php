@@ -702,10 +702,19 @@ class Teacher extends CActiveRecord
         }
     }
 
-    // todo rewrite
-    public function setTeacherRole($roleId)
+    public function setTeacherRole(UserRoles $role)
     {
-        return false;
+        switch ($role) {
+            case "trainer":
+                break;
+            case "author":
+                break;
+            case 'consultant':
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 
     public function getStatus()

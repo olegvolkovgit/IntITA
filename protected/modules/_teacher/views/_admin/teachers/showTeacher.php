@@ -1,9 +1,11 @@
 <?php
 /**
- * @var $teacher Teacher
  * @var $module Module
- * @var $role Roles
+ * @var $user RegisteredUser
+ * @var $role UserRoles
+ * @var $teacher Teacher
  */
+var_dump($user->getRolesAttributes(new UserRoles('admin')));die;
 ?>
 <div class="col-md-9">
     <ul class="list-inline">
@@ -16,19 +18,19 @@
         <li>
             <button type="button" class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addTeacherRole', array(
-                        'teacher' => $teacher->teacher_id)); ?>','Призначити роль')">Призначити роль
+                        'id' => $teacher->user_id)); ?>','Призначити роль')">Призначити роль
             </button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/cancelTeacherRole/',
-                        array('id' => $teacher->teacher_id)); ?>','Скасувати роль')">Скасувати роль
+                        array('id' => $teacher->user_id)); ?>','Скасувати роль')">Скасувати роль
             </button>
         </li>
         <li>
             <button type="button" class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addTeacherRoleAttribute/',
-                        array('teacher' => $teacher->teacher_id)); ?>','Призначити атрибут ролі')">Призначити атрибут
+                        array('id' => $teacher->user_id)); ?>','Призначити атрибут ролі')">Призначити атрибут
                 ролі
             </button>
         </li>
@@ -45,11 +47,11 @@
         <li class="list-group-item">Електронна пошта: <?php echo $teacher->email ?></li>
         <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus() ?></em></li>
 
-        <?php if (!empty($teacher->roles)) { ?>
+        <?php if (!empty($user->getRoles())) { ?>
         <li class="list-group-item">Ролі викладача:
             <ul>
-                <?php foreach ($teacher->roles() as $role) { ?>
-                    <li><?= $role->title_ua; ?></li>
+                <?php foreach ($user->getRoles() as $role) { ?>
+                    <li><?= $role; ?></li>
                 <?php } ?>
             </ul>
         </li>

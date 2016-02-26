@@ -16,7 +16,12 @@ class RegisteredUser
     //put your code here
     //StudentReg variable
     public $registrationData;
+    //array UserRoles
     private $_roles;
+    //Teacher model
+    private $_teacher;
+    private $_isTeacher = false;
+    private $_roleAttributes = array();
     
     public function __construct(StudentReg $registrationData) 
     {
@@ -44,11 +49,11 @@ class RegisteredUser
     {
         return $this->registrationData->$name;
     }
-    
+
     public function getRoles()
     {
         if ($this->_roles === null) {
-            
+
                 $this->_roles = $this->loadRoles();
         }
         return $this->_roles;
@@ -70,5 +75,69 @@ class RegisteredUser
 
         return $result;
     }
-    
+
+    public function isTeacher()
+    {
+        if ($this->getTeacher() === null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function getTeacher()
+    {
+        if ($this->_teacher === null) {
+
+            $this->_teacher = $this->loadTeacherModel();
+        }
+        return $this->_teacher;
+    }
+
+    private function loadTeacherModel()
+    {
+        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
+    }
+
+    public function getRolesAttributes(UserRoles $role)
+    {
+        if (in_array($role, $this->getRoles())) {
+           return $this->loadRoleAttributes();
+        }
+        return array();
+    }
+
+    private function loadRoleAttributes()
+    {
+        return array_map(
+            function (UserRoles $role)
+            {
+                $class = new $role($this);
+                return $class;
+            }
+            , $this->_roles);
+
+    }
+
+
+
+    public function isAdmin()
+    {
+        return in_array(new UserRoles('admin'), $this->getRoles());
+    }
+
+    public function isAccountant()
+    {
+        return in_array(new UserRoles('accountant'), $this->getRoles());
+    }
+
+    public function isTrainer()
+    {
+        return in_array(new UserRoles('trainer'), $this->getRoles());
+    }
+
+    public function isConsultant()
+    {
+        return in_array(new UserRoles('consultant'), $this->getRoles());
+    }
 }

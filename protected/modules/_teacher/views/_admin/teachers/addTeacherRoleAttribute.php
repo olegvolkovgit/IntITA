@@ -1,6 +1,8 @@
 <?php
 /**
  * @var $model Teacher
+ * @var $roles array
+ * @var $role UserRoles
  */
 ?>
 <div class="col-md-6">
@@ -15,10 +17,8 @@
     <form onsubmit="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/setTeacherRoleAttribute');?>')"
           name="add-access">
         <fieldset>
-            <legend id="label">Призначити роль викладачу
-                <?php echo $model->lastName()." ".$model->firstName(). " ".$model->middleName();?>:</legend>
             <input type="number" hidden="hidden" value="<?=$model->teacher_id;?>" id="teacher">
-
+            <br>
             Роль:<br>
             <div class="form-group">
             <select name="role" class="form-control" placeholder="(Виберіть роль)" required="required"
@@ -28,7 +28,7 @@
                     <?php
                     foreach($roles as $role){
                         ?>
-                        <option value="<?php echo $role['id'];?>"><?php echo $role['alias'];?></option>
+                        <option value="<?php echo $role;?>"><?php echo $role;?></option>
                     <?php
                     }
                     ?>
@@ -36,9 +36,7 @@
             </div>
             <br>
             <br>
-
             Атрибути ролі:<br>
-
             <div name="selectAttribute" class="form-group"></div>
             <br>
             <br>

@@ -100,7 +100,6 @@ class PermissionsController extends TeacherCabinetController
         Yii::app()->db->createCommand()->delete('pay_modules', 'id_user=:id_user AND id_module=:id_resource', array(':id_user' => $id, ':id_resource' => $resource));
         if (!isset($_GET['ajax']))
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-//        $this->redirect($this->pathToCabinet());
     }
 
     public function actionShowLectures()
@@ -123,18 +122,13 @@ class PermissionsController extends TeacherCabinetController
         echo $result . $last;
     }
 
+    //todo rewrite
     public function actionShowAttributes()
     {
-        $criteria = new CDbCriteria();
-        $criteria->select = 'id, name_ua';
-        $criteria->order = 'id ASC';
-        $criteria->addCondition('role=' . $_POST['role']);
-        $rows = RoleAttribute::model()->findAll($criteria);
-        $this->renderPartial('_showAttributes', array(
-            'rows' => $rows,
-        ), false, true);
+        $this->renderPartial('_showAttributes', array(), false, true);
     }
 
+    //todo rewrite
     public function actionShowAttributeInput()
     {
         $attr = Yii::app()->request->getPost('attribute');
@@ -190,6 +184,7 @@ class PermissionsController extends TeacherCabinetController
     {
         $user = Yii::app()->request->getPost('user');
         $user = StudentReg::model()->findByPk($user);
+
         if ($user->isTeacher()) {
             Yii::app()->user->setFlash('warning', "Користувач з таким email вже є викладачем.");
         }
@@ -198,21 +193,7 @@ class PermissionsController extends TeacherCabinetController
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
     }
 
-    public function actionSetTeacherRole()
-    {
-        $request = Yii::app()->request;
-        $teacherId = $request->getPost('teacher', 0);
-        $roleId = $request->getPost('role', 0);
-
-        $teacher = Teacher::model()->findByPk($teacherId);
-        if ($teacherId && $roleId) {
-            if ($teacher->setTeacherRole($roleId)) {
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
-            }
-        }
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
-    }
-
+    //todo rewrite
     public function actionSetTeacherRoleAttribute()
     {
         $request = Yii::app()->request;
@@ -293,15 +274,6 @@ class PermissionsController extends TeacherCabinetController
             array('read', 'edit'));
 
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/permissions/index'));
-    }
-
-    public function actionCancelTeacherRole()
-    {
-        $teacher = Yii::app()->request->getPost('teacher');
-        $role = Yii::app()->request->getPost('role');
-
-        TeacherRoles::model()->deleteAllByAttributes(array('teacher' => $teacher, 'role' => $role));
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $teacher)));
     }
 
     public function actionShowUsers()

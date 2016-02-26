@@ -7,4 +7,13 @@ class UserRoles extends Enum
     const TRAINER = 'trainer';
     const CONSULTANT = 'consultant';
     const ACCOUNTANT = 'accountant';
+    const AUTHOR = 'author';
+
+    public static function teachersRolesList(){
+        return array(
+            UserRoles::TRAINER,
+            UserRoles::CONSULTANT,
+            UserRoles::AUTHOR
+        );
+    }
 }

@@ -69,7 +69,7 @@ $this->widget('application.components.MyGridView', array(
                               }
                      ",
                     'label'=>'Переглянути',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$data->primaryKey))',
+                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$data->user_id))',
                 ),
                 'update' => array
                 (
