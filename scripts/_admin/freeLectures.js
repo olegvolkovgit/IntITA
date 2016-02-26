@@ -27,7 +27,7 @@ function initFreeLectures(){
 
 function setLectureStatus(url){
     bootbox.confirm("Змінити статус лекції?", function(result) {
-        if (result != null) {
+        if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
@@ -41,7 +41,7 @@ function setLectureStatus(url){
                 }
             });
         } else {
-            showDialog("Операцію не вдалося виконати.");
+            showDialog("Операцію відмінено.");
         }
     });
 }

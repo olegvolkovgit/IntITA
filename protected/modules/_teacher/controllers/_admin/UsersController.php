@@ -76,4 +76,20 @@ class UsersController extends TeacherCabinetController
         $endDate = Yii::app()->request->getParam('endDate');
         echo StudentReg::getStudentsList($startDate, $endDate);
     }
+
+    public function actionGetUsersList(){
+        echo StudentReg::usersList();
+    }
+
+    public function actionGetTeachersList(){
+        echo Teacher::teachersList();
+    }
+
+    public function actionGetAdminsList(){
+        echo StudentReg::adminsData();
+    }
+
+    public function actionGetAccountantsList(){
+        echo StudentReg::accountantsData();
+    }
 }

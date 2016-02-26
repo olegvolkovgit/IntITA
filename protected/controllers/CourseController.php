@@ -160,20 +160,15 @@ class CourseController extends Controller
 
     public function actionUpModule()
     {
-        $idModule = $_GET['idModule'];
-        $idCourse = $_GET['idCourse'];
+        $idCourse = Yii::app()->request->getParam('idCourse');
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        $order = CourseModules::model()->findByPk(array('id_course' => $idCourse, 'id_module' => $idModule))->order;
+        $course = Course::model()->with("module")->findByPk($idCourse);
 
-        if ($order > 1) {
-            $idPrev = CourseModules::getPrevModule($idCourse, $order);
-            $prevRecord = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idPrev));
+        $this->checkInstance($course);
 
-            CourseModules::model()->updateByPk(array('id_course' => $idCourse, 'id_module' => $idModule),
-                array('order' => $prevRecord->order));
-            $prevRecord->order = $order;
-            $prevRecord->save();
-        }
+        $course->upModule($idModule);
+
 //        // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -181,23 +176,15 @@ class CourseController extends Controller
 
     public function actionDownModule()
     {
-        $idModule = $_GET['idModule'];
-        $idCourse = $_GET['idCourse'];
+        $idCourse = Yii::app()->request->getParam('idCourse');
+        $idModule = Yii::app()->request->getParam('idModule');
 
-        $count = Course::model()->findByPk($idCourse)->modules_count;
-        $order = CourseModules::model()->findByPk(array('id_course' => $idCourse, 'id_module' => $idModule))->order;
+        $course = Course::model()->with("module")->findByPk($idCourse);
 
-        if ($order < $count) {
-            $idNext = CourseModules::getNextModule($idCourse, $order);
-            $nextRecord = CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idNext));
+        $this->checkInstance($course);
 
-            CourseModules::model()->updateByPk(array(
-                'id_course' => $idCourse,
-                'id_module' => $idModule),
-                array('order' => $nextRecord->order));
-            $nextRecord->order = $order;
-            $nextRecord->save();
-        }
+        $course->downModule($idModule);
+
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -269,5 +256,90 @@ class CourseController extends Controller
     public function checkInstance($model) {
         if ($model === null)
             throw new \application\components\Exceptions\CourseNotFoundException();
+    }
+    public function actionModulesData()
+    {
+        //init data json
+        $data = [];
+        $data["courseId"] = Yii::app()->request->getPost('id');
+        if(Yii::app()->user->getId())
+        $data["userId"] = Yii::app()->user->getId();
+        else $data["userId"]=false;
+        $data["isAdmin"] = StudentReg::isAdmin();
+        $data["termination"][0] = Yii::t('module', '0653');
+        $data["termination"][1] = Yii::t('module', '0654');
+        $data["termination"][2] = Yii::t('module', '0655');
+        $data["modules"]=[];
+
+        //if guest or admin return json
+        if(!$data["userId"] || $data["isAdmin"]){
+            $modules=Course::model()->modulesInCourse($data["courseId"]);
+            for($i = 0;$i < count($modules);$i++){
+                if(!$data["userId"])
+                    $data["modules"][$i]['access']=false;
+                else $data["modules"][$i]['access']=true;
+                $module=Module::model()->findByPk($modules[$i]['id_module']);
+                $data["modules"][$i]['id']= $modules[$i]['id_module'];
+                $data["modules"][$i]['time']= $module->averageModuleDuration();
+                $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
+                $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
+            }
+            echo CJSON::encode($data);
+            return;
+        }
+
+        $user=Studentreg::model()->findByPk($data["userId"]);
+        if($user->isTeacher()){
+            $data["teacherId"] = $user->teacher->teacher_id;
+            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
+        }else{
+            $data["teacherId"] = false;
+            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
+        }
+
+        $modules=Course::model()->modulesInCourse($data["courseId"]);
+
+        for($i = 0;$i < count($modules);$i++){
+            $module=Module::model()->findByPk($modules[$i]['id_module']);
+            $data["modules"][$i]['id']= $modules[$i]['id_module'];
+            $data["modules"][$i]['time']= $module->averageModuleDuration();
+            $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
+            $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
+
+            if( $data["teacherId"]){
+                $data["modules"][$i]['isAuthor']=Teacher::isTeacherIdAuthorModule( $data["teacherId"], $modules[$i]['id_module']);
+            }else{
+                $data["modules"][$i]['isAuthor']=false;
+            }
+            if($data["isPaidCourse"]){
+                $data["modules"][$i]['access']=true;
+                if($module->firstLectureID() && $module->lastLectureID()){
+                    $firstQuiz = LecturePage::getFirstQuiz($module->firstLectureID());
+                    $lastQuiz = LecturePage::getLastQuiz($module->lastLectureID());
+                    if ($firstQuiz)
+                        $data["modules"][$i]['startTime'] = (Module::getModuleStartTime($firstQuiz, $data["userId"]))?(strtotime(Module::getModuleStartTime($firstQuiz, $data["userId"]))): (false);
+                    else $data["modules"][$i]['startTime'] = false;
+                    if ($lastQuiz)
+                        $data["modules"][$i]['finishTime'] = (Module::getModuleFinishedTime($lastQuiz, $data["userId"]))?(strtotime(Module::getModuleFinishedTime($lastQuiz, $data["userId"]))): (false);
+                    else $data["modules"][$i]['finishTime'] = false;
+                }
+            }else{
+                if(PayModules::model()->checkModulePermission($data["userId"], $modules[$i]['id_module'], array('read'))) {
+                    $data["modules"][$i]['access']=true;
+                    if ($module->firstLectureID() && $module->lastLectureID()) {
+                        $firstQuiz = LecturePage::getFirstQuiz($module->firstLectureID());
+                        $lastQuiz = LecturePage::getLastQuiz($module->lastLectureID());
+                        if ($firstQuiz)
+                            $data["modules"][$i]['startTime'] = (Module::getModuleStartTime($firstQuiz, $data["userId"]))?(strtotime(Module::getModuleStartTime($firstQuiz, $data["userId"]))): (false);
+                        else $data["modules"][$i]['startTime'] = false;
+                        if ($lastQuiz)
+                            $data["modules"][$i]['finishTime'] = (Module::getModuleFinishedTime($lastQuiz, $data["userId"]))?(strtotime(Module::getModuleFinishedTime($lastQuiz, $data["userId"]))): (false);
+                        else $data["modules"][$i]['finishTime'] = false;
+                    }
+                }else{$data["modules"][$i]['access']=false;}
+            }
+
+        }
+        echo CJSON::encode($data);
     }
 }

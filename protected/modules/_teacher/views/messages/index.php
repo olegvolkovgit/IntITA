@@ -25,7 +25,7 @@
         <div class="panel-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="nav">
-                <li><a href="#received" data-toggle="tab"><?php echo Yii::t("letter", "0532") ?></a></li>
+                <li class="active"><a href="#received" data-toggle="tab"><?php echo Yii::t("letter", "0532") ?></a></li>
                 <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
                 <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
             </ul>

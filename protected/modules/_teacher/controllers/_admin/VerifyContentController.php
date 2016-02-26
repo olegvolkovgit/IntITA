@@ -56,8 +56,6 @@ class VerifyContentController extends TeacherCabinetController
         } else {
             throw new CException("Такої лекції немає!");
         }
-
-        $this->redirect($this->pathToCabinet());
     }
 
     public function actionCancel($id)
@@ -69,7 +67,6 @@ class VerifyContentController extends TeacherCabinetController
         } else {
             throw new \application\components\Exceptions\IntItaException(404, "Такої лекції немає!");
         }
-        $this->redirect($this->pathToCabinet());
     }
 
     public function generateLecturePages(Lecture $model)

@@ -20,35 +20,35 @@ function sendNewAdminData(url) {
     }
 }
 
-function cancelAdmin(url, id, name) {
+function cancelAdmin(url, id) {
     var posting = $jq.post(url, {user: id});
     posting.done(function (response) {
             if (response == 1)
-                bootbox.alert("Права адміністратора для користувача " + name + " відмінені.", loadUsersIndex);
+                bootbox.alert("Права адміністратора для користувача відмінені.", loadUsersIndex);
             else {
-                bootbox.alert("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+                bootbox.alert("Права адміністратора для користувача не вдалося відмінити. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             }
         })
         .fail(function () {
-            bootbox.alert("Права адміністратора для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+            bootbox.alert("Права адміністратора для користувача не вдалося відмінити. Спробуйте повторити " +
                 "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
         });
 }
 
-function cancelAccountant(url, id, name) {
+function cancelAccountant(url, id) {
     var posting = $jq.post(url, {user: id});
 
     posting.done(function (response) {
             if (response == 1)
-                bootbox.alert("Права бухгалтера для користувача " + name + " відмінені.", loadUsersIndex);
+                bootbox.alert("Права бухгалтера для користувача відмінені.", loadUsersIndex);
             else {
-                bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+                bootbox.alert("Права бухгалтера для користувача не вдалося відмінити. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             }
         })
         .fail(function () {
-            bootbox.alert("Права бухгалтера для користувача " + name + " не вдалося відмінити. Спробуйте повторити " +
+            bootbox.alert("Права бухгалтера для користувача не вдалося відмінити. Спробуйте повторити " +
                 "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
         });
 }
@@ -75,6 +75,151 @@ function sendNewAccountantData(url) {
     }
 }
 
-function loadUsersIndex(){
+function loadUsersIndex() {
     load(basePath + '/_teacher/_admin/users/index');
+}
+
+function initUsersTable() {
+    $jq('#usersTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getUsersList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "name"},
+            {"data": "email"},
+            {"data": "register"},
+            {
+                "data": "profile",
+                "render": function (url) {
+                    return '<a href="' + url + '" target="_blank">Профіль користувача</a>';
+                }
+            },
+            {
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initTeachersTable() {
+    $jq('#teachersTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getTeachersList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "name"},
+            {"data": "email"},
+            {
+                "data": "profile",
+                "render": function (url) {
+                    return '<a href="' + url + '" target="_blank">Персональна сторінка</a>';
+                }
+            },
+            {
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initAdminsTable() {
+    $jq('#adminsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getAdminsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "name"},
+            {"data": "email"},
+            {"data": "register"},
+            {"data": "cancelDate"},
+            {
+                "data": "profile",
+                "render": function (url) {
+                    return '<a href="' + url + '" target="_blank">Профіль</a>';
+                }
+            },
+            {
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            },
+            {
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelAdmin(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initAccountantsTable() {
+    $jq('#accountantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getAccountantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "name"},
+            {"data": "email"},
+            {"data": "register"},
+            {"data": "cancelDate"},
+            {
+                "data": "profile",
+                "render": function (url) {
+                    return '<a href="' + url + '" target="_blank">Профіль</a>';
+                }
+            },
+            {
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            },
+            {
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelAccountant(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
 }

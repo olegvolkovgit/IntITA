@@ -1014,7 +1014,7 @@ class StudentReg extends CActiveRecord
             array_push($return['data'], $row);
         }
 
-        echo json_encode($return);
+        return json_encode($return);
     }
 
     public static function teachersList()
@@ -1130,7 +1130,7 @@ class StudentReg extends CActiveRecord
      * @param $query string - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public static function allUsers($query, $id)
+    public static function allUsers($query, $id=0)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";
@@ -1178,5 +1178,71 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition ('r.id_receiver='.$this->id.' and u.id = m.sender');
 
         return StudentReg::model()->findAll($criteria);
+    }
+
+    public static function usersList(){
+        $users = StudentReg::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($users as $record) {
+            $row = array();
+            $row["name"] = $record->secondName." ".$record->firstName." ".$record->middleName;
+            $row["email"] = $record->email;
+            $row["register"] = ($record["reg_time"] > 0) ? date("d-m-Y", $record["reg_time"]):'<em>невідомо</em>';
+            $row["profile"] = Config::getBaseUrl()."/profile/".$record->id;
+            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                    'scenario' => 'message',
+                    'receiver' => $record->id
+                ));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public static function adminsData(){
+        $sql = 'select * from user as u, user_admin as ua where u.id = ua.id_user';
+        $admins = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($admins as $record) {
+            $row = array();
+            $row["name"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+            $row["email"] = $record["email"];
+            $row["register"] = ($record["start_date"] > 0) ? date("d-m-Y",  strtotime($record["start_date"])):"невідомо";
+            $row["cancelDate"] = ($record["end_date"]) ? date("d-m-Y", strtotime($record["end_date"])) : "";
+            $row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
+            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                'scenario' => 'message',
+                'receiver' => $record["id"]
+            ));
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelAdmin')."'".", '".$record["id"]."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public static function accountantsData(){
+        $sql = 'select * from user as u, user_accountant as ua where u.id = ua.id_user';
+        $admins = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($admins as $record) {
+            $row = array();
+            $row["name"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+            $row["email"] = $record["email"];
+            $row["register"] = ($record["start_date"] > 0) ? date("d-m-Y",  strtotime($record["start_date"])):"невідомо";
+            $row["cancelDate"] = ($record["end_date"]) ? date("d-m-Y", strtotime($record["end_date"])) : "";
+            $row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
+            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                'scenario' => 'message',
+                'receiver' => $record["id"]
+            ));
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelAccountant')."'".", '".$record["id"]."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }

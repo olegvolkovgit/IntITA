@@ -26,10 +26,9 @@ class ShareLink extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max'=>255 ),
+			array('name, link', 'length', 'max'=>255 ),
             array('name', 'required' ),
             array('link', 'safe'),
-            array('link', 'url'),
             array('link','required'),
 			// The following rule is used by search().
 			array('id, name, link', 'safe', 'on'=>'search'),
@@ -93,5 +92,24 @@ class ShareLink extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function shareLinksList(){
+        $links = ShareLink::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($links as $record) {
+            $row = array();
+            $row["id"] = $record->id;
+            $row["name"] = $record->name;
+            $row["link"] = $record->link;
+            $row["linkDelete"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/delete", array("id"=>$record->id))."'";
+            $row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/update", array("id"=>$record->id))."'";
+            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/view", array("id"=>$record->id))."'";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
 	}
 }

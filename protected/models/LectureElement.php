@@ -51,7 +51,6 @@ class LectureElement extends CActiveRecord
             'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
             'skipTask' => array(self::HAS_ONE,'SkipTask','condition'),
             'lecture' => array(self::BELONGS_TO, 'Lecture','id_lecture'),
-
         );
 	}
 
@@ -414,5 +413,21 @@ class LectureElement extends CActiveRecord
     public static function getPlainTaskByLectureId($id)
     {
         return self::model()->findByPk($id)->plainTask;
+    }
+
+    /**
+     * Returns true if lecture element is quiz or false if not
+     * @return bool
+     */
+    public function isQuiz() {
+        if ($this->id_type == 6  || //plain task
+            $this->id_type == 12 || //test
+            $this->id_type == 5  || //task
+            $this->id_type == 9 ) { //skip task
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

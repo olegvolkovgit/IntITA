@@ -4,12 +4,10 @@
  * @var $forwarded UserMessages
  */
 ?>
-<div class="panel panel-default">
-    <div class="panel-heading">
+<blockquote>
+    <p> <?= $forwarded->text; ?></p>
+    <small>
         <em><?= CommonHelper::formatMessageDate($forwarded->message0->create_date).", користувач <strong>".$forwarded->message0->sender0->userName() .
-            ", " . $forwarded->message0->sender0->email . "</strong> написав:" ?></em>
-    </div>
-    <div class="panel-body">
-        <?= $forwarded->text; ?>
-    </div>
-</div>
+        ", " . $forwarded->message0->sender0->email . "</strong>" ?></em>
+    </small>
+</blockquote>

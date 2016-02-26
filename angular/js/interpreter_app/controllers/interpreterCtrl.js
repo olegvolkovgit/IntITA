@@ -7,6 +7,7 @@ angular
 
 function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     $scope.Math = window.Math;
+    $scope.prefix = '_'+$scope.task;
     //options
     $scope.types = [
         {name:'Integer', type:0},
@@ -53,6 +54,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             compare_mark:''
         }];
     $scope.unitsResult = '';
+    $scope.name='';
     //init obj
 
     $scope.function = {
@@ -72,10 +74,12 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         etalon: $scope.etalon,
         lang: $scope.lang,
         task: $scope.task,
-        function : $scope.function
+        function : $scope.function,
+        name:$scope.name
     };
     //add options to select
     $scope.updateList = function(index, arg){
+        if($("#params").hasClass('invalidParams')) $("#params").removeClass('invalidParams');
         $scope.indexes[3+3*index].index = '$'+arg;
         $scope.indexes[3+(3*index+1)].index = '$'+arg+'_etalon';
         $scope.indexes[3+(3*index+2)].index = '$'+arg+'_for_etalon';
@@ -205,9 +209,76 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         }
     }, true);
     //переглядаэмо чи є аргумент масивом і відповідно формуємо value в json и результат
-
+    //Генерація назви функції з префіксом
+    $scope.fNameGenerate = function () {
+        $scope.function.function_name=$scope.finalResult.name+$scope.prefix;
+    };
     $scope.sendJson = function (url) {
-        sendTaskJsonService.sendJson(url,$scope.res_finalResult);
+        for (var i=0;i<$scope.res_finalResult.function.args.length;i++){
+            if($scope.res_finalResult.function.args[i].type==0 && $scope.res_finalResult.function.args[i].is_array==0){
+                for(var j=0;j<$scope.res_finalResult.function.args[i].value.length;j++){
+                    if($scope.res_finalResult.function.args[i].value[j]<-2147483648 || $scope.res_finalResult.function.args[i].value[j]>2147483647){
+                        bootbox.alert("Значення змінної <b>"+$scope.res_finalResult.function.args[i].arg_name+'</b> виходить за межі розмірності Integer в '+(j+1)+' юніттесті');
+                        return false;
+                    }
+                    if($scope.res_finalResult.function.args[i].etalon_value[j]<-2147483648 || $scope.res_finalResult.function.args[i].etalon_value[j]>2147483647){
+                        bootbox.alert("Еталоне значення змінної <b>"+$scope.res_finalResult.function.args[i].arg_name+'</b> виходить за межі розмірності Integer в '+(j+1)+' юніттесті');
+                        return false;
+                    }
+                }
+            }
+            if($scope.res_finalResult.function.args[i].type==0 && $scope.res_finalResult.function.args[i].is_array==1){
+                for(var j=0;j<$scope.res_finalResult.function.args[i].value.length;j++){
+                    for(var k=0;k<$scope.res_finalResult.function.args[i].value[j].length;k++) {
+                        if ($scope.res_finalResult.function.args[i].value[j][k] < -2147483648 || $scope.res_finalResult.function.args[i].value[j][k] > 2147483647) {
+                            bootbox.alert("Значення "+(k+1)+"-го елемента змінної <b>" + $scope.res_finalResult.function.args[i].arg_name + '</b> виходить за межі розмірності Integer в ' + (j + 1) + ' юніттесті');
+                            return false;
+                        }
+                        if ($scope.res_finalResult.function.args[i].etalon_value[j][k] < -2147483648 || $scope.res_finalResult.function.args[i].etalon_value[j][k] > 2147483647) {
+                            bootbox.alert("Значення "+(k+1)+"-го елемента змінної <b>" + $scope.res_finalResult.function.args[i].arg_name + '</b> виходить за межі розмірності Integer в ' + (j + 1) + ' юніттесті');
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        if($scope.res_finalResult.etalon=='' ){
+            if($scope.res_finalResult.function.type==0 && $scope.res_finalResult.function.array_type==0) {
+                for (var i = 0; i < $scope.res_finalResult.function.results.length; i++) {
+                    if($scope.res_finalResult.function.results[i]<-2147483648 || $scope.res_finalResult.function.results[i]>2147483647){
+                        bootbox.alert("Вихідне значення виходить за межі розмірності Integer в "+(i+1)+' юніттесті');
+                        return false;
+                    }
+                }
+            }
+            if($scope.res_finalResult.function.type==0 && $scope.res_finalResult.function.array_type==1) {
+                for (var i = 0; i < $scope.res_finalResult.function.results.length; i++) {
+                    for (var j = 0; j < $scope.res_finalResult.function.results[i].length; j++) {
+                        if ($scope.res_finalResult.function.results[i][j] < -2147483648 || $scope.res_finalResult.function.results[i][j] > 2147483647) {
+                            bootbox.alert((j+1)+"-й елемент вихідного значення виходить за межі розмірності Integer в " + (i + 1) + ' юніттесті');
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        if(returnUnique($scope.res_finalResult.function.args).length!=$scope.res_finalResult.function.args.length){
+            bootbox.alert("Назви змінних не можуть бути однакові");
+            $('html, body').animate({
+                scrollTop: $("#title").offset().top
+            }, 1000);
+            $("#params").addClass('invalidParams');
+        }else{
+            sendTaskJsonService.sendJson(url,$scope.res_finalResult);
+        }
+
+        function returnUnique(arr) {
+            var obj = new Object;
+            for (var i = 0, i_max = $scope.res_finalResult.function.args.length; i < i_max; i++) {
+                obj[$scope.res_finalResult.function.args[i].arg_name] = '';
+            }
+            return Object.keys(obj);
+        }
     };
 
     //pattern validation
@@ -222,9 +293,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.args[index].pattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.args[index].pattern=/^(true|false|[01])$/;
+                    $scope.args[index].pattern=/^(true|false)$/;
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.args[index].compare_mark[i]=5;
+                        $scope.function.args[index].compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -242,9 +313,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.args[index].pattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.args[index].compare_mark[i]=5;
+                        $scope.function.args[index].compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -265,9 +336,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.resultPattern=/^(true|false|[01])$/;
+                    $scope.resultPattern=/^(true|false)$/;
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.compare_mark[i]=5;
+                        $scope.function.compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -285,9 +356,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     for (var i=0;i<$scope.function.unit_test_num;i++){
-                        $scope.function.compare_mark[i]=5;
+                        $scope.function.compare_mark[i]=2;
                     }
                     break;
                 case 3:
@@ -309,7 +380,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.editedJson.function.args[index].pattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.editedJson.function.args[index].pattern=/^(true|false|[01])$/;
+                    $scope.editedJson.function.args[index].pattern=/^(true|false)$/;
                     break;
                 case 3:
                     $scope.editedJson.function.args[index].pattern=/./;
@@ -326,7 +397,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.editedJson.function.args[index].pattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.editedJson.function.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.editedJson.function.args[index].pattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     break;
                 case 3:
                     $scope.editedJson.function.args[index].pattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -346,7 +417,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=/^[-]?[0-9]+(\.[0-9]+)?$/;
                     break;
                 case 2:
-                    $scope.resultPattern=/^(true|false|[01])$/;
+                    $scope.resultPattern=/^(true|false)$/;
                     break;
                 case 3:
                     $scope.resultPattern=/./;
@@ -363,7 +434,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                     $scope.resultPattern=new RegExp("^([-]?[0-9]+(\\.[0-9]+)?,){" + (size-1) + "}([-]?[0-9]+(\\.[0-9]+)?)$");
                     break;
                 case 2:
-                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false|[01])$");
+                    $scope.resultPattern=new RegExp("^(true,|false,|[01],){" + (size-1) + "}(true|false)$");
                     break;
                 case 3:
                     $scope.resultPattern=new RegExp("^[^,]+(,[^,]+){"+(size-1)+"}$");
@@ -374,6 +445,28 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             }
         }
     };
+
+    $scope.updateResultPattern($scope.function.type,$scope.function.size);
+    $scope.positiveIntPattern=/^[1-9]\d*$/;
+
+    $scope.filterList = function(prop,etalon,result_etalon){
+        return function(item){
+            if(item[prop]==1 && result_etalon) {
+                return false;
+            }else if(etalon){
+                return (item[prop]%3!=2);
+            }else{
+                return (item[prop]%3!=1);
+            }
+        }
+    }
+    $scope.updateCompare = function(a){
+        if(a.first==null)
+        a.first=a.second;
+        if(a.second==null)
+            a.second=a.first;
+    }
+
     init();
     function init(){
         getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
@@ -381,6 +474,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             //load json for edit if it is
             if ($scope.editedJson != undefined){
                 $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
+                $scope.editedJson.function.function_name=$scope.editedJson.name+$scope.prefix;
                 $scope.results=$scope.editedJson.function.results;
                 $scope.compare_marks=$scope.editedJson.function.compare_mark;
                 $scope.tests_code_arr=$scope.editedJson.function.tests_code;
@@ -418,25 +512,5 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 $scope.finalResult = $scope.editedJson;
             }
         });
-    }
-    $scope.updateResultPattern($scope.function.type,$scope.function.size);
-    $scope.positiveIntPattern=/^[1-9]\d*$/;
-
-    $scope.filterList = function(prop,etalon,result_etalon){
-        return function(item){
-            if(item[prop]==1 && result_etalon) {
-                return false;
-            }else if(etalon){
-                return (item[prop]%3!=2);
-            }else{
-                return (item[prop]%3!=1);
-            }
-        }
-    }
-    $scope.updateCompare = function(a){
-        if(a.first==null)
-        a.first=0;
-        if(a.second==null)
-            a.second=0;
     }
 }

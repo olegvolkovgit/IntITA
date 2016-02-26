@@ -54,7 +54,7 @@ class LessonController extends Controller
     public function actionIndex($id, $idCourse = 0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
 
         $this->initialize($id, $editMode, $idCourse);
 
@@ -190,24 +190,18 @@ class LessonController extends Controller
 
     public function actionCreateNewBlockCKE()
     {
-        $model = new LectureElement();
 
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
-
         $htmlBlock = Yii::app()->request->getPost('editorAdd');
-        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
 
-        $model->html_block = $htmlBlock;
-        $model->id_type = $idType;
+        $idLecture = Yii::app()->request->getPost('idLecture');
 
-        $model->save();
+        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
 
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+        $this->checkInstanse($lecture);
 
-        LecturePage::addTextBlock($id, $pageId);
+        $lecture->createNewBlockCKE($htmlBlock, $idType, $pageOrder);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -217,10 +211,10 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-        //if exists prev element, reorder current and prev elements
-        $textList = Lecture::getTextList($idLecture, $order);
-        $prevElement = LectureElement::getPrevElement($textList, $order);
-        LectureElement::swapBlock($idLecture, $prevElement, $order);
+        
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->upElement($order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -232,10 +226,10 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-        //if exists next element, reorder current and next elements
-        $textList = Lecture::getTextList($idLecture, $order);
-        $nextElement = LectureElement::getNextElement($textList, $order);
-        LectureElement::swapBlock($idLecture, $nextElement, $order);
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->downElement($order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -472,7 +466,7 @@ class LessonController extends Controller
     {
 
         $idModule = Lecture::model()->findByPk($id)->idModule;
-        if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
+        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule)) {
             return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse,
                 'idModule' => $idModule));
         } else {
@@ -495,7 +489,7 @@ class LessonController extends Controller
         $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
         $idModule = Lecture::model()->findByPk($idLecture)->idModule;
 
-        if (PayModules::checkEditMode($idModule, Yii::app()->user->getId())) {
+        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule)) {
             $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
             $dataProvider = $page->getPageTextList();
 
@@ -581,7 +575,7 @@ class LessonController extends Controller
     public function actionEditPage($id, $page, $idCourse=0, $cke = false)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
         if (!$editMode) {
             throw new CHttpException(403, 'Ви запросили сторінку, доступ до якої обмежений спеціальними правами.
             Для отримання доступу увійдіть на сайт з логіном автора модуля.');
@@ -643,7 +637,7 @@ class LessonController extends Controller
         $id = Yii::app()->request->getPost('lecture');
 
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
 
         $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
 
@@ -689,7 +683,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $page_order = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, $user);
+        $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
         $this->initialize($id, $editMode);
 
@@ -705,7 +699,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
         $page_order = $_GET['page'];
-        $editMode = PayModules::checkEditMode($lecture->idModule, $user);
+        $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
         $this->initialize($id, $editMode);
 
@@ -725,7 +719,7 @@ class LessonController extends Controller
         $id = $_GET['lectureId'];
         $page_order = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
         $this->initialize($id, $editMode);
 
@@ -759,5 +753,10 @@ class LessonController extends Controller
         }
 
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    private function checkInstanse($model) {
+        if ($model === null)
+            throw new \application\components\Exceptions\LessonNotFoundException();
     }
 }

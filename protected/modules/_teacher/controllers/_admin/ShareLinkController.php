@@ -26,7 +26,7 @@ class ShareLinkController extends TeacherCabinetController {
     {
         $model=new ShareLink;
         // Uncomment the following line if AJAX validation is needed
-//         $this->performAjaxValidation($model);
+         $this->performAjaxValidation($model);
 
         if(isset($_POST['ShareLink']))
         {
@@ -56,7 +56,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/shareLink/index'));
+                $this->redirect($this->pathToCabinet());
         }
         $this->renderPartial('update',array(
             'model'=>$model,
@@ -77,12 +77,13 @@ class ShareLinkController extends TeacherCabinetController {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
+    public function actionShareLinksList(){
+        echo ShareLink::shareLinksList();
+    }
     /**
      * Lists all models.
      */
     public function actionIndex(){
-
-
         $model=new ShareLink('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['ShareLink']))
@@ -92,21 +93,6 @@ class ShareLinkController extends TeacherCabinetController {
             'model'=>$model,
         ),false,true);
 
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model=new ShareLink('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['ShareLink']))
-            $model->attributes=$_GET['ShareLink'];
-
-        $this->renderPartial('admin',array(
-            'model'=>$model,
-        ),false,true);
     }
 
     /**

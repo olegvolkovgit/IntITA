@@ -291,11 +291,13 @@ class Lecture extends CActiveRecord
     public static function getTextList($idLecture, $order)
     {
         $idElement = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order))->id_block;
+
         $page = Yii::app()->db->createCommand()
             ->select('page')
             ->from('lecture_element_lecture_page')
             ->where('element=:element', array(':element' => $idElement))
             ->queryScalar();
+
         $model = LecturePage::model()->findByPk($page);
         return $model->getBlocksListById();
     }
@@ -329,21 +331,13 @@ class Lecture extends CActiveRecord
         return Lecture::model()->findAll($criteria);
     }
 
-    protected function afterSave()
-    {
-        if ($this->verified == 1) {
-            $this->verified = 0;
-            $this->save();
-        }
-    }
-
     /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
 Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
 Якщо $order>$enabledOrder то недоступна*/
     public static function accessLecture($id, $order, $enabledOrder,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         $user = Yii::app()->user->getId();
         if (StudentReg::isAdmin() || $editMode) {
             return true;
@@ -384,7 +378,7 @@ class Lecture extends CActiveRecord
     {
         $model = Lecture::model()->findByPk($dp->lecture_id);
         if ($model && $model->idModule!=0){
-            return CHtml::link(CHtml::encode($model->title()),array("/lesson/index", "id" => $model->id, "idCourse" => 0),array("target"=>"_blank"));
+            return CHtml::link($model->title(),array("/lesson/index", "id" => $model->id, "idCourse" => 0),array("target"=>"_blank"));
         }
         else return Yii::t('profile', '0717');
     }
@@ -694,5 +688,94 @@ class Lecture extends CActiveRecord
     public function setNoVerified(){
         $this->verified = self::NOVERIFIED;
         return $this->save();
+    }
+
+    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
+
+        $model = new LectureElement();
+        $model->id_lecture = $this->id;
+        $model->block_order = LectureElement::getNextOrder($this->id);
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
+
+        LecturePage::addTextBlock($id, $pageId);
+    }
+
+    /**
+     * Shifts up lesson element.
+     * @param $elementOrder - order of element to be shifted
+     * @throws CDbException
+     */
+    public function upElement($elementOrder) {
+        $criteria = new CDbCriteria();
+        $criteria->order = "block_order ASC";
+        $criteria->condition = "id_lecture=:id_lecture";
+        $criteria->params = array (':id_lecture' => $this->id);
+
+        $lectureElementModels = LectureElement::model()->findAll($criteria);
+
+        foreach ($lectureElementModels as $key => $element) {
+            if ($element->block_order == $elementOrder && $key != 0) {
+                $prevElement = $lectureElementModels[$key-1];
+
+                $swapOrder = $prevElement->block_order;
+                $prevElement->block_order = $element->block_order;
+                $element->block_order = $swapOrder;
+
+                $prevElement->update(array('block_order'));
+                $element->update(array('block_order'));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Shifts down lesson element.
+     * @param $elementOrder - order of element to be shifted
+     * @throws CDbException
+     */
+    public function downElement($elementOrder) {
+        $criteria = new CDbCriteria();
+        $criteria->order = "block_order ASC";
+        $criteria->condition = "id_lecture=:id_lecture";
+        $criteria->params = array (':id_lecture' => $this->id);
+
+        $lectureElementModels = LectureElement::model()->findAll($criteria);
+
+        foreach ($lectureElementModels as $key => $element) {
+            if ($element->block_order == $elementOrder && $key != count($lectureElementModels)-1) {
+                $nextElement = $lectureElementModels[$key+1];
+
+                $swapOrder = $nextElement->block_order;
+                $nextElement->block_order = $element->block_order;
+                $element->block_order = $swapOrder;
+
+                $nextElement->update(array('block_order'));
+                $element->update(array('block_order'));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Returns $id_block if this lecture contain element with quiz or false
+     * @return bool $id_block which is the quiz or false
+     * @throws CDbException
+     */
+    public function isContainsQuiz() {
+        if ($this->lectureEl == null) {
+            $this->getRelated('lectureEl');
+        }
+
+        foreach ($this->lectureEl as $element) {
+            if ($element->isQuiz()) {
+                return $element->id_block;
+            }
+        }
+        return false;
     }
 }

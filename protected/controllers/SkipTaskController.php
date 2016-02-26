@@ -99,8 +99,14 @@ class SkipTaskController extends Controller{
         }
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+    public function actionDataSkipTask()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $skipTask=LectureElement::model()->findByPk($idBlock);
+        $data["condition"]=$skipTask->getSkipTaskCondition();
+        $data["source"]=$skipTask->getSkipTaskSource();
 
-
-
-
+        echo CJSON::encode($data);
+    }
 }
