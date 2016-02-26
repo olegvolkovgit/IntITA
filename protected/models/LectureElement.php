@@ -133,7 +133,7 @@ class LectureElement extends CActiveRecord
 
         $model->getOrder($idLecture);
 
-        $model->id_type = TASK;
+        $model->id_type = LectureElement::TASK;
 
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
@@ -150,7 +150,7 @@ class LectureElement extends CActiveRecord
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
-        $model->id_type = SKIP_TASK;
+        $model->id_type = LectureElement::SKIP_TASK;
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
 
@@ -167,7 +167,7 @@ class LectureElement extends CActiveRecord
 
         $model->getOrder($idLecture);
 
-        $model->id_type = TEST;
+        $model->id_type = LectureElement::TEST;
 
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
@@ -308,7 +308,7 @@ class LectureElement extends CActiveRecord
         $this->id_lecture = $lectureId;
         $this->block_order = 0;
         $this->html_block = $htmlBlock;
-        $this->id_type = VIDEO;
+        $this->id_type = LectureElement::VIDEO;
         $this->save();
 
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id_lecture, 'page_order' => $pageOrder))->id;
@@ -335,7 +335,7 @@ class LectureElement extends CActiveRecord
 
     public static function addNewPlainTask($lecture, $block_element)
     {
-        $type = PLAIN_TASK;
+        $type = LectureElement::PLAIN_TASK;
 
         $model = new LectureElement();
 
@@ -433,14 +433,27 @@ class LectureElement extends CActiveRecord
      * @return bool
      */
     public function isQuiz() {
-        if ($this->id_type == PLAIN_TASK  || //plain task
-            $this->id_type == TEST || //test
-            $this->id_type == TASK  || //task
-            $this->id_type == SKIP_TASK ) { //skip task
+        if ($this->id_type == LectureElement::PLAIN_TASK  || //plain task
+            $this->id_type == LectureElement::TEST || //test
+            $this->id_type == LectureElement::TASK  || //task
+            $this->id_type == LectureElement::SKIP_TASK ) { //skip task
             return true;
         }
         else {
             return false;
         }
+    }
+
+    public function addFormula($htmlBlock, $pageOrder, $idLecture) {
+
+        $this->id_lecture = $idLecture;
+        $this->html_block = $htmlBlock;
+        $this->id_type = LectureElement::FORMULA;
+        $this->block_order = LectureElement::getNextOrder($idLecture);
+        $this->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id_lecture, 'page_order' => $pageOrder))->id;
+
+        LecturePage::addTextBlock($this->id_block, $pageId);
     }
 }
