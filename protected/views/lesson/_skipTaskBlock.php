@@ -19,11 +19,15 @@
                 <div class="content">
                     <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" >
                         <br/>
-                        <?php echo $data['html_block'];?>
+                        <div ng-non-bindable>
+                            <?php echo $data['html_block'];?>
+                        </div>
                     </div>
                     <form class="sendAnswer" id="sendAnswer">
                         <div id="skipTaskQuestion">
-                            <?php echo $data->getSkipTaskQuestion(); ?>
+                            <div ng-non-bindable>
+                                <?php echo $data->getSkipTaskQuestion(); ?>
+                            </div>
                         </div>
                     </form>
                     <div>

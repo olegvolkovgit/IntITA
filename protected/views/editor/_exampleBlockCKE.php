@@ -6,6 +6,8 @@
     ));?>
 
 <div edit-block class="codeExample" id="<?php echo "t" .  $data['block_order'];?>" >
-    <?php echo $data['html_block'];?>
+    <div ng-non-bindable>
+        <?php echo $data['html_block'];?>
+    </div>
 </div>
 </div>

@@ -10,7 +10,9 @@
     <div id="<?php echo "t" . $data['block_order'];?>">
         <pre>
             <code>
-    <?php echo $data['html_block'];?>
+                <div ng-non-bindable>
+                    <?php echo $data['html_block'];?>
+                </div>
             </code>
         </pre>
     </div>
