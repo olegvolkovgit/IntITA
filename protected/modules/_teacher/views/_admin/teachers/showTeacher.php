@@ -5,7 +5,6 @@
  * @var $role UserRoles
  * @var $teacher Teacher
  */
-var_dump($user->getRolesAttributes(new UserRoles('admin')));die;
 ?>
 <div class="col-md-9">
     <ul class="list-inline">
@@ -27,13 +26,6 @@ var_dump($user->getRolesAttributes(new UserRoles('admin')));die;
                         array('id' => $teacher->user_id)); ?>','Скасувати роль')">Скасувати роль
             </button>
         </li>
-        <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addTeacherRoleAttribute/',
-                        array('id' => $teacher->user_id)); ?>','Призначити атрибут ролі')">Призначити атрибут
-                ролі
-            </button>
-        </li>
     </ul>
 
     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>"
@@ -44,14 +36,15 @@ var_dump($user->getRolesAttributes(new UserRoles('admin')));die;
         <li class="list-group-item">Ім'я:
             <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
                 <?php echo $teacher->getName() ?></a></li>
-        <li class="list-group-item">Електронна пошта: <?php echo $teacher->email ?></li>
-        <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus() ?></em></li>
+        <li class="list-group-item">Електронна пошта: <?php echo $teacher->email; ?></li>
+        <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
 
         <?php if (!empty($user->getRoles())) { ?>
         <li class="list-group-item">Ролі викладача:
             <ul>
-                <?php foreach ($user->getRoles() as $role) { ?>
-                    <li><?= $role; ?></li>
+                <?php foreach ($user->teacherRoles() as $role) { ?>
+                    <li><?= $role; ?> <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
+                            array('id' => $teacher->user_id)); ?>','Редагувати роль')"><em>редагувати</em></a></li>
                 <?php } ?>
             </ul>
         </li>

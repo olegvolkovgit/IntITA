@@ -28,9 +28,7 @@
                 </div>
                 <br>
                 <br>
-                <input type="submit" class="btn btn-default"
-                       onsubmit="cancelTeacherRole('<?= Yii::app()->createUrl('/_teachers/_admin/teachers/unsetTeacherRole'); ?>'); return false;"
-                       value="Скасувати роль">
+                <input type="submit" class="btn btn-default" onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>'); return false;" value="Скасувати роль">
         </form>
     </div>
 </div>

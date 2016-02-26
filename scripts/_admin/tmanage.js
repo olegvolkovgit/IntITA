@@ -16,23 +16,6 @@ function ShowTeacher(url,id)
     });
 }
 
-function cancelTeacherRole(url)
-{
-    var role = $jq("select[name=role] option:selected").val();
-    var teacher = $jq('#teacher').val();
-    $jq.ajax({
-        url: url,
-        type : 'post',
-        async: true,
-        data: {role: role, teacher: teacher},
-        success: function (data) {
-            alert(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
 function addTeacherAttr(url)
 {
     var teacherId = $jq('#teacher').val();
@@ -47,14 +30,20 @@ function addTeacherAttr(url)
     {
         $jq.ajax({
             url: url,
-            type : 'post',
+            type: "POST",
             async: true,
             data: {teacher: teacherId, attribute: attr, attributeValue : value},
-            success: function (data) {
-                fillContainer(data);
+            success: function (response) {
+                if (response == "success") {
+                    bootbox.confirm("Операцію успішно виконано.", function () {
+                        load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
             },
             error: function () {
-                showDialog();
+                showDialog("Операцію не вдалося виконати.");
             }
         });
     }
@@ -65,6 +54,7 @@ function selectRole(url){
     clearAllAttrFields();
 
     var role = $jq('select[name="role"]').val();
+    var user = $jq('#teacher').val();
     if(!role){
         $jq('div[name="selectRole"]').html('');
         $jq('div[name="selectAttribute"]').html('');
@@ -72,7 +62,7 @@ function selectRole(url){
         $jq.ajax({
             type: "POST",
             url: url,
-            data: {role: role},
+            data: {role: role, user: user},
             cache: false,
             success: function(response){
                 $jq('div[name="selectAttribute"]').html(response);

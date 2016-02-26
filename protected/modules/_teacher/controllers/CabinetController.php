@@ -132,35 +132,35 @@ class CabinetController extends TeacherCabinetController
     public function rolesDashboard(RegisteredUser $user, $inRole = null)
     {
         if ($user->isTeacher()) {
-            $teacher = Teacher::model()->findByPk($user->getTeacherId());
-            if ($inRole == null) {
-                $roles = $user->getRoles();
-            } else $roles = $inRole;
+            $teacher = $user->getTeacher();
+        }
+        if ($inRole == null) {
+            $roles = $user->getRoles();
+        } else $roles = $inRole;
 
-            foreach ($roles as $role) {
-                switch ($role) {
-                    case "trainer":
-                        $this->renderTrainerDashboard($teacher, $user, $role);
-                        break;
-                    case "author":
-                        $this->renderAuthorDashboard($teacher, $user, $role);
-                        break;
-                    case 'consultant':
-                        $this->renderConsultantDashboard($teacher, $user, $role);
-                        break;
-                    case 'student':
-                        $this->renderStudentDashboard($user);
-                        break;
-                    case 'admin':
-                        $this->renderAdminDashboard();
-                        break;
-                    case 'accountant':
-                        $this->renderAccountantDashboard();
-                        break;
-                    default:
-                        throw new CHttpException(400, 'Неправильно вибрана роль!');
-                        break;
-                }
+        foreach ($roles as $role) {
+            switch ($role) {
+                case "trainer":
+                    $this->renderTrainerDashboard($teacher, $user, $role);
+                    break;
+                case "author":
+                    $this->renderAuthorDashboard($teacher, $user, $role);
+                    break;
+                case 'consultant':
+                    $this->renderConsultantDashboard($teacher, $user, $role);
+                    break;
+                case 'student':
+                    $this->renderStudentDashboard($user);
+                    break;
+                case 'admin':
+                    $this->renderAdminDashboard();
+                    break;
+                case 'accountant':
+                    $this->renderAccountantDashboard();
+                    break;
+                default:
+                    throw new CHttpException(400, 'Неправильно вибрана роль!');
+                    break;
             }
         }
     }

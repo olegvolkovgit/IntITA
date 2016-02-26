@@ -53,6 +53,30 @@ function setTeacherRole(url) {
     });
 }
 
+function cancelTeacherRole(url)
+{
+    var role = $jq("select[name=role] option:selected").val();
+    var teacher = $jq('#teacher').val();
+    $jq.ajax({
+        url: url,
+        type : 'post',
+        async: true,
+        data: {role: role, teacher: teacher},
+        success: function (response) {
+            if (response == "success") {
+                bootbox.confirm("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
+
 function loadPage(url) {
     $jq.ajax({
         url: url,

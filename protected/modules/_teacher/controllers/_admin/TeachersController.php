@@ -130,7 +130,7 @@ class TeachersController extends TeacherCabinetController{
     public function actionCancelTeacherRole($id)
     {
         $user = RegisteredUser::userById($id);
-        $roles = $user->getRoles();
+        $roles = $user->teacherRoles();
         $teacher = $user->getTeacher();
 
         $this->renderPartial('cancelTeacherRole', array(
@@ -143,7 +143,7 @@ class TeachersController extends TeacherCabinetController{
     {
         $user = RegisteredUser::userById($id);
         $teacher = $user->getTeacher();
-        $roles = UserRoles::teachersRolesList();
+        $roles = $user->noSetTeacherRoles();
 
         $this->renderPartial('addTeacherRole', array(
             'teacher' => $teacher,
@@ -151,16 +151,14 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    //todo rewrite
     public function actionUnsetTeacherRole()
     {
         $id = Yii::app()->request->getPost('teacher');
         $role = Yii::app()->request->getPost('role');
 
         $user = RegisteredUser::userById($id);
-        $teacher = $user->getTeacher();
         if ($id && $role) {
-            if ($teacher->unsetTeacherRole(new UserRoles($role))) {
+            if ($user->cancelRole(new UserRoles($role))) {
                 echo "success";
             } else {
                 echo "error";
@@ -176,9 +174,8 @@ class TeachersController extends TeacherCabinetController{
         $role = Yii::app()->request->getPost('role', '');
 
         $user = RegisteredUser::userById($id);
-        $teacher = $user->getTeacher();
         if ($id && $role) {
-            if ($teacher->setTeacherRole(new UserRoles($role))) {
+            if ($user->setRole(new UserRoles($role))) {
                 echo "success";
             } else {
                 echo "error";
@@ -188,17 +185,91 @@ class TeachersController extends TeacherCabinetController{
         }
     }
 
-
-    //todo rewrite teacher roles list
-    public function actionAddTeacherRoleAttribute($id)
+    public function actionEditRole($id)
     {
         $user = RegisteredUser::userById($id);
-        $roles = $user->getRoles();
+        $roles = $user->teacherRoles();
         $teacher = $user->getTeacher();
+        $attributes = $user->getRolesAttributes();
 
-        $this->renderPartial('addTeacherRoleAttribute', array(
+        $this->renderPartial('editRole', array(
             'model' => $teacher,
             'roles' => $roles,
+            'attribute' => $attributes
         ),false,true);
+    }
+
+    //todo rewrite
+    public function actionSetTeacherRoleAttribute()
+    {
+        $request = Yii::app()->request;
+        $teacherId = $request->getPost('teacher', 0);
+        $attributeId = $request->getPost('attribute', 0);
+        $value = $request->getPost('attributeValue', 0);
+
+        if ($teacherId && $attributeId && $value) {
+            $result = false;
+            switch ($attributeId) {
+                case '2':
+                    $result = TrainerStudent::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '3':
+                    $result = ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '4':// leader's projects
+                    $result = true;//ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '6':
+                    $result = LeaderModules::setRoleAttribute($teacherId, $attributeId, $value);
+                    break;
+                case '7':
+                    break;
+                default:
+                    $result = AttributeValue::setRoleAttribute($teacherId, $attributeId, $value);
+
+            }
+            if ($result) {
+                $this->redirect($this->pathToCabinet());
+            }
+
+        }
+        $this->redirect($this->pathToCabinet());
+    }
+
+    public function actionShowAttributes()
+    {
+        $user = Yii::app()->request->getPost('user');
+        $role = Yii::app()->request->getPost('role');
+
+        $user = StudentReg::model()->findByPk($user);
+        $attributes = Role::getInstance(new UserRoles($role))->attributes($user);
+
+        $this->renderPartial('_showAttributes', array(
+            'attributes' => $attributes
+        ), false, true);
+    }
+
+    //todo rewrite
+    public function actionShowAttributeInput()
+    {
+        $attr = Yii::app()->request->getPost('attribute');
+        $result = '';
+        switch ($attr) {
+            case '3':
+            case '6':
+            case '7':
+                $modules = Module::model()->findAll();
+                $this->renderPartial('_showAttributeInput', array(
+                    'modules' => $modules,
+                ), false, true);
+
+                break;
+            case 'user_list':
+                break;
+            default:
+                $this->renderPartial('_showAttributeTextInput');
+                break;
+        }
+        echo $result;
     }
 }

@@ -122,36 +122,6 @@ class PermissionsController extends TeacherCabinetController
         echo $result . $last;
     }
 
-    //todo rewrite
-    public function actionShowAttributes()
-    {
-        $this->renderPartial('_showAttributes', array(), false, true);
-    }
-
-    //todo rewrite
-    public function actionShowAttributeInput()
-    {
-        $attr = Yii::app()->request->getPost('attribute');
-        $result = '';
-        switch ($attr) {
-            case '3':
-            case '6':
-            case '7':
-                $modules = Module::model()->findAll();
-                $this->renderPartial('_showAttributeInput', array(
-                    'modules' => $modules,
-                ), false, true);
-
-                break;
-            case 'user_list':
-                break;
-            default:
-                $this->renderPartial('_showAttributeTextInput');
-                break;
-        }
-        echo $result;
-    }
-
     public function actionShowModules()
     {
         if (isset($_POST['course']))
@@ -191,43 +161,6 @@ class PermissionsController extends TeacherCabinetController
         $user->save();
 
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/roleAttribute/index'));
-    }
-
-    //todo rewrite
-    public function actionSetTeacherRoleAttribute()
-    {
-        $request = Yii::app()->request;
-        $teacherId = $request->getPost('teacher', 0);
-        $attributeId = $request->getPost('attribute', 0);
-        $value = $request->getPost('attributeValue', 0);
-
-        if ($teacherId && $attributeId && $value) {
-            $result = false;
-            switch ($attributeId) {
-                case '2':
-                    $result = TrainerStudent::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '3':
-                    $result = ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '4':// leader's projects
-                    $result = true;//ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '6':
-                    $result = LeaderModules::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '7':
-                    break;
-                default:
-                    $result = AttributeValue::setRoleAttribute($teacherId, $attributeId, $value);
-
-            }
-            if ($result) {
-                $this->redirect($this->pathToCabinet());
-            }
-
-        }
-        $this->redirect($this->pathToCabinet());
     }
 
     public function actionSetUserVerification($id)

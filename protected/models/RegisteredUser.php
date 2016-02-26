@@ -11,7 +11,7 @@
  *
  * @author alterego4
  */
-class RegisteredUser 
+class RegisteredUser
 {
     //put your code here
     //StudentReg variable
@@ -22,30 +22,29 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    
-    public function __construct(StudentReg $registrationData) 
+    private $_teacherRoles = array('trainer', 'consultant');
+
+    public function __construct(StudentReg $registrationData)
     {
         $this->registrationData = $registrationData;
     }
-    
+
     public static function userById($id = null)
     {
-        if (($id !== null) && (($registrationData = StudentReg::model()->findByPk($id)) !== null))
-        {
+        if (($id !== null) && (($registrationData = StudentReg::model()->findByPk($id)) !== null)) {
             return new RegisteredUser($registrationData);
         }
         //TODO:
         throw new CDbException('500', "No such user");
     }
-      
-    
+
     //Model Methods
-    public function __call($name, $arguments) 
+    public function __call($name, $arguments)
     {
-        return call_user_func_array(array($this->registrationData,$name), $arguments);
+        return call_user_func_array(array($this->registrationData, $name), $arguments);
     }
-    
-    public function __get($name) 
+
+    public function __get($name)
     {
         return $this->registrationData->$name;
     }
@@ -54,24 +53,27 @@ class RegisteredUser
     {
         if ($this->_roles === null) {
 
-                $this->_roles = $this->loadRoles();
+            $this->_roles = $this->loadRoles();
         }
         return $this->_roles;
     }
-    
-    private function loadRoles(){
-        $sql = '(select "admin",id_user from user_admin a where a.id_user = '.$this->id.' and end_date IS NULL)
+
+    private function loadRoles()
+    {
+        $sql = '(select "admin",id_user from user_admin a where a.id_user = ' . $this->id . ' and end_date IS NULL)
                     union
-                (select "accountant", id_user from user_accountant ac where ac.id_user = '.$this->id.' and end_date IS NULL)
+                (select "accountant", id_user from user_accountant ac where ac.id_user = ' . $this->id . ' and end_date IS NULL)
                     union
-                (select "student", id_user from user_student st where st.id_user = '.$this->id.' and end_date IS NULL)
+                (select "student", id_user from user_student st where st.id_user = ' . $this->id . ' and end_date IS NULL)
                      union
-                (select "trainer", id_user from user_trainer at where at.id_user = '.$this->id.' and end_date IS NULL)
+                (select "trainer", id_user from user_trainer at where at.id_user = ' . $this->id . ' and end_date IS NULL)
                      union
-                (select "consultant", id_user from user_consultant acs where acs.id_user = '.$this->id.' and end_date IS NULL)';
+                (select "consultant", id_user from user_consultant acs where acs.id_user = ' . $this->id . ' and end_date IS NULL)';
         $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = array_map(function($row){return new UserRoles($row["admin"]);}, $rolesArray);
+        $result = array_map(function ($row) {
+            return new UserRoles($row["admin"]);
+        }, $rolesArray);
 
         return $result;
     }
@@ -99,27 +101,17 @@ class RegisteredUser
         return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
     }
 
-    public function getRolesAttributes(UserRoles $role)
+    public function getRolesAttributes()
     {
-        if (in_array($role, $this->getRoles())) {
-           return $this->loadRoleAttributes();
+        $result = [];
+        foreach($this->getRoles() as $role) {
+            if ($this->hasRole($role)) {
+                $roleObj = Role::getInstance($role);
+                array_push($result, $roleObj->attributes($this->registrationData));
+            }
         }
         return array();
     }
-
-    private function loadRoleAttributes()
-    {
-        return array_map(
-            function (UserRoles $role)
-            {
-                $class = new $role($this);
-                return $class;
-            }
-            , $this->_roles);
-
-    }
-
-
 
     public function isAdmin()
     {
@@ -128,16 +120,57 @@ class RegisteredUser
 
     public function isAccountant()
     {
-        return in_array(new UserRoles('accountant'), $this->getRoles());
+        return $this->hasRole(new UserRoles('accountant'));
     }
 
     public function isTrainer()
     {
-        return in_array(new UserRoles('trainer'), $this->getRoles());
+        return $this->hasRole(new UserRoles('trainer'));
     }
 
     public function isConsultant()
     {
-        return in_array(new UserRoles('consultant'), $this->getRoles());
+        return $this->hasRole(new UserRoles('consultant'));
     }
-}
+
+    public function isStudent()
+    {
+        return $this->hasRole(new UserRoles('student'));
+    }
+
+    public function isAuthor()
+    {
+        return $this->hasRole(new UserRoles('author'));
+    }
+
+    public function hasRole(UserRoles $role)
+    {
+        return in_array($role, $this->getRoles());
+    }
+
+    public function setRole(UserRoles $role)
+    {
+        if ($this->hasRole($role)) {
+            throw new \application\components\Exceptions\IntItaException(400, "User already has this role.");
+        }
+        $roleObj = Role::getInstance($role);
+        return $roleObj->setRole($this->registrationData);
+    }
+
+    public function cancelRole(UserRoles $role)
+    {
+        if (!$this->hasRole($role)) {
+            throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
+        }
+        $roleObj = Role::getInstance($role);
+        return $roleObj->cancelRole($this->registrationData);
+    }
+
+    public function teacherRoles(){
+        return array_intersect($this->getRoles(), $this->_teacherRoles);
+    }
+
+    public function noSetTeacherRoles(){
+        return array_diff($this->getRoles(), $this->_teacherRoles);
+    }
+ }
