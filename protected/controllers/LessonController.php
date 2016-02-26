@@ -135,6 +135,7 @@ class LessonController extends Controller
         $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
         $model->html_block = $htmlBlock;
         $model->save();
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -143,54 +144,43 @@ class LessonController extends Controller
         $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
         $pageOrder = Yii::app()->request->getPost('page');
         $lectureId = Yii::app()->request->getPost('idLecture');
-        LectureElement::addVideo($htmlBlock, $pageOrder, $lectureId);
+
+        $model = new LectureElement();
+        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionAddFormula()
     {
-        $model = new LectureElement();
-
         $htmlBlock = Yii::app()->request->getPost('newFormula');
         $pageOrder = Yii::app()->request->getPost('page');
+        $idLecture = Yii::app()->request->getPost('idLecture');
 
-        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
-        $model->html_block = $htmlBlock;
-
-        $model->id_type = 10;
-        $model->save();
-
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
-
-        LecturePage::addTextBlock($id, $pageId);
-
+        $model = new LectureElement();
+        $model->addFormula($htmlBlock, $pageOrder, $idLecture);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionCreateNewBlock()
     {
-        $model = new LectureElement();
-
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
         $htmlBlock = Yii::app()->request->getPost('newTextBlock');
-        $model->id_lecture = Yii::app()->request->getPost('idLecture');
-        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
-        $model->html_block = $htmlBlock;
-        $model->id_type = $idType;
-        $model->save();
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
-        LecturePage::addTextBlock($id, $pageId);
+        $idLecture = Yii::app()->request->getPost('idLecture');
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $this->checkInstanse($lecture);
+
+        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionCreateNewBlockCKE()
     {
-
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
         $htmlBlock = Yii::app()->request->getPost('editorAdd');
@@ -242,14 +232,11 @@ class LessonController extends Controller
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
 
-        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $idLecture, 'block_order' => $order));
+        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
 
-        switch ($model->id_type) {
-            case '5':
-                Task::deleteTask($model->id_block);
-        }
-        //delete current block
-        LectureElement::deleteCurrentBlock($idLecture, $order, $model->id_block);
+        $this->checkInstanse($lecture);
+
+        $lecture->deleteLectureElement($order);
 
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
