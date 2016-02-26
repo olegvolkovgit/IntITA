@@ -449,20 +449,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     $scope.updateResultPattern($scope.function.type,$scope.function.size);
     $scope.positiveIntPattern=/^[1-9]\d*$/;
 
-    $scope.filterList = function(prop,etalon,result_etalon){
-        return function(item){
-            if(item[prop]==1 && result_etalon) {
-                return false;
-            }else if(etalon){
-                return (item[prop]%3!=2);
-            }else{
-                return (item[prop]%3!=1);
-            }
-        }
-    }
     $scope.updateCompare = function(a){
         if(a.first==null)
-        a.first=a.second;
+            a.first=0;
         if(a.second==null)
             a.second=a.first;
     }
