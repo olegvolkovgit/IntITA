@@ -14,14 +14,7 @@
         'editMode' => $editMode,
     ));?>
 
-
-    <div edit-block id="<?php echo "t" . $data['block_order'];?>" >
-        <pre>
-             <code>
-                 <div ng-non-bindable>
-                     <?php echo $data['html_block'];?>
-                 </div>
-            </code>
-        </pre>
+    <div edit-code id="<?php echo "t" . $data['block_order'];?>" >
+        <div hljs><?php echo $data['html_block'];?></div>
     </div>
 </div>

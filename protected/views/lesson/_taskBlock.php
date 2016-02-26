@@ -1,11 +1,3 @@
-
-<link rel="stylesheet" type="text/css"
-      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.css'); ?>"/>
-<link rel="stylesheet" type="text/css"
-      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/theme/rubyblue.css'); ?>"/>
-<link rel="stylesheet" type="text/css"
-      href="<?php echo StaticFilesHelper::fullPathTo('css', 'codemirror.css'); ?>"/>
-
 <?php if($data['id_type'] == 5 || $data['id_type'] == 6){?>
     <div class="element">
         <div class="lessonTask">
@@ -23,13 +15,7 @@
                         </div>
                     </div>
                     <form class="sendAnswer" id="sendAnswer" name="taskForm">
-                        <textarea class='lectureTextarea' placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>" ng-model="userCode" required></textarea>
-                        <div>
-                            <span id="flashMsg"
-                                  ng-class="{'hideFlash' : !(taskForm.code.$pristine || taskForm.code.$error.required) }">
-                                Відповідь не може бути пустою
-                            </span>
-                        </div>
+                        <textarea class='lectureTextarea' placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>" required></textarea>
                     </form>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                                 ng-click="sendTaskAnswer('<?php echo Task::getTaskId($data['id_block']);?>',
@@ -44,18 +30,9 @@
     echo 'До цієї сторінки лекції завдання не додано.';
 }?>
 
-
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/javascript/javascript.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/css/css.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/htmlmixed/htmlmixed.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/clike/clike.js'); ?>"></script> <!--for php-->
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/php/php.js'); ?>"></script>
-
-
 <script>
-    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('code<?php echo $data['block_order'];?>'), {
-        lineNumbers: true,             // показывать номера строк
+    sendCodeMirror = CodeMirror.fromTextArea(document.getElementById('code<?php echo $data['block_order'];?>'), {
+//        lineNumbers: true,             // показывать номера строк
         matchBrackets: true,             // подсвечивать парные скобки
         mode: "javascript",
         theme: "rubyblue",               // стиль подсветки

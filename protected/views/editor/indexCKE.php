@@ -22,6 +22,24 @@ if ($idCourse != 0) {
     );
 }
 ?>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.css'); ?>"/>
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/theme/rubyblue.css'); ?>"/>
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('css', 'codemirror.css'); ?>"/>
+
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/javascript/javascript.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/css/css.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/htmlmixed/htmlmixed.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/clike/clike.js'); ?>"></script> <!--for php-->
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/php/php.js'); ?>"></script>
+
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
@@ -243,8 +261,4 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tasks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'skipTask.js'); ?>"></script>
-<!-- highlight include -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
-<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
-<script type='text/javascript'>hljs.initHighlightingOnLoad();</script>
 
