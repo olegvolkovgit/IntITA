@@ -211,16 +211,10 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-
-        //if exists prev element, reorder current and prev elements
-
+        
         $lecture = Lecture::model()->findByPk($idLecture);
 
         $lecture->upElement($order);
-
-//        $textList = Lecture::getTextList($idLecture, $order);
-//        $prevElement = LectureElement::getPrevElement($textList, $order);
-//        LectureElement::swapBlock($idLecture, $prevElement, $order);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
