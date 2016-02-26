@@ -143,7 +143,8 @@ class LessonController extends Controller
         $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
         $pageOrder = Yii::app()->request->getPost('page');
         $lectureId = Yii::app()->request->getPost('idLecture');
-        LectureElement::addVideo($htmlBlock, $pageOrder, $lectureId);
+        $model = new LectureElement();
+        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
