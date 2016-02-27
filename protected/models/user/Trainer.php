@@ -26,7 +26,7 @@ class Trainer extends Role
 	public function attributes(StudentReg $user)
 	{
         $record = Yii::app()->db->createCommand()
-            ->select('*')
+            ->select('capacity')
             ->from($this->tableName())
             ->where('id_user=:id', array(':id'=>$user->id))
             ->queryRow();

@@ -103,14 +103,33 @@ class RegisteredUser
 
     public function getRolesAttributes()
     {
-        $result = [];
-        foreach($this->getRoles() as $role) {
-            if ($this->hasRole($role)) {
-                $roleObj = Role::getInstance($role);
-                array_push($result, $roleObj->attributes($this->registrationData));
+        if (empty($this->_roleAttributes)) {
+            foreach ($this->getRoles() as $role) {
+                $this->loadAttributes($role);
             }
         }
-        return array();
+        return $this->_roleAttributes;
+    }
+
+    public function getAttributesByRole(UserRoles $role)
+    {
+        if (empty($this->_roleAttributes)) {
+            $this->loadAttributes($role);
+        }
+        return $this->_roleAttributes[(string)$role];
+    }
+
+    private function loadAttributes(UserRoles $role){
+        if ($this->hasRole($role)) {
+            $roleObj = Role::getInstance($role);
+            $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
+        }
+        return $this->_roleAttributes[(string)$role];
+    }
+
+    public function setRoleAttribute(UserRoles $role, $attribute, $value){
+        $roleObj = Role::getInstance($role);
+        return $roleObj->setAttribute($this->registrationData, $attribute, $value);
     }
 
     public function isAdmin()
@@ -166,11 +185,13 @@ class RegisteredUser
         return $roleObj->cancelRole($this->registrationData);
     }
 
-    public function teacherRoles(){
+    public function teacherRoles()
+    {
         return array_intersect($this->getRoles(), $this->_teacherRoles);
     }
 
-    public function noSetTeacherRoles(){
+    public function noSetTeacherRoles()
+    {
         return array_diff($this->getRoles(), $this->_teacherRoles);
     }
- }
+}

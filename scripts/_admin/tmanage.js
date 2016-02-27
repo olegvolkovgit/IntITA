@@ -18,25 +18,26 @@ function ShowTeacher(url,id)
 
 function addTeacherAttr(url)
 {
-    var teacherId = $jq('#teacher').val();
-    var attr = $jq("select[name=attribute] option:selected").val();
-    var value = $jq("select[name=attributeValue] option:selected").val();
+    var user = $jq('#user').val();
+    var role = $jq('#role').val();
+    var attr = $jq("#attr").val();
+    var value = $jq("#value").val();
     if(!value)
     {
-        value = $jq('#inputValue').val();
+        showDialog('Введіть дані форми.');
     }
 
-    if(teacherId && attr && value)
+    if(user && attr && value)
     {
         $jq.ajax({
             url: url,
             type: "POST",
             async: true,
-            data: {teacher: teacherId, attribute: attr, attributeValue : value},
+            data: {user: user, role: role, attribute: attr, attributeValue : value},
             success: function (response) {
                 if (response == "success") {
                     bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
+                        load(basePath + "/_teacher/_admin/teachers/index", 'Викладачі');
                     });
                 } else {
                     showDialog("Операцію не вдалося виконати.");

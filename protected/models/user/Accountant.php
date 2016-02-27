@@ -18,6 +18,7 @@ class Accountant extends Role
 		return 'Бухгалтер';
 	}
 
+
     public function attributes(StudentReg $user)
     {
         return array();

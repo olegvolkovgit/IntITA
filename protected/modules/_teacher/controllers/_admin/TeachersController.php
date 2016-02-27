@@ -185,55 +185,38 @@ class TeachersController extends TeacherCabinetController{
         }
     }
 
-    public function actionEditRole($id)
+    public function actionEditRole($id, $role)
     {
         $user = RegisteredUser::userById($id);
-        $roles = $user->teacherRoles();
-        $teacher = $user->getTeacher();
-        $attributes = $user->getRolesAttributes();
+        $role = new UserRoles($role);
+        $attributes = $user->getAttributesByRole($role);
 
         $this->renderPartial('editRole', array(
-            'model' => $teacher,
-            'roles' => $roles,
-            'attribute' => $attributes
+            'model' => $user->registrationData,
+            'role' => $role,
+            'attributes' => $attributes
         ),false,true);
     }
 
-    //todo rewrite
+
     public function actionSetTeacherRoleAttribute()
     {
         $request = Yii::app()->request;
-        $teacherId = $request->getPost('teacher', 0);
-        $attributeId = $request->getPost('attribute', 0);
+        $userId = $request->getPost('user', 0);
+        $role = $request->getPost('role', '');
+        $attribute = $request->getPost('attribute', '');
         $value = $request->getPost('attributeValue', 0);
+        $user = RegisteredUser::userById($userId);
 
-        if ($teacherId && $attributeId && $value) {
-            $result = false;
-            switch ($attributeId) {
-                case '2':
-                    $result = TrainerStudent::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '3':
-                    $result = ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '4':// leader's projects
-                    $result = true;//ConsultantModules::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '6':
-                    $result = LeaderModules::setRoleAttribute($teacherId, $attributeId, $value);
-                    break;
-                case '7':
-                    break;
-                default:
-                    $result = AttributeValue::setRoleAttribute($teacherId, $attributeId, $value);
-
+        if ($userId && $attribute && $value && $role) {
+            if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
+                echo "success";
+            } else {
+                echo "error";
             }
-            if ($result) {
-                $this->redirect($this->pathToCabinet());
-            }
-
+        } else {
+            echo "error";
         }
-        $this->redirect($this->pathToCabinet());
     }
 
     public function actionShowAttributes()

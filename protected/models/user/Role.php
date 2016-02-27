@@ -3,6 +3,7 @@
 
 abstract class Role
 {
+
     abstract function tableName();
 
     abstract function title();
@@ -45,6 +46,13 @@ abstract class Role
         return Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),
+        ), 'id_user=:id', array(':id'=>$user->id));
+    }
+
+    public function setAttribute(StudentReg $user, $attribute, $value){
+        return Yii::app()->db->createCommand()->
+        update($this->tableName(), array(
+            $attribute=>$value,
         ), 'id_user=:id', array(':id'=>$user->id));
     }
 }

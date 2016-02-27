@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $model Teacher
+ * @var $model StudentReg
  * @var $roles array
  * @var $role UserRoles
  * @var $attributes array
@@ -9,45 +9,48 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <ul class="nav nav-tabs">
-            <?php
-            foreach ($roles as $role) {
-                ?>
-                <li><a href="#<?= $role; ?>" data-toggle="tab"><?= $role; ?></a>
-                </li>
-                <?php
-            }
-            ?>
+            <li><a href="#<?= $role; ?>" data-toggle="tab"><?= $role; ?></a>
+            </li>
         </ul>
-        <div class="tab-content">
-            <?php
-            foreach ($roles as $role) {
-            ?>
+        <div class="tab-content col col-md-6">
             <form name="add-access">
+                <input type="number" hidden="hidden" value="<?=$model->id;?>" id="user">
+                <input type="text" hidden="hidden" value="<?=(string)$role;?>" id="role">
                 <div class="tab-pane fade in active" id="<?= $role; ?>">
-                    Атрибути:<br>
+                    <br>
                     <div class="form-group">
-                        <?php if (!empty($attributes)) {
-                            foreach ($attributes as $attribute) { ?>
-                                <label><?php echo $attribute[]["title"]; ?></label>
+                        <?php
+                        if (!empty($attributes)) {
+                            foreach ($attributes as $attribute) {
+                                ?>
+                                <input type="text" hidden="hidden" value="<?=$attribute["key"];?>" id="attr">
+                                <br>
+                                <label><?php echo $attribute["title"]; ?></label>
                                 <?php
-                                if ($attribute[]["type"] == "list") {
+
+                                if ($attribute["type"] == "list") {
                                     ?>
 
                                 <?php } else { ?>
-                                    <input type='text' class="form-control" name='attributeValue' id='inputValue'>
+                                    <input type="number" class="form-control col col-md-4" name="attributeValue" id="value"
+                                           value="<?= $attribute["value"] ?>">
+                                    <br>
                                 <?php }
-
                             }
-                        } ?>
-
+                        } else { ?>
+                            Атрибутів ролі для даного викладача не задано.
+                        <?php } ?>
                     </div>
-                </div>
+
                 <?php
-                }
-                ?>
-                <input type="submit" class="btn btn-default"
-                       onclick="addTeacherAttr('<?php echo Yii::app()->createUrl("/_teacher/_admin/teachers/setTeacherRoleAttribute"); ?>')"
-                       value="Призначити атрибут">
+                if (!empty($attributes)) { ?>
+                    <br>
+                    <br>
+                    <input type="submit" class="btn btn-primary"
+                           onclick="addTeacherAttr('<?php echo Yii::app()->createUrl("/_teacher/_admin/teachers/setTeacherRoleAttribute"); ?>'); return false;"
+                           value="Редагувати">
+                <?php } ?>
+                </div>
             </form>
         </div>
     </div>
