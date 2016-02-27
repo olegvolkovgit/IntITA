@@ -27,6 +27,9 @@ abstract class Role
             case "consultant":
                 $model = new Consultant();
                 break;
+            case "author":
+                $model = new Author();
+                break;
             default :
                 $model = null;
         }

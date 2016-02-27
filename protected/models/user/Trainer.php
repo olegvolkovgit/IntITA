@@ -3,6 +3,7 @@
 class Trainer extends Role
 {
     private $capacity;
+	private $dbModel;
 
 	/**
 	 * @return string the associated database table name

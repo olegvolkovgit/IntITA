@@ -32,7 +32,7 @@
                                         <br>
                                         <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
                                             <?= $item["title"]; ?>
-                                        </a>
+                                        </a>   <button type="button" class="btn btn-warning btn-xs">Скасувати</button>
                                         <?php
                                     } ?>
                                     <br>

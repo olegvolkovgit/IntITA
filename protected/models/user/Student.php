@@ -2,6 +2,7 @@
 
 class Student extends Role
 {
+	private $dbModel;
 	/**
 	 * @return string the associated database table name
 	 */
