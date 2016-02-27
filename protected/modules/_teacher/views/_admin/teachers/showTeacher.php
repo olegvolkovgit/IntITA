@@ -22,14 +22,7 @@
                             'id' => $teacher->user_id)); ?>','Призначити роль')">Призначити роль
                 </button>
             </li>
-            <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/cancelTeacherRole/',
-                            array('id' => $teacher->user_id)); ?>','Скасувати роль')">Скасувати роль
-                </button>
-            </li>
         </ul>
-
     </div>
 
     <div class="row">
@@ -54,7 +47,13 @@
                                 <li><?= $role; ?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','Редагувати роль')"><em>редагувати</em></a>
+                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','Редагувати роль')"><em>редагувати</em>
+                                    </a>
+                                    <a href="#"
+                                       onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
+                                           '<?=$role?>',
+                                           '<?=$teacher->user_id;?>');"><em>скасувати</em>
+                                    </a>
                                 </li>
                             <?php } ?>
                         </ul>

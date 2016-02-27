@@ -53,25 +53,29 @@ function setTeacherRole(url) {
     });
 }
 
-function cancelTeacherRole(url)
-{
-    var role = $jq("select[name=role] option:selected").val();
-    var teacher = $jq('#teacher').val();
-    $jq.ajax({
-        url: url,
-        type : 'post',
-        async: true,
-        data: {role: role, teacher: teacher},
-        success: function (response) {
-            if (response == "success") {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
-                });
-            } else {
-                showDialog("Операцію не вдалося виконати.");
-            }
-        },
-        error: function () {
+function cancelTeacherRole(url, role, teacher) {
+    bootbox.confirm("Скасувати роль?", function (response) {
+        if (response != null) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {role: role, teacher: teacher},
+                success: function (response) {
+                    if (response == "success") {
+                        bootbox.confirm("Операцію успішно виконано.", function () {
+                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
+                        });
+                    } else {
+                        showDialog("Операцію не вдалося виконати.");
+                    }
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
             showDialog("Операцію не вдалося виконати.");
         }
     });
@@ -217,8 +221,8 @@ function forward(url) {
 }
 
 function loadMessagesIndex() {
-   window.history.pushState(null, null, basePath + "/cabinet/#");
-   load(basePath + "/_teacher/messages/index", 'Листування');
+    window.history.pushState(null, null, basePath + "/cabinet/#");
+    load(basePath + "/_teacher/messages/index", 'Листування');
 }
 
 function loadForm(url, receiver, scenario, message) {
