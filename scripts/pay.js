@@ -1,7 +1,6 @@
 /**
  * Created by Quicks on 26.11.2015.
  */
-
 function selectModule(url){
     var course = $jq('select[name="course"]').val();
     if(!course){
@@ -131,8 +130,6 @@ function checkModuleField(url)
         error: function () {
             showDialog();
         }
-
-
     });
     return true;
 }

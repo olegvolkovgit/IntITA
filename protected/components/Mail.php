@@ -34,10 +34,13 @@ class Mail {
     public static function sendResetMail($model,$modelReset, $time)
     {
         $mail = new Mail();
+        //XOR email hash
+        $key='ababagalamaga';
+        $mailHash = base64_encode(Mail::strcode($modelReset->email, $key));
 
         $subject = Yii::t('recovery', '0282');
         $text = Yii::t('recovery', '0283') .
-            " " . Config::getBaseUrl() . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . $modelReset->email;
+            " " . Config::getBaseUrl() . "/index.php?r=site/veremail/view&token=" . $model->token . "&email=" . urlencode($mailHash);
         $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $time));
 
         if (mail($modelReset->email, $subject, $text, $mail->headers))
@@ -85,51 +88,6 @@ class Mail {
         return $lang;
     }
 
-    public static function sendPayLetter($user,$pay)
-    {
-        if($pay instanceof Course){
-            $id = $pay->course_ID;
-            $link = Yii::app()->createAbsoluteUrl('course/index', array('id' => $pay->course_ID));
-            $theme = 'Оплата курсу';
-            $access = 'курсу';
-        }
-        elseif ($pay instanceof Module)
-        {
-            $theme = 'Оплата модуля';
-            $id = $pay->module_ID;
-            $link = Yii::app()->createAbsoluteUrl('module/index', array('idModule' =>$id));
-            $access = 'модуля';
-        }
-
-        $title = $pay->title_ua;
-
-        $model= new Letters();
-
-        //$moduleLink = Yii::app()->createUrl('module/index', array('idModule' =>$pay->module_ID));
-        $linkForLetter = "<a href =".$link.">". $title . " </a>";
-
-        $model->addressee_id = $user;
-        $model->sender_id = Yii::app()->user->id;
-        $model->text_letter = "Вітаємо!"."<br>".
-            "Тобі надано доступ до ".$access ." : " . $title . ".<br>" .
-            "Щоб розпочати навчання, перейди за посиланням: ".$linkForLetter."<br>
-            ​З повагою, INTITA​";
-        $model->date = date("Y-m-d H:i:s");
-        $model->theme = $theme;
-        if($model->validate()) {
-            $model->save();
-            $mail = new Mail();
-            $mail->headers = "Content-type: text/plain; charset=utf-8 \r\n" . "From: no-reply@".Config::getBaseUrlWithoutSchema();
-            $addresse = StudentReg::model()->findByPk($user)->email;
-            $text="Вітаємо! Тобі надано доступ до ".$access ." : " . $title . ". Щоб розпочати навчання, перейди за посиланням: ".$link.".
-            ​З повагою, INTITA​";
-            mail($addresse,$theme,$text, $mail->headers);
-            return true;
-        }
-
-        return false;
-    }
-
     public static function sendAssignedConsultantLetter($consult,$idPlainTaskAnswer)
     {
         $consultant = Teacher::model()->findByPk($consult);
@@ -152,8 +110,6 @@ class Mail {
         }
     }
 
-
-
     public static function sendVerificationEmailMail($model)
     {
         $mail = new Mail();
@@ -169,10 +125,14 @@ class Mail {
     public static function sendLinkingEmailMail($model)
     {
         $mail = new Mail();
+        //hash email
+        $key='codename41';
+        $mailHash = base64_encode(Mail::strcode($model->email, $key));
+
         $lang = Mail::setLang();
         $subject = 'Приєднання соціальної мережі до електронної адреси';
         $text = 'Щоб приєднати дану електрону адресу до соціальної мережі ('.$model->identity.'), будь ласка перейди за посиланням: ' .
-            " " . Config::getBaseUrl() . "/index.php?r=site/linkingEmailToNetwork/view&network=".$model->identity."&token=" . $model->token . "&email=" . $model->email . "&lang=" . $lang;
+            " " . Config::getBaseUrl() . "/index.php?r=site/linkingEmailToNetwork/view&network=".$model->identity."&token=" . $model->token . "&email=" . urlencode($mailHash) . "&lang=" . $lang;
         if( mail($model->email, $subject, $text, $mail->headers))
             return true;
 
@@ -182,5 +142,18 @@ class Mail {
     public static function getErrorText()
     {
        return '<br /><h4>Щось пішло не так</h4> Лист не був відправлений <strong>';
+    }
+
+    public static function strcode($str, $passw="")
+    {
+        $salt = "Dn8*#2n!9j";
+        $len = strlen($str);
+        $gamma = '';
+        $n = $len>100 ? 8 : 2;
+        while( strlen($gamma)<$len )
+        {
+            $gamma .= substr(pack('H*', sha1($passw.$gamma.$salt)), 0, $n);
+        }
+        return $str^$gamma;
     }
 }

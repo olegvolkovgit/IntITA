@@ -16,45 +16,35 @@ function ShowTeacher(url,id)
     });
 }
 
-function cancelTeacherRole(url)
-{
-    var role = $jq("select[name=role] option:selected").val();
-    var teacher = $jq('#teacher').val();
-    $jq.ajax({
-        url: url,
-        type : 'post',
-        async: true,
-        data: {role: role, teacher: teacher},
-        success: function (data) {
-            fillContainer(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
 function addTeacherAttr(url)
 {
-    var teacherId = $jq('#teacher').val();
-    var attr = $jq("select[name=attribute] option:selected").val();
-    var value = $jq("select[name=attributeValue] option:selected").val();
+    var user = $jq('#user').val();
+    var role = $jq('#role').val();
+    var attr = $jq("#attr").val();
+    var value = $jq("#value").val();
     if(!value)
     {
-        value = $jq('#inputValue').val();
+        showDialog('Введіть дані форми.');
     }
 
-    if(teacherId && attr && value)
+    if(user && attr && value)
     {
         $jq.ajax({
             url: url,
-            type : 'post',
+            type: "POST",
             async: true,
-            data: {teacher: teacherId, attribute: attr, attributeValue : value},
-            success: function (data) {
-                fillContainer(data);
+            data: {user: user, role: role, attribute: attr, attributeValue : value},
+            success: function (response) {
+                if (response == "success") {
+                    bootbox.confirm("Операцію успішно виконано.", function () {
+                        load(basePath + "/_teacher/_admin/teachers/index", 'Викладачі');
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
             },
             error: function () {
-                showDialog();
+                showDialog("Операцію не вдалося виконати.");
             }
         });
     }
@@ -65,6 +55,7 @@ function selectRole(url){
     clearAllAttrFields();
 
     var role = $jq('select[name="role"]').val();
+    var user = $jq('#teacher').val();
     if(!role){
         $jq('div[name="selectRole"]').html('');
         $jq('div[name="selectAttribute"]').html('');
@@ -72,7 +63,7 @@ function selectRole(url){
         $jq.ajax({
             type: "POST",
             url: url,
-            data: {role: role},
+            data: {role: role, user: user},
             cache: false,
             success: function(response){
                 $jq('div[name="selectAttribute"]').html(response);

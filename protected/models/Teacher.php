@@ -68,8 +68,6 @@ class Teacher extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
             'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
-            'teacherRoles' => array(self::HAS_MANY, 'TeacherRoles', 'teacher'),
-            'roles' => array(self::HAS_MANY, 'Roles', 'role', 'through' => 'teacherRoles'),
         );
     }
 
@@ -379,18 +377,8 @@ class Teacher extends CActiveRecord
 
     public static function generateTeacherRolesList($id)
     {
-        $criteria = new CDbCriteria();
-        $criteria->select = 'role';
-        $criteria->distinct = true;
-        $criteria->order = 'role';
-        $criteria->condition = 'teacher=' . $id;
-        $roles = TeacherRoles::model()->findAll($criteria);
-        $result = [];
-        for ($i = 0, $count = count($roles); $i < $count; $i++) {
-            $result[$i]['id'] = $roles[$i]->role;
-            $result[$i]['alias'] = Roles::model()->findByPk($roles[$i]->role)->title_ua;
-        }
-        return $result;
+        $model = RegisteredUser::userById($id);
+        return $model->getRoles();
     }
 
     public static function getTeacherName($id)
@@ -495,18 +483,16 @@ class Teacher extends CActiveRecord
 
     public function roles()
     {
-        return $this->roles;
+        $model =RegisteredUser::userById($this->teacher_id);
+        return $model->getRoles();
     }
 
     public static function getAllTrainers()
     {
         $criteria = new CDbCriteria();
-        $criteria->join = 'LEFT JOIN teacher_roles ON teacher_roles.teacher = teacher_id';
-        $criteria->addCondition('teacher_roles.role = 1');
+        $criteria->join = 'LEFT JOIN user_trainer ut ON ut.teacher = teacher_id';
 
-        $result = Teacher::model()->findAll($criteria);
-
-        return $result;
+        return Teacher::model()->findAll($criteria);
     }
 
     public static function getTeacherNameByUserId($user)
@@ -519,13 +505,16 @@ class Teacher extends CActiveRecord
     {
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser))) {
             $teacherId = Teacher::model()->findByAttributes(array('user_id' => $idUser));
-            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule));
+            $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $teacherId->teacher_id, 'idModule' => $idModule), 'end_time IS NULL');
         }
         if (isset($author)) return true; else return false;
     }
+
     public static function isTeacherIdAuthorModule($idTeacher, $idModule)
     {
-        $author = TeacherModule::model()->findByAttributes(array('idTeacher' => $idTeacher, 'idModule' => $idModule));
+        $author = TeacherModule::model()->findByAttributes(
+            array('idTeacher'=>$idTeacher,'idModule'=>$idModule), 'end_time IS NULL'
+        );
         if (isset($author)) return true; else return false;
     }
 
@@ -659,24 +648,19 @@ class Teacher extends CActiveRecord
         }
     }
 
-    public function setTeacherRole($roleId)
+    public function setTeacherRole(UserRoles $role)
     {
-        if (TeacherRoles::model()->exists('teacher=:teacher and role=:attribute', array('teacher' => $this->teacher_id,
-            'attribute' => $roleId))
-        ) {
-            $model = TeacherRoles::model()->findByAttributes(array('teacher' => $this->teacher_id, 'role' => $roleId));
-        } else {
-            $model = new TeacherRoles();
-            $model->teacher = $this->teacher_id;
-            $model->role = $roleId;
+        switch ($role) {
+            case "trainer":
+                break;
+            case "author":
+                break;
+            case 'consultant':
+                break;
+            default:
+                return false;
         }
-        $model->start_date = date("Y-m-d H:i");
-
-        if ($model->validate()) {
-            $model->save();
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public function getStatus()
@@ -686,7 +670,8 @@ class Teacher extends CActiveRecord
         else return 'видалений';
     }
 
-    public static function teachersList(){
+    public static function teachersList()
+    {
         $users = Teacher::model()->findAll();
         $return = array('data' => array());
 

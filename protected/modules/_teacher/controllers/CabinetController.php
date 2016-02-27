@@ -3,10 +3,10 @@
 class CabinetController extends TeacherCabinetController
 {
 
-    public function actionIndex($scenario="dashboard", $receiver=0)
+    public function actionIndex($scenario = "dashboard", $receiver = 0)
     {
         $model = Yii::app()->user->model;
-        if(!$model){
+        if (!$model) {
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
         $newReceivedMessages = $model->newReceivedMessages();
@@ -21,10 +21,10 @@ class CabinetController extends TeacherCabinetController
 
     public function actionLoadPage($page)
     {
-        $page = strtolower($page);
+        $page = strtoupper($page);
 
-        $role = Roles::model()->findByAttributes(array('title_en' => $page));
         $model = Yii::app()->user->model;
+        $role = new UserRoles($page);
 
         if ($role && $model)
             $this->rolesDashboard($model, array($role));
@@ -114,7 +114,7 @@ class CabinetController extends TeacherCabinetController
 
     public function actionLoadDashboard($user)
     {
-        $model = StudentReg::model()->findByPk($user);
+        $model = RegisteredUser::userById($user);
         $this->rolesDashboard($model);
     }
 
@@ -132,63 +132,56 @@ class CabinetController extends TeacherCabinetController
     public function rolesDashboard(RegisteredUser $user, $inRole = null)
     {
         if ($user->isTeacher()) {
-            $teacher = Teacher::model()->findByPk($user->getTeacherId());
-            if ($inRole == null) {
-                $roles = $teacher->roles();
-            } else $roles = $inRole;
+            $teacher = $user->getTeacher();
+        }
+        if ($inRole == null) {
+            $roles = $user->getRoles();
+        } else $roles = $inRole;
 
-            foreach ($roles as $role) {
-                switch ($role->getRole()) {
-                    case 'trainer':
-                        $this->renderTrainerDashboard($teacher, $user, $role);
-                        break;
-                    case 'author':
-                        $this->renderAuthorDashboard($teacher, $user, $role);
-                        break;
-                    case 'consultant':
-                        $this->renderConsultantDashboard($teacher, $user, $role);
-                        break;
-                    case 'leader':
-                        $this->renderLeaderDashboard($teacher, $user, $role);
-                        break;
-                    default:
-                        throw new CHttpException(400, 'Неправильно вибрана роль!');
-                        break;
-                }
-            }
-        } else {
-            if ($user->isAdmin()) {
-                $this->renderAdminDashboard();
-            }
-            if ($user->isAccountant()) {
-                $this->renderAccountantDashboard();
+        foreach ($roles as $role) {
+            switch ($role) {
+                case "trainer":
+                    $this->renderTrainerDashboard($teacher, $user, $role);
+                    break;
+                case "author":
+                    $this->renderAuthorDashboard($teacher, $user, $role);
+                    break;
+                case 'consultant':
+                    $this->renderConsultantDashboard($teacher, $user, $role);
+                    break;
+                case 'student':
+                    $this->renderStudentDashboard($user);
+                    break;
+                case 'admin':
+                    $this->renderAdminDashboard();
+                    break;
+                case 'accountant':
+                    $this->renderAccountantDashboard();
+                    break;
+                default:
+                    throw new CHttpException(400, 'Неправильно вибрана роль!');
+                    break;
             }
         }
-
     }
 
-    public function renderSidebarByRole($role)
+    public function renderSidebarByRole(UserRoles $role)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
         $user = Yii::app()->user->model;
-        if ($role) {
-            switch (strtolower($role->title_en)) {
-                case 'trainer' :
-                    $this->renderPartial('/trainer/sidebar', array(
-                        'teacher' => $teacher,
-                        'user' => $user,
-                        'role' => $role
-                    ));
-                    break;
-                case 'consultant' :
-                    $this->renderPartial('/consultant/sidebar', array(
-                        'teacher' => $teacher,
-                        'user' => $user,
-                        'role' => $role
-                    ));
-                    break;
-
-            }
+        switch ($role) {
+            case 'trainer' :
+                $this->renderPartial('/trainer/sidebar', array(
+                    'teacher' => $teacher,
+                    'user' => $user
+                ));
+                break;
+            case 'consultant' :
+                $this->renderPartial('/consultant/sidebar', array(
+                    'teacher' => $teacher,
+                    'user' => $user
+                ));
+                break;
         }
     }
 
@@ -209,6 +202,14 @@ class CabinetController extends TeacherCabinetController
             'role' => $role,
         ));
     }
+
+    private function renderStudentDashboard(RegisteredUser $user)
+    {
+        return $this->renderPartial('/student/_dashboard', array(
+            'user' => $user->registrationData
+        ));
+    }
+
 
     private function renderConsultantDashboard(Teacher $teacher, RegisteredUser $user, $role)
     {
@@ -236,6 +237,16 @@ class CabinetController extends TeacherCabinetController
     private function renderAccountantDashboard()
     {
         return $this->renderPartial('/accountant/index');
+    }
+
+    public function actionUsersByQuery($query)
+    {
+        if ($query) {
+            $users = StudentReg::allUsers($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
     }
 
 }

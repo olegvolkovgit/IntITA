@@ -11,8 +11,8 @@ $this->breadcrumbs=array(
 <!--    <h1>--><?php //echo Yii::t('error','0590')." ".$errorCode; ?><!--</h1>-->
     <div class="error">
     <?php echo CHtml::encode($message)?>
-    <?php //echo 'File : ' . CHtml::encode($trace) ?>
-    <?php //echo 'File : ' . CHtml::encode($file) ?>
-    <?php //echo 'Line : ' . CHtml::encode($line) ?>
+    <?php echo 'File : ' . CHtml::encode($trace) ?>
+    <?php echo 'File : ' . CHtml::encode($file) ?>
+    <?php echo 'Line : ' . CHtml::encode($line) ?>
     </div>
 </div>

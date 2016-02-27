@@ -1130,7 +1130,7 @@ class StudentReg extends CActiveRecord
      * @param $query string - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public static function allUsers($query, $id)
+    public static function allUsers($query, $id=0)
     {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";

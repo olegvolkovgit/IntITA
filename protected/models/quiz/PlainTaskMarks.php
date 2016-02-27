@@ -31,7 +31,6 @@ class PlainTaskMarks extends CActiveRecord
 		return array(
 			array('id_user, id_answer, mark', 'required'),
 			array('id_user, id_answer, mark', 'numerical', 'integerOnly'=>true),
-			array('comment', 'length', 'max'=>100),
 			// The following rule is used by search().
 			array('id, id_user, id_answer, mark, comment, time', 'safe', 'on'=>'search'),
 		);

@@ -16,14 +16,6 @@ class TeachersController extends TeacherCabinetController{
         }
     }
 
-    protected function performAttributeRoleAjaxValidation($model)
-    {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'role-attribute-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-    }
-
     public function actionIndex()
     {
         $model = new Teacher('search');
@@ -39,9 +31,15 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionShowTeacher($id)
     {
-        $teacher = Teacher::model()->findByPk($id);
+        $user = RegisteredUser::userById($id);
+        if(!$user->isTeacher()){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
+        }
+        $teacher = $user->getTeacher();
+
         $this->renderPartial('showTeacher',array(
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'user' => $user
         ),false,true);
     }
 
@@ -63,47 +61,6 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionRoles()
-    {
-        $dataProvider = new CActiveDataProvider('Roles');
-        $this->renderPartial('roles', array(
-            'dataProvider' => $dataProvider,
-        ),false,true);
-    }
-
-    public function actionShowAttributes($role)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'role=' . $role;
-        $dataProvider = new CActiveDataProvider('RoleAttribute', array(
-            'criteria' => $criteria,
-        ));
-        $model = Roles::model()->findByPk($role);
-        $this->render('showRoleAttributes', array(
-            'model' => $model,
-            'dataProvider' => $dataProvider,
-        ),false);
-    }
-
-    public function actionCreateRole()
-    {
-        $model = new Roles;
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'roles-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-        // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
-        if (isset($_POST['Roles'])) {
-            $model->attributes = $_POST['Roles'];
-            if ($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
-        }
-        $this->renderPartial('createRole', array(
-            'model' => $model,
-        ),false,true);
-    }
-
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
@@ -120,44 +77,12 @@ class TeachersController extends TeacherCabinetController{
         ),false);
     }
 
-    public function actionUpdateRole($id)
-    {
-        $model = Roles::model()->findByPk($id);
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'roles-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-        if (isset($_POST['Roles'])) {
-            $model->attributes = $_POST['Roles'];
-            if ($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
-        }
-        $this->renderPartial('updateRole', array(
-            'model' => $model,
-        ),false,true);
-    }
-
-    public function actionViewRole($id)
-    {
-        $model = Roles::model()->findByPk($id);
-
-        $this->render('viewRole', array(
-            'model' => $model,
-        ),false);
-    }
-
     public function loadModel($id)
     {
         $model = Teacher::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
-    }
-    public function actionView($id)
-    {
-        $this->render('view', array(
-            'model' => $this->loadModel($id),
-        ));
     }
 
     public function actionDelete($id)
@@ -176,49 +101,11 @@ class TeachersController extends TeacherCabinetController{
         else echo "error";
     }
 
-    public function actionShowRoles($id)
-    {
-        $roles = TeacherRoles::model()->findAllByAttributes(array('teacher' => $id));
-        $name = Teacher::getFullName($id);
-        $this->renderPartial('showRoles', array(
-            'roles' => $roles,
-            'name' => $name,
-            'teacherId' => $id,
-        ),false,true);
-    }
-
-    public function actionAddRoleAttribute($role)
-    {
-        $model = new RoleAttribute;
-
-        $this->performAttributeRoleAjaxValidation($model);
-
-        if (isset($_POST['RoleAttribute'])) {
-            $model->attributes = $_POST['RoleAttribute'];
-            if ($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
-        }
-        $model->role = $role;
-        $this->renderPartial('addRoleAttribute', array(
-            'model' => $model,
-        ),false,true);
-    }
-
-    public function actionAddTeacherRole($teacher)
-    {
-        $model = Teacher::model()->findByPk($teacher);
-        $roles = Roles::generateRolesList();
-
-        $this->renderPartial('addTeacherRole', array(
-            'teacher' => $model,
-            'roles' => $roles,
-        ),false,true);
-    }
-
     public function actionCancelTeacherRole($id)
     {
-        $teacher = Teacher::model()->findByPk($id);
-        $roles = Teacher::generateTeacherRolesList($teacher->teacher_id);
+        $user = RegisteredUser::userById($id);
+        $roles = $user->teacherRoles();
+        $teacher = $user->getTeacher();
 
         $this->renderPartial('cancelTeacherRole', array(
             'teacher' => $teacher,
@@ -226,30 +113,62 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionAddTeacherRoleAttribute($teacher)
+    public function actionAddTeacherRole($id)
     {
-        $model = Teacher::model()->findByPk(intval($teacher));
-        $roles = Roles::generateRolesList();
-        $this->renderPartial('addTeacherRoleAttribute', array(
-            'model' => $model,
+        $user = RegisteredUser::userById($id);
+        $teacher = $user->getTeacher();
+        $roles = $user->noSetTeacherRoles();
+
+        $this->renderPartial('addTeacherRole', array(
+            'teacher' => $teacher,
             'roles' => $roles,
         ),false,true);
     }
 
-    public function actionUpdateRoleAttribute($id){
-        $model=RoleAttribute::model()->findByPk($id);
+    public function actionUnsetTeacherRole()
+    {
+        $id = Yii::app()->request->getPost('teacher');
+        $role = Yii::app()->request->getPost('role');
 
-        $this->performAttributeRoleAjaxValidation($model);
-
-        if(isset($_POST['RoleAttribute']))
-        {
-            $model->attributes=$_POST['RoleAttribute'];
-            if($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
+        $user = RegisteredUser::userById($id);
+        if ($id && $role) {
+            if ($user->cancelRole(new UserRoles($role))) {
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
         }
+    }
 
-        $this->renderPartial('updateRoleAttribute',array(
-            'model'=>$model,
+    public function actionSetTeacherRole()
+    {
+        $id = Yii::app()->request->getPost('teacher', 0);
+        $role = Yii::app()->request->getPost('role', '');
+
+        $user = RegisteredUser::userById($id);
+        if ($id && $role) {
+            if ($user->setRole(new UserRoles($role))) {
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
+        }
+    }
+
+    public function actionEditRole($id, $role)
+    {
+        $user = RegisteredUser::userById($id);
+        $role = new UserRoles($role);
+        $attributes = $user->getAttributesByRole($role);
+
+        $this->renderPartial('editRole', array(
+            'model' => $user->registrationData,
+            'role' => $role,
+            'attributes' => $attributes
         ),false,true);
     }
 
@@ -266,5 +185,62 @@ class TeachersController extends TeacherCabinetController{
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
+    }
+
+    public function actionSetTeacherRoleAttribute()
+    {
+        $request = Yii::app()->request;
+        $userId = $request->getPost('user', 0);
+        $role = $request->getPost('role', '');
+        $attribute = $request->getPost('attribute', '');
+        $value = $request->getPost('attributeValue', 0);
+        $user = RegisteredUser::userById($userId);
+
+        if ($userId && $attribute && $value && $role) {
+            if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            echo "error";
+        }
+    }
+
+    public function actionShowAttributes()
+    {
+        $user = Yii::app()->request->getPost('user');
+        $role = Yii::app()->request->getPost('role');
+
+        $user = StudentReg::model()->findByPk($user);
+        $attributes = Role::getInstance(new UserRoles($role))->attributes($user);
+
+        $this->renderPartial('_showAttributes', array(
+            'attributes' => $attributes
+        ), false, true);
+    }
+
+    //todo rewrite
+    public function actionShowAttributeInput()
+    {
+        $attr = Yii::app()->request->getPost('attribute');
+        $result = '';
+        switch ($attr) {
+            case '3':
+            case '6':
+            case '7':
+                $modules = Module::model()->findAll();
+                $this->renderPartial('_showAttributeInput', array(
+                    'modules' => $modules,
+                ), false, true);
+
+                break;
+            case 'user_list':
+                break;
+            default:
+                $this->renderPartial('_showAttributeTextInput');
+                break;
+        }
+        echo $result;
     }
 }

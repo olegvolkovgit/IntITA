@@ -44,7 +44,7 @@ class ConsultationscalendarController extends Controller
 	public function initialize($id,$idCourse)
 	{
 		$lecture = Lecture::model()->findByPk($id);
-		$editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+		$editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
 		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
 		if (StudentReg::isAdmin() || $editMode) {

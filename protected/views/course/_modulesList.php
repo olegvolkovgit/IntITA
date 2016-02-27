@@ -4,13 +4,13 @@ $editMode = ($canEdit) ? 'true' : '';
 <script type="text/javascript">
     basePath = '<?php echo Config::getBaseUrl();?>';
 </script>
-<div class="courseModules" ng-cloak ng-controller="moduleListCtrl">
+<div class="courseModules" ng-controller="moduleListCtrl">
     <?php
     if ($canEdit) { ?>
-        <img ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+        <img ng-cloak ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                     id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
 
-        <div ng-click="showForm()">
+        <div ng-cloak ng-click="showForm()">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'ajaxaddmodule-form',
             )); ?>
@@ -29,7 +29,8 @@ $editMode = ($canEdit) ? 'true' : '';
     } ?>
 
     <h2><?php echo Yii::t('course', '0330'); ?></h2>
-    <div id="modulesList">
+    <img style="display:inline-block" id="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
+    <div ng-cloak id="modulesList">
         <div ng-repeat="module in modulesProgress.modules track by $index">
             <?php if ($editMode) { ?>
             <div ng-if="editVisible" class="moduleButtons">

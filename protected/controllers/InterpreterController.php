@@ -20,7 +20,7 @@ class InterpreterController extends Controller
         if($idLecture!=Task::getTaskLecture(($idTask))){
             throw new \application\components\Exceptions\IntItaException('404', 'Запитувана сторінка не існує.');
         }
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         if (!$editMode) {
             throw new \application\components\Exceptions\IntItaException('403', 'У вас недостатньо прав для перегляду та редагування сторінки.
                 Для отримання доступу увійдіть з логіном автора модуля.');
