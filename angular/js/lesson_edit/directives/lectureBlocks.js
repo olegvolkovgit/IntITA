@@ -20,6 +20,23 @@ angular
             }
         };
     })
+    .directive('editCode', function ($compile, $ngBootbox) {
+        return {
+            link: function (scope, element) {
+                element.bind('click', function () {
+                    if (angular.element('.openCKE').length) {
+                        $ngBootbox.alert(scope.editMsg)
+                            .then(function() {
+                            });
+                        return;
+                    }
+                    var orderBlock = element.attr('id').substring(1);
+                    scope.getCodeHtml(orderBlock, idLecture, element);
+                    element.hide();
+                });
+            }
+        };
+    })
     .directive('upBlock', function ($compile, $http) {
         return {
             link: function (scope, element) {
@@ -39,9 +56,6 @@ angular
                                     angular.element('#blockList').append(($compile(template)(scope)));
                                     setTimeout(function () {
                                         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                        $('pre code').each(function(i, block) {
-                                            hljs.highlightBlock(block);
-                                        });
                                     });
                                 }
                             });
@@ -72,9 +86,6 @@ angular
                                     angular.element('#blockList').append(($compile(template)(scope)));
                                     setTimeout(function () {
                                         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                        $('pre code').each(function(i, block) {
-                                            hljs.highlightBlock(block);
-                                        });
                                     });
                                 }
                             });
@@ -107,9 +118,6 @@ angular
                                             angular.element('#blockList').append(($compile(template)(scope)));
                                             setTimeout(function () {
                                                 MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                                                $('pre code').each(function(i, block) {
-                                                    hljs.highlightBlock(block);
-                                                });
                                             });
                                         }
                                     });

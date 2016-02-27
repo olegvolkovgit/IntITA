@@ -11,7 +11,9 @@ if ($data['id_type'] == 6) {
                 <div class="content">
                     <div class="instrTaskText" id="<?php echo "t" . $data['block_order']; ?>">
                         <br/>
-                        <?php echo $data['html_block']; ?>
+                        <div ng-non-bindable>
+                            <?php echo $data['html_block']; ?>
+                        </div>
                     </div>
                     <form class="sendAnswer" id="sendAnswer" name="plainTaskForm">
                         <textarea placeholder='<?php echo Yii::t('lecture', '0663'); ?>' name="answer"

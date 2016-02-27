@@ -136,10 +136,9 @@ class UserMessages extends Messages implements IMessage
     {
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
-                $subject = "У тебе одне нове повідомлення від ".$this->message0->sender0->userName().", ".
-                    $this->message0->sender0->email;
+                $subject = "Нове повідомлення";
 
-                $sender->send($receiver->email, "Name", $subject, $this->text);
+                $sender->send($receiver->email, "", $subject, "");
             }
         }
 

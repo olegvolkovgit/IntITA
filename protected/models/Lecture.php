@@ -760,4 +760,51 @@ class Lecture extends CActiveRecord
             }
         }
     }
+
+    /**
+     * Returns $id_block if this lecture contain element with quiz or false
+     * @return bool $id_block which is the quiz or false
+     * @throws CDbException
+     */
+    public function isContainsQuiz() {
+        if ($this->lectureEl == null) {
+            $this->getRelated('lectureEl');
+        }
+
+        foreach ($this->lectureEl as $element) {
+            if ($element->isQuiz()) {
+                return $element->id_block;
+            }
+        }
+        return false;
+    }
+
+    public function createNewBlock($htmlBlock, $idType, $pageOrder) {
+        $model = new LectureElement();
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addTextBlock($model->id_block, $pageId);
+    }
+
+    public function deleteLectureElement($elementOrder) {
+        if ($this->lectureEl == null) {
+            $this->getRelated("lectureEl");
+        }
+
+        foreach ($this->lectureEl as $element) {
+            if ($element->block_order == $elementOrder) {
+                if ($element->id_type == LectureElement::TASK) {
+                    Task::deleteTask($element->id_block);
+                }
+                Yii::app()->db->createCommand()->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $element->id_block));
+                $element->delete();
+                return;
+            }
+        }
+    }
 }
