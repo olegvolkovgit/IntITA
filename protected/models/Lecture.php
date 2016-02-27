@@ -711,10 +711,19 @@ class Lecture extends CActiveRecord
      * @throws CDbException
      */
     public function upElement($elementOrder) {
+//        $criteria = new CDbCriteria();
+//        $criteria->order = "block_order ASC";
+//        $criteria->condition = "id_lecture=:id_lecture";
+
+
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
-        $criteria->condition = "id_lecture=:id_lecture";
-        $criteria->params = array (':id_lecture' => $this->id);
+        $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
+        $criteria->condition = "id_lecture=:id_lecture " .
+                                "AND lecture_element_lecture_page.page = " .
+                                "(SELECT page FROM lecture_element_lecture_page WHERE element=" .
+                                "(SELECT id_block FROM lecture_element WHERE id_lecture=:id_lecture AND block_order=:block_order))";
+        $criteria->params = array (':id_lecture' => $this->id, ':block_order' => $elementOrder);
 
         $lectureElementModels = LectureElement::model()->findAll($criteria);
 
@@ -741,8 +750,12 @@ class Lecture extends CActiveRecord
     public function downElement($elementOrder) {
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
-        $criteria->condition = "id_lecture=:id_lecture";
-        $criteria->params = array (':id_lecture' => $this->id);
+        $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
+        $criteria->condition = "id_lecture=:id_lecture " .
+                                "AND lecture_element_lecture_page.page = " .
+                                "(SELECT page FROM lecture_element_lecture_page WHERE element=" .
+                                "(SELECT id_block FROM lecture_element WHERE id_lecture=:id_lecture AND block_order=:block_order))";
+        $criteria->params = array (':id_lecture' => $this->id, ':block_order' => $elementOrder);
 
         $lectureElementModels = LectureElement::model()->findAll($criteria);
 
