@@ -10,5 +10,5 @@ $lang = $params[1];
 <br>
 <span><?=Yii::t('activeemail', '0299')?></span>
 <br>
- <a href="<?=Yii::app()->createAbsoluteUrl('site/AccActivation', array('token'=>$model->token,'email' => $model->email,'lang'=>$lang))?>"></a>
+ <a href="<?=Yii::app()->createAbsoluteUrl('site/AccActivation', array('token'=>$model->token,'email' => $model->email,'lang'=>$lang))?>">Активувати</a>
 
