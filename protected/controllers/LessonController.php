@@ -200,11 +200,11 @@ class LessonController extends Controller
     public function actionUpElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
-        $order = Yii::app()->request->getPost('order');
-        
+        $idBlock = Yii::app()->request->getPost('idBlock');
+
         $lecture = Lecture::model()->findByPk($idLecture);
 
-        $lecture->upElement($order);
+        $lecture->upElement($idBlock);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -215,11 +215,11 @@ class LessonController extends Controller
     public function actionDownElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
-        $order = Yii::app()->request->getPost('order');
+        $idBlock = Yii::app()->request->getPost('idBlock');
 
         $lecture = Lecture::model()->findByPk($idLecture);
 
-        $lecture->downElement($order);
+        $lecture->downElement($idBlock);
 
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -230,13 +230,13 @@ class LessonController extends Controller
     public function actionDeleteElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
-        $order = Yii::app()->request->getPost('order');
+        $idBlock = Yii::app()->request->getPost('idBlock');
 
         $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
 
         $this->checkInstanse($lecture);
 
-        $lecture->deleteLectureElement($order);
+        $lecture->deleteLectureElement($idBlock);
 
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);

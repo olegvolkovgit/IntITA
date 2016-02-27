@@ -710,16 +710,21 @@ class Lecture extends CActiveRecord
      * @param $elementOrder - order of element to be shifted
      * @throws CDbException
      */
-    public function upElement($elementOrder) {
+    public function upElement($idElement) {
+
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
-        $criteria->condition = "id_lecture=:id_lecture";
-        $criteria->params = array (':id_lecture' => $this->id);
+        $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
+        $criteria->condition = "id_lecture=:id_lecture " .
+                                "AND lecture_element_lecture_page.page = " .
+                                "(SELECT page FROM lecture_element_lecture_page WHERE element=:element)";
+
+        $criteria->params = array (':id_lecture' => $this->id, ':element' => $idElement);
 
         $lectureElementModels = LectureElement::model()->findAll($criteria);
 
         foreach ($lectureElementModels as $key => $element) {
-            if ($element->block_order == $elementOrder && $key != 0) {
+            if ($element->id_block == $idElement && $key != 0) {
                 $prevElement = $lectureElementModels[$key-1];
 
                 $swapOrder = $prevElement->block_order;
@@ -738,16 +743,19 @@ class Lecture extends CActiveRecord
      * @param $elementOrder - order of element to be shifted
      * @throws CDbException
      */
-    public function downElement($elementOrder) {
+    public function downElement($idElement) {
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
-        $criteria->condition = "id_lecture=:id_lecture";
-        $criteria->params = array (':id_lecture' => $this->id);
+        $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
+        $criteria->condition = "id_lecture=:id_lecture " .
+                                "AND lecture_element_lecture_page.page = " .
+                                "(SELECT page FROM lecture_element_lecture_page WHERE element=:element)";
+        $criteria->params = array (':id_lecture' => $this->id, ':element' => $idElement);
 
         $lectureElementModels = LectureElement::model()->findAll($criteria);
 
         foreach ($lectureElementModels as $key => $element) {
-            if ($element->block_order == $elementOrder && $key != count($lectureElementModels)-1) {
+            if ($element->id_block == $idElement && $key != count($lectureElementModels)-1) {
                 $nextElement = $lectureElementModels[$key+1];
 
                 $swapOrder = $nextElement->block_order;
@@ -791,13 +799,13 @@ class Lecture extends CActiveRecord
         LecturePage::addTextBlock($model->id_block, $pageId);
     }
 
-    public function deleteLectureElement($elementOrder) {
+    public function deleteLectureElement($idElement) {
         if ($this->lectureEl == null) {
             $this->getRelated("lectureEl");
         }
 
         foreach ($this->lectureEl as $element) {
-            if ($element->block_order == $elementOrder) {
+            if ($element->id_block == $idElement) {
                 if ($element->id_type == LectureElement::TASK) {
                     Task::deleteTask($element->id_block);
                 }
