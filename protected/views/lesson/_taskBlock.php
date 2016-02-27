@@ -15,13 +15,7 @@
                         </div>
                     </div>
                     <form class="sendAnswer" id="sendAnswer" name="taskForm">
-                        <textarea class='lectureTextarea' placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>" ng-model="userCode" required></textarea>
-                        <div>
-                            <span id="flashMsg"
-                                  ng-class="{'hideFlash' : !(taskForm.code.$pristine || taskForm.code.$error.required) }">
-                                Відповідь не може бути пустою
-                            </span>
-                        </div>
+                        <textarea class='lectureTextarea' placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>" required></textarea>
                     </form>
                     <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
                                 ng-click="sendTaskAnswer('<?php echo Task::getTaskId($data['id_block']);?>',
@@ -35,3 +29,13 @@
 <?php }else{
     echo 'До цієї сторінки лекції завдання не додано.';
 }?>
+
+<script>
+    sendCodeMirror = CodeMirror.fromTextArea(document.getElementById('code<?php echo $data['block_order'];?>'), {
+//        lineNumbers: true,             // показывать номера строк
+        matchBrackets: true,             // подсвечивать парные скобки
+        mode: "javascript",
+        theme: "rubyblue",               // стиль подсветки
+        indentUnit: 4                    // размер табуляции
+    });
+</script>

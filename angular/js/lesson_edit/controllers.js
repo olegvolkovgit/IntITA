@@ -85,6 +85,31 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             alert($scope.errorMsg);
         });
     };
+    $scope.getCodeHtml = function (blockOrder, idLecture, element) {
+        $http({
+            url: basePath + '/lesson/editBlock',
+            method: "POST",
+            data: $.param({order: blockOrder, lecture: idLecture}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.editCodeRedactor = response.data;
+            var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
+                $scope.editCodeRedactor+'</textarea>'+
+                '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+blockOrder+')">'+
+                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')"></div>';
+            ($compile(template)($scope)).insertAfter(element);
+            $scope.myEditCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECodeEdit'), {
+                lineNumbers: true,             // показывать номера строк
+                matchBrackets: true,             // подсвечивать парные скобки
+                mode: "javascript",
+                theme: "rubyblue",               // стиль подсветки
+                indentUnit: 4                    // размер табуляции
+            });
+            return true;
+        }, function errorCallback() {
+            alert($scope.errorMsg);
+        });
+    };
 
     $scope.answers = [{id: 1}];
 
@@ -159,5 +184,42 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             document.getElementById('blockForm').style.display = 'block';
             document.getElementById('blockType').value = type;
         }
+    }
+    $scope.saveCodeBlock= function(order){
+            $http({
+                url: basePath+'/lesson/saveBlock',
+                method: "POST",
+                data: $.param({content: $scope.myEditCodeMirror.getValue(), idLecture: idLecture, order: order}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            })
+                .success(function (response) {
+                    if(response.length==0){
+                        $ngBootbox.alert($scope.saveMsg)
+                            .then(function() {
+                            });
+                    } else {
+                        $ngBootbox.alert(response)
+                            .then(function() {
+                            });
+                    }
+                })
+                .error(function () {
+                    alert($scope.errorMsg);
+                })
+    }
+    $scope.closeCodeBlock= function(order){
+        angular.element('#CKECodeEdit' + order).remove();
+        angular.element('#t' + order).show();
+
+        $.fn.yiiListView.update('blocks_list', {
+            complete: function () {
+                var template = angular.element('#blockList').html();
+                angular.element('#blockList').empty();
+                angular.element('#blockList').append(($compile(template)($scope)));
+                setTimeout(function() {
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                });
+            }
+        });
     }
 }
