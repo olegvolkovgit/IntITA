@@ -201,7 +201,7 @@ class LessonController extends Controller
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $order = Yii::app()->request->getPost('order');
-        
+
         $lecture = Lecture::model()->findByPk($idLecture);
 
         $lecture->upElement($order);
