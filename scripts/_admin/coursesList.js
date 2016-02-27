@@ -2,7 +2,7 @@ function initCourses(){
     $jq('#coursesTable').DataTable({
         "ajax": {
             "url": basePath + "/_teacher/_admin/coursemanage/getCoursesList",
-            "dataSrc": "data"
+            "dataSrc": "data",
         },
         "columns": [
             { "data": "id" },
@@ -34,7 +34,8 @@ function initCourses(){
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+        },
+        dom: "<'row'<'col-sm-6'f><'col-sm-6'l>>"
     });
 }
 

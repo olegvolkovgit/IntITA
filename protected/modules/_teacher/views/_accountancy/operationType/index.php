@@ -53,7 +53,8 @@
         $jq('#operationTypes').DataTable({
                 language: {
                     "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
+                },
+                dom: "<'row'<'col-sm-6'f><'col-sm-6'l>>"
             }
         );
     });
