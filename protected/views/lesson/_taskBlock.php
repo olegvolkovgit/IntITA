@@ -32,10 +32,13 @@
 
 <script>
     sendCodeMirror = CodeMirror.fromTextArea(document.getElementById('code<?php echo $data['block_order'];?>'), {
-//        lineNumbers: true,             // показывать номера строк
+        lineNumbers: true,             // показывать номера строк
         matchBrackets: true,             // подсвечивать парные скобки
         mode: "javascript",
         theme: "rubyblue",               // стиль подсветки
         indentUnit: 4                    // размер табуляции
     });
+    setTimeout(function() {
+        sendCodeMirror.refresh();
+    }, 1000);
 </script>
