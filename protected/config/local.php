@@ -8,7 +8,7 @@
 return array(
     'db' => array(
         'class' => 'CDbConnection',
-        'connectionString' => 'mysql:host=localhost;dbname=intita3',
+        'connectionString' => 'mysql:host=localhost;dbname=intita1',
         'emulatePrepare' => true,
         'username' => 'intita',
         'password' => '1234567',

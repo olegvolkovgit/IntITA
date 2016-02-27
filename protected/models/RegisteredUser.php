@@ -192,6 +192,6 @@ class RegisteredUser
 
     public function noSetTeacherRoles()
     {
-        return array_diff($this->getRoles(), $this->_teacherRoles);
+        return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
     }
 }

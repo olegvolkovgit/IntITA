@@ -711,7 +711,7 @@ class Teacher extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record->user_id
             ));
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->teacher_id))."'";
+            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id'=>$record->teacher_id))."'";
             if($record->isActive()){
                 $row["status"] = "активний";

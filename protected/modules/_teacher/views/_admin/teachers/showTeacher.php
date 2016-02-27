@@ -34,7 +34,7 @@
 
     <div class="row">
         <div class="col-md-3">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url); ?>"
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->user->avatar); ?>"
                  class="img-thumbnail" style="height:200px">
         </div>
         <div class="col-md-9">
@@ -44,7 +44,7 @@
                 <li class="list-group-item">Ім'я:
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
                         <?php echo $teacher->getName() ?></a></li>
-                <li class="list-group-item">Електронна пошта: <?php echo $teacher->email; ?></li>
+                <li class="list-group-item">Електронна пошта: <?php echo $teacher->user->email; ?></li>
                 <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
 
                 <?php if (!empty($user->getRoles())) { ?>

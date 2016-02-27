@@ -49,6 +49,9 @@
                     <input type="submit" class="btn btn-primary"
                            onclick="addTeacherAttr('<?php echo Yii::app()->createUrl("/_teacher/_admin/teachers/setTeacherRoleAttribute"); ?>'); return false;"
                            value="Редагувати">
+                    <input type="reset" class="btn btn-default"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>', 'Викладачі'); return false;"
+                           value="Скасувати">
                 <?php } ?>
                 </div>
             </form>
