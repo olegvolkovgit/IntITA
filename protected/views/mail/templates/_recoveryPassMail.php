@@ -9,4 +9,4 @@ $model = $params[0];
 <br>
 <span><?=Yii::t('recovery', '0239')?></span>
 <br>
-<a href="<?=Yii::app()->createAbsoluteUrl('site/vertoken',array('token' => $model->token, 'activkey_lifetime' => $model->activkey_lifetime))?>></a>
+<a href="<?=Yii::app()->createAbsoluteUrl('site/vertoken',array('token' => $model->token, 'activkey_lifetime' => $model->activkey_lifetime))?>">Відновити</a>

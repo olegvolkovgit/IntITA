@@ -10,4 +10,4 @@ $hashMail = $params[1];
 <br>
 <span><?=Yii::t('recovery', '0283')?></span>
 <br>
- <a href="<?=Yii::app()->createAbsoluteUrl('site/veremail', array('token' => $model->token,'email' => $hashMail));?>"></a>
+ <a href="<?=Yii::app()->createAbsoluteUrl('site/veremail', array('token' => $model->token,'email' => $hashMail));?>">Змінити пароль</a>
