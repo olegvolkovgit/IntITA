@@ -1,7 +1,7 @@
 <div class="element">
     <?php $this->renderPartial('/editor/_editToolbarCKE', array(
         'idLecture' => $data['id_lecture'],
-        'idBlock' =>  $data['id_block'],
+        'order' =>  $data['block_order'],
         'editMode' => $editMode,
     ));?>
 

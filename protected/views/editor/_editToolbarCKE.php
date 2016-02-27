@@ -1,5 +1,5 @@
 <?php if($editMode){?>
-    <div class="editToolbar" id="<?php echo 'p'.$idBlock; ?>" >
+    <div class="editToolbar" id="<?php echo 'p'.$order; ?>" >
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png'); ?>" class="editIco"
              up-block >
         <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png'); ?>" class="editIco"
