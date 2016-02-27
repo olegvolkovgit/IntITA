@@ -185,14 +185,6 @@ class Teacher extends CActiveRecord
         }
     }
 
-    public static function isTeacher($user)
-    {
-        if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $user))) {
-            return Teacher::model()->findByAttributes(array('user_id' => $user))->teacher_id;
-        }
-        return false;
-    }
-
     public static function isTeacherCanEdit($user, $modules)
     {
         $criteria = new CDbCriteria();
@@ -248,6 +240,7 @@ class Teacher extends CActiveRecord
         return null;
     }
 
+    //todo
     public static function getTeacherConsult($lectureId)
     {
         $lecture = Lecture::model()->findByPk($lectureId);
@@ -265,7 +258,7 @@ class Teacher extends CActiveRecord
         $criteriaData = new CDbCriteria;
         $criteriaData->alias = 'teacher';
         $criteriaData->condition = 'isPrint = 1';
-        $criteriaData->addInCondition('teacher_id', $teachersconsult, 'AND');
+        $criteriaData->addInCondition('user_id', $teachersconsult, 'AND');
 
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteriaData,
@@ -481,12 +474,6 @@ class Teacher extends CActiveRecord
         }
     }
 
-    public function roles()
-    {
-        $model =RegisteredUser::userById($this->teacher_id);
-        return $model->getRoles();
-    }
-
     public static function getAllTrainers()
     {
         $criteria = new CDbCriteria();
@@ -516,20 +503,6 @@ class Teacher extends CActiveRecord
             array('idTeacher'=>$idTeacher,'idModule'=>$idModule), 'end_time IS NULL'
         );
         if (isset($author)) return true; else return false;
-    }
-
-    public static function getConsultantModules($teacher)
-    {
-        $modules = ConsultantModules::getModulesByConsultant($teacher);
-        $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
-        return $result;
-    }
-
-    public static function getLeaderProjects($teacher)
-    {
-        $projects = Project::getProjectsByLeader($teacher);
-        $result = RoleAttribute::formatAttributeList($projects, 'project/index', 'id', false);
-        return $result;
     }
 
     public static function getModulesByTeacher($id)
@@ -565,46 +538,6 @@ class Teacher extends CActiveRecord
         };
 
         return (!empty($module)) ? $module : [];
-    }
-
-    public function modules()
-    {
-        $modules = $this->modulesRoleArray();
-        $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
-        return $result;
-    }
-
-    public function modulesRoleArray()
-    {
-        $modules = Yii::app()->db->createCommand(array(
-            'select' => array('idModule'),
-            'from' => 'teacher_module',
-            'where' => 'idTeacher=:id',
-            'order' => 'idModule',
-            'params' => array(':id' => $this->teacher_id),
-        ))->queryAll();
-        $count = count($modules);
-        $titleParam = Module::getModuleTitleParam();
-
-        for ($i = 0; $i < $count; $i++) {
-            $modules[$i]['id'] = $modules[$i]["idModule"];
-            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
-        }
-
-        return (!empty($modules)) ? $modules : [];
-    }
-
-    public function getTrainees()
-    {
-        $trainees = Yii::app()->db->createCommand(array(
-            'select' => array('student'),
-            'from' => 'trainer_student',
-            'where' => 'trainer=:id',
-            'order' => 'student',
-            'params' => array(':id' => $this->teacher_id),
-        ))->queryAll();
-
-        return $trainees;
     }
 
     public function notCheckedPlainTask()

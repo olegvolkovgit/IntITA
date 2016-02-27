@@ -22,6 +22,7 @@
  *
  * The followings are the available model relations:
  * @property LectureType $type
+ * @property Module $module
  */
 class Lecture extends CActiveRecord
 {
@@ -306,6 +307,14 @@ class Lecture extends CActiveRecord
     {
         return Lecture::model()->findByAttributes(array(
             'idModule' => $idModule,
+            'order' => $order
+        ));
+    }
+
+    public function getLectureByModuleOrder($order)
+    {
+        return Lecture::model()->findByAttributes(array(
+            'idModule' => $this->module->module_ID,
             'order' => $order
         ));
     }

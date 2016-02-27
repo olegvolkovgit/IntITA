@@ -31,7 +31,8 @@
             </textarea>
         </div>
         <div class="form-group">
-            <?php $teachers = $plainTaskAnswer->getTrainersByAnswer() ?>
+            <?php
+            ?>
             <label for="consult">Можливі консультанти :</label>
 
             <select name="consult" id="consult" class="form-control">

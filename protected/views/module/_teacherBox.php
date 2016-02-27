@@ -25,7 +25,7 @@ foreach ($teachers as $teacher) {
                     <div style="line-height: 1.2;">
                         <?php echo $teacher->getLastFirstName();?>
                         <br>
-                        <?php echo $teacher->email; ?>
+                        <?php echo $teacher->user->email; ?>
                         <br>
                         <?php
                         if ($teacher->skype() != '') {

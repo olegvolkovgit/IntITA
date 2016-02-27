@@ -810,8 +810,7 @@ class StudentReg extends CActiveRecord
                 if ($result == ' ')
                     $result = StudentReg::model()->findByPk($dp->user_id)->email;
             } else {
-                $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
-                    Teacher::getTeacherLastName($dp->teacher_id);
+                $result =$teacher->firstName() . " " . $teacher->lastName();
             }
             return CHtml::link($result,array("/studentreg/profile", "idUser" => $dp->user_id),array("target"=>"_blank"));
         } else {

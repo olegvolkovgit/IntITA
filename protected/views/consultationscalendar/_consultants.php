@@ -25,7 +25,7 @@
                 <?php echo $data->lastName() . " " . $data->firstName() . " " . $data->middleName(); ?>
             </li>
             <li>
-                <?php echo $data['email']; ?>
+                <?php echo $data->user->email; ?>
             </li>
             <li>
                 <?php echo 'skype: ' ?>

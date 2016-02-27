@@ -22,7 +22,7 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    private $_teacherRoles = array('trainer', 'consultant');
+    private $_teacherRoles = array( UserRoles::TRAINER, UserRoles::CONSULTANT);
 
     public function __construct(StudentReg $registrationData)
     {
@@ -134,35 +134,36 @@ class RegisteredUser
 
     public function isAdmin()
     {
-        return in_array(new UserRoles('admin'), $this->getRoles());
+        return in_array(UserRoles::ADMIN, $this->getRoles());
     }
 
     public function isAccountant()
     {
-        return $this->hasRole(new UserRoles('accountant'));
+        return $this->hasRole(UserRoles::ACCOUNTANT);
     }
 
     public function isTrainer()
     {
-        return $this->hasRole(new UserRoles('trainer'));
+        return $this->hasRole(UserRoles::TRAINER);
     }
 
     public function isConsultant()
     {
-        return $this->hasRole(new UserRoles('consultant'));
+        return $this->hasRole(UserRoles::CONSULTANT);
     }
 
     public function isStudent()
     {
-        return $this->hasRole(new UserRoles('student'));
+        return $this->hasRole(UserRoles::STUDENT);
     }
 
+    //TODO
     public function isAuthor()
     {
-        return $this->hasRole(new UserRoles('author'));
+       // return $this->hasRole(UserRoles::);
     }
 
-    public function hasRole(UserRoles $role)
+    public function hasRole($role)
     {
         return in_array($role, $this->getRoles());
     }

@@ -219,28 +219,4 @@ class TeachersController extends TeacherCabinetController{
             'attributes' => $attributes
         ), false, true);
     }
-
-    //todo rewrite
-    public function actionShowAttributeInput()
-    {
-        $attr = Yii::app()->request->getPost('attribute');
-        $result = '';
-        switch ($attr) {
-            case '3':
-            case '6':
-            case '7':
-                $modules = Module::model()->findAll();
-                $this->renderPartial('_showAttributeInput', array(
-                    'modules' => $modules,
-                ), false, true);
-
-                break;
-            case 'user_list':
-                break;
-            default:
-                $this->renderPartial('_showAttributeTextInput');
-                break;
-        }
-        echo $result;
-    }
 }

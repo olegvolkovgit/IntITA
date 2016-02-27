@@ -28,6 +28,7 @@
  * The followings are the available model relations:
  * @property Course $course0
  * @property Level $level0
+ * @property Teacher teacher
  */
 
 const EDITOR_ENABLED = 1;
@@ -489,6 +490,7 @@ class Module extends CActiveRecord implements IBillableObject
         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
     }
 
+
     public static function getLessonsCount($idModule)
     {
         return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
@@ -756,6 +758,7 @@ class Module extends CActiveRecord implements IBillableObject
     public static function getTeacherByModule($idModule)
     {
         $module = Module::model()->findByPk($idModule);
+
         return $module->teacher;
     }
     
