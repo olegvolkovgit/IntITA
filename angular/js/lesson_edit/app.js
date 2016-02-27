@@ -2,4 +2,4 @@
 
 /* App Module */
 angular
-    .module('lessonEdit', ['ngCkeditor','ngBootbox']);
+    .module('lessonEdit', ['ngCkeditor','ngBootbox','hljs']);

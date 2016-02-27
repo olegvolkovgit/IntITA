@@ -73,4 +73,3 @@ $testType = Tests::getTestType($data['id_block']);
         </div>
     </div>
 </div>
-

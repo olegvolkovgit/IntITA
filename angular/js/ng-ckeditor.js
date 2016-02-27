@@ -197,9 +197,6 @@
                                     angular.element('#blockList').append(($compile(template)(scope)));
                                     setTimeout(function() {
                                         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                                        $('pre code').each(function(i, block) {
-                                            hljs.highlightBlock(block);
-                                        });
                                     });
                                 }
                             });

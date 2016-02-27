@@ -1,0 +1,20 @@
+.CodeMirror {
+    height:100%;
+}
+.CodeMirror-scroll {
+    overflow: hidden !important;
+}
+.CodeMirror-vscrollbar {
+    overflow-y: hidden;
+}
+.CodeMirror-hscrollbar {
+    overflow-x: hidden;
+}
+.CodeMirror-lines {
+    min-height: 200px;
+}
+.cm-s-rubyblue.CodeMirror {
+    background: #202746;
+    border-radius: 4px;
+    color: white;
+}
