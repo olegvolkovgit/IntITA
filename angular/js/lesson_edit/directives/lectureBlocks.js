@@ -41,11 +41,11 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    var order = element.parent().attr('id').substring(1);
+                    var idBlock = element.parent().attr('id').substring(1);
                     $http({
                         url: basePath + '/lesson/upElement',
                         method: "POST",
-                        data: $.param({idLecture: idLecture, order: order}),
+                        data: $.param({idLecture: idLecture, idBlock: idBlock}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function () {
@@ -71,11 +71,11 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    var order = element.parent().attr('id').substring(1);
+                    var idBlock = element.parent().attr('id').substring(1);
                     $http({
                         url: basePath + '/lesson/downElement',
                         method: "POST",
-                        data: $.param({idLecture: idLecture, order: order}),
+                        data: $.param({idLecture: idLecture, idBlock: idBlock}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function () {
@@ -103,11 +103,11 @@ angular
                 element.bind('click', function () {
                     $ngBootbox.confirm(scope.deleteMsg)
                         .then(function() {
-                            var order = element.parent().attr('id').substring(1);
+                            var idBlock = element.parent().attr('id').substring(1);
                             $http({
                                 url: basePath + '/lesson/deleteElement',
                                 method: "POST",
-                                data: $.param({idLecture: idLecture, order: order}),
+                                data: $.param({idLecture: idLecture, idBlock: idBlock}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             })
                                 .success(function () {

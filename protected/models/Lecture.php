@@ -711,11 +711,6 @@ class Lecture extends CActiveRecord
      * @throws CDbException
      */
     public function upElement($elementOrder) {
-//        $criteria = new CDbCriteria();
-//        $criteria->order = "block_order ASC";
-//        $criteria->condition = "id_lecture=:id_lecture";
-
-
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
         $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
