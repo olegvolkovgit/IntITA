@@ -924,3 +924,6 @@ a.cke_dialog_ui_fileButton{
 .hljs-strong {
     font-weight: bold;
 }
+.element img{
+    vertical-align: inherit;
+}
