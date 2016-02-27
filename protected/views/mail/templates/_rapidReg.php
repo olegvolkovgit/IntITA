@@ -4,6 +4,7 @@
  * @var $model StudentReg
  */
 $model = $params[0];
+$lang = $params[1];
 ?>
 <h4>Вітаємо!</h4>
 <br>
