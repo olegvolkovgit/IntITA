@@ -532,15 +532,17 @@ class SiteController extends Controller
             $getToken = rand(0, 99999);
             $getTime = date("Y-m-d H:i:s");
             $model->token = sha1($getToken . $getTime);
+            if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
+            else $lang = 'ua';
 
             if ($model->validate()) {
                 if(StudentReg::model()->exists('email=:email', array(':email' => $model->email))){
                     //linking exist email to network
                     $existModel=StudentReg::model()->findByAttributes(array('email' => $model->email));
-                        $key='codename41';
-                        $mailHash = base64_encode(Mail::strcode($model->email, $key));
+                    $key='codename41';
+                    $mailHash = base64_encode(Mail::strcode($model->email, $key));
                     $sender = new MailTransport();
-                    $sender->renderBodyTemplate('_linkingEmailMail', array($model,$mailHash));
+                    $sender->renderBodyTemplate('_linkingEmailMail', array($model,$mailHash,$lang));
                     if (!$sender->send($model->email, "",'Приєднання соціальної мережі до електронної адреси', ""))
                         throw new MailException('The letter was not sent');
                     $model->updateByPk($existModel->id, array('token' => $model->token));
@@ -548,8 +550,6 @@ class SiteController extends Controller
                     $this->redirect(Yii::app()->createUrl('/site/linkingemailinfo', array('email' => $model->email,'network' => $model->identity)));
                 }else{
                     //linking new email to network
-                    if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
-                    else $lang = 'ua';
                     $model->save();
                     $sender = new MailTransport();
                     $sender->renderBodyTemplate('_verificationEmailMail', array($model,$lang));
@@ -731,10 +731,11 @@ class SiteController extends Controller
         $model = StudentReg::model()->findByAttributes(array('email' => $email));
         StudentReg::model()->updateByPk($model->id, array('token' => sha1($getToken . $getTime)));
         $model = StudentReg::model()->findByPk($model->id);
+        if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
+        else $lang = 'ua';
 
-        $model->save();
         $sender = new MailTransport();
-        $sender->renderBodyTemplate('_rapidReg', array($model));
+        $sender->renderBodyTemplate('_rapidReg', array($model,$lang));
         if (!$sender->send($model->email, "",Yii::t('activeemail', '0298'), ""))
             throw new MailException('The letter was not sent');
         $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
