@@ -722,8 +722,12 @@ class Lecture extends CActiveRecord
     public function upElement($elementOrder) {
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
-        $criteria->condition = "id_lecture=:id_lecture";
-        $criteria->params = array (':id_lecture' => $this->id);
+        $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
+        $criteria->condition = "id_lecture=:id_lecture " .
+                                "AND lecture_element_lecture_page.page = " .
+                                "(SELECT page FROM lecture_element_lecture_page WHERE element=" .
+                                "(SELECT id_block FROM lecture_element WHERE id_lecture=:id_lecture AND block_order=:block_order))";
+        $criteria->params = array (':id_lecture' => $this->id, ':block_order' => $elementOrder);
 
         $lectureElementModels = LectureElement::model()->findAll($criteria);
 
@@ -750,8 +754,12 @@ class Lecture extends CActiveRecord
     public function downElement($elementOrder) {
         $criteria = new CDbCriteria();
         $criteria->order = "block_order ASC";
-        $criteria->condition = "id_lecture=:id_lecture";
-        $criteria->params = array (':id_lecture' => $this->id);
+        $criteria->join = "LEFT JOIN lecture_element_lecture_page ON element=id_block";
+        $criteria->condition = "id_lecture=:id_lecture " .
+                                "AND lecture_element_lecture_page.page = " .
+                                "(SELECT page FROM lecture_element_lecture_page WHERE element=" .
+                                "(SELECT id_block FROM lecture_element WHERE id_lecture=:id_lecture AND block_order=:block_order))";
+        $criteria->params = array (':id_lecture' => $this->id, ':block_order' => $elementOrder);
 
         $lectureElementModels = LectureElement::model()->findAll($criteria);
 
@@ -766,6 +774,53 @@ class Lecture extends CActiveRecord
                 $nextElement->update(array('block_order'));
                 $element->update(array('block_order'));
                 break;
+            }
+        }
+    }
+
+    /**
+     * Returns $id_block if this lecture contain element with quiz or false
+     * @return bool $id_block which is the quiz or false
+     * @throws CDbException
+     */
+    public function isContainsQuiz() {
+        if ($this->lectureEl == null) {
+            $this->getRelated('lectureEl');
+        }
+
+        foreach ($this->lectureEl as $element) {
+            if ($element->isQuiz()) {
+                return $element->id_block;
+            }
+        }
+        return false;
+    }
+
+    public function createNewBlock($htmlBlock, $idType, $pageOrder) {
+        $model = new LectureElement();
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addTextBlock($model->id_block, $pageId);
+    }
+
+    public function deleteLectureElement($elementOrder) {
+        if ($this->lectureEl == null) {
+            $this->getRelated("lectureEl");
+        }
+
+        foreach ($this->lectureEl as $element) {
+            if ($element->block_order == $elementOrder) {
+                if ($element->id_type == LectureElement::TASK) {
+                    Task::deleteTask($element->id_block);
+                }
+                Yii::app()->db->createCommand()->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $element->id_block));
+                $element->delete();
+                return;
             }
         }
     }

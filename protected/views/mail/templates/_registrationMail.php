@@ -1,13 +1,13 @@
 <?php
 /**
  * @var $params array
- * @var $model Course
+ * @var $model StudentReg
  */
 $model = $params[0];
+$lang = $params[1];
 ?>
 <h4>Вітаємо!</h4>
-Yii::t('activeemail', '0299')
-<span>
-<a href="<?=Yii::app()->createAbsoluteUrl('/index.php?r=site/AccActivation/view&token=', array($model->token,$model->token, $lang, $model->email));?>"> .</span>
+<span><?=Yii::t('activeemail', '0299')?></span>
+<a href="<?=Yii::app()->createAbsoluteUrl('site/AccActivation' ,array('token'=>$model->token ,'email'=>$model->email ,'lang'=>$lang));?>">Активувати</a>
 <br>
 ​З повагою, INTITA​;

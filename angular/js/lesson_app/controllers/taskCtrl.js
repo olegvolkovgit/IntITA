@@ -13,11 +13,12 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
         var button=angular.element(document.querySelector(".taskSubmit"));
         angular.element(document.querySelector("#ajaxLoad")).css('margin-top', e.currentTarget.offsetTop-20+'px');
         button.attr('disabled', true);
-        var answer = $('[name=code]').val();
+        var answer = sendCodeMirror.getValue();
+        $scope.userCode=sendCodeMirror.getValue();
 
         if($.trim(answer) == '')
         {
-            angular.element(document.querySelector("#flashMsg")).addClass('emptyFlash');
+            bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');
         } else {
             userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
@@ -26,7 +27,6 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                 }else if(response=='error'){
                     bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                 }
-                $('#ajaxLoad').hide();
                 button.removeAttr('disabled');
             });
         }
@@ -39,6 +39,7 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                             getTaskResult();
                             break;
                         case 'done':
+                            $('#ajaxLoad').hide();
                             if(serverResponse.done){
                                 $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning,$scope.userId)
                                     .then(function(setMarkResponse) {
@@ -51,12 +52,15 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                             }
                             break;
                         case 'failed':
+                            $('#ajaxLoad').hide();
                             bootbox.alert("Твій код не скомпілювався. Виправ помилки та спробуй ще раз.<br>Помилка: <br>"+serverResponse.warning);
                             break;
                         case 'error':
+                            $('#ajaxLoad').hide();
                             bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                             break;
                         default:
+                            $('#ajaxLoad').hide();
                             bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                     }
                 })

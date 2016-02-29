@@ -1024,4 +1024,46 @@ class Module extends CActiveRecord implements IBillableObject
 
         return json_encode($result);
     }
+    /**
+     * Returns id of last lecture containing a quiz
+     * @return bool $lectureElement->idBlock or false if nothing found
+     * @throws CDbException
+     */
+    public function getLastQuizId() {
+        if ($this->lectures === null) {
+            $this->getRelated('lectures');
+        }
+
+        return $this->findFirstQuizId(array_reverse($this->lectures));
+    }
+
+    /**
+     * Returns id of last lecture containing a quiz
+     * @return bool $lectureElement->idBlock or false if nothing found
+     * @throws CDbException
+     */
+    public function getFirstQuizId() {
+        if ($this->lectures === null) {
+            $this->getRelated('lectures');
+        }
+
+        return $this->findFirstQuizId($this->lectures);
+    }
+
+    /**
+     * Iterates over $lectures array and find first instance of lecture with quiz.
+     * @param $lectures - array of lectures
+     * @return bool $lectureElement->idBlock or false if nothing found
+     */
+    private function findFirstQuizId($lectures) {
+        foreach ($lectures as $lecture) {
+            $idBlock = $lecture->isContainsQuiz();
+            if ($idBlock != null) {
+                return $idBlock;
+            }
+        }
+        return false;
+    }
+
+
 }

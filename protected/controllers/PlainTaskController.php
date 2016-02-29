@@ -72,6 +72,14 @@ class PlainTaskController extends Controller
             else echo 'done';
         }
     }
+    public function actionDataPlainTask()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $plainTask=LectureElement::model()->findByPk($idBlock);
+        $data["condition"]=$plainTask->html_block;
 
+        echo CJSON::encode($data);
+    }
 
 }

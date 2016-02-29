@@ -36,10 +36,17 @@ class TeacherController extends TeacherCabinetController
     {
         $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
         $consult = Yii::app()->request->getPost('consult');
+        $model = StudentReg::model()->findByPk($consult);
 
-        Letters::sendAssignedConsultantLetter($consult, $idPlainTaskAnswer);
+        $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($idPlainTaskAnswer);
 
-        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
+        $sender = new MailTransport();
+        $sender->renderBodyTemplate('_assignedConsultantLetter', array($plainTaskAnswer));
+        if ($sender->send($model->email, "", 'Нова задача', "")) {
+            $model->save();
+        }
+
+        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult->teacher->teacher_id))
             throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
     }
 

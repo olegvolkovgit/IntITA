@@ -6,31 +6,27 @@
  * Time: 13:57
  */
 ?>
-<?php
-$answers=TestsAnswers::getTestAnswers($idBlock);
-$valid=TestsAnswers::getTestValidCKE($idBlock);
-?>
-<div ng-init='editAnswers=<?php echo htmlspecialchars(json_encode($answers),ENT_QUOTES); ?>;
-     valid=<?php echo json_encode($valid); ?>;'>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/testCtrl.js'); ?>"></script>
+<div ng-init='idBlock=<?php echo $idBlock; ?>;'>
 </div>
-<div class="editTest">
+<div class="editTest" ng-controller="testCtrl">
     <br>
     <form name="editTestForm" onSubmit="return checkAnswersCKE($('.answersCheckbox input:checkbox:checked'));" method="post" action="<?php echo Yii::app()->createUrl('/tests/editTest');?>" novalidate>
         <fieldset>
             <legend><?php echo Yii::t('lecture', '0700'); ?></legend>
             <?php echo Yii::t('lecture', '0710'); ?>
             <br>
-            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" placeholder="умова теста"
-                      size="80" required ng-init="testConditionEdit='<?php echo htmlentities(addslashes(Tests::getTestCondition($idBlock)));?>'" ng-model="testConditionEdit"></textarea>
-            <fieldset id="optionsField<?php echo $idBlock?>">
+            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" placeholder="умова теста" required ng-model="dataTest.condition">
+            </textarea>
+            <fieldset id="optionsField{{idBlock}}">
                 <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
                 <legend style="margin-left: 920px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
                 <ol  class='answerList' id="optionsList" class="inputs">
-                    <li ng-repeat="editAnswer in editAnswers track by $index">
-                        <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="editAnswers[$index]" ></textarea>
+                    <li ng-repeat="answer in dataTest.answers track by $index">
+                        <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="dataTest.answers[$index]" ></textarea>
                         <div class="answerCheck">
                             <div id="answersList" class="answersCheckbox">
-                                <div><input type="checkbox" name="answer{{$index+1}}" value="{{$index+1}}"  ng-checked="{{valid[$index]}}" ></div>
+                                <div><input type="checkbox" name="answer{{$index+1}}" value="{{$index+1}}"  ng-checked="{{dataTest.valid[$index]}}" ></div>
                             </div>
                         </div>
                     </li>
@@ -39,12 +35,12 @@ $valid=TestsAnswers::getTestValidCKE($idBlock);
                 <div class="answerAddRemove" ng-click="editDeleteAnswer();"><?php echo Yii::t('lecture', '0703'); ?></div>
             </fieldset>
             <br>
-            <input name="optionsNum" id="optionsNum" type="hidden" value="<?php echo count(TestsAnswers::getTestAnswers($idBlock))?>"/>
-            <input name="idBlock" type="hidden" value="<?php echo $idBlock;?>"/>
+            <input name="optionsNum" id="optionsNum" type="hidden" value="{{dataTest.answers.length}}"/>
+            <input name="idBlock" type="hidden" value="{{idBlock}}"/>
             <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
         </fieldset>
         <br>
-        <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests<?php echo $idBlock;?>'  ng-disabled=editTestForm.$invalid>
+        <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests{{idBlock}}'  ng-disabled=editTestForm.$invalid>
     </form>
     <br>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
