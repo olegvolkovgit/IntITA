@@ -139,13 +139,16 @@ class StudentRegController extends Controller
                     $thisModel = new StudentReg();
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
                 }
-
-                if(!Mail::sendRegistrationMail($model))
+                $sender = new MailTransport();
+                $sender->renderBodyTemplate('_registrationMail', array($model,$lang));
+                if(!$sender->send($model->email, "",Yii::t('activeemail', '0298'), ""))
                     throw new \application\components\Exceptions\MailException('The letter was not sent ');
 
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
-                $this->render("studentreg", array('model' => $model));
+
+               $this->render("studentreg", array('model' => $model));
+
             }
         }
     }
