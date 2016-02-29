@@ -382,10 +382,10 @@ class SiteController extends Controller
             $getTime = $this->setToken($getModel);
         }
         if ($getModel->validate()) {
-            $model->activkey_lifetime = $getTime;
-            $model->save();
+            $getModel->activkey_lifetime = $getTime;
+            $getModel->save();
             $sender = new MailTransport();
-            $sender->renderBodyTemplate('_recoveryPassMail', array($model));
+            $sender->renderBodyTemplate('_recoveryPassMail', array($getModel));
             if (!$sender->send($model->email,'',Yii::t('recovery', '0281'),''))
                 throw new MailException('The letter was not sent');
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
