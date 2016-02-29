@@ -10,6 +10,8 @@ abstract class Role
 
     abstract function attributes(StudentReg $user);
 
+    abstract function cancelAttribute(StudentReg $user, $attribute, $value);
+
     public static function getInstance(UserRoles $role){
         switch($role){
             case "admin":

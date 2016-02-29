@@ -177,6 +177,16 @@ class TeachersController extends TeacherCabinetController{
         echo Teacher::teachersAdminList();
     }
 
+    public function actionModulesByQuery($query)
+    {
+        if ($query) {
+            $modules = Module::allModules($query);
+            echo $modules;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
     public function actionUsersByQuery($query)
     {
         if ($query) {
@@ -198,6 +208,27 @@ class TeachersController extends TeacherCabinetController{
 
         if ($userId && $attribute && $value && $role) {
             if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            echo "error";
+        }
+    }
+
+
+    public function actionUnsetTeacherRoleAttribute()
+    {
+        $request = Yii::app()->request;
+        $userId = $request->getPost('user', 0);
+        $role = $request->getPost('role', '');
+        $attribute = $request->getPost('attribute', '');
+        $value = $request->getPost('attributeValue', 0);
+        $user = RegisteredUser::userById($userId);
+
+        if ($userId && $attribute && $value && $role) {
+            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
                 echo "success";
             } else {
                 echo "error";

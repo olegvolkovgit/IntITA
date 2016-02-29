@@ -23,4 +23,8 @@ class Author extends Role
         // TODO: Implement attributes() method.
     }
 
+    public  function cancelAttribute(StudentReg $user, $attribute, $value)
+    {
+        return false;
+    }
 }

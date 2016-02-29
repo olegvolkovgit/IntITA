@@ -132,6 +132,11 @@ class RegisteredUser
         return $roleObj->setAttribute($this->registrationData, $attribute, $value);
     }
 
+    public function unsetRoleAttribute(UserRoles $role, $attribute, $value){
+        $roleObj = Role::getInstance($role);
+        return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
+    }
+
     public function isAdmin()
     {
         return in_array(UserRoles::ADMIN, $this->getRoles());

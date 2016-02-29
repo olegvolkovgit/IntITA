@@ -12,7 +12,7 @@
             <li><a href="#<?= $role; ?>" data-toggle="tab"><?= $role; ?></a>
             </li>
         </ul>
-        <div class="tab-content col col-md-6">
+        <div class="tab-content col col-md-12">
             <form name="add-access">
                 <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
                 <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
@@ -27,28 +27,7 @@
                                 <label><?php echo $attribute["title"]; ?></label>
                                 <?php
                                 if ($attribute["type"] == "module-list") {
-                                    foreach ($attribute["value"] as $item) {
-                                        ?>
-                                        <br>
-                                        <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
-                                            <?= $item["title"]; ?>
-                                        </a>   <button type="button" class="btn btn-warning btn-xs">Скасувати</button>
-                                        <?php
-                                    } ?>
-                                    <br>
-                                    <br>
-<!--                                    <form role="form" name="message">-->
-<!--                                        <input type="number" hidden="hidden" id="receiverId" value="0"/>-->
-<!---->
-<!--                                        <div class="form-group col-md-8">-->
-<!--                                            <label>Модуль:</label>-->
-<!--                                            <br>-->
-<!--                                            <input id="typeahead" type="text" class="form-control" name="module"-->
-<!--                                                   placeholder="Назва модуля" size="135" required autofocus>-->
-                                            <button type="button" class="btn btn-success btn-sm">Додати модуль</button>
-<!--                                        </div>-->
-<!--                                    </form>-->
-                                    <?php
+                                        $this->renderPartial('_moduleList', array('attribute' => $attribute));
                                 } else { ?>
                                     <input type="number" class="form-control col col-md-4" name="attributeValue"
                                            id="value"

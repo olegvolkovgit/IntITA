@@ -24,4 +24,9 @@ class Accountant extends Role
     {
         return array();
     }
+
+	public  function cancelAttribute(StudentReg $user, $attribute, $value)
+	{
+		return false;
+	}
 }

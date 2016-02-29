@@ -1003,5 +1003,25 @@ class Module extends CActiveRecord implements IBillableObject
         return $service_user;
     }
 
+    public static function allModules($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "module_ID, title_ua, title_ru, title_en";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
 
+        $data = Module::model()->findAll($criteria);
+
+        $result = array();
+        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$lang;
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->module_ID;
+            $result["results"][$key]["title"] = $record->$titleParam;
+        }
+
+        return json_encode($result);
+    }
 }

@@ -41,4 +41,9 @@ class Trainer extends Role
             )
         );
 	}
+
+	public  function cancelAttribute(StudentReg $user, $attribute, $value)
+	{
+		return false;
+	}
 }
