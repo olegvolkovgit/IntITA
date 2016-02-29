@@ -50,11 +50,13 @@
                     <?= $item["end_date"]; ?>
                 </td>
                 <td>
-                    <a href="#"
-                       onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                           '<?= $item["id"] ?>'); return false;">
-                        скасувати
-                    </a>
+                    <?php if ($item["end_date"] == '') { ?>
+                        <a href="#"
+                           onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
+                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>'); return false;">
+                            скасувати
+                        </a>
+                    <?php } ?>
                 </td>
                 <?php
                 } ?>

@@ -237,17 +237,15 @@ class TeachersController extends TeacherCabinetController{
         $value = $request->getPost('attributeValue', 0);
         $user = RegisteredUser::userById($userId);
 
-        var_dump($_POST);
-        echo $user->unsetRoleAttribute(new UserRoles($role), $attribute, $value);
-//        if ($userId && $attribute && $value && $role) {
-//            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
-//                echo "success";
-//            } else {
-//                echo "error";
-//            }
-//        } else {
-//            echo "error";
-//        }
+        if ($userId && $attribute && $value && $role) {
+            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            echo "error";
+        }
     }
 
     public function actionShowAttributes()
