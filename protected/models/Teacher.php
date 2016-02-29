@@ -477,7 +477,8 @@ class Teacher extends CActiveRecord
     public static function getAllTrainers()
     {
         $criteria = new CDbCriteria();
-        $criteria->join = 'LEFT JOIN user_trainer ut ON ut.teacher = teacher_id';
+        $criteria->distinct = true;
+        $criteria->join = 'LEFT JOIN trainer_student ut ON ut.trainer = user_id';
 
         return Teacher::model()->findAll($criteria);
     }

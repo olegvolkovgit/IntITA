@@ -15,16 +15,14 @@ function ShowTeacher(url, id) {
     });
 }
 
-function addTeacherAttr(url) {
+function addTeacherAttr(url, attr, id) {
     var user = $jq('#user').val();
     var role = $jq('#role').val();
-    var attr = $jq("#attr").val();
-    var value = $jq("#value").val();
-    if (!value || value == 0) {
+    var value = $jq(id).val();
+    if (value == 0) {
         showDialog('Введіть дані форми.');
     }
-
-    if (user && attr && value) {
+    if (user && value) {
         $jq.ajax({
             url: url,
             type: "POST",
@@ -46,11 +44,10 @@ function addTeacherAttr(url) {
     }
 }
 
-function cancelModuleAttr(url, id) {
+function cancelModuleAttr(url, id, attr) {
     var user = $jq('#user').val();
     var role = $jq('#role').val();
-    var attr = $jq("#attr").val();
-    if (user && attr && role) {
+    if (user && role) {
         $jq.ajax({
             url: url,
             type: "POST",

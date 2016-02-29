@@ -9,50 +9,51 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <ul class="nav nav-tabs">
-            <li><a href="#<?= $role; ?>" data-toggle="tab"><?= $role; ?></a>
-            </li>
+            <?php
+            foreach ($attributes as $key=>$attribute) { ?>
+                <li  <?php if($key == 0) echo 'class="active"';?>><a href="#<?= $attribute["key"]; ?>" data-toggle="tab"><?= $attribute["title"]; ?></a>
+                </li>
+            <?php } ?>
         </ul>
         <div class="tab-content col col-md-12">
-            <form name="add-access">
-                <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
-                <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
-                <div class="tab-pane fade in active" id="<?= $role; ?>">
-                    <div class="form-group">
-                        <?php
-                        if (!empty($attributes)) {
-                            foreach ($attributes as $attribute) {
-                                ?>
-                                <input type="text" hidden="hidden" value="<?= $attribute["key"]; ?>" id="attr">
-                                <br>
-                                <label><?php echo $attribute["title"]; ?></label>
-                                <?php
-                                if ($attribute["type"] == "module-list") {
-                                        $this->renderPartial('_moduleList', array('attribute' => $attribute));
-                                } else { ?>
-                                    <input type="number" class="form-control col col-md-4" name="attributeValue"
-                                           id="value"
-                                           value="<?= $attribute["value"] ?>">
-                                    <br>
-                                <?php }
-                            }
-                        } else { ?>
-                            Атрибутів для даної ролі не задано.
-                        <?php } ?>
+            <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
+            <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
+            <?php if (!empty($attributes)) {
+                foreach ($attributes as $key=>$attribute) {
+                    ?>
+                    <div class="tab-pane fade  <?php if($key == 0) echo 'in active';?>" id="<?= $attribute["key"]; ?>">
+                        <div class="form-group">
+                            <input type="text" hidden="hidden" value="<?= $attribute["key"]; ?>" id="attr">
+                            <?php
+                            switch ($attribute["type"]) {
+                                case "module-list":
+                                    $this->renderPartial('_moduleList', array(
+                                        'attribute' => $attribute,
+                                        'user' => $model->id,
+                                        'role' => $role
+                                    ));
+                                    break;
+                                case "students-list":
+                                    $this->renderPartial('_studentsList', array(
+                                        'attribute' => $attribute,
+                                        'user' => $model->id,
+                                        'role' => $role
+                                    ));
+                                    break;
+                                default:
+                                    $this->renderPartial('_numberAttribute', array(
+                                        'attribute' => $attribute,
+                                        'user' => $model->id,
+                                        'role' => $role
+                                    ));
+                                    break;
+                            } ?>
+                        </div>
                     </div>
-
-                    <?php
-                    if (!empty($attributes)) { ?>
-                        <br>
-                        <br>
-                        <input type="submit" class="btn btn-primary"
-                               onclick="addTeacherAttr('<?php echo Yii::app()->createUrl("/_teacher/_admin/teachers/setTeacherRoleAttribute"); ?>'); return false;"
-                               value="Редагувати">
-                        <input type="reset" class="btn btn-default"
-                               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>', 'Викладачі'); return false;"
-                               value="Скасувати">
-                    <?php } ?>
-                </div>
-            </form>
+                <?php }
+            } else { ?>
+                Атрибутів для даної ролі не задано.
+            <?php } ?>
         </div>
     </div>
 </div>

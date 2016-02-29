@@ -37,7 +37,7 @@
             <select required name="trainerId" class="form-control">
                 <option disabled>Виберіть тренера</option>
                 <?php foreach ($trainers as $trainer) { ?>
-                    <option value="<?php echo $trainer->teacher_id ?>">
+                    <option value="<?php echo $trainer->user_id ?>">
                         <?php echo $trainer->lastName() . " " . $trainer->firstName()?>
                     </option>
                 <?php } ?>

@@ -761,7 +761,7 @@ class StudentReg extends CActiveRecord
         if ($result) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'teacher';
-            $criteria->addCondition('teacher_id = :teacher_id');
+            $criteria->addCondition('user_id = :teacher_id');
             $criteria->params = array(':teacher_id' => $result->trainer);
             $trainer = Teacher::model()->find($criteria);
         }
@@ -1266,6 +1266,34 @@ class StudentReg extends CActiveRecord
             $result["results"][$key]["email"] = $model->email;
             $result["results"][$key]["tel"] = $model->phone;
             $result["results"][$key]["skype"] = $model->skype;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAssignedTrainers($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN trainer_student ts ON ts.student = s.id';
+        $criteria->addCondition('ts.student IS NULL or ts.end_time IS NOT NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);

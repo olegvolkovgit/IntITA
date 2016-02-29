@@ -1,11 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 04.12.2015
- * Time: 15:06
  * @var $trainer Teacher
+ * @var $oldTrainer Teacher
  * @var $user StudentReg
+ * @var $trainers array
  */
 ?>
 <div class="col-md-8">
@@ -30,7 +28,7 @@
     <?php if (isset($oldTrainer)) { ?>
         <h4>Колишній консультант :
             <br>
-            <?php echo $oldTrainer->getTeacherName($oldTrainer->teacher_id) ?></h4><br>
+            <?php echo $oldTrainer->lastName()." ".$oldTrainer->firstName(); ?></h4><br>
     <?php } ?>
     <div class="form-group">
         <form method="post"
@@ -41,7 +39,7 @@
                 <option disabled>Виберіть тренера</option>
                 <?php foreach ($trainers as $trainer) { ?>
                     <option
-                        value="<?php echo $trainer->teacher_id ?>">
+                        value="<?php echo $trainer->user_id ?>">
                         <?php echo $trainer->getName()?></option>
                 <?php } ?>
             </select>

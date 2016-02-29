@@ -4,6 +4,7 @@
  * @var $role string
  */
 ?>
+<br>
 <div class="col-md-12">
     <div class="row">
         <form>
@@ -11,14 +12,14 @@
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
                 <input type="number" hidden="hidden" id="value" value="0"/>
-                <input id="typeahead" type="text" class="form-control" name="module" placeholder="Назва модуля"
+                <input id="typeahead" type="text" class="form-control" name="student" placeholder="Студент"
                        size="65" required autofocus>
             </div>
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
                             '<?= $attribute["key"] ?>', '#value')">
-                    Додати модуль
+                    Додати студента
                 </button>
             </div>
         </form>
@@ -28,7 +29,7 @@
         <table class="table table-striped table-bordered table-hover" id="modulesListTable">
             <thead>
             <tr>
-                <th>Модуль</th>
+                <th>Студент</th>
                 <th>Призначено</th>
                 <th>Відмінено</th>
                 <th>Видалити</th>
@@ -39,8 +40,10 @@
             foreach ($attribute["value"] as $item) { ?>
             <tr>
                 <td>
-                    <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
-                        <?= $item["title"] . " (" . $item["lang"] . ")"; ?>
+                    <?= $item["title"]; ?>
+                    <a href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $item["id"])); ?>"
+                       target="_blank">
+                        (профіль)
                     </a>
                 </td>
                 <td>
@@ -52,7 +55,7 @@
                 <td>
                     <a href="#"
                        onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                           '<?= $item["id"] ?>'); return false;">
+                           '<?= $item["id"] ?>', '<?= $attribute["key"] ?>'); return false;">
                         скасувати
                     </a>
                 </td>
@@ -63,37 +66,40 @@
         </table>
     </div>
 </div>
+<br>
 <script>
-    var modules = new Bloodhound({
+    var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_admin/teachers/usersWithoutTrainers?query=%QUERY',
             wildcard: '%QUERY',
-            filter: function (modules) {
-                return $jq.map(modules.results, function (module) {
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
                     return {
-                        id: module.id,
-                        title: module.title
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        url: user.url
                     };
                 });
             }
         }
     });
 
-    modules.initialize();
+    users.initialize();
 
     $jq('#typeahead').typeahead(null, {
-        name: 'modules',
-        display: 'title',
-        source: modules,
+        name: 'users',
+        display: 'email',
+        source: users,
         templates: {
             empty: [
                 '<div class="empty-message">',
-                'модулів з такою назвою немає',
+                'немає користувачів з таким іменем або email\`ом',
                 '</div>'
             ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
         }
     });
 

@@ -197,6 +197,16 @@ class TeachersController extends TeacherCabinetController{
         }
     }
 
+    public function actionUsersWithoutTrainers($query)
+    {
+        if ($query) {
+            $users = StudentReg::usersWithoutAssignedTrainers($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
     public function actionSetTeacherRoleAttribute()
     {
         $request = Yii::app()->request;
@@ -227,15 +237,17 @@ class TeachersController extends TeacherCabinetController{
         $value = $request->getPost('attributeValue', 0);
         $user = RegisteredUser::userById($userId);
 
-        if ($userId && $attribute && $value && $role) {
-            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
-                echo "success";
-            } else {
-                echo "error";
-            }
-        } else {
-            echo "error";
-        }
+        var_dump($_POST);
+        echo $user->unsetRoleAttribute(new UserRoles($role), $attribute, $value);
+//        if ($userId && $attribute && $value && $role) {
+//            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
+//                echo "success";
+//            } else {
+//                echo "error";
+//            }
+//        } else {
+//            echo "error";
+//        }
     }
 
     public function actionShowAttributes()
