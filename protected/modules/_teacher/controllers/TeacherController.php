@@ -21,12 +21,15 @@ class TeacherController extends TeacherCabinetController
     public function actionAddConsultant($id)
     {
         $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($id);
+        $teachers = $plainTaskAnswer->getTrainersByAnswer();
 
         if (!$plainTaskAnswer)
             throw new CHttpException(404, 'Page not found');
 
-        return $this->renderPartial('/trainer/_addConsult',
-            array('plainTaskAnswer' => $plainTaskAnswer));
+        return $this->renderPartial('/trainer/_addConsult', array(
+            'plainTaskAnswer' => $plainTaskAnswer,
+            'teachers' => $teachers
+        ));
     }
 
     public function actionAssignedConsultant()

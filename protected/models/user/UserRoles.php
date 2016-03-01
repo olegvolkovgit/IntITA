@@ -7,4 +7,5 @@ class UserRoles extends Enum
     const TRAINER = 'trainer';
     const CONSULTANT = 'consultant';
     const ACCOUNTANT = 'accountant';
+    const AUTHOR = 'author';
 }

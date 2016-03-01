@@ -8,7 +8,6 @@ class ProfileController extends Controller
      */
     public function actionIndex($idTeacher)
     {
-        
         $teacher = Teacher::model()->findByPk($idTeacher);
         if(!$teacher->isPrint && !(Yii::app()->user->getId() == $teacher->user_id || StudentReg::isAdmin())){
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора або користувача данного профілю.');
@@ -52,7 +51,6 @@ class ProfileController extends Controller
 
         $dataProvider = $teacher->user->responseDataProvider();
 
-        
         
         $this->render('index', array(
             'model' => $teacher,

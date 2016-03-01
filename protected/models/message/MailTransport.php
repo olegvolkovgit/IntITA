@@ -9,7 +9,7 @@ class MailTransport implements IMailSender{
     {
         if(!$nameFrom)
             $nameFrom = Config::getBaseUrlWithoutSchema();
-        $headers = "From: no-reply@" . $nameFrom . "\n"
+        $headers = "From: ".Yii::app()->name."@" . $nameFrom . "\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
         if($this->template != ''){
