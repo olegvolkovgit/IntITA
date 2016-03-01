@@ -37,6 +37,30 @@ class ModuleController extends Controller
             'idCourse' => $idCourse,
         ));
     }
+    public function actionEdit($idModule, $idCourse=0)
+    {
+        $this->layout='modulelayout';
+
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }
+
+        $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
+
+        $this->checkModelInstance($model);
+
+        $editMode = $model->isEditableByUser(Yii::app()->user->getID());
+        if(!$editMode) {
+            throw new \application\components\Exceptions\IntItaException('403', 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном автора модуля.');
+        }
+
+        $this->render('edit', array(
+            'module' => $model,
+            'idCourse' => $idCourse,
+
+        ));
+    }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -141,12 +165,13 @@ class ModuleController extends Controller
     }
 
     /**
-     * @param $idLecture
-     * @param $idModule
      * @throws \application\components\Exceptions\ModuleNotFoundException
      */
-    public function actionUpLesson($idLecture, $idModule)
+    public function actionUpLesson()
     {
+        $idLecture = Yii::app()->request->getParam('idLecture');
+        $idModule = Yii::app()->request->getParam('idModule');
+
         $module = Module::model()->with('lectures')->findByPk($idModule);
 
         $this->checkModelInstance($module);
@@ -159,12 +184,13 @@ class ModuleController extends Controller
     }
 
     /**
-     * @param $idLecture
-     * @param $idModule
      * @throws \application\components\Exceptions\ModuleNotFoundException
      */
-    public function actionDownLesson($idLecture, $idModule)
+    public function actionDownLesson()
     {
+        $idLecture = Yii::app()->request->getParam('idLecture');
+        $idModule = Yii::app()->request->getParam('idModule');
+
         $module = Module::model()->with('lectures')->findByPk($idModule);
 
         $this->checkModelInstance($module);
@@ -225,5 +251,19 @@ class ModuleController extends Controller
     private function checkModelInstance($model) {
         if ($model === null)
             throw new \application\components\Exceptions\ModuleNotFoundException();
+    }
+    public function actionModuleData()
+    {
+        $data = [];
+        $model = Module::model()->with('teacher', 'lectures')->findByPk(Yii::app()->request->getPost('id'));
+        $course = Yii::app()->request->getPost('course');
+        $modelData=get_object_vars($model->getLecturesDataProvider());
+
+        for($i = 0;$i < count($modelData['rawData']);$i++){
+            $data['lecturesLink'][$i]=Yii::app()->createUrl("lesson/index", array("id" => $modelData['rawData'][$i]['id'], "idCourse" => $course));
+        }
+        $fullData=CJSON::encode(array_merge($modelData,$data));
+
+        echo $fullData;
     }
 }

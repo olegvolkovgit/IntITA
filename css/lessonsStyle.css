@@ -19,7 +19,6 @@ div.subLinks{
     width: 1200px;
     padding-left: 20px;
     position: relative;
-    overflow: hidden;
 }
 .lessonBlock p{
     word-wrap: break-word;

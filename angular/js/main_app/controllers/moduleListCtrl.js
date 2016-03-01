@@ -48,10 +48,8 @@ function moduleListCtrl($http,$scope) {
                     $scope.modulesProgress.modules[i].spentTime=days;
                     $scope.modulesProgress.modules[i].ico='finished.png';
                 }else if(!$scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
-                    $scope.modulesProgress.modules[i].progress='finished';
-                    var days=1;
-                    $scope.modulesProgress.modules[i].spentTime=days;
-                    $scope.modulesProgress.modules[i].ico='finished.png';
+                    $scope.modulesProgress.modules[i].progress='inLine';
+                    $scope.modulesProgress.modules[i].ico='future.png';
                 }
             }
         }
