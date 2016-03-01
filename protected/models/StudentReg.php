@@ -997,7 +997,10 @@ class StudentReg extends CActiveRecord
 
     public static function getStudentsList($startDate, $endDate) {
 
-        $sql = 'select concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")), user.email, user_student.start_date from user inner join user_student on user.id = user_student.id_user ';
+        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, user_student.start_date, u.id as trainer, concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")) as trainerName
+              from user inner join user_student on user.id = user_student.id_user
+              left join trainer_student ts on user_student.id_user=ts.student
+              left join user u on ts.trainer = u.id where ts.end_time IS NULL';
 
         if (isset($startDate) && isset($endDate)){
             $sql .= " WHERE TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
@@ -1007,9 +1010,13 @@ class StudentReg extends CActiveRecord
 
         foreach ($result as $record) {
             $row = array();
-            foreach($record as $field) {
-                array_push($row, $field);
-            }
+
+            $row["student-name"] = $record["studentName"];
+            $row["email"] = $record["email"];
+            $row["date"] = $record["start_date"];
+            $row["trainer-name"] = $record["trainerName"];
+            $row["url"] = (!$record["trainer"])?Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])):
+                Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
             array_push($return['data'], $row);
         }
 

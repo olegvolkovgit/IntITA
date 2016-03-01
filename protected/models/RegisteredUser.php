@@ -127,7 +127,7 @@ class RegisteredUser
         return $this->_roleAttributes[(string)$role];
     }
 
-    public function setRoleAttribute(UserRoles $role, $attribute, $value){
+    public function setRoleAttribute($role, $attribute, $value){
         $roleObj = Role::getInstance($role);
         return $roleObj->setAttribute($this->registrationData, $attribute, $value);
     }

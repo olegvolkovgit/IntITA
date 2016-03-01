@@ -80,10 +80,7 @@
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>',
                                'Відгуки про викладачів')">Відгуки про викладачів</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/trainerAdmin/index'); ?>',
-                               'Тренери')">Тренери</a>
-                    </li>
+                    <br>
                 </ul>
             </div>
             <div class="panel-footer">

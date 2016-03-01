@@ -93,4 +93,27 @@ class Trainer extends Role
                 return false;
         }
     }
+
+    public static function trainersByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "distinct id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_trainer u ON u.id_user = s.id';
+        $criteria->addCondition('u.id_user IS NOT NULL and u.end_date IS NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
 }
