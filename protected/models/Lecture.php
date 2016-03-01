@@ -699,7 +699,8 @@ class Lecture extends CActiveRecord
         return $this->save();
     }
 
-    public function createNewBlock($htmlBlock, $idType, $pageOrder, $idUser) {
+    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
+
         $model = new LectureElement();
         $model->id_lecture = $this->id;
         $model->block_order = LectureElement::getNextOrder($this->id);
@@ -707,30 +708,11 @@ class Lecture extends CActiveRecord
         $model->id_type = $idType;
         $model->save();
 
-        if ($model->id_type == LectureElement::TEXT ||
-            $model->id_type == LectureElement::CODE ||
-            $model->id_type == LectureElement::INSTRUCTION ||
-            $model->id_type == LectureElement::EXAMPLE) {
-            TextBlockHistory::createNewRecord($model->id_block, $model->id_type, $model->html_block, $idUser)->approve($idUser);
-        }
-
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        LecturePage::addTextBlock($model->id_block, $pageId);
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
 
+        LecturePage::addTextBlock($id, $pageId);
     }
-
-//    DEPRECATED
-//    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
-//        $model = new LectureElement();
-//        $model->id_lecture = $this->id;
-//        $model->block_order = LectureElement::getNextOrder($this->id);
-//        $model->html_block = $htmlBlock;
-//        $model->id_type = $idType;
-//        $model->save();
-//
-//        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-//        LecturePage::addTextBlock($model->id_block, $pageId);
-//    }
 
     /**
      * Shifts up lesson element.
@@ -814,40 +796,32 @@ class Lecture extends CActiveRecord
         return false;
     }
 
-    public function deleteLectureElement($elementOrder, $idUser) {
+    public function createNewBlock($htmlBlock, $idType, $pageOrder) {
+        $model = new LectureElement();
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addTextBlock($model->id_block, $pageId);
+    }
+
+    public function deleteLectureElement($elementOrder) {
         if ($this->lectureEl == null) {
             $this->getRelated("lectureEl");
         }
 
         foreach ($this->lectureEl as $element) {
             if ($element->block_order == $elementOrder) {
-
                 if ($element->id_type == LectureElement::TASK) {
                     Task::deleteTask($element->id_block);
                 }
-
-                if ($element->id_type == LectureElement::TEXT ||
-                    $element->id_type == LectureElement::CODE ||
-                    $element->id_type == LectureElement::INSTRUCTION ||
-                    $element->id_type == LectureElement::EXAMPLE) {
-                    $history = TextBlockHistory::getLastEdited($element->id_block);
-                    if ($history == null) {
-                        $history = TextBlockHistory::createNewRecord($element->id_block, $element->id_type, $element->html_block, $idUser);
-                    }
-                    $history->setEndDate($idUser);
-                }
-
                 Yii::app()->db->createCommand()->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $element->id_block));
-
                 $element->delete();
                 return;
             }
         }
-    }
-
-    public function saveBlock($order, $content, $userId) {
-        $lectureElement = LectureElement::model()->findByAttributes(array('id_lecture' => $this->id, 'block_order' => $order));
-
-        TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $content, $userId);
     }
 }

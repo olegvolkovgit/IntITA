@@ -173,6 +173,5 @@ return array(
         // this is used in teacher profile page
         'adminEmail' => 'Wizlightdragon@gmail.com',
         'languages' => array('en' => 'English', 'ua' => 'Ukrainian', 'ru' => 'Russian'),
-        'dbDateFormat'=>'Y-m-d H:m:s'
     ),
 );
