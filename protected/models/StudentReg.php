@@ -761,7 +761,7 @@ class StudentReg extends CActiveRecord
         if ($result) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'teacher';
-            $criteria->addCondition('teacher_id = :teacher_id');
+            $criteria->addCondition('user_id = :teacher_id');
             $criteria->params = array(':teacher_id' => $result->trainer);
             $trainer = Teacher::model()->find($criteria);
         }
@@ -810,8 +810,7 @@ class StudentReg extends CActiveRecord
                 if ($result == ' ')
                     $result = StudentReg::model()->findByPk($dp->user_id)->email;
             } else {
-                $result = Teacher::getTeacherFirstName($dp->teacher_id) . " " .
-                    Teacher::getTeacherLastName($dp->teacher_id);
+                $result =$teacher->firstName() . " " . $teacher->lastName();
             }
             return CHtml::link($result,array("/studentreg/profile", "idUser" => $dp->user_id),array("target"=>"_blank"));
         } else {
@@ -998,7 +997,10 @@ class StudentReg extends CActiveRecord
 
     public static function getStudentsList($startDate, $endDate) {
 
-        $sql = 'select concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")), user.email, user_student.start_date from user inner join user_student on user.id = user_student.id_user ';
+        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, user_student.start_date, u.id as trainer, concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")) as trainerName
+              from user inner join user_student on user.id = user_student.id_user
+              left join trainer_student ts on user_student.id_user=ts.student
+              left join user u on ts.trainer = u.id where ts.end_time IS NULL';
 
         if (isset($startDate) && isset($endDate)){
             $sql .= " WHERE TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
@@ -1008,9 +1010,13 @@ class StudentReg extends CActiveRecord
 
         foreach ($result as $record) {
             $row = array();
-            foreach($record as $field) {
-                array_push($row, $field);
-            }
+
+            $row["student-name"] = $record["studentName"];
+            $row["email"] = $record["email"];
+            $row["date"] = $record["start_date"];
+            $row["trainer-name"] = $record["trainerName"];
+            $row["url"] = (!$record["trainer"])?Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])):
+                Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
             array_push($return['data'], $row);
         }
 
@@ -1244,5 +1250,59 @@ class StudentReg extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public static function usersWithoutTeachers($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN teacher t ON t.user_id = s.id';
+        $criteria->addCondition('t.user_id IS NULL');
+        $data = StudentReg::model()->findAll($criteria);
+        $result = array();
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["firstName"] = ($model->firstName) ? $model->firstName : "";
+            $result["results"][$key]["lastName"] = ($model->secondName) ? $model->secondName : "";
+            $result["results"][$key]["middleName"] = ($model->middleName) ? $model->middleName : "";
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["tel"] = $model->phone;
+            $result["results"][$key]["skype"] = $model->skype;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public static function usersWithoutAssignedTrainers($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN trainer_student ts ON ts.student = s.id';
+        $criteria->addCondition('ts.student IS NULL or ts.end_time IS NOT NULL');
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
     }
 }

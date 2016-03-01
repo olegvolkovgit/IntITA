@@ -44,7 +44,7 @@
             }
 
             if ($model->isTeacher()) {
-                $this->renderPartial('_teacherRoles', array('teacher' => $model->getTeacherModel()));
+                $this->renderPartial('_teacherRoles');
             }
             ?>
         </ul>

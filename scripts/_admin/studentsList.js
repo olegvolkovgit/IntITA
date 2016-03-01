@@ -12,13 +12,21 @@ function initStudentsList() {
             "dataSrc": "data"
         },
         "columns": [
-            null,
-            { className: "center" },
-            { className: "center" }],
+            { data: "student-name" },
+            { data: "email" },
+            { data: "date" },
+            { data: "trainer-name" },
+            {
+                "width": "10%",
+                data: "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
+                }
+            }
+        ],
 
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
-            console.log($jq(row).attr('class'));
         },
 
         language: {

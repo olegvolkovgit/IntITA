@@ -28,6 +28,7 @@ return array(
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
+        'application.models.user.*',
         'application.components.*',
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
@@ -162,6 +163,8 @@ return array(
                 'emptytext' => 'Натисніть для редагування'
             )
         ),
+
+        //'debug' => $local_config['debug'],
     ),
 
     // application-level parameters that can be accessed

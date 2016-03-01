@@ -28,6 +28,7 @@
  * The followings are the available model relations:
  * @property Course $course0
  * @property Level $level0
+ * @property Teacher teacher
  */
 
 const EDITOR_ENABLED = 1;
@@ -489,6 +490,7 @@ class Module extends CActiveRecord implements IBillableObject
         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
     }
 
+
     public static function getLessonsCount($idModule)
     {
         return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
@@ -756,6 +758,7 @@ class Module extends CActiveRecord implements IBillableObject
     public static function getTeacherByModule($idModule)
     {
         $module = Module::model()->findByPk($idModule);
+
         return $module->teacher;
     }
     
@@ -1000,7 +1003,27 @@ class Module extends CActiveRecord implements IBillableObject
         return $service_user;
     }
 
+    public static function allModules($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
 
+        $data = Module::model()->findAll($criteria);
+
+        $result = array();
+        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$lang;
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->module_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
+    }
     /**
      * Returns id of last lecture containing a quiz
      * @return bool $lectureElement->idBlock or false if nothing found

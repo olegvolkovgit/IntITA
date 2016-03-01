@@ -3,7 +3,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'teachers.css'); ?>" />
 <!-- teachers style -->
 <?php
-$post=$dataProvider->getData();
+/* @var $teacherletter TeacherLetter*/
 ?>
 <div class="subNavBlockTeachers">
     <?php

@@ -194,41 +194,13 @@ class TeachersController extends Controller
 
     private function renderIndex($teacherLetter)
     {
-
         $dataProvider = Teacher::getTeacherAsPrint();
-
         $teachers = Teacher::getAllTeachersId();
 
         $this->render('index', array(
-            'dataProvider' => $dataProvider,
+            'post' => $dataProvider->getData(),
             'teachers' => $teachers,
             'teacherletter' => $teacherLetter
         ));
     }
-
-    public function actionUpdateTeacherAvatar($id)
-    {
-        $model = Teacher::model()->findByPk($id);
-        $model->setScenario('imageUpload');
-        if (isset($_POST['Teacher'])) {
-            $model->oldAvatar = $model->foto_url;
-            $filename = $_FILES['Teacher']['name']['foto_url'];
-            if (!empty($filename)) {
-                $tmpName = $_FILES['Teacher']['tmp_name']['foto_url'];
-                $model->avatar = $_FILES['Teacher'];
-                if ($model->validate()) {
-                    Avatar::updateTeacherAvatar($filename,$tmpName,$id,$model->oldAvatar);
-
-                    $this->redirect(Yii::app()->request->urlReferrer);
-                } else {
-                    $this->redirect(Yii::app()->request->urlReferrer);
-                }
-            } else {
-                $this->redirect(Yii::app()->request->urlReferrer);
-            }
-        }
-
-    }
-
-
 }
