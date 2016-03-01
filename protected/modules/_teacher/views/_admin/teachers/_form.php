@@ -32,13 +32,25 @@
         </div>
 
         <div class="form-group">
+            <div id="userInfo">
+                <?php if ($scenario == "update") { ?>
+                    <a href="<?=Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->user_id));?>" target="_blank">
+                        <?= $model->getName() . " <" . $model->user->email . "> " ?></a>
+                    <br>
+                    skype: <?= $model->skype(); ?>, phone: <?= $model->phone(); ?>
+                    <br>
+                <?php } ?>
+            </div>
+        </div>
+
+        <div class="form-group">
             <?php echo $form->labelEx($model, 'first_name_en'); ?>
             <?php echo $form->textField($model, 'first_name_en',
                 array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
             <?php echo $form->error($model, 'first_name_en'); ?>
             <?php if ($scenario == "update") { ?>
-            <a href="#" onclick="generateFirst('<?=$model->user->firstName;?>'); return false;">
-                Згенерувати автоматично</a>
+                <a href="#" onclick="generateFirst('<?= $model->user->firstName; ?>'); return false;">
+                    Згенерувати автоматично</a>
             <?php } ?>
         </div>
 
@@ -48,8 +60,8 @@
                 array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
             <?php echo $form->error($model, 'middle_name_en'); ?>
             <?php if ($scenario == "update") { ?>
-            <a href="#" onclick="generateMiddle('<?=$model->user->middleName;?>'); return false;">
-                Згенерувати автоматично</a>
+                <a href="#" onclick="generateMiddle('<?= $model->user->middleName; ?>'); return false;">
+                    Згенерувати автоматично</a>
             <?php } ?>
         </div>
 
@@ -59,8 +71,8 @@
                 array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
             <?php echo $form->error($model, 'last_name_en'); ?>
             <?php if ($scenario == "update") { ?>
-            <a href="#" onclick="generateLast('<?=$model->user->secondName;?>'); return false;">
-                Згенерувати автоматично</a>
+                <a href="#" onclick="generateLast('<?= $model->user->secondName; ?>'); return false;">
+                    Згенерувати автоматично</a>
             <?php } ?>
         </div>
 
@@ -136,7 +148,10 @@
                         lastName: user.lastName,
                         middleName: user.middleName,
                         email: user.email,
-                        url: user.url
+                        skype: user.skype,
+                        phone: user.tel,
+                        url: user.url,
+                        info: user.lastName + " " + user.firstName + " " + user.middleName + ", " + user.email
                     };
                 });
             }
@@ -156,8 +171,10 @@
             suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
         }
     });
+
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq("#userIdHidden").val(item.id);
+        $jq("#userInfo").html(item.info);
         $jq("#firstName").val(item.firstName);
         $jq("#lastName").val(item.lastName);
         $jq("#middleName").val(item.middleName);

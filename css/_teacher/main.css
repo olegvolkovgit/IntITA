@@ -156,7 +156,10 @@ body.ie8 #hambMenu {
 #userIdHidden{
     visibility: hidden;
 }
-
+#userInfo{
+    font-style: italic;
+    color: blue;
+}
 .tt-suggestion.tt-cursor,.tt-suggestion:hover {
     background-color: #d6e4f0;
 }

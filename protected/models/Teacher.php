@@ -363,7 +363,7 @@ class Teacher extends CActiveRecord
         $result = [];
         foreach ($teachers as $key=>$teacher) {
             $result[$key]['id'] = $teacher->teacher_id;
-            $result[$key]['alias'] = $teacher->user->firstName . " " . $teacher->user->secondName . ", " . $teacher->email;
+            $result[$key]['alias'] = $teacher->user->firstName . " " . $teacher->user->secondName . ", " . $teacher->user->email;
         }
         return $result;
     }
@@ -630,6 +630,14 @@ class Teacher extends CActiveRecord
 
     public function skype(){
         return $this->user->skype;
+    }
+
+    public function email(){
+        return $this->user->email;
+    }
+
+    public function phone(){
+        return $this->user->phone;
     }
 
     public static function teachersAdminList(){
