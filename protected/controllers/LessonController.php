@@ -115,17 +115,6 @@ class LessonController extends Controller
         $this->renderPartial('_timeConsult', $data, false, true);
     }
 
-    public function actionSave()
-    {
-        $order = substr(Yii::app()->request->getPost('order'), 2);
-        $id = Yii::app()->request->getPost('idLecture');
-
-        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
-        $model->html_block = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
-
-        $model->save();
-    }
-
     public function actionSaveFormula()
     {
         $htmlBlock = Yii::app()->request->getPost('content');
@@ -174,7 +163,7 @@ class LessonController extends Controller
 
         $this->checkInstanse($lecture);
 
-        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder);
+        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -184,19 +173,19 @@ class LessonController extends Controller
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
         $htmlBlock = Yii::app()->request->getPost('editorAdd');
-
         $idLecture = Yii::app()->request->getPost('idLecture');
 
         $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
 
         $this->checkInstanse($lecture);
 
-        $lecture->createNewBlockCKE($htmlBlock, $idType, $pageOrder);
+        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     //reorder blocks on lesson page - up block
+
     public function actionUpElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -210,8 +199,8 @@ class LessonController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-
     //reorder blocks on lesson page - down block
+
     public function actionDownElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -225,8 +214,8 @@ class LessonController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-
     //delete block on lesson page
+
     public function actionDeleteElement()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -236,13 +225,13 @@ class LessonController extends Controller
 
         $this->checkInstanse($lecture);
 
-        $lecture->deleteLectureElement($order);
+        $lecture->deleteLectureElement($order, Yii::app()->user->getId());
 
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-
     //delete block on lesson page
+
     public function actionDeleteVideo()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -258,7 +247,6 @@ class LessonController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-
     public function actionUploadImage()
     {
         $path = StaticFilesHelper::createLectureImagePath();
@@ -495,6 +483,7 @@ class LessonController extends Controller
     }
 
     //reorder blocks on lesson page - up block
+
     public function actionUpPage()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -504,8 +493,8 @@ class LessonController extends Controller
             LecturePage::swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
     }
-
     //reorder blocks on lesson page - down block
+
     public function actionDownPage()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -515,7 +504,6 @@ class LessonController extends Controller
             LecturePage::swapPages($idLecture, $pageOrder, $pageOrder + 1);
         }
     }
-
     public function actionUpdateLectureImage($id)
     {
         $model = Lecture::model()->findByPk($id);
@@ -557,7 +545,6 @@ class LessonController extends Controller
         $html = LectureElement::model()->findByAttributes(array('block_order' => $order, 'id_lecture' => $lecture))->html_block;
         echo $html;
     }
-
 
     public function actionEditPage($id, $page, $idCourse=0, $cke = false)
     {
@@ -601,14 +588,27 @@ class LessonController extends Controller
     public function actionSaveBlock()
     {
         $order = Yii::app()->request->getPost('order');
-        $id = Yii::app()->request->getPost('idLecture');
+        $idLesson = Yii::app()->request->getPost('idLecture');
+        $content = Yii::app()->request->getPost('content');
 
-        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
-        $model->html_block = Yii::app()->request->getPost('content');
+        $lesson = Lecture::model()->findByPk($idLesson);
 
-        if ($model->validate()) {
-            $model->save();
-        } else echo 'Блок не може бути пустий';
+        $this->checkInstanse($lesson);
+
+        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
+    }
+
+    public function actionSave()
+    {
+        $order = substr(Yii::app()->request->getPost('order'), 2);
+        $idLesson = Yii::app()->request->getPost('idLecture');
+        $content = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
+
+        $lesson = Lecture::model()->findByPk($idLesson);
+
+        $this->checkInstanse($lesson);
+
+        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
     }
 
     public function actionSaveLectureContent($idLecture)
