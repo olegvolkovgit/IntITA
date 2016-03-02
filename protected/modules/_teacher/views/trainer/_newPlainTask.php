@@ -34,8 +34,8 @@ if (!empty($plainTasksAnswers)) {
                                 <td><?php echo $plainTaskAnswer->answer; ?></td>
                                 <td><?php echo $module->title_ua; ?></td>
                                 <td>
-                                    <a href="javascript:chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
-                                        '<?php echo Yii::app()->createUrl('_teacher/teacher/addConsultant') ?>')">
+                                    <a href="#" onclick="chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
+                                        '<?php echo Yii::app()->createUrl("_teacher/teacher/addConsultant") ?>')">
                                         <img style="padding-left: 50px"
                                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add.png') ?>"
                                     </a>
