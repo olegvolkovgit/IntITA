@@ -97,7 +97,6 @@ class StudentRegController extends Controller
     /**
      * Lists all models.
      */
-
     public function actionIndex($email = '')
     {
         if (!Yii::app()->user->isGuest) {
@@ -199,12 +198,18 @@ class StudentRegController extends Controller
     {
         if (Yii::app()->user->isGuest || $idUser==0)
             throw new \application\components\Exceptions\IntItaException('403', 'Гість не може проглядати профіль користувача');
-
-        if(!$model = StudentReg::model()->findByPk($idUser))
+        $user = RegisteredUser::userById($idUser);
+        $model = $user->registrationData;
+        if(!$model)
             throw new \application\components\Exceptions\IntItaException('403', 'Користувача з таким ідентифікатором не існує');
         $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
         $paymentsCourses = $model->getPaymentsCourses();
+        if($course != 0 || $module != 0) {
+            if (!$user->isStudent()){
+                UserStudent::addStudent($model);
+            }
+        }
         if($course != 0 && !Course::model()->exists('course_ID='.$course)){
             throw new \application\components\Exceptions\IntItaException('400', "Такого курса немає. Список усіх курсів доступний на сторінці Курси.");
         }
