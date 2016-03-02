@@ -172,3 +172,7 @@ td,th{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.updateTranslateForm .translateLanguage{
+    pointer-events:none;
+    background: #F2F2F2;
+}
