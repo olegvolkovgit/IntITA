@@ -543,9 +543,7 @@ class Teacher extends CActiveRecord
 
     public function notCheckedPlainTask()
     {
-        $trainerUser = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
-
-        $teacherPlainTasksId = PlainTaskAnswer::TeacherPlainTask($this->teacher_id);
+        $teacherPlainTasksId = PlainTaskAnswer::TeacherPlainTask($this->user_id);
 
         if ($teacherPlainTasksId) {
             $newPlainTasksId = PlainTaskAnswer::newTeacherPlainTask($teacherPlainTasksId);
