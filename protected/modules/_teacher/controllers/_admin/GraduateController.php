@@ -102,15 +102,7 @@ class GraduateController extends TeacherCabinetController {
      */
     public function actionIndex()
     {
-        $model = new Graduate('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Graduate']))
-            $model->attributes = $_GET['Graduate'];
-        $dataProvider = new CActiveDataProvider('Graduate');
-        $this->renderPartial('index', array(
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ), false, true);
+        $this->renderPartial('index', array(), false, true);
     }
 
     /**
@@ -161,4 +153,7 @@ class GraduateController extends TeacherCabinetController {
         }
     }
 
+    public function actionGetGraduatesList(){
+        echo Graduate::graduatesList();
+    }
 }
