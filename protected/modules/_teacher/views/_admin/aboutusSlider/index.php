@@ -37,7 +37,7 @@
                     'delete' => array
                     (
                         'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити цей курс?',$(this).attr('href'))
+                                    showConfirm('Ви дійсно хочете видалити цей слайд?',$(this).attr('href'))
                                     return false;
                               }
                      ",
