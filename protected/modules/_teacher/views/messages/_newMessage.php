@@ -70,6 +70,15 @@
 
     users.initialize();
 
+    if (scenario == "mailTo") {
+        $jq('#typeahead').val('<?=($receiver)?$receiver->userNameWithEmail():"";?>');
+        $jq("#receiverId").val('<?=($receiver)?$receiver->id:0;?>');
+    }
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#receiverId").val(item.id);
+    });
+
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',
@@ -84,12 +93,4 @@
         }
     });
 
-    if (scenario == "mailTo") {
-        $jq('#typeahead').val('<?=($receiver)?$receiver->userNameWithEmail():"";?>');
-        $jq("#receiverId").val('<?=($receiver)?$receiver->id:0;?>');
-    }
-
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#receiverId").val(item.id);
-    });
 </script>

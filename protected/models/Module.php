@@ -921,12 +921,12 @@ class Module extends CActiveRecord implements IBillableObject
         }
 
         foreach ($this->lectures as $index => $lecture) {
-            // if the first lecture do nothing
-            if ($lecture->order === 1) {
-                return;
-            }
-
             if ($lecture->id == $idLecture) {
+                // if the first lecture do nothing
+                if ($index == 0) {
+                    return;
+                }
+
                 $this->swapLecturesOrder($lecture, $this->lectures[$index-1]);
                 return;
             }
@@ -946,12 +946,12 @@ class Module extends CActiveRecord implements IBillableObject
         $count = $this->getLecturesCount();
 
         foreach ($this->lectures as $index => $lecture) {
-            // if the last lecture do nothing
-            if ($lecture->order === $count) {
-                return;
-            }
 
             if ($lecture->id == $idLecture) {
+                // if the last lecture do nothing
+                if ($index == $count-1) {
+                    return;
+                }
                 $this->swapLecturesOrder($lecture, $this->lectures[$index+1]);
                 return;
             }
