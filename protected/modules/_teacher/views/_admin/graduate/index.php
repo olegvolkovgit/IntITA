@@ -18,6 +18,14 @@
     'id' => 'graduate-grid',
     'dataProvider' => $model->search(),
     'summaryText' => '',
+    'pager' => array(
+        'firstPageLabel'=>'&#171;&#171;',
+        'lastPageLabel'=>'&#187;&#187;',
+        'prevPageLabel'=>'&#171;',
+        'nextPageLabel'=>'&#187;',
+        'header'=>'',
+        'cssFile'=>Config::getBaseUrl().'/css/pager.css'
+    ),
     'columns' => array(
         'first_name',
         'last_name',

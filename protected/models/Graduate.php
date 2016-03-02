@@ -180,6 +180,6 @@ class Graduate extends CActiveRecord
 
     public function showRecall()
     {
-        echo substr($this->recall,0,500);
+        echo mb_substr($this->recall,0,500);
     }
 }

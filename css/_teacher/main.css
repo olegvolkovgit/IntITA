@@ -173,6 +173,9 @@ td,th{
 .grid-view table{
     table-layout: inherit;
 }
+.grid-view td{
+    white-space: normal;
+}
 .newMessages div{
     white-space: nowrap;
     overflow: hidden;
