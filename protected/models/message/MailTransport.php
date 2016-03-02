@@ -15,7 +15,7 @@ class MailTransport implements IMailSender{
         if($this->template != ''){
             $text = $this->template;
         }
-
+        $this->viewPath = ($dir = Yii::getPathOfAlias($this->viewPath)) ? $dir : Yii::app()->viewPath;
         $message = Yii::app()->controller->renderFile($this->viewPath . DIRECTORY_SEPARATOR . 'mailLayout.php', array(
             'content' => $text,
             'userEmail' => $mailto
