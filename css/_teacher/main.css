@@ -167,3 +167,8 @@ td,th{
 .grid-view table{
     table-layout: inherit;
 }
+.newMessages div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
