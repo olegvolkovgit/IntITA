@@ -135,7 +135,6 @@ body.ie8 #hambMenu {
     text-align: center;
 }
 #label{
-    margin-left: 50px;
     color: green;
     font: 16px/30px "MyriadPro";
 }
@@ -164,4 +163,7 @@ td,th{
     white-space: nowrap; /* Запрещаем перенос строк */
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
+}
+.grid-view table{
+    table-layout: inherit;
 }
