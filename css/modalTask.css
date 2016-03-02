@@ -14,13 +14,11 @@ p.sharingText{
 .modalBody{
     margin-left: 60px;
     position: relative;
-    top: -15px;
 }
 .modalBody h1{
     margin: 0 0 0 25px;
     color: #339900;
     font-size: x-large;
-    margin-buttom: 15px;
     font-weight: normal;
 }
 .modalError .modalBody h1{
@@ -51,6 +49,7 @@ p.sharingText{
     text-decoration: none;
     text-align: center;
     outline: none;
+    margin-bottom: 15px;
 }
 .modalBody .modalButton:hover {
     background: #454545;

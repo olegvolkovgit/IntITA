@@ -8,7 +8,7 @@ foreach ($newMessages as $key=>$record) {
     if(!$record->isRead($model->registrationData))
     ?>
     <li>
-        <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
+        <a class="newMessages" href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
             'user1' => $message->sender0->id, 'user2' => $model->id)) ?>', 'Діалог')">
             <div>
                 <strong><?=($message->sender0->userName() == "")?$message->sender0->email:$message->sender0->userName(); ?></strong>

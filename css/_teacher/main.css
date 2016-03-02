@@ -135,7 +135,6 @@ body.ie8 #hambMenu {
     text-align: center;
 }
 #label{
-    margin-left: 50px;
     color: green;
     font: 16px/30px "MyriadPro";
 }
@@ -162,4 +161,24 @@ body.ie8 #hambMenu {
 }
 .tt-suggestion.tt-cursor,.tt-suggestion:hover {
     background-color: #d6e4f0;
+}
+table{
+    table-layout: fixed;
+}
+td,th{
+    white-space: nowrap; /* Запрещаем перенос строк */
+    overflow: hidden; /* Обрезаем все, что не помещается в область */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+}
+.grid-view table{
+    table-layout: inherit;
+}
+.newMessages div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.updateTranslateForm .translateLanguage{
+    pointer-events:none;
+    background: #F2F2F2;
 }

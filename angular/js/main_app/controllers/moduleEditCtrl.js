@@ -112,12 +112,16 @@ function moduleEditCtrl($http,$scope) {
                 });
             };
         })
-    }
+    };
 
     $scope.showForm=function () {
         document.getElementById('lessonForm').style.display = 'block';
         $('html, body').animate({
             scrollTop: $("#titleUa").offset().top
         }, 1000);
+    };
+    $scope.hideForm=function (id) {
+        $form = document.getElementById(id);
+        $form.style.display = 'none';
     }
 }

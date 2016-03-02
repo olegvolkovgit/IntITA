@@ -30,7 +30,7 @@
 
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'language'); ?>
-		<?php echo $form->textField($model,'language',array('size'=>16,'maxlength'=>16,'class' => "form-control")); ?>
+		<?php echo $form->textField($model,'language',array('size'=>16,'maxlength'=>16,'class' => "form-control translateLanguage")); ?>
 		<?php echo $form->error($model,'language'); ?>
 	</div>
 

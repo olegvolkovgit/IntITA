@@ -31,7 +31,7 @@ if (!empty($plainTasksAnswers)) {
                             <tr>
                                 <td><?php echo $plainTaskAnswer->id; ?></td>
                                 <td><?php echo $plainTaskAnswer->getStudentName(); ?></td>
-                                <td><?php echo $plainTaskAnswer->getShortDescription(); ?></td>
+                                <td><?php echo $plainTaskAnswer->answer; ?></td>
                                 <td><?php echo $module->title_ua; ?></td>
                                 <td>
                                     <a href="javascript:chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
@@ -53,6 +53,7 @@ if (!empty($plainTasksAnswers)) {
 <script>
     $jq(document).ready(function () {
         $jq('#newTasksTable').DataTable({
+                "autoWidth": false,
                 language: {
                     "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
                 }
