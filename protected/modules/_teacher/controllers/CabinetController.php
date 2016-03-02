@@ -149,14 +149,14 @@ class CabinetController extends TeacherCabinetController
                 case 'consultant':
                     $this->renderConsultantDashboard($teacher, $user, $role);
                     break;
-                case 'student':
-                    $this->renderStudentDashboard($user);
-                    break;
                 case 'admin':
                     $this->renderAdminDashboard();
                     break;
                 case 'accountant':
                     $this->renderAccountantDashboard();
+                    break;
+                case 'student':
+                    $this->renderStudentDashboard($user);
                     break;
                 default:
                     throw new CHttpException(400, 'Неправильно вибрана роль!');

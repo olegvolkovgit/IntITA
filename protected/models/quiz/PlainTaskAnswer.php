@@ -124,14 +124,14 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getConsultant()
     {
-        $teacher = Teacher::model()->findByPk( Yii::app()->db->createCommand()
+        $teacher = Yii::app()->db->createCommand()
             ->select ('id_teacher')
             ->from ('plain_task_answer_teacher')
             ->where ('id_plain_task_answer = :id',
                 array(':id' => $this->id))
-            ->queryRow());
+            ->queryScalar();
 
-        return $teacher;
+        return RegisteredUser::userById($teacher)->registrationData;
     }
 
     public function getCondition()
@@ -224,8 +224,7 @@ class PlainTaskAnswer extends CActiveRecord
 
     public static function getTaskWithTrainer()
     {
-        $trainerId = Teacher::getTeacherId(Yii::app()->user->id);
-        $trainerUsers = TrainerStudent::getStudentByTrainer($trainerId);
+        $trainerUsers = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
         $plainTasksArr = [];
 
         if($trainerUsers)

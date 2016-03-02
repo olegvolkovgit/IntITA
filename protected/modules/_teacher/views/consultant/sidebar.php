@@ -13,7 +13,7 @@
         </li>
         <li>
             <a href="#" onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showTeacherPlainTaskList'); ?>',
-                '<?php echo $teacher->teacher_id ?>')">
+                '<?php echo $teacher->user_id ?>')">
                 Всі задачі
             </a>
         </li>
