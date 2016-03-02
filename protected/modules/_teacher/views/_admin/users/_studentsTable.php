@@ -45,6 +45,8 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <th>ФІО</th>
                         <th>Email</th>
                         <th>Зареєстровано</th>
+                        <th>Тренер</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>

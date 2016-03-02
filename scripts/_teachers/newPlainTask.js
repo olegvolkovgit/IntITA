@@ -117,16 +117,29 @@ function markPlainTask(url)
 
 }
 
-function addTrainer(url)
+function addTrainer(url, scenario)
 {
     var id = document.getElementById('user').value;
-    var trainerId = $jq("select option:selected").val();
+    var trainerId = (scenario == "remove")?0:$jq("#trainer").val();
+    var oldTrainerId = (scenario != "new")?$jq("#oldTrainerId").val():0;
+    if(trainerId == 0 && scenario != "remove"){
+        showDialog("Виберіть тренера.");
+    }
     $jq.ajax({
         url: url,
-        type: "POST",
-        data : { 'userId': id, 'trainerId' : trainerId},
-        success: function (data) {
-            location.reload();
+        type: 'post',
+        data : { 'userId': id, 'trainerId' : trainerId, 'oldTrainerId' : oldTrainerId},
+        success: function (response) {
+            if (response == "success") {
+                bootbox.confirm("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі');
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
         }
     });
 }

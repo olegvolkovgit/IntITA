@@ -1,0 +1,236 @@
+body{
+    height: auto;
+}
+.moduleTitle h1 {
+    font-weight: inherit;
+    font-size: 36px;
+    color: #4B75A4;
+    margin: 24px 0 20px 0;
+    line-height: 100%;
+    word-wrap: break-word;
+    border-bottom: 1px solid #cccccc;
+}
+.lessonModule{
+    font-size: 16px;
+    margin: 0 auto;
+    width: 800px;
+}
+.lessonModule h2
+{
+    color:#4682B4;
+    font-weight: inherit;
+    display: inline-block;
+}
+.lessonModule td {
+    padding-left: 0;
+    vertical-align: top;
+}
+#lessonForm{
+    display: none;
+}
+.titleColumn a {
+    color: #4b75a4;
+    text-decoration:none;
+    float:left;
+}
+#formLabel{
+    color:green;
+    font-size: 16px;
+}
+#submitButton{
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
+    float: left;
+}
+#cancelButton {
+    margin-left: 20px;
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+#submitButton:hover, #cancelButton:hover{
+    background: #454545;
+    cursor: pointer;
+}
+.controlButtons{
+    width: 20px;
+    height: 20px;
+}
+.grid-view table.items{
+    border:none;
+}
+body .grid-view table.items td{
+    font-size: 16px;
+    background-color: white;
+}
+body .grid-view table.items td.button-column{
+    background-color: white;
+    min-width: 70px;
+}
+body .grid-view table.items td.aliasColumn{
+    white-space: nowrap;
+    background-color: white;
+    width: 1%;
+    margin-left: 0px;!important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+body .grid-view table.items td.aliasColumn img{
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 5px;
+}
+body .grid-view table.items td.titleColumn{
+    vertical-align: top;
+    background-color: white;
+    padding-left: 0;
+    float:left;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;!important;
+    width:500px;
+    word-wrap: break-word;
+}
+.grid-view table.items tr.odd,.grid-view table.items tr.even{
+    background: #ffffff;
+}
+
+.grid-view table.items tr.odd:hover, .grid-view table.items tr.even:hover{
+    background: #ffffff;
+}
+.grid-view table.items td.titleColumn a{
+    max-width: 100%;
+    word-wrap: break-word;
+}
+.grid-view{
+    padding-top: 0;
+}
+div.ratico{
+    display: inline-block;
+    float: right;
+    margin-left: 20px;
+}
+#addLecture{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background: #0080c2;
+    border-style: none;
+}
+#addLecture:hover{
+    cursor: pointer;
+    border-style: none;
+}
+#addLecture:focus,#addLecture:active{
+    border-style: none;
+}
+#ajaxaddlecture-form input[type="submit"]{
+    background-image: url('../images/editor/add_lesson.png');
+}
+td.button-column{
+    display: table-cell;
+    white-space: nowrap;
+}
+.lessonModule .grid-view table.items td {
+    font-size: 18px;
+    line-height: 18px;
+}
+#errorMessage{
+    width: 90px;
+    word-wrap: break-word;
+    white-space: normal;
+    color: red;
+}
+/*addlesson validation*/
+#addLessonForm input.ng-invalid.ng-dirty, #addLessonForm input.ng-invalid.ng-dirty:focus{
+    box-shadow: 0 0 4px #c72929;
+    border:1px solid #c72929;
+}
+
+#addLessonForm .clientValidationError{
+    margin-left: 215px;
+    color: red;
+    font-size: 0.9em;
+}
+#addLessonForm input[type="submit"][disabled]{
+    background: #666666;
+}
+/*addlesson validation*/
+.lectureButtons, .lecturesTitle{
+    display: inline-block;
+}
+.lectureButtons{
+    min-width: 70px;
+}
+.lectureButtons img{
+    cursor: pointer;
+}
+#lecturesList{
+    color: #666666;
+}
+.lecturesTitle{
+    width: 600px;
+    word-wrap: break-word;
+    color: #4b75a4;
+    text-decoration: none;
+}
+.lectureOrder{
+    white-space: nowrap;
+    background-color: white;
+    width: 1%;
+    padding-right: 5px;
+}
+table.lecturesTable{
+    border-collapse: separate;
+    border-spacing: 4px;
+    font-size: 18px;
+}
+.backButton a{
+    margin: 20px 0;
+    display: inline-block;
+    position: relative;
+    width: 160px;
+    border-radius: 7px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    color: #ffffff;
+    background: #4b75a4;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro2";
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 32px;
+    text-decoration: none;
+    text-align: center;
+}
+.backButton a:hover{
+    background: #454545;
+}
+#moduleLoading{
+    margin-left: 10px;
+}
+.lecturesTitle a {
+    color: #4b75a4;
+    text-decoration: none;
+}
+.lecturesTitle a:hover {
+    color: #666666;
+}

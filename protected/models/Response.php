@@ -16,7 +16,7 @@
  * @property integer $is_checked
  *
  * The followings are the available model relations:
- * @property StudentReg $who0
+ * @property StudentReg $user
  */
 class Response extends CActiveRecord
 {

@@ -1,9 +1,7 @@
 <?php
-/* @var $teacher Teacher*/
-/* @var $role Roles*/
+/* @var $user RegisteredUser */
 /* @var $this CabinetController*/
-?>
-    <?php $roles = $teacher->roles();
+$roles = Yii::app()->user->model->getRoles();
 foreach ($roles as $role) {
     $this->renderSidebarByRole($role);
     }

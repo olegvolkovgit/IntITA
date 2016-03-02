@@ -13,7 +13,7 @@ if (!empty($plainTasksAnswers)) {
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="newTasksTable">
+                <table class="table table-bordered table-hover" id="newTasksTable">
                     <thead>
                     <tr>
                         <th>Номер задачі</th>

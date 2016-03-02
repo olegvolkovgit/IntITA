@@ -162,10 +162,15 @@ class PlainTaskAnswer extends CActiveRecord
     public function getTrainersByAnswer()
     {
         $module = $this->getModule();
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 't';
+        $criteria->distinct = true;
+        $criteria->join = 'JOIN consultant_modules cm ON cm.consultant = t.user_id';
+        $criteria->addCondition('cm.module = :module');
+        $criteria->params = array(':module' => $module->module_ID);
 
-        $teachers = Module::getTeacherByModule($module->module_ID);
-
-        return $teachers;
+        return Teacher::model()->findAll($criteria);
     }
 
     public static function assignedConsult($idPlainTaskAnswer,$consult)

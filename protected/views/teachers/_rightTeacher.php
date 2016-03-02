@@ -2,6 +2,7 @@
 /**
  * @var $teacherValue Teacher
  * @var $module Module
+ * @var $teacherletter TeacherLetter
  */
 ?>
 <div class="rightTeacher">
@@ -18,7 +19,7 @@
                     <tr>
                         <td class="profileTeacher">
                             <div class="avatarsize">
-                                <img class='teacherAvatar' src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacherValue->foto_url);?>"/>
+                                <img class='teacherAvatar' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacherValue->avatar());?>"/>
                             </div>
                             <a href="<?php echo Yii::app()->createUrl('profile/index',
                                 array('idTeacher' => $teacherValue->teacher_id));?>">
