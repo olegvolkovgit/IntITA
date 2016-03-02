@@ -37,7 +37,7 @@
 
             <select name="consult" id="consult" class="form-control">
                 <?php foreach ($teachers as $teacher) {?>
-                    <option value="<?php echo $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
+                    <option value="<?php echo $teacher->user_id?>"><?php echo $teacher->getName()?></option>
                 <?php }?>
 
             </select>

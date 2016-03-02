@@ -11,7 +11,7 @@
     <form role="form" method="post" id="assignedConsult"
           ng-submit='ediConsult("<?php echo Yii::app()->createUrl('_teacher/teacher/editConsultant')?>");' >
 
-        <input type="text" name="id" id="idPlainTask" ng-value="<?php echo $task->id ?>" hidden="true">
+        <input type="text" name="id" id="idPlainTask" ng-value="<?php echo $task->id ?>" hidden>
 
         <div class="form-group">
             <label for="student">Ім'я або email студента :</label>
@@ -32,14 +32,14 @@
         <div class="form-group">
             <label for="cons">Теперішній консультант :</label>
             <input name="cons" type="text" class="form-control"
-                   placeholder="<?php echo $task->getConsultant()->getName(); ?>" disabled>
+                   placeholder="<?php echo $task->getConsultant()->userName(); ?>" disabled>
         </div>
         <div class="form-group">
             <?php $teachers = $task->getTrainersByAnswer() ?>
             <label for="consult">Можливі консультанти :</label>
             <select name="consult" id="consult" class="form-control">
                 <?php foreach ($teachers as $teacher) {?>
-                    <option value="<?php echo $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
+                    <option value="<?php echo $teacher->user_id?>"><?php echo $teacher->getName()?></option>
                 <?php }?>
             </select>
         </div>

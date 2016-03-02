@@ -26,9 +26,9 @@
                         <tr>
                             <td><?php echo $task->id; ?></td>
                             <td><?php echo $task->getStudentName(); ?></td>
-                            <td><?php echo $task->getShortDescription(); ?></td>
+                            <td><?php echo $task->answer; ?></td>
                             <td><?php echo $module->title_ua ?></td>
-                            <td><?php echo $task->getConsultant()->getName() ?></td>
+                            <td><?php echo $task->getConsultant()->userName() ?></td>
                             <td>
                                 <a href="#" onclick='changeConsult("<?php echo $task->id ?>",
                     "<?php echo Yii::app()->createUrl('_teacher/teacher/changeConsultant') ?>")'>

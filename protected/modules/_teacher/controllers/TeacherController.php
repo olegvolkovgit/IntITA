@@ -46,7 +46,7 @@ class TeacherController extends TeacherCabinetController
             $model->save();
         }
 
-        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult->teacher->teacher_id))
+        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $model->id))
             throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
     }
 
