@@ -4,6 +4,7 @@ $header = new Header();
 ?>
 <!DOCTYPE html>
 <html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <head>
 
     <!--[if lte IE 8]>
@@ -49,7 +50,6 @@ $header = new Header();
     </script>
     <![endif]-->
     <!-- for tabs -->
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
