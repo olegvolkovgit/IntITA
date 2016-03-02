@@ -30,10 +30,10 @@ if (!empty($teacherPlainTasks)) { ?>
                                 <td><i class="fa <?php echo ($mark) ? ' fa-check' : ' fa-exclamation'; ?> fa-fw"></i>
                                 </td>
                                 <td class="center"></td>
-                                <td class="center"><?php echo strip_tags($plainTaskAnswer->plainTask->getShortDescription()); ?></td>
+                                <td class="center"><?php echo strip_tags($plainTaskAnswer->plainTask->lectureElement->html_block); ?></td>
                                 <td class="center"><?php echo $plainTaskAnswer->getStudentName(); ?></td>
                                 <td class="center">
-                                    <?php echo $plainTaskAnswer->getShortDescription(); ?></td>
+                                    <?php echo $plainTaskAnswer->answer; ?></td>
                                 <td><?php if ($mark) {
                                         echo ($mark['mark']) ? "зарах." : "не зарах.";
                                     } ?></td>

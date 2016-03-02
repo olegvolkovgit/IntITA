@@ -212,10 +212,6 @@ class PlainTaskAnswer extends CActiveRecord
         return $result;
     }
 
-    public function getShortDescription()
-    {
-        return substr($this->answer,0,100).'....';
-    }
 
     public static function getTaskWithTrainer()
     {

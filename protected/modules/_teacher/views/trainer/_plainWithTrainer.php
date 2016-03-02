@@ -26,7 +26,7 @@
                         <tr>
                             <td><?php echo $task->id; ?></td>
                             <td><?php echo $task->getStudentName(); ?></td>
-                            <td><?php echo $task->getShortDescription(); ?></td>
+                            <td><?php echo $task->answer; ?></td>
                             <td><?php echo $module->title_ua ?></td>
                             <td><?php echo $task->getConsultant()->getName() ?></td>
                             <td>

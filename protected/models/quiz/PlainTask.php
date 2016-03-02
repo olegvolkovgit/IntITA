@@ -130,11 +130,6 @@ class PlainTask extends Quiz
 		return $this->lectureElement->html_block;
     }
 
-	public function getShortDescription()
-	{
-		return substr($this->lectureElement->html_block,0,100).'....';
-	}
-
     public static function getPlainTaskAnswersWithoutTrainer()
     {
 

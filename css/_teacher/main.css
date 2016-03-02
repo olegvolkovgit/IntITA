@@ -157,3 +157,11 @@ body.ie8 #hambMenu {
 .tt-suggestion.tt-cursor,.tt-suggestion:hover {
     background-color: #d6e4f0;
 }
+table{
+    table-layout: fixed;
+}
+td,th{
+    white-space: nowrap; /* Запрещаем перенос строк */
+    overflow: hidden; /* Обрезаем все, что не помещается в область */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+}
