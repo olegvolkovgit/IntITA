@@ -14,7 +14,7 @@
     'enableAjaxValidation' => true,
     'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
         'action' => array($action),
-    'htmlOptions' => array('name' => 'authForm', 'novalidate' => true),
+    'htmlOptions' => array('onsubmit'=>"$('.signInEmail').val($('.signInEmail').val().trim())", 'name' => 'authForm', 'novalidate' => true),
     ));
     ?>
     <div ng-cloak class="signUp">

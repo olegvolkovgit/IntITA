@@ -25,7 +25,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         'enableAjaxValidation' => true,
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false),
         'action' => array($action),
-        'htmlOptions' => array('name' => 'authFormDialog', 'novalidate' => true),
+        'htmlOptions' => array('onsubmit'=>"$('.signInEmailM').val($('.signInEmailM').val().trim())", 'name' => 'authFormDialog', 'novalidate' => true),
     ));
     ?>
     <div ng-cloak class="signIn">

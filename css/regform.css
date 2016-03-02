@@ -14,7 +14,7 @@ div.linesignInForm{margin:0 auto;width:444px;font-size:18px;border-top:1px solid
 .rowButtons{margin-bottom:25px;position:relative;}
 div.image{margin:0 auto;width:444px;}
 #regCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
-#regCheckbox + label{cursor:pointer;font-weight:normal;margin-bottom:0px}
+#regCheckbox + label{cursor:pointer;font-weight:normal;margin-bottom:0px;display: inline-block;margin-bottom: 5px;}
 #regCheckbox:not(checked){position:absolute;opacity:0;}
 #regCheckbox:not(checked) + label{position:relative;padding:0 0 0 42px;}
 #regCheckbox:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:26px;height:14px;border-radius:13px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
