@@ -94,10 +94,10 @@ class TeachersController extends TeacherCabinetController{
             'criteria' => $criteria,
         ));
         $model = Roles::model()->findByPk($role);
-        $this->render('showRoleAttributes', array(
+        $this->renderPartial('showRoleAttributes', array(
             'model' => $model,
             'dataProvider' => $dataProvider,
-        ),false);
+        ),false,true);
     }
 
     public function actionCreateRole()
@@ -222,7 +222,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['RoleAttribute'])) {
             $model->attributes = $_POST['RoleAttribute'];
             if ($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
+                $this->redirect($this->pathToCabinet());
         }
         $model->role = $role;
         $this->renderPartial('addRoleAttribute', array(
@@ -271,7 +271,7 @@ class TeachersController extends TeacherCabinetController{
         {
             $model->attributes=$_POST['RoleAttribute'];
             if($model->save())
-                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/teachers/index'));
+                $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('updateRoleAttribute',array(
