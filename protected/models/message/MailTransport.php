@@ -15,7 +15,7 @@ class MailTransport implements IMailSender{
         if($this->template != ''){
             $text = $this->template;
         }
-        $this->viewPath = ($dir = Yii::getPathOfAlias($this->viewPath)) ? $dir : Yii::app()->viewPath;
+        $this->viewPath = ($dir = Yii::getPathOfAlias($this->viewPath)) ? $dir : Yii::app()->viewPath.DIRECTORY_SEPARATOR.'mail';
         $message = Yii::app()->controller->renderFile($this->viewPath . DIRECTORY_SEPARATOR . 'mailLayout.php', array(
             'content' => $text,
             'userEmail' => $mailto
@@ -27,7 +27,7 @@ class MailTransport implements IMailSender{
     }
 
     public function renderBodyTemplate($template, $params){
-        $this->viewPath = ($dir = Yii::getPathOfAlias($this->viewPath)) ? $dir : Yii::app()->viewPath;
+        $this->viewPath = ($dir = Yii::getPathOfAlias($this->viewPath)) ? $dir : Yii::app()->viewPath.DIRECTORY_SEPARATOR.'mail';
         $this->template = Yii::app()->controller->renderFile($this->viewPath. DIRECTORY_SEPARATOR . 'templates'. DIRECTORY_SEPARATOR .$template.'.php', array(
             'params' => $params,
         ), true);
