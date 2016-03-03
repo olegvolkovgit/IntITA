@@ -14,7 +14,7 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>')">
+                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>'); return false;">
                 Призначити бухгалтера
             </button>
 
