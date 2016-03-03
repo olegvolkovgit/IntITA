@@ -9,7 +9,7 @@
             <h1 class="page-header" id="pageTitle">Особистий кабінет</h1>
         </div>
     </div>
-    <div id="pageContainer">
+    <div id="pageContainer" class="wrap-words">
         <div class="row">
             <div class="col-lg-12">
     <?php echo $this->renderPartial('_dashboard',array(

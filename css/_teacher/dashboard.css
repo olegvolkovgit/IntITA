@@ -9,3 +9,6 @@ hr {
     margin: -7px 0; /* устраняем начальный отступ для ие6 */
 }
 
+.wrap-words {
+    word-wrap: break-word;
+}
