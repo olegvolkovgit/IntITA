@@ -1039,7 +1039,7 @@ class StudentReg extends CActiveRecord
     public static function usersWithoutAdmins($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "secondName, firstName, middleName, email, avatar";
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
@@ -1067,7 +1067,7 @@ class StudentReg extends CActiveRecord
     public static function usersWithoutAccountants($query)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "secondName, firstName, middleName, email, avatar";
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

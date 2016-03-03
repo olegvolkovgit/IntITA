@@ -1,11 +1,11 @@
 function sendNewAdminData(url) {
-    user = $jq("#typeahead").val();
-    if (user === "") {
+    user = $jq("#userId").val();
+    if (user == 0) {
         bootbox.alert('Виберіть користувача, якого потрібно призначити адміністратором.');
     } else {
-        var posting = $jq.post(url, {user: user});
+        var posting = $jq.post(url, {userId: user});
         posting.done(function (response) {
-                if (response == 1) {
+                if (response == "success") {
                     bootbox.alert("Користувач " + user + " призначений адміністратором.", loadUsersIndex);
                 }
                 else {
@@ -54,14 +54,14 @@ function cancelAccountant(url, id) {
 }
 
 function sendNewAccountantData(url) {
-    user = $jq("#typeahead").val();
-    if (user === "") {
+    user = $jq("#userId").val();
+    if (user == 0) {
         bootbox.alert('Виберіть користувача, якого потрібно призначити бухгалтером.');
     } else {
-        var posting = $jq.post(url, {user: user});
+        var posting = $jq.post(url, {userId: user});
 
         posting.done(function (response) {
-                if (response == 1)
+            if (response == "success")
                     bootbox.alert("Користувач " + user + " призначений бухгалтером.", loadUsersIndex);
                 else {
                     bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +

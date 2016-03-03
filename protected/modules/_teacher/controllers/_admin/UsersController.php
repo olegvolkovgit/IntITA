@@ -29,20 +29,20 @@ class UsersController extends TeacherCabinetController
 
     public function actionAddAdmin()
     {
-        $user = Yii::app()->request->getPost('user', '');
-        $email = explode(" ", $user);
-        $email = $email[count($email) - 1];
-        $model = StudentReg::model()->findByAttributes(array('email' => $email));
-        echo $model->addAdmin();
+        $userId = Yii::app()->request->getPost('userId');
+        $user = RegisteredUser::userById($userId);
+
+        if ($user->setRole(new UserRoles("admin"))) echo "success";
+        else echo "error";
     }
 
     public function actionCreateAccountant()
     {
-        $user = Yii::app()->request->getPost('user', '');
-        $email = explode(" ", $user);
-        $email = $email[count($email) - 1];
-        $model = StudentReg::model()->findByAttributes(array('email' => $email));
-        echo $model->addAccountant();
+        $userId = Yii::app()->request->getPost('userId');
+        $user = RegisteredUser::userById($userId);
+
+        if ($user->setRole(new UserRoles("accountant"))) echo "success";
+        else echo "error";
     }
 
     public function actionCancelAdmin()
@@ -126,7 +126,7 @@ class UsersController extends TeacherCabinetController
         $trainerId = Yii::app()->request->getPost('trainerId');
         $trainer = RegisteredUser::userById($trainerId);
 
-        if ($trainer->setRoleAttribute(new UserRoles('trainer'), 'students-list', $userId)) echo "success";
+        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";
     }
 
@@ -168,8 +168,8 @@ class UsersController extends TeacherCabinetController
         $trainer = RegisteredUser::userById($trainerId);
         $oldTrainer = RegisteredUser::userById($oldTrainerId);
 
-        $oldTrainer->unsetRoleAttribute(new UserRoles('trainer'), 'students-list', $userId);
-        if ($trainer->setRoleAttribute(new UserRoles('trainer'), 'students-list', $userId)) echo "success";
+        $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";
     }
 
@@ -180,7 +180,7 @@ class UsersController extends TeacherCabinetController
 
         $oldTrainer = RegisteredUser::userById($oldTrainerId);
 
-        if($oldTrainer->unsetRoleAttribute(new UserRoles('trainer'), 'students-list', $userId)) echo "success";
+        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";
     }
 }
