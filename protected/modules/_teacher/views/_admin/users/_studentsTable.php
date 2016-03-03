@@ -42,7 +42,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                 <table class="table table-striped table-bordered table-hover" id="studentsTable" style="width:100%">
                     <thead>
                     <tr>
-                        <th>ФІО</th>
+                        <th>ПІБ</th>
                         <th>Email</th>
                         <th>Зареєстровано</th>
                         <th>Тренер</th>

@@ -14,7 +14,7 @@
         </li>
         <li>
             <button type="button" class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->teacher_id)); ?>',
+            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->user_id)); ?>',
                 'Переглянути інформацію про викладача')">
                 Переглянути інформацію про викладача</button>
         </li>

@@ -2,6 +2,7 @@
     <div class="panel-body">
         <form role="form">
             <div class="form-group" id="receiver">
+                <input type="number" hidden="hidden" id="userId" value="0"/>
                 <label>Користувач</label>
                 <br>
                 <input id="typeahead" type="text" class="form-control" name="user" placeholder="Виберіть користувача"
@@ -14,7 +15,7 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>')">
+                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>'); return false;">
                 Призначити бухгалтера
             </button>
 
@@ -46,6 +47,10 @@
     });
 
     users.initialize();
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#userId").val(item.id);
+    });
 
     $jq('#typeahead').typeahead(null, {
         name: 'users',
