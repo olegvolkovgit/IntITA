@@ -4,9 +4,8 @@ $header = new Header();
 ?>
 <!DOCTYPE html>
 <html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
 <head>
-
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <!--[if lte IE 8]>
     <body class="ie8">
     <![endif]-->
