@@ -73,17 +73,16 @@ function generateEnglishName(first, last, middle) {
     }
 }
 
-
 function generateFirst(first){
-    $("#Teacher_first_name_en").val(toEnglish(first));
+    $jq("#Teacher_first_name_en").val(toEnglish(first));
 }
 
 function generateMiddle(middle){
-    $("#Teacher_middle_name_en").val(toEnglish(middle));
+    $jq("#Teacher_middle_name_en").val(toEnglish(middle));
 }
 
 function generateLast(last){
-    $("#Teacher_last_name_en").val(toEnglish(last));
+    $jq("#Teacher_last_name_en").val(toEnglish(last));
 }
 
 function loadTeachersIndex() {
