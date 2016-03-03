@@ -11,7 +11,6 @@ class m160223_104039_move_teacher_info_into_user extends CDbMigration
         $sqlMiddleName = "update user set middleName = (select middle_name from teacher where user_id=id) where id in (select user_id from teacher)";
         $sqlAvatar = "update user set avatar = (select foto_url from teacher where user_id=id) where id in (select user_id from teacher)";
         $sqlSkype = "update user set skype = (select skype from teacher where user_id=id) where id in (select user_id from teacher)";
-        $sqlEmail = "update user set email = (select email from teacher where user_id=id) where id in (select user_id from teacher)";
         $sqlPhone = "update user set phone = (select tel from teacher where user_id=id) where id in (select user_id from teacher)";
 
         $this->execute($sqlFirstName);
@@ -19,7 +18,6 @@ class m160223_104039_move_teacher_info_into_user extends CDbMigration
         $this->execute($sqlMiddleName);
         $this->execute($sqlAvatar);
         $this->execute($sqlSkype);
-        $this->execute($sqlEmail);
         $this->execute($sqlPhone);
 
         $this->dropColumn('teacher', 'first_name');

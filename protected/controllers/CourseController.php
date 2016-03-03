@@ -8,77 +8,6 @@ class CourseController extends Controller
      */
     public $layout = '//layouts/column2';
 
-
-    /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
-    public function actionView($courseID = 1)
-    {
-        $this->render('view', array(
-            'model' => $this->loadModel($courseID),
-        ));
-    }
-
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
-    public function actionCreate()
-    {
-        $model = new Course;
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Course'])) {
-            $model->attributes = $_POST['Course'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->CourseID));
-        }
-
-        $this->render('create', array(
-            'model' => $model,
-        ));
-    }
-
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->loadModel($id);
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Course'])) {
-            $model->attributes = $_POST['Course'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->CourseID));
-        }
-
-        $this->render('update', array(
-            'model' => $model,
-        ));
-    }
-
-    /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
-     */
-    public function actionDelete($id)
-    {
-        $this->loadModel($id)->delete();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-    }
-
     /**
      * Lists all models.
      */
@@ -98,21 +27,6 @@ class CourseController extends Controller
             'canEdit' => $canEdit,
         ));
 
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new Course('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Course']))
-            $model->attributes = $_GET['Course'];
-
-        $this->render('admin', array(
-            'model' => $model,
-        ));
     }
 
     /**
