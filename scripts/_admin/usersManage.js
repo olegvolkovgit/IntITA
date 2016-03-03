@@ -87,16 +87,23 @@ function initUsersTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
-            {"data": "register"},
             {
+                "data": "name"
+            },
+            {"data": "email"},
+            {
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                "width": "20%",
                 "data": "profile",
                 "render": function (url) {
                     return '<a href="' + url + '" target="_blank">Профіль користувача</a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "mailto",
                 "render": function (url) {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
@@ -123,12 +130,14 @@ function initTeachersTable() {
             {"data": "name"},
             {"data": "email"},
             {
+                "width": "20%",
                 "data": "profile",
                 "render": function (url) {
                     return '<a href="' + url + '" target="_blank">Персональна сторінка</a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "mailto",
                 "render": function (url) {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
@@ -154,15 +163,23 @@ function initAdminsTable() {
         "columns": [
             {"data": "name"},
             {"data": "email"},
-            {"data": "register"},
-            {"data": "cancelDate"},
             {
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "10%",
                 "data": "profile",
                 "render": function (url) {
                     return '<a href="' + url + '" target="_blank">Профіль</a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "mailto",
                 "render": function (url) {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
@@ -170,6 +187,7 @@ function initAdminsTable() {
                 }
             },
             {
+                "width": "5%",
                 "data": "cancel",
                 "render": function (params) {
                     return '<a href="#" onclick="cancelAdmin(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
@@ -194,15 +212,23 @@ function initAccountantsTable() {
         "columns": [
             {"data": "name"},
             {"data": "email"},
-            {"data": "register"},
-            {"data": "cancelDate"},
             {
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "10%",
                 "data": "profile",
                 "render": function (url) {
                     return '<a href="' + url + '" target="_blank">Профіль</a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "mailto",
                 "render": function (url) {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
@@ -210,6 +236,7 @@ function initAccountantsTable() {
                 }
             },
             {
+                "width": "5%",
                 "data": "cancel",
                 "render": function (params) {
                     return '<a href="#" onclick="cancelAccountant(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
