@@ -2,6 +2,7 @@
     <div class="panel-body">
         <form role="form">
             <div class="form-group" id="receiver">
+                <input type="number" hidden="hidden" id="userId" value="0"/>
                 <label>Користувач</label>
                 <br>
                 <input id="typeahead" type="text" class="typeahead form-control" name="user"
@@ -48,6 +49,10 @@
     });
 
     users.initialize();
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#userId").val(item.id);
+    });
 
     $jq('#typeahead').typeahead(null, {
         name: 'users',

@@ -132,7 +132,7 @@ class RegisteredUser
         return $roleObj->setAttribute($this->registrationData, $attribute, $value);
     }
 
-    public function unsetRoleAttribute(UserRoles $role, $attribute, $value){
+    public function unsetRoleAttribute($role, $attribute, $value){
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
     }
@@ -173,7 +173,7 @@ class RegisteredUser
         return in_array($role, $this->getRoles());
     }
 
-    public function setRole(UserRoles $role)
+    public function setRole($role)
     {
         if ($this->hasRole($role)) {
             throw new \application\components\Exceptions\IntItaException(400, "User already has this role.");

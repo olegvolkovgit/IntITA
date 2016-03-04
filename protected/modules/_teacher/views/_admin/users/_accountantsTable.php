@@ -17,7 +17,7 @@
                 <table class="table table-striped table-bordered table-hover" id="accountantsTable">
                     <thead>
                     <tr>
-                        <th>ФІО</th>
+                        <th>ПІБ</th>
                         <th>Email</th>
                         <th>Призначено</th>
                         <th>Відмінено</th>

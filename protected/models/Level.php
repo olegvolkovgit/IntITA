@@ -15,6 +15,12 @@
  */
 class Level extends CActiveRecord
 {
+	const INTERN = 1;
+	const JUNIOR = 2;
+	const STRONG_JUNIOR = 3;
+	const MIDDLE = 4;
+	const SENIOR = 5;
+
 	/**
 	 * @return string the associated database table name
 	 */
