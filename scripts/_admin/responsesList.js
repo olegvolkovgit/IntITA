@@ -8,29 +8,39 @@ function initTeacherResponsesTable() {
         "columns": [
             {"data": "author"},
             {"data": "about"},
-            {"data": "date"},
-            {"data": "text"},
-            {"data": "rate"},
-            {"data": "publish"},
             {
+                "width": "10%",
+                "data": "date"},
+            {"data": "text"},
+            {
+                "width": "8%",
+                "data": "rate"},
+            {
+                "width": "12%",
+                "data": "publish"},
+            {
+                "width": "5%",
                 "data": "linkChangeStatus",
                 "render": function (url) {
                     return '<a href="#" onclick="setResponseStatus(' + url + ')"><i class="fa fa-refresh"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkView",
                 "render": function (linkView) {
                     return '<a href="#" onclick="load(' + linkView + ')"><i class="fa fa-eye"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkEdit",
                 "render": function (linkEdit) {
                     return '<a href="#" onclick="load(' + linkEdit + ')"><i class="fa fa-pencil"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkDelete",
                 "render": function (linkDelete) {
                     return '<a href="#" onclick="deleteResponse(' + linkDelete + ')"><i class="fa fa-trash"></i></a>';
