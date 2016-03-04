@@ -23,7 +23,7 @@
                     <table class="table table-striped table-bordered table-hover" id="teachersAdminTable">
                         <thead>
                         <tr>
-                            <th>ФІО</th>
+                            <th>ПІБ</th>
                             <th>Email</th>
                             <th>Статус</th>
                             <th>Профіль</th>

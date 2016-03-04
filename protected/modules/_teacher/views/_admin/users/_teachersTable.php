@@ -17,7 +17,7 @@
                 <table class="table table-striped table-bordered table-hover" id="teachersTable">
                     <thead>
                     <tr>
-                        <th>ФІО</th>
+                        <th>ПІБ</th>
                         <th>Email</th>
                         <th>Персональна сторінка</th>
                         <th></th>

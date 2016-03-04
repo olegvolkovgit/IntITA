@@ -304,17 +304,17 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria = new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
-        $criteria->condition = 'language="ua" and cancelled="0"';
+        $criteria->condition = 'cancelled="0"';
         if ($selector !== 'all') {
             switch ($selector) {
                 case 'junior':
-                    $criteria->addInCondition('level', array('1', '2', '3'));
+                    $criteria->addInCondition('level', array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
                     break;
                 case 'middle':
-                    $criteria->addCondition('level=4', 'AND');
+                    $criteria->addCondition('level='.Level::MIDDLE, 'AND');
                     break;
                 case 'senior':
-                    $criteria->addCondition('level=5', 'AND');
+                    $criteria->addCondition('level='.Level::SENIOR, 'AND');
                     break;
                 default:
                     break;

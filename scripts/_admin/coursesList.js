@@ -5,25 +5,41 @@ function initCourses(){
             "dataSrc": "data"
         },
         "columns": [
-            { "data": "id" },
-            { "data": "alias" },
-            { "data": "lang" },
-            { "data": "title" },
-            { "data": "status" },
-            { "data": "level" },
             {
+                "width": "8%",
+                "data": "id"
+            },
+            {
+                "width": "15%",
+                "data": "alias" },
+            {
+                "width": "8%",
+                "data": "lang"
+            },
+            { "data": "title" },
+            {
+                "width": "10%",
+                "data": "status"
+            },
+            {
+                "width": "15%",
+                "data": "level" },
+            {
+                "width": "5%",
                 "data": "linkView",
                 "render": function (linkView) {
                     return '<a href="#" onclick="load('  + linkView + ')"><i class="fa fa-eye"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkEdit",
                 "render": function (linkEdit) {
                     return '<a href="#" onclick="load('  + linkEdit + ')"><i class="fa fa-pencil"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkChangeStatus",
                 "render": function (linkChangeStatus) {
                     return '<a href="#" onclick="setCourseStatus('  + linkChangeStatus + ')"><i class="fa fa-trash"></i></a>';

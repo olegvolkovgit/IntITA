@@ -6,16 +6,24 @@ function initTeachersAdminTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
-            {"data": "status"},
             {
+                "data": "name"},
+            {
+                "width": "25%",
+                "data": "email"
+            },
+            {
+                "width": "10%",
+                "data": "status"},
+            {
+                "width": "10%",
                 "data": "profile",
                 "render": function (url) {
                     return '<a href="' + url + '" target="_blank">Cторінка</a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "mailto",
                 "render": function (url) {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
@@ -23,18 +31,21 @@ function initTeachersAdminTable() {
                 }
             },
             {
+                "width": "5%",
                 "data": "linkView",
                 "render": function (linkView) {
                     return '<a href="#" onclick="load(' + linkView + ')"><i class="fa fa-eye"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkEdit",
                 "render": function (linkEdit) {
                     return '<a href="#" onclick="load(' + linkEdit + ')" ><i class="fa fa-pencil"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkChangeStatus",
                 "render": function (linkChangeStatus) {
                     return '<a href="#" onclick="setTeacherStatus(' + linkChangeStatus + ')">' +
@@ -62,17 +73,16 @@ function generateEnglishName(first, last, middle) {
     }
 }
 
-
 function generateFirst(first){
-    $("#Teacher_first_name_en").val(toEnglish(first));
+    $jq("#Teacher_first_name_en").val(toEnglish(first));
 }
 
 function generateMiddle(middle){
-    $("#Teacher_middle_name_en").val(toEnglish(middle));
+    $jq("#Teacher_middle_name_en").val(toEnglish(middle));
 }
 
 function generateLast(last){
-    $("#Teacher_last_name_en").val(toEnglish(last));
+    $jq("#Teacher_last_name_en").val(toEnglish(last));
 }
 
 function loadTeachersIndex() {
