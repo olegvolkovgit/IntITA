@@ -152,37 +152,37 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionCreateNewBlock()
-    {
-        $pageOrder = Yii::app()->request->getPost('page');
-        $idType = Yii::app()->request->getPost('type');
-        $htmlBlock = Yii::app()->request->getPost('newTextBlock');
-        $idLecture = Yii::app()->request->getPost('idLecture');
-
-        $lecture = Lecture::model()->findByPk($idLecture);
-
-        $this->checkInstanse($lecture);
-
-        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
-
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionCreateNewBlockCKE()
-    {
-        $pageOrder = Yii::app()->request->getPost('page');
-        $idType = Yii::app()->request->getPost('type');
-        $htmlBlock = Yii::app()->request->getPost('editorAdd');
-        $idLecture = Yii::app()->request->getPost('idLecture');
-
-        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
-
-        $this->checkInstanse($lecture);
-
-        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
-
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionCreateNewBlock()
+//    {
+//        $pageOrder = Yii::app()->request->getPost('page');
+//        $idType = Yii::app()->request->getPost('type');
+//        $htmlBlock = Yii::app()->request->getPost('newTextBlock');
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+//
+//        $lecture = Lecture::model()->findByPk($idLecture);
+//
+//        $this->checkInstanse($lecture);
+//
+//        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
+//
+//        $this->redirect(Yii::app()->request->urlReferrer);
+//    }
+//
+//    public function actionCreateNewBlockCKE()
+//    {
+//        $pageOrder = Yii::app()->request->getPost('page');
+//        $idType = Yii::app()->request->getPost('type');
+//        $htmlBlock = Yii::app()->request->getPost('editorAdd');
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+//
+//        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
+//
+//        $this->checkInstanse($lecture);
+//
+//        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
+//
+//        $this->redirect(Yii::app()->request->urlReferrer);
+//    }
 
     //reorder blocks on lesson page - up block
 
@@ -216,20 +216,20 @@ class LessonController extends Controller
     }
     //delete block on lesson page
 
-    public function actionDeleteElement()
-    {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $order = Yii::app()->request->getPost('order');
-
-        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
-
-        $this->checkInstanse($lecture);
-
-        $lecture->deleteLectureElement($order, Yii::app()->user->getId());
-
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionDeleteElement()
+//    {
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+//        $order = Yii::app()->request->getPost('order');
+//
+//        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
+//
+//        $this->checkInstanse($lecture);
+//
+//        $lecture->deleteLectureElement($order, Yii::app()->user->getId());
+//
+//        if (!isset($_GET['ajax']))
+//            $this->redirect(Yii::app()->request->urlReferrer);
+//    }
     //delete block on lesson page
 
     public function actionDeleteVideo()

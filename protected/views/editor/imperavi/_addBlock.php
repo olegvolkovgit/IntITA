@@ -10,12 +10,12 @@
 <a name="newBlockForm"></a>
     <div id="blockForm">
         <div id="textBlockForm">
-            <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlock'); ?>"
+            <form id="addBlockForm" action="<?php echo Yii::app()->createUrl('revision/createNewBlock'); ?>"
                   method="post">
                 <input name="idLecture" value="<?php echo $lecture->id; ?>" type="hidden">
                 <input name="type" value="" id="blockType" type="hidden">
                 <input name="page" value="<?php echo $pageOrder;?>" id="page" type="hidden">
-                <textarea name="newTextBlock" id="newTextBlock" cols="108" class="wm ontop"
+                <textarea name="editorAdd" id="newTextBlock" cols="108" class="wm ontop"
                           required form="addBlockForm" rows="10">
                 </textarea>
                 <div class="container">

@@ -105,7 +105,7 @@ angular
                         .then(function() {
                             var order = element.parent().attr('id').substring(1);
                             $http({
-                                url: basePath + '/lesson/deleteElement',
+                                url: basePath + '/revision/deleteElement',
                                 method: "POST",
                                 data: $.param({idLecture: idLecture, order: order}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}

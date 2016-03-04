@@ -711,7 +711,7 @@ class Lecture extends CActiveRecord
             $model->id_type == LectureElement::CODE ||
             $model->id_type == LectureElement::INSTRUCTION ||
             $model->id_type == LectureElement::EXAMPLE) {
-            TextBlockHistory::createNewRecord($model->id_block, $model->id_type, $model->html_block, $idUser)->approve($idUser);
+            TextBlockHistory::createNewRecord($model->id_block, $model->id_type, $model->html_block, $idUser);
         }
 
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
@@ -847,7 +847,6 @@ class Lecture extends CActiveRecord
 
     public function saveBlock($order, $content, $userId) {
         $lectureElement = LectureElement::model()->findByAttributes(array('id_lecture' => $this->id, 'block_order' => $order));
-
         TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $content, $userId);
     }
 }

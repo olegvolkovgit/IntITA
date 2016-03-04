@@ -22,7 +22,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: '/lesson/save',
+                    url: '/revision/saveBlock',
                     data: {'content':html,'idLecture':idLecture,'order':order}
                 });
 			}
