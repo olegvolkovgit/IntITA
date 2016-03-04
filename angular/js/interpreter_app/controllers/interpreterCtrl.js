@@ -13,10 +13,11 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         theme: "rubyblue",               // стиль подсветки
         indentUnit: 4                    // размер табуляции
     });
-    etalon.on('change',function(cMirror){
-        $scope.finalResult.etalon = cMirror.getValue();
-        console.log($scope.finalResult);
-    });
+    setTimeout(function() {
+        etalon.on('change',function(cMirror){
+            $scope.$apply(function(){$scope.finalResult.etalon = cMirror.getValue();});
+        });
+    }, 2000);
     $scope.Math = window.Math;
     $scope.prefix = '_'+$scope.task;
     //options
