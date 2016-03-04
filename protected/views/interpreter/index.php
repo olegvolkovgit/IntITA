@@ -15,6 +15,19 @@
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'interpreter.css'); ?>"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.css'); ?>"/>
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/theme/rubyblue.css'); ?>"/>
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('css', 'codemirror.css'); ?>"/>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/javascript/javascript.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/css/css.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/htmlmixed/htmlmixed.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/php/php.js'); ?>"></script>
+
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
@@ -599,7 +612,7 @@
             <h2 id="title">Еталонний код</h2>
             <div class="row col header">
                 Еталон(не обов'язкове поле, якщо вказані result value в кожному юніт-тесті)
-                <textarea class="form-control" name="etalon" id="etalon" placeholder="Код рішення задачі" rows="2" ng-model="finalResult.etalon" ></textarea>
+                <textarea name="etalon" id="etalon" ></textarea>
             </div>
         </div>
         <h2 id="title">Результат</h2>

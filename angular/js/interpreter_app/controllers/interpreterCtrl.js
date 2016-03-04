@@ -6,6 +6,18 @@ angular
     .controller('interpreterCtrl',interpreterCtrl);
 
 function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
+    var etalon = CodeMirror.fromTextArea(document.getElementById('etalon'), {
+        lineNumbers: true,             // показывать номера строк
+        matchBrackets: true,             // подсвечивать парные скобки
+        mode: "javascript",
+        theme: "rubyblue",               // стиль подсветки
+        indentUnit: 4                    // размер табуляции
+    });
+    setTimeout(function() {
+        etalon.on('change',function(cMirror){
+            $scope.$apply(function(){$scope.finalResult.etalon = cMirror.getValue();});
+        });
+    }, 2000);
     $scope.Math = window.Math;
     $scope.prefix = '_'+$scope.task;
     //options
@@ -35,10 +47,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         {index:'$result_for_etalon', value:2},
     ];
     //options
-
     //init obj
     $scope.results=[];
-    $scope.etalon='';
+    //$scope.etalon='';
     $scope.compare_marks=[2];
     $scope.tests_code_arr=[];
     $scope.compareFull=[
@@ -499,6 +510,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
                 }
                 $scope.function = $scope.editedJson.function;
                 $scope.finalResult = $scope.editedJson;
+                etalon.setValue($scope.editedJson.etalon);
             }
         });
     }

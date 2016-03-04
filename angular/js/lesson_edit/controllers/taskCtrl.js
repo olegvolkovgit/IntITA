@@ -28,7 +28,7 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
                     getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
                         if (response != undefined){
                             $scope.editedJson=response;
-                            $scope.editedJson=JSON.parse($scope.editedJson);
+                            $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
                             var tempLang=originLang;
                             $scope.editedJson.lang=selectedLang;
                             sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){

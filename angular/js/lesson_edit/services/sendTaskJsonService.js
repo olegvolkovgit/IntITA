@@ -7,7 +7,6 @@ angular
         '$http',
         function($http) {
             this.sendJson = function (url,jsonTask) {
-                console.log(jsonTask);
                 var promise =$http({
                     url: url,
                     method: "POST",

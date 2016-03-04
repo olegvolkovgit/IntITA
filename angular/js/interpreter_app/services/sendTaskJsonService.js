@@ -18,6 +18,7 @@ angular
                     } else if(response.data.status=='success') {
                         bootbox.alert("Додані юніттести успішно скомпільовані");
                     } else if(response.data.status=='failed') {
+                        console.log('Змін не відбулося');
                     } else {
                         bootbox.alert("Виникла помилка при компіляції:"+"<br/>"+response.data.status);
                     }
