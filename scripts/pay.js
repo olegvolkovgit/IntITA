@@ -72,12 +72,12 @@ function checkCourseField(url)
     var courseId = document.getElementById("courseList").value;
     var userId = document.getElementById('user').value;
     if(!courseId){
-        showDialog("Виберіть курс");
+        showDialog("Виберіть курс.");
         return false;
     }
-    if(!userId)
+    if(userId == 0)
     {
-        showDialog("Виберіть користувача");
+        showDialog("Виберіть користувача.");
         return false;
     }
     $jq.ajax({
@@ -104,17 +104,17 @@ function checkModuleField(url)
 
     if(!courseId)
     {
-        showDialog("Виберіть будь-ласка курс");
+        showDialog("Виберіть курс.");
         return false;
     }
-    if(!userId)
+    if(userId == 0)
     {
-        showDialog("Виберіть будь-ласка користувача");
+        showDialog("Виберіть користувача.");
         return false;
     }
     if(!moduleId)
     {
-        showDialog("Виберіть будь-ласка модуль");
+        showDialog("Виберіть модуль.");
         return false;
     }
     $jq.ajax({
