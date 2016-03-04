@@ -54,8 +54,10 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
             data: $.param({idTaskBlock: blockId, condition: $scope.dataTask.condition, lang:lng}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
+            bootbox.alert("Умову задачі змінено");
             return true;
         }, function errorCallback() {
+            bootbox.alert("Умову задачі змінити не вдалося");
             return false;
         });
         return promise;

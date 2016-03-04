@@ -13,11 +13,55 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         theme: "rubyblue",               // стиль подсветки
         indentUnit: 4                    // размер табуляции
     });
-    setTimeout(function() {
-        etalon.on('change',function(cMirror){
-            $scope.$apply(function(){$scope.finalResult.etalon = cMirror.getValue();});
-        });
-    }, 2000);
+
+    getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
+        $scope.editedJson=response;
+        //load json for edit if it is
+        if ($scope.editedJson != undefined){
+            $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
+            $scope.editedJson.function.function_name=$scope.editedJson.name+$scope.prefix;
+            $scope.results=$scope.editedJson.function.results;
+            $scope.compare_marks=$scope.editedJson.function.compare_mark;
+            $scope.tests_code_arr=$scope.editedJson.function.tests_code;
+            $scope.compareFull=$scope.editedJson.function.checkable_args_indexes;
+            for (var k = 0; k < $scope.editedJson.function.args.length; k++) {
+                $scope.loadPattern($scope.editedJson.function.args[k].type,$scope.editedJson.function.args[k].size,k);
+            }
+            $scope.loadResultPattern($scope.editedJson.function.type,$scope.editedJson.function.size);
+            $scope.args = $scope.editedJson.function.args;
+            for (var i = 0; i < $scope.args.length; i++) {
+                for (var j = 0; j < $scope.args[i].etalon_value.length; j++) {
+                    if($scope.args[i].etalon_value[j][0]==''){
+                        $scope.args[i].etalon_value[j] = $scope.args[i].etalon_value[j].join('');
+                    }
+                }
+            }
+            for (var i = 0; i < $scope.editedJson.function.args.length; i++) {
+                if(i>=0){
+                    for (var j=0;j<3;j++)
+                        $scope.indexes.push({
+                            index: [],
+                            value: $scope.indexes.length
+                        });
+                }
+                $scope.indexes[3+i*3].index = '$'+$scope.editedJson.function.args[i].arg_name;
+                $scope.indexes[3+(i*3+1)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_etalon';
+                $scope.indexes[3+(i*3+2)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_for_etalon';
+            }
+            for (var u=0;u<$scope.editedJson.function.unit_test_num-1;u++){
+                $scope.units.push({
+                    result: ''
+                });
+            }
+            $scope.function = $scope.editedJson.function;
+            $scope.finalResult = $scope.editedJson;
+            etalon.setValue($scope.editedJson.etalon);
+        }
+            etalon.on('change',function(cMirror){
+                $scope.$apply(function(){$scope.finalResult.etalon = cMirror.getValue();});
+            });
+    });
+
     $scope.Math = window.Math;
     $scope.prefix = '_'+$scope.task;
     //options
@@ -465,53 +509,5 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             a.first=0;
         if(a.second==null)
             a.second=a.first;
-    }
-
-    init();
-    function init(){
-        getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
-            $scope.editedJson=response;
-            //load json for edit if it is
-            if ($scope.editedJson != undefined){
-                $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
-                $scope.editedJson.function.function_name=$scope.editedJson.name+$scope.prefix;
-                $scope.results=$scope.editedJson.function.results;
-                $scope.compare_marks=$scope.editedJson.function.compare_mark;
-                $scope.tests_code_arr=$scope.editedJson.function.tests_code;
-                $scope.compareFull=$scope.editedJson.function.checkable_args_indexes;
-                for (var k = 0; k < $scope.editedJson.function.args.length; k++) {
-                    $scope.loadPattern($scope.editedJson.function.args[k].type,$scope.editedJson.function.args[k].size,k);
-                }
-                $scope.loadResultPattern($scope.editedJson.function.type,$scope.editedJson.function.size);
-                $scope.args = $scope.editedJson.function.args;
-                for (var i = 0; i < $scope.args.length; i++) {
-                    for (var j = 0; j < $scope.args[i].etalon_value.length; j++) {
-                        if($scope.args[i].etalon_value[j][0]==''){
-                            $scope.args[i].etalon_value[j] = $scope.args[i].etalon_value[j].join('');
-                        }
-                    }
-                }
-                for (var i = 0; i < $scope.editedJson.function.args.length; i++) {
-                    if(i>=0){
-                        for (var j=0;j<3;j++)
-                            $scope.indexes.push({
-                                index: [],
-                                value: $scope.indexes.length
-                            });
-                    }
-                    $scope.indexes[3+i*3].index = '$'+$scope.editedJson.function.args[i].arg_name;
-                    $scope.indexes[3+(i*3+1)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_etalon';
-                    $scope.indexes[3+(i*3+2)].index = '$'+$scope.editedJson.function.args[i].arg_name+'_for_etalon';
-                }
-                for (var u=0;u<$scope.editedJson.function.unit_test_num-1;u++){
-                    $scope.units.push({
-                        result: ''
-                    });
-                }
-                $scope.function = $scope.editedJson.function;
-                $scope.finalResult = $scope.editedJson;
-                etalon.setValue($scope.editedJson.etalon);
-            }
-        });
     }
 }
