@@ -21,10 +21,15 @@ function initWaitLectures() {
         },
         "columns": [
             { "data": "module" },
-            { "data": "order" },
-            { "data": "title" },
-            { "data": "type" },
             {
+                "width": "10%",
+                "data": "order" },
+            { "data": "title" },
+            {
+                "width": "15%",
+                "data": "type" },
+            {
+                "width": "15%",
                 "data": "url",
                 "render": function (url) {
                     return '<a href="#" onclick="setVerifyStatus(' + url + ')">Затвердити</a>';
@@ -48,10 +53,17 @@ function initVerifiedLectures() {
         },
         "columns": [
             { "data": "module" },
-            { "data": "order" },
-            { "data": "title" },
-            { "data": "type" },
             {
+                "width": "10%",
+                "data": "order"
+            },
+            { "data": "title" },
+            {
+                "width": "15%",
+                "data": "type"
+            },
+            {
+                "width": "15%",
                 "data": "url",
                 "render": function (url) {
                     return '<a href="#" onclick="setVerifyStatus(' + url + ')">Скасувати</a>';
