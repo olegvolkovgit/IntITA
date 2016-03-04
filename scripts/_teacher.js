@@ -55,7 +55,7 @@ function setTeacherRole(url) {
 
 function cancelTeacherRole(url, role, teacher) {
     bootbox.confirm("Скасувати роль?", function (response) {
-        if (response != null) {
+        if (response) {
             $jq.ajax({
                 url: url,
                 type: 'post',
@@ -76,7 +76,7 @@ function cancelTeacherRole(url, role, teacher) {
 
             })
         } else {
-            showDialog("Операцію не вдалося виконати.");
+            showDialog("Операцію відмінено.");
         }
     });
 }
