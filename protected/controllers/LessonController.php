@@ -41,10 +41,10 @@ class LessonController extends Controller
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
-                || $lecture->order > $enabledLessonOrder) {
+            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')))
                 throw new CHttpException(403, Yii::t('errors', '0139'));
-            }
+            if ($lecture->order > $enabledLessonOrder)
+                throw new CHttpException(403, Yii::t('errors', '0646'));
         } else {
             if ($lecture->order > $enabledLessonOrder)
                 throw new CHttpException(403, Yii::t('errors', '0646'));
