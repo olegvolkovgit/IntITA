@@ -28,7 +28,7 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
                     getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
                         if (response != undefined){
                             $scope.editedJson=response;
-                            $scope.editedJson=JSON.parse($scope.editedJson);
+                            $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
                             var tempLang=originLang;
                             $scope.editedJson.lang=selectedLang;
                             sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
@@ -54,8 +54,10 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
             data: $.param({idTaskBlock: blockId, condition: $scope.dataTask.condition, lang:lng}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
+            bootbox.alert("Умову задачі змінено");
             return true;
         }, function errorCallback() {
+            bootbox.alert("Умову задачі змінити не вдалося");
             return false;
         });
         return promise;

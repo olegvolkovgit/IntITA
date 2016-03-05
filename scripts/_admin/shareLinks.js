@@ -5,21 +5,26 @@ function initShareLinks() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
+            {
+                "width": "25%",
+                "data": "name"},
             {"data": "link"},
             {
+                "width": "5%",
                 "data": "linkView",
                 "render": function (url) {
                     return '<a href="#" onclick="load(' + url + ')"><i class="fa fa-eye"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkEdit",
                 "render": function (url) {
                     return '<a href="#" onclick="load(' + url + ')"><i class="fa fa-pencil"></i></a>';
                 }
             },
             {
+                "width": "5%",
                 "data": "linkDelete",
                 "render": function (url) {
                     return '<a href="#" onclick="deleteLink(' + url + ')"><i class="fa fa-trash"></i></a>';

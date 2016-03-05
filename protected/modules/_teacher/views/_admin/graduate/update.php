@@ -13,7 +13,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="deletePhoto('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/deletePhoto'); ?>',
-                    '<?php echo $model->id; ?>', '<?php echo $model->first_name . " " . $model->last_name; ?>');">
+                    '<?php echo $model->id; ?>', '<?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?>');">
             Видалити фото випускника</button>
     </li>
     <li>
@@ -31,7 +31,7 @@
 </ul>
 
 <div class="page-header">
-    <h4>Редагувати інформацію про <?php echo $model->first_name . " " . $model->last_name; ?></h4>
+    <h4>Редагувати інформацію про <?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?></h4>
 </div>
 <?php $this->renderPartial('_form', array('model' => $model)); ?>
 

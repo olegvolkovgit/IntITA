@@ -6,11 +6,18 @@ function initFreeLectures(){
         },
         "columns": [
             { "data": "module" },
-            { "data": "order" },
-            { "data": "title" },
-            { "data": "type" },
-            { "data": "status" },
             {
+                "width": "10%",
+                "data": "order" },
+            { "data": "title" },
+            {
+                "width": "15%",
+                "data": "type" },
+            {
+                "width": "10%",
+                "data": "status" },
+            {
+                "width": "10%",
                 "data": "url",
                 "render": function (url) {
                     return '<a href="#" onclick="setLectureStatus('  + url + ')">Змінити</a>';

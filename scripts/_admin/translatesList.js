@@ -5,12 +5,16 @@ function initTranslatesList() {
             "dataSrc": "data"
         },
         "columns": [
+            { "width": "10%"},
+            {
+                "width": "10%",
+                className: "center" },
+            {  "width": "15%",
+                className: "center" },
             null,
-            { className: "center" },
-            { className: "center" },
-            null,
-            null,
-            { className: "center" }],
+            { "width": "15%"},
+            {  "width": "10%",
+                className: "center" }],
 
         "createdRow": function ( row, data, index ) {
             $jq(row).addClass('gradeX');

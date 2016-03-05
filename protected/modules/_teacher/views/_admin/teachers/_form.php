@@ -46,7 +46,7 @@
         <div class="form-group">
             <?php echo $form->labelEx($model, 'first_name_en'); ?>
             <?php echo $form->textField($model, 'first_name_en',
-                array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
+                array('size' => 35, 'maxlength' => 35, 'class' => 'form-control', 'required' => 'required')); ?>
             <?php echo $form->error($model, 'first_name_en'); ?>
             <?php if ($scenario == "update") { ?>
                 <a href="#" onclick="generateFirst('<?= $model->user->firstName; ?>'); return false;">
@@ -57,7 +57,7 @@
         <div class="form-group">
             <?php echo $form->labelEx($model, 'middle_name_en'); ?>
             <?php echo $form->textField($model, 'middle_name_en',
-                array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
+                array('size' => 35, 'maxlength' => 35, 'class' => 'form-control', 'required' => 'required')); ?>
             <?php echo $form->error($model, 'middle_name_en'); ?>
             <?php if ($scenario == "update") { ?>
                 <a href="#" onclick="generateMiddle('<?= $model->user->middleName; ?>'); return false;">
@@ -68,7 +68,7 @@
         <div class="form-group">
             <?php echo $form->labelEx($model, 'last_name_en'); ?>
             <?php echo $form->textField($model, 'last_name_en',
-                array('size' => 35, 'maxlength' => 35, 'class' => 'form-control')); ?>
+                array('size' => 35, 'maxlength' => 35, 'class' => 'form-control', 'required' => 'required')); ?>
             <?php echo $form->error($model, 'last_name_en'); ?>
             <?php if ($scenario == "update") { ?>
                 <a href="#" onclick="generateLast('<?= $model->user->secondName; ?>'); return false;">

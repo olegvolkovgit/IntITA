@@ -46,7 +46,7 @@
                     ),
                     'view' => array
                     (
-                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$data->order))',
+                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$data->image_order))',
                         'options'=>array(
                             'class'=>'controlButtons;',
                             'ajax'=>array(

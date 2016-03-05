@@ -9,9 +9,7 @@
 
 <div class="col-md-12">
 
-    <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
-
-          onsubmit="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>');" >
+    <form role="form" method="post" id="assignedConsult">
         <input type="text" name="id" id="idPlainTask" value="<?php echo $plainTaskAnswer->id ?>" hidden="hidden">
 
         <div class="form-group">
@@ -42,7 +40,9 @@
 
             </select>
         </div>
-        <button type="submit" class="btn btn-default">Призначити консультанта</button>
+        <button type="submit" class="btn btn-default"
+                onclick="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>'); return false;"
+        >Призначити консультанта</button>
     </form>
 
 
