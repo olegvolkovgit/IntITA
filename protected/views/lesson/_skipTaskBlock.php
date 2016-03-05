@@ -19,17 +19,21 @@
                 <div class="content">
                     <div class="instrTaskText" id="<?php echo "t" . $data['block_order'];?>" >
                         <br/>
-                        <?php echo $data['html_block'];?>
+                        <div ng-non-bindable>
+                            <?php echo $data['html_block'];?>
+                        </div>
                     </div>
                     <form class="sendAnswer" id="sendAnswer">
                         <div id="skipTaskQuestion">
-                            <?php echo $data->getSkipTaskQuestion(); ?>
+                            <div ng-non-bindable>
+                                <?php echo $data->getSkipTaskQuestion(); ?>
+                            </div>
                         </div>
                     </form>
                     <div>
                         <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
                                 ng-click="sendSkipTaskAnswer(<?php echo $data->id_block ?>)" >
-                            <?php echo Yii::t('lecture','0089'); ?>
+                            <?php echo $buttonName; ?>
                         </button>
                     </div>
                 </div>

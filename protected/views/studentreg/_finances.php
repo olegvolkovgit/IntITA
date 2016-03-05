@@ -1,8 +1,8 @@
 <p class="tabHeader"><?php echo Yii::t('profile', '0254');?></p>
 <div class="FinancesPay">
     <?php
-    if($course > 0) {
-        if ($module > 0) {
+    if($course > 0 && !UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)) {
+        if ($module > 0 && !UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)) {
             echo "<h3>" . Yii::t('payment', '0656') . " №" . Module::getModuleNumber($module) . ". " .
                 Module::getModuleName($module) . "</h3>";
             $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));
@@ -12,7 +12,7 @@
             $this->renderPartial('_paymentsCourseForm', array('course' => $course, 'schema' => $schema));
         }
     }else {
-            if($module > 0){
+            if($module > 0 && !UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
                 echo "<h3>".Yii::t('payment', '0656')." №" . Module::getModuleNumber($module).". ".
                     Module::getModuleName($module). "</h3>";
                 $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));

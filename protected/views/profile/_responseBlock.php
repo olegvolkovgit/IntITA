@@ -1,9 +1,8 @@
 <?php
 /* @var $data Response*/
-$user=StudentReg::model()->findByPk($data['who']);
 ?>
 <div class="TeacherProfiletitles">
-    <?php echo $user->firstName." ".$user->secondName; ?>
+    <?php echo $data->user->firstName." ".$data->user->secondName; ?>
 </div>
 <div class="sm">
     <?php

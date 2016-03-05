@@ -6,6 +6,8 @@
 /* @var $model Studentreg */
 /* @var $form CActiveForm */
 $post = StudentReg::model()->findByPk(Yii::app()->user->id);
+$post->firstName=addslashes($post->firstName);
+$post->secondName=addslashes($post->secondName);
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>

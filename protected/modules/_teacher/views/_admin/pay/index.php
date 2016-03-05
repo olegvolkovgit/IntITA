@@ -1,4 +1,3 @@
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'access.css'); ?>"/>
 <?php
 /* @var $this PayController */
 ?>
@@ -27,31 +26,17 @@
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <div id="addAccessModule">
-            <div id="findModule" class="form-group row">
+            <div id="findModule" class="form-group">
                 <form name='findUsers' method="POST">
-                    <div class="col-md-10">
-                        <input type="text" id='find' name="find" class="form-control"
-                               placeholder="Введіть e-mail користувача">
-                    </div>
-
-                    <div class="col-md-2">
-                        <input type="button" class="btn btn-default" value="Знайти користувача"
-                               onclick="findUserByEmail('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showUsers') ?>')">
+                    <div>
+                        <label>Кому</label>
+                        <br>
+                        <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач"
+                               size="135" required autofocus>
+                        <input type="number" hidden="hidden" id="user" value="0"/>
                     </div>
                 </form>
             </div>
-
-            <select name="user" id="user" class="form-control"
-                    placeholder="(<?php echo Yii::t('payments', '0594'); ?>)"
-                    autofocus required style="max-width: 496px;">
-                <?php
-                foreach ($users as $user) {
-                    ?>
-                    <option value="<?php echo $user['id']; ?>"><?php echo $user['alias']; ?></option>
-                    <?php
-                }
-                ?>
-            </select>
         </div>
     </div>
 </div>
@@ -61,7 +46,7 @@
         <form method="POST" name="add-accessModule"
               onsubmit="checkModuleField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/' . $moduleAction); ?>');return false;">
             <fieldset>
-                <label id="label"><?php echo $fieldsetModule ?>:</label>
+                <label id="label"><?php echo $fieldsetModule; ?>:</label>
 
                 <div class="form-group">
                     <label><?php echo Yii::t('payments', '0605'); ?>:</label>
@@ -115,22 +100,57 @@
                                 foreach ($courses as $course) {
                                     ?>
                                     <option
-                                        value="<?php echo $course['id']; ?>"><?php echo $course['alias']." (".$course['language'].")"; ?></option>
+                                        value="<?php echo $course['id']; ?>"><?php echo $course['alias'] . " (" . $course['language'] . ")"; ?></option>
                                     <?php
                                 }
                                 ?>
                         </select>
                     </div>
                     <br>
-
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName ?>">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName; ?>">
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
 <br>
-<script
-    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
+<script>
+    var users = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/cabinet/usersByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        url: user.url
+                    };
+                });
+            }
+        }
+    });
+
+    users.initialize();
+
+    $jq('#typeahead').typeahead(null, {
+        name: 'users',
+        display: 'email',
+        source: users,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'немає користувачів з таким іменем або email\`ом',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
+        }
+    });
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#user").val(item.id);
+    });
+</script>

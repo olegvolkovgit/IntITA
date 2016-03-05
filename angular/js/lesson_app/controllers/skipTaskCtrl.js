@@ -9,6 +9,9 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
     $scope.sendSkipTaskAnswer=function(id){
         var button=angular.element(document.querySelector(".taskSubmit"));
         button.attr('disabled', true);
+        for(var i = 0; i < skipTaskQuestion.getElementsByTagName('input').length;i++) {
+            skipTaskQuestion.getElementsByTagName('input')[i].value=skipTaskQuestion.getElementsByTagName('input')[i].value.trim();
+        }
         var text = skipTaskQuestion.getElementsByTagName('input');
         var answers = [];
         var check = true;

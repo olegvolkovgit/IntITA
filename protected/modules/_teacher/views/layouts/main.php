@@ -1,16 +1,22 @@
+<?php
+/* @var $content*/
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
-<!--    <script src="--><?//= StaticFilesHelper::fullPathTo('js', 'jquery-1.11.3.min.js');?><!--"></script>-->
-    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <title><?php echo Yii::app()->name; ?></title>
 </head>
 
-<body>
-<div id="contentBoxMain">
-    <?php echo $content; ?>
-</div>
-</body>
+    <body>
+        <div id="contentBoxMain">
+            <?php echo $content; ?>
+        </div>
+    </body>
+
 </html>

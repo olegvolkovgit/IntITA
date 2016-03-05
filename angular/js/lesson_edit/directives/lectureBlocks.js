@@ -20,6 +20,23 @@ angular
             }
         };
     })
+    .directive('editCode', function ($compile, $ngBootbox) {
+        return {
+            link: function (scope, element) {
+                element.bind('click', function () {
+                    if (angular.element('.openCKE').length) {
+                        $ngBootbox.alert(scope.editMsg)
+                            .then(function() {
+                            });
+                        return;
+                    }
+                    var orderBlock = element.attr('id').substring(1);
+                    scope.getCodeHtml(orderBlock, idLecture, element);
+                    element.hide();
+                });
+            }
+        };
+    })
     .directive('upBlock', function ($compile, $http) {
         return {
             link: function (scope, element) {

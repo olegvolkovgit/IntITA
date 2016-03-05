@@ -37,7 +37,7 @@
                     'delete' => array
                     (
                         'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити цей курс?',$(this).attr('href'))
+                                    showConfirm('Ви дійсно хочете видалити цей слайд?',$(this).attr('href'))
                                     return false;
                               }
                      ",
@@ -46,7 +46,7 @@
                     ),
                     'view' => array
                     (
-                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$data->order))',
+                        'url' => 'Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$data->image_order))',
                         'options'=>array(
                             'class'=>'controlButtons;',
                             'ajax'=>array(

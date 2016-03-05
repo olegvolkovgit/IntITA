@@ -12,5 +12,7 @@
 <div class="page-header">
     <h4>Редагувати повідомлення #<?php echo $model->id_record; ?></h4>
 </div>
-<?php $this->renderPartial('_form', array('model' => $model)); ?>
+<div class="updateTranslateForm">
+    <?php $this->renderPartial('_form', array('model' => $model)); ?>
+</div>
 

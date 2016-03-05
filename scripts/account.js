@@ -15,13 +15,12 @@ $(window).load(
             'December': 'грудня'
         };
         $('#month').text(ukrMonthTitles[$('#month').text()]);
-        $('#summaLetters').text(toPhrase($('#summa').text()));
+        $('#summaLetters').text(toPhrase(summa));
     }
 );
-function sendData(account)
+function sendData()
 {
-    window.location.search = 'account=' + account + '&nolayout=true';
-    document.getElementById("accountContainer").style.width = "100%";
+    window.location.search = '&nolayout=true';
 }
 
 function toPhrase(summa) {

@@ -1,11 +1,11 @@
 <?php
 
-class VerifyContentController extends AdminController
+class VerifyContentController extends TeacherCabinetController
 {
 
     public function actionIndex()
     {
-        $this->render('index');
+        $this->renderPartial('index', array(), false, true);
     }
 
     public function actionInitializeDir()
@@ -15,8 +15,6 @@ class VerifyContentController extends AdminController
         }
         $this->initializeModules();
         $this->initializeLectures();
-
-        $this->actionIndex();
     }
 
     public function initializeModules()
@@ -53,13 +51,11 @@ class VerifyContentController extends AdminController
         $model = Lecture::model()->findByPk($id);
 
         if ($model) {
-            $model->updateByPk($id, array('verified' => '1'));
+            $model->setVerified();
             $this->generateLecturePages($model);
         } else {
             throw new CException("Такої лекції немає!");
         }
-
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionCancel($id)
@@ -67,13 +63,10 @@ class VerifyContentController extends AdminController
         $model = Lecture::model()->findByPk($id);
 
         if ($model) {
-            $model->verified = 0;
-            $model->save();
+            $model->setNoVerified();
         } else {
-            throw new CException("Такої лекції немає!");
+            throw new \application\components\Exceptions\IntItaException(404, "Такої лекції немає!");
         }
-
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function generateLecturePages(Lecture $model)
@@ -81,5 +74,11 @@ class VerifyContentController extends AdminController
         $this->redirect(Config::getBaseUrl() . '/lesson/saveLectureContent/?idLecture=' . $model->id);
     }
 
+    public function actionWaitLecturesList(){
+        echo Lecture::getLecturesListByStatus(Lecture::NOVERIFIED);
+    }
 
+    public function actionVerifiedLecturesList(){
+        echo Lecture::getLecturesListByStatus(Lecture::VERIFIED);
+    }
 }

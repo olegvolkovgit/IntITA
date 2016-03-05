@@ -21,6 +21,7 @@ if (!empty($users)) { ?>
             ?>
             <tr>
                 <td><?php echo $user->email ?></td>
+                <td><?php echo $user->getUserNamePayment($user->id) ?></td>
                 <td><?php echo $user->userName(); ?></td>
                 <td><?php $name = $user->getTrainer();
                     $name = Teacher::getTeacherName($name);

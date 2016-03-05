@@ -1,12 +1,11 @@
 /**
  * Created by Quicks on 23.12.2015.
  */
-function ShowTeacher(url,id)
-{
-    $.ajax({
+function ShowTeacher(url, id) {
+    $jq.ajax({
         url: url,
-        type : 'post',
-        data : { 'id': id},
+        type: 'post',
+        data: {'id': id},
         success: function (data) {
             fillContainer(data);
         },
@@ -16,40 +15,149 @@ function ShowTeacher(url,id)
     });
 }
 
-function cancelTeacherRole(url)
-{
-    var role = $("select[name=role] option:selected").val();
-    var teaher = $('#teacher').val();
-    $.ajax({
-        url: url,
-        type : 'post',
-        async: true,
-        data: {role: role, teacher: teacher},
-        success: function (data) {
-            fillContainer(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
-function addTeacherAttr(url)
-{
-    var teacherId = $('#teacher').val();
-    var attr = $("select[name=attribute] option:selected").val();
-    var value = $("select[name=attributeValue] option:selected").val();
-    if(!value)
-    {
-        value = $('#inputValue').val();
+function addTeacherAttr(url, attr, id) {
+    var user = $jq('#user').val();
+    var role = $jq('#role').val();
+    var value = $jq(id).val();
+    if (value == 0) {
+        showDialog('Введіть дані форми.');
     }
-
-    if(teacherId && attr && value)
-    {
-        $.ajax({
+    if (user && value) {
+        $jq.ajax({
             url: url,
-            type : 'post',
+            type: "POST",
             async: true,
-            data: {teacher: teacherId, attribute: attr, attributeValue : value},
+            data: {user: user, role: role, attribute: attr, attributeValue: value},
+            success: function (response) {
+                if (response == "success") {
+                    bootbox.confirm("Операцію успішно виконано.", function () {
+                        load(basePath + "/_teacher/_admin/teachers/index", 'Викладачі');
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
+function cancelModuleAttr(url, id, attr) {
+    var user = $jq('#user').val();
+    var role = $jq('#role').val();
+    if (user && role) {
+        $jq.ajax({
+            url: url,
+            type: "POST",
+            async: true,
+            data: {user: user, role: role, attribute: attr, attributeValue: id},
+            success: function (response) {
+                if (response == "success") {
+                    bootbox.confirm("Операцію успішно виконано.", function () {
+                        load(basePath + "/_teacher/_admin/teachers/index", 'Викладачі');
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
+function selectRole(url) {
+    clearAllAttrFields();
+
+    var role = $jq('select[name="role"]').val();
+    var user = $jq('#teacher').val();
+    if (!role) {
+        $jq('div[name="selectRole"]').html('');
+        $jq('div[name="selectAttribute"]').html('');
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {role: role, user: user},
+            cache: false,
+            success: function (response) {
+                $jq('div[name="selectAttribute"]').html(response);
+            }
+        });
+    }
+}
+
+function selectAttribute(url) {
+    var attribute = $jq('select[name="attribute"]').val();
+    if (!attribute) {
+        $jq('div[name="inputValue"]').html('');
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {attribute: attribute},
+            cache: false,
+            success: function (response) {
+                $jq('div[name="inputValue"]').html(response);
+            }
+        });
+    }
+}
+
+function clearAllAttrFields() {
+    $jq('div[name="selectAttribute"]').html('');
+    $jq('div[name="inputValue"]').html('');
+
+}
+
+
+function addExistModule(url) {
+    var moduleId = $jq("select[name=module] option:selected").val();
+    var courseId = $jq("select[name=course] option:selected").val();
+    if (moduleId && courseId) {
+        $jq.ajax({
+            url: url,
+            type: 'post',
+            data: {'moduleId': moduleId, 'courseId': courseId},
+            success: function (data) {
+                showDialog('Ви додали модуль до курсу');
+                fillContainer(data);
+            },
+            error: function () {
+                showDialog();
+            }
+        });
+    }
+    else
+        showDialog('Виберіть вірні дані!');
+    return false;
+}
+
+function saveSchema(url) {
+    $jq.ajax({
+        url: url,
+        success: function (data) {
+            showDialog("Схема курсу збережена!");
+            fillContainer(data);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+
+function addCoursePrice(url) {
+    var moduleId = document.getElementById('module').value;
+    var price = document.getElementById('price').value;
+    var courseId = $jq("select[name=course] option:selected").val();
+    if (moduleId && price && courseId) {
+        $jq.ajax({
+            url: url,
+            type: 'post',
+            data: {'module': moduleId, 'course': courseId, 'price': price},
             success: function (data) {
                 fillContainer(data);
             },
@@ -58,123 +166,17 @@ function addTeacherAttr(url)
             }
         });
     }
-
-}
-
-function selectRole(url){
-    clearAllAttrFields();
-
-    var role = $('select[name="role"]').val();
-    if(!role){
-        $('div[name="selectRole"]').html('');
-        $('div[name="selectAttribute"]').html('');
-    }else{
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {role: role},
-            cache: false,
-            success: function(response){
-                $('div[name="selectAttribute"]').html(response);
-            }
-        });
-    }
-}
-
-function selectAttribute(url){
-    var attribute = $('select[name="attribute"]').val();
-    if(!attribute){
-        $('div[name="inputValue"]').html('');
-    }else {
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {attribute: attribute},
-            cache: false,
-            success: function (response) {
-                $('div[name="inputValue"]').html(response);
-            }
-        });
-    }
-}
-
-function clearAllAttrFields(){
-    $('div[name="selectAttribute"]').html('');
-    $('div[name="inputValue"]').html('');
-
-}
-
-
-function addExistModule(url)
-{
-    var moduleId = $("select[name=module] option:selected").val();
-    var courseId = $("select[name=course] option:selected").val();
-    if(moduleId && courseId ){
-    $.ajax({
-        url: url,
-        type : 'post',
-        data : { 'moduleId' : moduleId , 'courseId' : courseId},
-        success: function (data) {
-            showDialog('Ви додали модуль до курсу');
-            fillContainer(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-    }
-    else
-        showDialog('Виберіть вірні дані!');
-        return false;
-}
-
-function saveSchema(url)
-{
-    $.ajax({
-        url: url,
-        success: function (data) {
-            showDialog("Схема курсу збережена!");
-            fillContainer(data);
-            //location.reload();
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
-
-function addCoursePrice(url)
-{
-    var moduleId = document.getElementById('module').value;
-    var price = document.getElementById('price').value;
-    var courseId = $("select[name=course] option:selected").val();
-    if(moduleId && price && courseId){
-    $.ajax({
-        url: url,
-        type : 'post',
-        data : { 'module' : moduleId , 'course' : courseId,'price': price},
-        success: function (data) {
-            fillContainer(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-    }
-    else
-    {
+    else {
         showDialog();
     }
 }
 
-function addMandatory(url)
-{
-    var mandatory = $("select[name=mandatory] option:selected").val();
-    var courseId = $("select[name=course] option:selected").val();
-    var moduleId = $("#module").val();
-    if(mandatory && courseId && moduleId)
-    {
-        $.ajax({
+function addMandatory(url) {
+    var mandatory = $jq("select[name=mandatory] option:selected").val();
+    var courseId = $jq("select[name=course] option:selected").val();
+    var moduleId = $jq("#module").val();
+    if (mandatory && courseId && moduleId) {
+        $jq.ajax({
             url: url,
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
@@ -182,14 +184,13 @@ function addMandatory(url)
                 fillContainer(data);
             },
             error: function () {
-               showDialog();
+                showDialog();
             }
         });
     }
 }
 
-function addTranslate(url)
-{
+function addTranslate(url) {
     var form = document.forms["translate"];
     var id = form['id'].value;
     var category = form['category'].value;
@@ -199,36 +200,34 @@ function addTranslate(url)
     var translateEn = form['translateEn'].value;
     var reg = '^[a-zA-Z]+$';
 
-    if(category.match(reg))
-    {
-        $.ajax({
+    if (category.match(reg)) {
+        $jq.ajax({
             url: url,
             type: 'post',
-            data: {'id': id,
+            data: {
+                'id': id,
                 'category': category,
                 'comment': comment,
-                'translateUa' : translateUa,
-                'translateRu' : translateRu,
-                'translateEn' : translateEn},
+                'translateUa': translateUa,
+                'translateRu': translateRu,
+                'translateEn': translateEn
+            },
             success: function (data) {
                 fillContainer(data);
             },
             error: function (data) {
-                    showDialog(data.responseText);
+                showDialog(data.responseText);
             }
         });
     }
-    else
-    {
+    else {
         showDialog('Категорія має бути вказана латинськими літерами');
     }
 
 }
-function send(form,data,hasError)
-{
-    if(hasError){
-        for(var prop in data)
-        {
+function sendError(form, data, hasError) {
+    if (hasError) {
+        for (var prop in data) {
             var err = document.getElementById(prop);
             err.focus();
             break;
@@ -237,85 +236,70 @@ function send(form,data,hasError)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Validations
-function validateSliderForm()
-{
+function validateSliderForm() {
     var valid = [];
-    valid.push(numberValidate($('#text')));
-    valid.push(filePicValidate($('#picture')));
-    var hasError = checkValid(valid);
-    return hasError;
+    valid.push(numberValidate($jq('#text')));
+    valid.push(filePicValidate($jq('#picture')));
+    return checkValid(valid);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //input validation function
-function filePicValidate(picture)
-{
+function filePicValidate(picture) {
     var message = '';
     var pattern = /^.*\.(?:jpg|png|gif)\s*$/ig;
     var error = false;
 
-    if(!picture.val())
-    {
+    if (!picture.val()) {
         message = 'Виберіть файл';
         error = true;
     }
-    else if(!pattern.test(picture.val()))
-    {
+    else if (!pattern.test(picture.val())) {
         message = 'Файл має бути у форматі jpg,gif або png';
         error = true;
     }
 
-    processResult(error,message,picture);
+    processResult(error, message, picture);
     return !error;
 }
 
-function numberValidate(number)
-{
+function numberValidate(number) {
     var message = '';
     var pattern = /^\d+$/;
     var error = false;
 
-    if(!number.val()){
+    if (!number.val()) {
         error = true;
         message = 'Поле для вводу коду текста має бути заповнене';
     }
-    else if((!pattern.test(number.val())))
-    {
+    else if ((!pattern.test(number.val()))) {
         error = true;
         message = 'Можна ввести тільки цифри';
     }
 
-    processResult(error,message,number);
+    processResult(error, message, number);
 
     return !error;
 
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //show or hide validation message
-function processResult(error,message,element)
-{
-    if(error)
-    {
-        showErrorMessage(message,element);
+function processResult(error, message, element) {
+    if (error) {
+        showErrorMessage(message, element);
     }
-    else
-    {
+    else {
         hideErrorMessage(element);
     }
 }
-function checkValid(arr)
-{
+function checkValid(arr) {
     var hasError = false;
-    for(var i = 0;i < arr.length;i++)
-    {
-        if(arr[i] == false ){
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == false) {
             return hasError;
         }
     }
     return !hasError;
-
 }
-function showErrorMessage(message,element)
-{
+function showErrorMessage(message, element) {
     var errorBlock = element.parent().find('.errorMessage');
     errorBlock.html(message);
     errorBlock.show();
@@ -323,34 +307,30 @@ function showErrorMessage(message,element)
 }
 
 
-function hideErrorMessage(element)
-{
+function hideErrorMessage(element) {
     var errorBlock = element.parent().find('.errorMessage');
     errorBlock.hide();
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Modal windows
-function showDialog(str)
-{
-    if(str){
-    $('#modalText').html(str);
+function showDialog(str) {
+    if (str) {
+        $jq('#modalText').html(str);
     }
-    $('#myModal').modal('show');
+    $jq('#myModal').modal('show');
 }
 
-function showConfirm(str,url)
-{
-    bootbox.confirm(str, function(result){
-        if(result){
+function showConfirm(str, url) {
+    bootbox.confirm(str, function (result) {
+        if (result) {
             var grid = getGridName();
-                       
-            $.ajax({
+
+            $jq.ajax({
                 url: url,
-                type : 'post',
+                type: 'post',
                 async: true,
                 success: function (data) {
-                    if(grid)
-                       $.fn.yiiGridView.update(grid);
+                    if (grid)
+                        $.fn.yiiGridView.update(grid);
                     else
                         fillContainer(data);
                 },
@@ -361,9 +341,53 @@ function showConfirm(str,url)
         }
     })
 }
+function moduleCancelled(str, url) {
+    bootbox.confirm(str, function (result) {
+        if (result) {
+            var grid = getGridName();
 
-function getGridName()
-{
-    return $('.grid-view').attr('id');
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                success: function (data) {
+                    if (data == false) {
+                        if (grid)
+                            $.fn.yiiGridView.update(grid);
+                        else
+                            fillContainer(data);
+                    } else {
+                        bootbox.alert("Ти не можеш видалити модуль. Спочатку видали його з таких курсів: " + "<b>" + data + "</b>");
+                        return false;
+                    }
+                },
+                error: function () {
+                    showDialog();
+                }
+            });
+        }
+    })
+}
+
+function getGridName() {
+    return $jq('.grid-view').attr('id');
+}
+
+function refresh(url) {
+    $jq.ajax({
+        url: url,
+        type: 'post',
+        async: true,
+        success: function (data) {
+            if (data == "success") {
+                showDialog("Кеш сайта успішно оновлено!");
+            } else {
+                showDialog();
+            }
+        },
+        error: function () {
+            showDialog();
+        }
+    });
 }
 

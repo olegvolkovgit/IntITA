@@ -90,7 +90,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'Resource',
             'type' => 'raw',
-            'value' => 'Module::getResourceDescription($data->id_module)',
+            'value' => 'CHtml::encode(Module::getResourceDescription($data->id_module))',
         ),
         array(
             'name' => 'READ',

@@ -9,9 +9,7 @@
 
 <div class="col-md-12">
 
-    <form role="form" method="post" id="assignedConsult" action="javascript:void(null)"
-
-          onsubmit="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>');" >
+    <form role="form" method="post" id="assignedConsult">
         <input type="text" name="id" id="idPlainTask" value="<?php echo $plainTaskAnswer->id ?>" hidden="hidden">
 
         <div class="form-group">
@@ -31,20 +29,23 @@
             </textarea>
         </div>
         <div class="form-group">
-            <?php $teachers = $plainTaskAnswer->getTrainersByAnswer() ?>
+            <?php
+            ?>
             <label for="consult">Можливі консультанти :</label>
 
             <select name="consult" id="consult" class="form-control">
                 <?php foreach ($teachers as $teacher) {?>
-                    <option value="<?php echo $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
+                    <option value="<?php echo $teacher->user_id?>"><?php echo $teacher->getName()?></option>
                 <?php }?>
 
             </select>
         </div>
-        <button type="submit" class="btn btn-default">Призначити консультанта</button>
+        <button type="submit" class="btn btn-default"
+                onclick="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>'); return false;"
+        >Призначити консультанта</button>
     </form>
 
 
 </div>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
+

@@ -19,3 +19,33 @@
         <?php echo Yii::t('course', '0368') ?>
     </button>
 </div>
+<div id="blockFormCode">
+    <form onsubmit="return blockValidation(this);" name='addCKEBlockCode' id="addBlockForm" action="<?php echo Yii::app()->createUrl('lesson/createNewBlockCKE'); ?>" method="post">
+        <input name="idLecture" value="<?php echo $lecture->id; ?>" type="hidden">
+        <input name="type" value="" id="blockTypeCode" type="hidden">
+        <input name="page" value="<?php echo $pageOrder; ?>" id="page" type="hidden">
+        <textarea id="CKECode" name="editorAdd" ng-model="CkeAddCode" ></textarea>
+        <input type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit"
+               onclick="saveNewBlock();" ng-disabled=addCKEBlockCode.editorAdd.$error.required >
+    </form>
+    <button id="cancelButton" onclick="hideFormCKE('addBlock')" >
+        <?php echo Yii::t('course', '0368') ?>
+    </button>
+</div>
+<script>
+    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECode'), {
+        lineNumbers: true,             // показывать номера строк
+        matchBrackets: true,             // подсвечивать парные скобки
+        mode: "javascript",
+        theme: "rubyblue",               // стиль подсветки
+        indentUnit: 4                    // размер табуляции
+    });
+    function blockValidation() {
+        if(myCodeMirror.getValue().trim()==''){
+            bootbox.alert('Блок не може бути пустий');
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>

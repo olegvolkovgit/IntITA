@@ -19,7 +19,7 @@ class Controller extends CController
 			$app->language = $app->session['lg'];
 		}
 
-        $items = Config::model()->cache(3600)->findAllByAttributes(array('hidden' => 0));
+        Config::model()->cache(3600)->findAllByAttributes(array('hidden' => 0));
         $this->pageTitle = Yii::app()->name;
 	}
 	/**

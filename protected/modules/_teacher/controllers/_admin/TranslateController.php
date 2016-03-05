@@ -78,6 +78,7 @@ class TranslateController extends TeacherCabinetController{
             $model->attributes=$_POST['Translate'];
             if($model->save()) {
                 MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
+                Yii::app()->cache->flush();
                 $this->redirect($this->pathToCabinet());
             }
         }
@@ -95,4 +96,7 @@ class TranslateController extends TeacherCabinetController{
         return $model;
     }
 
+    public function actionGetTranslatesList() {
+        echo Translate::getTranslatesList();
+    }
 }

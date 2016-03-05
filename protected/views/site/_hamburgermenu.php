@@ -28,22 +28,17 @@
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {
-            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'hum_button', 'onclick' => 'openSignIn();',));
-        } else {?>
+            echo CHtml::link($header->getEnterButton(), '', array('id' => 'hum_button', 'onclick' => 'openSignIn();',));
+        } else {
+            ?>
             <a id="hum_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout">
                 <?php echo $header->getLogoutButton(); ?>
             </a>
             <?php
-            $humuser = StudentReg::model()->findByPk(Yii::app()->user->id);
+            $humuser = Yii::app()->user->model;
+            $statusInfo = $this->beginWidget('UserStatusWidget',['bigView'=>false, 'registeredUser'=>$humuser]);
+            $this->endWidget();
+            } 
             ?>
-            <div class="humStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div class="humavatar"><img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $humuser->avatar); ?>"/></div><div class="humName">
-                        <?php echo StudentReg::getStatusInfo($humuser); ?><br>
-                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
-                    </div>
-                </a>
-            </div>
-        <?php } ?>
     </div>
 </div>

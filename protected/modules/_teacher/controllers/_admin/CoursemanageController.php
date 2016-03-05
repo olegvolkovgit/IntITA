@@ -21,7 +21,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         $model=new Course;
         // Uncomment the following line if AJAX validation is needed
-//        $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
             if(!empty($_FILES)){
@@ -30,6 +30,7 @@ class CoursemanageController extends TeacherCabinetController
                 $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             }
             $model->attributes = $_POST['Course'];
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if($model->save()){
                 if ($model->course_img == Null) {
                     $thisModel = new Course;
@@ -58,8 +59,7 @@ class CoursemanageController extends TeacherCabinetController
     {
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
-//         $this->performAjaxValidation($model);
-
+         $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
             $model->oldLogo=$model->course_img;
@@ -70,6 +70,7 @@ class CoursemanageController extends TeacherCabinetController
                 $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             }
             $model->attributes=$_POST['Course'];
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if($model->save()){
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
@@ -93,34 +94,15 @@ class CoursemanageController extends TeacherCabinetController
     public function actionDelete($id)
     {
         Course::model()->updateByPk($id, array('cancelled' => 1));
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-
-        if(!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
     /**
      * Lists all models.
      */
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Course');
-        $this->renderPartial('index',array(
-            'dataProvider'=>$dataProvider,
-        ),false,true);
+        $this->renderPartial('admin', array(),false,true);
     }
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model=new Course('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Course']))
-            $model->attributes=$_GET['Course'];
-        $this->renderPartial('admin',array(
-            'model'=>$model,
-        ),false,true);
-    }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -151,11 +133,9 @@ class CoursemanageController extends TeacherCabinetController
     public function actionAddExistModule(){
 
         $courses = Course::generateCoursesList();
-        $modules = Module::generateModulesList();
 
         $this->renderPartial('addExistModule',array(
             'courses' => $courses,
-            'modules' => $modules
         ),false,true);
     }
 
@@ -215,7 +195,7 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionRestore($id){
         Course::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionAdmin();
+        $this->actionIndex();
     }
 
     public function actionGenerateSchema($id){
@@ -244,5 +224,17 @@ class CoursemanageController extends TeacherCabinetController
         Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
     }
+    public function actionGenerationAvailableModule(){
 
+        if(isset($_POST['course']))
+            $course = $_POST['course'];
+
+        $result = Module::showAvailableModule($course);
+
+        echo $result;
+    }
+
+    public function actionGetCoursesList(){
+        echo Course::coursesList();
+    }
 }

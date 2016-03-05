@@ -10,7 +10,8 @@
  * @property string $translation
  *
  * The followings are the available model relations:
- * @property Sourcemessages $id0
+ * @property Sourcemessages $source
+ * @property MessageComment $comment
  */
 class Translate extends CActiveRecord
 {
@@ -35,9 +36,8 @@ class Translate extends CActiveRecord
             array('id, language, translation', 'required'),
             array('id', 'numerical', 'integerOnly' => true),
             array('language', 'length', 'max' => 16),
-            array('comment', 'length', 'max' => 255),
             // The following rule is used by search().
-            array('id_record, id, language, translation, comment', 'safe', 'on' => 'search'),
+            array('id_record, id, language, translation', 'safe', 'on' => 'search'),
         );
     }
 
@@ -50,6 +50,7 @@ class Translate extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'source' => array(self::BELONGS_TO, 'Sourcemessages', 'id'),
+            'comment' => array(self::HAS_ONE, 'MessageComment', 'id'),
         );
     }
 
@@ -63,7 +64,6 @@ class Translate extends CActiveRecord
             'id' => 'ID повідомлення',
             'language' => 'Мова',
             'translation' => 'Переклад',
-            'comment' => 'Коментар',
         );
     }
 
@@ -87,7 +87,6 @@ class Translate extends CActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('language', $this->language, true);
         $criteria->compare('translation', $this->translation, true);
-        $criteria->compare('comment', $this->comment, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -130,7 +129,6 @@ class Translate extends CActiveRecord
         for ($i = $startMessages; $i <= $endMessages; $i++)
         {
             $messages = Translate::model()->findAllByAttributes(array('id'=>$i,'language' => $lang));
-            //var_dump($messages[0]->translation);die;
             array_push($arr,$messages[0]->translation);
         }
         $exam = Translate::model()->findAllByAttributes(array('id'=>'0673','language' => $lang));
@@ -149,7 +147,7 @@ class Translate extends CActiveRecord
 
     public static function getLectureContentMessagesByLang($lang){
         $arr = [];
-        $messagesArray = ['613', '614', '659', '639', '89'];
+        $messagesArray = ['639', '422', '89'];
 
         for($i = 0, $count = count($messagesArray); $i < $count; $i++)
         {
@@ -157,5 +155,32 @@ class Translate extends CActiveRecord
             $arr[$messagesArray[$i]] = $messages[0]->translation;
         }
         return $arr;
+    }
+
+    public static function getTranslatesList() {
+        $sql = 'select tr.id, tr.language, s.category, tr.translation, c.comment, tr.id_record from translate tr left join sourcemessages s on s.id = tr.id
+            left join message_comment c on c.message_code = tr.id
+        ';
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            foreach($record as $key=>$field) {
+                if($key != 5){
+                    array_push($row, $field);
+                }
+            }
+            $url1 = Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$row[5]));
+            $url2 = Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$row[5]));
+            $row[5] = "<a href='#' onclick='load(\"".$url1."\")'><i class=\"fa fa-eye\"></i></a>
+                               <a href='#' onclick='load(\"".$url2."\")'><i class=\"fa fa-pencil\"></i></a>";
+
+            array_push($return['data'], $row);
+        }
+
+        echo json_encode($return);
     }
 }

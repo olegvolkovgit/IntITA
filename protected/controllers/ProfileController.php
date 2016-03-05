@@ -2,17 +2,6 @@
 
 class ProfileController extends Controller
 {
-
-//    public function filters()
-//    {
-//        return array(
-//            array(
-//                'COutputCache',
-//                'duration'=> 60,
-//            ),
-//        );
-//    }
-
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -62,11 +51,13 @@ class ProfileController extends Controller
 
         $dataProvider = $teacher->user->responseDataProvider();
 
+        
         $this->render('index', array(
             'model' => $teacher,
             'editMode' => $editMode,
             'dataProvider' => $dataProvider,
             'response' => $response,
+            
         ));
     }
 

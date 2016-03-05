@@ -24,10 +24,10 @@ angular
                             $rootScope.pageCount = response.data.length;
                             if(toParams.page>$rootScope.pageCount || $rootScope.pageData[toParams.page-1].isDone==false){
                                 event.preventDefault();
-                                $state.go('error');
+                                $state.go('defaultPage');
                             }
                         }, function errorCallback(response) {
-                            alert('Error .run stateChangeStart ');
+                            console.log('Error .run stateChangeStart ');
                         });
                     }
                     //перевіряємо чи доступна частина
@@ -73,19 +73,8 @@ angular
                     }
                 },
             })
-            .state('error', {
-                url: "/error",
-                views: {
-                    "viewVideo": {
-                        template: 'Сторінка недоступна'
-                    },
-                    "viewText": {
-                        template: 'Сторінка недоступна'
-                    },
-                    "viewQuiz": {
-                        template: 'Сторінка недоступна'
-                    }
-                }
+            .state('defaultPage', {
+                url: "/page1",
             })
             .state('default', {
                 url: "",

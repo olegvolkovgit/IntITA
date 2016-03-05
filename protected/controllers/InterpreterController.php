@@ -10,14 +10,27 @@ class InterpreterController extends Controller
 {
     public $layout = 'lessonlayout';
 
-    public function actionIndex($id)
+    public function initialize($idLecture, $idTask)
     {
-        $lecture = Lecture::model()->findByPk($id);
-        $editMode = PayModules::checkEditMode($lecture->idModule, Yii::app()->user->getId());
-        if (!$editMode) {
-            throw new CHttpException(403, 'У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном автора модуля.');
+        $lecture = Lecture::model()->findByPk($idLecture);
+        $task = Task::model()->findByPk($idTask);
+        if(!$lecture || !$task){
+            throw new \application\components\Exceptions\IntItaException('404', 'Запитувана сторінка не існує.');
         }
-        $this->render('index');
+        if($idLecture!=Task::getTaskLecture(($idTask))){
+            throw new \application\components\Exceptions\IntItaException('404', 'Запитувана сторінка не існує.');
+        }
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
+        if (!$editMode) {
+            throw new \application\components\Exceptions\IntItaException('403', 'У вас недостатньо прав для перегляду та редагування сторінки.
+                Для отримання доступу увійдіть з логіном автора модуля.');
+           }
+    }
+
+    public function actionIndex($id,$task)
+    {
+        $this->initialize($id,$task);
+
+        $this->render('index',array('idTask'=>$task));
     }
 }

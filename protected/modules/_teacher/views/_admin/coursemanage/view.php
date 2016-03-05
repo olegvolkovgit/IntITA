@@ -2,7 +2,6 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 ?>
-
     <ul class="list-inline">
         <li>
             <button type="button" class="btn btn-primary"
@@ -27,8 +26,6 @@
                 Згенерувати схему курса</button>
         </li>
     </ul>
-
-
     <div class="page-header">
         <h4>Курс <?php echo $model->getTitle(); ?></h4>
     </div>

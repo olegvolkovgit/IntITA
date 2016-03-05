@@ -16,12 +16,18 @@
                     <tr>
                         <td class="profileTeacher" >
                             <div class="avatarsize">
-                                <img class='teacherAvatar' src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacherValue->foto_url);?>"/>
+                                <img class='teacherAvatar' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacherValue->avatar());?>"/>
                             </div>
                             <a href="<?php echo Yii::app()->createUrl('profile/index',
                                 array('idTeacher' => $teacherValue->teacher_id));?>">
                                 <?php echo Yii::t('teachers', '0059'); ?>&#187;
                             </a>
+                            <br>
+                            <a class="btnChatHidden" href="#" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                            <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                                'scenario' => 'message',
+                                'receiver' => $teacherValue->user_id
+                            ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
                         </td>
                         <td>
                             <h2><?php echo $teacherValue->lastName(); ?></h2>

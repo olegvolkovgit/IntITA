@@ -162,4 +162,16 @@ class Consultationscalendar extends CActiveRecord
         $t=$t1.':'.$t2.'-'.$t3.':'.$t4;
         return $t;
     }
+    public static function deleteConsultation($id)
+    {
+        $consultation=Consultationscalendar::model()->findByPk($id);
+        if ($consultation->user_id==Yii::app()->user->getId()) {
+            Consultationscalendar::model()->deleteByPk($id);
+        }else{
+            $user=StudentReg::model()->findByPk(Yii::app()->user->getId());
+            if($user->isTeacher() && $user->getTeacherId()==$consultation->teacher_id){
+                Consultationscalendar::model()->deleteByPk($id);
+            }
+        }
+    }
 }

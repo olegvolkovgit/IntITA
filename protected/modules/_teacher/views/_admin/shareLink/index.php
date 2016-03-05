@@ -1,6 +1,5 @@
 <?php
-/* @var $this ShareLinkController */
-/* @var $model ShareLink */
+/* @var $model Lecture */
 ?>
 
 <ul class="list-inline">
@@ -11,78 +10,33 @@
             Створити посилання на ресурс</button>
     </li>
 </ul>
-<?php
 
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#share-link-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
-?>
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="dataTable_wrapper">
+                <table class="table table-striped table-bordered table-hover" id="shareLinksTable" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Назва</th>
+                        <th>Посилання</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $jq(document).ready(function () {
+        initShareLinks();
+    });
+</script>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'share-link-grid',
-    'dataProvider'=>$model->search(),
-    'summaryText'=>'',
-    'columns'=>array(
-        'name',
-        'link',
-        array(
-            'class'=>'CButtonColumn',
-            'headerHtmlOptions' => array('style' => 'width:80px'),
-            'buttons'=>array(
-                'delete' => array
-                (
-                    'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити цей ресурс?',$(this).attr('href'))
-                                    return false;
-                              }
-                     ",
-                    'label' => 'Видалити',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/shareLink/delete", array("id"=>$data->id))',
-                ),
-                'view' => array
-                (
-                    'click'=>"function(){
-                                    $.fn.yiiGridView.update('share-link-grid', {
-                                        type:'POST',
-                                        url:$(this).attr('href'),
-                                        success:function(data){
-                                                        fillContainer(data);
-                                    }
-                                    })
-                                    return false;
-                              }
-                     ",
-                    'label'=>'Переглянути',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/shareLink/view", array("id"=>$data->id))',
-                ),
-                'update' => array
-                (
-                    'click'=>"function(){
-                                    $.fn.yiiGridView.update('share-link-grid', {
-                                        type:'POST',
-                                        url:$(this).attr('href'),
-                                        success:function(data){
-                                                        fillContainer(data);
-                                    }
-                                    })
-                                    return false;
-                              }
-                     ",
-                    'label'=>'Редагувати',
-                    'url' => 'Yii::app()->createUrl("/_teacher/_admin/shareLink/update", array("id"=>$data->id))',
-                ),
-            ),
-        ),
-    ),
-)); ?>
 
 

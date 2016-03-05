@@ -39,7 +39,7 @@ class CarouselController extends TeacherCabinetController
             }
         }
 
-		$this->render('create',array(
+		$this->renderPartial('create',array(
 			'model'=>$model,
 		),false,true);
 	}
@@ -107,7 +107,7 @@ class CarouselController extends TeacherCabinetController
 
 		$dataProvider=new CActiveDataProvider('Carousel');
 
-		$this->render('index',array(
+		$this->renderPartial('index',array(
 			'dataProvider'=>$dataProvider,
             'model'=>$model,
 		),false,true);

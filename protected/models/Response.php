@@ -16,10 +16,12 @@
  * @property integer $is_checked
  *
  * The followings are the available model relations:
- * @property StudentReg $who0
+ * @property StudentReg $user
  */
 class Response extends CActiveRecord
 {
+    const PUBLISHED = 1;
+    const HIDDEN = 0;
     /**
      * @return string the associated database table name
      */
@@ -242,11 +244,50 @@ class Response extends CActiveRecord
 
     public function shortDescription()
     {
-        return substr($this->text,0,25).'...';
+        return mb_substr($this->text,0,25).'...';
     }
 
     public function timeDesc()
     {
         return date("d-m-Y", strtotime($this->date));
+    }
+
+    public function setPublish(){
+        $this->is_checked = Response::PUBLISHED;
+        return $this->save();
+    }
+
+    public function setHidden(){
+        $this->is_checked = Response::HIDDEN;
+        return $this->save();
+    }
+
+    public static function getTeacherResponsesData(){
+        $users = Response::model()->findAll();
+        $return = array('data' => array());
+        foreach ($users as $record) {
+            $row = array();
+            $row["author"] = $record->getResponseAuthorName();
+            $row["about"] = $record->getResponseAboutTeacherName();
+            $row["date"] = $record->timeDesc();
+            $row["text"] = $record->shortDescription();
+            $row["rate"] = $record->rate;
+            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/view", array("id"=>$record->id))."'";
+            $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/response/update', array('id'=>$record->id))."'";
+            $row["linkDelete"] = "'".Yii::app()->createUrl('/_teacher/_admin/response/delete', array('id'=>$record->id))."'";
+            if($record->isChecked()){
+                $row["publish"] = 'опубліковано';
+                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/unsetPublish", array('id'=>$record->id))."'";
+            } else {
+                $row["publish"] = 'прихований';
+                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/setPublish", array("id"=>$record->id))."'";
+            }
+            array_push($return['data'], $row);
+        }
+        return json_encode($return);
+    }
+
+    public function isChecked(){
+        return $this->is_checked ==Response::PUBLISHED;
     }
 }

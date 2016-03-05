@@ -258,5 +258,29 @@ class CourseModules extends CActiveRecord
         }
     }
 
+    public static function checkModuleInCourse($idModule,$idCourse)
+    {
+        $module = CourseModules::model()->findByAttributes(array('id_module'=> $idModule,'id_course' =>$idCourse));
+
+        if($module)
+            return true;
+        else return false;
+
+    }
+    public static function getCoursesListName($idModule){
+        $courses = CourseModules::model()->findAllByAttributes(array(
+            'id_module' => $idModule
+        ));
+        $coursesCount=count($courses);
+        if($coursesCount==0){
+            return false;
+        }else{
+            $list = [];
+            for ($i = 0; $i < $coursesCount; $i++) {
+                array_push($list, Course::getCourseName($courses[$i]->id_course));
+            }
+            return $list;
+        }
+    }
 
 }

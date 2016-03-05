@@ -17,25 +17,33 @@ if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
         Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-        Module::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
+        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
         $lecture[Lecture::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => $idCourse)), Yii::t("consultation", "0506"),
     );
 }else{
     $this->breadcrumbs = array(
-        Module::getModuleName($lecture->idModule) => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
-        $lecture[Lecture::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => '0')), Yii::t("consultation", "0506"),
+        $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])),
+        $lecture->title() => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => '0')), Yii::t("consultation", "0506"),
     );
 }
 ?>
 <div class="consultationsMainBlock" >
     <h1 class="consultations"><?php echo Yii::t("consultation", "0506")?></h1>
     <?php
+    if (isset(Yii::app()->session['lg'])) {
+        if (Yii::app()->session['lg'] == 'en') {
+            $lang='_en';
+        }elseif(Yii::app()->session['lg'] == 'ru'){
+            $lang='_ru';
+        }else $lang='';
+    }else $lang='';
+
     $this->widget('application.components.ColumnListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_consultants',
         'emptyText' => Yii::t('consultations', '0792'),
         'summaryText' => '',
-        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse),
+        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang),
         'columns'=>array("one","two"),
     ));
     ?>

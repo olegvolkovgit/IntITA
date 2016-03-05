@@ -15,6 +15,21 @@
  */
 class LectureElement extends CActiveRecord
 {
+    // Lecture elements types
+    const TEXT          = 1;
+    const VIDEO	        = 2;
+    const CODE          = 3;
+    const EXAMPLE       = 4;
+    const TASK          = 5;
+    const PLAIN_TASK    = 6;
+    const INSTRUCTION   = 7;
+    const LABEL	        = 8;
+    const SKIP_TASK     = 9;
+    const FORMULA       = 10;
+    const TABLE         = 11;
+    const TEST          = 12;
+    const FINAL_TEST    = 13;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -33,6 +48,7 @@ class LectureElement extends CActiveRecord
 		return array(
 			array('id_lecture, block_order, id_type, html_block', 'required'),
 			array('id_lecture, block_order, id_type', 'numerical', 'integerOnly'=>true),
+            array('html_block', 'match', 'pattern' => '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/', 'on'=>'videoLink'),
 			// The following rule is used by search().
 			array('id_block, id_lecture, block_order, id_type, html_block', 'safe', 'on'=>'search'),
 		);
@@ -50,7 +66,6 @@ class LectureElement extends CActiveRecord
             'plainTask' => array( self::HAS_ONE, 'PlainTask', 'block_element'),
             'skipTask' => array(self::HAS_ONE,'SkipTask','condition'),
             'lecture' => array(self::BELONGS_TO, 'Lecture','id_lecture'),
-
         );
 	}
 
@@ -118,7 +133,7 @@ class LectureElement extends CActiveRecord
 
         $model->getOrder($idLecture);
 
-        $model->id_type = 5;
+        $model->id_type = LectureElement::TASK;
 
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
@@ -135,7 +150,7 @@ class LectureElement extends CActiveRecord
         $model = new LectureElement();
 
         $model->getOrder($idLecture);
-        $model->id_type = 9;
+        $model->id_type = LectureElement::SKIP_TASK;
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
 
@@ -152,7 +167,7 @@ class LectureElement extends CActiveRecord
 
         $model->getOrder($idLecture);
 
-        $model->id_type = 12;
+        $model->id_type = LectureElement::TEST;
 
         $model->html_block = $condition;
         $model->id_lecture = $idLecture;
@@ -288,18 +303,16 @@ class LectureElement extends CActiveRecord
         $command->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $idBlock));
     }
 
-    public static function addVideo($htmlBlock, $pageOrder, $lectureId)
+    public function addVideo($htmlBlock, $pageOrder, $lectureId)
     {
-        $model = new LectureElement();
+        $this->id_lecture = $lectureId;
+        $this->block_order = 0;
+        $this->html_block = $htmlBlock;
+        $this->id_type = LectureElement::VIDEO;
+        $this->save();
 
-        $model->id_lecture = $lectureId;
-        $model->block_order = 0;
-        $model->html_block = $htmlBlock;
-        $model->id_type = 2;
-        $model->save();
-
-        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        $id = LectureElement::getLastVideoId($model->id_lecture);
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id_lecture, 'page_order' => $pageOrder))->id;
+        $id = LectureElement::getLastVideoId($this->id_lecture);
 
         LecturePage::addVideo($pageId, $id["id_block"]);
     }
@@ -322,7 +335,7 @@ class LectureElement extends CActiveRecord
 
     public static function addNewPlainTask($lecture, $block_element)
     {
-        $type = 6;
+        $type = LectureElement::PLAIN_TASK;
 
         $model = new LectureElement();
 
@@ -413,5 +426,34 @@ class LectureElement extends CActiveRecord
     public static function getPlainTaskByLectureId($id)
     {
         return self::model()->findByPk($id)->plainTask;
+    }
+
+    /**
+     * Returns true if lecture element is quiz or false if not
+     * @return bool
+     */
+    public function isQuiz() {
+        if ($this->id_type == LectureElement::PLAIN_TASK  || //plain task
+            $this->id_type == LectureElement::TEST || //test
+            $this->id_type == LectureElement::TASK  || //task
+            $this->id_type == LectureElement::SKIP_TASK ) { //skip task
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function addFormula($htmlBlock, $pageOrder, $idLecture) {
+
+        $this->id_lecture = $idLecture;
+        $this->html_block = $htmlBlock;
+        $this->id_type = LectureElement::FORMULA;
+        $this->block_order = LectureElement::getNextOrder($idLecture);
+        $this->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id_lecture, 'page_order' => $pageOrder))->id;
+
+        LecturePage::addTextBlock($this->id_block, $pageId);
     }
 }

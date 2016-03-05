@@ -1,7 +1,7 @@
 <? $css_version = 1; ?>
 <?php
 /* @var $this ProfileController */
-/* @var $model StudentReg */
+/* @var $model Teacher */
 /* @var $response Response */
 $this->breadcrumbs=array(Yii::t('breadcrumbs', '0052')=>Yii::app()->createUrl('teachers'), Yii::t('breadcrumbs', '0057'));
 
@@ -39,7 +39,7 @@ if (isset($_GET['div'])){
 <?php
 $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-    'title'=>$model->first_name." ".$model->last_name.'. '.Yii::t('sharing','0643'),
+    'title'=>$model->firstName()." ".$model->lastName().'. '.Yii::t('sharing','0643'),
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>

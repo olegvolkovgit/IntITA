@@ -13,9 +13,18 @@ angular
                     data: JSON.stringify(jsonTask),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
-                    console.log(response.data);
-                }, function errorCallback() {
-                    alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
+                    if(response.data.status=='updated') {
+                        bootbox.alert("Зміни юніттестів успішно скомпільовані");
+                    } else if(response.data.status=='success') {
+                        bootbox.alert("Додані юніттести успішно скомпільовані");
+                    } else if(response.data.status=='failed') {
+                        console.log('Змін не відбулося');
+                    } else {
+                        bootbox.alert("Виникла помилка при компіляції:"+"<br/>"+response.data.status);
+                    }
+                }, function errorCallback(response) {
+                    console.log(response);
+                    bootbox.alert("Вибач, але на сайті виникла помилка. Спробуй пізніше або зв'яжись з адміністратором сайту.");
                 });
             };
         }

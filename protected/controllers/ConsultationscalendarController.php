@@ -2,16 +2,11 @@
 
 class ConsultationscalendarController extends Controller
 {
-    //LOGIN student  plane consult in http://localhost/IntIta/consultationscalendar/
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
-
-	/**
-	 * @return array action filters
-	 */
 
 	/**
 	 * Specifies the access control rules.
@@ -24,6 +19,19 @@ class ConsultationscalendarController extends Controller
 			'accessControl',
 		);
 	}
+
+	public function init()
+	{
+		$app = Yii::app();
+		if (isset($app->session['lg'])) {
+			$app->language = $app->session['lg'];
+		}
+		if (Yii::app()->user->isGuest) {
+			$this->render('/site/authorize');
+			die();
+		}else return true;
+	}
+
 	public function accessRules()
 	{
 		return array(
@@ -33,6 +41,34 @@ class ConsultationscalendarController extends Controller
 		);
 	}
 
+	public function initialize($id,$idCourse)
+	{
+		$lecture = Lecture::model()->findByPk($id);
+		$editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
+
+		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
+		if (StudentReg::isAdmin() || $editMode) {
+			throw new CHttpException(403, 'Запланувати консультацію може лише студент');
+		}
+		if($idCourse!=0){
+			$course = Course::model()->findByPk($idCourse);
+			if(!$course->status)
+				throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
+//            $module = Module::model()->findByPk($lecture->idModule);
+//            if(!$module->status)
+//                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
+		}
+		if (!($lecture->isFree)) {
+			$modulePermission = new PayModules();
+			if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
+				|| $lecture->order > $enabledLessonOrder) {
+				throw new CHttpException(403, 'Спочатку оплати доступ до матеріалу');
+			}
+		} else {
+			if ($lecture->order > $enabledLessonOrder)
+				throw new CHttpException(403, 'Ти не можеш запланувати консультацію. Спочатку пройди попередній матеріал.');
+		}
+	}
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -108,8 +144,10 @@ class ConsultationscalendarController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex($lectureId, $idCourse)
+	public function actionIndex($lectureId, $idCourse=0)
 	{
+		$this->initialize($lectureId,$idCourse);
+
         $lecture = Lecture::model()->findByPk($lectureId);
         $dataProvider = Teacher::getTeacherConsult($lectureId);
 
@@ -183,7 +221,7 @@ class ConsultationscalendarController extends Controller
 
     public function actionDeleteconsultation($id)
     {
-        Consultationscalendar::model()->deleteByPk($id);
+		Consultationscalendar::deleteConsultation($id);
 
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);

@@ -3,41 +3,13 @@ angular
     .module('teacherApp')
     .controller('teacherCtrl',teacherCtrl);
 
-function teacherCtrl($http, $scope,$compile) {
-
-
-    $scope.manageConsult = function(url)
-    {
-            $http({
-                method: "POST",
-                url:  url,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function(data){
-                $scope.fillContainer(data.data);
-            });
-
-    };
-
+function teacherCtrl($http, $scope,$compile, $ngBootbox) {
 
     $scope.fillContainer = function(data)
     {
         container = angular.element(document.querySelector("#pageContainer"));
         container.html('');
         $compile(container.html(data))($scope);
-    }
-
-    $scope.changeConsult = function(id,url)
-    {
-        $http({
-            method: "POST",
-            url:  url,
-            data: $.param({id:id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            cache: false
-        }).then(function(data){
-            $scope.fillContainer(data.data);
-        });
     }
 
     $scope.ediConsult = function(url)
@@ -49,30 +21,13 @@ function teacherCtrl($http, $scope,$compile) {
         $http({
             method: "POST",
             url:  url,
-            data: $.param({id:id, consult:consult}),
+            data: $jq.param({id:id, consult:consult}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         }).then(function(data){
             $scope.fillContainer(data.data);
             location.reload();
         });
-    }
-
-    $scope.removeConsult = function(id,url)
-    {
-        if(confirm('Ви впевнені що хочете вдалити консультанта?'))
-        {
-            $http({
-                method: "POST",
-                url:  url,
-                data: $.param({id:id}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function(data){
-                $scope.fillContainer(data.data);
-                location.reload();
-            });
-        }
     }
 
     $scope.ngLoad = function(url)
@@ -105,7 +60,7 @@ function teacherCtrl($http, $scope,$compile) {
         $http({
             method: "POST",
             url:  url,
-            data: $.param({page:page}),
+            data: $jq.param({page:page}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         }).then(function(data){

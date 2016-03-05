@@ -3,8 +3,8 @@
  */
 function selectMandatoryModule(url)
 {
-    var course = $('select[name="course"]').val();
-    $.ajax({
+    var course = $jq('select[name="course"]').val();
+    $jq.ajax({
         type: "POST",
         url:  url,
         data: {course: course},
@@ -15,14 +15,14 @@ function selectMandatoryModule(url)
 
 function checkMandatory()
 {
-    var course = $('select[name="course"]').val();
-    var module = $('select[name="mandatory"]').val();
+    var course = $jq('select[name="course"]').val();
+    var module = $jq('select[name="mandatory"]').val();
 
     if(course&&module)
         return true;
     else
     {
-        $('.errorMessage').html('Поле не може бути пустим');
+        $jq('.errorMessage').html('Поле не може бути пустим');
         return false;
     }
 }

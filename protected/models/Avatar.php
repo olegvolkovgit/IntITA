@@ -41,7 +41,11 @@ class Avatar {
     {
         $fileName = FileUploadHelper::getFileName($model->avatar);
         $model->avatar->saveAs(Yii::getpathOfAlias('webroot') . "/images/avatars/" . $fileName);
-        $model->updateByPk(Yii::app()->user->id, array('avatar' => $fileName));
+        if(isset(Yii::app()->user->id)){
+            $model->updateByPk(Yii::app()->user->id, array('avatar' => $fileName));
+        }else{
+            $model->avatar=$fileName;
+        }
     }
 
     public static function deleteStudentAvatar()
@@ -60,7 +64,7 @@ class Avatar {
         $imageName = uniqid() . '.' . $ext;
         if (copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/module/" . $imageName)) {
             $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $oldLogo;
-            if (is_file($src) && $oldLogo!='courseimg1.png')
+            if (is_file($src) && $oldLogo!='module.png')
                 unlink($src);
         }
 
@@ -109,8 +113,10 @@ class Avatar {
         }
         if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->avatar['tmp_name']['foto_url']))
         {
+            $tmpFoto = $model->avatar['tmp_name']['foto_url'];
+            $path = Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url;
 
-            if(!copy($model->avatar['tmp_name']['foto_url'],Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->foto_url))
+            if(!copy($tmpFoto,$path))
                 return false;
         }
         return true;

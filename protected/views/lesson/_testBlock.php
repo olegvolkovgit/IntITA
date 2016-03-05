@@ -16,10 +16,12 @@ $testType = Tests::getTestType($data['id_block']);
         </div>
         <div class="contentTest">
             <div class="instrTestText" id="<?php echo "t" . $data['block_order']; ?>">
-                <?php echo $data['html_block']; ?>
+                <div ng-non-bindable>
+                    <?php echo $data['html_block']; ?>
+                </div>
             </div>
             <br>
-
+            <div ng-non-bindable>
             <table class='answerTable' id="<?php echo "answers" . $data['block_order']; ?>">
                 <?php if ($testType == 1) {
                     for ($i = 1; $i <= $optionsNum; $i++) {
@@ -54,6 +56,7 @@ $testType = Tests::getTestType($data['id_block']);
                 }
                 ?>
             </table>
+            </div>
             <div ng-controller="testCtrl">
                 <button class="testSubmit" ng-click='sendTestAnswer(
                 <?php echo $data['block_order']; ?>,
@@ -64,10 +67,9 @@ $testType = Tests::getTestType($data['id_block']);
                     );' <?php if (0) {
                     echo "disabled";
                 } ?> >
-                    <?php echo Yii::t('lecture', '0089'); ?>
+                    <?php echo $buttonName; ?>
                 </button>
             </div>
         </div>
     </div>
 </div>
-

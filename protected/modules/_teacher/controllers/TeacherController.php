@@ -1,71 +1,87 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Quicks
  * Date: 11.12.2015
  * Time: 15:36
  */
-
-class TeacherController extends TeacherCabinetController {
+class TeacherController extends TeacherCabinetController
+{
 
     public function actionShowPlainTaskList()
     {
         $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
 
-        $this->renderPartial('/trainer/_newPlainTask',array(
+        $this->renderPartial('/trainer/_newPlainTask', array(
             'plainTasksAnswers' => $plainTaskAnswers,
-        ));
+        ), false, true);
     }
 
     public function actionAddConsultant($id)
     {
         $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($id);
+        $teachers = $plainTaskAnswer->getTrainersByAnswer();
 
-        if(!$plainTaskAnswer)
-            throw new CHttpException(404,'Page not found');
+        if (!$plainTaskAnswer)
+            throw new CHttpException(404, 'Page not found');
 
-        return $this->renderPartial('/trainer/_addConsult',
-            array(
-                'plainTaskAnswer' => $plainTaskAnswer));
+        return $this->renderPartial('/trainer/_addConsult', array(
+            'plainTaskAnswer' => $plainTaskAnswer,
+            'teachers' => $teachers
+        ));
     }
 
     public function actionAssignedConsultant()
     {
-            $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
-            $consult = Yii::app()->request->getPost('consult');
+        $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
+        $consult = Yii::app()->request->getPost('consult');
+        $model = StudentReg::model()->findByPk($consult);
 
-            Letters::sendAssignedConsultantLetter($consult,$idPlainTaskAnswer);
+        $plainTaskAnswer = PlainTaskAnswer::model()->findByPk($idPlainTaskAnswer);
 
-            if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
-                throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
+        $sender = new MailTransport();
+        $sender->renderBodyTemplate('_assignedConsultantLetter', array($plainTaskAnswer));
+        if ($sender->send($model->email, "", 'Нова задача', "")) {
+            $model->save();
+            echo "success";
+        } else {
+            echo "error";
+        }
+
+        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $model->id))
+            throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
     }
 
     public function actionShowTeacherPlainTaskList()
     {
-        $idTeacher = Yii::app()->request->getPost('idTeacher');
+        $idTeacher = Yii::app()->request->getPost('idTeacher', 0);
+        if ($idTeacher == 0) {
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
+        }
 
-        $teacherPlainTaskId = PlainTaskAnswer::TeacherPlainTask($idTeacher);
+        $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
 
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'id = :id';
-        $criteria->params = array(':id' => array_shift($teacherPlainTaskId)['id']);
-
-        $teacherPlainTasks = PlainTaskAnswer::model()->find($criteria);
-
-        return $this->renderPartial('/trainer/teacherPlainTaskList',array(
-            'teacherPlainTasks' => array($teacherPlainTasks),
+        return $this->renderPartial('/trainer/teacherPlainTaskList', array(
+            'teacherPlainTasks' => $tasksList,
         ));
     }
 
     public function actionShowPlainTask()
     {
-        $idPlainTask = Yii::app()->request->getPost('idPlainTask');
+        $idPlainTask = Yii::app()->request->getPost('idPlainTask', '0');
+        if ($idPlainTask == 0) {
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
 
         $plainTask = PlainTaskAnswer::model()->findByPk($idPlainTask);
+        if (!$plainTask) {
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
 
-        return $this->renderPartial('/trainer/showPlainTask',array(
-           'plainTask' => $plainTask
-        ));
+        return $this->renderPartial('/trainer/showPlainTask', array(
+            'plainTask' => $plainTask
+        ), false, true);
     }
 
     public function actionMarkPlainTask()
@@ -75,23 +91,28 @@ class TeacherController extends TeacherCabinetController {
         $comment = Yii::app()->request->getPost('comment');
         $userId = Yii::app()->request->getPost('userId');
 
-        if(!PlainTaskMarks::saveMark($plainTaskId,$mark,$comment,$userId))
-            throw new IntItaExeption(503);
+        if (!PlainTaskMarks::saveMark($plainTaskId, $mark, $comment, $userId))
+            throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
+            Спробуйте пізніше або повідомте адміністратора.');
     }
 
     public function actionManageConsult()
     {
-        $this->actionShowPlainTaskList();
-        $this->actionPlainTaskWithTrainers();
+        $tasks = PlainTaskAnswer::getTaskWithTrainer();
+        $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
+
+        $this->renderPartial('/trainer/_manageConsult', array(
+            'plainTaskAnswers' => $plainTaskAnswers,
+            'tasks' => $tasks
+        ), false, true);
     }
 
     public function actionPlainTaskWithTrainers()
     {
-       $tasks = PlainTaskAnswer::getTaskWithTrainer();
+        $tasks = PlainTaskAnswer::getTaskWithTrainer();
 
-       $this->renderPartial('/trainer/_plainWithTrainer',array(
-            'tasks' => $tasks,
-             ));
+        $this->renderPartial('/trainer/_plainWithTrainer', array(
+            'tasks' => $tasks));
     }
 
     public function actionChangeConsultant()
@@ -100,8 +121,8 @@ class TeacherController extends TeacherCabinetController {
 
         $plainTask = PlainTaskAnswer::model()->findByPk($id);
 
-        $this->renderPartial('/trainer/editConsult',array(
-           'task' => $plainTask
+        $this->renderPartial('/trainer/editConsult', array(
+            'task' => $plainTask
         ));
     }
 
@@ -109,7 +130,7 @@ class TeacherController extends TeacherCabinetController {
     {
         $id = Yii::app()->request->getPost('id');
         $teacherId = Yii::app()->request->getPost('consult');
-        PlainTaskAnswer::editConsult($id,$teacherId);
+        PlainTaskAnswer::editConsult($id, $teacherId);
     }
 
     public function actionDeleteConsultant()

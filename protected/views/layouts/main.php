@@ -5,7 +5,6 @@ $header = new Header();
 <!DOCTYPE html>
 <html id="ng-app" ng-app="mainApp" xmlns:ng="http://angularjs.org">
 <head>
-
     <!--[if lte IE 8]>
     <body class="ie8">
     <![endif]-->
@@ -50,6 +49,7 @@ $header = new Header();
     <![endif]-->
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -81,7 +81,7 @@ $header = new Header();
                         <div id="button_border" class="down">
                         </div>
                         <?php if (Yii::app()->user->isGuest) {
-                            echo CHtml::link($header->getEnterButton(), '#', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
+                            echo CHtml::link($header->getEnterButton(), '', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
                         } else {
                             ?>
                             <a id="enter_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout"
@@ -125,20 +125,9 @@ $header = new Header();
         <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'index')
             && !(Yii::app()->controller->id == 'aboutus') && !(Yii::app()->controller->id == 'lesson')
         ) {
-            $post = StudentReg::model()->findByPk(Yii::app()->user->id);
-            ?>
-            <div class="profileStatus">
-                <a href="<?php echo Yii::app()->createUrl('/studentreg/profile', array('idUser' => Yii::app()->user->id)); ?>">
-                    <div>
-                        <?php echo StudentReg::getStatusInfo($post); ?><br>
-                        <span class='statusColor' style="font-size: smaller">&#x25A0; online</span>
-                    </div>
-                    <div class="minavatar">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
-                    </div>
-                </a>
-            </div>
-        <?php
+            $post = Yii::app()->user->model;
+            $statusInfo = $this->beginWidget('UserStatusWidget', ['bigView' => true ,'registeredUser'=>$post]);
+            $this->endWidget();
         }
         ?>
     </div>
@@ -259,6 +248,7 @@ $header = new Header();
     </div>
 </div>
 <!-- footer -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'goToTop.js'); ?>"></script>
@@ -279,8 +269,6 @@ $header = new Header();
 <!-- Placeholder for old browser -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'placeholder.min.js'); ?>"></script>
 <!-- Placeholder for old browser -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 
 </body>
 </html>

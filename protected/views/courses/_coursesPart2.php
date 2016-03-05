@@ -7,9 +7,9 @@
     <div id='coursesPart2'>
         <?php
         $j = 0;
+        $this->renderPartial('_conceptBlock');
         foreach ($courseList as $val) {
             $j++;
-            if ($j == 2) $this->renderPartial('_conceptBlock');
             if ($j % 2 == 0) {
                 ?>
                 <div class='courseBox'>
@@ -23,7 +23,7 @@
                     <div class="courseLevelBox">
                         <?php echo Yii::t('courses', '0068'); ?>
                         <span class="courseLevel">
-                        <?php echo CommonHelper::translateLevel($val->level); ?>
+                        <?php echo $val->level(); ?>
 			        </span>
 
                         <div class='courseLevelIndex'>

@@ -2,6 +2,8 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 /* @var $form CActiveForm */
+$lg = Yii::app()->session['lg'];
+$sources = Level::allTitlesByLang($lg);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'formattedForm.css'); ?>"/>
 <div class="form">
@@ -15,12 +17,12 @@
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation' => false,
-        'enableClientValidation'=>true,
-        'clientOptions'=>array(
-            'validateOnSubmit'=>true,
+        'enableAjaxValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+            'validateOnChange' => true,
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);return true;
+                sendError(form,data,hasError);return true;
                 }',
         )
     )); ?>
@@ -72,12 +74,13 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'level'); ?>
-        <?php echo $form->dropDownList($model, 'level', array('intern' => Yii::t('courses', '0232'),
-            'junior' => Yii::t('courses', '0233'),
-            'strong junior' => Yii::t('courses', '0234'),
-            'middle' => Yii::t('courses', '0235'),
-            'senior' => Yii::t('courses', '0236')),
-            array('options' => array('intern' => array('selected' => true)), 'class' => 'form-control', 'style' => 'width:350px')); ?>
+        <?php echo $form->dropDownList($model, 'level', array(
+            '1' => $sources[1],
+            '2' => $sources[2],
+            '3' => $sources[3],
+            '4' => $sources[4],
+            '5' => $sources[5]),
+            array('options' => array('1' => array('selected' => true)), 'class' => 'form-control', 'style' => 'width:350px')); ?>
         <?php echo $form->error($model, 'level'); ?>
     </div>
 
@@ -161,14 +164,14 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'course_img'); ?>
-        <?php echo $form->fileField($model, 'course_img', array('onchange'=>"CheckFile(this)")); ?>
+        <?php echo $form->fileField($model, 'course_img', array('onchange' => "CheckFile(this)")); ?>
         <div class="errorMessage" style="display: none"></div>
     </div>
 
     <div class="form-group">
 
-    <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
-                array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
+            array('class' => 'btn btn-primary', 'id' => 'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

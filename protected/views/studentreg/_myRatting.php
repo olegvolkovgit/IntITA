@@ -1,8 +1,8 @@
 <p class="tabHeader"><?php echo Yii::t('profile', '0113'); ?></p>
 <div>
 <?php
-if (StudentReg::getRole(Yii::app()->user->id) == 'викладач') {
-    $model = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
+if (StudentReg::getRole($id) == 'викладач') {
+    $model = Teacher::model()->findByAttributes(array('user_id' => $id));
     ?>
     <div class="mainrating">
         <?php

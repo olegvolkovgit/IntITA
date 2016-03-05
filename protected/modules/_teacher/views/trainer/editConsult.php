@@ -6,14 +6,12 @@
  * Time: 12:12
  */
 ?>
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
-
 <div class="col-md-6">
 
     <form role="form" method="post" id="assignedConsult"
           ng-submit='ediConsult("<?php echo Yii::app()->createUrl('_teacher/teacher/editConsultant')?>");' >
 
-        <input type="text" name="id" id="idPlainTask" ng-value="<?php echo $task->id ?>" hidden="true">
+        <input type="text" name="id" id="idPlainTask" ng-value="<?php echo $task->id ?>" hidden>
 
         <div class="form-group">
             <label for="student">Ім'я або email студента :</label>
@@ -34,19 +32,17 @@
         <div class="form-group">
             <label for="cons">Теперішній консультант :</label>
             <input name="cons" type="text" class="form-control"
-                   placeholder="<?php echo $task->getConsultant()->getName(); ?>" disabled>
+                   placeholder="<?php echo $task->getConsultant()->userName(); ?>" disabled>
         </div>
         <div class="form-group">
             <?php $teachers = $task->getTrainersByAnswer() ?>
             <label for="consult">Можливі консультанти :</label>
             <select name="consult" id="consult" class="form-control">
                 <?php foreach ($teachers as $teacher) {?>
-                    <option value="<?php echo $teacher->teacher_id?>"><?php echo $teacher->getName()?></option>
+                    <option value="<?php echo $teacher->user_id?>"><?php echo $teacher->getName()?></option>
                 <?php }?>
             </select>
         </div>
         <button type="submit" class="btn btn-default">Редагувати консультанта</button>
     </form>
-
-
 </div>

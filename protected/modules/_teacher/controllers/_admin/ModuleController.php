@@ -27,9 +27,10 @@ class ModuleController extends TeacherCabinetController
 
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
             if ($model->save())
             {
-                if(!empty($_FILES))
+                if(!empty($_FILES['Module']['name']['module_img']))
                 {
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);
@@ -37,6 +38,8 @@ class ModuleController extends TeacherCabinetController
                     if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
                         throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
                     }
+                }else{
+                    Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
                 $this->redirect($this->pathToCabinet());
             }
@@ -51,30 +54,27 @@ class ModuleController extends TeacherCabinetController
 
     public function actionDelete($id)
     {
-        Module::model()->updateByPk($id, array('cancelled' => 1));
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        if(CourseModules::getCoursesListName($id)==false){
+            Module::model()->updateByPk($id, array('cancelled' => 1));
+            echo false;
+        }else{
+            echo implode(", ", CourseModules::getCoursesListName($id));
+        }
     }
 
     public function actionRestore($id)
     {
-        $model = Module::model()->findByPk($id);
-        $model->cancelled = 0;
-        $this->saveModel($model);
+        Module::model()->updateByPk($id, array('cancelled' => 0));
     }
 
     public function actionUpStatus($id)
     {
-        $model = Module::model()->findByPk($id);
-        $model->status = 0;
-        $this->saveModel($model);
+        Module::model()->updateByPk($id, array('status' => 0));
     }
 
     public function actionDownStatus($id)
     {
-        $model = Module::model()->findByPk($id);
-        $model->status = 1;
-        $this->saveModel($model);
+        Module::model()->updateByPk($id, array('status' => 1));
     }
 
     public function actionView($id)
@@ -94,26 +94,27 @@ class ModuleController extends TeacherCabinetController
         if (isset($_POST['Module'])) {
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
-
-            if (!empty($_FILES)) {
+            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
+            if (!empty($_FILES['Module']['name']['module_img'])) {
                 $imageName = array_shift($_FILES['Module']['name']);
-
+                $tmpName = array_shift($_FILES['Module']['tmp_name']);
                 if (!empty($imageName)) {
-                    $tmpName = array_shift($_FILES['Module']['tmp_name']);
                     if (!empty($imageName)) {
                         $model->logo = $_FILES['Module'];
                         if ($model->validate()) {
                             $model->save();
-
-                            if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
-                                throw new CDbException(400, 'Avatar not save');
+                            if($imageName && $tmpName) {
+                                if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
+                                    throw new \application\components\Exceptions\IntItaException(500, 'Аватар не був збережений.');
+                            }
                         }
                     }
                 }
             } else {
                 $model->save();
-                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo)))
-                    throw new CDbException(400, 'Avatar not SAVE');
+                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))){
+                    Module::model()->updateByPk($id, array('module_img' => 'module.png'));
+                }
             }
             $this->redirect($this->pathToCabinet());
         }

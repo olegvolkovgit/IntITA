@@ -31,7 +31,7 @@
             </div>
             <a href="#"
                onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showTeacherPlainTaskList') ?>',
-               <?php echo $teacher->teacher_id ?>)">
+               <?php echo $teacher->user_id ?>)">
                 <div class="panel-footer">
                     <span class="pull-left">Продивитись</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

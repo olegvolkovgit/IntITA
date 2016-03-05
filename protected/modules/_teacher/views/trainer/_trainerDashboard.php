@@ -39,5 +39,4 @@ $countPlainTasks = PlainTask::countPlainTaskAnswersWithoutTrainer();
         </div>
     </div>
 </div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '/_teachers/newPlainTask.js'); ?>"></script>
 

@@ -45,6 +45,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.editorOptions = {
         language: lang
     };
+    $scope.editorOptionsCode = {
+        language: lang,
+        enterMode: CKEDITOR.ENTER_BR
+    };
     $scope.editorOptionsTask = {
         language: lang,
         toolbar: 'task'
@@ -81,6 +85,31 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             alert($scope.errorMsg);
         });
     };
+    $scope.getCodeHtml = function (blockOrder, idLecture, element) {
+        $http({
+            url: basePath + '/lesson/editBlock',
+            method: "POST",
+            data: $.param({order: blockOrder, lecture: idLecture}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.editCodeRedactor = response.data;
+            var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
+                $scope.editCodeRedactor+'</textarea>'+
+                '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+blockOrder+')">'+
+                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')"></div>';
+            ($compile(template)($scope)).insertAfter(element);
+            $scope.myEditCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECodeEdit'), {
+                lineNumbers: true,             // показывать номера строк
+                matchBrackets: true,             // подсвечивать парные скобки
+                mode: "javascript",
+                theme: "rubyblue",               // стиль подсветки
+                indentUnit: 4                    // размер табуляции
+            });
+            return true;
+        }, function errorCallback() {
+            alert($scope.errorMsg);
+        });
+    };
 
     $scope.answers = [{id: 1}];
 
@@ -96,24 +125,12 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             optionsNum.val(parseInt(optionsNum.val()) - 1);
         }
     };
-    $scope.editAddAnswer = function () {
-        $scope.editAnswers.push('');
-        var optionsNum = angular.element(document.querySelector("#optionsNum"));
-        optionsNum.val(parseInt(optionsNum.val()) + 1);
-    };
-    $scope.editDeleteAnswer = function () {
-        $scope.editAnswers.splice(-1, 1);
-        var optionsNum = angular.element(document.querySelector("#optionsNum"));
-        if (optionsNum.val() > 0) {
-            optionsNum.val(parseInt(optionsNum.val()) - 1);
-        }
-    };
     /*add Skip Task*/
     $scope.createSkipTaskCKE = function (url, pageId, author) {
         var questionTemp = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
-        var number=0
+        var number=0;
         var question=questionTemp.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
@@ -151,20 +168,6 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             .always(function () {
             });
     };
-    $scope.editTaskCKE = function (blockId) {
-        $http({
-            url: basePath + '/task/editTaskCKE',
-            method: "POST",
-            data: $.param({idTaskBlock: blockId, condition: $scope.editTask, lang:selectedLang}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            location.reload();
-            return true;
-        }, function errorCallback() {
-            alert('error editTaskCKE');
-        });
-    }
-
     $scope.addTextBlock = function(type){
         if(type==7){
             $scope.instructionStyle=true;
@@ -172,7 +175,51 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             $scope.instructionStyle=false;
         }
         document.getElementById('addBlock').style.display = 'block';
-        document.getElementById('blockForm').style.display = 'block';
-        document.getElementById('blockType').value = type;
+        if(type==3) {
+            document.getElementById('blockForm').style.display = 'none';
+            document.getElementById('blockFormCode').style.display = 'block';
+            document.getElementById('blockTypeCode').value = type;
+        }else{
+            document.getElementById('blockFormCode').style.display = 'none';
+            document.getElementById('blockForm').style.display = 'block';
+            document.getElementById('blockType').value = type;
+        }
+    }
+    $scope.saveCodeBlock= function(order){
+            $http({
+                url: basePath+'/lesson/saveBlock',
+                method: "POST",
+                data: $.param({content: $scope.myEditCodeMirror.getValue(), idLecture: idLecture, order: order}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            })
+                .success(function (response) {
+                    if(response.length==0){
+                        $ngBootbox.alert($scope.saveMsg)
+                            .then(function() {
+                            });
+                    } else {
+                        $ngBootbox.alert(response)
+                            .then(function() {
+                            });
+                    }
+                })
+                .error(function () {
+                    alert($scope.errorMsg);
+                })
+    }
+    $scope.closeCodeBlock= function(order){
+        angular.element('#CKECodeEdit' + order).remove();
+        angular.element('#t' + order).show();
+
+        $.fn.yiiListView.update('blocks_list', {
+            complete: function () {
+                var template = angular.element('#blockList').html();
+                angular.element('#blockList').empty();
+                angular.element('#blockList').append(($compile(template)($scope)));
+                setTimeout(function() {
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                });
+            }
+        });
     }
 }

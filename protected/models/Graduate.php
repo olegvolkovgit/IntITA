@@ -18,6 +18,8 @@
  * @property string $recall
  * @property string $first_name_en
  * @property string $last_name_en
+ * @property string $first_name_ru
+ * @property string $last_name_ru
  */
 class Graduate extends CActiveRecord
 {
@@ -37,10 +39,11 @@ class Graduate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('first_name,last_name,graduate_date,courses_page,rate,first_name_en,last_name_en', 'required', 'message'=>"Поле обов'язкове для заповнення"),
-			array('avatar', 'file','types'=>'jpg, gif, png','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
+            array('first_name,last_name,graduate_date,courses_page,rate,first_name_en,last_name_en,first_name_ru,last_name_ru', 'required', 'message'=>"Поле обов'язкове для заповнення"),
+			array('avatar', 'file','types'=>'jpg, gif, png, jpeg','maxSize' => 1024*1024*5, 'allowEmpty' => true, 'tooLarge'=>Yii::t('error','0302')),
 			array('rate', 'numerical', 'integerOnly'=>true, 'message'=>Yii::t('graduate','0748')),
-			array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
+            array('first_name_ru, last_name_ru','match', 'pattern'=>'/^([а-яА-ЯёЁ])+$/u', 'message' => 'Недопустимі символи!'),
+            array('first_name, last_name, avatar, position, work_place, work_site, history', 'length', 'max'=>255),
 			array('courses_page, first_name_en, last_name_en', 'length', 'max'=>50),
 			array('graduate_date', 'date', 'format' => 'yyyy-MM-dd','message'=>Yii::t('graduate','0749')),
 			array('graduate_date, recall', 'safe'),
@@ -48,7 +51,8 @@ class Graduate extends CActiveRecord
             array('graduate_date', 'compare', 'compareValue' => '2012-01-01', 'operator' => '>=', 'message'=>Yii::t('graduate','0750'), 'allowEmpty'=>true),
             array('graduate_date', 'compare', 'compareValue' => date('Y/m/d'), 'operator' => '<=', 'message'=>Yii::t('graduate','0751'),  'allowEmpty'=>true),
 			// The following rule is used by search().
-			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses_page, history, rate, recall, first_name_en, last_name_en', 'safe', 'on'=>'search'),
+			array('id, first_name, last_name, avatar, graduate_date, position, work_place, work_site, courses_page,
+			history, rate, recall, first_name_en, last_name_en, first_name_ru, last_name_ru', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +87,8 @@ class Graduate extends CActiveRecord
 			'recall' => Yii::t('graduate','0762'),
 			'first_name_en' => Yii::t('graduate','0763'),
 			'last_name_en' => Yii::t('graduate','0764'),
+            'first_name_ru' => 'Ім\'я російською',
+            'last_name_ru' => 'Прізвище російською',
 		);
 	}
 
@@ -116,6 +122,8 @@ class Graduate extends CActiveRecord
 		$criteria->compare('recall',$this->recall,true);
 		$criteria->compare('first_name_en',$this->first_name_en,true);
 		$criteria->compare('last_name_en',$this->last_name_en,true);
+        $criteria->compare('first_name_en',$this->first_name_ru,true);
+        $criteria->compare('last_name_en',$this->last_name_ru,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -163,7 +171,15 @@ class Graduate extends CActiveRecord
             if(Yii::app()->session['lg'] == 'en'  && $this->last_name_en != '' && $this->last_name_en != ''){
                 return $this->last_name_en."&nbsp;".$this->first_name_en;
             }
+            if(Yii::app()->session['lg'] == 'ru'  && $this->last_name_ru != 'не указано' && $this->last_name_ru != 'не указано'){
+                return $this->last_name_ru."&nbsp;".$this->first_name_ru;
+            }
         }
         return $this->last_name."&nbsp;".$this->first_name;
+    }
+
+    public function showRecall()
+    {
+        echo mb_substr($this->recall,0,500);
     }
 }

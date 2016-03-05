@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @var $data Teacher
  */
 ?>
 <div class="teacherBlock">
@@ -8,7 +8,7 @@
         <div class="photobg">
             <img class="mask" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'img.png'); ?>">
             <img class="teacherphoto"
-                 src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $data['foto_url']) ?>">
+                 src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $data->avatar()) ?>">
         </div>
         <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $data['teacher_id'])) ?>">
             <?php echo Yii::t('teachers', '0059'); ?>&#187;
@@ -22,14 +22,14 @@
                 </div>
             </li>
             <li>
-                <?php echo $data['last_name'] . " " . $data['first_name'] . " " . $data['middle_name']; ?>
+                <?php echo $data->lastName() . " " . $data->firstName() . " " . $data->middleName(); ?>
             </li>
             <li>
-                <?php echo $data['email']; ?>
+                <?php echo $data->user->email; ?>
             </li>
             <li>
                 <?php echo 'skype: ' ?>
-                <span class="teacherSkype"><?php echo $data['skype'] ?></span>
+                <span class="teacherSkype"><?php echo $data->skype() ?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
             <?php if (StudentReg::canAddConsultation()) {
@@ -78,8 +78,8 @@
                                 <input type="hidden" class='consInfText'
                                        id="<?php echo 'consInfText' . $data['teacher_id'] ?>"
                                        value="<?php echo ' ' . Yii::t('consultation', '0493') . ' ' . $lecture->$titleParam . ', ' .
-                                           Yii::t('consultation', '0494') . ' ' . $data['last_name'] . ' ' . $data['first_name']
-                                           . ' ' . $data['middle_name'] . '. ' . Yii::t('consultation', '0495') ?>"/>
+                                           Yii::t('consultation', '0494') . ' ' . $data->lastName() . ' ' . $data->firstName()
+                                           . ' ' . $data->middleName() . '. ' . Yii::t('consultation', '0495') ?>"/>
 
                                 <p class='consInfText' id="<?php echo 'constext' . $data['teacher_id'] ?>"></p>
                                 <input type="hidden" id="<?php echo 'datecons' . $data['teacher_id'] ?>"

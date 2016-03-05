@@ -3,7 +3,6 @@
 /* @var $model Graduate */
 /* @var $form CActiveForm */
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'translateTeacherName.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css'); ?>"/>
 
 <div class="form">
@@ -24,7 +23,7 @@
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
             'afterValidate' => 'js:function(form,data,hasError){
-                send(form,data,hasError);return true;
+                sendError(form,data,hasError);return true;
                 }',
         )
     )); ?>
@@ -106,6 +105,18 @@
         <?php echo $form->labelEx($model, 'last_name_en'); ?>
         <?php echo $form->textField($model, 'last_name_en', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'last_name_en'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'first_name_ru'); ?>
+        <?php echo $form->textField($model, 'first_name_ru', array('class' => "form-control")); ?>
+        <?php echo $form->error($model, 'first_name_ru'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'last_name_ru'); ?>
+        <?php echo $form->textField($model, 'last_name_ru', array('class' => "form-control")); ?>
+        <?php echo $form->error($model, 'last_name_ru'); ?>
     </div>
 
     <div class="form-group">

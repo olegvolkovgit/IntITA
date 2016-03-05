@@ -11,8 +11,6 @@
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'module-grid',
     'dataProvider' => $model->search(),
-//    'filter' => $model,
-//    'htmlOptions' => array('class' => 'grid-view custom'),
     'pager' => array(
         'firstPageLabel' => '&#171;&#171;',
         'lastPageLabel' => '&#187;&#187;',
@@ -46,7 +44,7 @@
                 'delete' => array
                 (
                     'click' => "function(){
-                                    showConfirm('Ви дійсно хочете видалити цей модуль?',$(this).attr('href'))
+                                    moduleCancelled('Ви дійсно хочете видалити цей модуль?',$(this).attr('href'))
                                     return false;
                               }
                      ",

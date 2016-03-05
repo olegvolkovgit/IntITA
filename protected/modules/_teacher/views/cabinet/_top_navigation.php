@@ -1,8 +1,10 @@
 <?php
 /* @var $message Messages */
+/* @var $record UserMessages */
+/* @var $model StudentReg */
 ?>
 <div class="navbar-header">
-    <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand">
+    <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand logo">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hamburgerlogo.png') ?>"/>
     </a>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -13,37 +15,38 @@
         <span class="icon-bar"></span>
     </button>
 
-    <a class="navbar-brand" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">
+    <a class="navbar-brand logoname" href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">
         Особистий кабінет - Головна</a>
 </div>
 
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+            <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
+            <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
-            <?php $this->renderPartial('top_nav_messages');?>
+            <?php $this->renderPartial('top_nav_messages',  array('newMessages' => $newMessages, 'model' => $model));?>
         </ul>
     </li>
 
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-tasks">
-            <?php $this->renderPartial('top_nav_tasks');?>
-        </ul>
-    </li>
+<!--    <li class="dropdown">-->
+<!--        <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+<!--            <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+<!--        </a>-->
+<!--        <ul class="dropdown-menu dropdown-tasks">-->
+<!--            --><?php //$this->renderPartial('top_nav_tasks');?>
+<!--        </ul>-->
+<!--    </li>-->
 
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-alerts">
-            <?php $this->renderPartial('top_nav_alerts');?>
-        </ul>
-    </li>
+<!--    <li class="dropdown">-->
+<!--        <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+<!--            <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+<!--        </a>-->
+<!--        <ul class="dropdown-menu dropdown-alerts">-->
+<!--            --><?php //$this->renderPartial('top_nav_alerts');?>
+<!--        </ul>-->
+<!--    </li>-->
 
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">

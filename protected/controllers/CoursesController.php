@@ -26,17 +26,11 @@ class CoursesController extends Controller
      */
     public function actionIndex($selector = 'all')
     {
-
         $dataProvider = Course::getCoursesByLevel($selector);
-
         $criteria = Course::getCriteriaBySelector($selector);
-
         $coursesLang = CourseLanguages::getCoursesByLang($criteria);
 
-
-        $total = count(Course::model()->findAllByAttributes(array('language' => "ua", 'cancelled' => 0)));
-
-
+        $total = count(Course::model()->findAllByAttributes(array('cancelled' => 0)));
         $totalSelector = count($coursesLang);
         $count1 = round($totalSelector/2);
         $count2 = $totalSelector - $count1;

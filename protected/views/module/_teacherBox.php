@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $teacher Teacher
+ * @var $teachers array
  */
 foreach ($teachers as $teacher) {
     ?>
@@ -12,7 +13,7 @@ foreach ($teachers as $teacher) {
                         <img class="mask"
                              src="<?php echo StaticFilesHelper::createPath('image', 'common', 'img.png'); ?>">
                         <img class="teacherphoto"
-                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', $teacher->foto_url) ?>">
+                             src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->avatar()) ?>">
                     </div>
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)); ?>">
                         <?php echo Yii::t('module', '0228'); ?>
@@ -24,11 +25,11 @@ foreach ($teachers as $teacher) {
                     <div style="line-height: 1.2;">
                         <?php echo $teacher->getLastFirstName();?>
                         <br>
-                        <?php echo $teacher->email; ?>
+                        <?php echo $teacher->user->email; ?>
                         <br>
                         <?php
-                        if ($teacher->skype != '') {
-                            echo "Skype: ", $teacher->skype;
+                        if ($teacher->skype() != '') {
+                            echo "Skype: ", $teacher->skype();
                         } ?>
                     </div>
                 </td>

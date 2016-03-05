@@ -41,7 +41,9 @@ class TaskController extends Controller
         $date = Yii::app()->request->getPost('date', 0);
         $warning = Yii::app()->request->getPost('warning', '');
 
-        TaskMarks::addMark($user, $task, $status, $result, $date, $warning);
+        if(TaskMarks::addMark($user, $task, $status, $result, $date, $warning)){
+            return true;
+        };
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -80,5 +82,13 @@ class TaskController extends Controller
         if ($pageId != 0) {
             LecturePage::unableQuiz($pageId);
         }
+    }
+    public function actionDataTask()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $data["condition"] =  Task::getTaskCondition($idBlock);
+
+        echo CJSON::encode($data);
     }
 }
