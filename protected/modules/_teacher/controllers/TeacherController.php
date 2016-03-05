@@ -42,8 +42,8 @@ class TeacherController extends TeacherCabinetController
 
         $sender = new MailTransport();
         $sender->renderBodyTemplate('_assignedConsultantLetter', array($plainTaskAnswer));
+        PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult);
         if ($sender->send($model->email, "", 'Нова задача', "")) {
-            $model->save();
             echo "success";
         } else {
             echo "error";
