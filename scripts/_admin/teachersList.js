@@ -7,19 +7,25 @@ function initTeachersAdminTable() {
         },
         "columns": [
             {
-                "data": "name"},
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(' + name["link"] + ')">' + name["name"] + '</a>';
+                }
+            },
             {
-                "width": "25%",
+                "width": "30%",
                 "data": "email"
             },
             {
                 "width": "10%",
-                "data": "status"},
+                "data": "status"
+            },
             {
                 "width": "10%",
-                "data": "profile",
-                "render": function (url) {
-                    return '<a href="' + url + '" target="_blank">Cторінка</a>';
+                "data": "changeStatus",
+                "render": function (changeStatus) {
+                    return '<a href="#" onclick="setTeacherStatus(' +  changeStatus["link"] + ')">' +
+                        changeStatus["title"] + '</a>';
                 }
             },
             {
@@ -29,29 +35,8 @@ function initTeachersAdminTable() {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
                         '<i class="fa fa-envelope fa-fw"></i></a>';
                 }
-            },
-            {
-                "width": "5%",
-                "data": "linkView",
-                "render": function (linkView) {
-                    return '<a href="#" onclick="load(' + linkView + ')"><i class="fa fa-eye"></i></a>';
-                }
-            },
-            {
-                "width": "5%",
-                "data": "linkEdit",
-                "render": function (linkEdit) {
-                    return '<a href="#" onclick="load(' + linkEdit + ')" ><i class="fa fa-pencil"></i></a>';
-                }
-            },
-            {
-                "width": "5%",
-                "data": "linkChangeStatus",
-                "render": function (linkChangeStatus) {
-                    return '<a href="#" onclick="setTeacherStatus(' + linkChangeStatus + ')">' +
-                        '<i class="fa fa-refresh"></i></a>';
-                }
-            }],
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },

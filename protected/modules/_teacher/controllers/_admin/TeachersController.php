@@ -79,7 +79,7 @@ class TeachersController extends TeacherCabinetController{
 
     public function loadModel($id)
     {
-        $model = Teacher::model()->findByPk($id);
+        $model = Teacher::model()->findByAttributes(array('user_id' => $id));
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

@@ -644,21 +644,21 @@ class Teacher extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["email"] = $record->user->email;
-            $row["profile"] = Config::getBaseUrl()."/teacher/".$record->teacher_id;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->user_id
             ));
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
-            $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id'=>$record->teacher_id))."'";
+            $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             if($record->isActive()){
                 $row["status"] = "активний";
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
+                $row["changeStatus"]["title"] = "видалити";
+                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
             } else {
                 $row["status"] = 'видалений';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
+                $row["changeStatus"]["title"] = "активувати";
+                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
             }
             array_push($return['data'], $row);
         }

@@ -22,6 +22,18 @@
                             'id' => $teacher->user_id)); ?>','Призначити роль')">Призначити роль
                 </button>
             </li>
+            <li>
+                <button type="button" class="btn btn-primary"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id'=>$teacher->user_id)); ?>',
+                            'Редагувати')">
+                    Редагувати</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-success"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $teacher->user_id)); ?>',
+                            'Додати модуль')">
+                    Додати модуль</button>
+            </li>
         </ul>
     </div>
 
