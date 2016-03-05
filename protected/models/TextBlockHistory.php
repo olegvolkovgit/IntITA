@@ -203,6 +203,7 @@ class TextBlockHistory extends CActiveRecord
 	 * @throws Exception
 	 */
 	public static function createNewRecord($id_block, $idType, $content, $userId, $parentId = null) {
+		//todo need to retrieve parentId
         $transaction = Yii::app()->db->beginTransaction();
         try {
             // Finds current block without end_date and sets end_date

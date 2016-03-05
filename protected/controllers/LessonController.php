@@ -128,17 +128,17 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionAddVideo()
-    {
-        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
-        $pageOrder = Yii::app()->request->getPost('page');
-        $lectureId = Yii::app()->request->getPost('idLecture');
-
-        $model = new LectureElement();
-        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
-
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionAddVideo()
+//    {
+//        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
+//        $pageOrder = Yii::app()->request->getPost('page');
+//        $lectureId = Yii::app()->request->getPost('idLecture');
+//
+//        $model = new LectureElement();
+//        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
+//
+//        $this->redirect(Yii::app()->request->urlReferrer);
+//    }
 
     public function actionAddFormula()
     {

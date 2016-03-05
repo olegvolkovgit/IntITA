@@ -42,5 +42,20 @@ class RevisionController extends Controller
         $lesson->saveBlock($order, $content, Yii::app()->user->getId());
     }
 
+    public function actionAddVideo()
+    {
+        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
+        $pageOrder = Yii::app()->request->getPost('page');
+        $lectureId = Yii::app()->request->getPost('idLecture');
+
+        $lecture = Lecture::model()->findByPk($lectureId);
+
+        $lecture->addVideo($htmlBlock, $pageOrder, Yii::app()->user->getId());
+
+//        $model = new LectureElement();
+//        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
 }

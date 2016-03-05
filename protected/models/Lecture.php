@@ -700,6 +700,7 @@ class Lecture extends CActiveRecord
     }
 
     public function createNewBlock($htmlBlock, $idType, $pageOrder, $idUser) {
+        //todo lesson should be saved only after approving
         $model = new LectureElement();
         $model->id_lecture = $this->id;
         $model->block_order = LectureElement::getNextOrder($this->id);
@@ -848,5 +849,19 @@ class Lecture extends CActiveRecord
     public function saveBlock($order, $content, $userId) {
         $lectureElement = LectureElement::model()->findByAttributes(array('id_lecture' => $this->id, 'block_order' => $order));
         TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $content, $userId);
+    }
+
+    public function addVideo($htmlBlock, $pageOrder, $userId) {
+        $lectureElement = new LectureElement();
+        $lectureElement->id_lecture = $this->id;
+        $lectureElement->block_order = 0;
+        $lectureElement->html_block = $htmlBlock;
+        $lectureElement->id_type = LectureElement::VIDEO;
+        $lectureElement->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $lectureElement->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addVideo($pageId, $lectureElement->id_block);
+
+        TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $lectureElement->html_block, $userId);
     }
 }

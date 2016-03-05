@@ -7,7 +7,7 @@
  */
 ?>
 <div id="divAddVideo">
-    <form name="addVideoForm" id="addVideo" action="<?php echo Yii::app()->createUrl('lesson/addVideo'); ?>" method="post">
+    <form name="addVideoForm" id="addVideo" action="<?php echo Yii::app()->createUrl('revision/addVideo'); ?>" method="post">
         <input name="idLecture" value="<?php echo $idLecture; ?>" type="hidden">
         <input name="page" value="<?php echo $pageOrder; ?>" type="hidden">
         <input name="type" value="2" type="hidden">
