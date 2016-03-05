@@ -42,14 +42,13 @@ class TeacherController extends TeacherCabinetController
 
         $sender = new MailTransport();
         $sender->renderBodyTemplate('_assignedConsultantLetter', array($plainTaskAnswer));
-        PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult);
         if ($sender->send($model->email, "", 'Нова задача', "")) {
             echo "success";
         } else {
             echo "error";
         }
 
-        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $model->id))
+        if (!PlainTaskAnswer::assignedConsult($idPlainTaskAnswer, $consult))
             throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
     }
 
