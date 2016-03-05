@@ -16,12 +16,12 @@ $lecturesCount = $lecture->module->lecturesCount();
                 </li>
                 <li>
                     <?php echo Yii::t('lecture', '0072'); ?>
-                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)) ?>"><?php echo CHtml::encode($lecture->module->getTitle()); ?></a>
+                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)) ?>"><?php echo $lecture->module->getTitle(); ?></a>
                 </li>
             <?php } else { ?>
                 <li>
                     <?php echo Yii::t('lecture', '0072'); ?>
-                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])) ?>"><?php echo CHtml::encode($lecture->module->getTitle()); ?></a>
+                    <a href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'])) ?>"><?php echo $lecture->module->getTitle(); ?></a>
                 </li>
             <?php } ?>
             <li><?php echo Yii::t('lecture', '0073') . " " . $lecture->order . ': '; ?>
