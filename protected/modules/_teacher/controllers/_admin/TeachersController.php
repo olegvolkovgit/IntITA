@@ -43,6 +43,18 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
+    public function actionAddModule($id)
+    {
+        $user = RegisteredUser::userById($id);
+        if(!$user->isTeacher()){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
+        }
+
+        $this->renderPartial('addModule',array(
+            'user' => $user
+        ),false,true);
+    }
+
     public function actionCreate()
     {
         $model = new Teacher;
