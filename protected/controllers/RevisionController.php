@@ -33,7 +33,7 @@ class RevisionController extends Controller
     }
 
     public function actionSaveBlock() {
-        $order = substr(Yii::app()->request->getPost('order'), 2);
+        $order = Yii::app()->request->getPost('order');
         $idLesson = Yii::app()->request->getPost('idLecture');
         $content = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
 
@@ -41,6 +41,8 @@ class RevisionController extends Controller
 
         $lesson->saveBlock($order, $content, Yii::app()->user->getId());
     }
+
+
 
 
 }

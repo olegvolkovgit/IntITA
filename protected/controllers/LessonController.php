@@ -585,31 +585,31 @@ class LessonController extends Controller
         );
     }
 
-    public function actionSaveBlock()
-    {
-        $order = Yii::app()->request->getPost('order');
-        $idLesson = Yii::app()->request->getPost('idLecture');
-        $content = Yii::app()->request->getPost('content');
-
-        $lesson = Lecture::model()->findByPk($idLesson);
-
-        $this->checkInstanse($lesson);
-
-        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
-    }
-
-    public function actionSave()
-    {
-        $order = substr(Yii::app()->request->getPost('order'), 2);
-        $idLesson = Yii::app()->request->getPost('idLecture');
-        $content = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
-
-        $lesson = Lecture::model()->findByPk($idLesson);
-
-        $this->checkInstanse($lesson);
-
-        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
-    }
+//    public function actionSaveBlock()
+//    {
+//        $order = Yii::app()->request->getPost('order');
+//        $idLesson = Yii::app()->request->getPost('idLecture');
+//        $content = Yii::app()->request->getPost('content');
+//
+//        $lesson = Lecture::model()->findByPk($idLesson);
+//
+//        $this->checkInstanse($lesson);
+//
+//        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
+//    }
+//
+//    public function actionSave()
+//    {
+//        $order = substr(Yii::app()->request->getPost('order'), 2);
+//        $idLesson = Yii::app()->request->getPost('idLecture');
+//        $content = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
+//
+//        $lesson = Lecture::model()->findByPk($idLesson);
+//
+//        $this->checkInstanse($lesson);
+//
+//        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
+//    }
 
     public function actionSaveLectureContent($idLecture)
     {
@@ -742,7 +742,7 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    private function checkInstanse($model) {
+    private function checkInstance($model) {
         if ($model === null)
             throw new \application\components\Exceptions\LessonNotFoundException();
     }

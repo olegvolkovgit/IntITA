@@ -23,7 +23,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                     cache: false,
                     type: "POST",
                     url: '/revision/saveBlock',
-                    data: {'content':html,'idLecture':idLecture,'order':order}
+                    data: {'content':html,'idLecture':idLecture,'order':order.substring(2)}
                 });
 			}
 		};
