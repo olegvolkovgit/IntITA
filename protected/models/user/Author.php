@@ -3,6 +3,8 @@
 class Author extends Role
 {
     private $dbModel;
+    private $modules;
+
     /**
      * @return string the associated database table name
      */

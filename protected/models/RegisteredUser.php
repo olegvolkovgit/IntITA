@@ -162,10 +162,9 @@ class RegisteredUser
         return $this->hasRole(UserRoles::STUDENT);
     }
 
-    //TODO
     public function isAuthor()
     {
-       // return $this->hasRole(UserRoles::);
+        return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
     }
 
     public function hasRole($role)
