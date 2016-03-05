@@ -27,7 +27,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList($jq('#startDate').val(), $jq('#endDate').val())">
+            onclick="updateStudentList($jq('#startDate').val()+ ' 00:00:00', $jq('#endDate').val()+' 23:59:59')">
         За період:
     </button>
 
