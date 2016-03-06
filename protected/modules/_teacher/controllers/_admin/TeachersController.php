@@ -50,8 +50,12 @@ class TeachersController extends TeacherCabinetController{
             throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
         }
 
-        $this->renderPartial('_addTeacherModule',array(
-            'user' => $user
+        $attributes = $user->getAttributesByRole(UserRoles::AUTHOR);
+
+        $this->renderPartial('_moduleList',array(
+            'user' => $user->id,
+            'role' => new UserRoles(''),
+            'attribute' => $attributes
         ),false,true);
     }
 

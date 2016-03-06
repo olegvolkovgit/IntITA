@@ -111,7 +111,7 @@ class RegisteredUser
         return $this->_roleAttributes;
     }
 
-    public function getAttributesByRole(UserRoles $role)
+    public function getAttributesByRole($role)
     {
         if (empty($this->_roleAttributes)) {
             $this->loadAttributes($role);
@@ -119,7 +119,7 @@ class RegisteredUser
         return $this->_roleAttributes[(string)$role];
     }
 
-    private function loadAttributes(UserRoles $role){
+    private function loadAttributes($role){
         if ($this->hasRole($role)) {
             $roleObj = Role::getInstance($role);
             $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
