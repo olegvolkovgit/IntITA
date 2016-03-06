@@ -102,35 +102,15 @@ class PermissionsController extends TeacherCabinetController
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
-    public function actionShowLectures()
-    {
-        $first = '<select size="1" name="lecture">';
-        $titleParam = Lecture::getTypeTitleParam();
-        $criteria = new CDbCriteria();
-        $criteria->select = 'id, ' . $titleParam;
-        $criteria->order = 'id ASC';
-        $criteria->addCondition('idModule=' . $_POST['module']);
-        $rows = Lecture::model()->findAll($criteria);
-        $result = $first . '<option value="">Всі лекції</option>
-                   <optgroup label="Виберіть лекцію">';
-        if (!empty($rows)) {
-            foreach ($rows as $numRow => $row) {
-                $result = $result . '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
-            };
-        }
-        $last = '</select>';
-        echo $result . $last;
-    }
-
-    public function actionShowModules()
-    {
-        if (isset($_POST['course']))
-            $course = $_POST['course'];
-
-        $result = Module::showModule($course);
-
-        echo $result;
-    }
+//    public function actionShowModules()
+//    {
+//        if (isset($_POST['course']))
+//            $course = $_POST['course'];
+//
+//        $result = Module::showModule($course);
+//
+//        echo $result;
+//    }
 
     public function actionNewTeacherPermission()
     {
@@ -181,14 +161,14 @@ class PermissionsController extends TeacherCabinetController
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionShowTeacherModules()
-    {
-        if (isset($_POST['teacher'])) {
-            $idTeacher = $_POST['teacher'];
-            $result = TeacherModule::showTeacherModule($idTeacher);
-        } else $result = '';
-        echo $result;
-    }
+//    public function actionShowTeacherModules()
+//    {
+//        if (isset($_POST['teacher'])) {
+//            $idTeacher = $_POST['teacher'];
+//            $result = TeacherModule::showTeacherModule($idTeacher);
+//        } else $result = '';
+//        echo $result;
+//    }
 
 
     public function actionCancelTeacherPermission()
@@ -207,21 +187,6 @@ class PermissionsController extends TeacherCabinetController
             array('read', 'edit'));
 
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/permissions/index'));
-    }
-
-    public function actionShowUsers()
-    {
-        if (Yii::app()->request->isAjaxRequest) {
-            if (isset($_POST['email'])) {
-                $email = $_POST['email'];
-
-                $result = StudentReg::model()->findByAttributes(array('email' => $email));
-
-                if (!empty ($result)) {
-                    echo $result->id;
-                } else echo 'not found';
-            }
-        }
     }
 
     public function actionShowAddAccessForm()

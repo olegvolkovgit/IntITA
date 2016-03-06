@@ -378,8 +378,8 @@ class StudentReg extends CActiveRecord
 
     public static function getRole($id)
     {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => $id));
-        if ($user)
+        $user = RegisteredUser::userById($id);
+        if ($user->isTeacher())
             return true;
         else return false;
     }
