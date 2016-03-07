@@ -6,21 +6,15 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>',
-                    'Додати випускника')">
-            Додати випускника</button>
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
+                    'Список випускників')">
+            Список випускників</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="deletePhoto('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/deletePhoto'); ?>',
                     '<?php echo $model->id; ?>', '<?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?>');">
             Видалити фото випускника</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
-                    'Список випускників')">
-            Список випускників</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"

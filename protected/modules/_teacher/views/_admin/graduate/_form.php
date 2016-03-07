@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css'); ?>"/>
 
 <div class="form">
-
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'graduate-form',
         'htmlOptions' => array(
@@ -131,10 +130,10 @@
     $(window).load(
         function () {
             if (document.getElementById("Graduate_first_name_en").value == '') {
-                $("#Graduate_first_name_en").val(toEnglish(document.getElementById("Graduate_first_name").value));
+                $jq("#Graduate_first_name_en").val(toEnglish(document.getElementById("Graduate_first_name").value));
             }
             if (document.getElementById("Graduate_last_name_en").value == '') {
-                $("#Graduate_last_name_en").val(toEnglish(document.getElementById("Graduate_last_name").value));
+                $jq("#Graduate_last_name_en").val(toEnglish(document.getElementById("Graduate_last_name").value));
             }
         }
     );

@@ -6,39 +6,52 @@ function initGraduatesTable(){
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
             {
+                "width": "20%",
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(' + name["link"] + ')">' + name["title"] + '</a>';
+                }
+            },
+            {
+                "width": "15%",
                 "data": "avatar",
                 "render": function (url) {
-                    return '<img src="' + url + '"/>';
+                    return '<img src="' + url + '" class="imageClass"/>';
                 }
             },
-            {"data": "position"},
-            {"data": "workPlace"},
-            {"data": "recall"},
-            {
-                "data": "linkView",
-                "render": function (linkView) {
-                    return '<a href="#" onclick="load(' + linkView + ')"><i class="fa fa-eye"></i></a>';
-                }
+            {   "width": "15%",
+                "data": "position"
             },
             {
-                "data": "linkEdit",
-                "render": function (linkEdit) {
-                    return '<a href="#" onclick="load(' + linkEdit + ')"><i class="fa fa-pencil"></i></a>';
-                }
-            },
+                "width": "15%",
+                "data": "workPlace"},
             {
-                "data": "linkDelete",
-                "render": function (linkDelete) {
-                    return '<a href="#" onclick="deleteGraduate(' + linkDelete + ')"><i class="fa fa-trash"></i></a>';
-                }
-            }],
+                className: "recall",
+                "data": "recall"}],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function deletePhoto(url,id,name){
+    bootbox.confirm('Ви впевнені, що хочете видалити фото випускника ' + name + '?', function (result) {
+        if(result){
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {'id': id},
+                cache: false,
+                success: function (data) {
+                    if(data == true) {
+                        bootbox.alert("Фото " + name + " видалено!");
+                    }
+                }
+            });
         }
     });
 }

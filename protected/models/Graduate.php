@@ -184,18 +184,15 @@ class Graduate extends CActiveRecord
 
         foreach ($graduates as $record) {
             $row = array();
-            $row["name"] = $record->last_name." ".$record->first_name;
-            $row["avatar"] = StaticFilesHelper::createAvatarsPath($record->avatar);
-            $row["position"] = $record->position;
-            $row["workPlace"] = $record->work_place;
-            $row["recall"] = substr($record->recall,0,500);
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/graduate/view", array("id"=>$record->id))."'";
+            $row["name"]["title"] = $record->last_name." ".$record->first_name;
+            $row["avatar"] = StaticFilesHelper::createPath('image', 'graduates', $record->avatar);
+            $row["position"] = CHtml::encode($record->position);
+            $row["workPlace"] = CHtml::encode($record->work_place);
+            $row["recall"] = CHtml::encode(substr($record->recall,0,500))."...";
+            $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/graduate/view", array("id"=>$record->id))."'";
             $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id'=>$record->id))."'";
-            $row["linkDelete"] = "'".Yii::app()->createUrl('/_teacher/_admin/graduate/delete', array('id'=>$record->id))."'";
             array_push($return['data'], $row);
-            var_dump($row);
         }
-
 
         return json_encode($return);
 	}
