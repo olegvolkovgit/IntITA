@@ -1,2 +1,2 @@
 angular
-    .module('interpreterApp', []);
+    .module('interpreterApp', ['ui.codemirror']);
