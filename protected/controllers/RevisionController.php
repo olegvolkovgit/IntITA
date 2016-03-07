@@ -46,16 +46,26 @@ class RevisionController extends Controller
     {
         $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
         $pageOrder = Yii::app()->request->getPost('page');
-        $lectureId = Yii::app()->request->getPost('idLecture');
+        $idLecture = Yii::app()->request->getPost('idLecture');
 
-        $lecture = Lecture::model()->findByPk($lectureId);
+        $lecture = Lecture::model()->findByPk($idLecture);
 
         $lecture->addVideo($htmlBlock, $pageOrder, Yii::app()->user->getId());
 
-//        $model = new LectureElement();
-//        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
-
         $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDeleteVideo()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $pageOrder = Yii::app()->request->getPost('pageOrder');
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->deleteVideo($pageOrder, Yii::app()->user->getId());
+
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
     }
 
 }

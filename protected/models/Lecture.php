@@ -708,10 +708,7 @@ class Lecture extends CActiveRecord
         $model->id_type = $idType;
         $model->save();
 
-        if ($model->id_type == LectureElement::TEXT ||
-            $model->id_type == LectureElement::CODE ||
-            $model->id_type == LectureElement::INSTRUCTION ||
-            $model->id_type == LectureElement::EXAMPLE) {
+        if ($model->isTextBlock()) {
             TextBlockHistory::createNewRecord($model->id_block, $model->id_type, $model->html_block, $idUser);
         }
 
@@ -827,15 +824,8 @@ class Lecture extends CActiveRecord
                     Task::deleteTask($element->id_block);
                 }
 
-                if ($element->id_type == LectureElement::TEXT ||
-                    $element->id_type == LectureElement::CODE ||
-                    $element->id_type == LectureElement::INSTRUCTION ||
-                    $element->id_type == LectureElement::EXAMPLE) {
-                    $history = TextBlockHistory::getLastEdited($element->id_block);
-                    if ($history == null) {
-                        $history = TextBlockHistory::createNewRecord($element->id_block, $element->id_type, $element->html_block, $idUser);
-                    }
-                    $history->setEndDate($idUser);
+                if ($element->isTextBlock()) {
+                    TextBlockHistory::cancelRecord($element->id_block, $element->id_type, $element->html_block, $idUser);
                 }
 
                 Yii::app()->db->createCommand()->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $element->id_block));
@@ -863,5 +853,19 @@ class Lecture extends CActiveRecord
         LecturePage::addVideo($pageId, $lectureElement->id_block);
 
         TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $lectureElement->html_block, $userId);
+    }
+
+    public function deleteVideo($pageOrder, $userId) {
+        $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id, 'page_order' => $pageOrder));
+
+        if ($modelLecturePage->video) {
+            $element = LectureElement::model()->findByPk($modelLecturePage->video);
+            LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
+
+            TextBlockHistory::cancelRecord($element->id_block, $element->id_type, $element->html_block, $userId);
+
+            $element->delete();
+        }
+
     }
 }

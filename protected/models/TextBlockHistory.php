@@ -120,6 +120,11 @@ class TextBlockHistory extends CActiveRecord
 		return parent::model($className);
 	}
 
+	/**
+	 * Approves current record and copy content to related lecture element
+	 * @param $idUser
+	 * @throws Exception
+     */
 	public function approve($idUser) {
 
 		$transaction = Yii::app()->db->beginTransaction();
@@ -148,7 +153,7 @@ class TextBlockHistory extends CActiveRecord
 	public function setEndDate($idUser) {
 		$this->end_date = date(Yii::app()->params['dbDateFormat']);
 		$this->id_user_cancelled = $idUser;
-		$this->update(array('end_date', 'id_user_ended'));
+		$this->update(array('end_date', 'id_user_cancelled'));
 	}
 
 	/**
@@ -207,12 +212,8 @@ class TextBlockHistory extends CActiveRecord
         $transaction = Yii::app()->db->beginTransaction();
         try {
             // Finds current block without end_date and sets end_date
-            $criteria = new CDbCriteria(array(
-				"condition" => "id_block=:id_block AND end_date=0",
-				"params" => array(":id_block" => $id_block)
-			));
 
-			$oldBlocksHistory = TextBlockHistory::model()->findAll($criteria);
+			$oldBlocksHistory = TextBlockHistory::getUncancelled($id_block);
 			foreach ($oldBlocksHistory as $block) {
 				if ($block->end_date == 0) {
 					$block->setEndDate($userId);
@@ -235,5 +236,44 @@ class TextBlockHistory extends CActiveRecord
 		}
 
 		return $textBlockHistory;
+	}
+
+	/**
+	 * Cancels record. If such record (by id_block) is absent, creates new record and cancels it.
+	 * @param $id_block
+	 * @param $idType
+	 * @param $content
+	 * @param $userId
+	 * @param null $parentId
+	 * @throws Exception
+     */
+	public static function cancelRecord($id_block, $idType, $content, $userId, $parentId = null) {
+		// Finds current block without end_date and sets end_date
+
+		$oldBlocksHistory = TextBlockHistory::getUncancelled($id_block);
+
+		foreach ($oldBlocksHistory as $block) {
+			if ($block->end_date == 0) {
+				$block->setEndDate($userId);
+			}
+		}
+
+		if (count($oldBlocksHistory) == 0) {
+			TextBlockHistory::createNewRecord($id_block, $idType, $content, $userId, $parentId)
+				->setEndDate($userId);
+		}
+	}
+
+	/**
+	 * Returns all uncancelled records
+	 * @param $id_block
+	 * @return array|mixed|null
+     */
+	private static function getUncancelled($id_block) {
+		$criteria = new CDbCriteria(array(
+			"condition" => "id_block=:id_block AND end_date=0",
+			"params" => array(":id_block" => $id_block)
+		));
+		return TextBlockHistory::model()->findAll($criteria);
 	}
 }

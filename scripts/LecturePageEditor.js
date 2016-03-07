@@ -95,7 +95,7 @@ function deleteVideo(idLecture, pageOrder) {
         if(result){
             $.ajax({
                 type: "POST",
-                url: basePath+"/lesson/deleteVideo",
+                url: basePath+"/revision/deleteVideo",
                 data: {'idLecture': idLecture, 'pageOrder': pageOrder},
                 success: function () {
                     location.reload();
