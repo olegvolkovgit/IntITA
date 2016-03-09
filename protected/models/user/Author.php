@@ -26,7 +26,7 @@ class Author extends Role
             ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time')
             ->from('teacher_module tm')
             ->join('module m', 'm.module_ID=tm.idModule')
-            ->where('idTeacher=:id', array(':id' => $user->id))
+            ->where('idTeacher=:id', array(':id' => $user->getTeacherModel()->teacher_id))
             ->queryAll();
 
         $list = [];
@@ -45,14 +45,39 @@ class Author extends Role
             'type' => 'module-list',
             'value' => $list
         );
+
         $result = [];
-        array_push($result, $attribute);
+        $result["module"] = $attribute;
 
         return $result;
     }
 
-    public  function cancelAttribute(StudentReg $user, $attribute, $value)
+    public function setAttribute(StudentReg $user, $attribute, $value)
     {
-        return false;
+        switch ($attribute) {
+            case 'module':
+                return Yii::app()->db->createCommand()->
+                insert('teacher_module', array(
+                    'idTeacher' => $user->getTeacherModel()->teacher_id,
+                    'idModule' => $value
+                ));
+                break;
+            default:
+                return false;
+        }
+    }
+
+    public function cancelAttribute(StudentReg $user, $attribute, $value)
+    {
+        switch ($attribute) {
+            case 'module':
+                return Yii::app()->db->createCommand()->
+                update('teacher_module', array(
+                    'end_time' => date("Y-m-d H:i:s"),
+                ), 'idTeacher=:user and idModule=:module', array(':user' => $user->getTeacherModel()->teacher_id, 'module' => $value));
+                break;
+            default:
+                return false;
+        }
     }
 }

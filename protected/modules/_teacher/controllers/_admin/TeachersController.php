@@ -49,13 +49,13 @@ class TeachersController extends TeacherCabinetController{
         if(!$user->isTeacher()){
             throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
         }
-
         $attributes = $user->getAttributesByRole(UserRoles::AUTHOR);
+
 
         $this->renderPartial('_moduleList',array(
             'user' => $user->id,
-            'role' => new UserRoles(''),
-            'attribute' => $attributes
+            'role' => UserRoles::AUTHOR,
+            'attribute' => $attributes["module"]
         ),false,true);
     }
 

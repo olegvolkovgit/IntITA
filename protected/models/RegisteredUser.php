@@ -167,8 +167,12 @@ class RegisteredUser
         return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
     }
 
+    //todo author role check
     public function hasRole($role)
     {
+        if($role == "author"){
+            return true;
+        }
         return in_array($role, $this->getRoles());
     }
 
