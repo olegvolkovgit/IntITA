@@ -1,11 +1,6 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">
-            <?php echo Yii::t("coursemanage", "0510"); ?></button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'); ?>')">
             <?php echo Yii::t("coursemanage", "0511"); ?></button>
     </li>
@@ -29,9 +24,6 @@
                         <th>Назва</th>
                         <th>Статус</th>
                         <th>Рівень</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
