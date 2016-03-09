@@ -242,11 +242,6 @@ class Response extends CActiveRecord
         return $model->firstName . " " . $model->secondName . ", " . $model->email;
     }
 
-    public function shortDescription()
-    {
-        return mb_substr($this->text,0,25).'...';
-    }
-
     public function timeDesc()
     {
         return date("d-m-Y", strtotime($this->date));
@@ -270,7 +265,7 @@ class Response extends CActiveRecord
             $row["author"] = $record->getResponseAuthorName();
             $row["about"] = $record->getResponseAboutTeacherName();
             $row["date"] = $record->timeDesc();
-            $row["text"] = $record->shortDescription();
+            $row["text"] = $record->text;
             $row["rate"] = $record->rate;
             $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/view", array("id"=>$record->id))."'";
             $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/response/update', array('id'=>$record->id))."'";
