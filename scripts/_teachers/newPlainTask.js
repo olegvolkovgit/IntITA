@@ -15,15 +15,18 @@ function changeConsult(id, url) {
 
 function removeConsult(id, url) {
     bootbox.confirm('Ви впевнені що хочете видалити консультанта?', function (result) {
-        if (result != null) {
+        if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
                 data: {id: id},
-                success: function (data) {
+                success: function () {
+                    bootbox.alert('Операція успішно виконана.');
                     load(basePath + "/_teacher/teacher/manageConsult");
                 }
             });
+        } else {
+            bootbox.alert('Операцію відмінено.');
         }
     });
 }
