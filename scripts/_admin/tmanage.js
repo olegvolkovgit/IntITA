@@ -30,9 +30,7 @@ function addTeacherAttr(url, attr, id) {
             data: {user: user, role: role, attribute: attr, attributeValue: value},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/teachers/index", 'Викладачі');
-                    });
+                    bootbox.alert("Операцію успішно виконано.");
                 } else {
                     showDialog("Операцію не вдалося виконати.");
                 }
