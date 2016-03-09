@@ -14,7 +14,10 @@ function initStudentsList() {
         "columns": [
             { data: "student-name" },
             { data: "email" },
-            { data: "date" },
+            {
+                type: 'de_datetime', targets: 0,
+                data: "date"
+            },
             { data: "trainer-name" },
             {
                 "width": "10%",

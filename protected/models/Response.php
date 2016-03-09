@@ -244,7 +244,7 @@ class Response extends CActiveRecord
 
     public function timeDesc()
     {
-        return date("d-m-Y", strtotime($this->date));
+        return date("d.m.Y", strtotime($this->date));
     }
 
     public function setPublish(){
