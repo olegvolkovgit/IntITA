@@ -7,7 +7,7 @@
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
 
-<div class="col-lg-12">
+<div class="col-lg-12 message">
     <h3><?= $dialog->header; ?></h3>
 
     <div class="panel-group" id="accordion">
