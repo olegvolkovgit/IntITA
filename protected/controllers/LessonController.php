@@ -27,6 +27,9 @@ class LessonController extends Controller
     public function initialize($id, $editMode,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
+        if(!$lecture)
+            throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
+
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (StudentReg::isAdmin() || $editMode) {
             return true;
