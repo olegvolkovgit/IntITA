@@ -793,18 +793,18 @@ class Course extends CActiveRecord implements IBillableObject
             $row["id"] = $record->course_ID;
             $row["alias"] = $record->alias;
             $row["lang"] = $record->language;
-            $row["title"] = CHtml::encode($record->title_ua);
+            $row["title"]["name"] = CHtml::encode($record->title_ua);
             $row["status"] = ($record->cancelled == Course::AVAILABLE)?'доступний':'видалений';
             $row["level"] = $record->level0->title_ua;
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
-            $row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
+            $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
+            //$row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
 
             if($record->cancelled == Course::AVAILABLE){
                 $row["status"] = 'доступний';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
+                //$row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
             } else {
                 $row["status"] = 'видалений';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
+                //$row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
             }
             array_push($return['data'], $row);
         }
@@ -910,5 +910,31 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->select = '`order`';
         $criteria->condition = '`id_course`='.$idCourse.' AND `id_module` ='.$idModule;
         return CourseModules::model()->find($criteria)->order;
+    }
+
+    public function isActive(){
+        return $this->cancelled == Course::AVAILABLE;
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == Course::DELETED;
+    }
+
+    public function changeStatus(){
+        if ($this->isActive()){
+            return $this->setDeleted();
+        } else {
+            return $this->setActive();
+        }
+    }
+
+    public function setActive(){
+        $this->cancelled = Course::AVAILABLE;
+        return $this->update(array("cancelled"));
+    }
+
+    public function setDeleted(){
+        $this->cancelled = Course::DELETED;
+        return $this->update(array("cancelled"));
     }
 }
