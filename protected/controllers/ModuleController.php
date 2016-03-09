@@ -127,6 +127,7 @@ class ModuleController extends Controller
         $titleEn = Yii::app()->request->getPost('titleEN', '');
         $idCourse = Yii::app()->request->getPost('idCourse');
         $lang = Yii::app()->request->getPost('lang');
+        $author = Yii::app()->request->getPost('isAuthor', 0);
 
         $course = Course::model()->with("module")->findByPk($idCourse);
 
@@ -137,6 +138,12 @@ class ModuleController extends Controller
             $course->updateCount();
         }
 
+        if($author != 0){
+            $model = StudentReg::model()->findByPk($author);
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate('_newAuthorModuleRequest', array($module, $model));
+            $sender->send(Config::getAdminEmail(), "", 'Запит прав автора модуля', "");
+        }
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax'])) {
             $this->redirect(Yii::app()->request->urlReferrer);
