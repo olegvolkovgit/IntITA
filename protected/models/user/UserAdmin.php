@@ -102,7 +102,7 @@ class UserAdmin extends CActiveRecord
 	public static function adminsArray(){
         $criteria = new CDbCriteria();
         $criteria->distinct = true;
-        $criteria->addCondition('end_date IS NOT NULL');
+        $criteria->addCondition('end_date IS NULL');
 		return UserAdmin::model()->with('user')->findAll($criteria);
 	}
 }
