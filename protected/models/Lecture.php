@@ -788,9 +788,9 @@ class Lecture extends CActiveRecord
             $this->getRelated('lectureEl');
         }
 
-        foreach ($this->lectureEl as $element) {
-            if ($element->isQuiz()) {
-                return $element->id_block;
+        for ($i = 0; $i < count($this->lectureEl) ; $i++) {
+            if ($this->lectureEl[$i]->isQuiz()) {
+                return $this->lectureEl[$i]->id_block;
             }
         }
         return false;
@@ -806,9 +806,9 @@ class Lecture extends CActiveRecord
             $this->getRelated('lectureEl');
         }
 
-        foreach (array_reverse($this->lectureEl) as $element) {
-            if ($element->isQuiz()) {
-                return $element->id_block;
+        for ($i = count($this->lectureEl)-1; $i >= 0; $i--) {
+            if ($this->lectureEl[$i]->isQuiz()) {
+                return $this->lectureEl[$i]->id_block;
             }
         }
         return false;

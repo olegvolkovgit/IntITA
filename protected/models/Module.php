@@ -1034,8 +1034,8 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        foreach (array_reverse($this->lectures) as $lecture) {
-            $idBlock = $lecture->getLastQuiz();
+        for ($i = count($this->lectures)-1; $i>=0; $i--) {
+            $idBlock = $this->lectures[$i]->getLastQuiz();
             if ($idBlock != false) {
                 return $idBlock;
             }
@@ -1054,8 +1054,8 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        foreach ($this->lectures as $lecture) {
-            $idBlock = $lecture->getFirstQuiz();
+        for ($i = 0; $i<count($this->lectures); $i++) {
+            $idBlock = $this->lectures[$i]->getFirstQuiz();
             if ($idBlock != false) {
                 return $idBlock;
             }
