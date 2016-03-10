@@ -1054,7 +1054,8 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        for ($i = 0; $i<count($this->lectures); $i++) {
+        $length = count($this->lectures);
+        for ($i = 0; $i<$length; $i++) {
             $idBlock = $this->lectures[$i]->getFirstQuiz();
             if ($idBlock != false) {
                 return $idBlock;
