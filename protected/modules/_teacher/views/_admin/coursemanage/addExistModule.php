@@ -30,7 +30,7 @@
                 </select>
             </div>
             Модуль:<br>
-            <div name="selectModule" class="form-group" style="float:left;"></div>
+            <div name="selectModule" class="form-group"></div>
             <br>
             <br>
             <input class="btn btn-default" type="submit" value="Додати модуль до курса">
