@@ -15,5 +15,5 @@ $author = $params[1];
     </a>.</span>
 <br>
 Призначити автора модуля: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <?= $author->userName(); ?>
+    <em>Кабінет</em>
 </a>

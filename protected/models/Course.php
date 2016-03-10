@@ -937,4 +937,12 @@ class Course extends CActiveRecord implements IBillableObject
         $this->cancelled = Course::DELETED;
         return $this->update(array("cancelled"));
     }
+
+    public function paymentMailTemplate(){
+        return '_payCourseMail';
+    }
+
+    public function paymentMailTheme(){
+        return 'Доступ до курса';
+    }
 }

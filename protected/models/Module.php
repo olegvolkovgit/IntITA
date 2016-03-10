@@ -1065,5 +1065,11 @@ class Module extends CActiveRecord implements IBillableObject
         return false;
     }
 
+    public function paymentMailTemplate(){
+        return '_payModuleMail';
+    }
 
+    public function paymentMailTheme(){
+        return 'Доступ до модуля';
+    }
 }

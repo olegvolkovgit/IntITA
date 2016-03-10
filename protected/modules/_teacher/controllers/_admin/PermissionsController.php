@@ -102,15 +102,15 @@ class PermissionsController extends TeacherCabinetController
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
-//    public function actionShowModules()
-//    {
-//        if (isset($_POST['course']))
-//            $course = $_POST['course'];
-//
-//        $result = Module::showModule($course);
-//
-//        echo $result;
-//    }
+    public function actionShowModules()
+    {
+        if (isset($_POST['course']))
+            $course = $_POST['course'];
+
+        $result = Module::showModule($course);
+
+        echo $result;
+    }
 
     public function actionNewTeacherPermission()
     {

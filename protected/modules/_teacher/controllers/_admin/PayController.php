@@ -37,10 +37,11 @@ class PayController extends TeacherCabinetController
         } else {
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
-            $sender = new MailTransport();
-            $sender->renderBodyTemplate('_payModuleMail', array($module));
+            $message = new MessagesPayment();
+            $message->build(null, $user, $module);
 
-            if ($sender->send($user->email, "", "Оплата модуля", '')) {
+            $sender = new MailTransport();
+            if ($message->send($sender)) {
                 $resultText = PayModules::getConfirmText($module->title_ua, $courseId, $userName);
             } else {
                 $resultText = Mail::getErrorText();
@@ -67,10 +68,11 @@ class PayController extends TeacherCabinetController
             $course = Course::model()->findByPk($courseId);
             $permission->setCourseRead($userId, $course->course_ID);
 
-            $sender = new MailTransport();
-            $text = $sender->renderBodyTemplate('_payCourseMail', array($course));
+            $message = new MessagesPayment();
+            $message->build(null, $user, $course);
 
-            if ($sender->send($user->email, "", "Оплата курса", $text)) {
+            $sender = new MailTransport();
+            if ($message->send($sender)) {
                 $resultText = PayCourses::getConfirmText($courseId, $userName);
 
             } else {
