@@ -24,9 +24,9 @@
             <div id="findModule" class="form-group">
                 <form name='findUsers' method="POST">
                     <div>
-                        <label>Користувач</label>
+                        <label>Користувач:</label>
                         <br>
-                        <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Отримувач"
+                        <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Користувач"
                                size="135" required autofocus>
                         <input type="number" hidden="hidden" id="user" value="0"/>
                     </div>
