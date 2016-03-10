@@ -38,9 +38,9 @@ class PayController extends TeacherCabinetController
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
             $sender = new MailTransport();
-            $text = $sender->renderBodyTemplate('_payModuleMail', array($module));
+            $sender->renderBodyTemplate('_payModuleMail', array($module));
 
-            if ($sender->send($user->email, "", "Оплата модуля", $text)) {
+            if ($sender->send($user->email, "", "Оплата модуля", '')) {
                 $resultText = PayModules::getConfirmText($module->title_ua, $courseId, $userName);
             } else {
                 $resultText = Mail::getErrorText();
