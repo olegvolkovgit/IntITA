@@ -24,7 +24,6 @@ class PayController extends TeacherCabinetController
     {
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
-        $courseId = Yii::app()->request->getPost('course');
 
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
@@ -42,7 +41,7 @@ class PayController extends TeacherCabinetController
 
             $sender = new MailTransport();
             if ($message->send($sender)) {
-                $resultText = PayModules::getConfirmText($module->title_ua, $courseId, $userName);
+                $resultText = PayModules::getConfirmText($module->title_ua, $userName);
             } else {
                 $resultText = Mail::getErrorText();
             }
@@ -137,6 +136,10 @@ class PayController extends TeacherCabinetController
             }
             echo $resultText;
         }
+    }
+
+    public function actionCoursesByQuery($query){
+        echo Course::readyCoursesList($query);
     }
 
 }
