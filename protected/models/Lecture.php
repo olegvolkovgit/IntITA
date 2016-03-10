@@ -779,16 +779,34 @@ class Lecture extends CActiveRecord
     }
 
     /**
-     * Returns $id_block if this lecture contain element with quiz or false
+     * Returns $id_block of first occurrence of quiz in lecture
      * @return bool $id_block which is the quiz or false
      * @throws CDbException
      */
-    public function isContainsQuiz() {
+    public function getFirstQuiz() {
         if ($this->lectureEl == null) {
             $this->getRelated('lectureEl');
         }
 
         foreach ($this->lectureEl as $element) {
+            if ($element->isQuiz()) {
+                return $element->id_block;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns $id_block of last occurrence of quiz in lecture
+     * @return bool $id_block which is the quiz or false
+     * @throws CDbException
+     */
+    public function getLastQuiz() {
+        if ($this->lectureEl == null) {
+            $this->getRelated('lectureEl');
+        }
+
+        foreach (array_reverse($this->lectureEl) as $element) {
             if ($element->isQuiz()) {
                 return $element->id_block;
             }

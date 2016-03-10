@@ -1034,7 +1034,14 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        return $this->findFirstQuizId(array_reverse($this->lectures));
+        foreach (array_reverse($this->lectures) as $lecture) {
+            $idBlock = $lecture->getLastQuiz();
+            if ($idBlock != false) {
+                return $idBlock;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -1047,23 +1054,14 @@ class Module extends CActiveRecord implements IBillableObject
             $this->getRelated('lectures');
         }
 
-        return $this->findFirstQuizId($this->lectures);
-    }
-
-    /**
-     * Iterates over $lectures array and find first instance of lecture with quiz.
-     * @param $lectures - array of lectures
-     * @return bool $lectureElement->idBlock or false if nothing found
-     */
-    private function findFirstQuizId($lectures) {
-        foreach ($lectures as $lecture) {
-            $idBlock = $lecture->isContainsQuiz();
-            if ($idBlock != null) {
+        foreach ($this->lectures as $lecture) {
+            $idBlock = $lecture->getFirstQuiz();
+            if ($idBlock != false) {
                 return $idBlock;
             }
         }
+
         return false;
     }
-
 
 }
