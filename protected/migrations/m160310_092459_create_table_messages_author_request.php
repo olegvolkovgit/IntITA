@@ -7,8 +7,8 @@ class m160310_092459_create_table_messages_author_request extends CDbMigration
 		$this->createTable('messages_author_request', array(
             'id_message' => 'INT NOT NULL',
 			'id_module' => 'INT(10) NOT NULL',
-			'date_approved' => 'DATETIME NOT NULL',
-			'user_approved' => 'INT(10) NOT NULL',
+			'date_approved' => 'DATETIME NULL',
+			'user_approved' => 'INT(10) NULL',
 			'INDEX `FK_messages_author_request_module` (`id_module`)',
 			'INDEX `FK_messages_author_request_user_2` (`user_approved`)',
 			'CONSTRAINT `FK_messages_author_request_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)',

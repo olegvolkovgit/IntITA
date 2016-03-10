@@ -138,19 +138,33 @@ class MessagesPayment extends CActiveRecord implements IMessage
 	}
 
 	public function read(StudentReg $receiver){
-
+        if (Yii::app()->db->createCommand()->update('message_receiver', array('read' => date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
+        )
+            return true;
+        else {
+            return false;
+        }
 	}
 
 	public function deleteMessage(StudentReg $receiver){
-
+        if (Yii::app()->db->createCommand()->update('message_receiver', array('deleted' => date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
+        )
+            return true;
+        else {
+            return false;
+        }
 	}
 
 	public function reply(StudentReg $receiver){
-
+        return false;
 	}
 
 	public function forward(StudentReg $receiver){
-
+        return false;
 	}
 
 }

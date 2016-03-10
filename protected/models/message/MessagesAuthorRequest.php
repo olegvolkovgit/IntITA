@@ -38,7 +38,7 @@ class MessagesAuthorRequest extends CActiveRecord implements IMessage
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_module, date_approved, user_approved', 'required'),
+			array('id_module', 'required'),
 			array('id_module, user_approved', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			array('id_module, date_approved, user_approved', 'safe', 'on'=>'search'),
@@ -120,6 +120,7 @@ class MessagesAuthorRequest extends CActiveRecord implements IMessage
         $this->message->build($user->id, self::TYPE, $chained, $original);
 
         $this->module = $module;
+        $this->id_module = $module->module_ID;
         $this->author = $user;
         $this->receivers = UserAdmin::adminsArray();
 	}
@@ -128,7 +129,7 @@ class MessagesAuthorRequest extends CActiveRecord implements IMessage
 		$this->message->save();
         $this->id_message =  $this->message->id;
 
-		$this->save();
+        $this->save();
 		return $this;
 	}
 
@@ -145,18 +146,32 @@ class MessagesAuthorRequest extends CActiveRecord implements IMessage
 	}
 
 	public function read(StudentReg $receiver){
-
+        if (Yii::app()->db->createCommand()->update('message_receiver', array('read' => date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
+        )
+            return true;
+        else {
+            return false;
+        }
 	}
 
 	public function deleteMessage(StudentReg $receiver){
-
+        if (Yii::app()->db->createCommand()->update('message_receiver', array('deleted' => date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
+        )
+            return true;
+        else {
+            return false;
+        }
 	}
 
 	public function reply(StudentReg $receiver){
-
+        return false;
 	}
 
 	public function forward(StudentReg $receiver){
-
+        return false;
 	}
 }
