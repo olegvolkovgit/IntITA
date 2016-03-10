@@ -784,10 +784,6 @@ class Lecture extends CActiveRecord
      * @throws CDbException
      */
     public function getFirstQuiz() {
-        if ($this->lectureEl == null) {
-            $this->getRelated('lectureEl');
-        }
-
         $length = count($this->lectureEl);
         for ($i = 0; $i < $length ; $i++) {
             $lecture = $this->lectureEl[$i];
@@ -804,10 +800,6 @@ class Lecture extends CActiveRecord
      * @throws CDbException
      */
     public function getLastQuiz() {
-        if ($this->lectureEl == null) {
-            $this->getRelated('lectureEl');
-        }
-
         for ($i = count($this->lectureEl)-1; $i >= 0; $i--) {
             $lecture = $this->lectureEl[$i];
             if ($lecture->isQuiz()) {
@@ -830,10 +822,6 @@ class Lecture extends CActiveRecord
     }
 
     public function deleteLectureElement($elementOrder) {
-        if ($this->lectureEl == null) {
-            $this->getRelated("lectureEl");
-        }
-
         foreach ($this->lectureEl as $element) {
             if ($element->block_order == $elementOrder) {
                 if ($element->id_type == LectureElement::TASK) {
