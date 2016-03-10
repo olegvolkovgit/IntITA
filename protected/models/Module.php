@@ -1042,7 +1042,7 @@ class Module extends CActiveRecord implements IBillableObject
                 "SELECT lecture_page.quiz FROM lecture_page WHERE id_lecture = " . $lecturePagesIdList[$i]['id'] . " AND quiz IS NOT NULL ORDER BY page_order DESC LIMIT 1;";
             $idBlock = Yii::app()->db->createCommand($sqlGetLastQuizId)->queryScalar();
             if ($idBlock) {
-                return $idBlock[0];
+                return $idBlock;
             }
         }
         return false;
@@ -1066,7 +1066,7 @@ class Module extends CActiveRecord implements IBillableObject
                 "SELECT lecture_page.quiz FROM lecture_page WHERE id_lecture = " . $lecturePagesIdList[$i]['id'] . " AND quiz IS NOT NULL ORDER BY page_order ASC LIMIT 1;";
             $idBlock = Yii::app()->db->createCommand($sqlGetLastQuizId)->queryScalar();
             if ($idBlock) {
-                return $idBlock[0];
+                return $idBlock;
             }
         }
         return false;
