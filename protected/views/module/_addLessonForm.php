@@ -3,7 +3,7 @@
  * @var $model Module
  */
 ?>
-<form id="addLessonForm" onsubmit="$('#submitButton').attr('disabled','true');" name='addLesson' action="<?php echo Yii::app()->createUrl('module/saveLesson'); ?>" method="post">
+<form id="addLessonForm" onsubmit="$('#submitButton').attr('disabled','true');" name='addLesson' action="<?php echo Yii::app()->createUrl('revision/createNewLecture'); ?>" method="post">
     <br>
     <span id="formLabel"><?php echo Yii::t('module', '0382'); ?></span>
     <span><?php echo Yii::t('module', '0226') . " " . ($model->lesson_count + 1) . "."; ?></span>

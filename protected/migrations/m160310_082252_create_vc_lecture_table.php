@@ -1,6 +1,6 @@
 <?php
 
-class m160310_082228_create_vc_lecture_table extends CDbMigration
+class m160310_082252_create_vc_lecture_table extends CDbMigration
 {
 	public function up()
 	{
@@ -10,7 +10,8 @@ class m160310_082228_create_vc_lecture_table extends CDbMigration
 			"id_lecture" => "INT DEFAULT NULL",
 			"id_module" => "INT DEFAULT NULL",
 			"id_properties" => "INT DEFAULT NULL",
-            'CONSTRAINT `FK_lecture_lecture_properties` FOREIGN KEY (`id_revision`) REFERENCES `vc_lecture_properties` (`id`)'
+			"INDEX(`id_properties`)",
+			'CONSTRAINT `FK_lecture_lecture_properties` FOREIGN KEY (`id_properties`) REFERENCES `vc_lecture_properties` (`id`)'
         ));
 	}
 

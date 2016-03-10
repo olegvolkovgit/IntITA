@@ -1,6 +1,6 @@
 <?php
 
-class m160310_082251_create_vc_lecture_properties extends CDbMigration
+class m160310_082251_create_vc_lecture_properties_table extends CDbMigration
 {
 	public function up()
 	{

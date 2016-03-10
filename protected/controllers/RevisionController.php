@@ -7,6 +7,18 @@ class RevisionController extends Controller
         $this->render('index');
     }
 
+    public function actionCreateNewLecture(){
+        $idModule = Yii::app()->request->getPost("idModule");
+        $order = Yii::app()->request->getPost("order");
+        $titleUa = Yii::app()->request->getPost("titleUa");
+        $titleEn = Yii::app()->request->getPost("titleEn");
+        $titleRu = Yii::app()->request->getPost("titleRu");
+
+        $revLecture = RevisionLecture::createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, Yii::app()->user);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     public function actionCreateNewBlock() {
         $pageOrder = Yii::app()->request->getPost('page');
         $idType = Yii::app()->request->getPost('type');
