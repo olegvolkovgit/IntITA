@@ -186,34 +186,34 @@ class LessonController extends Controller
 
     //reorder blocks on lesson page - up block
 
-    public function actionUpElement()
-    {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $order = Yii::app()->request->getPost('order');
-
-        $lecture = Lecture::model()->findByPk($idLecture);
-
-        $lecture->upElement($order);
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionUpElement()
+//    {
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+//        $order = Yii::app()->request->getPost('order');
+//
+//        $lecture = Lecture::model()->findByPk($idLecture);
+//
+//        $lecture->upElement($order);
+//
+//         if AJAX request, we should not redirect the browser
+//        if (!isset($_GET['ajax']))
+//            $this->redirect(Yii::app()->request->urlReferrer);
+//    }
     //reorder blocks on lesson page - down block
 
-    public function actionDownElement()
-    {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $order = Yii::app()->request->getPost('order');
-
-        $lecture = Lecture::model()->findByPk($idLecture);
-
-        $lecture->downElement($order);
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionDownElement()
+//    {
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+//        $order = Yii::app()->request->getPost('order');
+//
+//        $lecture = Lecture::model()->findByPk($idLecture);
+//
+//        $lecture->downElement($order);
+//
+//         if AJAX request, we should not redirect the browser
+//        if (!isset($_GET['ajax']))
+//            $this->redirect(Yii::app()->request->urlReferrer);
+//    }
     //delete block on lesson page
 
 //    public function actionDeleteElement()
@@ -573,8 +573,7 @@ class LessonController extends Controller
 
         $lecture = Lecture::model()->findByPk($id);
 
-        if ($cke) $editorView = 'indexCKE';
-        else $editorView = 'index';
+        $editorView = $cke ? 'indexCKE' : 'index';
 
         $this->render('/editor/' . $editorView, array(
                 'user' => Yii::app()->user->getId(),

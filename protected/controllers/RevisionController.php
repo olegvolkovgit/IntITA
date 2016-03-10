@@ -68,4 +68,35 @@ class RevisionController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    //reorder blocks on lesson page - up block
+
+    public function actionUpElement()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->upElement($order);
+
+        // if AJAX request, we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    //reorder blocks on lesson page - down block
+
+    public function actionDownElement()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->downElement($order);
+
+        // if AJAX request, we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
 }

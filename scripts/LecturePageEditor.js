@@ -44,7 +44,7 @@ function downPage(idLecture, pageOrder, course){
 function upBlock(idLecture, order) {
     $.ajax({
         type: "POST",
-        url: basePath+"/lesson/upElement",
+        url: basePath+"/revision/upElement",
         data: {'idLecture': idLecture, 'order': order},
         success: function () {
             $.fn.yiiListView.update('blocks_list', {
@@ -60,7 +60,7 @@ function upBlock(idLecture, order) {
 function downBlock(idLecture, order) {
     $.ajax({
         type: "POST",
-        url: basePath+"/lesson/downElement",
+        url: basePath+"/revision/downElement",
         data: {'idLecture': idLecture, 'order': order},
         success: function () {
             $.fn.yiiListView.update('blocks_list', {

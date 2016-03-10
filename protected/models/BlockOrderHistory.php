@@ -1,31 +1,30 @@
 <?php
 
 /**
- * This is the model class for table "vc_text_block_history".
+ * This is the model class for table "vc_block_order_history".
  *
- * The followings are the available columns in table 'vc_text_block_history':
+ * The followings are the available columns in table 'vc_block_order_history':
  * @property integer $id
  * @property integer $id_parent
  * @property integer $id_block
- * @property integer $id_type
- * @property string $html_block
+ * @property integer $order
  * @property string $start_date
  * @property integer $id_user_created
- * @property integer $reject_date
- * @property string $id_user_rejected
+ * @property string $reject_date
+ * @property integer $id_user_rejected
  * @property string $approve_date
  * @property integer $id_user_approved
  * @property string $end_date
  * @property integer $id_user_cancelled
  */
-class TextBlockHistory extends CActiveRecord
+class BlockOrderHistory extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'vc_text_block_history';
+		return 'vc_block_order_history';
 	}
 
 	/**
@@ -36,12 +35,12 @@ class TextBlockHistory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_type, start_date', 'required'),
-			array('id_parent, id_block, id_type, id_user_created, rejected_date, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
-			array('html_block, reject_date, approve_date, end_date', 'safe'),
+			array('order, start_date', 'required'),
+			array('id_parent, id_block, order, id_user_created, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_parent, id_block, id_type, html_block, start_date, id_user_created, rejected_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, id_parent, id_block, order, start_date, id_user_created, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +52,6 @@ class TextBlockHistory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			"block_order" => array(self::BELONGS_TO, 'Lecture','id_lecture'),
 		);
 	}
 
@@ -66,8 +64,7 @@ class TextBlockHistory extends CActiveRecord
 			'id' => 'ID',
 			'id_parent' => 'Id Parent',
 			'id_block' => 'Id Block',
-			'id_type' => 'Id Type',
-			'html_block' => 'Html Block',
+			'order' => 'Order',
 			'start_date' => 'Start Date',
 			'id_user_created' => 'Id User Created',
 			'reject_date' => 'Reject Date',
@@ -100,8 +97,7 @@ class TextBlockHistory extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_parent',$this->id_parent);
 		$criteria->compare('id_block',$this->id_block);
-		$criteria->compare('id_type',$this->id_type);
-		$criteria->compare('html_block',$this->html_block,true);
+		$criteria->compare('order',$this->order);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('id_user_created',$this->id_user_created);
 		$criteria->compare('reject_date',$this->reject_date,true);
@@ -120,24 +116,18 @@ class TextBlockHistory extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return TextBlockHistory the static model class
+	 * @return BlockOrderHistory the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	/**
-	 * Approves current record and copy content to related lecture element
-	 * @param $idUser
-	 * @throws Exception
-     */
-	public function approve($idUser) {
-
+	public function approve($idUser){
 		$transaction = Yii::app()->db->beginTransaction();
 		try {
 			$lectureElement = LectureElement::model()->findByPk($this->id_block);
-			$lectureElement->html_block = $this->html_block;
+			$lectureElement->block_order = $this->order;
 			$lectureElement->update(array("html_block"));
 
 			$this->id_user_approved = $idUser;
@@ -151,113 +141,41 @@ class TextBlockHistory extends CActiveRecord
 		}
 	}
 
-	/**
-	 * Sets end_date and user id;
-	 * @param $idUser
-	 * @throws CDbException
-	 */
 	public function setEndDate($idUser) {
 		$this->end_date = date(Yii::app()->params['dbDateFormat']);
 		$this->id_user_cancelled = $idUser;
 		$this->update(array('end_date', 'id_user_cancelled'));
 	}
 
-	/**
-	 * Returns last approved model by id_block
-	 * @param $idBlock
-	 * @return static
-	 */
-	public static function getLastApproved($idBlock) {
-		$criteria = new CDbCriteria(array(
-			"condition" => "id_block=:id_block AND approve_date=
-			(SELECT MAX(approve_date) FROM vc_text_block_history WHERE id_block=:id_block)",
-			"params" => array(":id_block" => $idBlock)
-		));
-		return TextBlockHistory::model()->find($criteria);
-	}
+	public static function createNewRecord($id_block, $order, $userId, $parentId = null){
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
 
-	/**
-	 * Returns lasst version of block by id_block
-	 * @param $idBlock
-	 * @return static
-	 */
-	public static function getLastEdited($idBlock) {
-		$criteria = new CDbCriteria(array(
-			"condition" => "id_block=:id_block AND start_date=
-			(SELECT MAX(start_date) FROM vc_text_block_history WHERE id_block=:id_block)",
-			"params" => array(":id_block" => $idBlock)
-		));
-		return TextBlockHistory::model()->find($criteria);
-	}
-
-	/**
-	 * Returns history of block changes in inverse order on start_date field
-	 * @param $idBlock
-	 * @return static[]
-	 */
-	public static function getBlockHistory($idBlock) {
-		$criteria = new CDbCriteria(array(
-			"condition" => "id_block=:id_block",
-			"params" => array(":id_block" => $idBlock),
-			"order" => "start_date DESC"
-		));
-		return TextBlockHistory::model()->findAll($criteria);
-	}
-
-	/**
-	 * Update previous records end_date, creates new record, and returns its instance.
-	 * @param $id_block
-	 * @param $idType
-	 * @param $content
-	 * @param $userId
-	 * @return TextBlockHistory
-	 * @throws Exception
-	 */
-	public static function createNewRecord($id_block, $idType, $content, $userId, $parentId = null) {
-		//todo need to retrieve parentId
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            // Finds current block without end_date and sets end_date
-
-			$oldBlocksHistory = TextBlockHistory::getUncancelled($id_block);
+			$oldBlocksHistory = BlockOrderHistory::getUncancelled($id_block);
 			foreach ($oldBlocksHistory as $block) {
 				if ($block->end_date == 0) {
 					$block->setEndDate($userId);
 				}
 			}
-
 			//new record
-			$textBlockHistory = new TextBlockHistory();
-            $textBlockHistory->id_parent = $parentId;
-			$textBlockHistory->id_block = $id_block;
-			$textBlockHistory->id_type = $idType;
-			$textBlockHistory->html_block = $content;
-			$textBlockHistory->id_user_created = $userId;
-			$textBlockHistory->start_date = date(Yii::app()->params['dbDateFormat']);
-			$textBlockHistory->save();
+			$model = new BlockOrderHistory();
+			$model->id_parent = $parentId;
+			$model->id_block = $id_block;
+			$model->order = $order;
+			$model->id_user_created = $userId;
+			$model->start_date = date(Yii::app()->params['dbDateFormat']);
+			$model->save();
 			$transaction->commit();
 		} catch (Exception $e) {
 			$transaction->rollback();
 			throw $e;
 		}
 
-		return $textBlockHistory;
+		return $model;
 	}
 
-	/**
-	 * Cancels record. If such record (by id_block) is absent, creates new record and cancels it.
-	 * @param $id_block
-	 * @param $idType
-	 * @param $content
-	 * @param $userId
-	 * @param null $parentId
-	 * @throws Exception
-     */
-	public static function cancelRecord($id_block, $idType, $content, $userId, $parentId = null) {
-		// Finds current block without end_date and sets end_date
-
-		$oldBlocksHistory = TextBlockHistory::getUncancelled($id_block);
-
+	public static function cancelRecord($id_block, $order, $userId, $parentId = null){
+		$oldBlocksHistory = BlockOrderHistory::getUncancelled($id_block);
 		foreach ($oldBlocksHistory as $block) {
 			if ($block->end_date == 0) {
 				$block->setEndDate($userId);
@@ -265,21 +183,16 @@ class TextBlockHistory extends CActiveRecord
 		}
 
 		if (count($oldBlocksHistory) == 0) {
-			TextBlockHistory::createNewRecord($id_block, $idType, $content, $userId, $parentId)
+			BlockOrderHistory::createNewRecord($id_block, $order, $userId, $parentId)
 				->setEndDate($userId);
 		}
 	}
 
-	/**
-	 * Returns all uncancelled records
-	 * @param $id_block
-	 * @return array|mixed|null
-     */
 	private static function getUncancelled($id_block) {
 		$criteria = new CDbCriteria(array(
 			"condition" => "id_block=:id_block AND end_date=0",
 			"params" => array(":id_block" => $id_block)
 		));
-		return TextBlockHistory::model()->findAll($criteria);
+		return BlockOrderHistory::model()->findAll($criteria);
 	}
 }

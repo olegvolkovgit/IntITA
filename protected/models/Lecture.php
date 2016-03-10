@@ -710,6 +710,8 @@ class Lecture extends CActiveRecord
 
         if ($model->isTextBlock()) {
             TextBlockHistory::createNewRecord($model->id_block, $model->id_type, $model->html_block, $idUser);
+        } else {
+
         }
 
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
@@ -717,7 +719,6 @@ class Lecture extends CActiveRecord
 
     }
 
-//    DEPRECATED
 //    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
 //        $model = new LectureElement();
 //        $model->id_lecture = $this->id;
