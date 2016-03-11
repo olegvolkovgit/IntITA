@@ -9,13 +9,14 @@
  *
  * The followings are the available model relations:
  * @property Operation $operation
+ * @property Messages $message0
  */
-class MessagesPayment extends CActiveRecord implements IMessage
+class MessagesPayment extends Messages implements IMessage
 {
     private $message;
     private $template;
     private $subject;
-    private $receiverEmail;
+    private $receiver;
     private $billableObject;
     const TYPE = 2;
 
@@ -51,7 +52,7 @@ class MessagesPayment extends CActiveRecord implements IMessage
 		// class name for the relations automatically generated below.
 		return array(
 			'operation' => array(self::BELONGS_TO, 'Operation', 'operation_id'),
-			//'message' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 		);
 	}
 
@@ -116,22 +117,24 @@ class MessagesPayment extends CActiveRecord implements IMessage
         $this->subject = $billableObject->paymentMailTheme();
         $this->template = $billableObject->paymentMailTemplate();
         $this->billableObject = $billableObject;
-        $this->receiverEmail = $user->email;
+        $this->receiver = $user;
     }
 
 	public function create(){
         $this->message->save();
         $this->id_message =  $this->message->id;
+        $this->id_message;
 
         $this->save();
         return $this;
 	}
 
 	public function send(IMailSender $sender){
-        $sender = new MailTransport();
         $sender->renderBodyTemplate($this->template, array($this->billableObject));
 
-        $sender->send($this->receiverEmail, '',  $this->subject, '');
+		if ($this->addReceiver($this->receiver)) {
+			$sender->send($this->receiver->email, '', $this->subject, '');
+		}
 
         $this->message->draft = 0;
         return $this->message->save();
@@ -140,7 +143,7 @@ class MessagesPayment extends CActiveRecord implements IMessage
 	public function read(StudentReg $receiver){
         if (Yii::app()->db->createCommand()->update('message_receiver', array('read' => date("Y-m-d H:i:s")),
                 'id_message=:message and id_receiver=:receiver',
-                array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
+                array(':message' => $this->message->id, ':receiver' => $receiver->id)) == 1
         )
             return true;
         else {

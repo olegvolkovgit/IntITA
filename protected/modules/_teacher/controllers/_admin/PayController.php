@@ -38,6 +38,7 @@ class PayController extends TeacherCabinetController
             $permission->setModuleRead($userId, $module->module_ID);
             $message = new MessagesPayment();
             $message->build(null, $user, $module);
+            $message->create();
 
             $sender = new MailTransport();
             if ($message->send($sender)) {
@@ -69,6 +70,7 @@ class PayController extends TeacherCabinetController
 
             $message = new MessagesPayment();
             $message->build(null, $user, $course);
+            $message->create();
 
             $sender = new MailTransport();
             if ($message->send($sender)) {

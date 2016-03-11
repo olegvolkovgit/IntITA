@@ -150,7 +150,7 @@ class Config extends CActiveRecord
     }
 
 	public static function getAdminId(){
-		return Yii::app()->config->get('adminId');
+		return (int)Yii::app()->config->get('adminId');
 	}
 
     public static function getDollarRate(){

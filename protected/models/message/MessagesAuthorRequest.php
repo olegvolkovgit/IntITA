@@ -13,7 +13,7 @@
  * @property Module $idModule
  * @property StudentReg $userApproved
  */
-class MessagesAuthorRequest extends CActiveRecord implements IMessage
+class MessagesAuthorRequest extends Messages implements IMessage
 {
     private $template = '_newAuthorModuleRequest';
     const TYPE = 3;
@@ -138,7 +138,9 @@ class MessagesAuthorRequest extends CActiveRecord implements IMessage
         $sender->renderBodyTemplate($this->template, array($this->module, $this->author));
 
         foreach ($this->receivers as $receiver) {
-            $sender->send($receiver->user->email, '',  'Запит на редагування модуля', '');
+			if ($this->addReceiver($receiver->user)) {
+				$sender->send($receiver->user->email, '', 'Запит на редагування модуля', '');
+			}
         }
 
         $this->message->draft = 0;
