@@ -53,6 +53,24 @@ function moduleListCtrl($http,$scope) {
                 }
             }
         }
+        $scope.finishedCourse=true;
+        for(var j = 0; j < $scope.modulesProgress.modules.length; j++){
+            if($scope.modulesProgress.modules[j].ico!='finished.png'){
+                $scope.finishedCourse=false;
+                break;
+            }
+        }
+        if($scope.finishedCourse){
+            var fullTime=0;
+            var recommendedTime=0;
+            for(var j = 0; j < $scope.modulesProgress.modules.length; j++){
+                fullTime=fullTime+$scope.modulesProgress.modules[j].spentTime;
+                recommendedTime=recommendedTime+$scope.modulesProgress.modules[j].time;
+            }
+            $scope.modulesProgress.fullTime=fullTime;
+            $scope.modulesProgress.recommendedTime=recommendedTime;
+        }
+
         $('#modulesLoading').hide();
         if($scope.modulesProgress.isAdmin){
             bootbox.addLocale('uk', { OK: 'Добре', CANCEL: 'Ні', CONFIRM: 'Так' });

@@ -71,6 +71,20 @@ $editMode = ($canEdit) ? 'true' : '';
             </div>
         </div>
     </div>
+    <div ng-cloak class="finishedCourse" ng-if="finishedCourse">
+        <span class="greenFinished">
+            <?php echo Yii::t('payments', '0605') ?>. <?php echo $model->getTitle(); ?>
+            <br>
+            <?php echo Yii::t('module', '0649') ?>
+        </span>
+        <br>
+        (<?php echo Yii::t('module', '0650') ?>:
+        <span ng-class="{greenFinished: modulesProgress.fullTime<=modulesProgress.recommendedTime, redFinished: modulesProgress.fullTime>modulesProgress.recommendedTime}"> {{modulesProgress.fullTime}} {{daysTermination(modulesProgress.fullTime)}}</span>
+        <?php echo Yii::t('module', '0652') ?> {{modulesProgress.recommendedTime}})
+        <br>
+        Вітаємо з завершенням!
+        <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>
+    </div>
     <div id="moduleForm">
         <?php $this->renderPartial('_addLessonForm', array('model' => $model)); ?>
     </div>
