@@ -9,6 +9,7 @@ class m160310_092459_create_table_messages_author_request extends CDbMigration
 			'id_module' => 'INT(10) NOT NULL',
 			'date_approved' => 'DATETIME NULL',
 			'user_approved' => 'INT(10) NULL',
+			'cancelled' => 'TINYINT(1) NOT NULL DEFAULT \'0\' COMMENT \'0 - actual, 1 - cancelled\'',
 			'INDEX `FK_messages_author_request_module` (`id_module`)',
 			'INDEX `FK_messages_author_request_user_2` (`user_approved`)',
 			'CONSTRAINT `FK_messages_author_request_module` FOREIGN KEY (`id_module`) REFERENCES `module` (`module_ID`)',

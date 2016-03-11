@@ -203,4 +203,12 @@ class RegisteredUser
     {
         return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
     }
+
+    public function authorRequests(){
+        if (!$this->isAdmin())
+            return [];
+        else {
+            return MessagesAuthorRequest::notApprovedRequests();
+        }
+    }
 }

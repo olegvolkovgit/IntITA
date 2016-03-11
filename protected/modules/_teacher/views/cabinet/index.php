@@ -3,6 +3,9 @@
  * @var $model StudentReg
  * @var $scenario
  * @var $receiver
+ * @var $authorRequests array
+ * @var $newMessages array
+ *
  */
 ?>
 <!DOCTYPE html>
@@ -65,7 +68,11 @@
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <?php echo $this->renderPartial('_top_navigation', array('model' => $model, 'newMessages' => $newMessages)); ?>
+        <?php echo $this->renderPartial('_top_navigation', array(
+            'model' => $model,
+            'newMessages' => $newMessages,
+            'authorRequests' => $authorRequests
+        )); ?>
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model)); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>

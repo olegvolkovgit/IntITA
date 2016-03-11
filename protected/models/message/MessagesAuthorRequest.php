@@ -8,10 +8,12 @@
  * @property integer $id_module
  * @property string $date_approved
  * @property integer $user_approved
+ * @property integer cancelled
  *
  * The followings are the available model relations:
  * @property Module $idModule
  * @property StudentReg $userApproved
+ * @property Messages $message0
  */
 class MessagesAuthorRequest extends Messages implements IMessage
 {
@@ -21,6 +23,9 @@ class MessagesAuthorRequest extends Messages implements IMessage
     private $module;
     private $author;
     private $message;
+
+    const DELETED = 1;
+    const ACTIVE = 0;
 
 	/**
 	 * @return string the associated database table name
@@ -39,9 +44,9 @@ class MessagesAuthorRequest extends Messages implements IMessage
 		// will receive user inputs.
 		return array(
 			array('id_module', 'required'),
-			array('id_module, user_approved', 'numerical', 'integerOnly'=>true),
+			array('id_module, user_approved, cancelled', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id_module, date_approved, user_approved', 'safe', 'on'=>'search'),
+			array('id_module, date_approved, user_approved, cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,6 +59,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
 		// class name for the relations automatically generated below.
 		return array(
 			'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
+            'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 			'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
 		);
 	}
@@ -68,6 +74,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
 			'id_module' => 'Id Module',
 			'date_approved' => 'Date Approved',
 			'user_approved' => 'User Approved',
+            'cancelled' => 'Cancelled'
 		);
 	}
 
@@ -91,6 +98,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
 		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('date_approved',$this->date_approved,true);
 		$criteria->compare('user_approved',$this->user_approved);
+        $criteria->compare('cancelled',$this->cancelled);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -176,4 +184,54 @@ class MessagesAuthorRequest extends Messages implements IMessage
 	public function forward(StudentReg $receiver){
         return false;
 	}
+
+    public static function notApprovedRequests(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('date_approved IS NULL');
+
+        return MessagesAuthorRequest::model()->findAll($criteria);
+    }
+
+    public static function listAllRequests(){
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'cancelled='.MessagesAuthorRequest::ACTIVE;
+        $requests = MessagesAuthorRequest::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($requests as $record) {
+            $row = array();
+
+            $row["user"] = $record->message0->sender0->userNameWithEmail();
+            $row["module"]["title"] = $record->idModule->getTitle();
+            $row["module"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/request/request", array(
+                    "message" => $record->id_message,
+                    "module" => $record->id_module))."'";
+            $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
+            $row["userApproved"] = ($record->userApproved)?$record->userApproved:"";
+            $row["dateApproved"] = ($record->date_approved)?date("d-m-Y", strtotime($record->date_approved)):"";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public function setDeleted(){
+        $this->cancelled = MessagesAuthorRequest::DELETED;
+
+        return $this->save();
+    }
+
+    public function approve($userApprove){
+        $user = RegisteredUser::userById($this->message0->sender);
+        //add rights to edit module
+        if($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
+            //update current request, set approved status
+            $this->user_approved = $userApprove;
+            $this->date_approved = date("Y-m-d H:i:s");
+            return $this->save();
+        } else {
+            return false;
+        }
+    }
 }
