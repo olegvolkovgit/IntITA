@@ -14,6 +14,12 @@
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/update',
                         array('id' => $model->module_ID)); ?>')">Редагувати модуль</button>
         </li>
+        <li>
+            <button type="button" class="btn btn-success"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addTeacher', array('id' => $model->module_ID)); ?>',
+                        'Призначити автора модуля')">
+                Призначити автора</button>
+        </li>
     </ul>
 
     <div class="page-header">

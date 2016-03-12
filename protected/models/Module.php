@@ -38,6 +38,10 @@ class Module extends CActiveRecord implements IBillableObject
 {
     public $logo = array();
     public $oldLogo;
+    const READY = 0;
+    const DEVELOP = 1;
+    const ACTIVE = 0;
+    const DELETED = 1;
 
 
     /**
@@ -1078,5 +1082,27 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function paymentMailTheme(){
         return 'Доступ до модуля';
+    }
+
+    public static function modulesList(){
+        $courses = Module::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($courses as $record) {
+            $row = array();
+
+            $row["id"] = $record->module_ID;
+            $row["alias"] = $record->alias;
+            $row["lang"] = $record->language;
+            $row["title"]["name"] = CHtml::encode($record->title_ua);
+            $row["status"] = ($record->status == Module::READY)?'готовий':'в розробці';
+            $row["level"] = $record->level0->title_ua;
+            $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
+            $row["cancelled"] = ($record->cancelled == Module::ACTIVE)? 'доступний' : 'видалений';
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }

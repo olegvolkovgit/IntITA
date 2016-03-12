@@ -194,4 +194,24 @@ class ModuleController extends TeacherCabinetController
         } else throw new \Stash\Exception\RuntimeException('Model not save!!!');
 
     }
+
+    public function actionGetModulesList(){
+        echo Module::modulesList();
+    }
+
+    public function actionTeachersByQuery($query){
+        if ($query) {
+            $teachers = Teacher::teachersWithoutAuthorsModule($query);
+            echo $teachers;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }    }
+
+    public function actionAddTeacher($id){
+        $module = Module::model()->findByPk($id);
+
+        $this->renderPartial('_addTeacher', array(
+            'module' =>$module
+        ));
+    }
 }

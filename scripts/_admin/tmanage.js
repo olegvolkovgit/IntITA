@@ -19,6 +19,7 @@ function addTeacherAttr(url, attr, id) {
     var user = $jq('#user').val();
     var role = $jq('#role').val();
     var value = $jq(id).val();
+    alert(value);
     if (value == 0) {
         showDialog('Введіть дані форми.');
     }
