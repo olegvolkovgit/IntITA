@@ -25,8 +25,8 @@ $user = Yii::app()->user->model;
                 <br>
                 <ul class="list-inline">
                     <li>
-                        <button class="btn btn-outline btn-success" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/approve",
-                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>')">
+                        <button class="btn btn-outline btn-success" onclick="setRequestStatus('<?=Yii::app()->createUrl("/_teacher/_admin/request/approve",
+                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>', 'Надати права автора модуля?')">
                             Підтвердити</button>
                     </li>
                     <li>
@@ -34,8 +34,8 @@ $user = Yii::app()->user->model;
                             , 'Запити')">Ігнорувати</button>
                     </li>
                     <li>
-                        <button class="btn btn-outline btn-danger" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/cancel",
-                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>')">
+                        <button class="btn btn-outline btn-danger" onclick="setRequestStatus('<?=Yii::app()->createUrl("/_teacher/_admin/request/cancel",
+                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>', 'Відхилити запит?')">
                             Видалити</button>
                     </li>
                 </ul>

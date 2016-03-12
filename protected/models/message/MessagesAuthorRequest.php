@@ -208,7 +208,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
                     "message" => $record->id_message,
                     "module" => $record->id_module))."'";
             $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
-            $row["userApproved"] = ($record->userApproved)?$record->userApproved:"";
+            $row["userApproved"] = ($record->userApproved)?$record->userApproved->userNameWithEmail():"";
             $row["dateApproved"] = ($record->date_approved)?date("d-m-Y", strtotime($record->date_approved)):"";
 
             array_push($return['data'], $row);

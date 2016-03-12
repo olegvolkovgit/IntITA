@@ -32,3 +32,29 @@ function initRequestsTable() {
         }
     });
 }
+
+
+function setRequestStatus(url, message) {
+    bootbox.confirm(message, function (result) {
+        if (result) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                success: function (response) {
+                    if(response == "success") {
+                        bootbox.confirm("Операцію виконано.", function(){
+                            load(basePath + '/_teacher/_admin/request/index', 'Запити');
+                        });
+                    } else {
+                        showDialog("Операцію не вдалося виконати.");
+                    }
+                },
+                error:function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            });
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
