@@ -3,6 +3,8 @@
 class Author extends Role
 {
     private $dbModel;
+    private $modules;
+
     /**
      * @return string the associated database table name
      */
@@ -20,11 +22,62 @@ class Author extends Role
 
     public function attributes(StudentReg $user)
     {
-        // TODO: Implement attributes() method.
+        $records = Yii::app()->db->createCommand()
+            ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time')
+            ->from('teacher_module tm')
+            ->join('module m', 'm.module_ID=tm.idModule')
+            ->where('idTeacher=:id', array(':id' => $user->getTeacherModel()->teacher_id))
+            ->queryAll();
+
+        $list = [];
+        foreach ($records as $record) {
+            $row["id"] = $record['idModule'];
+            $row["title"] = $record['title_ua'];
+            $row["start_date"] = $record['start_time'];
+            $row["end_date"] = $record['end_time'];
+            $row["lang"] = $record['language'];
+            array_push($list, $row);
+        }
+
+        $attribute = array(
+            'key' => 'module',
+            'title' => 'Модулі',
+            'type' => 'module-list',
+            'value' => $list
+        );
+
+        $result = [];
+        $result["module"] = $attribute;
+
+        return $result;
     }
 
-    public  function cancelAttribute(StudentReg $user, $attribute, $value)
+    public function setAttribute(StudentReg $user, $attribute, $value)
     {
-        return false;
+        switch ($attribute) {
+            case 'module':
+                return Yii::app()->db->createCommand()->
+                insert('teacher_module', array(
+                    'idTeacher' => $user->getTeacherModel()->teacher_id,
+                    'idModule' => $value
+                ));
+                break;
+            default:
+                return false;
+        }
+    }
+
+    public function cancelAttribute(StudentReg $user, $attribute, $value)
+    {
+        switch ($attribute) {
+            case 'module':
+                return Yii::app()->db->createCommand()->
+                update('teacher_module', array(
+                    'end_time' => date("Y-m-d H:i:s"),
+                ), 'idTeacher=:user and idModule=:module', array(':user' => $user->getTeacherModel()->teacher_id, 'module' => $value));
+                break;
+            default:
+                return false;
+        }
     }
 }

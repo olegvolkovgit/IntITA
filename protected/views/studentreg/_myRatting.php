@@ -1,8 +1,13 @@
+<?php
+/* @var $user RegisteredUser
+ * @var $model Teacher
+ */
+?>
 <p class="tabHeader"><?php echo Yii::t('profile', '0113'); ?></p>
 <div>
 <?php
-if (StudentReg::getRole($id) == 'викладач') {
-    $model = Teacher::model()->findByAttributes(array('user_id' => $id));
+if ($user->isTeacher()) {
+    $model = $user->getTeacher();
     ?>
     <div class="mainrating">
         <?php

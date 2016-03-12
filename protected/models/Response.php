@@ -213,17 +213,14 @@ class Response extends CActiveRecord
 
     public function getResponseAboutTeacherName()
     {
-        $teacherId = Yii::app()->db->createCommand()
-            ->select('id_teacher')
-            ->from('teacher_response')
+        $name = Yii::app()->db->createCommand()
+            ->select('u.firstName, u.secondName, u.middleName')
+            ->from('teacher_response tr')
+            ->join('user u', 'u.id=tr.id_teacher')
             ->where('id_response=:id', array(':id' => $this->id))
-            ->queryScalar();
+            ->queryRow();
 
-        if ($teacherId) {
-            return Teacher::getTeacherNameByUserId($teacherId);
-        } else {
-            return 'викладача видалено';
-        }
+        return (!empty($name))?implode(" ", $name):'викладача видалено';
     }
 
     public function getTeacherId()

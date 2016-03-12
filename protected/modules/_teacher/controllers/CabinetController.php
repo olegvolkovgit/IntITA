@@ -6,16 +6,19 @@ class CabinetController extends TeacherCabinetController
     public function actionIndex($scenario = "dashboard", $receiver = 0)
     {
         $model = Yii::app()->user->model;
+
         if (!$model) {
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
         $newReceivedMessages = $model->newReceivedMessages();
+        $authorRequests = $model->authorRequests();
 
         $this->render('index', array(
             'model' => $model,
             'newMessages' => $newReceivedMessages,
             'scenario' => $scenario,
-            'receiver' => $receiver
+            'receiver' => $receiver,
+            'authorRequests' => $authorRequests
         ));
     }
 

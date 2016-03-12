@@ -7,12 +7,6 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/create'); ?>',
-                    'Додати випускника')">
-            Додати випускника</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
                     'Список випускників')">
             Список випускників</button>
@@ -20,8 +14,14 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id' => $model->id)); ?>',
-                    'Редагувати інформацію про випускника')">
-            Редагувати інформацію про випускника</button>
+                    'Редагувати')">
+            Редагувати</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/delete', array('id'=>$model->id)); ?>',
+                    'Видалити')">
+            Видалити</button>
     </li>
 </ul>
 

@@ -283,4 +283,14 @@ class PlainTaskAnswer extends CActiveRecord
 
         return PlainTaskMarks::model()->find($criteria);
     }
+
+    public function getModuleTitle(){
+        return  Yii::app()->db->createCommand()
+            ->select('title_ua')
+            ->from('plain_task')
+            ->where('plain_task.id = :id',array(':id' => $this->id_plain_task))
+            ->join('lecture_element','lecture_element.id_block = block_element')
+            ->join('lectures','lectures.id = lecture_element.id_lecture')
+            ->queryScalar();
+    }
 }

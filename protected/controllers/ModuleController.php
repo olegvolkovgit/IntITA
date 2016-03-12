@@ -37,6 +37,7 @@ class ModuleController extends Controller
             'idCourse' => $idCourse,
         ));
     }
+
     public function actionEdit($idModule, $idCourse=0)
     {
         $this->layout='modulelayout';
@@ -126,6 +127,7 @@ class ModuleController extends Controller
         $titleEn = Yii::app()->request->getPost('titleEN', '');
         $idCourse = Yii::app()->request->getPost('idCourse');
         $lang = Yii::app()->request->getPost('lang');
+        $author = Yii::app()->request->getPost('isAuthor', 0);
 
         $course = Course::model()->with("module")->findByPk($idCourse);
 
@@ -136,6 +138,22 @@ class ModuleController extends Controller
             $course->updateCount();
         }
 
+        if($author != 0){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesAuthorRequest();
+                $model = StudentReg::model()->findByPk($author);
+                $message->build($module, $model);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+            }
+        }
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax'])) {
             $this->redirect(Yii::app()->request->urlReferrer);

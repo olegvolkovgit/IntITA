@@ -185,13 +185,13 @@ class Teacher extends CActiveRecord
         }
     }
 
-    public static function isTeacherCanEdit($user, $modules)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('idModule', $modules);
-        $criteria->addCondition('idTeacher=' . $user);
-        return TeacherModule::model()->exists($criteria);
-    }
+//    public static function isTeacherCanEdit($user, $modules)
+//    {
+//        $criteria = new CDbCriteria();
+//        $criteria->addInCondition('idModule', $modules);
+//        $criteria->addCondition('idTeacher=' . $user);
+//        return TeacherModule::model()->exists($criteria);
+//    }
 
     public static function updateFirstText($id, $firstText)
     {
@@ -483,12 +483,6 @@ class Teacher extends CActiveRecord
         return Teacher::model()->findAll($criteria);
     }
 
-    public static function getTeacherNameByUserId($user)
-    {
-        $idTeacher = Teacher::getTeacherId($user);
-        return Teacher::getTeacherName($idTeacher);
-    }
-
     public static function isTeacherAuthorModule($idUser, $idModule)
     {
         if (Teacher::model()->exists('user_id=:user_id', array(':user_id' => $idUser))) {
@@ -504,41 +498,6 @@ class Teacher extends CActiveRecord
             array('idTeacher'=>$idTeacher,'idModule'=>$idModule), 'end_time IS NULL'
         );
         if (isset($author)) return true; else return false;
-    }
-
-    public static function getModulesByTeacher($id)
-    {
-        $modulelist = [];
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'teacher_modules';
-        $criteria->select = 'idModule';
-        $criteria->distinct = true;
-        $criteria->addCondition('idTeacher=' . $id);
-        $temp = TeacherModule::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($modulelist, $temp[$i]->idModule);
-        }
-
-        $titleParam = Module::getModuleTitleParam();
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'module';
-        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
-
-        $rows = Module::model()->findAll($criteriaData);
-
-        $j = 0;
-        foreach ($rows as $row) {
-            if ($row[$titleParam] == '')
-                $title = 'title_ua';
-            else $title = $titleParam;
-            $module[$j]["idModule"] = $row['module_ID'];
-            $module[$j]["title"] = $row[$title];
-            $module[$j]["language"] = $row['language'];
-            $j++;
-        };
-
-        return (!empty($module)) ? $module : [];
     }
 
     public function notCheckedPlainTask()
@@ -578,21 +537,6 @@ class Teacher extends CActiveRecord
                 $model->save();
             }
         }
-    }
-
-    public function setTeacherRole(UserRoles $role)
-    {
-        switch ($role) {
-            case "trainer":
-                break;
-            case "author":
-                break;
-            case 'consultant':
-                break;
-            default:
-                return false;
-        }
-        return true;
     }
 
     public function getStatus()
@@ -644,21 +588,21 @@ class Teacher extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["email"] = $record->user->email;
-            $row["profile"] = Config::getBaseUrl()."/teacher/".$record->teacher_id;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->user_id
             ));
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
-            $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id'=>$record->teacher_id))."'";
+            $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             if($record->isActive()){
                 $row["status"] = "видимий";
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
+                $row["changeStatus"]["title"] = "приховати";
+                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
             } else {
                 $row["status"] = 'невидимий';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
+                $row["changeStatus"]["title"] = "показати";
+                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
             }
             array_push($return['data'], $row);
         }
