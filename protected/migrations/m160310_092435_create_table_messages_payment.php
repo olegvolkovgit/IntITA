@@ -7,8 +7,7 @@ class m160310_092435_create_table_messages_payment extends CDbMigration
 		$this->createTable('messages_payment', array(
             'id_message' => 'INT(10) NOT NULL',
             'operation_id' => 'INT(10) NOT NULL',
-            'CONSTRAINT `FK_messages_payment_messages` FOREIGN KEY (`id_message`) REFERENCES `messages` (`id`)',
-            'CONSTRAINT `FK_messages_payment_acc_operation` FOREIGN KEY (`operation_id`) REFERENCES `acc_operation` (`id`)'
+            'CONSTRAINT `FK_messages_payment_messages` FOREIGN KEY (`id_message`) REFERENCES `messages` (`id`)'
         ),
             'COMMENT=\'Notifications about obtain access to course/module\'
             COLLATE=\'utf8_general_ci\'
@@ -25,7 +24,6 @@ class m160310_092435_create_table_messages_payment extends CDbMigration
 	public function safeDown()
 	{
         $this->dropForeignKey('FK_messages_payment_messages', 'messages_payment');
-        $this->dropForeignKey('FK_messages_payment_acc_operation', 'messages_payment');
 		$this->dropTable('messages_payment');
 	}
 }

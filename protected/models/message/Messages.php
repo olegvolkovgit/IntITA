@@ -164,4 +164,8 @@ class Messages extends CActiveRecord
     {
         return UserMessages::model()->findByPk($this->original_message_id);
     }
+
+    public function getModel(){
+        return $this;
+    }
 }
