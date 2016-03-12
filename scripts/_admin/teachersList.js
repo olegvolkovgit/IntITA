@@ -70,6 +70,10 @@ function generateLast(last){
     $jq("#Teacher_last_name_en").val(toEnglish(last));
 }
 
+function translateName(source, id) {
+    $jq(id).val(toEnglish(source));
+}
+
 function loadTeachersIndex() {
     load(basePath + '/_teacher/_admin/teachers/index', 'Викладачі');
 }

@@ -597,11 +597,11 @@ class Teacher extends CActiveRecord
             $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             if($record->isActive()){
                 $row["status"] = "видимий";
-                $row["changeStatus"]["title"] = "видалити";
+                $row["changeStatus"]["title"] = "приховати";
                 $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
             } else {
                 $row["status"] = 'невидимий';
-                $row["changeStatus"]["title"] = "активувати";
+                $row["changeStatus"]["title"] = "показати";
                 $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
             }
             array_push($return['data'], $row);

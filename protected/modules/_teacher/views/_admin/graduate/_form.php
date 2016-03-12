@@ -3,7 +3,6 @@
 /* @var $model Graduate */
 /* @var $form CActiveForm */
 ?>
-<link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css'); ?>"/>
 
 <div class="form">
     <?php $form = $this->beginWidget('CActiveForm', array(
@@ -18,9 +17,9 @@
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
-        'enableClientValidation'=>true,
-        'clientOptions'=>array(
-            'validateOnSubmit'=>true,
+        'enableClientValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
             'afterValidate' => 'js:function(form,data,hasError){
                 sendError(form,data,hasError);return true;
                 }',
@@ -41,7 +40,7 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'avatar'); ?>
-        <?php echo CHtml::activeFileField($model, 'avatar', array('onchange'=>"CheckFile(this)")); ?>
+        <?php echo CHtml::activeFileField($model, 'avatar', array('onchange' => "CheckFile(this)")); ?>
         <div class="errorMessage" style="display: none"></div>
     </div>
 
@@ -98,12 +97,18 @@
         <?php echo $form->labelEx($model, 'first_name_en'); ?>
         <?php echo $form->textField($model, 'first_name_en', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'first_name_en'); ?>
+        <a href="#"
+           onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en'); return false;">
+            Згенерувати автоматично</a>
     </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'last_name_en'); ?>
         <?php echo $form->textField($model, 'last_name_en', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'last_name_en'); ?>
+        <a href="#"
+           onclick="translateName('<?= $model->isNewRecord ? "" : $model->last_name; ?>', '#Graduate_last_name_en'); return false;">
+            Згенерувати автоматично</a>
     </div>
 
     <div class="form-group">
@@ -119,7 +124,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array('class' => 'btn btn-primary', 'id' => 'submitButton')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

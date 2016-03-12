@@ -2,31 +2,32 @@
 /* @var $this GraduateController */
 /* @var $model Graduate */
 ?>
+<div class="row">
+    <div class="col col-lg-9">
+        <ul class="list-inline">
+            <li>
+                <button type="button" class="btn btn-primary"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
+                            'Список випускників')">
+                    Список випускників
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary"
+                        onclick="deletePhoto('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/deletePhoto'); ?>',
+                            '<?php echo $model->id; ?>', '<?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?>');">
+                    Видалити фото випускника
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/view', array('id' => $model->id)); ?>',
+                            'Переглянути інформацію про випускника')">
+                    Переглянути інформацію про випускника
+                </button>
+            </li>
+        </ul>
 
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
-                    'Список випускників')">
-            Список випускників</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="deletePhoto('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/deletePhoto'); ?>',
-                    '<?php echo $model->id; ?>', '<?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?>');">
-            Видалити фото випускника</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/view', array('id' => $model->id)); ?>',
-                    'Переглянути інформацію про випускника')">
-            Переглянути інформацію про випускника</button>
-    </li>
-</ul>
-
-<div class="page-header">
-    <h4>Редагувати інформацію про <?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?></h4>
+        <?php $this->renderPartial('_form', array('model' => $model)); ?>
+    </div>
 </div>
-<?php $this->renderPartial('_form', array('model' => $model)); ?>
-
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'graduate.js'); ?>"></script>
