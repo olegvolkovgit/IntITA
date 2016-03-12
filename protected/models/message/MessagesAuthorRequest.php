@@ -188,6 +188,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
     public static function notApprovedRequests(){
         $criteria = new CDbCriteria();
         $criteria->addCondition('date_approved IS NULL');
+		$criteria->addCondition('cancelled='.MessagesAuthorRequest::ACTIVE);
 
         return MessagesAuthorRequest::model()->findAll($criteria);
     }

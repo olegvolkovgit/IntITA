@@ -26,7 +26,7 @@ $user = Yii::app()->user->model;
                 <ul class="list-inline">
                     <li>
                         <button class="btn btn-outline btn-success" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/approve",
-                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>'>">
+                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>')">
                             Підтвердити</button>
                     </li>
                     <li>
@@ -35,7 +35,7 @@ $user = Yii::app()->user->model;
                     </li>
                     <li>
                         <button class="btn btn-outline btn-danger" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/cancel",
-                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>'>">
+                            array("message" => $model->id_message, "module" => $model->id_message, "user" => $user->id));?>')">
                             Видалити</button>
                     </li>
                 </ul>
