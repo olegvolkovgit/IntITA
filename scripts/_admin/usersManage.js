@@ -92,6 +92,7 @@ function initUsersTable() {
             },
             {"data": "email"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "register"
             },
@@ -164,6 +165,7 @@ function initAdminsTable() {
             {"data": "name"},
             {"data": "email"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "register"
             },
@@ -213,6 +215,7 @@ function initAccountantsTable() {
             {"data": "name"},
             {"data": "email"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "register"
             },

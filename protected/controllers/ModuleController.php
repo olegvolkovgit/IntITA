@@ -25,7 +25,7 @@ class ModuleController extends Controller
 
         $editMode = 0;
         if (!Yii::app()->user->isGuest) {
-            $editMode = $model->isEditableByUser(Yii::app()->user->getID());
+            $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getID(),$idModule);
         }
 
         $this->render('index', array(
@@ -51,7 +51,7 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $editMode = $model->isEditableByUser(Yii::app()->user->getID());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getID(),$idModule);
         if(!$editMode) {
             throw new \application\components\Exceptions\IntItaException('403', 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном автора модуля.');
         }
@@ -59,7 +59,6 @@ class ModuleController extends Controller
         $this->render('edit', array(
             'module' => $model,
             'idCourse' => $idCourse,
-
         ));
     }
 

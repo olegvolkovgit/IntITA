@@ -116,6 +116,7 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-de.js"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <!--Typeahead  scripts -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'handlebars.js');?>"></script>

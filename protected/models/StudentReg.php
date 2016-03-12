@@ -991,7 +991,7 @@ class StudentReg extends CActiveRecord
 
             $row["student-name"] = $record["studentName"];
             $row["email"] = $record["email"];
-            $row["date"] = $record["start_date"];
+            $row["date"] = date("d.m.Y h:i:s",strtotime($record["start_date"]));
             $row["trainer-name"] = $record["trainerName"];
             $row["url"] = (!$record["trainer"])?Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])):
                 Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
@@ -1172,7 +1172,7 @@ class StudentReg extends CActiveRecord
             $row = array();
             $row["name"] = $record->secondName." ".$record->firstName." ".$record->middleName;
             $row["email"] = $record->email;
-            $row["register"] = ($record["reg_time"] > 0) ? date("d-m-Y", $record["reg_time"]):'<em>невідомо</em>';
+            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", $record["reg_time"]):'<em>невідомо</em>';
             $row["profile"] = Config::getBaseUrl()."/profile/".$record->id;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                     'scenario' => 'message',
@@ -1193,8 +1193,8 @@ class StudentReg extends CActiveRecord
             $row = array();
             $row["name"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
             $row["email"] = $record["email"];
-            $row["register"] = ($record["start_date"] > 0) ? date("d-m-Y",  strtotime($record["start_date"])):"невідомо";
-            $row["cancelDate"] = ($record["end_date"]) ? date("d-m-Y", strtotime($record["end_date"])) : "";
+            $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
+            $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
             $row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',

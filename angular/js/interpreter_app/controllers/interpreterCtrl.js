@@ -93,7 +93,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //options
     //init obj
     $scope.results=[];
-    //$scope.etalon='';
+    $scope.etalon='';
     $scope.compare_marks=[2];
     $scope.tests_code_arr=[];
     $scope.compareFull=[

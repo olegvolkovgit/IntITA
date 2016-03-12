@@ -541,9 +541,9 @@ class Teacher extends CActiveRecord
 
     public function getStatus()
     {
-        if ($this->isPrint ==Teacher::ACTIVE)
-            return 'активний';
-        else return 'видалений';
+        if ($this->isPrint)
+            return 'видимий';
+        else return 'невидимий';
     }
 
     public static function teachersList()
@@ -596,11 +596,11 @@ class Teacher extends CActiveRecord
             ));
             $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             if($record->isActive()){
-                $row["status"] = "активний";
+                $row["status"] = "видимий";
                 $row["changeStatus"]["title"] = "видалити";
                 $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->teacher_id))."'";
             } else {
-                $row["status"] = 'видалений';
+                $row["status"] = 'невидимий';
                 $row["changeStatus"]["title"] = "активувати";
                 $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->teacher_id))."'";
             }

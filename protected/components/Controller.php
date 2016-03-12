@@ -17,6 +17,8 @@ class Controller extends CController
         $app = Yii::app();
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
+		}else{
+			$app->language = 'ua';
 		}
 
         Config::model()->cache(3600)->findAllByAttributes(array('hidden' => 0));
