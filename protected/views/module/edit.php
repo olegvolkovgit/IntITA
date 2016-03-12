@@ -62,7 +62,9 @@
         <?php $this->renderPartial('_addLessonForm', array('model'=>$module)); ?>
     </div>
     <div class="backButton">
-        <a href="<?php echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
+        <a href="<?php
+        if($idCourse==0) echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID));
+        else echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
         Назад
         </a>
     </div>
