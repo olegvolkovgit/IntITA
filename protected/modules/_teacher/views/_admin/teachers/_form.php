@@ -37,7 +37,7 @@
                     <a href="<?=Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->user_id));?>" target="_blank">
                         <?= $model->getName() . " <" . $model->user->email . "> " ?></a>
                     <br>
-                    <?= ($model->skype()=="" ? "" :"skype: ".$model->skype()).", "; ?> <?= ($model->phone() == "" ? "" :"phone: ".$model->phone()); ?>
+                    <?= ($model->skype()=="" ? "" :"skype: ".$model->skype()); ?> <?= ($model->phone() == "" ? "" :", phone: ".$model->phone()); ?>
                     <br>
                 <?php } ?>
             </div>
