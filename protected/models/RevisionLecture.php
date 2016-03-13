@@ -47,8 +47,9 @@ class RevisionLecture extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'properties' => array(self::HAS_ONE, 'LectureProperties', 'id_properties'),
-			'lecturePages' => array(self::HAS_MANY, 'LecturePage', 'id_revision'),
+			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', 'id'),
+			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
+                                                        'order' => 'page_order ASC'),
 		);
 	}
 
@@ -120,5 +121,17 @@ class RevisionLecture extends CActiveRecord
 
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($revLecture->id_revision, $user);
+
+		return $revLecture;
 	}
+
+    public function addPage($user){
+        $revLecturePage = new RevisionLecturePage();
+
+        $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
+    }
+
+    private function getLastPageOrder(){
+        return $this->lecturePages[count($this->lecturePages)-1]->page_order;
+    }
 }

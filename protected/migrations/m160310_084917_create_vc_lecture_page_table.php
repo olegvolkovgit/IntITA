@@ -6,6 +6,8 @@ class m160310_084917_create_vc_lecture_page_table extends CDbMigration
 	{
 		$this->createTable("vc_lecture_page", array(
 			"id" => "INT PRIMARY KEY AUTO_INCREMENT",
+            "id_page" => "INT DEFAULT NULL",
+			"id_parent_page" =>  "INT DEFAULT NULL",
 			"id_revision" => "INT NOT NULL",
 			"page_title" => "VARCHAR(255)",
 			"page_order" => "INT NOT NULL",
@@ -14,6 +16,9 @@ class m160310_084917_create_vc_lecture_page_table extends CDbMigration
 
 			"start_date" => "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
 			"id_user_created" => "INT",
+
+			"send_approval_date" => "TIMESTAMP",
+			"id_user_sended_approval" => "INT",
 
 			"reject_date" => "TIMESTAMP",
 			"id_user_rejected" => "INT",

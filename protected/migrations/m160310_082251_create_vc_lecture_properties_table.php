@@ -18,6 +18,9 @@ class m160310_082251_create_vc_lecture_properties_table extends CDbMigration
 			"start_date" => "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
 			"id_user_created" => "INT",
 
+			"send_approval_date" => "TIMESTAMP",
+			"id_user_sended_approval" => "INT",
+
 			"reject_date" => "TIMESTAMP",
 			"id_user_rejected" => "INT",
 

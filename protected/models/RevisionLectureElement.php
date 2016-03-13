@@ -8,7 +8,7 @@
  * @property integer $id_page
  * @property integer $id_type
  * @property integer $block_order
- * @property string $html_block
+ * @property string  $html_block
  *
  * The followings are the available model relations:
  * @property LecturePage $idPage
@@ -48,7 +48,7 @@ class RevisionLectureElement extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'page' => array(self::BELONGS_TO, 'LecturePage', 'id_page'),
+			'page' => array(self::BELONGS_TO, 'RevisionLecturePage', 'id_page'),
 		);
 	}
 
@@ -105,4 +105,50 @@ class RevisionLectureElement extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function saveCheck($runValidation=true,$attributes=null) {
+		if (!$this->save($runValidation, $attributes)) {
+			throw new RevisionLectureElementException(implode(", ", $this->getErrors()));
+		}
+	}
+
+	public function initVideoElement($url, $idPage) {
+		$this->id_page = $idPage;
+		$this->id_type = LectureElement::VIDEO;
+		$this->block_order = 0;
+		$this->html_block = $url;
+
+		$this->save();
+	}
+
+	public function cloneVideo($idNewPage = null){
+		if ($idNewPage == null) {
+			$idNewPage = $this->id_page;
+		}
+		$clone = new RevisionLectureElement();
+		$clone->id_page = $idNewPage;
+		$clone->id_type = $this->id_type;
+		$clone->block_order = $this->block_order;
+		$clone->html_block = $this->html_block;
+
+        $clone->saveCheck();
+
+        return $clone;
+	}
+
+    public function cloneText($idNewPage) {
+        if ($idNewPage == null) {
+            $idNewPage = $this->id_page;
+        }
+
+        $clone = new RevisionLectureElement();
+        $clone->id_page = $idNewPage;
+        $clone->id_type = $this->id_type;
+        $clone->block_order = $this->block_order;
+        $clone->html_block = $this->html_block;
+
+        $clone->saveCheck();
+
+        return $clone;
+    }
 }

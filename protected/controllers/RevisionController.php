@@ -16,8 +16,145 @@ class RevisionController extends Controller
 
         $revLecture = RevisionLecture::createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, Yii::app()->user);
 
+        $this->redirect(array('revision/showlecturerevision', 'idRevision' => $revLecture->id_revision));
+    }
+
+    public function actionShowLectureRevision($idRevision) {
+        $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+        $pagesDataProvider = new CActiveDataProvider("RevisionLecturePage");
+        $pagesDataProvider->setData($lectureRevision->lecturePages);
+
+        $this->render("lectureview", array(
+                        "lectureRevision" => $lectureRevision,
+                        "pages" => $pagesDataProvider));
+    }
+
+    public function actionAddPage(){
+        $idRevision = Yii::app()->request->getPost("idRevision");
+
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+        $lectureRevision->addPage(Yii::app()->user);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+    public function actionNewPageRevision() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $newRevision = RevisionLecturePage::model()->findByPk($idPage)->newRevision(Yii::app()->user);
+    }
+
+    public function actionEditPageRevision() {
+        $idPage = Yii::app()->request->getPost("idPage");
+
+        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+
+        if (!$page->isEditable()) {
+            // create new revision;
+            $page = $page->newRevision(Yii::app()->user);
+        }
+
+        $video = RevisionLectureElement::model()->findByPk($page->video);
+        $lectureBody = $page->getLectureBody();
+        $quiz = RevisionLectureElement::model()->findByPk($page->quiz);
+
+        $this->renderPartial("pageview", array(
+                        "page" => $page,
+                        "video" => $video,
+                        "lectureBody" => $lectureBody,
+                        "quiz" => $quiz));
+    }
+
+    public function actionAddVideo() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $url = Yii::app()->request->getPost("url");
+
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->addVideo($url);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionSendPageRevision() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->sendForApproval(Yii::app()->user);
+    }
+
+    public function actionApprovePageRevision() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->approve(Yii::app()->user);
+    }
+
+    public function actionCancelPageRevision() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->cancel(Yii::app()->user);
+    }
+
+    public function actionRejectPageRevision() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->reject(Yii::app()->user);
+    }
+
+    public function actionEditPageTitle() {
+        $idPage = Yii::app()->request->getPost("idPage");
+        $title = Yii::app()->request->getPost("title");
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->setTitle($title);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionAddLectureElement() {
+        $idPage = Yii::app()->request->getPost('idPage');
+        $idType = Yii::app()->request->getPost('idType');
+        $html_block = Yii::app()->request->getPost('html_block');
+
+        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+
+        $page->addTextBlock($idType, $html_block, Yii::app()->user);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionEditLectureElement() {
+        $idElement = Yii::app()->request->getPost('idElement');
+        $html_block = Yii::app()->request->getPost('html_block');
+
+        $element = RevisionLectureElement::model()->findByPk($idElement);
+
+        $element->html_block = $html_block;
+
+        $element->saveCheck();
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionUpPage() {
+        $idPage = Yii::app()->request->getPost('idPage');
+
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->moveUp();
+    }
+
+    public function actionDownPage() {
+        $idPage = Yii::app()->request->getPost('idPage');
+
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+
+        $page->moveDown();
+    }
+
+    /***************/
 
     public function actionCreateNewBlock() {
         $pageOrder = Yii::app()->request->getPost('page');
@@ -54,18 +191,18 @@ class RevisionController extends Controller
         $lesson->saveBlock($order, $content, Yii::app()->user->getId());
     }
 
-    public function actionAddVideo()
-    {
-        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
-        $pageOrder = Yii::app()->request->getPost('page');
-        $idLecture = Yii::app()->request->getPost('idLecture');
-
-        $lecture = Lecture::model()->findByPk($idLecture);
-
-        $lecture->addVideo($htmlBlock, $pageOrder, Yii::app()->user->getId());
-
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionAddVideo()
+//    {
+//        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
+//        $pageOrder = Yii::app()->request->getPost('page');
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+//
+//        $lecture = Lecture::model()->findByPk($idLecture);
+//
+//        $lecture->addVideo($htmlBlock, $pageOrder, Yii::app()->user->getId());
+//
+//        $this->redirect(Yii::app()->request->urlReferrer);
+//    }
 
     public function actionDeleteVideo()
     {

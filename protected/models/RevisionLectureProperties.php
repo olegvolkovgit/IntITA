@@ -15,6 +15,8 @@
  * @property string $title_en
  * @property string $start_date
  * @property integer $id_user_created
+ * @property string $send_approval_date
+ * @property integer $id_user_sended_approval
  * @property string $reject_date
  * @property integer $id_user_rejected
  * @property string $approve_date
@@ -44,13 +46,13 @@ class RevisionLectureProperties extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('order, id_type, is_free, start_date', 'required'),
-			array('order, id_type, is_free, id_user_created, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('order, id_type, is_free, id_user_created, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
 			array('alias', 'length', 'max'=>10),
-			array('reject_date, approve_date, end_date', 'safe'),
+			array('send_approval_date, reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, image, alias, order, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, image, alias, order, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, send_approval_date, id_user_sended_approval, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -121,6 +123,8 @@ class RevisionLectureProperties extends CActiveRecord
 		$criteria->compare('title_en',$this->title_en,true);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('id_user_created',$this->id_user_created);
+		$criteria->compare('send_approval_date',$this->send_approval_date,true);
+		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
 		$criteria->compare('reject_date',$this->reject_date,true);
 		$criteria->compare('id_user_rejected',$this->id_user_rejected);
 		$criteria->compare('approve_date',$this->approve_date,true);

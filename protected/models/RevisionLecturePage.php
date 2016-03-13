@@ -5,6 +5,8 @@
  *
  * The followings are the available columns in table 'vc_lecture_page':
  * @property integer $id
+ * @property integer $id_page
+ * @property integer $id_parent_page
  * @property integer $id_revision
  * @property string $page_title
  * @property integer $page_order
@@ -12,6 +14,8 @@
  * @property integer $quiz
  * @property string $start_date
  * @property integer $id_user_created
+ * @property string $send_approval_date
+ * @property integer $id_user_sended_approval
  * @property string $reject_date
  * @property integer $id_user_rejected
  * @property string $approve_date
@@ -20,9 +24,10 @@
  * @property integer $id_user_cancelled
  *
  * The followings are the available model relations:
- * @property LectureElement[] $lectureElements
- * @property Lecture $idRevision
+ * @property RevisionLectureElement[] $lectureElements
+ * @property RevisionLecture $idRevision
  */
+
 class RevisionLecturePage extends CActiveRecord
 {
 	/**
@@ -42,12 +47,12 @@ class RevisionLecturePage extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_revision, page_order, start_date', 'required'),
-			array('id_revision, page_order, video, quiz, id_user_created, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('id_page, id_parent_page, id_revision, page_order, video, quiz, id_user_created, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('page_title', 'length', 'max'=>255),
-			array('reject_date, approve_date, end_date', 'safe'),
+			array('send_approval_date, reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_revision, page_title, page_order, video, quiz, start_date, id_user_created, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, id_page, id_parent_page, id_revision, page_title, page_order, video, quiz, start_date, id_user_created, send_approval_date, id_user_sended_approval reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,8 +64,15 @@ class RevisionLecturePage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'lectureElements' => array(self::HAS_MANY, 'LectureElement', 'id_page'),
-			'revision' => array(self::BELONGS_TO, 'Lecture', 'id_revision'),
+			'lectureElements' => array(self::HAS_MANY, 'RevisionLectureElement', 'id_page',
+                                                        'order' => 'block_order ASC',
+                                                        'condition' => 'id_type IN (:id_type)',
+                                                        'params' => array(":id_type" => implode(',', array(LectureElement::TEXT,
+                                                                                             LectureElement::CODE,
+                                                                                             LectureElement::EXAMPLE,
+                                                                                             LectureElement::INSTRUCTION))),
+            ),
+			'revision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
 		);
 	}
 
@@ -71,6 +83,8 @@ class RevisionLecturePage extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+            'id_page' => 'Id Page',
+            'id_parent_page' => 'Id Parent Page',
 			'id_revision' => 'Id Revision',
 			'page_title' => 'Page Title',
 			'page_order' => 'Page Order',
@@ -78,6 +92,8 @@ class RevisionLecturePage extends CActiveRecord
 			'quiz' => 'Quiz',
 			'start_date' => 'Start Date',
 			'id_user_created' => 'Id User Created',
+            'send_approval_date' => 'Send Approval Date',
+            'id_user_sended_approval' => 'Id User Sended Approval',
 			'reject_date' => 'Reject Date',
 			'id_user_rejected' => 'Id User Rejected',
 			'approve_date' => 'Approve Date',
@@ -106,6 +122,8 @@ class RevisionLecturePage extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('id_page',$this->id_page);
+		$criteria->compare('id_parent_page',$this->id_parent_page);
 		$criteria->compare('id_revision',$this->id_revision);
 		$criteria->compare('page_title',$this->page_title,true);
 		$criteria->compare('page_order',$this->page_order);
@@ -113,6 +131,8 @@ class RevisionLecturePage extends CActiveRecord
 		$criteria->compare('quiz',$this->quiz);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('id_user_created',$this->id_user_created);
+		$criteria->compare('send_approval_date',$this->send_approval_date,true);
+		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
 		$criteria->compare('reject_date',$this->reject_date,true);
 		$criteria->compare('id_user_rejected',$this->id_user_rejected);
 		$criteria->compare('approve_date',$this->approve_date,true);
@@ -136,20 +156,208 @@ class RevisionLecturePage extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public function initialize($idRevision, $user) {
-		//default value
+    public function saveCheck($runValidation=true,$attributes=null) {
+        if(!$this->save($runValidation,$attributes)) {
+            throw new RevisionLecturePageException(implode("; ", $this->getErrors()));
+        }
+    }
+
+	public function initialize($idRevision, $user, $order=1) {
+		//default values
 		$this->page_title = "";
-		$this->page_order = 1;
 		$this->video = null;
 		$this->quiz = null;
+        $this->id_parent_page = null;
 
+        $this->page_order = $order;
 		$this->start_date = date(Yii::app()->params['dbDateFormat']);
 		$this->id_user_created = $user->getId();
 
 		$this->id_revision = $idRevision;
 
-		if(!$this->save()) {
-			throw new RevisionLecturePageException(implode("; ", $this->getErrors()));
-		}
+		$this->saveCheck();
 	}
+
+	public function newRevision($user) {
+		$newRevision = new RevisionLecturePage();
+
+        $newRevision->id_page = $this->id_page;
+        $newRevision->id_parent_page = $this->id;
+        $newRevision->id_revision = $this->id_revision;
+        $newRevision->page_title = $this->page_title;
+        $newRevision->page_order = $this->page_order;
+
+        $newRevision->start_date = date(Yii::app()->params['dbDateFormat']);
+        $newRevision->id_user_created = $user->getId();
+
+        $newRevision->saveCheck();
+
+		//todo copy elements - quiz;
+
+		if ($this->video != null) {
+            $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneVideo($newRevision->id);
+			$newRevision->video = $newVideo->id;
+		}
+
+        foreach ($this->lectureElements as $lectureElement) {
+            $newLectureElement = $lectureElement->cloneText($newRevision->id);
+        }
+
+        $newRevision->saveCheck();
+
+        return $newRevision;
+	}
+
+    public function getLectureBody(){
+        return $this->lectureElements;
+    }
+
+    public function addVideo($url) {
+
+        $this->checkEditable();
+
+        if ($this->video != null) {
+            $videoElement = RevisionLectureElement::model()->findByPk($this->video);
+            $videoElement->html_block = $url;
+            $videoElement->saveCheck();
+        } else {
+            $videoElement = new RevisionLectureElement();
+            $videoElement->initVideoElement($url, $this->id);
+            $this->video = $videoElement->id;
+            $this->saveCheck();
+        }
+    }
+
+    public function sendForApproval($user) {
+        if ($this->isSendable()) {
+            $this->send_approval_date = date(Yii::app()->params['dbDateFormat']);
+            $this->id_user_sended_approval = $user->getId();
+            $this->saveCheck();
+        } else {
+            //todo inform user
+        }
+    }
+
+	public function isEditable() {
+		if ($this->id_user_sended_approval == null &&
+			$this->id_user_approved == null &&
+			$this->id_user_cancelled == null &&
+			$this->id_user_rejected == null) {
+			return true;
+		}
+		return false;
+	}
+
+    public function approve($user) {
+        if ($this->isApprovable()) {
+            $this->approve_date = date(Yii::app()->params['dbDateFormat']);
+            $this->id_user_approved = $user->getId();
+            $this->saveCheck();
+        } else {
+            //todo inform that the page cannot be approved
+        }
+    }
+
+    public function reject($user) {
+        if ($this->isRejectable()) {
+            $this->reject_date = date(Yii::app()->params['dbDateFormat']);
+            $this->id_user_rejected = $user->getId();
+            $this->saveCheck();
+        } else {
+            //todo inform that the page cannot be rejected
+        }
+    }
+
+    public function cancel($user) {
+        if ($this->isCancellable()) {
+            $this->end_date = date(Yii::app()->params['dbDateFormat']);
+            $this->id_user_cancelled = $user->getId();
+            $this->saveCheck();
+        } else {
+            //todo inform that the page cannot be rejected
+        }
+    }
+
+    public function setTitle($title) {
+        $this->checkEditable();
+
+        $this->page_title = $title;
+        $this->saveCheck();
+    }
+
+    public function addTextBlock($idType, $html_block, $user) {
+        $this->checkEditable();
+
+        $order = $this->getNextOrder();
+
+        $element = new RevisionLectureElement();
+        $element->id_type = $idType;
+        $element->block_order = $order;
+        $element->html_block = $html_block;
+        $element->id_page = $this->id;
+        $element->saveCheck();
+
+        return $element;
+    }
+
+    public function moveUp() {
+        $this->checkEditable();
+
+        $this->page_order = ($this->page_order>1?$this->page_order-1:1);
+        $this->saveCheck();
+    }
+
+    public function moveDown() {
+        $this->checkEditable();
+
+        $this->page_order = $this->page_order+1;
+        $this->saveCheck();
+    }
+
+    private function checkEditable() {
+        //just to be sure. this case should be resolved in previous level;
+        if (!$this->isEditable()) {
+            throw new RevisionLecturePageException("Cannot modify uneditable lecture page");
+        }
+    }
+
+    private function getNextOrder() {
+        //todo refactor - get order of last element + 1
+        return count($this->lectureElements)+1;
+    }
+
+    private function isApprovable() {
+        $lectureRev = RevisionLecture::model()->findByPk($this->id_revision);
+        if ($this->id_user_sended_approval != null &&
+            $lectureRev->id_lecture != null) {
+            return true;
+        }
+        return false;
+    }
+
+    private function isRejectable() {
+        if ($this->id_user_sended_approval != null &&
+            $this->id_user_approved == null ) {
+            return true;
+        }
+        return false;
+    }
+
+    private function isCancellable() {
+        if ($this->id_user_sended_approval != null &&
+            ($this->id_user_approved == null && $this->id_user_rejected == null)) {
+            return false;
+        }
+        return true;
+    }
+
+    private function isSendable() {
+        if ($this->id_user_cancelled == null &&
+            $this->id_user_sended_approval == null &&
+            $this->id_user_approved == null &&
+            $this->id_user_rejected == null) {
+            return true;
+        }
+        return false;
+    }
 }
