@@ -154,7 +154,7 @@ class PayCourses extends CActiveRecord
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
     public function checkCoursePermission($idUser, $idResource, $rights){
-        $record = $this->findByAttributes(array('id_user' => $idUser,
+        $record = $this->findByPk(array('id_user' => $idUser,
             'id_course' => $idResource));
         if (is_null($record)) {
             return false;

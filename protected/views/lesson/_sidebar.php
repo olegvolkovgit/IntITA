@@ -77,8 +77,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                         <?php }
                     } ?>
                     <div id="iconImage">
-                        <img
-                            src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png'); ?>">
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', ''); ?>{{moduleFinished}}">
                     </div>
                 <?php } ?>
             </div>

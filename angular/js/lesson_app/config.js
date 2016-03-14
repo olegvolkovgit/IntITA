@@ -4,9 +4,10 @@
 angular
     .module('lessonApp')
     .run([
-        '$rootScope', '$state', '$stateParams','$http','paramService','accessLectureService',
-        function ($rootScope, $state, $stateParams, $http, paramService,accessLectureService) {
+        '$rootScope', '$state', '$stateParams','$http','paramService','accessLectureService','pagesUpdateService',
+        function ($rootScope, $state, $stateParams, $http, paramService,accessLectureService,pagesUpdateService) {
             paramService.getStartParam($rootScope, $state, $stateParams);
+            pagesUpdateService.getFinishedModule();
             accessLectureService.getAccessLectures();
 
             $rootScope.$on('$stateChangeStart',
