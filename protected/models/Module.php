@@ -1041,4 +1041,14 @@ class Module extends CActiveRecord implements IBillableObject
     public function paymentMailTheme(){
         return 'Доступ до модуля';
     }
+    public function lastLectureID()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
+        if (isset(Lecture::model()->find($criteria)->id))
+            return Lecture::model()->find($criteria)->id;
+        else return false;
+    }
 }
