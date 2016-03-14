@@ -164,6 +164,36 @@ class TeacherModule extends CActiveRecord
 //        return (!empty($modules))?$modules:[];
 //    }
 
+	public static function showTeacherModule($idTeacher)
+	{
+		$first = '<select class="form-control" name="module1">';
+		$modulelist = [];
+		$criteria = new CDbCriteria;
+		$criteria->alias = 'teacher_modules';
+		$criteria->select = 'idModule';
+		$criteria->distinct = true;
+		$criteria->addCondition('idTeacher=' . $idTeacher);
+		$temp = TeacherModule::model()->findAll($criteria);
+		for ($i = 0; $i < count($temp); $i++) {
+			array_push($modulelist, $temp[$i]->idModule);
+		}
+		$titleParam = Module::getModuleTitleParam();
+		$criteriaData = new CDbCriteria;
+		$criteriaData->alias = 'module';
+		$criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+		$result = $first . '<option value="">' . Yii::t('payments', '0606') . '</option>
+                   <optgroup label="' . Yii::t('payments', '0607') . '">';
+		$rows = Module::model()->findAll($criteriaData);
+		foreach ($rows as $numRow => $row) {
+			if ($row[$titleParam] == '')
+				$title = 'title_ua';
+			else $title = $titleParam;
+			$result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title] . '</option>';
+		};
+		$last = '</select>';
+		return $result . $last;
+	}
+
     public static function cancelTeacherAccess($teacher, $module){
         if (TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
             ':teacher' => $teacher,
