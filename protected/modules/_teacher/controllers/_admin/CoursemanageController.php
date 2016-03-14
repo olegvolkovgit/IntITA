@@ -46,8 +46,11 @@ class CoursemanageController extends TeacherCabinetController
                 $this->redirect($this->pathToCabinet());
             }
         }
+        $levels = Level::model()->findAll();
+
         $this->renderPartial('create',array(
             'model'=>$model,
+            'levels'=>$levels,
         ),false,true);
     }
     /**
@@ -82,8 +85,11 @@ class CoursemanageController extends TeacherCabinetController
                 $this->redirect($this->pathToCabinet());
             }
         }
+        $levels = Level::model()->findAll();
+
         $this->renderPartial('update',array(
             'model'=>$model,
+            'levels' => $levels,
         ),false,true);
     }
 
@@ -137,12 +143,12 @@ class CoursemanageController extends TeacherCabinetController
         }
     }
 
-    public function actionAddExistModule(){
+    public function actionAddExistModule($id){
 
-        $courses = Course::generateCoursesList();
+        $course = Course::model()->findByPk($id);
 
         $this->renderPartial('addExistModule',array(
-            'courses' => $courses,
+            'course' => $course,
         ),false,true);
     }
 
@@ -151,9 +157,11 @@ class CoursemanageController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('moduleId');
         $courseId = Yii::app()->request->getPost('courseId');
 
-        CourseModules::addNewRecord($moduleId, $courseId);
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+        if(CourseModules::addNewRecord($moduleId, $courseId)){
+            echo "success";
+        } else {
+            echo "error";
+        }
     }
 
     public function actionSchema($idCourse){
@@ -238,5 +246,15 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionGetCoursesList(){
         echo Course::coursesList();
+    }
+
+    public function actionModulesByQuery($query, $course)
+    {
+        if ($query) {
+            $modules = Module::modulesNotInDefinedCourse($query, $course);
+            echo $modules;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
     }
 }

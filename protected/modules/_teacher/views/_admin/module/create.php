@@ -9,7 +9,6 @@
                         'Модулі')">
                 Всі модулі</button>
         </li>
-
     </ul>
 
 <?php $this->renderPartial('_formAddModule', array('model' => $model)); ?>

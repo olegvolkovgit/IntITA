@@ -38,6 +38,8 @@ class Course extends CActiveRecord implements IBillableObject
     const MAX_LEVEL = 5;
     const AVAILABLE = 0;
     const DELETED = 1;
+    const READY = 1;
+    const DEVELOP = 0;
     public $logo = array(), $oldLogo;
 
 
@@ -792,24 +794,23 @@ class Course extends CActiveRecord implements IBillableObject
 
             $row["id"] = $record->course_ID;
             $row["alias"] = $record->alias;
-            $row["lang"] = $record->language;
-            $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["status"] = ($record->cancelled == Course::AVAILABLE)?'доступний':'видалений';
+            $row["title"]["name"] = CHtml::encode($record->title_ua).", ".$record->language;
+            $row["status"] = $record->statusLabel();
+            $row["cancelled"] = $record->cancelledLabel();
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
-            //$row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
-
-            if($record->cancelled == Course::AVAILABLE){
-                $row["status"] = 'доступний';
-                //$row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
-            } else {
-                $row["status"] = 'видалений';
-                //$row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
-            }
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
+    }
+
+    public function statusLabel(){
+        return ($this->isReady())?'готовий':'в розробці';
+    }
+
+    public function cancelledLabel(){
+        return ($this->isActive())?'доступний':'видалений';
     }
 
     public static function modulesInCourse($idCourse)
@@ -919,6 +920,14 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function isDeleted(){
         return $this->cancelled == Course::DELETED;
+    }
+
+    public function isReady(){
+        return $this->status == Course::READY;
+    }
+
+    public function isDeveloping(){
+        return $this->status == Course::DEVELOP;
     }
 
     public function changeStatus(){

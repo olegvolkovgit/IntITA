@@ -500,20 +500,20 @@ class Module extends CActiveRecord implements IBillableObject
         return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
     }
 
-    public static function getTeacherModules($teacher, $modules)
-    {
-        $result = [];
-        for ($i = 0; $i < count($modules); $i++) {
-            if ($id = TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
-                ':teacher' => $teacher,
-                ':module' => $modules[$i],
-            ))
-            ) {
-                array_push($result, $modules[$i]);
-            }
-        }
-        return $result;
-    }
+//    public static function getTeacherModules($teacher, $modules)
+//    {
+//        $result = [];
+//        for ($i = 0; $i < count($modules); $i++) {
+//            if ($id = TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
+//                ':teacher' => $teacher,
+//                ':module' => $modules[$i],
+//            ))
+//            ) {
+//                array_push($result, $modules[$i]);
+//            }
+//        }
+//        return $result;
+//    }
 
     public function getTitle()
     {
@@ -1095,14 +1095,54 @@ class Module extends CActiveRecord implements IBillableObject
             $row["alias"] = $record->alias;
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["status"] = ($record->status == Module::READY)?'готовий':'в розробці';
+            $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
-            $row["cancelled"] = ($record->cancelled == Module::ACTIVE)? 'доступний' : 'видалений';
+            $row["cancelled"] = $record->cancelledLabel();
 
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
+    }
+
+    public static function modulesNotInDefinedCourse($query, $course){
+        $criteria = new CDbCriteria();
+        $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
+        $criteria->alias = "m";
+        $criteria->distinct = true;
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
+        $criteria->join = 'JOIN course_modules cm ON cm.id_module = m.module_ID';
+        $criteria->addCondition('cm.id_course <>'.$course);
+        $data = Module::model()->findAll($criteria);
+
+        $result = array();
+        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$lang;
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->module_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
+    }
+
+    public function isReady(){
+        return $this->status == Module::READY;
+    }
+
+    public function isCancelled(){
+        return $this->cancelled == Module::ACTIVE;
+    }
+
+    public function statusLabel(){
+        return ($this->isReady())?'готовий':'в розробці';
+    }
+
+    public function cancelledLabel(){
+        return ($this->isCancelled())? 'доступний' : 'видалений';
     }
 }

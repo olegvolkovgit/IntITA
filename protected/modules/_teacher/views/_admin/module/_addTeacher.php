@@ -6,23 +6,28 @@
 <div class="col-md-9">
     <div class="row">
         <form>
-            <input type="number" hidden="hidden" value="<?=$module->module_ID;?>" id="module">
+            <input type="number" hidden="hidden" value="<?= $module->module_ID; ?>" id="module">
             <input type="text" hidden="hidden" value="<?= UserRoles::AUTHOR; ?>" id="role">
             <div class="col col-md-9">
-                <input type="number" hidden="hidden" id="user" value="0"/>
-                <label>Виберіть викладача:</label>
-                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
-                       size="135" required autofocus>
-            </div>
-            <br>
-            <br>
-            <br>
-            <div class="col col-md-9">
-                <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            'module', '#module')">
-                    Призначити автора
-                </button>
+                <div class="form-group">
+                    <label>Модуль:
+                        <input type="text" class="form-control" placeholder="Модуль" size="135"
+                               value="<?= $module->getTitle(); ?>" disabled>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="number" hidden="hidden" id="user" value="0"/>
+                    <label>Виберіть викладача:</label>
+                    <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
+                           size="135" required autofocus>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-success"
+                            onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
+                                'module', '#module')">
+                        Призначити автора
+                    </button>
+                </div>
             </div>
         </form>
     </div>
@@ -51,17 +56,18 @@
     teachers.initialize();
 
     $jq('#typeahead').typeahead(null, {
-        name: 'teachers',
-        display: 'email',
-        source: teachers,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'немає користувачів з таким іменем або email\`ом',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
-        }}
+            name: 'teachers',
+            display: 'email',
+            source: teachers,
+            templates: {
+                empty: [
+                    '<div class="empty-message">',
+                    'немає користувачів з таким іменем або email\`ом',
+                    '</div>'
+                ].join('\n'),
+                suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
+            }
+        }
     );
 
     $jq('#typeahead').on('typeahead:selected', function (e, item) {

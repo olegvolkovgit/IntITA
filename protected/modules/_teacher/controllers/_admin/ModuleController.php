@@ -46,9 +46,11 @@ class ModuleController extends TeacherCabinetController
 
             $this->redirect($this->pathToCabinet());
         }
+        $levels = Level::model()->findAll();
 
         $this->renderPartial('create', array(
             'model' => $model,
+            'levels' => $levels
         ), false, true);
     }
 
@@ -118,8 +120,11 @@ class ModuleController extends TeacherCabinetController
             }
             $this->redirect($this->pathToCabinet());
         }
+        $levels = Level::model()->findAll();
+
         $this->renderPartial('update', array(
-            'model' => $model
+            'model' => $model,
+            'levels' => $levels
         ), false, true);
     }
 

@@ -23,15 +23,15 @@ function initModules(){
                 }
             },
             {
-                "width": "15%",
+                "width": "10%",
                 "data": "status"
             },
             {
-                "width": "20%",
+                "width": "17%",
                 "data": "level"
             },
             {
-                "width": "15%",
+                "width": "10%",
                 "data": "cancelled"
             }],
         "createdRow": function (row, data, index) {
