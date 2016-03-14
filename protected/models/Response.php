@@ -213,17 +213,14 @@ class Response extends CActiveRecord
 
     public function getResponseAboutTeacherName()
     {
-        $teacherId = Yii::app()->db->createCommand()
-            ->select('id_teacher')
-            ->from('teacher_response')
+        $name = Yii::app()->db->createCommand()
+            ->select('u.firstName, u.secondName, u.middleName')
+            ->from('teacher_response tr')
+            ->join('user u', 'u.id=tr.id_teacher')
             ->where('id_response=:id', array(':id' => $this->id))
-            ->queryScalar();
+            ->queryRow();
 
-        if ($teacherId) {
-            return Teacher::getTeacherNameByUserId($teacherId);
-        } else {
-            return 'викладача видалено';
-        }
+        return (!empty($name))?implode(" ", $name):'викладача видалено';
     }
 
     public function getTeacherId()
@@ -242,14 +239,9 @@ class Response extends CActiveRecord
         return $model->firstName . " " . $model->secondName . ", " . $model->email;
     }
 
-    public function shortDescription()
-    {
-        return mb_substr($this->text,0,25).'...';
-    }
-
     public function timeDesc()
     {
-        return date("d-m-Y", strtotime($this->date));
+        return date("d.m.Y", strtotime($this->date));
     }
 
     public function setPublish(){
@@ -270,7 +262,7 @@ class Response extends CActiveRecord
             $row["author"] = $record->getResponseAuthorName();
             $row["about"] = $record->getResponseAboutTeacherName();
             $row["date"] = $record->timeDesc();
-            $row["text"] = $record->shortDescription();
+            $row["text"] = $record->text;
             $row["rate"] = $record->rate;
             $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/view", array("id"=>$record->id))."'";
             $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/response/update', array('id'=>$record->id))."'";

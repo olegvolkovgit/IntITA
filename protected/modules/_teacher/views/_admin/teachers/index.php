@@ -26,9 +26,6 @@
                             <th>ПІБ</th>
                             <th>Email</th>
                             <th>Статус</th>
-                            <th>Профіль</th>
-                            <th></th>
-                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>

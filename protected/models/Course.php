@@ -793,24 +793,25 @@ class Course extends CActiveRecord implements IBillableObject
             $row["id"] = $record->course_ID;
             $row["alias"] = $record->alias;
             $row["lang"] = $record->language;
-            $row["title"] = CHtml::encode($record->title_ua);
+            $row["title"]["name"] = CHtml::encode($record->title_ua);
             $row["status"] = ($record->cancelled == Course::AVAILABLE)?'доступний':'видалений';
             $row["level"] = $record->level0->title_ua;
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
-            $row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
+            $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
+            //$row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
 
             if($record->cancelled == Course::AVAILABLE){
                 $row["status"] = 'доступний';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
+                //$row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
             } else {
                 $row["status"] = 'видалений';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
+                //$row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
             }
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
     }
+
     public static function modulesInCourse($idCourse)
     {
         $modules= Yii::app()->db->createCommand()
@@ -910,5 +911,63 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->select = '`order`';
         $criteria->condition = '`id_course`='.$idCourse.' AND `id_module` ='.$idModule;
         return CourseModules::model()->find($criteria)->order;
+    }
+
+    public function isActive(){
+        return $this->cancelled == Course::AVAILABLE;
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == Course::DELETED;
+    }
+
+    public function changeStatus(){
+        if ($this->isActive()){
+            return $this->setDeleted();
+        } else {
+            return $this->setActive();
+        }
+    }
+
+    public function setActive(){
+        $this->cancelled = Course::AVAILABLE;
+        return $this->update(array("cancelled"));
+    }
+
+    public function setDeleted(){
+        $this->cancelled = Course::DELETED;
+        return $this->update(array("cancelled"));
+    }
+
+    public function paymentMailTemplate(){
+        return '_payCourseMail';
+    }
+
+    public function paymentMailTheme(){
+        return 'Доступ до курса';
+    }
+
+    public static function readyCoursesList($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
+        $criteria->addCondition('cancelled=0');
+
+        $data = Course::model()->findAll($criteria);
+
+        $result = array();
+        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$lang;
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->course_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
     }
 }

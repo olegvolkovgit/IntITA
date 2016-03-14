@@ -148,4 +148,12 @@ class Config extends CActiveRecord
     public static function getExpirationTimeInterval(){
         return Yii::app()->config->get('expirationTimeInterval');
     }
+
+	public static function getAdminId(){
+		return (int)Yii::app()->config->get('adminId');
+	}
+
+    public static function getDollarRate(){
+        return Yii::app()->config->get('dollarRate');
+    }
 }

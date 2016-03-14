@@ -6,6 +6,7 @@
  * Time: 17:03
  */
 ?>
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/controllers/interpreterCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/sendTaskJsonService.js'); ?>"></script>

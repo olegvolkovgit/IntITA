@@ -86,14 +86,21 @@ class CoursemanageController extends TeacherCabinetController
             'model'=>$model,
         ),false,true);
     }
+
+
     /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * Delete/restore a particular model.
+     * If updating is successful, the server send message "success".
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id)
+    public function actionChangeStatus($id)
     {
-        Course::model()->updateByPk($id, array('cancelled' => 1));
+       $model = Course::model()->findByPk($id);
+        if($model->changeStatus())
+           return "success";
+        else {
+            return "error";
+        }
     }
     /**
      * Lists all models.
@@ -191,11 +198,6 @@ class CoursemanageController extends TeacherCabinetController
         }
         Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
-    }
-
-    public function actionRestore($id){
-        Course::model()->updateByPk($id, array('cancelled' => 0));
-        $this->actionIndex();
     }
 
     public function actionGenerateSchema($id){

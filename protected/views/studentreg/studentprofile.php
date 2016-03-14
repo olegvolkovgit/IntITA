@@ -4,6 +4,7 @@
 <?php
 /* @var $this StudentregController */
 /* @var $post StudentReg */
+/* @var $user RegisteredUser */
 /* @var $form CActiveForm */
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
@@ -111,7 +112,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider, 'user' => $post, 'owner' => $owner)); ?>
                 </div>
                 <div id="myRatting">
-                    <?php $this->renderPartial('_myRatting', array('id' => $post->id)); ?>
+                    <?php $this->renderPartial('_myRatting', array('user' => $user)); ?>
                 </div>
                 <div id="mylettersSend">
                     <?php $this->renderPartial('_mylettersSend', array('letter' => $letter, 'sentLettersProvider' => $sentLettersProvider, 'receivedLettersProvider' => $receivedLettersProvider)); ?>

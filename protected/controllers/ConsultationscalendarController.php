@@ -44,6 +44,9 @@ class ConsultationscalendarController extends Controller
 	public function initialize($id,$idCourse)
 	{
 		$lecture = Lecture::model()->findByPk($id);
+		if(!$lecture)
+			throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
+
 		$editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
 		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);

@@ -185,3 +185,7 @@ td,th{
     pointer-events:none;
     background: #F2F2F2;
 }
+.imageClass{
+    max-width: 100px;
+}
+.recall{white-space: pre-wrap;}

@@ -9,6 +9,7 @@ function initTeacherResponsesTable() {
             {"data": "author"},
             {"data": "about"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "10%",
                 "data": "date"},
             {"data": "text"},
