@@ -49,6 +49,13 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                             }else{
                                 $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
                                 openDialogsService.openFalseDialog();
+                                var countUnit=serverResponse.testResult.length;
+                                var falseUnits=0;
+                                for(var i=0;i<countUnit;i++){
+                                    if(serverResponse.testResult[i]==false)
+                                        falseUnits++;
+                                }
+                                bootbox.alert('Кількість юніттестів, які не пройшов твій код: '+falseUnits+'/'+serverResponse.testResult.length.toString());
                             }
                             break;
                         case 'failed':
