@@ -232,10 +232,10 @@ class CourseController extends Controller
                     $lastQuiz = false;
                 else $lastQuiz = $module->getLastQuizId();
                 if ($firstQuiz)
-                    $data["modules"][$i]['startTime'] = (Module::getModuleStartTime($firstQuiz, $data["userId"]))?(strtotime(Module::getModuleStartTime($firstQuiz, $data["userId"]))): (false);
+                    $data["modules"][$i]['startTime'] = (Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))): (false);
                 else $data["modules"][$i]['startTime'] = false;
                 if ($lastQuiz)
-                    $data["modules"][$i]['finishTime'] = (Module::getModuleFinishedTime($lastQuiz, $data["userId"]))?(strtotime(Module::getModuleFinishedTime($lastQuiz, $data["userId"]))): (false);
+                    $data["modules"][$i]['finishTime'] = (Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))): (false);
                 else $data["modules"][$i]['finishTime'] = false;
             }else{
                 if(PayModules::model()->checkModulePermission($data["userId"], $modules[$i]['id_module'], array('read'))) {
@@ -245,10 +245,10 @@ class CourseController extends Controller
                         $lastQuiz = false;
                     else $lastQuiz = $module->getLastQuizId();
                     if ($firstQuiz)
-                        $data["modules"][$i]['startTime'] = (Module::getModuleStartTime($firstQuiz, $data["userId"]))?(strtotime(Module::getModuleStartTime($firstQuiz, $data["userId"]))): (false);
+                        $data["modules"][$i]['startTime'] = (Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($firstQuiz, $data["userId"]))): (false);
                     else $data["modules"][$i]['startTime'] = false;
                     if ($lastQuiz)
-                        $data["modules"][$i]['finishTime'] = (Module::getModuleFinishedTime($lastQuiz, $data["userId"]))?(strtotime(Module::getModuleFinishedTime($lastQuiz, $data["userId"]))): (false);
+                        $data["modules"][$i]['finishTime'] = (Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))): (false);
                     else $data["modules"][$i]['finishTime'] = false;
                 }else{$data["modules"][$i]['access']=false;}
             }
