@@ -1,74 +1,30 @@
-<li>
-    <a href="#">
-        <div>
-            <p>
-                <strong>Task 1</strong>
-                <span class="pull-right text-muted">40% Complete</span>
-            </p>
-            <div class="progress progress-striped active">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                     aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                    <span class="sr-only">40% Complete (success)</span>
+<?php
+/**
+ * @var $authorRequests array
+ * @var $request MessagesAuthorRequest
+ */
+foreach ($authorRequests as $key=>$request) {
+    ?>
+    <li>
+        <a href="#">
+            <div>
+                <div href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/request", array(
+                    'message' => $request->id_message, 'module' => $request->id_module)) ?>', 'Запит на редагування модуля')">
+                    <strong><?= $request->message0->sender0->userName(); ?></strong>
+                    <span class="pull-right text-muted"><em>Запит</em></span>
+                    <div>Модуль: <em><?= $request->idModule->getTitle(); ?></em></div>
                 </div>
             </div>
-        </div>
-    </a>
-</li>
-<li class="divider"></li>
-<li>
-    <a href="#">
-        <div>
-            <p>
-                <strong>Task 2</strong>
-                <span class="pull-right text-muted">20% Complete</span>
-            </p>
-            <div class="progress progress-striped active">
-                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
-                     aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                    <span class="sr-only">20% Complete</span>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li class="divider"></li>
-<li>
-    <a href="#">
-        <div>
-            <p>
-                <strong>Task 3</strong>
-                <span class="pull-right text-muted">60% Complete</span>
-            </p>
-            <div class="progress progress-striped active">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
-                     aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                    <span class="sr-only">60% Complete (warning)</span>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li class="divider"></li>
-<li>
-    <a href="#">
-        <div>
-            <p>
-                <strong>Task 4</strong>
-                <span class="pull-right text-muted">80% Complete</span>
-            </p>
-            <div class="progress progress-striped active">
-                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
-                     aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                    <span class="sr-only">80% Complete (danger)</span>
-                </div>
-            </div>
-        </div>
-    </a>
-</li>
-<li class="divider"></li>
+        </a>
+    </li>
+    <li class="divider"></li>
+    <?php
+    if ($key >= 4) break;
+} ?>
 <li>
     <a class="text-center" href="#">
-        <strong>See All Tasks</strong>
+        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/index")?>', 'Запити')">
+                Всі запити</a></strong>
         <i class="fa fa-angle-right"></i>
     </a>
 </li>

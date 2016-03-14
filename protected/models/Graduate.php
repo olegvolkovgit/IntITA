@@ -178,8 +178,22 @@ class Graduate extends CActiveRecord
         return $this->last_name."&nbsp;".$this->first_name;
     }
 
-    public function showRecall()
-    {
-        echo mb_substr($this->recall,0,500);
-    }
+	public static function graduatesList(){
+        $graduates = Graduate::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($graduates as $record) {
+            $row = array();
+            $row["name"]["title"] = $record->last_name." ".$record->first_name;
+            $row["avatar"] = StaticFilesHelper::createPath('image', 'graduates', $record->avatar);
+            $row["position"] = CHtml::encode($record->position);
+            $row["workPlace"] = CHtml::encode($record->work_place);
+            $row["recall"] = CHtml::encode(substr($record->recall,0,500))."...";
+            $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/graduate/view", array("id"=>$record->id))."'";
+            $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id'=>$record->id))."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }

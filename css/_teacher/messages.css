@@ -15,3 +15,8 @@ img#avatar {
 .message{
     word-wrap: break-word;
 }
+div.dialog{
+    float: none;!important;
+    text-align: right;
+    width: 100%;
+}

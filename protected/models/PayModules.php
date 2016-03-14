@@ -231,11 +231,10 @@ class PayModules extends CActiveRecord
         }
     }
 
-    public static function getConfirmText($moduleName,$courseId,$userName)
+    public static function getConfirmText($moduleName,$userName)
     {
         $result = '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
-            $moduleName.'</strong> курса <strong>'.
-            Course::getCourseName($courseId).' оплачено</strong>.
+            $moduleName.' оплачено</strong>.
             <br />Тепер у '.$userName.' є доступ до усіх занять цього модуля.';
 
         return $result;

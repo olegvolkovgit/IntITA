@@ -19,9 +19,4 @@
                 Переглянути інформацію про викладача</button>
         </li>
     </ul>
-    <div class="page-header">
-        <h4>Оновлення інформації про викладача
-            <?php echo "{$model->lastName()} {$model->firstName()} {$model->middleName()}"; ?>
-        </h4>
-    </div>
 <?php $this->renderPartial('_form', array('model' => $model, 'scenario' => 'update')); ?>

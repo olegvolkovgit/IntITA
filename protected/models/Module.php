@@ -729,8 +729,7 @@ class Module extends CActiveRecord implements IBillableObject
                 return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
                 break;
             case '6':
-                $plain=PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id;
-                return PlainTaskMarks::taskTime($user, PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain))->id);
+                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
                 break;
             case '12':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
@@ -1073,20 +1072,11 @@ class Module extends CActiveRecord implements IBillableObject
         return false;
     }
 
-    /**
-     * Iterates over $lectures array and find first instance of lecture with quiz.
-     * @param $lectures - array of lectures
-     * @return bool $lectureElement->idBlock or false if nothing found
-     */
-    private function findFirstQuizId($lectures) {
-        foreach ($lectures as $lecture) {
-            $idBlock = $lecture->isContainsQuiz();
-            if ($idBlock != null) {
-                return $idBlock;
-            }
-        }
-        return false;
+    public function paymentMailTemplate(){
+        return '_payModuleMail';
     }
 
-
+    public function paymentMailTheme(){
+        return 'Доступ до модуля';
+    }
 }
