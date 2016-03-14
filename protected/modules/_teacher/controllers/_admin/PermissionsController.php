@@ -161,14 +161,14 @@ class PermissionsController extends TeacherCabinetController
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-//    public function actionShowTeacherModules()
-//    {
-//        if (isset($_POST['teacher'])) {
-//            $idTeacher = $_POST['teacher'];
-//            $result = TeacherModule::showTeacherModule($idTeacher);
-//        } else $result = '';
-//        echo $result;
-//    }
+    public function actionShowTeacherModules()
+    {
+        if (isset($_POST['teacher'])) {
+            $idTeacher = $_POST['teacher'];
+            $result = TeacherModule::showTeacherModule($idTeacher);
+        } else $result = '';
+        echo $result;
+    }
 
 
     public function actionCancelTeacherPermission()
