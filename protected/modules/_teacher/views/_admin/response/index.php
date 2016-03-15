@@ -12,10 +12,6 @@
                             <th>Текст</th>
                             <th>Оцінка</th>
                             <th>Статус</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
