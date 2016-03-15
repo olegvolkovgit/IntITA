@@ -5,7 +5,40 @@ angular
     .module('lessonApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie, getTaskJson) {
+function taskCtrl($http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie, getTaskJson) {
+    $scope.init = function(taskLang)
+    {
+        $scope.taskLang=taskLang;
+        var codeMirrorLang;
+        switch ($scope.taskLang) {
+            case "js":
+                codeMirrorLang="text/javascript";
+                break;
+            case "php":
+                codeMirrorLang="text/x-php";
+                break;
+            case "c++":
+                codeMirrorLang="text/x-c++src";
+                break;
+            case "c#":
+                codeMirrorLang="text/x-csharp";
+                break;
+            case "java":
+                codeMirrorLang="text/x-java";
+                break;
+        }
+        $scope.codeMirrorOptions = {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: codeMirrorLang,
+            theme: "rubyblue",
+            indentUnit: 4
+        };
+        $scope.refreshCodemirror = true;
+        $timeout(function () {
+            $scope.refreshCodemirror = false;
+        }, 100);
+    };
 
     $scope.getVariables=function(id,url){
         if($scope.variables==undefined){
@@ -26,10 +59,8 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
         var button=angular.element(document.querySelector(".taskSubmit"));
         angular.element(document.querySelector("#ajaxLoad")).css('margin-top', e.currentTarget.offsetTop-20+'px');
         button.attr('disabled', true);
-        var answer = sendCodeMirror.getValue();
-        $scope.userCode=sendCodeMirror.getValue();
 
-        if($.trim(answer) == '')
+        if($.trim($scope.userCode) == '')
         {
             bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');

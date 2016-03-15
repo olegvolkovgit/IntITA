@@ -75,11 +75,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             }
             $scope.function = $scope.editedJson.function;
             $scope.finalResult = $scope.editedJson;
-            etalon.setValue($scope.editedJson.etalon);
         }
-            etalon.on('change',function(cMirror){
-                $scope.$apply(function(){$scope.finalResult.etalon = cMirror.getValue();});
-            });
     });
 
     $scope.Math = window.Math;
