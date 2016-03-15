@@ -6,13 +6,33 @@ angular
     .controller('interpreterCtrl',interpreterCtrl);
 
 function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
-    var etalon = CodeMirror.fromTextArea(document.getElementById('etalon'), {
+    var codeMirrorLang;
+    switch ($scope.lang) {
+        case "js":
+            codeMirrorLang="text/javascript";
+            break;
+        case "php":
+            codeMirrorLang="text/x-php";
+            break;
+        case "c++":
+            codeMirrorLang="text/x-c++src";
+            break;
+        case "c#":
+            codeMirrorLang="text/x-csharp";
+            break;
+        case "java":
+            codeMirrorLang="text/x-java";
+            break;
+    }
+
+
+    $scope.codeMirrorOptions = {
         lineNumbers: true,             // показывать номера строк
         matchBrackets: true,             // подсвечивать парные скобки
-        mode: "javascript",
+        mode: codeMirrorLang,
         theme: "rubyblue",               // стиль подсветки
         indentUnit: 4                    // размер табуляции
-    });
+    };
 
     getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
         $scope.editedJson=response;
