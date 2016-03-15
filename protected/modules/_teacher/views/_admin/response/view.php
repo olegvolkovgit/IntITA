@@ -8,13 +8,26 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>', 'Відгуки про викладачів')">
             Відгуки про викладачів</button>
     </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/response/update", array("id"=>$model->id))?>', 'Редагувати')">
+            Редагувати</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/delete', array('id'=>$model->id)) ?>', 'Видалити')">
+            Видалити</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-success"
+                onclick="setResponseStatus('<?php echo ($model->isChecked())?Yii::app()->createUrl('/_teacher/_admin/response/unsetPublish', array('id'=>$model->id)):
+                    Yii::app()->createUrl('/_teacher/_admin/response/setPublish', array('id'=>$model->id));?>', 'Видалити')">
+            <?=($model->isChecked())?"Приховати":"Опублікувати";?></button>
+    </li>
 </ul>
-<div class="page-header">
-<h4>Відгук про викладача #<?php echo $model->id; ?></h4>
-</div>
 <div class="list-group">
     <ul class="list-group">
         <li class="list-group-item list-group-item-info"><h4 class="list-group-item-heading">Від кого: </h4>
@@ -25,7 +38,7 @@
         <li class="list-group-item"><span class="view-label">Знання : </span><?php echo $model->knowledge ?></li>
         <li class="list-group-item"><span class="view-label">Поведінка : </span><?php echo $model->behavior ?></li>
         <li class="list-group-item"><span class="view-label">Мотивація : </span><?php echo $model->motivation ?></li>
-        <li class="list-group-item"><span class="view-label">Перевірено модератором : </span><?php echo $model->is_checked ?></li>
+        <li class="list-group-item"><span class="view-label">Статус : </span><?php echo $model->publishLabel() ?></li>
     </ul>
 </div>
 </div>

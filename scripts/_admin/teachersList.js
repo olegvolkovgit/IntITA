@@ -35,6 +35,13 @@ function initTeachersAdminTable() {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
                         '<i class="fa fa-envelope fa-fw"></i></a>';
                 }
+            },
+            {
+                "width": "10%",
+                "data": "addModuleLink",
+                "render": function (link) {
+                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">модуль</button>';
+                }
             }
         ],
         "createdRow": function (row, data, index) {

@@ -28,6 +28,7 @@
                             <th>Статус</th>
                             <th></th>
                             <th></th>
+                            <th>Додати</th>
                         </tr>
                         </thead>
                         <tbody>

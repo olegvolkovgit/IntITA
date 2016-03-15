@@ -217,7 +217,7 @@ class PayModules extends CActiveRecord
     public static function unsetModulePermission($idUser, $idResource, $rights){
         if(PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $idUser, ':resource' => $idResource)))
         {
-            PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => 0));
+           return PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => 0));
         }
     }
 

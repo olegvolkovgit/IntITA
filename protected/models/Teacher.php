@@ -22,6 +22,7 @@
  * @property string $last_name_ru
  *
  * @property StudentReg $user
+ * @property Module $modules
  */
 class Teacher extends CActiveRecord
 {
@@ -595,6 +596,7 @@ class Teacher extends CActiveRecord
                 'receiver' => $record->user_id
             ));
             $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
+            $row["addModuleLink"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $record->user_id))."'";
             if($record->isActive()){
                 $row["status"] = "видимий";
                 $row["changeStatus"]["title"] = "приховати";
@@ -641,6 +643,30 @@ class Teacher extends CActiveRecord
             $result["results"][$key]["id"] = $model->id;
             $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
             $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
+    public static function teachersByQuery($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN teacher t ON t.user_id = s.id';
+        $criteria->addCondition('t.user_id IS NOT NULL');
+        $data = StudentReg::model()->findAll($criteria);
+        $result = array();
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName." ".$model->firstName." ".$model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["tel"] = $model->phone;
+            $result["results"][$key]["skype"] = $model->skype;
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);

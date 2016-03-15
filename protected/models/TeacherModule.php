@@ -103,22 +103,6 @@ class TeacherModule extends CActiveRecord
 		return parent::model($className);
 	}
 
-//    public static function getCourseTeachers($modules){
-//        $criteria = new CDbCriteria();
-//        $criteria->select =  'idTeacher';
-//        $criteria->order = 'idTeacher';
-//        $criteria->addInCondition('idModule', $modules);
-//        $criteria->distinct = true;
-//        $criteria->toArray();
-//
-//        $teachers = TeacherModule::model()->findAll($criteria);
-//        $result = [];
-//        for ($i = 0; $i < count($teachers); $i++){
-//            array_push($result, $teachers[$i]["idTeacher"]);
-//        }
-//        return $result;
-//    }
-
     public static function addTeacherAccess($teacher, $module){
         $model = new TeacherModule();
         if (!TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
@@ -132,37 +116,6 @@ class TeacherModule extends CActiveRecord
             }
         }
     }
-
-//    public static function getAuthorModules($author){
-//        $modules = Yii::app()->db->createCommand(array(
-//            'select' => array('idModule'),
-//            'from' => 'teacher_module',
-//            'where' => 'idTeacher=:id',
-//            'order' => 'idTeacher',
-//            'params' => array(':id' => $author),
-//        ))->queryAll();
-//
-//        return (!empty($modules))?$modules:[];
-//    }
-
-//    public static function getModulesByTeacher($teacher){
-//        $modules = Yii::app()->db->createCommand(array(
-//            'select' => array('idModule'),
-//            'from' => 'teacher_module',
-//            'where' => 'idTeacher=:id',
-//            'order' => 'idModule',
-//            'params' => array(':id' => $teacher),
-//        ))->queryAll();
-//        $count = count($modules);
-//        $titleParam = Module::getModuleTitleParam();
-//
-//        for($i = 0;$i < $count;$i++){
-//            $modules[$i]['id'] = $modules[$i]["idModule"];
-//            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["idModule"])->$titleParam;
-//        }
-//
-//        return (!empty($modules))?$modules:[];
-//    }
 
     public static function cancelTeacherAccess($teacher, $module){
         if (TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
