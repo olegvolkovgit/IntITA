@@ -5,7 +5,20 @@ angular
     .module('lessonApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie) {
+function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie, getTaskJson) {
+
+    $scope.getVariables=function(id,url){
+        if($scope.variables==undefined){
+            getTaskJson.getJson(id,url)
+                .then(function(variable) {
+                    $scope.variables=variable;
+                    angular.element('#taskVariables').toggle();
+                });
+        }else{
+            angular.element('#taskVariables').toggle();
+        }
+    };
+
     $scope.sendTaskAnswer=function(idTask, taskLang, url,e,user){
         var jobid=JsUniqid(user+'_', false);
         $scope.userId=user;
@@ -22,7 +35,7 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
             button.removeAttr('disabled');
         } else {
             userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
-                if(response=='OK'){
+                if(response=='Added to compile'){
                     getTaskResult(idTask,user);
                 }else if(response=='error'){
                     bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");

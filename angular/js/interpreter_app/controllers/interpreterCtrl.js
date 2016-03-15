@@ -142,6 +142,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //add options to select
     $scope.sizeRefresh = function(index,array,type){
         if(array==0){
+            for(var i=0;i<$scope.args[index].value.length;i++){
+                $scope.args[index].value[i]=null;
+                $scope.args[index].etalon_value[i]='';
+            }
             $scope.args[index].size=null;
             $scope.updatePattern(type,null,index);
         }
@@ -152,6 +156,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     $scope.sizeResultRefresh = function(array,type){
         if(array==0){
+            for(var i=0;i<$scope.function.results.length;i++){
+                $scope.editedJson.function.results[i]=null;
+            }
             $scope.function.size=null;
             $scope.updateResultPattern(type,null);
         }

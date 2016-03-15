@@ -11,7 +11,7 @@
     overflow-x: hidden;
 }
 .CodeMirror-lines {
-    min-height: 200px;
+    min-height: 180px;
 }
 .cm-s-rubyblue.CodeMirror {
     background: #202746;
