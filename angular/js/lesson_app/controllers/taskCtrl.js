@@ -97,14 +97,15 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
                                     });
                             }else{
                                 $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning);
-                                openDialogsService.openFalseDialog();
                                 var countUnit=serverResponse.testResult.length;
                                 var falseUnits=0;
                                 for(var i=0;i<countUnit;i++){
                                     if(serverResponse.testResult[i]==false)
                                         falseUnits++;
                                 }
-                                bootbox.alert('Кількість юніттестів, які не пройшов твій код: '+falseUnits+'/'+serverResponse.testResult.length.toString());
+                                bootbox.alert('Кількість юніттестів, які не пройшов твій код: '+falseUnits+'/'+serverResponse.testResult.length.toString(), function() {
+                                    openDialogsService.openFalseDialog();
+                                });
                             }
                             break;
                         case 'failed':
