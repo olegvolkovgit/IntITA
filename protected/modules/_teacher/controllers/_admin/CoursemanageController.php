@@ -12,8 +12,11 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionView($id)
     {
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+
         $this->renderPartial('view',array(
             'model'=>$this->loadModel($id),
+            'modules' => $modules
         ),false,true);
     }
 
@@ -60,6 +63,8 @@ class CoursemanageController extends TeacherCabinetController
      */
     public function actionUpdate($id)
     {
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
          $this->performAjaxValidation($model);
@@ -90,6 +95,7 @@ class CoursemanageController extends TeacherCabinetController
         $this->renderPartial('update',array(
             'model'=>$model,
             'levels' => $levels,
+            'modules' => $modules
         ),false,true);
     }
 

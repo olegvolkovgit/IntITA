@@ -31,6 +31,7 @@
  *
  * The followings are the available model relations:
  * @property Module[] $modules
+ * @property Module $module
  * @property Level $level0
  */
 class Course extends CActiveRecord implements IBillableObject
@@ -88,7 +89,7 @@ class Course extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
         return array(
             'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-            'module' => array(self::MANY_MANY, 'Module', 'course_modules(id_course,id_module)'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }

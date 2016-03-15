@@ -1,6 +1,8 @@
 <?php
-/* @var $this CoursemanageController */
-/* @var $model Course */
+/* @var $this CoursemanageController
+ * @var $model Course
+ * @var $modules array
+ */
 ?>
 <div class="col-md-12">
     <div class="row">
@@ -24,17 +26,9 @@
                     <?= ($model->isActive()) ? 'Видалити' : 'Відновити'; ?></button>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule', array(
-                            'id' => $model->course_ID
-                        )); ?>',
-                            'Додати існуючий модуль до курса')">
-                    Додати існуючий модуль до курса</button>
-            </li>
-            <li>
                 <button type="button" class="btn btn-success"
                         onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
-                            array('idCourse' => $model->course_ID)); ?>')">
+                            array('idCourse' => $model->course_ID)); ?>', 'Згенерувати схему курса')">
                     Згенерувати схему курса
                 </button>
             </li>
@@ -51,6 +45,8 @@
                     </li>
                     <li><a href="#en" data-toggle="tab">Англійською</a>
                     </li>
+                    <li><a href="#modules" data-toggle="tab">Модулі</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="main">
@@ -64,6 +60,13 @@
                     </div>
                     <div class="tab-pane fade" id="en">
                         <?php $this->renderPartial('_enTab', array('model' => $model)); ?>
+                    </div>
+                    <div class="tab-pane fade" id="modules">
+                        <?php $this->renderPartial('_modulesTab', array(
+                            'model' => $model,
+                            'modules' => $modules,
+                            'scenario' => 'view'
+                        )); ?>
                     </div>
                 </div>
             </div>

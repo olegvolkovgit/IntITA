@@ -2,6 +2,7 @@
 /* @var $this CoursemanageController *
  * @var $model Course
  * @var $levels array
+ * @var $modules array
  */
 ?>
 <ul class="list-inline">
@@ -13,7 +14,7 @@
     <li>
         <button type="button" class="btn btn-success"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
-                    array('idCourse' => $model->course_ID)); ?>')">
+                    array('idCourse' => $model->course_ID)); ?>', 'Згенерувати схему курса')">
             Згенерувати схему курса
         </button>
     </li>
@@ -31,6 +32,8 @@
             </li>
             <li><a href="#en" data-toggle="tab">Англійською</a>
             </li>
+            <li><a href="#modules" data-toggle="tab">Модулі</a>
+            </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -45,6 +48,13 @@
             </div>
             <div class="tab-pane fade" id="en">
                 <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+            </div>
+            <div class="tab-pane fade" id="modules">
+                <?php $this->renderPartial('_modulesTab', array(
+                    'model' => $model,
+                    'modules' => $modules,
+                    'scenario' => 'update'
+                )); ?>
             </div>
         </div>
     </div>

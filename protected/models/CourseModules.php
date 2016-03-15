@@ -12,7 +12,7 @@
  *
  * The followings are the available model relations:
  * @property Course $idCourse
- * @property Module $idModule
+ * @property Module $moduleInCourse
  */
 class CourseModules extends CActiveRecord
 {

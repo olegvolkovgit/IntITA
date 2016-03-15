@@ -1099,6 +1099,7 @@ class Module extends CActiveRecord implements IBillableObject
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
             $row["cancelled"] = $record->cancelledLabel();
+            $row["addAuthorLink"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/addTeacher", array("id"=>$record->module_ID))."'";
 
             array_push($return['data'], $row);
         }

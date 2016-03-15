@@ -33,7 +33,15 @@ function initModules(){
             {
                 "width": "10%",
                 "data": "cancelled"
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "addAuthorLink",
+                "render": function (link) {
+                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">автора</button>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
