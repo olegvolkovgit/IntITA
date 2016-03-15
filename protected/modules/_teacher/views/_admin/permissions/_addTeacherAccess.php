@@ -2,80 +2,131 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
-            Права доступу</button>
+            Права доступу
+        </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddAccessForm'); ?>')">
-            Додати запис</button>
+            Додати запис
+        </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showCancelTeacherAccess'); ?>')">
-            Скасувати автора модуля</button>
+            Скасувати автора модуля
+        </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/UserStatus'); ?>')">
-            Змінити статус користувача</button>
+            Змінити статус користувача
+        </button>
     </li>
 </ul>
 
-<div id="addTeacherAccess">
-    <br>
-    <a name="formTeacher"></a>
-
-    <form action="" name="add-teacher-access"
-       onsubmit="addTeacherAccess('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/newTeacherPermission');?>');
-            return false;">
-        <fieldset>
-            <legend id="label">Надати права автора модуля:</legend>
-            Викладач:<br>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <select name="user" class="form-control" placeholder="(Виберіть викладача)" autofocus required="true">
-                        <?php
-                        foreach($users as $user){
-                            ?>
-                            <option value="<?php echo $user['id']; ?>"><?php echo $user['alias']; ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
-                </div>
-            <br>
-            <br>
-            Курс:<br>
-                <div class="form-group">
-                    <select name="course" class="form-control" placeholder="(Виберіть курс)" required="true"
-                       onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules');?>');">
-                    <option value="">Всі курси</option>
-                    <optgroup label="Виберіть курс">
-                        <?php
-                        foreach($courses as $course){
-                            ?>
-                            <option value="<?php echo $course['id'];?>">
-                                <?php echo $course['alias']." (".$course['language'].")";?>
-                            </option>
-                        <?php
-                        }
-                        ?>
-                     </select>
-                    </div>
-            <br>
-            <br>
-
-            Модуль:<br>
-            <div name="selectModule" class="form-group" ></div>
-            <br>
-            <br>
+<div class="panel panel-default col-md-7">
+    <div class="panel-body">
+        <form role="form">
+            <div class="form-group">
+                <input type="text" hidden="hidden" value="author" id="role">
+                <label>Викладач:</label>
                 <br>
-
-            <input type="submit" class="btn btn-default" value="Додати">
+                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
+                       size="135" required autofocus>
+                <input type="number" hidden="hidden" id="user" value="0"/>
             </div>
-        </fieldset>
-
-    </form>
+            <div class="form-group">
+                <label>
+                    <strong>Модуль:</strong>
+                </label>
+                <input type="number" hidden="hidden" id="moduleId" value="0"/>
+                <input id="typeaheadModule" type="text" class="form-control" placeholder="Назва модуля"
+                       size="135">
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="button" class="btn btn-success"
+                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
+                            'module', '#moduleId')">Призначити автора модуля</button>
+            </div>
+        </form>
+    </div>
 </div>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', '/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<script>
+    var users = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/permissions/teachersByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        url: user.url
+                    };
+                });
+            }
+        }
+    });
+
+    var modules = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (modules) {
+                return $jq.map(modules.results, function (module) {
+                    return {
+                        id: module.id,
+                        title: module.title
+                    };
+                });
+            }
+        }
+    });
+
+    users.initialize();
+    modules.initialize();
+
+    $jq('#typeahead').typeahead(null, {
+        name: 'users',
+        display: 'email',
+        source: users,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'немає викладачів з таким іменем або email\`ом',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
+        }
+    });
+
+    $jq('#typeaheadModule').typeahead(null, {
+        name: 'modules',
+        display: 'title',
+        source: modules,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'модулів з такою назвою немає',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+        }
+    });
+
+    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
+        $jq("#moduleId").val(item.id);
+    });
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#user").val(item.id);
+    });
+</script>
