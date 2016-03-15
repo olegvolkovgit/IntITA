@@ -28,6 +28,7 @@
  * The followings are the available model relations:
  * @property Course $course0
  * @property Level $level0
+ * @property Lecture[] $lectures
  * @property Teacher teacher
  */
 

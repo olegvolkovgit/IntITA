@@ -1,6 +1,7 @@
 <?php
-/* @var $this ModuleController */
-/* @var $model Module */
+/* @var $this ModuleController
+ * @var $model Module
+ */
 ?>
     <div class="row">
         <ul class="list-inline">
@@ -42,6 +43,10 @@
             </li>
             <li><a href="#en" data-toggle="tab">Англійською</a>
             </li>
+            <li><a href="#lectures" data-toggle="tab">Лекції</a>
+            </li>
+            <li><a href="#authors" data-toggle="tab">Автори</a>
+            </li>
          </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -56,6 +61,12 @@
             </div>
             <div class="tab-pane fade" id="en">
                 <?php $this->renderPartial('_enTab', array('model' => $model));?>
+            </div>
+            <div class="tab-pane fade" id="lectures">
+                <?php $this->renderPartial('_lecturesTab', array('model' => $model, 'scenario' => 'view'));?>
+            </div>
+            <div class="tab-pane fade" id="authors">
+                <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'view'));?>
             </div>
         </div>
     </div>

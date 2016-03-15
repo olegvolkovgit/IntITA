@@ -81,16 +81,16 @@ class ModuleController extends TeacherCabinetController
 
     public function actionView($id)
     {
-        $model = Module::model()->findByPk($id);
+        $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
 
         $this->renderPartial('view', array(
-            'model' => $model,
+            'model' => $model
         ), false, true);
     }
 
     public function actionUpdate($id)
     {
-        $model = Module::model()->findByPk($id);
+        $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
