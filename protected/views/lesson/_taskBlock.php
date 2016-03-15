@@ -19,6 +19,7 @@
                         <img ng-click='getVariables(<?php echo $taskId; ?>,<?php echo $intServer; ?>)' style="float:right; cursor: pointer;" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'arrows.png'); ?>" title="Показати/приховати вхідні змінні" />
                         <div id="taskVariables">
                             <em ng-if="variables.length==0">Вхідних змінних немає</em>
+                            <em ng-if="variables.length!=0">Вхідні змінні:</em>
                             <div ng-repeat="variable in variables track by $index">
                                 <b>{{variable.arg}}</b>: тип - {{variable.type}}<span ng-if="variable.array">, {{variable.size}}-вимірний масив</span>
                             </div>
@@ -28,7 +29,7 @@
                         <ui-codemirror ui-codemirror="{ onLoad : codemirrorLoaded }" ui-codemirror-opts="codeMirrorOptions" ng-model="userCode" ui-refresh='refreshCodemirror'></ui-codemirror>
                     </form>
                     <button class="taskSubmit" ng-click="sendTaskAnswer('<?php echo $taskId; ?>',
-                            '<?php echo $taskLang;?>',<?php echo $intServer ?>,$event,'<?php echo $user ?>')" >
+                            '<?php echo $taskLang;?>',<?php echo $intServer ?>,$event)" >
                             <?php echo $buttonName; ?>
                     </button>
                 </div>

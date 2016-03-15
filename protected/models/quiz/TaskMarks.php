@@ -111,12 +111,12 @@ class TaskMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addMark($user, $task, $status, $result='', $date, $warning=''){
+    public static function addMark($task, $status, $result='', $date, $warning=''){
         $model = new TaskMarks();
 
         $model->id_task = $task;
-        $model->id_user = $user;
-        $model->mark = ($status == "done")?1:0;
+        $model->id_user = Yii::app()->user->getId();
+        $model->mark = ($status == 'true')?1:0;
         $model->result = $result;
         $model->warning = $warning;
         $model->date = $date;

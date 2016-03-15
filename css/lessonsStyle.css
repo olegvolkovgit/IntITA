@@ -668,6 +668,7 @@ a.postlink {
     width:100px;
     border-radius: 4px;
     margin-right: 4px;
+    margin-bottom: 5px;
  }
 .codeBut:hover{
     background:#666666;

@@ -5,7 +5,7 @@ angular
     .module('lessonApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie, getTaskJson) {
+function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, accessLectureService, ipCookie, getTaskJson) {
     $scope.init = function(taskLang)
     {
         $scope.taskLang=taskLang;
@@ -52,22 +52,21 @@ function taskCtrl($http, $timeout, $scope, openDialogsService, pagesUpdateServic
         }
     };
 
-    $scope.sendTaskAnswer=function(idTask, taskLang, url,e,user){
-        var jobid=JsUniqid(user+'_', false);
-        $scope.userId=user;
+    $scope.sendTaskAnswer=function(idTask, taskLang, url,e){
+        var jobid=JsUniqid(idTask+'_', false);
         $scope.taskId=idTask;
         var button=angular.element(document.querySelector(".taskSubmit"));
         angular.element(document.querySelector("#ajaxLoad")).css('margin-top', e.currentTarget.offsetTop-20+'px');
         button.attr('disabled', true);
 
-        if($.trim($scope.userCode) == '')
+        if($scope.userCode==undefined || $.trim($scope.userCode)=='')
         {
             bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');
         } else {
             userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
                 if(response=='Added to compile'){
-                    getTaskResult(idTask,user);
+                    getTaskResult(idTask);
                 }else if(response=='error'){
                     bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                 }
@@ -75,7 +74,7 @@ function taskCtrl($http, $timeout, $scope, openDialogsService, pagesUpdateServic
             });
         }
 
-        function getTaskResult(task,user) {
+        function getTaskResult(task) {
             return userAnswerTaskService.getResultJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
                 .then(function(serverResponse) {
                     switch (serverResponse.status) {
@@ -85,13 +84,19 @@ function taskCtrl($http, $timeout, $scope, openDialogsService, pagesUpdateServic
                         case 'done':
                             $('#ajaxLoad').hide();
                             if(serverResponse.done){
-                                $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning,$scope.userId)
+                                $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning)
                                     .then(function(setMarkResponse) {
                                         pagesUpdateService.pagesDataUpdate();
-                                        openDialogsService.openTrueDialog();
+                                        if($rootScope.currentPage==$rootScope.pageData.length){
+                                            openDialogsService.openLastTrueDialog();
+                                            accessLectureService.getAccessLectures();
+                                            $rootScope.finishedLecture = 1;
+                                        }else{
+                                            openDialogsService.openTrueDialog();
+                                        }
                                     });
                             }else{
-                                $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
+                                $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning);
                                 openDialogsService.openFalseDialog();
                                 var countUnit=serverResponse.testResult.length;
                                 var falseUnits=0;
@@ -135,12 +140,11 @@ function taskCtrl($http, $timeout, $scope, openDialogsService, pagesUpdateServic
     }
 
 //sent post to intita server to write result
-    $scope.setMark=function(task, status, date, result, warning,user){
+    $scope.setMark=function(task, status, date, result, warning){
         var promise = $http({
             url: basePath + "/task/setMark",
             method: "POST",
             data: $.param({
-                user: user,
                 task: task,
                 status: status,
                 date : date,
