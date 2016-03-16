@@ -13,6 +13,15 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
                  id="editIco" title="<?php echo Yii::t('module', '0373'); ?>"/>
         </a>
     <?php } ?>
+    <?php if (!Yii::app()->user->isGuest) {
+    if (Yii::app()->user->model->isTeacher() && !$canEdit){ ?>
+            <a href="#"
+               onclick="sendRequest('<?php echo Yii::app()->createUrl("/module/sendRequest", array("user" => Yii::app()->user->getId(), "moduleId" => $module->module_ID)); ?>')">
+
+                <button id="requestBth" title="Запит на редагування модуля">Запит</button>
+            </a>
+        <?php }
+    }?>
     <h2><?php echo Yii::t('module', '0225'); ?></h2>
 
     <?php
@@ -60,3 +69,23 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
     ));
     ?>
 </div>
+<script>
+    function sendRequest(url){
+        bootbox.confirm("Відправити запит на редагування цього модуля?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function (response) {
+                        bootbox.alert(response);
+                    },
+                    error:function () {
+                        bootbox.alert("Запит не вдалося надіслати.");
+                    }
+                });
+            } else {
+                bootbox.alert("Запит відмінено.");
+            }
+        });
+    }
+</script>
