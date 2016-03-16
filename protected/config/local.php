@@ -37,12 +37,3 @@ return array(
         ),
     ),
 );
-
-/*
-                array(
-                    'class'=>'CProfileLogRoute',
-                    'levels'=>'profile',
-                    'enabled'=>true,
-                ),
-
- */
