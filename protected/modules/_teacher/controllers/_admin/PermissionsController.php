@@ -2,28 +2,6 @@
 
 class PermissionsController extends TeacherCabinetController
 {
-    public $menu = array();
-
-    public function init()
-    {
-        parent::init();
-        if (Config::getMaintenanceMode() == 1) {
-            $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            die();
-        }
-    }
-
-    /**
-     * @return array action filters
-     */
-    public function filters()
-    {
-        return array(
-            'accessControl',
-            'postOnly + delete', // we only allow deletion via POST request
-        );
-    }
 
     public function actionIndex()
     {
@@ -161,32 +139,33 @@ class PermissionsController extends TeacherCabinetController
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-//    public function actionShowTeacherModules()
-//    {
-//        if (isset($_POST['teacher'])) {
-//            $idTeacher = $_POST['teacher'];
-//            $result = TeacherModule::showTeacherModule($idTeacher);
-//        } else $result = '';
-//        echo $result;
-//    }
+    public function actionShowTeacherModules()
+    {
+        $id = Yii::app()->request->getPost('teacher', '0');
+
+        if($id == 0)
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний викладач.");
+        $user = RegisteredUser::userById($id);
+
+        $modules = $user->getAttributesByRole(UserRoles::AUTHOR)["module"];
+
+        echo $this->renderPartial('_modules', array('modules' => $modules));
+    }
 
 
     public function actionCancelTeacherPermission()
     {
-        $teacher = Yii::app()->request->getPost('teacher');
-        $module = Yii::app()->request->getPost('module');
+        $teacher = Yii::app()->request->getPost('user', '0');
+        $module = Yii::app()->request->getPost('module', '0');
 
-        $userId = Teacher::model()->findByAttributes(array('teacher_id' => $teacher))->user_id;
-
-        TeacherModule::cancelTeacherAccess($teacher, $module);
-
-        $permission = new PayModules();
-        $permission->unsetModulePermission(
-            $userId,
-            $module,
-            array('read', 'edit'));
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/permissions/index'));
+        $user = RegisteredUser::userById($teacher);
+        if($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)){
+            $permission = new PayModules();
+            $permission->unsetModulePermission($teacher, $module, array('read', 'edit'));
+                echo "success";
+        } else {
+            echo "error";
+        }
     }
 
     public function actionShowAddAccessForm()
@@ -202,22 +181,16 @@ class PermissionsController extends TeacherCabinetController
 
     public function actionShowAddTeacherAccess()
     {
-        $users = Teacher::generateTeachersList();
-        $courses = Course::generateCoursesList();
-
-        $this->renderPartial('_addTeacherAccess', array(
-            'users' => $users,
-            'courses' => $courses
-        ), false, true);
+        $this->renderPartial('_addTeacherAccess', array(), false, true);
     }
 
     public function actionShowCancelTeacherAccess()
     {
-        $users = Teacher::generateTeachersList();
-
-        $this->renderPartial('_cancelTeacherAccess', array(
-            'users' => $users
-        ), false, true);
+        $this->renderPartial('_cancelTeacherAccess', array(), false, true);
     }
 
+    public function actionTeachersByQuery($query)
+    {
+        echo Teacher::teachersByQuery($query);
+    }
 }

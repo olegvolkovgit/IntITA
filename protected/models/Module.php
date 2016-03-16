@@ -683,59 +683,21 @@ class Module extends CActiveRecord implements IBillableObject
         return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));
     }
 
-    public function firstLectureID()
+    public static function getTimeAnsweredQuiz($quiz, $user)
     {
-        if (isset(Lecture::model()->findByAttributes(array('idModule' => $this->module_ID, 'order' => 1))->id))
-            return Lecture::model()->findByAttributes(array('idModule' => $this->module_ID, 'order' => 1))->id;
-        else return false;
-    }
-
-    public function lastLectureID()
-    {
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'lecture';
-        $criteria->order = '`order` DESC';
-        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
-        if (isset(Lecture::model()->find($criteria)->id))
-            return Lecture::model()->find($criteria)->id;
-        else return false;
-    }
-
-    public static function getModuleStartTime($firstQuiz, $user)
-    {
-        switch (LectureElement::model()->findByPk($firstQuiz)->id_type) {
+        switch (LectureElement::model()->findByPk($quiz)->id_type) {
             case '5':
-                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $firstQuiz))->id);
+                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
                 break;
             case '6':
-                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $firstQuiz))->id);
+                $plain=PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
+                return PlainTaskMarks::taskTime($user, PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain))->id);
                 break;
             case '12':
-                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $firstQuiz))->id);
+                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
                 break;
             case '9':
-                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $firstQuiz))->id);
-                break;
-            default:
-                return false;
-                break;
-        }
-    }
-
-    public static function getModuleFinishedTime($lastQuiz, $user)
-    {
-        switch (LectureElement::model()->findByPk($lastQuiz)->id_type) {
-            case '5':
-                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $lastQuiz))->id);
-                break;
-            case '6':
-                return PlainTaskMarks::taskTime($user, PlainTask::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
-                break;
-            case '12':
-                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $lastQuiz))->id);
-                break;
-            case '9':
-                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $lastQuiz))->id);
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $quiz))->id);
                 break;
             default:
                 return false;
@@ -761,7 +723,7 @@ class Module extends CActiveRecord implements IBillableObject
 
         return $module->teacher;
     }
-    
+
     /**
      * Checks if model can be editable by current user
      * @return int "1" if model editable by current user, "0" if does not editable
@@ -1078,5 +1040,15 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function paymentMailTheme(){
         return 'Доступ до модуля';
+    }
+    public function lastLectureID()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
+        if (isset(Lecture::model()->find($criteria)->id))
+            return Lecture::model()->find($criteria)->id;
+        else return false;
     }
 }

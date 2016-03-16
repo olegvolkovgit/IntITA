@@ -749,4 +749,20 @@ class LessonController extends Controller
         if ($model === null)
             throw new \application\components\Exceptions\LessonNotFoundException();
     }
+    public function actionGetModulesLastPage(){
+        $user = Yii::app()->user->getId();
+        $idModule = Yii::app()->request->getPost('moduleId');
+        $editMode = Yii::app()->request->getPost('editMode');
+
+        $lastLectureId=Module::model()->findByPk($idModule)->lastLectureID();
+        $lastLecture=Lecture::model()->findByPk($lastLectureId);
+        $lastLecturePassedPages=$lastLecture->accessPages($user, $editMode, StudentReg::isAdmin());
+
+        $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($idModule);
+        $accessLecture=Lecture::accessLecture($lastLectureId, $lastLecture->order, $enabledLessonOrder);
+
+        $lectures['lectures']=$lastLecturePassedPages;
+        $lectures['access']=$accessLecture;
+        echo json_encode($lectures);
+    }
 }
