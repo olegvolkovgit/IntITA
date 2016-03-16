@@ -828,10 +828,6 @@ class Lecture extends CActiveRecord
                     Task::deleteTask($element->id_block);
                 }
 
-                if ($element->isTextBlock()) {
-                    TextBlockHistory::cancelRecord($element->id_block, $element->id_type, $element->html_block, $idUser);
-                }
-
                 Yii::app()->db->createCommand()->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $element->id_block));
                 $element->delete();
                 return;
@@ -841,7 +837,6 @@ class Lecture extends CActiveRecord
 
     public function saveBlock($order, $content, $userId) {
         $lectureElement = LectureElement::model()->findByAttributes(array('id_lecture' => $this->id, 'block_order' => $order));
-        TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $content, $userId);
     }
 
     public function addVideo($htmlBlock, $pageOrder, $userId) {
@@ -854,8 +849,6 @@ class Lecture extends CActiveRecord
 
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $lectureElement->id_lecture, 'page_order' => $pageOrder))->id;
         LecturePage::addVideo($pageId, $lectureElement->id_block);
-
-        TextBlockHistory::createNewRecord($lectureElement->id_block, $lectureElement->id_type, $lectureElement->html_block, $userId);
     }
 
     public function deleteVideo($pageOrder, $userId) {
@@ -864,8 +857,6 @@ class Lecture extends CActiveRecord
         if ($modelLecturePage->video) {
             $element = LectureElement::model()->findByPk($modelLecturePage->video);
             LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
-
-            TextBlockHistory::cancelRecord($element->id_block, $element->id_type, $element->html_block, $userId);
 
             $element->delete();
         }
