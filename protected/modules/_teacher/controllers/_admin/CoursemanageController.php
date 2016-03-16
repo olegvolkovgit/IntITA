@@ -34,7 +34,6 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionNewCourse(){
         $model=new Course;
-        var_dump($_POST);die;
 
         if(isset($_POST['Course']))
         {
@@ -76,7 +75,7 @@ class CoursemanageController extends TeacherCabinetController
 
         $model=$this->loadModel($id);
         // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
+        // $this->performAjaxValidation($model);
         if(isset($_POST['Course']))
         {
             $model->oldLogo=$model->course_img;

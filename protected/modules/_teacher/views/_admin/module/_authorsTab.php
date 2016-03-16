@@ -55,13 +55,13 @@ $teachers = $model->teacher;
                             </td>
                             <?php if ($scenario == 'update') { ?>
                                 <td>
-                                    <?php if ($item["end_date"] == '') { ?>
+                                    <?php //if ($item["end_time"] == '') { ?>
                                         <a href="#"
                                            onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                                               '<?= $item["id"] ?>', 'module'); return false;">
+                                               '<?= $item->user_id ?>', 'module'); return false;">
                                             скасувати
                                         </a>
-                                    <?php } ?>
+                                    <?php //} ?>
                                 </td>
                             <?php } ?>
                             <?php
