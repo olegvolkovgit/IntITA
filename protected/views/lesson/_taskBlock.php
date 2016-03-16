@@ -16,8 +16,7 @@
                     <form class="sendAnswer" id="sendAnswer" name="taskForm">
                         <textarea class='lectureTextarea' placeholder='<?php echo Yii::t('lecture','0663'); ?>' name="code" id="code<?php echo $data['block_order'];?>" required></textarea>
                     </form>
-                    <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled";?>
-                                ng-click="sendTaskAnswer('<?php echo Task::getTaskId($data['id_block']);?>',
+                    <button class="taskSubmit" ng-click="sendTaskAnswer('<?php echo Task::getTaskId($data['id_block']);?>',
                             '<?php echo Task::getTaskLang($data['id_block']);?>',interpreterServer,$event,'<?php echo $user ?>')" >
                             <?php echo $buttonName; ?>
                     </button>

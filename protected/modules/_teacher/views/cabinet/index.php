@@ -3,6 +3,9 @@
  * @var $model StudentReg
  * @var $scenario
  * @var $receiver
+ * @var $authorRequests array
+ * @var $newMessages array
+ *
  */
 ?>
 <!DOCTYPE html>
@@ -65,7 +68,11 @@
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <?php echo $this->renderPartial('_top_navigation', array('model' => $model, 'newMessages' => $newMessages)); ?>
+        <?php echo $this->renderPartial('_top_navigation', array(
+            'model' => $model,
+            'newMessages' => $newMessages,
+            'authorRequests' => $authorRequests
+        )); ?>
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model)); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
@@ -109,10 +116,12 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-de.js"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <!--Typeahead  scripts -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'handlebars.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
 <script>
     window.onload = function()
     {

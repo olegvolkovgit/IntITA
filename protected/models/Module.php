@@ -1025,45 +1025,58 @@ class Module extends CActiveRecord implements IBillableObject
         return json_encode($result);
     }
     /**
-     * Returns id of last lecture containing a quiz
+     * Returns id of last quiz in the module.
+     * Direct queries to database uses for greater performance
      * @return bool $lectureElement->idBlock or false if nothing found
      * @throws CDbException
      */
     public function getLastQuizId() {
-        if ($this->lectures === null) {
-            $this->getRelated('lectures');
-        }
+        $sqlPagesList =
+            "SELECT id FROM lectures WHERE idModule=" . $this->module_ID . " ORDER BY `order` DESC;";
 
-        return $this->findFirstQuizId(array_reverse($this->lectures));
-    }
+        $lecturePagesIdList = Yii::app()->db->createCommand($sqlPagesList)->queryall();
 
-    /**
-     * Returns id of last lecture containing a quiz
-     * @return bool $lectureElement->idBlock or false if nothing found
-     * @throws CDbException
-     */
-    public function getFirstQuizId() {
-        if ($this->lectures === null) {
-            $this->getRelated('lectures');
-        }
-
-        return $this->findFirstQuizId($this->lectures);
-    }
-
-    /**
-     * Iterates over $lectures array and find first instance of lecture with quiz.
-     * @param $lectures - array of lectures
-     * @return bool $lectureElement->idBlock or false if nothing found
-     */
-    private function findFirstQuizId($lectures) {
-        foreach ($lectures as $lecture) {
-            $idBlock = $lecture->isContainsQuiz();
-            if ($idBlock != null) {
+        $length = count($lecturePagesIdList);
+        for ($i = 0; $i < $length; $i++) {
+            $sqlGetLastQuizId =
+                "SELECT lecture_page.quiz FROM lecture_page WHERE id_lecture = " . $lecturePagesIdList[$i]['id'] . " AND quiz IS NOT NULL ORDER BY page_order DESC LIMIT 1;";
+            $idBlock = Yii::app()->db->createCommand($sqlGetLastQuizId)->queryScalar();
+            if ($idBlock) {
                 return $idBlock;
             }
         }
         return false;
     }
 
+    /**
+     * Returns id of first quiz in the module.
+     * Direct queries to database uses for greater performance
+     * @return bool $lectureElement->idBlock or false if nothing found
+     * @throws CDbException
+     */
+    public function getFirstQuizId() {
+        $sqlPagesList =
+            "SELECT id FROM lectures WHERE idModule=" . $this->module_ID . " ORDER BY `order` ASC;";
 
+        $lecturePagesIdList = Yii::app()->db->createCommand($sqlPagesList)->queryall();
+
+        $length = count($lecturePagesIdList);
+        for ($i = 0; $i < $length; $i++) {
+            $sqlGetLastQuizId =
+                "SELECT lecture_page.quiz FROM lecture_page WHERE id_lecture = " . $lecturePagesIdList[$i]['id'] . " AND quiz IS NOT NULL ORDER BY page_order ASC LIMIT 1;";
+            $idBlock = Yii::app()->db->createCommand($sqlGetLastQuizId)->queryScalar();
+            if ($idBlock) {
+                return $idBlock;
+            }
+        }
+        return false;
+    }
+
+    public function paymentMailTemplate(){
+        return '_payModuleMail';
+    }
+
+    public function paymentMailTheme(){
+        return 'Доступ до модуля';
+    }
 }

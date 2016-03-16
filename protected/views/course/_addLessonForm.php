@@ -22,6 +22,9 @@ $order = $model->modulesCount(); ?>
     <input class="form-control" type="text" name="titleEN" id="titleEN" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60"
            oninput="validateComments(this,'<?php echo Yii::t('validation', '0685'); ?>')">
     <br>
+    <input type="checkbox" name="isAuthor" value="<?=Yii::app()->user->getId();?>"> редагувати модуль
+    <br>
+    <br>
     <input type="submit" value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()" ng-disabled=addModule.$invalid>
 </form>
 <button id="cancelButton"

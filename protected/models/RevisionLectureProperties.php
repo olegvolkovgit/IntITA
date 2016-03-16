@@ -147,11 +147,17 @@ class RevisionLectureProperties extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function saveCheck() {
+        if(!$this->save()) {
+            throw new RevisionLecturePropertiesException(implode("; ", $this->getErrors()));
+        }
+    }
 	
 	public function initialize($order, $titleUa, $titleEn, $titleRu, $user){
-		//todo refactor default values
+		//ktodo refactor default values
 		$this->image = "lectureImage.png";
-		$this->alias = "";
+		$this->alias = "lecture" . $order;
 		$this->id_type = 1;
 		$this->is_free = 0;
 
@@ -162,8 +168,26 @@ class RevisionLectureProperties extends CActiveRecord
 		$this->start_date = date(Yii::app()->params['dbDateFormat']);
 		$this->id_user_created = $user->getId();
 
-		if(!$this->save()) {
-			throw new RevisionLecturePropertiesException(implode("; ", $this->getErrors()));
-		}
+        $this->saveCheck();
 	}
+
+    public function cloneProperties($user) {
+        $newProperties = new RevisionLectureProperties();
+        $newProperties->image = $this->image;
+        $newProperties->alias = $this->alias;
+        $newProperties->id_type = $this->id_type;
+        $newProperties->is_free = $this->is_free;
+        $newProperties->order = $this->order;
+        $newProperties->title_ua = $this->title_ua;
+        $newProperties->title_ru = $this->title_ru;
+        $newProperties->title_en = $this->title_en;
+
+        $newProperties->start_date = date(Yii::app()->params['dbDateFormat']);
+        $newProperties->id_user_created = $user->getId();
+
+        $newProperties->saveCheck();
+
+        return $newProperties;
+    }
+
 }

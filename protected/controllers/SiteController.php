@@ -416,7 +416,7 @@ class SiteController extends Controller
 
                 $sender = new MailTransport();
                 $sender->renderBodyTemplate('_resetMail', array($model, $mailHash));
-                if (!$sender->send($model->email, "", Yii::t('recovery', '0282'), ""))
+                if (!$sender->send($modelReset->email, "", Yii::t('recovery', '0282'), ""))
                     throw new MailException('The letter was not sent');
 
             $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));

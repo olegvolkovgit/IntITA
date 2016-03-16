@@ -222,6 +222,7 @@ class StudentRegController extends Controller
             $this->render("studentprofile", array(
                 'dataProvider' => $dataProvider,
                 'post' => $model,
+                'user' => $user,
                 'letter' => $letter,
                 'sentLettersProvider' => $sentLettersProvider,
                 'receivedLettersProvider' => $receivedLettersProvider,
@@ -237,6 +238,7 @@ class StudentRegController extends Controller
             $this->render("profile", array(
                 'dataProvider' => $dataProvider,
                 'post' => $model,
+                'user' => $user,
                 'markProvider' => $markProvider,
                 'paymentsCourses' => $paymentsCourses,
                 'owner'=>'false'

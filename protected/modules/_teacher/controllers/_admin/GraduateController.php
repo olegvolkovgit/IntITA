@@ -56,9 +56,6 @@ class GraduateController extends TeacherCabinetController {
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-//         $this->performAjaxValidation($model);
-
         if (isset($_POST['Graduate'])) {
             $avatarOld = $model->avatar;
             $model->attributes = $_POST['Graduate'];
@@ -85,7 +82,7 @@ class GraduateController extends TeacherCabinetController {
 
     /**
      * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id)
@@ -102,32 +99,10 @@ class GraduateController extends TeacherCabinetController {
      */
     public function actionIndex()
     {
-        $model = new Graduate('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Graduate']))
-            $model->attributes = $_GET['Graduate'];
-        $dataProvider = new CActiveDataProvider('Graduate');
-        $this->renderPartial('index', array(
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ), false, true);
+        $this->renderPartial('index', array(), false, true);
     }
 
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new Graduate('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Graduate']))
-            $model->attributes = $_GET['Graduate'];
-        $this->renderPartial('admin', array(
-            'model' => $model
-        ),false,true);
-    }
-
-    /**
+     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
@@ -161,4 +136,7 @@ class GraduateController extends TeacherCabinetController {
         }
     }
 
+    public function actionGetGraduatesList(){
+        echo Graduate::graduatesList();
+    }
 }

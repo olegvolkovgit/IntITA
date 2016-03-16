@@ -4,7 +4,14 @@ class RevisionController extends Controller
 {
     public function actionIndex()
     {
-        $this->render('index');
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+
+        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
+        $lecturesDataProvider->setData($lectureRev);
+
+        $this->render('index', array(
+            'lectures' => $lecturesDataProvider,
+        ));
     }
 
     public function actionCreateNewLecture(){
@@ -16,11 +23,16 @@ class RevisionController extends Controller
 
         $revLecture = RevisionLecture::createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, Yii::app()->user);
 
-        $this->redirect(array('revision/showlecturerevision', 'idRevision' => $revLecture->id_revision));
+        $this->redirect(array('revision/editlecturerevision', 'idRevision' => $revLecture->id_revision));
     }
 
-    public function actionShowLectureRevision($idRevision) {
+    public function actionEditLectureRevision($idRevision) {
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+
+        if (!$lectureRevision->isEditable()) {
+            $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);
+        }
+
         $pagesDataProvider = new CActiveDataProvider("RevisionLecturePage");
         $pagesDataProvider->setData($lectureRevision->lecturePages);
 
@@ -40,22 +52,23 @@ class RevisionController extends Controller
 
     public function actionNewPageRevision() {
         $idPage = Yii::app()->request->getPost("idPage");
-        $newRevision = RevisionLecturePage::model()->findByPk($idPage)->newRevision(Yii::app()->user);
+        $newRevision = RevisionLecturePage::model()->findByPk($idPage)->clonePage(Yii::app()->user);
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionEditPageRevision() {
         $idPage = Yii::app()->request->getPost("idPage");
 
-        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $page = RevisionLecturePage::model()->findByPk($idPage);
 
         if (!$page->isEditable()) {
             // create new revision;
-            $page = $page->newRevision(Yii::app()->user);
+            $page = $page->clonePage(Yii::app()->user);
         }
 
-        $video = RevisionLectureElement::model()->findByPk($page->video);
+        $video = $page->getVideo();
         $lectureBody = $page->getLectureBody();
-        $quiz = RevisionLectureElement::model()->findByPk($page->quiz);
+        $quiz = $page->getQuiz();
 
         $this->renderPartial("pageview", array(
                         "page" => $page,
@@ -118,7 +131,7 @@ class RevisionController extends Controller
         $idType = Yii::app()->request->getPost('idType');
         $html_block = Yii::app()->request->getPost('html_block');
 
-        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $page = RevisionLecturePage::model()->findByPk($idPage);
 
         $page->addTextBlock($idType, $html_block, Yii::app()->user);
 
@@ -142,16 +155,81 @@ class RevisionController extends Controller
         $idPage = Yii::app()->request->getPost('idPage');
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
-
-        $page->moveUp();
+        if ($page->isEditable()) {
+            $page->moveUp();
+        }
     }
 
     public function actionDownPage() {
         $idPage = Yii::app()->request->getPost('idPage');
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
+        if ($page->isEditable()) {
+            $page->moveDown();
+        }
+    }
 
-        $page->moveDown();
+    public function actionCheckLecture() {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+
+        $lectureRevision = RevisionLecture::model()->with('lecturePages')->findByPk($idLecture);
+
+        $result = $lectureRevision->checkConflicts();
+
+        //strict comparison is required
+        if (empty($result)) {
+            echo "Ok!";
+            return;
+        } else {
+            echo implode("; ", $result);
+            return;
+        }
+    }
+
+    public function actionSendForApproveLecture() {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idLecture);
+
+        $result = $lectureRev->checkConflicts();
+
+        if (empty($result)) {
+            $lectureRev->sendForApproval(Yii::app()->user);
+        } else {
+            echo implode("; ", $result);
+        }
+    }
+
+    public function actionNewLectureRevision() {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+//        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties', 'lecturePages.lectureElements')->findByPk($idLecture);
+
+        $newRevision = $lectureRev->cloneLecture(Yii::app()->user);
+    }
+
+    public function actionRejectLectureRevision () {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+
+        $lectureRev->reject(Yii::app()->user);
+
+    }
+
+    public function actionCancelLectureRevision () {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+
+        $lectureRev->cancel(Yii::app()->user);
+
+    }
+
+    public function actionApproveLectureRevision () {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+
+        $lectureRev->approve(Yii::app()->user);
+
     }
 
     /***************/

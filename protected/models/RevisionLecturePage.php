@@ -30,6 +30,20 @@
 
 class RevisionLecturePage extends CActiveRecord
 {
+    const TEXT          = LectureElement::TEXT;
+    const VIDEO	        = LectureElement::VIDEO;
+    const CODE          = LectureElement::CODE;
+    const EXAMPLE       = LectureElement::EXAMPLE;
+    const TASK          = LectureElement::TASK;
+    const PLAIN_TASK    = LectureElement::PLAIN_TASK;
+    const INSTRUCTION   = LectureElement::INSTRUCTION;
+    const LABEL	        = LectureElement::LABEL;
+    const SKIP_TASK     = LectureElement::SKIP_TASK;
+    const FORMULA       = LectureElement::FINAL_TEST;
+    const TABLE         = LectureElement::TABLE;
+    const TEST          = LectureElement::TEST;
+    const FINAL_TEST    = LectureElement::FINAL_TEST;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -64,13 +78,14 @@ class RevisionLecturePage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            //todo IN condition doesn't work!;
 			'lectureElements' => array(self::HAS_MANY, 'RevisionLectureElement', 'id_page',
+                                                        'condition' => 'id_type=:type_text OR id_type=:type_code OR id_type=:type_example OR id_type=:type_instruction',
+                                                        'params' => array(":type_text" => self::TEXT,
+                                                                          ":type_code" => self::CODE,
+                                                                          ":type_example" => self::EXAMPLE,
+                                                                          ":type_instruction" => self::INSTRUCTION),
                                                         'order' => 'block_order ASC',
-                                                        'condition' => 'id_type IN (:id_type)',
-                                                        'params' => array(":id_type" => implode(',', array(LectureElement::TEXT,
-                                                                                             LectureElement::CODE,
-                                                                                             LectureElement::EXAMPLE,
-                                                                                             LectureElement::INSTRUCTION))),
             ),
 			'revision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
 		);
@@ -178,12 +193,24 @@ class RevisionLecturePage extends CActiveRecord
 		$this->saveCheck();
 	}
 
-	public function newRevision($user) {
-		$newRevision = new RevisionLecturePage();
+	public function clonePage($user, $idNewRevision = null) {
+
+        if ($idNewRevision != null && !$this->isClonable()) {
+            // we shouldn't clone page in new revision if it is not cloneable
+            // (was rejected or cancelled)
+            return null;
+        }
+
+        if ($idNewRevision == null) {
+            $idNewRevision = $this->id_revision;
+        }
+
+        //todo surround by transaction
+        $newRevision = new RevisionLecturePage();
 
         $newRevision->id_page = $this->id_page;
         $newRevision->id_parent_page = $this->id;
-        $newRevision->id_revision = $this->id_revision;
+        $newRevision->id_revision = $idNewRevision;
         $newRevision->page_title = $this->page_title;
         $newRevision->page_order = $this->page_order;
 
@@ -239,16 +266,17 @@ class RevisionLecturePage extends CActiveRecord
     }
 
 	public function isEditable() {
-		if ($this->id_user_sended_approval == null &&
-			$this->id_user_approved == null &&
-			$this->id_user_cancelled == null &&
-			$this->id_user_rejected == null) {
-			return true;
+        if (!$this->isSended() &&
+            !$this->isApproved() &&
+            !$this->isCancelled() &&
+            !$this->isRejected()) {
+            return true;
 		}
 		return false;
 	}
 
     public function approve($user) {
+        //todo save to regular DB
         if ($this->isApprovable()) {
             $this->approve_date = date(Yii::app()->params['dbDateFormat']);
             $this->id_user_approved = $user->getId();
@@ -314,6 +342,14 @@ class RevisionLecturePage extends CActiveRecord
         $this->saveCheck();
     }
 
+    public function getQuiz() {
+        return RevisionLectureElement::model()->findByPk($this->quiz);
+    }
+
+    public function getVideo() {
+        return RevisionLectureElement::model()->findByPk($this->video);
+    }
+
     private function checkEditable() {
         //just to be sure. this case should be resolved in previous level;
         if (!$this->isEditable()) {
@@ -322,13 +358,15 @@ class RevisionLecturePage extends CActiveRecord
     }
 
     private function getNextOrder() {
-        //todo refactor - get order of last element + 1
-        return count($this->lectureElements)+1;
+        return $this->lectureElements[count($this->lectureElements)-1]->block_order+1;
     }
 
     private function isApprovable() {
         $lectureRev = RevisionLecture::model()->findByPk($this->id_revision);
-        if ($this->id_user_sended_approval != null &&
+        if ($this->isSended() &&
+            !$this->isRejected() &&
+            !$this->isCancelled() &&
+            !$this->isApproved() &&
             $lectureRev->id_lecture != null) {
             return true;
         }
@@ -336,28 +374,50 @@ class RevisionLecturePage extends CActiveRecord
     }
 
     private function isRejectable() {
-        if ($this->id_user_sended_approval != null &&
-            $this->id_user_approved == null ) {
+        if ($this->isSended() &&
+            !$this->isApproved() &&
+            !$this->isRejected()) {
             return true;
         }
         return false;
     }
 
     private function isCancellable() {
-        if ($this->id_user_sended_approval != null &&
-            ($this->id_user_approved == null && $this->id_user_rejected == null)) {
+        if ($this->isSended() &&
+            !$this->isApproved() ||
+            $this->isCancelled()) {
             return false;
         }
         return true;
     }
 
     private function isSendable() {
-        if ($this->id_user_cancelled == null &&
-            $this->id_user_sended_approval == null &&
-            $this->id_user_approved == null &&
-            $this->id_user_rejected == null) {
+        if (!$this->isSended() &&
+            !$this->isRejected() &&
+            !$this->isApproved() &&
+            !$this->isCancelled()) {
             return true;
         }
         return false;
+    }
+
+    private function isClonable() {
+        return (!$this->isRejected() && !$this->isCancelled());
+    }
+
+    private function isRejected() {
+        return $this->id_user_rejected != null;
+    }
+
+    private function isSended() {
+        return $this->id_user_sended_approval != null;
+    }
+
+    private function isApproved() {
+        return $this->id_user_approved != null;
+    }
+
+    private function isCancelled() {
+        return $this->id_user_cancelled != null;
     }
 }

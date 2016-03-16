@@ -3,6 +3,35 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'revision-lecture-properties-a-form',
     'enableAjaxValidation'=>false,
+    'action'=>'/revision/editLectureProperties'
+)); ?>
+
+<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+<?php echo $form->errorSummary($lectureRevision->properties); ?>
+
+    <?php foreach($lectureRevision as $key=>$value) {?>
+        <div class="row">
+            <?php echo $form->labelEx($lectureRevision, $key, array("style" => "width:250px;display:inline-block")); ?>
+            <?php echo $form->textField($lectureRevision, $key); ?>
+            <?php echo $form->error($lectureRevision, $key); ?>
+        </div>
+    <?php } ?>
+
+<div class="row buttons">
+    <?php echo CHtml::submitButton('Submit'); ?>
+</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->
+
+<div class="form">
+
+<?php $form=$this->beginWidget('CActiveForm', array(
+    'id'=>'revision-lecture-properties-a-form',
+    'enableAjaxValidation'=>false,
+    'action'=>'/revision/editLectureProperties'
 )); ?>
 
 <p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -25,8 +54,13 @@
 
 </div><!-- form -->
 
+<div id="check" style="color:red;">
+</div>
+
 <br>
 <button onclick="addPage(<?=$lectureRevision->id_revision?>);">Add Page</button>
+<button onclick="checkLecture(<?=$lectureRevision->id_revision?>);">Check Lecture</button>
+<button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Send for approve Lecture</button>
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'lecturePages',
@@ -96,7 +130,6 @@ $this->widget('zii.widgets.grid.CGridView', array(
 
 ?>
 <div id="ajax_content">
-
 </div>
 
 <script>
@@ -188,6 +221,25 @@ $this->widget('zii.widgets.grid.CGridView', array(
             method: "POST",
             url: "/revision/downpage",
             data: {idPage:id}
+        })
+    }
+
+    function checkLecture(id) {
+        $.ajax({
+            method: "POST",
+            url: "/revision/checkLecture",
+            data: {idLecture:id},
+            success: function(data) {
+                $('#check').html(data);
+            }
+        })
+    }
+
+    function approveLecture() {
+        $.ajax({
+            method: "POST",
+            url: "/revision/SendForApproveLecture",
+            data: {idLecture:<?=$lectureRevision->id_revision?>}
         })
     }
 </script>

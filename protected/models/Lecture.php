@@ -699,8 +699,8 @@ class Lecture extends CActiveRecord
         return $this->save();
     }
 
-    public function createNewBlock($htmlBlock, $idType, $pageOrder, $idUser) {
-        //todo lesson should be saved only after approving
+    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
+
         $model = new LectureElement();
         $model->id_lecture = $this->id;
         $model->block_order = LectureElement::getNextOrder($this->id);
@@ -708,28 +708,11 @@ class Lecture extends CActiveRecord
         $model->id_type = $idType;
         $model->save();
 
-        if ($model->isTextBlock()) {
-            TextBlockHistory::createNewRecord($model->id_block, $model->id_type, $model->html_block, $idUser);
-        } else {
-
-        }
-
         $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-        LecturePage::addTextBlock($model->id_block, $pageId);
+        $id = LectureElement::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'block_order' => $model->block_order))->id_block;
 
+        LecturePage::addTextBlock($id, $pageId);
     }
-
-//    public function createNewBlockCKE($htmlBlock, $idType, $pageOrder) {
-//        $model = new LectureElement();
-//        $model->id_lecture = $this->id;
-//        $model->block_order = LectureElement::getNextOrder($this->id);
-//        $model->html_block = $htmlBlock;
-//        $model->id_type = $idType;
-//        $model->save();
-//
-//        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
-//        LecturePage::addTextBlock($model->id_block, $pageId);
-//    }
 
     /**
      * Shifts up lesson element.
@@ -796,31 +779,51 @@ class Lecture extends CActiveRecord
     }
 
     /**
-     * Returns $id_block if this lecture contain element with quiz or false
+     * Returns $id_block of first occurrence of quiz in lecture
      * @return bool $id_block which is the quiz or false
      * @throws CDbException
      */
-    public function isContainsQuiz() {
-        if ($this->lectureEl == null) {
-            $this->getRelated('lectureEl');
-        }
-
-        foreach ($this->lectureEl as $element) {
-            if ($element->isQuiz()) {
-                return $element->id_block;
+    public function getFirstQuiz() {
+        $length = count($this->lectureEl);
+        for ($i = 0; $i < $length ; $i++) {
+            $lecture = $this->lectureEl[$i];
+            if ($lecture->isQuiz()) {
+                return $lecture->id_block;
             }
         }
         return false;
     }
 
-    public function deleteLectureElement($elementOrder, $idUser) {
-        if ($this->lectureEl == null) {
-            $this->getRelated("lectureEl");
+    /**
+     * Returns $id_block of last occurrence of quiz in lecture
+     * @return bool $id_block which is the quiz or false
+     * @throws CDbException
+     */
+    public function getLastQuiz() {
+        for ($i = count($this->lectureEl)-1; $i >= 0; $i--) {
+            $lecture = $this->lectureEl[$i];
+            if ($lecture->isQuiz()) {
+                return $lecture->id_block;
+            }
         }
+        return false;
+    }
 
+    public function createNewBlock($htmlBlock, $idType, $pageOrder) {
+        $model = new LectureElement();
+        $model->id_lecture = Yii::app()->request->getPost('idLecture');
+        $model->block_order = LectureElement::getNextOrder(Yii::app()->request->getPost('idLecture'));
+        $model->html_block = $htmlBlock;
+        $model->id_type = $idType;
+        $model->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $model->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addTextBlock($model->id_block, $pageId);
+    }
+
+    public function deleteLectureElement($elementOrder) {
         foreach ($this->lectureEl as $element) {
             if ($element->block_order == $elementOrder) {
-
                 if ($element->id_type == LectureElement::TASK) {
                     Task::deleteTask($element->id_block);
                 }
@@ -830,7 +833,6 @@ class Lecture extends CActiveRecord
                 }
 
                 Yii::app()->db->createCommand()->delete('lecture_element_lecture_page', 'element=:id', array(':id' => $element->id_block));
-
                 $element->delete();
                 return;
             }

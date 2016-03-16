@@ -10,6 +10,8 @@
  * @property integer $video
  * @property integer $quiz
  *  @property string $page_title
+ *
+ *  @property Lecture $lecture
  */
 class LecturePage extends CActiveRecord
 {
@@ -45,6 +47,7 @@ class LecturePage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'lecture' => array(self::BELONGS_TO,'Lecture','id'),
 		);
 	}
 
@@ -222,6 +225,8 @@ class LecturePage extends CActiveRecord
 
         $model->save();
         Lecture::setLectureNotVerified($lecture);
+
+        return $model;
     }
 
     public static function addVideo($pageId, $block){

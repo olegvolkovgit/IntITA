@@ -7,7 +7,7 @@
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
 
-<div class="col-lg-12">
+<div class="col-lg-12 message">
     <h3><?= $dialog->header; ?></h3>
 
     <div class="panel-group" id="accordion">
@@ -24,7 +24,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             </strong>
                             <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
                         </a>
-                        <div class="pull-right">
+                        <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default btn-xs dropdown-toggle"

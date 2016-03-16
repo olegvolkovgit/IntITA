@@ -11,11 +11,13 @@
  * @property integer $id_properties
  *
  * The followings are the available model relations:
- * @property properties $idProperties
+ * @property RevisionLectureProperties $properties
  * @property LecturePage[] $lecturePages
  */
 class RevisionLecture extends CActiveRecord
 {
+
+    private $approveResultCashed = null;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -47,7 +49,8 @@ class RevisionLecture extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', 'id'),
+			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', '',
+                                                        'on' => 'id_properties = properties.id'),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
 		);
@@ -107,6 +110,22 @@ class RevisionLecture extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public function scopes() {
+        return array(
+            'withApprovedPages' => array(
+                'with' => 'lecturePages',
+                'order' => 'page_order ASC',
+                'condition' => 'id_user_approved IS NOT NULL AND id_user_cancelled IS NULL',
+            ),
+        );
+    }
+
+    public function saveCheck(){
+        if (!$this->save()) {
+            throw new RevisionLectureException(implode(", ", $this->getErrors()));
+        }
+    }
+
 	public static function createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, $user) {
 		$revLectureProperties =  new RevisionLectureProperties();
 		$revLectureProperties->initialize($order, $titleUa, $titleEn, $titleRu, $user);
@@ -115,9 +134,7 @@ class RevisionLecture extends CActiveRecord
 		$revLecture->id_module = $idModule;
         $revLecture->id_properties = $revLectureProperties->id;
 
-        if(!$revLecture->save()) {
-            throw new RevisionLectureException(implode("; ", $revLecture->getErrors()));
-        }
+        $revLecture->saveCheck();
 
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($revLecture->id_revision, $user);
@@ -127,11 +144,320 @@ class RevisionLecture extends CActiveRecord
 
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
-
         $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
     }
 
+    public function checkConflicts() {
+        $result = array();
+
+        //check orders collision
+        $approvedPages = $this->getApprovedLectures();
+        //count all orders
+        $orders = array();
+        foreach ($approvedPages as $page) {
+            if(isset($orders[$page->page_order])) {
+                $orders[$page->page_order]['count']++;
+                array_push($orders[$page->page_order]['lectures'], $page->id);
+            } else {
+                $orders[$page->page_order] = array('order'=>$page->page_order, 'count'=>1, 'lectures'=>array($page->id));
+            }
+        }
+        //process orders array to find collision and generate result
+        foreach ($orders as $value) {
+            $str = "";
+            if ($value['count'] > 1) {
+                $str = "Lectures ";
+                foreach ($value['lectures'] as $lectureId) {
+                    $str .= "id #" . $lectureId . " ";
+                }
+                $str .= 'has same order (' . $value['order'] . '). ';
+                array_push($result, $str);
+            }
+        }
+
+        $this->approveResultCashed = $result;
+        return $result;
+    }
+    
+    public function getApprovedLectures() {
+
+        return array_filter($this->lecturePages, function ($lecturePage) {
+            if ($lecturePage->id_user_approved != null &&
+                $lecturePage->id_user_cancelled == null) {
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public function sendForApproval($user) {
+        if ($this->isSendable()) {
+            if ($this->approveResultCashed === null) {
+                $this->checkConflicts();
+            }
+
+            if (empty($this->approveResultCashed)) {
+                $this->properties->send_approval_date = date(Yii::app()->params['dbDateFormat']);
+                $this->properties->id_user_sended_approval = $user->getId();
+                $this->properties->saveCheck();
+            } else {
+                //todo inform user
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    public function cloneLecture($user) {
+        if (!$this->isClonable()) {
+            return null;
+        }
+
+        //todo surround by transaction
+        $newRevision = new RevisionLecture();
+        $newRevision->id_parent = $this->id_revision;
+        $newRevision->id_lecture = $this->id_lecture;
+        $newRevision->id_module = $this->id_module;
+
+        $newProperties = $this->properties->cloneProperties($user);
+        $newRevision->id_properties = $newProperties->id;
+
+        $newRevision->saveCheck();
+
+        foreach ($this->lecturePages as $page) {
+            $page->clonePage($user, $newRevision->id_revision);
+        }
+
+//        $newRevision->getRelated('lecturePages');
+
+        return $newRevision;
+    }
+
+    public function reject ($user) {
+        if ($this->isRejectable()) {
+            $this->properties->reject_date = date(Yii::app()->params['dbDateFormat']);
+            $this->properties->id_user_rejected = $user->getId();
+            $this->properties->saveCheck();
+        } else {
+            //todo inform user
+        }
+    }
+
+    public function approve($user) {
+
+        if ($this->isApprovable()) {
+            if ($this->approveResultCashed === null) {
+                $this->checkConflicts();
+            }
+
+            if (empty($this->approveResultCashed)) {
+                //todo surround by transaction
+                $this->saveToRegularDB();
+
+                $this->properties->approve_date = date(Yii::app()->params['dbDateFormat']);
+                $this->properties->id_user_approved = $user->getId();
+                $this->properties->saveCheck();
+            } else {
+                //todo inform user
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    public function cancel($user) {
+        if ($this->isCancellable()) {
+            $this->properties->end_date = date(Yii::app()->params['dbDateFormat']);
+            $this->properties->id_user_cancelled = $user->getId();
+            $this->properties->saveCheck();
+        } else {
+            //todo inform user
+        }
+    }
+
+    public function isEditable() {
+        if (!$this->isSended() &&
+            !$this->isApproved() &&
+            !$this->isCancelled() &&
+            !$this->isRejected()) {
+            return true;
+        }
+        return false;
+    }
+
+    private function saveToRegularDB() {
+        //todo refactor
+
+        //remove old data if lecture exists in regular DB
+        if ($this->id_lecture != null) {
+            $this->removePreviousRecords();
+        }
+
+        //write new data
+
+        //todo maybe need to store idTeacher separately in vc_* DB?
+        $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
+
+
+        $newLecture = new Lecture();
+        $newLecture->idModule = $this->id_module;
+        $newLecture->title_ua = $this->properties->title_ua;
+        $newLecture->title_ru = $this->properties->title_ru;
+        $newLecture->title_en = $this->properties->title_en;
+        $newLecture->idTeacher = $teacher->teacher_id;
+        $newLecture->image = $this->properties->image;
+        $newLecture->alias = $this->properties->alias;
+        $newLecture->order = $this->properties->order;
+        $newLecture->idType = $this->properties->id_type;
+        $newLecture->isFree = $this->properties->is_free;
+        $newLecture->save();
+        $idNewLecture = $newLecture->id;
+
+        foreach ($this->getApprovedLectures() as $page) {
+            $newPage = new LecturePage();
+            $newPage->id_lecture = $idNewLecture;
+            $newPage->page_title = $page->page_title;
+            $newPage->page_order = $page->page_order;
+
+            //video
+            if ($page->video != null) {
+                $video = RevisionLectureElement::model()->findByPk($page->video);
+
+                $newVideo = new LectureElement();
+                $newVideo->id_type = $video->id_type;
+                $newVideo->id_lecture = $idNewLecture;
+                $newVideo->block_order = $video->block_order;
+                $newVideo->html_block = $video->html_block;
+                $newVideo->save();
+                $newPage->video = $newVideo->id_block;
+            }
+
+            $newPage->save();
+
+            $idNewPage = $newPage->id;
+
+            $idNewElements = array();
+            //lecture elements
+            foreach ($page->lectureElements as $element) {
+                $newElement = new LectureElement();
+                $newElement->id_type = $element->id_type;
+                $newElement->id_lecture = $idNewLecture;
+                $newElement->block_order = $element->block_order;
+                $newElement->html_block = $element->html_block;
+                $newElement->save();
+                array_push($idNewElements, array('page'=>$idNewPage, 'element'=>$newElement->id_block));
+            }
+
+            //lecture_page_lecture_element
+            if (!empty($idNewElements)) {
+                $builder = Yii::app()->db->schema->getCommandBuilder();
+                $command = $builder->createMultipleInsertCommand('lecture_element_lecture_page', $idNewElements);
+                $command->query();
+            }
+
+            //todo quiz
+        }
+
+        $this->id_lecture = $newLecture->id;
+        $this->saveCheck();
+    }
+
+    public function removePreviousRecords(){
+        $oldLecture = Lecture::model()->findByPk($this->id_lecture);
+
+        //remove lecture pages
+
+        $oldLecturePages = LecturePage::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
+
+        $builder = Yii::app()->db->schema->getCommandBuilder();
+        foreach ($oldLecturePages as $oldLecturePage) {
+            $command = $builder->createDeleteCommand('lecture_element_lecture_page', new CDbCriteria(array(
+                "condition" => "page=" . $oldLecturePage->id
+            )));
+            $command->query();
+        }
+
+
+        $oldLectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
+
+        foreach ($oldLecturePages as $oldLecturePage) {
+            $oldLecturePage->delete();
+        }
+
+        foreach ($oldLectureElements as $oldLectureElement) {
+            $oldLectureElement->delete();
+        }
+        $oldLecture->delete();
+
+//        $criteria = new CDbCriteria(array(
+//            'condition' => 'id_lecture'
+//        ));
+    }
+    
     private function getLastPageOrder(){
         return $this->lecturePages[count($this->lecturePages)-1]->page_order;
     }
+
+    private function isApprovable() {
+        if ($this->isSended() &&
+            !$this->isRejected() &&
+            !$this->isCancelled() &&
+            !$this->isApproved() &&
+            $this->id_module != null) {
+            return true;
+        }
+        return false;
+    }
+
+    private function isRejectable() {
+        if ($this->isSended() &&
+            !$this->isApproved() &&
+            !$this->isRejected()) {
+            return true;
+        }
+        return false;
+    }
+
+    private function isCancellable() {
+        if ($this->isSended() &&
+            !$this->isApproved() ||
+            $this->isCancelled()) {
+            return false;
+        }
+        return true;
+    }
+
+    private function isSendable() {
+        if (!$this->isSended() &&
+            !$this->isRejected() &&
+            !$this->isApproved() &&
+            !$this->isCancelled()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    private function isClonable () {
+        // Dummy function. Will be implemented later.
+        return true;
+    }
+
+    private function isRejected() {
+        return $this->properties->id_user_rejected != null;
+    }
+
+    private function isSended() {
+        return $this->properties->id_user_sended_approval != null;
+    }
+
+    private function isApproved() {
+        return $this->properties->id_user_approved != null;
+    }
+
+    private function isCancelled() {
+        return $this->properties->id_user_cancelled != null;
+    }
+
+
 }
