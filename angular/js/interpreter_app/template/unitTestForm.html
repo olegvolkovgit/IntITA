@@ -36,7 +36,7 @@
         <div class="row col result">
             <div ng-hide='finalResult.etalon' class="resultBlock">
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" placeholder="Result value" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
+                    <input type="text" clean-model class="form-control" placeholder="Result value" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
                 </div>
                 <div>
                     <label class="ng-binding">Вихідне значення</label>

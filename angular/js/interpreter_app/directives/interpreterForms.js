@@ -28,7 +28,6 @@ angular
         };
     })
 
-
     .directive('spoilerTest',function(){
         return {
             link: function (scope, element) {
@@ -42,6 +41,20 @@ angular
                 });
             }
         };
-    });
-
+    })
+    .directive('cleanModel',['$parse',
+        function($parse) {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attributes, controller) {
+                scope.$watch(function() { return element.is(':hidden') }, function() {
+                    var modelGetter = $parse(attributes['ngModel']);
+                    var modelSetter = modelGetter.assign;
+                    if(!element.is(':visible')) {
+                        modelSetter(scope, '');
+                    }
+                });
+            }
+        }
+    }]);
 
