@@ -122,7 +122,7 @@ class Avatar {
         return true;
     }
 
-    public static function saveMainSliderPicture($model,$name,$tmpName)
+    public static function saveMainSliderPicture($model,$name,$tmpName, $filename)
     {
 
         if (($model->scenario=="update"))
@@ -135,7 +135,7 @@ class Avatar {
         }
         if (($model->scenario == "insert" || $model->scenario == "update"))
         {
-            $model->pictureURL = $name['pictureURL'];
+            $model->pictureURL = $filename;
             $lastOrder = $model->getLastOrder() + 1;
 
             $model->order = $lastOrder;
@@ -145,7 +145,7 @@ class Avatar {
         return true;
     }
 
-    public static function saveAbuotusSlider($model,$name,$tmpName)
+    public static function saveAbuotusSlider($model,$name,$tmpName, $filename)
     {
         if (($model->scenario=="update"))
         {
@@ -157,7 +157,7 @@ class Avatar {
         }
         if (($model->scenario == "insert" || $model->scenario == "update"))
         {
-            $model->pictureUrl = $name['pictureUrl'];
+            $model->pictureUrl = $filename;
             $lastOrder = $model->getLastAboutusOrder() + 1;
 
             $model->order = $lastOrder;

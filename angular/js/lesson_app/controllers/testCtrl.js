@@ -16,6 +16,7 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
             button.removeAttr('disabled');
             return false;
         }
+        $('#ajaxLoad').show();
         answers = $scope.getUserAnswers(testType);
         $http({
             method: "POST",
@@ -31,12 +32,14 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
             cache: false
         })
             .success(function () {
+                $('#ajaxLoad').hide();
                 if (user != 0) {
                     $scope.isTrueTestAnswer(user, test);
                 }
                 button.removeAttr('disabled');
             })
             .error(function () {
+                $('#ajaxLoad').hide();
                 button.removeAttr('disabled');
                 console.log('error sendTestAnswer');
             })

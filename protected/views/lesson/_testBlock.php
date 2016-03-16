@@ -58,6 +58,7 @@ $testType = Tests::getTestType($data['id_block']);
             </table>
             </div>
             <div ng-controller="testCtrl">
+                <img style="display: none" id="ajaxLoad" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
                 <button class="testSubmit" ng-click='sendTestAnswer(
                 <?php echo $data['block_order']; ?>,
                 "<?php echo Tests::getTypeButton($testType); ?>",

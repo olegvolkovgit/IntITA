@@ -90,7 +90,7 @@ class TeachersController extends TeacherCabinetController{
         }
         $this->renderPartial('update', array(
             'model' => $model,
-        ),false);
+        ),false,true);
     }
 
     public function loadModel($id)
