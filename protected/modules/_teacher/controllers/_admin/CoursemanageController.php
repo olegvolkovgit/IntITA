@@ -23,8 +23,19 @@ class CoursemanageController extends TeacherCabinetController
     public function actionCreate()
     {
         $model=new Course;
-        // Uncomment the following line if AJAX validation is needed
-        $this->performAjaxValidation($model);
+        $levels = Level::model()->findAll();
+
+        $this->renderPartial('create',array(
+            'model'=>$model,
+            'levels'=>$levels,
+        ),false,true);
+    }
+
+
+    public function actionNewCourse(){
+        $model=new Course;
+        var_dump($_POST);die;
+
         if(isset($_POST['Course']))
         {
             if(!empty($_FILES)){
@@ -46,15 +57,13 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect($this->pathToCabinet());
+                echo "Курс успішно створено.";
+            } else {
+                echo "Курс не вдалося створити. Зверніться до адміністратора.";
             }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
         }
-        $levels = Level::model()->findAll();
-
-        $this->renderPartial('create',array(
-            'model'=>$model,
-            'levels'=>$levels,
-        ),false,true);
     }
     /**
      * Updates a particular model.
@@ -135,18 +144,6 @@ class CoursemanageController extends TeacherCabinetController
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
-    }
-    /**
-     * Performs the AJAX validation.
-     * @param Course $model the model to be validated
-     */
-    protected function performAjaxValidation($model)
-    {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='course-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
     }
 
     public function actionAddExistModule($id){
