@@ -84,7 +84,7 @@
             'dataProvider'=>$agreements,
             'itemView'=>'_agreements',
             'template'=>'{items}{pager}',
-            'emptyText'=>Yii::t("finances", "0543"),
+            'emptyText'=>"Договорів немає.",
             'pager' => array(
                 'firstPageLabel'=>'<<',
                 'lastPageLabel'=>'>>',
