@@ -162,6 +162,28 @@ class ModuleController extends Controller
         $this->actionIndex($module->module_ID, $course->course_ID);
     }
 
+    public function actionSendRequest($user, $moduleId){
+        $module = Module::model()->findByPk($moduleId);
+        $model = StudentReg::model()->findByPk($user);
+
+        if($model && $module){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesAuthorRequest();
+                $message->build($module, $model);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+                echo "Запит на редагування модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+            }
+        }
+    }
+
     /**
      * @throws \application\components\Exceptions\ModuleNotFoundException
      */

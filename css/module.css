@@ -138,10 +138,21 @@ img.mask{
     display: none;
 }
 
-#editIco{
+#editIco, #requestBth{
     float:right;
     margin-top: 20px;
     margin-right: 40px;
+}
+#requestBth{
+    height: 33px;
+    width: 100px;
+    background: #4b70a3;
+    border-radius:   10px;
+    border: 2px solid #ffffff;
+    color: white;
+    font: 16px/30px "MyriadPro";
+    text-align:      center;
+    text-decoration: none;
 }
 
 #lessonForm{
