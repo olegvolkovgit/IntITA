@@ -16,12 +16,15 @@
                         <div ng-non-bindable>
                             <?php echo $data['html_block'];?>
                         </div>
-                        <img ng-click='getVariables(<?php echo $taskId; ?>,<?php echo $intServer; ?>)' style="float:right; cursor: pointer;" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'arrows.png'); ?>" title="Показати/приховати вхідні змінні" />
+                        <img ng-click='getVariables(<?php echo $taskId; ?>,<?php echo $intServer; ?>)' style="float:right; cursor: pointer;" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'information.png'); ?>" title="Показати/приховати вхідні змінні" />
                         <div id="taskVariables">
-                            <em ng-if="variables.length==0">Вхідних змінних немає</em>
-                            <em ng-if="variables.length!=0">Вхідні змінні:</em>
-                            <div ng-repeat="variable in variables track by $index">
-                                <b>{{variable.arg}}</b>: тип - {{variable.type}}<span ng-if="variable.array">, {{variable.size}}-вимірний масив</span>
+                            <em ng-if="variables.input_variables.length!=0">Вхідні змінні:</em>
+                            <div ng-repeat="variable in variables.input_variables track by $index">
+                                <b>{{variable.arg}}</b>: {{variable.type}}<span ng-if="variable.array">, {{variable.size}}-вимірний масив</span>
+                            </div>
+                            <em>Вихідний результат:</em>
+                            <div>
+                                {{variables.res_type}}<span ng-if="variables.res_array">, {{variables.res_size}}-вимірний масив</span>
                             </div>
                         </div>
                     </div>
