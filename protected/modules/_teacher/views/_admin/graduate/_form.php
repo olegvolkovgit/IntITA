@@ -98,7 +98,7 @@
         <?php echo $form->textField($model, 'first_name_en', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'first_name_en'); ?>
         <a href="#"
-           onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en'); return false;">
+           onclick="translateName('<?= $model->isNewRecord ? "" : $model->first_name; ?>', '#Graduate_first_name_en', '#Graduate_first_name'); return false;">
             Згенерувати автоматично</a>
     </div>
 
@@ -107,7 +107,7 @@
         <?php echo $form->textField($model, 'last_name_en', array('class' => "form-control")); ?>
         <?php echo $form->error($model, 'last_name_en'); ?>
         <a href="#"
-           onclick="translateName('<?= $model->isNewRecord ? "" : $model->last_name; ?>', '#Graduate_last_name_en'); return false;">
+           onclick="translateName('<?= $model->isNewRecord ? "" : $model->last_name; ?>', '#Graduate_last_name_en', '#Graduate_last_name'); return false;">
             Згенерувати автоматично</a>
     </div>
 
