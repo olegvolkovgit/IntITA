@@ -20,6 +20,9 @@
             'enableClientValidation' => true,
             'clientOptions' => array(
                 'validateOnSubmit' => true,
+                'afterValidate' => 'js:function(form,data,hasError){
+                sendError(form,data,hasError);return true;
+                }',
             )
         )); ?>
 
