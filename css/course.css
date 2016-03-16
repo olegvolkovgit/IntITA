@@ -534,12 +534,12 @@ input.paymentPlan_value{
 }
 #modulesList .inFinishedModuleStyle{
     background-color: #eaf5e5;
-    border-bottom: 1px solid #666666;
+    border-bottom: 1px solid #339900;
 }
-#modulesList .inFinishedModuleStyle .greenFinished {
+#modulesList .inFinishedModuleStyle .greenFinished, .greenFinished {
     color: #339900;
 }
-#modulesList .inFinishedModuleStyle .redFinished {
+#modulesList .inFinishedModuleStyle .redFinished, .redFinished {
     color: #bc1000;
 }
 #modulesList .inFinishedModuleStyle .moduleProgress,#modulesList .inProgressModuleStyle .moduleProgress {
@@ -550,5 +550,13 @@ input.paymentPlan_value{
 }
 #modulesLoading{
     display: none;
+}
+.finishedCourse{
+    position: relative;
+    background-color: #ffffe0;
+    border-bottom: 1px solid #e6b906;
+}
+.finishedCourse img{
+    position: absolute;right: 5px;bottom: 5px
 }
 /*modulesList*/

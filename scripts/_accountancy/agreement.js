@@ -149,13 +149,7 @@ function confirm(url, id) {
 function cancel(url, id) {
     var posting = $jq.post(url, {id: id});
     posting.done(function (response) {
-            if (response == "success") {
-                bootbox.alert("Договір " + id + " скасований.", refresh);
-            }
-            else {
-                bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, refresh);
-            }
+            bootbox.alert(response, refresh);
         })
         .fail(function () {
             bootbox.alert("Договір " + id + " не скасований. Спробуйте повторити " +

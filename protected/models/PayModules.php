@@ -152,7 +152,7 @@ class PayModules extends CActiveRecord
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
     public function checkModulePermission($idUser, $idResource, $rights){
-        $recordModule = $this->findByAttributes(array('id_user' => $idUser,
+        $recordModule = $this->findByPk(array('id_user' => $idUser,
             'id_module' => $idResource));
         if (is_null($recordModule)) {
             $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idResource));
