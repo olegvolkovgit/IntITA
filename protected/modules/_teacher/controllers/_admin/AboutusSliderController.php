@@ -32,9 +32,14 @@ class AboutusSliderController extends TeacherCabinetController
             $tmpName = $_FILES['AboutusSlider']['tmp_name'];
 
 			$model->attributes=$_POST['AboutusSlider'];
-            $model->pictureUrl = $picName['pictureUrl'];
+
+			$info = new SplFileInfo($picName['pictureUrl']);
+			$extension = $info->getExtension();
+			$filename = uniqid() . '.' . $extension;
+
+            $model->pictureUrl = $filename;
             if($model->validate()){
-            Avatar::saveAbuotusSlider($model,$picName,$tmpName);
+            Avatar::saveAbuotusSlider($model,$picName,$tmpName, $filename);
 
 			if($model->save())
                 $this->redirect($this->pathToCabinet());
