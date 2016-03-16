@@ -1,4 +1,8 @@
-
+<?php
+/**
+ * @var $agreements
+ */
+?>
 <p class="tabHeader"><?php echo Yii::t('profile', '0254');?></p>
 <div class="FinancesPay">
     <?php
@@ -76,9 +80,8 @@
     </div>
     <div class="agreements" style="display: none">
         <?php
-        $agreements = array();
         $this->widget('zii.widgets.CListView', array(
-            'dataProvider'=>$paymentsModules,
+            'dataProvider'=>$agreements,
             'itemView'=>'_agreements',
             'template'=>'{items}{pager}',
             'emptyText'=>Yii::t("finances", "0543"),

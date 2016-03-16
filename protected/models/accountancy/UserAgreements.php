@@ -368,6 +368,17 @@ class UserAgreements extends CActiveRecord
             return true;
         else return false;
     }
+
+    public static function getDataProviderByUser($user){
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('user_id=' . $user);
+        $dataProvider =  new CActiveDataProvider('UserAgreements', array(
+            'criteria' => $criteria,
+            'pagination' => false,
+        ));
+
+        return $dataProvider;
+    }
 }
 
 
