@@ -31,7 +31,7 @@ function addTeacherAttr(url, attr, id) {
             data: {user: user, role: role, attribute: attr, attributeValue: value},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.");
+                    bootbox.alert("Операцію успішно виконано.", function() { loadTeacherModulesList(user); });
                 } else {
                     showDialog("Операцію не вдалося виконати.");
                 }
@@ -55,7 +55,7 @@ function cancelModuleAttr(url, id, attr) {
             success: function (response) {
                 if (response == "success") {
                     bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/teachers/index", 'Викладачі');
+                        loadTeacherModulesList(user)
                     });
                 } else {
                     showDialog("Операцію не вдалося виконати.");
@@ -388,5 +388,9 @@ function refresh(url) {
             showDialog();
         }
     });
+}
+
+function loadTeacherModulesList(id) {
+    load(basePath + '/_teacher/_admin/teachers/addModule/id/'+43);
 }
 
