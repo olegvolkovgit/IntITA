@@ -218,6 +218,7 @@ class StudentRegController extends Controller
             $sentLettersProvider = $model->getSentLettersData();
             $receivedLettersProvider = $model->getReceivedLettersData();
             $paymentsModules = $model->getPaymentsModules();
+            $agreements = UserAgreements::getDataProviderByUser(Yii::app()->user->getId());
 
             $this->render("studentprofile", array(
                 'dataProvider' => $dataProvider,
@@ -232,6 +233,7 @@ class StudentRegController extends Controller
                 'course' => $course,
                 'schema' => $schema,
                 'module' => $module,
+                'agreements' => $agreements,
                 'owner'=>'true'
             ));
         }else{
