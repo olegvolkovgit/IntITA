@@ -270,7 +270,7 @@ div.lessonButFinal
     padding-top: 4px;
 }
 .sendAnswer {
-    margin: 30px 30px 10px 30px;
+    margin: 10px 22px 10px 30px;
     overflow:hidden;
 }
 .sendAnswer textarea {
@@ -450,7 +450,7 @@ div.lessonTest {
     border-radius: 5px;
     color:#ffffff;
     background-color:#4b75a4;
-    margin: 20px 35px 20px 30px;
+    margin: 20px 22px 20px 30px;
     float:right;
     border:none;
 }
@@ -668,6 +668,7 @@ a.postlink {
     width:100px;
     border-radius: 4px;
     margin-right: 4px;
+    margin-bottom: 5px;
  }
 .codeBut:hover{
     background:#666666;
