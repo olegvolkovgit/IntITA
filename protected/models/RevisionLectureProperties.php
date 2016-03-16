@@ -148,13 +148,26 @@ class RevisionLectureProperties extends CActiveRecord
 		return parent::model($className);
 	}
 
+    /**
+     * Save properties model with error checking
+     * @throws RevisionLectureException
+     */
     public function saveCheck() {
         if(!$this->save()) {
             throw new RevisionLecturePropertiesException(implode("; ", $this->getErrors()));
         }
     }
-	
-	public function initialize($order, $titleUa, $titleEn, $titleRu, $user){
+
+    /**
+     * Initialize lecture properties
+     * @param $order
+     * @param $titleUa
+     * @param $titleEn
+     * @param $titleRu
+     * @param $user
+     * @throws RevisionLecturePropertiesException
+     */
+    public function initialize($order, $titleUa, $titleEn, $titleRu, $user){
 		//ktodo refactor default values
 		$this->image = "lectureImage.png";
 		$this->alias = "lecture" . $order;
@@ -171,6 +184,12 @@ class RevisionLectureProperties extends CActiveRecord
         $this->saveCheck();
 	}
 
+    /**
+     * Clone properties
+     * @param $user
+     * @return RevisionLectureProperties
+     * @throws RevisionLecturePropertiesException
+     */
     public function cloneProperties($user) {
         $newProperties = new RevisionLectureProperties();
         $newProperties->image = $this->image;

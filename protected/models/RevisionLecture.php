@@ -18,6 +18,7 @@ class RevisionLecture extends CActiveRecord
 {
 
     private $approveResultCashed = null;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -120,13 +121,28 @@ class RevisionLecture extends CActiveRecord
         );
     }
 
+    /**
+     * Save lecture model with error checking
+     * @throws RevisionLectureException
+     */
     public function saveCheck(){
         if (!$this->save()) {
             throw new RevisionLectureException(implode(", ", $this->getErrors()));
         }
     }
 
-	public static function createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, $user) {
+    /**
+     * Creates new lecture according to params
+     * @param $idModule
+     * @param $order
+     * @param $titleUa
+     * @param $titleEn
+     * @param $titleRu
+     * @param $user
+     * @return RevisionLecture
+     * @throws RevisionLectureException
+     */
+    public static function createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, $user) {
 		$revLectureProperties =  new RevisionLectureProperties();
 		$revLectureProperties->initialize($order, $titleUa, $titleEn, $titleRu, $user);
 
@@ -142,11 +158,19 @@ class RevisionLecture extends CActiveRecord
 		return $revLecture;
 	}
 
+    /**
+     * Adds page to current lecture revision
+     * @param $user
+     */
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
     }
 
+    /**
+     * Check conflicts into lecture revision
+     * @return array with error messages or empty array
+     */
     public function checkConflicts() {
         $result = array();
 
@@ -178,7 +202,11 @@ class RevisionLecture extends CActiveRecord
         $this->approveResultCashed = $result;
         return $result;
     }
-    
+
+    /**
+     * Return only approved lectures.
+     * @return array
+     */
     public function getApprovedLectures() {
 
         return array_filter($this->lecturePages, function ($lecturePage) {
@@ -190,6 +218,11 @@ class RevisionLecture extends CActiveRecord
         });
     }
 
+    /**
+     * Sends current revision to approve
+     * @param $user
+     * @throws RevisionLecturePropertiesException
+     */
     public function sendForApproval($user) {
         if ($this->isSendable()) {
             if ($this->approveResultCashed === null) {
@@ -208,9 +241,16 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Clones $this into new db instance.
+     * Returns new lecture instance or current instance if the lecture is not cloneable
+     * @param $user
+     * @return RevisionLecture
+     * @throws RevisionLectureException
+     */
     public function cloneLecture($user) {
         if (!$this->isClonable()) {
-            return null;
+            return $this;
         }
 
         //todo surround by transaction
@@ -233,6 +273,11 @@ class RevisionLecture extends CActiveRecord
         return $newRevision;
     }
 
+    /**
+     * Rejects lecture revision
+     * @param $user
+     * @throws RevisionLecturePropertiesException
+     */
     public function reject ($user) {
         if ($this->isRejectable()) {
             $this->properties->reject_date = date(Yii::app()->params['dbDateFormat']);
@@ -243,6 +288,11 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Approves lecture revision
+     * @param $user
+     * @throws RevisionLecturePropertiesException
+     */
     public function approve($user) {
 
         if ($this->isApprovable()) {
@@ -265,6 +315,11 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Cancels lecture revision
+     * @param $user
+     * @throws RevisionLecturePropertiesException
+     */
     public function cancel($user) {
         if ($this->isCancellable()) {
             $this->properties->end_date = date(Yii::app()->params['dbDateFormat']);
@@ -275,6 +330,10 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Return true if the lecture can be edited
+     * @return bool
+     */
     public function isEditable() {
         if (!$this->isSended() &&
             !$this->isApproved() &&
@@ -285,8 +344,12 @@ class RevisionLecture extends CActiveRecord
         return false;
     }
 
+    /**
+     * Flushes current revision into regular DB.
+     * @throws RevisionLectureException
+     */
+    //todo refactor
     private function saveToRegularDB() {
-        //todo refactor
 
         //remove old data if lecture exists in regular DB
         if ($this->id_lecture != null) {
@@ -362,6 +425,10 @@ class RevisionLecture extends CActiveRecord
         $this->saveCheck();
     }
 
+    /**
+     * Clear regular DB from lecture (pages and elements) witch should be replaced
+     * @throws CDbException
+     */
     public function removePreviousRecords(){
         $oldLecture = Lecture::model()->findByPk($this->id_lecture);
 
@@ -389,15 +456,20 @@ class RevisionLecture extends CActiveRecord
         }
         $oldLecture->delete();
 
-//        $criteria = new CDbCriteria(array(
-//            'condition' => 'id_lecture'
-//        ));
     }
-    
+
+    /**
+     * Return order of the last page
+     * @return int
+     */
     private function getLastPageOrder(){
         return $this->lecturePages[count($this->lecturePages)-1]->page_order;
     }
 
+    /**
+     * Return true if revision can be approv
+     * @return bool
+     */
     private function isApprovable() {
         if ($this->isSended() &&
             !$this->isRejected() &&
@@ -409,6 +481,10 @@ class RevisionLecture extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be reject
+     * @return bool
+     */
     private function isRejectable() {
         if ($this->isSended() &&
             !$this->isApproved() &&
@@ -418,6 +494,10 @@ class RevisionLecture extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be cancel
+     * @return bool
+     */
     private function isCancellable() {
         if ($this->isSended() &&
             !$this->isApproved() ||
@@ -427,6 +507,10 @@ class RevisionLecture extends CActiveRecord
         return true;
     }
 
+    /**
+     * Return true if revision can be send
+     * @return bool
+     */
     private function isSendable() {
         if (!$this->isSended() &&
             !$this->isRejected() &&
@@ -437,24 +521,42 @@ class RevisionLecture extends CActiveRecord
         return false;
     }
 
-
+    /**
+     * Return true if revision can be clone
+     * @return bool
+     */
     private function isClonable () {
-        // Dummy function. Will be implemented later.
-        return true;
+        return (!$this->isRejected() && !$this->isCancelled());
     }
 
+    /**
+     * Return true if revision was rejected
+     * @return bool
+     */
     private function isRejected() {
         return $this->properties->id_user_rejected != null;
     }
 
+    /**
+     * Return true if revision was sended
+     * @return bool
+     */
     private function isSended() {
         return $this->properties->id_user_sended_approval != null;
     }
 
+    /**
+     * Return true if revision was approved
+     * @return bool
+     */
     private function isApproved() {
         return $this->properties->id_user_approved != null;
     }
 
+    /**
+     * Return true if revision was cancelled
+     * @return bool
+     */
     private function isCancelled() {
         return $this->properties->id_user_cancelled != null;
     }

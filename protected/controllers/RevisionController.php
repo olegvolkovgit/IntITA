@@ -83,7 +83,7 @@ class RevisionController extends Controller
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->addVideo($url);
+        $page->saveVideo($url);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -176,7 +176,6 @@ class RevisionController extends Controller
 
         $result = $lectureRevision->checkConflicts();
 
-        //strict comparison is required
         if (empty($result)) {
             echo "Ok!";
             return;

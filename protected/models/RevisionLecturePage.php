@@ -171,13 +171,24 @@ class RevisionLecturePage extends CActiveRecord
 		return parent::model($className);
 	}
 
+    /**
+     * Save page model with error checking
+     * @throws RevisionLectureException
+     */
     public function saveCheck($runValidation=true,$attributes=null) {
         if(!$this->save($runValidation,$attributes)) {
             throw new RevisionLecturePageException(implode("; ", $this->getErrors()));
         }
     }
 
-	public function initialize($idRevision, $user, $order=1) {
+    /**
+     * Initialises page
+     * @param $idRevision
+     * @param $user
+     * @param int $order
+     * @throws RevisionLecturePageException
+     */
+    public function initialize($idRevision, $user, $order=1) {
 		//default values
 		$this->page_title = "";
 		$this->video = null;
@@ -193,12 +204,20 @@ class RevisionLecturePage extends CActiveRecord
 		$this->saveCheck();
 	}
 
-	public function clonePage($user, $idNewRevision = null) {
+    /**
+     * Clone revision
+     * Returns new page instance or current instance if the page is not cloneable
+     * @param $user
+     * @param null $idNewRevision
+     * @return RevisionLecturePage
+     * @throws RevisionLecturePageException
+     */
+    public function clonePage($user, $idNewRevision = null) {
 
         if ($idNewRevision != null && !$this->isClonable()) {
             // we shouldn't clone page in new revision if it is not cloneable
             // (was rejected or cancelled)
-            return null;
+            return $this;
         }
 
         if ($idNewRevision == null) {
@@ -235,11 +254,22 @@ class RevisionLecturePage extends CActiveRecord
         return $newRevision;
 	}
 
+    /**
+     * Returns lecture elements which contains in lecture body.
+     * Doesn't return quiz and video instance.
+     * @return RevisionLectureElement[]
+     */
     public function getLectureBody(){
         return $this->lectureElements;
     }
 
-    public function addVideo($url) {
+    /**
+     * Adds video block or edit if the video bloc exists
+     * @param $url
+     * @throws RevisionLectureElementException
+     * @throws RevisionLecturePageException
+     */
+    public function saveVideo($url) {
 
         $this->checkEditable();
 
@@ -255,6 +285,11 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    /**
+     * Sends page for approve
+     * @param $user
+     * @throws RevisionLecturePageException
+     */
     public function sendForApproval($user) {
         if ($this->isSendable()) {
             $this->send_approval_date = date(Yii::app()->params['dbDateFormat']);
@@ -265,7 +300,11 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
-	public function isEditable() {
+    /**
+     * Returns true if page can be edited
+     * @return bool
+     */
+    public function isEditable() {
         if (!$this->isSended() &&
             !$this->isApproved() &&
             !$this->isCancelled() &&
@@ -275,6 +314,11 @@ class RevisionLecturePage extends CActiveRecord
 		return false;
 	}
 
+    /**
+     * Approves page
+     * @param $user
+     * @throws RevisionLecturePageException
+     */
     public function approve($user) {
         //todo save to regular DB
         if ($this->isApprovable()) {
@@ -286,6 +330,11 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    /**
+     * Rejects page
+     * @param $user
+     * @throws RevisionLecturePageException
+     */
     public function reject($user) {
         if ($this->isRejectable()) {
             $this->reject_date = date(Yii::app()->params['dbDateFormat']);
@@ -296,6 +345,11 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    /**
+     * Cancels page
+     * @param $user
+     * @throws RevisionLecturePageException
+     */
     public function cancel($user) {
         if ($this->isCancellable()) {
             $this->end_date = date(Yii::app()->params['dbDateFormat']);
@@ -306,6 +360,11 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    /**
+     * Sets or update title
+     * @param $title
+     * @throws RevisionLecturePageException
+     */
     public function setTitle($title) {
         $this->checkEditable();
 
@@ -313,6 +372,15 @@ class RevisionLecturePage extends CActiveRecord
         $this->saveCheck();
     }
 
+    /**
+     * Adds text block
+     * @param $idType
+     * @param $html_block
+     * @param $user
+     * @return RevisionLectureElement
+     * @throws RevisionLectureElementException
+     * @throws RevisionLecturePageException
+     */
     public function addTextBlock($idType, $html_block, $user) {
         $this->checkEditable();
 
@@ -328,6 +396,10 @@ class RevisionLecturePage extends CActiveRecord
         return $element;
     }
 
+    /**
+     * Moves page up
+     * @throws RevisionLecturePageException
+     */
     public function moveUp() {
         $this->checkEditable();
 
@@ -335,6 +407,10 @@ class RevisionLecturePage extends CActiveRecord
         $this->saveCheck();
     }
 
+    /**
+     * Move page down
+     * @throws RevisionLecturePageException
+     */
     public function moveDown() {
         $this->checkEditable();
 
@@ -342,14 +418,26 @@ class RevisionLecturePage extends CActiveRecord
         $this->saveCheck();
     }
 
+    /**
+     * Returns quiz instance
+     * @return static
+     */
     public function getQuiz() {
         return RevisionLectureElement::model()->findByPk($this->quiz);
     }
 
+    /**
+     * Returns video instance
+     * @return static
+     */
     public function getVideo() {
         return RevisionLectureElement::model()->findByPk($this->video);
     }
 
+    /**
+     * Rises exception if page revision couldn't be changed
+     * @throws RevisionLecturePageException
+     */
     private function checkEditable() {
         //just to be sure. this case should be resolved in previous level;
         if (!$this->isEditable()) {
@@ -357,10 +445,18 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    /**
+     * Returns next order for lectureElements
+     * @return int
+     */
     private function getNextOrder() {
         return $this->lectureElements[count($this->lectureElements)-1]->block_order+1;
     }
 
+    /**
+     * Return true if revision can be approv
+     * @return bool
+     */
     private function isApprovable() {
         $lectureRev = RevisionLecture::model()->findByPk($this->id_revision);
         if ($this->isSended() &&
@@ -373,6 +469,10 @@ class RevisionLecturePage extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be reject
+     * @return bool
+     */
     private function isRejectable() {
         if ($this->isSended() &&
             !$this->isApproved() &&
@@ -382,6 +482,10 @@ class RevisionLecturePage extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be cancel
+     * @return bool
+     */
     private function isCancellable() {
         if ($this->isSended() &&
             !$this->isApproved() ||
@@ -391,6 +495,10 @@ class RevisionLecturePage extends CActiveRecord
         return true;
     }
 
+    /**
+     * Return true if revision can be send
+     * @return bool
+     */
     private function isSendable() {
         if (!$this->isSended() &&
             !$this->isRejected() &&
@@ -401,22 +509,42 @@ class RevisionLecturePage extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be clone
+     * @return bool
+     */
     private function isClonable() {
         return (!$this->isRejected() && !$this->isCancelled());
     }
 
+    /**
+     * Return true if revision was rejected
+     * @return bool
+     */
     private function isRejected() {
         return $this->id_user_rejected != null;
     }
 
+    /**
+     * Return true if revision was sended
+     * @return bool
+     */
     private function isSended() {
         return $this->id_user_sended_approval != null;
     }
 
+    /**
+     * Return true if revision was approved
+     * @return bool
+     */
     private function isApproved() {
         return $this->id_user_approved != null;
     }
 
+    /**
+     * Return true if revision was cancelled
+     * @return bool
+     */
     private function isCancelled() {
         return $this->id_user_cancelled != null;
     }

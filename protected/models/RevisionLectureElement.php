@@ -106,13 +106,22 @@ class RevisionLectureElement extends CActiveRecord
 		return parent::model($className);
 	}
 
+    /**
+     * Save properties model with error checking
+     * @throws RevisionLectureException
+     */
 	public function saveCheck($runValidation=true,$attributes=null) {
 		if (!$this->save($runValidation, $attributes)) {
 			throw new RevisionLectureElementException(implode(", ", $this->getErrors()));
 		}
 	}
 
-	public function initVideoElement($url, $idPage) {
+    /**
+     * Initialize video element
+     * @param $url
+     * @param $idPage
+     */
+    public function initVideoElement($url, $idPage) {
 		$this->id_page = $idPage;
 		$this->id_type = LectureElement::VIDEO;
 		$this->block_order = 0;
@@ -121,7 +130,13 @@ class RevisionLectureElement extends CActiveRecord
 		$this->save();
 	}
 
-	public function cloneVideo($idNewPage = null){
+    /**
+     * Clone video element
+     * @param null $idNewPage
+     * @return RevisionLectureElement
+     * @throws RevisionLectureElementException
+     */
+    public function cloneVideo($idNewPage = null){
 		if ($idNewPage == null) {
 			$idNewPage = $this->id_page;
 		}
@@ -136,6 +151,12 @@ class RevisionLectureElement extends CActiveRecord
         return $clone;
 	}
 
+    /**
+     * Clone text element
+     * @param $idNewPage
+     * @return RevisionLectureElement
+     * @throws RevisionLectureElementException
+     */
     public function cloneText($idNewPage) {
         if ($idNewPage == null) {
             $idNewPage = $this->id_page;
