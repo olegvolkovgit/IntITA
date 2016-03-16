@@ -229,7 +229,6 @@ class RevisionController extends Controller
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
 
         $lectureRev->approve(Yii::app()->user);
-
     }
 
     /***************/
