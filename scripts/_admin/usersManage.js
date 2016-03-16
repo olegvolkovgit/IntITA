@@ -5,16 +5,10 @@ function sendNewAdminData(url) {
     } else {
         var posting = $jq.post(url, {userId: user});
         posting.done(function (response) {
-                if (response == "success") {
-                    bootbox.alert("Користувач " + user + " призначений адміністратором.", loadUsersIndex);
-                }
-                else {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-                }
+                bootbox.alert(response, loadUsersIndex);
             })
             .fail(function () {
-                bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                bootbox.alert("Користувача не вдалося призначити адміністратором. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             });
     }
@@ -61,15 +55,10 @@ function sendNewAccountantData(url) {
         var posting = $jq.post(url, {userId: user});
 
         posting.done(function (response) {
-            if (response == "success")
-                    bootbox.alert("Користувач " + user + " призначений бухгалтером.", loadUsersIndex);
-                else {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-                }
+                bootbox.alert(response, loadUsersIndex);
             })
             .fail(function () {
-                bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
+                bootbox.alert("Користувача не вдалося призначити бухгалтером. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             });
     }
