@@ -1,5 +1,6 @@
 function initTeacherResponsesTable() {
     $jq('#teacherResponsesTable').DataTable({
+        "order": [[ 3, "desc" ]],
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/response/getTeacherResponsesList",
