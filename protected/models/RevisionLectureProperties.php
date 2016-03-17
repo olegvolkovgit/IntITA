@@ -178,7 +178,7 @@ class RevisionLectureProperties extends CActiveRecord
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
-		$this->start_date = date(Yii::app()->params['dbDateFormat']);
+		$this->start_date = new CDbExpression('NOW()');
 		$this->id_user_created = $user->getId();
 
         $this->saveCheck();
@@ -201,7 +201,7 @@ class RevisionLectureProperties extends CActiveRecord
         $newProperties->title_ru = $this->title_ru;
         $newProperties->title_en = $this->title_en;
 
-        $newProperties->start_date = date(Yii::app()->params['dbDateFormat']);
+        $newProperties->start_date = new CDbExpression('NOW()');;
         $newProperties->id_user_created = $user->getId();
 
         $newProperties->saveCheck();

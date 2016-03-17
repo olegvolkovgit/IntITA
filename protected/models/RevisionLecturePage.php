@@ -196,7 +196,7 @@ class RevisionLecturePage extends CActiveRecord
         $this->id_parent_page = null;
 
         $this->page_order = $order;
-		$this->start_date = date(Yii::app()->params['dbDateFormat']);
+		$this->start_date = new CDbExpression('NOW()');;
 		$this->id_user_created = $user->getId();
 
 		$this->id_revision = $idRevision;
@@ -241,7 +241,7 @@ class RevisionLecturePage extends CActiveRecord
             $newRevision->page_title = $this->page_title;
             $newRevision->page_order = $this->page_order;
 
-            $newRevision->start_date = date(Yii::app()->params['dbDateFormat']);
+            $newRevision->start_date = new CDbExpression('NOW()');;
             $newRevision->id_user_created = $user->getId();
 
             $newRevision->saveCheck();
@@ -311,7 +311,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function sendForApproval($user) {
         if ($this->isSendable()) {
-            $this->send_approval_date = date(Yii::app()->params['dbDateFormat']);
+            $this->send_approval_date = new CDbExpression('NOW()');;
             $this->id_user_sended_approval = $user->getId();
             $this->saveCheck();
         } else {
@@ -340,7 +340,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function approve($user) {
         if ($this->isApprovable()) {
-            $this->approve_date = date(Yii::app()->params['dbDateFormat']);
+            $this->approve_date = new CDbExpression('NOW()');;
             $this->id_user_approved = $user->getId();
             $this->saveCheck();
         } else {
@@ -355,7 +355,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function reject($user) {
         if ($this->isRejectable()) {
-            $this->reject_date = date(Yii::app()->params['dbDateFormat']);
+            $this->reject_date = new CDbExpression('NOW()');;
             $this->id_user_rejected = $user->getId();
             $this->saveCheck();
         } else {
@@ -370,7 +370,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function cancel($user) {
         if ($this->isCancellable()) {
-            $this->end_date = date(Yii::app()->params['dbDateFormat']);
+            $this->end_date = new CDbExpression('NOW()');;
             $this->id_user_cancelled = $user->getId();
             $this->saveCheck();
         } else {

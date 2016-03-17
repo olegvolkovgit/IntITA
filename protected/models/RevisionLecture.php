@@ -230,7 +230,7 @@ class RevisionLecture extends CActiveRecord
             }
 
             if (empty($this->approveResultCashed)) {
-                $this->properties->send_approval_date = date(Yii::app()->params['dbDateFormat']);
+                $this->properties->send_approval_date = new CDbExpression('NOW()');;
                 $this->properties->id_user_sended_approval = $user->getId();
                 $this->properties->saveCheck();
             } else {
@@ -249,9 +249,9 @@ class RevisionLecture extends CActiveRecord
      * @throws Exception
      */
     public function cloneLecture($user) {
-        if (!$this->isClonable()) {
-            return $this;
-        }
+//        if (!$this->isClonable()) {
+//            return $this;
+//        }
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
@@ -284,7 +284,7 @@ class RevisionLecture extends CActiveRecord
      */
     public function reject ($user) {
         if ($this->isRejectable()) {
-            $this->properties->reject_date = date(Yii::app()->params['dbDateFormat']);
+            $this->properties->reject_date = new CDbExpression('NOW()');;
             $this->properties->id_user_rejected = $user->getId();
             $this->properties->saveCheck();
         } else {
@@ -311,7 +311,7 @@ class RevisionLecture extends CActiveRecord
                 try {
                     $this->saveToRegularDB();
 
-                    $this->properties->approve_date = date(Yii::app()->params['dbDateFormat']);
+                    $this->properties->approve_date = new CDbExpression('NOW()');;
                     $this->properties->id_user_approved = $user->getId();
                     $this->properties->saveCheck();
 
@@ -336,7 +336,7 @@ class RevisionLecture extends CActiveRecord
      */
     public function cancel($user) {
         if ($this->isCancellable()) {
-            $this->properties->end_date = date(Yii::app()->params['dbDateFormat']);
+            $this->properties->end_date = new CDbExpression('NOW()');;
             $this->properties->id_user_cancelled = $user->getId();
             $this->properties->saveCheck();
         } else {

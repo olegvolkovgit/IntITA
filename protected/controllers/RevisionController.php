@@ -202,8 +202,6 @@ class RevisionController extends Controller
     public function actionNewLectureRevision() {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
-//        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties', 'lecturePages.lectureElements')->findByPk($idLecture);
-
         $newRevision = $lectureRev->cloneLecture(Yii::app()->user);
     }
 
