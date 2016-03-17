@@ -38,9 +38,9 @@
             echo CHtml::hiddenField("idPage", $page->id);
             echo CHtml::hiddenField("idElement", $lectureElement->id);
             echo "<br>";
-//            echo CHtml::button("Up", array('onclick' => 'upElement('.$lectureElement->id.')'));
-//            echo CHtml::button("Down", array('onclick' => 'downElement('.$lectureElement->id.')'));
             echo CHtml::submitButton("Edit");
+            echo CHtml::button("Up", array('onclick' => 'upElement('.$lectureElement->id.',' . $page->id . ')'));
+            echo CHtml::button("Down", array('onclick' => 'downElement('.$lectureElement->id.',' . $page->id . ')'));
             echo CHtml::endForm();
         }
     }

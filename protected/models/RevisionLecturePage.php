@@ -211,6 +211,7 @@ class RevisionLecturePage extends CActiveRecord
      * @param null $idNewRevision
      * @return RevisionLecturePage
      * @throws RevisionLecturePageException
+     * @throws Exception
      */
     public function clonePage($user, $idNewRevision = null) {
 
@@ -224,32 +225,50 @@ class RevisionLecturePage extends CActiveRecord
             $idNewRevision = $this->id_revision;
         }
 
-        //todo surround by transaction
-        $newRevision = new RevisionLecturePage();
+        $connection = Yii::app()->db;
+        $transaction = null;
 
-        $newRevision->id_page = $this->id_page;
-        $newRevision->id_parent_page = $this->id;
-        $newRevision->id_revision = $idNewRevision;
-        $newRevision->page_title = $this->page_title;
-        $newRevision->page_order = $this->page_order;
-
-        $newRevision->start_date = date(Yii::app()->params['dbDateFormat']);
-        $newRevision->id_user_created = $user->getId();
-
-        $newRevision->saveCheck();
-
-		//todo copy elements - quiz;
-
-		if ($this->video != null) {
-            $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneVideo($newRevision->id);
-			$newRevision->video = $newVideo->id;
-		}
-
-        foreach ($this->lectureElements as $lectureElement) {
-            $newLectureElement = $lectureElement->cloneText($newRevision->id);
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
         }
 
-        $newRevision->saveCheck();
+        try {
+            $newRevision = new RevisionLecturePage();
+
+            $newRevision->id_page = $this->id_page;
+            $newRevision->id_parent_page = $this->id;
+            $newRevision->id_revision = $idNewRevision;
+            $newRevision->page_title = $this->page_title;
+            $newRevision->page_order = $this->page_order;
+
+            $newRevision->start_date = date(Yii::app()->params['dbDateFormat']);
+            $newRevision->id_user_created = $user->getId();
+
+            $newRevision->saveCheck();
+
+            //todo copy elements - quiz;
+
+            if ($this->video != null) {
+                $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneVideo($newRevision->id);
+                $newRevision->video = $newVideo->id;
+            }
+
+            foreach ($this->lectureElements as $lectureElement) {
+                $newLectureElement = $lectureElement->cloneText($newRevision->id);
+            }
+
+            $newRevision->saveCheck();
+
+
+            if ($transaction != null) {
+                $transaction->commit();
+            }
+        } catch (Exception $e) {
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
+            throw $e;
+        }
 
         return $newRevision;
 	}
@@ -320,7 +339,6 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLecturePageException
      */
     public function approve($user) {
-        //todo save to regular DB
         if ($this->isApprovable()) {
             $this->approve_date = date(Yii::app()->params['dbDateFormat']);
             $this->id_user_approved = $user->getId();
@@ -356,7 +374,7 @@ class RevisionLecturePage extends CActiveRecord
             $this->id_user_cancelled = $user->getId();
             $this->saveCheck();
         } else {
-            //todo inform that the page cannot be rejected
+            //todo inform that the page cannot be cancelled
         }
     }
 
@@ -376,12 +394,11 @@ class RevisionLecturePage extends CActiveRecord
      * Adds text block
      * @param $idType
      * @param $html_block
-     * @param $user
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
      * @throws RevisionLecturePageException
      */
-    public function addTextBlock($idType, $html_block, $user) {
+    public function addTextBlock($idType, $html_block) {
         $this->checkEditable();
 
         $order = $this->getNextOrder();
@@ -435,6 +452,54 @@ class RevisionLecturePage extends CActiveRecord
     }
 
     /**
+     * Shift element up
+     * @param $idElement
+     */
+    public function upElement($idElement) {
+        foreach ($this->lectureElements as $key => $lectureElement) {
+            if ($lectureElement->id == $idElement) {
+                if ($key == 0) {
+                    return;
+                }
+                $this->swapElements($lectureElement, $this->lectureElements[$key-1]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Shift element down
+     * @param $idElement
+     */
+    public function downElement($idElement) {
+        foreach ($this->lectureElements as $key => $lectureElement) {
+            if ($lectureElement->id == $idElement) {
+                if ($key == count($this->lectureElements)-1) {
+                    return;
+                }
+
+                $this->swapElements($lectureElement, $this->lectureElements[$key+1]);
+
+            }
+        }
+    }
+
+    /**
+     * Swaps elements order
+     * @param RevisionLectureElement $a
+     * @param RevisionLectureElement $b
+     */
+    private function swapElements($a, $b) {
+        if ($a != null && $b != null) {
+            $swap = $a->block_order;
+            $a->block_order = $b->block_order;
+            $b->block_order = $swap;
+            $a->saveCheck();
+            $b->saveCheck();
+        }
+    }
+
+    /**
      * Rises exception if page revision couldn't be changed
      * @throws RevisionLecturePageException
      */
@@ -450,6 +515,8 @@ class RevisionLecturePage extends CActiveRecord
      * @return int
      */
     private function getNextOrder() {
+        if (count($this->lectureElements) == 0)
+            return 1;
         return $this->lectureElements[count($this->lectureElements)-1]->block_order+1;
     }
 

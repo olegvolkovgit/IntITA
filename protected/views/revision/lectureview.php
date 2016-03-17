@@ -242,4 +242,20 @@ $this->widget('zii.widgets.grid.CGridView', array(
             data: {idLecture:<?=$lectureRevision->id_revision?>}
         })
     }
+
+    function upElement(idEl, idPage) {
+        $.ajax({
+            method: "POST",
+            url: "/revision/upLectureElement",
+            data: {idElement:idEl, idPage:idPage}
+        })
+    }
+
+    function downElement(idEl, idPage) {
+        $.ajax({
+            method: "POST",
+            url: "/revision/downLectureElement",
+            data: {idElement:idEl, idPage:idPage}
+        })
+    }
 </script>

@@ -246,29 +246,33 @@ class RevisionLecture extends CActiveRecord
      * Returns new lecture instance or current instance if the lecture is not cloneable
      * @param $user
      * @return RevisionLecture
-     * @throws RevisionLectureException
+     * @throws Exception
      */
     public function cloneLecture($user) {
         if (!$this->isClonable()) {
             return $this;
         }
 
-        //todo surround by transaction
-        $newRevision = new RevisionLecture();
-        $newRevision->id_parent = $this->id_revision;
-        $newRevision->id_lecture = $this->id_lecture;
-        $newRevision->id_module = $this->id_module;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $newRevision = new RevisionLecture();
+            $newRevision->id_parent = $this->id_revision;
+            $newRevision->id_lecture = $this->id_lecture;
+            $newRevision->id_module = $this->id_module;
 
-        $newProperties = $this->properties->cloneProperties($user);
-        $newRevision->id_properties = $newProperties->id;
+            $newProperties = $this->properties->cloneProperties($user);
+            $newRevision->id_properties = $newProperties->id;
 
-        $newRevision->saveCheck();
+            $newRevision->saveCheck();
 
-        foreach ($this->lecturePages as $page) {
-            $page->clonePage($user, $newRevision->id_revision);
+            foreach ($this->lecturePages as $page) {
+                $page->clonePage($user, $newRevision->id_revision);
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
         }
-
-//        $newRevision->getRelated('lecturePages');
 
         return $newRevision;
     }
@@ -292,6 +296,7 @@ class RevisionLecture extends CActiveRecord
      * Approves lecture revision
      * @param $user
      * @throws RevisionLecturePropertiesException
+     * @throws Exception
      */
     public function approve($user) {
 
@@ -301,12 +306,21 @@ class RevisionLecture extends CActiveRecord
             }
 
             if (empty($this->approveResultCashed)) {
-                //todo surround by transaction
-                $this->saveToRegularDB();
 
-                $this->properties->approve_date = date(Yii::app()->params['dbDateFormat']);
-                $this->properties->id_user_approved = $user->getId();
-                $this->properties->saveCheck();
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $this->saveToRegularDB();
+
+                    $this->properties->approve_date = date(Yii::app()->params['dbDateFormat']);
+                    $this->properties->id_user_approved = $user->getId();
+                    $this->properties->saveCheck();
+
+                    $transaction->commit();
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw $e;
+                }
+
             } else {
                 //todo inform user
             }
@@ -361,7 +375,6 @@ class RevisionLecture extends CActiveRecord
         //todo maybe need to store idTeacher separately in vc_* DB?
         $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
 
-
         $newLecture = new Lecture();
         $newLecture->idModule = $this->id_module;
         $newLecture->title_ua = $this->properties->title_ua;
@@ -374,6 +387,7 @@ class RevisionLecture extends CActiveRecord
         $newLecture->idType = $this->properties->id_type;
         $newLecture->isFree = $this->properties->is_free;
         $newLecture->save();
+
         $idNewLecture = $newLecture->id;
 
         foreach ($this->getApprovedLectures() as $page) {

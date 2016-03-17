@@ -133,7 +133,7 @@ class RevisionController extends Controller
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->addTextBlock($idType, $html_block, Yii::app()->user);
+        $page->addTextBlock($idType, $html_block);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -228,6 +228,22 @@ class RevisionController extends Controller
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
 
         $lectureRev->approve(Yii::app()->user);
+    }
+
+    public function actionUpLectureElement() {
+        $idPage = Yii::app()->request->getPost('idPage');
+        $idElement = Yii::app()->request->getPost('idElement');
+
+        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $page->upElement($idElement);
+    }
+
+    public function actionDownLectureElement() {
+        $idPage = Yii::app()->request->getPost('idPage');
+        $idElement = Yii::app()->request->getPost('idElement');
+
+        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $page->downElement($idElement);
     }
 
     /***************/
