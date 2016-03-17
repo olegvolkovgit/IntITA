@@ -189,3 +189,11 @@ td,th{
     max-width: 100px;
 }
 .recall{white-space: pre-wrap;}
+
+#agreements thead tr th,#invoices thead tr th,#operationsTable thead tr th{
+    vertical-align: top;
+    white-space: normal;
+}
+#agreements tr,#invoices tr,#operationsTable tr{
+    text-align: center;
+}
