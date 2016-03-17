@@ -11,10 +11,6 @@
     </li>
 </ul>
 
-<div class="page-header">
-    <h2>Модуль #<?php echo $id . " " . Module::getModuleName($id); ?></h2>
-</div>
-<br>
 <form onsubmit="addCoursePrice('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addCoursePrice'); ?>');return false;"
       name="add-accessModule">
     <fieldset>

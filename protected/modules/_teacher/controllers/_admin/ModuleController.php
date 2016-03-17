@@ -10,14 +10,7 @@ class ModuleController extends TeacherCabinetController
 {
     public function actionIndex()
     {
-        $model = new Module('search');
-        $model->unsetAttributes();
-        if (isset($_GET['Module']))
-            $model->attributes = $_GET['Module'];
-
-        $this->renderPartial('index', array(
-            'model' => $model,
-        ), false, true);
+        $this->renderPartial('index', array(), false, true);
     }
 
     public function actionCreate()
@@ -81,16 +74,20 @@ class ModuleController extends TeacherCabinetController
 
     public function actionView($id)
     {
-        $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
+        $model = Module::model()->with('lectures', 'teacher', 'inCourses')->findByPk($id);
+        $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
 
         $this->renderPartial('view', array(
-            'model' => $model
+            'model' => $model,
+            'courses' => $courses,
         ), false, true);
     }
 
     public function actionUpdate($id)
     {
         $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
+        $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
+
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
@@ -124,6 +121,7 @@ class ModuleController extends TeacherCabinetController
 
         $this->renderPartial('update', array(
             'model' => $model,
+            'courses' => $courses,
             'levels' => $levels
         ), false, true);
     }
@@ -163,9 +161,11 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
+    //todo refactor
     public function actionCoursePrice($id)
     {
         $courses = Course::generateModuleCoursesList($id);
+
         $this->renderPartial('coursePrice', array(
             'id' => $id,
             'courses' => $courses

@@ -9,18 +9,17 @@ $teachers = $model->teacher;
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <!--        --><?php //if ($scenario == "update"){?>
-        <!--            <ul class="list-inline">-->
-        <!--                <li>-->
-        <!--                    <button type="submit" class="btn btn-outline btn-primary">-->
-        <!--                        Редагувати список модулів</button>-->
-        <!--                </li>-->
-        <!--                <li>-->
-        <!--                    <button type="button" class="btn btn-outline btn-primary">-->
-        <!--                        Додати існуючий модуль до курса</button>-->
-        <!--                </li>-->
-        <!--            </ul>-->
-        <!--        --><?php //}?>
+        <?php if ($scenario == "update") { ?>
+            <ul class="list-inline">
+                <li>
+                    <button type="button" class="btn btn-outline btn-primary"
+                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addTeacher', array('id' => $model->module_ID)); ?>',
+                                'Призначити автора модуля')">
+                        Призначити автора
+                    </button>
+                </li>
+            </ul>
+        <?php } ?>
 
         <div class="col-md-12">
             <div class="row">
@@ -55,12 +54,13 @@ $teachers = $model->teacher;
                             </td>
                             <?php if ($scenario == 'update') { ?>
                                 <td>
-                                    <?php //if ($item["end_time"] == '') { ?>
-                                        <a href="#"
-                                           onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                                               '<?= $item->user_id ?>', 'module'); return false;">
-                                            скасувати
-                                        </a>
+                                    <?php //todo
+                                    //if ($item["end_time"] == '') { ?>
+                                    <a href="#"
+                                       onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
+                                           '<?= $item->user_id ?>', 'module'); return false;">
+                                        скасувати
+                                    </a>
                                     <?php //} ?>
                                 </td>
                             <?php } ?>

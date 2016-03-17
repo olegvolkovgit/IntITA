@@ -11,7 +11,7 @@
  * @property integer $price_in_course
  *
  * The followings are the available model relations:
- * @property Course $idCourse
+ * @property Course $course
  * @property Module $moduleInCourse
  */
 class CourseModules extends CActiveRecord
@@ -58,6 +58,7 @@ class CourseModules extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'moduleInCourse' => array(self::HAS_ONE, 'Module', array('module_ID' => 'id_module')),
+            'course' => array(self::HAS_ONE, 'Course', array('course_ID' => 'id_course')),
         );
     }
 

@@ -189,7 +189,7 @@ class Course extends CActiveRecord implements IBillableObject
         $modules = $this->module;
 
         foreach ($modules as $module) {
-            $price += $module->module_price;
+            $price += $module->moduleInCourse->module_price;
         }
 
         return $price;

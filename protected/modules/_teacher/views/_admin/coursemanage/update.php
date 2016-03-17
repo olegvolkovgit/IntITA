@@ -12,6 +12,19 @@
             <?php echo Yii::t("coursemanage", "0510"); ?></button>
     </li>
     <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/view',
+                    array('id' => $model->course_ID)); ?>')">
+            Переглянути курс
+        </button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="setCourseStatus('<?php echo Yii::app()->createUrl("/_teacher/_admin/coursemanage/changeStatus",
+                    array("id" => $model->course_ID)); ?>', '<?= ($model->isActive()) ? 'Видалити курс?' : 'Відновити курс?'; ?>')">
+            <?= ($model->isActive()) ? 'Видалити' : 'Відновити'; ?></button>
+    </li>
+    <li>
         <button type="button" class="btn btn-success"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
                     array('idCourse' => $model->course_ID)); ?>', 'Згенерувати схему курса')">

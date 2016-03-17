@@ -1,6 +1,7 @@
 <?php
 /* @var $this ModuleController
  * @var $model Module
+ * @var $courses array
  */
 ?>
     <div class="row">
@@ -26,10 +27,6 @@
             </li>
         </ul>
     </div>
-<!---->
-<!--    <div class="page-header">-->
-<!--        <h4>Модуль #--><?php //echo $model->module_number . " " . $model->title_ua; ?><!--</h4>-->
-<!--    </div>-->
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -46,6 +43,8 @@
             <li><a href="#lectures" data-toggle="tab">Лекції</a>
             </li>
             <li><a href="#authors" data-toggle="tab">Автори</a>
+            </li>
+            <li><a href="#inCourses" data-toggle="tab">У курсах</a>
             </li>
          </ul>
         <!-- Tab panes -->
@@ -67,6 +66,13 @@
             </div>
             <div class="tab-pane fade" id="authors">
                 <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'view'));?>
+            </div>
+            <div class="tab-pane fade" id="inCourses">
+                <?php $this->renderPartial('_inCoursesTab', array(
+                    'model' => $model,
+                    'scenario' => 'view',
+                    'courses' => $courses
+                ));?>
             </div>
         </div>
     </div>

@@ -26,7 +26,8 @@
  * @property integer $cancelled
  *
  * The followings are the available model relations:
- * @property Course $course0
+ * @property Course $Course
+ * @property CourseModules $inCourses
  * @property Level $level0
  * @property Lecture[] $lectures
  * @property Teacher teacher
@@ -102,6 +103,7 @@ class Module extends CActiveRecord implements IBillableObject
             'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)',
                                                 'on' => 'teacher.isPrint=1'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
+            'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
         );
     }
 

@@ -10,8 +10,8 @@
         <?php if ($scenario == "update"){?>
         <ul class="list-inline">
             <li>
-                <button type="submit" class="btn btn-outline btn-primary">
-                    Редагувати список модулів</button>
+                <a href="<?=Yii::app()->createUrl("course/index", array('id' => $model->course_ID));?>" class="btn btn-outline btn-primary">
+                    Редагувати список модулів</a>
             </li>
             <li>
                 <button type="button" class="btn btn-outline btn-primary"

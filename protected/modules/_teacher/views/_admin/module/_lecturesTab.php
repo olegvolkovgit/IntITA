@@ -9,21 +9,20 @@ $lectures = $model->lectures;
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-
-<!--        --><?php  //todo
-        //if ($scenario == "update"){?>
-<!--            <ul class="list-inline">-->
-<!--                <li>-->
-<!--                    <button type="submit" class="btn btn-outline btn-primary">-->
-<!--                        Редагувати список модулів</button>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                    <button type="button" class="btn btn-outline btn-primary">-->
-<!--                        Додати існуючий модуль до курса</button>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        --><?php //}?>
-
+        <?php
+        if ($scenario == "update"){?>
+            <ul class="list-inline">
+                <li>
+                    <a href="<?=Yii::app()->createUrl("module/index", array('idModule' => $model->module_ID));?>" class="btn btn-outline btn-primary">
+                        Редагувати список лекцій</a>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-outline btn-primary"
+                            onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/freeLectures/index")?>', 'Безкоштовні лекції');">
+                        Змінити статус лекції</button>
+                </li>
+            </ul>
+        <?php }?>
         <div class="col-md-12">
             <div class="row">
                 <?php if (!empty($lectures)){ ?>
