@@ -189,3 +189,12 @@ td,th{
     max-width: 100px;
 }
 .recall{white-space: pre-wrap;}
+.tab-content .tab-pane
+{
+    display: none;
+}
+
+.tab-content .active
+{
+    display: block;
+}

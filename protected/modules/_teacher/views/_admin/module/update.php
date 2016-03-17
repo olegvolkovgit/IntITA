@@ -10,12 +10,14 @@
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
                     'Модулі')">
-            Список модулів</button>
+            Список модулів
+        </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/view',
-                    array('id' => $model->module_ID)); ?>', '<?="Модуль ".$model->getTitle();?>')">Переглянути модуль
+                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getTitle(); ?>')">Переглянути
+            модуль
         </button>
     </li>
     <li>
@@ -47,33 +49,36 @@
             </li>
         </ul>
         <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="main">
-                <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels));?>
+        <form class="form-horizontal" role="form" name="moduleForm" id="moduleForm" method="post"
+              action="<?= Yii::app()->createUrl("/_teacher/_admin/module/newModule") ?>">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="main">
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels)); ?>
+                </div>
+                <div class="tab-pane fade" id="ua">
+                    <?php $this->renderPartial('_uaEditTab', array('model' => $model)); ?>
+                </div>
+                <div class="tab-pane fade" id="ru">
+                    <?php $this->renderPartial('_ruEditTab', array('model' => $model)); ?>
+                </div>
+                <div class="tab-pane fade" id="en">
+                    <?php $this->renderPartial('_enEditTab', array('model' => $model)); ?>
+                </div>
+                <div class="tab-pane fade" id="lectures">
+                    <?php $this->renderPartial('_lecturesTab', array('model' => $model, 'scenario' => 'update')); ?>
+                </div>
+                <div class="tab-pane fade" id="authors">
+                    <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'update')); ?>
+                </div>
+                <div class="tab-pane fade" id="inCourses">
+                    <?php $this->renderPartial('_inCoursesTab', array(
+                        'model' => $model,
+                        'scenario' => 'update',
+                        'courses' => $courses
+                    )); ?>
+                </div>
             </div>
-            <div class="tab-pane fade" id="ua">
-                <?php $this->renderPartial('_uaEditTab', array('model' => $model));?>
-            </div>
-            <div class="tab-pane fade" id="ru">
-                <?php $this->renderPartial('_ruEditTab', array('model' => $model));?>
-            </div>
-            <div class="tab-pane fade" id="en">
-                <?php $this->renderPartial('_enEditTab', array('model' => $model));?>
-            </div>
-            <div class="tab-pane fade" id="lectures">
-                <?php $this->renderPartial('_lecturesTab', array('model' => $model, 'scenario' => 'update'));?>
-            </div>
-            <div class="tab-pane fade" id="authors">
-                <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'update'));?>
-            </div>
-            <div class="tab-pane fade" id="inCourses">
-                <?php $this->renderPartial('_inCoursesTab', array(
-                    'model' => $model,
-                    'scenario' => 'update',
-                    'courses' => $courses
-                ));?>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 

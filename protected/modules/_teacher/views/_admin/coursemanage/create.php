@@ -2,14 +2,14 @@
 /* @var $this CoursemanageController */
 /* @var $model Course */
 ?>
-    <ul class="list-inline">
-        <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>',
-                        '<?php echo Yii::t("coursemanage", "0392"); ?>')">
-                <?php echo Yii::t("coursemanage", "0392"); ?></button>
-        </li>
-    </ul>
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>',
+                    '<?php echo Yii::t("coursemanage", "0392"); ?>')">
+            <?php echo Yii::t("coursemanage", "0392"); ?></button>
+    </li>
+</ul>
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -26,18 +26,20 @@
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="main">
-                <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'create')); ?>
-            </div>
-            <div class="tab-pane fade" id="ua">
-                <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'create')); ?>
-            </div>
-            <div class="tab-pane fade" id="ru">
-                <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'create')); ?>
-            </div>
-            <div class="tab-pane fade" id="en">
-                <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create')); ?>
-            </div>
+            <form class="form-horizontal" role="form" name="courseForm">
+                <div class="tab-pane fade in active" id="main">
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'create')); ?>
+                </div>
+                <div class="tab-pane fade" id="ua">
+                    <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'create')); ?>
+                </div>
+                <div class="tab-pane fade" id="ru">
+                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'create')); ?>
+                </div>
+                <div class="tab-pane fade" id="en">
+                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create')); ?>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -49,26 +49,64 @@
             </li>
         </ul>
         <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="main">
-                <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'update')); ?>
+        <form class="form-horizontal" role="form" name="courseForm" id="courseForm"
+              action="<?= Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse") ?>">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="main">
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'update')); ?>
+                </div>
+                <div class="tab-pane fade" id="ua">
+                    <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+                </div>
+                <div class="tab-pane fade" id="ru">
+                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+                </div>
+                <div class="tab-pane fade" id="en">
+                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+                </div>
+                <div class="tab-pane fade" id="modules">
+                    <?php $this->renderPartial('_modulesTab', array(
+                        'model' => $model,
+                        'modules' => $modules,
+                        'scenario' => 'update'
+                    )); ?>
+                </div>
             </div>
-            <div class="tab-pane fade" id="ua">
-                <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'update')); ?>
-            </div>
-            <div class="tab-pane fade" id="ru">
-                <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'update')); ?>
-            </div>
-            <div class="tab-pane fade" id="en">
-                <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'update')); ?>
-            </div>
-            <div class="tab-pane fade" id="modules">
-                <?php $this->renderPartial('_modulesTab', array(
-                    'model' => $model,
-                    'modules' => $modules,
-                    'scenario' => 'update'
-                )); ?>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
+<script>
+    $jq(document).ready(function() {
+        $jq.validator.setDefaults({
+            ignore: ""
+        });
+
+        $jq(".tab-content").find("div.tab-pane").each(function (index, tab) {
+            var id = $jq(tab).attr("id");
+            $jq('a[href="#' + id + '"]').tab('show');
+
+            var IsTabValid = $jq("#courseForm").valid();
+
+            if (!IsTabValid) {
+                IsValid = false;
+            }
+        });
+
+        // Show first tab with error
+        $jq(".tab-content").find("div.tab-pane").each(function (index, tab) {
+            var id = $jq(tab).attr("id");
+            $jq('a[href="#' + id + '"]').tab('show');
+
+            var IsTabValid = $jq("#courseForm").valid();
+
+            if (!IsTabValid) {
+                return false;
+            }
+        });
+
+        $jq("#courseForm").validate({
+            ignore: ""
+        });
+    });
+</script>
+

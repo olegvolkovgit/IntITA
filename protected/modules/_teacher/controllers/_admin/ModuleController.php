@@ -192,12 +192,8 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
-    private function saveModel($model)
-    {
-        if ($model->save()) {
-            $this->actionIndex();
-        } else throw new \Stash\Exception\RuntimeException('Model not save!!!');
-
+    public function actionNewModule(){
+        var_dump($_POST);die;
     }
 
     public function actionGetModulesList(){

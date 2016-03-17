@@ -34,6 +34,7 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionNewCourse(){
         $model=new Course;
+        var_dump($_POST);die;
 
         if(isset($_POST['Course']))
         {
