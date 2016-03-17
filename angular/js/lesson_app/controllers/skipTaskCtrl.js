@@ -47,6 +47,7 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
             }
         }
         var url = basePath + "/skipTask/saveSkipAnswer";
+        $('#ajaxLoad').show();
         $http({
             method: "POST",
             url:  url,
@@ -54,6 +55,7 @@ function skipTaskCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdate
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         }).then(function(response){
+            $('#ajaxLoad').hide();
             if (response.data == 'done') {
                 pagesUpdateService.pagesDataUpdate();
                 openDialogsService.openTrueDialog();

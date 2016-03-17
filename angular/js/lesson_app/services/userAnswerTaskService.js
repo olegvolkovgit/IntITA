@@ -23,7 +23,7 @@ angular
                     data: JSON.stringify(startJson),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
-                    return response.statusText;
+                    return response.data.status;
                 }, function errorCallback() {
                     return 'error';
                 });

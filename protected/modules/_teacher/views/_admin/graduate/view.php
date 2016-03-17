@@ -19,8 +19,7 @@
     </li>
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/delete', array('id'=>$model->id)); ?>',
-                    'Видалити')">
+                onclick="deleteGraduate('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/delete')?>','<?=$model->id?>');">
             Видалити</button>
     </li>
 </ul>

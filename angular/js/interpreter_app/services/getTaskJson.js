@@ -20,7 +20,8 @@ angular
                     if(response.data.status=='success'){
                         return response.data.json;
                     }
-                }, function errorCallback() {
+                }, function errorCallback(response) {
+                    console.log(response);
                     alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
                 });
                 return promise;

@@ -24,9 +24,9 @@ hr {
     background-color: #ebebeb;
 }
 .col.value{
-    padding-top: 5px;
     border-bottom: 1px dashed #4b75a4;
-    border-radius: 5px 5px 0 0;
+    border-top: none;
+    border-radius: 0;
 }
 .col.value input{
     margin: 2px 0;
@@ -131,4 +131,12 @@ textarea.ng-invalid, textarea.ng-invalid:focus, input.ng-invalid, input.ng-inval
 }
 #interpreterForm input,#interpreterForm label{
     font-size: 12px;
+}
+.spoiler{
+    padding-right: 5px;
+    border: 2px solid #4b75a4;
+    border-radius: 5px 5px 0 0;
+    text-align: right;
+    cursor: pointer;
+    min-height: 20px;
 }

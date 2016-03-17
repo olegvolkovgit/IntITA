@@ -7,12 +7,14 @@ angular
         '$http',
         function($http) {
             this.sendJson = function (url,jsonTask) {
+                $('#ajaxLoad').center().show();
                 $http({
                     url: url,
                     method: "POST",
                     data: JSON.stringify(jsonTask),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
+                    $('#ajaxLoad').hide();
                     if(response.data.status=='updated') {
                         bootbox.alert("Зміни юніттестів успішно скомпільовані");
                     } else if(response.data.status=='success') {
@@ -23,9 +25,17 @@ angular
                         bootbox.alert("Виникла помилка при компіляції:"+"<br/>"+response.data.status);
                     }
                 }, function errorCallback(response) {
+                    $('#ajaxLoad').hide();
                     console.log(response);
                     bootbox.alert("Вибач, але на сайті виникла помилка. Спробуй пізніше або зв'яжись з адміністратором сайту.");
                 });
             };
         }
     ]);
+
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", ($(window).scrollTop() + 50 + "px"));
+    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
+    return this;
+}

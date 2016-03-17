@@ -356,7 +356,7 @@ class SiteController extends Controller
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
 
-            $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+            $userModel = StudentReg::model()->findByAttributes(array('email'=>$mailDeHash));
             $firstName = ($userModel->firstName) ? $userModel->firstName : '';
             $secondName = ($userModel->secondName) ? $userModel->secondName : '';
             $name = $firstName . ' ' . $secondName;

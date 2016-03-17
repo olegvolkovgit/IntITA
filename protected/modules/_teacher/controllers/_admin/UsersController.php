@@ -32,8 +32,9 @@ class UsersController extends TeacherCabinetController
         $userId = Yii::app()->request->getPost('userId');
         $user = RegisteredUser::userById($userId);
 
-        if ($user->setRole(new UserRoles("admin"))) echo "success";
-        else echo "error";
+        if ($user->setRole(new UserRoles("admin"))) echo "Користувач ".$user->registrationData->userNameWithEmail()." призначений адміністратором.";
+        else echo "Користувача ".$user->registrationData->userNameWithEmail()." не вдалося призначити адміністратором.
+        Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
     public function actionCreateAccountant()
@@ -41,8 +42,9 @@ class UsersController extends TeacherCabinetController
         $userId = Yii::app()->request->getPost('userId');
         $user = RegisteredUser::userById($userId);
 
-        if ($user->setRole(new UserRoles("accountant"))) echo "success";
-        else echo "error";
+        if ($user->setRole(new UserRoles("accountant"))) echo "Користувач ".$user->registrationData->userNameWithEmail()." призначений бухгалтером.";
+        else echo "Користувача ".$user->registrationData->userNameWithEmail()." не вдалося призначити бухгалтером.
+        Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
     public function actionCancelAdmin()

@@ -6,6 +6,7 @@
 /* @var $post StudentReg */
 /* @var $user RegisteredUser */
 /* @var $form CActiveForm */
+/* @var $agreements*/
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <script>
@@ -141,6 +142,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         'course' => $course,
                         'module' => $module,
                         'schema' => $schema,
+                        'agreements' => $agreements
                     )); ?>
                 </div>
             </div>
