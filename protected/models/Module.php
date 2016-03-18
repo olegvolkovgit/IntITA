@@ -95,7 +95,7 @@ class Module extends CActiveRecord implements IBillableObject
             'lectures' => array(self::HAS_MANY, 'Lecture','idModule',
                                                 'order' => 'lectures.order ASC'),
             'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)',
-                                                'on' => 'teacher.isPrint=1'),
+                                                'on' => 'teacher.isPrint=1', 'condition'=>'end_time IS NULL'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }

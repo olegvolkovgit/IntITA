@@ -83,11 +83,11 @@
                     </li>
                 <?php } ?>
 
-                <?php if (!empty($teacher->modules)) { ?>
+                <?php if (!empty($teacher->modulesActive)) { ?>
                     <li class="list-group-item"> Веде модулі:<br>
                         <ul>
                             <?php
-                            foreach ($teacher->modules as $module) {
+                            foreach ($teacher->modulesActive as $module) {
                                 ?>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('module/index',

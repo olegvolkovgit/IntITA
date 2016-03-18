@@ -34,7 +34,7 @@
                             <h2><?php echo $teacherValue->firstName(); ?>
                                 <?php echo $teacherValue->middleName(); ?></h2>
                             <?php echo $teacherValue->profile_text_short ?>
-                            <?php $modules = $teacherValue->modules;
+                            <?php $modules = $teacherValue->modulesActive;
                             if (!empty($modules)){?>
                                 <p>
                                     <?php echo Yii::t('teachers', '0061'); ?>
