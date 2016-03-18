@@ -55,17 +55,20 @@ function sendNewAccountantData(url) {
         var posting = $jq.post(url, {userId: user});
 
         posting.done(function (response) {
-                bootbox.alert(response, loadUsersIndex);
+                bootbox.alert(response, function () {
+                    loadUsersIndex(1);
+                });
             })
             .fail(function () {
                 bootbox.alert("Користувача не вдалося призначити бухгалтером. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(1));
             });
     }
 }
 
-function loadUsersIndex() {
-    load(basePath + '/_teacher/_admin/users/index');
+function loadUsersIndex(tab) {
+    if(tab==undefined) tab=0;
+    load(basePath + '/_teacher/_admin/users/index','Користувачі','',tab);
 }
 
 function initUsersTable() {

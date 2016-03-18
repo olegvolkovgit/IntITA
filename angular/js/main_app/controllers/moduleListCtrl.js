@@ -53,6 +53,7 @@ function moduleListCtrl($http,$scope) {
                 }
             }
         }
+        if($scope.modulesProgress.modules.length>0)
         $scope.finishedCourse=true;
         for(var j = 0; j < $scope.modulesProgress.modules.length; j++){
             if($scope.modulesProgress.modules[j].ico!='finished.png'){

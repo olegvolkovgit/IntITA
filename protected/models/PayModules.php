@@ -247,20 +247,16 @@ class PayModules extends CActiveRecord
         return $result;
     }
 
-    public static function getCancelText($moduleName,$courseId,$userName)
+    public static function getCancelText($moduleName,$userName)
     {
-        $result = '<br />Модуль <strong>'.
-            $moduleName.'</strong> курса <strong>'.
-            Course::getCourseName($courseId).'скасовано</strong> .
-            <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього модуля.';
+        $result = '<br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять модуля <b>'.$moduleName.'</b>';
 
         return $result;
     }
 
     public static function getCancelErrorText($userName,$moduleName)
     {
-        $result = '<br /> В користувача'. $userName. '<strong> в модулі '.
-            $moduleName.'</strong> не було доступу до цього модуля <strong>';
+        $result = '<br /> В користувача '. $userName. ' не було доступу до модуля <strong>'.$moduleName.'</strong>';
 
         return $result;
     }
