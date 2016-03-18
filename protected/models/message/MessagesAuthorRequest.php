@@ -195,7 +195,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
 
     public static function listAllRequests(){
         $criteria = new CDbCriteria();
-        $criteria->condition = 'cancelled='.MessagesAuthorRequest::ACTIVE;
+        $criteria->condition = 'cancelled='.MessagesAuthorRequest::ACTIVE.' and date_approved IS NULL';
         $requests = MessagesAuthorRequest::model()->findAll($criteria);
         $return = array('data' => array());
 
@@ -208,8 +208,8 @@ class MessagesAuthorRequest extends Messages implements IMessage
                     "message" => $record->id_message,
                     "module" => $record->id_module))."'";
             $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
-            $row["userApproved"] = ($record->userApproved)?$record->userApproved->userNameWithEmail():"";
-            $row["dateApproved"] = ($record->date_approved)?date("d-m-Y", strtotime($record->date_approved)):"";
+//            $row["userApproved"] = ($record->userApproved)?$record->userApproved->userNameWithEmail():"";
+//            $row["dateApproved"] = ($record->date_approved)?date("d-m-Y", strtotime($record->date_approved)):"";
 
             array_push($return['data'], $row);
         }
