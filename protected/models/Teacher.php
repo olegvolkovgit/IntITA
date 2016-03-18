@@ -23,6 +23,7 @@
  *
  * @property StudentReg $user
  * @property Module $modules
+ * @property Module $modulesActive
  */
 class Teacher extends CActiveRecord
 {
@@ -69,6 +70,8 @@ class Teacher extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
             'modules' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)'),
             'responses' => array(self::MANY_MANY, 'Response', 'teacher_response(id_teacher, id_response)'),
+            'modulesActive' => array(self::MANY_MANY, 'Module', 'teacher_module(idTeacher, idModule)',
+                'condition'=>'end_time IS NULL'),
         );
     }
 
@@ -375,18 +378,18 @@ class Teacher extends CActiveRecord
         return $model->getRoles();
     }
 
-    public static function getTeacherName($id)
-    {
-        $model = Teacher::model()->findByPk($id);
-        if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && $model->first_name_en != ''
-                && $model->last_name_en != '')
-            {
-                return $model->last_name_en . " " . $model->first_name_en;
-            }
-        }
-        return $model->user->secondName . " " . $model->user->firstName;
-    }
+//    public static function getTeacherName($id)
+//    {
+//        $model = Teacher::model()->findByPk($id);
+//        if (isset(Yii::app()->session['lg'])) {
+//            if (Yii::app()->session['lg'] == 'en' && $model->first_name_en != ''
+//                && $model->last_name_en != '')
+//            {
+//                return $model->last_name_en . " " . $model->first_name_en;
+//            }
+//        }
+//        return $model->user->secondName . " " . $model->user->firstName;
+//    }
 
     public static function getTeacherLastName($id)
     {
