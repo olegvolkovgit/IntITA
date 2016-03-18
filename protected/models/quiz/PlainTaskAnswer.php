@@ -15,97 +15,97 @@
  */
 class PlainTaskAnswer extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'plain_task_answer';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'plain_task_answer';
+    }
 
     /**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('id_student, id_plain_task', 'required'),
-			array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on'=>'search'),
-		);
-	}
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('id_student, id_plain_task', 'required'),
+            array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly' => true),
+            // The following rule is used by search().
+            array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-            'plainTask' => array(self::BELONGS_TO, 'PlainTask' , 'id_plain_task'),
-            'user' => array(self::BELONGS_TO,'StudentReg','id_student'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'plainTask' => array(self::BELONGS_TO, 'PlainTask', 'id_plain_task'),
+            'user' => array(self::BELONGS_TO, 'StudentReg', 'id_student'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'answer' => 'Answer',
-			'id_student' => 'Id Student',
-			'id_plain_task' => 'Id Plain Task',
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'answer' => 'Answer',
+            'id_student' => 'Id Student',
+            'id_plain_task' => 'Id Plain Task',
             'consultant' => 'Consultant',
-		);
-	}
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('answer',$this->answer,true);
-		$criteria->compare('id_student',$this->id_student);
-		$criteria->compare('id_plain_task',$this->id_plain_task);
-        $criteria->compare('date',$this->date);
-        $criteria->compare('consultant',$this->consultant);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('answer', $this->answer, true);
+        $criteria->compare('id_student', $this->id_student);
+        $criteria->compare('id_plain_task', $this->id_plain_task);
+        $criteria->compare('date', $this->date);
+        $criteria->compare('consultant', $this->consultant);
 
 
         return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+            'criteria' => $criteria,
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return PlainTaskAnswer the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return PlainTaskAnswer the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-    public static function fillHole($answer,$id_student,$id_plain_task)
+    public static function fillHole($answer, $id_student, $id_plain_task)
     {
         $plainTaskAnswer = new PlainTaskAnswer();
         $plainTaskAnswer->answer = $answer;
@@ -117,17 +117,17 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getStudentName()
     {
-        if($this->user)
-        return $this->user->email;
+        if ($this->user)
+            return $this->user->email;
         else return null;
     }
 
     public function getConsultant()
     {
         $teacher = Yii::app()->db->createCommand()
-            ->select ('id_teacher')
-            ->from ('plain_task_answer_teacher')
-            ->where ('id_plain_task_answer = :id',
+            ->select('id_teacher')
+            ->from('plain_task_answer_teacher')
+            ->where('id_plain_task_answer = :id',
                 array(':id' => $this->id))
             ->queryScalar();
 
@@ -140,7 +140,8 @@ class PlainTaskAnswer extends CActiveRecord
         return $plainTask->lectureElement->html_block;
     }
 
-    public static function getAllPlainTaskAnswers(){
+    public static function getAllPlainTaskAnswers()
+    {
         $results = Yii::app()->db->createCommand()
             ->select('*')
             ->from('plain_task_answer_teacher')
@@ -150,12 +151,12 @@ class PlainTaskAnswer extends CActiveRecord
 
     public function getModule()
     {
-        return  Module::model()->findByPk(Yii::app()->db->createCommand()
+        return Module::model()->findByPk(Yii::app()->db->createCommand()
             ->select('idModule')
             ->from('plain_task')
-            ->where('plain_task.id = :id',array(':id' => $this->id_plain_task))
-            ->join('lecture_element','lecture_element.id_block = block_element')
-            ->join('lectures','lectures.id = lecture_element.id_lecture')
+            ->where('plain_task.id = :id', array(':id' => $this->id_plain_task))
+            ->join('lecture_element', 'lecture_element.id_block = block_element')
+            ->join('lectures', 'lectures.id = lecture_element.id_lecture')
             ->queryRow());
     }
 
@@ -173,22 +174,22 @@ class PlainTaskAnswer extends CActiveRecord
         return Teacher::model()->findAll($criteria);
     }
 
-    public static function assignedConsult($idPlainTaskAnswer,$consult)
+    public static function assignedConsult($idPlainTaskAnswer, $consult)
     {
         $result = Yii::app()->db->createCommand()
             ->insert('plain_task_answer_teacher',
-            array('id_plain_task_answer'=>$idPlainTaskAnswer,'id_teacher'=>$consult));
+                array('id_plain_task_answer' => $idPlainTaskAnswer, 'id_teacher' => $consult));
         return $result;
     }
 
     public static function TeacherPlainTask($idTeacher)
     {
-        
+
         $result = Yii::app()->db->createCommand()
             ->select('plain_task_answer.id')
             ->from('plain_task_answer')
-            ->leftJoin('plain_task_answer_teacher' , 'id = id_plain_task_answer')
-            ->where('id_teacher = :id_teacher',array(':id_teacher' => $idTeacher))
+            ->leftJoin('plain_task_answer_teacher', 'id = id_plain_task_answer')
+            ->where('id_teacher = :id_teacher', array(':id_teacher' => $idTeacher))
             ->queryAll();
         return $result;
     }
@@ -200,16 +201,13 @@ class PlainTaskAnswer extends CActiveRecord
         $nonMarkTasks = Yii::app()->db->createCommand()
             ->select('plain_task_answer.id')
             ->from('plain_task_answer')
-            ->leftJoin('plain_task_marks','plain_task_answer.id = id_answer')
+            ->leftJoin('plain_task_marks', 'plain_task_answer.id = id_answer')
             ->where('plain_task_marks.mark IS NULL')
             ->queryAll();
-        for($i = 0 ; $i < count($nonMarkTasks);$i++)
-        {
-            for($j = 0;$j < count($teacherPlainTask);$j++)
-            {
-                if($teacherPlainTask[$j]['id'] == $nonMarkTasks[$i]['id'])
-                {
-                    array_push($result,$teacherPlainTask[$j]['id']);
+        for ($i = 0; $i < count($nonMarkTasks); $i++) {
+            for ($j = 0; $j < count($teacherPlainTask); $j++) {
+                if ($teacherPlainTask[$j]['id'] == $nonMarkTasks[$i]['id']) {
+                    array_push($result, $teacherPlainTask[$j]['id']);
                 }
             }
         }
@@ -223,23 +221,20 @@ class PlainTaskAnswer extends CActiveRecord
         $trainerUsers = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
         $plainTasksArr = [];
 
-        if($trainerUsers)
-        {
-            foreach($trainerUsers as $user){
+        if ($trainerUsers) {
+            foreach ($trainerUsers as $user) {
                 $tasks = Yii::app()->db->createCommand(array(
                     'select' => array('*'),
                     'from' => 'plain_task_answer',
                     'join' => 'RIGHT JOIN plain_task_answer_teacher
                      on plain_task_answer_teacher.id_plain_task_answer = id',
-                    'where' => 'id_student = '.$user->id
+                    'where' => 'id_student = ' . $user->id
                 ))->queryAll();
 
-                if(!empty($tasks))
-                {
-                    foreach($tasks as $task)
-                    {
+                if (!empty($tasks)) {
+                    foreach ($tasks as $task) {
                         $model = PlainTaskAnswer::model()->findByPk($task['id']);
-                        array_push($plainTasksArr,$model);
+                        array_push($plainTasksArr, $model);
                     }
                 }
             }
@@ -247,22 +242,34 @@ class PlainTaskAnswer extends CActiveRecord
         return $plainTasksArr;
     }
 
-    public static function editConsult($id,$teacherId)
+    public static function editConsult($id, $teacherId)
     {
         Yii::app()->db->createCommand()
-            ->update('plain_task_answer_teacher',array(
+            ->update('plain_task_answer_teacher', array(
                 'id_teacher' => $teacherId,
-            ),'plain_task_answer_teacher.id_plain_task_answer = :id',array(':id' => $id)
+            ), 'plain_task_answer_teacher.id_plain_task_answer = :id', array(':id' => $id)
             );
     }
 
-    public static function removeConsult($id)
+    public function checkTeacherAccess()
     {
-        Yii::app()->db->createCommand()
-        ->delete('plain_task_answer_teacher', 'id_plain_task_answer=:id', array(':id'=>$id));
+        if (Yii::app()->db->createCommand()->select('id_plain_task_answer')
+                ->from('plain_task_answer_teacher')
+                ->where('id_plain_task_answer=:id and end_date IS NOT NULL', array(':id' => $this->id))
+                ->queryScalar() > 1
+        ) return true;
+        else return false;
     }
 
-    public static function plainTaskListByTeacher($id){
+    public function removeConsult()
+    {
+        return Yii::app()->db->createCommand()->update('plain_task_answer_teacher', array(
+            'end_date' => date('Y-m-d H:i:s'),
+        ), 'id_plain_task_answer=:id and end_date IS NOT NULL', array(':id' => $this->id));
+    }
+
+    public static function plainTaskListByTeacher($id)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = '*';
         $criteria->alias = 'ans';
@@ -273,7 +280,8 @@ class PlainTaskAnswer extends CActiveRecord
         return PlainTaskAnswer::model()->findAll($criteria);
     }
 
-    public function mark(){
+    public function mark()
+    {
         $criteria = new CDbCriteria();
         $criteria->select = '*';
         $criteria->order = 'time DESC';
@@ -284,13 +292,14 @@ class PlainTaskAnswer extends CActiveRecord
         return PlainTaskMarks::model()->find($criteria);
     }
 
-    public function getModuleTitle(){
-        return  Yii::app()->db->createCommand()
+    public function getModuleTitle()
+    {
+        return Yii::app()->db->createCommand()
             ->select('title_ua')
             ->from('plain_task')
-            ->where('plain_task.id = :id',array(':id' => $this->id_plain_task))
-            ->join('lecture_element','lecture_element.id_block = block_element')
-            ->join('lectures','lectures.id = lecture_element.id_lecture')
+            ->where('plain_task.id = :id', array(':id' => $this->id_plain_task))
+            ->join('lecture_element', 'lecture_element.id_block = block_element')
+            ->join('lectures', 'lectures.id = lecture_element.id_lecture')
             ->queryScalar();
     }
 }

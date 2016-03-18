@@ -20,9 +20,14 @@ function removeConsult(id, url) {
                 url: url,
                 type: "POST",
                 data: {id: id},
-                success: function () {
-                    bootbox.alert('Операція успішно виконана.');
-                    load(basePath + "/_teacher/teacher/manageConsult");
+                success: function (respond) {
+                    if(respond == "success") {
+                        bootbox.alert('Операція успішно виконана.', function () {
+                            load(basePath + "/_teacher/teacher/manageConsult");
+                        });
+                    } else {
+                        bootbox.alert('Операцію не вдалося виконати.');
+                    }
                 }
             });
         } else {

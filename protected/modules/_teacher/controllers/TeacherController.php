@@ -134,7 +134,18 @@ class TeacherController extends TeacherCabinetController
 
     public function actionDeleteConsultant()
     {
-        $id = Yii::app()->request->getPost('id');
-        PlainTaskAnswer::removeConsult($id);
+        $id = Yii::app()->request->getPost('id', 0);
+        if($id == 0)
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
+
+        $model = PlainTaskAnswer::model()->findByPk($id);
+        if ($model->checkTeacherAccess()){
+            if ($model->removeConsult())
+                echo "Операція успішно виконана.";
+            else echo "Операцію не вдалося виконати.";
+        } else {
+            echo "Операцію не вдалося виконати. Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
+        }
+
     }
 }
