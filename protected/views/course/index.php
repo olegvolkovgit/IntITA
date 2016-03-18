@@ -10,7 +10,7 @@
     </script>
 <?php
 $this->breadcrumbs = array(
-    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", $model->getTitle(),
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", CHtml::decode($model->getTitle()),
 );
 ?>
 
