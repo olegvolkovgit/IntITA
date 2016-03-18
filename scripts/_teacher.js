@@ -250,5 +250,15 @@ function loadForm(url, receiver, scenario, message) {
             "json"
         );
 }
+function showAjaxLoader() {
+    var el=document.getElementById('ajaxLoad');
+    el.style.top = (window.pageYOffset+(document.body.clientHeight-200)/2 + "px");
+    el.style.left = (window.pageXOffset+(document.body.clientWidth-400)/2 + "px");
+    el.style.display = "block";
+}
+function hideAjaxLoader() {
+    var el=document.getElementById('ajaxLoad');
+    el.style.display = "none";
+}
 
 

@@ -691,7 +691,9 @@ class Module extends CActiveRecord implements IBillableObject
                 break;
             case '6':
                 $plain=PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
-                return PlainTaskMarks::taskTime($user, PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain))->id);
+                $isAnswer=PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain,'id_student'=>$user));
+                if($isAnswer) return $isAnswer->date;
+                else return false;
                 break;
             case '12':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
