@@ -1,6 +1,6 @@
 function load(url, header, histories, tab) {
     clearDashboard();
-    if ((histories == undefined || histories == '') && history.state.url!=url) {
+    if (histories == undefined || histories == '') {
         history.pushState({url: url, header: header,tab:tab}, "");
     }
     $jq.ajax({
