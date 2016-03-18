@@ -47,10 +47,13 @@
             </li>
             <li><a href="#modules" data-toggle="tab">Модулі</a>
             </li>
+            <li><a href="#other" data-toggle="tab">На інших мовах</a>
+            </li>
         </ul>
         <!-- Tab panes -->
-        <form class="form-horizontal" role="form" name="courseForm" id="courseForm"
-              action="<?= Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse") ?>">
+        <form class="form-horizontal" role="form" name="courseForm" id="courseForm" method="post"
+              onclick="validateCourseForm('<?= Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse"); ?>',
+                  '<?= $model->course_ID ?>');" novalidate>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'update')); ?>
@@ -71,42 +74,52 @@
                         'scenario' => 'update'
                     )); ?>
                 </div>
+                <div class="tab-pane fade" id="other">
+                    <?php $this->renderPartial('_otherTab', array(
+                        'model' => $model,
+                        'scenario' => 'update'
+                    )); ?>
+                </div>
             </div>
         </form>
     </div>
 </div>
 <script>
-    $jq(document).ready(function() {
-        $jq.validator.setDefaults({
-            ignore: ""
+    function validateCourseForm(url, id) {
+        $jq("form[name=courseForm]").validate({
+            highlight: function (label) {
+                $jq(label).closest('.form-group').addClass('has-error');
+                var tab_content = $jq(label).parent().parent().parent().parent().parent().parent().parent();
+                if ($jq(tab_content).find("fieldset.tab-pane.active:has(div.has-error)").length == 0) {
+                    $jq(tab_content).find("fieldset.tab-pane:has(div.has-error)").each(function (index, tab) {
+                        var id = $jq(tab).attr("id");
+                        $jq('a[href="#' + id + '"]').tab('show');
+                    });
+                }
+            },
+            ignore: [],
+            rules: {
+                alias: {
+                    required: true
+                },
+                num: {
+                    required: true
+                }
+            }
         });
-
-        $jq(".tab-content").find("div.tab-pane").each(function (index, tab) {
-            var id = $jq(tab).attr("id");
-            $jq('a[href="#' + id + '"]').tab('show');
-
-            var IsTabValid = $jq("#courseForm").valid();
-
-            if (!IsTabValid) {
-                IsValid = false;
+        $jq.ajax({
+            url: url,
+            type: "POST",
+            success: function (respond) {
+                bootbox.alert("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/_admin/coursemanage/view/id/" + id);
+                });
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
             }
         });
 
-        // Show first tab with error
-        $jq(".tab-content").find("div.tab-pane").each(function (index, tab) {
-            var id = $jq(tab).attr("id");
-            $jq('a[href="#' + id + '"]').tab('show');
-
-            var IsTabValid = $jq("#courseForm").valid();
-
-            if (!IsTabValid) {
-                return false;
-            }
-        });
-
-        $jq("#courseForm").validate({
-            ignore: ""
-        });
-    });
+    }
 </script>
 

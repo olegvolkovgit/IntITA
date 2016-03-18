@@ -41,6 +41,8 @@
                     </li>
                     <li><a href="#modules" data-toggle="tab">Модулі</a>
                     </li>
+                    <li><a href="#other" data-toggle="tab">На інших мовах</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="main">
@@ -61,6 +63,9 @@
                             'modules' => $modules,
                             'scenario' => 'view'
                         )); ?>
+                    </div>
+                    <div class="tab-pane fade" id="other">
+                        <?php $this->renderPartial('_otherTab', array('model' => $model, 'scenario' => 'view')); ?>
                     </div>
                 </div>
             </div>

@@ -13,9 +13,10 @@ class CoursemanageController extends TeacherCabinetController
     public function actionView($id)
     {
         $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+        $model = $this->loadModel($id);
 
         $this->renderPartial('view',array(
-            'model'=>$this->loadModel($id),
+            'model'=> $model,
             'modules' => $modules
         ),false,true);
     }

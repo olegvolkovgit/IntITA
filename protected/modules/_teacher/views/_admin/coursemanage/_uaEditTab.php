@@ -8,8 +8,8 @@
     <label class="control-label col-sm-2" for="titleUa">Назва (укр.) *:</label>
     <div class="col-sm-10">
         <input type="text" class="form-control" id="titleUa" placeholder="назва українською" required
-               value="<?= $model->title_ua; ?>" name="titleUa"
-               pattern="/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u">
+               value="<?= $model->title_ua; ?>" name="titleUa">
+<!--               pattern="/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u">-->
     </div>
 </div>
 <div class="form-group">

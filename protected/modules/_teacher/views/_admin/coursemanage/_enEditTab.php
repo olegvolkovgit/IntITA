@@ -8,8 +8,8 @@
     <label class="control-label col-sm-2" for="titleEn">Назва (англ.) *:</label>
     <div class="col-sm-10">
         <input type="text" class="form-control" id="titleEn" name="titleEn" placeholder="назва англійською" required
-               value="<?= $model->title_en; ?>" pattern="/^[=a-zA-Z0-9.,\/<>:;`'?!~* ()+-]+$/u"
-               title="Тільки англійські літери">
+               value="<?= $model->title_en; ?>"  title="Тільки англійські літери">
+<!--               pattern="/^[=a-zA-Z0-9.,\/<>:;`'?!~* ()+-]+$/u"-->
     </div>
 </div>
 <div class="form-group">

@@ -42,6 +42,9 @@ class Course extends CActiveRecord implements IBillableObject
     const READY = 1;
     const DEVELOP = 0;
     public $logo = array(), $oldLogo;
+    public $linkedRu;
+    public $linkedUa;
+    public $linkedEn;
 
 
     /**
@@ -979,5 +982,20 @@ class Course extends CActiveRecord implements IBillableObject
         }
 
         return json_encode($result);
+    }
+
+    /**
+     * Returns linked courses in other languages (ua, ru, en) though table course_languages.
+     */
+    public function linkedCourses(){
+        $langs = array_diff(array('ua', 'ru', 'en'), array($this->language));
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'c';
+        foreach($langs as $record){
+            $criteria->join = 'LEFT JOIN course_languages cl ON c.course_ID=cl.lang_'.$record;
+            $criteria->addCondition('cl.lang_'.$this->language.' IS NOT NULL');
+        }
+
+        return Course::model()->findAll($criteria);
     }
 }
