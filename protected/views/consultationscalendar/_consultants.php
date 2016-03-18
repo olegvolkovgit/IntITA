@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $data Teacher
+ * @var $user RegisteredUser
  */
 ?>
 <div class="teacherBlock">
@@ -32,7 +33,7 @@
                 <span class="teacherSkype"><?php echo $data->skype() ?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-            <?php if (StudentReg::canAddConsultation()) {
+            <?php if ($user->canPlanConsultation($data)) {
                 ?>
                 <div class="calendar">
                     <!--            Календарь-->

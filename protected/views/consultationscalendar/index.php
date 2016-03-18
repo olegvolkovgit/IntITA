@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $user RegisteredUser
+ */
+?>
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'consultations.css') ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', '/bootstrap-datetimepicker/bootstrap/css/bootstrap.css'); ?>">
@@ -43,7 +48,7 @@ if($idCourse != 0) {
         'itemView'=>'_consultants',
         'emptyText' => Yii::t('consultations', '0792'),
         'summaryText' => '',
-        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang),
+        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang, 'user' => $user),
         'columns'=>array("one","two"),
     ));
     ?>

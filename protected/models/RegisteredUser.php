@@ -211,4 +211,8 @@ class RegisteredUser
             return MessagesAuthorRequest::notApprovedRequests();
         }
     }
+
+    public function canPlanConsultation(Teacher $teacher){
+        return $this->registrationData->id != $teacher->user_id;
+    }
 }
