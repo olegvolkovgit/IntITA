@@ -78,7 +78,9 @@
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>
 </body>
-
+<div style="display: none;text-align: center;" id="ajaxLoad">
+    <img style="position:relative;top:68px" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
+</div>
 <div class="col-lg-6">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -126,6 +128,7 @@
 <script>
     window.onload = function()
     {
+
         if(scenario == 'message'){
             load('<?=Yii::app()->createUrl("/_teacher/messages/write",
                 array('id' => $model->id, 'receiver' => $receiver));?>');

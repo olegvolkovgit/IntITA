@@ -98,7 +98,7 @@ class RegisteredUser
 
     private function loadTeacherModel()
     {
-        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
+        return Teacher::model()->with('modulesActive')->findByAttributes(array('user_id' => $this->registrationData->id));
     }
 
     public function getRolesAttributes()
@@ -212,7 +212,7 @@ class RegisteredUser
         }
     }
 
-    public function canPlanConsult(Teacher $teacher){
+    public function canPlanConsultation(Teacher $teacher){
         return $this->registrationData->id != $teacher->user_id;
     }
 }

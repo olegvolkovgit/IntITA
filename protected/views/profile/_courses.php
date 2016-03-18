@@ -2,7 +2,7 @@
 /* @var $model Teacher*/
 /* @var $module Module */
 
-if (!empty($model->modules)) {
+if (!empty($model->modulesActive)) {
     ?>
     <p>
         <?php echo Yii::t('teachers', '0061'); ?>
@@ -12,7 +12,7 @@ if (!empty($model->modules)) {
         <div class="teacherCourses">
             <ul>
                 <?php
-                foreach ($model->modules as $module) {
+                foreach ($model->modulesActive as $module) {
                     if(!$module->cancelled) {
                         ?>
                         <li>

@@ -10,19 +10,16 @@ function initRequestsTable() {
                 "width": "30%",
                 "data": "user"},
             {
-                "width": "30%",
+                "width": "50%",
                 "data": "module",
                 "render": function (module) {
                     return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"]+ '</a>';
                 }
             },
             {
-                "width": "10%",
+                "width": "20%",
                 "data": "dateCreated"
-            },
-            {"data": "userApproved"},
-            {  "width": "10%",
-                "data": "dateApproved"}
+            }
         ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');

@@ -130,7 +130,6 @@ $lecturesCount = $lecture->module->lecturesCount();
     <div id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></div>
 
     <div id="discussion"></div>
-    <?php //if (StudentReg::canAddConsultation()) { ?>
         <div style="display: inline-block;margin-left: 15px">
             <a class='consultationButtons'
                href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
@@ -142,7 +141,6 @@ $lecturesCount = $lecture->module->lecturesCount();
                 </div>
             </a>
         </div>
-    <?php //} ?>
 </div>
 <!--navigation vertical-->
 <script>

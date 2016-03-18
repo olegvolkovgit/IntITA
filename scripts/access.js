@@ -52,6 +52,7 @@
                 success: function (data) {
                    if(data == "success"){
                        showDialog("Операцію успішно виконано.");
+                       loadCancelAuthorModule();
                    } else {
                        showDialog("Операцію не вдалося виконати.");
                    }
@@ -155,3 +156,6 @@
             showDialog('Введенні невірні дані!');
     }
 
+function loadCancelAuthorModule() {
+    load(basePath + '/_teacher/_admin/permissions/showCancelTeacherAccess/');
+}

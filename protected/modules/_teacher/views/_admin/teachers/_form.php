@@ -20,14 +20,17 @@
             'enableClientValidation' => true,
             'clientOptions' => array(
                 'validateOnSubmit' => true,
+                'afterValidate' => 'js:function(form,data,hasError){
+                sendError(form,data,hasError);return true;
+                }',
             )
         )); ?>
 
         <div class="form-group">
             <?php if ($scenario == "create") { ?>
-                <label>Користувач</label>
+                <label class="required" >Користувач *</label>
                 <input id="typeahead" type="text" class="form-control" placeholder="Користувач"
-                       size="135" autofocus>
+                       size="135" autofocus required>
             <?php } ?>
         </div>
 

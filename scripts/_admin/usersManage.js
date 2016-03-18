@@ -159,6 +159,7 @@ function initAdminsTable() {
                 "data": "register"
             },
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "cancelDate"
             },
@@ -209,6 +210,7 @@ function initAccountantsTable() {
                 "data": "register"
             },
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "cancelDate"
             },

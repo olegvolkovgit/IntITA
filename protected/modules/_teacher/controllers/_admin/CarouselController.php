@@ -29,10 +29,15 @@ class CarouselController extends TeacherCabinetController
             $tmpName = $_FILES['Carousel']['tmp_name'];
 
             $model->attributes = $_POST['Carousel'];
-            $model->pictureURL = $picName['pictureURL'];
+
+            $info = new SplFileInfo($picName['pictureURL']);
+            $extension = $info->getExtension();
+            $filename = uniqid() . '.' . $extension;
+
+            $model->pictureURL = $filename;
 
             if ($model->validate()) {
-                Avatar::saveMainSliderPicture($model, $picName, $tmpName);
+                Avatar::saveMainSliderPicture($model, $picName, $tmpName, $filename);
 
                 $model->save();
                 $this->redirect($this->pathToCabinet());

@@ -5,25 +5,68 @@ angular
     .module('lessonApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, ipCookie) {
-    $scope.sendTaskAnswer=function(idTask, taskLang, url,e,user){
-        var jobid=JsUniqid(user+'_', false);
-        $scope.userId=user;
+function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, accessLectureService, ipCookie, getTaskJson) {
+    $scope.init = function(taskLang)
+    {
+        $scope.taskLang=taskLang;
+        var codeMirrorLang;
+        switch ($scope.taskLang) {
+            case "js":
+                codeMirrorLang="text/javascript";
+                break;
+            case "php":
+                codeMirrorLang="text/x-php";
+                break;
+            case "c++":
+                codeMirrorLang="text/x-c++src";
+                break;
+            case "c#":
+                codeMirrorLang="text/x-csharp";
+                break;
+            case "java":
+                codeMirrorLang="text/x-java";
+                break;
+        }
+        $scope.codeMirrorOptions = {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: codeMirrorLang,
+            theme: "rubyblue",
+            indentUnit: 4
+        };
+        $scope.refreshCodemirror = true;
+        $timeout(function () {
+            $scope.refreshCodemirror = false;
+        }, 100);
+    };
+
+    $scope.getVariables=function(id,url){
+        if($scope.variables==undefined){
+            getTaskJson.getJson(id,url)
+                .then(function(variable) {
+                    $scope.variables=variable;
+                    angular.element('#taskVariables').toggle();
+                });
+        }else{
+            angular.element('#taskVariables').toggle();
+        }
+    };
+
+    $scope.sendTaskAnswer=function(idTask, taskLang, url,e){
+        var jobid=JsUniqid(idTask+'_', false);
         $scope.taskId=idTask;
         var button=angular.element(document.querySelector(".taskSubmit"));
         angular.element(document.querySelector("#ajaxLoad")).css('margin-top', e.currentTarget.offsetTop-20+'px');
         button.attr('disabled', true);
-        var answer = sendCodeMirror.getValue();
-        $scope.userCode=sendCodeMirror.getValue();
 
-        if($.trim(answer) == '')
+        if($scope.userCode==undefined || $.trim($scope.userCode)=='')
         {
             bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');
         } else {
             userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
-                if(response=='OK'){
-                    getTaskResult(idTask,user);
+                if(response=='Added to compile'){
+                    getTaskResult(idTask);
                 }else if(response=='error'){
                     bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
                 }
@@ -31,7 +74,7 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
             });
         }
 
-        function getTaskResult(task,user) {
+        function getTaskResult(task) {
             return userAnswerTaskService.getResultJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
                 .then(function(serverResponse) {
                     switch (serverResponse.status) {
@@ -41,14 +84,28 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
                         case 'done':
                             $('#ajaxLoad').hide();
                             if(serverResponse.done){
-                                $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning,$scope.userId)
+                                $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning)
                                     .then(function(setMarkResponse) {
                                         pagesUpdateService.pagesDataUpdate();
-                                        openDialogsService.openTrueDialog();
+                                        if($rootScope.currentPage==$rootScope.pageData.length){
+                                            openDialogsService.openLastTrueDialog();
+                                            accessLectureService.getAccessLectures();
+                                            $rootScope.finishedLecture = 1;
+                                        }else{
+                                            openDialogsService.openTrueDialog();
+                                        }
                                     });
                             }else{
-                                $scope.setMark($scope.taskId, serverResponse.status, serverResponse.date, serverResponse.result, serverResponse.warning, $scope.userId);
-                                openDialogsService.openFalseDialog();
+                                $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning);
+                                var countUnit=serverResponse.testResult.length;
+                                var falseUnits=0;
+                                for(var i=0;i<countUnit;i++){
+                                    if(serverResponse.testResult[i]==false)
+                                        falseUnits++;
+                                }
+                                bootbox.alert('Кількість юніттестів, які не пройшов твій код: '+falseUnits+'/'+serverResponse.testResult.length.toString(), function() {
+                                    openDialogsService.openFalseDialog();
+                                });
                             }
                             break;
                         case 'failed':
@@ -84,12 +141,11 @@ function taskCtrl($http, $scope, openDialogsService, pagesUpdateService, userAns
     }
 
 //sent post to intita server to write result
-    $scope.setMark=function(task, status, date, result, warning,user){
+    $scope.setMark=function(task, status, date, result, warning){
         var promise = $http({
             url: basePath + "/task/setMark",
             method: "POST",
             data: $.param({
-                user: user,
                 task: task,
                 status: status,
                 date : date,

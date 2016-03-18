@@ -33,7 +33,7 @@
                 <span class="teacherSkype"><?php echo $data->skype() ?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-            <?php if ($user->canPlanConsult($data)) {
+            <?php if ($user->canPlanConsultation($data)) {
                 ?>
                 <div class="calendar">
                     <!--            Календарь-->

@@ -3,12 +3,6 @@
 class ConsultationscalendarController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column2';
-
-	/**
 	 * Specifies the access control rules.
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
@@ -23,6 +17,7 @@ class ConsultationscalendarController extends Controller
 	public function init()
 	{
 		$app = Yii::app();
+        $this->pageTitle = $app->name;
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
 		}
@@ -47,12 +42,7 @@ class ConsultationscalendarController extends Controller
 		if(!$lecture)
 			throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
 
-		$editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
-
 		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
-//		if (StudentReg::isAdmin() || $editMode) {
-//			throw new CHttpException(403, 'Запланувати консультацію може лише студент');
-//		}
 		if($idCourse!=0){
 			$course = Course::model()->findByPk($idCourse);
 			if(!$course->status)
@@ -72,80 +62,9 @@ class ConsultationscalendarController extends Controller
 				throw new CHttpException(403, 'Ти не можеш запланувати консультацію. Спочатку пройди попередній матеріал.');
 		}
 	}
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
 
 	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Consultationscalendar;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Consultationscalendar']))
-		{
-			$model->attributes=$_POST['Consultationscalendar'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Consultationscalendar']))
-		{
-			$model->attributes=$_POST['Consultationscalendar'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
-	 * Lists all models.
+	 * Lists all available consultants.
 	 */
 	public function actionIndex($lectureId, $idCourse=0)
 	{
@@ -153,28 +72,12 @@ class ConsultationscalendarController extends Controller
 
         $lecture = Lecture::model()->findByPk($lectureId);
         $dataProvider = Teacher::getTeacherConsult($lectureId);
-		$user = Yii::app()->user->model;
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
             'lecture'=>$lecture,
-			'user' => $user,
+            'user' => Yii::app()->user->model,
             'idCourse'=>$idCourse,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new Consultationscalendar('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Consultationscalendar']))
-			$model->attributes=$_GET['Consultationscalendar'];
-
-		$this->render('admin',array(
-			'model'=>$model,
 		));
 	}
 
@@ -191,19 +94,6 @@ class ConsultationscalendarController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
-	}
-
-	/**
-	 * Performs the AJAX validation.
-	 * @param Consultationscalendar $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='consultationscalendar-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
 	}
 
     public function actionSaveconsultation($idCourse){
