@@ -52,7 +52,8 @@
         </ul>
         <!-- Tab panes -->
         <form class="form-horizontal" role="form" name="courseForm" id="courseForm"
-              onclick="validateCourseForm('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse");?>', '<?=$model->course_ID?>'); return false;" novalidate>
+              onclick="validateCourseForm('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse");?>', '<?=$model->course_ID?>');
+                  return false;" novalidate>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'update')); ?>
@@ -117,7 +118,7 @@
                 $jq.ajax({
                     url: url,
                     type: "post",
-                    data: {data : $jq( ":input" )}
+                    data: {data : form}
                     success: function (respond) {
                         alert(respond);
                         bootbox.alert("Операцію успішно виконано.", function () {
