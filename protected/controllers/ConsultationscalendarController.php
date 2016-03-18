@@ -50,9 +50,9 @@ class ConsultationscalendarController extends Controller
 		$editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
 		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
-		if (StudentReg::isAdmin() || $editMode) {
-			throw new CHttpException(403, 'Запланувати консультацію може лише студент');
-		}
+//		if (StudentReg::isAdmin() || $editMode) {
+//			throw new CHttpException(403, 'Запланувати консультацію може лише студент');
+//		}
 		if($idCourse!=0){
 			$course = Course::model()->findByPk($idCourse);
 			if(!$course->status)
@@ -153,10 +153,12 @@ class ConsultationscalendarController extends Controller
 
         $lecture = Lecture::model()->findByPk($lectureId);
         $dataProvider = Teacher::getTeacherConsult($lectureId);
+		$user = Yii::app()->user->model;
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
             'lecture'=>$lecture,
+			'user' => $user,
             'idCourse'=>$idCourse,
 		));
 	}

@@ -43,7 +43,7 @@ if($idCourse != 0) {
         'itemView'=>'_consultants',
         'emptyText' => Yii::t('consultations', '0792'),
         'summaryText' => '',
-        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang),
+        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang, 'user'=> $user),
         'columns'=>array("one","two"),
     ));
     ?>
