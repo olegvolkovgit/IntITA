@@ -5,10 +5,10 @@
 ?>
 <br>
 <div class="form-group">
-    <label class="control-label col-sm-2" for="titleRu">Назва (рус.) *:</label>
+    <label class="control-label col-sm-2" for="title_ru">Назва (рус.) *:</label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="titleRu" name="titleRu" placeholder="назва російською" required
-               value="<?= $model->title_ru; ?>" pattern="/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9.,\/<>:;`'?!~* ()+-]+$/u">
+        <input type="text" class="form-control" id="title_ru" name="title_ru" placeholder="назва російською"
+               value="<?= $model->title_ru; ?>">
     </div>
 </div>
 <div class="form-group">

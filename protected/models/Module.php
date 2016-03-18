@@ -1123,4 +1123,8 @@ class Module extends CActiveRecord implements IBillableObject
             return Lecture::model()->find($criteria)->id;
         else return false;
     }
+
+    public static function isAliasUnique($alias){
+        return Module::model()->exists('alias=:alias', array(':alias' => $alias)) == false;
+    }
 }

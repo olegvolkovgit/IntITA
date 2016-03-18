@@ -88,7 +88,7 @@ class ModuleController extends TeacherCabinetController
         $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
 
-        $this->performAjaxValidation($model);
+       // $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
             $model->oldLogo = $model->module_img;
@@ -184,16 +184,9 @@ class ModuleController extends TeacherCabinetController
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
     }
 
-    protected function performAjaxValidation($model)
-    {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'module-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-    }
-
     public function actionNewModule(){
         var_dump($_POST);die;
+
     }
 
     public function actionGetModulesList(){
@@ -214,5 +207,14 @@ class ModuleController extends TeacherCabinetController
         $this->renderPartial('_addTeacher', array(
             'module' =>$module
         ));
+    }
+
+    public function actionCheckAlias(){
+        $alias = Yii::app()->request->getPost('alias', '');
+        if(Module::isAliasUnique($alias)){
+           echo "true";
+        } else {
+            echo "false";
+        }
     }
 }

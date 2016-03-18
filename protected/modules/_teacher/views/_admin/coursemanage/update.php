@@ -51,9 +51,9 @@
             </li>
         </ul>
         <!-- Tab panes -->
-        <form class="form-horizontal" role="form" name="courseForm" id="courseForm"
-              onclick="validateCourseForm('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse");?>', '<?=$model->course_ID?>');
-                  return false;" novalidate>
+        <form class="form-horizontal" role="form" name="courseForm" id="courseForm" novalidate method="post"
+              action="<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse");?>"
+              onclick="validateCourseForm();">
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'update')); ?>
@@ -89,7 +89,6 @@
         $jq("form[name=courseForm]").validate({
             highlight: function (label) {
                 $jq(label).closest('.form-group').addClass('has-error');
-                var tab_content = $jq(label).parent().parent().parent().parent().parent().parent().parent();
                 if($jq(".tab-content").find("div.tab-pane.active:has(div.has-error)").length == 0)
                 {
                     $jq(".tab-content").find("div.tab-pane:hidden:has(div.has-error)").each(function(index, tab)
@@ -97,13 +96,12 @@
                         var id = $jq(tab).attr("id");
                         $jq('a[href="#' + id + '"]').tab('show');
                     });
+
+                    $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e)
+                    {
+                        $jq($jq(e.target).attr('href')).find("div.has-error :input:first").focus();
+                    });
                 }
-            },
-            invalidHandler: function(){
-                $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e)
-                {
-                    $jq($jq(e.target).attr('href')).find("div.has-error :input:first").focus();
-                });
             },
             ignore: [],
             rules: {
@@ -115,20 +113,7 @@
                 }
             },
             submitHandler: function(form) {
-                $jq.ajax({
-                    url: url,
-                    type: "post",
-                    data: {data : form}
-                    success: function (respond) {
-                        alert(respond);
-                        bootbox.alert("Операцію успішно виконано.", function () {
-                            load(basePath + "/_teacher/_admin/coursemanage/view/id/" + idCourse);
-                        });
-                    },
-                    error: function () {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
-                });
+                $jq(form).ajaxSubmit();
             }
         });
     }

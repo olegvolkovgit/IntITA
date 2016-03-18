@@ -798,6 +798,7 @@ class Course extends CActiveRecord implements IBillableObject
 
             $row["id"] = $record->course_ID;
             $row["alias"] = $record->alias;
+            $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua).", ".$record->language;
             $row["status"] = $record->statusLabel();
             $row["cancelled"] = $record->cancelledLabel();

@@ -49,9 +49,10 @@
             </li>
         </ul>
         <!-- Tab panes -->
-        <form class="form-horizontal" role="form" name="moduleForm" id="moduleForm" novalidate
-              onclick="validateModuleForm('<?= Yii::app()->createUrl("/_teacher/_admin/module/newModule") ?>',
-                  '<?=$model->module_ID;?>')">
+        <form class="form-horizontal" role="form" name="moduleForm" id="moduleForm" method="post"
+              action="<?= Yii::app()->createUrl("/_teacher/_admin/module/newModule") ?>"
+              onclick="validateModuleForm();"
+              novalidate>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels)); ?>
@@ -83,11 +84,10 @@
     </div>
 </div>
 <script>
-    function validateModuleForm(url, idCourse) {
+    function validateModuleForm() {
         $jq("form[name=moduleForm]").validate({
             highlight: function (label) {
                 $jq(label).closest('.form-group').addClass('has-error');
-                var tab_content = $jq(label).parent().parent().parent().parent().parent().parent().parent();
                 if($jq(".tab-content").find("div.tab-pane.active:has(div.has-error)").length == 0)
                 {
                     $jq(".tab-content").find("div.tab-pane:hidden:has(div.has-error)").each(function(index, tab)
@@ -95,38 +95,52 @@
                         var id = $jq(tab).attr("id");
                         $jq('a[href="#' + id + '"]').tab('show');
                     });
+
+                    $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e)
+                    {
+                        $jq($jq(e.target).attr('href')).find("div.has-error :input:first").focus();
+                    });
                 }
-            },
-            invalidHandler: function(){
-                $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e)
-                {
-                    $jq($jq(e.target).attr('href')).find("div.has-error :input:first").focus();
-                });
             },
             ignore: [],
             rules: {
                 alias: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    remote: {
+                        url: basePath + "/_teacher/_admin/module/checkAlias",
+                        type: "post",
+                        data: {
+                            alias: function() {
+                                return $jq( "#alias" ).val();
+                            }
+                        }
+                    }
+                },
+                number: {
+                    required: true,
+                    number: true
+                },
+                level: {
+                    range: [1, 5],
                     required: true
                 },
-                num: {
+                title_ru: {
+                //    pattern: "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9.,\/<>:;`'?!~* ()+-]+$/u",
+                    required: true
+                },
+                title_ua: {
+                //    pattern: "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
+                    required: true
+                },
+                title_en: {
+                 //   pattern: "/^[=a-zA-Z0-9.,\/<>:;`'?!~* ()+-]+$/u",
                     required: true
                 }
             },
             submitHandler: function(form) {
-                $jq.ajax({
-                    url: url,
-                    type: "post",
-                    data: {data : $jq( ":input" )}
-                    success: function (respond) {
-                        alert(respond);
-                        bootbox.alert("Операцію успішно виконано.", function () {
-                            load(basePath + "/_teacher/_admin/coursemanage/view/id/" + idCourse);
-                        });
-                    },
-                    error: function () {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
-                });
+                $jq(form).ajaxSubmit();
             }
         });
     }
