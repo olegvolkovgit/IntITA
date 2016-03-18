@@ -68,7 +68,7 @@ function deleteResponse(url) {
                 type: "POST",
                 success: function () {
                     bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/response/index");
+                        load(basePath + "/_teacher/_admin/response/index",'Відгуки про викладачів',true);
                     });
                 },
                 error: function () {
