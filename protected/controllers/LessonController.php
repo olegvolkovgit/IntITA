@@ -572,7 +572,9 @@ class LessonController extends Controller
         }
 
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
-
+        if(!$pageModel){
+            throw new \application\components\Exceptions\IntItaException('404', 'Сторінка не знайдена');
+        }
         $textList = $pageModel->getBlocksListById();
 
         $criteria = new CDbCriteria();
