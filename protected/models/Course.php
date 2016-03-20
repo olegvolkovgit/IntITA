@@ -110,7 +110,7 @@ class Course extends CActiveRecord implements IBillableObject
             'title_ru' => Yii::t('course', '0744'),
             'title_en' => Yii::t('course', '0743'),
             'course_duration_hours' => Yii::t('course', '0402'),
-            'modules_count' => Yii::t('course', '0403'),
+            //'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
             'for_whom_ua' => Yii::t('course', '0405') . " (UA)",
             'what_you_learn_ua' => Yii::t('course', '0406') . " (UA)",
@@ -154,7 +154,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('title_ru', $this->title_ru, true);
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('course_duration_hours', $this->course_duration_hours);
-        $criteria->compare('modules_count', $this->modules_count);
+        //$criteria->compare('modules_count', $this->modules_count);
         $criteria->compare('course_price', $this->course_price, true);
         $criteria->compare('for_whom_ua', $this->for_whom_ua, true);
         $criteria->compare('what_you_learn_ua', $this->what_you_learn_ua, true);
@@ -747,10 +747,10 @@ class Course extends CActiveRecord implements IBillableObject
     /**
      * Updates modules_count in model according to actual database
      */
-    public function updateCount() {
-        $this->modules_count = $this->getModuleCount(true);
-        $this->update(array('modules_count'));
-    }
+//    public function updateCount() {
+//        $this->modules_count = $this->getModuleCount(true);
+//        $this->update(array('modules_count'));
+//    }
 
     /**
      * Deletes specified module from course and update modules count in course.
@@ -786,7 +786,7 @@ class Course extends CActiveRecord implements IBillableObject
             throw $e;
         }
 
-        $this->updateCount();
+        //$this->updateCount();
     }
 
     public static function coursesList(){

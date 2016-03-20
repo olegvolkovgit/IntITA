@@ -1,7 +1,6 @@
 <?php
 /* @var $this CoursemanageController *
  * @var $model Course
- * @var $levels array
  * @var $modules array
  */
 ?>
@@ -50,22 +49,38 @@
             <li><a href="#other" data-toggle="tab">На інших мовах</a>
             </li>
         </ul>
-        <!-- Tab panes -->
-        <form class="form-horizontal" role="form" name="courseForm" id="courseForm" novalidate method="post"
-              action="<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse");?>"
-              onclick="validateCourseForm();">
+        <div class="form">
+            <?php $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'course-form',
+                'htmlOptions' => array(
+                    'class' => 'formatted-form',
+                    'enctype' => 'multipart/form-data',
+                ),
+                'enableAjaxValidation' => true,
+                'clientOptions' => array(
+                    'validateOnSubmit' => true,
+                    'validateOnChange' => true,
+                    'afterValidate' => 'js:function(form,data,hasError){
+                sendError(form,data,hasError);return true;
+                }',
+                )
+            )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
-                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels, 'scenario' => 'update')); ?>
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model,
+                        'scenario' => 'update', 'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="ua">
-                    <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+                    <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'update',
+                        'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="ru">
-                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'update'
+                    , 'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="en">
-                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'update')); ?>
+                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'update'
+                    , 'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="modules">
                     <?php $this->renderPartial('_modulesTab', array(
@@ -74,48 +89,16 @@
                         'scenario' => 'update'
                     )); ?>
                 </div>
-                <div class="tab-pane fade" id="other">
+                <div class="tab-pane fade" id="other" style="width: 100%">
                     <?php $this->renderPartial('_otherTab', array(
                         'model' => $model,
                         'scenario' => 'update'
                     )); ?>
                 </div>
             </div>
-        </form>
+            <?php $this->endWidget(); ?>
+        </div>
     </div>
 </div>
-<script>
-    function validateCourseForm(url, idCourse) {
-        $jq("form[name=courseForm]").validate({
-            highlight: function (label) {
-                $jq(label).closest('.form-group').addClass('has-error');
-                if($jq(".tab-content").find("div.tab-pane.active:has(div.has-error)").length == 0)
-                {
-                    $jq(".tab-content").find("div.tab-pane:hidden:has(div.has-error)").each(function(index, tab)
-                    {
-                        var id = $jq(tab).attr("id");
-                        $jq('a[href="#' + id + '"]').tab('show');
-                    });
 
-                    $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e)
-                    {
-                        $jq($jq(e.target).attr('href')).find("div.has-error :input:first").focus();
-                    });
-                }
-            },
-            ignore: [],
-            rules: {
-                alias: {
-                    required: true
-                },
-                num: {
-                    required: true
-                }
-            },
-            submitHandler: function(form) {
-                $jq(form).ajaxSubmit();
-            }
-        });
-    }
-</script>
 

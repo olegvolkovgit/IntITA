@@ -4,38 +4,35 @@
  */
 ?>
 <br>
+
 <div class="form-group">
-    <label class="control-label col-sm-2" for="titleEn">Назва (англ.) *:</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="titleEn" name="titleEn" placeholder="назва англійською" required
-               value="<?= $model->title_en; ?>"  title="Тільки англійські літери">
-<!--               pattern="/^[=a-zA-Z0-9.,\/<>:;`'?!~* ()+-]+$/u"-->
-    </div>
+    <?php echo $form->labelEx($model, 'title_en'); ?>
+    <?php echo $form->textField($model, 'title_en', array('size' => 45, 'maxlength' => 100, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'title_en'); ?>
 </div>
+
 <div class="form-group">
-    <label class="control-label col-sm-2" for="forWhomEn">Для кого (англ.):</label>
-    <div class="col-sm-10">
-        <textarea class="form-control" rows="5" id="forWhomEn" name="forWhomEn"
-                  placeholder="для кого"><?= $model->for_whom_en; ?></textarea>
-    </div>
+    <?php echo $form->labelEx($model, 'for_whom_en'); ?>
+    <?php echo $form->textArea($model, 'for_whom_en', array('placeholder' => Yii::t('coursemanage', '0417'), 'rows' => 6,
+        'cols' => 50, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'for_whom_en'); ?>
 </div>
+
 <div class="form-group">
-    <label class="control-label col-sm-2" for="whatYouLearnEn">Що ти вивчиш (англ.):</label>
-    <div class="col-sm-10">
-        <textarea class="form-control" rows="5" id="whatYouLearnEn" name="whatYouLearnEn"
-                  placeholder="що ти вивчиш"><?= $model->what_you_learn_en; ?></textarea>
-    </div>
+    <?php echo $form->labelEx($model, 'what_you_learn_en'); ?>
+    <?php echo $form->textArea($model, 'what_you_learn_en', array('placeholder' => Yii::t('coursemanage', '0417'), 'rows' => 6,
+        'cols' => 50, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'what_you_learn_en'); ?>
 </div>
+
 <div class="form-group">
-    <label class="control-label col-sm-2" for="whatYouGetEn">Що ти отримаєш (англ.):</label>
-    <div class="col-sm-10">
-        <textarea class="form-control" rows="5" id="whatYouGetEn" name="whatYouGetEn"
-                  placeholder="що ти отримаєш"><?= $model->what_you_get_en; ?></textarea>
-    </div>
+    <?php echo $form->labelEx($model, 'what_you_get_en'); ?>
+    <?php echo $form->textArea($model, 'what_you_get_en', array('placeholder' => Yii::t('coursemanage', '0417'), 'rows' => 6,
+        'cols' => 50, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'what_you_get_en'); ?>
 </div>
-<div class='form-actions'>
-    <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Зберегти</button>
-    </div>
-<!--    <button type="reset" class="btn">Скасувати</button>-->
+
+<div class="form-group">
+    <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
+        array('class' => 'btn btn-primary', 'id' => 'submitButton')); ?>
 </div>

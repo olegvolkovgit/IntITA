@@ -10,6 +10,15 @@ class CoursemanageController extends TeacherCabinetController
         parent::init();
     }
 
+    protected function performAjaxValidation($model)
+    {
+        if(isset($_POST['ajax']) && $_POST['ajax']==='course-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
     public function actionView($id)
     {
         $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
@@ -24,18 +33,6 @@ class CoursemanageController extends TeacherCabinetController
     public function actionCreate()
     {
         $model=new Course;
-        $levels = Level::model()->findAll();
-
-        $this->renderPartial('create',array(
-            'model'=>$model,
-            'levels'=>$levels,
-        ),false,true);
-    }
-
-
-    public function actionNewCourse(){
-        $model=new Course;
-        var_dump($_POST);die;
 
         if(isset($_POST['Course']))
         {
@@ -58,14 +55,15 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                echo "Курс успішно створено.";
-            } else {
-                echo "Курс не вдалося створити. Зверніться до адміністратора.";
+                $this->redirect($this->pathToCabinet());
             }
-        } else {
-            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
         }
+
+        $this->renderPartial('create',array(
+            'model'=>$model,
+        ),false,true);
     }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -76,12 +74,13 @@ class CoursemanageController extends TeacherCabinetController
         $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
 
         $model=$this->loadModel($id);
+
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
+
         if(isset($_POST['Course']))
         {
             $model->oldLogo=$model->course_img;
-
             if(!empty($_FILES)){
                 $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
                 $model->logo = $_FILES['Course'];
@@ -100,11 +99,9 @@ class CoursemanageController extends TeacherCabinetController
                 $this->redirect($this->pathToCabinet());
             }
         }
-        $levels = Level::model()->findAll();
 
         $this->renderPartial('update',array(
             'model'=>$model,
-            'levels' => $levels,
             'modules' => $modules
         ),false,true);
     }
