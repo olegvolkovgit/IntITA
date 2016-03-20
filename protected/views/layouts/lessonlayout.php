@@ -15,6 +15,7 @@
         // needed to enable CSS reference
         document.createElement('ng:view');
     </script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'labelForIe.js'); ?>"></script>
     <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">

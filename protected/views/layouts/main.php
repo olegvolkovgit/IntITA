@@ -46,6 +46,7 @@ $header = new Header();
         // needed to enable CSS reference
         document.createElement('ng:view');
     </script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'labelForIe.js'); ?>"></script>
     <![endif]-->
     <!-- for tabs -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
