@@ -1,7 +1,10 @@
 .formatted-form
 {
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
+}
+.formMargin{
+    margin-left: 15%;
 }
 #extseach-form, #extteacherseach
 {
