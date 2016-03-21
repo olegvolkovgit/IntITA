@@ -19,7 +19,7 @@
             </table>
 
             <div class="modalContent">
-                <p>Ти успішно пройшов(ла) модуль</p>
+                <p><?php echo Yii::t('lecture', '0801'); ?></p>
                 <p class="sharingText"><?php echo Yii::t('lecture', '0677'); ?></p>
                 <p><?php echo Yii::t('lecture', '0678'); ?></p>
             </div>

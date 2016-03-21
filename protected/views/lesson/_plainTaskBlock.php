@@ -21,7 +21,7 @@ if ($data['id_type'] == 6) {
                         <div>
                             <span id="flashMsg"
                                   ng-class="{'hideFlash' : !(plainTaskForm.answer.$pristine || plainTaskForm.answer.$error.required) }">
-                                Відповідь не може бути пустою
+                                <?php echo Yii::t('validation', '0805'); ?>
                             </span>
                         </div>
                     </form>

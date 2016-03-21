@@ -72,7 +72,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                     <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
                     <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
                 </div>
-                <label for="signInModeDialog" class=registration><?php echo 'Увійти' ?></label>
+                <label for="signInModeDialog" class=registration><?php echo Yii::t('regform','0806') ?></label>
                 <input ng-hide=true ng-init="signModeDialog='<?php echo $mode; ?>'" type="radio" ng-model="signModeDialog" name="signMode" id="signInModeDialog" value="signIn" />
             </div>
             <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authFormDialog.$invalid && !regChecked', 'value'=>Yii::t('regform', Yii::t('regform', '0013')))); ?>

@@ -82,7 +82,7 @@ $editMode = ($canEdit) ? 'true' : '';
         <span ng-class="{greenFinished: modulesProgress.fullTime<=modulesProgress.recommendedTime, redFinished: modulesProgress.fullTime>modulesProgress.recommendedTime}"> {{modulesProgress.fullTime}} {{daysTermination(modulesProgress.fullTime)}}</span>
         <?php echo Yii::t('module', '0652') ?> {{modulesProgress.recommendedTime}})
         <br>
-        Вітаємо з завершенням!
+        <?php echo Yii::t('course', '0809') ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>
     </div>
     <div id="moduleForm">

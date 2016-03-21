@@ -398,7 +398,7 @@ function getGridName() {
     return $jq('.grid-view').attr('id');
 }
 
-function refresh(url) {
+function refreshCache(url) {
     $jq.ajax({
         url: url,
         type: 'post',

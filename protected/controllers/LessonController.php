@@ -28,7 +28,7 @@ class LessonController extends Controller
     {
         $lecture = Lecture::model()->findByPk($id);
         if(!$lecture)
-            throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
+            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0810'));
 
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (StudentReg::isAdmin() || $editMode) {
@@ -37,7 +37,7 @@ class LessonController extends Controller
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
-                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
+                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));
 //            $module = Module::model()->findByPk($lecture->idModule);
 //            if(!$module->status)
 //                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
@@ -83,7 +83,7 @@ class LessonController extends Controller
 
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
         if(!$pageModel){
-            throw new \application\components\Exceptions\IntItaException('404', 'Сторінка не знайдена');
+            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
         }
         $textList = $pageModel->getBlocksListById();
 
@@ -460,7 +460,7 @@ class LessonController extends Controller
             return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse,
                 'idModule' => $idModule));
         } else {
-            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
+            throw new CHttpException(403, Yii::t('lecture', '0813'));
         }
     }
 
@@ -486,7 +486,7 @@ class LessonController extends Controller
             return $this->renderPartial('_editLecturePageTabs', array(
                 'page' => $page, 'dataProvider' => $dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
         }
-        throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
+        throw new CHttpException(403, Yii::t('lecture', '0813'));
     }
 
     public function actionAddNewPage($lecture, $page)
@@ -567,13 +567,12 @@ class LessonController extends Controller
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
         if (!$editMode) {
-            throw new CHttpException(403, 'Ви запросили сторінку, доступ до якої обмежений спеціальними правами.
-            Для отримання доступу увійдіть на сайт з логіном автора модуля.');
+            throw new CHttpException(403, Yii::t('lecture', '0813'));
         }
 
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
         if(!$pageModel){
-            throw new \application\components\Exceptions\IntItaException('404', 'Сторінка не знайдена');
+            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
         }
         $textList = $pageModel->getBlocksListById();
 
@@ -613,7 +612,7 @@ class LessonController extends Controller
 
         if ($model->validate()) {
             $model->save();
-        } else echo 'Блок не може бути пустий';
+        } else echo Yii::t('lecture', '0814');
     }
 
     public function actionSaveLectureContent($idLecture)
