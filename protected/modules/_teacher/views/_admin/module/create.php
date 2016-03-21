@@ -1,6 +1,7 @@
 <?php
-/* @var $this ModuleController */
-/* @var $model Module */
+/* @var $this ModuleController
+ * @var $model Module
+ */
 ?>
 <ul class="list-inline">
     <li>
@@ -31,17 +32,15 @@
                 'id' => 'module-form',
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
-                    'enctype' => 'multipart/form-data',
-                    'method' => 'POST',
+                    'enctype' => 'multipart/form-data'
                 ),
-                'enableClientValidation' => true,
-                'enableAjaxValidation' => false,
+                'enableAjaxValidation' => true,
                 'clientOptions' => array(
-                    'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);
-                }',
                     'validateOnSubmit' => true,
-                    'validateOnChange' => false),
+                    'validateOnChange' => true,
+                    'afterValidate' => 'js:function(form,data,hasError){
+                sendError(form,data,hasError);return true;
+                }'),
             )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">

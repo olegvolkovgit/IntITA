@@ -2,6 +2,7 @@
 /* @var $this ModuleController
  * @var $model Module
  * @var $courses array
+ * @var $teachers array
  */
 ?>
     <div class="row">
@@ -15,7 +16,7 @@
             <li>
                 <button type="button" class="btn btn-primary"
                         onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/update',
-                            array('id' => $model->module_ID)); ?>')">Редагувати модуль
+                            array('id' => $model->module_ID)); ?>', '<?='Модуль '.$model->title_ua;?>')">Редагувати модуль
                 </button>
             </li>
             <li>
@@ -65,7 +66,8 @@
                 <?php $this->renderPartial('_lecturesTab', array('model' => $model, 'scenario' => 'view'));?>
             </div>
             <div class="tab-pane fade" id="authors">
-                <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'view'));?>
+                <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'view',
+                    'teachers' => $teachers));?>
             </div>
             <div class="tab-pane fade" id="inCourses">
                 <?php $this->renderPartial('_inCoursesTab', array(

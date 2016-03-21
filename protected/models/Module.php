@@ -30,7 +30,7 @@
  * @property CourseModules $inCourses
  * @property Level $level0
  * @property Lecture[] $lectures
- * @property Teacher teacher
+ * @property Teacher $teacher
  */
 
 const EDITOR_ENABLED = 1;
@@ -81,8 +81,8 @@ class Module extends CActiveRecord implements IBillableObject
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             // The following rule is used by search().
-            array('module_ID, title_ua, title_ru, title_en, alias, language, module_duration_hours,
-			module_duration_days, lesson_count, module_price, for_whom, what_you_learn, what_you_get, module_img,
+            array('module_ID, title_ua, title_ru, title_en, alias, language, lesson_count, module_price, for_whom,
+            what_you_learn, what_you_get, module_img,
 			days_in_week, hours_in_day, level, module_number, cancelled', 'safe', 'on' => 'search'),
         );
     }
@@ -119,8 +119,8 @@ class Module extends CActiveRecord implements IBillableObject
             'title_en' => 'Назва англійською',
             'alias' => 'Псевдонім',
             'language' => 'Мова',
-            'module_duration_hours' => 'Тривалість модуля (години)',
-            'module_duration_days' => 'Тривалість модуля (дні)',
+//            'module_duration_hours' => 'Тривалість модуля (години)',
+//            'module_duration_days' => 'Тривалість модуля (дні)',
             'lesson_count' => 'Кількість лекцій',
             'module_price' => 'Ціна',
             'for_whom' => 'Для кого',
@@ -130,6 +130,9 @@ class Module extends CActiveRecord implements IBillableObject
             'module_number' => 'Номер модуля',
             'cancelled' => 'Видалений',
             'status' => 'Статус',
+            'hours_in_day' => 'Годин в день (рекомендований графік занять)',
+            'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
+
         );
     }
 
@@ -155,8 +158,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('language', $this->language, true);
-        $criteria->compare('module_duration_hours', $this->module_duration_hours);
-        $criteria->compare('module_duration_days', $this->module_duration_days);
+//        $criteria->compare('module_duration_hours', $this->module_duration_hours);
+//        $criteria->compare('module_duration_days', $this->module_duration_days);
         $criteria->compare('lesson_count', $this->lesson_count);
         $criteria->compare('module_price', $this->module_price, true);
         $criteria->compare('for_whom', $this->for_whom, true);
@@ -1062,6 +1065,7 @@ class Module extends CActiveRecord implements IBillableObject
             $row["alias"] = $record->alias;
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
+            $row["title"]["header"] = "'Модуль ".CHtml::encode($record->title_ua)."'";
             $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";

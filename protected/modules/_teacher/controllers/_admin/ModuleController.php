@@ -74,9 +74,11 @@ class ModuleController extends TeacherCabinetController
     {
         $model = Module::model()->with('lectures', 'teacher', 'inCourses')->findByPk($id);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
+        $teachers = TeacherModule::listByModule($model->module_ID);
 
         $this->renderPartial('view', array(
             'model' => $model,
+            'teachers' => $teachers,
             'courses' => $courses,
         ), false, true);
     }
@@ -89,6 +91,7 @@ class ModuleController extends TeacherCabinetController
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
+
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
             if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
@@ -107,17 +110,21 @@ class ModuleController extends TeacherCabinetController
                         }
                     }
                 }
+                $this->redirect($this->pathToCabinet());
             } else {
                 $model->save();
                 if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))){
                     Module::model()->updateByPk($id, array('module_img' => 'module.png'));
                 }
+                $this->redirect($this->pathToCabinet());
             }
             $this->redirect($this->pathToCabinet());
         }
+        $teachers = TeacherModule::listByModule($model->module_ID);
 
         $this->renderPartial('update', array(
             'model' => $model,
+            'teachers' => $teachers,
             'courses' => $courses,
         ), false, true);
     }

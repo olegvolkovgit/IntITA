@@ -3,6 +3,7 @@
  * @var $levels array
  * @var $model Module
  * @var $courses array
+ * @var $teachers array
  */
 ?>
 <ul class="list-inline">
@@ -54,17 +55,15 @@
                 'id' => 'module-form',
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
-                    'enctype' => 'multipart/form-data',
-                    'method' => 'POST',
+                    'enctype' => 'multipart/form-data'
                 ),
-                'enableClientValidation' => true,
-                'enableAjaxValidation' => false,
+                'enableAjaxValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
-                    'validateOnChange' => false,
+                    'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);
-                }',),
+                sendError(form,data,hasError);return true;
+                }'),
             )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
@@ -83,7 +82,8 @@
                     <?php $this->renderPartial('_lecturesTab', array('model' => $model, 'scenario' => 'update')); ?>
                 </div>
                 <div class="tab-pane fade" id="authors">
-                    <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'update')); ?>
+                    <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'update',
+                        'teachers' => $teachers)); ?>
                 </div>
                 <div class="tab-pane fade" id="inCourses">
                     <?php $this->renderPartial('_inCoursesTab', array(

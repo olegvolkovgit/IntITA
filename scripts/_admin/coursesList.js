@@ -15,7 +15,7 @@ function initCourses(){
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="#" onclick="load('  + title["link"] + ')">'  + title["name"] + '</a>';
+                    return '<a href="#" onclick="load('  + title["link"] + ',' + title["header"] + ')">'  + title["name"] + '</a>';
                 }
             },
             {

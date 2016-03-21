@@ -20,6 +20,10 @@
                 <td><?=$model->alias;?></td>
             </tr>
             <tr>
+                <td>Номер модуля: </td>
+                <td><?=$model->module_number;?></td>
+            </tr>
+            <tr>
                 <td>Рівень: </td>
                 <td><?=$model->level();?></td>
             </tr>
