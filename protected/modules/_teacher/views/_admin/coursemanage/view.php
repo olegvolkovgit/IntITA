@@ -8,8 +8,7 @@
     <div class="row">
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index', 'Курси'); ?>')">
+                <button type="button" class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_admin/coursemanage/index"); ?>', 'Курси')">
                     <?php echo Yii::t("coursemanage", "0510"); ?></button>
             </li>
             <li>

@@ -311,20 +311,20 @@ class Module extends CActiveRecord implements IBillableObject
 //        return false;
 //    }
 
-    public static function getModules($id)
-    {
-        $modules = Yii::app()->db->createCommand()
-            ->select('module_ID')
-            ->from('module')
-            ->order('module_ID DESC')
-            ->where('course=' . $id)
-            ->queryAll();
-        $result = [];
-        for ($i = count($modules) - 1; $i > 0; $i--) {
-            array_push($result, $modules[$i]["module_ID"]);
-        }
-        return $result;
-    }
+//    public static function getModules($id)
+//    {
+//        $modules = Yii::app()->db->createCommand()
+//            ->select('module_ID')
+//            ->from('module')
+//            ->order('module_ID DESC')
+//            ->where('course=' . $id)
+//            ->queryAll();
+//        $result = [];
+//        for ($i = count($modules) - 1; $i > 0; $i--) {
+//            array_push($result, $modules[$i]["module_ID"]);
+//        }
+//        return $result;
+//    }
 
     public static function getModuleAlias($idModule, $idCourse)
     {
@@ -371,7 +371,7 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public function monthsCount(){
-        return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));
+        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week));
     }
 
     public static function lessonsInMonth($idModule)
@@ -414,85 +414,39 @@ class Module extends CActiveRecord implements IBillableObject
         return 'M';
     }
 
-    public static function showModule($course)
-    {
-        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
+//    public static function showAvailableModule($course)
+//    {
+//        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
+//
+//        $modulelist = [];
+//
+//        $criteria = new CDbCriteria;
+//        $criteria->alias = 'course_modules';
+//        $criteria->select = 'id_module';
+//        $criteria->order = '`order` ASC';
+//        $criteria->addCondition('id_course=' . $course);
+//        $temp = CourseModules::model()->findAll($criteria);
+//        for ($i = 0; $i < count($temp); $i++) {
+//            array_push($modulelist, $temp[$i]->id_module);
+//        }
+//        $titleParam = Module::getModuleTitleParam();
+//
+//        $criteriaData = new CDbCriteria;
+//        $criteriaData->alias = 'module';
+//        $criteriaData->addNotInCondition('module_ID', $modulelist);
+//
+//        $rows = Module::model()->findAll($criteriaData);
+//        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
+//        foreach ($rows as $numRow => $row) {
+//            if ($row[$titleParam] == '')
+//                $title = 'title_ua';
+//            else $title = $titleParam;
+//            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
+//        };
+//        $last = '</select>';
+//        return $result . $last;
+//    }
 
-        $modulelist = [];
-
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'course_modules';
-        $criteria->select = 'id_module';
-        $criteria->order = '`order` ASC';
-        $criteria->addCondition('id_course=' . $course);
-        $temp = CourseModules::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($modulelist, $temp[$i]->id_module);
-        }
-
-        $titleParam = Module::getModuleTitleParam();
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'module';
-        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
-
-        $rows = Module::model()->findAll($criteriaData);
-        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
-        foreach ($rows as $numRow => $row) {
-            if ($row[$titleParam] == '')
-                $title = 'title_ua';
-            else $title = $titleParam;
-            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
-        };
-        $last = '</select>';
-        return $result . $last;
-    }
-    public static function showAvailableModule($course)
-    {
-        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
-
-        $modulelist = [];
-
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'course_modules';
-        $criteria->select = 'id_module';
-        $criteria->order = '`order` ASC';
-        $criteria->addCondition('id_course=' . $course);
-        $temp = CourseModules::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($modulelist, $temp[$i]->id_module);
-        }
-        $titleParam = Module::getModuleTitleParam();
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'module';
-        $criteriaData->addNotInCondition('module_ID', $modulelist);
-
-        $rows = Module::model()->findAll($criteriaData);
-        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
-        foreach ($rows as $numRow => $row) {
-            if ($row[$titleParam] == '')
-                $title = 'title_ua';
-            else $title = $titleParam;
-            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
-        };
-        $last = '</select>';
-        return $result . $last;
-    }
-
-    public static function generateModulesList()
-    {
-        $modules = Module::model()->findAll();
-        $count = count($modules);
-        $result = [];
-        $titleParam = Lecture::getTypeTitleParam();
-        for ($i = 0; $i < $count; $i++) {
-            $result[$i]['id'] = $modules[$i]->module_ID;
-            $result[$i]['alias'] = $modules[$i]->$titleParam;
-            $result[$i]['language'] = $modules[$i]->language;
-        }
-        return $result;
-    }
 
     public static function getResourceDescription($id)
     {
@@ -641,6 +595,8 @@ class Module extends CActiveRecord implements IBillableObject
         }
     }
 
+
+    //todo refactor
     public static function getModulePricePayment($idModule, $discount = 0, $idCourse)
     {
         $price = Module::getModuleSumma($idModule, $idCourse);
@@ -688,6 +644,7 @@ class Module extends CActiveRecord implements IBillableObject
     {
         return round($lesson_count * 7 / ($hours_in_day * $days_in_week));
     }
+
     public function averageModuleDuration()
     {
         return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));

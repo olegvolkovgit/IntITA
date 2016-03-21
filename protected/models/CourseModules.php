@@ -121,7 +121,6 @@ class CourseModules extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->addCondition('id_course='.$id);
-
         $criteria->compare('id_course',$this->id_course);
         $criteria->compare('id_module',$this->id_module);
         $criteria->compare('order',$this->order);

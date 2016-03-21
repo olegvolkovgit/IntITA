@@ -178,24 +178,28 @@ function saveSchema(url, id) {
 }
 
 function addCoursePrice(url) {
-    var moduleId = document.getElementById('module').value;
-    var price = document.getElementById('price').value;
-    var courseId = $jq("select[name=course] option:selected").val();
+    var moduleId = $jq('#module').val();
+    var price = $jq('#price').val();
+    var courseId = $jq("#course").val();
     if (moduleId && price && courseId) {
         $jq.ajax({
             url: url,
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'price': price},
-            success: function (data) {
-                fillContainer(data);
+            success: function (response) {
+                if(response == "success")
+                    bootbox.alert("Нова ціна збережена.", function(){
+                        load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
+                    });
+                else bootbox.alert("Операцію не вдалося виконати.");
             },
             error: function () {
-                showDialog();
+                bootbox.alert("Операцію не вдалося виконати.");
             }
         });
     }
     else {
-        showDialog();
+        bootbox.alert('Неправильно введені дані.');
     }
 }
 

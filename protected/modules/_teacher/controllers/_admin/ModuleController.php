@@ -178,14 +178,14 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
-    //todo refactor
-    public function actionCoursePrice($id)
+    public function actionCoursePrice($id, $course)
     {
-        $courses = Course::generateModuleCoursesList($id);
+        $course = Course::model()->findByPk($course);
+        $module = Module::model()->findByPk($id);
 
         $this->renderPartial('coursePrice', array(
-            'id' => $id,
-            'courses' => $courses
+            'module' => $module,
+            'course' => $course,
         ), false, true);
     }
 
@@ -195,10 +195,12 @@ class ModuleController extends TeacherCabinetController
         $idCourse = Yii::app()->request->getPost('course', 0);
         $price = Yii::app()->request->getPost('price', 0);
 
-        Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
-            $idModule . ' and id_course=' . $idCourse)->query();
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
+        if(Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
+            $idModule . ' and id_course=' . $idCourse)->query()){
+            echo "success";
+        } else {
+            echo "error";
+        }
     }
 
     public function actionNewModule()
