@@ -1,7 +1,8 @@
 <?php
-/*
-/*@var courses Course */
-
+/**
+ * @var $courses array
+ * @var course Course
+ */
 ?>
 <ul class="list-inline">
     <li>
@@ -32,17 +33,14 @@
                             }
                         }
                     ?>
-
                 </select>
             </div>
             <br>
             <br>
-
             <div class="form-group">
                 <label for="price">Нова ціна: </label>
                 <input type="number" id="price" class="form-control" required/>
             </div>
-
             <br>
             <br>
             <input class="btn btn-default" type="submit" value="Зберегти ціну модуля">

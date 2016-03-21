@@ -20,18 +20,16 @@ class ModuleController extends TeacherCabinetController
 
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
-            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
-            if ($model->save())
-            {
-                if(!empty($_FILES['Module']['name']['module_img']))
-                {
+            if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
+            if ($model->save()) {
+                if (!empty($_FILES['Module']['name']['module_img'])) {
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);
-                    if($imageName&& $tmpName){
-                    if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
-                        throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
+                    if ($imageName && $tmpName) {
+                        if (!Avatar::updateModuleAvatar($imageName, $tmpName, $model->module_ID, $model->module_img))
+                            throw new \application\components\Exceptions\IntItaException(400, 'Avatar not save');
                     }
-                }else{
+                } else {
                     Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
                 $this->redirect($this->pathToCabinet());
@@ -47,10 +45,10 @@ class ModuleController extends TeacherCabinetController
 
     public function actionDelete($id)
     {
-        if(CourseModules::getCoursesListName($id)==false){
+        if (CourseModules::getCoursesListName($id) == false) {
             Module::model()->updateByPk($id, array('cancelled' => 1));
             echo false;
-        }else{
+        } else {
             echo implode(", ", CourseModules::getCoursesListName($id));
         }
     }
@@ -94,7 +92,7 @@ class ModuleController extends TeacherCabinetController
 
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
-            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
+            if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
             if (!empty($_FILES['Module']['name']['module_img'])) {
                 $imageName = array_shift($_FILES['Module']['name']);
                 $tmpName = array_shift($_FILES['Module']['tmp_name']);
@@ -103,7 +101,7 @@ class ModuleController extends TeacherCabinetController
                         $model->logo = $_FILES['Module'];
                         if ($model->validate()) {
                             $model->save();
-                            if($imageName && $tmpName) {
+                            if ($imageName && $tmpName) {
                                 if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
                                     throw new \application\components\Exceptions\IntItaException(500, 'Аватар не був збережений.');
                             }
@@ -113,7 +111,7 @@ class ModuleController extends TeacherCabinetController
                 $this->redirect($this->pathToCabinet());
             } else {
                 $model->save();
-                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))){
+                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
                     Module::model()->updateByPk($id, array('module_img' => 'module.png'));
                 }
                 $this->redirect($this->pathToCabinet());
@@ -129,13 +127,14 @@ class ModuleController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionMandatory($id)
+    public function actionMandatory($id, $course)
     {
-        $courses = Course::generateModuleCoursesList($id);
+        $courseModel = Course::model()->findByPk($course);
+        $module = Module::model()->findByPk($id);
 
         $this->renderPartial('mandatory', array(
-            'id' => $id,
-            'courses' => $courses
+            'module' => $module,
+            'course' => $courseModel
         ), false, true);
     }
 
@@ -153,10 +152,17 @@ class ModuleController extends TeacherCabinetController
         $idCourse = Yii::app()->request->getPost('course', 0);
         $mandatory = Yii::app()->request->getPost('mandatory', 0);
 
-        Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
-            $idModule . ' and id_course=' . $idCourse)->query();
-
-        $this->actionIndex();
+        if ($idModule && $idCourse && $mandatory) {
+            if (Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
+                $idModule . ' and id_course=' . $idCourse)->query()
+            ) {
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати.";
+            }
+        } else {
+            echo "Неправильний запит.";
+        }
     }
 
     public function actionGetModuleByCourse()
@@ -195,35 +201,42 @@ class ModuleController extends TeacherCabinetController
         $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
     }
 
-    public function actionNewModule(){
-        var_dump($_POST);die;
+    public function actionNewModule()
+    {
+        var_dump($_POST);
+        die;
 
     }
 
-    public function actionGetModulesList(){
+    public function actionGetModulesList()
+    {
         echo Module::modulesList();
     }
 
-    public function actionTeachersByQuery($query){
+    public function actionTeachersByQuery($query)
+    {
         if ($query) {
             $teachers = Teacher::teachersWithoutAuthorsModule($query);
             echo $teachers;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
-        }    }
+        }
+    }
 
-    public function actionAddTeacher($id){
+    public function actionAddTeacher($id)
+    {
         $module = Module::model()->findByPk($id);
 
         $this->renderPartial('_addTeacher', array(
-            'module' =>$module
+            'module' => $module
         ));
     }
 
-    public function actionCheckAlias(){
+    public function actionCheckAlias()
+    {
         $alias = Yii::app()->request->getPost('alias', '');
-        if(Module::isAliasUnique($alias)){
-           echo "true";
+        if (Module::isAliasUnique($alias)) {
+            echo "true";
         } else {
             echo "false";
         }

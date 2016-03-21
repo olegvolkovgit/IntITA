@@ -14,12 +14,6 @@
             <ul class="list-inline">
                 <li>
                     <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array('id' => $model->module_ID)); ?>',
-                                'Додати попередній модуль у курсі')">Додати попередній модуль у курсі
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="btn btn-outline btn-primary"
                             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/coursePrice',
                                 array('id' => $model->module_ID)); ?>',
                                 'Додати/змінити ціну модуля у курсі')">Додати/змінити ціну модуля у курсі
@@ -37,7 +31,7 @@
                             <th>Курс</th>
                             <th width="10%">Порядок</th>
                             <th width="15%">Ціна у курсі</th>
-                            <th width="15%">Попередній модуль</th>
+                            <th width="25%">Попередній модуль</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -57,7 +51,17 @@
                                 <?= $item->price_in_course; ?>
                             </td>
                             <td>
-                                <?= $item->mandatory_modules; ?>
+
+                                <?php if ($scenario == "update") {?>
+                                    <a href="#" onclick="load('<?=Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array(
+                                        'id' =>$model->module_ID, 'course' => $item->id_course));?>',
+                                        'Задати попередній модуль у курсі')">
+                                    <?= ($item->mandatory_modules != null)?$item->mandatory->getTitle()." (ред.)":"редагувати";?>
+                                    </a>
+                                <?php } else {
+                                    echo ($item->mandatory_modules != null)?$item->mandatory->getTitle():"";
+                                }?>
+
                             </td>
                             <?php
                             } ?>

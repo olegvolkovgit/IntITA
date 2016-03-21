@@ -206,7 +206,8 @@ class CoursemanageController extends TeacherCabinetController
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+
+        echo "success";
     }
 
     public function actionGenerateSchema($id){
