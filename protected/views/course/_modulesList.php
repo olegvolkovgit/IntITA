@@ -4,7 +4,7 @@ $editMode = ($canEdit) ? 'true' : '';
 <script type="text/javascript">
     basePath = '<?php echo Config::getBaseUrl();?>';
 </script>
-<div class="courseModules" ng-controller="moduleListCtrl">
+<div class="courseModules">
     <?php
     if ($canEdit) { ?>
         <img ng-cloak ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
@@ -40,8 +40,8 @@ $editMode = ($canEdit) ? 'true' : '';
             </div>
             <?php } ?>
             <div class="modulesTitle"
-                 ng-class="{disableModuleStyle: !module.access && !module.isAuthor,
-                 availableModuleStyle: module.access || module.isAuthor,
+                 ng-class="{disableModuleStyle: (!module.access || !modulesProgress.courseStatus) && !module.isAuthor && !modulesProgress.isAdmin,
+                 availableModuleStyle: (module.access && modulesProgress.courseStatus) || module.isAuthor || modulesProgress.isAdmin,
                  inProgressModuleStyle: module.progress=='inProgress',
                  inlineModuleStyle: module.progress=='inLine',
                  inFinishedModuleStyle: module.progress=='finished'}">
@@ -49,8 +49,8 @@ $editMode = ($canEdit) ? 'true' : '';
                 <span class="moduleOrder"><?php echo Yii::t('course', '0364') ?> {{$index+1}}.</span>
                 <span class="moduleLink">{{module.title}}</span>
                 <div class="moduleProgress">
-                    <span ng-if="module.progress!='finished' || (modulesProgress.isAdmin || module.isAuthor)"><?php echo Yii::t('module', '0647') ?>: {{module.time}} {{daysTermination(module.time)}}.</span>
-                    <span ng-if="module.access && !(modulesProgress.isAdmin || module.isAuthor)">
+                    <span ng-if="module.progress!='finished' || (modulesProgress.isAdmin || module.isAuthor || !modulesProgress.courseStatus)"><?php echo Yii::t('module', '0647') ?>: {{module.time}} {{daysTermination(module.time)}}.</span>
+                    <span ng-if="module.access && modulesProgress.courseStatus && !(modulesProgress.isAdmin || module.isAuthor)">
                         <span ng-if="module.progress=='inLine'">
                             <?php echo Yii::t('module', '0648') ?>
                         </span>
@@ -65,7 +65,7 @@ $editMode = ($canEdit) ? 'true' : '';
                             <?php echo Yii::t('module', '0652') ?> {{module.time}})
                         </span>
                     </span>
-                    <img ng-if="!(modulesProgress.isAdmin || module.isAuthor)" ng-src="{{!modulesProgress.userId && basePath+'/images/module/'+modulesProgress.ico || basePath+'/images/module/'+module.ico}}"/>
+                    <img ng-if="!(modulesProgress.isAdmin || module.isAuthor)" ng-src="{{(!modulesProgress.userId || !modulesProgress.courseStatus)&& basePath+'/images/module/'+modulesProgress.ico || basePath+'/images/module/'+module.ico}}"/>
                 </div>
                 </a>
             </div>
