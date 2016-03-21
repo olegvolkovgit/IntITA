@@ -5,14 +5,11 @@
 ?>
 <br>
 <div class="form-group">
-    <label class="control-label col-sm-2" for="title_en">Назва (англ.) *:</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="title_en" name="title_en" placeholder="назва англійською"
-               value="<?= $model->title_en; ?>">
-    </div>
+    <?php echo $form->labelEx($model, 'title_en'); ?>
+    <?php echo $form->textField($model, 'title_en', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'title_en'); ?>
 </div>
+
 <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Зберегти</button>
-    </div>
+    <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class' => 'btn btn-primary', 'id'=>'submitButton')); ?>
 </div>

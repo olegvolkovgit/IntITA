@@ -3,9 +3,6 @@
     width: 75%;
     margin: 0 auto;
 }
-#modules, #other{
-    width: 100%; !important;
-}
 #extseach-form, #extteacherseach
 {
     margin-left: 20px;

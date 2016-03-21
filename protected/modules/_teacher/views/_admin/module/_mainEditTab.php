@@ -1,60 +1,57 @@
 <?php
 /**
  * @var $model Module
- * @var $levels array
- * @var $level Level
  * @var $scenario string
  */
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="alias">Псевдонім * :</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="alias" placeholder="Псевдонім" name="alias"
-                       value="<?= $model->alias ?>"
-                       title="Псевдонім модуля може містити тільки англійські літери, довжиною 1-20 символів та бути унікальним.">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="number">Номер модуля * :</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="number" name="number" placeholder="Номер модуля"
-                       value="<?= $model->number; ?>" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="level">Pівень * :</label>
-            <div class="col-sm-10">
-                <select class="form-control" id="level" name="level">
-                    <?php foreach ($levels as $level) { ?>
-                        <option value="<?= $level->id ?>"><?= $level->title_ua; ?></option>
-                        <?php
-                    } ?>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label class="radio-inline"><input type="radio" name="status" value="develop" checked>В розробці</label>
-                    <label class="radio-inline"><input type="radio" name="status" value="ready">Готовий</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label class="radio-inline"><input type="radio" name="isCancel" value="available">Доступний</label>
-                    <label class="radio-inline"><input type="radio" name="isCancel" value="cancelled" checked>Видалений</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Зберегти</button>
-            </div>
-        </div>
-    </div>
+<br>
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'module_number'); ?>
+    <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'module_number'); ?>
 </div>
+
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'alias'); ?>
+    <?php echo $form->textField($model, 'alias', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'alias'); ?>
+</div>
+
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'language'); ?>
+    <?php echo $form->dropDownList($model, 'language', array('ua' => 'українською', 'ru' => 'російською',
+        'en' => 'англійською'), array('class' => 'form-control', 'style' => 'width:350px')); ?>
+    <?php echo $form->error($model, 'language'); ?>
+</div>
+
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'level'); ?>
+    <?php echo $form->dropDownList($model, 'level', CHtml::listData(Level::model()->findAll(), 'id', 'title_ua'),
+        array('options' => array('1' => array('selected' => true)), 'empty' => 'Виберіть рівень', 'class' => 'form-control', 'style' => 'width:350px')); ?>
+    <?php echo $form->error($model, 'level'); ?>
+</div>
+
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'status'); ?>
+    <?php echo $form->dropDownList($model, 'status', array(
+        '0' => Yii::t('coursemanage', '0396'), '1' => Yii::t('coursemanage', '0397')),
+        array('options' => array('0' => array('selected' => true)), 'class' => 'form-control', 'style' => 'width:350px')); ?>
+    <?php echo $form->error($model, 'status'); ?>
+</div>
+
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'hours_in_day'); ?>
+    <?php echo $form->textField($model, 'hours_in_day', array('class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'hours_in_day'); ?>
+</div>
+
+<div class="form-group">
+    <?php echo $form->labelEx($model, 'days_in_week'); ?>
+    <?php echo $form->textField($model, 'days_in_week', array('class' => 'form-control')); ?>
+    <?php echo $form->error($model, 'days_in_week'); ?>
+</div>
+
+<div class="form-group">
+    <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array('class' => 'btn btn-primary', 'id' => 'submitButton')); ?>
+</div>
+

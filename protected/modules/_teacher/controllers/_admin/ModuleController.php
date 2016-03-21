@@ -39,11 +39,9 @@ class ModuleController extends TeacherCabinetController
 
             $this->redirect($this->pathToCabinet());
         }
-        $levels = Level::model()->findAll();
 
         $this->renderPartial('create', array(
-            'model' => $model,
-            'levels' => $levels
+            'model' => $model
         ), false, true);
     }
 
@@ -88,7 +86,7 @@ class ModuleController extends TeacherCabinetController
         $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
 
-       // $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
             $model->oldLogo = $model->module_img;
@@ -117,12 +115,10 @@ class ModuleController extends TeacherCabinetController
             }
             $this->redirect($this->pathToCabinet());
         }
-        $levels = Level::model()->findAll();
 
         $this->renderPartial('update', array(
             'model' => $model,
             'courses' => $courses,
-            'levels' => $levels
         ), false, true);
     }
 
@@ -134,6 +130,14 @@ class ModuleController extends TeacherCabinetController
             'id' => $id,
             'courses' => $courses
         ), false, true);
+    }
+
+    protected function performAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'module-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
     }
 
     public function actionAddMandatoryModule()

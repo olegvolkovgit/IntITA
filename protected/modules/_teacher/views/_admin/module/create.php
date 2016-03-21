@@ -26,22 +26,38 @@
             </li>
         </ul>
         <!-- Tab panes -->
-        <form class="form-horizontal" role="form" name="moduleForm" id="moduleForm"
-              action="<?= Yii::app()->createUrl("/_teacher/_admin/coursemanage/newCourse") ?>">
+        <div class="form">
+            <?php $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'module-form',
+                'htmlOptions' => array(
+                    'class' => 'formatted-form',
+                    'enctype' => 'multipart/form-data',
+                    'method' => 'POST',
+                ),
+                'enableClientValidation' => true,
+                'enableAjaxValidation' => false,
+                'clientOptions' => array(
+                    'afterValidate' => 'js:function(form,data,hasError){
+                sendError(form,data,hasError);
+                }',
+                    'validateOnSubmit' => true,
+                    'validateOnChange' => false),
+            )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
-                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'levels' => $levels)); ?>
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="ua">
-                    <?php $this->renderPartial('_uaEditTab', array('model' => $model)); ?>
+                    <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="ru">
-                    <?php $this->renderPartial('_ruEditTab', array('model' => $model)); ?>
+                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'form' => $form)); ?>
                 </div>
                 <div class="tab-pane fade" id="en">
-                    <?php $this->renderPartial('_enEditTab', array('model' => $model)); ?>
+                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'form' => $form)); ?>
                 </div>
             </div>
-        </form>
+            <?php $this->endWidget(); ?>
+        </div>
     </div>
 </div>
