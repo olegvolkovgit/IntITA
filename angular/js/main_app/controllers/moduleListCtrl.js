@@ -27,11 +27,13 @@ function moduleListCtrl($http,$scope) {
         $scope.modulesProgress=response;
         if(!$scope.modulesProgress.userId){
             $scope.modulesProgress.ico='disabled.png';
-        }
+        }else if(!$scope.modulesProgress.courseStatus)
+            $scope.modulesProgress.ico='development.png';
+
         for(var i=0;i<$scope.modulesProgress.modules.length;i++){
             if(!$scope.modulesProgress.modules[i].access){
                 $scope.modulesProgress.modules[i].ico='disabled.png';
-            }else if(!$scope.modulesProgress.isAdmin && !$scope.modulesProgress.modules[i].isAuthor){
+            }else if(!$scope.modulesProgress.isAdmin && !$scope.modulesProgress.modules[i].isAuthor && $scope.modulesProgress.courseStatus){
                 if(!($scope.modulesProgress.modules[i].startTime || $scope.modulesProgress.modules[i].finishTime)){
                     $scope.modulesProgress.modules[i].progress='inLine';
                     $scope.modulesProgress.modules[i].ico='future.png';
@@ -53,6 +55,7 @@ function moduleListCtrl($http,$scope) {
                 }
             }
         }
+        if($scope.modulesProgress.modules.length>0)
         $scope.finishedCourse=true;
         for(var j = 0; j < $scope.modulesProgress.modules.length; j++){
             if($scope.modulesProgress.modules[j].ico!='finished.png'){

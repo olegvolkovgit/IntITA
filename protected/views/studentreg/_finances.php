@@ -39,7 +39,7 @@
             </td>
             <td>
                 <img src="<?php echo StaticFilesHelper::createImagePath('common',  'financeicoGreen.png') ?>"/>
-                <span id="agreementsList" class='unselectedTab' onclick="showAgreementsPay(this)">Договори</span>
+                <span id="agreementsList" class='unselectedTab' onclick="showAgreementsPay(this)"><?php echo Yii::t('profile', '0816'); ?></span>
             </td>
         </tr>
     </table>

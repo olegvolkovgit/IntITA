@@ -77,16 +77,16 @@ function moduleEditCtrl($http,$scope) {
         var msg;
         switch (lang) {
             case 'ua':
-                msg='Ти впевнений, що хочеш видалити даний модуль?';
+                msg='Ти впевнений, що хочеш видалити дане заняття?';
                 break;
             case 'ru':
-                msg='Ты уверен, что хочешь удалить данный модуль?';
+                msg='Ты уверен, что хочешь удалить данное занятие?';
                 break;
             case 'en':
-                msg='Are you sure you want to remove this module?';
+                msg='Are you sure you want to remove this lecture?';
                 break;
             default:
-                msg='Ти впевнений, що хочеш видалити даний модуль?';
+                msg='Ти впевнений, що хочеш видалити дане заняття?';
                 break;
         }
 

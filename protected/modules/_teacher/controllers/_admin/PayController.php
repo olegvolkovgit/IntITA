@@ -101,14 +101,12 @@ class PayController extends TeacherCabinetController
         if (isset($_POST['user']) && isset($_POST['module'])) {
             $resultText = '';
             $userId = Yii::app()->request->getPost('user');
-            $courseId = Yii::app()->request->getPost('course');
             $moduleId = Yii::app()->request->getPost('module');
             $moduleName = Module::model()->findByPk($moduleId)->title_ua;
             $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
-
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($moduleName, $courseId, $userName);
+                $resultText = PayModules::getCancelText($moduleName, $userName);
                 $payModule->delete();
             } else {
                 $resultText = PayModules::getCancelErrorText($userName, $moduleName);

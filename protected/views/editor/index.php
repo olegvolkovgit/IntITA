@@ -8,7 +8,7 @@ $module = $lecture->idModule;
 if ($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        Course::getCourseTitleForBreadcrumbs($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
         Module::getModuleName($module) => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
         Lecture::getLectureTitle($page->id_lecture) =>
             Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),

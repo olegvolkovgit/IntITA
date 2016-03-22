@@ -476,10 +476,17 @@ class Course extends CActiveRecord implements IBillableObject
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
-        return $this->$title;
+        return CHtml::encode($this->$title);
     }
 
     public static function getCourseName($idCourse)
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        $courseTitle = Course::model()->findByPk($idCourse)->$title;
+        return CHtml::encode($courseTitle);
+    }
+    public static function getCourseTitleForBreadcrumbs($idCourse)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;

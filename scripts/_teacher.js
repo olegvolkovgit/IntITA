@@ -1,7 +1,7 @@
-function load(url, header, histories) {
+function load(url, header, histories, tab) {
     clearDashboard();
-    if (histories == undefined) {
-        history.pushState({url: url, header: header}, "");
+    if (histories == undefined || histories == '') {
+        history.pushState({url: url, header: header,tab:tab}, "");
     }
     $jq.ajax({
         url: url,
@@ -259,6 +259,12 @@ function showAjaxLoader() {
 function hideAjaxLoader() {
     var el=document.getElementById('ajaxLoad');
     el.style.display = "none";
+}
+//open tabs by index after load page
+function openTab(id, tabIndex){
+    if (tabIndex != undefined) {
+        $jq(id+' li:eq('+tabIndex+') a').tab('show');
+    }
 }
 
 

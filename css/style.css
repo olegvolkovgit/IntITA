@@ -174,6 +174,7 @@ body.ie8 #hambMenu {
     padding-top: 20px;
 }
 .authorizePage .signInForm{
+    border:1px solid #F2F2F2;
     box-shadow:0px 0px 2px rgba(24, 37, 51, .5);
 }
 .authorizePage div{
