@@ -674,3 +674,6 @@ a.postlink {
     background:#666666;
     color:#FFF;
 }
+.codeBut.removeHtml{
+    width:200px;
+}

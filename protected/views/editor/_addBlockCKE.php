@@ -26,6 +26,7 @@
         <textarea id="CKECode" name="editorAdd" ng-model="CkeAddCode" ></textarea>
         <input type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit" ng-disabled=addCKEBlockCode.editorAdd.$error.required >
     </form>
+    <input class="codeBut removeHtml" type="submit" value="Очистити форматування" onclick="removeHtml()">
     <button id="cancelButton" onclick="hideFormCKE('addBlock')" >
         <?php echo Yii::t('course', '0368') ?>
     </button>
@@ -45,5 +46,8 @@
         }else{
             return true;
         }
+    }
+    function removeHtml() {
+        myCodeMirror.setValue(myCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
     }
 </script>
