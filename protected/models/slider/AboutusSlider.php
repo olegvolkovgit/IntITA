@@ -103,4 +103,21 @@ class AboutusSlider extends Slider
 	{
 		return parent::model($className);
 	}
+
+	public static function getItemsList(){
+        $graduates = AboutusSlider::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($graduates as $record) {
+            $row = array();
+            $row["photo"]["image"] = StaticFilesHelper::createPath("image", "aboutus", $record->pictureUrl);
+            $row["order"] = $record->order;
+            $row["linkUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/up", array("order"=>$record->order))."'";
+            $row["linkDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/down", array("order"=>$record->order))."'";
+            $row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$record->image_order))."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }

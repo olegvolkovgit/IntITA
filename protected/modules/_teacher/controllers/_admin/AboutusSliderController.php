@@ -208,5 +208,8 @@ class AboutusSliderController extends TeacherCabinetController
         }
     }
 
+	public function actionGetItemsList(){
+		echo AboutusSlider::getItemsList();
+	}
 
 }
