@@ -160,7 +160,9 @@ class Config extends CActiveRecord
     }
 
 	public static function getItemsList(){
-        $configs = Config::model()->findAll();
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('hidden='.Config::VISIBLE);
+        $configs = Config::model()->findAll($criteria);
         $return = array('data' => array());
 
         foreach ($configs as $record) {
