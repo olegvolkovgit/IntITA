@@ -52,11 +52,12 @@
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'course-form',
-                'htmlOptions' => array(
+                    'htmlOptions' => array(
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',
                 ),
                 'enableAjaxValidation' => true,
+                'enableClientValidation' => false,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,

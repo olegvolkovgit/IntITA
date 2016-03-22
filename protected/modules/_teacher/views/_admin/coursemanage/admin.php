@@ -1,7 +1,7 @@
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/create"); ?>')">
-            <?php echo Yii::t("coursemanage", "0511"); ?></button>
+        <button type="button" class="btn btn-primary" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/create"); ?>',
+            'Новий курс')"><?php echo Yii::t("coursemanage", "0511"); ?></button>
     </li>
 </ul>
 <div class="col-lg-12">

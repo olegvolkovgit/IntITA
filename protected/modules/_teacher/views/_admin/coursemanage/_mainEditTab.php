@@ -12,7 +12,7 @@
         <?php echo $form->labelEx($model, 'language', array('for' => 'language')); ?>
         <?php echo $form->dropDownList($model, 'language', array(
             'ua' => 'Українська', 'en' => 'English', 'ru' => 'Русский'),
-            array('options' => array('style' => 'width:350px', 'class' => 'form-control', 'ua' => array('selected' => true)))); ?>
+            array('options' => array('ua' => array('selected' => true)), 'empty' => 'Виберіть мову', 'class' => 'form-control', 'style' => 'width:350px')); ?>
         <?php echo $form->error($model, 'language'); ?>
     </div>
 
@@ -52,7 +52,16 @@
 
     <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
-            array('class' => 'btn btn-primary', 'id' => 'submitButton')); ?>
+            array(
+                'class' => 'btn btn-primary',
+                'id' => 'submitButton',
+                'ajax'=>array(
+                    'type'=>'POST',
+                    'url'=>$model->isNewRecord ? Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'):
+                        Yii::app()->createUrl('/_teacher/_admin/coursemanage/update', array('id' => $model->course_ID)) ,
+                    'success'=>'function(data) {bootbox.alert(data);}',
+                )
+            )); ?>
     </div>
 </div>
 
