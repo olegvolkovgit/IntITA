@@ -166,7 +166,10 @@
                                'Налаштування')">Налаштування
                         </a>
                     </li>
-                    <br>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/index'); ?>',
+                               'Попередня версія #derprecated')">Функціонал попередньої версії</a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-footer">
