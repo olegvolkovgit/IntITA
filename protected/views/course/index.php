@@ -20,7 +20,7 @@ $this->breadcrumbs = array(
             <?php echo $model->getTitle(); ?>
         </h1>
     </div>
-    <div class="courseShortInfo">
+    <div class="courseShortInfo"  ng-controller="moduleListCtrl">
         <?php $this->renderPartial('_courseShortInfo', array('model' => $model)); ?>
         <br>
 

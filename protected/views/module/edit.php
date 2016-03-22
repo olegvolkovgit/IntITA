@@ -65,7 +65,7 @@
         <a href="<?php
         if($idCourse==0) echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID));
         else echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
-        Назад
+            <?php echo Yii::t('module', '0808') ?>
         </a>
     </div>
 </div>

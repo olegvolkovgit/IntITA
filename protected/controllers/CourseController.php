@@ -184,6 +184,9 @@ class CourseController extends Controller
         $data["termination"][1] = Yii::t('module', '0654');
         $data["termination"][2] = Yii::t('module', '0655');
         $data["modules"]=[];
+        if(Course::model()->findByPk($data["courseId"])->status=='1')
+            $data["courseStatus"]=true;
+        else $data["courseStatus"]=false;
 
         //if guest or admin return json
         if(!$data["userId"] || $data["isAdmin"]){

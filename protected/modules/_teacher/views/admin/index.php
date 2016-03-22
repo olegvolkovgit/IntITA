@@ -152,7 +152,7 @@
             <div class="panel-body">
                 <ul>
                     <li><a href="#"
-                           onclick="refresh('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/refresh'); ?>')">
+                           onclick="refreshCache('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/refresh'); ?>')">
                             Оновити кеш
                         </a>
                     </li>

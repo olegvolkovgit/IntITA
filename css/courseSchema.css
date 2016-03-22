@@ -1,13 +1,12 @@
 #schema{
     border:none;
-    border-collapse: collapse;
-    border-spacing: 0px;
+    border-collapse: separate;
+    border-spacing: 1px;
     padding:0px;
     font-family:MyriadPro;
 }
 #schema td{
     border:1px solid black;
-    border-spacing: 0;
 }
 #schema td:first-child{
     width:180px;
