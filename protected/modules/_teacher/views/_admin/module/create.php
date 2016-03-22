@@ -35,6 +35,7 @@
                     'enctype' => 'multipart/form-data'
                 ),
                 'enableAjaxValidation' => true,
+                'enableClientValidation' => false,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,

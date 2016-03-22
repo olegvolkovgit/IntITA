@@ -21,6 +21,9 @@ class ModuleController extends TeacherCabinetController
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
+            if (!$model->validate()) {
+                Yii::app()->end();
+            }
             if ($model->save()) {
                 if (!empty($_FILES['Module']['name']['module_img'])) {
                     $imageName = array_shift($_FILES['Module']['name']);
@@ -32,10 +35,12 @@ class ModuleController extends TeacherCabinetController
                 } else {
                     Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
-                $this->redirect($this->pathToCabinet());
+                echo 'Модуль успішно створено!';
+                Yii::app()->end();
+            } else {
+                echo 'Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                Yii::app()->end();
             }
-
-            $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create', array(
@@ -99,7 +104,9 @@ class ModuleController extends TeacherCabinetController
                 if (!empty($imageName)) {
                     if (!empty($imageName)) {
                         $model->logo = $_FILES['Module'];
-                        if ($model->validate()) {
+                        if (!$model->validate()) {
+                            Yii::app()->end();
+                        } else {
                             $model->save();
                             if ($imageName && $tmpName) {
                                 if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
@@ -108,15 +115,20 @@ class ModuleController extends TeacherCabinetController
                         }
                     }
                 }
-                $this->redirect($this->pathToCabinet());
             } else {
+                if (!$model->validate()) {
+                    Yii::app()->end();
+                }
                 $model->save();
                 if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
                     Module::model()->updateByPk($id, array('module_img' => 'module.png'));
                 }
-                $this->redirect($this->pathToCabinet());
+                echo 'Модуль успішно оновлено!';
+                Yii::app()->end();
             }
-            $this->redirect($this->pathToCabinet());
+            echo 'Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+            Yii::app()->end();
+
         }
         $teachers = TeacherModule::listByModule($model->module_ID);
 
@@ -195,8 +207,9 @@ class ModuleController extends TeacherCabinetController
         $idCourse = Yii::app()->request->getPost('course', 0);
         $price = Yii::app()->request->getPost('price', 0);
 
-        if(Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
-            $idModule . ' and id_course=' . $idCourse)->query()){
+        if (Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
+            $idModule . ' and id_course=' . $idCourse)->query()
+        ) {
             echo "success";
         } else {
             echo "error";
