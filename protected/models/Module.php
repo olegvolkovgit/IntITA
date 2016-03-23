@@ -1018,4 +1018,22 @@ class Module extends CActiveRecord implements IBillableObject
     public static function isAliasUnique($alias){
         return Module::model()->exists('alias=:alias', array(':alias' => $alias)) == false;
     }
+
+    public static function showModule($course)
+    {
+        $modulelist = [];
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'course_modules';
+        $criteria->select = 'id_module';
+        $criteria->order = '`order` ASC';
+        $criteria->addCondition('id_course=' . $course);
+        $temp = CourseModules::model()->findAll($criteria);
+        for ($i = 0; $i < count($temp); $i++) {
+            array_push($modulelist, $temp[$i]->id_module);
+        }
+        $criteriaData = new CDbCriteria;
+        $criteriaData->alias = 'module';
+        $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
+        return Module::model()->findAll($criteriaData);
+    }
 }
