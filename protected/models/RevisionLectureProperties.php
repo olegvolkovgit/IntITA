@@ -15,6 +15,8 @@
  * @property string $title_en
  * @property string $start_date
  * @property integer $id_user_created
+ * @property string $update_date
+ * @property integer $id_user_updated
  * @property string $send_approval_date
  * @property integer $id_user_sended_approval
  * @property string $reject_date
@@ -46,13 +48,13 @@ class RevisionLectureProperties extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('order, id_type, is_free, start_date', 'required'),
-			array('order, id_type, is_free, id_user_created, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('order, id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
 			array('alias', 'length', 'max'=>10),
-			array('send_approval_date, reject_date, approve_date, end_date', 'safe'),
+			array('update_date, send_approval_date, reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, image, alias, order, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, send_approval_date, id_user_sended_approval, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, image, alias, order, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,6 +87,8 @@ class RevisionLectureProperties extends CActiveRecord
 			'title_en' => 'Title En',
 			'start_date' => 'Start Date',
 			'id_user_created' => 'Id User Created',
+            'update_date' => 'Update Date',
+            'id_user_updated' => 'Id User Updated',
 			'reject_date' => 'Reject Date',
 			'id_user_rejected' => 'Id User Rejected',
 			'approve_date' => 'Approve Date',
@@ -123,6 +127,8 @@ class RevisionLectureProperties extends CActiveRecord
 		$criteria->compare('title_en',$this->title_en,true);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('id_user_created',$this->id_user_created);
+		$criteria->compare('update_date',$this->update_date,true);
+		$criteria->compare('id_user_updated',$this->id_user_updated);
 		$criteria->compare('send_approval_date',$this->send_approval_date,true);
 		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
 		$criteria->compare('reject_date',$this->reject_date,true);
@@ -207,6 +213,20 @@ class RevisionLectureProperties extends CActiveRecord
         $newProperties->saveCheck();
 
         return $newProperties;
+    }
+
+    /**
+     * Sets update date and id user.
+     * @param $user - current user model
+     * @param bool $isSave - true (default) if need to save of false if no need to save
+     * @throws RevisionLecturePageException
+     */
+    public function setUpdateDate($user, $isSave = true) {
+        $this->update_date = new CDbExpression('NOW()');
+        $this->id_user_updated = $user->getId();
+        if ($isSave) {
+            $this->saveCheck();
+        }
     }
 
 }

@@ -79,6 +79,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'quiz',
         'start_date',
         'id_user_created',
+        'update_date',
+        'id_user_updated',
         'send_approval_date',
         'id_user_sended_approval',
         'reject_date',
@@ -258,4 +260,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
             data: {idElement:idEl, idPage:idPage}
         })
     }
+
+    function deleteElement(idEl, idPage) {
+        $.ajax({
+            method: "POST",
+            url: "/revision/deleteLectureElement",
+            data: {idElement:idEl, idPage:idPage}
+        })
+    }
+
 </script>

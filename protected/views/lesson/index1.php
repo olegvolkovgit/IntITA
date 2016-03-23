@@ -91,7 +91,8 @@ $finishedLecture = $lecture->isFinished($user);
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
                              class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
                     </a>
-                    <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">
+                    <a href="<?=Yii::app()->createUrl("revision/editlecture", array("idLecture" => $lecture->id)); ?>">
+<!--                    <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">-->
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') ?>"/>

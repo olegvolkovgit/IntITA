@@ -83,7 +83,7 @@ class RevisionController extends Controller
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->saveVideo($url);
+        $page->saveVideo($url, Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -121,7 +121,7 @@ class RevisionController extends Controller
         $title = Yii::app()->request->getPost("title");
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->setTitle($title);
+        $page->setTitle($title, Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -133,7 +133,7 @@ class RevisionController extends Controller
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->addTextBlock($idType, $html_block);
+        $page->addTextBlock($idType, $html_block, Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -156,7 +156,7 @@ class RevisionController extends Controller
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
         if ($page->isEditable()) {
-            $page->moveUp();
+            $page->moveUp(Yii::app()->user);
         }
     }
 
@@ -165,7 +165,7 @@ class RevisionController extends Controller
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
         if ($page->isEditable()) {
-            $page->moveDown();
+            $page->moveDown(Yii::app()->user);
         }
     }
 
@@ -233,7 +233,7 @@ class RevisionController extends Controller
         $idElement = Yii::app()->request->getPost('idElement');
 
         $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
-        $page->upElement($idElement);
+        $page->upElement($idElement, Yii::app()->user);
     }
 
     public function actionDownLectureElement() {
@@ -241,7 +241,41 @@ class RevisionController extends Controller
         $idElement = Yii::app()->request->getPost('idElement');
 
         $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
-        $page->downElement($idElement);
+        $page->downElement($idElement, Yii::app()->user);
+    }
+
+    public function actionDeleteLectureElement() {
+        $idPage = Yii::app()->request->getPost('idPage');
+        $idElement = Yii::app()->request->getPost('idElement');
+
+        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $page->deleteElement($idElement, Yii::app()->user);
+    }
+
+//    public function actionGetRevisions() {
+//        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => 628));
+//        $lectureRev->getLectureRevisionList();
+//    }
+
+    public function actionEditLecture($idLecture) {
+//        $idLecture = Yii::app()->request->getPost('idLecture');
+        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+        if ($lectureRev == null) {
+            $lecture = Lecture::model()->findByPk($idLecture);
+            $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+        }
+        $relatedRev = $lectureRev->getRelatedLectures();
+
+//        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+//
+        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
+        $lecturesDataProvider->setData($relatedRev);
+
+        $this->render('index', array(
+            'lectures' => $lecturesDataProvider,
+        ));
+
+        // TODO redirect
     }
 
     /***************/

@@ -9,6 +9,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 <div class="lessonModule" id="lectures">
     <?php if ($canEdit){?>
         <a href="<?php echo Yii::app()->createUrl("module/edit", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
+<!--        <a href="--><?php //echo Yii::app()->createUrl("revision/editlecture", array("idLecture" => $module->module_ID)); ?><!--">-->
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                  id="editIco" title="<?php echo Yii::t('module', '0373'); ?>"/>
         </a>

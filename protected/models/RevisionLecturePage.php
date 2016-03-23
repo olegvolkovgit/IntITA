@@ -14,6 +14,8 @@
  * @property integer $quiz
  * @property string $start_date
  * @property integer $id_user_created
+ * @property string $update_date
+ * @property integer $id_user_updated
  * @property string $send_approval_date
  * @property integer $id_user_sended_approval
  * @property string $reject_date
@@ -61,12 +63,12 @@ class RevisionLecturePage extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_revision, page_order, start_date', 'required'),
-			array('id_page, id_parent_page, id_revision, page_order, video, quiz, id_user_created, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('id_page, id_parent_page, id_revision, page_order, video, quiz, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('page_title', 'length', 'max'=>255),
-			array('send_approval_date, reject_date, approve_date, end_date', 'safe'),
+			array('updated_date, send_approval_date, reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_page, id_parent_page, id_revision, page_title, page_order, video, quiz, start_date, id_user_created, send_approval_date, id_user_sended_approval reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, id_page, id_parent_page, id_revision, page_title, page_order, video, quiz, start_date, id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -107,6 +109,8 @@ class RevisionLecturePage extends CActiveRecord
 			'quiz' => 'Quiz',
 			'start_date' => 'Start Date',
 			'id_user_created' => 'Id User Created',
+            'update_date' => 'Update Date',
+            'id_user_updated' => 'Id User Updated',
             'send_approval_date' => 'Send Approval Date',
             'id_user_sended_approval' => 'Id User Sended Approval',
 			'reject_date' => 'Reject Date',
@@ -146,6 +150,8 @@ class RevisionLecturePage extends CActiveRecord
 		$criteria->compare('quiz',$this->quiz);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('id_user_created',$this->id_user_created);
+		$criteria->compare('update_date',$this->update_date,true);
+		$criteria->compare('id_user_updated',$this->id_user_updated);
 		$criteria->compare('send_approval_date',$this->send_approval_date,true);
 		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
 		$criteria->compare('reject_date',$this->reject_date,true);
@@ -288,7 +294,7 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLectureElementException
      * @throws RevisionLecturePageException
      */
-    public function saveVideo($url) {
+    public function saveVideo($url, $user) {
 
         $this->checkEditable();
 
@@ -302,6 +308,8 @@ class RevisionLecturePage extends CActiveRecord
             $this->video = $videoElement->id;
             $this->saveCheck();
         }
+
+        $this->setUpdateDate($user);
     }
 
     /**
@@ -383,10 +391,11 @@ class RevisionLecturePage extends CActiveRecord
      * @param $title
      * @throws RevisionLecturePageException
      */
-    public function setTitle($title) {
+    public function setTitle($title, $user) {
         $this->checkEditable();
 
         $this->page_title = $title;
+        $this->setUpdateDate($user, false);
         $this->saveCheck();
     }
 
@@ -398,7 +407,7 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLectureElementException
      * @throws RevisionLecturePageException
      */
-    public function addTextBlock($idType, $html_block) {
+    public function addTextBlock($idType, $html_block, $user) {
         $this->checkEditable();
 
         $order = $this->getNextOrder();
@@ -410,6 +419,8 @@ class RevisionLecturePage extends CActiveRecord
         $element->id_page = $this->id;
         $element->saveCheck();
 
+        $this->setUpdateDate($user);
+
         return $element;
     }
 
@@ -417,10 +428,12 @@ class RevisionLecturePage extends CActiveRecord
      * Moves page up
      * @throws RevisionLecturePageException
      */
-    public function moveUp() {
+    public function moveUp($user) {
         $this->checkEditable();
 
         $this->page_order = ($this->page_order>1?$this->page_order-1:1);
+        $this->setUpdateDate($user, false);
+
         $this->saveCheck();
     }
 
@@ -428,10 +441,12 @@ class RevisionLecturePage extends CActiveRecord
      * Move page down
      * @throws RevisionLecturePageException
      */
-    public function moveDown() {
+    public function moveDown($user) {
         $this->checkEditable();
 
         $this->page_order = $this->page_order+1;
+        $this->setUpdateDate($user, false);
+
         $this->saveCheck();
     }
 
@@ -455,7 +470,7 @@ class RevisionLecturePage extends CActiveRecord
      * Shift element up
      * @param $idElement
      */
-    public function upElement($idElement) {
+    public function upElement($idElement, $user) {
         foreach ($this->lectureElements as $key => $lectureElement) {
             if ($lectureElement->id == $idElement) {
                 if ($key == 0) {
@@ -465,13 +480,14 @@ class RevisionLecturePage extends CActiveRecord
                 return;
             }
         }
+        $this->setUpdateDate($user);
     }
 
     /**
      * Shift element down
      * @param $idElement
      */
-    public function downElement($idElement) {
+    public function downElement($idElement, $user) {
         foreach ($this->lectureElements as $key => $lectureElement) {
             if ($lectureElement->id == $idElement) {
                 if ($key == count($this->lectureElements)-1) {
@@ -482,6 +498,31 @@ class RevisionLecturePage extends CActiveRecord
 
             }
         }
+        $this->setUpdateDate($user);
+    }
+
+    /**
+     * Sets update date and id user.
+     * @param $user - current user model
+     * @param bool $isSave - true (default) if need to save of false if no need to save
+     * @throws RevisionLecturePageException
+     */
+    public function setUpdateDate($user, $isSave = true) {
+        $this->update_date = new CDbExpression('NOW()');
+        $this->id_user_updated = $user->getId();
+        if ($isSave) {
+            $this->saveCheck();
+        }
+    }
+
+    public function deleteElement($idElement, $user) {
+       foreach ($this->lectureElements as $lectureElement) {
+           if ($lectureElement->id == $idElement) {
+               $lectureElement->delete();
+               $this->setUpdateDate($user);
+               return;
+           }
+       }
     }
 
     /**
@@ -521,16 +562,14 @@ class RevisionLecturePage extends CActiveRecord
     }
 
     /**
-     * Return true if revision can be approv
+     * Return true if revision can be approved
      * @return bool
      */
     private function isApprovable() {
-        $lectureRev = RevisionLecture::model()->findByPk($this->id_revision);
         if ($this->isSended() &&
             !$this->isRejected() &&
             !$this->isCancelled() &&
-            !$this->isApproved() &&
-            $lectureRev->id_lecture != null) {
+            !$this->isApproved()) {
             return true;
         }
         return false;

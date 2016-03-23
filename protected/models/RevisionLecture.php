@@ -50,8 +50,7 @@ class RevisionLecture extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', '',
-                                                        'on' => 'id_properties = properties.id'),
+			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', 'id'),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
 		);
@@ -165,6 +164,7 @@ class RevisionLecture extends CActiveRecord
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
+        $this->properties->setUpdateDate($user);
     }
 
     /**
@@ -249,10 +249,6 @@ class RevisionLecture extends CActiveRecord
      * @throws Exception
      */
     public function cloneLecture($user) {
-//        if (!$this->isClonable()) {
-//            return $this;
-//        }
-
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $newRevision = new RevisionLecture();
@@ -311,7 +307,7 @@ class RevisionLecture extends CActiveRecord
                 try {
                     $this->saveToRegularDB();
 
-                    $this->properties->approve_date = new CDbExpression('NOW()');;
+                    $this->properties->approve_date = new CDbExpression('NOW()');
                     $this->properties->id_user_approved = $user->getId();
                     $this->properties->saveCheck();
 
@@ -357,6 +353,94 @@ class RevisionLecture extends CActiveRecord
         }
         return false;
     }
+
+    /**
+     * Returns related revisions list
+     * @return RevisionLecture[]
+     */
+    public function getRelatedLectures() {
+        return RevisionLecture::model()->with('properties')->findAllByPk($this->getRelatedIdList());
+    }
+
+    /**
+     * @param Lecture $lecture
+     * @param $user
+     * @return RevisionLecture
+     * @throws Exception
+     */
+    public static function createNewRevisionFromLecture($lecture, $user) {
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $revLectureProperties =  new RevisionLectureProperties();
+            $revLectureProperties->image = $lecture->image;
+            $revLectureProperties->alias = $lecture->alias;
+            $revLectureProperties->order = $lecture->order;
+            $revLectureProperties->id_type = $lecture->idType;
+            $revLectureProperties->is_free = $lecture->isFree;
+            $revLectureProperties->title_ua = $lecture->title_ua;
+            $revLectureProperties->title_ru = $lecture->title_ru;
+            $revLectureProperties->title_en = $lecture->title_en;
+            $revLectureProperties->start_date = new CDbExpression('NOW()');
+            $revLectureProperties->id_user_created = $user->getId();
+            $revLectureProperties->saveCheck();
+
+            $revLecture = new RevisionLecture();
+            $revLecture->id_module = $lecture->idModule;
+            $revLecture->id_lecture = $lecture->id;
+            $revLecture->id_properties = $revLectureProperties->id;
+            $revLecture->saveCheck();
+
+            // pages
+
+            foreach ($lecture->pages as $page) {
+                $revNewPage = new RevisionLecturePage();
+                $revNewPage->id_revision = $revLecture->id_revision;
+                $revNewPage->page_title = $page->page_title;
+                $revNewPage->page_order = $page->page_order;
+
+                $video = LectureElement::model()->findByPk($page->video);
+                if ($video != null) {
+                    $revVideo = new RevisionLectureElement();
+                    $revVideo->id_page = $revLecture->id_revision;
+                    $revVideo->id_type = $video->id_type;
+                    $revVideo->block_order = $video->block_order;
+                    $revVideo->html_block = $video->html_block;
+                    $revVideo->saveCheck();
+                    $revNewPage->video = $revVideo->id;
+                }
+
+//            TODO
+//            $revNewPage->quiz
+
+                $revNewPage->start_date = new CDbExpression('NOW()');
+                $revNewPage->id_user_created = $user->getId();
+                $revNewPage->saveCheck();
+            }
+
+            //TODO lecture body
+
+            foreach ($lecture->lectureEl as $lectureElement) {
+                if ($lectureElement->isTextBlock()) {
+                    $revLectureElement = new RevisionLectureElement();
+                    $revLectureElement->id_page = $revLecture->id_revision;
+                    $revLectureElement->id_type = $lectureElement->id_type;
+                    $revLectureElement->block_order = $lectureElement->block_order;
+                    $revLectureElement->html_block = $lectureElement->html_block;
+                    $revLectureElement->saveCheck();
+                }
+
+            }
+
+            $transaction->commit();
+            return $revLecture;
+
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+    }
+
 
     /**
      * Flushes current revision into regular DB.
@@ -443,7 +527,7 @@ class RevisionLecture extends CActiveRecord
      * Clear regular DB from lecture (pages and elements) witch should be replaced
      * @throws CDbException
      */
-    public function removePreviousRecords(){
+    private function removePreviousRecords(){
         $oldLecture = Lecture::model()->findByPk($this->id_lecture);
 
         //remove lecture pages
@@ -470,6 +554,63 @@ class RevisionLecture extends CActiveRecord
         }
         $oldLecture->delete();
 
+    }
+
+    /**
+     * Returns a list of related lectures id.
+     * Algorithm based on Quick-Union algorithm
+     * http://algs4.cs.princeton.edu/15uf/
+     * Possible ways to improve (in case of bad performance) - implement weight and path compression.
+     *
+     * @return array
+     */
+    private function getRelatedIdList () {
+
+        /**
+         * Return root of $element in $quickUnion data structure;
+         * @param array $quickUnion, key - id_revision, $quickUnion[key] == root of key element or itself if key element is root
+         * @param $element
+         * @return bool
+         */
+        function getQURoot($quickUnion, $element) {
+            $root = $quickUnion[$element];
+
+            while ($root!=$element) {
+                $element = $root;
+                $root = $quickUnion[$element];
+            }
+
+            return $element;
+        };
+
+        //get list of ids of all lectures in the module.
+        $allIdList = Yii::app()->db->createCommand()
+            ->select('id_revision, id_parent')
+            ->from('vc_lecture')
+            ->where('id_module='.$this->id_module)
+            ->queryAll();
+
+
+        // building union data structure;
+        // array key represents the elements's id (id_revision),
+        // and array value represents link to root element of this element,
+        // if element is root its value equal to key
+
+        $quickUnion = array();
+        foreach($allIdList as $item) {
+            $quickUnion[$item['id_revision']] = ($item['id_parent'] == null ? $item['id_revision'] : $item['id_parent']);
+        };
+
+        // pushing in resulting array only the keys, which have the same root as $this
+        $thisRoot = getQURoot($quickUnion, $this->id_revision);
+        $idArray = array();
+        foreach ($quickUnion as $key => $value) {
+            if ($thisRoot == getQURoot($quickUnion, $value)) {
+                array_push($idArray, $key);
+            }
+        }
+
+        return $idArray;
     }
 
     /**

@@ -41,6 +41,7 @@
             echo CHtml::submitButton("Edit");
             echo CHtml::button("Up", array('onclick' => 'upElement('.$lectureElement->id.',' . $page->id . ')'));
             echo CHtml::button("Down", array('onclick' => 'downElement('.$lectureElement->id.',' . $page->id . ')'));
+            echo CHtml::button("Delete", array('onclick' => 'deleteElement('.$lectureElement->id.',' . $page->id . ')'));
             echo CHtml::endForm();
         }
     }
