@@ -1007,4 +1007,8 @@ class Course extends CActiveRecord implements IBillableObject
 
         return Course::model()->findAll($criteria);
     }
+
+    public function isContain(Module $module){
+        return in_array($module, $this->module);
+    }
 }

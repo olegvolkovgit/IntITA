@@ -231,10 +231,10 @@ class PayModules extends CActiveRecord
         }
     }
 
-    public static function getConfirmText($moduleName,$userName)
+    public static function getConfirmText(Module $module,$userName)
     {
         $result = '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
-            $moduleName.' оплачено</strong>.
+            $module->title_ua.', ('.$module->language.') оплачено</strong>.
             <br />Тепер у '.$userName.' є доступ до усіх занять цього модуля.';
 
         return $result;
@@ -247,16 +247,16 @@ class PayModules extends CActiveRecord
         return $result;
     }
 
-    public static function getCancelText($moduleName,$userName)
+    public static function getCancelText(Module $module,$userName)
     {
-        $result = '<br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять модуля <b>'.$moduleName.'</b>';
+        $result = '<br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять модуля <b>'.$module->title_ua.', ('.$module->language.')</b>';
 
         return $result;
     }
 
-    public static function getCancelErrorText($userName,$moduleName)
+    public static function getCancelErrorText($userName,Module $module)
     {
-        $result = '<br /> В користувача '. $userName. ' не було доступу до модуля <strong>'.$moduleName.'</strong>';
+        $result = '<br /> В користувача '. $userName. ' не було доступу до модуля <strong>'.$module->title_ua.', ('.$module->language.')</strong>';
 
         return $result;
     }

@@ -98,7 +98,7 @@ class RegisteredUser
 
     private function loadTeacherModel()
     {
-        return Teacher::model()->with('modulesActive')->findByAttributes(array('user_id' => $this->registrationData->id));
+        return Teacher::model()->findByAttributes(array('user_id' => $this->registrationData->id));
     }
 
     public function getRolesAttributes()
