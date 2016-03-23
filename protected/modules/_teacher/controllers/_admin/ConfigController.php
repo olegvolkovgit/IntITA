@@ -100,4 +100,8 @@ class ConfigController extends TeacherCabinetController {
         Yii::app()->cache->flush();
         echo 'success';
     }
+
+    public function actionGetConfigList(){
+        echo Config::getItemsList();
+    }
 }
