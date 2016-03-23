@@ -11,14 +11,11 @@
         <?php if ($scenario == "update"){?>
             <ul class="list-inline">
                 <li>
-                    <a href="<?=Yii::app()->createUrl("course/index", array('id' => $model->course_ID));?>" class="btn btn-outline btn-primary">
+                    <a href="#" class="btn btn-outline btn-primary">
                         Редагувати пов'язані курси</a>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule', array(
-                                'id' => $model->course_ID
-                            )); ?>', '<?="Додати модуль до курса ".$model->getTitle()?>')">
+                    <button type="button" class="btn btn-outline btn-primary">
                         Додати курс на іншій мові</button>
                 </li>
             </ul>
