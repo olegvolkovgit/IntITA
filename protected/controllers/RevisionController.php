@@ -252,11 +252,6 @@ class RevisionController extends Controller
         $page->deleteElement($idElement, Yii::app()->user);
     }
 
-//    public function actionGetRevisions() {
-//        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => 628));
-//        $lectureRev->getLectureRevisionList();
-//    }
-
     public function actionEditLecture($idLecture) {
 //        $idLecture = Yii::app()->request->getPost('idLecture');
         $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
@@ -266,16 +261,12 @@ class RevisionController extends Controller
         }
         $relatedRev = $lectureRev->getRelatedLectures();
 
-//        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
-//
         $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
         $lecturesDataProvider->setData($relatedRev);
 
         $this->render('index', array(
             'lectures' => $lecturesDataProvider,
         ));
-
-        // TODO redirect
     }
 
     /***************/

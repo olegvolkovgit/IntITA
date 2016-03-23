@@ -174,8 +174,8 @@ class RevisionLecture extends CActiveRecord
     public function checkConflicts() {
         $result = array();
 
-        //check orders collision
-        $approvedPages = $this->getApprovedLectures();
+        //check page orders collision
+        $approvedPages = $this->getApprovedPages();
         //count all orders
         $orders = array();
         foreach ($approvedPages as $page) {
@@ -199,6 +199,19 @@ class RevisionLecture extends CActiveRecord
             }
         }
 
+        // check lecture order collision
+        $ordersList = Yii::app()->db->createCommand()
+        ->select('id, order')
+            ->from('lectures')
+            ->where('idModule='.$this->id_module)
+            ->queryAll();
+
+        foreach ($ordersList as $item) {
+            if ($item['order'] == $this->properties->order && $item['id'] != $this->id_lecture) {
+                array_push($result, "This revision has the same order as lecture id #".$item['id']);
+            }
+        }
+
         $this->approveResultCashed = $result;
         return $result;
     }
@@ -206,9 +219,9 @@ class RevisionLecture extends CActiveRecord
     /**
      * Return only approved lectures.
      * @return array
+     * todo rename getApprovedPages
      */
-    public function getApprovedLectures() {
-
+    public function getApprovedPages() {
         return array_filter($this->lecturePages, function ($lecturePage) {
             if ($lecturePage->id_user_approved != null &&
                 $lecturePage->id_user_cancelled == null) {
@@ -372,7 +385,7 @@ class RevisionLecture extends CActiveRecord
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $revLectureProperties =  new RevisionLectureProperties();
+            $revLectureProperties = new RevisionLectureProperties();
             $revLectureProperties->image = $lecture->image;
             $revLectureProperties->alias = $lecture->alias;
             $revLectureProperties->order = $lecture->order;
@@ -383,6 +396,8 @@ class RevisionLecture extends CActiveRecord
             $revLectureProperties->title_en = $lecture->title_en;
             $revLectureProperties->start_date = new CDbExpression('NOW()');
             $revLectureProperties->id_user_created = $user->getId();
+            $revLectureProperties->end_date = new CDbExpression('NOW()');
+            $revLectureProperties->id_user_cancelled = $user->getId();
             $revLectureProperties->saveCheck();
 
             $revLecture = new RevisionLecture();
@@ -415,6 +430,8 @@ class RevisionLecture extends CActiveRecord
 
                 $revNewPage->start_date = new CDbExpression('NOW()');
                 $revNewPage->id_user_created = $user->getId();
+                $revNewPage->approve_date = new CDbExpression('NOW()');
+                $revNewPage->id_user_approved = $user->getId();
                 $revNewPage->saveCheck();
             }
 
@@ -474,7 +491,7 @@ class RevisionLecture extends CActiveRecord
 
         $idNewLecture = $newLecture->id;
 
-        foreach ($this->getApprovedLectures() as $page) {
+        foreach ($this->getApprovedPages() as $page) {
             $newPage = new LecturePage();
             $newPage->id_lecture = $idNewLecture;
             $newPage->page_title = $page->page_title;
