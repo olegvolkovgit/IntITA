@@ -6,7 +6,9 @@
  * The followings are the available columns in table 'aboutus_slider':
  * @property integer $image_order
  * @property string $pictureUrl
- * @property integer $text
+ * @property string $text_ua
+ * @property string $text_ru
+ * @property string $text_en
  * @property integer $order
  */
 class AboutusSlider extends Slider
@@ -27,13 +29,13 @@ class AboutusSlider extends Slider
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('pictureUrl', 'file', 'types' => 'jpg,jpeg, gif, png','message' => 'Виберіть файл','except'=>'swapImage,setOrder'),
-            array('text', 'required','message' => 'Поле має бути заповнено'),
-            array('image_order , text , order', 'numerical', 'integerOnly'=>true),
-//			array('pictureUrl', 'length', 'max'=>255),
+            array('pictureUrl', 'file', 'types' => 'jpg,jpeg, gif, png','allowEmpty' => true, 'message' => 'Виберіть файл','except'=>'swapImage,setOrder'),
+			array('pictureUrl', 'file', 'types' => 'jpg,jpeg, gif, png','allowEmpty' => false, 'message' => 'Виберіть файл','on'=>'insert'),
+            array('text_ua, text_ru, text_en', 'required','message' => 'Поле має бути заповнено'),
+            array('image_order, order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('order, pictureUrl, image_order, text', 'safe', 'on'=>'search'),
+			array('order, pictureUrl, image_order, text_ua, text_ru, text_en', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +59,9 @@ class AboutusSlider extends Slider
 			'image_order' => 'Порядок зображення',
 			'pictureUrl' => 'Зображення',
             'order' => 'Порядок зображення',
-            'text' => 'Код тексту'
+            'text_ua' => 'Текст слайду ua',
+			'text_ru' => 'Текст слайду ru',
+			'text_en' => 'Текст слайду en'
 		);
 	}
 
@@ -81,7 +85,9 @@ class AboutusSlider extends Slider
 
 		$criteria->compare('image_order',$this->image_order);
 		$criteria->compare('pictureUrl',$this->pictureUrl,true);
-        $criteria->compare('text',$this->text,true);
+        $criteria->compare('text_ua',$this->text_ua,true);
+		$criteria->compare('text_ru',$this->text_ru,true);
+		$criteria->compare('text_en',$this->text_en,true);
         $criteria->compare('order',$this->order,true);
 
 
@@ -102,5 +108,30 @@ class AboutusSlider extends Slider
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function getItemsList(){
+        $graduates = AboutusSlider::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($graduates as $record) {
+            $row = array();
+            $row["photo"]["image"] = StaticFilesHelper::createPath("image", "aboutus", $record->pictureUrl);
+            $row["order"] = $record->order;
+            $row["linkUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/up", array("order"=>$record->order))."'";
+            $row["linkDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/down", array("order"=>$record->order))."'";
+            $row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$record->image_order))."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
+
+	public function getText()
+	{
+		$lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+		$text = "text_" . $lang;
+
+		return CHtml::encode($this->$text);
 	}
 }
