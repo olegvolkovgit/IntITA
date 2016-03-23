@@ -1,37 +1,11 @@
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
-            Права доступу
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddAccessForm'); ?>')">
-            Додати запис
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddTeacherAccess'); ?>')">
-            Призначити автора модуля
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/UserStatus'); ?>')">
-            Змінити статус користувача
-        </button>
-    </li>
-</ul>
-
+<br>
 <div id="cancelTeacherAccess">
     <form role="form" class="col col-md-9">
         <div class="form-group">
             <input type="text" hidden="hidden" value="author" id="role">
             <label>Викладач:</label>
             <br>
-            <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
+            <input id="typeahead2" type="text" class="form-control" placeholder="Викладач"
                    size="135" required autofocus>
             <input type="number" hidden="hidden" id="user" value="0"/>
         </div>
@@ -68,7 +42,7 @@
 
     users.initialize();
 
-    $jq('#typeahead').typeahead(null, {
+    $jq('#typeahead2').typeahead(null, {
         name: 'users',
         display: 'email',
         source: users,
@@ -82,7 +56,7 @@
         }
     });
 
-    $jq('#typeahead').on('typeahead:selected', function (e, item){
+    $jq('#typeahead2').on('typeahead:selected', function (e, item){
         $jq("#user").val(item.id);
         selectTeacherModules('<?=Yii::app()->createUrl("/_teacher/_admin/permissions/showTeacherModules");?>', item.id);
     });
