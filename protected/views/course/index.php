@@ -10,7 +10,7 @@
     </script>
 <?php
 $this->breadcrumbs = array(
-    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", $model->getTitle(),
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", CHtml::decode($model->getTitle()),
 );
 ?>
 
@@ -20,7 +20,7 @@ $this->breadcrumbs = array(
             <?php echo $model->getTitle(); ?>
         </h1>
     </div>
-    <div class="courseShortInfo">
+    <div class="courseShortInfo"  ng-controller="moduleListCtrl">
         <?php $this->renderPartial('_courseShortInfo', array('model' => $model)); ?>
         <br>
 

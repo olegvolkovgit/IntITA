@@ -56,15 +56,26 @@ class Author extends Role
     {
         switch ($attribute) {
             case 'module':
-                return Yii::app()->db->createCommand()->
-                insert('teacher_module', array(
-                    'idTeacher' => $user->getTeacherModel()->teacher_id,
-                    'idModule' => $value
-                ));
+                if($this->checkModule($user->getTeacherModel()->teacher_id, $value)) {
+                    return Yii::app()->db->createCommand()->
+                    insert('teacher_module', array(
+                        'idTeacher' => $user->getTeacherModel()->teacher_id,
+                        'idModule' => $value
+                    ));
+                } else {
+                    return false;
+                }
                 break;
             default:
                 return false;
         }
+    }
+
+    public function checkModule($teacher, $module){
+        if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
+            ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar())
+            return false;
+        else return true;
     }
 
     public function cancelAttribute(StudentReg $user, $attribute, $value)

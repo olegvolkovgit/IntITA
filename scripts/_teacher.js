@@ -1,7 +1,7 @@
-function load(url, header, histories) {
+function load(url, header, histories, tab) {
     clearDashboard();
-    if (histories == undefined) {
-        history.pushState({url: url, header: header}, "");
+    if (histories == undefined || histories == '') {
+        history.pushState({url: url, header: header,tab:tab}, "");
     }
     $jq.ajax({
         url: url,
@@ -249,6 +249,22 @@ function loadForm(url, receiver, scenario, message) {
             },
             "json"
         );
+}
+function showAjaxLoader() {
+    var el=document.getElementById('ajaxLoad');
+    el.style.top = (window.pageYOffset+(document.body.clientHeight-200)/2 + "px");
+    el.style.left = (window.pageXOffset+(document.body.clientWidth-400)/2 + "px");
+    el.style.display = "block";
+}
+function hideAjaxLoader() {
+    var el=document.getElementById('ajaxLoad');
+    el.style.display = "none";
+}
+//open tabs by index after load page
+function openTab(id, tabIndex){
+    if (tabIndex != undefined) {
+        $jq(id+' li:eq('+tabIndex+') a').tab('show');
+    }
 }
 
 

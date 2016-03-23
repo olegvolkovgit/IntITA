@@ -28,7 +28,7 @@ class LessonController extends Controller
     {
         $lecture = Lecture::model()->findByPk($id);
         if(!$lecture)
-            throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
+            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0810'));
 
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if (StudentReg::isAdmin() || $editMode) {
@@ -37,7 +37,7 @@ class LessonController extends Controller
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
-                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
+                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));
 //            $module = Module::model()->findByPk($lecture->idModule);
 //            if(!$module->status)
 //                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
@@ -83,7 +83,7 @@ class LessonController extends Controller
 
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
         if(!$pageModel){
-            throw new \application\components\Exceptions\IntItaException('404', 'Сторінка не знайдена');
+            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
         }
         $textList = $pageModel->getBlocksListById();
 
@@ -118,6 +118,17 @@ class LessonController extends Controller
         $this->renderPartial('_timeConsult', $data, false, true);
     }
 
+    public function actionSave()
+    {
+        $order = substr(Yii::app()->request->getPost('order'), 2);
+        $id = Yii::app()->request->getPost('idLecture');
+
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
+        $model->html_block = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
+
+        $model->save();
+    }
+
     public function actionSaveFormula()
     {
         $htmlBlock = Yii::app()->request->getPost('content');
@@ -131,17 +142,17 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-//    public function actionAddVideo()
-//    {
-//        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
-//        $pageOrder = Yii::app()->request->getPost('page');
-//        $lectureId = Yii::app()->request->getPost('idLecture');
-//
-//        $model = new LectureElement();
-//        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
-//
-//        $this->redirect(Yii::app()->request->urlReferrer);
-//    }
+    public function actionAddVideo()
+    {
+        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
+        $pageOrder = Yii::app()->request->getPost('page');
+        $lectureId = Yii::app()->request->getPost('idLecture');
+
+        $model = new LectureElement();
+        $model->addVideo($htmlBlock, $pageOrder, $lectureId);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     public function actionAddFormula()
     {
@@ -155,101 +166,101 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-//    public function actionCreateNewBlock()
-//    {
-//        $pageOrder = Yii::app()->request->getPost('page');
-//        $idType = Yii::app()->request->getPost('type');
-//        $htmlBlock = Yii::app()->request->getPost('newTextBlock');
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//
-//        $lecture = Lecture::model()->findByPk($idLecture);
-//
-//        $this->checkInstanse($lecture);
-//
-//        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
-//
-//        $this->redirect(Yii::app()->request->urlReferrer);
-//    }
-//
-//    public function actionCreateNewBlockCKE()
-//    {
-//        $pageOrder = Yii::app()->request->getPost('page');
-//        $idType = Yii::app()->request->getPost('type');
-//        $htmlBlock = Yii::app()->request->getPost('editorAdd');
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//
-//        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
-//
-//        $this->checkInstanse($lecture);
-//
-//        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder, Yii::app()->user->getId());
-//
-//        $this->redirect(Yii::app()->request->urlReferrer);
-//    }
+    public function actionCreateNewBlock()
+    {
+        $pageOrder = Yii::app()->request->getPost('page');
+        $idType = Yii::app()->request->getPost('type');
+        $htmlBlock = Yii::app()->request->getPost('newTextBlock');
+        $idLecture = Yii::app()->request->getPost('idLecture');
+
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $this->checkInstanse($lecture);
+
+        $lecture->createNewBlock($htmlBlock, $idType, $pageOrder);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionCreateNewBlockCKE()
+    {
+        $pageOrder = Yii::app()->request->getPost('page');
+        $idType = Yii::app()->request->getPost('type');
+        $htmlBlock = Yii::app()->request->getPost('editorAdd');
+
+        $idLecture = Yii::app()->request->getPost('idLecture');
+
+        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
+
+        $this->checkInstanse($lecture);
+
+        $lecture->createNewBlockCKE($htmlBlock, $idType, $pageOrder);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     //reorder blocks on lesson page - up block
+    public function actionUpElement()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
 
-//    public function actionUpElement()
-//    {
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//        $order = Yii::app()->request->getPost('order');
-//
-//        $lecture = Lecture::model()->findByPk($idLecture);
-//
-//        $lecture->upElement($order);
-//
-//         if AJAX request, we should not redirect the browser
-//        if (!isset($_GET['ajax']))
-//            $this->redirect(Yii::app()->request->urlReferrer);
-//    }
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->upElement($order);
+
+        // if AJAX request, we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     //reorder blocks on lesson page - down block
+    public function actionDownElement()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
 
-//    public function actionDownElement()
-//    {
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//        $order = Yii::app()->request->getPost('order');
-//
-//        $lecture = Lecture::model()->findByPk($idLecture);
-//
-//        $lecture->downElement($order);
-//
-//         if AJAX request, we should not redirect the browser
-//        if (!isset($_GET['ajax']))
-//            $this->redirect(Yii::app()->request->urlReferrer);
-//    }
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lecture->downElement($order);
+
+        // if AJAX request, we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     //delete block on lesson page
+    public function actionDeleteElement()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $order = Yii::app()->request->getPost('order');
 
-//    public function actionDeleteElement()
-//    {
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//        $order = Yii::app()->request->getPost('order');
-//
-//        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
-//
-//        $this->checkInstanse($lecture);
-//
-//        $lecture->deleteLectureElement($order, Yii::app()->user->getId());
-//
-//        if (!isset($_GET['ajax']))
-//            $this->redirect(Yii::app()->request->urlReferrer);
-//    }
+        $lecture = Lecture::model()->with("lectureEl")->findByPk($idLecture);
+
+        $this->checkInstanse($lecture);
+
+        $lecture->deleteLectureElement($order);
+
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
     //delete block on lesson page
+    public function actionDeleteVideo()
+    {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $pageOrder = Yii::app()->request->getPost('pageOrder');
 
-//    public function actionDeleteVideo()
-//    {
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//        $pageOrder = Yii::app()->request->getPost('pageOrder');
-//
-//        $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
-//        if ($modelLecturePage->video) {
-//            $elementId = $modelLecturePage->video;
-//            LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
-//            LectureElement::model()->deleteByPk($elementId);
-//        }
-//
-//        if (!isset($_GET['ajax']))
-//            $this->redirect(Yii::app()->request->urlReferrer);
-//    }
+        $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
+        if ($modelLecturePage->video) {
+            $elementId = $modelLecturePage->video;
+            LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
+            LectureElement::model()->deleteByPk($elementId);
+        }
+
+        if (!isset($_GET['ajax']))
+            $this->redirect(Yii::app()->request->urlReferrer);
+    }
 
     public function actionUploadImage()
     {
@@ -449,7 +460,7 @@ class LessonController extends Controller
             return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse,
                 'idModule' => $idModule));
         } else {
-            throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
+            throw new CHttpException(403, Yii::t('lecture', '0813'));
         }
     }
 
@@ -475,7 +486,7 @@ class LessonController extends Controller
             return $this->renderPartial('_editLecturePageTabs', array(
                 'page' => $page, 'dataProvider' => $dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
         }
-        throw new CHttpException(403, 'У вас недостатньо прав для редагування цього заняття.');
+        throw new CHttpException(403, Yii::t('lecture', '0813'));
     }
 
     public function actionAddNewPage($lecture, $page)
@@ -487,7 +498,6 @@ class LessonController extends Controller
     }
 
     //reorder blocks on lesson page - up block
-
     public function actionUpPage()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -497,8 +507,8 @@ class LessonController extends Controller
             LecturePage::swapPages($idLecture, $pageOrder - 1, $pageOrder);
         }
     }
-    //reorder blocks on lesson page - down block
 
+    //reorder blocks on lesson page - down block
     public function actionDownPage()
     {
         $idLecture = Yii::app()->request->getPost('idLecture');
@@ -508,6 +518,7 @@ class LessonController extends Controller
             LecturePage::swapPages($idLecture, $pageOrder, $pageOrder + 1);
         }
     }
+
     public function actionUpdateLectureImage($id)
     {
         $model = Lecture::model()->findByPk($id);
@@ -550,17 +561,19 @@ class LessonController extends Controller
         echo $html;
     }
 
+
     public function actionEditPage($id, $page, $idCourse=0, $cke = false)
     {
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
         if (!$editMode) {
-            throw new CHttpException(403, 'Ви запросили сторінку, доступ до якої обмежений спеціальними правами.
-            Для отримання доступу увійдіть на сайт з логіном автора модуля.');
+            throw new CHttpException(403, Yii::t('lecture', '0813'));
         }
 
         $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
-
+        if(!$pageModel){
+            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
+        }
         $textList = $pageModel->getBlocksListById();
 
         $criteria = new CDbCriteria();
@@ -576,7 +589,8 @@ class LessonController extends Controller
 
         $lecture = Lecture::model()->findByPk($id);
 
-        $editorView = $cke ? 'indexCKE' : 'index';
+        if ($cke) $editorView = 'indexCKE';
+        else $editorView = 'index';
 
         $this->render('/editor/' . $editorView, array(
                 'user' => Yii::app()->user->getId(),
@@ -588,31 +602,18 @@ class LessonController extends Controller
         );
     }
 
-//    public function actionSaveBlock()
-//    {
-//        $order = Yii::app()->request->getPost('order');
-//        $idLesson = Yii::app()->request->getPost('idLecture');
-//        $content = Yii::app()->request->getPost('content');
-//
-//        $lesson = Lecture::model()->findByPk($idLesson);
-//
-//        $this->checkInstanse($lesson);
-//
-//        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
-//    }
-//
-//    public function actionSave()
-//    {
-//        $order = substr(Yii::app()->request->getPost('order'), 2);
-//        $idLesson = Yii::app()->request->getPost('idLecture');
-//        $content = str_replace("\n</p>", "</p>", Yii::app()->request->getPost('content'));
-//
-//        $lesson = Lecture::model()->findByPk($idLesson);
-//
-//        $this->checkInstanse($lesson);
-//
-//        $lesson->saveBlock($order, $content, Yii::app()->user->getId());
-//    }
+    public function actionSaveBlock()
+    {
+        $order = Yii::app()->request->getPost('order');
+        $id = Yii::app()->request->getPost('idLecture');
+
+        $model = LectureElement::model()->findByAttributes(array('id_lecture' => $id, 'block_order' => $order));
+        $model->html_block = Yii::app()->request->getPost('content');
+
+        if ($model->validate()) {
+            $model->save();
+        } else echo Yii::t('lecture', '0814');
+    }
 
     public function actionSaveLectureContent($idLecture)
     {
@@ -745,7 +746,7 @@ class LessonController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    private function checkInstance($model) {
+    private function checkInstanse($model) {
         if ($model === null)
             throw new \application\components\Exceptions\LessonNotFoundException();
     }

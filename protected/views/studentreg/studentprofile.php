@@ -33,7 +33,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
+                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                     <h1>{{profileData.nickname}}</h1>
                     <h1>{{profileData.firstName}}</h1>
                     <h1>{{profileData.secondName}}</h1>

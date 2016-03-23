@@ -1,5 +1,6 @@
 function initTeacherResponsesTable() {
     $jq('#teacherResponsesTable').DataTable({
+        "order": [[ 3, "desc" ]],
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/response/getTeacherResponsesList",
@@ -67,7 +68,7 @@ function deleteResponse(url) {
                 type: "POST",
                 success: function () {
                     bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/response/index");
+                        load(basePath + "/_teacher/_admin/response/index",'Відгуки про викладачів',true);
                     });
                 },
                 error: function () {

@@ -95,7 +95,7 @@ class Module extends CActiveRecord implements IBillableObject
             'lectures' => array(self::HAS_MANY, 'Lecture','idModule',
                                                 'order' => 'lectures.order ASC'),
             'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)',
-                                                'on' => 'teacher.isPrint=1'),
+                                                'on' => 'teacher.isPrint=1', 'condition'=>'end_time IS NULL'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
@@ -691,7 +691,9 @@ class Module extends CActiveRecord implements IBillableObject
                 break;
             case '6':
                 $plain=PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
-                return PlainTaskMarks::taskTime($user, PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain))->id);
+                $isAnswer=PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain,'id_student'=>$user));
+                if($isAnswer) return $isAnswer->date;
+                else return false;
                 break;
             case '12':
                 return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);

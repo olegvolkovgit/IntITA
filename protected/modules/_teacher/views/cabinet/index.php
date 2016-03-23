@@ -17,7 +17,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/showPlainTask.css'); ?>" rel="stylesheet">
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'courseSchema.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
@@ -25,12 +24,14 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <script>
         var $jq = jQuery.noConflict();
     </script>
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -78,7 +79,9 @@
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>
 </body>
-
+<div style="display: none;text-align: center;" id="ajaxLoad">
+    <img style="position:relative;top:68px" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
+</div>
 <div class="col-lg-6">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -125,6 +128,7 @@
 <script>
     window.onload = function()
     {
+
         if(scenario == 'message'){
             load('<?=Yii::app()->createUrl("/_teacher/messages/write",
                 array('id' => $model->id, 'receiver' => $receiver));?>');

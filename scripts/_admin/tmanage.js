@@ -31,7 +31,21 @@ function addTeacherAttr(url, attr, id) {
             data: {user: user, role: role, attribute: attr, attributeValue: value},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function() { loadTeacherModulesList(user); });
+                    bootbox.alert("Операцію успішно виконано.", function() {
+                        switch (role) {
+                            case "trainer":
+                                loadTrainerStudentList(user);
+                                break;
+                            case "author":
+                                if(id=='#moduleId')
+                                loadAddModuleAuthor();
+                                else loadTeacherModulesList(user);
+                                break;
+                            case "consultant":
+                                loadAddModuleConsultant(user);
+                                break;
+                        }
+                    });
                 } else {
                     showDialog("Операцію не вдалося виконати.");
                 }
@@ -54,8 +68,20 @@ function cancelModuleAttr(url, id, attr) {
             data: {user: user, role: role, attribute: attr, attributeValue: id},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                        loadTeacherModulesList(user)
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        switch (role) {
+                            case "trainer":
+                                loadTrainerStudentList(user);
+                                break;
+                            case "author":
+                                if(id=='#moduleId')
+                                    loadAddModuleAuthor();
+                                else loadTeacherModulesList(user);
+                                break;
+                            case "consultant":
+                                loadAddModuleConsultant(user);
+                                break;
+                        }
                     });
                 } else {
                     showDialog("Операцію не вдалося виконати.");
@@ -372,7 +398,7 @@ function getGridName() {
     return $jq('.grid-view').attr('id');
 }
 
-function refresh(url) {
+function refreshCache(url) {
     $jq.ajax({
         url: url,
         type: 'post',
@@ -391,6 +417,15 @@ function refresh(url) {
 }
 
 function loadTeacherModulesList(id) {
-    load(basePath + '/_teacher/_admin/teachers/addModule/id/'+43);
+    load(basePath + '/_teacher/_admin/teachers/addModule/id/'+id,'Додати модуль');
+}
+function loadTrainerStudentList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/trainer/','Редагувати роль');
+}
+function loadAddModuleAuthor() {
+    load(basePath + '/_teacher/_admin/permissions/showAddTeacherAccess/');
+}
+function loadAddModuleConsultant(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
 }
 

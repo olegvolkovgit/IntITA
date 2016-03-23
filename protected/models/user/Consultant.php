@@ -55,15 +55,25 @@ class Consultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                return Yii::app()->db->createCommand()->
-                insert('consultant_modules', array(
-                    'consultant' => $user->id,
-                    'module' => $value
-                ));
-                break;
+                if($this->checkModule($user->id, $value)) {
+                    return Yii::app()->db->createCommand()->
+                    insert('consultant_modules', array(
+                        'consultant' => $user->id,
+                        'module' => $value
+                    ));
+                } else {
+                    return false;
+                }
             default:
                 return false;
         }
+    }
+
+    public function checkModule($teacher, $module){
+        if(Yii::app()->db->createCommand('select consultant from consultant_modules where module='.$module.
+            ' and consultant='.$teacher.' and end_time IS NULL')->queryScalar())
+            return false;
+        else return true;
     }
 
     public function cancelAttribute(StudentReg $user, $attribute, $value)

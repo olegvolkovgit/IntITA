@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $data Teacher
+ * @var $user RegisteredUser
  */
 ?>
 <div class="teacherBlock">
@@ -32,12 +33,12 @@
                 <span class="teacherSkype"><?php echo $data->skype() ?></span>
             </li>
             <!--Календарь консультацій з календарем, часом консультацій і інформаційною формою-->
-            <?php if (StudentReg::canAddConsultation()) {
+            <?php if ($user->canPlanConsultation($data)) {
                 ?>
                 <div class="calendar">
                     <!--            Календарь-->
                     <div class="input-append date form_datetime" id="form_datetime">
-                        <input size="16" type="text" value="" onchange="showTime('<?php echo $data['teacher_id']; ?>')"
+                        <input size="16" class="form-control" type="text" value="" onchange="showTime('<?php echo $data['teacher_id']; ?>')"
                                readonly id="<?php echo 'dateTimePicker' . $data['teacher_id'] ?>">
                         <span class="add-on"><i class="icon-th"></i></span>
                         <?php $form = $this->beginWidget('CActiveForm', array(

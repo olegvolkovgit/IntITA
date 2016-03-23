@@ -104,11 +104,12 @@ $price = $model->getBasePrice();
                 } else {
                     if ($model->status != 0) {
                         ?>
-                        <a id="paymentButton" onclick="redirectToProfile()"
+                        <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton" onclick="redirectToProfile()"
                            href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
                                'idUser' => Yii::app()->user->getId(),
                                'course' => $model->course_ID,
-                           )); ?>"><?php echo Yii::t('course', '0328'); ?></a>
+                           )); ?>"><?php echo Yii::t('course', '0328'); ?>
+                        </a>
                         <?php
                     }
                 } ?>
