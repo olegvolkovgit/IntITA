@@ -46,8 +46,6 @@
         </div>
         <div class="col-md-9">
             <ul class="list-group">
-                <li class="list-group-item">
-                </li>
                 <li class="list-group-item">Ім'я:
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
                         <?php echo $teacher->getName() ?></a></li>

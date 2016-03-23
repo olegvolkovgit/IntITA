@@ -34,7 +34,6 @@ class CourseLanguages extends CActiveRecord
 			array('lang_ua, lang_ru, lang_en', 'required'),
 			array('lang_ua, lang_ru, lang_en', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, lang_ua, lang_ru, lang_en', 'safe', 'on'=>'search'),
 		);
 	}
@@ -79,8 +78,6 @@ class CourseLanguages extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);

@@ -10,28 +10,41 @@ class CoursemanageController extends TeacherCabinetController
         parent::init();
     }
 
+    protected function performAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
     public function actionView($id)
     {
-        $this->renderPartial('view',array(
-            'model'=>$this->loadModel($id),
-        ),false,true);
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
+        $model = $this->loadModel($id);
+
+        $this->renderPartial('view', array(
+            'model' => $model,
+            'modules' => $modules
+        ), false, true);
     }
 
     public function actionCreate()
     {
-        $model=new Course;
-        // Uncomment the following line if AJAX validation is needed
+        $model = new Course;
+
         $this->performAjaxValidation($model);
-        if(isset($_POST['Course']))
-        {
-            if(!empty($_FILES)){
+
+        if (isset($_POST['Course'])) {
+
+            if (!empty($_FILES)) {
                 $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
                 $model->logo = $_FILES['Course'];
                 $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             }
             $model->attributes = $_POST['Course'];
-            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
-            if($model->save()){
+            if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
+            if ($model->save()) {
                 if ($model->course_img == Null) {
                     $thisModel = new Course;
                     $thisModel->updateByPk($model->course_ID, array('course_img' => 'courseImage.png'));
@@ -43,13 +56,19 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect($this->pathToCabinet());
+                echo 'Курс успішно створено!';
+                Yii::app()->end();
+            } else {
+                echo 'Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                Yii::app()->end();
             }
         }
-        $this->renderPartial('create',array(
-            'model'=>$model,
-        ),false,true);
+
+        $this->renderPartial('create', array(
+            'model' => $model,
+        ), false, true);
     }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -57,21 +76,25 @@ class CoursemanageController extends TeacherCabinetController
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
-        // Uncomment the following line if AJAX validation is needed
-         $this->performAjaxValidation($model);
-        if(isset($_POST['Course']))
-        {
-            $model->oldLogo=$model->course_img;
+        $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
 
-            if(!empty($_FILES)){
+        $model = $this->loadModel($id);
+
+        $this->performAjaxValidation($model);
+
+        if (isset($_POST['Course'])) {
+            $model->oldLogo = $model->course_img;
+            if (!empty($_FILES)) {
                 $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
                 $model->logo = $_FILES['Course'];
                 $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
             }
-            $model->attributes=$_POST['Course'];
-            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
-            if($model->save()){
+            $model->attributes = $_POST['Course'];
+            if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
+            if (!$model->validate()) {
+                Yii::app()->end();
+            }
+            if ($model->save()) {
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
                         Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
@@ -79,12 +102,19 @@ class CoursemanageController extends TeacherCabinetController
                         210
                     );
                 }
-                $this->redirect($this->pathToCabinet());
+                echo 'Курс успішно оновлено!';
+                Yii::app()->end();
+            } else {
+                echo 'Інформацію про курс не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+                Yii::app()->end();
             }
+
         }
-        $this->renderPartial('update',array(
-            'model'=>$model,
-        ),false,true);
+
+        $this->renderPartial('update', array(
+            'model' => $model,
+            'modules' => $modules
+        ), false, true);
     }
 
 
@@ -95,19 +125,20 @@ class CoursemanageController extends TeacherCabinetController
      */
     public function actionChangeStatus($id)
     {
-       $model = Course::model()->findByPk($id);
-        if($model->changeStatus())
-           return "success";
+        $model = Course::model()->findByPk($id);
+        if ($model->changeStatus())
+            return "success";
         else {
             return "error";
         }
     }
+
     /**
      * Lists all models.
      */
     public function actionIndex()
     {
-        $this->renderPartial('admin', array(),false,true);
+        $this->renderPartial('admin', array(), false, true);
     }
 
     /**
@@ -119,50 +150,43 @@ class CoursemanageController extends TeacherCabinetController
      */
     public function loadModel($id)
     {
-        $model=Course::model()->findByPk($id);
-        if($model===null)
-            throw new CHttpException(404,'The requested page does not exist.');
+        $model = Course::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
-    /**
-     * Performs the AJAX validation.
-     * @param Course $model the model to be validated
-     */
-    protected function performAjaxValidation($model)
+
+    public function actionAddExistModule($id)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='course-form')
-        {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+
+        $course = Course::model()->findByPk($id);
+
+        $this->renderPartial('addExistModule', array(
+            'course' => $course,
+        ), false, true);
     }
 
-    public function actionAddExistModule(){
-
-        $courses = Course::generateCoursesList();
-
-        $this->renderPartial('addExistModule',array(
-            'courses' => $courses,
-        ),false,true);
-    }
-
-    public function actionAddModuleToCourse(){
+    public function actionAddModuleToCourse()
+    {
 
         $moduleId = Yii::app()->request->getPost('moduleId');
         $courseId = Yii::app()->request->getPost('courseId');
 
-        CourseModules::addNewRecord($moduleId, $courseId);
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+        if (CourseModules::addNewRecord($moduleId, $courseId)) {
+            echo "success";
+        } else {
+            echo "error";
+        }
     }
 
-    public function actionSchema($idCourse){
+    public function actionSchema($idCourse)
+    {
         $modules = Course::getCourseModulesSchema($idCourse);
-        if(count($modules) <= 0){
+        if (count($modules) <= 0) {
             $this->render('schemaError');
         }
         $tableCells = Course::getTableCells($modules, $idCourse);
-        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 5;
 
         $this->renderPartial('_schema', array(
             'modules' => $modules,
@@ -170,17 +194,17 @@ class CoursemanageController extends TeacherCabinetController
             'tableCells' => $tableCells,
             'courseDuration' => $courseDurationInMonths,
             'save' => false,
-        ),false,true);
+        ), false, true);
     }
 
-    public function actionSaveSchema($idCourse){
+    public function actionSaveSchema($idCourse)
+    {
         $modules = Course::getCourseModulesSchema($idCourse);
         $tableCells = Course::getTableCells($modules, $idCourse);
-        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 5;
         $lang = $_SESSION['lg'];
-        $lg = ['ua','ru','en'];
-        for($i = 0;$i < 3;$i++)
-        {
+        $lg = ['ua', 'ru', 'en'];
+        for ($i = 0; $i < 3; $i++) {
             Yii::app()->session['lg'] = $lg[$i];
             $messages = Translate::model()->getMessagesForSchemabyLang($lg[$i]);
 
@@ -192,22 +216,23 @@ class CoursemanageController extends TeacherCabinetController
                 'messages' => $messages,
                 'save' => true
             ), true);
-            $name = 'schema_course_'.$idCourse.'_'.$lg[$i].'.html';
+            $name = 'schema_course_' . $idCourse . '_' . $lg[$i] . '.html';
             $file = StaticFilesHelper::pathToCourseSchema($name);
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'));
+
+        echo "success";
     }
 
-    public function actionGenerateSchema($id){
+    public function actionGenerateSchema($id)
+    {
         $modules = Course::getCourseModulesSchema($id);
         $tableCells = Course::getTableCells($modules, $id);
-        $courseDurationInMonths =  Course::getCourseDuration($tableCells) + 5;
+        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 5;
         $lang = $_SESSION['lg'];
-        $lg = ['ua','ru','en'];
-        for($i = 0;$i < 3;$i++)
-        {
+        $lg = ['ua', 'ru', 'en'];
+        for ($i = 0; $i < 3; $i++) {
             Yii::app()->session['lg'] = $lg[$i];
             $messages = Translate::model()->getMessagesForSchemabyLang($lg[$i]);
 
@@ -219,16 +244,18 @@ class CoursemanageController extends TeacherCabinetController
                 'messages' => $messages,
                 'save' => true
             ), true);
-            $name = 'schema_course_'.$id.'_'.$lg[$i].'.html';
+            $name = 'schema_course_' . $id . '_' . $lg[$i] . '.html';
             $file = StaticFilesHelper::pathToCourseSchema($name);
             file_put_contents($file, $schema);
         }
         Yii::app()->session['lg'] = $lang;
         $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
     }
-    public function actionGenerationAvailableModule(){
 
-        if(isset($_POST['course']))
+    public function actionGenerationAvailableModule()
+    {
+
+        if (isset($_POST['course']))
             $course = $_POST['course'];
 
         $result = Module::showAvailableModule($course);
@@ -236,7 +263,18 @@ class CoursemanageController extends TeacherCabinetController
         echo $result;
     }
 
-    public function actionGetCoursesList(){
+    public function actionGetCoursesList()
+    {
         echo Course::coursesList();
+    }
+
+    public function actionModulesByQuery($query, $course)
+    {
+        if ($query) {
+            $modules = Module::modulesNotInDefinedCourse($query, $course);
+            echo $modules;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
     }
 }

@@ -113,8 +113,10 @@ class OldController extends TeacherCabinetController
         if (isset($_POST['course']))
             $course = $_POST['course'];
 
-        $result = Module::showModule($course);
+        $modules = Module::showModule($course);
 
-        echo $result;
+        echo $this->renderPartial('_modulesList', array(
+            'modules' => $modules
+        ));
     }
 }

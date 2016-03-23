@@ -1,65 +1,47 @@
 <?php
-/* @var $course Course*/
+/**
+ * @var $course Course
+ * @var $module Module
+ * @var $item Module
+ * @var $modules array
+*/
+$modules = CourseModules::availableMandatoryModules($course->course_ID, $module->module_ID);
 ?>
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>')">
-            Список модулів</button>
-    </li>
-</ul>
-
-<div class="page-header">
-    <h4>Модуль #<?php echo $id . " " . Module::getModuleName($id); ?></h4>
-</div>
-<br>
 <form onsubmit="addMandatory('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addMandatoryModule'); ?>');return false;"
-      name="add-accessModule">
+    name="add-accessModule">
     <fieldset>
-        <div class="col-md-4">
-            <legend id="label">Задати попередній модуль у курсі:</legend>
+        <div class="col-md-8">
             <div class="form-group">
-                Виберіть курс:<br>
+                <label>Модуль:
+                    <input type="text" class="form-control" size="135"
+                           value="<?= $module->getTitle(); ?>" disabled>
+                </label>
+                <input type="hidden" class="form-control" size="135" value="<?= $module->module_ID; ?>"
+                       name="module">
+            </div>
+            <div class="form-group">
+                <label>Курс:
+                    <input type="text" class="form-control" size="135"
+                           value="<?= $course->getTitle(); ?>" disabled>
+                </label>
+                <input type="hidden" class="form-control" size="135" value="<?= $course->course_ID; ?>"
+                       name="course">
+            </div>
 
-                <input type="hidden" value="<?php echo $id; ?>" id="module">
-
-                <select name="course" class="form-control" id="courseList"
-                        onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/getModuleByCourse');?>')">
-                    <option value="">Виберіть курс</option>
-                    <optgroup label="Курси">
-                        <?php
-                        foreach ($courses as $course) {
+            <div class="form-group">
+                Доступний після завершення модуля:<br>
+                <select name="mandatory" id="moduleList" class="form-control">
+                    <option value=""></option>
+                        <?php foreach ($modules as $item) {
                             ?>
-                            <option value="<?php echo $course->course_ID;?>"><?php echo $course->getTitle();
-                            $mandatory = $course->mandatoryModule($id);
-                            if ($mandatory != 0) {
-                                ?>
-                                - попередній модуль
-                                #<?php echo Module::getModuleName($mandatory); ?></option>
-                            <?php
-                            }
-                        }
-                        ?>
+                            <option
+                                value="<?php echo $item->module_ID; ?>"><?php echo $item->getTitle(); ?></option>
+                        <?php } ?>
                 </select>
             </div>
-            <br>
-            <br>
-
             <div class="form-group">
-                Попередній модуль:<br>
-
-                <div name="selectModule">
-                    <?php $this->renderPartial('_ajaxModule', array('modules' => '')); ?>
-                </div>
+                <input class="btn btn-primary" type="submit" value="Задати попередній модуль">
             </div>
-            <br>
-            <br>
-            <br>
-            <input class="btn btn-default" type="submit" value="Задати попередній модуль">
-
         </div>
-        <br>
-        <br>
 </form>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ajaxModule.js'); ?>"></script>

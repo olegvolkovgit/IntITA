@@ -161,55 +161,64 @@ function addExistModule(url) {
     return false;
 }
 
-function saveSchema(url) {
+function saveSchema(url, id) {
     $jq.ajax({
         url: url,
-        success: function (data) {
-            showDialog("Схема курсу збережена!");
-            fillContainer(data);
+        success: function (response) {
+            if(response == "success")
+            bootbox.alert("Схема курсу збережена.", function(){
+                load(basePath + '/_teacher/_admin/coursemanage/view/id/' + id);
+            });
+            else bootbox.alert("Схему курса не вдалося зберегти.");
         },
         error: function () {
-            showDialog();
+            bootbox.alert("Схему курса не вдалося зберегти.");
         }
     });
 }
 
 function addCoursePrice(url) {
-    var moduleId = document.getElementById('module').value;
-    var price = document.getElementById('price').value;
-    var courseId = $jq("select[name=course] option:selected").val();
+    var moduleId = $jq('#module').val();
+    var price = $jq('#price').val();
+    var courseId = $jq("#course").val();
     if (moduleId && price && courseId) {
         $jq.ajax({
             url: url,
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'price': price},
-            success: function (data) {
-                fillContainer(data);
+            success: function (response) {
+                if(response == "success")
+                    bootbox.alert("Нова ціна збережена.", function(){
+                        load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
+                    });
+                else bootbox.alert("Операцію не вдалося виконати.");
             },
             error: function () {
-                showDialog();
+                bootbox.alert("Операцію не вдалося виконати.");
             }
         });
     }
     else {
-        showDialog();
+        bootbox.alert('Неправильно введені дані.');
     }
 }
 
 function addMandatory(url) {
     var mandatory = $jq("select[name=mandatory] option:selected").val();
-    var courseId = $jq("select[name=course] option:selected").val();
-    var moduleId = $jq("#module").val();
+    var courseId = $jq("input[name=course]").val();
+    var moduleId = $jq("input[name=module]").val();
     if (mandatory && courseId && moduleId) {
         $jq.ajax({
             url: url,
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
-            success: function (data) {
-                fillContainer(data);
+            success: function (response) {
+                bootbox.confirm(response, function(){
+                    load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
+                });
             },
             error: function () {
-                showDialog();
+                showDialog('Операцію не вдалося виконати.');
             }
         });
     }

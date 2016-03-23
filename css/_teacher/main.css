@@ -30,11 +30,11 @@ a,a:active,button,button:active,input[type="submit"],input[type="submit"]:active
 {
     color: #ff0000;
 }
-
+/*
 .form-group error
 {
     color: #ff0000;
-}
+}*/
 
 .imageClass img
 {
@@ -190,7 +190,15 @@ td,th{
     max-width: 100px;
 }
 .recall{white-space: pre-wrap;}
+.tab-content .tab-pane
+{
+    display: none;
+}
 
+.tab-content .active
+{
+    display: block;
+}
 #agreements thead tr th,#invoices thead tr th,#operationsTable thead tr th{
     vertical-align: top;
     white-space: normal;

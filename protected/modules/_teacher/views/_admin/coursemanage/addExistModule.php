@@ -1,40 +1,95 @@
+<?php
+/**
+ * @var $course Course
+ */
+?>
+<script>
+    course = <?=$course->course_ID;?>;
+</script>
 <div class="col-md-6">
-    <ul class="list-inline">
-        <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">
-                Список курсів</button>
-        </li>
-    </ul>
-<div id="addModuleToCourse">
-    <br>
+    <div id="addModuleToCourse">
+        <form role="form">
+            <fieldset>
+                <div class="form-group">
+                    <label>Курс: </label>
+                    <input type="text" class="form-control" value="<?=$course->getTitle();?>" disabled >
+                </div>
 
-    <form onsubmit="addExistModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addModuleToCourse'); ?>');
-        return false;"
-                name="add-module">
-        <fieldset>
-            <legend id="label">Виберіть курс:</legend>
-            Курс:<br>
-            <div class="form-group">
-                <select name="course" placeholder="(Виберіть курс)" onchange="selectAccessModules('/_teacher/_admin/coursemanage/generationAvailableModule');" class="form-control">
-                        <option disabled selected>Виберіть курс</option>
-                        <?php
-                        foreach($courses as $course)  {
-                            ?>
-                            <option
-                                value="<?php echo $course['id']; ?>"><?php echo $course['alias']." (".
-                                    $course['language'].")"; ?></option>
-                        <?php
-                        }
-                        ?>
-                </select>
-            </div>
-            Модуль:<br>
-            <div name="selectModule" class="form-group"></div>
-            <br>
-            <br>
-            <input class="btn btn-default" type="submit" value="Додати модуль до курса">
-        </fieldset>
-    </form>
+                <div class="form-group">
+                    <input type="number" hidden="hidden" id="moduleId" value="0"/>
+                    <label>Виберіть модуль: </label>
+                    <input id="typeaheadModule" type="text" class="form-control" placeholder="Назва модуля"
+                           size="135">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Додати модуль"
+                           onclick="addExistModule('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addModuleToCourse");?>',
+                               '<?=$course->course_ID?>'); return false;">
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </div>
-</div>
+<script>
+    var modules = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/coursemanage/modulesByQuery?query=%QUERY&course=' + course,
+            wildcard: '%QUERY',
+            filter: function (modules) {
+                return $jq.map(modules.results, function (module) {
+                    return {
+                        id: module.id,
+                        title: module.title
+                    };
+                });
+            }
+        }
+    });
+
+    modules.initialize();
+
+    $jq('#typeaheadModule').typeahead(null, {
+        name: 'modules',
+        display: 'title',
+        source: modules,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'модулів з такою назвою немає',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+        }
+    });
+
+    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
+        $jq("#moduleId").val(item.id);
+    });
+
+
+    function addExistModule(url, course) {
+        module = $jq("#moduleId").val();
+        if (module == 0) {
+            bootbox.alert('Виберіть модуль.');
+        } else {
+            var posting = $jq.post(url, {
+                moduleId: module,
+                courseId:course
+            });
+
+            posting.done(function (response) {
+                    if (response == "success")
+                        bootbox.alert("Модуль успішно додано.");
+                    else {
+                        bootbox.alert("Операцію не вдалося виконати");
+                    }
+                })
+                .fail(function () {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+        }
+    }
+</script>
