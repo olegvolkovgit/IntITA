@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Wizlight
- * Date: 19.10.2015
- * Time: 11:01
+ * @var $module Module
  */
 ?>
 <!-- Hamburger menu -->
@@ -15,14 +12,14 @@
         <?php
         if ($idCourse != 0) {
             $this->renderPartial('/site/_shareMetaTag', array(
-                'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $idModule, 'idCourse' => $idCourse)),
-                'title' => Module::getModuleName($idModule) . '. ' . Yii::t('sharing', '0643'),
+                'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $module->module_ID, 'idCourse' => $idCourse)),
+                'title' => $module->getTitle() . '. ' . Yii::t('sharing', '0643'),
                 'description' => Yii::t('sharing', '0644'),
             ));
         } else {
             $this->renderPartial('/site/_shareMetaTag', array(
-                'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $idModule)),
-                'title' => Module::getModuleName($idModule) . '. ' . Yii::t('sharing', '0643'),
+                'url' => Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $module->module_ID)),
+                'title' => $module->getTitle() . '. ' . Yii::t('sharing', '0643'),
                 'description' => Yii::t('sharing', '0644'),
             ));
         }

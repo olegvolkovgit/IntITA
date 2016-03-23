@@ -1009,6 +1009,10 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
     public function isContain(Module $module){
-        return in_array($module, $this->module);
+        return CourseModules::model()->exists('id_course=:course and id_module=:module', array(
+            'course' => $this->course_ID,
+            'module' => $module->module_ID
+            )
+        );
     }
 }

@@ -414,66 +414,10 @@ class Module extends CActiveRecord implements IBillableObject
         return 'M';
     }
 
-//    public static function showAvailableModule($course)
-//    {
-//        $first = '<select name="module" class="form-control" id="payModuleList" required="true">';
-//
-//        $modulelist = [];
-//
-//        $criteria = new CDbCriteria;
-//        $criteria->alias = 'course_modules';
-//        $criteria->select = 'id_module';
-//        $criteria->order = '`order` ASC';
-//        $criteria->addCondition('id_course=' . $course);
-//        $temp = CourseModules::model()->findAll($criteria);
-//        for ($i = 0; $i < count($temp); $i++) {
-//            array_push($modulelist, $temp[$i]->id_module);
-//        }
-//        $titleParam = Module::getModuleTitleParam();
-//
-//        $criteriaData = new CDbCriteria;
-//        $criteriaData->alias = 'module';
-//        $criteriaData->addNotInCondition('module_ID', $modulelist);
-//
-//        $rows = Module::model()->findAll($criteriaData);
-//        $result = $first . '<optgroup label="' . Yii::t('payments', '0607') . '">';
-//        foreach ($rows as $numRow => $row) {
-//            if ($row[$titleParam] == '')
-//                $title = 'title_ua';
-//            else $title = $titleParam;
-//            $result = $result . '<option value="' . $row['module_ID'] . '">' . $row[$title]." (".$row['language'].") ".'</option>';
-//        };
-//        $last = '</select>';
-//        return $result . $last;
-//    }
-
-
-    public static function getResourceDescription($id)
-    {
-        $module = Module::model()->findByPk($id);
-        return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
-    }
-
-
     public static function getLessonsCount($idModule)
     {
         return count(Lecture::model()->findAllByAttributes(array('idModule' => $idModule)));
     }
-
-//    public static function getTeacherModules($teacher, $modules)
-//    {
-//        $result = [];
-//        for ($i = 0; $i < count($modules); $i++) {
-//            if ($id = TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
-//                ':teacher' => $teacher,
-//                ':module' => $modules[$i],
-//            ))
-//            ) {
-//                array_push($result, $modules[$i]);
-//            }
-//        }
-//        return $result;
-//    }
 
     public function getTitle()
     {
@@ -485,6 +429,7 @@ class Module extends CActiveRecord implements IBillableObject
         }
         return CHtml::encode($moduleTitle);
     }
+
     public function getTitleForBreadcrumbs()
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
@@ -495,6 +440,7 @@ class Module extends CActiveRecord implements IBillableObject
         }
         return $moduleTitle;
     }
+
     public static function getModuleName($id)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
@@ -505,14 +451,6 @@ class Module extends CActiveRecord implements IBillableObject
             $moduleTitle = Module::model()->findByPk($id)->title_ua;
         }
         return $moduleTitle;
-    }
-
-    public static function getModuleDurationFormat($countless, $hours, $hInDay, $daysInWeek)
-    {
-        if ($countless == 0) {
-            return '';
-        }
-        return ", " . Yii::t('module', '0217') . " - <b>" . round($countless * 7 / ($hInDay * $daysInWeek)) . " " . Yii::t('module', '0218') . "</b> (" . $hInDay . " " . Yii::t('module', '0219') . ", " . $daysInWeek . " " . Yii::t('module', '0220') . ")";
     }
 
     public static function getModulePrice($moduleId, $idCourse=0)
@@ -534,13 +472,6 @@ class Module extends CActiveRecord implements IBillableObject
     public function lecturesCount()
     {
         return Lecture::model()->count("idModule=$this->module_ID and `order`>0");
-    }
-
-    public static function getModuleTitleParam()
-    {
-        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $title = "title_" . $lang;
-        return $title;
     }
 
     public function titleParam()
@@ -684,13 +615,6 @@ class Module extends CActiveRecord implements IBillableObject
         } else {
             return true;
         }
-    }
-
-    public static function getTeacherByModule($idModule)
-    {
-        $module = Module::model()->findByPk($idModule);
-
-        return $module->teacher;
     }
 
     /**

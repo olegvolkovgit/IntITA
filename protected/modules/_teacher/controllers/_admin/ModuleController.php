@@ -216,13 +216,6 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
-    public function actionNewModule()
-    {
-        var_dump($_POST);
-        die;
-
-    }
-
     public function actionGetModulesList()
     {
         echo Module::modulesList();
