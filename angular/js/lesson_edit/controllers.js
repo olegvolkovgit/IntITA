@@ -96,7 +96,9 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
                 $scope.editCodeRedactor+'</textarea>'+
                 '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+blockOrder+')">'+
-                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')"></div>';
+                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')">' +
+                '<input class="codeBut removeHtml" type="submit" value="Очистити форматування" ng-click="removeEditHtml()">' +
+                '</div>';
             ($compile(template)($scope)).insertAfter(element);
             $scope.myEditCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECodeEdit'), {
                 lineNumbers: true,             // показывать номера строк
@@ -221,5 +223,8 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 });
             }
         });
+    }
+    $scope.removeEditHtml= function(){
+        $scope.myEditCodeMirror.setValue($('#CKECodeEdit').text().replace(/<\/?[^>]+>/g,''));
     }
 }

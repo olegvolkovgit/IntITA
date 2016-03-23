@@ -206,3 +206,9 @@ td,th{
     opacity: 0.5;
     border-radius: 5px;
 }
+#mainSliderTable,#aboutusSliderTable{
+    text-align: center;
+}
+.carouselImage{
+    width: 300px;
+}
