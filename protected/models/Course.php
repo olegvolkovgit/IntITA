@@ -977,4 +977,8 @@ class Course extends CActiveRecord implements IBillableObject
 
         return json_encode($result);
     }
+
+    public function isContain(Module $module){
+        return in_array($module, $this->module);
+    }
 }
