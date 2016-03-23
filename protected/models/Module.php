@@ -903,6 +903,12 @@ class Module extends CActiveRecord implements IBillableObject
         return false;
     }
 
+    public static function getResourceDescription($id)
+     {
+         $module = Module::model()->findByPk($id);
+         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
+     }
+
     /**
      * Returns id of first quiz in the module.
      * Direct queries to database uses for greater performance
