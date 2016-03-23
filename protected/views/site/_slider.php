@@ -69,7 +69,7 @@
         ?>
         <div class="slide">
             <div>
-                <p><?php echo Yii::t('slider', $key->slider_text); ?></p>
+                <p><?php echo Yii::t('slider', $key->getText()); ?></p>
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $key->pictureURL); ?>"/>
             </div>
         </div>

@@ -10,15 +10,13 @@
             'class' => 'formatted-form',
             'enctype' => 'multipart/form-data',
         ),
-        // Please note: When you enable ajax validation, make sure the corresponding
-        // controller action is handling ajax validation correctly.
-        // There is a call to performAjaxValidation() commented in generated controller code.
-        // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
-            'afterValidate'=>'js:validateSliderForm',
+            'afterValidate' => 'js:function(){
+                return validateSliderForm("'.$model->scenario.'");
+                }',
         )
     )); ?>
 
@@ -32,9 +30,19 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'slider_text', array('for' => 'text')); ?>
-        <?php echo $form->textField($model, 'slider_text', array('class' => "form-control", 'id' => 'text')); ?>
-        <?php echo $form->error($model, 'slider_text'); ?>
+        <?php echo $form->labelEx($model, 'text_ua', array('for' => 'text_ua')); ?>
+        <?php echo $form->textField($model, 'text_ua', array('class' => "form-control", 'id' => 'text_ua')); ?>
+        <?php echo $form->error($model, 'text_ua'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'text_ru', array('for' => 'text_ru')); ?>
+        <?php echo $form->textField($model, 'text_ru', array('class' => "form-control", 'id' => 'text_ru')); ?>
+        <?php echo $form->error($model, 'text_ru'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'text_en', array('for' => 'text_en')); ?>
+        <?php echo $form->textField($model, 'text_en', array('class' => "form-control", 'id' => 'text_en')); ?>
+        <?php echo $form->error($model, 'text_en'); ?>
     </div>
 
     <div class="form-group">

@@ -11,7 +11,7 @@ class AboutusSliderController extends TeacherCabinetController
 	{
 		$this->renderPartial('view',array(
 			'model'=>$this->loadModel($id),
-		));
+		),false,true);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class AboutusSliderController extends TeacherCabinetController
 
             $model->pictureUrl = $filename;
             if($model->validate()){
-            Avatar::saveAbuotusSlider($model,$picName,$tmpName, $filename);
+				Avatar::saveAbuotusSlider($model, $tmpName, $filename);
 
 			if($model->save())
                 $this->redirect($this->pathToCabinet());
@@ -65,9 +65,28 @@ class AboutusSliderController extends TeacherCabinetController
 
 		if(isset($_POST['AboutusSlider']))
 		{
+			$oldSlide=$model->pictureUrl;
+
+			$picName = $_FILES['AboutusSlider']['name'];
+			$tmpName = $_FILES['AboutusSlider']['tmp_name'];
+
 			$model->attributes=$_POST['AboutusSlider'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->image_order));
+
+			if(!empty($picName['pictureUrl'])) {
+				$info = new SplFileInfo($picName['pictureUrl']);
+				$extension = $info->getExtension();
+				$filename = uniqid() . '.' . $extension;
+				$model->pictureUrl = $filename;
+			}else{
+				$model->pictureUrl=$oldSlide;
+			}
+			$filename=$model->pictureUrl;
+			if($model->validate()) {
+				Avatar::saveAbuotusSlider($model, $tmpName, $filename, $oldSlide);
+
+				if ($model->update())
+					$this->redirect($this->pathToCabinet());
+			}
 		}
 
 		$this->renderPartial('update',array(
@@ -208,5 +227,8 @@ class AboutusSliderController extends TeacherCabinetController
         }
     }
 
+	public function actionGetItemsList(){
+		echo AboutusSlider::getItemsList();
+	}
 
 }
