@@ -77,7 +77,7 @@ class Trainer extends Role
                     ));
                     break;
                 }
-                return false;
+            return false;
             default:
                 return parent::setAttribute($user, $attribute, $value);
         }
