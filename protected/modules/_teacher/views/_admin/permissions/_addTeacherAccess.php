@@ -1,30 +1,4 @@
-<ul class="list-inline">
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
-            Права доступу
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddAccessForm'); ?>')">
-            Додати запис
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showCancelTeacherAccess'); ?>')">
-            Скасувати автора модуля
-        </button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/UserStatus'); ?>')">
-            Змінити статус користувача
-        </button>
-    </li>
-</ul>
-
+<br>
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <form role="form">

@@ -270,9 +270,12 @@ function sendError(form, data, hasError) {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Validations
-function validateSliderForm() {
+function validateSliderForm(scenario) {
     var valid = [];
-    valid.push(numberValidate($jq('#text')));
+    valid.push(numberValidate($jq('#text_ua')));
+    valid.push(numberValidate($jq('#text_ru')));
+    valid.push(numberValidate($jq('#text_en')));
+    if(scenario=='insert')
     valid.push(filePicValidate($jq('#picture')));
     return checkValid(valid);
 }
@@ -298,16 +301,11 @@ function filePicValidate(picture) {
 
 function numberValidate(number) {
     var message = '';
-    var pattern = /^\d+$/;
     var error = false;
 
     if (!number.val()) {
         error = true;
         message = 'Поле для вводу коду текста має бути заповнене';
-    }
-    else if ((!pattern.test(number.val()))) {
-        error = true;
-        message = 'Можна ввести тільки цифри';
     }
 
     processResult(error, message, number);
@@ -424,7 +422,45 @@ function refreshCache(url) {
         }
     });
 }
+function deleteSlideAboutUs(url) {
 
+        $jq.ajax({
+            url: url,
+            type: "POST",
+            async: true,
+            success: function (response) {
+                bootbox.alert("Слайд видалено.", function () {
+                    loadSliderAboutUsList();
+                });
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        });
+}
+function deleteMainSlide(url) {
+
+    $jq.ajax({
+        url: url,
+        type: "POST",
+        async: true,
+        success: function (response) {
+            bootbox.alert("Слайд видалено.", function () {
+                loadMainSliderList();
+            });
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
+
+function loadMainSliderList() {
+    load(basePath + '/_teacher/_admin/carousel/index/','Слайдер на головній сторінці');
+}
+function loadSliderAboutUsList() {
+    load(basePath + '/_teacher/_admin/aboutusSlider/index/','Слайдер на сторінці Про нас');
+}
 function loadTeacherModulesList(id) {
     load(basePath + '/_teacher/_admin/teachers/addModule/id/'+id,'Додати модуль');
 }

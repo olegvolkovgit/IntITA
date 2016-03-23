@@ -1,22 +1,12 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/index'); ?>')">
             Права доступу</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showAddTeacherAccess'); ?>')">
-            Призначити автора модуля</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showCancelTeacherAccess'); ?>')">
-            Скасувати автора модуля</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/UserStatus'); ?>')">
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/UserStatus'); ?>')">
             Змінити статус користувача</button>
     </li>
 </ul>
@@ -25,7 +15,7 @@
     <br>
 
     <form name="add-access" action=""
-        onsubmit="newPermissions('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/newPermission'); ?>');return false;">
+        onsubmit="newPermissions('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/newPermission'); ?>');return false;">
         <fieldset>
             <div class="col-md-4">
                 <legend id="label">Додати новий запис:</legend>
@@ -45,7 +35,7 @@
                 Курс:<br>
                 <div class="form-group">
                     <select name="course" class="form-control" placeholder="(Виберіть курс)" required
-                            onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/showModules');?>');">
+                            onchange="selectModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/showModules');?>');">
                         <option value="">Всі курси</option>
                         <optgroup label="Виберіть курс">
                             <?php
@@ -96,5 +86,3 @@
             </div>
     </form>
 </div>
-
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
