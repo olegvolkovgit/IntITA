@@ -423,34 +423,40 @@ function refreshCache(url) {
     });
 }
 function deleteSlideAboutUs(url) {
-
-        $jq.ajax({
-            url: url,
-            type: "POST",
-            async: true,
-            success: function (response) {
-                bootbox.alert("Слайд видалено.", function () {
-                    loadSliderAboutUsList();
-                });
-            },
-            error: function () {
-                showDialog("Операцію не вдалося виконати.");
-            }
-        });
+    bootbox.confirm('Видалити слайд?', function (result) {
+        if (result) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                async: true,
+                success: function (response) {
+                    bootbox.alert("Слайд видалено.", function () {
+                        loadSliderAboutUsList();
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            });
+        }
+    });
 }
 function deleteMainSlide(url) {
-
-    $jq.ajax({
-        url: url,
-        type: "POST",
-        async: true,
-        success: function (response) {
-            bootbox.alert("Слайд видалено.", function () {
-                loadMainSliderList();
+    bootbox.confirm('Видалити слайд?', function (result) {
+        if (result) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                async: true,
+                success: function (response) {
+                    bootbox.alert("Слайд видалено.", function () {
+                        loadMainSliderList();
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
             });
-        },
-        error: function () {
-            showDialog("Операцію не вдалося виконати.");
         }
     });
 }
