@@ -25,11 +25,9 @@
         <input name="page" value="<?php echo $pageOrder; ?>" id="page" type="hidden">
         <textarea id="CKECode" name="editorAdd" ng-model="CkeAddCode" ></textarea>
         <input type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit" ng-disabled=addCKEBlockCode.editorAdd.$error.required >
+        <button type="button" id="cancelButton" onclick="hideFormCKE('addBlock')" ><?php echo Yii::t('course', '0368') ?></button>
+        <button type="button" onclick="removeHtml()">Очистити форматування</button>
     </form>
-    <input class="codeBut removeHtml" type="submit" value="Очистити форматування" onclick="removeHtml()">
-    <button id="cancelButton" onclick="hideFormCKE('addBlock')" >
-        <?php echo Yii::t('course', '0368') ?>
-    </button>
 </div>
 <script>
     var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECode'), {
