@@ -69,15 +69,25 @@ class Trainer extends Role
     {
         switch ($attribute) {
             case 'students-list':
-                return Yii::app()->db->createCommand()->
-                insert('trainer_student', array(
-                    'trainer' => $user->id,
-                    'student' => $value
-                ));
-                break;
+                if($this->checkTrainer($value)) {
+                    return Yii::app()->db->createCommand()->
+                    insert('trainer_student', array(
+                        'trainer' => $user->id,
+                        'student' => $value
+                    ));
+                    break;
+                }
+            return false;
             default:
                 return parent::setAttribute($user, $attribute, $value);
         }
+    }
+
+    public function checkTrainer($student){
+        if(Yii::app()->db->createCommand('select trainer from trainer_student where student='.$student.
+            ' and end_time IS NULL')->queryScalar())
+            return false;
+        else return true;
     }
 
     public function cancelAttribute(StudentReg $user, $attribute, $value)
