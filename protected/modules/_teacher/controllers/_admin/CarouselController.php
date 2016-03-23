@@ -22,7 +22,7 @@ class CarouselController extends TeacherCabinetController
 	{
 		$model=new Carousel;
 		// Uncomment the following line if AJAX validation is needed
-//		 $this->performAjaxValidation($model);
+		 $this->performAjaxValidation($model);
 		if(isset($_POST['Carousel'])) {
 
             $picName = $_FILES['Carousel']['name'];
@@ -37,7 +37,7 @@ class CarouselController extends TeacherCabinetController
             $model->pictureURL = $filename;
 
             if ($model->validate()) {
-                Avatar::saveMainSliderPicture($model, $picName, $tmpName, $filename);
+                Avatar::saveMainSliderPicture($model, $tmpName, $filename);
 
                 $model->save();
                 $this->redirect($this->pathToCabinet());
@@ -63,23 +63,33 @@ class CarouselController extends TeacherCabinetController
 
 		if(isset($_POST['Carousel']))
 		{
+            $oldSlide=$model->pictureURL;
+
             $picName = $_FILES['Carousel']['name'];
             $tmpName = $_FILES['Carousel']['tmp_name'];
 
 			$model->attributes=$_POST['Carousel'];
-            $model->pictureURL = $picName['pictureURL'];
 
+            if(!empty($picName['pictureURL'])) {
+                $info = new SplFileInfo($picName['pictureURL']);
+                $extension = $info->getExtension();
+                $filename = uniqid() . '.' . $extension;
+                $model->pictureURL = $filename;
+            }else{
+                $model->pictureURL=$oldSlide;
+            }
+            $filename=$model->pictureURL;
             if($model->validate()) {
-                Avatar::saveMainSliderPicture($model, $picName, $tmpName);
+                Avatar::saveMainSliderPicture($model, $tmpName, $filename, $oldSlide);
 
-                if ($model->save())
+                if ($model->update())
                     $this->redirect($this->pathToCabinet());
             }
 		}
 
 		$this->renderPartial('update',array(
 			'model'=>$model,
-            'path' => $path
+//            'path' => $path
 		),false,true);
 	}
 
@@ -227,6 +237,10 @@ class CarouselController extends TeacherCabinetController
             return $nextModel;
         }
         else return $this->getNextModel($order);
+    }
+
+    public function actionGetItemsList(){
+        echo Carousel::getItemsList();
     }
 
 }

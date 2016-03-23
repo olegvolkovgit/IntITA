@@ -25,6 +25,9 @@ class CoursePath extends Path{
             }
             $this->getModule();
             if($this->module != null) {
+                if(!$this->course->isContain($this->module)){
+                    throw new \application\components\Exceptions\IntItaException(403, 'Даний модуль не входить до складу цього курса.');
+                }
                 $this->getLecture();
                 if($this->lecture != null) {
                     $this->checkPageDefined();

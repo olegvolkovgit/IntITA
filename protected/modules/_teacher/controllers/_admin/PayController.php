@@ -42,7 +42,7 @@ class PayController extends TeacherCabinetController
 
             $sender = new MailTransport();
             if ($message->send($sender)) {
-                $resultText = PayModules::getConfirmText($module->title_ua, $userName);
+                $resultText = PayModules::getConfirmText($module, $userName);
             } else {
                 $resultText = Mail::getErrorText();
             }
@@ -74,7 +74,7 @@ class PayController extends TeacherCabinetController
 
             $sender = new MailTransport();
             if ($message->send($sender)) {
-                $resultText = PayCourses::getConfirmText($courseId, $userName);
+                $resultText = PayCourses::getConfirmText($course, $userName);
 
             } else {
                 $resultText = Mail::getErrorText();
@@ -102,14 +102,14 @@ class PayController extends TeacherCabinetController
             $resultText = '';
             $userId = Yii::app()->request->getPost('user');
             $moduleId = Yii::app()->request->getPost('module');
-            $moduleName = Module::model()->findByPk($moduleId)->title_ua;
             $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
+
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($moduleName, $userName);
+                $resultText = PayModules::getCancelText($payModule->idModule, $userName);
                 $payModule->delete();
             } else {
-                $resultText = PayModules::getCancelErrorText($userName, $moduleName);
+                $resultText = PayModules::getCancelErrorText($userName, $payModule->idModule);
 
             }
             echo $resultText;
@@ -128,11 +128,11 @@ class PayController extends TeacherCabinetController
             $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
             if ($payCourse) {
-                $resultText = PayCourses::getCancelText($courseId, $userName);
+                $resultText = PayCourses::getCancelText($payCourse->idCourse, $userName);
 
                 $payCourse->delete();
             } else {
-                $resultText = PayCourses::getCancelErrorText($userName, $courseId);
+                $resultText = PayCourses::getCancelErrorText($userName, $payCourse->idCourse);
             }
             echo $resultText;
         }
