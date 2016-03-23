@@ -122,50 +122,62 @@ class Avatar {
         return true;
     }
 
-    public static function saveMainSliderPicture($model,$name,$tmpName, $filename)
+    public static function saveMainSliderPicture($model,$tmpName,$filename, $oldSlide='')
     {
+        if ($model->scenario=="update")
+        {
+            if(!empty($tmpName['pictureURL'])){
+                $src=Yii::getPathOfAlias('webroot')."/images/mainpage/".$oldSlide;
+                if (is_file($src))
+                    unlink($src);
 
-        if (($model->scenario=="update"))
-        {
-            $model->pictureURL = $name;
-        } else if(($model->scenario=="update")){
-            $src=Yii::getPathOfAlias('webroot')."/images/mainpage/".$model->pictureURL;
-            if (is_file($src))
-                unlink($src);
+                if(!copy($tmpName['pictureURL'],Yii::getPathOfAlias('webroot')."/images/mainpage/".$filename));
+                return false;
+            }
+            $model->pictureURL=$filename;
+            return true;
         }
-        if (($model->scenario == "insert" || $model->scenario == "update"))
+        if ($model->scenario == "insert")
         {
-            $model->pictureURL = $filename;
             $lastOrder = $model->getLastOrder() + 1;
 
             $model->order = $lastOrder;
-            if(!copy($tmpName['pictureURL'],Yii::getPathOfAlias('webroot')."/images/mainpage/".$model->pictureURL));
+
+            if(!empty($tmpName['pictureURL'])){
+                if(!copy($tmpName['pictureURL'],Yii::getPathOfAlias('webroot')."/images/mainpage/".$filename));
                 return false;
+            }
+            return true;
         }
-        return true;
     }
 
-    public static function saveAbuotusSlider($model,$name,$tmpName, $filename)
+    public static function saveAbuotusSlider($model,$tmpName,$filename, $oldSlide='')
     {
-        if (($model->scenario=="update"))
+        if ($model->scenario=="update")
         {
-            $model->pictureUrl = $name;
-        } else if(($model->scenario=="update")){
-            $src=Yii::getPathOfAlias('webroot')."/images/aboutus/".$model->pictureUrl;
-            if (is_file($src))
-                unlink($src);
+            if(!empty($tmpName['pictureUrl'])){
+                $src=Yii::getPathOfAlias('webroot')."/images/aboutus/".$oldSlide;
+                if (is_file($src))
+                    unlink($src);
+
+                if(!copy($tmpName['pictureUrl'],Yii::getPathOfAlias('webroot')."/images/aboutus/".$filename));
+                    return false;
+            }
+            $model->pictureUrl=$filename;
+            return true;
         }
-        if (($model->scenario == "insert" || $model->scenario == "update"))
+        if ($model->scenario == "insert")
         {
-            $model->pictureUrl = $filename;
             $lastOrder = $model->getLastAboutusOrder() + 1;
 
             $model->order = $lastOrder;
 
-            if(!copy($tmpName['pictureUrl'],Yii::getPathOfAlias('webroot')."/images/aboutus/".$model->pictureUrl));
-            return false;
+            if(!empty($tmpName['pictureUrl'])){
+                if(!copy($tmpName['pictureUrl'],Yii::getPathOfAlias('webroot')."/images/aboutus/".$filename));
+                return false;
+            }
+            return true;
         }
-        return true;
     }
 
 }

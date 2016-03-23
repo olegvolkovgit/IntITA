@@ -10,6 +10,16 @@
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index');?>')">
             Список фото</button>
     </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/update', array('id' => $model->image_order));?>')">
+            Редагувати</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="deleteSlideAboutUs('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/delete', array('id' => $model->image_order));?>')">
+            Видалити</button>
+    </li>
 </ul>
 
 <div class="page-header">
