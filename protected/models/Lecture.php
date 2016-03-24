@@ -833,4 +833,12 @@ class Lecture extends CActiveRecord
             }
         }
     }
+
+    public function isFree(){
+        return $this->isFree == Lecture::FREE;
+    }
+
+    public function freeLabel(){
+        return ($this->isFree())?'безкоштовна':'платна';
+    }
 }

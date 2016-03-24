@@ -628,6 +628,29 @@ class Teacher extends CActiveRecord
         $this->save();
     }
 
+    public static function teachersWithoutAuthorsModule($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN teacher t ON t.user_id = s.id';
+        $criteria->addCondition('t.user_id IS NOT NULL and t.isPrint='.Teacher::ACTIVE);
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
     public static function teachersByQuery($query)
     {
         $criteria = new CDbCriteria();
