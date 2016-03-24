@@ -20,6 +20,10 @@
                 <td><?=$model->alias;?></td>
             </tr>
             <tr>
+                <td>Ціна (якщо не входить у курс), USD: </td>
+                <td><?=$model->module_price;?></td>
+            </tr>
+            <tr>
                 <td>Номер модуля: </td>
                 <td><?=$model->module_number;?></td>
             </tr>

@@ -54,37 +54,45 @@ class SiteController extends Controller
     {
         $error = Yii::app()->errorHandler->error;
 
-        $code = ($error["errorCode"] > 0) ? $error["errorCode"] :  $error["code"];
+        $isGotMessage = true;
+        if(isset($error["errorCode"]) && $error["errorCode"] != 0){
+            $code = $error["errorCode"];
+        } else {
+            $code = $error["code"];
+            if(!isset($error["errorCode"])){
+                $isGotMessage = false;
+            }
+        }
 
         switch ($code) {
             case '400':
                 $breadcrumbs = Yii::t('breadcrumbs', '0781');
-                if($error["errorCode"] == 0)
+                if(!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0781');
                 break;
             case '403':
                 $breadcrumbs = Yii::t('error', '0590');
-                if($error["errorCode"] == 0)
+                if(!$isGotMessage)
                     $error["message"] = Yii::t('error', '0590');
                 break;
             case '404':
                 $breadcrumbs = Yii::t('breadcrumbs', '0782');
-                if($error["errorCode"] == 0)
+                if($isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0782');
                 break;
             case '410':
                 $breadcrumbs = Yii::t('breadcrumbs', '0785');
-                if($error["errorCode"] == 0)
+                if(!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0785');
                 break;
             case '500':
                 $breadcrumbs = Yii::t('breadcrumbs', '0783');
-                if($error["errorCode"] == 0)
+                if(!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0783');
                 break;
             default:
                 $breadcrumbs = Yii::t('breadcrumbs', '0784');
-                if($error["errorCode"] == 0)
+                if(!$isGotMessage)
                     $error["message"] = Yii::t('breadcrumbs', '0784');
         }
 
