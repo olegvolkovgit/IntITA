@@ -28,8 +28,8 @@ class UserMessages extends Messages implements IMessage
         $this->message = new Messages();
         $this->message->build($sender->id, 1, $chained, $original);
 
-        $this->subject = $subject;
-        $this->text = $text;
+        $this->subject = CHtml::encode($subject);
+        $this->text = CHtml::encode($text);
         $this->receivers = $receivers;
     }
 

@@ -127,7 +127,7 @@ class Carousel extends Slider
 		$lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
 		$text = "text_" . $lang;
 
-		return CHtml::encode($this->$text);
+		return $this->$text;
 	}
 
 }
