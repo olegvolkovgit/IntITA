@@ -1,5 +1,5 @@
 <?php
-$teacher=Teacher::model()->findByPk($data['teacher_id']);
+$teacher=Teacher::model()->findByAttributes(array('user_id' => $data['teacher_id']));
 $lecture=Lecture::model()->findByPk($data['lecture_id']);
 ?>
 <tr>

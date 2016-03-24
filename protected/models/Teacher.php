@@ -189,14 +189,6 @@ class Teacher extends CActiveRecord
         }
     }
 
-//    public static function isTeacherCanEdit($user, $modules)
-//    {
-//        $criteria = new CDbCriteria();
-//        $criteria->addInCondition('idModule', $modules);
-//        $criteria->addCondition('idTeacher=' . $user);
-//        return TeacherModule::model()->exists($criteria);
-//    }
-
     public static function updateFirstText($id, $firstText)
     {
         return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
@@ -216,32 +208,6 @@ class Teacher extends CActiveRecord
             array_push($result, $teachers[$i]['teacher_id']);
         }
         return $result;
-    }
-
-    public static function getFullName($id)
-    {
-        $user = Teacher::model()->findByPk($id)->user;
-        return $user->secondName . " " . $user->firstName . " " . $user->middleName;
-    }
-
-    public static function getLectureTeacher($idLecture)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->select = "teacher_id";
-        $criteria->addCondition("isPrint=1");
-        $criteria->order = 'rating ASC';
-        $teachers = Teacher::model()->findAll($criteria);
-
-        foreach ($teachers as $key) {
-            if (TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
-                ':idTeacher' => $key->teacher_id,
-                ':idModule' => Lecture::model()->findByPk($idLecture)->idModule
-            ))
-            ) {
-                return $key;
-            }
-        }
-        return null;
     }
 
     //todo
@@ -294,7 +260,7 @@ class Teacher extends CActiveRecord
                 $criteria = new CDbCriteria;
                 $criteria->alias = 'consultationscalendar';
                 if ($teacher)
-                    $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
+                    $criteria->addCondition('teacher_id=' . $teacher->user_id);
                 else
                     $criteria->addCondition('user_id=' . $user);
 
@@ -316,7 +282,7 @@ class Teacher extends CActiveRecord
                 $criteria = new CDbCriteria;
                 $criteria->alias = 'consultationscalendar';
                 if ($teacher)
-                    $criteria->addCondition('teacher_id=' . $teacher->teacher_id);
+                    $criteria->addCondition('teacher_id=' . $teacher->user_id);
                 else
                     $criteria->addCondition('user_id=' . $user);
 
@@ -378,30 +344,6 @@ class Teacher extends CActiveRecord
         return $model->getRoles();
     }
 
-//    public static function getTeacherName($id)
-//    {
-//        $model = Teacher::model()->findByPk($id);
-//        if (isset(Yii::app()->session['lg'])) {
-//            if (Yii::app()->session['lg'] == 'en' && $model->first_name_en != ''
-//                && $model->last_name_en != '')
-//            {
-//                return $model->last_name_en . " " . $model->first_name_en;
-//            }
-//        }
-//        return $model->user->secondName . " " . $model->user->firstName;
-//    }
-
-    public static function getTeacherLastName($id)
-    {
-        $model = Teacher::model()->findByPk($id);
-        if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && $model->last_name_en != '') {
-                return $model->last_name_en;
-            }
-        }
-        return $model->user->secondName;
-    }
-
     public function lastName()
     {
         if (isset(Yii::app()->session['lg'])) {
@@ -430,17 +372,6 @@ class Teacher extends CActiveRecord
             }
         }
         return $last . " " . $first;
-    }
-
-    public static function getTeacherFirstName($id)
-    {
-        $model = Teacher::model()->findByPk($id);
-        if (isset(Yii::app()->session['lg'])) {
-            if (Yii::app()->session['lg'] == 'en' && $model->first_name_en != '') {
-                return $model->first_name_en;
-            }
-        }
-        return $model->user->firstName;
     }
 
     public function firstName()

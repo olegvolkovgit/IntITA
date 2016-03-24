@@ -116,7 +116,9 @@ class ConsultationscalendarController extends Controller
 
     public function actionDeleteconsultation($id)
     {
-		Consultationscalendar::deleteConsultation($id);
+		$model = Consultationscalendar::model()->findByPk($id);
+        $user = RegisteredUser::userById(Yii::app()->user->getId());
+		$model->deleteConsultation($user);
 
         if(!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);

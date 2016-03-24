@@ -87,7 +87,7 @@
                                        name="datecons"/>
                                 <input type="hidden" id="<?php echo 'timecons' . $data['teacher_id'] ?>"
                                        name="timecons"/>
-                                <input type="hidden" name="teacherid" value="<?php echo $data['teacher_id']; ?>"/>
+                                <input type="hidden" name="teacherid" value="<?php echo $data['user_id']; ?>"/>
                                 <input type="hidden" name="userid" value="<?php echo Yii::app()->user->id; ?>"/>
                                 <input type="hidden" name="lectureid" value="<?php echo $lecture->id; ?>"/>
                                 <input name="saveConsultation" id="consultationButton" type="submit"
