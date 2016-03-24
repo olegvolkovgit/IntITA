@@ -15,7 +15,7 @@ class ModuleController extends Controller
      */
     public function actionIndex($idModule, $idCourse=0)
     {
-        $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
+        $model = Module::model()->findByPk($idModule);
 
         $this->checkModelInstance($model);
 

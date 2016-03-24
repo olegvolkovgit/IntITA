@@ -90,7 +90,7 @@ class ModuleController extends TeacherCabinetController
 
     public function actionUpdate($id)
     {
-        $model = Module::model()->with('lectures', 'teacher')->findByPk($id);
+        $model = Module::model()->findByPk($id);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
 
         $this->performAjaxValidation($model);

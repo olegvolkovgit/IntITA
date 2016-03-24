@@ -119,20 +119,12 @@
                 ?>
             </div>
             <div>
-                <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                <span>
+                <div>
+                    <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
                     <?php
-                    $this->widget('editable.EditableField', array(
-                        'type' => 'text',
-                        'model' => $post,
-                        'attribute' => 'module_price',
-                        'url' => $this->createUrl('module/updateModuleAttribute'),
-                        'title' => Yii::t('module', '0372'),
-                        'placement' => 'right',
-                    ));
-                    ?>
-                    <?php echo Yii::t('module', '0222'); ?>
-                </span>
+                    $course = (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0)) ? 0 : $_GET['idCourse'];
+                    $this->renderPartial('_price', array('idCourse' => $course, 'model' => $post)); ?>
+                </div>
             </div>
             <br>
 

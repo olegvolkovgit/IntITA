@@ -41,6 +41,12 @@
     </div>
 
     <div class="form-group">
+        <?php echo $form->labelEx($model, 'module_price'); ?>
+        <?php echo $form->textField($model, 'module_price', array('class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'module_price'); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'hours_in_day'); ?>
         <?php echo $form->textField($model, 'hours_in_day', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'hours_in_day'); ?>
