@@ -4,7 +4,13 @@
 ?>
     <br>
     <br>
-    <a href="<?php echo Yii::app()->createUrl('/_admin/carousel/index'); ?>">Список фото</a>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index');?>')">
+                Список фото</button>
+        </li>
+    </ul>
 
     <h1>Змінити зображення <?php echo $model->order; ?></h1>
 
