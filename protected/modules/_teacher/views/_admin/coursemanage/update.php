@@ -2,6 +2,7 @@
 /* @var $this CoursemanageController *
  * @var $model Course
  * @var $modules array
+ * @var $linkedCourses array
  */
 ?>
 <ul class="list-inline">
@@ -93,7 +94,8 @@
                 <div class="tab-pane fade" id="other" style="width: 100%">
                     <?php $this->renderPartial('_otherTab', array(
                         'model' => $model,
-                        'scenario' => 'update'
+                        'scenario' => 'update',
+                        'linkedCourses' => $linkedCourses
                     )); ?>
                 </div>
             </div>

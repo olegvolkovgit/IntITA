@@ -22,10 +22,12 @@ class CoursemanageController extends TeacherCabinetController
     {
         $modules = CourseModules::model()->with('moduleInCourse')->findAllByAttributes(array('id_course' => $id));
         $model = $this->loadModel($id);
+        $linkedCourses = $model->linkedCourses();
 
         $this->renderPartial('view', array(
             'model' => $model,
-            'modules' => $modules
+            'modules' => $modules,
+            'linkedCourses' => $linkedCourses
         ), false, true);
     }
 
@@ -110,10 +112,12 @@ class CoursemanageController extends TeacherCabinetController
             }
 
         }
+        $linkedCourses = $model->linkedCourses();
 
         $this->renderPartial('update', array(
             'model' => $model,
-            'modules' => $modules
+            'modules' => $modules,
+            'linkedCourses' => $linkedCourses
         ), false, true);
     }
 

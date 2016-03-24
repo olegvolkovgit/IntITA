@@ -513,19 +513,23 @@ class Module extends CActiveRecord implements IBillableObject
 
     public static function getModuleSumma($moduleId, $idCourse = 0)
     {
+        $model = Module::model()->findByPk($moduleId);
+        return $model->modulePrice($idCourse);
+    }
+
+    public function modulePrice($idCourse = 0){
         if ($idCourse > 0) {
-            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
+            $price = CourseModules::model()->findByAttributes(array('id_module' => $this->module_ID,
                 'id_course' => $idCourse))->price_in_course;
             if ($price <= 0) {
-                return round(Module::model()->findByPk($moduleId)->module_price);
+                return round($this->module_price);
             } else {
                 return $price;
             }
         } else {
-            return round(Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule());
+            return round($this->module_price * Config::getCoeffIndependentModule());
         }
     }
-
 
     //todo refactor
     public static function getModulePricePayment($idModule, $discount = 0, $idCourse)
@@ -1035,5 +1039,12 @@ class Module extends CActiveRecord implements IBillableObject
         $criteriaData->alias = 'module';
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
         return Module::model()->findAll($criteriaData);
+    }
+
+    public function consultants(){
+        $sql = 'select u.id, u.firstName, u.middleName, u.secondName, cm.start_time, cm.end_time from consultant_modules cm
+		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module='.$this->module_ID;
+
+        return Yii::app()->db->createCommand($sql)->queryAll();
     }
 }

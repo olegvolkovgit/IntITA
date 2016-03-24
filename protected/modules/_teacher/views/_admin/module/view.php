@@ -3,13 +3,14 @@
  * @var $model Module
  * @var $courses array
  * @var $teachers array
+ * @var $consultants array
  */
 ?>
     <div class="row">
         <ul class="list-inline">
             <li>
                 <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>')">
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>', 'Модулі')">
                     Список модулів
                 </button>
             </li>
@@ -24,6 +25,13 @@
                         onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addTeacher', array('id' => $model->module_ID)); ?>',
                             'Призначити автора модуля')">
                     Призначити автора
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-success"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addConsultant', array('id' => $model->module_ID)); ?>',
+                            'Призначити консультанта для модуля')">
+                    Призначити консультанта
                 </button>
             </li>
         </ul>
@@ -44,6 +52,8 @@
             <li><a href="#lectures" data-toggle="tab">Лекції</a>
             </li>
             <li><a href="#authors" data-toggle="tab">Автори</a>
+            </li>
+            <li><a href="#consultants" data-toggle="tab">Консультанти</a>
             </li>
             <li><a href="#inCourses" data-toggle="tab">У курсах</a>
             </li>
@@ -68,6 +78,10 @@
             <div class="tab-pane fade" id="authors">
                 <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'view',
                     'teachers' => $teachers));?>
+            </div>
+            <div class="tab-pane fade" id="consultants">
+                <?php $this->renderPartial('_consultantsTab', array('model' => $model, 'scenario' => 'view',
+                    'teachers' => $consultants)); ?>
             </div>
             <div class="tab-pane fade" id="inCourses">
                 <?php $this->renderPartial('_inCoursesTab', array(

@@ -12,7 +12,7 @@
         <?php echo $form->labelEx($model, 'language', array('for' => 'language')); ?>
         <?php echo $form->dropDownList($model, 'language', array(
             'ua' => 'Українська', 'en' => 'English', 'ru' => 'Русский'),
-            array('options' => array('ua' => array('selected' => true)), 'empty' => 'Виберіть мову', 'class' => 'form-control', 'style' => 'width:350px')); ?>
+            array('options' => array('ua' => array('selected' => true)), 'empty' => 'Виберіть мову', 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'language'); ?>
     </div>
 
@@ -31,13 +31,13 @@
     <div class="form-group">
         <?php echo $form->labelEx($model, 'level'); ?>
         <?php echo $form->dropDownList($model, 'level', CHtml::listData(Level::model()->findAll(), 'id', 'title_ua'),
-            array('options' => array('1' => array('selected' => true)), 'empty' => 'Виберіть рівень', 'class' => 'form-control', 'style' => 'width:350px')); ?>
+            array('options' => array('1' => array('selected' => true)), 'empty' => 'Виберіть рівень', 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'level'); ?>
     </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'start'); ?>
-        <?php echo $form->textField($model, 'start', array('placeholder' => Yii::t('coursemanage', '0395'),
+        <?php echo $form->dateField($model, 'start', array('placeholder' => Yii::t('coursemanage', '0395'),
             'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'start'); ?>
     </div>

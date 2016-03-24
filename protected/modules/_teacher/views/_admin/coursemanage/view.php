@@ -2,6 +2,7 @@
 /* @var $this CoursemanageController
  * @var $model Course
  * @var $modules array
+ * @var $linkedCourses array
  */
 ?>
 <div class="col-md-12">
@@ -59,12 +60,15 @@
                     <div class="tab-pane fade" id="modules">
                         <?php $this->renderPartial('_modulesTab', array(
                             'model' => $model,
-                            'modules' => $modules,
                             'scenario' => 'view'
                         )); ?>
                     </div>
                     <div class="tab-pane fade" id="other">
-                        <?php $this->renderPartial('_otherTab', array('model' => $model, 'scenario' => 'view')); ?>
+                        <?php $this->renderPartial('_otherTab', array(
+                            'model' => $model,
+                            'linkedCourses' => $linkedCourses,
+                            'scenario' => 'view'
+                        )); ?>
                     </div>
                 </div>
             </div>

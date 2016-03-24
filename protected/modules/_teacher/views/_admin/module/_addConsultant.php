@@ -7,7 +7,7 @@
     <div class="row">
         <form>
             <input type="number" hidden="hidden" value="<?= $module->module_ID; ?>" id="module">
-            <input type="text" hidden="hidden" value="<?= UserRoles::AUTHOR; ?>" id="role">
+            <input type="text" hidden="hidden" value="<?= UserRoles::CONSULTANT; ?>" id="role">
             <div class="col col-md-9">
                 <div class="form-group">
                     <label>Модуль:
@@ -18,14 +18,14 @@
                 <div class="form-group">
                     <input type="number" hidden="hidden" id="user" value="0"/>
                     <label>Виберіть викладача:</label>
-                    <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
+                    <input id="typeaheadConsultant" type="text" class="form-control" placeholder="Викладач"
                            size="135" required autofocus>
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-success"
                             onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
                                 'module', '#module')">
-                        Призначити автора
+                        Призначити консультанта
                     </button>
                 </div>
             </div>
@@ -55,7 +55,7 @@
 
     teachers.initialize();
 
-    $jq('#typeahead').typeahead(null, {
+    $jq('#typeaheadConsultant').typeahead(null, {
             name: 'teachers',
             display: 'email',
             source: teachers,
@@ -70,7 +70,7 @@
         }
     );
 
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+    $jq('#typeaheadConsultant').on('typeahead:selected', function (e, item) {
         $jq("#user").val(item.id);
     });
 </script>
