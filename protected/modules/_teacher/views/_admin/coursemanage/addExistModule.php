@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <input type="submit" class="btn btn-success" value="Додати модуль"
                            onclick="addExistModule('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addModuleToCourse");?>',
-                               '<?=$course->course_ID?>'); return false;">
+                               '<?=$course->course_ID?>','<?=$course->getTitle();?>'); return false;">
                 </div>
             </fieldset>
         </form>
@@ -70,7 +70,7 @@
     });
 
 
-    function addExistModule(url, course) {
+    function addExistModule(url, course, title) {
         module = $jq("#moduleId").val();
         if (module == 0) {
             bootbox.alert('Виберіть модуль.');
@@ -82,7 +82,9 @@
 
             posting.done(function (response) {
                     if (response == "success")
-                        bootbox.alert("Модуль успішно додано.");
+                        bootbox.alert("Модуль успішно додано.", function () {
+                            load(basePath + '/_teacher/_admin/coursemanage/addExistModule/id/'+course,'Додати модуль до курса '+title);
+                        });
                     else {
                         bootbox.alert("Операцію не вдалося виконати");
                     }
