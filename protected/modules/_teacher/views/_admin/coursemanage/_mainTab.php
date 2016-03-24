@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <td>Псевдонім: </td>
-                <td><?=$model->alias;?></td>
+                <td><?=CHtml::encode($model->alias);?></td>
             </tr>
             <tr>
                 <td>Номер: </td>

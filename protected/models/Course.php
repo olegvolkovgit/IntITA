@@ -66,6 +66,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
+            array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
             array('alias, course_price', 'length', 'max' => 20),
             array('alias, course_number', 'unique', 'message' => Yii::t('course', '0740')),
             array('language', 'length', 'max' => 6),
@@ -804,7 +805,7 @@ class Course extends CActiveRecord implements IBillableObject
             $row = array();
 
             $row["id"] = $record->course_ID;
-            $row["alias"] = $record->alias;
+            $row["alias"] = CHtml::encode($record->alias);
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua).", ".$record->language;
             $row["title"]["header"] = "'Курс ".CHtml::encode($record->title_ua)."'";
@@ -1014,5 +1015,8 @@ class Course extends CActiveRecord implements IBillableObject
             'module' => $module->module_ID
             )
         );
+    }
+    public function getEncodeAlias(){
+        return CHtml::encode($this->alias);
     }
 }
