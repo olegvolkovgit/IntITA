@@ -1042,12 +1042,5 @@ class Module extends CActiveRecord implements IBillableObject
 		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module='.$this->module_ID;
 
         return Yii::app()->db->createCommand($sql)->queryAll();
-//
-//        $criteria = new CDbCriteria();
-//        $criteria->alias = 't';
-//        $criteria->join = 'LEFT JOIN consultant_modules cm ON t.user_id=cm.consultant';
-//        $criteria->addCondition('cm.module = '.$this->module_ID);
-//
-//        return Teacher::model()->findAll($criteria);
     }
 }
