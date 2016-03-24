@@ -232,7 +232,7 @@ function addTranslate(url) {
     var translateUa = form['translateUa'].value;
     var translateRu = form['translateRu'].value;
     var translateEn = form['translateEn'].value;
-    var reg = '^[a-zA-Z]+$';
+    var reg = '^[a-zA-Z ]+$';
 
     if (category.match(reg)) {
         $jq.ajax({
