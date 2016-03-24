@@ -12,9 +12,9 @@
             <ul class="list-inline">
                 <li>
                     <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addTeacher', array('id' => $model->module_ID)); ?>',
-                                'Призначити автора модуля')">
-                        Призначити автора
+                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addConsultant', array('id' => $model->module_ID)); ?>',
+                                'Призначити консультанта для модуля')">
+                        Призначити консультанта
                     </button>
                 </li>
             </ul>
@@ -23,7 +23,7 @@
         <div class="col-md-12">
             <div class="row">
                 <?php if (!empty($teachers)) { ?>
-                    <input type="text" hidden="hidden" value="author" id="role">
+                    <input type="text" hidden="hidden" value="consultant" id="role">
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="modulesListTable">
                             <thead>
@@ -59,7 +59,7 @@
                                             <input type="number" hidden="hidden" value="<?= $item["id"]; ?>" id="user">
                                             <a href="#"
                                                onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                                                   '<?= $model->module_ID; ?>', 'module', 'author', '<?=$item["id"]?>',
+                                                   '<?= $model->module_ID; ?>', 'module', 'consultant', '<?=$item["id"]?>',
                                                    '<?=Yii::app()->createUrl("/_teacher/_admin/module/view", array("id" => $model->module_ID));?>');">
                                                 скасувати
                                             </a>
@@ -74,7 +74,7 @@
                     </div>
                     <?php
                 } else {
-                    echo "Авторів для даного модуля ще не призначено.";
+                    echo "Консультантів для даного модуля ще не призначено.";
                 }
                 ?>
             </div>

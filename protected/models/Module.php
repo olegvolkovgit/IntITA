@@ -1036,4 +1036,11 @@ class Module extends CActiveRecord implements IBillableObject
         $criteriaData->addInCondition('module_ID', $modulelist, 'OR');
         return Module::model()->findAll($criteriaData);
     }
+
+    public function consultants(){
+        $sql = 'select u.id, u.firstName, u.middleName, u.secondName, cm.start_time, cm.end_time from consultant_modules cm
+		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module='.$this->module_ID;
+
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
 }
