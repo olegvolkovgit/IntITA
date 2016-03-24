@@ -223,3 +223,9 @@ td,th{
 #translateForm textarea{
     resize: none;
 }
+.dataTables_wrapper .col-sm-6{
+    width: 100%;
+}
+.dataTables_wrapper .pagination{
+     width: 100%;
+ }
