@@ -220,3 +220,6 @@ td,th{
 .carouselImage{
     width: 300px;
 }
+#translateForm textarea{
+    resize: none;
+}
