@@ -22,6 +22,9 @@ class ModuleController extends TeacherCabinetController
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
             if (!$model->validate()) {
+                $data['text']='Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                $data['error']=true;
+                echo CJSON::encode($data);
                 Yii::app()->end();
             }
             if ($model->save()) {
@@ -35,10 +38,14 @@ class ModuleController extends TeacherCabinetController
                 } else {
                     Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
-                echo 'Модуль успішно створено!';
+                $data['text']='Модуль успішно створено!';
+                $data['error']=false;
+                echo CJSON::encode($data);
                 Yii::app()->end();
             } else {
-                echo 'Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                $data['text']='Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                $data['error']=true;
+                echo CJSON::encode($data);
                 Yii::app()->end();
             }
         }
@@ -105,6 +112,9 @@ class ModuleController extends TeacherCabinetController
                     if (!empty($imageName)) {
                         $model->logo = $_FILES['Module'];
                         if (!$model->validate()) {
+                            $data['text']='Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+                            $data['error']=true;
+                            echo CJSON::encode($data);
                             Yii::app()->end();
                         } else {
                             $model->save();
@@ -123,10 +133,14 @@ class ModuleController extends TeacherCabinetController
                 if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
                     Module::model()->updateByPk($id, array('module_img' => 'module.png'));
                 }
-                echo 'Модуль успішно оновлено!';
+                $data['text']='Модуль успішно оновлено!';
+                $data['error']=false;
+                echo CJSON::encode($data);
                 Yii::app()->end();
             }
-            echo 'Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+            $data['text']='Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+            $data['error']=true;
+            echo CJSON::encode($data);
             Yii::app()->end();
 
         }

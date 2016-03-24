@@ -460,6 +460,16 @@ function deleteMainSlide(url) {
         }
     });
 }
+function moduleValidation(data) {
+    var dataValidation=JSON.parse(data);
+    if(dataValidation['error']){
+        bootbox.alert(dataValidation['text']);
+    }else{
+        bootbox.alert(dataValidation['text'], function () {
+            load(basePath + '/_teacher/_admin/module/index/','Створити модуль');
+        });
+    }
+}
 
 function loadMainSliderList() {
     load(basePath + '/_teacher/_admin/carousel/index/','Слайдер на головній сторінці');
