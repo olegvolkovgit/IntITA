@@ -631,9 +631,11 @@ class Lecture extends CActiveRecord
 
         foreach ($lectures as $record) {
             $row = array();
-            $row["module"] = CHtml::encode(($record->idModule)? $record->ModuleTitle->title_ua : "");
+            $row["module"]["name"] = CHtml::encode(($record->idModule)? $record->ModuleTitle->title_ua : "");
+            $row["module"]["link"] = Yii::app()->createUrl('module/index', array('idModule' => $record->idModule));
             $row["order"] = $record->order;
-            $row["title"] = CHtml::encode($record->title_ua);
+            $row["title"]["name"] = CHtml::encode($record->title_ua);
+            $row["title"]["link"] =  Yii::app()->createUrl("lesson/index", array("id" => $record->id, "idCourse" => 0));
             $row["type"] = $record->type->title_ua;
             $row["status"] = ($record->isFree)?'безкоштовне':'платне';
 
