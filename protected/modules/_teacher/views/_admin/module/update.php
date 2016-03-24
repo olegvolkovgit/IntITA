@@ -4,6 +4,7 @@
  * @var $model Module
  * @var $courses array
  * @var $teachers array
+ * @var $consultants array
  */
 ?>
 <ul class="list-inline">
@@ -28,6 +29,13 @@
             Призначити автора
         </button>
     </li>
+    <li>
+        <button type="button" class="btn btn-success"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addConsultant', array('id' => $model->module_ID)); ?>',
+                    'Призначити консультанта для модуля')">
+            Призначити консультанта
+        </button>
+    </li>
 </ul>
 
 <div class="panel panel-default">
@@ -45,6 +53,8 @@
             <li><a href="#lectures" data-toggle="tab">Лекції</a>
             </li>
             <li><a href="#authors" data-toggle="tab">Автори</a>
+            </li>
+            <li><a href="#consultants" data-toggle="tab">Консультанти</a>
             </li>
             <li><a href="#inCourses" data-toggle="tab">У курсах</a>
             </li>
@@ -85,6 +95,10 @@
                 <div class="tab-pane fade" id="authors">
                     <?php $this->renderPartial('_authorsTab', array('model' => $model, 'scenario' => 'update',
                         'teachers' => $teachers)); ?>
+                </div>
+                <div class="tab-pane fade" id="consultants">
+                    <?php $this->renderPartial('_consultantsTab', array('model' => $model, 'scenario' => 'update',
+                        'teachers' => $consultants)); ?>
                 </div>
                 <div class="tab-pane fade" id="inCourses">
                     <?php $this->renderPartial('_inCoursesTab', array(

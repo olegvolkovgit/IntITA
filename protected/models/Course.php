@@ -997,15 +997,7 @@ class Course extends CActiveRecord implements IBillableObject
      * Returns linked courses in other languages (ua, ru, en) though table course_languages.
      */
     public function linkedCourses(){
-        $langs = array_diff(array('ua', 'ru', 'en'), array($this->language));
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'c';
-        foreach($langs as $record){
-            $criteria->join = 'LEFT JOIN course_languages cl ON c.course_ID=cl.lang_'.$record;
-            $criteria->addCondition('cl.lang_'.$this->language.' IS NOT NULL');
-        }
-
-        return Course::model()->findAll($criteria);
+        return CourseLanguages::model()->findByAttributes(array('lang_'.$this->language => $this->course_ID));
     }
 
     public function isContain(Module $module){

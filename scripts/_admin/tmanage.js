@@ -57,9 +57,13 @@ function addTeacherAttr(url, attr, id) {
     }
 }
 
-function cancelModuleAttr(url, id, attr) {
-    var user = $jq('#user').val();
-    var role = $jq('#role').val();
+function cancelModuleAttr(url, id, attr, role, user, successUrl) {
+    if(!user) {
+        user = $jq('#user').val();
+    }
+    if(!role) {
+        role = $jq('#role').val();
+    }
     if (user && role) {
         $jq.ajax({
             url: url,
@@ -69,18 +73,22 @@ function cancelModuleAttr(url, id, attr) {
             success: function (response) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        switch (role) {
-                            case "trainer":
-                                loadTrainerStudentList(user);
-                                break;
-                            case "author":
-                                if(id=='#moduleId')
-                                    loadAddModuleAuthor();
-                                else loadTeacherModulesList(user);
-                                break;
-                            case "consultant":
-                                loadAddModuleConsultant(user);
-                                break;
+                        if(successUrl){
+                            load(successUrl);
+                        } else {
+                            switch (role) {
+                                case "trainer":
+                                    loadTrainerStudentList(user);
+                                    break;
+                                case "author":
+                                    if (id == '#moduleId')
+                                        loadAddModuleAuthor();
+                                    else loadTeacherModulesList(user);
+                                    break;
+                                case "consultant":
+                                    loadAddModuleConsultant(user);
+                                    break;
+                            }
                         }
                     });
                 } else {

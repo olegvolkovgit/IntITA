@@ -75,14 +75,16 @@ class ModuleController extends TeacherCabinetController
 
     public function actionView($id)
     {
-        $model = Module::model()->with('lectures', 'teacher', 'inCourses')->findByPk($id);
+        $model = Module::model()->with('lectures', 'inCourses')->findByPk($id);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
         $teachers = TeacherModule::listByModule($model->module_ID);
+        $consultants = $model->consultants();
 
         $this->renderPartial('view', array(
             'model' => $model,
             'teachers' => $teachers,
             'courses' => $courses,
+            'consultants' => $consultants
         ), false, true);
     }
 
@@ -131,11 +133,13 @@ class ModuleController extends TeacherCabinetController
 
         }
         $teachers = TeacherModule::listByModule($model->module_ID);
+        $consultants = $model->consultants();
 
         $this->renderPartial('update', array(
             'model' => $model,
             'teachers' => $teachers,
             'courses' => $courses,
+            'consultants' => $consultants
         ), false, true);
     }
 
@@ -236,6 +240,15 @@ class ModuleController extends TeacherCabinetController
         $module = Module::model()->findByPk($id);
 
         $this->renderPartial('_addTeacher', array(
+            'module' => $module
+        ));
+    }
+
+    public function actionAddConsultant($id)
+    {
+        $module = Module::model()->findByPk($id);
+
+        $this->renderPartial('_addConsultant', array(
             'module' => $module
         ));
     }

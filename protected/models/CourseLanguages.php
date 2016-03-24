@@ -12,6 +12,7 @@
  * The followings are the available model relations:
  * @property Course $langRu
  * @property Course $langUa
+ * @property Course $langEn
  */
 class CourseLanguages extends CActiveRecord
 {
@@ -48,6 +49,7 @@ class CourseLanguages extends CActiveRecord
 		return array(
 			'langRu' => array(self::BELONGS_TO, 'Course', 'lang_ru'),
 			'langUa' => array(self::BELONGS_TO, 'Course', 'lang_ua'),
+			'langEn' => array(self::BELONGS_TO, 'Course', 'lang_en'),
 		);
 	}
 
