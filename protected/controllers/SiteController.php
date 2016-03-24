@@ -54,27 +54,38 @@ class SiteController extends Controller
     {
         $error = Yii::app()->errorHandler->error;
 
-        $breadcrumbs = Yii::t('breadcrumbs', '0784');
-        if (isset(Yii::app()->errorHandler->error["errorCode"])) {
-            switch (Yii::app()->errorHandler->error["errorCode"]) {
-                case '400':
-                    $breadcrumbs = Yii::t('breadcrumbs', '0781');
-                    break;
-                case '403':
-                    $breadcrumbs = Yii::t('error', '0590');
-                    break;
-                case '404':
-                    $breadcrumbs = Yii::t('breadcrumbs', '0782');
-                    break;
-                case '410':
-                    $breadcrumbs = Yii::t('breadcrumbs', '0785');
-                    break;
-                case '500':
-                    $breadcrumbs = Yii::t('breadcrumbs', '0783');
-                    break;
-                default:
-                    $breadcrumbs = Yii::t('breadcrumbs', '0784');
-            }
+        $code = ($error["errorCode"] > 0) ? $error["errorCode"] :  $error["code"];
+
+        switch ($code) {
+            case '400':
+                $breadcrumbs = Yii::t('breadcrumbs', '0781');
+                if($error["errorCode"] == 0)
+                    $error["message"] = Yii::t('breadcrumbs', '0781');
+                break;
+            case '403':
+                $breadcrumbs = Yii::t('error', '0590');
+                if($error["errorCode"] == 0)
+                    $error["message"] = Yii::t('error', '0590');
+                break;
+            case '404':
+                $breadcrumbs = Yii::t('breadcrumbs', '0782');
+                if($error["errorCode"] == 0)
+                    $error["message"] = Yii::t('breadcrumbs', '0782');
+                break;
+            case '410':
+                $breadcrumbs = Yii::t('breadcrumbs', '0785');
+                if($error["errorCode"] == 0)
+                    $error["message"] = Yii::t('breadcrumbs', '0785');
+                break;
+            case '500':
+                $breadcrumbs = Yii::t('breadcrumbs', '0783');
+                if($error["errorCode"] == 0)
+                    $error["message"] = Yii::t('breadcrumbs', '0783');
+                break;
+            default:
+                $breadcrumbs = Yii::t('breadcrumbs', '0784');
+                if($error["errorCode"] == 0)
+                    $error["message"] = Yii::t('breadcrumbs', '0784');
         }
 
         if (Yii::app()->request->isAjaxRequest)
@@ -139,7 +150,7 @@ class SiteController extends Controller
     {
         $model = $this->getTokenAcc($token);
         $modelemail = StudentReg::model()->findByAttributes(array('email' => $email));
-        if(!$modelemail)
+        if (!$modelemail)
             throw new \application\components\Exceptions\IntItaException('404', 'Посилання не є дійсним');
         if ($model->token == $modelemail->token) {
             $model->updateByPk($model->id, array('token' => null));
@@ -345,23 +356,23 @@ class SiteController extends Controller
         $model = $this->getToken($token);
         if ($model) {
             //XOR email hash
-            $key='ababagalamaga';
+            $key = 'ababagalamaga';
             $mailDeHash = Mail::strcode(base64_decode($email), $key);
             $hashModel = new StudentReg('resetemail');
-            $hashModel->email=$mailDeHash;
-            if(!$hashModel->validate())
+            $hashModel->email = $mailDeHash;
+            if (!$hashModel->validate())
                 throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');
 
             $model->updateByPk($model->id, array('email' => $mailDeHash));
             $model->updateByPk($model->id, array('token' => null));
             $model->updateByPk($model->id, array('activkey_lifetime' => null));
 
-            $userModel = StudentReg::model()->findByAttributes(array('email'=>$mailDeHash));
+            $userModel = StudentReg::model()->findByAttributes(array('email' => $mailDeHash));
             $firstName = ($userModel->firstName) ? $userModel->firstName : '';
             $secondName = ($userModel->secondName) ? $userModel->secondName : '';
             $name = $firstName . ' ' . $secondName;
             Yii::app()->dbForum->createCommand()->update('phpbb_users', array(
-                'username_clean' => $name.$mailDeHash,
+                'username_clean' => $name . $mailDeHash,
             ), 'user_id=:id', array(':id' => $userModel->id));
 
             if (Yii::app()->user->isGuest && $model->login())
@@ -390,7 +401,7 @@ class SiteController extends Controller
             $getModel->save();
             $sender = new MailTransport();
             $sender->renderBodyTemplate('_recoveryPassMail', array($getModel));
-            if (!$sender->send($model->email,'',Yii::t('recovery', '0281'),''))
+            if (!$sender->send($model->email, '', Yii::t('recovery', '0281'), ''))
                 throw new MailException('The letter was not sent');
             $this->redirect(Yii::app()->createUrl('/site/resetpassinfo', array('email' => $model->email)));
         }
@@ -409,9 +420,9 @@ class SiteController extends Controller
             if (Yii::app()->request->getPost('StudentReg')) {
                 $getTime = $this->setToken($model);
             }
-            $key='ababagalamaga';
+            $key = 'ababagalamaga';
             $mailHash = base64_encode(Mail::strcode($modelReset->email, $key));
-           if ($model->validate()) {
+            if ($model->validate()) {
                 $model->updateByPk($model->id, array('token' => $model->token, 'activkey_lifetime' => $getTime));
 
                 $sender = new MailTransport();
@@ -419,7 +430,7 @@ class SiteController extends Controller
                 if (!$sender->send($modelReset->email, "", Yii::t('recovery', '0282'), ""))
                     throw new MailException('The letter was not sent');
 
-            $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));
+                $this->redirect(Yii::app()->createUrl('/site/changeemailinfo', array('email' => $modelReset->email)));
             }
         }
     }
@@ -437,10 +448,11 @@ class SiteController extends Controller
             'email' => $email,
         ));
     }
-    public function actionLinkingEmailInfo($email,$network)
+
+    public function actionLinkingEmailInfo($email, $network)
     {
         $this->render('linkinginfo', array(
-            'email' => $email,'network' => $network,
+            'email' => $email, 'network' => $network,
         ));
     }
 
@@ -491,10 +503,11 @@ class SiteController extends Controller
     {
         $this->render('networkActivation');
     }
-    public function actionNetworkLinking($email,$network)
+
+    public function actionNetworkLinking($email, $network)
     {
         $this->render('networkLinking', array(
-            'email' => $email,'network' => $network,
+            'email' => $email, 'network' => $network,
         ));
     }
 
@@ -540,23 +553,23 @@ class SiteController extends Controller
             else $lang = 'ua';
 
             if ($model->validate()) {
-                if(StudentReg::model()->exists('email=:email', array(':email' => $model->email))){
+                if (StudentReg::model()->exists('email=:email', array(':email' => $model->email))) {
                     //linking exist email to network
-                    $existModel=StudentReg::model()->findByAttributes(array('email' => $model->email));
-                    $key='codename41';
+                    $existModel = StudentReg::model()->findByAttributes(array('email' => $model->email));
+                    $key = 'codename41';
                     $mailHash = base64_encode(Mail::strcode($model->email, $key));
                     $sender = new MailTransport();
-                    $sender->renderBodyTemplate('_linkingEmailMail', array($model,$mailHash,$lang));
-                    if (!$sender->send($model->email, "",'Приєднання соціальної мережі до електронної адреси', ""))
+                    $sender->renderBodyTemplate('_linkingEmailMail', array($model, $mailHash, $lang));
+                    if (!$sender->send($model->email, "", 'Приєднання соціальної мережі до електронної адреси', ""))
                         throw new MailException('The letter was not sent');
                     $model->updateByPk($existModel->id, array('token' => $model->token));
                     $model->updateByPk($existModel->id, array('network' => $model->identity));
-                    $this->redirect(Yii::app()->createUrl('/site/linkingemailinfo', array('email' => $model->email,'network' => $model->identity)));
-                }else{
+                    $this->redirect(Yii::app()->createUrl('/site/linkingemailinfo', array('email' => $model->email, 'network' => $model->identity)));
+                } else {
                     //linking new email to network
                     $model->save();
                     $sender = new MailTransport();
-                    $sender->renderBodyTemplate('_verificationEmailMail', array($model,$lang));
+                    $sender->renderBodyTemplate('_verificationEmailMail', array($model, $lang));
 
                     if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
                         throw new MailException('The letter was not sent');
@@ -568,14 +581,15 @@ class SiteController extends Controller
             }
         }
     }
+
     public function actionLinkingEmailToNetwork($network, $token, $email, $lang)
     {
         $model = $this->getTokenAcc($token);
-        $key='codename41';
+        $key = 'codename41';
         $mailDeHash = Mail::strcode(base64_decode($email), $key);
         $hashModel = new StudentReg('resetemail');
-        $hashModel->email=$mailDeHash;
-        if(!$hashModel->validate())
+        $hashModel->email = $mailDeHash;
+        if (!$hashModel->validate())
             throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');
 
         $modelEmail = StudentReg::model()->findByAttributes(array('email' => $mailDeHash));
@@ -589,7 +603,7 @@ class SiteController extends Controller
             $app->session['lg'] = $lang;
 
             $this->redirect(Yii::app()->createUrl('/site/networkLinking', array(
-                'email' => $mailDeHash,'network' => $network,
+                'email' => $mailDeHash, 'network' => $network,
             )));
         } else {
             throw new CHttpException(404, Yii::t('exception', '0237'));
@@ -601,7 +615,7 @@ class SiteController extends Controller
         $model = $this->getTokenAcc($token);
 
         $modelEmail = StudentReg::model()->findByAttributes(array('email' => $email));
-        if(!$modelEmail)
+        if (!$modelEmail)
             throw new \application\components\Exceptions\IntItaException('404', 'Посилання не є дійсним');
         if ($model->token == $modelEmail->token) {
             $model->updateByPk($model->id, array('token' => null));
@@ -689,9 +703,9 @@ class SiteController extends Controller
                 if ($model->validate()) {
                     $model->save();
                     $sender = new MailTransport();
-                    $sender->renderBodyTemplate('_rapidReg', array($model,$lang));
+                    $sender->renderBodyTemplate('_rapidReg', array($model, $lang));
                     $model->updateByPk($model->id, array('avatar' => 'noname.png'));
-                    if (!$sender->send($model->email, "",Yii::t('activeemail', '0298'), ""))
+                    if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
                         throw new MailException('The letter was not sent');
                     $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
                 } else {
@@ -731,9 +745,10 @@ class SiteController extends Controller
             }
         }
     }
+
     public function actionReactivation()
     {
-        $email=Yii::app()->request->getPost('email');
+        $email = Yii::app()->request->getPost('email');
         $getToken = rand(0, 99999);
         $getTime = date("Y-m-d H:i:s");
         $model = StudentReg::model()->findByAttributes(array('email' => $email));
@@ -743,8 +758,8 @@ class SiteController extends Controller
         else $lang = 'ua';
 
         $sender = new MailTransport();
-        $sender->renderBodyTemplate('_rapidReg', array($model,$lang));
-        if (!$sender->send($model->email, "",Yii::t('activeemail', '0298'), ""))
+        $sender->renderBodyTemplate('_rapidReg', array($model, $lang));
+        if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
             throw new MailException('The letter was not sent');
         $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
     }
