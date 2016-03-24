@@ -167,7 +167,7 @@ class Translate extends CActiveRecord
 
         foreach ($result as $record) {
             $row = array();
-
+            $record['translation']=CHtml::encode($record['translation']);
             foreach($record as $key=>$field) {
                 if($key != 5){
                     array_push($row, $field);
