@@ -63,7 +63,7 @@ class Module extends CActiveRecord implements IBillableObject
         // will receive user inputs.
         return array(
             array('status', 'required'),
-            array('language, title_ua, level', 'required'),
+            array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias,module_number','unique'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
             module_number, cancelled, level', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),

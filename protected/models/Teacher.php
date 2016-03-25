@@ -523,7 +523,8 @@ class Teacher extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $name=$record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $row["name"]["name"] = $name!='  '?$name:$record->user->email;
             $row["email"] = $record->user->email;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',

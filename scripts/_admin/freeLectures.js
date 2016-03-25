@@ -5,11 +5,21 @@ function initFreeLectures(){
             "dataSrc": "data"
         },
         "columns": [
-            { "data": "module" },
+            {
+                "data": "module",
+                "render": function (module) {
+                    return '<a href="'+module["link"]+'" target="_blank">'  + module["name"] + '</a>';
+                }
+            },
             {
                 "width": "10%",
                 "data": "order" },
-            { "data": "title" },
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="'+title["link"]+'" target="_blank">'  + title["name"] + '</a>';
+                }
+            },
             {
                 "width": "15%",
                 "data": "type" },

@@ -240,7 +240,7 @@ function addTranslate(url) {
     var translateUa = form['translateUa'].value;
     var translateRu = form['translateRu'].value;
     var translateEn = form['translateEn'].value;
-    var reg = '^[a-zA-Z]+$';
+    var reg = '^[a-zA-Z ]+$';
 
     if (category.match(reg)) {
         $jq.ajax({
@@ -467,6 +467,16 @@ function deleteMainSlide(url) {
             });
         }
     });
+}
+function moduleValidation(data) {
+    var dataValidation=JSON.parse(data);
+    if(dataValidation['error']){
+        bootbox.alert(dataValidation['text']);
+    }else{
+        bootbox.alert(dataValidation['text'], function () {
+            load(basePath + '/_teacher/_admin/module/index/','Створити модуль');
+        });
+    }
 }
 
 function loadMainSliderList() {

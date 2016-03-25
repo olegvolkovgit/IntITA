@@ -32,7 +32,7 @@ class Config extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('param, value, default, label, type, hidden', 'required'),
+			array('param, value, default, label, type, hidden', 'required', 'message' => 'Поле не може бути пустим'),
 			array('param, type', 'length', 'max'=>128),
 			array('label', 'length', 'max'=>255),
 			// The following rule is used by search().

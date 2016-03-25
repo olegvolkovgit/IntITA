@@ -1,1 +1,2 @@
 a,a:active,button,button:active,input[type="submit"],input[type="submit"]:active{outline:none;!important;}
+@-moz-document url-prefix(){a:focus{;outline:none;!important;}}

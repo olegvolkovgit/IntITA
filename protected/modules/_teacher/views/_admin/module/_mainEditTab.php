@@ -67,7 +67,7 @@
                     'type'=>'POST',
                     'url'=>$model->isNewRecord ? Yii::app()->createUrl('/_teacher/_admin/module/create'):
                         Yii::app()->createUrl('/_teacher/_admin/module/update', array('id' => $model->module_ID)) ,
-                    'success'=>'function(data) {bootbox.alert(data);}',
+                    'success'=>'function(data) {moduleValidation(data);}',
                 )
             )); ?>
     </div>
