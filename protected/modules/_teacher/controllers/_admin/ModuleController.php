@@ -59,15 +59,18 @@ class ModuleController extends TeacherCabinetController
     {
         if (CourseModules::getCoursesListName($id) == false) {
             Module::model()->updateByPk($id, array('cancelled' => 1));
-            echo false;
+            echo "Модуль успішно видалено.";
         } else {
-            echo implode(", ", CourseModules::getCoursesListName($id));
+            echo "Модуль не можна видалити, він входить до складу таких курсів: ".
+                implode(", ", CourseModules::getCoursesListName($id)).".";
         }
     }
 
     public function actionRestore($id)
     {
-        Module::model()->updateByPk($id, array('cancelled' => 0));
+        if(Module::model()->updateByPk($id, array('cancelled' => 0)))
+            echo "Модуль успішно відновлено.";
+        else echo "Модуль не вдалося відновити.";
     }
 
     public function actionUpStatus($id)

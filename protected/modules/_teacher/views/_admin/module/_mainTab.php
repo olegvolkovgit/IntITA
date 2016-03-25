@@ -6,13 +6,13 @@
 <div class="row">
     <div class="col-md-2">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'module', $model->module_img); ?>"
-             class="img-thumbnail" style="height:150px">
+             class="img-thumbnail">
     </div>
     <div class="col-md-10">
         <table class="table table-hover">
             <tbody>
             <tr>
-                <td width="30%">Мова: </td>
+                <td width="35%">Мова: </td>
                 <td><?=$model->language;?></td>
             </tr>
             <tr>

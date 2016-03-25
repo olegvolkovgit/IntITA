@@ -23,6 +23,17 @@
         </button>
     </li>
     <li>
+        <button type="button" class="btn btn-primary"
+                <?php  if($model->isCancelled()){?>
+                onclick="performOperationWithConfirm('<?php echo Yii::app()->createUrl("/_teacher/_admin/module/restore",
+                    array("id" => $model->module_ID)); ?>', 'Відновити модуль?')"
+                <?php } else {?>
+                onclick="performOperationWithConfirm('<?php echo Yii::app()->createUrl("/_teacher/_admin/module/delete",
+                        array("id" => $model->module_ID)); ?>', 'Видалити модуль?')"
+                <?php }?>>
+            <?= ($model->isCancelled()) ? 'Відновити' : 'Видалити'; ?></button>
+    </li>
+    <li>
         <button type="button" class="btn btn-success"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addTeacher', array('id' => $model->module_ID)); ?>',
                     'Призначити автора модуля')">

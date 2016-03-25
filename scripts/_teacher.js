@@ -300,7 +300,10 @@ function performOperationWithConfirm(url, message, data, callback){
                 data: data,
                 async: true,
                 success: function (response) {
-                    bootbox.alert(response, callback);
+                    bootbox.alert(response, function() {
+                        if(!response) bootbox.alert("Операцію успішно виконано.");
+                        if(callback) callback();
+                    });
                 },
                 error:function () {
                     bootbox.alert("Операцію не вдалося виконати.");
@@ -311,6 +314,7 @@ function performOperationWithConfirm(url, message, data, callback){
             });
         } else {
             bootbox.alert("Операцію відмінено.");
+            hideAjaxLoader();
         }
     });
 }
