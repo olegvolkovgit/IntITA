@@ -8,6 +8,7 @@
 ?>
 <div class="element">
     <div id="<?php echo "t" . $data['block_order'];?>">
-        <div hljs><?php echo $data['html_block'];?></div>
+<!--        <div hljs>--><?php //echo $data['html_block'];?><!--</div>-->
+        <pre><code ng-non-bindable><?php echo $data['html_block'];?></code></pre>
     </div>
 </div>
