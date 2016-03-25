@@ -93,7 +93,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.editCodeRedactor = response.data;
-            var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
+            var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea ng-non-bindable class="openCKE" id="CKECodeEdit" name="editor" >' +
                 $scope.editCodeRedactor+'</textarea>'+
                 '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+blockOrder+')">'+
                 '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')">' +
