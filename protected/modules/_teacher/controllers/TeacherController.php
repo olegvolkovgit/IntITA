@@ -114,10 +114,8 @@ class TeacherController extends TeacherCabinetController
             'tasks' => $tasks));
     }
 
-    public function actionChangeConsultant()
+    public function actionChangeConsultant($id)
     {
-        $id = Yii::app()->request->getPost('id');
-
         $plainTask = PlainTaskAnswer::model()->findByPk($id);
 
         $this->renderPartial('/trainer/editConsult', array(
@@ -135,17 +133,17 @@ class TeacherController extends TeacherCabinetController
     public function actionDeleteConsultant()
     {
         $id = Yii::app()->request->getPost('id', 0);
-        if($id == 0)
-            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
+        $teacher = Yii::app()->request->getPost('teacher', 0);
+        if($id == 0 || $teacher == 0)
+           return false;
 
         $model = PlainTaskAnswer::model()->findByPk($id);
-        if ($model->checkTeacherAccess()){
-            if ($model->removeConsult())
-                echo "Операція успішно виконана.";
-            else echo "Операцію не вдалося виконати.";
+        if ($model->checkTeacherAccess($teacher)){
+            if ($model->removeConsult($teacher))
+                return true;
+            else return false;
         } else {
-            echo "Операцію не вдалося виконати. Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
+           return false;
         }
-
     }
 }

@@ -446,7 +446,6 @@ class Teacher extends CActiveRecord
             $criteria->condition = 'id = :id';
             $criteria->params = array(':id' => $newPlainTasksId);
 
-
             $newPlainTasksModel = PlainTaskAnswer::model()->findAllByPk($newPlainTasksId);
 
             return $newPlainTasksModel;

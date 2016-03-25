@@ -147,7 +147,7 @@ class PlainTask extends Quiz
                     'from' => 'plain_task_answer',
                     'join' => 'LEFT JOIN plain_task_answer_teacher pt
                      on pt.id_plain_task_answer = id',
-                    'where' => 'pt.id_plain_task_answer IS NULL  and end_date IS NOT NULL
+                    'where' => 'pt.id_plain_task_answer IS NULL and end_date IS NULL
                     and id_student = '.$user->id,
                 ))->queryAll();
                 foreach($tasks as $oneTask) {

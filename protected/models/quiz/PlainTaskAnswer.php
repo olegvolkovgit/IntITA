@@ -127,7 +127,7 @@ class PlainTaskAnswer extends CActiveRecord
         $teacher = Yii::app()->db->createCommand()
             ->select('id_teacher')
             ->from('plain_task_answer_teacher')
-            ->where('id_plain_task_answer = :id',
+            ->where('id_plain_task_answer = :id and end_date IS NULL',
                 array(':id' => $this->id))
             ->queryScalar();
 
@@ -140,14 +140,14 @@ class PlainTaskAnswer extends CActiveRecord
         return $plainTask->lectureElement->html_block;
     }
 
-    public static function getAllPlainTaskAnswers()
-    {
-        $results = Yii::app()->db->createCommand()
-            ->select('*')
-            ->from('plain_task_answer_teacher')
-            ->queryAll();
-        return $results;
-    }
+//    public static function getAllPlainTaskAnswers()
+//    {
+//        $results = Yii::app()->db->createCommand()
+//            ->select('*')
+//            ->from('plain_task_answer_teacher')
+//            ->queryAll();
+//        return $results;
+//    }
 
     public function getModule()
     {
@@ -228,7 +228,7 @@ class PlainTaskAnswer extends CActiveRecord
                     'from' => 'plain_task_answer',
                     'join' => 'RIGHT JOIN plain_task_answer_teacher
                      on plain_task_answer_teacher.id_plain_task_answer = id',
-                    'where' => 'id_student = ' . $user->id
+                    'where' => 'end_date IS NULL and id_student = ' . $user->id
                 ))->queryAll();
 
                 if (!empty($tasks)) {
@@ -251,21 +251,22 @@ class PlainTaskAnswer extends CActiveRecord
             );
     }
 
-    public function checkTeacherAccess()
+    public function checkTeacherAccess($teacher)
     {
         if (Yii::app()->db->createCommand()->select('id_plain_task_answer')
                 ->from('plain_task_answer_teacher')
-                ->where('id_plain_task_answer=:id and end_date IS NOT NULL', array(':id' => $this->id))
+                ->where('id_plain_task_answer=:id and end_date IS NULL and id_teacher=:teacher',
+                    array(':id' => $this->id, 'teacher' => $teacher))
                 ->queryScalar() > 1
         ) return true;
         else return false;
     }
 
-    public function removeConsult()
+    public function removeConsult($teacher)
     {
         return Yii::app()->db->createCommand()->update('plain_task_answer_teacher', array(
             'end_date' => date('Y-m-d H:i:s'),
-        ), 'id_plain_task_answer=:id and end_date IS NOT NULL', array(':id' => $this->id));
+        ), 'id_plain_task_answer=:id and id_teacher =:teacher and end_date IS NULL', array(':id' => $this->id, ':teacher' => $teacher));
     }
 
     public static function plainTaskListByTeacher($id)
@@ -275,7 +276,7 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->alias = 'ans';
         $criteria->order = 'ans.id DESC';
         $criteria->join = 'JOIN plain_task_answer_teacher t ON ans.id = t.id_plain_task_answer';
-        $criteria->addCondition('t.id_teacher =:id');
+        $criteria->addCondition('t.id_teacher =:id and t.end_date IS NULL');
         $criteria->params = array(':id' => $id);
         return PlainTaskAnswer::model()->findAll($criteria);
     }

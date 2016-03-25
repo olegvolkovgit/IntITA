@@ -295,9 +295,8 @@ class Course extends CActiveRecord implements IBillableObject
         return $summa;
     }
 
-    public static function getCoursesByLevel($selector)
+    public static function getCoursesByLevel($criteria)
     {
-        $criteria = Course::getCriteriaBySelector($selector);
         $dataProvider = new CActiveDataProvider('Course', array(
             'criteria' => $criteria,
             'pagination' => false,
@@ -311,7 +310,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria = new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
-        $criteria->condition = 'cancelled="0"';
+        $criteria->condition = 'cancelled='.Course::AVAILABLE;
         if ($selector !== 'all') {
             switch ($selector) {
                 case 'junior':
