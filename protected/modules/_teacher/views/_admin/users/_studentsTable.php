@@ -1,13 +1,7 @@
 <?php
-/* @var $user StudentReg */
-/* @var $users array */
-
 $currentTime = date('Y-m-d H:i:s');
 $last_24h = date('Y-m-d H:i:s', time()-60*60*24);
 $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
-
-//2016-02-13 11:37:17
-
 ?>
 <div class="col-lg-12">
     <br>

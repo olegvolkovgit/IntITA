@@ -1,7 +1,3 @@
-<?php
-/* @var $user StudentReg */
-/* @var $accountants array */
-?>
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"

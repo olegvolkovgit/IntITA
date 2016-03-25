@@ -10,8 +10,7 @@ function removeConsult(id, url, teacher) {
                 type: "POST",
                 data: {id: id, teacher: teacher},
                 success: function (respond) {
-                    alert(respond);
-                    if(respond) {
+                    if(respond == "success") {
                         bootbox.alert('Операція успішно виконана.', function () {
                             load(basePath + "/_teacher/teacher/manageConsult", 'Управління консультантами');
                         });

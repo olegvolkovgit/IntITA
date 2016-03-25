@@ -4,16 +4,18 @@ class UsersController extends TeacherCabinetController
 {
     public function actionIndex()
     {
-        $adminsList = StudentReg::adminsList();
-        $accountants = StudentReg::accountantsList();
-        $teachers = StudentReg::teachersList();
-        $users = StudentReg::model()->findAll();
+        $countAdmins = StudentReg::countAdmins();
+        $countAccountants = StudentReg::countAccountants();
+        $countTeachers = StudentReg::countTeachers();
+        $countUsers = StudentReg::model()->count();
+        $countStudents = StudentReg::countStudents();
 
         $this->renderPartial('index', array(
-            'adminsList' => $adminsList,
-            'accountants' => $accountants,
-            'teachers' => $teachers,
-            'users' => $users,
+            'countAdmins' => $countAdmins,
+            'countAccountants' => $countAccountants,
+            'countTeachers' => $countTeachers,
+            'countUsers' => $countUsers,
+            'countStudents' => $countStudents
         ), false, true);
     }
 

@@ -135,15 +135,15 @@ class TeacherController extends TeacherCabinetController
         $id = Yii::app()->request->getPost('id', 0);
         $teacher = Yii::app()->request->getPost('teacher', 0);
         if($id == 0 || $teacher == 0)
-           return false;
+           return "error";
 
         $model = PlainTaskAnswer::model()->findByPk($id);
         if ($model->checkTeacherAccess($teacher)){
             if ($model->removeConsult($teacher))
-                return true;
-            else return false;
+                return "success";
+            else return "error";
         } else {
-           return false;
+           return "error";
         }
     }
 }
