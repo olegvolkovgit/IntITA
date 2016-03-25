@@ -19,7 +19,7 @@
             <td width="60px;"></td>
         </tr>
         </table>
-        <table border="0" bgcolor="#4b75a4" width="100%">
+        <table style="border-collapse: collapse;" border="0" width="100%">
         <tr>
             <td width=" 60px;"></td>
             <td width=" 480px;"></td>

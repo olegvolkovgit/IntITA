@@ -25,7 +25,6 @@ if ($idCourse != 0) {
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
 <script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
 <script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
 
 <link rel="stylesheet" type="text/css"
       href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.css'); ?>"/>

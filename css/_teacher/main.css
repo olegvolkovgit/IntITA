@@ -224,8 +224,11 @@ td,th{
 #translateForm textarea{
     resize: none;
 }
-.dataTables_wrapper .col-sm-6{
+.dataTables_wrapper .row:last-child .col-sm-6:last-child{
     width: 100%;
+}
+.dataTables_wrapper .row:first-child .col-sm-6:first-child{
+    float:right;
 }
 .dataTables_wrapper .pagination{
      width: 100%;
