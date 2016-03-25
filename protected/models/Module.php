@@ -956,7 +956,7 @@ class Module extends CActiveRecord implements IBillableObject
             $row["alias"] = $record->alias;
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["title"]["header"] = "'Модуль ".CHtml::encode($record->title_ua)."'";
+            $row["title"]["header"] = "'Модуль ".CHtml::encode(addslashes($record->title_ua))."'";
             $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
@@ -998,7 +998,7 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public function isCancelled(){
-        return $this->cancelled == Module::ACTIVE;
+        return $this->cancelled == Module::DELETED;
     }
 
     public function statusLabel(){
@@ -1006,7 +1006,7 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public function cancelledLabel(){
-        return ($this->isCancelled())? 'доступний' : 'видалений';
+        return (!$this->isCancelled())? 'доступний' : 'видалений';
     }
     public function lastLectureID()
     {
