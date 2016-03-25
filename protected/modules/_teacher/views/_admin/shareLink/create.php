@@ -10,8 +10,4 @@
                 Перегляд посилань на ресурси</button>
         </li>
     </ul>
-
-    <div class="page-header">
-        <h4>Створити посилання для викладачів</h4>
-    </div>
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

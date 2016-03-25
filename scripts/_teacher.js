@@ -271,4 +271,48 @@ function openTab(id, tabIndex){
     }
 }
 
+function performOperation(url, data, callback){
+    showAjaxLoader();
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        async: true,
+        success: function (response) {
+            bootbox.alert(response, callback);
+        },
+        error:function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        },
+        complete: function(){
+            hideAjaxLoader();
+        }
+    });
+}
+
+function performOperationWithConfirm(url, message, data, callback){
+    showAjaxLoader();
+    bootbox.confirm(message, function (result) {
+        if (result) {
+            $jq.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                async: true,
+                success: function (response) {
+                    bootbox.alert(response, callback);
+                },
+                error:function () {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                },
+                complete: function(){
+                    hideAjaxLoader();
+                }
+            });
+        } else {
+            bootbox.alert("Операцію відмінено.");
+        }
+    });
+}
+
 

@@ -20,9 +20,6 @@
                     <tr>
                         <th>Назва</th>
                         <th>Посилання</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
