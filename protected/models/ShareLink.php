@@ -104,9 +104,6 @@ class ShareLink extends CActiveRecord
             $row["name"] = $record->name;
             $row["link"]["title"] = $record->link;
             $row["link"]["url"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/view", array("id"=>$record->id))."'";
-            //$row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/update", array("id"=>$record->id))."'";
-            //$row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/shareLink/view", array("id"=>$record->id))."'";
-
             array_push($return['data'], $row);
         }
 
