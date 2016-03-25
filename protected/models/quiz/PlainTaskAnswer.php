@@ -140,15 +140,6 @@ class PlainTaskAnswer extends CActiveRecord
         return $plainTask->lectureElement->html_block;
     }
 
-//    public static function getAllPlainTaskAnswers()
-//    {
-//        $results = Yii::app()->db->createCommand()
-//            ->select('*')
-//            ->from('plain_task_answer_teacher')
-//            ->queryAll();
-//        return $results;
-//    }
-
     public function getModule()
     {
         return Module::model()->findByPk(Yii::app()->db->createCommand()

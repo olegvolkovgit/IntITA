@@ -256,8 +256,8 @@ function loadForm(url, receiver, scenario, message) {
 }
 function showAjaxLoader() {
     var el=document.getElementById('ajaxLoad');
-    el.style.top = window.pageYOffset;//(window.pageYOffset+(document.body.clientHeight-200)/2 + "px");
-    el.style.left = window.pageXOffset;//(window.pageXOffset+(document.body.clientWidth-400)/2 + "px");
+    el.style.top = window.pageYOffset;
+    el.style.left = window.pageXOffset;
     el.style.display = "block";
 }
 function hideAjaxLoader() {
