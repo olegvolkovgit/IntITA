@@ -30,21 +30,23 @@
                             <td><?php echo $module->title_ua ?></td>
                             <td><?php echo $task->getConsultant()->userName() ?></td>
                             <td>
-                                <a href="#" onclick='changeConsult("<?php echo $task->id ?>",
-                    "<?php echo Yii::app()->createUrl('_teacher/teacher/changeConsultant') ?>")'>
+                                <a href="#" onclick='
+                                    load("<?php echo Yii::app()->createUrl('/_teacher/teacher/changeConsultant', array('id' => $task->id)) ?>")'>
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restore.png') ?>"
                                 </a>
                                 <a href="#" onclick='removeConsult("<?php echo $task->id ?>",
-                    "<?php echo Yii::app()->createUrl('_teacher/teacher/deleteConsultant') ?>")'>
+                                    "<?php echo Yii::app()->createUrl('/_teacher/teacher/deleteConsultant') ?>",
+                                    "<?= $task->getConsultant()->id ?>")'>
                                     <img
                                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png') ?>"
                                 </a>
                             </td>
                         </tr>
                     <?php }
-                }}
-                else echo '<br>Задач з призначеними консультантами немає.';?>
+                }
+                }
+                else echo '<br>Задач з призначеними консультантами немає.'; ?>
                 </tbody>
             </table>
         </div>

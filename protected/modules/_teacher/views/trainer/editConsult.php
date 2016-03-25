@@ -43,6 +43,6 @@
                 <?php }?>
             </select>
         </div>
-        <button type="submit" class="btn btn-default">Редагувати консультанта</button>
+        <button type="submit" class="btn btn-primary">Редагувати консультанта</button>
     </form>
 </div>

@@ -26,8 +26,9 @@ class CoursesController extends Controller
      */
     public function actionIndex($selector = 'all')
     {
-        $dataProvider = Course::getCoursesByLevel($selector);
         $criteria = Course::getCriteriaBySelector($selector);
+        $dataProvider = Course::getCoursesByLevel($criteria);
+
         $coursesLang = CourseLanguages::getCoursesByLang($criteria);
 
         $total = count(Course::model()->findAllByAttributes(array('cancelled' => 0)));

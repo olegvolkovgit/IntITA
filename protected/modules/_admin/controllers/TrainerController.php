@@ -2,16 +2,16 @@
 
 class TrainerController extends AdminController{
 
-    public function actionIndex(){
-
-        $answers = PlainTaskAnswer::getAllPlainTaskAnswers();
-        $users = StudentReg::getStudentWithoutTrainer();
-
-        $this->render('index', array(
-            'answers' => $answers,
-            'users' => $users,
-        ));
-    }
+//    public function actionIndex(){
+//
+//        $answers = PlainTaskAnswer::getAllPlainTaskAnswers();
+//        $users = StudentReg::getStudentWithoutTrainer();
+//
+//        $this->render('index', array(
+//            'answers' => $answers,
+//            'users' => $users,
+//        ));
+//    }
 
     public function actionAddTrainer($id)
     {
@@ -41,14 +41,14 @@ class TrainerController extends AdminController{
         }
     }
 
-    public function actionUserWithTrainerList()
-    {
-        $users = StudentReg::getUserWithTrainer();
-
-        $this->render('userWithTrainer',array(
-            'users' => $users));
-
-    }
+//    public function actionUserWithTrainerList()
+//    {
+//        $users = StudentReg::getUserWithTrainer();
+//
+//        $this->render('userWithTrainer',array(
+//            'users' => $users));
+//
+//    }
 
     public function actionChangeTrainer($id,$oldTrainerId)
     {
