@@ -6,28 +6,13 @@ function initShareLinks() {
         },
         "columns": [
             {
-                "width": "25%",
-                "data": "name"},
-            {"data": "link"},
-            {
-                "width": "5%",
-                "data": "linkView",
-                "render": function (url) {
-                    return '<a href="#" onclick="load(' + url + ')"><i class="fa fa-eye"></i></a>';
-                }
+                "width": "30%",
+                "data": "name"
             },
             {
-                "width": "5%",
-                "data": "linkEdit",
-                "render": function (url) {
-                    return '<a href="#" onclick="load(' + url + ')"><i class="fa fa-pencil"></i></a>';
-                }
-            },
-            {
-                "width": "5%",
-                "data": "linkDelete",
-                "render": function (url) {
-                    return '<a href="#" onclick="deleteLink(' + url + ')"><i class="fa fa-trash"></i></a>';
+                "data": "link",
+                "render": function (link) {
+                    return '<a href="#" onclick="load(' + link["url"] + ')">' + link["title"] + '</a>';
                 }
             }
         ],
@@ -41,23 +26,24 @@ function initShareLinks() {
     });
 }
 
-function deleteLink(url) {
+function deleteLink(url, id) {
     bootbox.confirm('Видалити посилання для викладачів?', function (result) {
         if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
+                data: {id : id},
                 success: function () {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
+                    bootbox.alert("Операцію успішно виконано.", function () {
                         load(basePath + "/_teacher/_admin/shareLink/index");
                     });
                 },
-                error:function () {
-                    showDialog("Операцію не вдалося виконати.");
+                error: function () {
+                    bootbox.alert("Операцію не вдалося виконати.");
                 }
             });
         } else {
-            showDialog("Операцію відмінено.");
+            bootbox.alert("Операцію відмінено.");
         }
     });
 }
