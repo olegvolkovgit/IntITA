@@ -1,5 +1,6 @@
 function load(url, header, histories, tab) {
     clearDashboard();
+    showAjaxLoader();
     if (histories == undefined || histories == '') {
         history.pushState({url: url, header: header,tab:tab}, "");
     }
@@ -18,6 +19,9 @@ function load(url, header, histories, tab) {
         },
         error: function () {
             showDialog();
+        },
+        complete: function(){
+            hideAjaxLoader();
         }
     });
 }
@@ -252,8 +256,8 @@ function loadForm(url, receiver, scenario, message) {
 }
 function showAjaxLoader() {
     var el=document.getElementById('ajaxLoad');
-    el.style.top = (window.pageYOffset+(document.body.clientHeight-200)/2 + "px");
-    el.style.left = (window.pageXOffset+(document.body.clientWidth-400)/2 + "px");
+    el.style.top = window.pageYOffset;//(window.pageYOffset+(document.body.clientHeight-200)/2 + "px");
+    el.style.left = window.pageXOffset;//(window.pageXOffset+(document.body.clientWidth-400)/2 + "px");
     el.style.display = "block";
 }
 function hideAjaxLoader() {
