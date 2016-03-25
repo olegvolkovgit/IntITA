@@ -18,7 +18,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php $post::getProfileRole($post->id); ?></h2>
+                    <h2><?php $post->getProfileRole(); ?></h2>
                 </td>
                 <td>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>

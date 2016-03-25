@@ -246,8 +246,6 @@ class StudentRegController extends Controller
                 'owner'=>'false'
             ));
         }
-
-
     }
 
     public function actionEdit()
@@ -348,9 +346,9 @@ class StudentRegController extends Controller
     }
     public function actionGetProfileData()
     {
-        $id = Yii::app()->request->getPost('id');
-        $model = StudentReg::model()->findByPk($id);
-        if(Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->id))){
+        $id = Yii::app()->request->getPost('id', 0);
+        $model = RegisteredUser::userById($id);
+        if($model->isTeacher()){
             $role = array ('teacher'=>true);
         }else{
             $role = array ('teacher'=>false);

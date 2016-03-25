@@ -49,8 +49,9 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                <?php $this->renderPartial('_price', array('price' => $post->getBasePrice(),
-                    'idCourse' => (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0)) ? 0 : $_GET['idCourse'])); ?>
+                <?php
+                $course = (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0)) ? 0 : $_GET['idCourse'];
+                $this->renderPartial('_price', array('idCourse' => $course, 'model' => $post)); ?>
             </div>
             <br>
 

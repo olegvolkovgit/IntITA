@@ -6,18 +6,41 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>',
-					'Посилання на ресурси')">
-            Перегляд посилань на ресурси</button>
+                    'Посилання на ресурси')">
+            Всі посилання
+        </button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/update', array('id' => $model->id)); ?>',
+                    'Посилання на ресурси')">
+            Редагувати посилання
+        </button>
     </li>
 </ul>
 
-<div class="page-header">
-<h4>Управління ресурсами для викладачів № <?php echo $model->id; ?></h4>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <td width="30%">Назва</td>
+                        <td><?= $model->name; ?></td>
+                    </tr>
+                    <tr>
+                        <td width="30%">Посилання</td>
+                        <td>
+                            <a href="<?= $model->link ?>">
+                                <?= $model->link; ?>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'name',
-		'link',
-	),
-)); ?>
+

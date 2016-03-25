@@ -14,7 +14,6 @@
                         <th>Назва українською</th>
                         <th>Назва англійською</th>
                         <th>Назва російською</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,14 +21,24 @@
                     foreach ($levels as $level) {
                         ?>
                         <tr class="odd gradeX">
-                            <td class="center"><?=$level->id;?></td>
-                            <td class="center"><?=$level->title_ua?></td>
-                            <td class="center"><?=$level->title_en?></td>
-                            <td class="center"><?=$level->title_ru; ?></td>
+                            <td class="center"><?= $level->id; ?></td>
                             <td class="center">
-                                <a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/level/edit",
-                                    array("id" => $level->id))?>',
-                                    'Редагувати рівень <?=$level->title_en;?>')" title="Редагувати назви"><i class="fa  fa-pencil fa-fw"></i></a>
+                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/level/edit",
+                                    array("id" => $level->id)) ?>', 'Редагувати рівень <?= $level->title_ua; ?>')">
+                                    <?= $level->title_ua ?>
+                                </a>
+                            </td>
+                            <td class="center">
+                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/level/edit",
+                                    array("id" => $level->id)) ?>', 'Редагувати рівень <?= $level->title_en; ?>')">
+                                    <?= $level->title_en ?>
+                                </a>
+                            </td>
+                            <td class="center">
+                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/level/edit",
+                                    array("id" => $level->id)) ?>', 'Редагувати рівень <?= $level->title_ru; ?>')">
+                                    <?= $level->title_ru; ?>
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>

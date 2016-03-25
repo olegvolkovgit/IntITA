@@ -3,7 +3,7 @@
 /* @var $model Translate */
 ?>
 <div class="col-md-4">
-    <form method="post" name="translate"
+    <form id="translateForm" method="post" name="translate"
           onsubmit="addTranslate('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create'); ?>');return false;">
         <div class="form-group">
 

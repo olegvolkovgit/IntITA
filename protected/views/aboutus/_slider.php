@@ -5,7 +5,7 @@
             ?>
             <div class="slideAbout">
                 <div class="abouttext">
-                    <div class="about<?php echo $key->image_order ?>">
+                    <div class="about<?php echo $key->image_order ?> aboutUsText">
                         <div class="headerAbout">
                             <?php echo Yii::t("slider", "0549") ?>
                         </div>
@@ -13,7 +13,7 @@
                             <hr>
                         </div>
                         <div class="textabout">
-                            <?php echo Yii::t("slider", $key->text) ?>
+                            <?php echo Yii::t("slider", $key->getText()) ?>
                         </div>
                     </div>
                 </div>

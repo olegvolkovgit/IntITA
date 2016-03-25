@@ -109,7 +109,7 @@ class PayController extends TeacherCabinetController
                 $resultText = PayModules::getCancelText($payModule->idModule, $userName);
                 $payModule->delete();
             } else {
-                $resultText = PayModules::getCancelErrorText($userName, $payModule->idModule);
+                $resultText = PayModules::getCancelErrorText($userName);
 
             }
             echo $resultText;
@@ -132,7 +132,7 @@ class PayController extends TeacherCabinetController
 
                 $payCourse->delete();
             } else {
-                $resultText = PayCourses::getCancelErrorText($userName, $payCourse->idCourse);
+                $resultText = PayCourses::getCancelErrorText($userName);
             }
             echo $resultText;
         }

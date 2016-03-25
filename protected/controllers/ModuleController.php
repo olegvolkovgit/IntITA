@@ -15,7 +15,7 @@ class ModuleController extends Controller
      */
     public function actionIndex($idModule, $idCourse=0)
     {
-        $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
+        $model = Module::model()->findByPk($idModule);
 
         $this->checkModelInstance($model);
 
@@ -24,8 +24,13 @@ class ModuleController extends Controller
         }
 
         $editMode = 0;
+        $isPaidCourse=false;
         if (!Yii::app()->user->isGuest) {
-            $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getID(),$idModule);
+            $userId=Yii::app()->user->getID();
+            $editMode = Teacher::isTeacherAuthorModule($userId,$idModule);
+            if($idCourse!=0 && (StudentReg::isAdmin() || PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read')))){
+                $isPaidCourse=true;
+            }
         }
 
         $this->render('index', array(
@@ -35,6 +40,7 @@ class ModuleController extends Controller
             'lecturesTitles' => $model->lectures,
             'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
+            'isPaidCourse' => $isPaidCourse,
         ));
     }
 

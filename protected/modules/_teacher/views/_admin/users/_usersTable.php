@@ -1,7 +1,3 @@
-<?php
-/* @var $user StudentReg */
-/* @var $users array */
-?>
 <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-body">

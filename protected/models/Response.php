@@ -268,7 +268,7 @@ class Response extends CActiveRecord
             $row["author"] = $record->getResponseAuthorName();
             $row["about"] = $record->getResponseAboutTeacherName();
             $row["date"] = $record->timeDesc();
-            $row["response"]["text"] = $record->text;
+            $row["response"]["text"] = CHtml::encode($record->text);
             $row["rate"] = $record->rate;
             $row["response"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/response/view", array("id" => $record->id)) . "'";
             $row["publish"] = $record->publishLabel();

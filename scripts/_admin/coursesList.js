@@ -13,18 +13,18 @@ function initCourses(){
                 "width": "15%",
                 "data": "alias" },
             {
-                "width": "8%",
-                "data": "lang"
-            },
-            {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="#" onclick="load('  + title["link"] + ')">'  + title["name"] + '</a>';
+                    return '<a href="#" onclick="load('  + title["link"] + ',' + title["header"] + ')">'  + title["name"] + '</a>';
                 }
             },
             {
-                "width": "15%",
+                "width": "10%",
                 "data": "status"
+            },
+            {
+                "width": "10%",
+                "data": "cancelled"
             },
             {
                 "width": "20%",

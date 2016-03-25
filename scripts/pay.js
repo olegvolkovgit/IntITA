@@ -88,6 +88,8 @@ function checkCourseField(url)
         cache: false,
         success: function(data){
             showDialog(data);
+            document.getElementById('courseId').value='';
+            document.getElementById('typeaheadCourse').value='';
         },
         error: function () {
             showDialog();
@@ -120,6 +122,8 @@ function checkModuleField(url)
         cache: false,
         success: function(data){
             showDialog(data);
+            document.getElementById('moduleId').value='';
+            document.getElementById('typeaheadModule').value='';
         },
         error: function () {
             showDialog();

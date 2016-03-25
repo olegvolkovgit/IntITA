@@ -1,7 +1,10 @@
 .formatted-form
 {
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
+}
+.formMargin{
+    margin-left: 15%;
 }
 #extseach-form, #extteacherseach
 {
@@ -17,12 +20,12 @@
 }
 .formatted-form textarea, #extseach-form textarea, #extteacherseach textarea
 {
-    width: 350px;
+    width: 500px;
     resize: none;
 }
 .formatted-form input,.formatted-form select, #extseach-form input, #extteacherseach input
 {
-    width: 350px;
+    width: 500px;
 }
 .formatted-form input[type="submit"], #extseach-form input[type="submit"], #extteacherseach input[type="submit"]
 {
@@ -34,4 +37,7 @@
 }
 .row.buttons{
     margin: 0;
+}
+#forWhomEn, #whatYouLearnEn, #whatYouGetEn, #forWhomRu, #whatYouLearnRu, #whatYouGetRu, #forWhomUa, #whatYouLearnUa, #whatYouGetUa{
+    resize: none;
 }

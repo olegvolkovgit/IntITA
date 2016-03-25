@@ -1,7 +1,3 @@
-<?php
-/* @var $user array */
-/* @var $adminsList array */
-?>
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"

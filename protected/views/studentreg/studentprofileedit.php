@@ -48,7 +48,7 @@ $post->secondName=addslashes($post->secondName);
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php $post::getProfileRole($post->id); ?></h2>
+                    <h2><?php $post->getProfileRole(); ?></h2>
                 </td>
             </tr>
         </table>
