@@ -172,4 +172,14 @@ class RevisionLectureElement extends CActiveRecord
 
         return $clone;
     }
+
+    public function saveElementModelToRegularDB($idNewLecture) {
+        $newVideo = new LectureElement();
+        $newVideo->id_type = $this->id_type;
+        $newVideo->id_lecture = $idNewLecture;
+        $newVideo->block_order = $this->block_order;
+        $newVideo->html_block = $this->html_block;
+        $newVideo->save();
+        return $newVideo;
+    }
 }

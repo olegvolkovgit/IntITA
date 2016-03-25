@@ -525,6 +525,45 @@ class RevisionLecturePage extends CActiveRecord
        }
     }
 
+    public function savePageModelToRegularDB($idNewLecture) {
+        $newPage = new LecturePage();
+        $newPage->id_lecture = $idNewLecture;
+        $newPage->page_title = $this->page_title;
+        $newPage->page_order = $this->page_order;
+
+        //video
+        if ($this->video != null) {
+            $video = $this->getVideo();
+            $newVideo = $video->saveElementModelToRegularDB($idNewLecture);
+            $newPage->video = $newVideo->id_block;
+        }
+
+        $newPage->save();
+
+        $idNewPage = $newPage->id;
+
+        $idNewElements = array();
+
+        //lecture elements
+        foreach ($this->lectureElements as $element) {
+            $newElement = $element->saveElementModelToRegularDB($idNewLecture);
+            array_push($idNewElements, array('page'=>$idNewPage, 'element'=>$newElement->id_block));
+        }
+
+        //todo quiz
+
+        //lecture_page_lecture_element
+        if (!empty($idNewElements)) {
+            $builder = Yii::app()->db->schema->getCommandBuilder();
+            $command = $builder->createMultipleInsertCommand('lecture_element_lecture_page', $idNewElements);
+            $command->query();
+        }
+
+
+        return $newPage;
+
+    }
+
     /**
      * Swaps elements order
      * @param RevisionLectureElement $a

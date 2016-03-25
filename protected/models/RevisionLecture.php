@@ -219,7 +219,6 @@ class RevisionLecture extends CActiveRecord
     /**
      * Return only approved lectures.
      * @return array
-     * todo rename getApprovedPages
      */
     public function getApprovedPages() {
         return array_filter($this->lecturePages, function ($lecturePage) {
@@ -376,6 +375,7 @@ class RevisionLecture extends CActiveRecord
     }
 
     /**
+     * Creates new revision from existing lecture
      * @param Lecture $lecture
      * @param $user
      * @return RevisionLecture
@@ -435,8 +435,6 @@ class RevisionLecture extends CActiveRecord
                 $revNewPage->saveCheck();
             }
 
-            //TODO lecture body
-
             foreach ($lecture->lectureEl as $lectureElement) {
                 if ($lectureElement->isTextBlock()) {
                     $revLectureElement = new RevisionLectureElement();
@@ -473,6 +471,18 @@ class RevisionLecture extends CActiveRecord
 
         //write new data
 
+        $newLecture = $this->saveLectureModelToRegularDB();
+        $idNewLecture = $newLecture->id;
+
+        foreach ($this->getApprovedPages() as $page) {
+            $page->savePageModelToRegularDB($idNewLecture);
+        }
+
+        $this->id_lecture = $newLecture->id;
+        $this->saveCheck();
+    }
+
+    private function saveLectureModelToRegularDB() {
         //todo maybe need to store idTeacher separately in vc_* DB?
         $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
 
@@ -488,56 +498,7 @@ class RevisionLecture extends CActiveRecord
         $newLecture->idType = $this->properties->id_type;
         $newLecture->isFree = $this->properties->is_free;
         $newLecture->save();
-
-        $idNewLecture = $newLecture->id;
-
-        foreach ($this->getApprovedPages() as $page) {
-            $newPage = new LecturePage();
-            $newPage->id_lecture = $idNewLecture;
-            $newPage->page_title = $page->page_title;
-            $newPage->page_order = $page->page_order;
-
-            //video
-            if ($page->video != null) {
-                $video = RevisionLectureElement::model()->findByPk($page->video);
-
-                $newVideo = new LectureElement();
-                $newVideo->id_type = $video->id_type;
-                $newVideo->id_lecture = $idNewLecture;
-                $newVideo->block_order = $video->block_order;
-                $newVideo->html_block = $video->html_block;
-                $newVideo->save();
-                $newPage->video = $newVideo->id_block;
-            }
-
-            $newPage->save();
-
-            $idNewPage = $newPage->id;
-
-            $idNewElements = array();
-            //lecture elements
-            foreach ($page->lectureElements as $element) {
-                $newElement = new LectureElement();
-                $newElement->id_type = $element->id_type;
-                $newElement->id_lecture = $idNewLecture;
-                $newElement->block_order = $element->block_order;
-                $newElement->html_block = $element->html_block;
-                $newElement->save();
-                array_push($idNewElements, array('page'=>$idNewPage, 'element'=>$newElement->id_block));
-            }
-
-            //lecture_page_lecture_element
-            if (!empty($idNewElements)) {
-                $builder = Yii::app()->db->schema->getCommandBuilder();
-                $command = $builder->createMultipleInsertCommand('lecture_element_lecture_page', $idNewElements);
-                $command->query();
-            }
-
-            //todo quiz
-        }
-
-        $this->id_lecture = $newLecture->id;
-        $this->saveCheck();
+        return $newLecture;
     }
 
     /**
