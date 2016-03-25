@@ -9,7 +9,7 @@
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        Course::getCourseTitleForBreadcrumbs($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
         $post->getTitleForBreadcrumbs(),
     );
 } else {
@@ -17,10 +17,11 @@ if($idCourse != 0) {
         $post->getTitleForBreadcrumbs(),
     );
 }
+
 ?>
 
 <div class="ModuleBlock">
-    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse));?>
+    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse,"isPaidCourse"=>$isPaidCourse));?>
 
     <div class="rightModule">
          <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>

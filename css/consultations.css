@@ -81,8 +81,9 @@ div.calendar{
 #form_datetime > input{
     display: inline-block;
     height: 0;
+    width: 0;
     opacity: 0;
-    cursor: pointer;
+    cursor: none;
     filter: alpha(opacity=0);
 }
 #ajaxchange-form{

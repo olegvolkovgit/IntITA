@@ -7,5 +7,5 @@ $url = array('/site/reactivation');
 ?>
 <div class='infoblock'>
 <h2><?php echo Yii::t('activeemail','0312') ?></h2>
-<?php echo 'Натисніть '.CHtml::link('тут',$url,array('submit' => $url,'params' => array('email' => $email))).', щоб повторно відправити лист з активацією на електронну пошту:'.' '.$email; ?>
+<?php echo Yii::t('activeemail','0802').' '.CHtml::link(Yii::t('activeemail','0803'),$url,array('submit' => $url,'params' => array('email' => $email))).' '.Yii::t('activeemail','0804').' '.$email; ?>
 </div>

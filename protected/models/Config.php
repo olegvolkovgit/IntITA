@@ -14,6 +14,8 @@
  */
 class Config extends CActiveRecord
 {
+    const HIDDEN = 1;
+    const VISIBLE = 0;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,7 +32,7 @@ class Config extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('param, value, default, label, type, hidden', 'required'),
+			array('param, value, default, label, type, hidden', 'required', 'message' => 'Поле не може бути пустим'),
 			array('param, type', 'length', 'max'=>128),
 			array('label', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -156,4 +158,23 @@ class Config extends CActiveRecord
     public static function getDollarRate(){
         return Yii::app()->config->get('dollarRate');
     }
+
+	public static function getItemsList(){
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('hidden='.Config::VISIBLE);
+        $configs = Config::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($configs as $record) {
+            $row = array();
+            $row["param"]["name"] = $record->param;
+            $row["id"] = $record->id;
+            $row["param"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/config/view", array("id"=>$record->id))."'";
+            $row["value"] = $record->value;
+            $row["label"] = $record->label;
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }

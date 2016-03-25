@@ -9,11 +9,11 @@ $module = Module::model()->findByPk($data['id_module']);
     echo Yii::app()->createUrl("module/index", array("idModule" => $data['id_module'],
         "idCourse" =>$module->getCourseOfModule())); ?>">
     <?php
-    $titleParam = Module::getModuleTitleParam();
+    $titleParam = $module->titleParam();
     echo CHtml::encode($module->$titleParam); ?>
 </a>
 <?php } else {
-    $titleParam = Module::getModuleTitleParam();
+    $titleParam = $module->titleParam();
     echo CHtml::encode($module->$titleParam).' (Модуль недоступний)';
 }?>
 

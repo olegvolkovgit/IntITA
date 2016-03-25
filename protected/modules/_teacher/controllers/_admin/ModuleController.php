@@ -10,14 +10,7 @@ class ModuleController extends TeacherCabinetController
 {
     public function actionIndex()
     {
-        $model = new Module('search');
-        $model->unsetAttributes();
-        if (isset($_GET['Module']))
-            $model->attributes = $_GET['Module'];
-
-        $this->renderPartial('index', array(
-            'model' => $model,
-        ), false, true);
+        $this->renderPartial('index', array(), false, true);
     }
 
     public function actionCreate()
@@ -27,37 +20,47 @@ class ModuleController extends TeacherCabinetController
 
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
-            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
-            if ($model->save())
-            {
-                if(!empty($_FILES['Module']['name']['module_img']))
-                {
+            if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
+            if (!$model->validate()) {
+                $data['text']='Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                $data['error']=true;
+                echo CJSON::encode($data);
+                Yii::app()->end();
+            }
+            if ($model->save()) {
+                if (!empty($_FILES['Module']['name']['module_img'])) {
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);
-                    if($imageName&& $tmpName){
-                    if(!Avatar::updateModuleAvatar($imageName,$tmpName,$model->module_ID,$model->module_img))
-                        throw new \application\components\Exceptions\IntItaException(400,'Avatar not save');
+                    if ($imageName && $tmpName) {
+                        if (!Avatar::updateModuleAvatar($imageName, $tmpName, $model->module_ID, $model->module_img))
+                            throw new \application\components\Exceptions\IntItaException(400, 'Avatar not save');
                     }
-                }else{
+                } else {
                     Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
-                $this->redirect($this->pathToCabinet());
+                $data['text']='Модуль успішно створено!';
+                $data['error']=false;
+                echo CJSON::encode($data);
+                Yii::app()->end();
+            } else {
+                $data['text']='Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
+                $data['error']=true;
+                echo CJSON::encode($data);
+                Yii::app()->end();
             }
-
-            $this->redirect($this->pathToCabinet());
         }
 
         $this->renderPartial('create', array(
-            'model' => $model,
+            'model' => $model
         ), false, true);
     }
 
     public function actionDelete($id)
     {
-        if(CourseModules::getCoursesListName($id)==false){
+        if (CourseModules::getCoursesListName($id) == false) {
             Module::model()->updateByPk($id, array('cancelled' => 1));
             echo false;
-        }else{
+        } else {
             echo implode(", ", CourseModules::getCoursesListName($id));
         }
     }
@@ -79,31 +82,45 @@ class ModuleController extends TeacherCabinetController
 
     public function actionView($id)
     {
-        $model = Module::model()->findByPk($id);
+        $model = Module::model()->with('lectures', 'inCourses')->findByPk($id);
+        $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
+        $teachers = TeacherModule::listByModule($model->module_ID);
+        $consultants = $model->consultants();
 
         $this->renderPartial('view', array(
             'model' => $model,
+            'teachers' => $teachers,
+            'courses' => $courses,
+            'consultants' => $consultants
         ), false, true);
     }
 
     public function actionUpdate($id)
     {
         $model = Module::model()->findByPk($id);
+        $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
+
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
+
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
-            if($model->alias) $model->alias=str_replace(" ","_",$model->alias);
+            if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
             if (!empty($_FILES['Module']['name']['module_img'])) {
                 $imageName = array_shift($_FILES['Module']['name']);
                 $tmpName = array_shift($_FILES['Module']['tmp_name']);
                 if (!empty($imageName)) {
                     if (!empty($imageName)) {
                         $model->logo = $_FILES['Module'];
-                        if ($model->validate()) {
+                        if (!$model->validate()) {
+                            $data['text']='Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+                            $data['error']=true;
+                            echo CJSON::encode($data);
+                            Yii::app()->end();
+                        } else {
                             $model->save();
-                            if($imageName && $tmpName) {
+                            if ($imageName && $tmpName) {
                                 if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
                                     throw new \application\components\Exceptions\IntItaException(500, 'Аватар не був збережений.');
                             }
@@ -111,26 +128,52 @@ class ModuleController extends TeacherCabinetController
                     }
                 }
             } else {
+                if (!$model->validate()) {
+                    Yii::app()->end();
+                }
                 $model->save();
-                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))){
+                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
                     Module::model()->updateByPk($id, array('module_img' => 'module.png'));
                 }
+                $data['text']='Модуль успішно оновлено!';
+                $data['error']=false;
+                echo CJSON::encode($data);
+                Yii::app()->end();
             }
-            $this->redirect($this->pathToCabinet());
+            $data['text']='Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
+            $data['error']=true;
+            echo CJSON::encode($data);
+            Yii::app()->end();
+
         }
+        $teachers = TeacherModule::listByModule($model->module_ID);
+        $consultants = $model->consultants();
+
         $this->renderPartial('update', array(
-            'model' => $model
+            'model' => $model,
+            'teachers' => $teachers,
+            'courses' => $courses,
+            'consultants' => $consultants
         ), false, true);
     }
 
-    public function actionMandatory($id)
+    public function actionMandatory($id, $course)
     {
-        $courses = Course::generateModuleCoursesList($id);
+        $courseModel = Course::model()->findByPk($course);
+        $module = Module::model()->findByPk($id);
 
         $this->renderPartial('mandatory', array(
-            'id' => $id,
-            'courses' => $courses
+            'module' => $module,
+            'course' => $courseModel
         ), false, true);
+    }
+
+    protected function performAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'module-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
     }
 
     public function actionAddMandatoryModule()
@@ -139,10 +182,17 @@ class ModuleController extends TeacherCabinetController
         $idCourse = Yii::app()->request->getPost('course', 0);
         $mandatory = Yii::app()->request->getPost('mandatory', 0);
 
-        Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
-            $idModule . ' and id_course=' . $idCourse)->query();
-
-        $this->actionIndex();
+        if ($idModule && $idCourse && $mandatory) {
+            if (Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
+                $idModule . ' and id_course=' . $idCourse)->query()
+            ) {
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати.";
+            }
+        } else {
+            echo "Неправильний запит.";
+        }
     }
 
     public function actionGetModuleByCourse()
@@ -158,12 +208,14 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
-    public function actionCoursePrice($id)
+    public function actionCoursePrice($id, $course)
     {
-        $courses = Course::generateModuleCoursesList($id);
+        $course = Course::model()->findByPk($course);
+        $module = Module::model()->findByPk($id);
+
         $this->renderPartial('coursePrice', array(
-            'id' => $id,
-            'courses' => $courses
+            'module' => $module,
+            'course' => $course,
         ), false, true);
     }
 
@@ -173,25 +225,55 @@ class ModuleController extends TeacherCabinetController
         $idCourse = Yii::app()->request->getPost('course', 0);
         $price = Yii::app()->request->getPost('price', 0);
 
-        Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
-            $idModule . ' and id_course=' . $idCourse)->query();
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/module/index'));
-    }
-
-    protected function performAjaxValidation($model)
-    {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'module-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
+        if (Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
+            $idModule . ' and id_course=' . $idCourse)->query()
+        ) {
+            echo "success";
+        } else {
+            echo "error";
         }
     }
 
-    private function saveModel($model)
+    public function actionGetModulesList()
     {
-        if ($model->save()) {
-            $this->actionIndex();
-        } else throw new \Stash\Exception\RuntimeException('Model not save!!!');
+        echo Module::modulesList();
+    }
 
+    public function actionTeachersByQuery($query)
+    {
+        if ($query) {
+            $teachers = Teacher::teachersWithoutAuthorsModule($query);
+            echo $teachers;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionAddTeacher($id)
+    {
+        $module = Module::model()->findByPk($id);
+
+        $this->renderPartial('_addTeacher', array(
+            'module' => $module
+        ));
+    }
+
+    public function actionAddConsultant($id)
+    {
+        $module = Module::model()->findByPk($id);
+
+        $this->renderPartial('_addConsultant', array(
+            'module' => $module
+        ));
+    }
+
+    public function actionCheckAlias()
+    {
+        $alias = Yii::app()->request->getPost('alias', '');
+        if (Module::isAliasUnique($alias)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
     }
 }

@@ -135,8 +135,8 @@ function addTrainer(url, scenario) {
         data: {'userId': id, 'trainerId': trainerId, 'oldTrainerId': oldTrainerId},
         success: function (response) {
             if (response == "success") {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі');
+                bootbox.alert("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі','','4');
                 });
             } else {
                 showDialog("Операцію не вдалося виконати.");

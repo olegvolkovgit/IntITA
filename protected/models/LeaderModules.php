@@ -97,46 +97,4 @@ class LeaderModules extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    public static function getModulesByLeader($leader){
-        $modules = Yii::app()->db->createCommand(array(
-            'select' => array('module'),
-            'from' => 'leader_modules',
-            'where' => 'leader=:id',
-            'order' => 'module',
-            'params' => array(':id' => $leader),
-        ))->queryAll();
-        $count = count($modules);
-        $titleParam = Module::getModuleTitleParam();
-
-        for($i = 0;$i < $count;$i++){
-            $modules[$i]['id'] = $modules[$i]["module"];
-            $modules[$i]['title'] = Module::model()->findByPk($modules[$i]["module"])->$titleParam;
-        }
-
-        return (!empty($modules))?$modules:[];
-    }
-
-    public static function setRoleAttribute($teacher, $attribute, $value){
-        $result = false;
-        if (TrainerStudent::model()->exists('leader=:teacher and module=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
-            $model = TrainerStudent::model()->findByAttributes(array('leader'=>$teacher, 'module'=>$attribute));
-        } else{
-            $model = new TrainerStudent();
-            $model->leader = $teacher;
-            $model->module = $attribute;
-        }
-        $model->value = $value;
-        if ($model->validate()){
-            $model->save();
-            $result = true;
-        }
-        return $result;
-    }
-
-    public static function getLeaderModules($teacher){
-        $modules = LeaderModules::getModulesByLeader($teacher);
-        $result = RoleAttribute::formatAttributeList($modules, 'module/index', 'idModule', true);
-        return $result;
-    }
 }

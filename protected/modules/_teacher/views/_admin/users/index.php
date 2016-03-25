@@ -8,7 +8,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
+        <ul id="userTabs" class="nav nav-tabs">
             <li class="active"><a href="#admin" data-toggle="tab">Адміністратори (<?=count($adminsList);?>)</a>
             </li>
             <li><a href="#accountant" data-toggle="tab">Бухгалтери (<?=count($accountants);?>)</a>
@@ -53,6 +53,7 @@
         $jq("#startDate").datepicker(lang);
         $jq("#endDate").datepicker(lang);
 
+        openTab('#userTabs', history.state.tab);
     });
 
 </script>

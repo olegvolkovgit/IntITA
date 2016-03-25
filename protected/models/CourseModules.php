@@ -11,8 +11,9 @@
  * @property integer $price_in_course
  *
  * The followings are the available model relations:
- * @property Course $idCourse
- * @property Module $idModule
+ * @property Course $course
+ * @property Module $moduleInCourse
+ * @property Module $mandatory
  */
 class CourseModules extends CActiveRecord
 {
@@ -57,7 +58,9 @@ class CourseModules extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'mandatory' => array(self::HAS_ONE, 'Module', array('module_ID' => 'mandatory_modules')),
             'moduleInCourse' => array(self::HAS_ONE, 'Module', array('module_ID' => 'id_module')),
+            'course' => array(self::HAS_ONE, 'Course', array('course_ID' => 'id_course')),
         );
     }
 
@@ -118,7 +121,6 @@ class CourseModules extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->addCondition('id_course='.$id);
-
         $criteria->compare('id_course',$this->id_course);
         $criteria->compare('id_module',$this->id_module);
         $criteria->compare('order',$this->order);
@@ -283,4 +285,13 @@ class CourseModules extends CActiveRecord
         }
     }
 
+    public static function availableMandatoryModules($course, $module){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'm';
+        $criteria->distinct = true;
+        $criteria->join = 'LEFT JOIN course_modules cm ON cm.id_module = m.module_ID';
+        $criteria->condition = 'cm.id_course='.$course.' and cm.id_module<>'.$module;
+
+        return Module::model()->findAll($criteria);
+    }
 }

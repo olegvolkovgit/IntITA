@@ -37,7 +37,7 @@ if (StudentReg::isAdmin()) $post->setScenario('canedit');
                         <?php
                         if(Yii::app()->user->isGuest) {
                             echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButtonCourse", 'onclick' => 'openSignIn();'));
-                        } else{
+                        } else if(!$isPaidCourse){
                                 ?>
                                 <a id="paymentButtonCourse" onclick="redirectToProfile()"
                                    href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
