@@ -899,30 +899,27 @@ class StudentReg extends CActiveRecord
         else return $this->email;
     }
 
-    public static function adminsList()
+    public static function countAdmins()
     {
-        $sql = 'select * from user inner join user_admin on user.id = user_admin.id_user';
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-        if ($result)
-            return $result;
-        else return [];
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'left join user_admin on user.id = user_admin.id_user';
+        return StudentReg::model()->count($criteria);
     }
 
-    public static function accountantsList()
+    public static function countAccountants()
     {
-        $sql = 'select * from user inner join user_accountant on user.id = user_accountant.id_user';
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-        if ($result)
-            return $result;
-        else return [];
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'left join user_accountant on user.id = user_accountant.id_user';
+        return StudentReg::model()->count($criteria);
     }
 
-    public static function studentsList() {
-        $sql = 'select * from user inner join user_student on user.id = user_student.id_user';
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-        if ($result)
-            return $result;
-        else return [];
+    public static function countStudents() {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'user';
+        $criteria->join = 'left join user_student on user.id = user_student.id_user';
+        return StudentReg::model()->count($criteria);
     }
 
     public static function getStudentsList($startDate, $endDate) {
@@ -953,13 +950,13 @@ class StudentReg extends CActiveRecord
         return json_encode($return);
     }
 
-    public static function teachersList()
+    public static function countTeachers()
     {
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'LEFT JOIN teacher ON teacher.user_id = user.id';
         $criteria->addCondition('teacher.user_id = user.id');
-        return StudentReg::model()->findAll($criteria);
+        return StudentReg::model()->count($criteria);
     }
 
     /**
