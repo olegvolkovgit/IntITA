@@ -35,44 +35,47 @@
     }
 
     function cancelTeacherAccess(url) {
-        var teacherId = $("select[name=teacher] option:selected").val();
-        var moduleId = $("select[name=module] option:selected").val();
+        var user = $jq("#user").val();
+        var moduleId = $jq("select[name=modules] option:selected").val();
 
-        if(teacherId && moduleId)
-        {
-            $.ajax({
+        if(user == 0) {
+            bootbox.alert("Виберіть викладача.");
+        }else {
+            $jq.ajax({
                 type: "POST",
                 url: url,
                 data: {
                     'module': moduleId,
-                    'teacher' : teacherId
+                    'user' : user
                 },
                 cache: false,
                 success: function (data) {
-                    fillContainer(data);
+                   if(data == "success"){
+                       showDialog("Операцію успішно виконано.");
+                       loadCancelAuthorModule();
+                   } else {
+                       showDialog("Операцію не вдалося виконати.");
+                   }
                 },
-                error:function(data)
+                error:function()
                 {
-                    showDialog();
+                    showDialog("Операцію не вдалося виконати.");
                 }
             });
         }
-        else showDialog('Спочатку виберіть дані');
-
     }
 
-    function selectTeacherModules(url) {
-        var teacher = $('select[name="teacher"]').val();
-        if (!teacher) {
-            $('div[name="teacherModules"]').html('');
+    function selectTeacherModules(url, teacher) {
+        if (teacher == 0) {
+            bootbox.alert("Виберіть викладача.");
         } else {
-            $.ajax({
+            $jq.ajax({
                 type: "POST",
                 url: url,
                 data: {teacher: teacher},
                 cache: false,
                 success: function (response) {
-                    $('div[name="teacherModules"]').html(response);
+                    $jq('div[name="teacherModules"]').html(response);
                 }
             });
         }
@@ -153,3 +156,6 @@
             showDialog('Введенні невірні дані!');
     }
 
+function loadCancelAuthorModule() {
+    load(basePath + '/_teacher/_admin/permissions/showCancelTeacherAccess/');
+}

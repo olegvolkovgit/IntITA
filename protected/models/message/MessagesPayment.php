@@ -5,10 +5,21 @@
  *
  * The followings are the available columns in table 'messages_payment':
  * @property integer $id_message
- * @property integer $operation
+ * @property integer $operation_id
+ *
+ * The followings are the available model relations:
+ * @property Operation $operation
+ * @property Messages $message0
  */
-class MessagesPayment extends CActiveRecord implements IMessage
+class MessagesPayment extends Messages implements IMessage
 {
+    private $message;
+    private $template;
+    private $subject;
+    private $receiver;
+    private $billableObject;
+    const TYPE = 2;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -25,10 +36,10 @@ class MessagesPayment extends CActiveRecord implements IMessage
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_message, operation', 'required'),
-			array('id_message, operation', 'numerical', 'integerOnly'=>true),
+			array('id_message', 'required'),
+			array('id_message, operation_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id_message, operation', 'safe', 'on'=>'search'),
+			array('id_message, operation_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -40,6 +51,8 @@ class MessagesPayment extends CActiveRecord implements IMessage
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'operation' => array(self::BELONGS_TO, 'Operation', 'operation_id'),
+			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 		);
 	}
 
@@ -50,7 +63,7 @@ class MessagesPayment extends CActiveRecord implements IMessage
 	{
 		return array(
 			'id_message' => 'Id Message',
-			'operation' => 'Operation',
+			'operation_id' => 'Operation',
 		);
 	}
 
@@ -71,7 +84,7 @@ class MessagesPayment extends CActiveRecord implements IMessage
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_message',$this->id_message);
-		$criteria->compare('operation',$this->operation);
+		$criteria->compare('operation_id',$this->operation_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,27 +102,72 @@ class MessagesPayment extends CActiveRecord implements IMessage
 		return parent::model($className);
 	}
 
-    public function create(){
-
+    public function primaryKey()
+    {
+        return 'id_message';
     }
 
-    public function send(IMailSender $sender){
+    public function build($operation, StudentReg $user, IBillableObject $billableObject, $chained = null, $original = null)
+    {
+        //create and init parent model
+        $this->message = new Messages();
+        $this->message->build(Config::getAdminId(), self::TYPE, $chained, $original);
 
+        $this->operation_id = ($operation)?$operation->id:null;
+        $this->subject = $billableObject->paymentMailTheme();
+        $this->template = $billableObject->paymentMailTemplate();
+        $this->billableObject = $billableObject;
+        $this->receiver = $user;
     }
 
-    public function read(StudentReg $receiver){
+	public function create(){
+        $this->message->save();
+        $this->id_message =  $this->message->id;
+        $this->id_message;
 
-    }
+        $this->save();
+        return $this;
+	}
 
-    public function deleteMessage(StudentReg $receiver){
+	public function send(IMailSender $sender){
+        $sender->renderBodyTemplate($this->template, array($this->billableObject));
 
-    }
+		if ($this->addReceiver($this->receiver)) {
+			$sender->send($this->receiver->email, '', $this->subject, '');
+		}
 
-    public function reply(StudentReg $receiver){
+        $this->message->draft = 0;
+        return $this->message->save();
+	}
 
-    }
+	public function read(StudentReg $receiver){
+        if (Yii::app()->db->createCommand()->update('message_receiver', array('read' => date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->message->id, ':receiver' => $receiver->id)) == 1
+        )
+            return true;
+        else {
+            return false;
+        }
+	}
 
-    public function forward(StudentReg $receiver){
+	public function deleteMessage(StudentReg $receiver){
+        if (Yii::app()->db->createCommand()->update('message_receiver', array('deleted' => date("Y-m-d H:i:s")),
+                'id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
+        )
+            return true;
+        else {
+            return false;
+        }
+	}
 
-    }
+	public function reply(StudentReg $receiver){
+        return false;
+	}
+
+	public function forward(StudentReg $receiver){
+        return false;
+	}
+
 }

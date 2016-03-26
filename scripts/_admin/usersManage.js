@@ -5,16 +5,10 @@ function sendNewAdminData(url) {
     } else {
         var posting = $jq.post(url, {userId: user});
         posting.done(function (response) {
-                if (response == "success") {
-                    bootbox.alert("Користувач " + user + " призначений адміністратором.", loadUsersIndex);
-                }
-                else {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-                }
+                bootbox.alert(response, loadUsersIndex);
             })
             .fail(function () {
-                bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
+                bootbox.alert("Користувача не вдалося призначити адміністратором. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             });
     }
@@ -61,22 +55,20 @@ function sendNewAccountantData(url) {
         var posting = $jq.post(url, {userId: user});
 
         posting.done(function (response) {
-            if (response == "success")
-                    bootbox.alert("Користувач " + user + " призначений бухгалтером.", loadUsersIndex);
-                else {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-                }
+                bootbox.alert(response, function () {
+                    loadUsersIndex(1);
+                });
             })
             .fail(function () {
-                bootbox.alert("Користувача " + user + " не вдалося призначити бухгалтером. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
+                bootbox.alert("Користувача не вдалося призначити бухгалтером. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(1));
             });
     }
 }
 
-function loadUsersIndex() {
-    load(basePath + '/_teacher/_admin/users/index');
+function loadUsersIndex(tab) {
+    if(tab==undefined) tab=0;
+    load(basePath + '/_teacher/_admin/users/index','Користувачі','',tab);
 }
 
 function initUsersTable() {
@@ -92,6 +84,7 @@ function initUsersTable() {
             },
             {"data": "email"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "register"
             },
@@ -164,10 +157,12 @@ function initAdminsTable() {
             {"data": "name"},
             {"data": "email"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "register"
             },
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "cancelDate"
             },
@@ -213,10 +208,12 @@ function initAccountantsTable() {
             {"data": "name"},
             {"data": "email"},
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "register"
             },
             {
+                type: 'de_date', targets: 1 ,
                 "width": "15%",
                 "data": "cancelDate"
             },

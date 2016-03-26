@@ -152,7 +152,7 @@ class PayModules extends CActiveRecord
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
     public function checkModulePermission($idUser, $idResource, $rights){
-        $recordModule = $this->findByAttributes(array('id_user' => $idUser,
+        $recordModule = $this->findByPk(array('id_user' => $idUser,
             'id_module' => $idResource));
         if (is_null($recordModule)) {
             $courses = CourseModules::model()->findAllByAttributes(array('id_module' => $idResource));
@@ -217,7 +217,7 @@ class PayModules extends CActiveRecord
     public static function unsetModulePermission($idUser, $idResource, $rights){
         if(PayModules::model()->exists('id_user=:user and id_module=:resource', array(':user' => $idUser, ':resource' => $idResource)))
         {
-            PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => 0));
+           return PayModules::model()->updateByPk(array('id_user'=>$idUser,'id_module'=> $idResource), array('rights' => 0));
         }
     }
 
@@ -231,11 +231,10 @@ class PayModules extends CActiveRecord
         }
     }
 
-    public static function getConfirmText($moduleName,$courseId,$userName)
+    public static function getConfirmText(Module $module,$userName)
     {
         $result = '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
-            $moduleName.'</strong> курса <strong>'.
-            Course::getCourseName($courseId).' оплачено</strong>.
+            $module->title_ua.', ('.$module->language.') оплачено</strong>.
             <br />Тепер у '.$userName.' є доступ до усіх занять цього модуля.';
 
         return $result;
@@ -248,20 +247,16 @@ class PayModules extends CActiveRecord
         return $result;
     }
 
-    public static function getCancelText($moduleName,$courseId,$userName)
+    public static function getCancelText(Module $module,$userName)
     {
-        $result = '<br />Модуль <strong>'.
-            $moduleName.'</strong> курса <strong>'.
-            Course::getCourseName($courseId).'скасовано</strong> .
-            <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього модуля.';
+        $result = '<br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять модуля <b>'.$module->title_ua.', ('.$module->language.')</b>';
 
         return $result;
     }
 
-    public static function getCancelErrorText($userName,$moduleName)
+    public static function getCancelErrorText($userName)
     {
-        $result = '<br /> В користувача'. $userName. '<strong> в модулі '.
-            $moduleName.'</strong> не було доступу до цього модуля <strong>';
+        $result = '<br /> В користувача '. $userName. ' не було доступу до даного модуля';
 
         return $result;
     }

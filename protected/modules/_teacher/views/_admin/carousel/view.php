@@ -11,6 +11,16 @@
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index');?>')">
             Список фото</button>
     </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/update', array('id' => $model->id));?>')">
+            Редагувати</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="deleteMainSlide('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/delete', array('id' => $model->id));?>')">
+            Видалити</button>
+    </li>
 </ul>
 
     <div class="page-header">

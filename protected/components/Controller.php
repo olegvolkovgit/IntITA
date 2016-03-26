@@ -17,6 +17,8 @@ class Controller extends CController
         $app = Yii::app();
 		if (isset($app->session['lg'])) {
 			$app->language = $app->session['lg'];
+		}else{
+			$app->language = 'ua';
 		}
 
         Config::model()->cache(3600)->findAllByAttributes(array('hidden' => 0));
@@ -58,4 +60,26 @@ class Controller extends CController
 			),
 		);
 	}
+        
+        public function afterAction($action) {
+             $sql = 'INSERT INTO log_actions VALUES '
+                     . '(NULL, '
+                     . '\''.$this->getId().'\','
+                     . '\''.$this->getAction()->getId().'\','
+                     . '\''.$_SERVER['REMOTE_ADDR'].'\','
+                     . '\''.Yii::app()->user->id.'\','
+                     . '\''.implode(', ', array_map(function ($v, $k) { return $k . '=' . $v; }, $this->actionParams, array_keys($this->actionParams))).'\','
+                     . '\''.$this->getRoute().'\','
+                     . 'CURRENT_TIMESTAMP'
+                     . ')';
+//                     . '\''.Yii::app()->user->name.'\','
+//                     . '\''.$_SERVER['REMOTE_ADDR'].'\','
+//                     . '\''.date("Y-m-d H:i:s").'\','
+//                     . '\''.$this->getId().'\','
+//                     . '\''.$this->getAction()->getId().'\','
+//                     . '\''.$this->logMessage.'\')';
+                        $command = Yii::app()->db->createCommand($sql);
+                        $command->execute();
+            return parent::afterAction($action);
+        }
 }

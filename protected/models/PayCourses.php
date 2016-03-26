@@ -154,7 +154,7 @@ class PayCourses extends CActiveRecord
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
     public function checkCoursePermission($idUser, $idResource, $rights){
-        $record = $this->findByAttributes(array('id_user' => $idUser,
+        $record = $this->findByPk(array('id_user' => $idUser,
             'id_course' => $idResource));
         if (is_null($record)) {
             return false;
@@ -206,27 +206,26 @@ class PayCourses extends CActiveRecord
     }
 
 
-    public static function getCancelText($courseId,$userName)
+    public static function getCancelText(Course $course,$userName)
     {
         $result = '<strong> Доступ до курсу '.
-            Course::getCourseName($courseId).' скасовано</strong>.
+            $course->title_ua.', ('.$course->language.') скасовано</strong>.
                     <br />Тепер у '.$userName.' НЕМАЄ доступу до усіх занять цього курсу.';
 
         return $result;
     }
 
-    public static function getCancelErrorText($userName,$courseId)
+    public static function getCancelErrorText($userName)
     {
-        $result = '<br /> В користувача'. $userName. '<strong> не було доступу до курсу  '.
-            Course::getCourseName($courseId).'</strong>';
+        $result = '<br /> В користувача '. $userName. ' не було доступу до даного курсу';
 
         return $result;
     }
 
-    public static function getConfirmText($courseId,$userName)
+    public static function getConfirmText(Course $course,$userName)
     {
         $result = '<br /><h4>Вітаємо!</h4> Курс <strong>'.
-            Course::getCourseName($courseId).' оплачено</strong>.
+            $course->title_ua.', ('.$course->language.') оплачено</strong>.
             <br />Тепер у '.$userName.' є доступ до усіх занять цього курсу.';
         return $result;
     }

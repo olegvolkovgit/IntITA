@@ -5,20 +5,18 @@
 ?>
 <div class="form">
     <?php $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'aboutus-slider-form',
+        'id' => 'aboutusSliderForm',
         'htmlOptions' => array(
             'class' => 'formatted-form',
             'enctype' => 'multipart/form-data',
         ),
-        // Please note: When you enable ajax validation, make sure the corresponding
-        // controller action is handling ajax validation correctly.
-        // There is a call to performAjaxValidation() commented in generated controller code.
-        // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
         'enableClientValidation'=>true,
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
-            'afterValidate'=>'js:validateSliderForm'
+            'afterValidate' => 'js:function(){
+                return validateSliderForm("'.$model->scenario.'");
+                }',
         )
     )); ?>
 
@@ -33,9 +31,19 @@
     <br>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'text', array('for' => 'text')); ?>
-        <?php echo $form->textField($model, 'text', array('class' => "form-control", 'id' => 'text')); ?>
-        <?php echo $form->error($model, 'text'); ?>
+        <?php echo $form->labelEx($model, 'text_ua', array('for' => 'text_ua')); ?>
+        <?php echo $form->textArea($model, 'text_ua', array('class' => "form-control", 'id' => 'text_ua')); ?>
+        <?php echo $form->error($model, 'text_ua'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'text_ru', array('for' => 'text_ru')); ?>
+        <?php echo $form->textArea($model, 'text_ru', array('class' => "form-control", 'id' => 'text_ru')); ?>
+        <?php echo $form->error($model, 'text_ru'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'text_en', array('for' => 'text_en')); ?>
+        <?php echo $form->textArea($model, 'text_en', array('class' => "form-control", 'id' => 'text_en')); ?>
+        <?php echo $form->error($model, 'text_en'); ?>
     </div>
 
     <div class="form-group">

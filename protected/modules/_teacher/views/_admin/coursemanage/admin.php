@@ -1,19 +1,7 @@
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>')">
-            <?php echo Yii::t("coursemanage", "0510"); ?></button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'); ?>')">
-            <?php echo Yii::t("coursemanage", "0511"); ?></button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule'); ?>',
-                    'Додати існуючий модуль до курса')">
-            Додати існуючий модуль до курса</button>
+        <button type="button" class="btn btn-primary" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/create"); ?>',
+            'Новий курс')"><?php echo Yii::t("coursemanage", "0511"); ?></button>
     </li>
 </ul>
 <div class="col-lg-12">
@@ -25,13 +13,10 @@
                     <tr>
                         <th>Id</th>
                         <th>Псевдонім</th>
-                        <th>Мова</th>
                         <th>Назва</th>
                         <th>Статус</th>
+                        <th>Видалений</th>
                         <th>Рівень</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>

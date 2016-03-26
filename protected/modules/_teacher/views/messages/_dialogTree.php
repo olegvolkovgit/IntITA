@@ -7,7 +7,7 @@
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
 
-<div class="col-lg-12">
+<div class="col-lg-12 message">
     <h3><?= $dialog->header; ?></h3>
 
     <div class="panel-group" id="accordion">
@@ -22,9 +22,9 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             <strong>
                                 <?= $message->message0->sender0->userName().", ". $message->message0->sender0->email; ?>
                             </strong>
-                            <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
+                            <em><?= substr(CHtml::encode($message->subject), 0, 50) . "..."; ?></em>
                         </a>
-                        <div class="pull-right">
+                        <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default btn-xs dropdown-toggle"
@@ -58,7 +58,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                     <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse <?php if($key == 0) echo 'in';?>">
                         <div class="panel-body">
                             <p>
-                                <?=$message->text;?>
+                                <?=CHtml::encode($message->text);?>
                                 <br>
                                 <?php
                                 $forwarded = $message->message0->forwarded();

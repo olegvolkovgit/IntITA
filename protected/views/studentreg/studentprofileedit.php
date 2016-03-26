@@ -5,7 +5,8 @@
 /* @var $this StudentregController */
 /* @var $model Studentreg */
 /* @var $form CActiveForm */
-$post = StudentReg::model()->findByPk(Yii::app()->user->id);
+$user = RegisteredUser::userById(Yii::app()->user->id);
+$post = $user->registrationData;
 $post->firstName=addslashes($post->firstName);
 $post->secondName=addslashes($post->secondName);
 ?>
@@ -47,7 +48,7 @@ $post->secondName=addslashes($post->secondName);
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php $post::getProfileRole($post->id); ?></h2>
+                    <h2><?php $post->getProfileRole(); ?></h2>
                 </td>
             </tr>
         </table>
@@ -102,7 +103,7 @@ $post->secondName=addslashes($post->secondName);
                             <span
                                   ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
                     </div>
-                    <?php if ($post::getRole($post->id) == False) {
+                    <?php if (!$user->isTeacher()) {
                         ?>
                         <div class="rowRadioButton" id="rowEducForm">
                             <?php echo $form->labelEx($model, 'educform'); ?>

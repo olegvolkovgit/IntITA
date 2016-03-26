@@ -22,6 +22,20 @@
                             'id' => $teacher->user_id)); ?>','Призначити роль')">Призначити роль
                 </button>
             </li>
+            <li>
+                <button type="button" class="btn btn-primary"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id' => $teacher->user_id)); ?>',
+                            'Редагувати')">
+                    Редагувати
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-success"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $teacher->user_id)); ?>',
+                            'Додати модуль')">
+                    Додати модуль
+                </button>
+            </li>
         </ul>
     </div>
 
@@ -32,8 +46,6 @@
         </div>
         <div class="col-md-9">
             <ul class="list-group">
-                <li class="list-group-item">
-                </li>
                 <li class="list-group-item">Ім'я:
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
                         <?php echo $teacher->getName() ?></a></li>
@@ -51,20 +63,29 @@
                                     </a>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
-                                           '<?=$role?>',
-                                           '<?=$teacher->user_id;?>');"><em>скасувати</em>
+                                           '<?= $role ?>',
+                                           '<?= $teacher->user_id; ?>');"><em>скасувати</em>
                                     </a>
                                 </li>
-                            <?php } ?>
+                            <?php }
+                            if ($user->isAuthor()) { ?>
+                                <li>
+                                    author: <a href="#"
+                                               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
+                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','Редагувати роль')"><em>редагувати</em>
+                                    </a>
+                                </li>
+                            <?php }
+                            ?>
                         </ul>
                     </li>
                 <?php } ?>
 
-                <?php if (!empty($teacher->modules)) { ?>
+                <?php if (!empty($teacher->modulesActive)) { ?>
                     <li class="list-group-item"> Веде модулі:<br>
                         <ul>
                             <?php
-                            foreach ($teacher->modules as $module) {
+                            foreach ($teacher->modulesActive as $module) {
                                 ?>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('module/index',

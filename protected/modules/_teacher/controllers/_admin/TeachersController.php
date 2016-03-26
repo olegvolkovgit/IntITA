@@ -43,6 +43,22 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
+    public function actionAddModule($id)
+    {
+        $user = RegisteredUser::userById($id);
+        if(!$user->isTeacher()){
+            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
+        }
+        $attributes = $user->getAttributesByRole(UserRoles::AUTHOR);
+
+
+        $this->renderPartial('_moduleList',array(
+            'user' => $user->id,
+            'role' => UserRoles::AUTHOR,
+            'attribute' => $attributes["module"]
+        ),false,true);
+    }
+
     public function actionCreate()
     {
         $model = new Teacher;
@@ -74,12 +90,12 @@ class TeachersController extends TeacherCabinetController{
         }
         $this->renderPartial('update', array(
             'model' => $model,
-        ),false);
+        ),false,true);
     }
 
     public function loadModel($id)
     {
-        $model = Teacher::model()->findByPk($id);
+        $model = Teacher::model()->findByAttributes(array('user_id' => $id));
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

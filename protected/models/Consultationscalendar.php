@@ -30,9 +30,7 @@ class Consultationscalendar extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-//			array('teacher_id, user_id, lecture_id, start_cons, end_cons', 'required'),
-//			array('teacher_id, user_id, lecture_id', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
+
 			array('id, teacher_id, user_id, lecture_id, start_cons, end_cons, date_cons', 'safe', 'on'=>'search'),
 		);
 	}
@@ -162,15 +160,13 @@ class Consultationscalendar extends CActiveRecord
         $t=$t1.':'.$t2.'-'.$t3.':'.$t4;
         return $t;
     }
-    public static function deleteConsultation($id)
+    public function deleteConsultation(RegisteredUser $user)
     {
-        $consultation=Consultationscalendar::model()->findByPk($id);
-        if ($consultation->user_id==Yii::app()->user->getId()) {
-            Consultationscalendar::model()->deleteByPk($id);
+        if ($this->user_id==$user->registrationData->id) {
+            $this->delete();
         }else{
-            $user=StudentReg::model()->findByPk(Yii::app()->user->getId());
-            if($user->isTeacher() && $user->getTeacherId()==$consultation->teacher_id){
-                Consultationscalendar::model()->deleteByPk($id);
+            if($user->isTeacher() && $user->id==$this->teacher_id){
+                $this->delete();
             }
         }
     }

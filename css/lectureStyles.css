@@ -920,3 +920,10 @@ a.cke_dialog_ui_fileButton{
 .element img{
     vertical-align: inherit;
 }
+#taskVariables{
+    display: none;
+    font-size: smaller;
+    background: #F2F2F2;
+    border-radius: 5px;
+    padding: 5px;
+}

@@ -13,37 +13,22 @@ function initCourses(){
                 "width": "15%",
                 "data": "alias" },
             {
-                "width": "8%",
-                "data": "lang"
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load('  + title["link"] + ',' + title["header"] + ')">'  + title["name"] + '</a>';
+                }
             },
-            { "data": "title" },
             {
                 "width": "10%",
                 "data": "status"
             },
             {
-                "width": "15%",
-                "data": "level" },
-            {
-                "width": "5%",
-                "data": "linkView",
-                "render": function (linkView) {
-                    return '<a href="#" onclick="load('  + linkView + ')"><i class="fa fa-eye"></i></a>';
-                }
+                "width": "10%",
+                "data": "cancelled"
             },
             {
-                "width": "5%",
-                "data": "linkEdit",
-                "render": function (linkEdit) {
-                    return '<a href="#" onclick="load('  + linkEdit + ')"><i class="fa fa-pencil"></i></a>';
-                }
-            },
-            {
-                "width": "5%",
-                "data": "linkChangeStatus",
-                "render": function (linkChangeStatus) {
-                    return '<a href="#" onclick="setCourseStatus('  + linkChangeStatus + ')"><i class="fa fa-trash"></i></a>';
-                }
+                "width": "20%",
+                "data": "level"
             }],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
@@ -54,16 +39,14 @@ function initCourses(){
     });
 }
 
-function setCourseStatus(url){
-    bootbox.confirm("Змінити статус курса?", function(result) {
+function setCourseStatus(url, message){
+    bootbox.confirm(message, function(result) {
         if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
                 success: function () {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/coursemanage/index");
-                    });
+                    bootbox.alert("Операцію успішно виконано.");
                 },
                 error:function () {
                     showDialog("Операцію не вдалося виконати.");

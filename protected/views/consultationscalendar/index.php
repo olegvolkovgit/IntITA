@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $user RegisteredUser
+ */
+?>
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'consultations.css') ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', '/bootstrap-datetimepicker/bootstrap/css/bootstrap.css'); ?>">
@@ -12,13 +17,12 @@
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'showHideCalendarTabs.js'); ?>"></script>
 
 <?php
-
 if($idCourse != 0) {
     $this->breadcrumbs = array(
         Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-        Course::getCourseName($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
+        Course::getCourseTitleForBreadcrumbs($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
         $lecture->module->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $lecture['idModule'], 'idCourse' => $idCourse)),
-        $lecture[Lecture::getTypeTitleParam()] => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => $idCourse)), Yii::t("consultation", "0506"),
+        $lecture->title() => Yii::app()->createUrl('lesson/index', array('id' => $lecture['id'], 'idCourse' => $idCourse)), Yii::t("consultation", "0506"),
     );
 }else{
     $this->breadcrumbs = array(
@@ -43,7 +47,7 @@ if($idCourse != 0) {
         'itemView'=>'_consultants',
         'emptyText' => Yii::t('consultations', '0792'),
         'summaryText' => '',
-        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang),
+        'viewData' => array('lecture' => $lecture, 'idCourse'=>$idCourse,'lg'=>$lang, 'user' => $user),
         'columns'=>array("one","two"),
     ));
     ?>

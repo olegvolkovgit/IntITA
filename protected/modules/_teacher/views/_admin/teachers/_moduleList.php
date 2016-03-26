@@ -29,9 +29,9 @@
             <thead>
             <tr>
                 <th>Модуль</th>
-                <th>Призначено</th>
-                <th>Відмінено</th>
-                <th>Видалити</th>
+                <th width="20%">Призначено</th>
+                <th width="20%">Відмінено</th>
+                <th width="10%">Видалити</th>
             </tr>
             </thead>
             <tbody>
@@ -44,10 +44,10 @@
                     </a>
                 </td>
                 <td>
-                    <?= $item["start_date"]; ?>
+                    <?= date("d.m.Y",strtotime($item["start_date"])); ?>
                 </td>
                 <td>
-                    <?= $item["end_date"]; ?>
+                    <?= ($item["end_date"] != "")?date("d.m.Y",strtotime($item["end_date"])):""; ?>
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
@@ -88,6 +88,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'modules',
         display: 'title',
+        limit: 10,
         source: modules,
         templates: {
             empty: [

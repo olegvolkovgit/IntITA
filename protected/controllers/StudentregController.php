@@ -218,10 +218,12 @@ class StudentRegController extends Controller
             $sentLettersProvider = $model->getSentLettersData();
             $receivedLettersProvider = $model->getReceivedLettersData();
             $paymentsModules = $model->getPaymentsModules();
+            $agreements = UserAgreements::getDataProviderByUser(Yii::app()->user->getId());
 
             $this->render("studentprofile", array(
                 'dataProvider' => $dataProvider,
                 'post' => $model,
+                'user' => $user,
                 'letter' => $letter,
                 'sentLettersProvider' => $sentLettersProvider,
                 'receivedLettersProvider' => $receivedLettersProvider,
@@ -231,19 +233,19 @@ class StudentRegController extends Controller
                 'course' => $course,
                 'schema' => $schema,
                 'module' => $module,
+                'agreements' => $agreements,
                 'owner'=>'true'
             ));
         }else{
             $this->render("profile", array(
                 'dataProvider' => $dataProvider,
                 'post' => $model,
+                'user' => $user,
                 'markProvider' => $markProvider,
                 'paymentsCourses' => $paymentsCourses,
                 'owner'=>'false'
             ));
         }
-
-
     }
 
     public function actionEdit()
@@ -344,9 +346,9 @@ class StudentRegController extends Controller
     }
     public function actionGetProfileData()
     {
-        $id = Yii::app()->request->getPost('id');
-        $model = StudentReg::model()->findByPk($id);
-        if(Teacher::model()->exists('user_id=:user_id', array(':user_id' => Yii::app()->user->id))){
+        $id = Yii::app()->request->getPost('id', 0);
+        $model = RegisteredUser::userById($id);
+        if($model->isTeacher()){
             $role = array ('teacher'=>true);
         }else{
             $role = array ('teacher'=>false);

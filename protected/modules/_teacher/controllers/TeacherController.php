@@ -114,10 +114,8 @@ class TeacherController extends TeacherCabinetController
             'tasks' => $tasks));
     }
 
-    public function actionChangeConsultant()
+    public function actionChangeConsultant($id)
     {
-        $id = Yii::app()->request->getPost('id');
-
         $plainTask = PlainTaskAnswer::model()->findByPk($id);
 
         $this->renderPartial('/trainer/editConsult', array(
@@ -134,7 +132,20 @@ class TeacherController extends TeacherCabinetController
 
     public function actionDeleteConsultant()
     {
-        $id = Yii::app()->request->getPost('id');
-        PlainTaskAnswer::removeConsult($id);
+        $id = Yii::app()->request->getPost('id', 0);
+        $teacher = Yii::app()->request->getPost('teacher', 0);
+        if($id == 0 || $teacher == 0) {
+            echo "error";
+            Yii::app()->end();
+        }
+
+        $model = PlainTaskAnswer::model()->findByPk($id);
+        if ($model->checkTeacherAccess($teacher)){
+            if ($model->removeConsult($teacher))
+                echo "success";
+            else echo "error";
+        } else {
+           echo "error";
+        }
     }
 }

@@ -2,6 +2,7 @@
 /**
  * @var $plainTaskAnswer PlainTaskAnswer
  * @var $teacher Teacher
+ * @var $teachers array
  */
 ?>
 
@@ -30,19 +31,26 @@
         </div>
         <div class="form-group">
             <?php
-            ?>
+            if(empty($teachers)){?>
+                <label>Консультантів з питань цього модуля ще не призначено.</label>
+                <br>
+                <br>
+                <button type="submit" class="btn btn-success"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index')?>', 'Викладачі'); return false;">
+                    Призначити консультанта для модуля</button>
+            <?php } else {?>
             <label for="consult">Можливі консультанти :</label>
 
             <select name="consult" id="consult" class="form-control">
                 <?php foreach ($teachers as $teacher) {?>
                     <option value="<?php echo $teacher->user_id?>"><?php echo $teacher->getName()?></option>
                 <?php }?>
-
             </select>
         </div>
-        <button type="submit" class="btn btn-default"
+        <button type="submit" class="btn btn-success"
                 onclick="sendForm('<?php echo Yii::app()->createUrl('/_teacher/teacher/assignedConsultant')?>'); return false;"
         >Призначити консультанта</button>
+        <?php }?>
     </form>
 
 

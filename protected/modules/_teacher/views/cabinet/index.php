@@ -3,6 +3,9 @@
  * @var $model StudentReg
  * @var $scenario
  * @var $receiver
+ * @var $authorRequests array
+ * @var $newMessages array
+ *
  */
 ?>
 <!DOCTYPE html>
@@ -14,7 +17,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/showPlainTask.css'); ?>" rel="stylesheet">
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'courseSchema.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
@@ -22,12 +24,14 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <script>
         var $jq = jQuery.noConflict();
     </script>
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/main.css'); ?>" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/metisMenu/dist/metisMenu.min.css');?>" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -65,13 +69,19 @@
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <?php echo $this->renderPartial('_top_navigation', array('model' => $model, 'newMessages' => $newMessages)); ?>
+        <?php echo $this->renderPartial('_top_navigation', array(
+            'model' => $model,
+            'newMessages' => $newMessages,
+            'authorRequests' => $authorRequests
+        )); ?>
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model)); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>
 </body>
-
+<div style="display: none;text-align: center;" id="ajaxLoad">
+    <img style="position:relative;top:68px" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
+</div>
 <div class="col-lg-6">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -95,6 +105,7 @@
     </div>
     <!-- /.modal -->
 </div>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
@@ -109,13 +120,16 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-de.js"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
 <!--Typeahead  scripts -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'handlebars.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'pay.js'); ?>"></script>
 <script>
     window.onload = function()
     {
+
         if(scenario == 'message'){
             load('<?=Yii::app()->createUrl("/_teacher/messages/write",
                 array('id' => $model->id, 'receiver' => $receiver));?>');

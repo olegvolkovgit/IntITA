@@ -1,7 +1,8 @@
-function load(url, header, histories) {
+function load(url, header, histories, tab) {
     clearDashboard();
-    if (histories == undefined) {
-        history.pushState({url: url, header: header}, "");
+    showAjaxLoader();
+    if (histories == undefined || histories == '') {
+        history.pushState({url: url, header: header,tab:tab}, "");
     }
     $jq.ajax({
         url: url,
@@ -18,6 +19,9 @@ function load(url, header, histories) {
         },
         error: function () {
             showDialog();
+        },
+        complete: function(){
+            hideAjaxLoader();
         }
     });
 }
@@ -249,6 +253,70 @@ function loadForm(url, receiver, scenario, message) {
             },
             "json"
         );
+}
+function showAjaxLoader() {
+    var el=document.getElementById('ajaxLoad');
+    el.style.top = window.pageYOffset;
+    el.style.left = window.pageXOffset;
+    el.style.display = "block";
+}
+function hideAjaxLoader() {
+    var el=document.getElementById('ajaxLoad');
+    el.style.display = "none";
+}
+//open tabs by index after load page
+function openTab(id, tabIndex){
+    if (tabIndex != undefined) {
+        $jq(id+' li:eq('+tabIndex+') a').tab('show');
+    }
+}
+
+function performOperation(url, data, callback){
+    showAjaxLoader();
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        async: true,
+        success: function (response) {
+            bootbox.alert(response, callback);
+        },
+        error:function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        },
+        complete: function(){
+            hideAjaxLoader();
+        }
+    });
+}
+
+function performOperationWithConfirm(url, message, data, callback){
+    showAjaxLoader();
+    bootbox.confirm(message, function (result) {
+        if (result) {
+            $jq.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                async: true,
+                success: function (response) {
+                    bootbox.alert(response, function() {
+                        if(!response) bootbox.alert("Операцію успішно виконано.");
+                        if(callback) callback();
+                    });
+                },
+                error:function () {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                },
+                complete: function(){
+                    hideAjaxLoader();
+                }
+            });
+        } else {
+            bootbox.alert("Операцію відмінено.");
+            hideAjaxLoader();
+        }
+    });
 }
 
 

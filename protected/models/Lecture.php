@@ -631,9 +631,11 @@ class Lecture extends CActiveRecord
 
         foreach ($lectures as $record) {
             $row = array();
-            $row["module"] = CHtml::encode(($record->idModule)? $record->ModuleTitle->title_ua : "");
+            $row["module"]["name"] = CHtml::encode(($record->idModule)? $record->ModuleTitle->title_ua : "");
+            $row["module"]["link"] = Yii::app()->createUrl('module/index', array('idModule' => $record->idModule));
             $row["order"] = $record->order;
-            $row["title"] = CHtml::encode($record->title_ua);
+            $row["title"]["name"] = CHtml::encode($record->title_ua);
+            $row["title"]["link"] =  Yii::app()->createUrl("lesson/index", array("id" => $record->id, "idCourse" => 0));
             $row["type"] = $record->type->title_ua;
             $row["status"] = ($record->isFree)?'безкоштовне':'платне';
 
@@ -779,18 +781,31 @@ class Lecture extends CActiveRecord
     }
 
     /**
-     * Returns $id_block if this lecture contain element with quiz or false
+     * Returns $id_block of first occurrence of quiz in lecture
      * @return bool $id_block which is the quiz or false
      * @throws CDbException
      */
-    public function isContainsQuiz() {
-        if ($this->lectureEl == null) {
-            $this->getRelated('lectureEl');
+    public function getFirstQuiz() {
+        $length = count($this->lectureEl);
+        for ($i = 0; $i < $length ; $i++) {
+            $lecture = $this->lectureEl[$i];
+            if ($lecture->isQuiz()) {
+                return $lecture->id_block;
+            }
         }
+        return false;
+    }
 
-        foreach ($this->lectureEl as $element) {
-            if ($element->isQuiz()) {
-                return $element->id_block;
+    /**
+     * Returns $id_block of last occurrence of quiz in lecture
+     * @return bool $id_block which is the quiz or false
+     * @throws CDbException
+     */
+    public function getLastQuiz() {
+        for ($i = count($this->lectureEl)-1; $i >= 0; $i--) {
+            $lecture = $this->lectureEl[$i];
+            if ($lecture->isQuiz()) {
+                return $lecture->id_block;
             }
         }
         return false;
@@ -809,10 +824,6 @@ class Lecture extends CActiveRecord
     }
 
     public function deleteLectureElement($elementOrder) {
-        if ($this->lectureEl == null) {
-            $this->getRelated("lectureEl");
-        }
-
         foreach ($this->lectureEl as $element) {
             if ($element->block_order == $elementOrder) {
                 if ($element->id_type == LectureElement::TASK) {
@@ -823,5 +834,13 @@ class Lecture extends CActiveRecord
                 return;
             }
         }
+    }
+
+    public function isFree(){
+        return $this->isFree == Lecture::FREE;
+    }
+
+    public function freeLabel(){
+        return ($this->isFree())?'безкоштовна':'платна';
     }
 }

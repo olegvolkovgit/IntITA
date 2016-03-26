@@ -20,14 +20,17 @@
             'enableClientValidation' => true,
             'clientOptions' => array(
                 'validateOnSubmit' => true,
+                'afterValidate' => 'js:function(form,data,hasError){
+                sendError(form,data,hasError);return true;
+                }',
             )
         )); ?>
 
         <div class="form-group">
             <?php if ($scenario == "create") { ?>
-                <label>Користувач</label>
+                <label class="required" >Користувач *</label>
                 <input id="typeahead" type="text" class="form-control" placeholder="Користувач"
-                       size="135" autofocus>
+                       size="135" autofocus required>
             <?php } ?>
         </div>
 
@@ -37,7 +40,7 @@
                     <a href="<?=Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->user_id));?>" target="_blank">
                         <?= $model->getName() . " <" . $model->user->email . "> " ?></a>
                     <br>
-                    skype: <?= $model->skype(); ?>, phone: <?= $model->phone(); ?>
+                    <?= ($model->skype()=="" ? "" :"skype: ".$model->skype()); ?> <?= ($model->phone() == "" ? "" :", phone: ".$model->phone()); ?>
                     <br>
                 <?php } ?>
             </div>
@@ -161,6 +164,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',
+        limit: 10,
         source: users,
         templates: {
             empty: [

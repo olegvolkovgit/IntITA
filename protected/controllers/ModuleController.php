@@ -15,7 +15,7 @@ class ModuleController extends Controller
      */
     public function actionIndex($idModule, $idCourse=0)
     {
-        $model = Module::model()->with('teacher', 'lectures')->findByPk($idModule);
+        $model = Module::model()->findByPk($idModule);
 
         $this->checkModelInstance($model);
 
@@ -24,8 +24,13 @@ class ModuleController extends Controller
         }
 
         $editMode = 0;
+        $isPaidCourse=false;
         if (!Yii::app()->user->isGuest) {
-            $editMode = $model->isEditableByUser(Yii::app()->user->getID());
+            $userId=Yii::app()->user->getID();
+            $editMode = Teacher::isTeacherAuthorModule($userId,$idModule);
+            if($idCourse!=0 && (StudentReg::isAdmin() || PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read')))){
+                $isPaidCourse=true;
+            }
         }
 
         $this->render('index', array(
@@ -35,8 +40,10 @@ class ModuleController extends Controller
             'lecturesTitles' => $model->lectures,
             'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
+            'isPaidCourse' => $isPaidCourse,
         ));
     }
+
     public function actionEdit($idModule, $idCourse=0)
     {
         $this->layout='modulelayout';
@@ -50,7 +57,7 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $editMode = $model->isEditableByUser(Yii::app()->user->getID());
+        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getID(),$idModule);
         if(!$editMode) {
             throw new \application\components\Exceptions\IntItaException('403', 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном автора модуля.');
         }
@@ -58,7 +65,6 @@ class ModuleController extends Controller
         $this->render('edit', array(
             'module' => $model,
             'idCourse' => $idCourse,
-
         ));
     }
 
@@ -127,6 +133,7 @@ class ModuleController extends Controller
         $titleEn = Yii::app()->request->getPost('titleEN', '');
         $idCourse = Yii::app()->request->getPost('idCourse');
         $lang = Yii::app()->request->getPost('lang');
+        $author = Yii::app()->request->getPost('isAuthor', 0);
 
         $course = Course::model()->with("module")->findByPk($idCourse);
 
@@ -137,12 +144,50 @@ class ModuleController extends Controller
             $course->updateCount();
         }
 
+        if($author != 0){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesAuthorRequest();
+                $model = StudentReg::model()->findByPk($author);
+                $message->build($module, $model);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+            }
+        }
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax'])) {
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         $this->actionIndex($module->module_ID, $course->course_ID);
+    }
+
+    public function actionSendRequest($user, $moduleId){
+        $module = Module::model()->findByPk($moduleId);
+        $model = StudentReg::model()->findByPk($user);
+
+        if($model && $module){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesAuthorRequest();
+                $message->build($module, $model);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+                echo "Запит на редагування модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+            }
+        }
     }
 
     /**

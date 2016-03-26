@@ -24,7 +24,6 @@ class PayController extends TeacherCabinetController
     {
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
-        $courseId = Yii::app()->request->getPost('course');
 
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
@@ -37,11 +36,13 @@ class PayController extends TeacherCabinetController
         } else {
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
-            $sender = new MailTransport();
-            $text = $sender->renderBodyTemplate('_payModuleMail', array($module));
+            $message = new MessagesPayment();
+            $message->build(null, $user, $module);
+            $message->create();
 
-            if ($sender->send($user->email, "", "Оплата модуля", $text)) {
-                $resultText = PayModules::getConfirmText($module->title_ua, $courseId, $userName);
+            $sender = new MailTransport();
+            if ($message->send($sender)) {
+                $resultText = PayModules::getConfirmText($module, $userName);
             } else {
                 $resultText = Mail::getErrorText();
             }
@@ -67,11 +68,13 @@ class PayController extends TeacherCabinetController
             $course = Course::model()->findByPk($courseId);
             $permission->setCourseRead($userId, $course->course_ID);
 
-            $sender = new MailTransport();
-            $text = $sender->renderBodyTemplate('_payCourseMail', array($course));
+            $message = new MessagesPayment();
+            $message->build(null, $user, $course);
+            $message->create();
 
-            if ($sender->send($user->email, "", "Оплата курса", $text)) {
-                $resultText = PayCourses::getConfirmText($courseId, $userName);
+            $sender = new MailTransport();
+            if ($message->send($sender)) {
+                $resultText = PayCourses::getConfirmText($course, $userName);
 
             } else {
                 $resultText = Mail::getErrorText();
@@ -98,17 +101,15 @@ class PayController extends TeacherCabinetController
         if (isset($_POST['user']) && isset($_POST['module'])) {
             $resultText = '';
             $userId = Yii::app()->request->getPost('user');
-            $courseId = Yii::app()->request->getPost('course');
             $moduleId = Yii::app()->request->getPost('module');
-            $moduleName = Module::model()->findByPk($moduleId)->title_ua;
             $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
 
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($moduleName, $courseId, $userName);
+                $resultText = PayModules::getCancelText($payModule->idModule, $userName);
                 $payModule->delete();
             } else {
-                $resultText = PayModules::getCancelErrorText($userName, $moduleName);
+                $resultText = PayModules::getCancelErrorText($userName);
 
             }
             echo $resultText;
@@ -127,14 +128,18 @@ class PayController extends TeacherCabinetController
             $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
             if ($payCourse) {
-                $resultText = PayCourses::getCancelText($courseId, $userName);
+                $resultText = PayCourses::getCancelText($payCourse->idCourse, $userName);
 
                 $payCourse->delete();
             } else {
-                $resultText = PayCourses::getCancelErrorText($userName, $courseId);
+                $resultText = PayCourses::getCancelErrorText($userName);
             }
             echo $resultText;
         }
+    }
+
+    public function actionCoursesByQuery($query){
+        echo Course::readyCoursesList($query);
     }
 
 }

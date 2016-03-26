@@ -6,13 +6,33 @@ angular
     .controller('interpreterCtrl',interpreterCtrl);
 
 function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
-    var etalon = CodeMirror.fromTextArea(document.getElementById('etalon'), {
+    var codeMirrorLang;
+    switch ($scope.lang) {
+        case "js":
+            codeMirrorLang="text/javascript";
+            break;
+        case "php":
+            codeMirrorLang="text/x-php";
+            break;
+        case "c++":
+            codeMirrorLang="text/x-c++src";
+            break;
+        case "c#":
+            codeMirrorLang="text/x-csharp";
+            break;
+        case "java":
+            codeMirrorLang="text/x-java";
+            break;
+    }
+
+
+    $scope.codeMirrorOptions = {
         lineNumbers: true,             // показывать номера строк
         matchBrackets: true,             // подсвечивать парные скобки
-        mode: "javascript",
+        mode: codeMirrorLang,
         theme: "rubyblue",               // стиль подсветки
         indentUnit: 4                    // размер табуляции
-    });
+    };
 
     getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
         $scope.editedJson=response;
@@ -55,11 +75,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             }
             $scope.function = $scope.editedJson.function;
             $scope.finalResult = $scope.editedJson;
-            etalon.setValue($scope.editedJson.etalon);
         }
-            etalon.on('change',function(cMirror){
-                $scope.$apply(function(){$scope.finalResult.etalon = cMirror.getValue();});
-            });
     });
 
     $scope.Math = window.Math;
@@ -93,7 +109,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //options
     //init obj
     $scope.results=[];
-    //$scope.etalon='';
+    $scope.etalon='';
     $scope.compare_marks=[2];
     $scope.tests_code_arr=[];
     $scope.compareFull=[
@@ -142,6 +158,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     //add options to select
     $scope.sizeRefresh = function(index,array,type){
         if(array==0){
+            for(var i=0;i<$scope.args[index].value.length;i++){
+                $scope.args[index].value[i]=null;
+                $scope.args[index].etalon_value[i]='';
+            }
             $scope.args[index].size=null;
             $scope.updatePattern(type,null,index);
         }
@@ -152,6 +172,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     $scope.sizeResultRefresh = function(array,type){
         if(array==0){
+            for(var i=0;i<$scope.function.results.length;i++){
+                $scope.editedJson.function.results[i]=null;
+            }
             $scope.function.size=null;
             $scope.updateResultPattern(type,null);
         }

@@ -111,7 +111,7 @@ class RegisteredUser
         return $this->_roleAttributes;
     }
 
-    public function getAttributesByRole(UserRoles $role)
+    public function getAttributesByRole($role)
     {
         if (empty($this->_roleAttributes)) {
             $this->loadAttributes($role);
@@ -119,7 +119,7 @@ class RegisteredUser
         return $this->_roleAttributes[(string)$role];
     }
 
-    private function loadAttributes(UserRoles $role){
+    private function loadAttributes($role){
         if ($this->hasRole($role)) {
             $roleObj = Role::getInstance($role);
             $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
@@ -162,14 +162,17 @@ class RegisteredUser
         return $this->hasRole(UserRoles::STUDENT);
     }
 
-    //TODO
     public function isAuthor()
     {
-       // return $this->hasRole(UserRoles::);
+        return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
     }
 
+    //todo author role check
     public function hasRole($role)
     {
+        if($role == "author"){
+            return true;
+        }
         return in_array($role, $this->getRoles());
     }
 
@@ -199,5 +202,17 @@ class RegisteredUser
     public function noSetTeacherRoles()
     {
         return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
+    }
+
+    public function authorRequests(){
+        if (!$this->isAdmin())
+            return [];
+        else {
+            return MessagesAuthorRequest::notApprovedRequests();
+        }
+    }
+
+    public function canPlanConsultation(Teacher $teacher){
+        return $this->registrationData->id != $teacher->user_id;
     }
 }

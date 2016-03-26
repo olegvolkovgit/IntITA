@@ -128,6 +128,7 @@ class Level extends CActiveRecord
         $this->title_ru = $titleRu;
         $this->title_en = $titleEn;
 
+        Yii::app()->cache->flush();
         return $this->update(array('title_ua','title_ru','title_en'));
     }
 }

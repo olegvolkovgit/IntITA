@@ -1,7 +1,10 @@
 <?php
-/* @var $message Messages */
-/* @var $record UserMessages */
-/* @var $model StudentReg */
+/* @var $message Messages *
+ * @var $record UserMessages *
+ * @var $model RegisteredUser
+ * @var $authorRequests array
+ * @var $newMessages array
+ */
 ?>
 <div class="navbar-header">
     <a href="<?php echo Yii::app()->homeUrl; ?>" class="navbar-brand logo">
@@ -22,6 +25,9 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <?php if(!empty($newMessages)){?>
+                <span class="label label-success"><?=count($newMessages)?></span>
+            <?php }?>
             <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
             <i class="fa fa-caret-down"></i>
         </a>
@@ -30,14 +36,19 @@
         </ul>
     </li>
 
-<!--    <li class="dropdown">-->
-<!--        <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
-<!--            <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>-->
-<!--        </a>-->
-<!--        <ul class="dropdown-menu dropdown-tasks">-->
-<!--            --><?php //$this->renderPartial('top_nav_tasks');?>
-<!--        </ul>-->
-<!--    </li>-->
+    <?php if($model->isAdmin()){?>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <?php if(!empty($authorRequests)){?>
+                <span class="label label-success"><?=count($authorRequests)?></span>
+            <?php }?>
+            <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-tasks">
+            <?php $this->renderPartial('top_nav_tasks', array('authorRequests' => $authorRequests));?>
+        </ul>
+    </li>
+    <?php }?>
 
 <!--    <li class="dropdown">-->
 <!--        <a class="dropdown-toggle" data-toggle="dropdown" href="#">-->

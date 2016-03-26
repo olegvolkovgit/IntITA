@@ -15,6 +15,6 @@
     ));?>
 
     <div edit-code id="<?php echo "t" . $data['block_order'];?>" >
-        <div hljs><?php echo $data['html_block'];?></div>
+        <div hljs no-escape><?php echo $data['html_block'];?></div>
     </div>
 </div>

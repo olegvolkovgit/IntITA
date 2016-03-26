@@ -43,9 +43,9 @@
         <table class="lecturesTable">
             <tr ng-repeat="lecture in lectures.rawData track by $index" class="lectureRaw">
                 <td class="lectureButtons">
-                    <img ng-click="upLecture(lecture.id, lecture.idModule)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png')?>" title="<?php echo Yii::t('course', '0334')?>">
-                    <img ng-click="downLecture(lecture.id, lecture.idModule)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png')?>" title="<?php echo Yii::t('course', '0335')?>">
-                    <img ng-click="deleteLecture(lecture.id, lecture.idModule)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png')?>" title="<?php echo Yii::t('course', '0333')?>">
+                    <img ng-click="upLecture(lecture.id, lecture.idModule)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png')?>" title="<?php echo Yii::t('module', '0379')?>">
+                    <img ng-click="downLecture(lecture.id, lecture.idModule)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png')?>" title="<?php echo Yii::t('module', '0380')?>">
+                    <img ng-click="deleteLecture(lecture.id, lecture.idModule)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png')?>" title="<?php echo Yii::t('module', '0378')?>">
                 </td>
                 <td class="lectureOrder">
                     <span><?php echo Yii::t('module', '0381') ?> {{$index+1}}.</span>
@@ -62,8 +62,10 @@
         <?php $this->renderPartial('_addLessonForm', array('model'=>$module)); ?>
     </div>
     <div class="backButton">
-        <a href="<?php echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
-        Назад
+        <a href="<?php
+        if($idCourse==0) echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID));
+        else echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
+            <?php echo Yii::t('module', '0808') ?>
         </a>
     </div>
 </div>

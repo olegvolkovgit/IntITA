@@ -7,11 +7,24 @@
             <button type="button" class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>',
                         'Посилання на ресурси')">
-                Перегляд посилань на ресурси</button>
+                Всі посилання
+            </button>
+        </li>
+
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/view', array('id' => $model->id)); ?>',
+                        'Переглянути посилання')">
+                Переглянути посилання
+            </button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="deleteLink('<?php echo Yii::app()->createUrl("/_teacher/_admin/shareLink/delete"); ?>',
+                        '<?= $model->id; ?>')">
+                Видалити посилання
+            </button>
         </li>
     </ul>
 
-    <div class="page-header">
-        <h4>Редагувати ресурс <?php echo $model->name; ?></h4>
-    </div>
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model' => $model)); ?>

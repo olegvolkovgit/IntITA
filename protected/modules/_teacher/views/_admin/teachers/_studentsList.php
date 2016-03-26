@@ -30,9 +30,9 @@
             <thead>
             <tr>
                 <th>Студент</th>
-                <th>Призначено</th>
-                <th>Відмінено</th>
-                <th>Видалити</th>
+                <th width="20%">Призначено</th>
+                <th width="20%">Відмінено</th>
+                <th width="10%">Видалити</th>
             </tr>
             </thead>
             <tbody>
@@ -94,6 +94,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',
+        limit: 10,
         source: users,
         templates: {
             empty: [

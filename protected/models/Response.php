@@ -22,6 +22,7 @@ class Response extends CActiveRecord
 {
     const PUBLISHED = 1;
     const HIDDEN = 0;
+
     /**
      * @return string the associated database table name
      */
@@ -193,7 +194,7 @@ class Response extends CActiveRecord
         return $bbtext;
     }
 
-    public function isPublish()
+    public function publishLabel()
     {
         return ($this->is_checked) ? 'опубліковано' : 'прихований';
     }
@@ -213,17 +214,14 @@ class Response extends CActiveRecord
 
     public function getResponseAboutTeacherName()
     {
-        $teacherId = Yii::app()->db->createCommand()
-            ->select('id_teacher')
-            ->from('teacher_response')
+        $name = Yii::app()->db->createCommand()
+            ->select('u.firstName, u.secondName, u.middleName')
+            ->from('teacher_response tr')
+            ->join('user u', 'u.id=tr.id_teacher')
             ->where('id_response=:id', array(':id' => $this->id))
-            ->queryScalar();
+            ->queryRow();
 
-        if ($teacherId) {
-            return Teacher::getTeacherNameByUserId($teacherId);
-        } else {
-            return 'викладача видалено';
-        }
+        return (!empty($name)) ? implode(" ", $name) : 'викладача видалено';
     }
 
     public function getTeacherId()
@@ -239,30 +237,30 @@ class Response extends CActiveRecord
     public function getResponseAuthorName()
     {
         $model = StudentReg::model()->findByPk($this->who);
-        return $model->firstName . " " . $model->secondName . ", " . $model->email;
-    }
-
-    public function shortDescription()
-    {
-        return mb_substr($this->text,0,25).'...';
+        $name = $model->firstName . " " . $model->secondName;
+        if ($name == " ") return $model->email;
+        else return $name . ", " . $model->email;
     }
 
     public function timeDesc()
     {
-        return date("d-m-Y", strtotime($this->date));
+        return date("d.m.Y", strtotime($this->date));
     }
 
-    public function setPublish(){
+    public function setPublish()
+    {
         $this->is_checked = Response::PUBLISHED;
         return $this->save();
     }
 
-    public function setHidden(){
+    public function setHidden()
+    {
         $this->is_checked = Response::HIDDEN;
         return $this->save();
     }
 
-    public static function getTeacherResponsesData(){
+    public static function getTeacherResponsesData()
+    {
         $users = Response::model()->findAll();
         $return = array('data' => array());
         foreach ($users as $record) {
@@ -270,24 +268,18 @@ class Response extends CActiveRecord
             $row["author"] = $record->getResponseAuthorName();
             $row["about"] = $record->getResponseAboutTeacherName();
             $row["date"] = $record->timeDesc();
-            $row["text"] = $record->shortDescription();
+            $row["response"]["text"] = CHtml::encode($record->text);
             $row["rate"] = $record->rate;
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/view", array("id"=>$record->id))."'";
-            $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/response/update', array('id'=>$record->id))."'";
-            $row["linkDelete"] = "'".Yii::app()->createUrl('/_teacher/_admin/response/delete', array('id'=>$record->id))."'";
-            if($record->isChecked()){
-                $row["publish"] = 'опубліковано';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/unsetPublish", array('id'=>$record->id))."'";
-            } else {
-                $row["publish"] = 'прихований';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/response/setPublish", array("id"=>$record->id))."'";
-            }
+            $row["response"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/response/view", array("id" => $record->id)) . "'";
+            $row["publish"] = $record->publishLabel();
+
             array_push($return['data'], $row);
         }
         return json_encode($return);
     }
 
-    public function isChecked(){
-        return $this->is_checked ==Response::PUBLISHED;
+    public function isChecked()
+    {
+        return $this->is_checked == Response::PUBLISHED;
     }
 }

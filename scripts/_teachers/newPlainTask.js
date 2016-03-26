@@ -2,28 +2,28 @@
  * Created by Quicks on 10.12.2015.
  */
 
-function changeConsult(id, url) {
-    $jq.ajax({
-        url: url,
-        type: "POST",
-        data: {id: id},
-        success: function (data) {
-            fillContainer(data);
-        }
-    });
-}
-
-function removeConsult(id, url) {
+function removeConsult(id, url, teacher) {
     bootbox.confirm('Ви впевнені що хочете видалити консультанта?', function (result) {
-        if (result != null) {
+        if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
-                data: {id: id},
-                success: function (data) {
-                    load(basePath + "/_teacher/teacher/manageConsult");
+                data: {id: id, teacher: teacher},
+                success: function (respond) {
+                    if(respond == "success") {
+                        bootbox.alert('Операція успішно виконана.', function () {
+                            load(basePath + "/_teacher/teacher/manageConsult", 'Управління консультантами');
+                        });
+                    } else {
+                        bootbox.alert('Операцію не вдалося виконати.');
+                    }
+                },
+                fail: function (){
+                    bootbox.alert('Операцію не вдалося виконати.');
                 }
             });
+        } else {
+            bootbox.alert('Операцію відмінено.');
         }
     });
 }
@@ -127,8 +127,8 @@ function addTrainer(url, scenario) {
         data: {'userId': id, 'trainerId': trainerId, 'oldTrainerId': oldTrainerId},
         success: function (response) {
             if (response == "success") {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі');
+                bootbox.alert("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі','','4');
                 });
             } else {
                 showDialog("Операцію не вдалося виконати.");

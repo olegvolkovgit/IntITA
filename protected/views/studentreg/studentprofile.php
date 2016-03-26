@@ -4,7 +4,9 @@
 <?php
 /* @var $this StudentregController */
 /* @var $post StudentReg */
+/* @var $user RegisteredUser */
 /* @var $form CActiveForm */
+/* @var $agreements*/
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <script>
@@ -16,7 +18,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class="titleProfile">
             <tr>
                 <td>
-                    <h2><?php $post::getProfileRole($post->id); ?></h2>
+                    <h2><?php $post->getProfileRole(); ?></h2>
                 </td>
                 <td>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
@@ -31,7 +33,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>">Мій кабінет</a>
+                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                     <h1>{{profileData.nickname}}</h1>
                     <h1>{{profileData.firstName}}</h1>
                     <h1>{{profileData.secondName}}</h1>
@@ -111,7 +113,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider, 'user' => $post, 'owner' => $owner)); ?>
                 </div>
                 <div id="myRatting">
-                    <?php $this->renderPartial('_myRatting', array('id' => $post->id)); ?>
+                    <?php $this->renderPartial('_myRatting', array('user' => $user)); ?>
                 </div>
                 <div id="mylettersSend">
                     <?php $this->renderPartial('_mylettersSend', array('letter' => $letter, 'sentLettersProvider' => $sentLettersProvider, 'receivedLettersProvider' => $receivedLettersProvider)); ?>
@@ -140,6 +142,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         'course' => $course,
                         'module' => $module,
                         'schema' => $schema,
+                        'agreements' => $agreements
                     )); ?>
                 </div>
             </div>

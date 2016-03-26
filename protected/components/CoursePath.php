@@ -20,8 +20,14 @@ class CoursePath extends Path{
 
         $this->getCourse();
         if($this->course != null) {
+            if($this->course->isDeleted()){
+                throw new \application\components\Exceptions\IntItaException(403, 'Курс видалений. Доступ до його матеріалів обмежений.');
+            }
             $this->getModule();
             if($this->module != null) {
+                if(!$this->course->isContain($this->module)){
+                    throw new \application\components\Exceptions\IntItaException(403, 'Даний модуль не входить до складу цього курса.');
+                }
                 $this->getLecture();
                 if($this->lecture != null) {
                     $this->checkPageDefined();

@@ -69,9 +69,9 @@ function findUserByEmail(url) {
 
 function checkCourseField(url)
 {
-    var courseId = document.getElementById("courseList").value;
+    var courseId = document.getElementById("courseId").value;
     var userId = document.getElementById('user').value;
-    if(!courseId){
+    if(courseId == 0){
         showDialog("Виберіть курс.");
         return false;
     }
@@ -88,6 +88,8 @@ function checkCourseField(url)
         cache: false,
         success: function(data){
             showDialog(data);
+            document.getElementById('courseId').value='';
+            document.getElementById('typeaheadCourse').value='';
         },
         error: function () {
             showDialog();
@@ -98,21 +100,15 @@ function checkCourseField(url)
 
 function checkModuleField(url)
 {
-    var courseId = document.getElementById('moduleCourseList').value;
-    var moduleId = document.getElementById('payModuleList').value;
+    var moduleId = document.getElementById('moduleId').value;
     var userId = document.getElementById('user').value;
 
-    if(!courseId)
-    {
-        showDialog("Виберіть курс.");
-        return false;
-    }
     if(userId == 0)
     {
         showDialog("Виберіть користувача.");
         return false;
     }
-    if(!moduleId)
+    if(moduleId == 0)
     {
         showDialog("Виберіть модуль.");
         return false;
@@ -120,16 +116,134 @@ function checkModuleField(url)
     $jq.ajax({
         type: "POST",
         url: url,
-        data: {course: courseId,
+        data: {
                 'module': moduleId,
                 'user' : userId},
         cache: false,
         success: function(data){
             showDialog(data);
+            document.getElementById('moduleId').value='';
+            document.getElementById('typeaheadModule').value='';
         },
         error: function () {
             showDialog();
         }
     });
     return true;
+}
+
+function initPayTypeaheads(){
+    var users = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/cabinet/usersByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        url: user.url
+                    };
+                });
+            }
+        }
+    });
+
+    var modules = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (modules) {
+                return $jq.map(modules.results, function (module) {
+                    return {
+                        id: module.id,
+                        title: module.title
+                    };
+                });
+            }
+        }
+    });
+
+    var courses = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/pay/coursesByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (courses) {
+                return $jq.map(courses.results, function (course) {
+                    return {
+                        id: course.id,
+                        title: course.title
+                    };
+                });
+            }
+        }
+    });
+
+    users.initialize();
+    modules.initialize();
+    courses.initialize();
+
+    $jq('#typeahead').typeahead(null, {
+        name: 'users',
+        display: 'email',
+        limit: 10,
+        source: users,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'немає користувачів з таким іменем або email\`ом',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
+        }
+    });
+
+    $jq('#typeaheadModule').typeahead(null, {
+        name: 'modules',
+        display: 'title',
+        limit: 10,
+        source: modules,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'модулів з такою назвою немає',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+        }
+    });
+
+    $jq('#typeaheadCourse').typeahead(null, {
+        name: 'courses',
+        display: 'title',
+        limit: 10,
+        source: courses,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'курсів з такою назвою немає',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+        }
+    });
+
+    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
+        $jq("#moduleId").val(item.id);
+    });
+
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#user").val(item.id);
+    });
+
+    $jq('#typeaheadCourse').on('typeahead:selected', function (e, item) {
+        $jq("#courseId").val(item.id);
+    });
 }

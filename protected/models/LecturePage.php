@@ -10,6 +10,8 @@
  * @property integer $video
  * @property integer $quiz
  *  @property string $page_title
+ *
+ *  @property Lecture $lecture
  */
 class LecturePage extends CActiveRecord
 {
@@ -45,6 +47,7 @@ class LecturePage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'lecture' => array(self::BELONGS_TO,'Lecture','id'),
 		);
 	}
 
@@ -173,11 +176,11 @@ class LecturePage extends CActiveRecord
         return $result;
     }
 
-    public static function isQuizDone($quiz, $user){
+    public static function isQuizDone($quiz){
         if (!$quiz){
             return true;
         }
-
+        $user = Yii::app()->user->getId();
         if ($user != 0){
             if(LectureElement::model()->findByPk($quiz)){
             switch(LectureElement::model()->findByPk($quiz)->id_type){

@@ -31,6 +31,7 @@
  *
  * The followings are the available model relations:
  * @property Module[] $modules
+ * @property Module $module
  * @property Level $level0
  */
 class Course extends CActiveRecord implements IBillableObject
@@ -38,7 +39,12 @@ class Course extends CActiveRecord implements IBillableObject
     const MAX_LEVEL = 5;
     const AVAILABLE = 0;
     const DELETED = 1;
+    const READY = 1;
+    const DEVELOP = 0;
     public $logo = array(), $oldLogo;
+    public $linkedRu;
+    public $linkedUa;
+    public $linkedEn;
 
 
     /**
@@ -60,6 +66,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
+            array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
             array('alias, course_price', 'length', 'max' => 20),
             array('alias, course_number', 'unique', 'message' => Yii::t('course', '0740')),
             array('language', 'length', 'max' => 6),
@@ -86,7 +93,7 @@ class Course extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
         return array(
             'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-            'module' => array(self::MANY_MANY, 'Module', 'course_modules(id_course,id_module)'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
@@ -104,7 +111,7 @@ class Course extends CActiveRecord implements IBillableObject
             'title_ru' => Yii::t('course', '0744'),
             'title_en' => Yii::t('course', '0743'),
             'course_duration_hours' => Yii::t('course', '0402'),
-            'modules_count' => Yii::t('course', '0403'),
+            //'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
             'for_whom_ua' => Yii::t('course', '0405') . " (UA)",
             'what_you_learn_ua' => Yii::t('course', '0406') . " (UA)",
@@ -148,7 +155,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('title_ru', $this->title_ru, true);
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('course_duration_hours', $this->course_duration_hours);
-        $criteria->compare('modules_count', $this->modules_count);
+        //$criteria->compare('modules_count', $this->modules_count);
         $criteria->compare('course_price', $this->course_price, true);
         $criteria->compare('for_whom_ua', $this->for_whom_ua, true);
         $criteria->compare('what_you_learn_ua', $this->what_you_learn_ua, true);
@@ -186,7 +193,7 @@ class Course extends CActiveRecord implements IBillableObject
         $modules = $this->module;
 
         foreach ($modules as $module) {
-            $price += $module->module_price;
+            $price += $module->moduleInCourse->module_price;
         }
 
         return $price;
@@ -288,9 +295,8 @@ class Course extends CActiveRecord implements IBillableObject
         return $summa;
     }
 
-    public static function getCoursesByLevel($selector)
+    public static function getCoursesByLevel($criteria)
     {
-        $criteria = Course::getCriteriaBySelector($selector);
         $dataProvider = new CActiveDataProvider('Course', array(
             'criteria' => $criteria,
             'pagination' => false,
@@ -304,7 +310,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria = new CDbCriteria;
         $criteria->alias = 'course';
         $criteria->order = 'rating DESC';
-        $criteria->condition = 'cancelled="0"';
+        $criteria->condition = 'cancelled='.Course::AVAILABLE;
         if ($selector !== 'all') {
             switch ($selector) {
                 case 'junior':
@@ -470,10 +476,17 @@ class Course extends CActiveRecord implements IBillableObject
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
-        return $this->$title;
+        return CHtml::encode($this->$title);
     }
 
     public static function getCourseName($idCourse)
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        $courseTitle = Course::model()->findByPk($idCourse)->$title;
+        return CHtml::encode($courseTitle);
+    }
+    public static function getCourseTitleForBreadcrumbs($idCourse)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
@@ -791,26 +804,28 @@ class Course extends CActiveRecord implements IBillableObject
             $row = array();
 
             $row["id"] = $record->course_ID;
-            $row["alias"] = $record->alias;
+            $row["alias"] = CHtml::encode($record->alias);
             $row["lang"] = $record->language;
-            $row["title"] = CHtml::encode($record->title_ua);
-            $row["status"] = ($record->cancelled == Course::AVAILABLE)?'доступний':'видалений';
+            $row["title"]["name"] = CHtml::encode($record->title_ua).", ".$record->language;
+            $row["title"]["header"] = "'Курс ".CHtml::encode($record->title_ua)."'";
+            $row["status"] = $record->statusLabel();
+            $row["cancelled"] = $record->cancelledLabel();
             $row["level"] = $record->level0->title_ua;
-            $row["linkView"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
-            $row["linkEdit"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/update", array("id"=>$record->course_ID))."'";
-
-            if($record->cancelled == Course::AVAILABLE){
-                $row["status"] = 'доступний';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/delete", array("id"=>$record->course_ID))."'";
-            } else {
-                $row["status"] = 'видалений';
-                $row["linkChangeStatus"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/restore", array("id"=>$record->course_ID))."'";
-            }
+            $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
     }
+
+    public function statusLabel(){
+        return ($this->isReady())?'готовий':'в розробці';
+    }
+
+    public function cancelledLabel(){
+        return ($this->isActive())?'доступний':'видалений';
+    }
+
     public static function modulesInCourse($idCourse)
     {
         $modules= Yii::app()->db->createCommand()
@@ -910,5 +925,89 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->select = '`order`';
         $criteria->condition = '`id_course`='.$idCourse.' AND `id_module` ='.$idModule;
         return CourseModules::model()->find($criteria)->order;
+    }
+
+    public function isActive(){
+        return $this->cancelled == Course::AVAILABLE;
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == Course::DELETED;
+    }
+
+    public function isReady(){
+        return $this->status == Course::READY;
+    }
+
+    public function isDeveloping(){
+        return $this->status == Course::DEVELOP;
+    }
+
+    public function changeStatus(){
+        if ($this->isActive()){
+            return $this->setDeleted();
+        } else {
+            return $this->setActive();
+        }
+    }
+
+    public function setActive(){
+        $this->cancelled = Course::AVAILABLE;
+        return $this->update(array("cancelled"));
+    }
+
+    public function setDeleted(){
+        $this->cancelled = Course::DELETED;
+        return $this->update(array("cancelled"));
+    }
+
+    public function paymentMailTemplate(){
+        return '_payCourseMail';
+    }
+
+    public function paymentMailTheme(){
+        return 'Доступ до курса';
+    }
+
+    public static function readyCoursesList($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
+        $criteria->addCondition('cancelled=0');
+
+        $data = Course::model()->findAll($criteria);
+
+        $result = array();
+        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$lang;
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->course_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
+    }
+
+    /**
+     * Returns linked courses in other languages (ua, ru, en) though table course_languages.
+     */
+    public function linkedCourses(){
+        return CourseLanguages::model()->findByAttributes(array('lang_'.$this->language => $this->course_ID));
+    }
+
+    public function isContain(Module $module){
+        return CourseModules::model()->exists('id_course=:course and id_module=:module', array(
+            'course' => $this->course_ID,
+            'module' => $module->module_ID
+            )
+        );
+    }
+    public function getEncodeAlias(){
+        return CHtml::encode($this->alias);
     }
 }

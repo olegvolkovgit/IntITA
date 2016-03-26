@@ -6,7 +6,9 @@
  * The followings are the available columns in table 'carousel':
  * @property integer $order
  * @property string $pictureURL
- * @property string $slider_text
+ * @property string $text_ua
+ * @property string $text_ru
+ * @property string $text_en
  */
 class Carousel extends Slider
 {
@@ -26,14 +28,14 @@ class Carousel extends Slider
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-            array('pictureURL', 'file', 'types' => 'jpg, gif, png, jpeg,','message' => 'Виберіть файл','except' => 'swapImage,setOrder'),
-			array('pictureURL, slider_text', 'required','message' => 'Поле має бути заповнено','except' => 'setOrder'),
+            array('pictureURL', 'file', 'types' => 'jpg, gif, png, jpeg,','allowEmpty' => true,'message' => 'Виберіть файл','except' => 'swapImage,setOrder'),
+			array('pictureURL', 'file', 'types' => 'jpg,jpeg, gif, png','allowEmpty' => false, 'message' => 'Виберіть файл','on'=>'insert'),
+			array('text_ua, text_ru, text_en', 'required','message' => 'Поле має бути заповнено','except' => 'setOrder'),
 			array('order', 'numerical', 'integerOnly'=>true),
             array('order','numerical', 'on'=>'setOrder'),
 			array('pictureURL', 'length', 'max'=>50),
-            array('slider_text', 'length', 'max'=>6),
 			// The following rule is used by search().
-			array('order, pictureURL, slider_text', 'safe', 'on'=>'search'),
+			array('order, pictureURL, text_ua, text_ru, text_en', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +58,9 @@ class Carousel extends Slider
 		return array(
 			'order' => 'Порядок відображення',
 			'pictureURL' => 'Фото',
-            'slider_text' => 'Код тексту для слайдера',
+			'text_ua' => 'Текст слайду ua',
+			'text_ru' => 'Текст слайду ru',
+			'text_en' => 'Текст слайду en'
 		);
 	}
 
@@ -79,7 +83,9 @@ class Carousel extends Slider
 
 		$criteria->compare('order',$this->order);
 		$criteria->compare('pictureURL',$this->pictureURL,true);
-        $criteria->compare('slider_text',$this->slider_text,true);
+		$criteria->compare('text_ua',$this->text_ua,true);
+		$criteria->compare('text_ru',$this->text_ru,true);
+		$criteria->compare('text_en',$this->text_en,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,6 +106,28 @@ class Carousel extends Slider
 		return parent::model($className);
 	}
 
+	public static function getItemsList(){
+		$sliders = Carousel::model()->findAll();
+		$return = array('data' => array());
 
+		foreach ($sliders as $record) {
+			$row = array();
+			$row["photo"]["image"] = StaticFilesHelper::createPath("image", "mainpage", $record->pictureURL);
+			$row["order"] = $record->order;
+			$row["linkUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/up", array("order"=>$record->order))."'";
+			$row["linkDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/down", array("order"=>$record->order))."'";
+			$row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/view", array("id"=>$record->id))."'";
+			array_push($return['data'], $row);
+		}
+
+		return json_encode($return);
+	}
+	public function getText()
+	{
+		$lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+		$text = "text_" . $lang;
+
+		return $this->$text;
+	}
 
 }

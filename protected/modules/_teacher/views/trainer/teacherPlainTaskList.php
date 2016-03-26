@@ -13,7 +13,7 @@ if (!empty($teacherPlainTasks)) { ?>
                         <thead>
                         <tr>
                             <th style="width: 3%"></th>
-                            <th style="width: 15%">Курс/модуль</th>
+                            <th style="width: 15%">Модуль</th>
                             <th style="width: 20%">Задача</th>
                             <th style="width: 15%">Користувач</th>
                             <th>Відповідь</th>
@@ -29,7 +29,7 @@ if (!empty($teacherPlainTasks)) { ?>
                                 style="cursor: pointer">
                                 <td><i class="fa <?php echo ($mark) ? ' fa-check' : ' fa-exclamation'; ?> fa-fw"></i>
                                 </td>
-                                <td class="center"></td>
+                                <td class="center"><?=$plainTaskAnswer->getModuleTitle();?></td>
                                 <td class="center"><?php echo strip_tags($plainTaskAnswer->plainTask->lectureElement->html_block); ?></td>
                                 <td class="center"><?php echo $plainTaskAnswer->getStudentName(); ?></td>
                                 <td class="center">
@@ -51,6 +51,7 @@ if (!empty($teacherPlainTasks)) { ?>
 <script>
     $jq(document).ready(function () {
         $jq('#tasksTable').DataTable({
+                "autoWidth": false,
                 language: {
                     "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
                 }

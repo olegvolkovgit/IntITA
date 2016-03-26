@@ -77,8 +77,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                         <?php }
                     } ?>
                     <div id="iconImage">
-                        <img
-                            src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'medalIcoFalse.png'); ?>">
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', ''); ?>{{moduleFinished}}">
                     </div>
                 <?php } ?>
             </div>
@@ -97,7 +96,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                     <div class="skypeAssistance">
                         <img class="consultationLogos"
                              src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'mibewLogo.png'); ?>">
-                        <div class="mibewText">Онлайн допомога</div>
+                        <div class="mibewText"><?php echo Yii::t('mibew', '0807') ?></div>
                     </div>
                 </div>
             </a>
@@ -131,7 +130,6 @@ $lecturesCount = $lecture->module->lecturesCount();
     <div id="discussionHeader"><?php echo Yii::t('lecture', '0617'); ?></div>
 
     <div id="discussion"></div>
-    <?php if (StudentReg::canAddConsultation()) { ?>
         <div style="display: inline-block;margin-left: 15px">
             <a class='consultationButtons'
                href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">
@@ -143,7 +141,6 @@ $lecturesCount = $lecture->module->lecturesCount();
                 </div>
             </a>
         </div>
-    <?php } ?>
 </div>
 <!--navigation vertical-->
 <script>

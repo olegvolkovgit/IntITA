@@ -66,4 +66,16 @@ class PaymentsController extends Controller
             'agreement' => $agreement,
         ));
     }
+
+    public function actionShowAgreement($id)
+    {
+        $agreement = UserAgreements::model()->findByPk($id);
+        if (!isset($agreement)) {
+            throw new \application\components\Exceptions\IntItaException(500, 'На сайті виникла помилка.');
+        }
+
+        $this->render('index', array(
+            'agreement' => $agreement,
+        ));
+    }
 }

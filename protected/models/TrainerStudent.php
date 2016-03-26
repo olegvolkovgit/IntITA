@@ -105,59 +105,13 @@ class TrainerStudent extends CActiveRecord
         return 'student';
     }
 
-    public static function setRoleAttribute($teacher, $attribute, $value){
-        $result = false;
-        if (TrainerStudent::model()->exists('teacher=:teacher and student=:attribute', array('teacher'=>$teacher, 'attribute'=>$attribute))){
-            $model = TrainerStudent::model()->findByAttributes(array('teacher'=>$teacher, 'student'=>$attribute));
-        } else{
-            $model = new TrainerStudent();
-            $model->teacher = $teacher;
-            $model->student = $attribute;
-        }
-        $model->value = $value;
-        if ($model->validate()){
-            $model->save();
-            $result = true;
-        }
-        return $result;
-    }
-
-    public static function addTrainer($userId,$trainerId)
-    {
-        $trainerStudent = new TrainerStudent();
-
-        $trainerStudent->student = $userId;
-        $trainerStudent->trainer = $trainerId;
-        if($trainerStudent->save())
-            return true;
-        else return false;
-    }
-
-    public static function editTrainer($userId,$trainerId)
-    {
-        $trainerStudent = TrainerStudent::model()->findByAttributes(array('student' => $userId));
-
-        $trainerStudent->student = $userId;
-        $trainerStudent->trainer = $trainerId;
-
-        if($trainerStudent->save())
-            return true;
-        else return false;
-    }
-
-    public static function deleteUserTrainer($userId)
-    {
-        return TrainerStudent::model()->deleteAllByAttributes(array('student' => $userId));
-    }
-
-
     public static function getStudentByTrainer($trainerId)
     {
         $criteria = new CDbCriteria();
         $criteria->alias = 'user';
         $criteria->join = 'INNER JOIN trainer_student on user.id = trainer_student.student';
         $criteria->addCondition('user.id = trainer_student.student');
-        $criteria->condition = 'trainer = :trainer';
+        $criteria->condition = 'trainer = :trainer and end_time IS NULL';
         $criteria->params = array(':trainer' => $trainerId);
 
         $users = StudentReg::model()->findAll($criteria);
