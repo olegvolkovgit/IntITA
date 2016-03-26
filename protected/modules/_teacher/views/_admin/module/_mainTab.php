@@ -5,8 +5,10 @@
 ?>
 <div class="row">
     <div class="col-md-2">
+        <a href="<?=Yii::app()->createUrl("module/index", array("idModule" => $model->module_ID));?>" target="_blank">
         <img src="<?php echo StaticFilesHelper::createPath('image', 'module', $model->module_img); ?>"
              class="img-thumbnail">
+        </a>
     </div>
     <div class="col-md-10">
         <table class="table table-hover">
