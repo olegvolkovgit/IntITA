@@ -28,6 +28,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'trainers',
         display: 'email',
+        limit: 10,
         source: trainers,
         templates: {
             empty: [

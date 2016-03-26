@@ -88,6 +88,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'modules',
         display: 'title',
+        limit: 10,
         source: modules,
         templates: {
             empty: [
