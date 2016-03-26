@@ -37,7 +37,6 @@ class RevisionController extends Controller
 
     public function actionEditLectureRevision($idRevision) {
 
-
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
@@ -377,19 +376,14 @@ class RevisionController extends Controller
 
     public function actionEditLecture($idLecture) {
 
-        if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
-        }
-
         $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+        $lecture = Lecture::model()->findByPk($idLecture);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRev->id_module)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule)) {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
         }
 
-//        $idLecture = Yii::app()->request->getPost('idLecture');
         if ($lectureRev == null) {
-            $lecture = Lecture::model()->findByPk($idLecture);
             $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
         }
         $relatedRev = $lectureRev->getRelatedLectures();
@@ -402,6 +396,34 @@ class RevisionController extends Controller
         ));
     }
 
+    public function actionDeleteLecture() {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $idModule = Yii::app()->request->getPost('idModule');
+        $user = Yii::app()->user;
+        $lecture = Lecture::model()->findByPk($idLecture);
+
+        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+
+        if (!$this->isUserTeacher($user, $lecture->idModule)) {
+            throw new RevisionControllerException(403, 'Access denied. You have not privileges to delete lecture.');
+        }
+
+        if ($lectureRev == null) {
+            $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, $user);
+        }
+
+        $lectureRev->cancel($user);
+        $lectureRev->deleteLectureFromRegularDB();
+
+        $relatedRev = $lectureRev->getRelatedLectures();
+
+        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
+        $lecturesDataProvider->setData($relatedRev);
+
+        $this->render('index', array(
+            'lectures' => $lecturesDataProvider,
+        ));
+    }
 
     /**
      * Returns true if $user can approve or reject.
@@ -440,7 +462,10 @@ class RevisionController extends Controller
         return false;
     }
 
-    /***************/
+    /**
+     * Legacy methods
+     *
+     */
 
     public function actionCreateNewBlock() {
         $pageOrder = Yii::app()->request->getPost('page');

@@ -93,7 +93,7 @@ function moduleEditCtrl($http,$scope) {
         bootbox.confirm(msg, function(result){
             if(result){
                 $http({
-                    url: basePath+'/module/unableLesson',
+                    url: basePath+'/revision/DeleteLecture',
                     method: "POST",
                     data: $.param({idLecture: idLecture,idModule: idModule}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

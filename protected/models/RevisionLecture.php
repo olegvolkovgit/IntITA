@@ -457,6 +457,13 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    public function deleteLectureFromRegularDB() {
+        //remove old data if lecture exists in regular DB
+        if ($this->id_lecture != null) {
+            $this->removePreviousRecords();
+        }
+    }
+
 
     /**
      * Flushes current revision into regular DB.
