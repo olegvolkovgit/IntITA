@@ -40,6 +40,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'value',
+        limit: 10,
         source: users
     });
 </script>

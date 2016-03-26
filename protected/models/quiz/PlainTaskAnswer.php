@@ -167,10 +167,14 @@ class PlainTaskAnswer extends CActiveRecord
 
     public static function assignedConsult($idPlainTaskAnswer, $consult)
     {
-        $result = Yii::app()->db->createCommand()
-            ->insert('plain_task_answer_teacher',
-                array('id_plain_task_answer' => $idPlainTaskAnswer, 'id_teacher' => $consult));
-        return $result;
+        if(Yii::app()->db->createCommand('select count(*) from plain_task_answer_teacher where end_date IS NOT NULL
+            and id_plain_task_answer='.$idPlainTaskAnswer)->queryScalar()){
+            return false;
+        } else {
+            return Yii::app()->db->createCommand()
+                ->insert('plain_task_answer_teacher',
+                    array('id_plain_task_answer' => $idPlainTaskAnswer, 'id_teacher' => $consult));
+        }
     }
 
     public static function TeacherPlainTask($idTeacher)

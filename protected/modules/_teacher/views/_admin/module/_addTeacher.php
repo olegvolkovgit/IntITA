@@ -58,6 +58,7 @@
     $jq('#typeahead').typeahead(null, {
             name: 'teachers',
             display: 'email',
+            limit: 10,
             source: teachers,
             templates: {
                 empty: [
