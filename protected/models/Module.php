@@ -40,8 +40,8 @@ class Module extends CActiveRecord implements IBillableObject
 {
     public $logo = array();
     public $oldLogo;
-    const READY = 0;
-    const DEVELOP = 1;
+    const READY = 1;
+    const DEVELOP = 0;
     const ACTIVE = 0;
     const DELETED = 1;
 
