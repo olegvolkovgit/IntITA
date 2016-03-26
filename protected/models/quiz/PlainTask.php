@@ -145,10 +145,12 @@ class PlainTask extends Quiz
                 $tasks = Yii::app()->db->createCommand(array(
                     'select' => array('*'),
                     'from' => 'plain_task_answer',
+                    'order' => 'pt.start_date ASC',
                     'join' => 'RIGHT JOIN plain_task_answer_teacher pt
                      on pt.id_plain_task_answer = id',
-                    'where' => 'pt.id_plain_task_answer IS NULL or (pt.end_date IS NULL and pt.id_plain_task_answer IS NOT NULL)
+                    'where' => 'pt.id_plain_task_answer IS NULL or (pt.end_date IS NOT NULL)
                     and id_student = '.$user->id,
+                    'group' =>'id_plain_task_answer',
                 ))->queryAll();
                 foreach($tasks as $oneTask) {
                     if (isset($oneTask['id'])) {
