@@ -82,6 +82,7 @@
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',
+        limit: 10,
         source: users,
         templates: {
             empty: [
