@@ -433,16 +433,17 @@ class RevisionLecture extends CActiveRecord
                 $revNewPage->approve_date = new CDbExpression('NOW()');
                 $revNewPage->id_user_approved = $user->getId();
                 $revNewPage->saveCheck();
-            }
 
-            foreach ($lecture->lectureEl as $lectureElement) {
-                if ($lectureElement->isTextBlock()) {
-                    $revLectureElement = new RevisionLectureElement();
-                    $revLectureElement->id_page = $revLecture->id_revision;
-                    $revLectureElement->id_type = $lectureElement->id_type;
-                    $revLectureElement->block_order = $lectureElement->block_order;
-                    $revLectureElement->html_block = $lectureElement->html_block;
-                    $revLectureElement->saveCheck();
+                foreach ($page->getLectureElements() as $lectureElement) {
+                    if ($lectureElement->isTextBlock()) {
+                        $revLectureElement = new RevisionLectureElement();
+                        $revLectureElement->id_page = $revNewPage->id;
+                        $revLectureElement->id_type = $lectureElement->id_type;
+                        $revLectureElement->block_order = $lectureElement->block_order;
+                        $revLectureElement->html_block = $lectureElement->html_block;
+                        $revLectureElement->saveCheck();
+                    }
+
                 }
 
             }

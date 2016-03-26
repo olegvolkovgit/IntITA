@@ -167,6 +167,10 @@ class RegisteredUser
         return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
     }
 
+    public function canApprove() {
+        return $this->isAdmin();
+    }
+
     //todo author role check
     public function hasRole($role)
     {
