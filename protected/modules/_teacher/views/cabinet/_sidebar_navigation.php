@@ -26,7 +26,7 @@
             if ($model->isAdmin()) {
                 ?>
                 <li id="nav">
-                    <a href="#admin" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
+                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
                         array('user' => $model->id)); ?>', 'Панель адміністратора')">
                         <i class="fa fa-table fa-fw"></i> Адміністратор</a>
                 </li>
@@ -36,7 +36,7 @@
             if ($model->isAccountant()) {
                 ?>
                 <li>
-                    <a href="#accountant" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
+                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
                         array('user' => $model->id)); ?>', 'Панель бухгалтера')">
                         <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
                 </li>
