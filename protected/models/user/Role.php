@@ -10,6 +10,8 @@ abstract class Role
 
     abstract function attributes(StudentReg $user);
 
+    abstract function checkBeforeDeleteRole(StudentReg $user);
+
     abstract function cancelAttribute(StudentReg $user, $attribute, $value);
 
     public static function getInstance($role){
@@ -48,6 +50,9 @@ abstract class Role
 
     public function cancelRole(StudentReg $user)
     {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
         return Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),
