@@ -30,6 +30,6 @@
 </div>
 <script>
     $jq(document).ready(function () {
-        translatesTable = initTranslatesList();
+        initTranslatesList();
     });
 </script>
