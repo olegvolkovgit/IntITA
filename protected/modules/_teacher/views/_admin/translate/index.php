@@ -19,7 +19,6 @@
                         <th>Категорія</th>
                         <th>Переклад</th>
                         <th>Коментар</th>
-                        <th>Управління</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,7 +28,6 @@
         </div>
     </div>
 </div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/translatesList.js'); ?>"></script>
 <script>
     $jq(document).ready(function () {
         translatesTable = initTranslatesList();

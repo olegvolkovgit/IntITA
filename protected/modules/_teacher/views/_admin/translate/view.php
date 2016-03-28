@@ -9,6 +9,11 @@
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>', 'Інтерфейсні повідомлення')">
             Інтерфейсні повідомлення</button>
     </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/update', array('id' => $model->id_record)); ?>', 'Редагувати повідомлення')">
+            Редагувати</button>
+    </li>
 </ul>
 
 <div class="page-header">
