@@ -101,13 +101,6 @@
                     )); ?>
                 </div>
             </div>
-            <div class="form-group formMargin">
-                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
-                    array(
-                        'class' => 'btn btn-primary',
-                        'id' => 'submitButton',
-                    )); ?>
-            </div>
             <?php $this->endWidget(); ?>
         </div>
     </div>

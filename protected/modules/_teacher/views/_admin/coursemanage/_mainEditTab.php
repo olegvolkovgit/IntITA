@@ -49,5 +49,12 @@
             array('options' => array('0' => array('selected' => true)), 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'status'); ?>
     </div>
+    <div class="form-group">
+        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
+            array(
+                'class' => 'btn btn-primary',
+                'id' => 'submitButton',
+            )); ?>
+    </div>
 </div>
 

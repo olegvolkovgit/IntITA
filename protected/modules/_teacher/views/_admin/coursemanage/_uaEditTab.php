@@ -31,4 +31,11 @@
             'cols' => 50, 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'what_you_get_ua'); ?>
     </div>
+    <div class="form-group">
+        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
+            array(
+                'class' => 'btn btn-primary',
+                'id' => 'submitButton',
+            )); ?>
+    </div>
 </div>
