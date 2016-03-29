@@ -1,4 +1,9 @@
-<?php $callBack=''; ?>
+<?php
+/**
+ * @var $callback
+*/
+?>
+<?php if(!isset($callBack)) $callBack=''; ?>
 <?php if(Yii::app()->controller->id == 'lesson'){ ?>
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_authorizeMenu'); ?>
