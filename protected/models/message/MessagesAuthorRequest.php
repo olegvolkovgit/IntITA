@@ -235,4 +235,14 @@ class MessagesAuthorRequest extends Messages implements IMessage
             return false;
         }
     }
+
+	public static function isRequestOpen($module, $user){
+		return (Yii::app()->db->createCommand(array(
+            'select' => 'count(*)',
+            'from' => 'messages_author_request mr',
+            'join' => 'LEFT JOIN messages m ON m.id = mr.id_message',
+            'where' => 'mr.id_module='.$module.' and m.sender='.$user.' and cancelled='.MessagesAuthorRequest::ACTIVE.
+                ' and date_approved IS NULL'
+        ))->queryScalar() > 0)?true:false;
+	}
 }
