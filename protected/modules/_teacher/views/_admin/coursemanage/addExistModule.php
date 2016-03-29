@@ -84,7 +84,7 @@
             posting.done(function (response) {
                     if (response == "success")
                         bootbox.alert("Модуль успішно додано.", function () {
-                            load(basePath + '/_teacher/_admin/coursemanage/addExistModule/id/'+course,'Додати модуль до курса '+title);
+                            load(basePath + '/_teacher/_admin/coursemanage/view/id/'+course,'Курс '+title,'','4');
                         });
                     else {
                         bootbox.alert("Операцію не вдалося виконати");
