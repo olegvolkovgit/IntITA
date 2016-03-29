@@ -6,11 +6,11 @@
  * @var $courses array
  */
 ?>
+<?php if (!empty($courses)){ ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="col-md-12">
             <div class="row">
-                <?php if (!empty($courses)){ ?>
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover" id="modulesListTable">
                         <thead>
