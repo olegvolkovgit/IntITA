@@ -91,4 +91,8 @@ class Author extends Role
                 return false;
         }
     }
+
+    public function checkBeforeDeleteRole(StudentReg $user){
+        return true;
+    }
 }

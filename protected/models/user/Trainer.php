@@ -126,4 +126,8 @@ class Trainer extends Role
         }
         return json_encode($result);
     }
+
+    public function checkBeforeDeleteRole(StudentReg $user){
+        return count($this->attributes($user)["students-list"]) > 0;
+    }
 }

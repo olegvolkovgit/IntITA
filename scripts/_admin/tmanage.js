@@ -15,9 +15,11 @@ function ShowTeacher(url, id) {
     });
 }
 
-function addTeacherAttr(url, attr, id) {
-    var user = $jq('#user').val();
-    var role = $jq('#role').val();
+function addTeacherAttr(url, attr, id, role) {
+    user = $jq('#user').val();
+    if (!role) {
+        role = $jq('#role').val();
+    }
     var value = $jq(id).val();
 
     if (value == 0) {
@@ -31,14 +33,14 @@ function addTeacherAttr(url, attr, id) {
             data: {user: user, role: role, attribute: attr, attributeValue: value},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function() {
+                    bootbox.alert("Операцію успішно виконано.", function () {
                         switch (role) {
                             case "trainer":
                                 loadTrainerStudentList(user);
                                 break;
                             case "author":
-                                if(id=='#moduleId')
-                                loadAddModuleAuthor();
+                                if (id == '#moduleId')
+                                    loadAddModuleAuthor();
                                 else loadTeacherModulesList(user);
                                 break;
                             case "consultant":
@@ -58,10 +60,10 @@ function addTeacherAttr(url, attr, id) {
 }
 
 function cancelModuleAttr(url, id, attr, role, user, successUrl) {
-    if(!user) {
+    if (!user) {
         user = $jq('#user').val();
     }
-    if(!role) {
+    if (!role) {
         role = $jq('#role').val();
     }
     if (user && role) {
@@ -73,7 +75,7 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl) {
             success: function (response) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        if(successUrl){
+                        if (successUrl) {
                             load(successUrl);
                         } else {
                             switch (role) {
@@ -173,10 +175,10 @@ function saveSchema(url, id) {
     $jq.ajax({
         url: url,
         success: function (response) {
-            if(response == "success")
-            bootbox.alert("Схема курсу збережена.", function(){
-                load(basePath + '/_teacher/_admin/coursemanage/view/id/' + id);
-            });
+            if (response == "success")
+                bootbox.alert("Схема курсу збережена.", function () {
+                    load(basePath + '/_teacher/_admin/coursemanage/view/id/' + id);
+                });
             else bootbox.alert("Схему курса не вдалося зберегти.");
         },
         error: function () {
@@ -195,8 +197,8 @@ function addCoursePrice(url) {
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'price': price},
             success: function (response) {
-                if(response == "success")
-                    bootbox.alert("Нова ціна збережена.", function(){
+                if (response == "success")
+                    bootbox.alert("Нова ціна збережена.", function () {
                         load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
                     });
                 else bootbox.alert("Операцію не вдалося виконати.");
@@ -221,7 +223,7 @@ function addMandatory(url) {
             type: 'post',
             data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
             success: function (response) {
-                bootbox.confirm(response, function(){
+                bootbox.confirm(response, function () {
                     load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
                 });
             },
@@ -283,8 +285,8 @@ function validateSliderForm(scenario) {
     valid.push(numberValidate($jq('#text_ua')));
     valid.push(numberValidate($jq('#text_ru')));
     valid.push(numberValidate($jq('#text_en')));
-    if(scenario=='insert')
-    valid.push(filePicValidate($jq('#picture')));
+    if (scenario == 'insert')
+        valid.push(filePicValidate($jq('#picture')));
     return checkValid(valid);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -469,32 +471,32 @@ function deleteMainSlide(url) {
     });
 }
 function moduleValidation(data) {
-    var dataValidation=JSON.parse(data);
-    if(dataValidation['error']){
+    var dataValidation = JSON.parse(data);
+    if (dataValidation['error']) {
         bootbox.alert(dataValidation['text']);
-    }else{
+    } else {
         bootbox.alert(dataValidation['text'], function () {
-            load(basePath + '/_teacher/_admin/module/index/','Створити модуль');
+            load(basePath + '/_teacher/_admin/module/index/', 'Створити модуль');
         });
     }
 }
 
 function loadMainSliderList() {
-    load(basePath + '/_teacher/_admin/carousel/index/','Слайдер на головній сторінці');
+    load(basePath + '/_teacher/_admin/carousel/index/', 'Слайдер на головній сторінці');
 }
 function loadSliderAboutUsList() {
-    load(basePath + '/_teacher/_admin/aboutusSlider/index/','Слайдер на сторінці Про нас');
+    load(basePath + '/_teacher/_admin/aboutusSlider/index/', 'Слайдер на сторінці Про нас');
 }
 function loadTeacherModulesList(id) {
-    load(basePath + '/_teacher/_admin/teachers/addModule/id/'+id,'Додати модуль');
+    load(basePath + '/_teacher/_admin/teachers/addModule/id/' + id, 'Додати модуль');
 }
 function loadTrainerStudentList(id) {
-    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/trainer/','Редагувати роль');
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/trainer/', 'Редагувати роль');
 }
 function loadAddModuleAuthor() {
     load(basePath + '/_teacher/_admin/permissions/showAddTeacherAccess/');
 }
 function loadAddModuleConsultant(id) {
-    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/consultant/', 'Редагувати роль');
 }
 
