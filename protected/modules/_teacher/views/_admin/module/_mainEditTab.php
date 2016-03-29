@@ -57,5 +57,12 @@
         <?php echo $form->textField($model, 'days_in_week', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'days_in_week'); ?>
     </div>
+    <div class="form-group">
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',
+            array(
+                'class' => 'btn btn-primary',
+                'id' => 'submitButton',
+            )); ?>
+    </div>
 </div>
 
