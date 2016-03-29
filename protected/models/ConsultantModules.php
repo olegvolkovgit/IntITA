@@ -82,7 +82,7 @@ class ConsultantModules extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('t.id',$this->id);
 		$criteria->compare('consultant',$this->consultant);
 		$criteria->compare('module',$this->module);
         $criteria->compare('start_time',$this->start_time);

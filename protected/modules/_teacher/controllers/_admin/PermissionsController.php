@@ -50,4 +50,9 @@ class PermissionsController extends TeacherCabinetController
     {
         echo Teacher::teachersByQuery($query);
     }
+
+    public function actionConsultantsByQuery($query)
+    {
+        echo Consultant::consultantsByQuery($query);
+    }
 }

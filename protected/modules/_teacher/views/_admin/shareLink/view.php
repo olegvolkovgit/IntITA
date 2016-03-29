@@ -26,11 +26,11 @@
                 <table class="table table-hover">
                     <tbody>
                     <tr>
-                        <td width="30%">Назва</td>
+                        <td width="30%"><strong>Назва</strong></td>
                         <td><?= $model->name; ?></td>
                     </tr>
                     <tr>
-                        <td width="30%">Посилання</td>
+                        <td width="30%"><strong>Посилання</strong></td>
                         <td>
                             <a href="<?= $model->link ?>">
                                 <?= $model->link; ?>
