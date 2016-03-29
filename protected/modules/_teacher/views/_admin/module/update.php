@@ -48,7 +48,6 @@
         </button>
     </li>
 </ul>
-
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Nav tabs -->
