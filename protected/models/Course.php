@@ -688,22 +688,22 @@ class Course extends CActiveRecord implements IBillableObject
     public static function juniorCoursesCount()
     {
         return count(Course::model()->findAllByAttributes(array(
-                'level' => array('1', '2', '3'),
-                'cancelled' => 0)
+                'level' => array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR),
+                'cancelled' => Course::AVAILABLE)
         ));
     }
 
     public static function middleCoursesCount()
     {
-        return Course::model()->count('level=:level and cancelled=0',
-            array(':level' => '4')
+        return Course::model()->count('level=:level and cancelled=:isAvailable',
+            array(':level' => Level::MIDDLE, ':isAvailable' => Course::AVAILABLE)
         );
     }
 
     public static function seniorCoursesCount()
     {
-        return Course::model()->count('level=:level and cancelled=0',
-            array(':level' => '5')
+        return Course::model()->count('level=:level and cancelled=:isAvailable',
+            array(':level' => Level::SENIOR, ':isAvailable' => Course::AVAILABLE)
         );
     }
 
