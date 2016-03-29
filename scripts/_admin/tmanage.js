@@ -53,8 +53,14 @@ function addTeacherAttr(url, attr, id, role) {
                         case "trainer":
                             showDialog("Для даного студента вже призначено тренера");
                             break;
+                        case "author":
+                            showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        case "consultant":
+                            showDialog("Консультанту вже призначений даний модуль для консультацій");
+                            break;
                         default:
-                            showDialog("Операцію не вдалося виконати.");
+                            showDialog("Операцію не вдалося виконати");
                             break;
                     }
                 }
