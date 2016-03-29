@@ -25,14 +25,15 @@ if (!empty($plainTasksAnswers)) {
                     </thead>
                     <tbody>
                     <?php foreach ($plainTasksAnswers as $plainTaskAnswer) {
-                        $module = $plainTaskAnswer->getModule();
-                        if ($module) {
+                        //var_dump($plainTaskAnswer);die;
+                        //$module = $plainTaskAnswer->getModule();
+                        //if ($module) {
                             ?>
                             <tr>
-                                <td><?php echo $plainTaskAnswer->id; ?></td>
+                                <td><?php echo $plainTaskAnswer["id"]; ?></td>
                                 <td><?php echo $plainTaskAnswer->getStudentName(); ?></td>
-                                <td><?php echo $plainTaskAnswer->answer; ?></td>
-                                <td><?php echo $module->title_ua; ?></td>
+                                <td><?php echo $plainTaskAnswer["answer"]; ?></td>
+                                <td><?php //echo $module->title_ua; ?></td>
                                 <td>
                                     <a href="#" onclick="chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
                                         '<?php echo Yii::app()->createUrl("_teacher/teacher/addConsultant") ?>')">
@@ -41,7 +42,7 @@ if (!empty($plainTasksAnswers)) {
                                     </a>
                                 </td>
                             </tr>
-                        <?php }
+                        <?php //}
                     } ?>
                     </tbody>
                 </table>

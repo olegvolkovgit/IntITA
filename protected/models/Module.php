@@ -1047,4 +1047,8 @@ class Module extends CActiveRecord implements IBillableObject
 
         return Yii::app()->db->createCommand($sql)->queryAll();
     }
+
+    public function getIndepedentModulePrice(){
+        return round($this->module_price * Config::getCoeffIndependentModule());
+    }
 }
