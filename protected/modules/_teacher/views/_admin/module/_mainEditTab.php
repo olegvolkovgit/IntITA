@@ -41,9 +41,12 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'module_price'); ?>
-        <?php echo $form->textField($model, 'module_price', array('class' => 'form-control')); ?>
-        <?php echo $form->error($model, 'module_price'); ?>
+        <div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курса (якщо не вказана ціна модуля в конкретному курсі - вкладка
+        <У курсах>) і при розрахунку вартості самостійного модуля.">
+            <?php echo $form->labelEx($model, 'module_price'); ?>
+            <?php echo $form->textField($model, 'module_price', array('class' => 'form-control')); ?>
+            <?php echo $form->error($model, 'module_price'); ?>
+        </div>
     </div>
 
     <div class="form-group">
