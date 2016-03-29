@@ -689,6 +689,7 @@ class SiteController extends Controller
         $signMode = Yii::app()->request->getPost('signMode');
         $extended = Yii::app()->request->getPost('isExtended');
         $formId = Yii::app()->request->getPost('formId');
+        $callBack = Yii::app()->request->getPost('callBack');
 
         $model = new StudentReg();
         if ($signMode == 'signUp') //            SignUp
@@ -743,6 +744,9 @@ class SiteController extends Controller
                             }
                         };
 //                                                Forum login
+                        if (!empty($callBack)) {
+                            $this->redirect($callBack);
+                        }
                         if (isset($_SERVER["HTTP_REFERER"])) {
                             if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                             if (isset($_GET['dialog'])) $this->redirect(Yii::app()->homeUrl);

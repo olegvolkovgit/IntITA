@@ -53,8 +53,8 @@
         $jq("#startDate").datepicker(lang);
         $jq("#endDate").datepicker(lang);
 
-        if(history.state!=null)
-            openTab('#userTabs', history.state.tab);
+       if(history.state!=null)
+        openTab('#userTabs', history.state.tab);
     });
 
 </script>
