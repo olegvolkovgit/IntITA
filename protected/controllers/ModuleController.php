@@ -25,11 +25,15 @@ class ModuleController extends Controller
 
         $editMode = 0;
         $isPaidCourse=false;
+        $isPaidModule=false;
         if (!Yii::app()->user->isGuest) {
             $userId=Yii::app()->user->getID();
             $editMode = Teacher::isTeacherAuthorModule($userId,$idModule);
             if($idCourse!=0 && (StudentReg::isAdmin() || PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read')))){
                 $isPaidCourse=true;
+            }
+            if(StudentReg::isAdmin() || PayModules::model()->checkModulePermission($userId, $idModule, array('read'))){
+                $isPaidModule=true;
             }
         }
 
@@ -41,6 +45,7 @@ class ModuleController extends Controller
             'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
             'isPaidCourse' => $isPaidCourse,
+            'isPaidModule' => $isPaidModule,
         ));
     }
 

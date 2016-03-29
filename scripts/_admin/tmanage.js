@@ -470,13 +470,97 @@ function deleteMainSlide(url) {
         }
     });
 }
-function moduleValidation(data) {
-    var dataValidation = JSON.parse(data);
-    if (dataValidation['error']) {
-        bootbox.alert(dataValidation['text']);
-    } else {
-        bootbox.alert(dataValidation['text'], function () {
-            load(basePath + '/_teacher/_admin/module/index/', 'Створити модуль');
+function moduleCreate(errField,hasError,action, data) {
+    if(hasError) {
+        if(errField['Module_title_ua'] !== undefined)
+            $jq('#createModuleTabs li:eq(1) a').tab('show');
+        else $jq('#createModuleTabs li:eq(0) a').tab('show');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: data,
+            success: function (ret) {
+                bootbox.alert("Модуль успішно додано", function () {
+                    loadModulesList();
+                });
+            },
+            error: function () {
+                bootbox.alert("Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+            }
+        });
+    }
+}
+function moduleEdit(errField,hasError,action, data) {
+    if(hasError) {
+        if(errField['Module_title_ua'] !== undefined)
+            $jq('#editModuleTabs li:eq(1) a').tab('show');
+        else $jq('#editModuleTabs li:eq(0) a').tab('show');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: data,
+            success: function (ret) {
+                bootbox.alert("Модуль успішно відредаговано", function () {
+                    loadModulesList();
+                });
+            },
+            error: function () {
+                bootbox.alert("Модуль не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
+            }
+        });
+    }
+}
+function courseCreate(errField,hasError,action, data) {
+    if(hasError) {
+        console.log(errField);
+        if(errField['Course_title_ua'] !== undefined)
+            $jq('#createCourseTabs li:eq(1) a').tab('show');
+        else if(errField['Course_title_ru'] !== undefined)
+            $jq('#createCourseTabs li:eq(2) a').tab('show');
+        else if(errField['Course_title_en'] !== undefined)
+            $jq('#createCourseTabs li:eq(3) a').tab('show');
+        else $jq('#createCourseTabs li:eq(0) a').tab('show');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: data,
+            success: function () {
+                bootbox.alert("Курс успішно додано", function () {
+                    loadCourseList();
+                });
+            },
+            error: function () {
+                bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+            }
+        });
+    }
+}
+function courseEdit(errField,hasError,action, data) {
+    if(hasError) {
+        console.log(errField);
+        if(errField['Course_title_ua'] !== undefined)
+            $jq('#editCourseTabs li:eq(1) a').tab('show');
+        else if(errField['Course_title_ru'] !== undefined)
+            $jq('#editCourseTabs li:eq(2) a').tab('show');
+        else if(errField['Course_title_en'] !== undefined)
+            $jq('#editCourseTabs li:eq(3) a').tab('show');
+        else $jq('#editCourseTabs li:eq(0) a').tab('show');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: data,
+            success: function () {
+                bootbox.alert("Курс успішно відредаговано", function () {
+                    loadCourseList();
+                });
+            },
+            error: function () {
+                bootbox.alert("Курс не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
+            }
         });
     }
 }
@@ -497,6 +581,12 @@ function loadAddModuleAuthor() {
     load(basePath + '/_teacher/_admin/permissions/showAddTeacherAccess/');
 }
 function loadAddModuleConsultant(id) {
-    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/consultant/', 'Редагувати роль');
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
+}
+function loadModulesList() {
+    load(basePath + "/_teacher/_admin/module/index/","Модулі");
+}
+function loadCourseList() {
+    load(basePath + "/_teacher/_admin/coursemanage/index/","Курси");
 }
 

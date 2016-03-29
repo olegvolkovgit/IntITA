@@ -49,18 +49,11 @@
             array('options' => array('0' => array('selected' => true)), 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'status'); ?>
     </div>
-
     <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
             array(
                 'class' => 'btn btn-primary',
                 'id' => 'submitButton',
-                'ajax'=>array(
-                    'type'=>'POST',
-                    'url'=>$model->isNewRecord ? Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'):
-                        Yii::app()->createUrl('/_teacher/_admin/coursemanage/update', array('id' => $model->course_ID)) ,
-                    'success'=>'function(data) {bootbox.alert(data);}',
-                )
             )); ?>
     </div>
 </div>

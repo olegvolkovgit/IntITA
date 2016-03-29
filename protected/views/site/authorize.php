@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $callback
+ * @var $callBack
 */
 ?>
 <?php if(!isset($callBack)) $callBack=''; ?>
