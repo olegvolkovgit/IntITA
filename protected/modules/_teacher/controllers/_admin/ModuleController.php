@@ -21,12 +21,6 @@ class ModuleController extends TeacherCabinetController
         if (isset($_POST['Module'])) {
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
-            if (!$model->validate()) {
-                $data['text']='Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
-                $data['error']=true;
-                echo CJSON::encode($data);
-                Yii::app()->end();
-            }
             if ($model->save()) {
                 if (!empty($_FILES['Module']['name']['module_img'])) {
                     $imageName = array_shift($_FILES['Module']['name']);
@@ -38,15 +32,9 @@ class ModuleController extends TeacherCabinetController
                 } else {
                     Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
-                $data['text']='Модуль успішно створено!';
-                $data['error']=false;
-                echo CJSON::encode($data);
                 Yii::app()->end();
             } else {
-                $data['text']='Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.';
-                $data['error']=true;
-                echo CJSON::encode($data);
-                Yii::app()->end();
+                throw new \application\components\Exceptions\IntItaException(400, 'Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.');
             }
         }
 
@@ -106,7 +94,6 @@ class ModuleController extends TeacherCabinetController
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
-
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -116,38 +103,24 @@ class ModuleController extends TeacherCabinetController
                 if (!empty($imageName)) {
                     if (!empty($imageName)) {
                         $model->logo = $_FILES['Module'];
-                        if (!$model->validate()) {
-                            $data['text']='Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
-                            $data['error']=true;
-                            echo CJSON::encode($data);
-                            Yii::app()->end();
-                        } else {
-                            $model->save();
+                        if ($model->save()) {
                             if ($imageName && $tmpName) {
                                 if (!Avatar::updateModuleAvatar($imageName, $tmpName, $id, $model->oldLogo))
                                     throw new \application\components\Exceptions\IntItaException(500, 'Аватар не був збережений.');
                             }
+                        } else {
+                            throw new \application\components\Exceptions\IntItaException(400, 'Модуль не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.');
                         }
                     }
                 }
             } else {
-                if (!$model->validate()) {
+                if ($model->save()) {
+                    if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
+                        Module::model()->updateByPk($id, array('module_img' => 'module.png'));
+                    }
                     Yii::app()->end();
                 }
-                $model->save();
-                if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
-                    Module::model()->updateByPk($id, array('module_img' => 'module.png'));
-                }
-                $data['text']='Модуль успішно оновлено!';
-                $data['error']=false;
-                echo CJSON::encode($data);
-                Yii::app()->end();
             }
-            $data['text']='Інформацію про модуль не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
-            $data['error']=true;
-            echo CJSON::encode($data);
-            Yii::app()->end();
-
         }
         $teachers = TeacherModule::listByModule($model->module_ID);
         $consultants = $model->consultants();

@@ -6,6 +6,7 @@
  * @var $item string
  */
 ?>
+<?php if ($linkedCourses){ ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <?php if ($scenario == "update") { ?>
@@ -20,7 +21,6 @@
 
         <div class="col-md-12">
             <div class="row">
-                <?php if ($linkedCourses){ ?>
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover" id="modulesListTable">
                         <thead>

@@ -24,7 +24,7 @@
     <?php endif; ?>
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
+        <ul id="createCourseTabs" class="nav nav-tabs">
             <li class="active"><a href="#main" data-toggle="tab">Головне</a>
             </li>
             <li><a href="#ua" data-toggle="tab">Українською</a>
@@ -38,6 +38,7 @@
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'course-form',
+                'action'=>Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',
@@ -48,9 +49,9 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);return true;
-                }',
-                )
+                        courseCreate(data,hasError,form[0].action,$(form).serialize());
+                        return false;
+                }'),
             )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
@@ -69,6 +70,13 @@
                     <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create',
                         'form' => $form)); ?>
                 </div>
+            </div>
+            <div class="form-group formMargin">
+                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
+                    array(
+                        'class' => 'btn btn-primary',
+                        'id' => 'submitButton',
+                    )); ?>
             </div>
             <?php $this->endWidget(); ?>
         </div>
