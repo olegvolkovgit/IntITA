@@ -16,7 +16,7 @@
 
             <div class="form-group">
                 <label for="category">Категорія повідомлення</label>
-                <input type="text" name="category" required class="form-control">
+                <input type="text" name="category" maxlength="32" required class="form-control">
             </div>
             <br>
             <br>
