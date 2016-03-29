@@ -24,6 +24,10 @@
         </form>
     </div>
     <br>
+    <div>
+        <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
+    </div>
+    <br>
     <div class="dataTable_wrapper">
         <table class="table table-striped table-bordered table-hover" id="modulesListTable">
             <thead>

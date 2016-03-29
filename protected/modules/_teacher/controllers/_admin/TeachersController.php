@@ -54,6 +54,7 @@ class TeachersController extends TeacherCabinetController{
 
         $this->renderPartial('_moduleList',array(
             'user' => $user->id,
+            'model' => $user,
             'role' => UserRoles::AUTHOR,
             'attribute' => $attributes["module"]
         ),false,true);
