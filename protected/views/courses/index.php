@@ -2,25 +2,23 @@
 <?php
 /* @var $user StudentReg
  * @var $total int
- * @var $coursesLangs array
+ * @var $blocks array
+ * @var $counters array
  */
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'courses.css'); ?>" />
 <?php
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050'),
-);
-
-$courseList = $dataProvider->getData();
-?>
+); ?>
 
 <div id='coursesMainBox'>
-    <?php $this->renderPartial('_menuLine', array('total'=>$total));?>
+    <?php $this->renderPartial('_menuLine', array('counters'=>$counters));?>
     <table>
         <tr>
             <td>
-            <?php $this->renderPartial('_coursesPart1', array('courseList' => $courseList, 'coursesLangs' => $coursesLangs));?>
-            <?php $this->renderPartial('_coursesPart2', array('courseList' => $courseList, 'coursesLangs' => $coursesLangs));?>
+            <?php $this->renderPartial('_coursesPart1', array('blocks' => $blocks));?>
+            <?php $this->renderPartial('_coursesPart2', array('blocks' => $blocks));?>
             </td>
         </tr>
     </table>

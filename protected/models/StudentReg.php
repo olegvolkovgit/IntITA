@@ -238,7 +238,7 @@ class StudentReg extends CActiveRecord
     {
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
+        $criteria->compare('t.id', $this->id);
         $criteria->compare('firstName', $this->firstName, true);
         $criteria->compare('middleName', $this->middleName, true);
         $criteria->compare('secondName', $this->secondName, true);
