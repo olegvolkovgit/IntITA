@@ -87,8 +87,8 @@ class SiteController extends Controller
                 break;
             case '500':
                 $breadcrumbs = Yii::t('breadcrumbs', '0783');
-                if(!$isGotMessage)
-                    $error["message"] = Yii::t('breadcrumbs', '0783');
+//                if(!$isGotMessage)
+//                    $error["message"] = Yii::t('breadcrumbs', '0783');
                 break;
             default:
                 $breadcrumbs = Yii::t('breadcrumbs', '0784');
