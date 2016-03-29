@@ -121,7 +121,7 @@
                     )); ?>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group formMargin">
                 <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',
                     array(
                         'class' => 'btn btn-primary',

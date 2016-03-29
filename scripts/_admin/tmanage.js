@@ -510,6 +510,58 @@ function moduleEdit(errField,hasError,action, data) {
         });
     }
 }
+function courseCreate(errField,hasError,action, data) {
+    if(hasError) {
+        console.log(errField);
+        if(errField['Course_title_ua'] !== undefined)
+            $jq('#createCourseTabs li:eq(1) a').tab('show');
+        else if(errField['Course_title_ru'] !== undefined)
+            $jq('#createCourseTabs li:eq(2) a').tab('show');
+        else if(errField['Course_title_en'] !== undefined)
+            $jq('#createCourseTabs li:eq(3) a').tab('show');
+        else $jq('#createCourseTabs li:eq(0) a').tab('show');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: data,
+            success: function () {
+                bootbox.alert("Курс успішно додано", function () {
+                    loadCourseList();
+                });
+            },
+            error: function () {
+                bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+            }
+        });
+    }
+}
+function courseEdit(errField,hasError,action, data) {
+    if(hasError) {
+        console.log(errField);
+        if(errField['Course_title_ua'] !== undefined)
+            $jq('#editCourseTabs li:eq(1) a').tab('show');
+        else if(errField['Course_title_ru'] !== undefined)
+            $jq('#editCourseTabs li:eq(2) a').tab('show');
+        else if(errField['Course_title_en'] !== undefined)
+            $jq('#editCourseTabs li:eq(3) a').tab('show');
+        else $jq('#editCourseTabs li:eq(0) a').tab('show');
+    }else{
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: data,
+            success: function () {
+                bootbox.alert("Курс успішно відредаговано", function () {
+                    loadCourseList();
+                });
+            },
+            error: function () {
+                bootbox.alert("Курс не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
+            }
+        });
+    }
+}
 
 function loadMainSliderList() {
     load(basePath + '/_teacher/_admin/carousel/index/','Слайдер на головній сторінці');
@@ -530,6 +582,9 @@ function loadAddModuleConsultant(id) {
     load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
 }
 function loadModulesList() {
-    load(basePath + "/_teacher/_admin/module/index/","Створити модуль");
+    load(basePath + "/_teacher/_admin/module/index/","Модулі");
+}
+function loadCourseList() {
+    load(basePath + "/_teacher/_admin/coursemanage/index/","Курси");
 }
 
