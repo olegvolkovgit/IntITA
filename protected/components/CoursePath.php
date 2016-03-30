@@ -29,10 +29,12 @@ class CoursePath extends Path{
                     throw new \application\components\Exceptions\IntItaException(403, 'Даний модуль не входить до складу цього курса.');
                 }
                 $this->getLecture();
-                if($this->lecture != null) {
-                    $this->checkPageDefined();
-                } else {
-                    throw new \application\components\Exceptions\IntItaException(404, 'Сторінка не знайдена.');
+                $this->checkPageDefined();
+
+                if($this->lecture == null) {
+                    if($this->getLectureOrder()) {
+                        throw new \application\components\Exceptions\IntItaException(404, 'Сторінка не знайдена.');
+                    }
                 }
             }
         }
