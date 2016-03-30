@@ -12,12 +12,11 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/directives/editTitle.js'); ?>"></script>
 <script type="text/javascript">
     idModule = <?php echo $module->module_ID;?>;
-    idCourse = <?php echo $idCourse;?>;
     basePath = '<?php echo Config::getBaseUrl();?>';
     lang = '<?php echo CommonHelper::getLanguage();?>';
 </script>
 <div id="lessonHumMenu">
-    <?php $this->renderPartial('/module/_hamburgerMenu', array('idCourse' => $idCourse, 'idModule' => $module->module_ID)); ?>
+    <?php $this->renderPartial('/module/_hamburgerMenu'); ?>
 </div>
 <div class="lessonModule" id="lectures" ng-controller="moduleEditCtrl">
     <div class="moduleTitle">
@@ -71,9 +70,7 @@
         <?php $this->renderPartial('_addLessonForm', array('model'=>$module)); ?>
     </div>
     <div class="backButton">
-        <a href="<?php
-        if($idCourse==0) echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID));
-        else echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
+        <a href="<?php echo isset($_SERVER["HTTP_REFERER"])?$_SERVER["HTTP_REFERER"]:Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID)); ?>">
             <?php echo Yii::t('module', '0808') ?>
         </a>
     </div>
