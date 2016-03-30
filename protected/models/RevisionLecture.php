@@ -546,7 +546,7 @@ class RevisionLecture extends CActiveRecord
      * Returns a list of related lectures id.
      * Algorithm based on Quick-Union algorithm
      * http://algs4.cs.princeton.edu/15uf/
-     * Possible ways to improve (in case of bad performance) - implement weight and path compression.
+     * Possible ways to improve (in case of bad performance) - implement weight.
      *
      * @return array
      */
@@ -558,15 +558,17 @@ class RevisionLecture extends CActiveRecord
          * @param $element
          * @return bool
          */
-        function getQURoot($quickUnion, $element) {
+        function getQURoot(&$quickUnion, $element) {
             $root = $quickUnion[$element];
 
-            while ($root!=$element) {
-                $element = $root;
-                $root = $quickUnion[$element];
+            while ($root!=$quickUnion[$root]) {
+                $quickUnion[$root] = $quickUnion[$quickUnion[$root]];
+                $root = $quickUnion[$root];
             }
 
-            return $element;
+            $quickUnion[$element] = $root;
+
+            return $root;
         };
 
         //get list of ids of all lectures in the module.
