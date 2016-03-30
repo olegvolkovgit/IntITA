@@ -31,6 +31,8 @@ class CoursePath extends Path{
                 $this->getLecture();
                 if($this->lecture != null) {
                     $this->checkPageDefined();
+                } else {
+                    throw new \application\components\Exceptions\IntItaException(404, 'Сторінка не знайдена.');
                 }
             }
         }
