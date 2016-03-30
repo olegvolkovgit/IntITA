@@ -134,9 +134,6 @@ class CabinetController extends TeacherCabinetController
 
     public function rolesDashboard(RegisteredUser $user, $inRole = null)
     {
-        if ($user->isTeacher()) {
-            $teacher = $user->getTeacher();
-        }
         if ($inRole == null) {
             $roles = $user->getRoles();
         } else $roles = $inRole;
@@ -144,13 +141,13 @@ class CabinetController extends TeacherCabinetController
         foreach ($roles as $role) {
             switch ($role) {
                 case "trainer":
-                    $this->renderTrainerDashboard($teacher, $user, $role);
+                    $this->renderTrainerDashboard($user);
                     break;
                 case "author":
-                    $this->renderAuthorDashboard($teacher, $user, $role);
+                    $this->renderAuthorDashboard($user);
                     break;
                 case 'consultant':
-                    $this->renderConsultantDashboard($teacher, $user, $role);
+                    $this->renderConsultantDashboard($user);
                     break;
                 case 'admin':
                     $this->renderAdminDashboard();
@@ -170,39 +167,39 @@ class CabinetController extends TeacherCabinetController
 
     public function renderSidebarByRole(UserRoles $role)
     {
-        $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
         $user = Yii::app()->user->model;
         switch ($role) {
+            case 'author' :
+                $this->renderPartial('/author/sidebar', array(
+                    'user' => $user
+                ));
+                break;
             case 'trainer' :
                 $this->renderPartial('/trainer/sidebar', array(
-                    'teacher' => $teacher,
                     'user' => $user
                 ));
                 break;
             case 'consultant' :
                 $this->renderPartial('/consultant/sidebar', array(
-                    'teacher' => $teacher,
                     'user' => $user
                 ));
                 break;
         }
     }
 
-    private function renderTrainerDashboard(Teacher $teacher, RegisteredUser $user, $role)
+    private function renderTrainerDashboard(RegisteredUser $user)
     {
         return $this->renderPartial('/trainer/_trainerDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
+            'teacher' => $user->getTeacher(),
+            'user' => $user->registrationData
         ));
     }
 
-    private function renderAuthorDashboard(Teacher $teacher, RegisteredUser $user, $role)
+    private function renderAuthorDashboard(RegisteredUser $user)
     {
         return $this->renderPartial('/author/_authorDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
+            'teacher' => $user->getTeacher(),
+            'user' => $user->registrationData
         ));
     }
 
@@ -214,21 +211,19 @@ class CabinetController extends TeacherCabinetController
     }
 
 
-    private function renderConsultantDashboard(Teacher $teacher, RegisteredUser $user, $role)
+    private function renderConsultantDashboard(RegisteredUser $user)
     {
         return $this->renderPartial('/consultant/_consultantDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
+            'teacher' => $user->getTeacher(),
+            'user' => $user->registrationData
         ));
     }
 
-    private function renderLeaderDashboard(Teacher $teacher, RegisteredUser $user, $role)
+    private function renderLeaderDashboard(Teacher $teacher, RegisteredUser $user)
     {
         return $this->renderPartial('/leader/_leaderDashboard', array(
             'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
+            'user' => $user->registrationData
         ));
     }
 
