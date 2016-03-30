@@ -9,7 +9,7 @@
         <table class="table table-striped table-bordered table-hover" id="modulesListTable">
             <thead>
             <tr>
-                <th>Студент</th>
+                <th>Модуль</th>
                 <th width="20%">Призначено</th>
             </tr>
             </thead>
@@ -20,7 +20,7 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $item["id"])); ?>"
+                            <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>"
                                target="_blank">
                                 <?= $item["title"]; ?>
                             </a>
