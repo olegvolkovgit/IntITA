@@ -306,11 +306,10 @@ class ModuleController extends Controller
     {
         $data = [];
         $model = Module::model()->with('teacher', 'lectures')->findByPk(Yii::app()->request->getPost('id'));
-        $course = Yii::app()->request->getPost('course');
         $modelData=get_object_vars($model->getLecturesDataProvider());
 
         for($i = 0;$i < count($modelData['rawData']);$i++){
-            $data['lecturesLink'][$i]=Yii::app()->createUrl("lesson/index", array("id" => $modelData['rawData'][$i]['id'], "idCourse" => $course));
+            $data['lecturesLink'][$i]=Yii::app()->createUrl("lesson/index", array("id" => $modelData['rawData'][$i]['id'], "idCourse" => 0));
         }
         $fullData=CJSON::encode(array_merge($modelData,$data));
 
