@@ -97,11 +97,13 @@ class TeacherController extends TeacherCabinetController
 
     public function actionManageConsult()
     {
+        $user = RegisteredUser::userById(Yii::app()->user->getId());
+        $newAnswers = $user->getAttributesByRole(UserRoles::TRAINER)[2];
         $tasks = PlainTaskAnswer::getTaskWithTrainer();
-        $plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
+        //$plainTaskAnswers = PlainTask::getPlainTaskAnswersWithoutTrainer();
 
         $this->renderPartial('/trainer/_manageConsult', array(
-            'plainTaskAnswers' => $plainTaskAnswers,
+            'plainTaskAnswers' => $newAnswers["value"],
             'tasks' => $tasks
         ), false, true);
     }

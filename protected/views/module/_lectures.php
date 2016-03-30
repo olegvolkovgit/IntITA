@@ -14,7 +14,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
         </a>
     <?php } ?>
     <?php if (!Yii::app()->user->isGuest) {
-    if (Yii::app()->user->model->isTeacher() && !$canEdit){ ?>
+    if (Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>
             <a href="#"
                onclick="sendRequest('<?php echo Yii::app()->createUrl("/module/sendRequest", array("user" => Yii::app()->user->getId(), "moduleId" => $module->module_ID)); ?>')">
 
@@ -77,7 +77,9 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
                     url: url,
                     type: "POST",
                     success: function (response) {
-                        bootbox.alert(response);
+                        bootbox.alert(response, function(){
+                            location.reload();
+                        });
                     },
                     error:function () {
                         bootbox.alert("Запит не вдалося надіслати.");

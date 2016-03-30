@@ -215,4 +215,12 @@ class RegisteredUser
     public function canPlanConsultation(Teacher $teacher){
         return $this->registrationData->id != $teacher->user_id;
     }
+
+    public function canSendRequest($module){
+        if(!$this->isTeacher())
+            return false;
+        else {
+            return !MessagesAuthorRequest::isRequestOpen($module, $this->registrationData->id);
+        }
+    }
 }

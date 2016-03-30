@@ -12,6 +12,7 @@
  * @property int $consultant
  *
  * @property PlainTask $plainTask
+ * @property StudentReg $user
  */
 class PlainTaskAnswer extends CActiveRecord
 {

@@ -16,32 +16,32 @@ if (!empty($plainTasksAnswers)) {
                 <table class="table table-bordered table-hover" id="newTasksTable">
                     <thead>
                     <tr>
-                        <th>Номер задачі</th>
+                        <th width="10%">Задача</th>
                         <th>Студент</th>
                         <th>Відповідь</th>
                         <th>Модуль</th>
-                        <th>Призначити консультанта</th>
+                        <th width="12%">Консультант</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($plainTasksAnswers as $plainTaskAnswer) {
-                        $module = $plainTaskAnswer->getModule();
-                        if ($module) {
+                        //$module = $plainTaskAnswer->getModule();
+                        //if ($module) {
                             ?>
                             <tr>
-                                <td><?php echo $plainTaskAnswer->id; ?></td>
-                                <td><?php echo $plainTaskAnswer->getStudentName(); ?></td>
-                                <td><?php echo $plainTaskAnswer->answer; ?></td>
-                                <td><?php echo $module->title_ua; ?></td>
+                                <td><?php echo $plainTaskAnswer["id"]; ?></td>
+                                <td><?php echo ($plainTaskAnswer["studentName"] != "")?
+                                        $plainTaskAnswer["studentName"].", ".$plainTaskAnswer["email"]:$plainTaskAnswer["email"]; ?></td>
+                                <td><?php echo $plainTaskAnswer["answer"]; ?></td>
+                                <td><?php //echo $module->title_ua; ?></td>
                                 <td>
-                                    <a href="#" onclick="chooseTrainer('<?php echo $plainTaskAnswer->id ?>',
+                                    <a href="#" onclick="chooseTrainer('<?php echo $plainTaskAnswer["id"] ?>',
                                         '<?php echo Yii::app()->createUrl("_teacher/teacher/addConsultant") ?>')">
-                                        <img style="padding-left: 50px"
-                                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'add.png') ?>"
+                                        призначити
                                     </a>
                                 </td>
                             </tr>
-                        <?php }
+                        <?php //}
                     } ?>
                     </tbody>
                 </table>
