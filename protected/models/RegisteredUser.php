@@ -164,7 +164,11 @@ class RegisteredUser
 
     public function isAuthor()
     {
-        return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
+        if($this->isTeacher()) {
+            return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
+        } else {
+            return false;
+        }
     }
 
     //todo author role check
