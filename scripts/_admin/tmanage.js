@@ -25,7 +25,7 @@ function addTeacherAttr(url, attr, id, role) {
     if (value == 0) {
         showDialog('Введіть дані форми.');
     }
-    if (user && value) {
+    if (parseInt(user && value)) {
         $jq.ajax({
             url: url,
             type: "POST",
@@ -49,7 +49,20 @@ function addTeacherAttr(url, attr, id, role) {
                         }
                     });
                 } else {
-                    showDialog("Операцію не вдалося виконати.");
+                    switch (role) {
+                        case "trainer":
+                            showDialog("Для даного студента вже призначено тренера");
+                            break;
+                        case "author":
+                            showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        case "consultant":
+                            showDialog("Консультанту вже призначений даний модуль для консультацій");
+                            break;
+                        default:
+                            showDialog("Операцію не вдалося виконати");
+                            break;
+                    }
                 }
             },
             error: function () {

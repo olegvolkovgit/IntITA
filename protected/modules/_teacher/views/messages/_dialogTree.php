@@ -22,7 +22,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             <strong>
                                 <?= $message->message0->sender0->userName().", ". $message->message0->sender0->email; ?>
                             </strong>
-                            <em><?= substr(CHtml::encode($message->subject), 0, 50) . "..."; ?></em>
+                            <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
                         </a>
                         <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
@@ -58,7 +58,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                     <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse <?php if($key == 0) echo 'in';?>">
                         <div class="panel-body">
                             <p>
-                                <?=CHtml::encode($message->text);?>
+                                <?=$message->text;?>
                                 <br>
                                 <?php
                                 $forwarded = $message->message0->forwarded();
