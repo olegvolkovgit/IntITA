@@ -9,6 +9,7 @@
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'moduleEdit.css'); ?>" />
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleEditCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/directives/editTitle.js'); ?>"></script>
 <script type="text/javascript">
     idModule = <?php echo $module->module_ID;?>;
     idCourse = <?php echo $idCourse;?>;
@@ -51,9 +52,17 @@
                     <span><?php echo Yii::t('module', '0381') ?> {{$index+1}}.</span>
                 </td>
                 <td class="lecturesTitle">
-                    <a href="{{lectures.lecturesLink[$index]}}">
-                        <span class="lectureTitle">{{lecture.title}}</span>
-                    </a>
+                    <div class="moduleTitle">
+                        <a href="{{lectures.lecturesLink[$index]}}">
+                            <span class="lectureTitle">{{lecture.title}}</span>
+                        </a>
+                        <img edit-title="{{lecture.id}},{{lecture.idModule}}" src="<?php echo StaticFilesHelper::createPath('image', 'module', 'editLecture.png'); ?>"/>
+                    </div>
+                    <div class="editTitle">
+                        <input maxlength="255" type="text" required value="{{lecture.title}}">
+                        <img ng-click="saveTitle(lecture.id,lecture.idModule,$event)" src="<?php echo StaticFilesHelper::createPath('image', 'module', 'save.png'); ?>">
+                        <img cancel-edit src="<?php echo StaticFilesHelper::createPath('image', 'module', 'cancel.png'); ?>">
+                    </div>
                 </td>
             </tr>
         </table>
