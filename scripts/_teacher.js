@@ -12,7 +12,7 @@ function load(url, header, histories, tab) {
             container.html('');
             container.html(data);
             if (header) {
-                $jq("#pageTitle").html(header);
+                $jq("#pageTitle").text(header);
             } else {
                 $jq("#pageTitle").html('Особистий кабінет');
             }

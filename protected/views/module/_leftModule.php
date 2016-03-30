@@ -17,7 +17,7 @@ if (StudentReg::isAdmin()) $post->setScenario('canedit');
                         if($post->getBasePrice() > 0) {
                             if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
                                 echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                            } elseif ($post->status == 1 && $post->cancelled == 0) {
+                            } elseif ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
                                 ?>
                                 <a id="paymentButtonModule" onclick="redirectToProfile()"
                                    href="<?php echo Yii::app()->createUrl('studentreg/profile', array(

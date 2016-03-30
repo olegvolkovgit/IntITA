@@ -64,12 +64,12 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             array('status', 'required'),
             array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
-            array('alias,module_number','unique'),
+            array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
-            module_number, cancelled, level', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
-            array('module_price', 'length', 'max' => 10),
+            module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
+            array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
-            array('alias', 'length', 'max' => 30),
+            array('alias', 'length', 'max' => 30, 'message' => 'Довжина псевдоніма занадто велика.'),
             array('language', 'length', 'max' => 6),
             array('title_ua', 'match',
                 'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
@@ -953,10 +953,10 @@ class Module extends CActiveRecord implements IBillableObject
             $row = array();
 
             $row["id"] = $record->module_ID;
-            $row["alias"] = $record->alias;
+            $row["alias"] = CHtml::encode($record->alias);
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["title"]["header"] = "'Модуль ".CHtml::encode(addslashes($record->title_ua))."'";
+            $row["title"]["header"] = "'Модуль ".addslashes($record->title_ua)."'";
             $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
@@ -1046,5 +1046,9 @@ class Module extends CActiveRecord implements IBillableObject
 		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module='.$this->module_ID;
 
         return Yii::app()->db->createCommand($sql)->queryAll();
+    }
+
+    public function getIndepedentModulePrice(){
+        return round($this->module_price * Config::getCoeffIndependentModule());
     }
 }

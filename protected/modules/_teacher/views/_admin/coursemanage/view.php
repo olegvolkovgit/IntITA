@@ -30,7 +30,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <!-- Nav tabs -->
-                <ul class="nav nav-tabs">
+                <ul id="courseView" class="nav nav-tabs">
                     <li class="active"><a href="#main" data-toggle="tab">Головне</a>
                     </li>
                     <li><a href="#ua" data-toggle="tab">Українською</a>
@@ -60,6 +60,7 @@
                     <div class="tab-pane fade" id="modules">
                         <?php $this->renderPartial('_modulesTab', array(
                             'model' => $model,
+                            'modules' => $modules,
                             'scenario' => 'view'
                         )); ?>
                     </div>
@@ -75,3 +76,7 @@
         </div>
     </div>
 </div>
+<script>
+    if(history.state!=null)
+        openTab('#courseView', history.state.tab);
+</script>

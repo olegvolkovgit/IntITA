@@ -238,7 +238,7 @@ class StudentReg extends CActiveRecord
     {
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
+        $criteria->compare('t.id', $this->id);
         $criteria->compare('firstName', $this->firstName, true);
         $criteria->compare('middleName', $this->middleName, true);
         $criteria->compare('secondName', $this->secondName, true);
@@ -897,29 +897,6 @@ class StudentReg extends CActiveRecord
         if (!empty($this->firstName) || !empty($this->secondName))
             return $this->firstName . ' ' . $this->secondName;
         else return $this->email;
-    }
-
-    public static function countAdmins()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'user';
-        $criteria->join = 'left join user_admin on user.id = user_admin.id_user';
-        return StudentReg::model()->count($criteria);
-    }
-
-    public static function countAccountants()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'user';
-        $criteria->join = 'left join user_accountant on user.id = user_accountant.id_user';
-        return StudentReg::model()->count($criteria);
-    }
-
-    public static function countStudents() {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'user';
-        $criteria->join = 'left join user_student on user.id = user_student.id_user';
-        return StudentReg::model()->count($criteria);
     }
 
     public static function getStudentsList($startDate, $endDate) {

@@ -6,13 +6,13 @@ function initConfigTable(){
         },
         "columns": [
             {
-                "width": "5%",
+                "width": "8%",
                 "data": "id"
             },
             {
                 "data": "param",
                 "render": function (param) {
-                    return '<a href="#" onclick="load('  + param["link"] + ')">'  + param["name"] + '</a>';
+                    return '<a href="#" onclick="load('  + param["link"] + ',' + '\'Налаштування ' +param["name"] + '\''+')">'  + param["name"] + '</a>';
                 }
             },
             {

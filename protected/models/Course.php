@@ -42,10 +42,6 @@ class Course extends CActiveRecord implements IBillableObject
     const READY = 1;
     const DEVELOP = 0;
     public $logo = array(), $oldLogo;
-    public $linkedRu;
-    public $linkedUa;
-    public $linkedEn;
-
 
     /**
      * @return string the associated database table name
@@ -93,7 +89,7 @@ class Course extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
         return array(
             'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
@@ -692,23 +688,22 @@ class Course extends CActiveRecord implements IBillableObject
     public static function juniorCoursesCount()
     {
         return count(Course::model()->findAllByAttributes(array(
-                'level' => array('1', '2', '3'),
-                'language' => 'ua',
-                'cancelled' => 0)
+                'level' => array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR),
+                'cancelled' => Course::AVAILABLE)
         ));
     }
 
     public static function middleCoursesCount()
     {
-        return Course::model()->count('level=:level and language=:lang and cancelled=0',
-            array(':level' => '4', ':lang' => 'ua')
+        return Course::model()->count('level=:level and cancelled=:isAvailable',
+            array(':level' => Level::MIDDLE, ':isAvailable' => Course::AVAILABLE)
         );
     }
 
     public static function seniorCoursesCount()
     {
-        return Course::model()->count('level=:level and language=:lang and cancelled=0',
-            array(':level' => '5', ':lang' => 'ua')
+        return Course::model()->count('level=:level and cancelled=:isAvailable',
+            array(':level' => Level::SENIOR, ':isAvailable' => Course::AVAILABLE)
         );
     }
 
@@ -1009,5 +1004,56 @@ class Course extends CActiveRecord implements IBillableObject
     }
     public function getEncodeAlias(){
         return CHtml::encode($this->alias);
+    }
+
+    /**
+     * Return array of course's blocks organized by linked languages (for courses page).
+     * @param $selector string course's level ID
+     * @return array
+     */
+    public static function getCoursesByLang($selector){
+        $criteria = Course::getCriteriaBySelector($selector);
+        $courses = Course::model()->findAll($criteria);
+
+        $result = [];
+        $langs = array('ua', 'ru', 'en');
+        $coursesLangs = CourseLanguages::model()->findAll();
+        foreach($coursesLangs as $langsRecord){
+            $row = [];
+            //for each language find course model
+            for($i=0; $i < 3; $i++) {
+                if ($langsRecord['lang_'.$langs[$i]] != 0) {
+                    foreach ($courses as $key=>$course) {
+                        if ($langsRecord['lang_'.$langs[$i]] == $course["course_ID"]) {
+                            array_push($row, $course);
+                            unset($courses[$key]);
+                        }
+                    }
+                }
+            }
+            if(!empty($row)) {
+                array_push($result, $row);
+            }
+        }
+
+        function notNullToArray($value)
+        {
+            if($value != null)
+            return array($value);
+        }
+
+        $courses = array_map("notNullToArray", $courses);
+
+        return array_merge($result, $courses);
+    }
+
+    public static function countersBySelectors(){
+        $result = [];
+        $result["junior"] = Course::juniorCoursesCount();
+        $result["middle"] = Course::middleCoursesCount();
+        $result["senior"] = Course::seniorCoursesCount();
+        $result["total"] = Course::model()->count('cancelled = :isCancel', array(':isCancel' => Course::AVAILABLE));
+
+        return $result;
     }
 }
