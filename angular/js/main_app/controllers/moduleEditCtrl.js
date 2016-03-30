@@ -30,7 +30,7 @@ function moduleEditCtrl($http,$scope) {
         var promise = $http({
             url: basePath+'/module/moduleData',
             method: "POST",
-            data: $.param({id: idModule, course: idCourse}),
+            data: $.param({id: idModule}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             return response.data;
