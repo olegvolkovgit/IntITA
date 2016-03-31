@@ -123,7 +123,7 @@ class Module extends CActiveRecord implements IBillableObject
 //            'module_duration_hours' => 'Тривалість модуля (години)',
 //            'module_duration_days' => 'Тривалість модуля (дні)',
             'lesson_count' => 'Кількість лекцій',
-            'module_price' => 'Ціна',
+            'module_price' => 'Ціна модуля базова, USD',
             'for_whom' => 'Для кого',
             'what_you_learn' => 'Що ти вивчиш',
             'what_you_get' => 'Що ти отримаєш',
@@ -133,6 +133,7 @@ class Module extends CActiveRecord implements IBillableObject
             'status' => 'Статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
+            'level' => 'Рівень',
 
         );
     }
