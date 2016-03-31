@@ -15,7 +15,7 @@ function ShowTeacher(url, id) {
     });
 }
 
-function addTeacherAttr(url, attr, id, role) {
+function addTeacherAttr(url, attr, id, role,header) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -41,6 +41,8 @@ function addTeacherAttr(url, attr, id, role) {
                             case "author":
                                 if (id == '#moduleId')
                                     loadAddModuleAuthor();
+                                else if (id == '#module')
+                                    loadModuleView(value,header);
                                 else loadTeacherModulesList(user);
                                 break;
                             case "consultant":
@@ -601,5 +603,8 @@ function loadModulesList() {
 }
 function loadCourseList() {
     load(basePath + "/_teacher/_admin/coursemanage/index/","Курси");
+}
+function loadModuleView(id,header) {
+    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'','5');
 }
 
