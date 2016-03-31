@@ -42,8 +42,8 @@
                             <tr>
                                 <td>
                                     <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher",
-                                        array("id" => $item["id"])); ?>',  '<?="Викладач ".$item["secondName"]." ".$item["firstName"]." ".$item["middleName"]?>');">
-                                        <?= $item["secondName"]." ".$item["firstName"]." ".$item["middleName"]; ?>
+                                        array("id" => $item["id"])); ?>',  '<?="Викладач ".($item["secondName"]." ".$item["firstName"]." ".$item["middleName"]=='  ')?$item["email"]:$item["secondName"]." ".$item["firstName"]." ".$item["middleName"];?>');">
+                                        <?= ($item["secondName"]." ".$item["firstName"]." ".$item["middleName"]=='  ')?$item["email"]:$item["secondName"]." ".$item["firstName"]." ".$item["middleName"]; ?>
                                     </a>
                                 </td>
                                 <td>
