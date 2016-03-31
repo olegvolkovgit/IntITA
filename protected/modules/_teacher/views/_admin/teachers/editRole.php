@@ -33,7 +33,7 @@
                                 case "module-list":
                                     $this->renderPartial('_moduleList', array(
                                         'attribute' => $attribute,
-                                        'user' => $model->id,
+                                        'model' => $model,
                                         'role' => $role
                                     ));
                                     break;
