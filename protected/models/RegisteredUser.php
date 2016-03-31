@@ -175,6 +175,10 @@ class RegisteredUser
         }
     }
 
+    public function canApprove() {
+        return $this->isAdmin();
+    }
+
     //todo author role check
     public function hasRole($role)
     {

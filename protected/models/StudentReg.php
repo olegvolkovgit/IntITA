@@ -30,7 +30,7 @@
  * @property string $token
  * @property string $activkey_lifetime
  * @property string $status
- * property string $reg_time
+ * @property string $reg_time
  * @property string $avatar
  * @property string $identity
  */

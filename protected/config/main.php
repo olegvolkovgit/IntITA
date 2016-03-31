@@ -146,6 +146,11 @@ return array(
                     'levels'=>'error, warning, trace, profile, info',
                     'showInFireBug' => true
                 ),
+//                array(
+//                    'class'=>'CProfileLogRoute',
+//                    'levels'=>'profile',
+//                    'enabled'=>true,
+//                ),
             ),
         ),
 
@@ -173,5 +178,6 @@ return array(
         // this is used in teacher profile page
         'adminEmail' => 'Wizlightdragon@gmail.com',
         'languages' => array('en' => 'English', 'ua' => 'Ukrainian', 'ru' => 'Russian'),
+        'dbDateFormat'=>'Y-m-d H:i:s'
     ),
 );

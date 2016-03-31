@@ -843,4 +843,32 @@ class Lecture extends CActiveRecord
     public function freeLabel(){
         return ($this->isFree())?'безкоштовна':'платна';
     }
+
+    public function saveBlock($order, $content, $userId) {
+        $lectureElement = LectureElement::model()->findByAttributes(array('id_lecture' => $this->id, 'block_order' => $order));
+    }
+
+    public function addVideo($htmlBlock, $pageOrder, $userId) {
+        $lectureElement = new LectureElement();
+        $lectureElement->id_lecture = $this->id;
+        $lectureElement->block_order = 0;
+        $lectureElement->html_block = $htmlBlock;
+        $lectureElement->id_type = LectureElement::VIDEO;
+        $lectureElement->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $lectureElement->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addVideo($pageId, $lectureElement->id_block);
+    }
+
+    public function deleteVideo($pageOrder, $userId) {
+        $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id, 'page_order' => $pageOrder));
+
+        if ($modelLecturePage->video) {
+            $element = LectureElement::model()->findByPk($modelLecturePage->video);
+            LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
+
+            $element->delete();
+        }
+
+    }
 }

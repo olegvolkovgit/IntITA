@@ -43,7 +43,7 @@ angular
                 element.bind('click', function () {
                     var order = element.parent().attr('id').substring(1);
                     $http({
-                        url: basePath + '/lesson/upElement',
+                        url: basePath + '/revision/upElement',
                         method: "POST",
                         data: $.param({idLecture: idLecture, order: order}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -73,7 +73,7 @@ angular
                 element.bind('click', function () {
                     var order = element.parent().attr('id').substring(1);
                     $http({
-                        url: basePath + '/lesson/downElement',
+                        url: basePath + '/revision/downElement',
                         method: "POST",
                         data: $.param({idLecture: idLecture, order: order}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -105,7 +105,7 @@ angular
                         .then(function() {
                             var order = element.parent().attr('id').substring(1);
                             $http({
-                                url: basePath + '/lesson/deleteElement',
+                                url: basePath + '/revision/deleteElement',
                                 method: "POST",
                                 data: $.param({idLecture: idLecture, order: order}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}

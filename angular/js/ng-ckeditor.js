@@ -151,7 +151,7 @@
                             // id=openCKE**** - 7-position *
                             var order = element.attr('id').substring(7);
                             $http({
-                                url: basePath+'/lesson/saveBlock',
+                                url: basePath+'/revision/saveBlock',
                                 method: "POST",
                                 data: $.param({content: scope.editRedactor, idLecture: idLecture, order: order}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

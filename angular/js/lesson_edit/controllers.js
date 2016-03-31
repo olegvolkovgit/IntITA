@@ -189,7 +189,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     }
     $scope.saveCodeBlock= function(order){
             $http({
-                url: basePath+'/lesson/saveBlock',
+                url: basePath+'/revision/saveBlock',
                 method: "POST",
                 data: $.param({content: $scope.myEditCodeMirror.getValue(), idLecture: idLecture, order: order}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
