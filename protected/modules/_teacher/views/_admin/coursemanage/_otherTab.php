@@ -43,7 +43,7 @@
                                     <td>
                                         <a href="<?= Yii::app()->createUrl('course/index', array('id' => $linkedCourses["lang_" . $item])); ?>"
                                            target="_blank">
-                                            <?= $course->title_ua . " (" . $course->language . ")"; ?>
+                                            <?= CHtml::encode($course->title_ua) . " (" . $course->language . ")"; ?>
                                         </a>
                                     </td>
                                     <td>

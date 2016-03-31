@@ -127,7 +127,7 @@ class TeacherModule extends CActiveRecord
     }
 
 	public static function listByModule($module){
-		$sql = 'select u.id, u.firstName, u.middleName, u.secondName, tm.start_time, tm.end_time from teacher_module tm
+		$sql = 'select u.id, u.firstName, u.middleName, u.secondName, u.email, tm.start_time, tm.end_time from teacher_module tm
 		LEFT JOIN teacher t on tm.idTeacher=t.teacher_id  LEFT JOIN user u on u.id=t.user_id WHERE tm.idModule='.$module;
 
 		return Yii::app()->db->createCommand($sql)->queryAll();

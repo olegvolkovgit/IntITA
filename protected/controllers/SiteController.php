@@ -775,4 +775,12 @@ class SiteController extends Controller
             throw new MailException('The letter was not sent');
         $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
     }
+
+    public function actionAuthorize()
+    {
+        $this->layout = "//layouts/lessonlayout";
+        $this->render('authorize', array(
+            'callBack' => true,
+        ));
+    }
 }

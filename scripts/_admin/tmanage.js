@@ -15,7 +15,7 @@ function ShowTeacher(url, id) {
     });
 }
 
-function addTeacherAttr(url, attr, id, role) {
+function addTeacherAttr(url, attr, id, role,header) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -41,6 +41,8 @@ function addTeacherAttr(url, attr, id, role) {
                             case "author":
                                 if (id == '#moduleId')
                                     loadAddModuleAuthor();
+                                else if (id == '#module')
+                                    loadModuleEdit(value,header,'5');
                                 else loadTeacherModulesList(user);
                                 break;
                             case "consultant":
@@ -72,7 +74,7 @@ function addTeacherAttr(url, attr, id, role) {
     }
 }
 
-function cancelModuleAttr(url, id, attr, role, user, successUrl) {
+function cancelModuleAttr(url, id, attr, role, user, successUrl,tab,header) {
     if (!user) {
         user = $jq('#user').val();
     }
@@ -89,7 +91,7 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         if (successUrl) {
-                            load(successUrl);
+                            load(successUrl,header,'',tab);
                         } else {
                             switch (role) {
                                 case "trainer":
@@ -200,7 +202,7 @@ function saveSchema(url, id) {
     });
 }
 
-function addCoursePrice(url) {
+function addCoursePrice(url,header) {
     var moduleId = $jq('#module').val();
     var price = $jq('#price').val();
     var courseId = $jq("#course").val();
@@ -212,7 +214,7 @@ function addCoursePrice(url) {
             success: function (response) {
                 if (response == "success")
                     bootbox.alert("Нова ціна збережена.", function () {
-                        load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
+                        loadModuleEdit(moduleId,header,'7');
                     });
                 else bootbox.alert("Операцію не вдалося виконати.");
             },
@@ -601,5 +603,8 @@ function loadModulesList() {
 }
 function loadCourseList() {
     load(basePath + "/_teacher/_admin/coursemanage/index/","Курси");
+}
+function loadModuleEdit(id,header,tab) {
+    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
 }
 
