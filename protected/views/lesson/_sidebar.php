@@ -50,13 +50,18 @@ $lecturesCount = $lecture->module->lecturesCount();
             <div id="counter">
                 <?php
                 if ($editMode || StudentReg::isAdmin()) {
-                    for ($i = 0; $i < $lecturesCount; $i++) {
-                        $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
+                    foreach ($lecture->module->lectures as $lectureInModule) {
+//                    for ($i = 0; $i < $lecturesCount; $i++) {
+//                        $lectureId = $lectureInModule->id;
+//                        $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
                         ?>
-                        <a ng-attr-href="{{'<?php echo (($i+1) != $lecture->order); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?>' || undefined }}"
-                           tooltip-html-unsafe="<?php echo CHtml::encode(Lecture::getLectureTitle($lectureId)); ?>">
+                        <a ng-attr-href="{{'<?php echo ($lecture->id == $lectureInModule->id); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureInModule->id, "idCourse" => $idCourse)) ?>' || undefined }}"
+                           tooltip-html-unsafe="<?php echo CHtml::encode($lectureInModule->title_ua); ?>">
+<!--                        <a ng-attr-href="{{'--><?php //echo (($i+1) != $lecture->order); ?><!--' && '--><?php //echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?><!--' || undefined }}"-->
+<!--                           tooltip-html-unsafe="--><?php //echo CHtml::encode(Lecture::getLectureTitle($lectureId)); ?><!--">-->
                             <div class="lectureAccess"
-                                 id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
+                                 id="<?php if ($lecture->id == $lectureInModule->id) echo 'thisLecture' ?>"></div>
+<!--                                 id="--><?php //if ($i + 1 == $lecture->order) echo 'thisLecture' ?><!--"></div>-->
                         </a>
                     <?php }
                 } else {
