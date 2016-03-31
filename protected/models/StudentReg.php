@@ -1210,4 +1210,13 @@ class StudentReg extends CActiveRecord
         }
         return json_encode($result);
     }
+    public static function authRedirect($callBack)
+    {
+        if($callBack && isset($_SERVER["HTTP_REFERER"])){
+            $callBack=$_SERVER["HTTP_REFERER"];
+        }else if($callBack && !isset($_SERVER["HTTP_REFERER"])){
+            $callBack=Yii::app()->request->baseUrl;
+        }else $callBack='';
+        return $callBack;
+    }
 }
