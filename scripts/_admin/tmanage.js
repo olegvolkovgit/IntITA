@@ -42,7 +42,7 @@ function addTeacherAttr(url, attr, id, role,header) {
                                 if (id == '#moduleId')
                                     loadAddModuleAuthor();
                                 else if (id == '#module')
-                                    loadModuleView(value,header);
+                                    loadModuleEdit(value,header,'5');
                                 else loadTeacherModulesList(user);
                                 break;
                             case "consultant":
@@ -202,7 +202,7 @@ function saveSchema(url, id) {
     });
 }
 
-function addCoursePrice(url) {
+function addCoursePrice(url,header) {
     var moduleId = $jq('#module').val();
     var price = $jq('#price').val();
     var courseId = $jq("#course").val();
@@ -214,7 +214,7 @@ function addCoursePrice(url) {
             success: function (response) {
                 if (response == "success")
                     bootbox.alert("Нова ціна збережена.", function () {
-                        load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
+                        loadModuleEdit(moduleId,header,'7');
                     });
                 else bootbox.alert("Операцію не вдалося виконати.");
             },
@@ -604,7 +604,7 @@ function loadModulesList() {
 function loadCourseList() {
     load(basePath + "/_teacher/_admin/coursemanage/index/","Курси");
 }
-function loadModuleView(id,header) {
-    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'','5');
+function loadModuleEdit(id,header,tab) {
+    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
 }
 
