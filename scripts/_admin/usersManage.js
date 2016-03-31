@@ -1,14 +1,30 @@
-function sendNewAdminData(url) {
+function assignRole(url, role) {
     user = $jq("#userId").val();
     if (user == 0) {
-        bootbox.alert('Виберіть користувача, якого потрібно призначити адміністратором.');
+        bootbox.alert('Виберіть користувача.');
     } else {
-        var posting = $jq.post(url, {userId: user});
+        var posting = $jq.post(url, {userId: user, role:role});
         posting.done(function (response) {
                 bootbox.alert(response, loadUsersIndex);
             })
             .fail(function () {
-                bootbox.alert("Користувача не вдалося призначити адміністратором. Спробуйте повторити " +
+                bootbox.alert("Користувачу не вдалося призначити обрану роль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
+            });
+    }
+}
+
+function cancelRole(url, role) {
+    user = $jq("#userId").val();
+    if (user == 0) {
+        bootbox.alert('Виберіть користувача.');
+    } else {
+        var posting = $jq.post(url, {userId: user, role:role});
+        posting.done(function (response) {
+                bootbox.alert(response, loadUsersIndex);
+            })
+            .fail(function () {
+                bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
             });
     }
@@ -45,25 +61,6 @@ function cancelAccountant(url, id) {
             bootbox.alert("Права бухгалтера для користувача не вдалося відмінити. Спробуйте повторити " +
                 "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
         });
-}
-
-function sendNewAccountantData(url) {
-    user = $jq("#userId").val();
-    if (user == 0) {
-        bootbox.alert('Виберіть користувача, якого потрібно призначити бухгалтером.');
-    } else {
-        var posting = $jq.post(url, {userId: user});
-
-        posting.done(function (response) {
-                bootbox.alert(response, function () {
-                    loadUsersIndex(1);
-                });
-            })
-            .fail(function () {
-                bootbox.alert("Користувача не вдалося призначити бухгалтером. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(1));
-            });
-    }
 }
 
 function loadUsersIndex(tab) {

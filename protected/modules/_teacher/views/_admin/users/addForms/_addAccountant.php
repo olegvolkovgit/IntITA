@@ -5,19 +5,19 @@
                 <input type="number" hidden="hidden" id="userId" value="0"/>
                 <label>Користувач</label>
                 <br>
-                <input id="typeahead" type="text" class="typeahead form-control" name="user"
-                       placeholder="Виберіть користувача"
+                <input id="typeahead" type="text" class="form-control" name="user" placeholder="Виберіть користувача"
                        size="90" required>
                 <br>
                 <br>
-                <em>Зверніть увагу, що деяких користувачів може не бути в списку. В списку немає користувачів, в
-                    яких вже є права адміністратора.</em>
+                <em>* Зверніть увагу, що деяких користувачів може не бути в списку. В списку немає користувачів, в
+                    яких вже є права бухгалтера.</em>
                 <br>
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAdminData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/addAdmin"); ?>'); return false;">
-                Призначити адміністратором
+                    onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
+                        'accountant'); return false;">
+                Призначити бухгалтера
             </button>
 
             <button type="reset" class="btn btn-default"
@@ -27,13 +27,12 @@
         </form>
     </div>
 </div>
-
 <script>
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/users/usersWithoutAdmins?query=%QUERY',
+            url: basePath + '/_teacher/_admin/users/usersAddForm?role=accountant&query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {

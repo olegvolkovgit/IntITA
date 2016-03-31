@@ -199,3 +199,6 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'translateTeacherName.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/freeLectures.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/verifyContent.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/tenant.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/contentManager.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/teacherConsultant.js'); ?>"></script>

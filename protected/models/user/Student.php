@@ -3,6 +3,8 @@
 class Student extends Role
 {
 	private $dbModel;
+	private $errorMessage = "";
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -10,6 +12,10 @@ class Student extends Role
 	{
 		return 'user_student';
 	}
+
+    public function getErrorMessage(){
+        return $this->errorMessage;
+    }
 
 	/**
 	 * @return string the role title (ua)
@@ -30,5 +36,10 @@ class Student extends Role
 
 	public function checkBeforeDeleteRole(StudentReg $user){
 		return true;
+	}
+
+	//not supported
+	public function addRoleFormList($query){
+		return array();
 	}
 }

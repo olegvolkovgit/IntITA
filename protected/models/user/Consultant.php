@@ -3,6 +3,7 @@
 class Consultant extends Role
 {
     private $dbModel;
+    private $errorMessage = "";
 
     /**
      * @return string the associated database table name
@@ -18,6 +19,10 @@ class Consultant extends Role
     public function title()
     {
         return 'Консультант';
+    }
+
+    public function getErrorMessage(){
+        return $this->errorMessage;
     }
 
     public function attributes(StudentReg $user)
@@ -71,8 +76,10 @@ class Consultant extends Role
 
     public function checkModule($teacher, $module){
         if(Yii::app()->db->createCommand('select consultant from consultant_modules where module='.$module.
-            ' and consultant='.$teacher.' and end_time IS NULL')->queryScalar())
+            ' and consultant='.$teacher.' and end_time IS NULL')->queryScalar()) {
+            $this->errorMessage = "Даний викладач вже має права консультанта для обраного модуля.";
             return false;
+        }
         else return true;
     }
 
@@ -129,5 +136,10 @@ class Consultant extends Role
         $criteria->condition = 'pt.id_teacher = '.$teacher->id.' and end_date IS NOT NULL';
 
         return PlainTaskAnswer::model()->findAll($criteria);
+    }
+
+    //not supported
+    public function addRoleFormList($query){
+        return array();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $user StudentReg
+ * @var $model StudentReg
  */
 ?>
 <li>
@@ -10,7 +10,7 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_author/author/modules',
-                array('id' => $user->id)) ?>', 'Модулі')">
+                array('id' => $model->id)) ?>', 'Модулі')">
                 Модулі
             </a>
         </li>

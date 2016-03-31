@@ -5,7 +5,6 @@
  * @var $receiver
  * @var $authorRequests array
  * @var $newMessages array
- *
  */
 ?>
 <!DOCTYPE html>

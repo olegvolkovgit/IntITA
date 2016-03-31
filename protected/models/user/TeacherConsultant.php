@@ -1,50 +1,35 @@
 <?php
 
-
-class Accountant extends Role
+class TeacherConsultant extends Role
 {
-	private $dbModel;
     private $errorMessage = "";
+    private $dbModel;
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'user_accountant';
-	}
-
-    /**
-     * @return string the role title (ua)
-     */
-	public function title(){
-		return 'Бухгалтер';
-	}
+    public function tableName(){
+        return "user_teacher_consultant";
+    }
 
     public function getErrorMessage(){
         return $this->errorMessage;
     }
 
+    public function title(){
+        return "Викладач";
+    }
 
-    public function attributes(StudentReg $user)
-    {
+    public function attributes(StudentReg $user){
         return array();
     }
 
-	public  function cancelAttribute(StudentReg $user, $attribute, $value)
-	{
-		return false;
-	}
+    public function checkBeforeDeleteRole(StudentReg $user){
+        return true;
+    }
 
-	public function checkBeforeDeleteRole(StudentReg $user){
-		return true;
-	}
+    public function cancelAttribute(StudentReg $user, $attribute, $value){
+        return false;
+    }
 
-    /**
-     * @param $query string - query from typeahead
-     * @return string - json for typeahead field in user manage page (cabinet, add)
-     */
-	public function addRoleFormList($query){
+    public function addRoleFormList($query){
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
@@ -52,7 +37,7 @@ class Accountant extends Role
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
+        $criteria->join = 'LEFT JOIN user_teacher_consultant u ON u.id_user = s.id';
         $criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL');
 
         $data = StudentReg::model()->findAll($criteria);
@@ -65,5 +50,5 @@ class Accountant extends Role
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
-	}
+    }
 }

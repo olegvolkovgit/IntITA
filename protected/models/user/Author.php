@@ -4,6 +4,7 @@ class Author extends Role
 {
     private $dbModel;
     private $modules;
+    private $errorMessage = "";
 
     /**
      * @return string the associated database table name
@@ -18,6 +19,10 @@ class Author extends Role
      */
     public function title(){
         return 'Автор';
+    }
+
+    public function getErrorMessage(){
+        return $this->errorMessage;
     }
 
     public function attributes(StudentReg $user)
@@ -94,5 +99,10 @@ class Author extends Role
 
     public function checkBeforeDeleteRole(StudentReg $user){
         return true;
+    }
+
+    //not supported
+    public function addRoleFormList($query){
+        return array();
     }
 }
