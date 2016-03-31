@@ -74,7 +74,7 @@ function addTeacherAttr(url, attr, id, role,header) {
     }
 }
 
-function cancelModuleAttr(url, id, attr, role, user, successUrl) {
+function cancelModuleAttr(url, id, attr, role, user, successUrl,tab,header) {
     if (!user) {
         user = $jq('#user').val();
     }
@@ -91,7 +91,7 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         if (successUrl) {
-                            load(successUrl);
+                            load(successUrl,header,'',tab);
                         } else {
                             switch (role) {
                                 case "trainer":
