@@ -78,7 +78,7 @@
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>',
                                'Відгуки про викладачів')">Відгуки про викладачів</a>
                     </li>
-                    < <li><a href="#"
+                    <li><a href="#"
                              onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
                                  'Випускники')">
                             Випускники</a></li>

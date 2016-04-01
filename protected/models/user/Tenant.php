@@ -17,8 +17,56 @@ class Tenant extends Role
         return "Tenant";
     }
 
+    public function setRole(StudentReg $user)
+    {
+        if(!$this->isActiveTenant($user)) {
+            if(!$this->isChatUserDefined($user)){
+                if($this->addChatUser($user)){
+                    $sql = 'INSERT INTO user_tenant (chat_user_id) select id from chat_user where intita_user_id=' . $user->id;
+                    return Yii::app()->db->createCommand($sql)->query();
+                } else {
+                    $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
+            Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
+                    return false;
+                }
+            }
+            $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
+            Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
+            return false;
+        } else {
+            $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
+            Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
+            return false;
+        }
+    }
+
+    private function isChatUserDefined(StudentReg $user){
+        $sql = 'select COUNT(id) from chat_user where intita_user_id=' . $user->id;
+        if(Yii::app()->db->createCommand($sql)->queryScalar() > 0) {
+            return true;
+        }
+        else return false;
+    }
+
+    private function addChatUser($user){
+        $command = Yii::app()->db->createCommand();
+        return $command->insert('chat_user', array(
+            'nick_name'=>$user->email,
+            'intita_user_id'=>$user->id,
+        ));
+    }
+
     public function attributes(StudentReg $user){
         return array();
+    }
+
+    private function isActiveTenant(StudentReg $user){
+        $sql = 'select count(id) from user_tenant where chat_user_id =  (select id from chat_user where intita_user_id=' . $user->id.') and end_date IS NULL';
+        if(Yii::app()->db->createCommand($sql)->queryScalar() > 0) {
+            $this->errorMessage = "Даному користувачу уже призначена роль tenant";
+            return true;
+        }
+        else return false;
     }
 
     public function checkBeforeDeleteRole(StudentReg $user){
@@ -37,8 +85,8 @@ class Tenant extends Role
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'right join chat_user as cu on u.id = cu.intita_user_id';
-        $criteria->join .= ' right join user_tenant ut on ut.chat_user_id=cu.id';
+        $criteria->join = 'left join chat_user as cu on u.id = cu.intita_user_id';
+        $criteria->join .= ' left join user_tenant ut on ut.chat_user_id=cu.id';
         $criteria->addCondition('ut.chat_user_id IS NULL or ut.end_date IS NOT NULL');
 
         $data = StudentReg::model()->findAll($criteria);
