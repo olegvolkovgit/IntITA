@@ -211,15 +211,15 @@ class Teacher extends CActiveRecord
     }
 
     //todo
-    public static function getTeacherConsult($lectureId)
+    public static function getTeacherConsult(Lecture $lecture)
     {
-        $lecture = Lecture::model()->findByPk($lectureId);
         $teachersconsult = [];
 
         $criteria = new CDbCriteria;
         $criteria->alias = 'consultant_modules';
         $criteria->select = 'consultant';
         $criteria->addCondition('module=' . $lecture->idModule);
+        $criteria->addCondition('end_time IS NULL');
         $temp = ConsultantModules::model()->findAll($criteria);
         for ($i = 0; $i < count($temp); $i++) {
             array_push($teachersconsult, $temp[$i]->consultant);
