@@ -53,7 +53,7 @@
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
                                'Модулі')">
                             Модулі</a></li>
-                    <li><a href="/revision">
+                    <li><a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
                             Всі ревізії</a></li>
                 </ul>
             </div>
