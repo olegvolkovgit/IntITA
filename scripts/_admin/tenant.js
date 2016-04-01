@@ -37,7 +37,7 @@ function initTenantsTable(){
                 "width": "5%",
                 "data": "cancel",
                 "render": function (params) {
-                    return '<a href="#" onclick="cancelAdmin(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                    return '<a href="#" onclick="cancelRole(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
                 }
             }],
         "createdRow": function (row, data, index) {

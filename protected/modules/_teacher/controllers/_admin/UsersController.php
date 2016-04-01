@@ -60,18 +60,16 @@ class UsersController extends TeacherCabinetController
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
-    public function actionCancelAdmin()
+    public function actionCancelRole()
     {
-        $user = Yii::app()->request->getPost('user', '0');
-        $model = StudentReg::model()->findByPk($user);
-        echo $model->cancelAdmin();
-    }
-
-    public function actionCancelAccountant()
-    {
-        $user = Yii::app()->request->getPost('user', '0');
-        $model = StudentReg::model()->findByPk($user);
-        echo $model->cancelAccountant();
+        $user = Yii::app()->request->getPost('userId', '0');
+        $role = Yii::app()->request->getPost('role', '');
+        if($user && $role){
+            $model = RegisteredUser::userById($user);
+            echo $model->cancelRoleMessage(new UserRoles($role));
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора ".Config::getAdminEmail();
+        }
     }
 
     public function actionUsersAddForm($role, $query)

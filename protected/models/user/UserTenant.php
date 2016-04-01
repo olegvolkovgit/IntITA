@@ -121,7 +121,7 @@ class UserTenant extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["user"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelTenant')."'".", '".$record["user"]."'";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."', 'tenant', '".$record["user"]."', '7'";
             array_push($return['data'], $row);
         }
 

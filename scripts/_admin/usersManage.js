@@ -14,53 +14,22 @@ function assignRole(url, role) {
     }
 }
 
-function cancelRole(url, role) {
-    user = $jq("#userId").val();
+function cancelRole(url, role, user, tab) {
+    if(!user) {
+        user = $jq("#userId").val();
+    }
     if (user == 0) {
         bootbox.alert('Виберіть користувача.');
     } else {
         var posting = $jq.post(url, {userId: user, role:role});
         posting.done(function (response) {
-                bootbox.alert(response, loadUsersIndex);
+                bootbox.alert(response, loadUsersIndex(tab));
             })
             .fail(function () {
                 bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(tab));
             });
     }
-}
-
-function cancelAdmin(url, id) {
-    var posting = $jq.post(url, {user: id});
-    posting.done(function (response) {
-            if (response == 1)
-                bootbox.alert("Права адміністратора для користувача відмінені.", loadUsersIndex);
-            else {
-                bootbox.alert("Права адміністратора для користувача не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-            }
-        })
-        .fail(function () {
-            bootbox.alert("Права адміністратора для користувача не вдалося відмінити. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-        });
-}
-
-function cancelAccountant(url, id) {
-    var posting = $jq.post(url, {user: id});
-
-    posting.done(function (response) {
-            if (response == 1)
-                bootbox.alert("Права бухгалтера для користувача відмінені.", loadUsersIndex);
-            else {
-                bootbox.alert("Права бухгалтера для користувача не вдалося відмінити. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-            }
-        })
-        .fail(function () {
-            bootbox.alert("Права бухгалтера для користувача не вдалося відмінити. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex);
-        });
 }
 
 function loadUsersIndex(tab) {
@@ -182,7 +151,7 @@ function initAdminsTable() {
                 "width": "5%",
                 "data": "cancel",
                 "render": function (params) {
-                    return '<a href="#" onclick="cancelAdmin(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                    return '<a href="#" onclick="cancelRole(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
                 }
             }],
         "createdRow": function (row, data, index) {
@@ -233,7 +202,7 @@ function initAccountantsTable() {
                 "width": "5%",
                 "data": "cancel",
                 "render": function (params) {
-                    return '<a href="#" onclick="cancelAccountant(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                    return '<a href="#" onclick="cancelRole(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
                 }
             }],
         "createdRow": function (row, data, index) {

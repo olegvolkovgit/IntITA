@@ -964,50 +964,6 @@ class StudentReg extends CActiveRecord
         return json_encode($result);
     }
 
-    public function addAdmin()
-    {
-        if (Yii::app()->db->createCommand()->insert('user_admin', array(
-            'id_user' => $this->id,
-        ))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function addAccountant()
-    {
-        if (Yii::app()->db->createCommand()->insert('user_accountant', array(
-            'id_user' => $this->id,
-        ))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function cancelAdmin()
-    {
-        if (Yii::app()->db->createCommand()->update('user_admin', array(
-            'end_date'=>date('Y-m-d H:i:s'),
-        ), 'id_user=:id', array(':id'=>$this->id))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function cancelAccountant()
-    {
-        if (Yii::app()->db->createCommand()->update('user_accountant', array(
-            'end_date'=>date('Y-m-d H:i:s'),
-        ), 'id_user=:id', array(':id'=>$this->id))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * @param $query string - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
@@ -1098,7 +1054,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelAdmin')."'".", '".$record["id"]."'";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'admin', '".$record["id"]."', '2'";
             array_push($return['data'], $row);
         }
 
@@ -1121,7 +1077,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelAccountant')."'".", '".$record["id"]."'";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'accountant', '".$record["id"]."', '3'";
             array_push($return['data'], $row);
         }
 

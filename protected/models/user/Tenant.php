@@ -26,7 +26,7 @@ class Tenant extends Role
                     return Yii::app()->db->createCommand($sql)->query();
                 } else {
                     $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
-            Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
+                    Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
                     return false;
                 }
             }
@@ -99,5 +99,16 @@ class Tenant extends Role
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
+    }
+
+    public function cancelRole(StudentReg $user)
+    {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
+        return Yii::app()->db->createCommand()->
+        update($this->tableName(), array(
+            'end_date'=>date("Y-m-d H:i:s"),
+        ), 'chat_user_id=(select id from chat_user where intita_user_id=:id)', array(':id'=>$user->id));
     }
 }

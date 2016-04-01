@@ -72,7 +72,15 @@ class RegisteredUser
                     union
                 (select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = ' . $this->id . ' and end_date IS NULL)
                      union
-                (select "content_manager" from user_content_manager ucm where ucm.id_user = ' . $this->id . ' and ucm.end_date IS NULL)';
+                (select "content_manager" from user_content_manager ucm where ucm.id_user = ' . $this->id . ' and ucm.end_date IS NULL)
+                    union
+                (select "tenant" from user u
+                    right join chat_user as cu on u.id = cu.intita_user_id
+                    right join user_tenant ut on ut.chat_user_id=cu.id
+                    where cu.intita_user_id = ' . $this->id . ' and ut.end_date IS NULL)
+                     union
+                (select "content_manager" from user_content_manager ucm where ucm.id_user = ' . $this->id . ' and ucm.end_date IS NULL)
+                ';
         $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
 
         $result = array_map(function ($row) {
@@ -204,6 +212,21 @@ class RegisteredUser
         }
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData);
+    }
+
+    public function cancelRoleMessage(UserRoles $role)
+    {
+        if (!$this->hasRole($role)) {
+            throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
+        }
+        $roleObj = Role::getInstance($role);
+        if($roleObj->cancelRole($this->registrationData)){
+            return "Роль успішно відмінено.";
+        } elseif ($roleObj->getErrorMessage() != ""){
+            return $roleObj->getErrorMessage();
+        } else {
+            return "Роль не вдалося відмінити. Спробуйте пізніше або зверніться до адміністратора.";
+        }
     }
 
     public function teacherRoles()
