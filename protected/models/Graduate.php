@@ -185,6 +185,7 @@ class Graduate extends CActiveRecord
         foreach ($graduates as $record) {
             $row = array();
             $row["name"]["title"] = $record->last_name." ".$record->first_name;
+			$row["name"]["header"] = addslashes($record->last_name." ".$record->first_name);
             $row["avatar"] = StaticFilesHelper::createPath('image', 'graduates', $record->avatar);
             $row["position"] = CHtml::encode($record->position);
             $row["workPlace"] = CHtml::encode($record->work_place);

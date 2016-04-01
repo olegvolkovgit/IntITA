@@ -146,11 +146,6 @@ return array(
                     'levels'=>'error, warning, trace, profile, info',
                     'showInFireBug' => true
                 ),
-//                array(
-//                    'class'=>'CProfileLogRoute',
-//                    'levels'=>'profile',
-//                    'enabled'=>true,
-//                ),
             ),
         ),
 

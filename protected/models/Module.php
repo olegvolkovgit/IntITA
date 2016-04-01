@@ -63,8 +63,9 @@ class Module extends CActiveRecord implements IBillableObject
         // will receive user inputs.
         return array(
             array('status', 'required'),
-            array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
+            array('language, title_ua, alias, level', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
+            array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
             module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
             array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
@@ -122,7 +123,7 @@ class Module extends CActiveRecord implements IBillableObject
 //            'module_duration_hours' => 'Тривалість модуля (години)',
 //            'module_duration_days' => 'Тривалість модуля (дні)',
             'lesson_count' => 'Кількість лекцій',
-            'module_price' => 'Ціна',
+            'module_price' => 'Ціна модуля базова, USD',
             'for_whom' => 'Для кого',
             'what_you_learn' => 'Що ти вивчиш',
             'what_you_get' => 'Що ти отримаєш',
@@ -132,6 +133,7 @@ class Module extends CActiveRecord implements IBillableObject
             'status' => 'Статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
+            'level' => 'Рівень',
 
         );
     }

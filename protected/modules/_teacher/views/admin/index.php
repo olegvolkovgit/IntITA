@@ -17,7 +17,7 @@
                     </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'); ?>',
-                               'Слайдер на сторінці <i>Про нас</i>')">
+                               'Слайдер на сторінці \'Про нас\'')">
                             Слайдер на сторінці <i>Про нас</i></a>
                     </li>
                     <br>

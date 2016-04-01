@@ -124,5 +124,11 @@
         </div>
     </div>
 </div>
+<script>
+    $jq(document).ready(function () {
+        if(history.state!=null)
+            openTab('#editModuleTabs', history.state.tab);
+    });
+</script>
 
 
