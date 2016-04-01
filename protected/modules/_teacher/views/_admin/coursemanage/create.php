@@ -43,13 +43,15 @@
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',
                 ),
-                'enableAjaxValidation' => true,
-                'enableClientValidation' => false,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        courseCreate(data,hasError,form[0].action,$(form).serialize());
+                        if(courseValidation(data,hasError,form[0].action)){
+                            courseCreate(form[0].action);
+                        };
                         return false;
                 }'),
             )); ?>

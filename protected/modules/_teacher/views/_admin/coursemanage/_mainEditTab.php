@@ -50,6 +50,11 @@
         <?php echo $form->error($model, 'status'); ?>
     </div>
     <div class="form-group">
+        <?php echo $form->labelEx($model, 'course_img'); ?>
+        <?php echo $form->fileField($model, 'course_img', array('onchange' => "CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
+    </div>
+    <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
             array(
                 'class' => 'btn btn-primary',

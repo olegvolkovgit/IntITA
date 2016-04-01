@@ -527,57 +527,61 @@ function moduleEdit(errField,hasError,action, data) {
         });
     }
 }
-function courseCreate(errField,hasError,action, data) {
+function courseValidation(data,hasError,action) {
     if(hasError) {
-        console.log(errField);
-        if(errField['Course_title_ua'] !== undefined)
+        if(data['Course_title_ua'] !== undefined)
             $jq('#createCourseTabs li:eq(1) a').tab('show');
-        else if(errField['Course_title_ru'] !== undefined)
+        else if(data['Course_title_ru'] !== undefined)
             $jq('#createCourseTabs li:eq(2) a').tab('show');
-        else if(errField['Course_title_en'] !== undefined)
+        else if(data['Course_title_en'] !== undefined)
             $jq('#createCourseTabs li:eq(3) a').tab('show');
         else $jq('#createCourseTabs li:eq(0) a').tab('show');
-    }else{
-        $.ajax({
-            type: "POST",
-            url: action,
-            data: data,
-            success: function () {
-                bootbox.alert("Курс успішно додано", function () {
-                    loadCourseList();
-                });
-            },
-            error: function () {
-                bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
-            }
-        });
-    }
+        return false;
+    }else return true;
 }
-function courseEdit(errField,hasError,action, data) {
-    if(hasError) {
-        console.log(errField);
-        if(errField['Course_title_ua'] !== undefined)
-            $jq('#editCourseTabs li:eq(1) a').tab('show');
-        else if(errField['Course_title_ru'] !== undefined)
-            $jq('#editCourseTabs li:eq(2) a').tab('show');
-        else if(errField['Course_title_en'] !== undefined)
-            $jq('#editCourseTabs li:eq(3) a').tab('show');
-        else $jq('#editCourseTabs li:eq(0) a').tab('show');
-    }else{
-        $.ajax({
-            type: "POST",
-            url: action,
-            data: data,
-            success: function () {
-                bootbox.alert("Курс успішно відредаговано", function () {
-                    loadCourseList();
-                });
-            },
-            error: function () {
-                bootbox.alert("Курс не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
-            }
-        });
-    }
+function courseCreate(url) {
+    var formData = new FormData($("#course-form")[0]);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        datatype:'json',
+        success: function () {
+            bootbox.alert("Курс успішно додано", function () {
+                loadCourseList();
+            });
+        },
+        error: function () {
+            bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
+}
+function courseUpdate(url) {
+    var formData = new FormData($("#course-form")[0]);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        datatype:'json',
+        success: function () {
+            bootbox.alert("Курс успішно відредаговано", function () {
+                loadCourseList();
+            });
+        },
+        error: function () {
+            bootbox.alert("Курс не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
 }
 
 function loadMainSliderList() {
