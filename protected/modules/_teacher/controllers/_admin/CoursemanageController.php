@@ -39,10 +39,14 @@ class CoursemanageController extends TeacherCabinetController
 
         if (isset($_POST['Course'])) {
 
-            if (!empty($_FILES)) {
-                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+            if (!empty($_FILES['Course']['tmp_name']['course_img'])){
+                $fileInfo = new SplFileInfo($_FILES['Course']['name']['course_img']);
+                $extension = $fileInfo->getExtension();
+                $filename = uniqid() . '.' . $extension;
+
+                $_POST['Course']['course_img'] = $filename;
                 $model->logo = $_FILES['Course'];
-                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+                $model->logo['name']['course_img']=$filename;
             }
             $model->attributes = $_POST['Course'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -53,7 +57,7 @@ class CoursemanageController extends TeacherCabinetController
                 }
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/course/" . $filename,
                         Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $model->course_ID . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -86,10 +90,14 @@ class CoursemanageController extends TeacherCabinetController
 
         if (isset($_POST['Course'])) {
             $model->oldLogo = $model->course_img;
-            if (!empty($_FILES)) {
-                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+            if (!empty($_FILES['Course']['tmp_name']['course_img'])) {
+                $fileInfo = new SplFileInfo($_FILES['Course']['name']['course_img']);
+                $extension = $fileInfo->getExtension();
+                $filename = uniqid() . '.' . $extension;
+
+                $_POST['Course']['course_img'] = $filename;
                 $model->logo = $_FILES['Course'];
-                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+                $model->logo['name']['course_img']=$filename;
             }
             $model->attributes = $_POST['Course'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -99,7 +107,7 @@ class CoursemanageController extends TeacherCabinetController
             if ($model->save()) {
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/course/" . $filename,
                         Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
                         210
                     );
