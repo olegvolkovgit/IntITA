@@ -23,28 +23,12 @@
             </li>
 
             <?php
-            if ($model->isAdmin()) {
-                ?>
-                <li id="nav">
-                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
-                        array('user' => $model->id)); ?>', 'Панель адміністратора')">
-                        <i class="fa fa-table fa-fw"></i> Адміністратор</a>
-                </li>
-                <?php
-            }
-
-            if ($model->isAccountant()) {
-                ?>
-                <li>
-                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
-                        array('user' => $model->id)); ?>', 'Панель бухгалтера')">
-                        <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
-                </li>
-                <?php
-            }
-
-            if ($model->isTeacher()) {
-                $this->renderPartial('_teacherRoles', array('user' =>$model));
+            $roles = Yii::app()->user->model->getRoles();
+            foreach($roles as $role) {
+                $view = '/' . $role . '/sidebar';
+                $this->renderPartial($view, array(
+                    'model' => $model
+                ));
             }
             ?>
         </ul>

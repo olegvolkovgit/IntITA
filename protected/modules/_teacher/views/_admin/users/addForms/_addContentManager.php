@@ -10,13 +10,14 @@
                 <br>
                 <br>
                 <em>* Зверніть увагу, що деяких користувачів може не бути в списку. В списку немає користувачів, в
-                    яких вже є права бухгалтера.</em>
+                    яких вже є права контент менеджера.</em>
                 <br>
             </div>
 
             <button class="btn btn-primary"
-                    onclick="sendNewAccountantData('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/createAccountant"); ?>'); return false;">
-                Призначити бухгалтера
+                    onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
+                        'content_manager'); return false;">
+                Призначити контент менеджера
             </button>
 
             <button type="reset" class="btn btn-default"
@@ -31,7 +32,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/users/usersWithoutAccountants?query=%QUERY',
+            url: basePath + '/_teacher/_admin/users/usersAddForm?role=content_manager&query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {

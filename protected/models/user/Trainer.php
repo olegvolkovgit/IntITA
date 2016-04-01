@@ -4,6 +4,7 @@ class Trainer extends Role
 {
     private $capacity;
 	private $dbModel;
+    private $errorMessage = "";
 
 	/**
 	 * @return string the associated database table name
@@ -20,6 +21,10 @@ class Trainer extends Role
     {
 		return 'Тренер';
 	}
+
+    public function getErrorMessage(){
+        return $this->errorMessage;
+    }
 
     /**
      * @return array attributes trainer role
@@ -115,8 +120,10 @@ class Trainer extends Role
 
     public function checkTrainer($student){
         if(Yii::app()->db->createCommand('select trainer from trainer_student where student='.$student.
-            ' and end_time IS NULL')->queryScalar())
+            ' and end_time IS NULL')->queryScalar()){
+            $this->errorMessage = "Для даного студента тренер вже призначений.";
             return false;
+        }
         else return true;
     }
 
@@ -159,5 +166,10 @@ class Trainer extends Role
 
     public function checkBeforeDeleteRole(StudentReg $user){
         return count($this->attributes($user)["students-list"]) > 0;
+    }
+
+    //not supported
+    public function addRoleFormList($query){
+        return array();
     }
 }
