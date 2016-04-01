@@ -980,8 +980,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
-        $criteria->join = 'JOIN course_modules cm ON cm.id_module = m.module_ID';
-        $criteria->addCondition('cm.id_course <>'.$course);
+        $criteria->join = 'LEFT JOIN course_modules cm ON cm.id_module = m.module_ID';
+        $criteria->addCondition('cm.id_course IS NULL or cm.id_course <>'.$course);
         $data = Module::model()->findAll($criteria);
 
         $result = array();
