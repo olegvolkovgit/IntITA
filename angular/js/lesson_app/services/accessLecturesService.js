@@ -11,7 +11,7 @@ angular
                 $http({
                     url: basePath + '/lesson/GetAccessLectures',
                     method: "POST",
-                    data: $.param({module: idModule}),
+                    data: $.param({module: idModule, course:idCourse}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response){
                     //console.log(response.data);
