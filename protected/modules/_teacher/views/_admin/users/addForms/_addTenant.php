@@ -16,7 +16,7 @@
 
             <button class="btn btn-primary"
                     onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
-                        'tenant'); return false;">
+                        'tenant', '7'); return false;">
                 Призначити tenant'а
             </button>
 

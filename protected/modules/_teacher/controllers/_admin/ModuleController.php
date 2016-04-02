@@ -156,9 +156,10 @@ class ModuleController extends TeacherCabinetController
     {
         $idModule = Yii::app()->request->getPost('module', 0);
         $idCourse = Yii::app()->request->getPost('course', 0);
-        $mandatory = Yii::app()->request->getPost('mandatory', 0);
+        $mandatory = Yii::app()->request->getPost('mandatory', -1);
 
-        if ($idModule && $idCourse && $mandatory) {
+        if($mandatory == 0) $mandatory = "NULL";
+        if ($idModule && $idCourse && $mandatory != -1) {
             if (Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
                 $idModule . ' and id_course=' . $idCourse)->query()
             ) {

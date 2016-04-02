@@ -10,7 +10,6 @@
  * @property string $title_ua
  * @property string $title_ru
  * @property string $title_en
- * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
  * @property integer $status
@@ -60,7 +59,7 @@ class Course extends CActiveRecord implements IBillableObject
         // will receive user inputs.
         return array(
             array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
-            array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
+            array('course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
             array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
             array('alias, course_price', 'length', 'max' => 20),
@@ -73,7 +72,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
 			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
             // The following rule is used by search().
-            array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count,
+            array('course_ID,alias, language, title_ua, title_ru, title_en, modules_count,
 			course_price, status, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
 			 course_img, cancelled, course_number', 'safe', 'on' => 'search'),
@@ -107,8 +106,7 @@ class Course extends CActiveRecord implements IBillableObject
             'title_ua' => Yii::t('course', '0401'),
             'title_ru' => Yii::t('course', '0744'),
             'title_en' => Yii::t('course', '0743'),
-            'course_duration_hours' => Yii::t('course', '0402'),
-            //'modules_count' => Yii::t('course', '0403'),
+            'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
             'for_whom_ua' => Yii::t('course', '0405') . " (UA)",
             'what_you_learn_ua' => Yii::t('course', '0406') . " (UA)",
@@ -151,8 +149,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('title_ua', $this->title_ua, true);
         $criteria->compare('title_ru', $this->title_ru, true);
         $criteria->compare('title_en', $this->title_en, true);
-        $criteria->compare('course_duration_hours', $this->course_duration_hours);
-        //$criteria->compare('modules_count', $this->modules_count);
+        $criteria->compare('modules_count', $this->modules_count);
         $criteria->compare('course_price', $this->course_price, true);
         $criteria->compare('for_whom_ua', $this->for_whom_ua, true);
         $criteria->compare('what_you_learn_ua', $this->what_you_learn_ua, true);
