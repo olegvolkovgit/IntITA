@@ -39,14 +39,14 @@ class CoursemanageController extends TeacherCabinetController
 
         if (isset($_POST['Course'])) {
 
-            if (!empty($_FILES['Course']['tmp_name']['course_img'])){
+            if (!empty($_FILES['Course']['tmp_name']['course_img'])) {
                 $fileInfo = new SplFileInfo($_FILES['Course']['name']['course_img']);
                 $extension = $fileInfo->getExtension();
                 $filename = uniqid() . '.' . $extension;
 
                 $_POST['Course']['course_img'] = $filename;
                 $model->logo = $_FILES['Course'];
-                $model->logo['name']['course_img']=$filename;
+                $model->logo['name']['course_img'] = $filename;
             }
             $model->attributes = $_POST['Course'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -97,7 +97,7 @@ class CoursemanageController extends TeacherCabinetController
 
                 $_POST['Course']['course_img'] = $filename;
                 $model->logo = $_FILES['Course'];
-                $model->logo['name']['course_img']=$filename;
+                $model->logo['name']['course_img'] = $filename;
             }
             $model->attributes = $_POST['Course'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -288,5 +288,19 @@ class CoursemanageController extends TeacherCabinetController
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
+    }
+
+    public function actionAddLinkedCourse($id)
+    {
+        $course = Course::model()->findByPk($id);
+        $param = "lang_" . $course->language;
+        $model = CourseLanguages::model()->findByAttributes(array($param => $id));
+        if (!$model) {
+            $model = new CourseLanguages();
+        }
+        $this->renderPartial('_addLinkedCourse', array(
+            'model' => $model,
+            'course' => $course,
+        ), false, true);
     }
 }
