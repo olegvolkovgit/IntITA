@@ -28,7 +28,7 @@
                         Ціна модуля базова, USD:
                     </div>
                 </td>
-                <td><?=$model->module_price;?></td>
+                <td><?=($model->module_price == 0)?"безкоштовно":$model->module_price;?></td>
             </tr>
             <tr>
                 <td><div data-toggle="tooltip" data-placement="top" title="Базова ціна модуля помножена на коефіцієнт
@@ -37,7 +37,7 @@
                     Ціна самостійного модуля, USD:
                 </div>
                 </td>
-                <td><?= $model->getIndepedentModulePrice();?></td>
+                <td><?=($model->module_price == 0)?"безкоштовно":$model->getIndepedentModulePrice();?></td>
             </tr>
             <tr>
                 <td>
