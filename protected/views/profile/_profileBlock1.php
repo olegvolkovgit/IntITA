@@ -16,7 +16,7 @@ if ($editMode){
                 <img id="teacherImg" src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $model->avatar());?>"/>
                 <br>
                 <div align="center" style="width:85%">
-                    <a class="btnChatHidden" href="#"  data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                    <a class="btnChat" href="<?php echo Config::getBaseUrl(); ?>/crmChat/#/private_dialog_view/<?php echo $model->user_id; ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                     <a class="btnChat" href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
                         'scenario' => 'message',
                         'receiver' => $model->user_id
