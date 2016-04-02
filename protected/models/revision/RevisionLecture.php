@@ -176,6 +176,11 @@ class RevisionLecture extends CActiveRecord
 
         //check page orders collision
         $approvedPages = $this->getApprovedPages();
+        //check if at least one approved page exist
+        if (count($approvedPages) == 0) {
+            array_push($result, "There are no approved pages in this lecture");
+        }
+
         //count all orders
         $orders = array();
         foreach ($approvedPages as $page) {

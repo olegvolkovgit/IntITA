@@ -26,7 +26,7 @@
                                 <?php echo Yii::t('teachers', '0059'); ?>&#187;
                             </a>
                             <br>
-                            <a class="btnChatHidden" href="#"  data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                            <a target="_blank" class="btnChat" href="<?php echo Config::getBaseUrl(); ?>/crmChat/#/private_dialog_view/<?php echo $teacherValue->user_id; ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                             <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
                                 'scenario' => 'message',
                                 'receiver' => $teacherValue->user_id

@@ -28,6 +28,7 @@ return array(
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
+        'application.models.revision.*',
         'application.models.user.*',
         'application.components.*',
         'application.components.widgets.*',
