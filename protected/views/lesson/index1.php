@@ -61,6 +61,7 @@ $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
 <script>
+    idCourse = <?php echo $idCourse;?>;
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;
     finishedLecture = <?php echo ($finishedLecture) ? 1 : 0;?>;

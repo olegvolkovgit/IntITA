@@ -639,16 +639,30 @@ class LessonController extends Controller
     {
         $lectures = [];
         $idModule = Yii::app()->request->getPost('module');
+        $idCourse = Yii::app()->request->getPost('course');
+        $module=Module::model()->findByPk($idModule);
+        $lecturesInModule=$module->getLecturesDataProvider();
+        $iterator = new CDataProviderIterator($lecturesInModule);
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($idModule);
-        for ($i = 0; $i < Module::getLessonsCount($idModule); $i++) {
-            $lectureId = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->id;
-            $lectureOrder = Lecture::getLectureIdByModuleOrder($idModule, $i + 1)->order;
-            if (Lecture::accessLecture($lectureId, $lectureOrder, $enabledLessonOrder)) {
-                $lectures[$i] = true;
+
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        $moduleTitle = $title;
+
+        foreach ($iterator as $key =>$item) {
+            if (Lecture::accessLecture($item->id, $item->order, $enabledLessonOrder)) {
+                $lectures[$key]['access'] = true;
+                $lectures[$key]['order'] = $item->order;
+                $lectures[$key]['title'] = $item->$moduleTitle?$item->$moduleTitle:$item->title_ua;
+                $lectures[$key]['link'] = Yii::app()->createUrl("lesson/index", array("id" => $item->id, "idCourse" => $idCourse));
             } else {
-                $lectures[$i] = false;
+                $lectures[$key]['access'] = false;
+                $lectures[$key]['order'] = $item->order;
+                $lectures[$key]['title'] = $item->$moduleTitle?$item->$moduleTitle:$item->title_ua;
+                $lectures[$key]['link'] = Yii::app()->createUrl("lesson/index", array("id" => $item->id, "idCourse" => $idCourse));
             }
         }
+
         echo json_encode($lectures);
     }
 

@@ -48,43 +48,20 @@ $lecturesCount = $lecture->module->lecturesCount();
                 <?php echo '(' . $lecture->order . ' / ' . $lecturesCount . ' ' . Yii::t('lecture', '0616') . ')'; ?>
             </li>
             <div id="counter">
-                <?php
-                if ($editMode || StudentReg::isAdmin()) {
-                    foreach ($lecture->module->lectures as $lectureInModule) {
-//                    for ($i = 0; $i < $lecturesCount; $i++) {
-//                        $lectureId = $lectureInModule->id;
-//                        $lectureId = Lecture::getLectureIdByModuleOrder($lecture->idModule, $i + 1)->id;
-                        ?>
-                        <a ng-attr-href="{{'<?php echo ($lecture->id == $lectureInModule->id); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureInModule->id, "idCourse" => $idCourse)) ?>' || undefined }}"
-                           tooltip-html-unsafe="<?php echo CHtml::encode($lectureInModule->title_ua); ?>">
-<!--                        <a ng-attr-href="{{'--><?php //echo (($i+1) != $lecture->order); ?><!--' && '--><?php //echo Yii::app()->createUrl("lesson/index", array("id" => $lectureId, "idCourse" => $idCourse)) ?><!--' || undefined }}"-->
-<!--                           tooltip-html-unsafe="--><?php //echo CHtml::encode(Lecture::getLectureTitle($lectureId)); ?><!--">-->
-                            <div class="lectureAccess"
-                                 id="<?php if ($lecture->id == $lectureInModule->id) echo 'thisLecture' ?>"></div>
-<!--                                 id="--><?php //if ($i + 1 == $lecture->order) echo 'thisLecture' ?><!--"></div>-->
-                        </a>
-                    <?php }
-                } else {
-                    for ($i = 0; $i < Module::getLessonsCount($lecture->idModule); $i++) {
-                        $lectureModel = $lecture->getLectureByModuleOrder($i + 1);
-                        if (Lecture::accessLecture($lectureModel->id, $lectureModel->order, $enabledLessonOrder)) { ?>
-                            <a ng-attr-href="{{'<?php echo (($i+1) != $lecture->order); ?>' && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureModel->id, "idCourse" => $idCourse)) ?>' || undefined }}"
-                               tooltip-html-unsafe="<?php echo CHtml::encode($lectureModel->title()); ?>">
-                                <div class="lectureAccess"
-                                     id="<?php if ($i + 1 == $lecture->order) echo 'thisLecture' ?>"></div>
-                            </a>
-                        <?php } else { ?>
-                            <a ng-attr-href="{{lectures[<?php echo $i; ?>] && '<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureModel->id, "idCourse" => $idCourse)) ?>' || undefined }}"
-                               tooltip-html-unsafe="<span class='titleNoAccessMin'><?php echo CHtml::encode($lectureModel->title()); ?></span><span class='noAccessMin'> (Заняття недоступне)</span>">
-                                <div
-                                    ng-class="{lectureDisabled: !(lectures[<?php echo $i; ?>]), lectureAccess: lectures[<?php echo $i; ?>]}"></div>
-                            </a>
-                        <?php }
-                    } ?>
-                    <div id="iconImage">
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', ''); ?>{{moduleFinished}}">
-                    </div>
-                <?php } ?>
+                <span ng-repeat="lecture in lectures track by $index">
+                    <a ng-if=lecture.access
+                       ng-attr-href="{{ lecture.order!='<?php echo $lecture->order; ?>' && lecture.link || undefined }}"
+                       tooltip-html-unsafe="{{lecture.title}}">
+                        <div class="lectureAccess" ng-class="{thisLecture: lecture.order=='<?php echo $lecture->order; ?>'}"></div>
+                    </a>
+                    <a ng-if=!lecture.access
+                       tooltip-html-unsafe="<span class='titleNoAccessMin'>{{lecture.title}}</span><span class='noAccessMin'> (Заняття недоступне)</span>">
+                        <div class="lectureDisabled"></div>
+                    </a>
+                </span>
+                <div id="iconImage">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', ''); ?>{{moduleFinished}}">
+                </div>
             </div>
         </ul>
     </div>
