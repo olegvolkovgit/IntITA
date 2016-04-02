@@ -19,7 +19,7 @@ foreach ($teachers as $teacher) {
                         <?php echo Yii::t('module', '0228'); ?>
                         &#187;</a>
                     <br>
-                    <a class="btnChat" href="<?php echo Config::getBaseUrl(); ?>/crmChat/#/private_dialog_view/<?php echo $teacher->user_id; ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                    <a target="_blank" class="btnChat" href="<?php echo Config::getBaseUrl(); ?>/crmChat/#/private_dialog_view/<?php echo $teacher->user_id; ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                     <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
                         'scenario' => 'message',
                         'receiver' => $teacher->user_id
