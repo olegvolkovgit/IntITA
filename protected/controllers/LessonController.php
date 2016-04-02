@@ -637,9 +637,10 @@ class LessonController extends Controller
 
     public function actionGetAccessLectures()
     {
-        $lectures = [];
+        $lecturesData=[];
         $idModule = Yii::app()->request->getPost('module');
         $idCourse = Yii::app()->request->getPost('course');
+        $idLecture = Yii::app()->request->getPost('lecture');
         $module=Module::model()->findByPk($idModule);
         $lecturesInModule=$module->getLecturesDataProvider();
         $iterator = new CDataProviderIterator($lecturesInModule);
@@ -651,6 +652,7 @@ class LessonController extends Controller
 
         foreach ($iterator as $key =>$item) {
             if (Lecture::accessLecture($item->id, $item->order, $enabledLessonOrder)) {
+                if($item->id==$idLecture) $currentOrder=$key+1;
                 $lectures[$key]['access'] = true;
                 $lectures[$key]['order'] = $item->order;
                 $lectures[$key]['title'] = $item->$moduleTitle?$item->$moduleTitle:$item->title_ua;
@@ -662,8 +664,9 @@ class LessonController extends Controller
                 $lectures[$key]['link'] = Yii::app()->createUrl("lesson/index", array("id" => $item->id, "idCourse" => $idCourse));
             }
         }
-
-        echo json_encode($lectures);
+        $data['lectures']=$lectures;
+        $data['currentOrder']=$currentOrder;
+        echo json_encode($data);
     }
 
     public function actionSaveFormulaImage()
