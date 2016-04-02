@@ -88,7 +88,8 @@ class Course extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
         return array(
             'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
+                                                'order' => 'module.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
@@ -836,33 +837,29 @@ class Course extends CActiveRecord implements IBillableObject
      */
     public function upModule($idModule) {
 
-        $order = $this->getModuleOrderInCourse($this->course_ID, $idModule);
-        if ($order == null) {
-            // Now this method is called from a course instance,
-            // so $order can be null only if specified module is absent in the course.
-            throw new \application\components\Exceptions\ModuleNotFoundException();
-        }
-        $prevOrder = $order - 1;
-
-        $sqlDownPrevModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $this->course_ID AND `order` = $prevOrder";
-        $sqlUpModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $this->course_ID AND id_module = $idModule;";
-
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
-        try
-        {
-            $rowAffected = $connection->createCommand($sqlDownPrevModule)->execute();
-            if ($rowAffected == 0) {
-                throw new \application\components\Exceptions\FirstModuleUpException();
-            }
-            $connection->createCommand($sqlUpModule)->execute();
-            $transaction->commit();
-        }
-        catch(Exception $e)
-        {
-            $transaction->rollback();
-            if (!($e instanceof \application\components\Exceptions\FirstModuleUpException)) {
-                throw $e;
+        $sqlSelectData = "SELECT `id_course`, `id_module`, `order` FROM `course_modules` WHERE `id_course`=".$this->course_ID." ORDER BY `order` ASC";
+        $result = $connection->createCommand($sqlSelectData)->queryAll();
+        $length = count($result);
+        for ($i = 0; $i<$length; $i++) {
+            if ($result[$i]['id_module']==$idModule) {
+                if ($i > 0) {
+                    $sqlDownPrevModule = "UPDATE `course_modules` SET `order` = ".$result[$i-1]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i]['id_module'];
+                    $sqlUpModule = "UPDATE `course_modules` SET `order` = ".$result[$i]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i-1]['id_module'];
+                    $transaction = $connection->beginTransaction();
+                    try
+                    {
+                        $connection->createCommand($sqlDownPrevModule)->execute();
+                        $connection->createCommand($sqlUpModule)->execute();
+                        $transaction->commit();
+                    }
+                    catch(Exception $e)
+                    {
+                        $transaction->rollback();
+                        throw $e;
+                    }
+                }
+                return;
             }
         }
     }
@@ -873,36 +870,33 @@ class Course extends CActiveRecord implements IBillableObject
      * @throws Exception
      */
     public function downModule($idModule) {
-        $order = $this->getModuleOrderInCourse($this->course_ID, $idModule);
-        if ($order == null) {
-            // Now this method is called from a course instance,
-            // so $order can be null only if specified module is absent in the course.
-            throw new \application\components\Exceptions\ModuleNotFoundException();
-        }
-
-        $nextOrder = $order + 1;
-
-        $sqlUpNextModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $this->course_ID AND `order` = $nextOrder";
-        $sqlDownModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $this->course_ID AND id_module = $idModule;";
 
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
-        try
-        {
-            $rowAffected = $connection->createCommand($sqlUpNextModule)->execute();
-            if ($rowAffected == 0) {
-                throw new \application\components\Exceptions\LastModuleDownException();
+        $sqlSelectData = "SELECT `id_course`, `id_module`, `order` FROM `course_modules` WHERE `id_course`=".$this->course_ID." ORDER BY `order` ASC";
+        $result = $connection->createCommand($sqlSelectData)->queryAll();
+        $length = count($result);
+        for ($i = 0; $i<$length; $i++) {
+            if ($result[$i]['id_module']==$idModule) {
+                if ($i < $length-1) {
+                    $sqlUpNextModule = "UPDATE `course_modules` SET `order` = ".$result[$i]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i+1]['id_module'];
+                    $sqlDownModule = "UPDATE `course_modules` SET `order` = ".$result[$i+1]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i]['id_module'];
+                    $transaction = $connection->beginTransaction();
+                    try
+                    {
+                        $connection->createCommand($sqlUpNextModule)->execute();
+                        $connection->createCommand($sqlDownModule)->execute();
+                        $transaction->commit();
+                    }
+                    catch(Exception $e)
+                    {
+                        $transaction->rollback();
+                        throw $e;
+                    }
+                }
+                return;
             }
-            $connection->createCommand($sqlDownModule)->execute();
-            $transaction->commit();
         }
-        catch(Exception $e)
-        {
-            $transaction->rollback();
-            if (!($e instanceof \application\components\Exceptions\LastModuleDownException)) {
-                throw $e;
-            }
-        }
+        
     }
 
     /**
