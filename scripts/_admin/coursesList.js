@@ -57,3 +57,53 @@ function setCourseStatus(url, message){
         }
     });
 }
+
+function initUaCourses(){
+    var uaCourses = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/coursemanage/coursesUaByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (courses) {
+                return $jq.map(courses.results, function (course) {
+                    return {
+                        id: course.id,
+                        title: course.title
+                    };
+                });
+            }
+        }
+    });
+
+    uaCourses.initialize();
+
+    $jq('#typeaheadModule').typeahead(null, {
+        name: 'modules',
+        display: 'title',
+        limit: 10,
+        source: modules,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'модулів з такою назвою немає',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+        }
+    });
+
+    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
+        $jq("#moduleId").val(item.id);
+    });
+}
+
+function initRuCourses(){
+
+}
+
+function initEnCourses(){
+
+}
+
+

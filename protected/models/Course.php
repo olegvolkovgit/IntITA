@@ -1047,4 +1047,27 @@ class Course extends CActiveRecord implements IBillableObject
 
         return $result;
     }
+
+    public static function coursesByQueryAndLang($query, $lang){
+        $criteria = new CDbCriteria();
+        $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
+        $criteria->addCondition('cancelled=0 and lang=:lang', array(':lang' => $lang));
+
+        $data = Course::model()->findAll($criteria);
+
+        $result = array();
+        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$lang;
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->course_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
+    }
 }

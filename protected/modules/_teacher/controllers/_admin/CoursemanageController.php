@@ -303,4 +303,34 @@ class CoursemanageController extends TeacherCabinetController
             'course' => $course,
         ), false, true);
     }
+
+    public function actionCoursesUaByQuery($query)
+    {
+        if ($query) {
+            $courses = Course::coursesByQueryAndLang($query, 'ua');
+            echo $courses;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionCoursesRuByQuery($query)
+    {
+        if ($query) {
+            $courses = Course::coursesByQueryAndLang($query, 'ru');
+            echo $courses;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionCoursesEnByQuery($query)
+    {
+        if ($query) {
+            $courses = Course::coursesByQueryAndLang($query, 'en');
+            echo $courses;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
 }

@@ -81,68 +81,71 @@
     </form>
 </div>
 <script>
-    var uaCourses = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/coursemanage/modulesByQuery?query=%QUERY&module=' + course,
-            wildcard: '%QUERY',
-            filter: function (courses) {
-                return $jq.map(courses.results, function (course) {
-                    return {
-                        id: course.id,
-                        title: course.title
-                    };
-                });
-            }
-        }
-    });
-
-    uaCourses.initialize();
-
-    $jq('#typeaheadModule').typeahead(null, {
-        name: 'modules',
-        display: 'title',
-        limit: 10,
-        source: modules,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'модулів з такою назвою немає',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-        }
-    });
-
-    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
-        $jq("#moduleId").val(item.id);
-    });
-
-
-    function addExistModule(url, course, title) {
-        module = $jq("#moduleId").val();
-        if (module == 0) {
-            bootbox.alert('Виберіть модуль.');
-        } else {
-            var posting = $jq.post(url, {
-                moduleId: module,
-                courseId:course
-            });
-
-            posting.done(function (response) {
-                    if (response == "success")
-                        bootbox.alert("Модуль успішно додано.", function () {
-                            load(basePath + '/_teacher/_admin/coursemanage/view/id/'+course,'Курс '+title,'','4');
-                        });
-                    else {
-                        bootbox.alert("Операцію не вдалося виконати");
-                    }
-                })
-                .fail(function () {
-                    bootbox.alert("Операцію не вдалося виконати");
-                });
-        }
-    }
+    initUaCourses();
+    initRuCourses();
+    initEnCourses();
+//    var uaCourses = new Bloodhound({
+//        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+//        queryTokenizer: Bloodhound.tokenizers.whitespace,
+//        remote: {
+//            url: basePath + '/_teacher/_admin/coursemanage/modulesByQuery?query=%QUERY',
+//            wildcard: '%QUERY',
+//            filter: function (courses) {
+//                return $jq.map(courses.results, function (course) {
+//                    return {
+//                        id: course.id,
+//                        title: course.title
+//                    };
+//                });
+//            }
+//        }
+//    });
+//
+//    uaCourses.initialize();
+//
+//    $jq('#typeaheadModule').typeahead(null, {
+//        name: 'modules',
+//        display: 'title',
+//        limit: 10,
+//        source: modules,
+//        templates: {
+//            empty: [
+//                '<div class="empty-message">',
+//                'модулів з такою назвою немає',
+//                '</div>'
+//            ].join('\n'),
+//            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
+//        }
+//    });
+//
+//    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
+//        $jq("#moduleId").val(item.id);
+//    });
+//
+//
+//    function addExistModule(url, course, title) {
+//        module = $jq("#moduleId").val();
+//        if (module == 0) {
+//            bootbox.alert('Виберіть модуль.');
+//        } else {
+//            var posting = $jq.post(url, {
+//                moduleId: module,
+//                courseId:course
+//            });
+//
+//            posting.done(function (response) {
+//                    if (response == "success")
+//                        bootbox.alert("Модуль успішно додано.", function () {
+//                            load(basePath + '/_teacher/_admin/coursemanage/view/id/'+course,'Курс '+title,'','4');
+//                        });
+//                    else {
+//                        bootbox.alert("Операцію не вдалося виконати");
+//                    }
+//                })
+//                .fail(function () {
+//                    bootbox.alert("Операцію не вдалося виконати");
+//                });
+//        }
+//    }
 </script>
 
