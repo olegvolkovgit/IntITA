@@ -187,13 +187,18 @@ class ModuleController extends TeacherCabinetController
 
     public function actionCoursePrice($id, $course)
     {
-        $course = Course::model()->findByPk($course);
-        $module = Module::model()->findByPk($id);
+        if($id && $course) {
+            $model = CourseModules::model()->findByAttributes(array(
+                'id_course' => $course,
+                'id_module' => $id
+            ));
 
-        $this->renderPartial('coursePrice', array(
-            'module' => $module,
-            'course' => $course,
-        ), false, true);
+            $this->renderPartial('coursePrice', array(
+                'model' => $model,
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
     }
 
     public function actionAddCoursePrice()
