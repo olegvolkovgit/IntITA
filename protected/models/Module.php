@@ -63,7 +63,7 @@ class Module extends CActiveRecord implements IBillableObject
         // will receive user inputs.
         return array(
             array('status', 'required'),
-            array('language, title_ua, alias, level', 'required', 'message' => 'Поле не може бути пустим'),
+            array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
             array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
             array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
