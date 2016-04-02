@@ -40,13 +40,13 @@
                                        onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/coursePrice', array(
                                            'id' => $model->module_ID, 'course' => $item->id_course)); ?>',
                                            'Додати/змінити ціну модуля у курсі')">
-                                        <?php if ($item->price_in_course != null) {
+                                       <?php if ($item->price_in_course != null) {
                                             echo $item->price_in_course . " (ред.)";
                                         } else {
                                             if ($item->moduleInCourse->module_price) {
                                                 echo $item->moduleInCourse->module_price . " (ред.)";
                                             } else {
-                                                echo "безкоштовно";
+                                                echo "безкоштовно (ред.)";
                                             }
                                         } ?>
                                     </a>
@@ -55,7 +55,7 @@
                                         echo $item->price_in_course;
                                     } else {
                                         if ($item->moduleInCourse->module_price) {
-                                            echo $item->moduleInCourse->module_price . " (ред.)";
+                                            echo $item->moduleInCourse->module_price;
                                         } else {
                                             echo "безкоштовно";
                                         }
