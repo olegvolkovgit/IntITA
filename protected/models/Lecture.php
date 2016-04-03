@@ -462,12 +462,12 @@ class Lecture extends CActiveRecord
         $sortedLectures = Lecture::model()->findAll($criteria);
 
         $lecturesCount = count($sortedLectures);
-        foreach ($sortedLectures as $lecture) {
+        foreach ($sortedLectures as $key=>$lecture) {
             if (!$lecture->isFinished($user)) {
                 return $lecture->order;
             }
         }
-        return $lecturesCount;
+        return $sortedLectures[count($sortedLectures)-1]['order'];
     }
 
     public static function getLectureTitle($id)
@@ -545,13 +545,13 @@ class Lecture extends CActiveRecord
         $title = "title_" . $lang;
         return $title;
     }
-
-    public static function getNextId($id)
+     public function nextLectureId()
     {
-        $current = Lecture::model()->findByPk($id);
-        return Lecture::model()->findByAttributes(array('order' => $current->order + 1, 'idModule' => $current->idModule))->id;
+        $sqlNextLectureId =
+            "SELECT id FROM lectures WHERE idModule=" . $this->idModule . " AND `order` > ".$this->order." ORDER BY `order` ASC LIMIT 1";
+        $nextLectureId = Yii::app()->db->createCommand($sqlNextLectureId)->queryScalar();
+        return $nextLectureId;
     }
-
     public function saveLectureContent(){
 
         $pages = $this->getAllLecturePages();
@@ -870,5 +870,12 @@ class Lecture extends CActiveRecord
             $element->delete();
         }
 
+    }
+    public function lastLectureOrder()
+    {
+        $sqlLastOrder =
+            "SELECT `order` FROM lectures WHERE idModule=" . $this->idModule . "  ORDER BY `order` DESC LIMIT 1";
+        $lastLectureOrder = Yii::app()->db->createCommand($sqlLastOrder)->queryScalar();
+        return $lastLectureOrder;
     }
 }

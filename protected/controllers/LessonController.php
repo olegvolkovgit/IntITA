@@ -426,8 +426,8 @@ class LessonController extends Controller
     public function actionNextLecture($lectureId, $idCourse = 0)
     {
         $lecture = Lecture::model()->findByPk($lectureId);
-        if ($lecture->order < Module::getLessonsCount($lecture->idModule)) {
-            $nextId = Lecture::getNextId($lecture['id']);
+        if ($lecture->order < $lecture->lastLectureOrder()) {
+            $nextId = $lecture->nextLectureId();
             $this->redirect(Yii::app()->createUrl('lesson/index', array('id' => $nextId, 'idCourse' => $idCourse)));
         } else {
             $this->redirect($_SERVER["HTTP_REFERER"]);
