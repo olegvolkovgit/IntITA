@@ -76,7 +76,7 @@ class Lecture extends CActiveRecord
 
             'module' => array(self::BELONGS_TO, 'Module', 'idModule'),
             'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
-            'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture'),
+            'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture', 'order'=>'pages.page_order ASC'),
         );
     }
 
@@ -554,9 +554,7 @@ class Lecture extends CActiveRecord
     }
     public function saveLectureContent(){
 
-        $pages = $this->getAllLecturePages();
-
-        foreach ($pages as $page) {
+        foreach ($this->pages as $key=>$page) {
             $textList = $page->getBlocksListById();
             $dataProvider = LectureElement::getLectureText($textList);
             $langs = ['ua', 'ru', 'en'];
@@ -581,10 +579,20 @@ class Lecture extends CActiveRecord
                             $html = '';
                             break;
                     };
-                    $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $page->page_order, $lang, $type);
+                    $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $key+1, $lang, $type);
                     file_put_contents($file, $html);
                 }
             }
+        }
+    }
+    public function deleteLectureContent(){
+        $path=StaticFilesHelper::pathToDeleteLecturePageHtml($this->idModule, $this->id);
+        if ($handle = opendir($path)) {
+            while (($file = readdir($handle))) {
+                if(is_file("$path/$file"))
+                    unlink("$path/$file");
+            }
+            closedir($handle);
         }
     }
     public static function lectureToTemplate($id)

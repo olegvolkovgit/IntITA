@@ -80,8 +80,7 @@ class LessonController extends Controller
             $page = $_GET['page'];
         }
 
-
-        $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+        $pageModel=$lecture->pages[$page-1];
         if(!$pageModel){
             throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
         }
@@ -570,7 +569,7 @@ class LessonController extends Controller
             throw new CHttpException(403, Yii::t('lecture', '0813'));
         }
 
-        $pageModel = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page));
+        $pageModel=$lecture->pages[$page-1];
         if(!$pageModel){
             throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
         }
@@ -619,6 +618,12 @@ class LessonController extends Controller
     {
         $model = Lecture::model()->findByPk($idLecture);
         $model->saveLectureContent();
+        $this->redirect(Config::getBaseUrl() . '/_teacher/cabinet/index');
+    }
+    public function actionDeleteLectureContent($idLecture)
+    {
+        $model = Lecture::model()->findByPk($idLecture);
+        $model->deleteLectureContent();
         $this->redirect(Config::getBaseUrl() . '/_teacher/cabinet/index');
     }
 
@@ -689,13 +694,14 @@ class LessonController extends Controller
     {
         $user = Yii::app()->user->getId();
         $id = $_GET['lectureId'];
-        $page_order = $_GET['page'];
+        $actualOrder = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
+
         $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
         $this->initialize($id, $editMode);
 
-        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+        $page=$lecture->pages[$actualOrder-1];
 
         echo $this->renderPartial('/lesson/_videoTab',
             array('page' => $page), true);
@@ -706,12 +712,12 @@ class LessonController extends Controller
         $user = Yii::app()->user->getId();
         $id = $_GET['lectureId'];
         $lecture = Lecture::model()->findByPk($id);
-        $page_order = $_GET['page'];
+        $actualOrder = $_GET['page'];
         $editMode = Teacher::isTeacherAuthorModule($user, $lecture->idModule);
 
         $this->initialize($id, $editMode);
 
-        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+        $page=$lecture->pages[$actualOrder-1];
 
         $textList = $page->getBlocksListById();
 
@@ -725,13 +731,12 @@ class LessonController extends Controller
     {
         $user = Yii::app()->user->getId();
         $id = $_GET['lectureId'];
-        $page_order = $_GET['page'];
+        $actualOrder = $_GET['page'];
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
 
         $this->initialize($id, $editMode);
-
-        $page = LecturePage::model()->findByAttributes(array('id_lecture' => $id, 'page_order' => $page_order));
+        $page=$lecture->pages[$actualOrder-1];
 
         echo $this->renderPartial('/lesson/_quiz',
             array('page' => $page, 'editMode' => $editMode, 'user' => $user), true);

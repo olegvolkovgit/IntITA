@@ -90,7 +90,9 @@ class StaticFilesHelper {
     public static function pathToLecturePageHtml($module, $lecture, $page, $lang, $type){
         return 'content/module_'.$module."/lecture_".$lecture."/page_".$page."_".$type."_".$lang.".html";
     }
-
+    public static function pathToDeleteLecturePageHtml($module, $lecture){
+        return 'content/module_'.$module."/lecture_".$lecture;
+    }
     public static function pathToLectureImages($module, $lecture){
         return 'content/module_'.$module."/lecture_".$lecture."/images/";
     }
