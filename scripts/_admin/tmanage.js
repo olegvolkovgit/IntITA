@@ -15,7 +15,7 @@ function ShowTeacher(url, id) {
     });
 }
 
-function addTeacherAttr(url, attr, id, role,header) {
+function addTeacherAttr(url, attr, id, role,header,redirect) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -39,14 +39,18 @@ function addTeacherAttr(url, attr, id, role,header) {
                                 loadTrainerStudentList(user);
                                 break;
                             case "author":
-                                if (id == '#moduleId')
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'0');
+                                else if (id == '#moduleId')
                                     loadAddModuleAuthor();
                                 else if (id == '#module')
                                     loadModuleEdit(value,header,'5');
                                 else loadTeacherModulesList(user);
                                 break;
                             case "consultant":
-                                loadAddModuleConsultant(user);
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'2');
+                                else loadAddModuleConsultant(user);
                                 break;
                         }
                     });
@@ -611,4 +615,8 @@ function loadCourseList() {
 function loadModuleEdit(id,header,tab) {
     load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
 }
+function loadAddTeacherAccess(header,tab) {
+    load(basePath + "/_teacher/_admin/permissions/index/",header,'',tab);
+}
+
 
