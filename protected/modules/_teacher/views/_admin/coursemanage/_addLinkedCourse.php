@@ -9,73 +9,93 @@
         <fieldset>
             <div class="form-group">
                 <label>Українською: </label>
-                <?php if ($model->langUa) { ?>
-                    <a href="<?= Yii::app()->createUrl("course/index", array('id' => $model->langUa->course_ID)); ?>" target="_blank">
-                        <?= $model->langUa->getTitle()." (".$model->langUa->language.")"; ?>
-                    </a>
-                <?php } else {
-                    if($course->language == "ua"){?>
-                        <a href="<?= Yii::app()->createUrl("course/index", array('id' => $course->course_ID)); ?>">
-                            <?= $course->getTitle()." (".$course->language.")"; ?>
+                <div>
+                    <?php if ($model->langUa) { ?>
+                        <a href="<?= Yii::app()->createUrl("course/index", array('id' => $model->langUa->course_ID)); ?>"
+                           target="_blank">
+                            <?= $model->langUa->getTitle() . " (" . $model->langUa->language . ")"; ?>
                         </a>
-                    <?php }
-                    else {
-                        echo "не задано";
-                    }
-                } ?>
-                <?php if($course->language != 'ua'){?>
-                    <input type="number" hidden="hidden" id="moduleId" value="0"/>
-                    <input id="typeaheadUaCourse" type="text" class="form-control" placeholder="змінити">
+                    <?php } else {
+                        if ($course->language == "ua") {
+                            ?>
+                            <a href="<?= Yii::app()->createUrl("course/index", array('id' => $course->course_ID)); ?>">
+                                <?= $course->getTitle() . " (" . $course->language . ")"; ?>
+                            </a>
+                        <?php } else {
+                            echo "не задано";
+                        }
+                    } ?>
+                </div>
+                <?php if ($course->language != 'ua') { ?>
+                    <input type="number" hidden="hidden" id="uaCourse" value="<?=($model->langUa)?$model->lang_ua:'0'?>"/>
+                    <input id="typeaheadUaCourse" type="text" size="135" class="form-control" placeholder="змінити">
                     <br>
+                <?php } else { ?>
+                    <input type="number" hidden="hidden" id="uaCourse" value="<?=$course->course_ID?>"/>
                 <?php }?>
             </div>
 
             <div class="form-group">
                 <label>Російською: </label>
-                <?php if ($model->langRu) { ?>
-                    <a href="<?= Yii::app()->createUrl("course/index", array('id' => $model->langRu->course_ID)); ?>" target="_blank">
-                        <?= $model->langRu->getTitle()." (".$model->langRu->language.")"; ?></a>
-                <?php } else {
-                    if($course->language == "ru"){?>
-                        <a href="<?= Yii::app()->createUrl("course/index", array('id' => $course->course_ID)); ?>">
-                            <?= $course->getTitle()." (".$course->language.")"; ?>
-                        </a>
-                    <?php }
-                    else {
-                        echo "не задано";
-                    }
-                }?>
-                <?php if($course->language != 'ru'){?>
-                    <input type="number" hidden="hidden" id="moduleId" value="0"/>
-                    <input id="typeaheadRuCourse" type="text" class="form-control" placeholder="змінити">
+                <div>
+                    <?php if ($model->langRu) { ?>
+                        <a href="<?= Yii::app()->createUrl("course/index", array('id' => $model->langRu->course_ID)); ?>"
+                           target="_blank">
+                            <?= $model->langRu->getTitle() . " (" . $model->langRu->language . ")"; ?></a>
+                    <?php } else {
+                        if ($course->language == "ru") {
+                            ?>
+                            <a href="<?= Yii::app()->createUrl("course/index", array('id' => $course->course_ID)); ?>">
+                                <?= $course->getTitle() . " (" . $course->language . ")"; ?>
+                            </a>
+                        <?php } else {
+                            echo "не задано";
+                        }
+                    } ?>
+                </div>
+                <?php if ($course->language != 'ru') { ?>
+                    <input type="number" hidden="hidden" id="ruCourse" value="<?=($model->langRu)?$model->lang_ru:'0'?>"/>
+                    <input id="typeaheadRuCourse" type="text" size="135" class="form-control" placeholder="змінити">
                     <br>
+                <?php } else { ?>
+                    <input type="number" hidden="hidden" id="ruCourse" value="<?=$course->course_ID?>"/>
                 <?php }?>
             </div>
 
             <div class="form-group">
                 <label>Англійською: </label>
-                <?php if($model->langEn) { ?>
-                    <a href="<?= Yii::app()->createUrl("course/index", array('id' => $model->langEn->course_ID)); ?>" target="_blank">
-                        <?= $model->langEn->getTitle()." (".$model->langEn->language.")"; ?></a>
-                <?php } else {
-                    if($course->language == "en"){?>
-                        <a href="<?= Yii::app()->createUrl("course/index", array('id' => $course->course_ID)); ?>">
-                            <?= $course->getTitle()." (".$course->language.")"; ?>
-                        </a>
-                    <?php }
-                    else {
-                        echo "не задано";
-                    }
-                } ?>
-                <?php if($course->language != 'en'){?>
-                    <input type="number" hidden="hidden" id="moduleId" value="0"/>
-                    <input id="typeaheadEnCourse" type="text" class="form-control" placeholder="змінити">
+                <div>
+                    <?php if ($model->langEn) { ?>
+                        <a href="<?= Yii::app()->createUrl("course/index", array('id' => $model->langEn->course_ID)); ?>"
+                           target="_blank">
+                            <?= $model->langEn->getTitle() . " (" . $model->langEn->language . ")"; ?></a>
+                    <?php } else {
+                        if ($course->language == "en") {
+                            ?>
+                            <a href="<?= Yii::app()->createUrl("course/index", array('id' => $course->course_ID)); ?>">
+                                <?= $course->getTitle() . " (" . $course->language . ")"; ?>
+                            </a>
+                        <?php } else {
+                            echo "не задано";
+                        }
+                    } ?>
+                </div>
+                <?php if ($course->language != 'en') { ?>
+                    <input type="number" hidden="hidden" id="enCourse" value="<?=($model->langEn)?$model->lang_en:'0'?>"/>
+                    <input id="typeaheadEnCourse" type="text" size="135" class="form-control" placeholder="змінити">
                     <br>
+                <?php } else { ?>
+                    <input type="number" hidden="hidden" id="enCourse" value="<?=$course->course_ID?>"/>
                 <?php }?>
             </div>
             <br>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Редагувати" onclick="">
+                <input type="submit" class="btn btn-primary" value="Редагувати"
+                       onclick="addLinkedCourses('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/changeLinkedCourses");?>'
+                           ,'<?=($model->getIsNewRecord())?0:$model->id;?>',
+                           '<?=$course->course_ID?>',
+                           '<?="Курс ".$course->getTitle()?>'
+                           )">
             </div>
         </fieldset>
     </form>
@@ -84,68 +104,5 @@
     initUaCourses();
     initRuCourses();
     initEnCourses();
-//    var uaCourses = new Bloodhound({
-//        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-//        queryTokenizer: Bloodhound.tokenizers.whitespace,
-//        remote: {
-//            url: basePath + '/_teacher/_admin/coursemanage/modulesByQuery?query=%QUERY',
-//            wildcard: '%QUERY',
-//            filter: function (courses) {
-//                return $jq.map(courses.results, function (course) {
-//                    return {
-//                        id: course.id,
-//                        title: course.title
-//                    };
-//                });
-//            }
-//        }
-//    });
-//
-//    uaCourses.initialize();
-//
-//    $jq('#typeaheadModule').typeahead(null, {
-//        name: 'modules',
-//        display: 'title',
-//        limit: 10,
-//        source: modules,
-//        templates: {
-//            empty: [
-//                '<div class="empty-message">',
-//                'модулів з такою назвою немає',
-//                '</div>'
-//            ].join('\n'),
-//            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-//        }
-//    });
-//
-//    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
-//        $jq("#moduleId").val(item.id);
-//    });
-//
-//
-//    function addExistModule(url, course, title) {
-//        module = $jq("#moduleId").val();
-//        if (module == 0) {
-//            bootbox.alert('Виберіть модуль.');
-//        } else {
-//            var posting = $jq.post(url, {
-//                moduleId: module,
-//                courseId:course
-//            });
-//
-//            posting.done(function (response) {
-//                    if (response == "success")
-//                        bootbox.alert("Модуль успішно додано.", function () {
-//                            load(basePath + '/_teacher/_admin/coursemanage/view/id/'+course,'Курс '+title,'','4');
-//                        });
-//                    else {
-//                        bootbox.alert("Операцію не вдалося виконати");
-//                    }
-//                })
-//                .fail(function () {
-//                    bootbox.alert("Операцію не вдалося виконати");
-//                });
-//        }
-//    }
 </script>
 

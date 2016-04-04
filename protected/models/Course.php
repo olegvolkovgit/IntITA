@@ -1056,13 +1056,13 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled=0 and lang=:lang', array(':lang' => $lang));
+        $criteria->addCondition('cancelled=0 and language LIKE "'.$lang.'"');
 
         $data = Course::model()->findAll($criteria);
-
         $result = array();
-        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $titleParam = "title_".$lang;
+        $langParam =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$langParam;
+
         foreach ($data as $key=>$record) {
             $result["results"][$key]["id"] = $record->course_ID;
             $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";

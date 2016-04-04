@@ -304,33 +304,66 @@ class CoursemanageController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionCoursesUaByQuery($query)
+    public function actionCoursesByQueryAndLang($lang, $query)
     {
-        if ($query) {
-            $courses = Course::coursesByQueryAndLang($query, 'ua');
-            echo $courses;
+        if ($query && $lang) {
+            echo Course::coursesByQueryAndLang($query, $lang);
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 
-    public function actionCoursesRuByQuery($query)
+    public function actionChangeLinkedCourses()
     {
-        if ($query) {
-            $courses = Course::coursesByQueryAndLang($query, 'ru');
-            echo $courses;
+
+        $modelId = Yii::app()->request->getPost("modelId", 0);
+        $ua = Yii::app()->request->getPost("ua", 0);
+        $ru = Yii::app()->request->getPost("ru", 0);
+        $en = Yii::app()->request->getPost("en", 0);
+
+        if ($modelId == 0) {
+            $model = CourseLanguages::addNewRecord($ua, $ru, $en);
+            if ($model) {
+                echo "Операцію успішно виконано.";
+                Yii::app()->end();
+            } else {
+                echo "Операцію не виконано. Зверніться до адміністратора " . Config::getAdminEmail();
+                Yii::app()->end();
+            }
         } else {
-            throw new \application\components\Exceptions\IntItaException('400');
+            $model = CourseLanguages::model()->findByPk($modelId);
+            if ($model) {
+                if ($model->updateByCourse($ua, $ru, $en)) {
+                    echo "Операцію успішно виконано.";
+                    Yii::app()->end();
+                } else {
+                    echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                    Yii::app()->end();
+                }
+            } else {
+                echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
+                Yii::app()->end();
+            }
         }
     }
 
-    public function actionCoursesEnByQuery($query)
+    public function actionDeleteLinkedCourse()
     {
-        if ($query) {
-            $courses = Course::coursesByQueryAndLang($query, 'en');
-            echo $courses;
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
+        $id = Yii::app()->request->getPost("id", 0);
+        $lang = Yii::app()->request->getPost("lang", "");
+        $model = CourseLanguages::model()->findByPk($id);
+
+        if ($model) {
+            if($model->cancelLinkedCourse($lang)) {
+                echo "Операцію успішно виконано.";
+                Yii::app()->end();
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                Yii::app()->end();
+            }
         }
+        echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
+        Yii::app()->end();
+
     }
 }

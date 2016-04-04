@@ -16,7 +16,7 @@
                             onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addLinkedCourse",
                                 array("id" => $model->course_ID, "lang" => $model->language));?>',
                                 'Пов\'язані курси на інших мовах'); return false;">
-                        Додати курс на іншій мові
+                        Редагувати курси на інших мовах
                     </button>
                 </li>
             </ul>
@@ -55,7 +55,11 @@
                                         </td>
                                         <?php if ($scenario == "update") { ?>
                                             <td>
-                                                <a href="#" onclick="<? ?>">
+                                                <a href="#" onclick="deleteLinkedCourse(
+                                                    '<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/deleteLinkedCourse");?>',
+                                                    '<?=$linkedCourses->id?>', '<?=$item?>',
+                                                    '<?="Курс ".CHtml::encode($course->title_ua)?>',
+                                                    '<?=$model->course_ID?>')">
                                                     видалити</a>
                                             </td>
                                         <?php } ?>
