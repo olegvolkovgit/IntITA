@@ -12,7 +12,8 @@ function initMainSliderList(){
             {
                 "data": "photo",
                 "render": function (photo) {
-                    return '<a href="#" onclick="load('  + photo["link"] + ')"><img class="carouselImage" src="'  + photo["image"] + '"></a>';
+                    return '<a href="#" onclick="load('  + photo["link"] + ')"><img class="carouselImage" src="'  + photo["image"] + '"></a>' +
+                        '<div>'+photo["text"]+'</div>';
                 }
             },
             {
