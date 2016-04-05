@@ -14,7 +14,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id' => $model->id)); ?>',
-                    '<?="Випускник ".$model->first_name." ".$model->last_name?>')">
+                    '<?="Випускник ".addslashes($model->first_name." ".$model->last_name) ?>')">
             Редагувати</button>
     </li>
     <li>
