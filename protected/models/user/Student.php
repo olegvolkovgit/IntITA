@@ -26,7 +26,36 @@ class Student extends Role
 
 	public function attributes(StudentReg $user)
 	{
-		return array();
+		$mask = PayModules::setFlags(array('read'));
+
+        $courses = Yii::app()->db->createCommand()
+            ->select('id_course id, language lang, c.title_ua title')
+            ->from('pay_courses pm')
+            ->join('course c', 'c.course_ID=pm.id_course')
+            ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
+            ->queryAll();
+
+		$modules = Yii::app()->db->createCommand()
+			->select('id_module id, language lang, m.title_ua title')
+			->from('pay_modules pm')
+			->join('module m', 'm.module_ID=pm.id_module')
+			->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
+			->queryAll();
+
+		return array(
+            array(
+                'key' => 'module',
+                'title' => 'Модулі',
+                'type' => 'module-list',
+                'value' => $modules
+            ),
+            array(
+                'key' => 'course',
+                'title' => 'Курси',
+                'type' => 'course-list',
+                'value' => $courses
+            )
+        );
 	}
 
 	public  function cancelAttribute(StudentReg $user, $attribute, $value)

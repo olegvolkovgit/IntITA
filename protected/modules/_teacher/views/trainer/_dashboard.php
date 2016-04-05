@@ -1,11 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 10.12.2015
- * Time: 17:39
+ * @var $user StudentReg
+ * @var $newStudentsCount int
  */
-$countPlainTasks = PlainTask::countPlainTaskAnswersWithoutTrainer();
+$newStudentsCount = count(UserTrainer::studentsWithoutTeacher($user));
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -22,14 +20,17 @@ $countPlainTasks = PlainTask::countPlainTaskAnswersWithoutTrainer();
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo $countPlainTasks; ?></div>
-                        <div>Нові задачі!</div>
+                        <div class="huge"><?php echo $newStudentsCount; ?></div>
+                        <div>Нові студенти!</div>
                     </div>
                 </div>
             </div>
-            <a href="#" <?php if ($countPlainTasks > 0){?>
-               onclick="showPlainTaskWithoutTrainer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTaskList') ?>')"
-                <?php }?>>
+            <a href="#" <?php if ($newStudentsCount > 0){?>
+               onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_trainer/trainer/students", array(
+                   "id"=>$user->id,
+                   "filter" => "new"
+               )); ?>', 'Нові студенти')"
+            <?php }?>>
                 <div class="panel-footer">
                     <span class="pull-left">Детальніше</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

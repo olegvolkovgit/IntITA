@@ -27,22 +27,12 @@ class Consultant extends Role
 
     public function attributes(StudentReg $user)
     {
-        $records = Yii::app()->db->createCommand()
-            ->select('module, language, m.title_ua, cm.start_time, cm.end_time')
+        $list = Yii::app()->db->createCommand()
+            ->select('module id, language lang, m.title_ua title, cm.start_time start_date, cm.end_time end_date')
             ->from('consultant_modules cm')
             ->join('module m', 'm.module_ID=cm.module')
             ->where('consultant=:id', array(':id' => $user->id))
             ->queryAll();
-
-        $list = [];
-        foreach ($records as $record) {
-            $row["id"] = $record['module'];
-            $row["title"] = $record['title_ua'];
-            $row["start_date"] = $record['start_time'];
-            $row["end_date"] = $record['end_time'];
-            $row["lang"] = $record['language'];
-            array_push($list, $row);
-        }
 
         $attribute = array(
             'key' => 'module',
@@ -121,21 +111,8 @@ class Consultant extends Role
     }
 
     public function checkBeforeDeleteRole(StudentReg $teacher){
-        return !$this->existOpenTaskAnswers($teacher);
-    }
-
-    public function existOpenTaskAnswers(StudentReg $teacher){
-        return (count($this->openPlainTaskAnswers($teacher)) > 0);
-    }
-
-    public function openPlainTaskAnswers(StudentReg $teacher){
-        $criteria = new CDbCriteria();
-        $criteria->select = '*';
-        $criteria->alias = 'ans';
-        $criteria->join = 'LEFT JOIN plain_task_answer_teacher pt ON pt.id_plain_task_answer = ans.id';
-        $criteria->condition = 'pt.id_teacher = '.$teacher->id.' and end_date IS NOT NULL';
-
-        return PlainTaskAnswer::model()->findAll($criteria);
+       // return !$this->existOpenTaskAnswers($teacher);
+        return true;
     }
 
     //not supported
