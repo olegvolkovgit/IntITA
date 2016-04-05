@@ -49,7 +49,7 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        if(courseValidation(data,hasError,form[0].action)){
+                        if(courseValidation(data,hasError)){
                             courseCreate(form[0].action);
                         };
                         return false;
