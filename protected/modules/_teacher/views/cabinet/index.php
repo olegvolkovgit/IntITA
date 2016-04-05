@@ -21,7 +21,6 @@
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
 

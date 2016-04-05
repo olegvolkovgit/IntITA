@@ -84,7 +84,9 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        moduleEdit(data,hasError,form[0].action,$(form).serialize());
+                        if(moduleValidation(data,hasError)){
+                            moduleUpdate(form[0].action);
+                        };
                         return false;
                 }'),
             )); ?>

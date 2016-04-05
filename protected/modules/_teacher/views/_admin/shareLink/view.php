@@ -27,13 +27,13 @@
                     <tbody>
                     <tr>
                         <td width="30%"><strong>Назва</strong></td>
-                        <td><?= $model->name; ?></td>
+                        <td><?= CHtml::encode($model->name); ?></td>
                     </tr>
                     <tr>
                         <td width="30%"><strong>Посилання</strong></td>
                         <td>
                             <a href="<?= $model->link ?>">
-                                <?= $model->link; ?>
+                                <?= CHtml::encode($model->link); ?>
                             </a>
                         </td>
                     </tr>

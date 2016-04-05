@@ -34,7 +34,7 @@
 
     }
 
-    function cancelTeacherAccess(url) {
+    function cancelTeacherAccess(url,header,redirect) {
         var user = $jq("#user").val();
         var moduleId = $jq("select[name=modules] option:selected").val();
 
@@ -52,7 +52,9 @@
                 success: function (data) {
                    if(data == "success"){
                        showDialog("Операцію успішно виконано.");
-                       loadCancelAuthorModule();
+                       if(redirect=='teacherAccess')
+                           loadAddTeacherAccess(header,'1');
+                       else loadCancelAuthorModule();
                    } else {
                        showDialog("Операцію не вдалося виконати.");
                    }
