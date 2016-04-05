@@ -121,6 +121,8 @@ class AboutusSlider extends Slider
 			$row["photo"]["text"] = CHtml::encode($record->text_ua);
             $row["linkUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/up", array("order"=>$record->order))."'";
             $row["linkDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/down", array("order"=>$record->order))."'";
+			$row["textUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/textUp", array("order"=>$record->order))."'";
+			$row["textDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/textDown", array("order"=>$record->order))."'";
             $row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/view", array("id"=>$record->image_order))."'";
             array_push($return['data'], $row);
         }
