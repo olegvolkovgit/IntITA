@@ -106,5 +106,9 @@
         </div>
     </div>
 </div>
+<script>
+    if(history.state!=null)
+        openTab('#editCourseTabs', history.state.tab);
+</script>
 
 

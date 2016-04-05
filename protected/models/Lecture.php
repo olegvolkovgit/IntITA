@@ -467,7 +467,9 @@ class Lecture extends CActiveRecord
                 return $lecture->order;
             }
         }
-        return $sortedLectures[count($sortedLectures)-1]['order'];
+        if(empty($sortedLectures))
+            return 0;
+        else return $sortedLectures[count($sortedLectures)-1]['order'];
     }
 
     public static function getLectureTitle($id)

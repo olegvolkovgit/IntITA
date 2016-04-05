@@ -169,8 +169,8 @@ class Translate extends CActiveRecord
             $row = array();
             $row["id"] = $record["id"];
             $row["language"] = $record["language"];
-            $row["category"] = $record["category"];
-            $row["comment"] = $record["comment"];
+            $row["category"] = CHtml::encode($record["category"]);
+            $row["comment"] = CHtml::encode($record["comment"]);
             $row["translation"]["text"]=CHtml::encode($record['translation']);
             $row["translation"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$record["id_record"]))."'";
             array_push($return['data'], $row);

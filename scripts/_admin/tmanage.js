@@ -50,6 +50,8 @@ function addTeacherAttr(url, attr, id, role,header,redirect) {
                             case "consultant":
                                 if(redirect=='teacherAccess')
                                     loadAddTeacherAccess(header,'2');
+                                else if(redirect=='editModule')
+                                    loadModuleEdit(value,header,'6');
                                 else loadAddModuleConsultant(user);
                                 break;
                         }

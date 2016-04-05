@@ -595,7 +595,7 @@ class SiteController extends Controller
         $model = $this->getTokenAcc($token);
         $key = 'codename41';
         $mailDeHash = Mail::strcode(base64_decode($email), $key);
-        $hashModel = new StudentReg('resetemail');
+        $hashModel = new StudentReg('linkingemail');
         $hashModel->email = $mailDeHash;
         if (!$hashModel->validate())
             throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');

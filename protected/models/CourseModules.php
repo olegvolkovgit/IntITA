@@ -164,6 +164,11 @@ class CourseModules extends CActiveRecord
         $model->id_course = $idCourse;
         $model->id_module = $idModule;
 
+        if(CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idModule))){
+            echo 'duplicate ';
+            return false;
+        }
+
         $model->order = CourseModules::getLastModuleOrder($idCourse) + 1;
 
         return $model->save();
