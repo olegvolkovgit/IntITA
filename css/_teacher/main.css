@@ -233,3 +233,7 @@ td,th{
 .dataTables_wrapper .pagination{
      width: 100%;
  }
+.tt-open{
+    white-space: nowrap;
+    overflow: hidden;
+}
