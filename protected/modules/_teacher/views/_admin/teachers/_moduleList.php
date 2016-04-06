@@ -24,10 +24,6 @@
         </form>
     </div>
     <br>
-    <div>
-        <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
-    </div>
-    <br>
     <div class="dataTable_wrapper">
         <table class="table table-striped table-bordered table-hover" id="modulesListTable">
             <thead>
@@ -35,7 +31,7 @@
                 <th>Модуль</th>
                 <th width="20%">Призначено</th>
                 <th width="20%">Відмінено</th>
-                <th width="10%">Видалити</th>
+                <th width="15%">Видалити</th>
             </tr>
             </thead>
             <tbody>
@@ -107,4 +103,10 @@
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq("#value").val(item.id);
     });
+
+    $jq('#modulesListTable').DataTable( {
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    } );
 </script>

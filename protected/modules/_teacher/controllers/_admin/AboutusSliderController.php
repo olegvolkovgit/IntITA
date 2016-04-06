@@ -226,6 +226,59 @@ class AboutusSliderController extends TeacherCabinetController
             }
         }
     }
+	public function actionTextUp($order)
+	{
+		if($order == 1)
+			$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+
+		$model = AboutusSlider::model()->findByAttributes(array('order' => $order));
+		$prevModel = AboutusSlider::model()->findByAttributes(array('order' => $order-1));
+
+		if($prevModel){
+
+			$model->setScenario('swapImage');
+			$prevModel->setScenario('swapImage');
+
+			AboutusSlider::swapText($model,$prevModel);
+
+			if($model->validate() && $prevModel->validate())
+			{
+				$model->save();
+				$prevModel->save();
+			}
+
+			$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+		}
+		else return;
+	}
+
+	public function actionTextDown($order)
+	{
+
+		$model = AboutusSlider::model()->findByAttributes(array('order' => $order));
+		if($order == $model->getLastAboutusOrder())
+			$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+
+		else{
+			$nextModel = AboutusSlider::model()->findByAttributes(array('order' => $order + 1));
+
+			if($nextModel){
+
+				$model->setScenario('swapImage');
+				$nextModel->setScenario('swapImage');
+
+				AboutusSlider::swapText($model,$nextModel);
+
+				if($model->validate() && $nextModel->validate())
+				{
+					$model->save();
+					$nextModel->save();
+				}
+
+				$this->redirect(Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'));
+			}
+		}
+	}
 
 	public function actionGetItemsList(){
 		echo AboutusSlider::getItemsList();

@@ -70,8 +70,8 @@ class StudentReg extends CActiveRecord
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
             array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
-            array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail'),
-            array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext'),
+            array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
+            array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext,linkingemail'),
             array('email', 'authenticateEmail', 'on' => 'recovery'),
             array('password, new_password_repeat, new_password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'changepass'),
             array('new_password_repeat, new_password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recoverypass'),
@@ -901,14 +901,15 @@ class StudentReg extends CActiveRecord
 
     public static function getStudentsList($startDate, $endDate) {
 
-        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, user_student.start_date, u.id as trainer, concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")) as trainerName
-              from user inner join user_student on user.id = user_student.id_user
-              left join trainer_student ts on user_student.id_user=ts.student
-              left join user u on ts.trainer = u.id where ts.end_time IS NULL';
+        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer, IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")), "") as trainerName
+              from user inner join user_student us on user.id = us.id_user
+              left join trainer_student ts on us.id_user=ts.student
+              left join user u on ts.trainer = u.id where ts.end_time IS NULL ';
 
         if (isset($startDate) && isset($endDate)){
             $sql .= " and TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
         }
+        $sql .= ' group by user.id';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
 
@@ -1138,6 +1139,7 @@ class StudentReg extends CActiveRecord
         }
         return json_encode($result);
     }
+
     public static function authRedirect($callBack)
     {
         if($callBack && isset($_SERVER["HTTP_REFERER"])){

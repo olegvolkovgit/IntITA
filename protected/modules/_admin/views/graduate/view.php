@@ -12,7 +12,7 @@
     <a href="<?php echo Yii::app()->createUrl('/_admin/graduate/update', array('id' => $model->id)); ?>">Редагувати
         інформацію про випускника</a>
 <div class="page-header">
-    <h1>Переглянути інформацію про випускника #<?php echo $model->first_name . " " . $model->last_name; ?> </h1>
+    <h1>Переглянути інформацію про випускника #<?php echo addslashes($model->first_name . " " . $model->last_name); ?> </h1>
 </div>
 <div class="graduateView">
     <?php $this->widget('zii.widgets.CDetailView', array(

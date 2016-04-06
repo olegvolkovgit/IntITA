@@ -6,7 +6,7 @@
 <form id="addLessonForm" onsubmit="$('#submitButton').attr('disabled','true');" name='addLesson' action="<?php echo Yii::app()->createUrl('revision/createNewLecture'); ?>" method="post">
     <br>
     <span id="formLabel"><?php echo Yii::t('module', '0382'); ?></span>
-    <span><?php echo Yii::t('module', '0226') . " " . ($model->lesson_count + 1) . "."; ?></span>
+    <span><?php echo Yii::t('module', '0226') . " " . ($model->lecturesCount() + 1) . "."; ?></span>
     <input name="idModule" value="<?php echo $model->module_ID; ?>" type="hidden">
     <input name="order" value="<?php echo ($model->lecturesCount() + 1); ?>" type="hidden">
     <div>Назва (UA)*:</div>

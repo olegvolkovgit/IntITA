@@ -97,7 +97,7 @@ class CourseModules extends CActiveRecord
 
         $criteria->addCondition('id_course='.$id);
 
-		$criteria->compare('id_course',$this->id_course);
+		$criteria->compare('t.id_course',$this->id_course);
 		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('order',$this->order);
         $criteria->compare('mandatory_modules',$this->mandatory_modules);
@@ -163,6 +163,11 @@ class CourseModules extends CActiveRecord
 
         $model->id_course = $idCourse;
         $model->id_module = $idModule;
+
+        if(CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idModule))){
+            echo 'duplicate ';
+            return false;
+        }
 
         $model->order = CourseModules::getLastModuleOrder($idCourse) + 1;
 

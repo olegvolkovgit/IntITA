@@ -6,14 +6,14 @@ class UsersController extends TeacherCabinetController
     {
         $counters = [];
 
-        $counters["admins"] = UserAdmin::model()->count();
-        $counters["accountants"] = UserAccountant::model()->count();
-        $counters["teachers"] = Teacher::model()->count();
-        $counters["students"] = StudentReg::model()->count();
-        $counters["users"] = UserStudent::model()->count();
-        $counters["tenants"] = UserTenant::model()->count();
-        $counters["contentManagers"] = UserContentManager::model()->count();
-        $counters["teacherConsultants"] = UserTeacherConsultant::model()->count();
+        $counters["admins"] = UserAdmin::model()->count("end_date IS NULL");
+        $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
+        $counters["teachers"] = Teacher::model()->count("isPrint=:print", array(':print' => Teacher::ACTIVE));
+        $counters["students"] = UserStudent::model()->count("end_date IS NULL");
+        $counters["users"] = StudentReg::model()->count();
+        $counters["tenants"] = UserTenant::model()->count("end_date IS NULL");
+        $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
+        $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
 
         $this->renderPartial('index', array(
             'counters' => $counters

@@ -861,11 +861,11 @@ class Module extends CActiveRecord implements IBillableObject
     public static function allModules($query){
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
-        $criteria->alias = "s";
         $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
+        $criteria->addCondition('cancelled=0');
 
         $data = Module::model()->findAll($criteria);
 

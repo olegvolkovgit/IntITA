@@ -22,7 +22,7 @@
             <div class="form-group">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleId')">Призначити автора модуля</button>
+                            'module', '#moduleId','','Права доступа','teacherAccess')">Призначити автора модуля</button>
             </div>
         </form>
     </div>

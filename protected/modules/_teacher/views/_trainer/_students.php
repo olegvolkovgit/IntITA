@@ -6,7 +6,7 @@
 ?>
 <div class="col-md-12">
     <div class="dataTable_wrapper">
-        <table class="table table-striped table-bordered table-hover" id="modulesListTable">
+        <table class="table table-striped table-bordered table-hover" id="trainerStudentsTable">
             <thead>
             <tr>
                 <th>Студент</th>
@@ -20,8 +20,9 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $item["id"])); ?>"
-                               target="_blank">
+                            <a href="#"
+                               onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>',
+                                   '<?= $item["title"]; ?>');">
                                 <?= $item["title"]; ?>
                             </a>
                         </td>
@@ -35,3 +36,10 @@
         </table>
     </div>
 </div>
+<script>
+    $jq('#trainerStudentsTable').DataTable( {
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    } );
+</script>

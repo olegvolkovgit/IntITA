@@ -65,14 +65,10 @@ function cancelTeacherRole(url, role, teacher) {
                 type: 'post',
                 async: true,
                 data: {role: role, teacher: teacher},
-                success: function (response) {
-                    if (response == "success") {
-                        bootbox.confirm("Операцію успішно виконано.", function () {
-                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
-                        });
-                    } else {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, "Викладач");
+                    });
                 },
                 error: function () {
                     showDialog("Операцію не вдалося виконати.");

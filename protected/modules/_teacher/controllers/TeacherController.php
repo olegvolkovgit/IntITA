@@ -52,20 +52,6 @@ class TeacherController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, 'Consult was not saved');
     }
 
-    public function actionShowTeacherPlainTaskList()
-    {
-        $idTeacher = Yii::app()->request->getPost('idTeacher', 0);
-        if ($idTeacher == 0) {
-            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
-        }
-
-        $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
-
-        return $this->renderPartial('/trainer/teacherPlainTaskList', array(
-            'teacherPlainTasks' => $tasksList,
-        ));
-    }
-
     public function actionShowPlainTask()
     {
         $idPlainTask = Yii::app()->request->getPost('idPlainTask', '0');

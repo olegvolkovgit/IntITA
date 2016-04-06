@@ -191,6 +191,8 @@ class CourseController extends Controller
         //if guest or admin return json
         if(!$data["userId"] || $data["isAdmin"]){
             $modules=Course::model()->modulesInCourse($data["courseId"]);
+            if($data["isAdmin"])
+                $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
             for($i = 0;$i < count($modules);$i++){
                 if(!$data["userId"])
                     $data["modules"][$i]['access']=false;

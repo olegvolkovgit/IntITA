@@ -70,7 +70,6 @@
     ?>
 </div>
 <!-- footer -->
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/lessonHamburgerMenu.js"></script>
 </body>
