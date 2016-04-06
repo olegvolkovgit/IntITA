@@ -159,6 +159,10 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('dollarRate');
     }
 
+    public static function getChatPath(){
+        return Yii::app()->config->get('chatPath');
+    }
+
 	public static function getItemsList(){
         $criteria = new CDbCriteria();
         $criteria->addCondition('hidden='.Config::VISIBLE);
