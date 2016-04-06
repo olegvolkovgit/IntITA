@@ -26,7 +26,13 @@
                                 <?php echo Yii::t('teachers', '0059'); ?>&#187;
                             </a>
                             <br>
-                            <a target="_blank" class="btnChat" href="<?php echo Config::getBaseUrl(); ?>/crmChat/#/private_dialog_view/<?php echo $teacherValue->user_id; ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                            <a class="btnChat" href="<?php
+                                if (!Yii::app()->user->isGuest){
+                                    echo Config::getBaseUrl(); echo Config::getChatPath(); echo $teacherValue->user_id; echo '" target="_blank';
+                                } else {
+                                    echo '#" '.'onclick="openSignIn();';
+                                }
+                            ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                             <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
                                 'scenario' => 'message',
                                 'receiver' => $teacherValue->user_id
