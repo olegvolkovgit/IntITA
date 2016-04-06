@@ -2,7 +2,8 @@
 /**
  * @var $students array
  * @var $student array
- */?>
+ */
+?>
 <div class="row">
     <table class="table table-hover">
         <tbody>
@@ -16,7 +17,7 @@
                             <li>
                                 <a href="<?= Yii::app()->createUrl("studentreg/profile", array("idUser" => $student["id"])); ?>"
                                    target="_blank">
-                                    <?=$student["name"]." <".$student["email"].">";?>
+                                    <?=$student["name"]." (".$student["email"].")";?>
                                 </a>
                             </li>
                         <?php } ?>

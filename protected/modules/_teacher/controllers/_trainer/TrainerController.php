@@ -19,7 +19,7 @@ class TrainerController extends TeacherCabinetController
         $module = Module::model()->findByPk($idModule);
         if ($id && $idModule) {
             $role = new TeacherConsultant();
-            $isTeacherDefined = $role->checkStudent(Yii::app()->user->getId(), $idModule, $id);
+            $isTeacherDefined = !$role->checkStudent(Yii::app()->user->getId(), $idModule, $id);
             if($isTeacherDefined){
                 $role = new Student();
                 $teacher = $role->getTeacherForModuleDefined($id, $idModule);

@@ -33,7 +33,7 @@ class TeacherConsultant extends Role
             ),
             array(
                 'key' => 'students',
-                'title' => 'Модулі',
+                'title' => 'Студенти',
                 'type' => 'students-list',
                 'value' => $this->getStudents()
             )
