@@ -15,10 +15,6 @@
                 </li>
             <?php } ?>
         </ul>
-        <br>
-        <div>
-            <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
-        </div>
         <div class="tab-content col col-md-12">
             <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
@@ -40,7 +36,7 @@
                                 case "students-list":
                                     $this->renderPartial('_studentsList', array(
                                         'attribute' => $attribute,
-                                        'user' => $model->id,
+                                        'model' => $model,
                                         'role' => $role
                                     ));
                                     break;
