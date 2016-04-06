@@ -42,19 +42,19 @@
                     <tr>
                         <td width="30%"><strong>Переклад</strong></td>
                         <td>
-                            <?= $model->translation; ?>
+                            <?= CHtml::encode($model->translation); ?>
                         </td>
                     </tr>
                     <tr>
                         <td width="30%"><strong>Коментар:</strong></td>
                         <td>
-                            <?= ($model->comment)?$model->comment->comment:""; ?>
+                            <?= MessageComment::getMessageCommentById($model->id); ?>
                         </td>
                     </tr>
                     <tr>
                         <td width="30%"><strong>Категорія:</strong></td>
                         <td>
-                            <?= $model->source->category; ?>
+                            <?= CHtml::encode($model->source->category); ?>
                         </td>
                     </tr>
                     </tbody>

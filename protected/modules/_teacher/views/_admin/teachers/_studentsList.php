@@ -8,7 +8,7 @@
 <div class="col-md-12">
     <div class="row">
         <form>
-            <input type="number" hidden="hidden" value="<?= $user; ?>" id="user">
+            <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
                 <input type="number" hidden="hidden" id="value" value="0"/>
@@ -23,6 +23,10 @@
                 </button>
             </div>
         </form>
+    </div>
+    <br>
+    <div>
+        <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
     </div>
     <br>
     <div class="dataTable_wrapper">

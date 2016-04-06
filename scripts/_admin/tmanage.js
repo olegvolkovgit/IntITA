@@ -15,7 +15,7 @@ function ShowTeacher(url, id) {
     });
 }
 
-function addTeacherAttr(url, attr, id, role,header) {
+function addTeacherAttr(url, attr, id, role,header,redirect) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -39,14 +39,20 @@ function addTeacherAttr(url, attr, id, role,header) {
                                 loadTrainerStudentList(user);
                                 break;
                             case "author":
-                                if (id == '#moduleId')
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'0');
+                                else if (id == '#moduleId')
                                     loadAddModuleAuthor();
                                 else if (id == '#module')
                                     loadModuleEdit(value,header,'5');
                                 else loadTeacherModulesList(user);
                                 break;
                             case "consultant":
-                                loadAddModuleConsultant(user);
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'2');
+                                else if(redirect=='editModule')
+                                    loadModuleEdit(value,header,'6');
+                                else loadAddModuleConsultant(user);
                                 break;
                         }
                     });
@@ -485,49 +491,59 @@ function deleteMainSlide(url) {
         }
     });
 }
-function moduleCreate(errField,hasError,action, data) {
+function moduleValidation(data,hasError) {
     if(hasError) {
-        if(errField['Module_title_ua'] !== undefined)
+        if(data['Module_title_ua'] !== undefined)
             $jq('#createModuleTabs li:eq(1) a').tab('show');
         else $jq('#createModuleTabs li:eq(0) a').tab('show');
-    }else{
-        $.ajax({
-            type: "POST",
-            url: action,
-            data: data,
-            success: function (ret) {
-                bootbox.alert("Модуль успішно додано", function () {
-                    loadModulesList();
-                });
-            },
-            error: function () {
-                bootbox.alert("Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
-            }
-        });
-    }
+        return false;
+    }else return true;
 }
-function moduleEdit(errField,hasError,action, data) {
-    if(hasError) {
-        if(errField['Module_title_ua'] !== undefined)
-            $jq('#editModuleTabs li:eq(1) a').tab('show');
-        else $jq('#editModuleTabs li:eq(0) a').tab('show');
-    }else{
-        $.ajax({
-            type: "POST",
-            url: action,
-            data: data,
-            success: function (ret) {
-                bootbox.alert("Модуль успішно відредаговано", function () {
-                    loadModulesList();
-                });
-            },
-            error: function () {
-                bootbox.alert("Модуль не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
-            }
-        });
-    }
+function moduleCreate(url) {
+    var formData = new FormData($("#module-form")[0]);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        datatype:'json',
+        success: function () {
+            bootbox.alert("Модуль успішно додано", function () {
+                loadModulesList();
+            });
+        },
+        error: function () {
+            bootbox.alert("Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
 }
-function courseValidation(data,hasError,action) {
+function moduleUpdate(url) {
+    var formData = new FormData($("#module-form")[0]);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        datatype:'json',
+        success: function () {
+            bootbox.alert("Модуль успішно відредаговано", function () {
+                loadModulesList();
+            });
+        },
+        error: function () {
+            bootbox.alert("Модуль не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
+}
+function courseValidation(data,hasError) {
     if(hasError) {
         if(data['Course_title_ua'] !== undefined)
             $jq('#createCourseTabs li:eq(1) a').tab('show');
@@ -611,4 +627,8 @@ function loadCourseList() {
 function loadModuleEdit(id,header,tab) {
     load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
 }
+function loadAddTeacherAccess(header,tab) {
+    load(basePath + "/_teacher/_admin/permissions/index/",header,'',tab);
+}
+
 

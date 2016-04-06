@@ -64,7 +64,7 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        if(courseValidation(data,hasError,form[0].action)){
+                        if(courseValidation(data,hasError)){
                             courseUpdate(form[0].action);
                         };
                         return false;
@@ -106,5 +106,9 @@
         </div>
     </div>
 </div>
+<script>
+    if(history.state!=null)
+        openTab('#editCourseTabs', history.state.tab);
+</script>
 
 

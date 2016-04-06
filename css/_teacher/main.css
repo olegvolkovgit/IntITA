@@ -171,6 +171,9 @@ td,th{
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
+#mainSliderTable td,#mainSliderTable th,#aboutusSliderTable td,#aboutusSliderTable th{
+    white-space: normal;
+}
 .grid-view table{
     table-layout: inherit;
 }
@@ -235,4 +238,8 @@ td,th{
  }
 .warningMessage{
     color: red;
+}
+.tt-open{
+    white-space: nowrap;
+    overflow: hidden;
 }
