@@ -15,11 +15,5 @@
                 Модулі
             </a>
         </li>
-        <li>
-            <a href="#" onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showTeacherPlainTaskList'); ?>',
-                '<?php echo $model->id ?>')">
-                Всі задачі
-            </a>
-        </li>
     </ul>
 </li>

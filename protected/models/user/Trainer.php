@@ -84,21 +84,6 @@ class Trainer extends Role
         return $list;
     }
 
-    private function newPlainTaskAnswers($user){
-        return Yii::app()->db->createCommand()
-            ->select('ans.id, ans.answer, CONCAT(u.secondName, u.firstName) studentName, u.email, pt.id_plain_task_answer, pt.end_date')
-            ->from('plain_task_answer ans')
-            ->leftJoin('plain_task_answer_teacher pt', 'pt.id_plain_task_answer = ans.id')
-            ->leftJoin('plain_task_marks pm', 'pm.id_answer = ans.id')
-            ->leftJoin('user u', 'u.id = ans.id_student')
-            ->where('(pt.id_plain_task_answer IS NULL or (pt.end_date IS NOT NULL and pt.id_plain_task_answer IS NOT NULL)) and ans.id_student in (
-            select id_student from trainer_student where trainer=:trainer and end_time IS NULL) and pt.id_teacher=:trainer',
-                array(':trainer' => $user->id))
-            ->group('ans.id')
-            ->having('MAX(pt.end_date) IS NOT NULL')
-            ->queryAll();
-     }
-
     public function setAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {

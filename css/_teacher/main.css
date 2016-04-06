@@ -233,3 +233,6 @@ td,th{
 .dataTables_wrapper .pagination{
      width: 100%;
  }
+.warningMessage{
+    color: red;
+}

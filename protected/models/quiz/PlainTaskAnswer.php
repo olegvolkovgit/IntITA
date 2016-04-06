@@ -270,8 +270,8 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->select = '*';
         $criteria->alias = 'ans';
         $criteria->order = 'ans.id DESC';
-        $criteria->join = 'JOIN plain_task_answer_teacher t ON ans.id = t.id_plain_task_answer';
-        $criteria->addCondition('t.id_teacher =:id and t.end_date IS NULL');
+        $criteria->join = 'JOIN teacher_consultant_student tcm ON ans.id_student = tcm.id_student';
+        $criteria->addCondition('tcm.id_teacher =:id and tcm.end_date IS NULL');
         $criteria->params = array(':id' => $id);
         return PlainTaskAnswer::model()->findAll($criteria);
     }

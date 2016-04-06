@@ -25,13 +25,17 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                         <?php foreach ($courses as $course) {
                             ?>
                             <li>
-                                <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"
-                                   target="_blank">
-                                    <?=$course["title"]." (".$course["lang"].")";?>
+                                <a href="#"
+                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherCourse",
+                                       array("id" => $student->id, "idCourse" => $course["id"])); ?>',
+                                       '<?= $student->registrationData->userName(); ?>');">
+                                    <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
                                 </a>
                             </li>
                         <?php } ?>
                     </ul>
+                <?php } else { ?>
+                    <em>Курсів немає.</em>
                 <?php } ?>
             </td>
         </tr>
@@ -43,17 +47,22 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                         <?php foreach ($modules as $module) {
                             ?>
                             <li>
-                                <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
-                                   target="_blank">
-                                    <?=$module["title"]." (".$module["lang"].")";?>
+                                <a href="#"
+                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
+                                       array("id" => $student->id, "idModule" => $module["id"])); ?>',
+                                       '<?= $student->registrationData->userName(); ?>');">
+                                    <?= $module["title"] . " (" . $module["lang"] . ")";
+                                        if($module["teacherName"] != ""){?>
+                                        <em>(викладач - <?= $module["teacherName"] ?>)</em>
+                                    <?php } else {?>
+                                            <span class="warningMessage"><em>викладача не призначено</em></span>
+                                    <?php }?>
                                 </a>
-
-                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacher",
-                                    array("id" => $student->id, "idModule" => $module["id"])); ?>',
-                                    '<?= $student->registrationData->userName(); ?>');">викладач</a
                             </li>
                         <?php } ?>
                     </ul>
+                <?php } else { ?>
+                    <em>Модулів немає.</em>
                 <?php } ?>
             </td>
         </tr>

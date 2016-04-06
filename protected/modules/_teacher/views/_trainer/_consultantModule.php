@@ -1,20 +1,14 @@
 <?php
 /**
- * @var $student StudentReg
  * @var $module Module
  */
 ?>
-
+<script>
+    module = '<?=$module->module_ID;?>';
+</script>
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <form role="form">
-            <div class="form-group">
-                <input type="text" hidden="hidden" value="student" id="role">
-                <label>Студент:</label>
-                <br>
-                <input type="text" class="form-control" size="135" value="<?=$student->userNameWithEmail()?>" disabled>
-                <input type="number" hidden="hidden" id="user" value="<?=$student->id?>"/>
-            </div>
             <div class="form-group">
                 <label>Модуль:</label>
                 <br>
@@ -25,15 +19,15 @@
                 <label>
                     <strong>Викладач-консультант:</strong>
                 </label>
-                <input type="number" hidden="hidden" id="teacherId" value="0"/>
+                <input type="number" hidden="hidden" id="userId" value="0"/>
                 <input id="typeaheadTeacher" type="text" class="form-control" placeholder="виберіть викладача"
                        size="135" required autofocus>
             </div>
             <br>
             <div class="form-group">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            'teacher', '#teacherId')">Призначити викладача</button>
+                        onclick="assignTeacherConsultantModule('<?php echo Yii::app()->createUrl("/_teacher/_teacher_consultant/teacherConsultant/assignModule"); ?>',
+                            '<?=$module->module_ID?>'); return false;">Призначити викладача-консультанта</button>
             </div>
         </form>
     </div>
@@ -44,7 +38,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_trainer/trainer/teachersByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_trainer/trainer/teacherConsultantsByQuery?query=%QUERY&module=' + module,
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
@@ -77,6 +71,6 @@
     });
 
     $jq('#typeaheadTeacher').on('typeahead:selected', function (e, item) {
-        $jq("#teacherId").val(item.id);
+        $jq("#userId").val(item.id);
     });
 </script>

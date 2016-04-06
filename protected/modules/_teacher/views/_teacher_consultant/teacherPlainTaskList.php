@@ -46,7 +46,7 @@ if (!empty($teacherPlainTasks)) { ?>
         </div>
     </div>
 <?php } else {
-    echo "Нових задач немає.";
+    echo "Задач до перевірки немає.";
 } ?>
 <script>
     $jq(document).ready(function () {
