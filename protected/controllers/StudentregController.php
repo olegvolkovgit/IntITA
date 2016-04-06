@@ -196,6 +196,10 @@ class StudentRegController extends Controller
 
     public function actionProfile($idUser, $course = 0, $schema = 1, $module = 0)
     {
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }
         if (Yii::app()->user->isGuest || $idUser==0)
             throw new \application\components\Exceptions\IntItaException('403', 'Гість не може проглядати профіль користувача');
         $user = RegisteredUser::userById($idUser);
