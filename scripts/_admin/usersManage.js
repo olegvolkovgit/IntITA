@@ -3,7 +3,7 @@ function assignRole(url, role, tab) {
     if (user == 0) {
         bootbox.alert('Виберіть користувача.');
     } else {
-        var posting = $jq.post(url, {userId: user, role:role});
+        var posting = $jq.post(url, {userId: user, role: role});
         posting.done(function (response) {
                 bootbox.alert(response, loadUsersIndex(tab));
             })
@@ -15,13 +15,13 @@ function assignRole(url, role, tab) {
 }
 
 function cancelRole(url, role, user, tab) {
-    if(!user) {
+    if (!user) {
         user = $jq("#userId").val();
     }
     if (user == 0) {
         bootbox.alert('Виберіть користувача.');
     } else {
-        var posting = $jq.post(url, {userId: user, role:role});
+        var posting = $jq.post(url, {userId: user, role: role});
         posting.done(function (response) {
                 bootbox.alert(response, loadUsersIndex(tab));
             })
@@ -33,8 +33,8 @@ function cancelRole(url, role, user, tab) {
 }
 
 function loadUsersIndex(tab) {
-    if(tab==undefined) tab=0;
-    load(basePath + '/_teacher/_admin/users/index','Користувачі','',tab);
+    if (tab == undefined) tab = 0;
+    load(basePath + '/_teacher/_admin/users/index', 'Користувачі', '', tab);
 }
 
 function initUsersTable() {
@@ -50,7 +50,7 @@ function initUsersTable() {
             },
             {"data": "email"},
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
@@ -123,12 +123,12 @@ function initAdminsTable() {
             {"data": "name"},
             {"data": "email"},
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "cancelDate"
             },
@@ -174,12 +174,12 @@ function initAccountantsTable() {
             {"data": "name"},
             {"data": "email"},
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "cancelDate"
             },
@@ -212,4 +212,49 @@ function initAccountantsTable() {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
+}
+
+function assignTeacherConsultantModule(url, module) {
+    user = $jq("#userId").val();
+    if (user == 0) {
+        bootbox.alert('Виберіть викладача.');
+    } else {
+        var posting = $jq.post(url, {userId: user, module: module});
+        posting.done(function (response) {
+                bootbox.alert(response, window.history.back());
+            })
+            .fail(function () {
+                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
+            });
+    }
+}
+
+
+function assignTeacherConsultantForStudent(url, student, module) {
+    teacher = $jq("#teacherId").val();
+    if (user == 0) {
+        bootbox.alert('Виберіть викладача.');
+    } else {
+        var posting = $jq.post(url, {teacher: teacher, module: module, student: student});
+        posting.done(function (response) {
+                bootbox.alert(response, window.history.back());
+            })
+            .fail(function () {
+                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
+            });
+    }
+}
+
+function cancelTeacherConsultantForStudent(url, student, module) {
+    var posting = $jq.post(url, {teacher: teacher, module: module, student: student});
+    posting.done(function (response) {
+            bootbox.alert(response, window.history.back());
+        })
+        .fail(function () {
+            bootbox.alert("Операцію не вдалося виконати. Спробуйте повторити " +
+                "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
+        });
+
 }

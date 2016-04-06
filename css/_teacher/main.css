@@ -236,6 +236,9 @@ td,th{
 .dataTables_wrapper .pagination{
      width: 100%;
  }
+.warningMessage{
+    color: red;
+}
 .tt-open{
     white-space: nowrap;
     overflow: hidden;

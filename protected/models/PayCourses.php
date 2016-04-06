@@ -89,7 +89,7 @@ class PayCourses extends CActiveRecord
     	$criteria=new CDbCriteria;
 
 		$criteria->compare('id_user',$this->id_user);
-		$criteria->compare('id_course',$this->id_course);
+		$criteria->compare('t.id_course',$this->id_course);
 		$criteria->compare('rights',$this->rights);
 
 		return new CActiveDataProvider($this, array(

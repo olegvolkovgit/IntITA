@@ -59,7 +59,7 @@
                                 <li><?= $role; ?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','Редагувати роль')"><em>редагувати</em>
+                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?="Викладач ".$teacher->user->userName().", роль ".$role; ?>')"><em>редагувати</em>
                                     </a>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
@@ -72,7 +72,7 @@
                                 <li>
                                     author: <a href="#"
                                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','Редагувати роль')"><em>редагувати</em>
+                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?="Викладач ".$teacher->user->userName().", роль author"; ?>')"><em>редагувати</em>
                                     </a>
                                 </li>
                             <?php }

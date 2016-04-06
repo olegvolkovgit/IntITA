@@ -22,7 +22,7 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    private $_teacherRoles = array( UserRoles::TRAINER, UserRoles::CONSULTANT);
+    private $_teacherRoles = array( UserRoles::TRAINER, UserRoles::CONSULTANT, UserRoles::TEACHER_CONSULTANT);
 
     public function __construct(StudentReg $registrationData)
     {
@@ -217,7 +217,7 @@ class RegisteredUser
     public function cancelRoleMessage(UserRoles $role)
     {
         if (!$this->hasRole($role)) {
-            throw new \application\components\Exceptions\IntItaException(400, "User hasn't this role.");
+            return "Користувачу не була призначена обрана роль.";
         }
         $roleObj = Role::getInstance($role);
         if($roleObj->cancelRole($this->registrationData)){

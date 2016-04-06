@@ -113,4 +113,16 @@ class UserTrainer extends CActiveRecord
 
 		return $users;
 	}
+
+
+	public static function studentsWithoutTeacher(StudentReg $user){
+		$students = Yii::app()->db->createCommand()
+			->select('student')
+			->from('trainer_student tr')
+			->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
+			->where('tr.end_time IS NULL and tr.trainer = :id and (tcs.id_teacher IS NULL or tcs.end_date IS NOT NULL)',
+				array(':id'=>$user->id))
+			->queryAll();
+		return $students;
+	}
 }
