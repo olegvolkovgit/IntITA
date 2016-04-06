@@ -48,7 +48,7 @@
                     <tr>
                         <td width="30%"><strong>Коментар:</strong></td>
                         <td>
-                            <?= ($model->comment)?$model->comment->comment:""; ?>
+                            <?= MessageComment::getMessageCommentById($model->id); ?>
                         </td>
                     </tr>
                     <tr>

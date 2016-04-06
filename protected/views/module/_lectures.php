@@ -34,11 +34,11 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>function($data) use ($enabledLessonOrder,$idCourse) {
+            'value' =>function($data,$row) use ($enabledLessonOrder,$idCourse) {
                 if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder,$idCourse))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-                $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.$data->order.'.';
+                $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.($row+1).'.';
                 return $value;
             },
             'header'=>false,
