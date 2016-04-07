@@ -12,11 +12,11 @@ if (!empty($teacherPlainTasks)) { ?>
                     <table class="table table-striped table-bordered table-hover" id="tasksTable">
                         <thead>
                         <tr>
-                            <th style="width: 3%"></th>
                             <th style="width: 15%">Модуль</th>
                             <th style="width: 20%">Задача</th>
                             <th style="width: 15%">Користувач</th>
                             <th>Відповідь</th>
+                            <th style="width: 15%">Дата</th>
                             <th style="width: 10%">Оцінка</th>
                         </tr>
                         </thead>
@@ -24,16 +24,17 @@ if (!empty($teacherPlainTasks)) { ?>
                         <?php
                         foreach ($teacherPlainTasks as $plainTaskAnswer) {
                             $mark = $plainTaskAnswer->mark();?>
-                            <tr onclick="showPlainTask('<?php echo Yii::app()->createUrl('/_teacher/teacher/showPlainTask') ?>',
-                                '<?php echo $plainTaskAnswer->id; ?>'); return false;" <?php if (!$mark) echo 'class="success"'; ?>
+                            <tr onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_teacher_consultant/teacherConsultant/showPlainTask",
+                                array("idPlainTask" => $plainTaskAnswer->id)) ?>', 'Відповідь на задачу'); return false;"
+                                <?php if (!$mark) echo 'class="success"'; ?>
                                 style="cursor: pointer">
-                                <td><i class="fa <?php echo ($mark) ? ' fa-check' : ' fa-exclamation'; ?> fa-fw"></i>
-                                </td>
                                 <td class="center"><?=$plainTaskAnswer->getModuleTitle();?></td>
                                 <td class="center"><?php echo strip_tags($plainTaskAnswer->plainTask->lectureElement->html_block); ?></td>
                                 <td class="center"><?php echo $plainTaskAnswer->getStudentName(); ?></td>
                                 <td class="center">
                                     <?php echo $plainTaskAnswer->answer; ?></td>
+                                <td class="center">
+                                    <?php echo date("d.m.Y",  strtotime($plainTaskAnswer->date)); ?></td>
                                 <td><?php if ($mark) {
                                         echo ($mark['mark']) ? "зарах." : "не зарах.";
                                     } ?></td>

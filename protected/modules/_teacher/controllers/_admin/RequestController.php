@@ -21,8 +21,9 @@ class RequestController extends TeacherCabinetController
 
     public function actionApprove($message, $module, $user){
         $model = MessagesAuthorRequest::model()->findByPk(array($message, $module));
-        if($model){
-            if($model->approve($user)){
+        $userModel = StudentReg::model()->findByPk($user);
+        if($model && $userModel){
+            if($model->approve($userModel)){
                 echo "success";
             }else{
                 echo "error";

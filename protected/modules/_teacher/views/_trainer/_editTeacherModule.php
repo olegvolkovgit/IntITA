@@ -58,11 +58,19 @@
             <?php } ?>
         </form>
         <div class="alert alert-info">
+        <?php if(Yii::app()->user->model->isAdmin()){?>
             Призначити викладача-консультанта для даного модуля можна на сторінці
-            <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/addConsultantModule",
+            <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/module/addConsultantModule",
                 array("idModule" => $module->module_ID)) ?>',
                 'Додати викладача консультанта для модуля'); return false;"
                class="alert-link">Призначити викладача</a>.
+        <?php } else {?>
+            Якщо в списку немає потрібного викладача-консультанта, можна надіслати запит для призначення консультанта
+            <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/sendResponseConsultantModule",
+                array("idModule" => $module->module_ID)) ?>',
+                'Запит на призначення викладача-консультанта для модуля'); return false;"
+               class="alert-link">Надіслати запит</a>.
+        <?php }?>
         </div>
     </div>
 </div>

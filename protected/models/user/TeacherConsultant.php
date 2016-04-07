@@ -8,20 +8,24 @@ class TeacherConsultant extends Role
     private $students;
     private $user;
 
-    public function tableName(){
+    public function tableName()
+    {
         return "user_teacher_consultant";
     }
 
-    public function getErrorMessage(){
+    public function getErrorMessage()
+    {
         return $this->errorMessage;
     }
 
-    public function title(){
+    public function title()
+    {
         return "Викладач";
     }
 
-    public function attributes(StudentReg $user){
-        if($this->user == null)
+    public function attributes(StudentReg $user)
+    {
+        if ($this->user == null)
             $this->user = $user;
 
         return array(
@@ -40,34 +44,39 @@ class TeacherConsultant extends Role
         );
     }
 
-    private function getModules(){
-        if($this->modules == null){
+    private function getModules()
+    {
+        if ($this->modules == null) {
             $this->modules = $this->loadModules();
         }
 
         return $this->modules;
     }
 
-    private function getStudents(){
-        if($this->students == null){
+    private function getStudents()
+    {
+        if ($this->students == null) {
             $this->students = $this->loadStudents();
         }
 
         return $this->students;
     }
 
-    private function loadStudents(){
+    private function loadStudents()
+    {
         $records = Yii::app()->db->createCommand()
             ->select('u.id, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) name, u.email, tcs.start_date, tcs.end_date')
             ->from('teacher_consultant_student tcs')
-            ->join('user u', 'u.id=tcs.id_student')
+            ->leftJoin('user u', 'u.id=tcs.id_student')
             ->where('id_teacher=:id', array(':id' => $this->user->id))
+            ->group('u.id')
             ->queryAll();
 
         return $records;
     }
 
-    private function loadModules(){
+    private function loadModules()
+    {
         $records = Yii::app()->db->createCommand()
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date')
             ->from('teacher_consultant_module tcm')
@@ -78,11 +87,13 @@ class TeacherConsultant extends Role
         return $records;
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user){
+    public function checkBeforeDeleteRole(StudentReg $user)
+    {
         return true;
     }
 
-    public function cancelAttribute(StudentReg $user, $attribute, $value){
+    public function cancelAttribute(StudentReg $user, $attribute, $value)
+    {
         switch ($attribute) {
             case 'module':
                 return Yii::app()->db->createCommand()->
@@ -95,7 +106,8 @@ class TeacherConsultant extends Role
         }
     }
 
-    public function addRoleFormList($query){
+    public function addRoleFormList($query)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
@@ -109,7 +121,7 @@ class TeacherConsultant extends Role
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $key=>$model) {
+        foreach ($data as $key => $model) {
             $result["results"][$key]["id"] = $model->id;
             $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
             $result["results"][$key]["email"] = $model->email;
@@ -122,7 +134,7 @@ class TeacherConsultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                if($this->checkModule($user->id, $value)) {
+                if ($this->checkModule($user->id, $value)) {
                     return Yii::app()->db->createCommand()->
                     insert('teacher_consultant_module', array(
                         'id_teacher' => $user->id,
@@ -136,8 +148,9 @@ class TeacherConsultant extends Role
         }
     }
 
-    public function setStudentAttribute(StudentReg $teacher, $student, $module){
-        if($this->checkStudent($teacher->id, $student, $module)) {
+    public function setStudentAttribute(StudentReg $teacher, $student, $module)
+    {
+        if ($this->checkStudent($teacher->id, $student, $module)) {
             return Yii::app()->db->createCommand()->
             insert('teacher_consultant_student', array(
                 'id_teacher' => $teacher->id,
@@ -150,34 +163,67 @@ class TeacherConsultant extends Role
     }
 
 
-    public function checkStudent($teacher, $module, $student){
-        if(Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module='.$module.
-            ' and id_teacher='.$teacher. ' and id_student='.$student.' and end_date IS NULL')->queryScalar()) {
+    public function checkStudent($teacher, $module, $student)
+    {
+        if (Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
+            ' and id_teacher=' . $teacher . ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar()
+        ) {
             $this->errorMessage = "Даний викладач вже має права консультанта для обраного модуля для обраного студента.";
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
-    public function checkModule($teacher, $module){
-        if(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module='.$module.
-            ' and id_teacher='.$teacher.' and end_date IS NULL')->execute() > 0) {
+    public function checkModule($teacher, $module)
+    {
+        if (Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $module .
+                ' and id_teacher=' . $teacher . ' and end_date IS NULL')->execute() > 0
+        ) {
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
-    public function existOpenTaskAnswers(StudentReg $teacher){
+    public function existOpenTaskAnswers(StudentReg $teacher)
+    {
         return (count($this->openPlainTaskAnswers($teacher)) > 0);
     }
 
-    public function openPlainTaskAnswers(StudentReg $teacher){
+    public function openPlainTaskAnswers(StudentReg $teacher)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = '*';
         $criteria->alias = 'ans';
         $criteria->join = 'LEFT JOIN plain_task_answer_teacher pt ON pt.id_plain_task_answer = ans.id';
-        $criteria->condition = 'pt.id_teacher = '.$teacher->id.' and end_date IS NOT NULL';
+        $criteria->condition = 'pt.id_teacher = ' . $teacher->id . ' and end_date IS NOT NULL';
 
         return PlainTaskAnswer::model()->findAll($criteria);
+    }
+
+    /**
+     * Return true if this student assigned for this teacher-consultant for chosen module. Used before canceling student
+     * for teacher-consultant.
+     * @param $teacher
+     * @param $module
+     * @param $student
+     * @return bool
+     */
+    public function checkCancelStudent($teacher, $module, $student)
+    {
+        if (Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
+                ' and id_teacher=' . $teacher . ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar() == 0
+        ) {
+            return false;
+        } else return true;
+    }
+
+    public function cancelStudentAttribute(StudentReg $teacher, $student, $module)
+    {
+        return Yii::app()->db->createCommand()->
+        update('teacher_consultant_student', array(
+            'end_date' => date("Y-m-d H:i:s"),
+        ), 'id_teacher=:teacher and id_student=:student and id_module=:module', array(
+            ':teacher' => $teacher->id,
+            ':student' => $student,
+            ':module' =>$module
+        ));
     }
 }

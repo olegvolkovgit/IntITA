@@ -15,7 +15,7 @@
  * @property StudentReg $userApproved
  * @property Messages $message0
  */
-class MessagesAuthorRequest extends Messages implements IMessage
+class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_newAuthorModuleRequest';
     const TYPE = 3;
@@ -223,12 +223,12 @@ class MessagesAuthorRequest extends Messages implements IMessage
         return $this->save();
     }
 
-    public function approve($userApprove){
+    public function approve(StudentReg $userApprove){
         $user = RegisteredUser::userById($this->message0->sender);
         //add rights to edit module
         if($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
             //update current request, set approved status
-            $this->user_approved = $userApprove;
+            $this->user_approved = $userApprove->id;
             $this->date_approved = date("Y-m-d H:i:s");
             return $this->save();
         } else {
@@ -236,7 +236,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
         }
     }
 
-	public static function isRequestOpen($module, $user){
+	public function isRequestOpen($module, $user){
 		return (Yii::app()->db->createCommand(array(
             'select' => 'count(*)',
             'from' => 'messages_author_request mr',

@@ -27,8 +27,8 @@ $user =Yii::app()->user->model;
         </li>
         <li>
             <a href="#"
-               onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList'); ?>',
-                '<?php echo $model->id ?>')">
+               onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList",
+                   array("idTeacher" => $model->id)); ?>', 'Задачі до перевірки')">
                 Всі задачі
             </a>
         </li>

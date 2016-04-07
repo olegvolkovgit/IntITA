@@ -8,7 +8,7 @@
     <table class="table table-hover">
         <tbody>
         <tr>
-            <td width="30%">Студенти:</td>
+            <td width="20%">Студенти:</td>
             <td>
                 <?php if (!empty($students["value"])) { ?>
                     <ul>

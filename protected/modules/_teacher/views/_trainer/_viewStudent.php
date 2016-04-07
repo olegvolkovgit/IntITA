@@ -9,7 +9,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
     <table class="table table-hover">
         <tbody>
         <tr>
-            <td width="30%">Профіль:</td>
+            <td width="20%">Профіль:</td>
             <td>
                 <a href="<?= Yii::app()->createUrl("studentreg/profile", array("idUser" => $student->registrationData->id)); ?>"
                    target="_blank">
@@ -18,7 +18,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
             </td>
         </tr>
         <tr>
-            <td width="30%">Курси:</td>
+            <td width="20%">Курси:</td>
             <td>
                 <?php if (!empty($courses)) { ?>
                     <ul>
@@ -28,7 +28,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 <a href="#"
                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherCourse",
                                        array("id" => $student->id, "idCourse" => $course["id"])); ?>',
-                                       '<?= $student->registrationData->userName(); ?>');">
+                                       '<?= $student->registrationData->userNameWithEmail(); ?>');">
                                     <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
                                 </a>
                             </li>
@@ -40,7 +40,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
             </td>
         </tr>
         <tr>
-            <td width="30%">Модулі:</td>
+            <td width="20%">Модулі:</td>
             <td>
                 <?php if (!empty($modules)) { ?>
                     <ul>
