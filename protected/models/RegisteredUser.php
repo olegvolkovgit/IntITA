@@ -66,7 +66,7 @@ class RegisteredUser
                     union
                 (select "trainer" from user_trainer at where at.id_user = ' . $this->id . ' and end_date IS NULL)
                      union
-                (select "author" from teacher_module tm where tm.idTeacher = ' . $this->id . ' and end_time IS NULL)
+                (select "author" from teacher_module tm left join teacher t on t.user_id = '.$this->id.' where tm.idTeacher = t.teacher_id and end_time IS NULL)
                      union
                 (select "consultant" from user_consultant acs where acs.id_user = ' . $this->id . ' and end_date IS NULL)
                     union

@@ -315,4 +315,35 @@ function performOperationWithConfirm(url, message, data, callback){
     });
 }
 
+function initTeacherConsultationsTable(){
+    $jq('#consultationsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_consultant/consultant/getConsultationsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "username"},
+            {"data": "lecture"},
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "date_cons"
+            },
+            {
+                "width": "15%",
+                "data": "start_cons"
+            },
+            {
+                "width": "15%",
+                "data": "end_cons"
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
 
