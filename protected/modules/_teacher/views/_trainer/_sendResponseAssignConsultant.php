@@ -28,7 +28,7 @@
             <div class="form-group">
                 <button type="button" class="btn btn-success"
                         onclick="sendResponse('<?php echo Yii::app()->createUrl("/_teacher/_trainer/trainer/sendRequest"); ?>',
-                            '<?=$module->module_ID?>'); return false;">Надіслати запит</button>
+                            '<?=$module->module_ID?>', '<?=Yii::app()->user->getId();?>'); return false;">Надіслати запит</button>
             </div>
         </form>
     </div>

@@ -1,9 +1,9 @@
-function sendResponse(url, module){
+function sendResponse(url, module, user){
     teacher = $jq("#userId").val();
     if (teacher == 0) {
         bootbox.alert('Виберіть викладача.');
     } else {
-        var posting = $jq.post(url, {teacher: teacher, module: module});
+        var posting = $jq.post(url, {teacher: teacher, module: module, user:user});
         posting.done(function (response) {
                 bootbox.alert(response, window.history.back());
             })

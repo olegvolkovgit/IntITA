@@ -128,7 +128,6 @@ class TrainerController extends TeacherCabinetController
         $moduleModel = Module::model()->findByPk($module);
         $userModel = StudentReg::model()->findByPk($user);
 
-
         if($teacherModel && $moduleModel && $userModel){
             $transaction = Yii::app()->db->beginTransaction();
             try {

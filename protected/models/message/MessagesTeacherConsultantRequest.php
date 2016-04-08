@@ -17,13 +17,14 @@
  * @property StudentReg $idTeacher
  * @property StudentReg $userApproved
  */
-class MessagesTeacherConsultantRequest extends CActiveRecord implements IMessage, IRequest
+class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_teacherConsultantModuleRequest';
     const TYPE = 4;
     private $receivers = array();
     private $module;
     private $author;
+    private $teacher;
     private $message;
 
     const DELETED = 1;
@@ -134,6 +135,7 @@ class MessagesTeacherConsultantRequest extends CActiveRecord implements IMessage
 		$this->id_module = $module->module_ID;
         $this->id_teacher = $teacher->id;
 		$this->author = $user;
+        $this->teacher = $teacher;
 		$this->receivers = UserAdmin::adminsArray();
 	}
 
@@ -147,7 +149,7 @@ class MessagesTeacherConsultantRequest extends CActiveRecord implements IMessage
 
 	public function send(IMailSender $sender){
 		$sender = new MailTransport();
-		$sender->renderBodyTemplate($this->template, array($this->module, $this->author));
+		$sender->renderBodyTemplate($this->template, array($this->module, $this->author, $this->teacher));
 
 		foreach ($this->receivers as $receiver) {
 			if ($this->addReceiver($receiver->user)) {
