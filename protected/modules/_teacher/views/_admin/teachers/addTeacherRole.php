@@ -5,6 +5,19 @@
  * @var $role UserRoles
  */
 ?>
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
+                    'Викладачі')">Викладачі</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $teacher->user_id)); ?>',
+                    'Переглянути інформацію про викладача')">
+            Переглянути інформацію про викладача</button>
+    </li>
+</ul>
 <div class="col-md-8">
 <div id="addTeacherRole">
     <form name="add-access">
@@ -27,6 +40,7 @@
             </div>
             <br>
             <input class="btn btn-default" type="submit" onclick="setTeacherRole('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRole');?>'); return false" value="Призначити роль">
+        </fieldset>
     </form>
 </div>
 </div>
