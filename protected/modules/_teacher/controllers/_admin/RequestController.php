@@ -7,20 +7,30 @@ class RequestController extends TeacherCabinetController
         $this->renderPartial('index',array(),false,true);
     }
 
-    public function actionRequest($message, $module)
+    public function actionRequest($message)
     {
-        $model = MessagesAuthorRequest::model()->findByPk(array($message, $module));
-        $this->renderPartial('request',array(
-            'model' => $model
-        ),false,true);
+        $model = MessagesAuthorRequest::model()->findByPk($message);
+        if(!$model){
+            $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
+        }
+        if($model) {
+            $this->renderPartial('request', array(
+                'model' => $model
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
     }
 
     public function actionGetRequestList(){
         echo MessagesAuthorRequest::listAllRequests();
     }
 
-    public function actionApprove($message, $module, $user){
-        $model = MessagesAuthorRequest::model()->findByPk(array($message, $module));
+    public function actionApprove($message, $user){
+        $model = MessagesAuthorRequest::model()->findByPk($message);
+        if(!$model){
+            $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
+        }
         $userModel = StudentReg::model()->findByPk($user);
         if($model && $userModel){
             if($model->approve($userModel)){
@@ -33,8 +43,11 @@ class RequestController extends TeacherCabinetController
         }
     }
 
-    public function actionCancel($message, $module, $user){
-        $model = MessagesAuthorRequest::model()->findByPk(array($message, $module));
+    public function actionCancel($message, $user){
+        $model = MessagesAuthorRequest::model()->findByPk($message);
+        if(!$model){
+            $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
+        }
         if($model){
             if($model->setDeleted($user)){
                 echo "success";

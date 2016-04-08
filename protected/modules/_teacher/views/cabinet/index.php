@@ -3,7 +3,7 @@
  * @var $model StudentReg
  * @var $scenario
  * @var $receiver
- * @var $authorRequests array
+ * @var $requests array
  * @var $newMessages array
  */
 ?>
@@ -70,7 +70,7 @@
         <?php echo $this->renderPartial('_top_navigation', array(
             'model' => $model,
             'newMessages' => $newMessages,
-            'authorRequests' => $authorRequests
+            'requests' => $requests
         )); ?>
         <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model)); ?>
     </nav>

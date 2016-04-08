@@ -18,6 +18,10 @@ function initRequestsTable() {
             },
             {
                 "width": "20%",
+                "data": "type"
+            },
+            {
+                "width": "20%",
                 "data": "dateCreated"
             }
         ],

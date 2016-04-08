@@ -1,18 +1,18 @@
 <?php
 /**
- * @var $authorRequests array
- * @var $request MessagesAuthorRequest
+ * @var $requests array
+ * @var $request IRequest
  */
-foreach ($authorRequests as $key=>$request) {
+foreach ($requests as $key=>$request) {
     ?>
     <li>
         <a href="#">
             <div>
                 <div href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    'message' => $request->id_message, 'module' => $request->id_module)) ?>', 'Запит на редагування модуля')">
-                    <strong><?= $request->message0->sender0->userName(); ?></strong>
-                    <span class="pull-right text-muted"><em>Запит</em></span>
-                    <div>Модуль: <em><?= $request->idModule->getTitle(); ?></em></div>
+                    'message' => $request->getMessageId())) ?>', '<?=$request->title()?>')">
+                    <strong><?= $request->sender()->userName(); ?></strong>
+                    <span class="pull-right text-muted"><em><?=$request->title();?></em></span>
+                    <div>Модуль: <em><?= $request->module()->getTitle(); ?></em></div>
                 </div>
             </div>
         </a>

@@ -12,7 +12,7 @@
  * @property integer $cancelled
  *
  * The followings are the available model relations:
- * @property Messages $idMessage
+ * @property Messages $message0
  * @property Module $idModule
  * @property StudentReg $idTeacher
  * @property StudentReg $userApproved
@@ -64,10 +64,10 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 			'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
-			'idTeacher' => array(self::BELONGS_TO, 'User', 'id_teacher'),
-			'userApproved' => array(self::BELONGS_TO, 'User', 'user_approved'),
+			'idTeacher' => array(self::BELONGS_TO, 'StudentReg', 'id_teacher'),
+			'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
 		);
 	}
 
@@ -124,6 +124,12 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 	{
 		return parent::model($className);
 	}
+
+
+    public function primaryKey()
+    {
+        return 'id_message';
+    }
 
 	public function build(Module $module, StudentReg $user, StudentReg $teacher, $chained = null, $original = null)
 	{
@@ -199,28 +205,6 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 		return MessagesTeacherConsultantRequest::model()->findAll($criteria);
 	}
 
-//	public static function listAllRequests(){
-//		$criteria = new CDbCriteria();
-//		$criteria->condition = 'cancelled='.MessagesAuthorRequest::ACTIVE.' and date_approved IS NULL';
-//		$requests = MessagesAuthorRequest::model()->findAll($criteria);
-//		$return = array('data' => array());
-//
-//		foreach ($requests as $record) {
-//			$row = array();
-//
-//			$row["user"] = $record->message0->sender0->userNameWithEmail();
-//			$row["module"]["title"] = $record->idModule->getTitle();
-//			$row["module"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-//					"message" => $record->id_message,
-//					"module" => $record->id_module))."'";
-//			$row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
-//
-//			array_push($return['data'], $row);
-//		}
-//
-//		return json_encode($return);
-//	}
-
 	public function setDeleted(){
 		$this->cancelled = MessagesTeacherConsultantRequest::DELETED;
 
@@ -230,7 +214,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 	public function approve(StudentReg $userApprove){
 		$user = RegisteredUser::userById($this->message0->sender);
 		//add rights to edit module
-		if($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
+		if($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
 			//update current request, set approved status
 			$this->user_approved = $userApprove->id;
 			$this->date_approved = date("Y-m-d H:i:s");
@@ -249,4 +233,25 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 					' and date_approved IS NULL'
 			))->queryScalar() > 0)?true:false;
 	}
+
+    public function getMessageId(){
+        return$this->id_message;
+    }
+
+    public function sender(){
+        return $this->message0->sender0;
+    }
+
+    public function title(){
+        return "Запит на призначення консультанта";
+    }
+
+    public function module(){
+        return $this->idModule;
+    }
+
+    public function type()
+    {
+        return Request::TEACHER_CONSULTANT_REQUEST;
+    }
 }

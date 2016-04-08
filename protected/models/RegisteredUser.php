@@ -241,12 +241,19 @@ class RegisteredUser
         return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
     }
 
-    public function authorRequests(){
+    public function requests(){
         if (!$this->isAdmin())
             return [];
         else {
-            return MessagesAuthorRequest::notApprovedRequests();
+            return $this->loadRequests();
         }
+    }
+
+    private function loadRequests(){
+        $authorRequests = MessagesAuthorRequest::notApprovedRequests();
+        $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+
+        return array_merge($authorRequests, $consultantRequests);
     }
 
     public function canPlanConsultation(Teacher $teacher){
@@ -257,7 +264,8 @@ class RegisteredUser
         if(!$this->isTeacher())
             return false;
         else {
-            return !MessagesAuthorRequest::isRequestOpen($module, $this->registrationData->id);
+            $request = new MessagesAuthorRequest();
+            return !$request->isRequestOpen($module, $this->registrationData->id);
         }
     }
 }
