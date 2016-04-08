@@ -617,13 +617,13 @@ class StudentReg extends CActiveRecord
     public static function getUserName($id)
     {
         $model = StudentReg::model()->findByPk($id);
-        $name = $model->firstName . " " . $model->secondName;
+        $name = addslashes($model->firstName . " " . $model->secondName);
         return trim($name);
     }
 
     public function userName()
     {
-        $name = $this->firstName . " " . $this->secondName;
+        $name = addslashes($this->firstName . " " . $this->secondName);
         return trim($name);
     }
 
