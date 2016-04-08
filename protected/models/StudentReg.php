@@ -633,7 +633,7 @@ class StudentReg extends CActiveRecord
         if ($name == "") {
             return $this->email;
         } else {
-            return trim($name. ", ".$this->email);
+            return trim(addslashes($name). ", ".$this->email);
         }
     }
 
