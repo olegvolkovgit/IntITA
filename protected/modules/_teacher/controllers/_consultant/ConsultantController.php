@@ -12,4 +12,13 @@ class ConsultantController extends TeacherCabinetController
             'user' => $consultant
         ), false, true);
     }
+
+    public function actionConsultations()
+    {
+        $this->renderPartial('/_consultant/_consultations', array(), false, true);
+    }
+
+    public function actionGetConsultationsList(){
+        echo Consultationscalendar::consultationsList(Yii::app()->user->getId());
+    }
 }
