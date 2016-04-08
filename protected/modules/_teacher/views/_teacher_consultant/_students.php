@@ -17,7 +17,7 @@
                             <li>
                                 <a href="<?= Yii::app()->createUrl("studentreg/profile", array("idUser" => $student["id"])); ?>"
                                    target="_blank">
-                                    <?=$student["name"]." (".$student["email"].")";?>
+                                    <?=$student["title"]." (".$student["email"].")";?>
                                 </a>
                             </li>
                         <?php } ?>

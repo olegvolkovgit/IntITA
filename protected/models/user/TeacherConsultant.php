@@ -65,9 +65,9 @@ class TeacherConsultant extends Role
     private function loadStudents()
     {
         $records = Yii::app()->db->createCommand()
-            ->select('u.id, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) name, u.email, tcs.start_date, tcs.end_date')
+            ->select('u.id, GROUP_CONCAT(DISTINCT u.secondName, u.firstName, u.middleName, u.email ORDER BY u.id ASC SEPARATOR " ") title, u.email, tcs.start_date, tcs.end_date')
             ->from('teacher_consultant_student tcs')
-            ->leftJoin('user u', 'u.id=tcs.id_student')
+            ->rightJoin('user u', 'u.id=tcs.id_student')
             ->where('id_teacher=:id', array(':id' => $this->user->id))
             ->group('u.id')
             ->queryAll();
