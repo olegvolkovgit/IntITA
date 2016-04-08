@@ -33,6 +33,7 @@
  * @property string $reg_time
  * @property string $avatar
  * @property string $identity
+ * @property string $skype
  */
 class StudentReg extends CActiveRecord
 {
@@ -92,9 +93,9 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity', 'safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity', 'safe', 'on' => 'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
         );
     }
 
@@ -191,6 +192,7 @@ class StudentReg extends CActiveRecord
             'vkontakte' => 'VK',
             'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
+            'skype' => 'Skype',
         );
     }
 
@@ -267,6 +269,7 @@ class StudentReg extends CActiveRecord
         $criteria->compare('activkey_lifetime', $this->activkey_lifetime, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('reg_time', $this->reg_time, true);
+        $criteria->compare('skype', $this->skype, true);
 
 
         return new CActiveDataProvider($this, array(
