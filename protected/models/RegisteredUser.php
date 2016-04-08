@@ -64,9 +64,9 @@ class RegisteredUser
                     union
                 (select "accountant" from user_accountant ac where ac.id_user = ' . $this->id . ' and end_date IS NULL)
                     union
-                (select "student" from user_student st where st.id_user = ' . $this->id . ' and end_date IS NULL)
-                     union
                 (select "trainer" from user_trainer at where at.id_user = ' . $this->id . ' and end_date IS NULL)
+                     union
+                (select "author" from teacher_module tm where tm.idTeacher = ' . $this->id . ' and end_time IS NULL)
                      union
                 (select "consultant" from user_consultant acs where acs.id_user = ' . $this->id . ' and end_date IS NULL)
                     union
@@ -80,7 +80,9 @@ class RegisteredUser
                     where cu.intita_user_id = ' . $this->id . ' and ut.end_date IS NULL)
                      union
                 (select "content_manager" from user_content_manager ucm where ucm.id_user = ' . $this->id . ' and ucm.end_date IS NULL)
-                ';
+                    union
+                (select "student" from user_student st where st.id_user = ' . $this->id . ' and end_date IS NULL)';
+
         $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
 
         $result = array_map(function ($row) {
@@ -239,12 +241,19 @@ class RegisteredUser
         return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
     }
 
-    public function authorRequests(){
+    public function requests(){
         if (!$this->isAdmin())
             return [];
         else {
-            return MessagesAuthorRequest::notApprovedRequests();
+            return $this->loadRequests();
         }
+    }
+
+    private function loadRequests(){
+        $authorRequests = MessagesAuthorRequest::notApprovedRequests();
+        $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+
+        return array_merge($authorRequests, $consultantRequests);
     }
 
     public function canPlanConsultation(Teacher $teacher){
@@ -255,7 +264,8 @@ class RegisteredUser
         if(!$this->isTeacher())
             return false;
         else {
-            return !MessagesAuthorRequest::isRequestOpen($module, $this->registrationData->id);
+            $request = new MessagesAuthorRequest();
+            return !$request->isRequestOpen($module, $this->registrationData->id);
         }
     }
 }

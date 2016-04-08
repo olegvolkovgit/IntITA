@@ -85,7 +85,7 @@
                 </ul>
             </div>
             <div class="panel-footer">
-                <em>Автори модулів, тренери, випускники, etc.</em>
+                <em>Автори модулів, випускники, etc.</em>
             </div>
         </div>
     </div>

@@ -24,9 +24,8 @@ class TeacherConsultantController extends TeacherCabinetController
         }
     }
 
-    public function actionShowTeacherPlainTaskList()
+    public function actionShowTeacherPlainTaskList($idTeacher)
     {
-        $idTeacher = Yii::app()->request->getPost('idTeacher', 0);
         if ($idTeacher == 0) {
             throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
         }
@@ -54,5 +53,33 @@ class TeacherConsultantController extends TeacherCabinetController
         return $this->renderPartial('/_teacher_consultant/_students', array(
             'students' => $students,
         ));
+    }
+
+    public function actionShowPlainTask($idPlainTask)
+    {
+        if ($idPlainTask == 0) {
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
+
+        $plainTask = PlainTaskAnswer::model()->findByPk($idPlainTask);
+        if (!$plainTask) {
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
+        }
+
+        return $this->renderPartial('/_teacher_consultant/showPlainTask', array(
+            'plainTask' => $plainTask
+        ), false, true);
+    }
+
+    public function actionMarkPlainTask()
+    {
+        $plainTaskId = Yii::app()->request->getPost('idPlainTask');
+        $mark = Yii::app()->request->getPost('mark');
+        $comment = Yii::app()->request->getPost('comment');
+        $userId = Yii::app()->request->getPost('userId');
+
+        if (!PlainTaskMarks::saveMark($plainTaskId, $mark, $comment, $userId))
+            throw new \application\components\Exceptions\IntItaException(503, 'Ваша оцінка не записана в базу даних.
+            Спробуйте пізніше або повідомте адміністратора.');
     }
 }

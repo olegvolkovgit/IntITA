@@ -7,7 +7,7 @@ $modules = $course->module;
 
 ?>
 
-<div class="panel panel-default col-md-7">
+<div class="panel panel-default col-md-9">
     <div class="panel-body">
         <form role="form">
             <div class="form-group">

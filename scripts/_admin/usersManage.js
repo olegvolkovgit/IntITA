@@ -214,47 +214,28 @@ function initAccountantsTable() {
     });
 }
 
-function assignTeacherConsultantModule(url, module) {
-    user = $jq("#userId").val();
-    if (user == 0) {
-        bootbox.alert('Виберіть викладача.');
-    } else {
-        var posting = $jq.post(url, {userId: user, module: module});
-        posting.done(function (response) {
-                bootbox.alert(response, window.history.back());
-            })
-            .fail(function () {
-                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
-            });
+function addTrainer(url, scenario) {
+    var id = document.getElementById('user').value;
+    var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
+    var oldTrainerId = (scenario != "new") ? $jq("#oldTrainerId").val() : 0;
+    if (trainerId == 0 && scenario != "remove") {
+        showDialog("Виберіть тренера.");
     }
-}
-
-
-function assignTeacherConsultantForStudent(url, student, module) {
-    teacher = $jq("#teacherId").val();
-    if (user == 0) {
-        bootbox.alert('Виберіть викладача.');
-    } else {
-        var posting = $jq.post(url, {teacher: teacher, module: module, student: student});
-        posting.done(function (response) {
-                bootbox.alert(response, window.history.back());
-            })
-            .fail(function () {
-                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
-            });
-    }
-}
-
-function cancelTeacherConsultantForStudent(url, student, module) {
-    var posting = $jq.post(url, {teacher: teacher, module: module, student: student});
-    posting.done(function (response) {
-            bootbox.alert(response, window.history.back());
-        })
-        .fail(function () {
-            bootbox.alert("Операцію не вдалося виконати. Спробуйте повторити " +
-                "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
-        });
-
+    $jq.ajax({
+        url: url,
+        type: 'post',
+        data: {'userId': id, 'trainerId': trainerId, 'oldTrainerId': oldTrainerId},
+        success: function (response) {
+            if (response == "success") {
+                bootbox.alert("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі','','4');
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
 }

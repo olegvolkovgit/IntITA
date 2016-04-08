@@ -21,8 +21,8 @@
                     <tr>
                         <td>
                             <a href="#"
-                               onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>',
-                                   '<?= $item["title"]; ?>');">
+                               onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
+                                   "<?= CHtml::encode($item['title']); ?>");'>
                                 <?= $item["title"]; ?>
                             </a>
                         </td>

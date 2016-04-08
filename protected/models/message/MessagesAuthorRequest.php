@@ -15,7 +15,7 @@
  * @property StudentReg $userApproved
  * @property Messages $message0
  */
-class MessagesAuthorRequest extends Messages implements IMessage
+class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_newAuthorModuleRequest';
     const TYPE = 3;
@@ -194,22 +194,21 @@ class MessagesAuthorRequest extends Messages implements IMessage
     }
 
     public static function listAllRequests(){
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'cancelled='.MessagesAuthorRequest::ACTIVE.' and date_approved IS NULL';
-        $requests = MessagesAuthorRequest::model()->findAll($criteria);
+        $authorRequests = MessagesAuthorRequest::notApprovedRequests();
+        $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+
+        $requests = array_merge($authorRequests, $consultantRequests);
         $return = array('data' => array());
 
         foreach ($requests as $record) {
             $row = array();
 
-            $row["user"] = $record->message0->sender0->userNameWithEmail();
-            $row["module"]["title"] = $record->idModule->getTitle();
+            $row["user"] = $record->sender()->userNameWithEmail();
+            $row["module"]["title"] = $record->module()->getTitle();
             $row["module"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    "message" => $record->id_message,
-                    "module" => $record->id_module))."'";
+                    "message" => $record->getMessageId()))."'";
             $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
-//            $row["userApproved"] = ($record->userApproved)?$record->userApproved->userNameWithEmail():"";
-//            $row["dateApproved"] = ($record->date_approved)?date("d-m-Y", strtotime($record->date_approved)):"";
+            $row["type"] = $record->title();
 
             array_push($return['data'], $row);
         }
@@ -223,12 +222,12 @@ class MessagesAuthorRequest extends Messages implements IMessage
         return $this->save();
     }
 
-    public function approve($userApprove){
+    public function approve(StudentReg $userApprove){
         $user = RegisteredUser::userById($this->message0->sender);
         //add rights to edit module
         if($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
             //update current request, set approved status
-            $this->user_approved = $userApprove;
+            $this->user_approved = $userApprove->id;
             $this->date_approved = date("Y-m-d H:i:s");
             return $this->save();
         } else {
@@ -236,7 +235,7 @@ class MessagesAuthorRequest extends Messages implements IMessage
         }
     }
 
-	public static function isRequestOpen($module, $user){
+	public function isRequestOpen($module, $user){
 		return (Yii::app()->db->createCommand(array(
             'select' => 'count(*)',
             'from' => 'messages_author_request mr',
@@ -245,4 +244,26 @@ class MessagesAuthorRequest extends Messages implements IMessage
                 ' and date_approved IS NULL'
         ))->queryScalar() > 0)?true:false;
 	}
+
+	public function getMessageId(){
+		return$this->id_message;
+	}
+
+    public function sender(){
+        return $this->message0->sender0;
+    }
+
+
+    public function title(){
+        return "Запит на редагування модуля";
+    }
+
+    public function module(){
+        return $this->idModule;
+    }
+
+    public function type()
+    {
+        return Request::AUTHOR_REQUEST;
+    }
 }

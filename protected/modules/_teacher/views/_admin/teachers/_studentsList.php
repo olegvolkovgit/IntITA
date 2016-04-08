@@ -44,7 +44,7 @@
             foreach ($attribute["value"] as $item) { ?>
             <tr>
                 <td>
-                    <?= $item["title"]; ?>
+                    <?= (isset($item["title"]))?$item["title"]:$item["email"]; ?>
                     <a href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $item["id"])); ?>"
                        target="_blank">
                         (профіль)

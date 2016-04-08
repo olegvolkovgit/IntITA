@@ -78,14 +78,14 @@ class TrainerController extends TeacherCabinetController
         $model = StudentReg::model()->findByPk($teacher);
 
         $role = new TeacherConsultant();
-        if ($role->checkStudent($model->id, $module, $student)) {
+        if ($role->checkCancelStudent($model->id, $module, $student)) {
             if ($role->cancelStudentAttribute($model, $student, $module)) {
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати.";
             }
         } else {
-            echo "Даного викладача-консультанта вже призначено для цього студента.";
+            echo "Даному викладача-консультанту не було призначено цього студента.";
         }
     }
 
@@ -108,12 +108,43 @@ class TrainerController extends TeacherCabinetController
         echo Teacher::teacherConsultantsByQueryAndModule($query, $module);
     }
 
-    public function actionAddConsultantModule($idModule)
-    {
-        $module = Module::model()->findByPk($idModule);
 
-        $this->renderPartial('/_trainer/_consultantModule', array(
-            'module' => $module,
-        ), false, true);
+    public function actionSendResponseConsultantModule($idModule){
+        $module = Module::model()->findByPk($idModule);
+        if($module){
+            $this->renderPartial('/_trainer/_sendResponseAssignConsultant', array(
+                'module' => $module
+            ));
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
+    }
+
+    public function actionSendRequest(){
+        $teacher = Yii::app()->request->getPost('teacher', 0);
+        $user = Yii::app()->request->getPost('user', 0);
+        $module = Yii::app()->request->getPost('module', 0);
+        $teacherModel = StudentReg::model()->findByPk($teacher);
+        $moduleModel = Module::model()->findByPk($module);
+        $userModel = StudentReg::model()->findByPk($user);
+
+        if($teacherModel && $moduleModel && $userModel){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesTeacherConsultantRequest();
+                $message->build($moduleModel, $userModel, $teacherModel);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+                echo "Запит на призначення викладача-консультанта модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
     }
 }

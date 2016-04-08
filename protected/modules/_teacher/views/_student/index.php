@@ -9,7 +9,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
     <table class="table table-hover">
         <tbody>
         <tr>
-            <td width="30%">Курси:</td>
+            <td width="20%">Курси:</td>
             <td>
                 <?php if (!empty($courses)) { ?>
                     <ul>
@@ -27,7 +27,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
             </td>
         </tr>
         <tr>
-            <td width="30%">Модулі:</td>
+            <td width="20%">Модулі:</td>
             <td>
                 <?php if (!empty($modules)) { ?>
                     <ul>

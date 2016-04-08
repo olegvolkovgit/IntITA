@@ -11,14 +11,14 @@ class CabinetController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
         $newReceivedMessages = $model->newReceivedMessages();
-        $authorRequests = $model->authorRequests();
+        $requests = $model->requests();
 
         $this->render('index', array(
             'model' => $model,
             'newMessages' => $newReceivedMessages,
             'scenario' => $scenario,
             'receiver' => $receiver,
-            'authorRequests' => $authorRequests
+            'requests' => $requests
         ));
     }
 

@@ -83,10 +83,6 @@
         }
     }
 
-    function changeUserStatus() {
-        document.getElementById('').style.display = 'block';
-    }
-
     function selectModule(url) {
         var course = $('select[name="course"]').val();
         if (!course) {
@@ -103,19 +99,6 @@
                 }
             });
         }
-    }
-
-    function selectLecture() {
-        var module = $('select[name="module"]').val();
-        $.ajax({
-            type: "POST",
-            url: "/_admin/permissions/showLectures",
-            data: {module: module},
-            cache: false,
-            success: function (response) {
-                $('div[name="selectLecture"]').html(response);
-            }
-        });
     }
 
     function newPermissions(url)
