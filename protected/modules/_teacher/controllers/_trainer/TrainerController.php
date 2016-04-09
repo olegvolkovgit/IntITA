@@ -103,6 +103,11 @@ class TrainerController extends TeacherCabinetController
         ), false, true);
     }
 
+    public function actionAllTeachersByQuery($query)
+    {
+        echo Teacher::teachersByQuery($query);
+    }
+
     public function actionTeachersByQuery($query, $module)
     {
         echo Teacher::teachersByQueryAndModule($query, $module);
