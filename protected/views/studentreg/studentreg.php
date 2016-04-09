@@ -157,6 +157,11 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'aboutUs', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs')); ?>
                         <span><?php echo $form->error($model, 'aboutUs'); ?></span>
                     </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'skype'); ?>
+                        <?php echo $form->textField($model, 'skype', array('maxlength' => 50, 'id' => 'skype')); ?>
+                        <span><?php echo $form->error($model, 'skype'); ?></span>
+                    </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
                         <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� facebook','placeholder' => Yii::t('regexp', '0243'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>

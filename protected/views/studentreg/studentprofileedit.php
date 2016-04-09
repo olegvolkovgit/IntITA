@@ -169,7 +169,11 @@ $post->secondName=addslashes($post->secondName);
                         <?php echo $form->textField($model, 'aboutUs', array('value' => $post->aboutUs, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs', 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0630'))); ?>
                         <span><?php echo $form->error($model, 'aboutUs'); ?></span>
                     </div>
-
+                    <div class="row">
+                        <?php echo $form->label($model, 'skype'); ?>
+                        <?php echo $form->textField($model, 'skype', array('value' => $post->skype, 'maxlength' => 50, 'class' => 'indicator', 'data-source' => 'Skype')); ?>
+                        <span><?php echo $form->error($model, 'skype'); ?></span>
+                    </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
                         <?php echo $form->textField($model, 'facebook', array('value' => $post->facebook, 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0631'), 'placeholder' => Yii::t('regexp', '0243'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>

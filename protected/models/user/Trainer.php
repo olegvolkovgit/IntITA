@@ -149,9 +149,9 @@ class Trainer extends Role
     }
 
     public function checkBeforeDeleteRole(StudentReg $user){
-        if(count($this->studentsList) > 0)
+        if(count($this->studentsList($user)) > 0)
             $this->errorMessage = "Тренеру призначені студенти. Щоб видалити роль тренера, потрібно скасувати права тренера для всіх студентів";
-        return count($this->studentsList) > 0;
+        return count($this->studentsList($user)) == 0;
     }
 
     //not supported

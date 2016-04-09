@@ -33,6 +33,7 @@
  * @property string $reg_time
  * @property string $avatar
  * @property string $identity
+ * @property string $skype
  */
 class StudentReg extends CActiveRecord
 {
@@ -92,9 +93,9 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity', 'safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity', 'safe', 'on' => 'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
         );
     }
 
@@ -191,6 +192,7 @@ class StudentReg extends CActiveRecord
             'vkontakte' => 'VK',
             'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
+            'skype' => 'Skype',
         );
     }
 
@@ -267,6 +269,7 @@ class StudentReg extends CActiveRecord
         $criteria->compare('activkey_lifetime', $this->activkey_lifetime, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('reg_time', $this->reg_time, true);
+        $criteria->compare('skype', $this->skype, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -617,13 +620,13 @@ class StudentReg extends CActiveRecord
     public static function getUserName($id)
     {
         $model = StudentReg::model()->findByPk($id);
-        $name = $model->firstName . " " . $model->secondName;
+        $name = addslashes($model->firstName . " " . $model->secondName);
         return trim($name);
     }
 
     public function userName()
     {
-        $name = $this->firstName . " " . $this->secondName;
+        $name = addslashes($this->firstName . " " . $this->secondName);
         return trim($name);
     }
 
@@ -633,7 +636,7 @@ class StudentReg extends CActiveRecord
         if ($name == "") {
             return $this->email;
         } else {
-            return trim($name. ", ".$this->email);
+            return trim(addslashes($name). ", ".$this->email);
         }
     }
 
@@ -901,7 +904,7 @@ class StudentReg extends CActiveRecord
 
     public static function getStudentsList($startDate, $endDate) {
 
-        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer, IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")), "") as trainerName
+        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer, IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, "")), "") as trainerName
               from user inner join user_student us on user.id = us.id_user
               left join trainer_student ts on us.id_user=ts.student
               left join user u on ts.trainer = u.id where ts.end_time IS NULL ';
