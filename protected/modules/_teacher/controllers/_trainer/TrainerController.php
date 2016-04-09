@@ -2,6 +2,11 @@
 
 class TrainerController extends TeacherCabinetController
 {
+
+    public function hasRole(){
+        return Yii::app()->user->model->isTrainer();
+    }
+
     public function actionStudents($id, $filter = "")
     {
         $trainer = RegisteredUser::userById($id);

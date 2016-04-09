@@ -63,6 +63,19 @@ class TeacherCabinetController extends CController
         return $this->pathToCabinet;
     }
 
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'expression'=>array($this, 'hasRole'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.",
+                'users'=>array('*'),
+            ),
+        );
+    }
+
     public function behaviors()
     {
         return array(

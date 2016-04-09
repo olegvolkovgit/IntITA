@@ -2,6 +2,10 @@
 
 class TeacherConsultantController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isTeacherConsultant();
+    }
+
     public function actionAssignModule(){
         $userId = Yii::app()->request->getPost('userId', 0);
         $module = Yii::app()->request->getPost('module', 0);
