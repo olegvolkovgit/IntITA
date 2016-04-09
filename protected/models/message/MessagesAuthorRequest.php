@@ -18,6 +18,7 @@
 class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_newAuthorModuleRequest';
+	private $approveTemplate = '_approveAuthorModuleRequest';
     const TYPE = 3;
     private $receivers = array();
     private $module;
@@ -229,11 +230,25 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             //update current request, set approved status
             $this->user_approved = $userApprove->id;
             $this->date_approved = date("Y-m-d H:i:s");
-            return $this->save();
+
+			if($this->save()){
+				return $this->sendApproveMessage($user->registrationData);
+				//return true;
+			} else {
+				return false;
+			}
         } else {
             return false;
         }
     }
+
+	public function sendApproveMessage(StudentReg $user){
+        $sender = new MailTransport();
+        $sender->renderBodyTemplate($this->approveTemplate, array($this->module()));
+
+        $sender->send($user->email, '', 'Підтверджено запит на редагування модуля', '');
+        return true;
+	}
 
 	public function isRequestOpen($module, $user){
 		return (Yii::app()->db->createCommand(array(
