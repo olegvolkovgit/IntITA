@@ -2,6 +2,10 @@
 
 class AuthorController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAuthor();
+    }
+
     public function actionModules($id)
     {
         $consultant = RegisteredUser::userById($id);

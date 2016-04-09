@@ -8,6 +8,10 @@
 
 class ResponseController extends TeacherCabinetController{
 
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     public function actionView($id)
     {
         $model = Response::model()->findByPk($id);

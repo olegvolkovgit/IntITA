@@ -166,6 +166,22 @@ class RegisteredUser
         return $this->hasRole(UserRoles::TRAINER);
     }
 
+    public function isTeacherConsultant()
+    {
+        return $this->hasRole(UserRoles::TEACHER_CONSULTANT);
+    }
+
+    public function isContentManager()
+    {
+        return $this->hasRole(UserRoles::CONTENT_MANAGER);
+    }
+
+    public function isTenant()
+    {
+        return $this->hasRole(UserRoles::TENANT);
+    }
+
+
     public function isConsultant()
     {
         return $this->hasRole(UserRoles::CONSULTANT);
