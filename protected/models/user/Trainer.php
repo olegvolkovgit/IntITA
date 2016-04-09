@@ -74,7 +74,7 @@ class Trainer extends Role
         $list = [];
         foreach($students as $key=>$value){
             $list[$key]['id'] = $value["id"];
-            $list[$key]['title'] = $value["secondName"]." ".$value["firstName"]." ".$value["middleName"];
+            $list[$key]['title'] = implode(" ", array($value["secondName"], $value["firstName"], $value["middleName"]));
             $list[$key]['email'] = $value["email"];
             $list[$key]['start_date'] = $value["start_time"];
             $list[$key]['end_date'] = $value["end_time"];
