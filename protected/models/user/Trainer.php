@@ -67,14 +67,14 @@ class Trainer extends Role
             ->from('user u')
             ->leftJoin('trainer_student tr', 'tr.student=u.id')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
-            ->where('trainer=:id and tr.end_time IS NULL', array(':id'=>$user->id))
+            ->where('trainer=:id', array(':id'=>$user->id))
             ->group('u.id')
             ->queryAll();
 
         $list = [];
         foreach($students as $key=>$value){
             $list[$key]['id'] = $value["id"];
-            $list[$key]['title'] = $value["secondName"]." ".$value["firstName"]." ".$value["middleName"]." ".$value["email"];
+            $list[$key]['title'] = $value["secondName"]." ".$value["firstName"]." ".$value["middleName"];
             $list[$key]['email'] = $value["email"];
             $list[$key]['start_date'] = $value["start_time"];
             $list[$key]['end_date'] = $value["end_time"];
