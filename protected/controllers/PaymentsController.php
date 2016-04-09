@@ -73,7 +73,7 @@ class PaymentsController extends Controller
     {
         $agreement = UserAgreements::model()->findByPk($id);
         if (!isset($agreement)) {
-            throw new \application\components\Exceptions\IntItaException(500, 'На сайті виникла помилка.');
+            throw new \application\components\Exceptions\IntItaException(400, 'Договір не знайдено.');
         }
 
         $this->render('index', array(
