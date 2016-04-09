@@ -9,8 +9,8 @@
  * @property integer $rights
  *
  * The followings are the available model relations:
- * @property Course $idCourse
- * @property User $idUser
+ * @property Course $course
+ * @property StudentReg $idUser
  */
 
 //Flags for bits mask - right's array in db
@@ -55,7 +55,7 @@ class PayCourses extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idCourse' => array(self::BELONGS_TO, 'Course', 'id_course'),
+			'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
 			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
 		);
 	}
