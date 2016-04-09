@@ -23,6 +23,7 @@ $this->breadcrumbs = array(
         </tr>
     </table>
 </div>
+
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerBlock.js'); ?>"></script>
 <?php $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
