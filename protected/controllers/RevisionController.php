@@ -2,6 +2,7 @@
 
 class RevisionController extends Controller
 {
+
     public function actionIndex()
     {
         if (!$this->isUserApprover(Yii::app()->user)) {
@@ -9,12 +10,12 @@ class RevisionController extends Controller
         }
 
         $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $lecturesTree = RevisionLecture::getLecturesTree();
 
-        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
-        $lecturesDataProvider->setData($lectureRev);
+        $json = $this->buildLectureTreeJson($lectureRev, $lecturesTree);
 
         $this->render('index', array(
-            'lectures' => $lecturesDataProvider,
+            'json' => $json
         ));
     }
 
@@ -386,13 +387,15 @@ class RevisionController extends Controller
         if ($lectureRev == null) {
             $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
         }
-        $relatedRev = $lectureRev->getRelatedLectures();
 
-        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
-        $lecturesDataProvider->setData($relatedRev);
+        $relatedRev = $lectureRev->getRelatedLectures();
+        $relatedTree = RevisionLecture::getLecturesTree($lecture->idModule);
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+//        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
+//        $lecturesDataProvider->setData($relatedRev);
 
         $this->render('index', array(
-            'lectures' => $lecturesDataProvider,
+            'json' => $json,
         ));
     }
 
@@ -461,6 +464,61 @@ class RevisionController extends Controller
         }
         return false;
     }
+
+    private function buildLectureTreeJson($lectures, $lectureTree) {
+        /**
+         * Function to build tree of lectures based on quickUnion data structure
+         * @param $tree - tree to build, passed by reference
+         * @param $node - node to add
+         * @param $parents - quik union structre
+         */
+        function appendNode(&$tree, $node, $parents) {
+            if ($parents[$node['id']] == $node['id']) {
+                //if root node
+                $tree[$node['id']] = $node;
+            } else {
+                $path = [];
+                $parentId = $parents[$node['id']];
+
+                //building path from root to target node
+                array_push($path, $parentId);
+                while ($parents[$parentId] != $parentId) {
+                    array_push($path, $parents[$parentId]);
+                    $parentId = $parents[$parentId];
+                }
+
+                //finding reference to target node
+                $targetNode = &$tree;
+                while (count($path) != 0) {
+                    if (!array_key_exists('nodes', $targetNode)) {
+                        $targetNode=&$targetNode[array_pop($path)];
+                    }
+                    else {
+                        $targetNode=&$targetNode['nodes'][array_pop($path)];
+                    }
+                }
+
+                //adding node to 'nodes' array in target node
+                if (!array_key_exists('nodes', $targetNode)) {
+                    $targetNode['nodes'] = array();
+                }
+                $targetNode['nodes'][$node['id']] = $node;
+            }
+        }
+
+
+        $jsonArray = [];
+        foreach ($lectures as $lecture) {
+            $node = array ();
+            $node['text'] = "Ревізія №" . $lecture->id_revision . " " . $lecture->properties->title_ua . ". Статус: " . $lecture->getStatus();
+            $node['selectable'] = false;
+            $node['id'] = $lecture->id_revision;
+
+            appendNode($jsonArray, $node, $lectureTree);
+        }
+        return json_encode(array_values($jsonArray));
+    }
+
 
     /**
      * Legacy methods
@@ -558,5 +616,7 @@ class RevisionController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+
 
 }

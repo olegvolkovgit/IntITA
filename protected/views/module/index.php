@@ -17,7 +17,6 @@ if($idCourse != 0) {
         $post->getTitleForBreadcrumbs(),
     );
 }
-
 ?>
 
 <div class="ModuleBlock">
