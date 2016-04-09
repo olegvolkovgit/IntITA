@@ -207,7 +207,7 @@ class RevisionLectureProperties extends CActiveRecord
         $newProperties->title_ru = $this->title_ru;
         $newProperties->title_en = $this->title_en;
 
-        $newProperties->start_date = new CDbExpression('NOW()');;
+        $newProperties->start_date = new CDbExpression('NOW()');
         $newProperties->id_user_created = $user->getId();
 
         $newProperties->saveCheck();

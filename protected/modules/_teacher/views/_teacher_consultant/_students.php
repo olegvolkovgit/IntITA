@@ -8,7 +8,7 @@
     <table class="table table-hover">
         <tbody>
         <tr>
-            <td width="30%">Студенти:</td>
+            <td width="20%">Студенти:</td>
             <td>
                 <?php if (!empty($students["value"])) { ?>
                     <ul>
@@ -17,7 +17,7 @@
                             <li>
                                 <a href="<?= Yii::app()->createUrl("studentreg/profile", array("idUser" => $student["id"])); ?>"
                                    target="_blank">
-                                    <?=$student["name"]." (".$student["email"].")";?>
+                                    <?=$student["title"]." (".$student["email"].")";?>
                                 </a>
                             </li>
                         <?php } ?>

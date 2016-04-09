@@ -302,6 +302,7 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('linkedin' => $_POST['StudentReg']['linkedin']));
             $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
             $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
+            $model->updateByPk($id, array('skype' => $_POST['StudentReg']['skype']));
 
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);

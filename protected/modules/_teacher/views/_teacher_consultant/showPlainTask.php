@@ -51,7 +51,7 @@ $mark = $plainTask->mark();
                 <textarea class="form-control" name="comment" id="textareaSettingsbyId"><?=$mark['comment'];?></textarea>
             </div>
                 <div class="col-md-3">
-            <button onclick="markPlainTask('<?php echo Yii::app()->createUrl('/_teacher/teacher/markPlainTask') ?>')"
+            <button onclick="markPlainTask('<?php echo Yii::app()->createUrl('/_teacher/_teacher_consultant/teacherConsultant/markPlainTask') ?>')"
                     class="btn btn-primary"><?php echo ($mark['mark'])?'Змінити оцінку':'Оцінити';?>
             </button>
                 </div>

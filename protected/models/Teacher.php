@@ -435,27 +435,6 @@ class Teacher extends CActiveRecord
         if (isset($author)) return true; else return false;
     }
 
-    public function notCheckedPlainTask()
-    {
-        $teacherPlainTasksId = PlainTaskAnswer::TeacherPlainTask($this->user_id);
-
-        if ($teacherPlainTasksId) {
-            $newPlainTasksId = PlainTaskAnswer::newTeacherPlainTask($teacherPlainTasksId);
-
-            $criteria = new CDbCriteria();
-            $criteria->condition = 'id = :id';
-            $criteria->params = array(':id' => $newPlainTasksId);
-
-            $newPlainTasksModel = PlainTaskAnswer::model()->findAllByPk($newPlainTasksId);
-
-            return $newPlainTasksModel;
-        } else return null;
-    }
-
-    public function countNotCheckedPlainTask()
-    {
-        return count($this->notCheckedPlainTask());
-    }
 
     public static function addTeacherAccess($teacher, $module)
     {

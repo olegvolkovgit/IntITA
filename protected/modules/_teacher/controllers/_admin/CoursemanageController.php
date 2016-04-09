@@ -10,6 +10,10 @@ class CoursemanageController extends TeacherCabinetController
         parent::init();
     }
 
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     protected function performAjaxValidation($model)
     {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-form') {

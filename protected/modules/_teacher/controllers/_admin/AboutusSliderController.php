@@ -3,6 +3,9 @@
 class AboutusSliderController extends TeacherCabinetController
 {
 
+	public function hasRole(){
+		return Yii::app()->user->model->isAdmin();
+	}
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -283,5 +286,16 @@ class AboutusSliderController extends TeacherCabinetController
 	public function actionGetItemsList(){
 		echo AboutusSlider::getItemsList();
 	}
-
+	public function actionSaveTextPosition()
+	{
+		$id = Yii::app()->request->getPost('id');
+		$left = Yii::app()->request->getPost('left');
+		$top = Yii::app()->request->getPost('top');
+		$color = Yii::app()->request->getPost('color');
+		$model = $this->loadModel($id);
+		$model->left=$left;
+		$model->top=$top;
+		$model->text_color=$color;
+		$model->update();
+	}
 }

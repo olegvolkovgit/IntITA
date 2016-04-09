@@ -8,6 +8,10 @@
  */
 class ModuleController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     public function actionIndex()
     {
         $this->renderPartial('index', array(), false, true);
@@ -257,5 +261,14 @@ class ModuleController extends TeacherCabinetController
         } else {
             echo "false";
         }
+    }
+
+    public function actionAddConsultantModule($idModule)
+    {
+        $module = Module::model()->findByPk($idModule);
+
+        $this->renderPartial('/_admin/module/_consultantModule', array(
+            'module' => $module,
+        ), false, true);
     }
 }

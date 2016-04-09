@@ -45,6 +45,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         <p ng-if="profileData.phone"><span class="colorP"><?php echo Yii::t('profile', '0102') ?></span>{{profileData.phone}}</p>
                     </div>
                     <div class="aboutInfo">
+                        <p ng-if="profileData.skype"><span class="colorP"><?php echo 'Skype:' ?></span>{{profileData.skype}}</p>
+                    </div>
+                    <div class="aboutInfo">
                         <p ng-if="profileData.education"><span class="colorP"><?php echo Yii::t('profile', '0103') ?></span>{{profileData.education}}</p>
                     </div>
                     <div class="aboutInfo">

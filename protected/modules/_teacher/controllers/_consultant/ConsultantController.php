@@ -2,6 +2,10 @@
 
 class ConsultantController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isConsultant();
+    }
+
     public function actionModules($id)
     {
         $consultant = RegisteredUser::userById($id);
@@ -11,5 +15,14 @@ class ConsultantController extends TeacherCabinetController
             'attribute' => $modules,
             'user' => $consultant
         ), false, true);
+    }
+
+    public function actionConsultations()
+    {
+        $this->renderPartial('/_consultant/_consultations', array(), false, true);
+    }
+
+    public function actionGetConsultationsList(){
+        echo Consultationscalendar::consultationsList(Yii::app()->user->getId());
     }
 }

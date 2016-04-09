@@ -1,9 +1,9 @@
 <?php
 /**
  * @var $user StudentReg
- * @var $newStudentsCount int
+ * @var $newModulesCount int
  */
-$newStudentsCount = count(UserTrainer::studentsWithoutTeacher($user));
+$newModulesCount = count(UserTrainer::modulesWithoutConsult($user));
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -20,12 +20,12 @@ $newStudentsCount = count(UserTrainer::studentsWithoutTeacher($user));
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo $newStudentsCount; ?></div>
-                        <div>Нові студенти!</div>
+                        <div class="huge"><?php echo $newModulesCount; ?></div>
+                        <div>Нові модулі!</div>
                     </div>
                 </div>
             </div>
-            <a href="#" <?php if ($newStudentsCount > 0){?>
+            <a href="#" <?php if ($newModulesCount > 0){?>
                onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_trainer/trainer/students", array(
                    "id"=>$user->id,
                    "filter" => "new"

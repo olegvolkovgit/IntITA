@@ -6,6 +6,19 @@
  * @var $attributes array
  */
 ?>
+<ul class="list-inline">
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
+                    'Викладачі')">Викладачі</button>
+    </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->id)); ?>',
+                    'Переглянути інформацію про викладача')">
+            Переглянути інформацію про викладача</button>
+    </li>
+</ul>
 <div class="panel panel-default">
     <div class="panel-body">
         <ul class="nav nav-tabs">

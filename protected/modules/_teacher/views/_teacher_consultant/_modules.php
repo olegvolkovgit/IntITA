@@ -9,7 +9,7 @@
         <tbody>
         <tr>
             <?php if (!empty($modules["value"])) { ?>
-                <td width="30%">Модулі:</td>
+                <td width="20%">Модулі:</td>
                 <td>
                     <ul>
                         <?php foreach ($modules["value"] as $module) {
