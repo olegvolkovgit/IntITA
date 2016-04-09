@@ -52,7 +52,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_admin/permissions/modulesByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (modules) {
                 return $jq.map(modules.results, function (module) {

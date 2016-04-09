@@ -3,7 +3,7 @@
 class PermissionsController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
     }
 
     public function actionIndex()
@@ -36,6 +36,16 @@ class PermissionsController extends TeacherCabinetController
                 echo "success";
         } else {
             echo "error";
+        }
+    }
+
+    public function actionModulesByQuery($query)
+    {
+        if ($query) {
+            $modules = Module::allModules($query);
+            echo $modules;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 
