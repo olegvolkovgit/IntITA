@@ -2,6 +2,10 @@
 
 class MessagesController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return !Yii::app()->user->isGuest;
+    }
+
     public function actionIndex()
     {
         $id = Yii::app()->user->getId();

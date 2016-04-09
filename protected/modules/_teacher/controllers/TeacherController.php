@@ -8,6 +8,10 @@
  */
 class TeacherController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return !Yii::app()->user->isGuest;
+    }
+
     public function actionAssignedConsultant()
     {
         $idPlainTaskAnswer = Yii::app()->request->getPost('idPlainTask');
