@@ -8,10 +8,10 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="addTeacherModule">
-                <?php $this->renderPartial('../../_admin/permissions/_addTeacherAccess');?>
+                <?php $this->renderPartial('/_content_manager/_addTeacherAccess');?>
             </div>
             <div class="tab-pane fade" id="cancelTeacherModule">
-                <?php $this->renderPartial('../../_admin/permissions/_cancelTeacherAccess');?>
+                <?php $this->renderPartial('/_content_manager/_cancelTeacherAccess');?>
             </div>
         </div>
     </div>
