@@ -21,6 +21,10 @@
                        array('user' => $model->id)); ?>")'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
+            <li>
+                <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/index');?>','Повідомлення')">
+                    <i class="fa fa-envelope fa-fw"></i> Повідомлення</a>
+            </li>
 
             <?php
             $roles = Yii::app()->user->model->getRoles();
