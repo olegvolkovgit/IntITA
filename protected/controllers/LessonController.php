@@ -786,6 +786,8 @@ class LessonController extends Controller
 
         $lectures['lectures']=$lastLecturePassedPages;
         $lectures['access']=$accessLecture;
+        $lectures['icoPath']=StaticFilesHelper::createPath('image', 'lecture', '');
+
         echo json_encode($lectures);
     }
 }
