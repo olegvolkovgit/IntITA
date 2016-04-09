@@ -103,6 +103,7 @@ return array(
                 'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet' => '_teacher/cabinet/index',
                 'profile/edit' => 'studentreg/edit',
+                'agreement/<id:\d+>' => 'payments/showAgreement',
 
 
                 array('class' => 'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
