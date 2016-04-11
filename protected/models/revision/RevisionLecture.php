@@ -165,6 +165,7 @@ class RevisionLecture extends CActiveRecord
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
         $this->properties->setUpdateDate($user);
+        return $revLecturePage;
     }
 
     /**
@@ -232,6 +233,16 @@ class RevisionLecture extends CActiveRecord
                 return true;
             }
             return false;
+        });
+    }
+
+    /**
+     * Returns an array of pages ready for approve
+     * @return RevisionLecturePage[]
+     */
+    public function getSendedPages() {
+        return array_filter($this->lecturePages, function ($lecturePage) {
+            return $lecturePage->isApprovable();
         });
     }
 
@@ -321,6 +332,11 @@ class RevisionLecture extends CActiveRecord
             if (empty($this->approveResultCashed)) {
 
                 $transaction = Yii::app()->db->beginTransaction();
+
+                foreach($this->getSendedPages() as $page) {
+                    $page->approve();
+                }
+
                 try {
                     $this->saveToRegularDB();
 
@@ -484,6 +500,15 @@ class RevisionLecture extends CActiveRecord
         }
 
         return RevisionLecture::getQuickUnionStructure($allIdList);
+    }
+
+    public function getPagesTree() {
+        $allIdList = Yii::app()->db->createCommand()
+            ->select('id, id_parent_page')
+            ->from('vc_lecture_page')
+            ->where('id_revision='.$this->id_revision)
+            ->queryAll();
+        return RevisionLecturePage::getQuickUnionStructure($allIdList);
     }
 
     public function getStatus() {
