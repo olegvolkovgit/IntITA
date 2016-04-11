@@ -910,7 +910,7 @@ class StudentReg extends CActiveRecord
               left join user u on ts.trainer = u.id where ts.end_time IS NULL ';
 
         if (isset($startDate) && isset($endDate)){
-            $sql .= " and TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
+            $sql .= " and TIMESTAMP(start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
         }
         $sql .= ' group by user.id';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
