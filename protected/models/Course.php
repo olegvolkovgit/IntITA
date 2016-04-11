@@ -711,11 +711,6 @@ class Course extends CActiveRecord implements IBillableObject
         )->queryAll());
     }
 
-    public static function getAgreementLink($course, $user){
-        return "<a href=".Yii::app()->createUrl('payments/agreement', array('user' => $user, 'course' => $course)).
-        ">договір</a>";
-    }
-
     public function mandatoryModule($id){
         return CourseModules::model()->findByAttributes(array(
                 'id_course' => $this->course_ID,

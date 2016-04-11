@@ -14,5 +14,12 @@
                 Курси / модулі
             </a>
         </li>
+        <li>
+            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_student/student/consultations',
+                array('id' => $model->id)) ?>',
+                'Консультанції')">
+                Консультанції
+            </a>
+        </li>
     </ul>
 </li>

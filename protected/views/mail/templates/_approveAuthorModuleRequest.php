@@ -11,4 +11,4 @@ $model = $params[0];
 <br>
 Посилання на редагування модуля э у кабінеті (Автор/модулі у боковому меню): <a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index');?>">
     <em>Кабінет</em>
-</a><br>
+</a>

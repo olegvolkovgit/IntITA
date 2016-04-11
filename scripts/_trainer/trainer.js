@@ -1,9 +1,10 @@
-function sendResponse(url, module, user){
+function sendResponse(url, module, user) {
     teacher = $jq("#userId").val();
     if (teacher == 0) {
         bootbox.alert('Виберіть викладача.');
     } else {
-        var posting = $jq.post(url, {teacher: teacher, module: module, user:user});
+        showAjaxLoader();
+        var posting = $jq.post(url, {teacher: teacher, module: module, user: user});
         posting.done(function (response) {
                 bootbox.alert(response, window.history.back());
             })
@@ -11,6 +12,10 @@ function sendResponse(url, module, user){
                 bootbox.alert("Запит не вдалося надіслати. Спробуйте повторити " +
                     "операцію пізніше або напишіть на адресу " + adminEmail, window.history.back());
             });
+        posting.always(function () {
+                hideAjaxLoader();
+            }
+        );
     }
 }
 

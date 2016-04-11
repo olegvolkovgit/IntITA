@@ -3,15 +3,15 @@
         <ul id="accessTabs" class="nav nav-tabs">
             <li class="active"><a href="#addConsultantModule" data-toggle="tab">Призначити консультанта</a>
             </li>
-<!--            <li><a href="#cancelTeacherModule" data-toggle="tab">Скасувати права конусльтанта</a>-->
+<!--            <li><a href="#cancelConsultantModule" data-toggle="tab">Скасувати права консультанта</a>-->
 <!--            </li>-->
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="addConsultantModule">
-                <?php $this->renderPartial('../../_admin/permissions/_addConsultantModule');?>
+                <?php $this->renderPartial('/_content_manager/_addConsultantModule');?>
             </div>
-<!--            <div class="tab-pane fade" id="cancelTeacherModule">-->
-<!--                --><?php //$this->renderPartial('../../_admin/permissions/_cancelTeacherAccess');?>
+<!--            <div class="tab-pane fade" id="cancelConsultantModule">-->
+<!--                --><?php //$this->renderPartial('/_content_manager/_cancelConsultantModule');?>
 <!--            </div>-->
         </div>
     </div>
