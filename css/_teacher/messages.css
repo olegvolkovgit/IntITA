@@ -7,8 +7,8 @@
 img#avatar {
     height: 24px;
 }
-.typeahead_wrapper { display: block; height: 30px; margin-top: 10px; margin-bottom: 10px; }
-.typeahead_photo { vertical-align:top; display:inline-block; max-width: 30px; max-height: 30px; margin-right: 5px; }
+.typeahead_wrapper { display: block; max-height: 35px; margin-top: 10px; margin-bottom: 10px; }
+.typeahead_photo { vertical-align:top; display:inline-block; max-width: 35px; max-height: 35px; margin-right: 5px; }
 .typeahead_labels { display:inline-block; height: 30px; }
 .typeahead_primary { font-weight: bold; }
 .typeahead_secondary { font-size: .8em; margin-top: -5px; }
