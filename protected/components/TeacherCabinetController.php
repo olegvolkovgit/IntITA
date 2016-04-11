@@ -50,8 +50,12 @@ class TeacherCabinetController extends CController
         }
 
         if (Yii::app()->user->isGuest) {
-            $this->render('authorize');
-            Yii::app()->end();
+            if(Yii::app()->request->isAjaxRequest){
+                Yii::app()->end();
+            }else{
+                $this->render('authorize');
+                Yii::app()->end();
+            }
         }
 
         $this->pageTitle = Yii::app()->name;

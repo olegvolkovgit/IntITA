@@ -3,10 +3,10 @@
     <div class="panel-body">
         <form role="form">
             <div class="form-group">
-                <input type="text" hidden="hidden" value="consultant" id="role">
+                <input type="text" hidden="hidden" value="author" id="role">
                 <label>Викладач:</label>
                 <br>
-                <input id="typeaheadConsultant" type="text" class="form-control" placeholder="Викладач"
+                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
                        size="135" required autofocus>
                 <input type="number" hidden="hidden" id="user" value="0"/>
             </div>
@@ -14,15 +14,15 @@
                 <label>
                     <strong>Модуль:</strong>
                 </label>
-                <input type="number" hidden="hidden" id="moduleConsultantId" value="0"/>
-                <input id="typeaheadConsultantModule" type="text" class="form-control" placeholder="Назва модуля"
+                <input type="number" hidden="hidden" id="moduleId" value="0"/>
+                <input id="typeaheadModule" type="text" class="form-control" placeholder="Назва модуля"
                        size="135">
             </div>
             <br>
             <div class="form-group">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleConsultantId', 'consultant','Права доступа','teacherAccess')">Призначити консультанта для модуля</button>
+                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
+                            'module', '#moduleId','','Права доступа','teacherAccess')">Призначити автора модуля</button>
             </div>
         </form>
     </div>
@@ -33,7 +33,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/permissions/consultantsByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_admin/permissions/teachersByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
@@ -68,7 +68,7 @@
     users.initialize();
     modules.initialize();
 
-    $jq('#typeaheadConsultant').typeahead(null, {
+    $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',
         limit: 10,
@@ -83,7 +83,7 @@
         }
     });
 
-    $jq('#typeaheadConsultantModule').typeahead(null, {
+    $jq('#typeaheadModule').typeahead(null, {
         name: 'modules',
         display: 'title',
         limit: 10,
@@ -98,11 +98,11 @@
         }
     });
 
-    $jq('#typeaheadConsultantModule').on('typeahead:selected', function (e, item) {
-        $jq("#moduleConsultantId").val(item.id);
+    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
+        $jq("#moduleId").val(item.id);
     });
 
-    $jq('#typeaheadConsultant').on('typeahead:selected', function (e, item) {
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq("#user").val(item.id);
     });
 </script>

@@ -23,7 +23,7 @@
                             <a href="#"
                                onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
                                    "<?= CHtml::encode($item['title']); ?>");'>
-                                <?= $item["title"]; ?>
+                                <?= $item["title"]." (".$item["email"].")"; ?>
                             </a>
                         </td>
                         <td>

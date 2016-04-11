@@ -3,7 +3,7 @@
 class RequestController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
     }
 
     public function actionIndex()
@@ -37,13 +37,9 @@ class RequestController extends TeacherCabinetController
         }
         $userModel = StudentReg::model()->findByPk($user);
         if($model && $userModel){
-            if($model->approve($userModel)){
-                echo "success";
-            }else{
-                echo "error";
-            }
+            echo $model->approve($userModel);
         } else {
-            echo "error";
+            echo "Операцію не вдалося виконати.";
         }
     }
 
@@ -53,13 +49,9 @@ class RequestController extends TeacherCabinetController
             $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
         }
         if($model){
-            if($model->setDeleted($user)){
-                echo "success";
-            }else{
-                echo "error";
-            }
+            echo $model->setDeleted($user);
         } else {
-            echo "error";
+            echo "Операцію не вдалося виконати.";
         }
     }
 }

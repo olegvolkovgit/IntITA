@@ -8,6 +8,9 @@ function load(url, header, histories, tab) {
         url: url,
         async: true,
         success: function (data) {
+            if(!data){
+                location.reload();
+            }
             container = $jq('#pageContainer');
             container.html('');
             container.html(data);
@@ -17,8 +20,12 @@ function load(url, header, histories, tab) {
                 $jq("#pageTitle").html('Особистий кабінет');
             }
         },
-        error: function () {
-            showDialog();
+        error: function (data) {
+            if(data.status==403){
+                bootbox.alert('У вас недостатньо прав для перегляду та редагування сторінки.');
+            } else{
+                showDialog();
+            }
         },
         complete: function(){
             hideAjaxLoader();
@@ -141,7 +148,6 @@ function sendMessage(url) {
     } else {
         var posting = $jq.post(url,
             {
-                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "text": $jq("#text").val(),
@@ -166,7 +172,6 @@ function sendMessage(url) {
 
 function reply(url) {
     var data = {
-        "id": $jq("input[name=id]").val(),
         "receiver": $jq("input[name=receiver]").val(),
         "parent": $jq("input[name=parent]").val(),
         "subject": $jq("input[name=subject]").val(),
@@ -196,7 +201,6 @@ function forward(url) {
     } else {
         var posting = $jq.post(url,
             {
-                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "parent": $jq("input[name=parent]").val(),
@@ -320,6 +324,38 @@ function initTeacherConsultationsTable(){
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_consultant/consultant/getConsultationsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "username"},
+            {"data": "lecture"},
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "date_cons"
+            },
+            {
+                "width": "15%",
+                "data": "start_cons"
+            },
+            {
+                "width": "15%",
+                "data": "end_cons"
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initConsultationsTable(){
+    $jq('#studentConsultationsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getConsultationsList",
             "dataSrc": "data"
         },
         "columns": [

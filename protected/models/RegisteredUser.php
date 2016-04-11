@@ -258,7 +258,7 @@ class RegisteredUser
     }
 
     public function requests(){
-        if (!$this->isAdmin())
+        if (!$this->isAdmin() && !$this->isContentManager())
             return [];
         else {
             return $this->loadRequests();
