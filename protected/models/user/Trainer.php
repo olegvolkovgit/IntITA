@@ -65,10 +65,10 @@ class Trainer extends Role
         $students = Yii::app()->db->createCommand()
             ->select('id, firstName, secondName, middleName, email, tr.start_time, tr.end_time')
             ->from('user u')
-            ->leftJoin('trainer_student tr', 'tr.student=u.id')
-            ->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
+            ->join('trainer_student tr', 'tr.student=u.id')
+            //->join('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
             ->where('trainer=:id', array(':id'=>$user->id))
-            ->group('u.id')
+            //->group('u.id')
             ->queryAll();
 
         $list = [];
