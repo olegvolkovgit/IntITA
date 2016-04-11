@@ -1,62 +1,68 @@
-<!--var_dump($lectureRevision);-->
-<!--
-                        "page" => $page,
-                        "video" => $video,
-                        "lectureBody" => $lectureBody,
-                        "quiz" => $quiz));
--->
-
-<h1>Title</h1>
-<?php
-    echo CHtml::beginForm("/revision/editpagetitle");
-    echo CHtml::textField("title", $page->page_title);
-    echo CHtml::hiddenField("idPage", $page->id);
-    echo CHtml::submitButton("Title");
-    echo CHtml::endForm();
-?>
-
-
-<h1>Video</h1>
-<?php
-    echo CHtml::beginForm("/revision/addVideo");
-    echo CHtml::textField("url", (isset($video)?$video->html_block:""));
-    echo CHtml::hiddenField("idPage", $page->id);
-    echo CHtml::submitButton("Video");
-    echo CHtml::endForm();
-?>
-
-<h1>Blocks</h1>
-<?php
-    if (isset($lectureBody)) {
-        echo "<h3>Current blocks</h3>";
-        foreach ($lectureBody as $lectureElement) {
-            echo CHtml::beginForm("/revision/editLectureElement");
-            echo CHtml::dropDownList('idType', $lectureElement->id_type, array(1=>1, 3=>3, 4=>4, 7=>7));
-            echo "<br>";
-            echo CHtml::textArea("html_block", $lectureElement->html_block);
-            echo "<br>";
-            echo CHtml::hiddenField("idPage", $page->id);
-            echo CHtml::hiddenField("idElement", $lectureElement->id);
-            echo "<br>";
-            echo CHtml::submitButton("Edit");
-            echo CHtml::button("Up", array('onclick' => 'upElement('.$lectureElement->id.',' . $page->id . ')'));
-            echo CHtml::button("Down", array('onclick' => 'downElement('.$lectureElement->id.',' . $page->id . ')'));
-            echo CHtml::button("Delete", array('onclick' => 'deleteElement('.$lectureElement->id.',' . $page->id . ')'));
-            echo CHtml::endForm();
+<script>
+    function addBlockToTable($table, id, type, content) {
+        var $row = $('<tr></tr>');
+        var typeName = '';
+        switch (type) {
+            case 1:
+                typeName = "Текст";
+                break;
+            case 3:
+                typeName = "Код";
+                break;
+            case 4:
+                typeName = "Приклад";
+                break;
+            case 7:
+                typeName = "Інструкція";
+                break;
+            default:
+                typeName = "Текст";
+                break;
         }
+        var $name = $('<td></td>').html(typeName).appendTo($row);
+        var $textarea = $('<textarea></textarea>').attr('id', id).addClass('form-control').html(content).appendTo($row);
+        var $content = $('<td></td>').append($textarea).appendTo($row);
+        var $button = $('<td><input class="btn btn-default" type="button" value="Зберегти"></td>').appendTo($row);
+        $row.appendTo($table);
     }
+</script>
 
-    echo "<h3>Add new</h3>";
-    echo CHtml::beginForm("/revision/addLectureElement");
-    echo CHtml::dropDownList('idType', '1', array(1=>1, 3=>3, 4=>4, 7=>7));
-    echo "<br>";
-    echo CHtml::textArea("html_block");
-    echo "<br>";
-    echo CHtml::hiddenField("idPage", $page->id);
-    echo "<br>";
-    echo CHtml::submitButton("Add");
-    echo CHtml::endForm();
-?>
+<table class="table" id="pageView">
+    <tr>
+        <td>Назва</td>
+        <td><input type="text" class="form-control" id="title" value="<?=$page->page_title?>"/></td>
+        <td><input class="btn btn-default" type="button" value="Зберегти"></td>
+    </tr>
+    <tr>
+        <td>Відео</td>
+        <td><input type="text" class="form-control" id="video" value="<?=(isset($video)?$video->html_block:"") ?>"/></td>
+        <td><input class="btn btn-default" type="button" value="Зберегти"></td>
+    </tr>
+    <?php
+    if (isset($lectureBody)) {
+        foreach ($lectureBody as $lectureElement) { ?>
+            <script>
+                addBlockToTable($('#pageView'), <?=$lectureElement->id?>, <?=$lectureElement->id_type?>, '<?=$lectureElement->html_block?>');
+            </script>
+        <?php
+        }
+    }?>
+
+    <tr>
+        <td>
+            <div class="form-group">
+                <select class="form-control" id="type">
+                    <option value="1">Текст</option>
+                    <option value="3">Код</option>
+                    <option value="4">Приклад</option>
+                    <option value="7">Інструкція</option>
+                </select>
+            </div>
+        </td>
+        <td><input type="text" class="form-control" id="vieo" value=""/></td>
+        <td><input class="btn btn-default" type="button" value="Додати"></td>
+    </tr>
+</table>
 
 <h1>Quiz</h1>
 <?php

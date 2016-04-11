@@ -40,7 +40,7 @@ class RevisionController extends Controller
 
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRevision->id_module)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
@@ -48,12 +48,9 @@ class RevisionController extends Controller
             $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);
         }
 
-        $pagesDataProvider = new CActiveDataProvider("RevisionLecturePage");
-        $pagesDataProvider->setData($lectureRevision->lecturePages);
-
         $this->render("lectureview", array(
                         "lectureRevision" => $lectureRevision,
-                        "pages" => $pagesDataProvider));
+                        "pages" => $lectureRevision->lecturePages));
     }
 
     public function actionAddPage(){
@@ -66,9 +63,16 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->addPage(Yii::app()->user);
+        $newPage = $lectureRevision->addPage(Yii::app()->user);
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $json = json_encode(array(
+            "id" => $newPage->id,
+            "title" => $newPage->page_title,
+            "order" => $newPage->page_order,
+            "status" => $newPage->getStatus()
+        ));
+
+        echo $json;
     }
 
     public function actionNewPageRevision() {
@@ -128,7 +132,6 @@ class RevisionController extends Controller
     }
 
     public function actionSendPageRevision() {
-
         $idPage = Yii::app()->request->getPost("idPage");
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
@@ -136,7 +139,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->sendForApproval(Yii::app()->user);
+        echo $page->sendForApproval(Yii::app()->user);
     }
 
     public function actionApprovePageRevision() {
@@ -148,7 +151,7 @@ class RevisionController extends Controller
         $idPage = Yii::app()->request->getPost("idPage");
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->approve(Yii::app()->user);
+        echo $page->approve(Yii::app()->user);
     }
 
     public function actionCancelPageRevision() {
@@ -159,7 +162,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->cancel(Yii::app()->user);
+        echo $page->cancel(Yii::app()->user);
     }
 
     public function actionRejectPageRevision() {
@@ -170,7 +173,7 @@ class RevisionController extends Controller
         $idPage = Yii::app()->request->getPost("idPage");
         $page = RevisionLecturePage::model()->findByPk($idPage);
 
-        $page->reject(Yii::app()->user);
+        echo $page->reject(Yii::app()->user);
     }
 
     public function actionEditPageTitle() {
@@ -319,9 +322,7 @@ class RevisionController extends Controller
         if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
-
         $lectureRev->cancel(Yii::app()->user);
-
     }
 
     public function actionApproveLectureRevision () {
@@ -391,8 +392,6 @@ class RevisionController extends Controller
         $relatedRev = $lectureRev->getRelatedLectures();
         $relatedTree = RevisionLecture::getLecturesTree($lecture->idModule);
         $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
-//        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
-//        $lecturesDataProvider->setData($relatedRev);
 
         $this->render('index', array(
             'json' => $json,
@@ -419,13 +418,28 @@ class RevisionController extends Controller
         $lectureRev->deleteLectureFromRegularDB();
 
         $relatedRev = $lectureRev->getRelatedLectures();
-
-        $lecturesDataProvider = new CActiveDataProvider("RevisionLecture");
-        $lecturesDataProvider->setData($relatedRev);
+        $relatedTree = RevisionLecture::getLecturesTree($lecture->idModule);
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
 
         $this->render('index', array(
-            'lectures' => $lecturesDataProvider,
+            'json' => $json,
         ));
+    }
+
+    public function actionModuleLecturesRevisions($idModule) {
+
+        $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
+        $relatedTree = RevisionLecture::getLecturesTree($idModule);
+        $json = $this->buildLectureTreeJson($lectureRev, $relatedTree);
+
+        $this->render('index', array(
+            'json' => $json,
+        ));
+    }
+
+    public function actionShowRevision($idRevision) {
+        $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
+
     }
 
     /**
@@ -465,48 +479,48 @@ class RevisionController extends Controller
         return false;
     }
 
-    private function buildLectureTreeJson($lectures, $lectureTree) {
-        /**
-         * Function to build tree of lectures based on quickUnion data structure
-         * @param $tree - tree to build, passed by reference
-         * @param $node - node to add
-         * @param $parents - quik union structre
-         */
-        function appendNode(&$tree, $node, $parents) {
-            if ($parents[$node['id']] == $node['id']) {
-                //if root node
-                $tree[$node['id']] = $node;
-            } else {
-                $path = [];
-                $parentId = $parents[$node['id']];
+    /**
+     * Function to build tree of lectures based on quickUnion data structure
+     * @param $tree - tree to build, passed by reference
+     * @param $node - node to add
+     * @param $parents - quik union structre
+     */
+    private function appendNode(&$tree, $node, $parents) {
+        if ($parents[$node['id']] == $node['id']) {
+            //if root node
+            $tree[$node['id']] = $node;
+        } else {
+            $path = [];
+            $parentId = $parents[$node['id']];
 
-                //building path from root to target node
-                array_push($path, $parentId);
-                while ($parents[$parentId] != $parentId) {
-                    array_push($path, $parents[$parentId]);
-                    $parentId = $parents[$parentId];
-                }
-
-                //finding reference to target node
-                $targetNode = &$tree;
-                while (count($path) != 0) {
-                    if (!array_key_exists('nodes', $targetNode)) {
-                        $targetNode=&$targetNode[array_pop($path)];
-                    }
-                    else {
-                        $targetNode=&$targetNode['nodes'][array_pop($path)];
-                    }
-                }
-
-                //adding node to 'nodes' array in target node
-                if (!array_key_exists('nodes', $targetNode)) {
-                    $targetNode['nodes'] = array();
-                }
-                $targetNode['nodes'][$node['id']] = $node;
+            //building path from root to target node
+            array_push($path, $parentId);
+            while ($parents[$parentId] != $parentId) {
+                array_push($path, $parents[$parentId]);
+                $parentId = $parents[$parentId];
             }
+
+            //finding reference to target node
+            $targetNode = &$tree;
+            while (count($path) != 0) {
+                if (!array_key_exists('nodes', $targetNode)) {
+                    $targetNode=&$targetNode[array_pop($path)];
+                }
+                else {
+                    $targetNode=&$targetNode['nodes'][array_pop($path)];
+                }
+            }
+
+            //adding node to 'nodes' array in target node
+            if (!array_key_exists('nodes', $targetNode)) {
+                $targetNode['nodes'] = array();
+            }
+            $targetNode['nodes'][$node['id']] = $node;
         }
+    }
 
 
+    private function buildLectureTreeJson($lectures, $lectureTree) {
         $jsonArray = [];
         foreach ($lectures as $lecture) {
             $node = array ();
@@ -514,10 +528,23 @@ class RevisionController extends Controller
             $node['selectable'] = false;
             $node['id'] = $lecture->id_revision;
 
-            appendNode($jsonArray, $node, $lectureTree);
+            $this->appendNode($jsonArray, $node, $lectureTree);
         }
         return json_encode(array_values($jsonArray));
     }
+
+//    private function buildPagesTreeJson($pages, $pagesTree) {
+//        $jsonArray = [];
+//        foreach ($pages as $page) {
+//            $node = array ();
+//            $node['text'] = "Ревізія №" . $page->id . " " . $page->page_title . ". Статус: " . $page->getStatus();
+//            $node['selectable'] = false;
+//            $node['id'] = $page->id;
+//
+//            $this->appendNode($jsonArray, $node, $pagesTree);
+//        }
+//        return json_encode(array_values($jsonArray));
+//    }
 
 
     /**

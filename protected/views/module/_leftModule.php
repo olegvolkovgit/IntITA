@@ -33,6 +33,9 @@ if (StudentReg::isAdmin()) $post->setScenario('canedit');
                 </td>
                 <?php if(isset($_GET['idCourse']) && $_GET['idCourse'] > 0 && Course::getStatus($_GET['idCourse']) == 1){?>
                 <td>
+<!--                    <div>-->
+                    <input type="button" class="btn" value="Переглянути ревізії модуля" onclick="location.href='<?=Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$post->module_ID))?>' "/>
+<!--                    </div>-->
                     <div class="startCourse">
                         <?php
                         if(Yii::app()->user->isGuest) {

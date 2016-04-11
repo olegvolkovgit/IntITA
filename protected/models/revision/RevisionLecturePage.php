@@ -315,6 +315,7 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Sends page for approve
      * @param $user
+     * @return string
      * @throws RevisionLecturePageException
      */
     public function sendForApproval($user) {
@@ -322,9 +323,12 @@ class RevisionLecturePage extends CActiveRecord
             $this->send_approval_date = new CDbExpression('NOW()');;
             $this->id_user_sended_approval = $user->getId();
             $this->saveCheck();
+            $message = 'Відправлена на розгляд';
         } else {
             //todo inform user
+            $message = 'Сторінка не може бути відправлена на затвердження';
         }
+        return json_encode(array("status" => $this->getStatus(),"message" => $message));
     }
 
     /**
@@ -344,6 +348,7 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Approves page
      * @param $user
+     * @return string
      * @throws RevisionLecturePageException
      */
     public function approve($user) {
@@ -351,14 +356,18 @@ class RevisionLecturePage extends CActiveRecord
             $this->approve_date = new CDbExpression('NOW()');;
             $this->id_user_approved = $user->getId();
             $this->saveCheck();
+            $message = "Сторінка затверджена";
         } else {
+            $message = "Данна сторінка не може бути затверджена";
             //todo inform that the page cannot be approved
         }
+        return json_encode(array("status" => $this->getStatus(),"message" => $message));
     }
 
     /**
      * Rejects page
      * @param $user
+     * @return string
      * @throws RevisionLecturePageException
      */
     public function reject($user) {
@@ -366,14 +375,18 @@ class RevisionLecturePage extends CActiveRecord
             $this->reject_date = new CDbExpression('NOW()');;
             $this->id_user_rejected = $user->getId();
             $this->saveCheck();
+            $message = "Сторінка відхилена";
         } else {
+            $message = "Данна сторінка не може бути відхилена";
             //todo inform that the page cannot be rejected
         }
+        return json_encode(array("status" => $this->getStatus(),"message" => $message));
     }
 
     /**
      * Cancels page
      * @param $user
+     * @return string
      * @throws RevisionLecturePageException
      */
     public function cancel($user) {
@@ -381,9 +394,11 @@ class RevisionLecturePage extends CActiveRecord
             $this->end_date = new CDbExpression('NOW()');;
             $this->id_user_cancelled = $user->getId();
             $this->saveCheck();
+            $message = 'Сторінка скасована';
         } else {
-            //todo inform that the page cannot be cancelled
+            $message = 'Сторінка не може бути скасована';
         }
+        return json_encode(array("status" => $this->getStatus(),"message" => $message));
     }
 
     /**
@@ -604,7 +619,7 @@ class RevisionLecturePage extends CActiveRecord
      * Return true if revision can be approved
      * @return bool
      */
-    private function isApprovable() {
+    public function isApprovable() {
         if ($this->isSended() &&
             !$this->isRejected() &&
             !$this->isCancelled() &&
@@ -612,6 +627,43 @@ class RevisionLecturePage extends CActiveRecord
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns a Quick Union structure of related pages id.
+     * Algorithm based on Quick-Union algorithm
+     * http://algs4.cs.princeton.edu/15uf/
+     * It is important ot keep tree structure, so here is no optimizations
+     *
+     * @return array
+     */
+    public static function getQuickUnionStructure($allIdList) {
+        // building union data structure;
+        // array key represents the elements's id (id_revision),
+        // and array value represents link to root element of this element,
+        // if element is root its value equal to key
+
+        $quickUnion = array();
+        foreach($allIdList as $item) {
+            $quickUnion[$item['id']] = ($item['id_parent_page'] == null ? $item['id'] : $item['id_parent_page']);
+        };
+        return $quickUnion;
+    }
+
+    public function getStatus() {
+        if ($this->isCancelled()) {
+            return "Скасована";
+        }
+        if ($this->isApproved()) {
+            return "Затвердженна";
+        }
+        if ($this->isRejected()) {
+            return "Відхилена";
+        }
+        if ($this->isSended()) {
+            return "Відправлена на розгляд";
+        }
+        return 'Доступна для редагування';
     }
 
     /**

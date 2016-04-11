@@ -1,236 +1,245 @@
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'revision-lecture-properties-a-form',
-    'enableAjaxValidation'=>false,
-    'action'=>'/revision/editLectureProperties'
-)); ?>
-
-<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-<?php echo $form->errorSummary($lectureRevision->properties); ?>
-
-    <?php foreach($lectureRevision as $key=>$value) {?>
-        <div class="row">
-            <?php echo $form->labelEx($lectureRevision, $key, array("style" => "width:250px;display:inline-block")); ?>
-            <?php echo $form->textField($lectureRevision, $key); ?>
-            <?php echo $form->error($lectureRevision, $key); ?>
-        </div>
-    <?php } ?>
-
-<div class="row buttons">
-    <?php echo CHtml::submitButton('Submit'); ?>
-</div>
-
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'revision-lecture-properties-a-form',
-    'enableAjaxValidation'=>false,
-    'action'=>'/revision/editLectureProperties'
-)); ?>
-
-<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-<?php echo $form->errorSummary($lectureRevision->properties); ?>
-
-    <?php foreach($lectureRevision->properties as $key=>$value) {?>
-        <div class="row">
-            <?php echo $form->labelEx($lectureRevision->properties, $key, array("style" => "width:250px;display:inline-block")); ?>
-            <?php echo $form->textField($lectureRevision->properties, $key); ?>
-            <?php echo $form->error($lectureRevision->properties, $key); ?>
-        </div>
-    <?php } ?>
-
-<div class="row buttons">
-    <?php echo CHtml::submitButton('Submit'); ?>
-</div>
-
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-
-<div id="check" style="color:red;">
-</div>
-
-<br>
-<button onclick="addPage(<?=$lectureRevision->id_revision?>);">Add Page</button>
-<button onclick="checkLecture(<?=$lectureRevision->id_revision?>);">Check Lecture</button>
-<button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Send for approve Lecture</button>
 <?php
-$this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'lecturePages',
-    'htmlOptions' => array('class' => 'grid-view custom'),
-    'emptyText' => '',
-    'summaryText' => '',
-    'dataProvider' =>$pages,
-    "columns" => array(
-        'id',
-        'id_page',
-        'id_parent_page',
-        'id_revision',
-        'page_title',
-        'page_order',
-        'video',
-        'quiz',
-        'start_date',
-        'id_user_created',
-        'update_date',
-        'id_user_updated',
-        'send_approval_date',
-        'id_user_sended_approval',
-        'reject_date',
-        'id_user_rejected',
-        'approve_date',
-        'id_user_approved',
-        'end_date',
-        'id_user_cancelled',
-        array('class'=>'CButtonColumn',
-            'template'=>'{edit} | {send} | {new} | {approve} | {reject} | {cancel} | {up} | {down}',
-            'htmlOptions'=>array('width'=>'400'),
-            'buttons'=>array (
-                'edit'=> array(
-                    'label'=>'Edit',
-                    'options'=>array('onclick'=>'editRevision(this)'),
-                ),
-                'send'=> array(
-                    'label'=>'Send',
-                    'options'=>array('onclick'=>'sendRevision(this)'),
-                ),
-                'new'=> array(
-                    'label'=>'New Revision',
-                    'options'=>array('onclick'=>'newRevision(this)'),
-                ),
-                'approve'=>array(
-                    'label'=>'Approve',
-                    'options'=>array('onclick'=>'approve(this)'),
-                ),
-                'reject'=>array(
-                    'label'=>'Reject',
-                    'options'=>array('onclick'=>'reject(this)'),
-                ),
-                'cancel' => array(
-                    'label' => 'Cancel',
-                    'options' => array('onclick' => 'cancel(this)'),
-                ),
-                'up' => array(
-                    'label' => 'Up',
-                    'options' => array('onclick' => 'up(this)'),
-                ),
-                'down' => array(
-                    'label' => 'Down',
-                    'options' => array('onclick' => 'down(this)'),
-                )
-            ),
-        ),
-    )
-));
-
+    //todo
+    $this->breadcrumbs = array("dd"=>"dd");
 ?>
-<div id="ajax_content">
-</div>
 
 <script>
+    function addPageRow($table, id, title, order, status){
+        var $row = $('<tr></tr>');
+        var $name = $('<td></td>').html(id).appendTo($row);
+        var $title = $('<td></td>').html(title).appendTo($row);
+        var $order = $('<td></td>').html(order).appendTo($row);
+        var $status = $('<td></td>').html(status).attr('id', 'status'+id).appendTo($row);
+
+        var $buttons = $('<td></td>').append(
+            '<div class="btn-group"> \
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> \
+                    Дії <span class="caret"></span> \
+                </button> \
+                <ul class="dropdown-menu"> \
+                    <li><a href="#" onclick="viewPage('+ id +')">Переглянути</a></li> \
+                <li><a href="#" onclick="editPageRevision('+ id +')">Редагувати</a></li> \
+                <li><a href="#" onclick="sendRevision('+ id +')">Надіслати на затвердження</a></li> \
+                <li><a href="#" onclick="approvePageRevision('+ id +')">Затвердити</a></li> \
+                <li><a href="#" onclick="rejectPageRevision('+ id +')">Відхилити</a></li> \
+                <li><a href="#" onclick="cancelPageRevision('+ id +')">Скасувати</a></li> \
+            </ul> \
+        </div>'
+        );
+        $buttons.appendTo($row);
+        $row.appendTo($table);
+    }
+</script>
+
+<div id="revisionMainBox">
+    <label>Властивоті лекції: </label>
+
+    <table class="table">
+        <tr>
+            <td>Модуль</td>
+            <td><?=$lectureRevision->id_module?></td>
+        </tr>
+        <tr>
+            <td>Номер ревізії</td>
+            <td><?=$lectureRevision->id_revision?></td>
+        </tr>
+        <tr>
+            <td>Назва (укр)</td>
+            <td><?=$lectureRevision->properties->title_ua?></td>
+        </tr>
+        <tr>
+            <td>Назва (рос)</td>
+            <td><?=$lectureRevision->properties->title_ru?></td>
+        </tr>
+        <tr>
+            <td>Назва (англ)</td>
+            <td><?=$lectureRevision->properties->title_en?></td>
+        </tr>
+        <tr>
+            <td>Автор</td>
+            <td><?=$lectureRevision->properties->id_user_created?></td>
+        </tr>
+        <tr>
+            <td>Поточний статус</td>
+            <td><?=$lectureRevision->getStatus()?></td>
+        </tr>
+    </table>
+    <button onclick="addPage(<?=$lectureRevision->id_revision?>);">Додати сторінку</button>
+    <button onclick="checkLecture(<?=$lectureRevision->id_revision?>);">Перевірити лекцію на наявність конфліктів</button>
+    <button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Відправити лекцію на затвердження</button>
+    <br>
+
+    <label>Перелік ревізій сторінок лекції: </label>
+
+    <table id="pages" class="table">
+        <tr>
+            <td>
+                Номер ревізії
+            </td>
+            <td>
+                Назва
+            </td>
+            <td>
+                Порядковий номер
+            </td>
+            <td>
+                Статус
+            </td>
+            <td>
+            </td>
+        </tr>
+        <?php foreach ($pages as $page) {?>
+        <tr>
+            <script>
+                addPageRow($('#pages'), <?=$page->id?>, '<?=$page->page_title?>', <?=$page->page_order?>, '<?=$page->getStatus()?>');
+            </script>
+        </tr>
+        <?php } ?>
+    </table>
+
+    <div id="ajax_content">
+    </div>
+
+</div>
+
+<div id='modal' class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-treeview.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'revision.js'); ?>"></script>
+
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" >
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrap-treeview.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"
+
+<br>
+
+<script>
+    function viewPage(pageId) {
+        alert ('dummy '+pageId);
+    }
+
     function addPage(lectureRevision) {
         $.ajax({
             method: "POST",
-            url: "/revision/addpage",
-            data: {idRevision:lectureRevision}
-        })
-    }
-
-    function editRevision(element) {
-        var id = $(element).parent().parent().find("td:first").text();
-
-        $.ajax({
-            method: "POST",
-            url: "/revision/editpagerevision",
-            data: {idPage:id},
-            success: function(data) {
-                        $('#ajax_content').html(data);
+            url: "<?=Yii::app()->createUrl('/revision/addpage');?>",
+            data: {idRevision:lectureRevision},
+            dataType: 'json',
+            success: function (data) {
+                addPageRow($('#pages'), data.id, data.title, data.order, data.status);
             }
         })
     }
 
-    function sendRevision(element) {
-        var id = $(element).parent().parent().find("td:first").text();
+    function editPageRevision(pageId, statusField) {
 
         $.ajax({
             method: "POST",
-            url: "/revision/sendpagerevision",
-            data: {idPage:id}
+            url: "<?=Yii::app()->createUrl('/revision/editpagerevision');?>",
+            data: {idPage:pageId},
+            success: function(data) {
+                        $('#ajax_content').html(data);
+                $.scrollTo()
+            }
         })
     }
 
-    function approve(element) {
-        var id = $(element).parent().parent().find("td:first").text();
+    function sendRevision(pageId) {
 
         $.ajax({
             method: "POST",
-            url: "/revision/approvepagerevision",
-            data: {idPage:id}
+            url: "<?=Yii::app()->createUrl("/revision/sendpagerevision");?>",
+            data: {idPage:pageId},
+            dataType: "json",
+            success: function(json) {
+                $('#status'+pageId).html(json.status);
+            }
         })
     }
 
-    function reject(element) {
-        var id = $(element).parent().parent().find("td:first").text();
-
+    function approvePageRevision(pageId) {
         $.ajax({
             method: "POST",
-            url: "/revision/rejectpagerevision",
-            data: {idPage:id}
+            url: "<?=Yii::app()->createUrl("/revision/approvepagerevision");?>",
+            data: {idPage:pageId},
+            dataType: 'json',
+            success: function (json) {
+                $('#status'+pageId).html(json.status);
+            }
         })
     }
 
-    function cancel(element) {
-        var id = $(element).parent().parent().find("td:first").text();
-
+    function rejectPageRevision(pageId) {
         $.ajax({
             method: "POST",
-            url: "/revision/cancelpagerevision",
-            data: {idPage:id}
+            url: "<?=Yii::app()->createUrl("/revision/rejectpagerevision");?>",
+            data: {idPage:pageId},
+            dataType: 'json',
+            success: function (json) {
+                $('#status'+pageId).html(json.status);
+            }
         })
     }
 
-    function newRevision(element){
-        var id = $(element).parent().parent().find("td:first").text();
-
+    function cancelPageRevision(pageId) {
         $.ajax({
             method: "POST",
-            url: "/revision/newpagerevision",
-            data: {idPage:id}
+            url: "<?=Yii::app()->createUrl("/revision/cancelpagerevision");?>",
+            data: {idPage:pageId},
+            dataType: "json",
+            success: function(json) {
+                $('#status' + pageId).html(json.status);
+            }
         })
     }
 
-    function up(element) {
-        var id = $(element).parent().parent().find("td:first").text();
+    function newRevision(pageId){
+        $.ajax({
+            method: "POST",
+            url: "<?=Yii::app()->createUrl("/revision/newpagerevision");?>",
+            data: {idPage:pageId}
+        })
+    }
+
+    function up(pageId) {
 
         $.ajax({
             method: "POST",
             url: "/revision/uppage",
-            data: {idPage:id}
+            data: {idPage:pageId}
         })
     }
 
-    function down(element) {
-        var id = $(element).parent().parent().find("td:first").text();
+    function down(pageId) {
 
         $.ajax({
             method: "POST",
             url: "/revision/downpage",
-            data: {idPage:id}
+            data: {idPage:pageId}
         })
     }
 
-    function checkLecture(id) {
+    function checkLecture(pageId) {
         $.ajax({
             method: "POST",
             url: "/revision/checkLecture",
-            data: {idLecture:id},
+            data: {idLecture:pageId},
             success: function(data) {
                 $('#check').html(data);
             }
