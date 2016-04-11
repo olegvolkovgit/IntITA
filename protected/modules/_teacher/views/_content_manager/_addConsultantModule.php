@@ -21,7 +21,7 @@
             <br>
             <div class="form-group">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
+                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
                             'module', '#moduleConsultantId', 'consultant','Права доступа','teacherAccess')">Призначити консультанта для модуля</button>
             </div>
         </form>
