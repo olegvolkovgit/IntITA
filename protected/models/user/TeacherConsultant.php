@@ -38,7 +38,7 @@ class TeacherConsultant extends Role
             array(
                 'key' => 'students',
                 'title' => 'Студенти',
-                'type' => 'students-list',
+                'type' => 'hidden',
                 'value' => $this->getStudents()
             )
         );

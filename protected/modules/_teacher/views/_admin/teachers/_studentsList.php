@@ -11,14 +11,14 @@
             <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
-                <input type="number" hidden="hidden" id="value" value="0"/>
+                <input type="number" hidden="hidden" id="student" value="0"/>
                 <input id="typeahead" type="text" class="form-control" name="student" placeholder="Студент"
                        size="65" required autofocus>
             </div>
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            '<?= $attribute["key"] ?>', '#value')">
+                            '<?= $attribute["key"] ?>', '#student')">
                     Додати студента
                 </button>
             </div>
@@ -78,7 +78,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/teachers/usersWithoutTrainers?query=%QUERY',
+            url: basePath + '/_teacher/_admin/teachers/usersByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
@@ -111,6 +111,6 @@
     });
 
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#value").val(item.id);
+        $jq("#student").val(item.id);
     });
 </script>

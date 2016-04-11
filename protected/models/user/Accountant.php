@@ -54,6 +54,7 @@ class Accountant extends Role
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_accountant u ON u.id_user = s.id';
         $criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL');
+        $criteria->group = 's.id ASC';
 
         $data = StudentReg::model()->findAll($criteria);
 
