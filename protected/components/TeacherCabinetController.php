@@ -92,17 +92,4 @@ class TeacherCabinetController extends CController
             ),
         );
     }
-
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'expression'=>array($this, 'hasRole'),
-            ),
-            array('deny',
-                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.",
-                'users'=>array('*'),
-            ),
-        );
-    }
 }

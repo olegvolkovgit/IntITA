@@ -8,12 +8,13 @@ function initRequestsTable() {
         "columns": [
             {
                 "width": "30%",
-                "data": "user"},
+                "data": "user"
+            },
             {
                 "width": "50%",
                 "data": "module",
                 "render": function (module) {
-                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"]+ '</a>';
+                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
                 }
             },
             {
@@ -42,20 +43,16 @@ function setRequestStatus(url, message) {
                 url: url,
                 type: "POST",
                 success: function (response) {
-                    if(response == "success") {
-                        bootbox.confirm("Операцію виконано.", function(){
-                            load(basePath + '/_teacher/_admin/request/index', 'Запити');
-                        });
-                    } else {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
+                    bootbox.alert(response, function () {
+                        load(basePath + '/_teacher/_admin/request/index', 'Запити');
+                    });
                 },
-                error:function () {
-                    showDialog("Операцію не вдалося виконати.");
+                error: function () {
+                    bootbox.alert("Операцію не вдалося виконати.");
                 }
             });
         } else {
-            showDialog("Операцію відмінено.");
+            bootbox.alert("Операцію відмінено.");
         }
     });
 }
