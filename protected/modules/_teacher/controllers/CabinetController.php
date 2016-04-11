@@ -3,6 +3,10 @@
 class CabinetController extends TeacherCabinetController
 {
 
+    public function hasRole(){
+        return !Yii::app()->user->isGuest;
+    }
+
     public function actionIndex($scenario = "dashboard", $receiver = 0)
     {
         $model = Yii::app()->user->model;

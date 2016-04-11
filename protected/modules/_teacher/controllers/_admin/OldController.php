@@ -2,6 +2,10 @@
 
 class OldController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     public function actionIndex()
     {
         $model = new PayModules('search');

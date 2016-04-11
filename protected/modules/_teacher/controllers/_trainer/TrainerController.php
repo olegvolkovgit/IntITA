@@ -2,6 +2,11 @@
 
 class TrainerController extends TeacherCabinetController
 {
+
+    public function hasRole(){
+        return Yii::app()->user->model->isTrainer();
+    }
+
     public function actionStudents($id, $filter = "")
     {
         $trainer = RegisteredUser::userById($id);
@@ -96,6 +101,11 @@ class TrainerController extends TeacherCabinetController
         $this->renderPartial('/_trainer/_viewStudent', array(
             'student' => $student,
         ), false, true);
+    }
+
+    public function actionAllTeachersByQuery($query)
+    {
+        echo Teacher::teachersByQuery($query);
     }
 
     public function actionTeachersByQuery($query, $module)

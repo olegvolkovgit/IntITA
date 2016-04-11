@@ -469,6 +469,39 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    public static function getLecturesTree($idModule = null) {
+        if ($idModule != null) {
+            $allIdList = Yii::app()->db->createCommand()
+                ->select('id_revision, id_parent')
+                ->from('vc_lecture')
+                ->where('id_module='.$idModule)
+                ->queryAll();
+        } else {
+            $allIdList = Yii::app()->db->createCommand()
+                ->select('id_revision, id_parent')
+                ->from('vc_lecture')
+                ->queryAll();
+        }
+
+        return RevisionLecture::getQuickUnionStructure($allIdList);
+    }
+
+    public function getStatus() {
+        if ($this->isCancelled()) {
+            return "Скасована";
+        }
+        if ($this->isApproved()) {
+            return "Затвердженна";
+        }
+        if ($this->isRejected()) {
+            return "Відхилена";
+        }
+        if ($this->isSended()) {
+            return "Відправлена на розгляд";
+        }
+        return 'Доступна для редагування';
+    }
+
 
     /**
      * Flushes current revision into regular DB.
@@ -548,42 +581,33 @@ class RevisionLecture extends CActiveRecord
     }
 
     /**
-     * Returns a list of related lectures id.
+     * Return root of $element in $quickUnion data structure;
+     * @param array $quickUnion, key - id_revision, $quickUnion[key] == root of key element or itself if key element is root
+     * @param $element
+     * @return bool
+     */
+    private function getQURoot(&$quickUnion, $element) {
+        $root = $quickUnion[$element];
+
+        while ($root!=$quickUnion[$root]) {
+//            $quickUnion[$root] = $quickUnion[$quickUnion[$root]];
+            $root = $quickUnion[$root];
+        }
+
+        $quickUnion[$element] = $root;
+
+        return $root;
+    }
+
+    /**
+     * Returns a Quick Union Structure of related lectures id.
      * Algorithm based on Quick-Union algorithm
      * http://algs4.cs.princeton.edu/15uf/
-     * Possible ways to improve (in case of bad performance) - implement weight.
+     * It is important ot keep tree structure, so here is no optimizations
      *
      * @return array
      */
-    private function getRelatedIdList () {
-
-        /**
-         * Return root of $element in $quickUnion data structure;
-         * @param array $quickUnion, key - id_revision, $quickUnion[key] == root of key element or itself if key element is root
-         * @param $element
-         * @return bool
-         */
-        function getQURoot(&$quickUnion, $element) {
-            $root = $quickUnion[$element];
-
-            while ($root!=$quickUnion[$root]) {
-                $quickUnion[$root] = $quickUnion[$quickUnion[$root]];
-                $root = $quickUnion[$root];
-            }
-
-            $quickUnion[$element] = $root;
-
-            return $root;
-        };
-
-        //get list of ids of all lectures in the module.
-        $allIdList = Yii::app()->db->createCommand()
-            ->select('id_revision, id_parent')
-            ->from('vc_lecture')
-            ->where('id_module='.$this->id_module)
-            ->queryAll();
-
-
+    private static function getQuickUnionStructure($allIdList) {
         // building union data structure;
         // array key represents the elements's id (id_revision),
         // and array value represents link to root element of this element,
@@ -593,12 +617,32 @@ class RevisionLecture extends CActiveRecord
         foreach($allIdList as $item) {
             $quickUnion[$item['id_revision']] = ($item['id_parent'] == null ? $item['id_revision'] : $item['id_parent']);
         };
+        return $quickUnion;
+    }
+
+    /**
+     * Returns a list of related lectures id.
+     * Algorithm based on Quick-Union algorithm
+     * http://algs4.cs.princeton.edu/15uf/
+     * Possible ways to improve (in case of bad performance) - implement weight.
+     *
+     * @return array
+     */
+    private function getRelatedIdList () {
+        //get list of ids of all lectures in the module.
+        $allIdList = Yii::app()->db->createCommand()
+            ->select('id_revision, id_parent')
+            ->from('vc_lecture')
+            ->where('id_module='.$this->id_module)
+            ->queryAll();
+
+        $quickUnion = $this->getQuickUnionStructure($allIdList);
 
         // pushing in resulting array only the keys, which have the same root as $this
-        $thisRoot = getQURoot($quickUnion, $this->id_revision);
+        $thisRoot = $this->getQURoot($quickUnion, $this->id_revision);
         $idArray = array();
         foreach ($quickUnion as $key => $value) {
-            if ($thisRoot == getQURoot($quickUnion, $value)) {
+            if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
                 array_push($idArray, $key);
             }
         }
