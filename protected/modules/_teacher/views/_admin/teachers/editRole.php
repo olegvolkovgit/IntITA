@@ -10,31 +10,38 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                    'Викладачі')">Викладачі</button>
+                    'Викладачі')">Викладачі
+        </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->id)); ?>',
                     'Переглянути інформацію про викладача')">
-            Переглянути інформацію про викладача</button>
+            Переглянути інформацію про викладача
+        </button>
     </li>
 </ul>
 <div class="panel panel-default">
     <div class="panel-body">
         <ul class="nav nav-tabs">
             <?php
-            foreach ($attributes as $key=>$attribute) { ?>
-                <li  <?php if($key == 0) echo 'class="active"';?>><a href="#<?= $attribute["key"]; ?>" data-toggle="tab"><?= $attribute["title"]; ?></a>
-                </li>
-            <?php } ?>
+            foreach ($attributes as $key => $attribute) {
+                if ($attribute["type"] != 'hidden') {
+                    ?>
+                    <li <?php if ($key == 0) echo 'class="active"'; ?>><a href="#<?= $attribute["key"]; ?>"
+                                                                          data-toggle="tab"><?= $attribute["title"]; ?></a>
+                    </li>
+                <?php }
+            } ?>
         </ul>
         <div class="tab-content col col-md-12">
             <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <?php if (!empty($attributes)) {
-                foreach ($attributes as $key=>$attribute) {
+                foreach ($attributes as $key => $attribute) {
                     ?>
-                    <div class="tab-pane fade  <?php if($key == 0) echo 'in active';?>" id="<?= $attribute["key"]; ?>">
+                    <div class="tab-pane fade  <?php if ($key == 0) echo 'in active'; ?>"
+                         id="<?= $attribute["key"]; ?>">
                         <div class="form-group">
                             <input type="text" hidden="hidden" value="<?= $attribute["key"]; ?>" id="attr">
                             <?php
@@ -52,6 +59,8 @@
                                         'model' => $model,
                                         'role' => $role
                                     ));
+                                    break;
+                                case "hidden":
                                     break;
                                 default:
                                     $this->renderPartial('_numberAttribute', array(
