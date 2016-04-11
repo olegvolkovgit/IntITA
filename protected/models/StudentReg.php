@@ -626,7 +626,7 @@ class StudentReg extends CActiveRecord
 
     public function userName()
     {
-        $name = addslashes($this->firstName . " " . $this->secondName);
+        $name = $this->firstName . " " . $this->secondName;
         return trim($name);
     }
 
@@ -636,7 +636,7 @@ class StudentReg extends CActiveRecord
         if ($name == "") {
             return $this->email;
         } else {
-            return trim(addslashes($name). ", ".$this->email);
+            return trim(CHtml::encode($name). ", ".$this->email);
         }
     }
 
