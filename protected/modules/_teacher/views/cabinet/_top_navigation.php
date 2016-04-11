@@ -36,7 +36,7 @@
         </ul>
     </li>
 
-    <?php if($model->isAdmin()){?>
+    <?php if($model->isAdmin() || $model->isContentManager()){?>
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <?php if(!empty($requests)){?>

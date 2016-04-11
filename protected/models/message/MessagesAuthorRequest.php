@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is the model class for table "messages_author_request".
  *
@@ -25,6 +26,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     private $message;
     const DELETED = 1;
     const ACTIVE = 0;
+
     /**
      * @return string the associated database table name
      */
@@ -32,6 +34,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     {
         return 'messages_author_request';
     }
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -41,11 +44,12 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         // will receive user inputs.
         return array(
             array('id_module', 'required'),
-            array('id_module, user_approved, cancelled', 'numerical', 'integerOnly'=>true),
+            array('id_module, user_approved, cancelled', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id_module, date_approved, user_approved, cancelled', 'safe', 'on'=>'search'),
+            array('id_module, date_approved, user_approved, cancelled', 'safe', 'on' => 'search'),
         );
     }
+
     /**
      * @return array relational rules.
      */
@@ -59,6 +63,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
         );
     }
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -72,6 +77,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             'cancelled' => 'Cancelled'
         );
     }
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
@@ -86,30 +92,33 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
      */
     public function search()
     {
-        $criteria=new CDbCriteria;
-        $criteria->compare('id_message',$this->id_message);
-        $criteria->compare('id_module',$this->id_module);
-        $criteria->compare('date_approved',$this->date_approved,true);
-        $criteria->compare('user_approved',$this->user_approved);
-        $criteria->compare('cancelled',$this->cancelled);
+        $criteria = new CDbCriteria;
+        $criteria->compare('id_message', $this->id_message);
+        $criteria->compare('id_module', $this->id_module);
+        $criteria->compare('date_approved', $this->date_approved, true);
+        $criteria->compare('user_approved', $this->user_approved);
+        $criteria->compare('cancelled', $this->cancelled);
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
+
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
      * @return MessagesAuthorRequest the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
+
     public function primaryKey()
     {
         return 'id_message';
     }
+
     public function build(Module $module, StudentReg $user, $chained = null, $original = null)
     {
         //create and init parent model
@@ -118,26 +127,32 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $this->module = $module;
         $this->id_module = $module->module_ID;
         $this->author = $user;
-        $this->receivers = UserAdmin::adminsArray();
+        $this->receivers = MessageReceiver::requestsReceiversArray();
     }
-    public function create(){
+
+    public function create()
+    {
         $this->message->save();
-        $this->id_message =  $this->message->id;
+        $this->id_message = $this->message->id;
         $this->save();
         return $this;
     }
-    public function send(IMailSender $sender){
+
+    public function send(IMailSender $sender)
+    {
         $sender = new MailTransport();
         $sender->renderBodyTemplate($this->template, array($this->module, $this->author));
         foreach ($this->receivers as $receiver) {
-            if ($this->addReceiver($receiver->user)) {
-                $sender->send($receiver->user->email, '', 'Запит на редагування модуля', '');
+            if ($this->addReceiver($receiver)) {
+                $sender->send($receiver->email, '', 'Запит на редагування модуля', '');
             }
         }
         $this->message->draft = 0;
         return $this->message->save();
     }
-    public function read(StudentReg $receiver){
+
+    public function read(StudentReg $receiver)
+    {
         if (Yii::app()->db->createCommand()->update('message_receiver', array('read' => date("Y-m-d H:i:s")),
                 'id_message=:message and id_receiver=:receiver',
                 array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
@@ -147,7 +162,9 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             return false;
         }
     }
-    public function deleteMessage(StudentReg $receiver){
+
+    public function deleteMessage(StudentReg $receiver)
+    {
         if (Yii::app()->db->createCommand()->update('message_receiver', array('deleted' => date("Y-m-d H:i:s")),
                 'id_message=:message and id_receiver=:receiver',
                 array(':message' => $this->id_message, ':receiver' => $receiver->id)) == 1
@@ -157,19 +174,27 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             return false;
         }
     }
-    public function reply(StudentReg $receiver){
+
+    public function reply(StudentReg $receiver)
+    {
         return false;
     }
-    public function forward(StudentReg $receiver){
+
+    public function forward(StudentReg $receiver)
+    {
         return false;
     }
-    public static function notApprovedRequests(){
+
+    public static function notApprovedRequests()
+    {
         $criteria = new CDbCriteria();
         $criteria->addCondition('date_approved IS NULL');
-        $criteria->addCondition('cancelled='.MessagesAuthorRequest::ACTIVE);
+        $criteria->addCondition('cancelled=' . MessagesAuthorRequest::ACTIVE);
         return MessagesAuthorRequest::model()->findAll($criteria);
     }
-    public static function listAllRequests(){
+
+    public static function listAllRequests()
+    {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
         $requests = array_merge($authorRequests, $consultantRequests);
@@ -178,62 +203,84 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             $row = array();
             $row["user"] = $record->sender()->userNameWithEmail();
             $row["module"]["title"] = $record->module()->getTitle();
-            $row["module"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    "message" => $record->getMessageId()))."'";
+            $row["module"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
+                    "message" => $record->getMessageId())) . "'";
             $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
             $row["type"] = $record->title();
             array_push($return['data'], $row);
         }
         return json_encode($return);
     }
-    public function setDeleted(){
+
+    public function setDeleted()
+    {
         $this->cancelled = MessagesAuthorRequest::DELETED;
-        return $this->save();
-    }
-    public function approve(StudentReg $userApprove){
-        $user = RegisteredUser::userById($this->message0->sender);
-        //add rights to edit module
-        if($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
-            //update current request, set approved status
-            $this->user_approved = $userApprove->id;
-            $this->date_approved = date("Y-m-d H:i:s");
-            if($this->save()){
-                return $this->sendApproveMessage($user->registrationData);
-                //return true;
-            } else {
-                return false;
-            }
+        if($this->save()){
+            return "Операцію успішно виконано.";
         } else {
-            return false;
+            return "Операцію не вдалося виконати.";
         }
     }
-    public function sendApproveMessage(StudentReg $user){
+
+    public function approve(StudentReg $userApprove)
+    {
+        $user = RegisteredUser::userById($this->message0->sender);
+        //add rights to edit module
+        $role = new Author();
+        if ($role->checkModule($user->registrationData->id, $this->id_module)) {
+            if ($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
+                //update current request, set approved status
+                $this->user_approved = $userApprove->id;
+                $this->date_approved = date("Y-m-d H:i:s");
+                if ($this->save()) {
+                    if ($this->sendApproveMessage($user->registrationData)) {
+                        return "Операцію успішно виконано.";
+                    }
+                }
+            }
+            return "Операцію не вдалося виконати";
+        } else return "Обраний викладач вже призначений автором даного модуля.";
+    }
+
+    public function sendApproveMessage(StudentReg $user)
+    {
         $sender = new MailTransport();
         $sender->renderBodyTemplate($this->approveTemplate, array($this->module()));
         $sender->send($user->email, '', 'Підтверджено запит на редагування модуля', '');
         return true;
     }
-    public function isRequestOpen($module, $user){
+
+    public function isRequestOpen($module, $user)
+    {
         return (Yii::app()->db->createCommand(array(
                 'select' => 'count(*)',
                 'from' => 'messages_author_request mr',
                 'join' => 'LEFT JOIN messages m ON m.id = mr.id_message',
-                'where' => 'mr.id_module='.$module.' and m.sender='.$user.' and cancelled='.MessagesAuthorRequest::ACTIVE.
+                'where' => 'mr.id_module=' . $module . ' and m.sender=' . $user . ' and cancelled=' . MessagesAuthorRequest::ACTIVE .
                     ' and date_approved IS NULL'
-            ))->queryScalar() > 0)?true:false;
+            ))->queryScalar() > 0) ? true : false;
     }
-    public function getMessageId(){
-        return$this->id_message;
+
+    public function getMessageId()
+    {
+        return $this->id_message;
     }
-    public function sender(){
+
+    public function sender()
+    {
         return $this->message0->sender0;
     }
-    public function title(){
+
+    public function title()
+    {
         return "Запит на редагування модуля";
     }
-    public function module(){
+
+    public function module()
+    {
         return $this->idModule;
     }
+
     public function type()
     {
         return Request::AUTHOR_REQUEST;
