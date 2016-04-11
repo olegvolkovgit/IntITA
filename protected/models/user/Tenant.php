@@ -21,18 +21,20 @@ class Tenant extends Role
     {
         if(!$this->isActiveTenant($user)) {
             if(!$this->isChatUserDefined($user)){
-                if($this->addChatUser($user)){
-                    $sql = 'INSERT INTO user_tenant (chat_user_id) select id from chat_user where intita_user_id=' . $user->id;
-                    return Yii::app()->db->createCommand($sql)->query();
-                } else {
+                if(!$this->addChatUser($user)){
                     $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
                     Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
                     return false;
                 }
             }
-            $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
+            $sql = 'INSERT INTO user_tenant (chat_user_id) select id from chat_user where intita_user_id=' . $user->id;
+            if(Yii::app()->db->createCommand($sql)->query()){
+                return true;
+            }else{
+                $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
             Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();
-            return false;
+                return false;
+            }
         } else {
             $this->errorMessage = "Помилка сервера. Роль tenant не вдалось призначити.
             Спробуйте пізніше або зверніться до адміністратора ".Config::getAdminEmail();

@@ -60,7 +60,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                     </a>
                 </span>
                 <div ng-if=lecturesData.currentOrder id="iconImage">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', ''); ?>{{moduleFinished}}">
+                    <img ng-src="{{moduleFinished}}">
                 </div>
             </div>
         </ul>

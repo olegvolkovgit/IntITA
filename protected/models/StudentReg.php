@@ -626,7 +626,7 @@ class StudentReg extends CActiveRecord
 
     public function userName()
     {
-        $name = addslashes($this->firstName . " " . $this->secondName);
+        $name = $this->firstName . " " . $this->secondName;
         return trim($name);
     }
 
@@ -636,7 +636,7 @@ class StudentReg extends CActiveRecord
         if ($name == "") {
             return $this->email;
         } else {
-            return trim(addslashes($name). ", ".$this->email);
+            return trim(CHtml::encode($name). ", ".$this->email);
         }
     }
 
@@ -910,7 +910,7 @@ class StudentReg extends CActiveRecord
               left join user u on ts.trainer = u.id where ts.end_time IS NULL ';
 
         if (isset($startDate) && isset($endDate)){
-            $sql .= " and TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
+            $sql .= " and TIMESTAMP(start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
         }
         $sql .= ' group by user.id';
         $result = Yii::app()->db->createCommand($sql)->queryAll();

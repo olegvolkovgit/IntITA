@@ -59,7 +59,7 @@
                                 <li><?= $role; ?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?="Викладач ".$teacher->user->userName().", роль ".$role; ?>')"><em>редагувати</em>
+                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?="Викладач ".addslashes($teacher->user->userName()).", роль ".$role; ?>')"><em>редагувати</em>
                                     </a>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
@@ -72,7 +72,7 @@
                                 <li>
                                     author: <a href="#"
                                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?="Викладач ".$teacher->user->userName().", роль author"; ?>')"><em>редагувати</em>
+                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?="Викладач ".addslashes($teacher->user->userName()).", роль author"; ?>')"><em>редагувати</em>
                                     </a>
                                 </li>
                             <?php }
@@ -86,14 +86,16 @@
                         <ul>
                             <?php
                             foreach ($teacher->modulesActive as $module) {
-                                ?>
-                                <li>
-                                    <a href="<?php echo Yii::app()->createUrl('module/index',
-                                        array('idModule' => $module->module_ID)); ?>">
-                                        <?php echo $module->getTitle() . ', ' . $module->language; ?>
-                                    </a>
-                                </li>
-                                <?php
+                                if(!$module->cancelled) {
+                                    ?>
+                                    <li>
+                                        <a href="<?php echo Yii::app()->createUrl('module/index',
+                                            array('idModule' => $module->module_ID)); ?>">
+                                            <?php echo $module->getTitle() . ', ' . $module->language; ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
                             }
                             ?>
                         </ul>

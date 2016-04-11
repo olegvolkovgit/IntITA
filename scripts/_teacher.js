@@ -8,6 +8,9 @@ function load(url, header, histories, tab) {
         url: url,
         async: true,
         success: function (data) {
+            if(!data){
+                location.reload();
+            }
             container = $jq('#pageContainer');
             container.html('');
             container.html(data);
@@ -17,8 +20,12 @@ function load(url, header, histories, tab) {
                 $jq("#pageTitle").html('Особистий кабінет');
             }
         },
-        error: function () {
-            showDialog();
+        error: function (data) {
+            if(data.status==403){
+                bootbox.alert('У вас недостатньо прав для перегляду та редагування сторінки.');
+            } else{
+                showDialog();
+            }
         },
         complete: function(){
             hideAjaxLoader();
