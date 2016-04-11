@@ -141,7 +141,6 @@ function sendMessage(url) {
     } else {
         var posting = $jq.post(url,
             {
-                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "text": $jq("#text").val(),
@@ -166,7 +165,6 @@ function sendMessage(url) {
 
 function reply(url) {
     var data = {
-        "id": $jq("input[name=id]").val(),
         "receiver": $jq("input[name=receiver]").val(),
         "parent": $jq("input[name=parent]").val(),
         "subject": $jq("input[name=subject]").val(),
@@ -196,7 +194,6 @@ function forward(url) {
     } else {
         var posting = $jq.post(url,
             {
-                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "parent": $jq("input[name=parent]").val(),
