@@ -70,7 +70,7 @@
     users.initialize();
 
     if (scenario == "mailTo") {
-        $jq('#typeahead').val('<?=($receiver)?$receiver->userNameWithEmail():"";?>');
+        $jq('#typeahead').val('<?=($receiver)?addslashes(CHtml::decode($receiver->userNameWithEmail())):"";?>');
         $jq("#receiverId").val('<?=($receiver)?$receiver->id:0;?>');
     }
 
