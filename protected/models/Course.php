@@ -1045,13 +1045,15 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function coursesByQueryAndLang($query, $lang){
         $criteria = new CDbCriteria();
+        $criteria->alias = 'c';
         $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
         $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
-        $criteria->addCondition('cancelled=0 and language LIKE "'.$lang.'"');
+        $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
+        $criteria->addCondition('cl.lang_'.$lang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
 
         $data = Course::model()->findAll($criteria);
         $result = array();

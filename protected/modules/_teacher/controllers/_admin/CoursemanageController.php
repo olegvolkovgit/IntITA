@@ -326,27 +326,35 @@ class CoursemanageController extends TeacherCabinetController
         $en = Yii::app()->request->getPost("en", 0);
 
         if ($modelId == 0) {
-            $model = CourseLanguages::addNewRecord($ua, $ru, $en);
-            if ($model) {
-                echo "Операцію успішно виконано.";
-                Yii::app()->end();
-            } else {
-                echo "Операцію не виконано. Зверніться до адміністратора " . Config::getAdminEmail();
-                Yii::app()->end();
-            }
-        } else {
-            $model = CourseLanguages::model()->findByPk($modelId);
-            if ($model) {
-                if ($model->updateByCourse($ua, $ru, $en)) {
+            if(CourseLanguages::check(array($ua, $ru, $en))) {
+                $model = CourseLanguages::addNewRecord($ua, $ru, $en);
+                if ($model) {
                     echo "Операцію успішно виконано.";
                     Yii::app()->end();
                 } else {
-                    echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                    echo "Операцію не виконано. Зверніться до адміністратора " . Config::getAdminEmail();
                     Yii::app()->end();
                 }
             } else {
-                echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
-                Yii::app()->end();
+                echo "Обраний курс(и) вже пов'язаний з іншим(и) курсами. Спочатку потрібно видалити попередній запис.";
+            }
+        } else {
+            $model = CourseLanguages::model()->findByPk($modelId);
+            if(CourseLanguages::check(array($ua, $ru, $en))) {
+                if ($model) {
+                    if ($model->updateByCourse($ua, $ru, $en)) {
+                        echo "Операцію успішно виконано.";
+                        Yii::app()->end();
+                    } else {
+                        echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                        Yii::app()->end();
+                    }
+                } else {
+                    echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
+                    Yii::app()->end();
+                }
+            } else {
+                echo "Обраний курс(и) вже пов'язаний з іншим(и) курсами. Спочатку потрібно видалити попередній запис.";
             }
         }
     }

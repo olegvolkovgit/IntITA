@@ -104,6 +104,7 @@ class CourseLanguages extends CActiveRecord
 	}
 
 	public static function addNewRecord($ua, $ru, $en){
+
 		$model = new CourseLanguages();
 
 		$model->lang_ua = $ua;
@@ -156,4 +157,12 @@ class CourseLanguages extends CActiveRecord
         }
         return ($coursesDefined > 1)?false:true;
     }
+
+	public static function check($params){
+		$coursesDefined = 0;
+		foreach(array("lang_ua", "lang_ru", "lang_en") as $key=>$item){
+			if(CourseLanguages::model()->exists($item.'='.$params[$key])) $coursesDefined++;
+		}
+		return ($coursesDefined > 0)?false:true;
+	}
 }
