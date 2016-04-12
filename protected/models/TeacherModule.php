@@ -132,4 +132,23 @@ class TeacherModule extends CActiveRecord
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
+
+	public static function authorsList(){
+		$sql = 'select * from user as u
+                right join teacher t on u.id=t.user_id
+                right join teacher_module as tm on tm.idTeacher = t.teacher_id
+                where tm.idTeacher IS NOT NULL group by u.id';
+		$authors = Yii::app()->db->createCommand($sql)->queryAll();
+		$return = array('data' => array());
+
+		foreach ($authors as $record) {
+			$row = array();
+			$row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+			$row["email"]["title"] = $record["email"];
+			$row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_content_manager/contentManager/editTeacherConsultant',
+				array('id' => $record['id']));
+		}
+
+		return json_encode($return);
+	}
 }

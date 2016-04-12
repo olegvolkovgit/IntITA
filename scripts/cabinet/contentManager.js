@@ -147,3 +147,142 @@ function setRequestStatus(url, message) {
     });
 }
 
+function  initTeacherConsultantsTableCM(){
+    $jq('#teacherConsultantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getTeacherConsultantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Викладач-консультант\');">'+email["title"]+'</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "15%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRoleCM(' + params + ')">скасувати</a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function cancelRoleCM(url, role, user) {
+    if (!user) {
+        user = $jq("#userId").val();
+    }
+    if (user == 0) {
+        bootbox.alert('Виберіть користувача.');
+    } else {
+        var posting = $jq.post(url, {userId: user, role: role});
+        posting.done(function (response) {
+                bootbox.alert(response, function(){
+                    load(basePath + '/_teacher/_content_manager/contentManager/dashboard', 'Викладачі-консультанти');
+                });
+            })
+            .fail(function () {
+                bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(tab));
+            });
+    }
+}
+
+function  initAuthorsTableCM(){
+    $jq('#authorsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getAuthorsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Автор модуля\');">'+email["title"]+'</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initConsultantsTable(){
+    $jq('#consultantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "15%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRoleCM(' + params + ')">скасувати</a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+

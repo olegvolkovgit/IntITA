@@ -17,6 +17,23 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial('/_content_manager/consultants');
     }
 
+    public function actionTeacherConsultants()
+    {
+        $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
+    }
+
+    public function actionAddConsultantModuleForm(){
+        $this->renderPartial('/_content_manager/_addConsultantModule', array(), false, true);
+    }
+
+    public function actionAddTeacherConsultantForm(){
+        $this->renderPartial('/_content_manager/_addTeacherConsultant', array(), false, true);
+    }
+
+    public function actionAddTeacherModuleForm(){
+        $this->renderPartial('/_content_manager/_addTeacherAccess', array(), false, true);
+    }
+
     public function actionSetTeacherRoleAttribute()
     {
         $request = Yii::app()->request;
@@ -49,6 +66,47 @@ class ContentManagerController extends TeacherCabinetController
             echo "success";
         } else {
             echo "error";
+        }
+    }
+
+    public function actionGetTeacherConsultantsList()
+    {
+        echo UserTeacherConsultant::teacherConsultantsListCM();
+    }
+
+    public function actionGetAuthorsList()
+    {
+        echo TeacherModule::authorsList();
+    }
+
+    public function actionGetConsultantsList()
+    {
+        echo UserConsultant::consultantsList();
+    }
+
+    public function actionDashboard(){
+        $this->renderPartial('/content_manager/_dashboard', array(), false, true);
+    }
+
+    public function actionEditTeacherConsultant($id){
+        $user = RegisteredUser::userById($id);
+        if($user) {
+            $this->renderPartial('/_content_manager/_teacherConsultant', array(
+                'user' => $user
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
+    }
+
+    public function actionViewConsultant($id){
+        $user = RegisteredUser::userById($id);
+        if($user) {
+            $this->renderPartial('/_content_manager/_viewConsultant', array(
+                'user' => $user
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
         }
     }
 }
