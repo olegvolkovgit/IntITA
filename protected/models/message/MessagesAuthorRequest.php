@@ -242,13 +242,13 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         } else return "Обраний викладач вже призначений автором даного модуля.";
     }
 
-    public function sendApproveMessage(StudentReg $user)
-    {
+	public function sendApproveMessage(StudentReg $user){
         $sender = new MailTransport();
         $sender->renderBodyTemplate($this->approveTemplate, array($this->module()));
+
         $sender->send($user->email, '', 'Підтверджено запит на редагування модуля', '');
         return true;
-    }
+	}
 
     public function isRequestOpen($module, $user)
     {
