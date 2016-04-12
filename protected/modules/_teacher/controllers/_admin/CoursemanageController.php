@@ -321,9 +321,9 @@ class CoursemanageController extends TeacherCabinetController
     {
 
         $modelId = Yii::app()->request->getPost("modelId", 0);
-        $ua = Yii::app()->request->getPost("ua", 0);
-        $ru = Yii::app()->request->getPost("ru", 0);
-        $en = Yii::app()->request->getPost("en", 0);
+        $ua = Yii::app()->request->getPost("ua", '');
+        $ru = Yii::app()->request->getPost("ru", '');
+        $en = Yii::app()->request->getPost("en", '');
 
         if ($modelId == 0) {
             if(CourseLanguages::check(array($ua, $ru, $en))) {

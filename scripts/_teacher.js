@@ -146,6 +146,7 @@ function sendMessage(url) {
     if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
+        showAjaxLoader();
         var posting = $jq.post(url,
             {
                 "receiver": receiver,
@@ -167,6 +168,10 @@ function sendMessage(url) {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
+
+        posting.always(function(){
+            hideAjaxLoader();
+        });
     }
 }
 
@@ -177,6 +182,7 @@ function reply(url) {
         "subject": $jq("input[name=subject]").val(),
         "text": $jq("#text").val()
     };
+    showAjaxLoader();
     var posting = $jq.post(url, data);
 
     posting.done(function (response) {
@@ -191,7 +197,9 @@ function reply(url) {
             bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                 "напишіть на адресу " + adminEmail, loadMessagesIndex);
         });
-
+    posting.always(function(){
+        hideAjaxLoader();
+    });
 }
 
 function forward(url) {
@@ -199,6 +207,7 @@ function forward(url) {
     if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
+        showAjaxLoader();
         var posting = $jq.post(url,
             {
                 "receiver": receiver,
@@ -222,6 +231,9 @@ function forward(url) {
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
     }
+    posting.always(function(){
+        hideAjaxLoader();
+    });
 }
 
 function loadMessagesIndex() {

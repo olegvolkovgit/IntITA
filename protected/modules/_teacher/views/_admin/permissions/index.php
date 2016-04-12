@@ -7,6 +7,8 @@
             </li>
             <li><a href="#addConsultantModule" data-toggle="tab">Призначити консультанта</a>
             </li>
+            <li><a href="#cancelConsultantModule" data-toggle="tab">Скасувати права консультанта</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="addTeacherModule">
@@ -17,6 +19,9 @@
             </div>
             <div class="tab-pane fade" id="addConsultantModule">
                 <?php $this->renderPartial('_addConsultantModule');?>
+            </div>
+            <div class="tab-pane fade" id="cancelConsultantModule">
+                <?php $this->renderPartial('_cancelConsultantModule');?>
             </div>
         </div>
     </div>
