@@ -907,7 +907,7 @@ class StudentReg extends CActiveRecord
         $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer, IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, "")), "") as trainerName
               from user inner join user_student us on user.id = us.id_user
               left join trainer_student ts on us.id_user=ts.student
-              left join user u on ts.trainer = u.id where ts.end_time IS NULL ';
+              left join user u on ts.trainer = u.id where (ts.end_time IS NULL or (ts.end_time IS NOT NULL and ts.student IS NOT NULL))';
 
         if (isset($startDate) && isset($endDate)){
             $sql .= " and TIMESTAMP(start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
