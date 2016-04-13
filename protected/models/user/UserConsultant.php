@@ -99,4 +99,25 @@ class UserConsultant extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function consultantsList(){
+        $sql = 'select * from user as u, user_consultant as uc where u.id = uc.id_user';
+        $consultants = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($consultants as $record) {
+            $row = array();
+            $row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+            $row["email"]["title"] = $record["email"];
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_content_manager/contentManager/viewConsultant',
+                array('id' => $record['id']));
+            $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
+            $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
+            $row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'teacher_consultant', '".$record["id"]."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }

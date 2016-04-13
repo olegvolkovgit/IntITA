@@ -24,6 +24,19 @@ class PermissionsController extends TeacherCabinetController
         echo $this->renderPartial('_modules', array('modules' => $modules));
     }
 
+    public function actionShowConsultantModules()
+    {
+        $id = Yii::app()->request->getPost('teacher', '0');
+
+        if($id == 0)
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний викладач.");
+        $user = RegisteredUser::userById($id);
+
+        $modules = $user->getAttributesByRole(UserRoles::CONSULTANT)["module"];
+
+        echo $this->renderPartial('_modules', array('modules' => $modules));
+    }
+
     public function actionCancelTeacherPermission()
     {
         $teacher = Yii::app()->request->getPost('user', '0');
@@ -34,6 +47,19 @@ class PermissionsController extends TeacherCabinetController
             $permission = new PayModules();
             $permission->unsetModulePermission($teacher, $module, array('read', 'edit'));
                 echo "success";
+        } else {
+            echo "error";
+        }
+    }
+
+    public function actionCancelConsultantPermission()
+    {
+        $teacher = Yii::app()->request->getPost('user', '0');
+        $module = Yii::app()->request->getPost('module', '0');
+
+        $user = RegisteredUser::userById($teacher);
+        if($user->unsetRoleAttribute(UserRoles::CONSULTANT, 'module', $module)){
+            echo "success";
         } else {
             echo "error";
         }

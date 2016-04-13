@@ -20,6 +20,8 @@
  * @property string $last_name_en
  * @property string $first_name_ru
  * @property string $last_name_ru
+ *
+ * @property Course $course
  */
 class Graduate extends CActiveRecord
 {
@@ -64,6 +66,7 @@ class Graduate extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'course' => array(self::BELONGS_TO, 'Course', 'courses_page'),
 		);
 	}
 

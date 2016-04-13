@@ -14,11 +14,15 @@
                 <ul>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/authors'); ?>',
-                               'Права доступа')">Автори модулів</a>
+                               'Автори модулів')">Автори модулів</a>
                     </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/consultants'); ?>',
-                               'Права доступа')">Консультанти для модулів</a>
+                               'Консультанти для модулів')">Консультанти для модулів</a>
+                    </li>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/teacherConsultants'); ?>',
+                               'Викладачі-консультанти')">Викладачі-консультанти</a>
                     </li>
                  </ul>
             </div>

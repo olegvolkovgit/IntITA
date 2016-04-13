@@ -1,7 +1,13 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 09.04.2016
- * Time: 11:31
- */
+<div class="panel panel-default">
+    <div class="panel-body">
+        <ul id="accessTabs" class="nav nav-tabs">
+            <li class="active"><a href="#all" data-toggle="tab">Викладачі-консультанти</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="all">
+                <?php $this->renderPartial('/_content_manager/_allTeacherConsultants');?>
+            </div>
+        </div>
+    </div>
+</div>

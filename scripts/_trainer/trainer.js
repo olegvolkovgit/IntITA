@@ -55,6 +55,7 @@ function assignTeacherConsultantForStudent(url, student, module) {
 }
 
 function cancelTeacherConsultantForStudent(url, student, module) {
+    teacher = $jq("#teacherId").val();
     var posting = $jq.post(url, {teacher: teacher, module: module, student: student});
     posting.done(function (response) {
             bootbox.alert(response, window.history.back());

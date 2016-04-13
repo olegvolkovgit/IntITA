@@ -402,11 +402,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public static function getCourseLang($id)
-    {
-        return Course::model()->findByPk($id)->language;
-    }
-
     public static function getCourseTitlesList()
     {
         $criteria = new CDbCriteria();
@@ -420,11 +415,6 @@ class Course extends CActiveRecord implements IBillableObject
             $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'] . " (" . $titles[$i]['language'] . ")";
         }
         return $result;
-    }
-
-    public static function getCourseNumber($id)
-    {
-        return Course::model()->findByPk($id)->course_number;
     }
 
     public static function getCreditCoursePrice($idCourse, $years)
@@ -448,12 +438,6 @@ class Course extends CActiveRecord implements IBillableObject
             $title = "title_ua";
         }
         return $this->level0->$title;
-    }
-
-    public static function getCourseLevel($idCourse)
-    {
-        $course = Course::model()->findByPk($idCourse);
-        return $course->level();
     }
 
     public function getRate()
