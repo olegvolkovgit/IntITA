@@ -1,5 +1,5 @@
 
-function addTeacherAttr(url, attr, id, role) {
+function addTeacherAttr(url, attr, id, role,header,redirect) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -17,7 +17,32 @@ function addTeacherAttr(url, attr, id, role) {
             data: {user: user, role: role, attribute: attr, attributeValue: value},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.");
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        switch (role) {
+                            case "trainer":
+                                loadTrainerStudentList(user);
+                                break;
+                            case "author":
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'0');
+                                else if (id == '#moduleId')
+                                    loadAddModuleAuthor();
+                                else if (id == '#module')
+                                    loadModuleEdit(value,header,'5');
+                                else loadTeacherModulesList(user);
+                                break;
+                            case "consultant":
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'2');
+                                else if(redirect=='editModule')
+                                    loadModuleEdit(value,header,'6');
+                                else loadAddModuleConsultant(user);
+                                break;
+                            case "teacher_consultant":
+                                loadTeacherConsultantList(user);
+                                break;
+                        }
+                    });
                 } else {
                     switch (role) {
                         case "trainer":
@@ -147,6 +172,27 @@ function setRequestStatus(url, message) {
     });
 }
 
+function loadTeacherModulesList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/author/', 'Редагувати роль');
+}
+function loadTrainerStudentList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/trainer/', 'Редагувати роль');
+}
+function loadAddModuleAuthor() {
+    load(basePath + '/_teacher/_admin/permissions/showAddTeacherAccess/');
+}
+function loadAddModuleConsultant(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
+}
+function loadModuleEdit(id,header,tab) {
+    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
+}
+function loadAddTeacherAccess(header,tab) {
+    load(basePath + "/_teacher/_admin/permissions/index/",header,'',tab);
+}
+function loadTeacherConsultantList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/teacher_consultant/', 'Редагувати роль');
+}
 function  initTeacherConsultantsTableCM(){
     $jq('#teacherConsultantsTable').DataTable({
         "autoWidth": false,
