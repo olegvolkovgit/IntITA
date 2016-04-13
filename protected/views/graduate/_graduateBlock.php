@@ -12,7 +12,7 @@
             <td style="padding-left: 10px;">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
-                    <span><?php echo $data->graduate_date; ?></span>
+                    <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
                 </div>
                 <div class="text1"><?php echo $data->name(); ?></div>
                 <?php if(!empty($data->recall)){?>
