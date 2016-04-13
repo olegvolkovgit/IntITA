@@ -5,7 +5,7 @@
             ?>
             <div class="slideAbout">
                 <div class="abouttext">
-                    <div class="about<?php echo $key->image_order ?> aboutUsText" style="
+                    <div class="about<?php echo $key->order ?> aboutUsText" style="
                         top: <?php echo $key->top ?>%;
                         color:<?php echo $key->text_color ?>" left="<?php echo $key->left ?>">
                         <div class="headerAbout">
