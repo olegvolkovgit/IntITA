@@ -3,6 +3,7 @@
 $this->widget('application.components.ColumnListView', array(
     'dataProvider' => $dataProvider,
     'itemView' => '_graduateBlock',
+    'viewData'=>array( 'lang' => $lang ),
     'summaryText' => '',
     'columns' => array("one", "two"),
     'pager' => array(
