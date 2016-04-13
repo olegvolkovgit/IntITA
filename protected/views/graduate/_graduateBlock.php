@@ -12,7 +12,9 @@
             <td style="padding-left: 10px;">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
-                    <span><?php echo $data->graduate_date; ?></span>
+                    <span><?php $explodingDate = explode("-", $data->graduate_date); echo $explodingDate[2].' ' //variable explodingDate is using for separating month because localization used for month only
+                            .Yii::t('month', '0'.($explodingDate[1]+816)) //'816' is const which using for access to message ID in DB with translates examples, where january is 817, etc.
+                            .' '.$explodingDate[0]; ?></span>
                 </div>
                 <div class="text1"><?php echo $data->name(); ?></div>
                 <?php if(!empty($data->recall)){?>
