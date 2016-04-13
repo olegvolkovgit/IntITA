@@ -8,9 +8,6 @@ function load(url, header, histories, tab) {
         url: url,
         async: true,
         success: function (data) {
-            if(!data){
-                location.reload();
-            }
             container = $jq('#pageContainer');
             container.html('');
             container.html(data);
