@@ -370,12 +370,45 @@ function initConsultationsTable(){
             {
                 "width": "15%",
                 "data": "end_cons"
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\');">Відмінити</a>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function cancelConsultation(url) {
+    bootbox.confirm('Відмінити консультацію?', function (result) {
+        if (result) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                success: function (response) {
+                    if(response == "success") {
+                        bootbox.alert("Консультацію відмінено.", function() {
+                            load(basePath + '/_teacher/_student/student/consultations/', 'Консультанції')
+                        });
+                    } else {
+                        showDialog("Операцію не вдалося виконати.");
+                    }
+                },
+                error:function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            });
+        } else {
+            showDialog("Операцію відмінено.");
         }
     });
 }
