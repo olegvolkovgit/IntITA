@@ -139,19 +139,23 @@ class TrainerController extends TeacherCabinetController
         $userModel = StudentReg::model()->findByPk($user);
 
         if($teacherModel && $moduleModel && $userModel){
-            $transaction = Yii::app()->db->beginTransaction();
-            try {
-                $message = new MessagesTeacherConsultantRequest();
-                $message->build($moduleModel, $userModel, $teacherModel);
-                $message->create();
-                $sender = new MailTransport();
+            $message = new MessagesTeacherConsultantRequest();
+            if($message->isRequestOpen($moduleModel->module_ID, $userModel->id)) {
+                echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення викладача-консультанта для модуля двічі.";
+            } else {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message->build($moduleModel, $userModel, $teacherModel);
+                    $message->create();
+                    $sender = new MailTransport();
 
-                $message->send($sender);
-                $transaction->commit();
-                echo "Запит на призначення викладача-консультанта модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
-            } catch (Exception $e){
-                $transaction->rollback();
-                throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+                    $message->send($sender);
+                    $transaction->commit();
+                    echo "Запит на призначення викладача-консультанта модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Запит на редагування модуля не вдалося надіслати.");
+                }
             }
         } else {
             throw new \application\components\Exceptions\IntItaException(400);
