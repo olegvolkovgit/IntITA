@@ -1,6 +1,8 @@
 <?php
 /**
  * @var $agreements
+ * @var $courseModel Course
+ * @var $moduleModel Module
  */
 ?>
 <p class="tabHeader"><?php echo Yii::t('profile', '0254');?></p>
@@ -8,18 +10,21 @@
     <?php
     if($course > 0 && !UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)) {
         if ($module > 0 && !UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)) {
-            echo "<h3>" . Yii::t('payment', '0656') . " №" . Module::getModuleNumber($module) . ". " .
-                Module::getModuleName($module) . "</h3>";
+            $moduleModel = Module::model()->findByPk($module);
+            echo "<h3>" . Yii::t('payment', '0656') . " №" . $moduleModel->module_number . ". " .
+                $moduleModel->getTitle() . "</h3>";
             $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));
         } else {
-            echo "<h3>" . Yii::t('payment', '0657') . " №" . Course::getCourseNumber($course) . ". " .
-                Course::getCourseName($course) . "</h3>";
+            $courseModel = Course::model()->findByPk($course);
+            echo "<h3>" . Yii::t('payment', '0657') . " №" . $courseModel->course_number . ". " .
+                $course->getTitle() . "</h3>";
             $this->renderPartial('_paymentsCourseForm', array('course' => $course, 'schema' => $schema));
         }
     }else {
             if($module > 0 && !UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
-                echo "<h3>".Yii::t('payment', '0656')." №" . Module::getModuleNumber($module).". ".
-                    Module::getModuleName($module). "</h3>";
+                $moduleModel = Module::model()->findByPk($module);
+                echo "<h3>".Yii::t('payment', '0656')." №" . $moduleModel->module_number.". ".
+                    $moduleModel->getTitle(). "</h3>";
                 $this->renderPartial('_paymentsModuleForm', array('module' => $module, 'course' => $course));
             }
     ?>

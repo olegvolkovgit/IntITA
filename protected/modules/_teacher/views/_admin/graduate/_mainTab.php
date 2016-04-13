@@ -44,7 +44,7 @@
                         <td>
                             <a href="<?= Yii::app()->createUrl('course/index', array('id' => $model->courses_page)); ?>"
                             target="_blank">
-                                <?= Course::getCourseName($model->courses_page); ?>
+                                <?= $model->course->getTitle(); ?>
                             </a>
                         </td>
                     </tr>
