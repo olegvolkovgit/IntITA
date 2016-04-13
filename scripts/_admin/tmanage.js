@@ -54,6 +54,9 @@ function addTeacherAttr(url, attr, id, role,header,redirect) {
                                     loadModuleEdit(value,header,'6');
                                 else loadAddModuleConsultant(user);
                                 break;
+                            case "teacher_consultant":
+                                loadTeacherConsultantList(user);
+                                break;
                         }
                     });
                 } else {
@@ -651,7 +654,7 @@ function loadSliderAboutUsList() {
     load(basePath + '/_teacher/_admin/aboutusSlider/index/', 'Слайдер на сторінці Про нас');
 }
 function loadTeacherModulesList(id) {
-    load(basePath + '/_teacher/_admin/teachers/addModule/id/' + id, 'Додати модуль');
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/author/', 'Редагувати роль');
 }
 function loadTrainerStudentList(id) {
     load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/trainer/', 'Редагувати роль');
@@ -673,6 +676,9 @@ function loadModuleEdit(id,header,tab) {
 }
 function loadAddTeacherAccess(header,tab) {
     load(basePath + "/_teacher/_admin/permissions/index/",header,'',tab);
+}
+function loadTeacherConsultantList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/teacher_consultant/', 'Редагувати роль');
 }
 
 

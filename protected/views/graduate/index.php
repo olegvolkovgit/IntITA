@@ -20,6 +20,6 @@
         <?php echo $this->renderPartial('_graduateFilter'); ?>
     </div>
     <div id="graduateBlock">
-        <?php echo $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider)); ?>
+        <?php echo $this->renderPartial('_graduatesList', array('dataProvider'=>$dataProvider,'lang'=>$lang)); ?>
     </div>
 </div>
