@@ -173,7 +173,7 @@ class Consultationscalendar extends CActiveRecord
 
 	public static function consultationsList($teacher){
 
-        $sql = 'select cs.id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
                  left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' order by cs.id DESC';
 
@@ -188,6 +188,7 @@ class Consultationscalendar extends CActiveRecord
             $row["date_cons"] = $record["date_cons"];
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
+            $row["url"] = Yii::app()->createUrl('/_teacher/_student/student/cancelConsultation/', array('id' => $record["cons_id"]));
             array_push($return['data'], $row);
         }
 

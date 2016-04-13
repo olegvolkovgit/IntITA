@@ -338,7 +338,15 @@ function initTeacherConsultationsTable(){
             {
                 "width": "15%",
                 "data": "end_cons"
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\',\'teacherConsultation\');">Відмінити</a>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
@@ -375,7 +383,7 @@ function initConsultationsTable(){
                 "width": "10%",
                 "data": "url",
                 "render": function (url) {
-                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\');">Відмінити</a>';
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\',\'studentConsultation\');">Відмінити</a>';
                 }
             }
         ],
@@ -388,7 +396,7 @@ function initConsultationsTable(){
     });
 }
 
-function cancelConsultation(url) {
+function cancelConsultation(url,callback) {
     bootbox.confirm('Відмінити консультацію?', function (result) {
         if (result) {
             $jq.ajax({
@@ -397,7 +405,10 @@ function cancelConsultation(url) {
                 success: function (response) {
                     if(response == "success") {
                         bootbox.alert("Консультацію відмінено.", function() {
-                            load(basePath + '/_teacher/_student/student/consultations/', 'Консультанції')
+                            if(callback=='studentConsultation')
+                                load(basePath + '/_teacher/_student/student/consultations/', 'Консультанції');
+                            else if(callback=='teacherConsultation')
+                                load(basePath + '/_teacher/_consultant/consultant/consultations/', 'Консультанції')
                         });
                     } else {
                         showDialog("Операцію не вдалося виконати.");
