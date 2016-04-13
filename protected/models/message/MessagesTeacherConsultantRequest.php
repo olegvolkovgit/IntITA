@@ -212,10 +212,10 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 
     public function approve(StudentReg $userApprove)
     {
-        $user = RegisteredUser::userById($this->message0->sender);
+        $user = RegisteredUser::userById($this->id_teacher);
         //add rights to edit module
         $role = new TeacherConsultant();
-        if ($role->checkModule($user->registrationData->id, $this->id_module)) {
+        if ($role->checkModule($this->id_teacher, $this->id_module)) {
             if ($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
                 //update current request, set approved status
                 $this->user_approved = $userApprove->id;
