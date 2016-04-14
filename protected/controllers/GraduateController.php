@@ -110,8 +110,13 @@ class GraduateController extends Controller
                 'pageSize' => 50,
             ),
         ));
+        if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')
+            $lang = 'uk';
+        else $lang = Yii::app()->session['lg'];
+
         $this->render('index', array(
             'dataProvider' => $dataProvider,
+            'lang'=>$lang
         ));
     }
 
@@ -162,6 +167,10 @@ class GraduateController extends Controller
 
         $dataProvider = Graduate::getGraduateBySelector($selector);
 
-        $this->renderPartial('_graduatesList', array('dataProvider' => $dataProvider));
+        if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')
+            $lang = 'uk';
+        else $lang = Yii::app()->session['lg'];
+
+        $this->renderPartial('_graduatesList', array('dataProvider' => $dataProvider,'lang'=>$lang));
     }
 }

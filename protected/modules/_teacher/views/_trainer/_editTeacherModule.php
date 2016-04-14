@@ -29,6 +29,7 @@
                     <label>
                         <strong>Викладач-консультант:</strong>
                     </label>
+                    <input type="text" hidden="hidden" value="<?=$teacher->id?>" id="teacherId">
                     <input type="text" class="form-control" size="135" value="<?= $teacher->userNameWithEmail(); ?>" disabled>
                 </div>
                 <br>

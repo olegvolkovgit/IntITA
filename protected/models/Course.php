@@ -402,11 +402,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public static function getCourseLang($id)
-    {
-        return Course::model()->findByPk($id)->language;
-    }
-
     public static function getCourseTitlesList()
     {
         $criteria = new CDbCriteria();
@@ -420,11 +415,6 @@ class Course extends CActiveRecord implements IBillableObject
             $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'] . " (" . $titles[$i]['language'] . ")";
         }
         return $result;
-    }
-
-    public static function getCourseNumber($id)
-    {
-        return Course::model()->findByPk($id)->course_number;
     }
 
     public static function getCreditCoursePrice($idCourse, $years)
@@ -448,12 +438,6 @@ class Course extends CActiveRecord implements IBillableObject
             $title = "title_ua";
         }
         return $this->level0->$title;
-    }
-
-    public static function getCourseLevel($idCourse)
-    {
-        $course = Course::model()->findByPk($idCourse);
-        return $course->level();
     }
 
     public function getRate()
@@ -1041,5 +1025,30 @@ class Course extends CActiveRecord implements IBillableObject
         $result["total"] = Course::model()->count('cancelled = :isCancel', array(':isCancel' => Course::AVAILABLE));
 
         return $result;
+    }
+
+    public static function coursesByQueryAndLang($query, $lang){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'c';
+        $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
+        $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
+        $criteria->addCondition('cl.lang_'.$lang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
+
+        $data = Course::model()->findAll($criteria);
+        $result = array();
+        $langParam =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$langParam;
+
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->course_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
     }
 }

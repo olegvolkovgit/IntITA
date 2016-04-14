@@ -41,7 +41,7 @@ class Consultant extends Role
             'value' => $list
         );
         $result = [];
-        array_push($result, $attribute);
+        $result["module"] = $attribute;
 
         return $result;
     }
@@ -97,6 +97,7 @@ class Consultant extends Role
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN consultant_modules cm ON cm.consultant = s.id';
         $criteria->addCondition('cm.consultant IS NOT NULL and cm.end_time IS NULL');
+        $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
 

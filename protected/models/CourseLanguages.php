@@ -102,4 +102,67 @@ class CourseLanguages extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function addNewRecord($ua, $ru, $en){
+
+		$model = new CourseLanguages();
+
+		$model->lang_ua = $ua;
+		$model->lang_ru = $ru;
+		$model->lang_en = $en;
+
+		if($model->validate()){
+			$model->save();
+			return $model;
+		} else {
+			return null;
+		}
+	}
+
+	public static function findByCourse($course, $lang){
+		if($course == 0 || in_array($lang, array('ua', 'ru', 'en'))){
+			return null;
+		} else {
+			$param = "lang_".$lang;
+			return CourseLanguages::model()->findByAttributes(array($param => $course));
+		}
+	}
+
+    public function updateByCourse($ua, $ru, $en){
+
+        $this->lang_ua = $ua;
+        $this->lang_ru = $ru;
+        $this->lang_en = $en;
+
+        return $this->save();
+    }
+
+    public function cancelLinkedCourse($lang){
+        $param = 'lang_'.$lang;
+        $this->$param = 0;
+        if($this->save()){
+            if($this->isOneDefined()){
+                $this->delete();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isOneDefined(){
+        $coursesDefined = 0;
+        foreach(array("lang_ua", "lang_ru", "lang_en") as $item){
+            if($this->$item > 0) $coursesDefined++;
+        }
+        return ($coursesDefined > 1)?false:true;
+    }
+
+	public static function check($params){
+		$coursesDefined = 0;
+		foreach(array("lang_ua", "lang_ru", "lang_en") as $key=>$item){
+			if(CourseLanguages::model()->exists($item.'='.$params[$key])) $coursesDefined++;
+		}
+		return ($coursesDefined > 0)?false:true;
+	}
 }

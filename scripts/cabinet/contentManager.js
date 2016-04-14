@@ -1,5 +1,5 @@
 
-function addTeacherAttr(url, attr, id, role) {
+function addTeacherAttr(url, attr, id, role,header,redirect) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -17,7 +17,32 @@ function addTeacherAttr(url, attr, id, role) {
             data: {user: user, role: role, attribute: attr, attributeValue: value},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.");
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        switch (role) {
+                            case "trainer":
+                                loadTrainerStudentList(user);
+                                break;
+                            case "author":
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'0');
+                                else if (id == '#moduleId')
+                                    loadAddModuleAuthor();
+                                else if (id == '#module')
+                                    loadModuleEdit(value,header,'5');
+                                else loadTeacherModulesList(user);
+                                break;
+                            case "consultant":
+                                if(redirect=='teacherAccess')
+                                    loadAddTeacherAccess(header,'2');
+                                else if(redirect=='editModule')
+                                    loadModuleEdit(value,header,'6');
+                                else loadAddModuleConsultant(user);
+                                break;
+                            case "teacher_consultant":
+                                loadTeacherConsultantList(user);
+                                break;
+                        }
+                    });
                 } else {
                     switch (role) {
                         case "trainer":
@@ -143,6 +168,166 @@ function setRequestStatus(url, message) {
             });
         } else {
             bootbox.alert("Операцію відмінено.");
+        }
+    });
+}
+
+function loadTeacherModulesList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/author/', 'Редагувати роль');
+}
+function loadTrainerStudentList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/trainer/', 'Редагувати роль');
+}
+function loadAddModuleAuthor() {
+    load(basePath + '/_teacher/_admin/permissions/showAddTeacherAccess/');
+}
+function loadAddModuleConsultant(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
+}
+function loadModuleEdit(id,header,tab) {
+    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
+}
+function loadAddTeacherAccess(header,tab) {
+    load(basePath + "/_teacher/_admin/permissions/index/",header,'',tab);
+}
+function loadTeacherConsultantList(id) {
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/teacher_consultant/', 'Редагувати роль');
+}
+function  initTeacherConsultantsTableCM(){
+    $jq('#teacherConsultantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getTeacherConsultantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Викладач-консультант\');">'+email["title"]+'</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "15%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRoleCM(' + params + ')">скасувати</a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function cancelRoleCM(url, role, user) {
+    if (!user) {
+        user = $jq("#userId").val();
+    }
+    if (user == 0) {
+        bootbox.alert('Виберіть користувача.');
+    } else {
+        var posting = $jq.post(url, {userId: user, role: role});
+        posting.done(function (response) {
+                bootbox.alert(response, function(){
+                    load(basePath + '/_teacher/_content_manager/contentManager/dashboard', 'Викладачі-консультанти');
+                });
+            })
+            .fail(function () {
+                bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(tab));
+            });
+    }
+}
+
+function  initAuthorsTableCM(){
+    $jq('#authorsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getAuthorsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Автор модуля\');">'+email["title"]+'</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initConsultantsTable(){
+    $jq('#consultantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "15%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRoleCM(' + params + ')">скасувати</a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }

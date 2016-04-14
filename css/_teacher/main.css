@@ -30,11 +30,6 @@ a,a:active,button,button:active,input[type="submit"],input[type="submit"]:active
 {
     color: #ff0000;
 }
-/*
-.form-group error
-{
-    color: #ff0000;
-}*/
 
 .imageClass img
 {
@@ -42,8 +37,12 @@ a,a:active,button,button:active,input[type="submit"],input[type="submit"]:active
     max-height: 100px;
 
 }
+
 .navbar-header .navbar-brand {
     height: auto;
+}
+.nav-tabs li a{
+    border-color: white; !important;
 }
 .navbar li a.dropdown-toggle{
     padding-top: 15px;
@@ -247,8 +246,10 @@ td,th{
 #sliderContainer{
     position: relative;
     width: 1000px;
+    height: 300px;
     padding-bottom: 0;
     margin-top: 0;
+    overflow: hidden;
 }
 #textPosition{
     white-space: nowrap;

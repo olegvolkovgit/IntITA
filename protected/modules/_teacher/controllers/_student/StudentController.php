@@ -20,6 +20,13 @@ class StudentController extends TeacherCabinetController
     {
         $this->renderPartial('/_student/_consultations', array(), false, true);
     }
+    public function actionCancelConsultation($id)
+    {
+        $model = Consultationscalendar::model()->findByPk($id);
+        $user = RegisteredUser::userById(Yii::app()->user->getId());
+        if($model->deleteConsultation($user))
+            echo 'success';
+    }
 
     public function actionGetConsultationsList(){
         echo Consultationscalendar::studentConsultationsList(Yii::app()->user->getId());

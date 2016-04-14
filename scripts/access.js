@@ -52,9 +52,9 @@
                 success: function (data) {
                    if(data == "success"){
                        showDialog("Операцію успішно виконано.");
-                       if(redirect=='teacherAccess')
-                           loadAddTeacherAccess(header,'1');
-                       else loadCancelAuthorModule();
+                       //if(redirect=='teacherAccess')
+                       //    loadAddTeacherAccess(header,'1');
+                       //else loadCancelAuthorModule();
                    } else {
                        showDialog("Операцію не вдалося виконати.");
                    }

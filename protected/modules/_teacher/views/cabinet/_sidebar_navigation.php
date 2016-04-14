@@ -23,7 +23,11 @@
             </li>
             <li>
                 <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/index');?>','Повідомлення')">
-                    <i class="fa fa-envelope fa-fw"></i> Повідомлення</a>
+                    <i class="fa fa-envelope fa-fw"></i> Повідомлення
+                <?php if(!empty($newMessages)){?>
+                    <span class="label label-success"><?=count($newMessages)?></span>
+                <?php }?>
+                </a>
             </li>
 
             <?php

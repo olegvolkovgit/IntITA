@@ -8,9 +8,6 @@ function load(url, header, histories, tab) {
         url: url,
         async: true,
         success: function (data) {
-            if(!data){
-                location.reload();
-            }
             container = $jq('#pageContainer');
             container.html('');
             container.html(data);
@@ -146,6 +143,7 @@ function sendMessage(url) {
     if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
+        showAjaxLoader();
         var posting = $jq.post(url,
             {
                 "receiver": receiver,
@@ -167,6 +165,10 @@ function sendMessage(url) {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
+
+        posting.always(function(){
+            hideAjaxLoader();
+        });
     }
 }
 
@@ -177,6 +179,7 @@ function reply(url) {
         "subject": $jq("input[name=subject]").val(),
         "text": $jq("#text").val()
     };
+    showAjaxLoader();
     var posting = $jq.post(url, data);
 
     posting.done(function (response) {
@@ -191,7 +194,9 @@ function reply(url) {
             bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                 "напишіть на адресу " + adminEmail, loadMessagesIndex);
         });
-
+    posting.always(function(){
+        hideAjaxLoader();
+    });
 }
 
 function forward(url) {
@@ -199,6 +204,7 @@ function forward(url) {
     if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
+        showAjaxLoader();
         var posting = $jq.post(url,
             {
                 "receiver": receiver,
@@ -222,6 +228,9 @@ function forward(url) {
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
     }
+    posting.always(function(){
+        hideAjaxLoader();
+    });
 }
 
 function loadMessagesIndex() {
@@ -341,7 +350,15 @@ function initTeacherConsultationsTable(){
             {
                 "width": "15%",
                 "data": "end_cons"
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\',\'teacherConsultation\');">Відмінити</a>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
@@ -373,12 +390,48 @@ function initConsultationsTable(){
             {
                 "width": "15%",
                 "data": "end_cons"
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\',\'studentConsultation\');">Відмінити</a>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function cancelConsultation(url,callback) {
+    bootbox.confirm('Відмінити консультацію?', function (result) {
+        if (result) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                success: function (response) {
+                    if(response == "success") {
+                        bootbox.alert("Консультацію відмінено.", function() {
+                            if(callback=='studentConsultation')
+                                load(basePath + '/_teacher/_student/student/consultations/', 'Консультанції');
+                            else if(callback=='teacherConsultation')
+                                load(basePath + '/_teacher/_consultant/consultant/consultations/', 'Консультанції')
+                        });
+                    } else {
+                        showDialog("Операцію не вдалося виконати.");
+                    }
+                },
+                error:function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            });
+        } else {
+            showDialog("Операцію відмінено.");
         }
     });
 }

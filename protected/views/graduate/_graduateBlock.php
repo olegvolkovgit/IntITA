@@ -12,7 +12,7 @@
             <td style="padding-left: 10px;">
                 <div class="text">
                     <?php echo Yii::t('graduates', '0320')?>
-                    <span><?php echo $data->graduate_date; ?></span>
+                    <span><?php echo CLocale::getInstance($lang)->dateFormatter->formatDateTime($data->graduate_date,'medium',null); ?></span>
                 </div>
                 <div class="text1"><?php echo $data->name(); ?></div>
                 <?php if(!empty($data->recall)){?>
@@ -44,7 +44,7 @@
                     <div>
                         <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
                         <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
-                           target="_blank"> <?php echo Course::getCourseName($data->courses_page); ?></a>
+                           target="_blank"> <?php echo $data->course->getTitle(); ?></a>
                         <?php }?>
                     </div>
                 </div>

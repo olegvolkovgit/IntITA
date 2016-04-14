@@ -26,6 +26,10 @@ class ModulePath extends Path
         $this->getModule();
 
         if ($this->module != null) {
+            if($this->module->language != $this->lang){
+                throw new \application\components\Exceptions\IntItaException(404);
+            }
+
             $this->getLecture();
             $this->checkPageDefined();
 

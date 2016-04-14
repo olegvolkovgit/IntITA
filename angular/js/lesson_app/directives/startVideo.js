@@ -16,6 +16,9 @@ function startVideo() {
             });
             element.on("click", function () {
                 element.html(attrs.startVideo);
+
+              
+              $.post("/track/index", { user: "John", events: "courses", lesson: "45",part: "15" } );
             })
         }
     }

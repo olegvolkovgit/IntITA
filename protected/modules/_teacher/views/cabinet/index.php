@@ -72,7 +72,7 @@
             'newMessages' => $newMessages,
             'requests' => $requests
         )); ?>
-        <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model)); ?>
+        <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model, 'newMessages' => $newMessages)); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>
