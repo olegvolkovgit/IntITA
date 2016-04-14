@@ -13,6 +13,11 @@
  */
 class MessagesType extends CActiveRecord
 {
+	const USER = 1;
+	const PAYMENT = 2;
+	const AUTHOR_REQUEST = 3;
+	const TEACHER_CONSULTANT_REQUEST = 4;
+
 	/**
 	 * @return string the associated database table name
 	 */
