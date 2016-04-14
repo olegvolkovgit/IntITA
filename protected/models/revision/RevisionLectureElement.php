@@ -130,6 +130,7 @@ class RevisionLectureElement extends CActiveRecord
 		$this->save();
 	}
 
+    //todo refactor clone methods - remove copy-paste
     /**
      * Clone video element
      * @param null $idNewPage
@@ -140,6 +141,7 @@ class RevisionLectureElement extends CActiveRecord
 		if ($idNewPage == null) {
 			$idNewPage = $this->id_page;
 		}
+
 		$clone = new RevisionLectureElement();
 		$clone->id_page = $idNewPage;
 		$clone->id_type = $this->id_type;
@@ -174,12 +176,32 @@ class RevisionLectureElement extends CActiveRecord
     }
 
     public function saveElementModelToRegularDB($idNewLecture) {
-        $newVideo = new LectureElement();
-        $newVideo->id_type = $this->id_type;
-        $newVideo->id_lecture = $idNewLecture;
-        $newVideo->block_order = $this->block_order;
-        $newVideo->html_block = $this->html_block;
-        $newVideo->save();
-        return $newVideo;
+        $new = new LectureElement();
+        $new->id_type = $this->id_type;
+        $new->id_lecture = $idNewLecture;
+        $new->block_order = $this->block_order;
+        $new->html_block = $this->html_block;
+        $new->save();
+        return $new;
+    }
+
+    public function cloneQuiz($idNewPage) {
+
+        $clone = new RevisionLectureElement();
+        $clone->id_page = $idNewPage;
+        $clone->id_type = $this->id_type;
+        $clone->block_order = $this->block_order;
+        $clone->html_block = $this->html_block;
+
+        $clone->saveCheck();
+
+        switch ($this->id_type) {
+            case LectureElement::TEST:
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $this->id));
+                $test->cloneTest($clone->id);
+                break;
+            default:
+                return null;
+        }
     }
 }

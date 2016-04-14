@@ -254,6 +254,11 @@ class RevisionLecturePage extends CActiveRecord
 
             //todo copy elements - quiz;
 
+            $quiz = $this->getQuiz();
+            if ($quiz != null) {
+                $newQuiz = $quiz->cloneQuiz();
+            }
+
             if ($this->video != null) {
                 $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneVideo($newRevision->id);
                 $newRevision->video = $newVideo->id;
