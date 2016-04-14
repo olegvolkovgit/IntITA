@@ -48,4 +48,9 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
             $('#ui-id-'+tab+'').click();
         }
     };
+
+    $scope.startLog=function(){
+      $.post("/track/index", {  events: "start_video", lesson: idLecture,part: $rootScope.currentPage } );
+
+       }
 }
