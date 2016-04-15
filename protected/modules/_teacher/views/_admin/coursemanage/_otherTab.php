@@ -9,18 +9,21 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <?php if ($scenario == "update") { ?>
+        <?php if ($scenario == "update") {
+            $langs = array_diff(array('ua','ru','en'), $course->language);
+            foreach($langs as $item){
+                $param = 'lang_'.$item;
+                if($linkedCourses->$param == null)
+            ?>
             <ul class="list-inline">
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addLinkedCourse",
-                                array("id" => $model->course_ID, "lang" => $model->language));?>',
-                                'Пов\'язані курси на інших мовах'); return false;">
-                        Редагувати курси на інших мовах
+                    <button type="button" class="btn btn-outline btn-primary">
+                        Додати курс (<?=$param?>)
                     </button>
                 </li>
             </ul>
-        <?php } ?>
+        <?php }
+            } ?>
 
         <?php if ($linkedCourses) { ?>
             <div class="col-md-12">
