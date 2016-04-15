@@ -24,7 +24,6 @@ class TestsController extends Controller
         $arr['options'] = $options;
 
         if(QuizFactory::factory($arr))
-
             $this->redirect(Yii::app()->request->urlReferrer);
 	}
     public function actionEditTest()
