@@ -5,6 +5,7 @@
  * @var $receiver
  * @var $requests array
  * @var $newMessages array
+ * @var $countNewMessages int
  */
 ?>
 <!DOCTYPE html>
@@ -70,9 +71,13 @@
         <?php echo $this->renderPartial('_top_navigation', array(
             'model' => $model,
             'newMessages' => $newMessages,
-            'requests' => $requests
+            'requests' => $requests,
+            'countNewMessages' =>$countNewMessages
         )); ?>
-        <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model, 'newMessages' => $newMessages)); ?>
+        <?php echo $this->renderPartial('_sidebar_navigation', array(
+            'model' => $model,
+            'countNewMessages' =>$countNewMessages
+        )); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>

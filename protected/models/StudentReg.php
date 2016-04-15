@@ -868,21 +868,59 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'm';
         $criteria->order = 'm.id_message DESC';
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition('r.id_receiver =:id');
-        $criteria->addCondition('r.deleted IS NULL');
+        $criteria->addCondition('r.id_receiver =:id and r.deleted IS NULL');
         $criteria->params = array(':id' => $this->id);
 
-        return UserMessages::model()->findAll($criteria);
+        $userMessages = UserMessages::model()->findAll($criteria);
+        $paymentMessages = MessagesPayment::model()->findAll($criteria);
+
+        $all = array_merge($userMessages, $paymentMessages);
+        $user = Yii::app()->user->model;
+//        if($user->isAdmin() || $user->isContentManager()){
+//            $criteria1 = new CDbCriteria();
+//            $criteria1->select = '*';
+//            $criteria1->alias = 'm';
+//            $criteria1->order = 'm.id_message DESC';
+//            $criteria1->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+//            $criteria1->addCondition('r.id_receiver =:id and r.deleted IS NULL and m.cancelled=0');
+//            $criteria1->params = array(':id' => $this->id);
+//
+//            $authorRequests = MessagesAuthorRequest::model()->findAll($criteria1);
+//            $teacherConsultantRequests = MessagesTeacherConsultantRequest::model()->findAll($criteria1);
+//            $all =  array_merge($all, $authorRequests, $teacherConsultantRequests);
+//        }
+
+        function sortById($a, $b)
+        {
+            if ($a->id_message == $b->id_message) {
+                return 0;
+            }
+            return ($a->id_message < $b->id_message) ? 1 : -1;
+        }
+
+        usort($all, "sortById");
+
+        return $all;
     }
 
     public function newReceivedMessages(){
         $criteria = new CDbCriteria();
         $criteria->alias = 'm';
-        $criteria->order = 'm.id_message DESC';
-        $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id);
+        $criteria->order = 'm.id DESC';
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
+        $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id.' and
+        (m.type='.MessagesType::USER.' or m.type='.MessagesType::PAYMENT.')');
 
-        return UserMessages::model()->findAll($criteria);
+        return Messages::model()->findAll($criteria);
+    }
+
+    public function newMessages($newReceivedMessages){
+        $result = [];
+        foreach($newReceivedMessages as $key=>$message){
+            array_push($result, MessagesFactory::getInstance($message));
+            if($key == 4) break;
+        }
+        return $result;
     }
 
     public function sentMessages(){
