@@ -37,7 +37,7 @@
             <br>
             <input name="optionsNum" id="optionsNum" type="hidden" value="{{dataTest.answers.length}}"/>
             <input name="idBlock" type="hidden" value="{{idBlock}}"/>
-            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?=Yii::app()->user->getId();?>"/>
         </fieldset>
         <br>
         <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests{{idBlock}}'  ng-disabled=editTestForm.$invalid>
