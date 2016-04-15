@@ -5,6 +5,7 @@
  */
 foreach ($newMessages as $key=>$record) {
     if(!$record) continue;
+
     $message = $record->message();
 
     if(!$record->isRead($model->registrationData))

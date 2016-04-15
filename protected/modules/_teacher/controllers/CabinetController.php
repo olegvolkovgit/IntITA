@@ -20,6 +20,7 @@ class CabinetController extends TeacherCabinetController
         $requests = $model->requests();
 
 
+
         $this->render('index', array(
             'model' => $model,
             'newMessages' => $newReceivedMessages,
