@@ -67,7 +67,7 @@ function addTeacherAttr(url, attr, id, role,header,redirect) {
     }
 }
 
-function cancelTeacherAccess(url) {
+function cancelTeacherAccessCM(url) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
 
