@@ -22,7 +22,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             <strong>
                                 <?= $message->message0->sender0->userName().", ". $message->message0->sender0->email; ?>
                             </strong>
-                            <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
+                            <em><div><?= $message->subject; ?></div></em>
                         </a>
                         <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
