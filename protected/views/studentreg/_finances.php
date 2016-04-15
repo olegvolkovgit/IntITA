@@ -17,7 +17,7 @@
         } else {
             $courseModel = Course::model()->findByPk($course);
             echo "<h3>" . Yii::t('payment', '0657') . " №" . $courseModel->course_number . ". " .
-                $course->getTitle() . "</h3>";
+                $courseModel->getTitle() . "</h3>";
             $this->renderPartial('_paymentsCourseForm', array('course' => $course, 'schema' => $schema));
         }
     }else {
