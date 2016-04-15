@@ -10,20 +10,26 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <?php if ($scenario == "update") {
-            $langs = array_diff(array('ua','ru','en'), $course->language);
-            foreach($langs as $item){
-                $param = 'lang_'.$item;
-                if($linkedCourses->$param == null)
-            ?>
+            $langs = array_diff(array('ua', 'ru', 'en'), array($model->language)); ?>
             <ul class="list-inline">
-                <li>
-                    <button type="button" class="btn btn-outline btn-primary">
-                        Додати курс (<?=$param?>)
-                    </button>
-                </li>
+            <?php foreach ($langs as $item) {
+                $param = 'lang_' . $item;
+                if ($linkedCourses->$param == null) {
+                    ?>
+                    <li>
+                        <button type="button" class="btn btn-outline btn-primary"
+                                onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addLinkedCourse", array(
+                                    "model" => $linkedCourses->id,
+                                    "course" => $model->course_ID,
+                                    "lang" => $item
+                                ));?>', '<?="Додати курс (".$item.")"?>')">
+                            Додати курс (<?= $item ?>)
+                        </button>
+                    </li>
+                <?php } ?>
+            <?php }?>
             </ul>
-        <?php }
-            } ?>
+        <?php }?>
 
         <?php if ($linkedCourses) { ?>
             <div class="col-md-12">
@@ -61,7 +67,7 @@
                                                 <a href="#" onclick="deleteLinkedCourse(
                                                     '<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/deleteLinkedCourse");?>',
                                                     '<?=$linkedCourses->id?>', '<?=$item?>',
-                                                    '<?="Курс ".CHtml::encode($course->title_ua)?>',
+                                                    '<?="Курс ".CHtml::encode($model->title_ua)?>',
                                                     '<?=$model->course_ID?>')">
                                                     видалити</a>
                                             </td>

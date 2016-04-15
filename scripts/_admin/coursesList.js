@@ -58,12 +58,12 @@ function setCourseStatus(url, message){
     });
 }
 
-function initUaCourses(){
-    var uaCourses = new Bloodhound({
+function initCoursesTypeahead(lang){
+    var courses = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/coursemanage/coursesByQueryAndLang?lang=ua&query=%QUERY',
+            url: basePath + '/_teacher/_admin/coursemanage/coursesByQueryAndLang?query=%QUERY&lang=' + lang,
             wildcard: '%QUERY',
             filter: function (courses) {
                 return $jq.map(courses.results, function (course) {
@@ -76,13 +76,13 @@ function initUaCourses(){
         }
     });
 
-    uaCourses.initialize();
+    courses.initialize();
 
-    $jq('#typeaheadUaCourse').typeahead(null, {
-        name: 'uaCourses',
+    $jq('#typeaheadCourse').typeahead(null, {
+        name: 'courses',
         display: 'title',
         limit: 10,
-        source: uaCourses,
+        source: courses,
         templates: {
             empty: [
                 '<div class="empty-message">',
@@ -93,101 +93,21 @@ function initUaCourses(){
         }
     });
 
-    $jq('#typeaheadUaCourse').on('typeahead:selected', function (e, item) {
-        $jq("#uaCourse").val(item.id);
+    $jq('#typeaheadCourse').on('typeahead:selected', function (e, item) {
+        $jq("#course").val(item.id);
     });
 }
 
-function initRuCourses(){
-    var ruCourses = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/coursemanage/coursesByQueryAndLang?lang=ru&query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (courses) {
-                return $jq.map(courses.results, function (course) {
-                    return {
-                        id: course.id,
-                        title: course.title
-                    };
-                });
-            }
-        }
-    });
-
-    ruCourses.initialize();
-
-    $jq('#typeaheadRuCourse').typeahead(null, {
-        name: 'ruCourses',
-        display: 'title',
-        limit: 10,
-        source: ruCourses,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'модулів з такою назвою немає',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-        }
-    });
-
-    $jq('#typeaheadRuCourse').on('typeahead:selected', function (e, item) {
-        $jq("#ruCourse").val(item.id);
-    });
-}
-
-function initEnCourses(){
-    var enCourses = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/coursemanage/coursesByQueryAndLang?lang=en&query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (courses) {
-                return $jq.map(courses.results, function (course) {
-                    return {
-                        id: course.id,
-                        title: course.title
-                    };
-                });
-            }
-        }
-    });
-
-    enCourses.initialize();
-
-    $jq('#typeaheadEnCourse').typeahead(null, {
-        name: 'enCourses',
-        display: 'title',
-        limit: 10,
-        source: enCourses,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'модулів з такою назвою немає',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-        }
-    });
-
-    $jq('#typeaheadEnCourse').on('typeahead:selected', function (e, item) {
-        $jq("#enCourse").val(item.id);
-    });
-}
-
-function addLinkedCourses(url, modelId, id, header){
-    bootbox.confirm("Редагувати пов\'язані курси?", function(result) {
+function addLinkedCourses(url, modelId, id, lang, header){
+    bootbox.confirm("Додати курс?", function(result) {
         if (result) {
             $jq.ajax({
                 url: url,
                 type: "POST",
                 data:{
-                    "ua": $jq('#uaCourse').val(),
-                    "ru": $jq('#ruCourse').val(),
-                    "en": $jq('#enCourse').val(),
+                    "lang": lang,
+                    "course": id,
+                    "linkedCourse" : $jq('#course').val(),
                     "modelId" : modelId
                 },
                 success: function (response) {
