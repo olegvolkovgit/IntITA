@@ -30,6 +30,36 @@ function load(url, header, histories, tab) {
     });
 }
 
+function cancelTeacherAccess(url,header,redirect) {
+        var user = $jq("#user").val();
+        var moduleId = $jq("select[name=modules] option:selected").val();
+
+        if(user == 0) {
+            bootbox.alert("Виберіть викладача.");
+        }else {
+            $jq.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    'module': moduleId,
+                    'user' : user
+                },
+                cache: false,
+                success: function (data) {
+                   if(data == "success"){
+                       bootbox.alert("Операцію успішно виконано.");
+                   } else {
+                       bootbox.alert("Операцію не вдалося виконати.");
+                   }
+                },
+                error:function()
+                {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                }
+            });
+        }
+    }
+
 function reloadPage(event) {
     if (event.state) {
         var path = history.state.url;

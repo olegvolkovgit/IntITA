@@ -111,6 +111,30 @@ class Consultant extends Role
         return json_encode($result);
     }
 
+    public static function addConsultantsByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_consultant uc ON uc.id_user = s.id';
+        $criteria->addCondition('uc.id_user IS NOT NULL and uc.end_date IS NULL');
+        $criteria->group = 's.id';
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
     public function checkBeforeDeleteRole(StudentReg $teacher){
        // return !$this->existOpenTaskAnswers($teacher);
         return true;

@@ -9,7 +9,7 @@ class ConsultantController extends TeacherCabinetController
     public function actionModules($id)
     {
         $consultant = RegisteredUser::userById($id);
-        $modules = $consultant->getAttributesByRole(UserRoles::CONSULTANT)[0];
+        $modules = $consultant->getAttributesByRole(UserRoles::CONSULTANT)["module"];
 
         $this->renderPartial('/_consultant/_modules', array(
             'attribute' => $modules,

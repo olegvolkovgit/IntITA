@@ -285,4 +285,23 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     {
         return Request::AUTHOR_REQUEST;
     }
+
+    public function subject(){
+        return "Запит на редагування модуля";
+    }
+
+    // return true if message read by $receiver (param "read" is NULL)
+    public function isRead(StudentReg $receiver)
+    {
+        $read = Yii::app()->db->createCommand()
+            ->select('read')
+            ->from('message_receiver')
+            ->where('id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)
+            )->queryRow();
+
+        if ($read["read"])
+            return true;
+        else return false;
+    }
 }

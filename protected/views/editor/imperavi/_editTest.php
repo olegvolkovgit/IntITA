@@ -39,7 +39,7 @@ $valid=TestsAnswers::getTestValid($idBlock);
             <br>
             <input name="optionsNum" class="optionsNum" type="hidden" value="<?php echo count(TestsAnswers::getTestAnswers($idBlock))?>"/>
             <input name="idBlock" type="hidden" value="<?php echo $idBlock;?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?=Yii::app()->user->getId();?>"/>
         </fieldset>
         <br>
         <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests<?php echo $idBlock;?>'  ng-disabled=editTestForm.$invalid>
