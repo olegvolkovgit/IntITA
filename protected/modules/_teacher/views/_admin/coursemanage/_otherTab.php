@@ -5,12 +5,12 @@
  * @var $model Course
  * @var $item string
  */
+$langs = array_diff(array('ua', 'ru', 'en'), array($model->language));
 ?>
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <?php if ($scenario == "update") {
-            $langs = array_diff(array('ua', 'ru', 'en'), array($model->language)); ?>
+        <?php if ($scenario == "update") { ?>
             <ul class="list-inline">
             <?php foreach ($langs as $item) {
                 $param = 'lang_' . $item;
@@ -47,9 +47,8 @@
                             </thead>
                             <tbody>
                             <?php
-                            $langs = array_diff(array('ua', 'ru', 'en'), array('ua'));
                             foreach ($langs as $item) {
-                                if ($linkedCourses["lang_" . $item] != 0 && $item != $model->language) {
+                                if ($linkedCourses["lang_" . $item] != null) {
                                     $course = Course::model()->findByPk($linkedCourses["lang_" . $item]);
                                     ?>
                                     <tr>
