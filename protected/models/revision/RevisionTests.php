@@ -47,8 +47,8 @@ class RevisionTests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'lectureElement' => array(self::BELONGS_TO, 'LectureElement', 'id_lecture_element'),
-			'testsAnswers' => array(self::HAS_MANY, 'TestsAnswers', 'id_test'),
+			'lectureElement' => array(self::BELONGS_TO, 'RevisionLectureElement', 'id_lecture_element'),
+			'testsAnswers' => array(self::HAS_MANY, 'RevisionTestsAnswers', 'id_test'),
 		);
 	}
 
@@ -144,6 +144,40 @@ class RevisionTests extends CActiveRecord
         } catch (Exception $e) {
             $transaction->rollback();
             throw ($e);
+        }
+    }
+
+    public function editTest($title, $answers) {
+        $this->title = $title;
+        $this->update(array('title'));
+
+        $testAnswers = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test'=>$this->id));
+
+        $oldAnswersCount = count($testAnswers);
+
+        $newAnswersCount = count($answers);
+        $length = min($oldAnswersCount, $newAnswersCount);
+
+        $i = 0;
+
+        for (; $i < $length; $i++) {
+            $testAnswers[$i]->answer = $answers[$i]['answer'];
+            $testAnswers[$i]->is_valid = $answers[$i]['is_valid'];
+            $testAnswers[$i]->update(array('answer', 'is_valid'));
+        }
+
+        //if needs to add new answers
+        if ($oldAnswersCount < $newAnswersCount) {
+            for (; $i < $newAnswersCount; $i++) {
+                RevisionTestsAnswers::createAnswer($this->id, $answers[$i]);
+            }
+            //if needs to delete odd answers
+        } elseif($oldAnswersCount > $newAnswersCount) {
+            $pkToDelete = [];
+            for (; $i < $oldAnswersCount; $i++) {
+                array_push($pkToDelete, $this->testsAnswers[$i]->id);
+            }
+            RevisionTestsAnswers::model()->deleteByPk($pkToDelete);
         }
     }
 }

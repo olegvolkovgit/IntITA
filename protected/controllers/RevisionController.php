@@ -3,6 +3,8 @@
 class RevisionController extends Controller
 {
 
+    public $layout = 'lessonlayout';
+
     public function actionIndex()
     {
         if (!$this->isUserApprover(Yii::app()->user)) {
@@ -446,6 +448,7 @@ class RevisionController extends Controller
      * curl -XPOST --data 'condition=condition&testTitle=testTitle&optionsNum=2&pageId=1&answer1=answer1&is_valid1=1&answer2=answer2&is_valid2=0' 'http://intita.project/revision/addtest'
      */
     public function actionAddTest() {
+        $arr = [];
         $arr['condition'] = Yii::app()->request->getPost('condition', '');  //RevisionLectureElement->html_block
         $arr['testTitle'] = Yii::app()->request->getPost('testTitle', '');  //RevisionTest->title
         $arr['optionsNum'] = Yii::app()->request->getPost('optionsNum', 0); //options amount
@@ -464,28 +467,26 @@ class RevisionController extends Controller
     }
 
     /**
-     * UNDER CONSTRUCTION
+     * curl -XPOST --data 'idBlock=492&testTitle=testTitle2&optionsNum=3&PageId=1&answer1=answer3&is_valid1=1&answer2=answer4&is_valid2=0&answer3=answer5' 'http://intita.projectevision/EditTest' -b XDEBUG_SESSION=PHPSTORM
      */
     public function actionEditTest() {
-//        $idBlock =  Yii::app()->request->getPost('idBlock', 0);
-//        $condition =  Yii::app()->request->getPost('condition', '');
-//        $testTitle = Yii::app()->request->getPost('testTitle', '');
-//        $optionsNum = Yii::app()->request->getPost('optionsNum', 0);
-//
-//        $options = [];
-//        for ($i = 0; $i < $optionsNum; $i++){
-//            $temp = "option".($i+1);
-//            $options[$i]["option"] = Yii::app()->request->getPost($temp, '');
-//            $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid".($i+1), 0);
-//        }
-//
-//
-//        if (LectureElement::editTestBlock($idBlock, $condition)) {
-//            $idTest = Tests::model()->findByAttributes(array('block_element' => $idBlock))->id;
-//            TestsAnswers::editOptions($idTest, $options);
-//        }
-//
-//        $this->redirect(Yii::app()->request->urlReferrer);
+        $arr = [];
+        $arr['idBlock'] =  Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->html_block
+        $arr['condition'] =  Yii::app()->request->getPost('condition', '');    //RevisionLectureElement->html_block
+        $arr['testTitle'] = Yii::app()->request->getPost('testTitle', '');     //RevisionTest->title
+        $arr['optionsNum'] = Yii::app()->request->getPost('optionsNum', 0);    //options amount
+
+
+        $options = [];
+        for ($i = 0; $i < $arr['optionsNum']; $i++){
+            $options[$i]["answer"] = Yii::app()->request->getPost("answer".($i+1), '');     //RevisionTestAnswer->answer
+            $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid".($i+1), 0);  //RevisionTestAnswer->is_valid
+        }
+
+        $arr['answers'] = $options;
+        print_r($arr);
+
+        RevisionQuizFactory::editQuiz($arr);
     }
 
     /**
