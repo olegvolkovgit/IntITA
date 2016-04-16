@@ -149,9 +149,12 @@ class Trainer extends Role
     }
 
     public function checkBeforeDeleteRole(StudentReg $user){
-        if(count($this->studentsList($user)) > 0)
+        if(Yii::app()->db->createCommand('select count(student) from trainer_student where trainer='.$user->id.
+            ' and end_time IS NULL')->queryScalar() > 0) {
             $this->errorMessage = "Тренеру призначені студенти. Щоб видалити роль тренера, потрібно скасувати права тренера для всіх студентів";
-        return count($this->studentsList($user)) == 0;
+            return false;
+        }
+        else return true;
     }
 
     //not supported

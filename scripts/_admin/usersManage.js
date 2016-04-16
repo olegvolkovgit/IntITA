@@ -217,7 +217,7 @@ function initAccountantsTable() {
 function addTrainer(url, scenario) {
     var id = document.getElementById('user').value;
     var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
-    var oldTrainerId = (scenario != "new") ? $jq("#oldTrainerId").val() : 0;
+    var oldTrainerId = 0;//(scenario != "new") ? $jq("#oldTrainerId").val() : 0;
     if (trainerId == 0 && scenario != "remove") {
         showDialog("Виберіть тренера.");
     }
