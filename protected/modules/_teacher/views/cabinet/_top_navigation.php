@@ -4,6 +4,7 @@
  * @var $model RegisteredUser
  * @var $requests array
  * @var $newMessages array
+ * @var $countNewMessages int
  */
 ?>
 <div class="navbar-header">
@@ -25,8 +26,8 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <?php if(!empty($newMessages)){?>
-                <span class="label label-success"><?=count($newMessages)?></span>
+            <?php if($countNewMessages > 0){?>
+                <span class="label label-success"><?=$countNewMessages;?></span>
             <?php }?>
             <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
             <i class="fa fa-caret-down"></i>

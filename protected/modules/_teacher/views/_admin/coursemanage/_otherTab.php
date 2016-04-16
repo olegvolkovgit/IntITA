@@ -5,22 +5,31 @@
  * @var $model Course
  * @var $item string
  */
+$langs = array_diff(array('ua', 'ru', 'en'), array($model->language));
 ?>
 
 <div class="panel panel-default">
     <div class="panel-body">
         <?php if ($scenario == "update") { ?>
             <ul class="list-inline">
-                <li>
-                    <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addLinkedCourse",
-                                array("id" => $model->course_ID, "lang" => $model->language));?>',
-                                'Пов\'язані курси на інших мовах'); return false;">
-                        Редагувати курси на інших мовах
-                    </button>
-                </li>
+            <?php foreach ($langs as $item) {
+                $param = 'lang_' . $item;
+                if ($linkedCourses->$param == null) {
+                    ?>
+                    <li>
+                        <button type="button" class="btn btn-outline btn-primary"
+                                onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addLinkedCourse", array(
+                                    "model" => $linkedCourses->id,
+                                    "course" => $model->course_ID,
+                                    "lang" => $item
+                                ));?>', '<?="Додати курс (".$item.")"?>')">
+                            Додати курс (<?= $item ?>)
+                        </button>
+                    </li>
+                <?php } ?>
+            <?php }?>
             </ul>
-        <?php } ?>
+        <?php }?>
 
         <?php if ($linkedCourses) { ?>
             <div class="col-md-12">
@@ -38,9 +47,8 @@
                             </thead>
                             <tbody>
                             <?php
-                            $langs = array_diff(array('ua', 'ru', 'en'), array('ua'));
                             foreach ($langs as $item) {
-                                if ($linkedCourses["lang_" . $item] != 0 && $item != $model->language) {
+                                if ($linkedCourses["lang_" . $item] != null) {
                                     $course = Course::model()->findByPk($linkedCourses["lang_" . $item]);
                                     ?>
                                     <tr>
@@ -58,7 +66,7 @@
                                                 <a href="#" onclick="deleteLinkedCourse(
                                                     '<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/deleteLinkedCourse");?>',
                                                     '<?=$linkedCourses->id?>', '<?=$item?>',
-                                                    '<?="Курс ".CHtml::encode($course->title_ua)?>',
+                                                    '<?="Курс ".CHtml::encode($model->title_ua)?>',
                                                     '<?=$model->course_ID?>')">
                                                     видалити</a>
                                             </td>
