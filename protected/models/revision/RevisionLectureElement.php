@@ -169,7 +169,6 @@ class RevisionLectureElement extends CActiveRecord
         $clone->id_type = $this->id_type;
         $clone->block_order = $this->block_order;
         $clone->html_block = $this->html_block;
-
         $clone->saveCheck();
 
         return $clone;
@@ -186,22 +185,15 @@ class RevisionLectureElement extends CActiveRecord
     }
 
     public function cloneQuiz($idNewPage) {
-
         $clone = new RevisionLectureElement();
         $clone->id_page = $idNewPage;
         $clone->id_type = $this->id_type;
         $clone->block_order = $this->block_order;
         $clone->html_block = $this->html_block;
-
         $clone->saveCheck();
 
-        switch ($this->id_type) {
-            case LectureElement::TEST:
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $this->id));
-                $test->cloneTest($clone->id);
-                break;
-            default:
-                return null;
-        }
+        RevisionQuizFactory::cloneQuiz($this, $clone);
+
+        return $clone;
     }
 }

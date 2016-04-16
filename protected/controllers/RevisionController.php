@@ -1,7 +1,6 @@
 <?php
 
-class RevisionController extends Controller
-{
+class RevisionController extends Controller {
 
     public $layout = 'lessonlayout';
 
@@ -490,13 +489,24 @@ class RevisionController extends Controller
     }
 
     /**
-     * curl -XPOST --data 'idBlock=496' 'http://intita.projectevision/DeleteTest'
+     * curl -XPOST --data 'idBlock=496' 'http://intita.project/revision/DeleteTest'
      */
     public function actionDeleteTest() {
         $arr = [];
         $idBlock =  Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->id
 
         RevisionQuizFactory::deleteQuiz($idBlock);
+    }
+
+    /**
+     * curl -XPOST --data 'idRevision=99' 'http://intita.project/revision/CloneLecture' -b XDEBUG_SESSION=PHPSTORM
+     */
+    public function actionCloneLecture() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        $lectureRevision->cloneLecture(Yii::app()->user);
     }
 
     /**
