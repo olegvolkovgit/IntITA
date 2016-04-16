@@ -25,6 +25,10 @@
                     </li>
                     <li><a href="#teacher_consultant" data-toggle="tab">Викладачі-консультанти (<?=$counters["teacherConsultants"];?>)</a>
                     </li>
+                    <li><a href="#trainer" data-toggle="tab">Тренери (<?=$counters["trainers"];?>)</a>
+                    </li>
+                    <li><a href="#consultant" data-toggle="tab">Консультанти (<?=$counters["consultants"];?>)</a>
+                    </li>
                     <li><a href="#tenant" data-toggle="tab">Tenants (<?=$counters["tenants"];?>)</a>
                     </li>
                 </ul>
@@ -53,6 +57,12 @@
             <div class="tab-pane fade" id="content_manager">
                 <?php $this->renderPartial('tables/_contentManagersTable');?>
             </div>
+            <div class="tab-pane fade" id="trainer">
+                <?php $this->renderPartial('tables/_trainersTable');?>
+            </div>
+            <div class="tab-pane fade" id="consultant">
+                <?php $this->renderPartial('tables/_consultantsTable');?>
+            </div>
             <div class="tab-pane fade" id="tenant">
                 <?php $this->renderPartial('tables/_tenantsTable');?>
             </div>
@@ -70,6 +80,8 @@
         initContentManagersTable();
         initTeacherConsultantsTable();
         initTenantsTable();
+        initTrainersTable();
+        initConsultantsRolesTable();
 
         $jq("#startDate").datepicker(lang);
         $jq("#endDate").datepicker(lang);

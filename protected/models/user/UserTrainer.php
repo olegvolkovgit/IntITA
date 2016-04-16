@@ -134,4 +134,25 @@ class UserTrainer extends CActiveRecord
 			->queryAll();
 		return $singleModules;
 	}
+
+	public static function trainersList(){
+        $sql = 'select * from user as u, user_trainer as ut where u.id = ut.id_user';
+        $consultants = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($consultants as $record) {
+            $row = array();
+            $row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+            $row["email"]["title"] = $record["email"];
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
+                array('id' => $record['id']));
+            $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
+            $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
+            $row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'trainer', '".$record["id"]."'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }
