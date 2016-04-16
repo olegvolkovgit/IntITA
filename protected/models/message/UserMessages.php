@@ -271,4 +271,15 @@ class UserMessages extends Messages implements IMessage
         return UserMessages::model()->find($criteria);
     }
 
+    public function subject(){
+        return $this->subject;
+    }
+
+    public function text(){
+        return $this->text;
+    }
+
+    public function type(){
+        return MessagesType::USER;
+    }
 }

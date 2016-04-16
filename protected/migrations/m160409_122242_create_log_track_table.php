@@ -1,6 +1,6 @@
 <?php
 
-class m160409_122244_create_log_track_table extends CDbMigration
+class m160409_122242_create_log_track_table extends CDbMigration
 {
 	public function up()
 	{
@@ -10,7 +10,7 @@ class m160409_122244_create_log_track_table extends CDbMigration
                 'lesson' => 'string',
                 'user' => 'string',
                 'part' => 'string',
-                'logtime' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'
+                'logtime' => 'datetime NOT NULL DEFAULT CURRENT_TIMESTAMP'
             ));
 	}
 

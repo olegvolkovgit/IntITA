@@ -10,7 +10,8 @@ class CoursemanageController extends TeacherCabinetController
         parent::init();
     }
 
-    public function hasRole(){
+    public function hasRole()
+    {
         return Yii::app()->user->model->isAdmin();
     }
 
@@ -125,6 +126,9 @@ class CoursemanageController extends TeacherCabinetController
 
         }
         $linkedCourses = $model->linkedCourses();
+        if (!$linkedCourses) {
+            $linkedCourses = new CourseLanguages();
+        }
 
         $this->renderPartial('update', array(
             'model' => $model,
@@ -268,17 +272,6 @@ class CoursemanageController extends TeacherCabinetController
         $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
     }
 
-    public function actionGenerationAvailableModule()
-    {
-
-        if (isset($_POST['course']))
-            $course = $_POST['course'];
-
-        $result = Module::showAvailableModule($course);
-
-        echo $result;
-    }
-
     public function actionGetCoursesList()
     {
         echo Course::coursesList();
@@ -294,21 +287,21 @@ class CoursemanageController extends TeacherCabinetController
         }
     }
 
-    public function actionAddLinkedCourse($id)
+    public function actionAddLinkedCourse($model, $course, $lang)
     {
-        $course = Course::model()->findByPk($id);
-        $param = "lang_" . $course->language;
-        $model = CourseLanguages::model()->findByAttributes(array($param => $id));
-        if (!$model) {
-            $model = new CourseLanguages();
+        $courseModel = Course::model()->findByPk($course);
+        $courseLangModel = CourseLanguages::model()->findByPk($model);
+        if (!$courseLangModel) {
+            $courseLangModel = new CourseLanguages();
         }
         $this->renderPartial('_addLinkedCourse', array(
-            'model' => $model,
-            'course' => $course,
+            'model' => $courseLangModel,
+            'course' => $courseModel,
+            'lang' => $lang
         ), false, true);
     }
 
-    public function actionCoursesByQueryAndLang($lang, $query)
+    public function actionCoursesByQueryAndLang($query, $lang)
     {
         if ($query && $lang) {
             echo Course::coursesByQueryAndLang($query, $lang);
@@ -319,44 +312,35 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionChangeLinkedCourses()
     {
-
+        $linkedId = Yii::app()->request->getPost("linkedCourse", 0);
         $modelId = Yii::app()->request->getPost("modelId", 0);
-        $ua = Yii::app()->request->getPost("ua", '');
-        $ru = Yii::app()->request->getPost("ru", '');
-        $en = Yii::app()->request->getPost("en", '');
+        $courseId = Yii::app()->request->getPost("course", 0);
+        $lang = Yii::app()->request->getPost("lang", '');
 
-        if ($modelId == 0) {
-            if(CourseLanguages::check(array($ua, $ru, $en))) {
-                $model = CourseLanguages::addNewRecord($ua, $ru, $en);
-                if ($model) {
-                    echo "Операцію успішно виконано.";
-                    Yii::app()->end();
-                } else {
-                    echo "Операцію не виконано. Зверніться до адміністратора " . Config::getAdminEmail();
-                    Yii::app()->end();
-                }
+        $course = Course::model()->findByPk($courseId);
+        $linkedCourse = Course::model()->findByPk($linkedId);
+        if ($course && $linkedCourse) {
+            if ($modelId == 0) {
+                $model = new CourseLanguages();
+                $param = 'lang_' . $course->language;
+                $model->$param = $course->course_ID;
             } else {
-                echo "Обраний курс(и) вже пов'язаний з іншим(и) курсами. Спочатку потрібно видалити попередній запис.";
+                $model = CourseLanguages::model()->findByPk($modelId);
+            }
+            $langParam = "lang_" . $lang;
+            $model->$langParam = $linkedCourse->course_ID;
+
+            if ($model->save()) {
+                echo "Операцію успішно виконано.";
+                Yii::app()->end();
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                Yii::app()->end();
             }
         } else {
-            $model = CourseLanguages::model()->findByPk($modelId);
-            if(CourseLanguages::check(array($ua, $ru, $en))) {
-                if ($model) {
-                    if ($model->updateByCourse($ua, $ru, $en)) {
-                        echo "Операцію успішно виконано.";
-                        Yii::app()->end();
-                    } else {
-                        echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
-                        Yii::app()->end();
-                    }
-                } else {
-                    echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
-                    Yii::app()->end();
-                }
-            } else {
-                echo "Обраний курс(и) вже пов'язаний з іншим(и) курсами. Спочатку потрібно видалити попередній запис.";
-            }
+            echo "Неправильно введені дані.";
         }
+
     }
 
     public function actionDeleteLinkedCourse()
@@ -366,16 +350,16 @@ class CoursemanageController extends TeacherCabinetController
         $model = CourseLanguages::model()->findByPk($id);
 
         if ($model) {
-            if($model->cancelLinkedCourse($lang)) {
+            if ($model->cancelLinkedCourse($lang)) {
                 echo "Операцію успішно виконано.";
                 Yii::app()->end();
             } else {
                 echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
                 Yii::app()->end();
             }
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
+            Yii::app()->end();
         }
-        echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
-        Yii::app()->end();
-
     }
 }
