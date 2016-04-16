@@ -1,5 +1,5 @@
 
-function addTeacherAttr(url, attr, id, role,header,redirect) {
+function addTeacherAttrCM(url, attr, id, role,header,redirect) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -18,30 +18,7 @@ function addTeacherAttr(url, attr, id, role,header,redirect) {
             success: function (response) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        switch (role) {
-                            case "trainer":
-                                loadTrainerStudentList(user);
-                                break;
-                            case "author":
-                                if(redirect=='teacherAccess')
-                                    loadAddTeacherAccess(header,'0');
-                                else if (id == '#moduleId')
-                                    loadAddModuleAuthor();
-                                else if (id == '#module')
-                                    loadModuleEdit(value,header,'5');
-                                else loadTeacherModulesList(user);
-                                break;
-                            case "consultant":
-                                if(redirect=='teacherAccess')
-                                    loadAddTeacherAccess(header,'2');
-                                else if(redirect=='editModule')
-                                    loadModuleEdit(value,header,'6');
-                                else loadAddModuleConsultant(user);
-                                break;
-                            case "teacher_consultant":
-                                loadTeacherConsultantList(user);
-                                break;
-                        }
+                       window.history.back();
                     });
                 } else {
                     switch (role) {
