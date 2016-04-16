@@ -59,4 +59,30 @@ class RevisionQuizFactory
         }
         return null;
     }
+
+    public static function deleteQuiz($idBlock) {
+        //todo refactor deleting lecture element
+        $lectureElementRevision = RevisionLectureElement::model()->findByPk($idBlock);
+
+        switch($lectureElementRevision->id_type)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST :
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idBlock));
+                if($test->deleteTest()) {
+                    $test->delete();
+                };
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
+        }
+
+        $lectureElementRevision->delete();
+        return null;
+    }
 }

@@ -490,6 +490,16 @@ class RevisionController extends Controller
     }
 
     /**
+     * curl -XPOST --data 'idBlock=496' 'http://intita.projectevision/DeleteTest'
+     */
+    public function actionDeleteTest() {
+        $arr = [];
+        $idBlock =  Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->id
+
+        RevisionQuizFactory::deleteQuiz($idBlock);
+    }
+
+    /**
      * Returns true if $user can approve or reject.
      * @param $user
      * @return bool

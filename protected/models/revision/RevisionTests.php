@@ -180,4 +180,12 @@ class RevisionTests extends CActiveRecord
             RevisionTestsAnswers::model()->deleteByPk($pkToDelete);
         }
     }
+
+    public function deleteTest() {
+        $testAnswers = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test'=>$this->id));
+        foreach ($testAnswers as $testAnswer) {
+            $testAnswer->delete();
+        }
+        return true;
+    }
 }
