@@ -9,20 +9,20 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                    'Викладачі')">Викладачі</button>
+                    'Співробітники')">Співробітники</button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $teacher->user_id)); ?>',
-                    'Переглянути інформацію про викладача')">
-            Переглянути інформацію про викладача</button>
+                    'Переглянути інформацію про співробітника')">
+            Переглянути інформацію про співробітника</button>
     </li>
 </ul>
 <div class="col-md-8">
 <div id="addTeacherRole">
     <form name="add-access">
         <fieldset>
-            <legend>Викладач: <em>
+            <legend>Співробітник: <em>
                 <?php echo $teacher->lastName()." ".$teacher->firstName(). " ".$teacher->middleName();?></em></legend>
             <input type="number" hidden="hidden" value="<?=$teacher->user_id;?>" id="teacher">
             Роль:<br>

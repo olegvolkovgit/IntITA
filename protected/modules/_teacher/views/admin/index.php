@@ -62,13 +62,13 @@
     <div class="col-lg-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Викладачі / випускники
+                Співробітники / випускники
             </div>
             <div class="panel-body">
                 <ul>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                               'Викладачі')">Викладачі</a>
+                               'Співробітники')">Співробітники</a>
                     </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/shareLink/index'); ?>',
