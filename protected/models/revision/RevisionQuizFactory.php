@@ -12,6 +12,12 @@ class RevisionQuizFactory
         $newLectureElement->html_block = $arr['condition'];
         $newLectureElement->saveCheck();
 
+        $page = RevisionLecturePage::model()->findByPk($newLectureElement->id_page);
+        if ($page != null) {
+            $page->quiz = $newLectureElement->id;
+            $page->update(array('quiz'));
+        }
+
         switch($arr['type'])
         {
             case 'plain_task' :
