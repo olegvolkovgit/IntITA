@@ -41,11 +41,11 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    var order = element.parent().attr('id').substring(1);
+                    var idEl = element.parent().attr('id').substring(1);
                     $http({
-                        url: basePath + '/revision/upElement',
+                        url: basePath + '/revision/upLectureElement',
                         method: "POST",
-                        data: $.param({idLecture: idLecture, order: order}),
+                        data: $.param({idElement:idEl, idPage:idPage}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function () {
@@ -71,11 +71,11 @@ angular
         return {
             link: function (scope, element) {
                 element.bind('click', function () {
-                    var order = element.parent().attr('id').substring(1);
+                    var idEl = element.parent().attr('id').substring(1);
                     $http({
-                        url: basePath + '/revision/downElement',
+                        url: basePath + '/revision/downLectureElement',
                         method: "POST",
-                        data: $.param({idLecture: idLecture, order: order}),
+                        data: $.param({idElement:idEl, idPage:idPage}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function () {
@@ -103,11 +103,11 @@ angular
                 element.bind('click', function () {
                     $ngBootbox.confirm(scope.deleteMsg)
                         .then(function() {
-                            var order = element.parent().attr('id').substring(1);
+                            var idEl = element.parent().attr('id').substring(1);
                             $http({
-                                url: basePath + '/revision/deleteElement',
+                                url: basePath + '/revision/deleteLectureElement',
                                 method: "POST",
-                                data: $.param({idLecture: idLecture, order: order}),
+                                data: $.param({idElement:idEl, idPage:idPage}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             })
                                 .success(function () {

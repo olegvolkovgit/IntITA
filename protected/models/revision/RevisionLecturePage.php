@@ -220,7 +220,6 @@ class RevisionLecturePage extends CActiveRecord
      * @throws Exception
      */
     public function clonePage($user, $idNewRevision = null) {
-
         if ($idNewRevision != null && !$this->isClonable()) {
             // we shouldn't clone page in new revision if it is not cloneable
             // (was rejected or cancelled)
@@ -256,7 +255,7 @@ class RevisionLecturePage extends CActiveRecord
 
             $quiz = $this->getQuiz();
             if ($quiz != null) {
-                $newQuiz = $quiz->cloneQuiz();
+                $newQuiz = $quiz->cloneQuiz($newRevision->id);
             }
 
             if ($this->video != null) {
@@ -749,5 +748,19 @@ class RevisionLecturePage extends CActiveRecord
      */
     private function isCancelled() {
         return $this->id_user_cancelled != null;
+    }
+
+    public static function addQuiz($pageId, $blockElement){
+        $model = RevisionLecturePage::model()->findByPk($pageId);
+        $model->quiz = $blockElement;
+        $model->save();
+    }
+    public function getPageQuiz()
+    {
+        if ($this->quiz) {
+            return RevisionLectureElement::model()->findByPk($this->quiz);
+        } else {
+            return '';
+        }
     }
 }

@@ -125,5 +125,15 @@ class RevisionTestsAnswers extends CActiveRecord
         $newTestAnswer->saveCheck();
         return $newTestAnswer;
     }
-
+	public static function getTestValid($idLectureElement){
+		$answers=[];
+		$test = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test' => RevisionTests::getTestId($idLectureElement)));
+		foreach($test as $answer){
+			if ($answer->is_valid==0)
+				array_push($answers, 'false');
+			elseif ($answer->is_valid==1)
+				array_push($answers, 'true');
+		}
+		return $answers;
+	}
 }

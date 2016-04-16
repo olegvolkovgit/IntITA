@@ -188,4 +188,15 @@ class RevisionTests extends CActiveRecord
         }
         return true;
     }
+	public static function getTestAnswers($idLectureElement){
+		$answers=[];
+		$test = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test' => RevisionTests::getTestId($idLectureElement)));
+		foreach($test as $answer){
+			array_push($answers, $answer->answer);
+		}
+		return $answers;
+	}
+	public static function getTestId($idLectureElement){
+		return RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idLectureElement))->id;
+	}
 }

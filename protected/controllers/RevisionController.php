@@ -2,6 +2,7 @@
 
 class RevisionController extends Controller
 {
+    public $layout = 'lessonlayout';
 
     public $layout = 'lessonlayout';
 
@@ -108,13 +109,15 @@ class RevisionController extends Controller
 
         $video = $page->getVideo();
         $lectureBody = $page->getLectureBody();
+        $dataProvider = new CArrayDataProvider($lectureBody);
         $quiz = $page->getQuiz();
 
-        $this->renderPartial("pageview", array(
-                        "page" => $page,
-                        "video" => $video,
-                        "lectureBody" => $lectureBody,
-                        "quiz" => $quiz));
+        $this->render("indexCKE", array(
+            'user' => Yii::app()->user->getId(),
+            "page" => $page,
+            "video" => $video,
+            "dataProvider" => $dataProvider,
+            "quiz" => $quiz));
     }
 
     public function actionAddVideo() {
@@ -463,7 +466,9 @@ class RevisionController extends Controller
             $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid".($i+1), 0);  //RevisionTestAnswer->is_valid
         }
         $arr['answers'] = $options;
-        RevisionQuizFactory::createQuiz($arr);
+
+        if(RevisionQuizFactory::createQuiz($arr))
+            $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
@@ -698,6 +703,20 @@ class RevisionController extends Controller
         // if AJAX request, we should not redirect the browser
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionDataTest()
+    {
+        $idPage = Yii::app()->request->getPost('idPage');
+        $page=RevisionLecturePage::model()->findByPk($idPage);
+        $data = [];
+        $data["condition"] =  $page->getPageQuiz()->html_block;
+        $answers=RevisionTests::getTestAnswers($page->quiz);
+        $valid=RevisionTestsAnswers::getTestValid($page->quiz);
+        $data["answers"]=$answers;
+        $data["valid"]=$valid;
+
+        echo CJSON::encode($data);
     }
 
 
