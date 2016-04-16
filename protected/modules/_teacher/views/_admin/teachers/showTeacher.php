@@ -12,8 +12,8 @@
         <ul class="list-inline">
             <li>
                 <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Викладачі')">
-                    Викладачі
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Співробітники')">
+                    Співробітники
                 </button>
             </li>
             <li>
@@ -53,13 +53,13 @@
                 <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
 
                 <?php if (!empty($user->getRoles())) { ?>
-                    <li class="list-group-item">Ролі викладача:
+                    <li class="list-group-item">Ролі користувача:
                         <ul>
                             <?php foreach ($user->teacherRoles() as $role) { ?>
                                 <li><?= $role; ?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?="Викладач ".addslashes($teacher->user->userName()).", роль ".$role; ?>')"><em>редагувати</em>
+                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?=addslashes($teacher->user->userName()).", роль ".$role; ?>')"><em>редагувати</em>
                                     </a>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
@@ -72,7 +72,7 @@
                                 <li>
                                     author: <a href="#"
                                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?="Викладач ".addslashes($teacher->user->userName()).", роль author"; ?>')"><em>редагувати</em>
+                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?=addslashes($teacher->user->userName()).", роль author"; ?>')"><em>редагувати</em>
                                     </a>
                                 </li>
                             <?php }

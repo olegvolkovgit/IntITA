@@ -3,7 +3,7 @@
 /* @var $form CActiveForm */
 /* @var $scenario string */
 ?>
-<div class="form">
+<div class="formMargin">
     <div class="col-md-8">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'teacher-form',

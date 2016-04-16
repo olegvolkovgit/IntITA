@@ -152,15 +152,16 @@ class UsersController extends TeacherCabinetController
         else echo "error";
     }
 
-    public function actionChangeTrainer($id, $oldTrainerId)
+    public function actionChangeTrainer($id)
     {
-        $trainerStudent = TrainerStudent::model()->findByAttributes(array('student' => $id, 'trainer' => $oldTrainerId));
-
-        if (!$trainerStudent)
-            throw new CHttpException(404, 'Вказана сторінка не знайдена');
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+        if($trainer){
+            $oldTrainer = RegisteredUser::userById($trainer->id)->getTeacher();
+        } else {
+            $oldTrainer = null;
+        }
 
         $user = StudentReg::model()->findByPk($id);
-        $oldTrainer = RegisteredUser::userById($oldTrainerId)->getTeacher();
 
         $trainers = Teacher::getAllTrainers();
 
@@ -184,13 +185,14 @@ class UsersController extends TeacherCabinetController
     public function actionEditTrainer()
     {
         $userId = Yii::app()->request->getPost('userId');
-        $oldTrainerId = Yii::app()->request->getPost('oldTrainerId');
         $trainerId = Yii::app()->request->getPost('trainerId');
 
         $trainer = RegisteredUser::userById($trainerId);
-        $oldTrainer = RegisteredUser::userById($oldTrainerId);
-
-        $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
+        if($oldTrainerId) {
+            $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
+            $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        }
         if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";
     }
@@ -198,9 +200,9 @@ class UsersController extends TeacherCabinetController
     public function actionRemoveTrainer()
     {
         $userId = Yii::app()->request->getPost('userId');
-        $oldTrainerId = Yii::app()->request->getPost('oldTrainerId');
 
-        $oldTrainer = RegisteredUser::userById($oldTrainerId);
+        $trainer = TrainerStudent::getTrainerByStudent($userId);
+        $oldTrainer = RegisteredUser::userById($trainer->id);
 
         if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";

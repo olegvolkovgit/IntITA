@@ -30,7 +30,6 @@
         <form method="post"
               onsubmit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/editTrainer"); ?>', 'edit');return false;">
             <input class="form-control" id="user" type="hidden" value="<?php echo $user->id ?>">
-            <input class="form-control" id="oldTrainerId" type="hidden" value="<?php echo $oldTrainer->user_id ?>">
             <?php $this->renderPartial('_selectTrainer'); ?>
             <br>
             <br>

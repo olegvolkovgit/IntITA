@@ -10,14 +10,14 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                    'Викладачі')">Викладачі
+                    'Співробітники')">Співробіники
         </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->id)); ?>',
-                    'Переглянути інформацію про викладача')">
-            Переглянути інформацію про викладача
+                    'Переглянути інформацію про співробітника')">
+            Переглянути інформацію про співробітника
         </button>
     </li>
 </ul>
