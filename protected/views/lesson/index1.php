@@ -69,7 +69,7 @@ $finishedLecture = $lecture->isFinished($user);
     editMode = <?php echo ($editMode) ? 1 : 0;?>;
     partNotAvailable = '<?php echo Yii::t('lecture', '0638'); ?>';
     basePath = '<?php echo Config::getBaseUrl(); ?>';
-    isAdmin = '<?php echo StudentReg::isAdmin() ? 1 : 0; ?>';
+    isAdmin = '<?php echo Yii::app()->user->model->isAdmin() ? 1 : 0; ?>';
     if (parseInt(editMode || isAdmin)) {
         lastAccessPage = 1;
     } else {

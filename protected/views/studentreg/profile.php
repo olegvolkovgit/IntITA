@@ -39,6 +39,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         <p ng-if="profileData.aboutMy"><span class="colorP"><?php echo Yii::t('profile', '0100') ?></span>{{profileData.aboutMy}}</p>
                     </div>
                     <div class="aboutInfo">
+                        <p ng-if="profileData.country"><span class="colorP"><?php echo "Країна, місто:"; ?></span>{{profileData.country}}, {{profileData.city}}</p>
+                    </div>
+                    <div class="aboutInfo">
                         <p ng-if="profileData.email"><span class="colorP"><?php echo Yii::t('profile', '0101') ?></span>{{profileData.email}}</p>
                     </div>
                     <div class="aboutInfo">
@@ -133,6 +136,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'profileDialogs.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
 <!-- Scripts for open tabs -->

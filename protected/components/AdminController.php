@@ -59,7 +59,7 @@ class AdminController extends CController
 
     public function isAdministrator()
     {
-        return StudentReg::isAdmin();
+        return Yii::app()->user->model->isAdmin();
     }
 
     public function behaviors()

@@ -145,6 +145,42 @@ $post->secondName=addslashes($post->secondName);
                 </div>
                 <div id="addreg">
                     <div class="row">
+                        <?php echo $form->label($model, 'country'); ?>
+                        <?php
+                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                            'attribute'=>'country',
+                            'model'=>$model,
+                            'sourceUrl'=>array('studentreg/country'),
+                            'name'=>'country',
+                            'options'=>array(
+                                'minLength'=>'1',
+                            ),
+                            'htmlOptions'=>array(
+                                'size'=>45,
+                                'maxlength'=>45,
+                            ),
+                        )); ?>
+                        <span><?php echo $form->error($model, 'country'); ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'city'); ?>
+                        <?php
+                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                            'attribute'=>'city',
+                            'model'=>$model,
+                            'sourceUrl'=>array('studentreg/city'),
+                            'name'=>'city',
+                            'options'=>array(
+                                'minLength'=>'1',
+                            ),
+                            'htmlOptions'=>array(
+                                'size'=>45,
+                                'maxlength'=>45,
+                            ),
+                        )); ?>
+                        <span><?php echo $form->error($model, 'city'); ?></span>
+                    </div>
+                    <div class="row">
                         <?php echo $form->label($model, 'address'); ?>
                         <?php echo $form->textField($model, 'address', array('value' => $post->address, 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0626'))); ?>
                         <span><?php echo $form->error($model, 'address'); ?></span>

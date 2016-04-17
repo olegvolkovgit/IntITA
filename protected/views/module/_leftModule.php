@@ -1,11 +1,11 @@
 <?php
 /* @var $post Module*/
-if (StudentReg::isAdmin()) $post->setScenario('canedit');
+if (Yii::app()->user->model->isAdmin()) $post->setScenario('canedit');
 ?>
 <div class="leftModule">
     <div class="headerLeftModule">
         <?php
-        if (StudentReg::isAdmin())
+        if (Yii::app()->user->model->isAdmin())
         $this->renderPartial('_moduleInfoForAdmin', array('post'=>$post));
         else $this->renderPartial('_moduleInfo', array('post'=>$post));
         ?>
