@@ -46,7 +46,7 @@ class RevisionController extends Controller {
         }
 
         if (!$lectureRevision->isEditable()) {
-            $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);
+            throw new RevisionControllerException(400, 'This lecture cannot be modified.');
         }
 
         $this->render("lectureview", array(
@@ -289,18 +289,6 @@ class RevisionController extends Controller {
         } else {
             echo implode("; ", $result);
         }
-    }
-
-    public function actionNewLectureRevision() {
-
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
-
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRev->id_module)) {
-            throw new RevisionControllerException(403, 'Access denied.');
-        }
-
-        $newRevision = $lectureRev->cloneLecture(Yii::app()->user);
     }
 
     public function actionRejectLectureRevision () {
@@ -599,20 +587,6 @@ class RevisionController extends Controller {
         return json_encode(array_values($jsonArray));
     }
 
-//    private function buildPagesTreeJson($pages, $pagesTree) {
-//        $jsonArray = [];
-//        foreach ($pages as $page) {
-//            $node = array ();
-//            $node['text'] = "Ревізія №" . $page->id . " " . $page->page_title . ". Статус: " . $page->getStatus();
-//            $node['selectable'] = false;
-//            $node['id'] = $page->id;
-//
-//            $this->appendNode($jsonArray, $node, $pagesTree);
-//        }
-//        return json_encode(array_values($jsonArray));
-//    }
-
-
     /**
      * Legacy methods
      *
@@ -652,19 +626,6 @@ class RevisionController extends Controller {
 
         $lesson->saveBlock($order, $content, Yii::app()->user->getId());
     }
-
-//    public function actionAddVideo()
-//    {
-//        $htmlBlock = Yii::app()->request->getPost('newVideoUrl');
-//        $pageOrder = Yii::app()->request->getPost('page');
-//        $idLecture = Yii::app()->request->getPost('idLecture');
-//
-//        $lecture = Lecture::model()->findByPk($idLecture);
-//
-//        $lecture->addVideo($htmlBlock, $pageOrder, Yii::app()->user->getId());
-//
-//        $this->redirect(Yii::app()->request->urlReferrer);
-//    }
 
     public function actionDeleteVideo()
     {
