@@ -148,12 +148,6 @@ return array(
                     'levels'=>'error, warning, trace, profile, info',
                     'showInFireBug' => true
                 ),
-                array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, trace, info, profile',
-                    'categories'=>'system.db.*',
-                    'logFile'=>'sql.log',
-                ),
             ),
         ),
 
