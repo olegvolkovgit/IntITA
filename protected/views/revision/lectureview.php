@@ -4,12 +4,11 @@
 ?>
 
 <script>
-    function addPageRow($table, id, title, order, status){
+    function addPageRow($table, id, title, order){
         var $row = $('<tr></tr>');
         var $name = $('<td></td>').html(id).appendTo($row);
         var $title = $('<td></td>').html(title).appendTo($row);
         var $order = $('<td></td>').html(order).appendTo($row);
-        var $status = $('<td></td>').html(status).attr('id', 'status'+id).appendTo($row);
 
         var $buttons = $('<td></td>').append(
             '<div class="btn-group"> \
@@ -83,15 +82,12 @@
                 Порядковий номер
             </td>
             <td>
-                Статус
-            </td>
-            <td>
             </td>
         </tr>
         <?php foreach ($pages as $page) {?>
         <tr>
             <script>
-                addPageRow($('#pages'), <?=$page->id?>, '<?=$page->page_title?>', <?=$page->page_order?>, '<?=$page->getStatus()?>');
+                addPageRow($('#pages'), <?=$page->id?>, '<?=$page->page_title?>', <?=$page->page_order?>);
             </script>
         </tr>
         <?php } ?>

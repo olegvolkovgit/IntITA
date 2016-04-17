@@ -12,19 +12,6 @@
  * @property integer $page_order
  * @property integer $video
  * @property integer $quiz
- * @property string $start_date
- * @property integer $id_user_created
- * @property string $update_date
- * @property integer $id_user_updated
- * @property string $send_approval_date
- * @property integer $id_user_sended_approval
- * @property string $reject_date
- * @property integer $id_user_rejected
- * @property string $approve_date
- * @property integer $id_user_approved
- * @property string $end_date
- * @property integer $id_user_cancelled
- *
  * The followings are the available model relations:
  * @property RevisionLectureElement[] $lectureElements
  * @property RevisionLecture $idRevision
@@ -62,13 +49,12 @@ class RevisionLecturePage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_revision, page_order, start_date', 'required'),
-			array('id_page, id_parent_page, id_revision, page_order, video, quiz, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('id_revision, page_order', 'required'),
+			array('id_page, id_parent_page, id_revision, page_order, video, quiz', 'numerical', 'integerOnly'=>true),
 			array('page_title', 'length', 'max'=>255),
-			array('updated_date, send_approval_date, reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_page, id_parent_page, id_revision, page_title, page_order, video, quiz, start_date, id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, id_page, id_parent_page, id_revision, page_title, page_order, video, quiz', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -107,18 +93,6 @@ class RevisionLecturePage extends CActiveRecord
 			'page_order' => 'Page Order',
 			'video' => 'Video',
 			'quiz' => 'Quiz',
-			'start_date' => 'Start Date',
-			'id_user_created' => 'Id User Created',
-            'update_date' => 'Update Date',
-            'id_user_updated' => 'Id User Updated',
-            'send_approval_date' => 'Send Approval Date',
-            'id_user_sended_approval' => 'Id User Sended Approval',
-			'reject_date' => 'Reject Date',
-			'id_user_rejected' => 'Id User Rejected',
-			'approve_date' => 'Approve Date',
-			'id_user_approved' => 'Id User Approved',
-			'end_date' => 'End Date',
-			'id_user_cancelled' => 'Id User Cancelled',
 		);
 	}
 
@@ -148,18 +122,6 @@ class RevisionLecturePage extends CActiveRecord
 		$criteria->compare('page_order',$this->page_order);
 		$criteria->compare('video',$this->video);
 		$criteria->compare('quiz',$this->quiz);
-		$criteria->compare('start_date',$this->start_date,true);
-		$criteria->compare('id_user_created',$this->id_user_created);
-		$criteria->compare('update_date',$this->update_date,true);
-		$criteria->compare('id_user_updated',$this->id_user_updated);
-		$criteria->compare('send_approval_date',$this->send_approval_date,true);
-		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
-		$criteria->compare('reject_date',$this->reject_date,true);
-		$criteria->compare('id_user_rejected',$this->id_user_rejected);
-		$criteria->compare('approve_date',$this->approve_date,true);
-		$criteria->compare('id_user_approved',$this->id_user_approved);
-		$criteria->compare('end_date',$this->end_date,true);
-		$criteria->compare('id_user_cancelled',$this->id_user_cancelled);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -202,8 +164,6 @@ class RevisionLecturePage extends CActiveRecord
         $this->id_parent_page = null;
 
         $this->page_order = $order;
-		$this->start_date = new CDbExpression('NOW()');;
-		$this->id_user_created = $user->getId();
 
 		$this->id_revision = $idRevision;
 
@@ -220,12 +180,6 @@ class RevisionLecturePage extends CActiveRecord
      * @throws Exception
      */
     public function clonePage($user, $idNewRevision = null) {
-
-        if ($idNewRevision != null && !$this->isClonable()) {
-            // we shouldn't clone page in new revision if it is not cloneable
-            // (was rejected or cancelled)
-            return $this;
-        }
 
         if ($idNewRevision == null) {
             $idNewRevision = $this->id_revision;
@@ -246,9 +200,6 @@ class RevisionLecturePage extends CActiveRecord
             $newRevision->id_revision = $idNewRevision;
             $newRevision->page_title = $this->page_title;
             $newRevision->page_order = $this->page_order;
-
-            $newRevision->start_date = new CDbExpression('NOW()');;
-            $newRevision->id_user_created = $user->getId();
 
             $newRevision->saveCheck();
 
@@ -301,9 +252,6 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLecturePageException
      */
     public function saveVideo($url, $user) {
-
-        $this->checkEditable();
-
         if ($this->video != null) {
             $videoElement = RevisionLectureElement::model()->findByPk($this->video);
             $videoElement->html_block = $url;
@@ -314,97 +262,6 @@ class RevisionLecturePage extends CActiveRecord
             $this->video = $videoElement->id;
             $this->saveCheck();
         }
-
-        $this->setUpdateDate($user);
-    }
-
-    /**
-     * Sends page for approve
-     * @param $user
-     * @return string
-     * @throws RevisionLecturePageException
-     */
-    public function sendForApproval($user) {
-        if ($this->isSendable()) {
-            $this->send_approval_date = new CDbExpression('NOW()');;
-            $this->id_user_sended_approval = $user->getId();
-            $this->saveCheck();
-            $message = 'Відправлена на розгляд';
-        } else {
-            //todo inform user
-            $message = 'Сторінка не може бути відправлена на затвердження';
-        }
-        return json_encode(array("status" => $this->getStatus(),"message" => $message));
-    }
-
-    /**
-     * Returns true if page can be edited
-     * @return bool
-     */
-    public function isEditable() {
-        if (!$this->isSended() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isRejected()) {
-            return true;
-		}
-		return false;
-	}
-
-    /**
-     * Approves page
-     * @param $user
-     * @return string
-     * @throws RevisionLecturePageException
-     */
-    public function approve($user) {
-        if ($this->isApprovable()) {
-            $this->approve_date = new CDbExpression('NOW()');;
-            $this->id_user_approved = $user->getId();
-            $this->saveCheck();
-            $message = "Сторінка затверджена";
-        } else {
-            $message = "Данна сторінка не може бути затверджена";
-            //todo inform that the page cannot be approved
-        }
-        return json_encode(array("status" => $this->getStatus(),"message" => $message));
-    }
-
-    /**
-     * Rejects page
-     * @param $user
-     * @return string
-     * @throws RevisionLecturePageException
-     */
-    public function reject($user) {
-        if ($this->isRejectable()) {
-            $this->reject_date = new CDbExpression('NOW()');;
-            $this->id_user_rejected = $user->getId();
-            $this->saveCheck();
-            $message = "Сторінка відхилена";
-        } else {
-            $message = "Данна сторінка не може бути відхилена";
-            //todo inform that the page cannot be rejected
-        }
-        return json_encode(array("status" => $this->getStatus(),"message" => $message));
-    }
-
-    /**
-     * Cancels page
-     * @param $user
-     * @return string
-     * @throws RevisionLecturePageException
-     */
-    public function cancel($user) {
-        if ($this->isCancellable()) {
-            $this->end_date = new CDbExpression('NOW()');;
-            $this->id_user_cancelled = $user->getId();
-            $this->saveCheck();
-            $message = 'Сторінка скасована';
-        } else {
-            $message = 'Сторінка не може бути скасована';
-        }
-        return json_encode(array("status" => $this->getStatus(),"message" => $message));
     }
 
     /**
@@ -413,10 +270,7 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLecturePageException
      */
     public function setTitle($title, $user) {
-        $this->checkEditable();
-
         $this->page_title = $title;
-        $this->setUpdateDate($user, false);
         $this->saveCheck();
     }
 
@@ -429,8 +283,6 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLecturePageException
      */
     public function addTextBlock($idType, $html_block, $user) {
-        $this->checkEditable();
-
         $order = $this->getNextOrder();
 
         $element = new RevisionLectureElement();
@@ -439,35 +291,26 @@ class RevisionLecturePage extends CActiveRecord
         $element->html_block = $html_block;
         $element->id_page = $this->id;
         $element->saveCheck();
-
-        $this->setUpdateDate($user);
-
         return $element;
     }
 
+    //@todo refactor this method
     /**
      * Moves page up
      * @throws RevisionLecturePageException
      */
     public function moveUp($user) {
-        $this->checkEditable();
-
         $this->page_order = ($this->page_order>1?$this->page_order-1:1);
-        $this->setUpdateDate($user, false);
-
         $this->saveCheck();
     }
 
+    //@todo refactor this method
     /**
      * Move page down
      * @throws RevisionLecturePageException
      */
     public function moveDown($user) {
-        $this->checkEditable();
-
         $this->page_order = $this->page_order+1;
-        $this->setUpdateDate($user, false);
-
         $this->saveCheck();
     }
 
@@ -501,7 +344,6 @@ class RevisionLecturePage extends CActiveRecord
                 return;
             }
         }
-        $this->setUpdateDate($user);
     }
 
     /**
@@ -519,28 +361,12 @@ class RevisionLecturePage extends CActiveRecord
 
             }
         }
-        $this->setUpdateDate($user);
-    }
-
-    /**
-     * Sets update date and id user.
-     * @param $user - current user model
-     * @param bool $isSave - true (default) if need to save of false if no need to save
-     * @throws RevisionLecturePageException
-     */
-    public function setUpdateDate($user, $isSave = true) {
-        $this->update_date = new CDbExpression('NOW()');
-        $this->id_user_updated = $user->getId();
-        if ($isSave) {
-            $this->saveCheck();
-        }
     }
 
     public function deleteElement($idElement, $user) {
        foreach ($this->lectureElements as $lectureElement) {
            if ($lectureElement->id == $idElement) {
                $lectureElement->delete();
-               $this->setUpdateDate($user);
                return;
            }
        }
@@ -580,9 +406,7 @@ class RevisionLecturePage extends CActiveRecord
             $command->query();
         }
 
-
         return $newPage;
-
     }
 
     /**
@@ -601,17 +425,6 @@ class RevisionLecturePage extends CActiveRecord
     }
 
     /**
-     * Rises exception if page revision couldn't be changed
-     * @throws RevisionLecturePageException
-     */
-    private function checkEditable() {
-        //just to be sure. this case should be resolved in previous level;
-        if (!$this->isEditable()) {
-            throw new RevisionLecturePageException("Cannot modify uneditable lecture page");
-        }
-    }
-
-    /**
      * Returns next order for lectureElements
      * @return int
      */
@@ -621,134 +434,4 @@ class RevisionLecturePage extends CActiveRecord
         return $this->lectureElements[count($this->lectureElements)-1]->block_order+1;
     }
 
-    /**
-     * Return true if revision can be approved
-     * @return bool
-     */
-    public function isApprovable() {
-        if ($this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isCancelled() &&
-            !$this->isApproved()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns a Quick Union structure of related pages id.
-     * Algorithm based on Quick-Union algorithm
-     * http://algs4.cs.princeton.edu/15uf/
-     * It is important ot keep tree structure, so here is no optimizations
-     *
-     * @return array
-     */
-    public static function getQuickUnionStructure($allIdList) {
-        // building union data structure;
-        // array key represents the elements's id (id_revision),
-        // and array value represents link to root element of this element,
-        // if element is root its value equal to key
-
-        $quickUnion = array();
-        foreach($allIdList as $item) {
-            $quickUnion[$item['id']] = ($item['id_parent_page'] == null ? $item['id'] : $item['id_parent_page']);
-        };
-        return $quickUnion;
-    }
-
-    public function getStatus() {
-        if ($this->isCancelled()) {
-            return "Скасована";
-        }
-        if ($this->isApproved()) {
-            return "Затвердженна";
-        }
-        if ($this->isRejected()) {
-            return "Відхилена";
-        }
-        if ($this->isSended()) {
-            return "Відправлена на розгляд";
-        }
-        return 'Доступна для редагування';
-    }
-
-    /**
-     * Return true if revision can be reject
-     * @return bool
-     */
-    private function isRejectable() {
-        if ($this->isSended() &&
-            !$this->isApproved() &&
-            !$this->isRejected()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be cancel
-     * @return bool
-     */
-    private function isCancellable() {
-        if ($this->isSended() &&
-            !$this->isApproved() ||
-            $this->isCancelled()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Return true if revision can be send
-     * @return bool
-     */
-    private function isSendable() {
-        if (!$this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isApproved() &&
-            !$this->isCancelled()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be clone
-     * @return bool
-     */
-    private function isClonable() {
-        return (!$this->isRejected() && !$this->isCancelled());
-    }
-
-    /**
-     * Return true if revision was rejected
-     * @return bool
-     */
-    private function isRejected() {
-        return $this->id_user_rejected != null;
-    }
-
-    /**
-     * Return true if revision was sended
-     * @return bool
-     */
-    private function isSended() {
-        return $this->id_user_sended_approval != null;
-    }
-
-    /**
-     * Return true if revision was approved
-     * @return bool
-     */
-    private function isApproved() {
-        return $this->id_user_approved != null;
-    }
-
-    /**
-     * Return true if revision was cancelled
-     * @return bool
-     */
-    private function isCancelled() {
-        return $this->id_user_cancelled != null;
-    }
 }

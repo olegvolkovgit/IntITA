@@ -502,15 +502,6 @@ class RevisionLecture extends CActiveRecord
         return RevisionLecture::getQuickUnionStructure($allIdList);
     }
 
-    public function getPagesTree() {
-        $allIdList = Yii::app()->db->createCommand()
-            ->select('id, id_parent_page')
-            ->from('vc_lecture_page')
-            ->where('id_revision='.$this->id_revision)
-            ->queryAll();
-        return RevisionLecturePage::getQuickUnionStructure($allIdList);
-    }
-
     public function getStatus() {
         if ($this->isCancelled()) {
             return "Скасована";

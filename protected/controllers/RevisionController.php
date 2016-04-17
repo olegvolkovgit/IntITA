@@ -70,7 +70,6 @@ class RevisionController extends Controller {
             "id" => $newPage->id,
             "title" => $newPage->page_title,
             "order" => $newPage->page_order,
-            "status" => $newPage->getStatus()
         ));
 
         echo $json;
@@ -130,51 +129,6 @@ class RevisionController extends Controller {
         $page->saveVideo($url, Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionSendPageRevision() {
-        $idPage = Yii::app()->request->getPost("idPage");
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
-            throw new RevisionControllerException(403, 'Access denied.');
-        }
-
-        echo $page->sendForApproval(Yii::app()->user);
-    }
-
-    public function actionApprovePageRevision() {
-
-        if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to approve a lecture page');
-        }
-
-        $idPage = Yii::app()->request->getPost("idPage");
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-
-        echo $page->approve(Yii::app()->user);
-    }
-
-    public function actionCancelPageRevision() {
-        $idPage = Yii::app()->request->getPost("idPage");
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
-            throw new RevisionControllerException(403, 'Access denied.');
-        }
-
-        echo $page->cancel(Yii::app()->user);
-    }
-
-    public function actionRejectPageRevision() {
-        if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to reject a lecture page');
-        }
-
-        $idPage = Yii::app()->request->getPost("idPage");
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-
-        echo $page->reject(Yii::app()->user);
     }
 
     public function actionEditPageTitle() {
