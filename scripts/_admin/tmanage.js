@@ -1,20 +1,3 @@
-/**
- * Created by Quicks on 23.12.2015.
- */
-function ShowTeacher(url, id) {
-    $jq.ajax({
-        url: url,
-        type: 'post',
-        data: {'id': id},
-        success: function (data) {
-            fillContainer(data);
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
-
 function addTeacherAttr(url, attr, id, role,header,redirect) {
     user = $jq('#user').val();
     if (!role) {
@@ -126,73 +109,6 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl,tab,header) {
             }
         });
     }
-}
-
-function selectRole(url) {
-    clearAllAttrFields();
-
-    var role = $jq('select[name="role"]').val();
-    var user = $jq('#teacher').val();
-    if (!role) {
-        $jq('div[name="selectRole"]').html('');
-        $jq('div[name="selectAttribute"]').html('');
-    } else {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {role: role, user: user},
-            cache: false,
-            success: function (response) {
-                $jq('div[name="selectAttribute"]').html(response);
-            }
-        });
-    }
-}
-
-function selectAttribute(url) {
-    var attribute = $jq('select[name="attribute"]').val();
-    if (!attribute) {
-        $jq('div[name="inputValue"]').html('');
-    } else {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {attribute: attribute},
-            cache: false,
-            success: function (response) {
-                $jq('div[name="inputValue"]').html(response);
-            }
-        });
-    }
-}
-
-function clearAllAttrFields() {
-    $jq('div[name="selectAttribute"]').html('');
-    $jq('div[name="inputValue"]').html('');
-
-}
-
-
-function addExistModule(url) {
-    var moduleId = $jq("select[name=module] option:selected").val();
-    var courseId = $jq("select[name=course] option:selected").val();
-    if (moduleId && courseId) {
-        $jq.ajax({
-            url: url,
-            type: 'post',
-            data: {'moduleId': moduleId, 'courseId': courseId},
-            success: function (data) {
-                showDialog('Ви додали модуль до курсу');
-                fillContainer(data);
-            },
-            error: function () {
-                showDialog();
-            }
-        });
-    }
-    else
-        showDialog('Виберіть вірні дані!');
-    return false;
 }
 
 function saveSchema(url, id) {
@@ -385,28 +301,6 @@ function showDialog(str) {
     $jq('#myModal').modal('show');
 }
 
-function showConfirm(str, url) {
-    bootbox.confirm(str, function (result) {
-        if (result) {
-            var grid = getGridName();
-
-            $jq.ajax({
-                url: url,
-                type: 'post',
-                async: true,
-                success: function (data) {
-                    if (grid)
-                        $.fn.yiiGridView.update(grid);
-                    else
-                        fillContainer(data);
-                },
-                error: function () {
-                    showDialog();
-                }
-            });
-        }
-    })
-}
 function moduleCancelled(str, url) {
     bootbox.confirm(str, function (result) {
         if (result) {

@@ -7,7 +7,7 @@
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="userTabs" class="nav nav-tabs">
-            <li><a href="#register" data-toggle="tab">Зареєстровані користувачі (<?=$counters["users"];?>)</a>
+            <li class="active"><a href="#register" data-toggle="tab">Зареєстровані користувачі (<?=$counters["users"];?>)</a>
             </li>
             <li><a href="#students" data-toggle="tab">Студенти (<?=$counters["students"];?>)</a>
             </li>
@@ -36,7 +36,7 @@
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="admin">
+            <div class="tab-pane fade" id="admin">
                 <?php $this->renderPartial('tables/_adminsTable');?>
             </div>
             <div class="tab-pane fade" id="accountant">
@@ -45,7 +45,7 @@
             <div class="tab-pane fade" id="teacher">
                 <?php $this->renderPartial('tables/_teachersTable');?>
             </div>
-            <div class="tab-pane fade" id="register">
+            <div class="tab-pane fade in active" id="register">
                 <?php $this->renderPartial('tables/_usersTable');?>
             </div>
             <div class="tab-pane fade" id="students">

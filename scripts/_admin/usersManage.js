@@ -78,7 +78,7 @@ function initUsersTable() {
     });
 }
 
-function initConsultantsRolesTable(){
+function initConsultantsRolesTable() {
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,
         "ajax": {
@@ -89,30 +89,24 @@ function initConsultantsRolesTable(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
-                }},
-            {
-                "data": "email",
-                "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
                 }
             },
             {
-                type: 'de_date', targets: 1 ,
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "cancelDate"
-            },
-            {
-                "width": "10%",
-                "data": "profile",
-                "render": function (url) {
-                    return '<a href="' + url + '" target="_blank">Профіль</a>';
-                }
             },
             {
                 "width": "5%",
@@ -138,7 +132,7 @@ function initConsultantsRolesTable(){
     });
 }
 
-function initTrainersTable(){
+function initTrainersTable() {
     $jq('#trainersTable').DataTable({
         "autoWidth": false,
         "ajax": {
@@ -149,30 +143,24 @@ function initTrainersTable(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Тренер\');">'+name["title"]+'</a>';
-                }},
-            {
-                "data": "email",
-                "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Тренер\');">'+email["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + ' \');">' + name["title"] + '</a>';
                 }
             },
             {
-                type: 'de_date', targets: 1 ,
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "cancelDate"
-            },
-            {
-                "width": "10%",
-                "data": "profile",
-                "render": function (url) {
-                    return '<a href="' + url + '" target="_blank">Профіль</a>';
-                }
             },
             {
                 "width": "5%",
@@ -206,8 +194,18 @@ function initTeachersTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
             {
                 "width": "20%",
                 "data": "profile",
@@ -348,7 +346,7 @@ function addTrainer(url, scenario) {
         success: function (response) {
             if (response == "success") {
                 bootbox.alert("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі','','4');
+                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі', '', '4');
                 });
             } else {
                 showDialog("Операцію не вдалося виконати.");
@@ -359,3 +357,241 @@ function addTrainer(url, scenario) {
         }
     });
 }
+
+function initContentManagersTable() {
+    $jq('#contentManagersTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getContentManagersList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["title"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "5%",
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            },
+            {
+                "width": "5%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRole(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initTeacherConsultantsTable() {
+    $jq('#teacherConsultantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getTeacherConsultantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "5%",
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            },
+            {
+                "width": "5%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRole(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initTenantsTable(){
+    $jq('#tenantsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getTenantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "name"},
+            {"data": "email"},
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "10%",
+                "data": "profile",
+                "render": function (url) {
+                    return '<a href="' + url + '" target="_blank">Профіль</a>';
+                }
+            },
+            {
+                "width": "5%",
+                "data": "mailto",
+                "render": function (url) {
+                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
+                        '<i class="fa fa-envelope fa-fw"></i></a>';
+                }
+            },
+            {
+                "width": "5%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRole(' + params + ')"><i class="fa fa-trash fa-fw"></i></a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+/**
+ * Created by anton on 11.02.16.
+ */
+
+/**
+ * Initialises students table
+ */
+function initStudentsList() {
+    return $jq('#studentsTable').DataTable( {
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getStudentsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            { data: "student-name" },
+            { data: "email" },
+            {
+                type: 'de_datetime', targets: 0,
+                data: "date"
+            },
+            { data: "trainer-name" },
+            {
+                "width": "10%",
+                data: "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
+                }
+            }
+        ],
+
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    } );
+};
+
+
+/**
+ * Updates table data
+ * @param startDate
+ * @param endDate
+ */
+function updateStudentList(startDate, endDate) {
+    var request = basePath + "/_teacher/_admin/users/getStudentsList";
+    if (startDate != null && startDate !== "") {
+        request += '?startDate=' + startDate;
+        if (endDate != null && endDate !== "") {
+            request += '&endDate=' + endDate;
+        }
+    }
+    $jq('#studentsTable').DataTable().ajax.url(request).load();
+}
+
+
+// language data for datapicker
+var lang = {
+    closeText: 'Закрити',
+    prevText: '&#x3C;Попередній',
+    nextText: 'Наступний&#x3E;',
+    currentText: 'Сьогодні',
+    monthNames: ['Січень','Лютий','Березень','Квітень','Травень','Червень', 'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
+    monthNamesShort: ['Січ','Лют','Бер','Кві','Тра','Чер',
+        'Лип','Сер','Вер','Жов','Лис','Гру'],
+    dayNames: ['неділя','понеділок','вівторок','середа','четвер','п\'ятниця','субота'],
+    dayNamesShort: ['нед','пон','вів','сер','чет','п\'ят','сбт'],
+    dayNamesMin: ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],
+    weekHeader: 'Тиждень',
+    dateFormat: 'yy-mm-dd',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: ''};
+
+
