@@ -7,7 +7,8 @@
  */
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/testCtrl.js'); ?>"></script>
-<div ng-init='idPage=<?php echo $pageId; ?>;'>
+<div ng-init='idPage=<?php echo $pageId; ?>;
+idBlock=<?php echo $idElement; ?>;'>
 </div>
 <div class="editTest" ng-controller="testCtrl">
     <br>
@@ -23,10 +24,10 @@
                 <legend style="margin-left: 920px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
                 <ol  class='answerList' id="optionsList" class="inputs">
                     <li ng-repeat="answer in dataTest.answers track by $index">
-                        <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="dataTest.answers[$index]" ></textarea>
+                        <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="answer{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="dataTest.answers[$index]" ></textarea>
                         <div class="answerCheck">
                             <div id="answersList" class="answersCheckbox">
-                                <div><input type="checkbox" name="answer{{$index+1}}" value="{{$index+1}}"  ng-checked="{{dataTest.valid[$index]}}" ></div>
+                                <div><input type="checkbox" name="is_valid{{$index+1}}" value="1"  ng-checked="{{dataTest.valid[$index]}}" ></div>
                             </div>
                         </div>
                     </li>
@@ -43,6 +44,6 @@
     </form>
     <br>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
-    <button onclick='unableTest(<?php echo $pageId;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
+    <button onclick='unableTest(<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
 </div>
 

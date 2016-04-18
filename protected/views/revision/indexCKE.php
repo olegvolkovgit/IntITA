@@ -154,7 +154,7 @@
 //                        break;
                     case '12':
                     case '13':
-                        $this->renderPartial('/revision/_editTestCKE', array('pageId' => $page->id));
+                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id));
                         break;
                     default:
                         break;

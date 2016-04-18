@@ -54,6 +54,10 @@ class RevisionQuizFactory
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementRevision->id));
                 $test->editTest($arr['testTitle'], $arr['answers']);
+                if($test){
+                    return true;
+                } else
+                    return false;
                 break;
             case 'task' :
                 break;

@@ -4,8 +4,6 @@ class RevisionController extends Controller
 {
     public $layout = 'lessonlayout';
 
-    public $layout = 'lessonlayout';
-
     public function actionIndex()
     {
         if (!$this->isUserApprover(Yii::app()->user)) {
@@ -92,11 +90,11 @@ class RevisionController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionEditPageRevision() {
+    public function actionEditPageRevision($idPage) {
 
-        $idPage = Yii::app()->request->getPost("idPage");
+//        $idPage = Yii::app()->request->getPost("idPage");
 
-        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $page = RevisionLecturePage::model()->findByPk(1102);
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
@@ -489,9 +487,9 @@ class RevisionController extends Controller
         }
 
         $arr['answers'] = $options;
-        print_r($arr);
 
-        RevisionQuizFactory::editQuiz($arr);
+        if(RevisionQuizFactory::editQuiz($arr))
+            $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
