@@ -207,6 +207,12 @@ class RevisionController extends Controller
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    public function actionGetLectureElement() {
+        $idEl = Yii::app()->request->getPost('idElement');
+        $html = RevisionLectureElement::model()->findByPk($idEl)->html_block;
+        echo $html;
+    }
+
     public function actionEditLectureElement() {
         $idElement = Yii::app()->request->getPost('idElement');
         $html_block = Yii::app()->request->getPost('html_block');
@@ -219,10 +225,10 @@ class RevisionController extends Controller
         }
 
         $element->html_block = $html_block;
-
+        if(trim($element->html_block)=='')
+            echo Yii::t('lecture', '0814');
+        else
         $element->saveCheck();
-
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionUpPage() {

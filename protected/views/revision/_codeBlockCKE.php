@@ -13,7 +13,7 @@
         'editMode' => $editMode,
     ));?>
 
-    <div edit-code id="<?php echo "t" . $data['block_order'];?>" >
+    <div edit-code id="<?php echo "t" . $data['id'];?>" >
         <div hljs no-escape><?php echo $data['html_block'];?></div>
     </div>
 </div>

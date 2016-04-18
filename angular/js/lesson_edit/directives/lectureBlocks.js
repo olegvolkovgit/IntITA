@@ -13,8 +13,8 @@ angular
                             });
                         return;
                     }
-                    var orderBlock = element.attr('id').substring(1);
-                    scope.getBlockHtml(orderBlock, idLecture, element);
+                    var idEl = element.attr('id').substring(1);
+                    scope.getBlockHtml(idEl, element);
                     element.hide();
                 });
             }
@@ -30,8 +30,8 @@ angular
                             });
                         return;
                     }
-                    var orderBlock = element.attr('id').substring(1);
-                    scope.getCodeHtml(orderBlock, idLecture, element);
+                    var idEl = element.attr('id').substring(1);
+                    scope.getCodeHtml(idEl, element);
                     element.hide();
                 });
             }

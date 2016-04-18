@@ -67,16 +67,16 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         $scope.isReady = true;
     });
 
-    $scope.getBlockHtml = function (blockOrder, idLecture, element) {
+    $scope.getBlockHtml = function (idEl, element) {
         $http({
-            url: basePath + '/lesson/editBlock',
+            url: basePath + '/revision/getLectureElement',
             method: "POST",
-            data: $.param({order: blockOrder, lecture: idLecture}),
+            data: $.param({idElement: idEl}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.editRedactor = response.data;
             var template = '<textarea data-ng-cloak class="openCKE" ' +
-                'id="openCKE' + blockOrder + '"' +
+                'id="openCKE' + idEl + '"' +
                 'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
                 '</textarea>';
             ($compile(template)($scope)).insertAfter(element);
@@ -85,18 +85,18 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             alert($scope.errorMsg);
         });
     };
-    $scope.getCodeHtml = function (blockOrder, idLecture, element) {
+    $scope.getCodeHtml = function (idEl, element) {
         $http({
-            url: basePath + '/lesson/editBlock',
+            url: basePath + '/revision/getLectureElement',
             method: "POST",
-            data: $.param({order: blockOrder, lecture: idLecture}),
+            data: $.param({idElement: idEl}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.editCodeRedactor = response.data;
-            var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
+            var template = '<div id="CKECodeEdit'+idEl+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
                 $scope.editCodeRedactor+'</textarea>'+
-                '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+blockOrder+')">'+
-                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')">' +
+                '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+idEl+')">'+
+                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+idEl+')">' +
                 '<input class="codeBut removeHtml" type="submit" value="Очистити форматування" ng-click="removeEditHtml()">' +
                 '</div>';
             ($compile(template)($scope)).insertAfter(element);
@@ -187,11 +187,11 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             document.getElementById('blockType').value = type;
         }
     }
-    $scope.saveCodeBlock= function(order){
+    $scope.saveCodeBlock= function(idEl){
             $http({
-                url: basePath+'/revision/saveBlock',
+                url: basePath+'/revision/editLectureElement',
                 method: "POST",
-                data: $.param({content: $scope.myEditCodeMirror.getValue(), idLecture: idLecture, order: order}),
+                data: $.param({html_block: $scope.myEditCodeMirror.getValue(), idElement: idEl}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             })
                 .success(function (response) {
@@ -225,7 +225,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         });
     }
     $scope.removeEditHtml= function(){
-        $scope.myEditCodeMirror.setValue($('#CKECodeEdit').text().replace(/<\/?[^>]+>/g,''));
+        $scope.myEditCodeMirror.setValue($scope.myEditCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
     }
     $scope.editPageTitle=function(idPage){
         var pageTitle=angular.element(document.querySelector("#pageTitle"));

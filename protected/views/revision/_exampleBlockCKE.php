@@ -4,7 +4,7 @@
         'editMode' => $editMode,
     ));?>
 
-<div edit-block class="codeExample" id="<?php echo "t" .  $data['block_order'];?>" >
+<div edit-block class="codeExample" id="<?php echo "t" .  $data['id'];?>" >
     <div ng-non-bindable>
         <?php echo $data['html_block'];?>
     </div>

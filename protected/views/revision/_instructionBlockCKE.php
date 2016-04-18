@@ -22,7 +22,7 @@
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
             </div>
             <div class="content">
-                <div edit-block class="instructionText" id="<?php echo "t" . $data['block_order']; ?>" >
+                <div edit-block class="instructionText" id="<?php echo "t" . $data['id']; ?>" >
                     <div ng-non-bindable>
                         <?php echo $data['html_block']; ?>
                     </div>

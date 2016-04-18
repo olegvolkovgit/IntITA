@@ -3,10 +3,9 @@
         'idEl' =>  $data['id'],
         'editMode' => $editMode,
     ));?>
-    <div edit-block class="text" id="<?php echo "t" . $data['block_order']; ?>" >
+    <div edit-block class="text" id="<?php echo "t" . $data['id']; ?>" >
         <div ng-non-bindable>
             <?php echo $data['html_block']; ?>
-            <?php $idValue = "#" . $data['block_order']; ?>
         </div>
     </div>
 </div>

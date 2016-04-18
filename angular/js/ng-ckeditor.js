@@ -149,11 +149,11 @@
                     instance.addCommand("customSave", {
                         exec: function() {
                             // id=openCKE**** - 7-position *
-                            var order = element.attr('id').substring(7);
+                            var idEl = element.attr('id').substring(7);
                             $http({
-                                url: basePath+'/revision/saveBlock',
+                                url: basePath+'/revision/editLectureElement',
                                 method: "POST",
-                                data: $.param({content: scope.editRedactor, idLecture: idLecture, order: order}),
+                                data: $.param({html_block: scope.editRedactor, idElement: idEl}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                             })
                                 .success(function (response) {
