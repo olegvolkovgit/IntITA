@@ -21,10 +21,21 @@
             <br>
             <div class="form-group">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleConsultantId', 'consultant','Права доступа','teacherAccess')">Призначити консультанта для модуля</button>
+                        onclick="addTeacherAttrCM('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
+                            'module', '#moduleConsultantId', 'consultant')">Призначити
+                    консультанта для модуля
+                </button>
             </div>
         </form>
+<!--        <div class="alert alert-info">-->
+<!--            --><?php //if (Yii::app()->user->model->isAdmin()) { ?>
+<!--                Призначити консультанта для даного модуля можна на сторінці-->
+<!--                <a href="#" class="alert-link">Призначити консультанта</a>.-->
+<!--            --><?php //} else { ?>
+<!--                Якщо в списку немає потрібного консультанта, можна надіслати запит для призначення консультанта-->
+<!--                <a href="#" class="alert-link">Надіслати запит</a>.-->
+<!--            --><?php //} ?>
+<!--        </div>-->
     </div>
 </div>
 

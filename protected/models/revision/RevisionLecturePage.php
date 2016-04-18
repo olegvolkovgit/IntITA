@@ -256,6 +256,7 @@ class RevisionLecturePage extends CActiveRecord
             $quiz = $this->getQuiz();
             if ($quiz != null) {
                 $newQuiz = $quiz->cloneQuiz($newRevision->id);
+                $newRevision->quiz = $newQuiz->id;
             }
 
             if ($this->video != null) {
@@ -471,7 +472,7 @@ class RevisionLecturePage extends CActiveRecord
 
     /**
      * Returns quiz instance
-     * @return static
+     * @return RevisionLectureElement
      */
     public function getQuiz() {
         return RevisionLectureElement::model()->findByPk($this->quiz);
