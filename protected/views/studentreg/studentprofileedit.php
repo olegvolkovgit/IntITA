@@ -7,8 +7,8 @@
 /* @var $form CActiveForm */
 $user = RegisteredUser::userById(Yii::app()->user->id);
 $post = $user->registrationData;
-$post->firstName=addslashes($post->firstName);
-$post->secondName=addslashes($post->secondName);
+$post->firstName = addslashes($post->firstName);
+$post->secondName = addslashes($post->secondName);
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>
@@ -69,9 +69,10 @@ $post->secondName=addslashes($post->secondName);
                         <?php echo $form->textField($model, 'firstName', array('ng-init' => "firstName='$post->firstName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0621'), 'ng-model' => "firstName", 'ng-pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
 
-                        <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[firstName]'].$invalid">
+                        <div ng-cloak class="clientValidationError"
+                             ng-show="profileForm['StudentReg[firstName]'].$invalid">
                             <span
-                                  ng-show="profileForm['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
+                                ng-show="profileForm['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
@@ -79,9 +80,10 @@ $post->secondName=addslashes($post->secondName);
                         <?php echo $form->textField($model, 'secondName', array('ng-init' => "secondName='$post->secondName'", 'maxlength' => 20, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0622'), 'ng-model' => "secondName", 'ng-pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
 
-                        <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[secondName]'].$invalid">
+                        <div ng-cloak class="clientValidationError"
+                             ng-show="profileForm['StudentReg[secondName]'].$invalid">
                             <span
-                                  ng-show="profileForm['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
+                                ng-show="profileForm['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error', '0416') ?></span>
                         </div>
                     </div>
                     <div class="row">
@@ -96,12 +98,12 @@ $post->secondName=addslashes($post->secondName);
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'phone'); ?>
-                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15,'minlength' => 15, 'data-source' => Yii::t('edit', '0625'))); ?>
+                        <?php echo $form->textField($model, 'phone', array('value' => $post->phone, 'class' => 'phone indicator', 'maxlength' => 15, 'minlength' => 15, 'data-source' => Yii::t('edit', '0625'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
                     <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
                             <span
-                                  ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
+                                ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
                     </div>
                     <?php if (!$user->isTeacher()) {
                         ?>
@@ -138,7 +140,7 @@ $post->secondName=addslashes($post->secondName);
                             <div ng-cloak class="clientValidationError"
                                  ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
                                 <span
-                                      ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error', '0269') ?></span>
+                                    ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error', '0269') ?></span>
                             </div>
                         </div>
                     <?php } ?>
@@ -148,37 +150,52 @@ $post->secondName=addslashes($post->secondName);
                         <?php echo $form->label($model, 'country'); ?>
                         <?php
                         $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'attribute'=>'country',
-                            'model'=>$model,
-                            'sourceUrl'=>array('studentreg/country'),
-                            'name'=>'country',
-                            'options'=>array(
-                                'minLength'=>'1',
-                            ),
-                            'htmlOptions'=>array(
-                                'size'=>45,
-                                'maxlength'=>45,
+                            'name' => 'countryTypeahead',
+                            'source' => 'js: function(request, response) {
+                                        $.getJSON("' . $this->createUrl('studentreg/countryAutoComplete') . '", {
+                                        term: request.term.split(/,s*/).pop(),
+                                        lang: "' . Yii::app()->session["lg"] . '"
+                                    }, response);
+                            }',
+                            'options' => array(
+                                'minLength' => '2',
+                                'showAnim' => 'fold',
+                                'select' => 'js: function(event, ui) {
+                                            this.value = ui.item.value;
+                                            $("#StudentReg_country").val(ui.item.id);
+                                           return false;
+                                    }',
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'country'); ?></span>
+                        <input value="1" hidden="hidden" type="number" name="StudentReg_country"/>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'city'); ?>
                         <?php
                         $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'attribute'=>'city',
-                            'model'=>$model,
-                            'sourceUrl'=>array('studentreg/city'),
-                            'name'=>'city',
-                            'options'=>array(
-                                'minLength'=>'1',
+                            'name' => 'cityTypeahead',
+                            'source' => 'js: function(request, response) {
+                                        $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
+                                        term: request.term.split(/,s*/).pop(),
+                                        country: $("[name=\'StudentReg_country\']").val()
+                                    }, response);
+                            }',
+                            'options' => array(
+                                'minLength' => '2',
+                                'showAnim' => 'fold',
+                                'select' => 'js: function(event, ui) {
+                                            this.value = ui.item.value;
+                                            $("#StudentReg_city").val(ui.item.id);
+                                            return false;
+                                    }',
                             ),
-                            'htmlOptions'=>array(
-                                'size'=>45,
-                                'maxlength'=>45,
+                            'htmlOptions' => array(
+                                'maxlength' => 50,
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'city'); ?></span>
+                        <input value="1" hidden="hidden" type="number" name="StudentReg_city"/>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'address'); ?>
@@ -277,9 +294,9 @@ $post->secondName=addslashes($post->secondName);
             <div ng-cloak class="clientValidationError"
                  ng-show="profileForm['StudentReg[avatar]'].$error.size || profileForm['StudentReg[avatar]'].$error.fileType">
                 <div
-                      ng-show="profileForm['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
+                    ng-show="profileForm['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error', '0302'); ?></div>
                 <div
-                      ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
+                    ng-show="profileForm['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error', '0672'); ?></div>
             </div>
             <div class="avatarError">
                 <?php echo $form->error($model, 'avatar'); ?>

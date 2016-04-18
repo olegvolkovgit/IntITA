@@ -24,16 +24,30 @@ class StudentRegController extends Controller
         );
     }
 
-    public function actionCountry()
+    public function actionCountryAutoComplete($term, $lang)
     {
         $criteria = new CDbCriteria();
-        $criteria->compare('title_ua', $_GET['term'], true);
+        $criteria->compare('title_'.$lang, $term, true);
         $model = new AddressCountry();
         $results = [];
+        $param = "title_".$lang;
         foreach ($model->findAll($criteria) as $m) {
-            array_push($results, $m->title_ua);
+            $results[] = array('id'=>$m->id, 'value'=>$m->$param);
         }
         echo CJSON::encode($results);
+    }
+
+    public function actionCityAutoComplete($country, $term)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('country', $country, true);
+        $criteria->compare('title_ua', $term, true);
+        $model = new AddressCity();
+        $result = [];
+        foreach ($model->findAll($criteria) as $m) {
+            $result[] = array('id'=>$m->id, 'value'=>$m->title_ua);
+        }
+        echo CJSON::encode($result);
     }
 
     /**
