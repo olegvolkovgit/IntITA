@@ -18,7 +18,7 @@
     </button>
 </div>
 <div id="blockFormCode">
-    <form onsubmit="return blockValidation(this);" name='addCKEBlockCode' id="addBlockForm" action="<?php echo Yii::app()->createUrl('revision/createNewBlock'); ?>" method="post">
+    <form onsubmit="return blockValidation(this);" name='addCKEBlockCode' id="addBlockForm" action="<?php echo Yii::app()->createUrl('revision/addLectureElement'); ?>" method="post">
         <input name="idType" value="" id="blockTypeCode" type="hidden">
         <input name="idPage" value="<?php echo $idPage; ?>" id="page" type="hidden">
         <textarea id="CKECode" name="html_block" ng-model="CkeAddCode" ></textarea>
