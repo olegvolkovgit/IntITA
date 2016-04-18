@@ -11,24 +11,3 @@ function selectModule(url){
         success: function(response){  $jq('div[name="selectModule"]').html(response); }
     });
 }
-//
-//function confirmDelete(id){
-//
-//    var moduleId = getSecondPart(id.toString());
-//
-//    $jq.ajax({
-//        url: '../courseModuleList',
-//        type:"POST",
-//        data: {id: moduleId},
-//        success: function(JSON){
-//            alert(JSON);
-//        }
-//
-//    });
-//}
-//
-//
-//function getSecondPart(str) {
-//    var res = str.split("=");
-//    return res[1];
-//}
