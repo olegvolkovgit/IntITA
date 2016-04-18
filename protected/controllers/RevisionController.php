@@ -92,9 +92,7 @@ class RevisionController extends Controller
 
     public function actionEditPageRevision($idPage) {
 
-//        $idPage = Yii::app()->request->getPost("idPage");
-
-        $page = RevisionLecturePage::model()->findByPk(1102);
+        $page = RevisionLecturePage::model()->findByPk($idPage);
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');

@@ -221,7 +221,7 @@
 
         $.ajax({
             method: "POST",
-            url: "/revision/uppage",
+            url: "<?=Yii::app()->createUrl("/revision/uppage");?>",
             data: {idPage:pageId}
         })
     }
@@ -230,7 +230,7 @@
 
         $.ajax({
             method: "POST",
-            url: "/revision/downpage",
+            url: "<?=Yii::app()->createUrl("/revision/downpage");?>",
             data: {idPage:pageId}
         })
     }
@@ -238,7 +238,7 @@
     function checkLecture(pageId) {
         $.ajax({
             method: "POST",
-            url: "/revision/checkLecture",
+            url: "<?=Yii::app()->createUrl("/revision/checkLecture");?>",
             data: {idLecture:pageId},
             success: function(data) {
                 $('#check').html(data);
@@ -249,7 +249,7 @@
     function approveLecture() {
         $.ajax({
             method: "POST",
-            url: "/revision/SendForApproveLecture",
+            url: "<?=Yii::app()->createUrl("/revision/SendForApproveLecture");?>",
             data: {idLecture:<?=$lectureRevision->id_revision?>}
         })
     }
@@ -257,7 +257,7 @@
     function upElement(idEl, idPage) {
         $.ajax({
             method: "POST",
-            url: "/revision/upLectureElement",
+            url: "<?=Yii::app()->createUrl("/revision/upLectureElement");?>",
             data: {idElement:idEl, idPage:idPage}
         })
     }
@@ -265,7 +265,7 @@
     function downElement(idEl, idPage) {
         $.ajax({
             method: "POST",
-            url: "/revision/downLectureElement",
+            url: "<?=Yii::app()->createUrl("/revision/downLectureElement");?>",
             data: {idElement:idEl, idPage:idPage}
         })
     }
@@ -273,7 +273,7 @@
     function deleteElement(idEl, idPage) {
         $.ajax({
             method: "POST",
-            url: "/revision/deleteLectureElement",
+            url: "<?=Yii::app()->createUrl("/revision/deleteLectureElement");?>",
             data: {idElement:idEl, idPage:idPage}
         })
     }
