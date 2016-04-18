@@ -268,6 +268,12 @@ class RevisionController extends Controller {
         $lectureRev->cancel(Yii::app()->user);
     }
 
+
+    /**
+     * curl -XPOST --data 'idLecture=126' 'http://intita.project/revision/ApproveLectureRevision' -b XDEBUG_SESSION=PHPSTORM
+     * @throws Exception
+     * @throws RevisionControllerException
+     */
     public function actionApproveLectureRevision () {
 
         if (!$this->isUserApprover(Yii::app()->user)) {
@@ -408,7 +414,7 @@ class RevisionController extends Controller {
     }
 
     /**
-     * curl -XPOST --data 'idBlock=492&testTitle=testTitle2&optionsNum=3&PageId=1&answer1=answer3&is_valid1=1&answer2=answer4&is_valid2=0&answer3=answer5' 'http://intita.projectevision/EditTest' -b XDEBUG_SESSION=PHPSTORM
+     * curl -XPOST --data 'idBlock=492&testTitle=testTitle2&optionsNum=3&PageId=1&answer1=answer3&is_valid1=1&answer2=answer4&is_valid2=0&answer3=answer5' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
      */
     public function actionEditTest() {
         $arr = [];

@@ -12,7 +12,7 @@
  *
  * The followings are the available model relations:
  * @property RevisionLectureProperties $properties
- * @property LecturePage[] $lecturePages
+ * @property RevisionLecturePage[] $lecturePages
  */
 class RevisionLecture extends CActiveRecord
 {
@@ -160,6 +160,7 @@ class RevisionLecture extends CActiveRecord
     /**
      * Adds page to current lecture revision
      * @param $user
+     * @return RevisionLecturePage
      */
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
@@ -175,16 +176,14 @@ class RevisionLecture extends CActiveRecord
     public function checkConflicts() {
         $result = array();
 
-        //check page orders collision
-        $approvedPages = $this->getApprovedPages();
         //check if at least one approved page exist
-        if (count($approvedPages) == 0) {
+        if (count($this->lecturePages) == 0) {
             array_push($result, "There are no approved pages in this lecture");
         }
 
         //count all orders
         $orders = array();
-        foreach ($approvedPages as $page) {
+        foreach ($this->lecturePages as $page) {
             if(isset($orders[$page->page_order])) {
                 $orders[$page->page_order]['count']++;
                 array_push($orders[$page->page_order]['lectures'], $page->id);
@@ -241,9 +240,7 @@ class RevisionLecture extends CActiveRecord
      * @return RevisionLecturePage[]
      */
     public function getSendedPages() {
-        return array_filter($this->lecturePages, function ($lecturePage) {
-            return $lecturePage->isApprovable();
-        });
+        $this->lecturePages;
     }
 
     /**
@@ -332,10 +329,6 @@ class RevisionLecture extends CActiveRecord
             if (empty($this->approveResultCashed)) {
 
                 $transaction = Yii::app()->db->beginTransaction();
-
-                foreach($this->getSendedPages() as $page) {
-                    $page->approve();
-                }
 
                 try {
                     $this->saveToRegularDB();
@@ -536,8 +529,8 @@ class RevisionLecture extends CActiveRecord
         $newLecture = $this->saveLectureModelToRegularDB();
         $idNewLecture = $newLecture->id;
 
-        foreach ($this->getApprovedPages() as $page) {
-            $page->savePageModelToRegularDB($idNewLecture);
+        foreach ($this->lecturePages as $page) {
+            $page->savePageModelToRegularDB($idNewLecture, $this->properties->id_user_created);
         }
 
         $this->id_lecture = $newLecture->id;
@@ -582,18 +575,28 @@ class RevisionLecture extends CActiveRecord
             $command->query();
         }
 
-
-        $oldLectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
-
         foreach ($oldLecturePages as $oldLecturePage) {
             $oldLecturePage->delete();
         }
 
+        $oldLectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
+
+        $quizes = [];
         foreach ($oldLectureElements as $oldLectureElement) {
+
+            if ($oldLectureElement->isQuiz()) {
+                if (!array_key_exists($oldLectureElement->id_type, $quizes)) {
+                    $quizes[$oldLectureElement->id_type] = [];
+                }
+                array_push($quizes[$oldLectureElement->id_type], $oldLectureElement->id_block);
+            }
+
             $oldLectureElement->delete();
         }
-        $oldLecture->delete();
 
+        RevisionQuizFactory::deleteQuizesFromRegularDB($quizes);
+
+        $oldLecture->delete();
     }
 
     /**

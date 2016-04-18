@@ -372,7 +372,7 @@ class RevisionLecturePage extends CActiveRecord
        }
     }
 
-    public function savePageModelToRegularDB($idNewLecture) {
+    public function savePageModelToRegularDB($idNewLecture, $idUserCreated) {
         $newPage = new LecturePage();
         $newPage->id_lecture = $idNewLecture;
         $newPage->page_title = $this->page_title;
@@ -398,6 +398,12 @@ class RevisionLecturePage extends CActiveRecord
         }
 
         //todo quiz
+        $quiz = $this->getQuiz();
+        if ($quiz) {
+            $newQuiz = $quiz->saveElementModelToRegularDB($idNewLecture, $idUserCreated);
+            $newPage->quiz = $newQuiz->id_block;
+            $newPage->save();
+        }
 
         //lecture_page_lecture_element
         if (!empty($idNewElements)) {

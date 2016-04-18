@@ -174,13 +174,18 @@ class RevisionLectureElement extends CActiveRecord
         return $clone;
     }
 
-    public function saveElementModelToRegularDB($idNewLecture) {
+    public function saveElementModelToRegularDB($idNewLecture, $idUserCreated=null) {
         $new = new LectureElement();
         $new->id_type = $this->id_type;
         $new->id_lecture = $idNewLecture;
         $new->block_order = $this->block_order;
         $new->html_block = $this->html_block;
         $new->save();
+
+        if ($this->isQuiz()) {
+            RevisionQuizFactory::saveToRegularDB($this, $new, $idUserCreated);
+        }
+
         return $new;
     }
 
@@ -195,5 +200,17 @@ class RevisionLectureElement extends CActiveRecord
         RevisionQuizFactory::cloneQuiz($this, $clone);
 
         return $clone;
+    }
+
+    private function isQuiz() {
+        if ($this->id_type == LectureElement::PLAIN_TASK  || //plain task
+            $this->id_type == LectureElement::TEST || //test
+            $this->id_type == LectureElement::TASK  || //task
+            $this->id_type == LectureElement::SKIP_TASK ) { //skip task
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
