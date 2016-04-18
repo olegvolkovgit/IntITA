@@ -150,6 +150,7 @@
                         exec: function() {
                             // id=openCKE**** - 7-position *
                             var idEl = element.attr('id').substring(7);
+
                             $http({
                                 url: basePath+'/revision/editLectureElement',
                                 method: "POST",
