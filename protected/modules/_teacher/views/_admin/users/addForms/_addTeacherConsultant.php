@@ -16,7 +16,7 @@
 
             <button class="btn btn-primary"
                     onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
-                        'teacher_consultant', '6'); return false;">
+                        'teacher_consultant', '7'); return false;">
                 Призначити викладача
             </button>
 
@@ -25,6 +25,18 @@
                 Скасувати
             </button>
         </form>
+        <br>
+        <div class="alert alert-info">
+            Призначити викладачем можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
+            за посиланням:
+            <a href="#" class="alert-link"
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
+                   'Додати співробітника')">Додати співробітника</a>.
+            <br>
+            Список усіх співробітників:
+            <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
+                'Співробітники')">Список</a>.
+        </div>
     </div>
 </div>
 <script>
