@@ -16,14 +16,6 @@
         levels: 0
     });
 
-    function newRevision(idRevision){
-        $.ajax({
-            method: "POST",
-            url: "<?=Yii::app()->createUrl('/revision/newlecturerevision');?>",
-            data: {idLecture:idRevision}
-        })
-    }
-
     function editRevision(idRevision) {
         location.href = "<?=Yii::app()->createUrl('/revision/EditLectureRevision');?>" + '?idRevision=' + idRevision;
     }

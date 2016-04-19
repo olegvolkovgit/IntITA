@@ -180,6 +180,22 @@ class RevisionTests extends CActiveRecord
         }
         return true;
     }
+
+    public function saveToRegularDB($lectureElementId, $idUserCreated) {
+        //todo
+
+        $newTest = new Tests();
+        $newTest->block_element = $lectureElementId;
+        $newTest->author = $idUserCreated;
+        $newTest->title = $this->title;
+        $newTest->save();
+
+        foreach ($this->testsAnswers as $testsAnswer) {
+            $testsAnswer->saveToRegularDB($newTest->id);
+        }
+
+        return $newTest;
+    }
 	public static function getTestAnswers($idLectureElement){
 		$answers=[];
 		$test = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test' => RevisionTests::getTestId($idLectureElement)));

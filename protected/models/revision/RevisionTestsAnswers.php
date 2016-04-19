@@ -125,6 +125,18 @@ class RevisionTestsAnswers extends CActiveRecord
         $newTestAnswer->saveCheck();
         return $newTestAnswer;
     }
+
+    public function saveToRegularDB($idTest) {
+        $newTestAnswer = new TestsAnswers();
+        $newTestAnswer->id_test = $idTest;
+        $newTestAnswer->answer = $this->answer;
+        $newTestAnswer->is_valid = $this->is_valid;
+
+        //todo saveCheck
+        $newTestAnswer->save();
+        return $newTestAnswer;
+    }
+
 	public static function getTestValid($idLectureElement){
 		$answers=[];
 		$test = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test' => RevisionTests::getTestId($idLectureElement)));
