@@ -11,7 +11,7 @@
  *
  * The followings are the available model relations:
  * @property AddressCity[] $addressCities
- * @property User[] $users
+ * @property StudentReg[] $users
  */
 class AddressCountry extends CActiveRecord
 {
@@ -101,5 +101,32 @@ class AddressCountry extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function newUserCountry($oldId, $newTitle){
+        $param = "title_". Yii::app()->session["lg"];
+        $oldModel = AddressCountry::model()->findByPk($oldId);
+        if(!$oldModel){
+            $model = new AddressCountry();
+            $model->$param = $newTitle;
+            if ($model->save()){
+                return Yii::app()->db->lastInsertID;
+            }
+        } else {
+            if($oldModel->$param == $newTitle){
+                return $oldId;
+            } else {
+                if($exist = AddressCountry::model()->findByAttributes(array($param => $newTitle))){
+                    return $exist->id;
+                } else {
+                    $model = new AddressCountry();
+                    $model->$param = $newTitle;
+                    if ($model->save()){
+                        return Yii::app()->db->lastInsertID;
+                    }
+                }
+            }
+        }
+        return null;
 	}
 }

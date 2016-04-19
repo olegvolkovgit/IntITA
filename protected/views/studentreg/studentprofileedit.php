@@ -162,13 +162,15 @@ $post->secondName = addslashes($post->secondName);
                                 'showAnim' => 'fold',
                                 'select' => 'js: function(event, ui) {
                                             this.value = ui.item.value;
-                                            $("#StudentReg_country").val(ui.item.id);
+                                            $("#StudentReg[country]").val(ui.item.id);
+                                            alert(ui.item.id);
+                                            $("#cityTypeahead").autocomplete( "option", "disabled", true );
                                            return false;
                                     }',
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'country'); ?></span>
-                        <input value="1" hidden="hidden" type="number" name="StudentReg_country"/>
+                        <input value="<?=$model->country;?>" hidden="hidden" type="number" name="StudentReg[country]"/>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'city'); ?>
@@ -178,15 +180,16 @@ $post->secondName = addslashes($post->secondName);
                             'source' => 'js: function(request, response) {
                                         $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
                                         term: request.term.split(/,s*/).pop(),
-                                        country: $("[name=\'StudentReg_country\']").val()
+                                        country: $("[name=\'StudentReg[country]\']").val()
                                     }, response);
                             }',
                             'options' => array(
                                 'minLength' => '2',
                                 'showAnim' => 'fold',
+                                'disabled' => false,
                                 'select' => 'js: function(event, ui) {
                                             this.value = ui.item.value;
-                                            $("#StudentReg_city").val(ui.item.id);
+                                            $("#StudentReg[city]").val(ui.item.id);
                                             return false;
                                     }',
                             ),
@@ -195,7 +198,7 @@ $post->secondName = addslashes($post->secondName);
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'city'); ?></span>
-                        <input value="1" hidden="hidden" type="number" name="StudentReg_city"/>
+                        <input value="<?=$model->city;?>" hidden="hidden" type="number" name="StudentReg[city]"/>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'address'); ?>
