@@ -94,6 +94,7 @@ function lectureRevisionCtrl($scope, $http) {
         }).then(function successCallback() {
             $scope.getLecturePages(idRevision).then(function (response) {
                 $scope.dataPages=response;
+                $('body,html').animate({scrollTop: $(document).height()}, 500);
             });
         }, function errorCallback() {
             return false;
