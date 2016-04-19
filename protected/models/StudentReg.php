@@ -1096,7 +1096,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'admin', '".$record["id"]."', '2'";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'admin', '".$record["id"]."', '3'";
             array_push($return['data'], $row);
         }
 
