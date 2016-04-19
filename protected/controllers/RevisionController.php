@@ -268,7 +268,6 @@ class RevisionController extends Controller {
         $lectureRev->cancel(Yii::app()->user);
     }
 
-
     /**
      * curl -XPOST --data 'idLecture=126' 'http://intita.project/revision/ApproveLectureRevision' -b XDEBUG_SESSION=PHPSTORM
      * @throws Exception
@@ -455,6 +454,15 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         $lectureRevision->cloneLecture(Yii::app()->user);
+    }
+
+    /**
+     *  curl -XPOST --data 'idPage=588' 'http://intita.project/revision/DeletePage' -b XDEBUG_SESSION=PHPSTORM
+     */
+    public function actionDeletePage(){
+        $idPage = Yii::app()->request->getPost('idPage');
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $page->delete();
     }
 
     /**
