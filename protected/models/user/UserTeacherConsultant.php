@@ -122,7 +122,7 @@ class UserTeacherConsultant extends CActiveRecord
 				'scenario' => 'message',
 				'receiver' => $record["id"]
 			));
-			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'teacher_consultant', '".$record["id"]."', '6'";
+			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'teacher_consultant', '".$record["id"]."', '7'";
 			array_push($return['data'], $row);
 		}
 
