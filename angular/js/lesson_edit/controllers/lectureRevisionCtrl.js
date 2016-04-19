@@ -87,7 +87,7 @@ function lectureRevisionCtrl($scope, $http) {
     };
     $scope.addPage = function() {
         $http({
-            url: basePath+'/revision/addpage',
+            url: basePath+'/revision/addPage',
             method: "POST",
             data: $.param({idRevision:idRevision}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -141,6 +141,19 @@ function lectureRevisionCtrl($scope, $http) {
         //}, function errorCallback() {
         //    return false;
         //});
+    };
+    $scope.checkLecture = function() {
+        $http({
+            url: basePath+'/revision/checkLecture',
+            method: "POST",
+            data: $.param({idRevision:idRevision}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data);
+        }, function errorCallback() {
+            console.log('checkLecture error');
+            return false;
+        });
     };
 
 

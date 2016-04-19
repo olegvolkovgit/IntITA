@@ -8,6 +8,7 @@ $this->breadcrumbs = array(
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/lectureRevisionCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script>
     idRevision = '<?php echo $idRevision;?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
@@ -53,7 +54,7 @@ $this->breadcrumbs = array(
                 </tr>
             </table>
             <button ng-click="addPage();">Додати сторінку</button>
-            <button onclick="checkLecture(<?=$lectureRevision->id_revision?>);">Перевірити лекцію на наявність конфліктів</button>
+            <button ng-click="checkLecture();">Перевірити лекцію на наявність конфліктів</button>
             <button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Відправити лекцію на затвердження</button>
             <br>
 
@@ -78,12 +79,12 @@ $this->breadcrumbs = array(
                                 Дії <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#" ng-click="viewPage(page.id)">Переглянути</a></li>
-                                <li><a href="#" ng-click="editPageRevision(page.id)">Редагувати</a></li>
-                                <li><a href="#" ng-click="sendRevision(page.id)">Надіслати на затвердження</a></li>
-                                <li><a href="#" ng-click="approvePageRevision(page.id)">Затвердити</a></li>
-                                <li><a href="#" ng-click="rejectPageRevision(page.id)">Відхилити</a></li>
-                                <li><a href="#" ng-click="cancelPageRevision(page.id)">Скасувати</a></li>
+                                <li><a ng-click="viewPage(page.id)">Переглянути</a></li>
+                                <li><a ng-click="editPageRevision(page.id)">Редагувати</a></li>
+                                <li><a ng-click="sendRevision(page.id)">Надіслати на затвердження</a></li>
+                                <li><a ng-click="approvePageRevision(page.id)">Затвердити</a></li>
+                                <li><a ng-click="rejectPageRevision(page.id)">Відхилити</a></li>
+                                <li><a ng-click="cancelPageRevision(page.id)">Скасувати</a></li>
                             </ul>
                         </div>
                         <div style="display: inline-block">

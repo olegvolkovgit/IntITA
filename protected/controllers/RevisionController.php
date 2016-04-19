@@ -263,7 +263,7 @@ class RevisionController extends Controller
     }
 
     public function actionCheckLecture() {
-        $idLecture = Yii::app()->request->getPost('idLecture');
+        $idLecture = Yii::app()->request->getPost('idRevision');
 
         $lectureRevision = RevisionLecture::model()->with('lecturePages')->findByPk($idLecture);
 
@@ -274,7 +274,7 @@ class RevisionController extends Controller
         $result = $lectureRevision->checkConflicts();
 
         if (empty($result)) {
-            echo "Ok!";
+            echo "Конфліктів не виявлено!";
             return;
         } else {
             echo implode("; ", $result);
