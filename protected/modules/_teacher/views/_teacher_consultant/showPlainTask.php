@@ -20,7 +20,6 @@ $mark = $plainTask->mark();
             <div class="row">
                 <input type="text" id="plainTaskId" hidden="hidden" value="<?php echo $plainTask->id; ?>">
                 <input type="text" id="userId" hidden="hidden" value="<?php echo $plainTask->id_student; ?>">
-
             <div class="form-group col-md-10">
                 <label for="fromWho">Від кого</label>
                 <input type="text" class="form-control" id="fromWho"
