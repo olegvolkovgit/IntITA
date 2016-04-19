@@ -138,7 +138,7 @@ img.mask{
     display: none;
 }
 
-#editIco, #requestBth{
+#editIco, #requestBth, #viewIco{
     float:right;
     margin-top: 20px;
     margin-right: 40px;

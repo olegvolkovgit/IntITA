@@ -279,3 +279,69 @@
     }
 
 </script>
+
+<script type="text/javascript">
+    lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
+    basePath='<?php echo  Config::getBaseUrl(); ?>';
+    idLecture = 117;
+    idModule = 1;
+</script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?><!--"></script>-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/config.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/lectureBlocks.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/sendTaskJsonService.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getTaskJson.js'); ?>"></script>
+<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
+<div ng-app="lessonEdit" id="addTest">
+    <br>
+    <div ng-controller="CKEditorCtrl">
+        <form onSubmit="return checkAnswersCKE($('#optionsList input:checkbox:checked'));" name="addTestForm" method="post" action="<?php echo Yii::app()->createUrl('tests/addTest');?>" novalidate>
+            <fieldset>
+                <?php echo Yii::t('lecture', '0713'); ?>
+                <br>
+                <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" size="80" placeholder="<?php echo Yii::t('lecture', '0714'); ?>" required ng-model="testCondition"></textarea>
+                <fieldset>
+                    <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
+                    <legend style="margin-left: 920px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
+                    <ol  class='answerList' id="optionsList" class="inputs">
+                        <li ng-repeat="answer in answers track by $index">
+                            <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="option{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="option" ></textarea>
+                            <div class="answerCheck">
+                                <div id="answersList" class="answersCheckbox">
+                                    <div><input type="checkbox" name="answer{{$index+1}}" value="{{$index+1}}"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                    <div class="answerAddRemove" ng-click="addAnswer();" id="addOption"><?php echo Yii::t('lecture', '0702'); ?></div>
+                    <div class="answerAddRemove" ng-click="deleteAnswer();" ><?php echo Yii::t('lecture', '0703'); ?></div>
+                </fieldset>
+                <br>
+                <input name="optionsNum" id="optionsNum" type="hidden" value="1"/>
+                <input name="pageId" id="pageId" type="hidden" value="<?php echo '742';?>"/>
+                <input name="lectureId" id="lectureId" type="hidden" value="<?php echo '117';?>"/>
+                <input name="testType" id="testType" type="hidden" value="plain"/>
+                <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
+            </fieldset>
+            <br>
+            <input type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>
+        </form>
+        <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
+    </div>
+</div>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-treeview.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'revision.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'tests.js'); ?>"></script>

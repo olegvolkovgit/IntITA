@@ -12,6 +12,12 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                  id="editIco" title="<?php echo Yii::t('module', '0373'); ?>"/>
         </a>
+
+        <a href="<?php echo Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$module->module_ID)); ?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
+                 id="viewIco" title="Переглянути ревізії модуля"/>
+        </a>
+
     <?php } ?>
     <?php if (!Yii::app()->user->isGuest) {
     if (Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>

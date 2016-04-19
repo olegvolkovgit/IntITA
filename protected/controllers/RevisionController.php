@@ -3,6 +3,8 @@
 class RevisionController extends Controller
 {
 
+    public $layout = 'lessonlayout';
+
     public function actionIndex()
     {
         if (!$this->isUserApprover(Yii::app()->user)) {
@@ -443,6 +445,61 @@ class RevisionController extends Controller
     }
 
     /**
+     * curl -XPOST --data 'condition=condition&testTitle=testTitle&optionsNum=2&pageId=1&answer1=answer1&is_valid1=1&answer2=answer2&is_valid2=0' 'http://intita.project/revision/addtest'
+     */
+    public function actionAddTest() {
+        $arr = [];
+        $arr['condition'] = Yii::app()->request->getPost('condition', '');  //RevisionLectureElement->html_block
+        $arr['testTitle'] = Yii::app()->request->getPost('testTitle', '');  //RevisionTest->title
+        $arr['optionsNum'] = Yii::app()->request->getPost('optionsNum', 0); //options amount
+        $arr['pageId'] = Yii::app()->request->getPost('pageId', 0);         //RevisionLecturePage->id
+        $arr['type'] = LectureElement::TEST;                                //RevisionLectureElement->id_type
+
+        $arr['author'] = Yii::app()->user->getId();
+
+        $options = [];
+        for ($i = 0; $i < $arr['optionsNum']; $i++){
+            $options[$i]["answer"] = Yii::app()->request->getPost("answer".($i+1), '');     //RevisionTestAnswer->answer
+            $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid".($i+1), 0);  //RevisionTestAnswer->is_valid
+        }
+        $arr['answers'] = $options;
+        RevisionQuizFactory::createQuiz($arr);
+    }
+
+    /**
+     * curl -XPOST --data 'idBlock=492&testTitle=testTitle2&optionsNum=3&PageId=1&answer1=answer3&is_valid1=1&answer2=answer4&is_valid2=0&answer3=answer5' 'http://intita.projectevision/EditTest' -b XDEBUG_SESSION=PHPSTORM
+     */
+    public function actionEditTest() {
+        $arr = [];
+        $arr['idBlock'] =  Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->html_block
+        $arr['condition'] =  Yii::app()->request->getPost('condition', '');    //RevisionLectureElement->html_block
+        $arr['testTitle'] = Yii::app()->request->getPost('testTitle', '');     //RevisionTest->title
+        $arr['optionsNum'] = Yii::app()->request->getPost('optionsNum', 0);    //options amount
+
+
+        $options = [];
+        for ($i = 0; $i < $arr['optionsNum']; $i++){
+            $options[$i]["answer"] = Yii::app()->request->getPost("answer".($i+1), '');     //RevisionTestAnswer->answer
+            $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid".($i+1), 0);  //RevisionTestAnswer->is_valid
+        }
+
+        $arr['answers'] = $options;
+        print_r($arr);
+
+        RevisionQuizFactory::editQuiz($arr);
+    }
+
+    /**
+     * curl -XPOST --data 'idBlock=496' 'http://intita.projectevision/DeleteTest'
+     */
+    public function actionDeleteTest() {
+        $arr = [];
+        $idBlock =  Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->id
+
+        RevisionQuizFactory::deleteQuiz($idBlock);
+    }
+
+    /**
      * Returns true if $user can approve or reject.
      * @param $user
      * @return bool
@@ -518,7 +575,6 @@ class RevisionController extends Controller
             $targetNode['nodes'][$node['id']] = $node;
         }
     }
-
 
     private function buildLectureTreeJson($lectures, $lectureTree) {
         $jsonArray = [];

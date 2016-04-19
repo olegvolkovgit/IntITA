@@ -23,7 +23,12 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
                 ipCookie('lessonTab', 0, { path: '/' });
                 break;
             case 'text':
+                $scope.startLogText();
                 ipCookie('lessonTab', 1, { path: '/' });
+                break;
+            case 'quiz':
+                $scope.startLogQuiz();
+                ipCookie('lessonTab', 2, { path: '/' });
                 break;
         }
     });
@@ -48,4 +53,16 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
             $('#ui-id-'+tab+'').click();
         }
     };
+    $scope.startLogQuiz=function(){
+        $.post("/track/index", {  events: "quiz", lesson: idLecture,part: $rootScope.currentPage } );
+
+    };
+    $scope.startLogText=function(){
+        $.post("/track/index", {  events: "text", lesson: idLecture,part: $rootScope.currentPage } );
+
+    };
+    $scope.startLogVideo=function(){
+      $.post("/track/index", {  events: "start_video", lesson: idLecture,part: $rootScope.currentPage } );
+
+       }
 }

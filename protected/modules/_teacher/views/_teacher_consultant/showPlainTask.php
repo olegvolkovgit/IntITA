@@ -20,14 +20,13 @@ $mark = $plainTask->mark();
             <div class="row">
                 <input type="text" id="plainTaskId" hidden="hidden" value="<?php echo $plainTask->id; ?>">
                 <input type="text" id="userId" hidden="hidden" value="<?php echo $plainTask->id_student; ?>">
-
             <div class="form-group col-md-10">
                 <label for="fromWho">Від кого</label>
                 <input type="text" class="form-control" id="fromWho"
                        placeholder="<?php echo $plainTask->getStudentName() ?>" readonly>
             </div>
             <div class="form-group col-md-10">
-                <label for="condition">Задача</label>
+                <label for="condition">Умова задачі</label>
                 <div class="form-control" name="condition" id="textareaSettingsbyId"
                           readonly><?php echo $plainTask->getCondition() ?>
                 </div>
