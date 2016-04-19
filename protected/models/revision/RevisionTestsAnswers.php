@@ -126,4 +126,15 @@ class RevisionTestsAnswers extends CActiveRecord
         return $newTestAnswer;
     }
 
+    public function saveToRegularDB($idTest) {
+        $newTestAnswer = new TestsAnswers();
+        $newTestAnswer->id_test = $idTest;
+        $newTestAnswer->answer = $this->answer;
+        $newTestAnswer->is_valid = $this->is_valid;
+
+        //todo saveCheck
+        $newTestAnswer->save();
+        return $newTestAnswer;
+    }
+
 }

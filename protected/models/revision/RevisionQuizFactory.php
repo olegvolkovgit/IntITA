@@ -60,16 +60,16 @@ class RevisionQuizFactory
         return null;
     }
 
-    public static function deleteQuiz($idBlock) {
+    public static function deleteQuiz($idLectureElement) {
         //todo refactor deleting lecture element
-        $lectureElementRevision = RevisionLectureElement::model()->findByPk($idBlock);
+        $lectureElementRevision = RevisionLectureElement::model()->findByPk($idLectureElement);
 
         switch($lectureElementRevision->id_type)
         {
             case 'plain_task' :
                 break;
             case LectureElement::TEST :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idBlock));
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idLectureElement));
                 if($test->deleteTest()) {
                     $test->delete();
                 };
@@ -84,5 +84,75 @@ class RevisionQuizFactory
 
         $lectureElementRevision->delete();
         return null;
+    }
+
+    /**
+     * @param RevisionLectureElement $lectureElementOld
+     * @param RevisionLectureElement $lectureElementNew
+     * @return array|mixed|null
+     */
+    public static function cloneQuiz($lectureElementOld, $lectureElementNew){
+        switch($lectureElementOld->id_type)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST :
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
+                $test->cloneTest($lectureElementNew->id);
+                return $test;
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static function saveToRegularDB($revisionLectureElement, $newLectureElement, $idUserCreated) {
+        switch($newLectureElement->id_type)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST :
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revisionLectureElement->id));
+                return $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static function deleteQuizesFromRegularDB($quizes) {
+        foreach ($quizes as $idType => $idElements) {
+            if (count($idElements)>0) {
+                switch($idType)
+                {
+                    case 'plain_task' :
+                        break;
+                    case LectureElement::TEST :
+                        foreach ($idElements as $element) {
+                            $test = Tests::model()->findByAttributes(array('block_element'=>$element));
+                            $testAnswers = TestsAnswers::model()->findAllByAttributes(array('id_test'=>$test->id));
+                            foreach ($testAnswers as $testAnswer) {
+                                $testAnswer->delete();
+                            }
+                            $test->delete();
+                        }
+                        break;
+                    case 'task' :
+                        break;
+                    case 'skip_task':
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
