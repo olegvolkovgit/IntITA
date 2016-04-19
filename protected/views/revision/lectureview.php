@@ -1,105 +1,101 @@
 <?php
     //todo
-    $this->breadcrumbs = array("dd"=>"dd");
+$this->breadcrumbs = array(
+    'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $lectureRevision->id_module)),
+    'Ревізії занять модуля' => Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$lectureRevision->id_module)),
+    'Ревізія даного заняття',
+);
 ?>
-
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/lectureRevisionCtrl.js'); ?>"></script>
 <script>
-    function addPageRow($table, id, title, order, status){
-        var $row = $('<tr></tr>');
-        var $name = $('<td></td>').html(id).appendTo($row);
-        var $title = $('<td></td>').html(title).appendTo($row);
-        var $order = $('<td></td>').html(order).appendTo($row);
-        var $status = $('<td></td>').html(status).attr('id', 'status'+id).appendTo($row);
-
-        var $buttons = $('<td></td>').append(
-            '<div class="btn-group"> \
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> \
-                    Дії <span class="caret"></span> \
-                </button> \
-                <ul class="dropdown-menu"> \
-                    <li><a href="#" onclick="viewPage('+ id +')">Переглянути</a></li> \
-                <li><a href="#" onclick="editPageRevision('+ id +')">Редагувати</a></li> \
-                <li><a href="#" onclick="sendRevision('+ id +')">Надіслати на затвердження</a></li> \
-                <li><a href="#" onclick="approvePageRevision('+ id +')">Затвердити</a></li> \
-                <li><a href="#" onclick="rejectPageRevision('+ id +')">Відхилити</a></li> \
-                <li><a href="#" onclick="cancelPageRevision('+ id +')">Скасувати</a></li> \
-            </ul> \
-        </div>'
-        );
-        $buttons.appendTo($row);
-        $row.appendTo($table);
-    }
+    idRevision = '<?php echo $idRevision;?>';
+    basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
+<style>
+    .editIco{
+        cursor: pointer;
+    }
+</style>
+<div ng-app="lectureRevision">
+    <div ng-controller="lectureRevisionCtrl">
+        <div id="revisionMainBox">
+            <label>Властивоті лекції: </label>
 
-<div id="revisionMainBox">
-    <label>Властивоті лекції: </label>
+            <table class="table">
+                <tr>
+                    <td>Модуль</td>
+                    <td><?=$lectureRevision->id_module?></td>
+                </tr>
+                <tr>
+                    <td>Номер ревізії</td>
+                    <td><?=$lectureRevision->id_revision?></td>
+                </tr>
+                <tr>
+                    <td>Назва (укр)</td>
+                    <td><?=$lectureRevision->properties->title_ua?></td>
+                </tr>
+                <tr>
+                    <td>Назва (рос)</td>
+                    <td><?=$lectureRevision->properties->title_ru?></td>
+                </tr>
+                <tr>
+                    <td>Назва (англ)</td>
+                    <td><?=$lectureRevision->properties->title_en?></td>
+                </tr>
+                <tr>
+                    <td>Автор</td>
+                    <td><?=$lectureRevision->properties->id_user_created?></td>
+                </tr>
+                <tr>
+                    <td>Поточний статус</td>
+                    <td><?=$lectureRevision->getStatus()?></td>
+                </tr>
+            </table>
+            <button ng-click="addPage();">Додати сторінку</button>
+            <button onclick="checkLecture(<?=$lectureRevision->id_revision?>);">Перевірити лекцію на наявність конфліктів</button>
+            <button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Відправити лекцію на затвердження</button>
+            <br>
 
-    <table class="table">
-        <tr>
-            <td>Модуль</td>
-            <td><?=$lectureRevision->id_module?></td>
-        </tr>
-        <tr>
-            <td>Номер ревізії</td>
-            <td><?=$lectureRevision->id_revision?></td>
-        </tr>
-        <tr>
-            <td>Назва (укр)</td>
-            <td><?=$lectureRevision->properties->title_ua?></td>
-        </tr>
-        <tr>
-            <td>Назва (рос)</td>
-            <td><?=$lectureRevision->properties->title_ru?></td>
-        </tr>
-        <tr>
-            <td>Назва (англ)</td>
-            <td><?=$lectureRevision->properties->title_en?></td>
-        </tr>
-        <tr>
-            <td>Автор</td>
-            <td><?=$lectureRevision->properties->id_user_created?></td>
-        </tr>
-        <tr>
-            <td>Поточний статус</td>
-            <td><?=$lectureRevision->getStatus()?></td>
-        </tr>
-    </table>
-    <button onclick="addPage(<?=$lectureRevision->id_revision?>);">Додати сторінку</button>
-    <button onclick="checkLecture(<?=$lectureRevision->id_revision?>);">Перевірити лекцію на наявність конфліктів</button>
-    <button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Відправити лекцію на затвердження</button>
-    <br>
+            <label>Перелік ревізій сторінок лекції: </label>
 
-    <label>Перелік ревізій сторінок лекції: </label>
-
-    <table id="pages" class="table">
-        <tr>
-            <td>
-                Номер ревізії
-            </td>
-            <td>
-                Назва
-            </td>
-            <td>
-                Порядковий номер
-            </td>
-            <td>
-                Статус
-            </td>
-            <td>
-            </td>
-        </tr>
-        <?php foreach ($pages as $page) {?>
-        <tr>
-            <script>
-                addPageRow($('#pages'), <?=$page->id?>, '<?=$page->page_title?>', <?=$page->page_order?>, '<?=$page->getStatus()?>');
-            </script>
-        </tr>
-        <?php } ?>
-    </table>
-
-    <div id="ajax_content">
+            <table id="pages" class="table">
+                <tr>
+                    <td>Номер ревізії</td>
+                    <td>Назва</td>
+                    <td>Порядковий номер</td>
+                    <td>Статус</td>
+                    <td></td>
+                </tr>
+                <tr ng-repeat="page in dataPages track by $index">
+                    <td>{{page.id}}</td>
+                    <td>{{page.page_title}}</td>
+                    <td>{{page.page_order}}</td>
+                    <td>{{page.status}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Дії <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" ng-click="viewPage(page.id)">Переглянути</a></li>
+                                <li><a href="#" ng-click="editPageRevision(page.id)">Редагувати</a></li>
+                                <li><a href="#" ng-click="sendRevision(page.id)">Надіслати на затвердження</a></li>
+                                <li><a href="#" ng-click="approvePageRevision(page.id)">Затвердити</a></li>
+                                <li><a href="#" ng-click="rejectPageRevision(page.id)">Відхилити</a></li>
+                                <li><a href="#" ng-click="cancelPageRevision(page.id)">Скасувати</a></li>
+                            </ul>
+                        </div>
+                        <div style="display: inline-block">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(page.id);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?>" class="editIco" ng-click="down(page.id);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco" ng-click="delete(page.id);">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-
 </div>
 
 <div id='modal' class="modal fade" tabindex="-1" role="dialog">
@@ -131,10 +127,6 @@
 <br>
 
 <script>
-    function viewPage(pageId) {
-        alert ('dummy '+pageId);
-    }
-
     function addPage(lectureRevision) {
         $.ajax({
             method: "POST",
@@ -257,7 +249,7 @@
     function upElement(idEl, idPage) {
         $.ajax({
             method: "POST",
-            url: "<?=Yii::app()->createUrl("/revision/upLectureElement");?>",
+            url: "<?=Yii::app()->createUrl("/revision/SendForApproveLecture");?>",
             data: {idElement:idEl, idPage:idPage}
         })
     }
@@ -265,7 +257,7 @@
     function downElement(idEl, idPage) {
         $.ajax({
             method: "POST",
-            url: "<?=Yii::app()->createUrl("/revision/downLectureElement");?>",
+            url: "/revision/downLectureElement",
             data: {idElement:idEl, idPage:idPage}
         })
     }
@@ -273,7 +265,7 @@
     function deleteElement(idEl, idPage) {
         $.ajax({
             method: "POST",
-            url: "<?=Yii::app()->createUrl("/revision/deleteLectureElement");?>",
+            url: "/revision/deleteLectureElement",
             data: {idElement:idEl, idPage:idPage}
         })
     }

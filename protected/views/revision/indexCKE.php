@@ -1,27 +1,16 @@
 <? $css_version = 1; ?>
 <?php
-///* @var $this LessonController */
-///* @var $page LecturePage */
-///* @var $lecture Lecture */
-///* @var $lectureElement LectureElement */
-//$module = $lecture->idModule;
-//$lecture = Lecture::model()->findByPk($page->id_lecture);
-//if ($idCourse != 0) {
-//    $this->breadcrumbs = array(
-//        Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses",
-//        Course::getCourseTitleForBreadcrumbs($idCourse) => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
-//        $lecture->ModuleTitle->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module, 'idCourse' => $idCourse)),
-//        $lecture->title() =>
-//            Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
-//    );
-//} else {
-//    $this->breadcrumbs = array(
-//        $lecture->ModuleTitle->getTitle() => Yii::app()->createUrl('module/index', array('idModule' => $module)),
-//        $lecture->title() =>
-//            Yii::app()->createUrl('lesson/index', array('id' => $page->id_lecture, 'idCourse' => $idCourse)),
-//    );
-//}
-//?>
+/* @var $this LessonController */
+/* @var $page LecturePage */
+/* @var $lecture Lecture */
+/* @var $lectureElement LectureElement */
+$this->breadcrumbs = array(
+    'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $page->revision->id_module)),
+    'Ревізії занять модуля' => Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$page->revision->id_module)),
+    'Ревізія заняття даної сторінки' => Yii::app()->createUrl('/revision/EditLectureRevision', array('idRevision'=>$page->id_revision)),
+    'Ревізія сторінки заняття',
+);
+?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
 <script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
 <script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
@@ -66,15 +55,10 @@
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/><!-- highlight include -->
 <link rel="stylesheet" type="text/css" href="http://latex.codecogs.com/css/equation-embed.css"/>
-
-<!--[if lte IE 7]>
-<link rel="stylesheet" href="http://latex.codecogs.com/css/ie6.css" type="text/css"/>
-<![endif]-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js"></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
-<?php $this->renderPartial('/site/_hamburgermenu'); ?>
+
 <div ng-app="lessonEdit" class="lessonEdit">
     <div ng-controller="CKEditorCtrl">
         <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
@@ -88,7 +72,6 @@
             ">
         </div>
         <div id="lecturePage">
-            <br>
             <h1 class="lessonPart lessonEditPart">
                 <?php echo Yii::t('lecture', '0073') . " " . $page->revision->id_lecture.': '.$page->revision->properties->title_ua; ?>
             </h1>

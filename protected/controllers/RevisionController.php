@@ -2,7 +2,7 @@
 
 class RevisionController extends Controller
 {
-    public $layout = 'lessonlayout';
+    public $layout = 'revisionlayout';
 
     public function actionIndex()
     {
@@ -47,11 +47,13 @@ class RevisionController extends Controller
 
         if (!$lectureRevision->isEditable()) {
             $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);
+            $this->redirect(Yii::app()->createUrl('/revision/EditLectureRevision',array('idRevision'=>$lectureRevision->id_revision)));
         }
-
         $this->render("lectureview", array(
-                        "lectureRevision" => $lectureRevision,
-                        "pages" => $lectureRevision->lecturePages));
+            "lectureRevision" => $lectureRevision,
+            "idRevision"=>$idRevision,
+            "pages" => $lectureRevision->lecturePages
+        ));
     }
 
     public function actionAddPage(){
@@ -101,6 +103,7 @@ class RevisionController extends Controller
         if (!$page->isEditable()) {
             // create new revision;
             $page = $page->clonePage(Yii::app()->user);
+            $this->redirect(Yii::app()->createUrl('/revision/EditPageRevision',array('idPage'=>$page->id)));
         }
 
         $video = $page->getVideo();
@@ -440,6 +443,7 @@ class RevisionController extends Controller
         $json = $this->buildLectureTreeJson($lectureRev, $relatedTree);
 
         $this->render('index', array(
+            'idModule' => $idModule,
             'json' => $json,
         ));
     }
@@ -619,7 +623,33 @@ class RevisionController extends Controller
 //        }
 //        return json_encode(array_values($jsonArray));
 //    }
+    public function actionDataTest()
+    {
+        $idPage = Yii::app()->request->getPost('idPage');
+        $page=RevisionLecturePage::model()->findByPk($idPage);
+        $data = [];
+        $data["condition"] =  $page->getPageQuiz()->html_block;
+        $answers=RevisionTests::getTestAnswers($page->quiz);
+        $valid=RevisionTestsAnswers::getTestValid($page->quiz);
+        $data["answers"]=$answers;
+        $data["valid"]=$valid;
 
+        echo CJSON::encode($data);
+    }
+
+    public function actionLecturePages()
+    {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+        $data = [];
+        foreach ($lectureRevision->lecturePages as $key=>$page) {
+            $data[$key]["id"] = $page->id;
+            $data[$key]["page_title"] = $page->page_title;
+            $data[$key]["page_order"] = $page->page_order;
+            $data[$key]["status"] = $page->getStatus();
+        }
+        echo CJSON::encode($data);
+    }
 
     /**
      * Legacy methods
@@ -717,21 +747,4 @@ class RevisionController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-
-    public function actionDataTest()
-    {
-        $idPage = Yii::app()->request->getPost('idPage');
-        $page=RevisionLecturePage::model()->findByPk($idPage);
-        $data = [];
-        $data["condition"] =  $page->getPageQuiz()->html_block;
-        $answers=RevisionTests::getTestAnswers($page->quiz);
-        $valid=RevisionTestsAnswers::getTestValid($page->quiz);
-        $data["answers"]=$answers;
-        $data["valid"]=$valid;
-
-        echo CJSON::encode($data);
-    }
-
-
-
 }
