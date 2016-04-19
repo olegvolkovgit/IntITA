@@ -88,9 +88,10 @@ class Tenant extends Role
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'left join chat_user as cu on u.id = cu.intita_user_id';
+        $criteria->join .= ' LEFT JOIN teacher t on t.user_id = u.id';
         $criteria->join .= ' left join user_tenant ut on ut.chat_user_id=cu.id';
-        $criteria->addCondition('ut.chat_user_id IS NULL or ut.end_date IS NOT NULL');
-
+        $criteria->addCondition('t.user_id IS NOT NULL and ut.chat_user_id IS NULL or ut.end_date IS NOT NULL');
+        $criteria->group = 'u.id';
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
