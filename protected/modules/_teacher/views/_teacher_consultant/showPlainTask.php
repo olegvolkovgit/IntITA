@@ -27,7 +27,7 @@ $mark = $plainTask->mark();
                        placeholder="<?php echo $plainTask->getStudentName() ?>" readonly>
             </div>
             <div class="form-group col-md-10">
-                <label for="condition">Задача</label>
+                <label for="condition">Умова задачі</label>
                 <div class="form-control" name="condition" id="textareaSettingsbyId"
                           readonly><?php echo $plainTask->getCondition() ?>
                 </div>
