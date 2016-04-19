@@ -40,6 +40,7 @@ function loadUsersIndex(tab) {
 function initUsersTable() {
     $jq('#usersTable').DataTable({
         "autoWidth": false,
+        "order": [[ 2, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getUsersList",
             "dataSrc": "data"
@@ -81,6 +82,7 @@ function initUsersTable() {
 function initConsultantsRolesTable() {
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getConsultantsList",
             "dataSrc": "data"
@@ -135,6 +137,7 @@ function initConsultantsRolesTable() {
 function initTrainersTable() {
     $jq('#trainersTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getTrainersList",
             "dataSrc": "data"
@@ -233,6 +236,7 @@ function initTeachersTable() {
 function initAdminsTable() {
     $jq('#adminsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getAdminsList",
             "dataSrc": "data"
@@ -284,6 +288,7 @@ function initAdminsTable() {
 function initAccountantsTable() {
     $jq('#accountantsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getAccountantsList",
             "dataSrc": "data"
@@ -361,6 +366,7 @@ function addTrainer(url, scenario) {
 function initContentManagersTable() {
     $jq('#contentManagersTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getContentManagersList",
             "dataSrc": "data"
@@ -415,6 +421,7 @@ function initContentManagersTable() {
 function initTeacherConsultantsTable() {
     $jq('#teacherConsultantsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getTeacherConsultantsList",
             "dataSrc": "data"
@@ -469,6 +476,7 @@ function initTeacherConsultantsTable() {
 function initTenantsTable(){
     $jq('#tenantsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getTenantsList",
             "dataSrc": "data"
@@ -526,6 +534,7 @@ function initTenantsTable(){
  */
 function initStudentsList() {
     return $jq('#studentsTable').DataTable( {
+        "order": [[ 2, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getStudentsList",
             "dataSrc": "data"
