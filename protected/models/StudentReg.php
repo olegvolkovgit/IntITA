@@ -98,7 +98,7 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country, city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
         );
@@ -160,8 +160,8 @@ class StudentReg extends CActiveRecord
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student'),
-            'country0' => array(self::HAS_ONE, 'AddressCountry', 'country'),
-            'city0' => array(self::HAS_ONE, 'AddressCity', 'city'),
+            'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
+            'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
         );
     }
 
@@ -279,8 +279,8 @@ class StudentReg extends CActiveRecord
         $criteria->compare('status', $this->status, true);
         $criteria->compare('reg_time', $this->reg_time, true);
         $criteria->compare('skype', $this->skype, true);
-        $criteria->compare('country', $this->country, true);
-        $criteria->compare('city', $this->city, true);
+        $criteria->compare('t.country', $this->country, true);
+        $criteria->compare('t.city', $this->city, true);
 
 
         return new CActiveDataProvider($this, array(

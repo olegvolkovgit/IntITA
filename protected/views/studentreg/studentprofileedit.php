@@ -149,6 +149,7 @@ $post->secondName = addslashes($post->secondName);
                     <div class="row">
                         <?php echo $form->label($model, 'country'); ?>
                         <?php
+                        $param = "title_".Yii::app()->session["lg"];
                         $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                             'name' => 'countryTypeahead',
                             'source' => 'js: function(request, response) {
@@ -157,20 +158,20 @@ $post->secondName = addslashes($post->secondName);
                                         lang: "' . Yii::app()->session["lg"] . '"
                                     }, response);
                             }',
+                            'value' =>  is_null($post->country0) ? 'виберіть країну':$post->country0->title_ua,
                             'options' => array(
                                 'minLength' => '2',
                                 'showAnim' => 'fold',
                                 'select' => 'js: function(event, ui) {
                                             this.value = ui.item.value;
-                                            $("#StudentReg[country]").val(ui.item.id);
-                                            alert(ui.item.id);
-                                            $("#cityTypeahead").autocomplete( "option", "disabled", true );
+                                            $("#StudentReg_country").val(ui.item.id);
+                                            $("#cityTypeahead").autocomplete( "option", "disabled", false );
                                            return false;
                                     }',
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'country'); ?></span>
-                        <input value="<?=$model->country;?>" hidden="hidden" type="number" name="StudentReg[country]"/>
+                        <?php echo $form->hiddenField($model, 'country'); ?>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'city'); ?>
@@ -180,16 +181,17 @@ $post->secondName = addslashes($post->secondName);
                             'source' => 'js: function(request, response) {
                                         $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
                                         term: request.term.split(/,s*/).pop(),
-                                        country: $("[name=\'StudentReg[country]\']").val()
+                                        country: $("#StudentReg_country").val()
                                     }, response);
                             }',
+                            'value' => $post->city0 == null ? 'виберіть місто': $post->city0->$param,
                             'options' => array(
                                 'minLength' => '2',
                                 'showAnim' => 'fold',
-                                'disabled' => false,
+                                'disabled' => true,
                                 'select' => 'js: function(event, ui) {
                                             this.value = ui.item.value;
-                                            $("#StudentReg[city]").val(ui.item.id);
+                                            $("#StudentReg_city").val(ui.item.id);
                                             return false;
                                     }',
                             ),
@@ -198,7 +200,7 @@ $post->secondName = addslashes($post->secondName);
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'city'); ?></span>
-                        <input value="<?=$model->city;?>" hidden="hidden" type="number" name="StudentReg[city]"/>
+                        <?php echo $form->hiddenField($model, 'city'); ?>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'address'); ?>

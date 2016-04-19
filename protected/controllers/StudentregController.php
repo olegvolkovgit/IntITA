@@ -329,11 +329,16 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
             $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
             $model->updateByPk($id, array('skype' => $_POST['StudentReg']['skype']));
+
             if (isset($_POST['StudentReg']['country'])) {
                 $newCountryId = AddressCountry::newUserCountry($_POST['StudentReg']['country'], $_POST['countryTypeahead']);
-                $model->updateByPk($id, array('skype' => $newCountryId));
+                $model->updateByPk($id, array('country' => $newCountryId));
+
+                if (isset($_POST['StudentReg']['city'])) {
+                    $newCityId = AddressCity::newUserCity($_POST['StudentReg']['city'], $_POST['cityTypeahead'], $newCountryId);
+                    $model->updateByPk($id, array('city' => $newCityId));
+                }
             }
-            var_dump($newCountryId);die;
 
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);

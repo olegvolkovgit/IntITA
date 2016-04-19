@@ -108,13 +108,14 @@ class AddressCity extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function newUserCity($oldId, $newTitle)
+	public static function newUserCity($oldId, $newTitle, $country)
     {
         $param = "title_" . Yii::app()->session["lg"];
         $oldModel = AddressCity::model()->findByPk($oldId);
         if (!$oldModel) {
             $model = new AddressCity();
             $model->$param = $newTitle;
+			$model->country = $country;
             if ($model->save()) {
                 return Yii::app()->db->lastInsertID;
             }
@@ -122,11 +123,12 @@ class AddressCity extends CActiveRecord
             if ($oldModel->$param == $newTitle) {
                 return $oldId;
             } else {
-                if ($exist = AddressCity::model()->findByAttributes(array($param => $newTitle))) {
+                if ($exist = AddressCity::model()->findByAttributes(array($param => $newTitle, 'country' => $country))) {
                     return $exist->id;
                 } else {
                     $model = new AddressCity();
                     $model->$param = $newTitle;
+					$model->country = $country;
                     if ($model->save()) {
                         return Yii::app()->db->lastInsertID;
                     }
