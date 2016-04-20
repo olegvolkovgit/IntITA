@@ -31,7 +31,7 @@ class RevisionLectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_page, id_type, block_order', 'required'),
+			array('id_page, id_type, block_order, html_block', 'required'),
 			array('id_page, id_type, block_order', 'numerical', 'integerOnly'=>true),
 			array('html_block', 'safe'),
 			// The following rule is used by search().
@@ -169,39 +169,48 @@ class RevisionLectureElement extends CActiveRecord
         $clone->id_type = $this->id_type;
         $clone->block_order = $this->block_order;
         $clone->html_block = $this->html_block;
-
         $clone->saveCheck();
 
         return $clone;
     }
 
-    public function saveElementModelToRegularDB($idNewLecture) {
+    public function saveElementModelToRegularDB($idNewLecture, $idUserCreated=null) {
         $new = new LectureElement();
         $new->id_type = $this->id_type;
         $new->id_lecture = $idNewLecture;
         $new->block_order = $this->block_order;
         $new->html_block = $this->html_block;
         $new->save();
+
+        if ($this->isQuiz()) {
+            RevisionQuizFactory::saveToRegularDB($this, $new, $idUserCreated);
+        }
+
         return $new;
     }
 
     public function cloneQuiz($idNewPage) {
-
         $clone = new RevisionLectureElement();
         $clone->id_page = $idNewPage;
         $clone->id_type = $this->id_type;
         $clone->block_order = $this->block_order;
         $clone->html_block = $this->html_block;
-
         $clone->saveCheck();
 
-        switch ($this->id_type) {
-            case LectureElement::TEST:
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $this->id));
-                $test->cloneTest($clone->id);
-                break;
-            default:
-                return null;
+        RevisionQuizFactory::cloneQuiz($this, $clone);
+
+        return $clone;
+    }
+
+    private function isQuiz() {
+        if ($this->id_type == LectureElement::PLAIN_TASK  || //plain task
+            $this->id_type == LectureElement::TEST || //test
+            $this->id_type == LectureElement::TASK  || //task
+            $this->id_type == LectureElement::SKIP_TASK ) { //skip task
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

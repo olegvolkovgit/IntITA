@@ -8,6 +8,7 @@
  * @property integer $id
  * @property integer $block_element
  * @property integer $author
+ * @property string $title
  *
  * The followings are the available model relations:
  */

@@ -209,9 +209,9 @@ img {
 
 /*----Edit toolbar----*/
 .editToolbar {
-    position: absolute;
-    margin-top: -25px;
-    float: left;
+    /*position: absolute;*/
+    /*margin-top: -25px;*/
+    /*float: left;*/
 }
 
 .editToolbar img {

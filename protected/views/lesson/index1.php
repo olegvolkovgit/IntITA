@@ -48,7 +48,6 @@
 /* @var $this LessonController */
 /* @var $lecture Lecture */
 /* @var $page LecturePage */
-/* @var $teacher Teacher */
 /* @var integer $idCourse */
 if (!isset($idCourse)) $idCourse = 0;
 ?>

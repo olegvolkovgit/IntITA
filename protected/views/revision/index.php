@@ -1,6 +1,15 @@
 <?php
 //todo
-    $this->breadcrumbs = array("dd"=>"dd");
+if(isset($idModule)){
+    $this->breadcrumbs = array(
+        'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $idModule)),
+        'Ревізії занять модуля',
+    );
+}else{
+    $this->breadcrumbs = array(
+        'Ревізії занять',
+    );
+}
 ?>
 
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
