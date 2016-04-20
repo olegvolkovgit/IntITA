@@ -10,4 +10,12 @@ class AddressController extends TeacherCabinetController
     {
         $this->renderPartial('index', array(), false, true);
     }
+
+    public function actionGetCountriesList(){
+        echo AddressCountry::countriesList();
+    }
+
+    public function actionGetCitiesList(){
+        echo AddressCity::citiesList();
+    }
 }

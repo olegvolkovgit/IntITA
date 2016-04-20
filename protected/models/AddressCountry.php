@@ -129,4 +129,22 @@ class AddressCountry extends CActiveRecord
         }
         return null;
 	}
+
+	public static function countriesList(){
+        $countries = AddressCountry::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($countries as $record) {
+            $row = array();
+
+            $row["id"] = $record->id;
+            $row["title_ua"] = CHtml::encode($record->title_ua);
+            $row["title_ru"] = CHtml::encode($record->title_ru);
+            $row["title_en"] = CHtml::encode($record->title_en);
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }
