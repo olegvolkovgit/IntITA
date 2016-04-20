@@ -137,7 +137,7 @@ class RevisionQuizFactory
         }
     }
 
-    public static function deleteQuizesFromRegularDB($quizes) {
+    public static function deleteFromRegularDB($quizes) {
         foreach ($quizes as $idType => $idElements) {
             if (count($idElements)>0) {
                 switch($idType)

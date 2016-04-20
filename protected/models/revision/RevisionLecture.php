@@ -427,6 +427,7 @@ class RevisionLecture extends CActiveRecord
                 $revNewPage->id_revision = $revLecture->id_revision;
                 $revNewPage->page_title = $page->page_title;
                 $revNewPage->page_order = $page->page_order;
+                $revNewPage->saveCheck();
 
                 $video = LectureElement::model()->findByPk($page->video);
                 if ($video != null) {
@@ -439,14 +440,8 @@ class RevisionLecture extends CActiveRecord
                     $revNewPage->video = $revVideo->id;
                 }
 
-//            TODO
+//            TODO quiz
 //            $revNewPage->quiz
-
-                $revNewPage->start_date = new CDbExpression('NOW()');
-                $revNewPage->id_user_created = $user->getId();
-                $revNewPage->approve_date = new CDbExpression('NOW()');
-                $revNewPage->id_user_approved = $user->getId();
-                $revNewPage->saveCheck();
 
                 foreach ($page->getLectureElements() as $lectureElement) {
                     if ($lectureElement->isTextBlock()) {
@@ -519,18 +514,17 @@ class RevisionLecture extends CActiveRecord
     //todo refactor
     private function saveToRegularDB() {
 
-        //remove old data if lecture exists in regular DB
-        if ($this->id_lecture != null) {
-            $this->removePreviousRecords();
-        }
-
         //write new data
-
         $newLecture = $this->saveLectureModelToRegularDB();
         $idNewLecture = $newLecture->id;
 
         foreach ($this->lecturePages as $page) {
             $page->savePageModelToRegularDB($idNewLecture, $this->properties->id_user_created);
+        }
+
+        //remove old data if lecture exists in regular DB
+        if ($this->id_lecture != null) {
+            $this->removePreviousRecords();
         }
 
         $this->id_lecture = $newLecture->id;
@@ -539,14 +533,14 @@ class RevisionLecture extends CActiveRecord
 
     private function saveLectureModelToRegularDB() {
         //todo maybe need to store idTeacher separately in vc_* DB?
-        $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
+//        $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
 
         $newLecture = new Lecture();
         $newLecture->idModule = $this->id_module;
         $newLecture->title_ua = $this->properties->title_ua;
         $newLecture->title_ru = $this->properties->title_ru;
         $newLecture->title_en = $this->properties->title_en;
-        $newLecture->idTeacher = $teacher->teacher_id;
+//        $newLecture->idTeacher = $teacher->teacher_id;
         $newLecture->image = $this->properties->image;
         $newLecture->alias = $this->properties->alias;
         $newLecture->order = $this->properties->order;
@@ -594,7 +588,7 @@ class RevisionLecture extends CActiveRecord
             $oldLectureElement->delete();
         }
 
-        RevisionQuizFactory::deleteQuizesFromRegularDB($quizes);
+        RevisionQuizFactory::deleteFromRegularDB($quizes);
 
         $oldLecture->delete();
     }
