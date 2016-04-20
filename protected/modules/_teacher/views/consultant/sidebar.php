@@ -18,8 +18,8 @@
         <li>
             <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/consultations',
                 array('id' => $model->id)) ?>',
-                'Консультанції')">
-                Консультанції
+                'Консультації')">
+                Консультації
             </a>
         </li>
     </ul>
