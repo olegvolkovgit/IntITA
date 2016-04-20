@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $id_lecture_element
  * @property string $title
+ * @property integer $id_test
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -31,11 +32,11 @@ class RevisionTests extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_lecture_element', 'required'),
-			array('id_lecture_element', 'numerical', 'integerOnly'=>true),
+			array('id_lecture_element, id_test', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lecture_element, title', 'safe', 'on'=>'search'),
+			array('id, id_lecture_element, title, id_test', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,6 +86,7 @@ class RevisionTests extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_lecture_element',$this->id_lecture_element);
 		$criteria->compare('title',$this->title,true);
+		$criteria->compare('id_test',$this->id_test);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -193,6 +195,14 @@ class RevisionTests extends CActiveRecord
         foreach ($this->testsAnswers as $testsAnswer) {
             $testsAnswer->saveToRegularDB($newTest->id);
         }
+
+        if ($this->id_test) {
+            //copy test marks
+            TestsMarks::model()->updateAll(array('id_test' => $newTest->id), 'id_test=:id_test', array(':id_test' => $this->id_test));
+        }
+
+        $this->id_test = $newTest->id;
+        $this->save();
 
         return $newTest;
     }

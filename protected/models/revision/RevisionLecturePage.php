@@ -349,7 +349,7 @@ class RevisionLecturePage extends CActiveRecord
 
     /**
      * Returns video instance
-     * @return static
+     * @return RevisionLectureElement static
      */
     public function getVideo() {
         return RevisionLectureElement::model()->findByPk($this->video);
