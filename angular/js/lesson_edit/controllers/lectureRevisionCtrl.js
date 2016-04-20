@@ -24,7 +24,7 @@ function lectureRevisionCtrl($scope, $http) {
     });
 
     $scope.viewPage = function(pageId) {
-        alert ('dummy '+pageId);
+        location.href=basePath+'/revision/viewPageRevision?idPage='+pageId;
     };
     $scope.editPageRevision = function(pageId) {
         location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
@@ -96,7 +96,10 @@ function lectureRevisionCtrl($scope, $http) {
                 $scope.dataPages=response;
                 $('body,html').animate({scrollTop: $(document).height()}, 500);
             });
-        }, function errorCallback() {
+        }, function errorCallback(response) {
+            if(response.status==403){
+                bootbox.alert('У вас недостатньо прав для редагування сторінки.');
+            }
             return false;
         });
     };
@@ -152,6 +155,21 @@ function lectureRevisionCtrl($scope, $http) {
             bootbox.alert(response.data);
         }, function errorCallback() {
             console.log('checkLecture error');
+            return false;
+        });
+    };
+    $scope.approveLecture = function() {
+        $http({
+            url: basePath+'/revision/sendForApproveLecture',
+            method: "POST",
+            data: $.param({idLecture:idRevision}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            bootbox.alert('Запит на підтвердження відправлено', function () {
+                location.href = basePath+'/revision/previewLectureRevision?idRevision=' + idRevision;
+            });
+        }, function errorCallback(response) {
+            console.log('error '+response.status);
             return false;
         });
     };

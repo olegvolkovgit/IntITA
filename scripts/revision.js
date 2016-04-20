@@ -9,7 +9,7 @@ function addButtons(treeData) {
                 "title": "Переглянути",
                 "action": function(event) {
                     var idRevision = $(event.data.el).attr('id');
-                    alert('dummy #' + idRevision);
+                    previewRevision(idRevision);
                 }
             },
             {

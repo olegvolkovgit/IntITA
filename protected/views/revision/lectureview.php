@@ -13,11 +13,6 @@ $this->breadcrumbs = array(
     idRevision = '<?php echo $idRevision;?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
-<style>
-    .editIco{
-        cursor: pointer;
-    }
-</style>
 <div ng-app="lectureRevision">
     <div ng-controller="lectureRevisionCtrl">
         <div id="revisionMainBox">
@@ -53,9 +48,11 @@ $this->breadcrumbs = array(
                     <td><?=$lectureRevision->getStatus()?></td>
                 </tr>
             </table>
-            <button ng-click="addPage();">Додати сторінку</button>
-            <button ng-click="checkLecture();">Перевірити лекцію на наявність конфліктів</button>
-            <button onclick="approveLecture(<?=$lectureRevision->id_revision?>);">Відправити лекцію на затвердження</button>
+            <div ng-if="dataPages[0].editor && dataPages[0].editable">
+                <button ng-click="addPage();">Додати сторінку</button>
+                <button ng-click="checkLecture();">Перевірити лекцію на наявність конфліктів</button>
+                <button ng-click="approveLecture();">Відправити лекцію на затвердження</button>
+            </div>
             <br>
 
             <label>Перелік ревізій сторінок лекції: </label>
@@ -65,14 +62,12 @@ $this->breadcrumbs = array(
                     <td>Номер ревізії</td>
                     <td>Назва</td>
                     <td>Порядковий номер</td>
-                    <td>Статус</td>
-                    <td></td>
+                    <td>Навігація</td>
                 </tr>
                 <tr ng-repeat="page in dataPages track by $index">
                     <td>{{page.id}}</td>
                     <td>{{page.page_title}}</td>
                     <td>{{page.page_order}}</td>
-                    <td>{{page.status}}</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,14 +75,10 @@ $this->breadcrumbs = array(
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a ng-click="viewPage(page.id)">Переглянути</a></li>
-                                <li><a ng-click="editPageRevision(page.id)">Редагувати</a></li>
-                                <li><a ng-click="sendRevision(page.id)">Надіслати на затвердження</a></li>
-                                <li><a ng-click="approvePageRevision(page.id)">Затвердити</a></li>
-                                <li><a ng-click="rejectPageRevision(page.id)">Відхилити</a></li>
-                                <li><a ng-click="cancelPageRevision(page.id)">Скасувати</a></li>
+                                <li ng-if="page.editor && page.editable"><a ng-click="editPageRevision(page.id)">Редагувати</a></li>
                             </ul>
                         </div>
-                        <div style="display: inline-block">
+                        <div style="display: inline-block" ng-if="page.editor && page.editable">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(page.id);">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?>" class="editIco" ng-click="down(page.id);">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco" ng-click="delete(page.id);">

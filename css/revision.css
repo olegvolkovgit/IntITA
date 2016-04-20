@@ -4,3 +4,9 @@
     /*overflow: hidden;*/
     overflow: visible
 }
+.editIco{
+    cursor: pointer;
+}
+.dropdown-menu a{
+    cursor: pointer;
+}
