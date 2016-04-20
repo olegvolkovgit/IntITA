@@ -40,7 +40,7 @@ function loadUsersIndex(tab) {
 function initCountriesList(){
     $jq('#countriesTable').DataTable({
         "autoWidth": false,
-        "order": [[ 1, "asc" ]],
+        "order": [[ 0, "asc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/address/getCountriesList",
             "dataSrc": "data"
@@ -72,7 +72,7 @@ function initCountriesList(){
 function initCitiesList(){
     $jq('#citiesTable').DataTable({
         "autoWidth": false,
-        "order": [[ 1, "asc" ]],
+        "order": [[ 0, "asc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_admin/address/getCitiesList",
             "dataSrc": "data"
