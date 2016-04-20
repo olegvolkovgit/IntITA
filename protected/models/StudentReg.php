@@ -312,7 +312,7 @@ class StudentReg extends CActiveRecord
 
     public static function getAdressYears($birthday, $adress = '')
     {
-        $brthAdr = $adress;
+        $brthAdr = ", ". $adress;
         if (!empty($adress) && !empty($birthday)) $brthAdr = $brthAdr . ", ";
 
         $myAge = $birthday;
@@ -324,13 +324,6 @@ class StudentReg extends CActiveRecord
             $brthAdr = $brthAdr . $interval->format("%y") . ' ' . CommonHelper::getYearsTermination($interval->format("%Y"));
         }
         return $brthAdr;
-    }
-
-    public static function getEducform($educform)
-    {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => Yii::app()->user->id));
-        if ($educform && !$user)
-            return StudentReg::getUserData($educform, '0106');
     }
 
     public static function getEdForm($edForm)

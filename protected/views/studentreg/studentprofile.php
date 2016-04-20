@@ -40,7 +40,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 
                     <div class="aboutInfo">
                         <p>
-                            <?php echo $post::getAdressYears($post->birthday, $post->address); ?>
+                            <?php
+                            $param = "title_".Yii::app()->session["lg"];
+                            if(!is_null($post->country))
+                                echo AddressCountry::model()->findByPk($post->country)->$param.", ";
+                            if(!is_null($post->city))
+                                echo AddressCity::model()->findByPk($post->city)->$param;
+                            echo $post::getAdressYears($post->birthday, $post->address); ?>
                         </p>
                     </div>
                     <div class="aboutInfo">

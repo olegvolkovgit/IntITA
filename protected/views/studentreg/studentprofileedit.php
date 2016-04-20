@@ -3,7 +3,8 @@
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
 <?php
 /* @var $this StudentregController */
-/* @var $model Studentreg */
+/* @var $model Studentreg
+ * @var $post StudentReg
 /* @var $form CActiveForm */
 $user = RegisteredUser::userById(Yii::app()->user->id);
 $post = $user->registrationData;
@@ -158,7 +159,8 @@ $post->secondName = addslashes($post->secondName);
                                         lang: "' . Yii::app()->session["lg"] . '"
                                     }, response);
                             }',
-                            'value' =>  is_null($post->country0) ? 'виберіть країну':$post->country0->title_ua,
+                            'value' =>  is_null($post->country) ? 'виберіть країну':
+                                AddressCountry::model()->findByPk($post->country)->$param,
                             'options' => array(
                                 'minLength' => '2',
                                 'showAnim' => 'fold',
@@ -184,7 +186,8 @@ $post->secondName = addslashes($post->secondName);
                                         country: $("#StudentReg_country").val()
                                     }, response);
                             }',
-                            'value' => $post->city0 == null ? 'виберіть місто': $post->city0->$param,
+                            'value' => is_null($post->city) ? 'виберіть місто':
+                                AddressCity::model()->findByPk($post->city)->$param,
                             'options' => array(
                                 'minLength' => '2',
                                 'showAnim' => 'fold',
