@@ -183,16 +183,7 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        $f = new LogTracks();
-
-
-        //$f->part =Yii::app()->request->getPost('part');
-
-        $f->logtime = new CDbExpression('NOW()');
-        $f->event = "Login";
-
-        //$f->lesson = Yii::app()->request->getPost('lesson');
-        $f->save();
+        
         $model = new StudentReg('loginuser');
         // if it is ajax validation request
         $this->performAjaxValidation($model, 'authForm');
