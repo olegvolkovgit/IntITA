@@ -183,6 +183,16 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
+        $f = new LogTracks();
+
+
+        //$f->part =Yii::app()->request->getPost('part');
+
+        $f->logtime = new CDbExpression('NOW()');
+        $f->event = "Login";
+
+        //$f->lesson = Yii::app()->request->getPost('lesson');
+        $f->save();
         $model = new StudentReg('loginuser');
         // if it is ajax validation request
         $this->performAjaxValidation($model, 'authForm');
@@ -193,7 +203,10 @@ class SiteController extends Controller
             // validate user input and redirect to the previous page if valid
             if ($statusmodel->status == 1) {
                 if ($model->login()) {
+                  // TrackController::actionLogin();
+
                     $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                    Forum login
 
@@ -225,6 +238,8 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+        $r = new LogTracks;
+        $r->LogOut(Yii::app()->user->getId());
         $id = 0;
         foreach ($_SESSION as $key => $value) {
             if (strpos($key, '__id')) {
@@ -731,6 +746,8 @@ class SiteController extends Controller
                 if ($statusmodel->status == 1) {
                     if ($model->login()) {
                         $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+                        $r = new LogTracks;
+                        $r->Login(Yii::app()->user->getId());
                         //                        Forum login
                         if (!ForumUser::login($userModel))
                             throw new ForumException('Forum user not save!!!');
