@@ -52,4 +52,12 @@
         })
     }
 
+    function previewRevision(idRevision) {
+        location.href = "<?=Yii::app()->createUrl('/revision/previewLectureRevision');?>" + '?idRevision=' + idRevision;
+    }
+
+    function createRevision(idRevision) {
+        location.href = "<?=Yii::app()->createUrl('/revision/createLectureRevision');?>" + '?idRevision=' + idRevision;
+    }
+
 </script>
