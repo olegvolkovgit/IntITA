@@ -31,7 +31,7 @@ class RevisionLectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_page, id_type, block_order', 'required'),
+			array('id_page, id_type, block_order, html_block', 'required'),
 			array('id_page, id_type, block_order', 'numerical', 'integerOnly'=>true),
 			array('html_block', 'safe'),
 			// The following rule is used by search().

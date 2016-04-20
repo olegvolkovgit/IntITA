@@ -31,7 +31,7 @@ class LessonController extends Controller
             throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0810'));
 
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
-        if (StudentReg::isAdmin() || $editMode) {
+        if (Yii::app()->user->model->isAdmin() || $editMode) {
             return true;
         }
         if($idCourse!=0){
@@ -66,7 +66,7 @@ class LessonController extends Controller
         } else {
             $user = Yii::app()->user->getId();
         }
-        $passedPages = $lecture->accessPages($user, $editMode, StudentReg::isAdmin());
+        $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin());
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;
 
@@ -88,7 +88,6 @@ class LessonController extends Controller
 
         $dataProvider = LectureElement::getLectureText($textList);
 
-        $teacher = $lecture->lectureTeacher();
         $isLastLecture=$lecture->isLastLecture();
 
         if($lecture->verified && !$editMode) {
@@ -100,7 +99,7 @@ class LessonController extends Controller
             'lecture' => $lecture,
             'editMode' => $editMode,
             'passedPages' => $passedPages,
-            'teacher' => $teacher,
+          //  'teacher' => $teacher,
             'idCourse' => $idCourse,
             'user' => $user,
             'page' => $pageModel,
@@ -635,7 +634,7 @@ class LessonController extends Controller
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
 
-        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, StudentReg::isAdmin());
+        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, Yii::app()->user->model->isAdmin());
 
         echo json_encode($passedPages);
     }
@@ -779,7 +778,7 @@ class LessonController extends Controller
 
         $lastLectureId=Module::model()->findByPk($idModule)->lastLectureID();
         $lastLecture=Lecture::model()->findByPk($lastLectureId);
-        $lastLecturePassedPages=$lastLecture->accessPages($user, $editMode, StudentReg::isAdmin());
+        $lastLecturePassedPages=$lastLecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin());
 
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($idModule);
         $accessLecture=Lecture::accessLecture($lastLectureId, $lastLecture->order, $enabledLessonOrder);

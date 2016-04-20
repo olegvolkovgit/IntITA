@@ -54,15 +54,15 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
         }
     };
     $scope.startLogQuiz=function(){
-        $.post("/track/index", {  events: "quiz", lesson: idLecture,part: $rootScope.currentPage } );
+        $.post("/track/index", {  events: "Open_quiz", lesson: idLecture,part: $rootScope.currentPage } );
 
     };
     $scope.startLogText=function(){
-        $.post("/track/index", {  events: "text", lesson: idLecture,part: $rootScope.currentPage } );
+        $.post("/track/index", {  events: "Open_text", lesson: idLecture,part: $rootScope.currentPage } );
 
     };
     $scope.startLogVideo=function(){
-      $.post("/track/index", {  events: "start_video", lesson: idLecture,part: $rootScope.currentPage } );
+      $.post("/track/index", {  events: "Start_video", lesson: idLecture,part: $rootScope.currentPage } );
 
        }
 }

@@ -230,7 +230,6 @@ class Lecture extends CActiveRecord
         $order = Lecture::model()->count("idModule=$module and `order`>0");
 
         $lecture->order = ++$order;
-        $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture' . $order;
 
         $lecture->save();
@@ -348,11 +347,11 @@ class Lecture extends CActiveRecord
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         $user = Yii::app()->user->getId();
-        if (StudentReg::isAdmin() || $editMode) {
-            return true;
-        }
         if (Yii::app()->user->isGuest) {
             return false;
+        } else {
+            if (Yii::app()->user->model->isAdmin() || $editMode)
+                return true;
         }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
@@ -398,26 +397,6 @@ class Lecture extends CActiveRecord
         $passedLecture = Lecture::isPassedLecture($passedPages);
 
         return $passedLecture;
-    }
-
-    public function lectureTeacher()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->select = "teacher_id";
-        $criteria->addCondition("isPrint=1");
-        $criteria->order = 'rating ASC';
-        $teachers = Teacher::model()->findAll($criteria);
-
-        foreach ($teachers as $key) {
-            if (TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
-                ':idTeacher' => $key->teacher_id,
-                ':idModule' => $this->idModule
-            ))
-            ) {
-                return $key;
-            }
-        }
-        return null;
     }
 
     public function getFinishedPages($user)

@@ -10,17 +10,13 @@ class TrackController extends Controller
 		// $arr['name'] = Yii::app()->request->getPost('events');
 		// $arr['vvvv'] = Yii::app()->request->getPost('lesson');
 		$f = new LogTracks();
-		$f->user =Yii::app()->user->id;
-		$f->part =Yii::app()->request->getPost('part');
+		$f->Track_lessons(Yii::app()->user->id,Yii::app()->request->getPost('part'),Yii::app()->request->getPost('events'),Yii::app()->request->getPost('lesson'));
 
-		$f->logtime = new CDbExpression('NOW()');
-		$f->event = 	Yii::app()->request->getPost('events');
-		$f->lesson = Yii::app()->request->getPost('lesson');
-		$f->save();
 
 
 		$this->render('index');
 	}
+
 
 	// Uncomment the following methods and override them if needed
 	/*

@@ -13,9 +13,13 @@ class CourseController extends Controller
      */
     public function actionIndex($id)
     {
-        $canEdit = StudentReg::isAdmin();
+        if(Yii::app()->user->isGuest) {
+            $canEdit = false;
+        } else {
+            $canEdit = Yii::app()->user->model->isAdmin();
+        }
         $model = Course::model()->findByPk($id);
-        if ($model->cancelled == 1) {
+        if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
         }
 
@@ -179,7 +183,7 @@ class CourseController extends Controller
         if(Yii::app()->user->getId())
         $data["userId"] = Yii::app()->user->getId();
         else $data["userId"]=false;
-        $data["isAdmin"] = StudentReg::isAdmin();
+        $data["isAdmin"] = (Yii::app()->user->isGuest)?false:Yii::app()->user->model->isAdmin();
         $data["termination"][0] = Yii::t('module', '0653');
         $data["termination"][1] = Yii::t('module', '0654');
         $data["termination"][2] = Yii::t('module', '0655');
