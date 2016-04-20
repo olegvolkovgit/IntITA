@@ -52,6 +52,8 @@ class TestsController extends Controller
     public function actionCheckTestAnswer(){
         $emptyanswers = [];
         $user = Yii::app()->request->getPost('user', '');
+        $page = Yii::app()->request->getPost('page',0);
+        $lesson = Yii::app()->request->getPost('lesson');
         $test =  Yii::app()->request->getPost('test', '');
         $answers = Yii::app()->request->getPost('answers', $emptyanswers);
         $testType = Yii::app()->request->getPost('testType', 1);
@@ -60,6 +62,8 @@ class TestsController extends Controller
         if ($user!=0) {
             if (TestsAnswers::checkTestAnswer($test, $answers)) {
                 TestsMarks::addTestMark($user, $test, 1);
+                $r = new LogTracks;
+                $r->TrueAnswer(Yii::app()->user->getId(),$page,$lesson);
             } else {
                 TestsMarks::addTestMark($user, $test, 0);
             }

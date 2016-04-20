@@ -131,6 +131,20 @@ class LogTracks extends CActiveRecord
 
 
 	}
+	public function TrueAnswer($user,$page,$lesson)
+	{
+
+		$f = new LogTracks();
+		$f->user =$user;
+
+		$f->part =$page;
+		$f->logtime = new CDbExpression('NOW()');
+		$f->event = "TrueAnswer";
+		$f->lesson = $lesson;
+		$f->save();
+
+
+	}
 	public function Track_lessons($id,$part,$event,$lesson)
 	{
 		$f = new LogTracks();
