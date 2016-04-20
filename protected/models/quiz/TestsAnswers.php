@@ -186,7 +186,7 @@ class TestsAnswers extends CActiveRecord
     public static function checkValidAnswers($validAnswers, $userAnswers){
 
         if(count(array_diff($userAnswers, $validAnswers)) == 0 && count(array_diff($validAnswers, $userAnswers)) == 0){
-            return true;
+			return true;
         } else {
            return false;
         }
