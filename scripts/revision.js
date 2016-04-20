@@ -6,6 +6,14 @@ function addButtons(treeData) {
         "actions": [
             {
                 "type": "button",
+                "title": "Створити нову ревізію",
+                "action": function(event) {
+                    var idRevision = $(event.data.el).attr('id');
+                    createRevision(idRevision);
+                }
+            },
+            {
+                "type": "button",
                 "title": "Переглянути",
                 "action": function(event) {
                     var idRevision = $(event.data.el).attr('id');

@@ -718,4 +718,20 @@ class RevisionController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+    public function actionCreateLectureRevision($idRevision) {
+
+        $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
+            throw new RevisionControllerException(403, 'Access denied.');
+        }
+
+        $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);
+        if($lectureRevision){
+            $this->redirect(Yii::app()->createUrl('/revision/EditLectureRevision',array('idRevision'=>$lectureRevision->id_revision)));
+        }else{
+            throw new RevisionControllerException(500, 'CreateLectureRevision error');
+        }
+    }
 }
