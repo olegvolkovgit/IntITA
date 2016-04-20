@@ -15,9 +15,7 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
         }
     };
 
-    angular.element(document.querySelector("#ui-id-2")).on('click', function() {
-        alert(11);
-    });
+    
     angular.element(document.querySelector("#MyTab-Menu")).children("ul").children("li").on('click', function() {
         var tabId=angular.element(this).attr('aria-controls');
         switch (tabId) {
