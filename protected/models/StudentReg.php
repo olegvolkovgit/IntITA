@@ -34,6 +34,11 @@
  * @property string $avatar
  * @property string $identity
  * @property string $skype
+ * @property integer $country
+ * @property integer $city
+ *
+ * @property AddressCountry $country0
+ * @property AddressCity $city0
  */
 class StudentReg extends CActiveRecord
 {
@@ -93,9 +98,9 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country, city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
         );
     }
 
@@ -155,6 +160,8 @@ class StudentReg extends CActiveRecord
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student'),
+            'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
+            'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
         );
     }
 
@@ -193,6 +200,8 @@ class StudentReg extends CActiveRecord
             'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
             'skype' => 'Skype',
+            'country' => Yii::t('regexp', '0817'),
+            'city' => Yii::t('regexp', '0818'),
         );
     }
 
@@ -270,6 +279,8 @@ class StudentReg extends CActiveRecord
         $criteria->compare('status', $this->status, true);
         $criteria->compare('reg_time', $this->reg_time, true);
         $criteria->compare('skype', $this->skype, true);
+        $criteria->compare('t.country', $this->country, true);
+        $criteria->compare('t.city', $this->city, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -301,7 +312,7 @@ class StudentReg extends CActiveRecord
 
     public static function getAdressYears($birthday, $adress = '')
     {
-        $brthAdr = $adress;
+        $brthAdr = ", ". $adress;
         if (!empty($adress) && !empty($birthday)) $brthAdr = $brthAdr . ", ";
 
         $myAge = $birthday;
@@ -315,13 +326,6 @@ class StudentReg extends CActiveRecord
         return $brthAdr;
     }
 
-    public static function getEducform($educform)
-    {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => Yii::app()->user->id));
-        if ($educform && !$user)
-            return StudentReg::getUserData($educform, '0106');
-    }
-
     public static function getEdForm($edForm)
     {
         if (isset($edForm) &&
@@ -331,51 +335,6 @@ class StudentReg extends CActiveRecord
         } else {
             $val = '';
         }
-        return $val;
-    }
-
-    public static function getFacebooknameProfile($facebook)
-    {
-        if ($facebook) {
-            $pos = strpos($facebook, 'facebook.com/');
-            $val = substr($facebook, $pos + 13);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getGooglenameProfile($googlename)
-    {
-        if ($googlename) {
-            $pos = strpos($googlename, 'google.com/');
-            $val = substr($googlename, $pos + 11);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getLinkedinId($linkedin)
-    {
-        if ($linkedin) {
-            $pos = strpos($linkedin, 'linkedin.com/');
-            $val = substr($linkedin, $pos + 13);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getVkId($vk)
-    {
-        if ($vk) {
-            $pos = strpos($vk, 'vk.com/');
-            $val = substr($vk, $pos + 7);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getTwitternameProfile($twitter)
-    {
-        if ($twitter) {
-            $pos = strpos($twitter, 'twitter.com/');
-            $val = substr($twitter, $pos + 12);
-        } else $val = '';
         return $val;
     }
 
@@ -640,22 +599,6 @@ class StudentReg extends CActiveRecord
         }
     }
 
-    public static function getRoleString($id)
-    {
-        $model = StudentReg::model()->findByPk($id);
-        if ($model->isAdmin()) {
-            return 'адмін';
-        }
-        if ($model->isAccountant()) {
-            return 'бухгалтер';
-        }
-        if ($model->isTeacher()) {
-            return 'викладач';
-        }
-
-        return 'студент';
-    }
-
     public static function getUserInfo()
     {
         $criteria = new CDbCriteria();
@@ -692,11 +635,7 @@ class StudentReg extends CActiveRecord
 
     public function isStudent()
     {
-        if ($this->isAdmin() || $this->isAccountant() || $this->isTeacher()) {
-            return false;
-        } else {
-            return true;
-        }
+        return Yii::app()->user->model->isStudent();
     }
 
     public static function generateUsersList()
@@ -716,20 +655,11 @@ class StudentReg extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $user = Yii::app()->user->model;
         if ($user->isAdmin() || $user->isTeacher()) {
             return true;
         }
         return false;
-    }
-
-    public static function canAddResponse()
-    {
-        if (Yii::app()->user->isGuest) {
-            return false;
-        }
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        return $user->isStudent();
     }
 
     public static function linkInMouseLine()

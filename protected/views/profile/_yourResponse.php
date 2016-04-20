@@ -6,7 +6,7 @@
     $behval = Null;
     $motivval = Null;
 ?>
-<?php if (StudentReg::canAddResponse()) { ?>
+<?php if (!Yii::app()->user->isGuest && Yii::app()->user->model->canAddResponse()) { ?>
     <div class="lessonTask">
         <img class="lessonBut"
              src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'lessButton.png'); ?>">

@@ -347,7 +347,7 @@ class Lecture extends CActiveRecord
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         $user = Yii::app()->user->getId();
-        if (StudentReg::isAdmin() || $editMode) {
+        if (Yii::app()->user->model->isAdmin() || $editMode) {
             return true;
         }
         if (Yii::app()->user->isGuest) {

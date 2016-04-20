@@ -22,7 +22,7 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    private $_teacherRoles = array( UserRoles::TRAINER, UserRoles::CONSULTANT, UserRoles::TEACHER_CONSULTANT);
+    private $_teacherRoles = array(UserRoles::TRAINER, UserRoles::CONSULTANT, UserRoles::TEACHER_CONSULTANT);
 
     public function __construct(StudentReg $registrationData)
     {
@@ -66,7 +66,7 @@ class RegisteredUser
                     union
                 (select "trainer" from user_trainer at where at.id_user = ' . $this->id . ' and end_date IS NULL)
                      union
-                (select "author" from teacher_module tm left join teacher t on t.user_id = '.$this->id.' where tm.idTeacher = t.teacher_id and end_time IS NULL)
+                (select "author" from teacher_module tm left join teacher t on t.user_id = ' . $this->id . ' where tm.idTeacher = t.teacher_id and end_time IS NULL)
                      union
                 (select "consultant" from user_consultant acs where acs.id_user = ' . $this->id . ' and end_date IS NULL)
                     union
@@ -133,7 +133,8 @@ class RegisteredUser
         return $this->_roleAttributes[(string)$role];
     }
 
-    private function loadAttributes($role){
+    private function loadAttributes($role)
+    {
         if ($this->hasRole($role)) {
             $roleObj = Role::getInstance($role);
             $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
@@ -141,12 +142,14 @@ class RegisteredUser
         return $this->_roleAttributes[(string)$role];
     }
 
-    public function setRoleAttribute($role, $attribute, $value){
+    public function setRoleAttribute($role, $attribute, $value)
+    {
         $roleObj = Role::getInstance($role);
         return $roleObj->setAttribute($this->registrationData, $attribute, $value);
     }
 
-    public function unsetRoleAttribute($role, $attribute, $value){
+    public function unsetRoleAttribute($role, $attribute, $value)
+    {
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
     }
@@ -194,21 +197,22 @@ class RegisteredUser
 
     public function isAuthor()
     {
-        if($this->isTeacher()) {
+        if ($this->isTeacher()) {
             return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
         } else {
             return false;
         }
     }
 
-    public function canApprove() {
+    public function canApprove()
+    {
         return $this->isAdmin();
     }
 
     //todo author role check
     public function hasRole($role)
     {
-        if($role == "author"){
+        if ($role == "author") {
             return true;
         }
         return in_array($role, $this->getRoles());
@@ -238,9 +242,9 @@ class RegisteredUser
             return "Користувачу не була призначена обрана роль.";
         }
         $roleObj = Role::getInstance($role);
-        if($roleObj->cancelRole($this->registrationData)){
+        if ($roleObj->cancelRole($this->registrationData)) {
             return "Роль успішно відмінено.";
-        } elseif ($roleObj->getErrorMessage() != ""){
+        } elseif ($roleObj->getErrorMessage() != "") {
             return $roleObj->getErrorMessage();
         } else {
             return "Роль не вдалося відмінити. Спробуйте пізніше або зверніться до адміністратора.";
@@ -257,7 +261,8 @@ class RegisteredUser
         return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
     }
 
-    public function requests(){
+    public function requests()
+    {
         if (!$this->isAdmin() && !$this->isContentManager())
             return [];
         else {
@@ -265,23 +270,31 @@ class RegisteredUser
         }
     }
 
-    private function loadRequests(){
+    private function loadRequests()
+    {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
 
         return array_merge($authorRequests, $consultantRequests);
     }
 
-    public function canPlanConsultation(Teacher $teacher){
+    public function canPlanConsultation(Teacher $teacher)
+    {
         return $this->registrationData->id != $teacher->user_id;
     }
 
-    public function canSendRequest($module){
-        if(!$this->isTeacher())
+    public function canSendRequest($module)
+    {
+        if (!$this->isTeacher())
             return false;
         else {
             $request = new MessagesAuthorRequest();
             return !$request->isRequestOpen($module, $this->registrationData->id);
         }
+    }
+
+    public function canAddResponse()
+    {
+        return $this->isStudent();
     }
 }

@@ -20,7 +20,11 @@
                                'Слайдер на сторінці \'Про нас\'')">
                             Слайдер на сторінці <i>Про нас</i></a>
                     </li>
-                    <br>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
+                               'Країни, міста')">
+                            Адреса (країни, міста)</a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-footer">
