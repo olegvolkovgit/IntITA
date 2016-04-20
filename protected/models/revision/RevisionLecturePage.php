@@ -294,22 +294,47 @@ class RevisionLecturePage extends CActiveRecord
         return $element;
     }
 
-    //@todo refactor this method
     /**
      * Moves page up
      * @throws RevisionLecturePageException
      */
     public function moveUp($user) {
-        $this->page_order = ($this->page_order>1?$this->page_order-1:1);
-        $this->saveCheck();
+
+        $criteria = new CDbCriteria(array(
+            "condition" => "page_order<:page_order AND id_revision=:id_revision",
+            "params" => array(':page_order' => $this->page_order, ':id_revision' => $this->id_revision),
+            'limit' => '1'
+        ));
+
+        $prevPage = RevisionLecturePage::model()->find($criteria);
+
+        if ($prevPage) {
+            $this->swapPageOrder($this, $prevPage);
+            $this->page_order = ($this->page_order>1?$this->page_order-1:1);
+            $this->saveCheck();
+        }
     }
 
-    //@todo refactor this method
     /**
      * Move page down
      * @throws RevisionLecturePageException
      */
     public function moveDown($user) {
+
+        $criteria = new CDbCriteria(array(
+            "condition" => "page_order<:page_order AND id_revision=:id_revision",
+            "params" => array(':page_order' => $this->page_order, ':id_revision' => $this->id_revision),
+            'limit' => '1'
+        ));
+
+        $nextPage = RevisionLecturePage::model()->find($criteria);
+
+        if ($nextPage) {
+            $this->swapPageOrder($this, $nextPage);
+            $this->page_order = ($this->page_order>1?$this->page_order-1:1);
+            $this->saveCheck();
+        }
+
         $this->page_order = $this->page_order+1;
         $this->saveCheck();
     }
@@ -363,6 +388,12 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    /**
+     * Deletes lecture element
+     * @param $idElement
+     * @param $user
+     * @throws CDbException
+     */
     public function deleteElement($idElement, $user) {
        foreach ($this->lectureElements as $lectureElement) {
            if ($lectureElement->id == $idElement) {
@@ -372,6 +403,11 @@ class RevisionLecturePage extends CActiveRecord
        }
     }
 
+    /**
+     * @param $idNewLecture
+     * @param $idUserCreated
+     * @return LecturePage
+     */
     public function savePageModelToRegularDB($idNewLecture, $idUserCreated) {
         $newPage = new LecturePage();
         $newPage->id_lecture = $idNewLecture;
@@ -438,6 +474,20 @@ class RevisionLecturePage extends CActiveRecord
         if (count($this->lectureElements) == 0)
             return 1;
         return $this->lectureElements[count($this->lectureElements)-1]->block_order+1;
+    }
+
+    /**
+     * @param RevisionLecturePage $a
+     * @param RevisionLecturePage $b
+     */
+    private function swapPageOrder($a, $b) {
+        if ($a != null && $b != null) {
+            $swap = $a->page_order;
+            $a->page_order = $b->page_order;
+            $b->page_order = $swap;
+            $a->saveCheck();
+            $b->saveCheck();
+        }
     }
 
 }

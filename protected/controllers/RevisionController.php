@@ -179,6 +179,10 @@ class RevisionController extends Controller {
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * curl -XPOST --data 'idPage=2' 'http://intita.project/revision/UpPage' -b XDEBUG_SESSION=PHPSTORM
+     * @throws RevisionControllerException
+     */
     public function actionUpPage() {
         $idPage = Yii::app()->request->getPost('idPage');
 
@@ -188,9 +192,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        if ($page->isEditable()) {
-            $page->moveUp(Yii::app()->user);
-        }
+        $page->moveUp(Yii::app()->user);
     }
 
     public function actionDownPage() {
@@ -202,9 +204,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        if ($page->isEditable()) {
-            $page->moveDown(Yii::app()->user);
-        }
+        $page->moveDown(Yii::app()->user);
     }
 
     public function actionCheckLecture() {
@@ -267,7 +267,6 @@ class RevisionController extends Controller {
         }
         $lectureRev->cancel(Yii::app()->user);
     }
-
 
     /**
      * curl -XPOST --data 'idLecture=126' 'http://intita.project/revision/ApproveLectureRevision' -b XDEBUG_SESSION=PHPSTORM
@@ -455,6 +454,15 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         $lectureRevision->cloneLecture(Yii::app()->user);
+    }
+
+    /**
+     *  curl -XPOST --data 'idPage=588' 'http://intita.project/revision/DeletePage' -b XDEBUG_SESSION=PHPSTORM
+     */
+    public function actionDeletePage(){
+        $idPage = Yii::app()->request->getPost('idPage');
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $page->delete();
     }
 
     /**
