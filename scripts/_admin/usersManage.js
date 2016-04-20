@@ -37,6 +37,73 @@ function loadUsersIndex(tab) {
     load(basePath + '/_teacher/_admin/users/index', 'Користувачі', '', tab);
 }
 
+function initCountriesList(){
+    $jq('#countriesTable').DataTable({
+        "autoWidth": false,
+        "order": [[ 0, "asc" ]],
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/address/getCountriesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "width": "10%",
+                "data": "id"
+            },
+            {
+                "data": "title_ua"
+            },
+            {
+                "data": "title_ru"
+            },
+            {
+                "data": "title_en"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initCitiesList(){
+    $jq('#citiesTable').DataTable({
+        "autoWidth": false,
+        "order": [[ 0, "asc" ]],
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/address/getCitiesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "width": "10%",
+                "data": "id"
+            },
+            {
+                "data": "country"
+            },
+            {
+                "data": "title_ua"
+            },
+            {
+                "data": "title_ru"
+            },
+            {
+                "data": "title_en"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function initUsersTable() {
     $jq('#usersTable').DataTable({
         "autoWidth": false,

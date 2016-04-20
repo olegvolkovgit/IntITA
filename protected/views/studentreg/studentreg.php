@@ -155,6 +155,9 @@ $this->breadcrumbs = array(
                                            return false;
                                     }',
                             ),
+                            'htmlOptions'=>array(
+                                'placeholder' => 'виберіть країну'
+                            )
                         )); ?>
                         <span><?php echo $form->error($model, 'country'); ?></span>
                         <?php echo $form->hiddenField($model, 'country'); ?>
@@ -183,6 +186,7 @@ $this->breadcrumbs = array(
                             ),
                             'htmlOptions' => array(
                                 'maxlength' => 50,
+                                'placeholder' => 'виберіть місто'
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'city'); ?></span>

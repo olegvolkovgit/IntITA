@@ -159,7 +159,7 @@ $post->secondName = addslashes($post->secondName);
                                         lang: "' . Yii::app()->session["lg"] . '"
                                     }, response);
                             }',
-                            'value' =>  is_null($post->country) ? 'виберіть країну':
+                            'value' =>  is_null($post->country) ? '':
                                 AddressCountry::model()->findByPk($post->country)->$param,
                             'options' => array(
                                 'minLength' => '2',
@@ -171,6 +171,9 @@ $post->secondName = addslashes($post->secondName);
                                            return false;
                                     }',
                             ),
+                            'htmlOptions'=>array(
+                                'placeholder' => 'виберіть країну'
+                            )
                         )); ?>
                         <span><?php echo $form->error($model, 'country'); ?></span>
                         <?php echo $form->hiddenField($model, 'country'); ?>
@@ -186,7 +189,7 @@ $post->secondName = addslashes($post->secondName);
                                         country: $("#StudentReg_country").val()
                                     }, response);
                             }',
-                            'value' => is_null($post->city) ? 'виберіть місто':
+                            'value' => is_null($post->city) ? '':
                                 AddressCity::model()->findByPk($post->city)->$param,
                             'options' => array(
                                 'minLength' => '2',
@@ -200,6 +203,7 @@ $post->secondName = addslashes($post->secondName);
                             ),
                             'htmlOptions' => array(
                                 'maxlength' => 50,
+                                'placeholder' => 'виберіть місто',
                             ),
                         )); ?>
                         <span><?php echo $form->error($model, 'city'); ?></span>
