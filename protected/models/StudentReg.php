@@ -338,51 +338,6 @@ class StudentReg extends CActiveRecord
         return $val;
     }
 
-    public static function getFacebooknameProfile($facebook)
-    {
-        if ($facebook) {
-            $pos = strpos($facebook, 'facebook.com/');
-            $val = substr($facebook, $pos + 13);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getGooglenameProfile($googlename)
-    {
-        if ($googlename) {
-            $pos = strpos($googlename, 'google.com/');
-            $val = substr($googlename, $pos + 11);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getLinkedinId($linkedin)
-    {
-        if ($linkedin) {
-            $pos = strpos($linkedin, 'linkedin.com/');
-            $val = substr($linkedin, $pos + 13);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getVkId($vk)
-    {
-        if ($vk) {
-            $pos = strpos($vk, 'vk.com/');
-            $val = substr($vk, $pos + 7);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getTwitternameProfile($twitter)
-    {
-        if ($twitter) {
-            $pos = strpos($twitter, 'twitter.com/');
-            $val = substr($twitter, $pos + 12);
-        } else $val = '';
-        return $val;
-    }
-
     public static function getRole($id)
     {
         $user = RegisteredUser::userById($id);
