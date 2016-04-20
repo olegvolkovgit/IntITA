@@ -103,4 +103,43 @@ class LogTracks extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	public function Login($user)
+	{
+
+		$f = new LogTracks();
+		$f->user =$user;
+
+		$f->part =1000;
+		$f->logtime = new CDbExpression('NOW()');
+		$f->event = "LogIn";
+		$f->lesson = 1000;
+		$f->save();
+
+
+	}
+	public function LogOut($user)
+	{
+
+		$f = new LogTracks();
+		$f->user =$user;
+
+		$f->part =1000;
+		$f->logtime = new CDbExpression('NOW()');
+		$f->event = "LogOut";
+		$f->lesson = 1000;
+		$f->save();
+
+
+	}
+	public function Track_lessons($id,$part,$event,$lesson)
+	{
+		$f = new LogTracks();
+		$f->user =$id;
+		$f->part =$part;
+
+		$f->logtime = new CDbExpression('NOW()');
+		$f->event = $event;
+		$f->lesson = $lesson;
+		$f->save();
+	}
 }
