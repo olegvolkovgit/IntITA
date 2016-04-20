@@ -53,7 +53,7 @@ class TestsController extends Controller
         $emptyanswers = [];
         $user = Yii::app()->request->getPost('user', '');
         $page = Yii::app()->request->getPost('page',0);
-        $lesson = Yii::app()->request->getPost('lesson');
+        $lesson = Yii::app()->request->getPost('lesson',0);
         $test =  Yii::app()->request->getPost('test', '');
         $answers = Yii::app()->request->getPost('answers', $emptyanswers);
         $testType = Yii::app()->request->getPost('testType', 1);
