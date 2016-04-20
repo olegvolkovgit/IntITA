@@ -53,8 +53,8 @@ class RevisionController extends Controller
 
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRevision->id_module)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
+            throw new RevisionControllerException(403, 'У тебе немає прав для редагування цієї ревізії');
         }
 
         if (!$lectureRevision->isEditable()) {
