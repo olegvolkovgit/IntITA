@@ -1,12 +1,16 @@
 <?php
 /* @var $post Module*/
-if (Yii::app()->user->model->isAdmin()) $post->setScenario('canedit');
+if (!Yii::app()->user->isGuest) {
+   if (Yii::app()->user->model->isAdmin()) $post->setScenario('canedit');
+}
 ?>
 <div class="leftModule">
     <div class="headerLeftModule">
         <?php
-        if (Yii::app()->user->model->isAdmin())
-        $this->renderPartial('_moduleInfoForAdmin', array('post'=>$post));
+        if (!Yii::app()->user->isGuest) {
+            if (Yii::app()->user->model->isAdmin())
+                $this->renderPartial('_moduleInfoForAdmin', array('post' => $post));
+        }
         else $this->renderPartial('_moduleInfo', array('post'=>$post));
         ?>
         <table>
