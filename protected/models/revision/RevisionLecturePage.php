@@ -489,5 +489,11 @@ class RevisionLecturePage extends CActiveRecord
             $b->saveCheck();
         }
     }
+    public function getRevisionPageVideo()
+    {
+        $videoLink = str_replace("watch?v=", "embed/", RevisionLectureElement::model()->findByPk($this->video)->html_block);
+        $videoLink = str_replace("&feature=youtu.be", "", $videoLink);
+        return $videoLink;
+    }
 
 }

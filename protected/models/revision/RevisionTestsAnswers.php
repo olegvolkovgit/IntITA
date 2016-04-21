@@ -148,4 +148,32 @@ class RevisionTestsAnswers extends CActiveRecord
 		}
 		return $answers;
 	}
+
+	public static function checkTestAnswer($test, $userAnswers){
+		if(!is_array($userAnswers)){
+			$userAns=array($userAnswers);
+		}else $userAns=$userAnswers;
+
+		$criteria = new CDbCriteria();
+		$criteria->select = 'id';
+		$criteria->addCondition('id_test = :id_test and is_valid = 1');
+		$criteria->params = array(':id_test' => $test);
+		$criteria->toArray();
+		$validAnswersRecords = RevisionTestsAnswers::model()->findAll($criteria);
+		$count = count($validAnswersRecords);
+		$validAnswers = [];
+		for ($i = 0; $i < $count; $i++){
+			$validAnswers[$i] = $validAnswersRecords[$i]["id"];
+		}
+
+		return RevisionTestsAnswers::checkValidAnswers($validAnswers, $userAns);
+	}
+	public static function checkValidAnswers($validAnswers, $userAnswers){
+
+		if(count(array_diff($userAnswers, $validAnswers)) == 0 && count(array_diff($validAnswers, $userAnswers)) == 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
