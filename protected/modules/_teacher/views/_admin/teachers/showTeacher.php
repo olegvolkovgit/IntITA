@@ -67,16 +67,7 @@
                                            '<?= $teacher->user_id; ?>');"><em>скасувати</em>
                                     </a>
                                 </li>
-                            <?php }
-                            if ($user->isAuthor()) { ?>
-                                <li>
-                                    author: <a href="#"
-                                               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?=addslashes($teacher->user->userName()).", роль author"; ?>')"><em>редагувати</em>
-                                    </a>
-                                </li>
-                            <?php }
-                            ?>
+                            <?php } ?>
                         </ul>
                     </li>
                 <?php } ?>

@@ -14,6 +14,13 @@ class Admin extends Role
 	}
 
 	/**
+	 * @return string sql for check role admin.
+	 */
+	public function checkRoleSql(){
+		return 'select "admin" from user_admin a where a.id_user = :id and end_date IS NULL';
+	}
+
+	/**
 	 * @return string the role title (ua)
 	 */
 	public function title(){

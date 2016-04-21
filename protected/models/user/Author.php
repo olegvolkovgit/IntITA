@@ -15,6 +15,13 @@ class Author extends Role
     }
 
     /**
+     * @return string sql for check role author.
+     */
+    public function checkRoleSql(){
+        return 'select "author" from teacher_module tm left join teacher t on t.user_id = :id where tm.idTeacher = t.teacher_id and end_time IS NULL';
+    }
+
+    /**
      * @return string the role title (ua)
      */
     public function title(){

@@ -15,6 +15,13 @@ class Accountant extends Role
 	}
 
     /**
+     * @return string sql for check role accountant.
+     */
+    public function checkRoleSql(){
+        return 'select "accountant" from user_accountant ac where ac.id_user = :id and end_date IS NULL';
+    }
+
+    /**
      * @return string the role title (ua)
      */
 	public function title(){
