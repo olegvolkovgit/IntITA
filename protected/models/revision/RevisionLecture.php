@@ -766,5 +766,7 @@ class RevisionLecture extends CActiveRecord
         return $this->properties->id_user_cancelled != null;
     }
 
-
+    public function canEdit() {
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
+    }
 }

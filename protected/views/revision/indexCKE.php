@@ -121,7 +121,7 @@ $this->breadcrumbs = array(
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
             <?php
             if ($page->quiz != null) {
-                $data = $page->getPageQuiz();
+                $data = $page->getQuiz();
                 switch ($data['id_type']) {
 //                    case '5':
 //                        $this->renderPartial('/editor/_editTaskCKE', array('idBlock' => $data['id_block'],
