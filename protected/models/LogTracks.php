@@ -108,11 +108,8 @@ class LogTracks extends CActiveRecord
 
 		$f = new LogTracks();
 		$f->user =$user;
-
-		$f->part =1000;
 		$f->logtime = new CDbExpression('NOW()');
 		$f->event = "LogIn";
-		$f->lesson = 1000;
 		$f->save();
 
 
@@ -122,11 +119,8 @@ class LogTracks extends CActiveRecord
 
 		$f = new LogTracks();
 		$f->user =$user;
-
-		$f->part =1000;
 		$f->logtime = new CDbExpression('NOW()');
 		$f->event = "LogOut";
-		$f->lesson = 1000;
 		$f->save();
 
 
@@ -140,6 +134,20 @@ class LogTracks extends CActiveRecord
 		$f->part =$page;
 		$f->logtime = new CDbExpression('NOW()');
 		$f->event = "TrueAnswer";
+		$f->lesson = $lesson;
+		$f->save();
+
+
+	}
+	public function FalseAnswer($user,$page,$lesson)
+	{
+
+		$f = new LogTracks();
+		$f->user =$user;
+
+		$f->part =$page;
+		$f->logtime = new CDbExpression('NOW()');
+		$f->event = "FalseAnswer";
 		$f->lesson = $lesson;
 		$f->save();
 
