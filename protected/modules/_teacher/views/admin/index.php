@@ -135,7 +135,7 @@
                 <ul>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
-                               'Користувачі')">Ролі користувачів
+                               'Користувачі')">Користувачі
                         </a>
                     </li>
                     <br>

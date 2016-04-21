@@ -16,7 +16,7 @@
 
             <button class="btn btn-primary"
                     onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
-                        'content_manager', '5'); return false;">
+                        'content_manager', '6'); return false;">
                 Призначити контент менеджера
             </button>
 

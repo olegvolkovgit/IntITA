@@ -115,7 +115,7 @@ class UserContentManager extends CActiveRecord
 				'scenario' => 'message',
 				'receiver' => $record["id"]
 			));
-			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."', 'content_manager', '".$record["id"]."', '5'";
+			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."', 'content_manager', '".$record["id"]."', '6'";
 			array_push($return['data'], $row);
 		}
 

@@ -9,6 +9,13 @@ class ContentManager extends Role
         return "user_content_manager";
     }
 
+    /**
+     * @return string sql for check role content manager.
+     */
+    public function checkRoleSql(){
+        return 'select "content_manager" from user_content_manager ucm where ucm.id_user = :id and ucm.end_date IS NULL';
+    }
+
     public function title(){
         return "Контент менеджер";
     }
