@@ -13,6 +13,13 @@ class Student extends Role
 		return 'user_student';
 	}
 
+	/**
+	 * @return string sql for check role student.
+	 */
+	public function checkRoleSql(){
+		return 'select "student" from user_student st where st.id_user = :id and end_date IS NULL';
+	}
+
     public function getErrorMessage(){
         return $this->errorMessage;
     }

@@ -60,30 +60,18 @@ class RegisteredUser
 
     private function loadRoles()
     {
-        $sql = '(select "admin" from user_admin a where a.id_user = ' . $this->id . ' and end_date IS NULL)
-                    union
-                (select "accountant" from user_accountant ac where ac.id_user = ' . $this->id . ' and end_date IS NULL)
-                    union
-                (select "trainer" from user_trainer at where at.id_user = ' . $this->id . ' and end_date IS NULL)
-                     union
-                (select "author" from teacher_module tm left join teacher t on t.user_id = ' . $this->id . ' where tm.idTeacher = t.teacher_id and end_time IS NULL)
-                     union
-                (select "consultant" from user_consultant acs where acs.id_user = ' . $this->id . ' and end_date IS NULL)
-                    union
-                (select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = ' . $this->id . ' and end_date IS NULL)
-                     union
-                (select "content_manager" from user_content_manager ucm where ucm.id_user = ' . $this->id . ' and ucm.end_date IS NULL)
-                    union
-                (select "tenant" from user u
-                    right join chat_user as cu on u.id = cu.intita_user_id
-                    right join user_tenant ut on ut.chat_user_id=cu.id
-                    where cu.intita_user_id = ' . $this->id . ' and ut.end_date IS NULL)
-                     union
-                (select "content_manager" from user_content_manager ucm where ucm.id_user = ' . $this->id . ' and ucm.end_date IS NULL)
-                    union
-                (select "student" from user_student st where st.id_user = ' . $this->id . ' and end_date IS NULL)';
+        $sql = '';
+        $roles = UserRolesDataSource::allUserRoles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql().")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
 
-        $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
 
         $result = array_map(function ($row) {
             return new UserRoles($row["admin"]);
@@ -253,12 +241,12 @@ class RegisteredUser
 
     public function teacherRoles()
     {
-        return array_intersect($this->getRoles(), $this->_teacherRoles);
+        return array_intersect($this->getRoles(), UserRolesDataSource::allColleaguesRoles());
     }
 
     public function noSetTeacherRoles()
     {
-        return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
+        return array_diff(UserRolesDataSource::allColleaguesRoles(), array_intersect($this->getRoles(), UserRolesDataSource::allColleaguesRoles()));
     }
 
     public function requests()

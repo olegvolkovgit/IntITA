@@ -15,7 +15,7 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
         }
     };
 
-
+    
     angular.element(document.querySelector("#MyTab-Menu")).children("ul").children("li").on('click', function() {
         var tabId=angular.element(this).attr('aria-controls');
         switch (tabId) {
@@ -28,7 +28,6 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
                 break;
             case 'quiz':
                 $scope.startLogQuiz();
-                ipCookie('lessonTab', 2, { path: '/' });
                 break;
         }
     });

@@ -15,6 +15,13 @@ class Trainer extends Role
 		return 'user_trainer';
 	}
 
+    /**
+     * @return string sql for check role trainer.
+     */
+    public function checkRoleSql(){
+        return 'select "trainer" from user_trainer at where at.id_user = :id and end_date IS NULL';
+    }
+
 	/**
 	 * @return string the role title (ua)
 	 */

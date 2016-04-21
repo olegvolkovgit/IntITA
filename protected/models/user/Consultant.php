@@ -14,6 +14,13 @@ class Consultant extends Role
     }
 
     /**
+     * @return string sql for check role consultant.
+     */
+    public function checkRoleSql(){
+        return 'select "consultant" from user_consultant acs where acs.id_user = :id and end_date IS NULL';
+    }
+
+    /**
      * @return string the role title (ua)
      */
     public function title()

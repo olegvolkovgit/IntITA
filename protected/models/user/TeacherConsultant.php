@@ -13,6 +13,13 @@ class TeacherConsultant extends Role
         return "user_teacher_consultant";
     }
 
+    /**
+     * @return string sql for check role teacher consultant.
+     */
+    public function checkRoleSql(){
+        return 'select "teacher_consultant" from user_teacher_consultant utc where utc.id_user = :id and end_date IS NULL';
+    }
+
     public function getErrorMessage()
     {
         return $this->errorMessage;
