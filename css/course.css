@@ -26,17 +26,17 @@ div.subLinksCourse{
     color: #666666;
     overflow: hidden;
 }
-.spoilerBody {
+.spoilerBodyOffline, .spoilerBodyOnline {
     display:none;
 }
 span.spoilerLinks {
     cursor:pointer;
 }
-span#spoilerClick:hover{
+span#spoilerClickOnline, span#spoilerClickOffline:hover{
     cursor:pointer;
     color:#666666;
 }
-span#spoilerClick {
+span#spoilerClickOnline, span#spoilerClickOffline {
     text-decoration:underline;
     color:#4b75a4;
 }
@@ -46,7 +46,7 @@ span#spoilerClick {
 .spoilerRow{
     display: none;
 }
-.spoilerBody{
+.spoilerBodyOffline, .spoilerBodyOnline{
     width: 100%;
 }
 .courseBlock a
@@ -331,6 +331,10 @@ padding-left: 0px;
 .coursePriceStatus2 {
     color: #666666;
     font-weight: bold;
+}
+#discountCollapsed{
+    color: #078a0d;
+    margin-left: 85px;
 }
 #discount{
     color: #078a0d;
