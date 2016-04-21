@@ -15,7 +15,7 @@ foreach ($teachers as $teacher) {
                         <img class="teacherphoto"
                              src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->avatar()) ?>">
                     </div>
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)); ?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)); ?>">
                         <?php echo Yii::t('module', '0228'); ?>
                         &#187;</a>
                     <br>

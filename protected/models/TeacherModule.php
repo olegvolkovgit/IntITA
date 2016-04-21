@@ -128,15 +128,14 @@ class TeacherModule extends CActiveRecord
 
 	public static function listByModule($module){
 		$sql = 'select u.id, u.firstName, u.middleName, u.secondName, u.email, tm.start_time, tm.end_time from teacher_module tm
-		LEFT JOIN teacher t on tm.idTeacher=t.teacher_id  LEFT JOIN user u on u.id=t.user_id WHERE tm.idModule='.$module;
+		LEFT JOIN user u on u.id=tm.idTeacher WHERE tm.idModule='.$module;
 
 		return Yii::app()->db->createCommand($sql)->queryAll();
 	}
 
 	public static function authorsList(){
-		$sql = 'select * from user as u
-                right join teacher t on u.id=t.user_id
-                right join teacher_module as tm on tm.idTeacher = t.teacher_id
+		$sql = 'select u.id, u.email, u.firstName, u.secondName, u.middleName from user as u
+                left join teacher_module as tm on tm.idTeacher = u.id
                 where tm.idTeacher IS NOT NULL group by u.id';
 		$authors = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
@@ -145,8 +144,9 @@ class TeacherModule extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
 			$row["email"]["title"] = $record["email"];
-			$row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_content_manager/contentManager/editTeacherConsultant',
-				array('id' => $record['id']));
+			$row["email"]["url"] = $row["name"]["url"] = Yii::app()->createAbsoluteUrl("/_teacher/_content_manager/contentManager/editTeacherConsultant",
+				array('id' => $record["id"]));
+			array_push($return['data'], $row);
 		}
 
 		return json_encode($return);

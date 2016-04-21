@@ -2,7 +2,7 @@
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/addTeacherModuleForm',
-                array('role'=>"admin")); ?>', 'Призначити автора модуля')">
+                array('role'=>"author")); ?>', 'Призначити автора модуля')">
         Призначити автора модуля
     </button>
     <br>

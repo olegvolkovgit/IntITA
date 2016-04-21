@@ -185,11 +185,7 @@ class RegisteredUser
 
     public function isAuthor()
     {
-        if ($this->isTeacher()) {
-            return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
-        } else {
-            return false;
-        }
+        return $this->hasRole(UserRoles::AUTHOR);
     }
 
     public function canApprove()
