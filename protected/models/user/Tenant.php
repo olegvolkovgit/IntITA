@@ -9,6 +9,16 @@ class Tenant extends Role
         return "user_tenant";
     }
 
+    /**
+     * @return string sql for check role tenant.
+     */
+    public function checkRoleSql(){
+        return 'select "tenant" from user u
+                    right join chat_user as cu on u.id = cu.intita_user_id
+                    right join user_tenant ut on ut.chat_user_id=cu.id
+                    where cu.intita_user_id = :id and ut.end_date IS NULL';
+    }
+
     public function getErrorMessage(){
         return $this->errorMessage;
     }

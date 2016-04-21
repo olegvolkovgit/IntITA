@@ -6,6 +6,8 @@ abstract class Role
 
     abstract function tableName();
 
+    abstract function checkRoleSql();
+
     abstract function title();
 
     abstract function getErrorMessage();
