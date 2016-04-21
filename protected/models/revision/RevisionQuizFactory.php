@@ -164,4 +164,32 @@ class RevisionQuizFactory
             }
         }
     }
+
+    /**
+     * @param LectureElement $lectureElement
+     * @param RevisionLectureElement $revisionLectureElement
+     * @return RevisionTests
+     */
+    public static function createFromLecture($lectureElement, $revisionLectureElement) {
+        switch($lectureElement->id_type)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST:
+                    $oldTest = Tests::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
+                    $oldTestAnswers = TestsAnswers::model()->findAllByAttributes(['id_test' => $oldTest->id]);
+                    $answers = [];
+                    foreach ($oldTestAnswers as $answer) {
+                        array_push($answers, ['answer' => $answer->answer, 'is_valid' => $answer->is_valid]);
+                    }
+                    return RevisionTests::createTest($revisionLectureElement->id, $oldTest->title, $answers);
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -108,6 +108,12 @@ class RevisionTestsAnswers extends CActiveRecord
         }
     }
 
+    /**
+     * @param $idTest
+     * @param $answer - array('answer' => 'foo', 'is_valid' => 1|0 )
+     * @return RevisionTestsAnswers
+     * @throws RevisionTestsAnswersException
+     */
     public static function createAnswer($idTest, $answer) {
         $newTestAnswer = new RevisionTestsAnswers();
         $newTestAnswer->id_test = $idTest;

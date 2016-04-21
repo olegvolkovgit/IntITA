@@ -111,23 +111,16 @@ class RevisionTests extends CActiveRecord
     }
 
     public static function createTest($idLectureElement, $title, $answers) {
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            $newTest = new RevisionTests();
-            $newTest->id_lecture_element = $idLectureElement;
-            $newTest->title = $title;
-            $newTest->saveCheck();
+        $newTest = new RevisionTests();
+        $newTest->id_lecture_element = $idLectureElement;
+        $newTest->title = $title;
+        $newTest->saveCheck();
 
-            foreach ($answers as $answer) {
-                $newAnswer = RevisionTestsAnswers::createAnswer($newTest->id, $answer);
-            }
-
-            $transaction->commit();
-            return $newTest;
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw ($e);
+        foreach ($answers as $answer) {
+            $newAnswer = RevisionTestsAnswers::createAnswer($newTest->id, $answer);
         }
+
+        return $newTest;
     }
 
     public function cloneTest($idLectureElement) {

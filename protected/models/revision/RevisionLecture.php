@@ -152,7 +152,7 @@ class RevisionLecture extends CActiveRecord
         $revLecture->saveCheck();
 
         $revLecturePage = new RevisionLecturePage();
-        $revLecturePage->initialize($revLecture->id_revision, $user);
+        $revLecturePage->initialize($revLecture->id_revision);
 
 		return $revLecture;
 	}
@@ -164,7 +164,7 @@ class RevisionLecture extends CActiveRecord
      */
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
-        $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
+        $revLecturePage->initialize($this->id_revision, $this->getLastPageOrder() + 1);
         $this->properties->setUpdateDate($user);
         return $revLecturePage;
     }
@@ -287,7 +287,7 @@ class RevisionLecture extends CActiveRecord
             $newRevision->saveCheck();
 
             foreach ($this->lecturePages as $page) {
-                $page->clonePage($user, $newRevision->id_revision);
+                $page->clonePage($newRevision->id_revision);
             }
             $transaction->commit();
         } catch (Exception $e) {
@@ -394,6 +394,7 @@ class RevisionLecture extends CActiveRecord
      * @param $user
      * @return RevisionLecture
      * @throws Exception
+     * todo refactor
      */
     public static function createNewRevisionFromLecture($lecture, $user) {
 
@@ -440,8 +441,20 @@ class RevisionLecture extends CActiveRecord
                     $revNewPage->video = $revVideo->id;
                 }
 
-//            TODO quiz
-//            $revNewPage->quiz
+
+                if ($page->quiz) {
+                    //todo
+                    $lectureElement = LectureElement::model()->findByPk($page->quiz);
+
+                    $revLectureElement = new RevisionLectureElement();
+                    $revLectureElement->id_page = $revNewPage->id;
+                    $revLectureElement->id_type = $lectureElement->id_type;
+                    $revLectureElement->block_order = $lectureElement->block_order;
+                    $revLectureElement->html_block = $lectureElement->html_block;
+                    $revLectureElement->saveCheck();
+
+                    RevisionQuizFactory::createFromLecture($lectureElement, $revLectureElement);
+                }
 
                 foreach ($page->getLectureElements() as $lectureElement) {
                     if ($lectureElement->isTextBlock()) {

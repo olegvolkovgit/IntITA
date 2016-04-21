@@ -113,7 +113,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $newRevision = $pageRevision->clonePage(Yii::app()->user);
+        $newRevision = $pageRevision->clonePage();
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -169,7 +169,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->saveVideo($url, Yii::app()->user);
+        $page->saveVideo($url);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -183,7 +183,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->setTitle($title, Yii::app()->user);
+        $page->setTitle($title);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -199,7 +199,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->addTextBlock($idType, $html_block, Yii::app()->user);
+        $page->addTextBlock($idType, $html_block);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -241,7 +241,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->moveUp(Yii::app()->user);
+        $page->moveUp();
     }
 
     public function actionDownPage() {
@@ -253,7 +253,7 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->moveDown(Yii::app()->user);
+        $page->moveDown();
     }
 
     public function actionCheckLecture() {
@@ -372,6 +372,13 @@ class RevisionController extends Controller
 
         $page->deleteElement($idElement, Yii::app()->user);
     }
+
+    /**
+     * curl -XGET 'http://intita.project/revision/EditLecture?idLecture=104' -b XDEBUG_SESSION=PHPSTORM
+     * @param $idLecture
+     * @throws Exception
+     * @throws RevisionControllerException
+     */
 
     public function actionEditLecture($idLecture) {
 

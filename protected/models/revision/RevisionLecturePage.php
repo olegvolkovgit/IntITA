@@ -152,11 +152,10 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Initialises page
      * @param $idRevision
-     * @param $user
      * @param int $order
      * @throws RevisionLecturePageException
      */
-    public function initialize($idRevision, $user, $order=1) {
+    public function initialize($idRevision, $order = 1) {
 		//default values
 		$this->page_title = "";
 		$this->video = null;
@@ -173,13 +172,11 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Clone revision
      * Returns new page instance or current instance if the page is not cloneable
-     * @param $user
      * @param null $idNewRevision
      * @return RevisionLecturePage
-     * @throws RevisionLecturePageException
      * @throws Exception
      */
-    public function clonePage($user, $idNewRevision = null) {
+    public function clonePage($idNewRevision = null) {
 
         if ($idNewRevision == null) {
             $idNewRevision = $this->id_revision;
@@ -202,8 +199,6 @@ class RevisionLecturePage extends CActiveRecord
             $newRevision->page_order = $this->page_order;
 
             $newRevision->saveCheck();
-
-            //todo copy elements - quiz;
 
             $quiz = $this->getQuiz();
             if ($quiz != null) {
@@ -248,10 +243,9 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Adds video block or edit if the video bloc exists
      * @param $url
-     * @throws RevisionLectureElementException
      * @throws RevisionLecturePageException
      */
-    public function saveVideo($url, $user) {
+    public function saveVideo($url) {
         if ($this->video != null) {
             $videoElement = RevisionLectureElement::model()->findByPk($this->video);
             $videoElement->html_block = $url;
@@ -269,7 +263,7 @@ class RevisionLecturePage extends CActiveRecord
      * @param $title
      * @throws RevisionLecturePageException
      */
-    public function setTitle($title, $user) {
+    public function setTitle($title) {
         $this->page_title = $title;
         $this->saveCheck();
     }
@@ -280,9 +274,8 @@ class RevisionLecturePage extends CActiveRecord
      * @param $html_block
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
-     * @throws RevisionLecturePageException
      */
-    public function addTextBlock($idType, $html_block, $user) {
+    public function addTextBlock($idType, $html_block) {
         $order = $this->getNextOrder();
 
         $element = new RevisionLectureElement();
@@ -298,7 +291,7 @@ class RevisionLecturePage extends CActiveRecord
      * Moves page up
      * @throws RevisionLecturePageException
      */
-    public function moveUp($user) {
+    public function moveUp() {
 
         $criteria = new CDbCriteria(array(
             "condition" => "page_order<:page_order AND id_revision=:id_revision",
@@ -319,7 +312,7 @@ class RevisionLecturePage extends CActiveRecord
      * Move page down
      * @throws RevisionLecturePageException
      */
-    public function moveDown($user) {
+    public function moveDown() {
 
         $criteria = new CDbCriteria(array(
             "condition" => "page_order<:page_order AND id_revision=:id_revision",
@@ -359,7 +352,7 @@ class RevisionLecturePage extends CActiveRecord
      * Shift element up
      * @param $idElement
      */
-    public function upElement($idElement, $user) {
+    public function upElement($idElement) {
         foreach ($this->lectureElements as $key => $lectureElement) {
             if ($lectureElement->id == $idElement) {
                 if ($key == 0) {
@@ -375,7 +368,7 @@ class RevisionLecturePage extends CActiveRecord
      * Shift element down
      * @param $idElement
      */
-    public function downElement($idElement, $user) {
+    public function downElement($idElement) {
         foreach ($this->lectureElements as $key => $lectureElement) {
             if ($lectureElement->id == $idElement) {
                 if ($key == count($this->lectureElements)-1) {
@@ -391,10 +384,10 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Deletes lecture element
      * @param $idElement
-     * @param $user
      * @throws CDbException
+     * @internal param $user
      */
-    public function deleteElement($idElement, $user) {
+    public function deleteElement($idElement) {
        foreach ($this->lectureElements as $lectureElement) {
            if ($lectureElement->id == $idElement) {
                $lectureElement->delete();
