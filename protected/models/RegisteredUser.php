@@ -61,7 +61,7 @@ class RegisteredUser
     private function loadRoles()
     {
         $sql = '';
-        $roles = UserRolesDataSource::allUserRoles();
+        $roles = AllRolesDataSource::roles();
         $lastKey = array_search(end($roles), $roles);
         foreach($roles as $key=>$role){
             $model = Role::getInstance($role);
@@ -237,12 +237,12 @@ class RegisteredUser
 
     public function teacherRoles()
     {
-        return array_intersect($this->getRoles(), UserRolesDataSource::allColleaguesRoles());
+        return array_intersect($this->getRoles(), TeacherRolesDataSource::roles());
     }
 
     public function noSetTeacherRoles()
     {
-        return array_diff(UserRolesDataSource::allColleaguesRoles(), array_intersect($this->getRoles(), UserRolesDataSource::allColleaguesRoles()));
+        return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()));
     }
 
     public function requests()
