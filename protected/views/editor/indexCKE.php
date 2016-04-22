@@ -74,7 +74,7 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
-    idTeacher = '<?php echo Teacher::getTeacherId($user);?>';
+    idTeacher = '<?php echo $user;?>';
     idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>

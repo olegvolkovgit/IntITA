@@ -57,15 +57,21 @@ class LessonController extends Controller
     public function actionIndex($id, $idCourse = 0, $page = 1)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
-
-        $this->initialize($id, $editMode, $idCourse);
 
         if (Yii::app()->user->isGuest) {
             $user = 0;
         } else {
             $user = Yii::app()->user->getId();
         }
+
+        $editMode = false;
+        $author = new Author();
+        if(Yii::app()->user->model->isAuthor()) {
+            $editMode = $author->isTeacherAuthorModule(Yii::app()->user->getID(), $lecture->idModule);
+        }
+
+        $this->initialize($id, $editMode, $idCourse);
+
         $passedPages = $lecture->accessPages($user, $editMode, Yii::app()->user->model->isAdmin());
 
         $lastAccessPage = LecturePage::lastAccessPage($passedPages) + 1;

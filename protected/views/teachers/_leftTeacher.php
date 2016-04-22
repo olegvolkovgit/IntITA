@@ -19,7 +19,7 @@
                                 <img class='teacherAvatar' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacherValue->avatar());?>"/>
                             </div>
                             <a href="<?php echo Yii::app()->createUrl('profile/index',
-                                array('idTeacher' => $teacherValue->teacher_id));?>">
+                                array('idTeacher' => $teacherValue->user_id));?>">
                                 <?php echo Yii::t('teachers', '0059'); ?>&#187;
                             </a>
                             <br>
