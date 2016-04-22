@@ -24,3 +24,13 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 .lectureInfo table.table {
     table-layout: fixed;
 }
+.lectureInfo table.table td:first-child {
+    width: 35%;
+}
+.editButtons img{
+    float: right;
+    display: inline;
+    cursor: pointer;
+    height: 32px;
+    margin: 5px
+}

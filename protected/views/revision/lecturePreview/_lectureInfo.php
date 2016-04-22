@@ -1,12 +1,31 @@
-<?php if($lectureRevision->canEdit()){ ?>
-<a href="<?=Yii::app()->createUrl("revision/editLectureRevision", array("idRevision" => $lectureRevision->id_revision)); ?>">
-    <img style="margin: 5px"
-         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-         id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') ?>"/>
-</a>
-<?php } ?>
 <label>Властивоті лекції: </label>
 <table class="table">
+    <tr>
+        <td>Cтатус:</td>
+        <td>
+            <div>{{lectureData.lecture.status}}</div>
+            <div class="editButtons">
+                <img ng-if=lectureData.lecture.canApprove ng-click=approveRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'approve.png'); ?>"
+                     title="Затвердити"/>
+                <img ng-if=lectureData.lecture.canEdit ng-click=editRevision('<?=Yii::app()->createUrl("revision/editLectureRevision", array("idRevision" => $lectureRevision->id_revision)); ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                     title="<?php echo Yii::t('lecture', '0686') ?>"/>
+                <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
+                     title="Відправити на затвердження"/>
+                <img ng-if=lectureData.lecture.canCancelSendForApproval ng-click=cancelSendRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_send.png'); ?>"
+                     title="Скасувати відправку на затвердження"/>
+                <img ng-if=lectureData.lecture.canCancelRevision ng-click=cancelRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_revision.png'); ?>"
+                     title="Скасувати ревізію"/>
+                <img ng-if=lectureData.lecture.canRejectRevision ng-click=rejectRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
+                     title="Відхилити ревізію"/>
+            </div>
+        </td>
+    </tr>
     <tr>
         <td>Модуль:</td>
         <td><?= Module::getModuleName($lectureRevision->id_module).' (id='.$lectureRevision->id_module.')'?></td>
@@ -30,9 +49,5 @@
     <tr>
         <td>Автор:</td>
         <td><?=StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created).' (id='.$lectureRevision->properties->id_user_created.')'?></td>
-    </tr>
-    <tr>
-        <td>Поточний статус:</td>
-        <td><?=$lectureRevision->getStatus()?></td>
     </tr>
 </table>

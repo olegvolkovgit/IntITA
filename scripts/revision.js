@@ -30,10 +30,18 @@ function addButtons(treeData) {
             },
             {
                 "type": "button",
-                "title": "Відправити на редагування",
+                "title": "Відправити на затвердження",
                 "action": function(event) {
                     var idRevision = $(event.data.el).attr('id');
                     sendRevision(idRevision);
+                }
+            },
+            {
+                "type": "button",
+                "title": "Скасувати відправлення на затвердження",
+                "action": function(event) {
+                    var idRevision = $(event.data.el).attr('id');
+                    cancelSendRevision(idRevision);
                 }
             },
             {
