@@ -71,6 +71,10 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
             if ($model->save()) {
+                if($message && $user){
+                    $message = MessagesCoworkerRequest::model()->findByPk($message);
+                    $message->approve(Yii::app()->user->model);
+                }
                 $this->redirect($this->pathToCabinet());
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
