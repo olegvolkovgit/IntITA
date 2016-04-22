@@ -257,9 +257,9 @@ class RevisionController extends Controller
     }
 
     public function actionCheckLecture() {
-        $idLecture = Yii::app()->request->getPost('idRevision');
+        $idRevision = Yii::app()->request->getPost('idRevision');
 
-        $lectureRevision = RevisionLecture::model()->with('lecturePages')->findByPk($idLecture);
+        $lectureRevision = RevisionLecture::model()->with('lecturePages')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
@@ -277,9 +277,9 @@ class RevisionController extends Controller
     }
 
     public function actionSendForApproveLecture() {
-        $idLecture = Yii::app()->request->getPost('idLecture');
+        $idRevision = Yii::app()->request->getPost('idRevision');
 
-        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idLecture);
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
             throw new RevisionControllerException(403, 'Access denied.');
@@ -293,6 +293,17 @@ class RevisionController extends Controller
             echo implode("; ", $result);
         }
     }
+    public function actionCancelSendForApproveLecture() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
+            throw new RevisionControllerException(403, 'Access denied.');
+        }
+
+        $lectureRev->cancelSendForApproval();
+    }
 
     public function actionRejectLectureRevision () {
 
@@ -300,16 +311,16 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to reject a lecture');
         }
 
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         $lectureRev->reject(Yii::app()->user);
 
     }
 
     public function actionCancelLectureRevision () {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
             throw new RevisionControllerException(403, 'Access denied.');
@@ -328,8 +339,8 @@ class RevisionController extends Controller
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to approve a lecture');
         }
 
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         $lectureRev->approve(Yii::app()->user);
     }
@@ -749,10 +760,22 @@ class RevisionController extends Controller
 
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        $data = [];
+        $pages = [];
+        $lecture = [];
+        $data = array('lecture' => array(),'pages' => array());
         foreach ($lectureRevision->lecturePages as $key=>$page) {
-            $data[$key]['title'] = $page->page_title;
+            $pages[$key]['title'] = $page->page_title;
         }
+        $lecture['status']=$lectureRevision->getStatus();
+        $lecture['canEdit']=$lectureRevision->canEdit();
+        $lecture['canSendForApproval']=$lectureRevision->canSendForApproval();
+        $lecture['canCancelSendForApproval']=$lectureRevision->canCancelSendForApproval();
+        $lecture['canApprove']=$lectureRevision->canApprove();
+        $lecture['canCancelRevision']=$lectureRevision->canCancelRevision();
+        $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
+
+        $data['lecture']=$lecture;
+        $data['pages']=$pages;
         echo CJSON::encode($data);
     }
     public function actionVideoPreview()

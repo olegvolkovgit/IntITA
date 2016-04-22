@@ -255,12 +255,25 @@ class RevisionLecture extends CActiveRecord
             }
 
             if (empty($this->approveResultCashed)) {
-                $this->properties->send_approval_date = new CDbExpression('NOW()');;
+                $this->properties->send_approval_date = new CDbExpression('NOW()');
                 $this->properties->id_user_sended_approval = $user->getId();
                 $this->properties->saveCheck();
             } else {
                 //todo inform user
             }
+        } else {
+            //todo inform user
+        }
+    }
+    /**
+     * Cancel sends current revision to approve
+     * @throws RevisionLecturePropertiesException
+     */
+    public function cancelSendForApproval() {
+        if ($this->isApprovable()) {
+            $this->properties->send_approval_date = '0000-00-00 00:00:00';
+            $this->properties->id_user_sended_approval = null;
+            $this->properties->saveCheck();
         } else {
             //todo inform user
         }
@@ -769,4 +782,21 @@ class RevisionLecture extends CActiveRecord
     public function canEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
     }
+
+    public function canCancelSendForApproval() {
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isApprovable());
+    }
+    public function canSendForApproval() {
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isSendable());
+    }
+    public function canApprove() {
+        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isApprovable());
+    }
+    public function canCancelRevision() {
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancellable());
+    }
+    public function canRejectRevision() {
+        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
+    }
+
 }
