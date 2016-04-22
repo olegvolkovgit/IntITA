@@ -1,10 +1,21 @@
 <div class="col-lg-12">
     <br>
-    <button class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/addTeacherConsultantForm',
-                array('role'=>"admin")); ?>', 'Призначити викладача-консультанта')">
-        Призначити викладача-консультанта
-    </button>
+    <ul class="list-inline">
+        <li>
+            <button class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/renderAddForm',
+                        array('role' => "teacherConsultant")); ?>', 'Призначити викладача')">
+                Призначити викладача
+            </button>
+        </li>
+        <li>
+            <button class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/addTeacherConsultantForm',
+                        array('role' => "teacher_consultant")); ?>', 'Призначити модуль для викладача')">
+                Призначити модуль для викладача
+            </button>
+        </li>
+    </ul>
     <br>
     <br>
     <div class="panel panel-default">

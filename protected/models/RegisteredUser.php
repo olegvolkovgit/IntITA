@@ -13,7 +13,6 @@
  */
 class RegisteredUser
 {
-    //put your code here
     //StudentReg variable
     public $registrationData;
     //array UserRoles
@@ -22,7 +21,6 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    private $_teacherRoles = array(UserRoles::TRAINER, UserRoles::CONSULTANT, UserRoles::TEACHER_CONSULTANT);
 
     public function __construct(StudentReg $registrationData)
     {
@@ -115,7 +113,7 @@ class RegisteredUser
 
     public function getAttributesByRole($role)
     {
-        if (empty($this->_roleAttributes)) {
+        if (empty($this->_roleAttributes[(string)$role])) {
             $this->loadAttributes($role);
         }
         return $this->_roleAttributes[(string)$role];
@@ -144,7 +142,7 @@ class RegisteredUser
 
     public function isAdmin()
     {
-        return in_array(UserRoles::ADMIN, $this->getRoles());
+        return $this->hasRole(UserRoles::ADMIN);
     }
 
     public function isAccountant()
@@ -258,8 +256,9 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+        $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
 
-        return array_merge($authorRequests, $consultantRequests);
+        return array_merge($authorRequests, $consultantRequests, $assignCoworkerRequests);
     }
 
     public function canPlanConsultation(Teacher $teacher)
@@ -273,7 +272,7 @@ class RegisteredUser
             return false;
         else {
             $request = new MessagesAuthorRequest();
-            return !$request->isRequestOpen($module, $this->registrationData->id);
+            return !$request->isRequestOpen(array($module, $this->registrationData->id));
         }
     }
 

@@ -64,21 +64,31 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionCreate()
+    public function actionCreate($message = 0, $user = 0)
     {
         $model = new Teacher;
 
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
             if ($model->save()) {
+                if($message && $user){
+                    $message = MessagesCoworkerRequest::model()->findByPk($message);
+                    $message->approve(Yii::app()->user->model);
+                }
                 $this->redirect($this->pathToCabinet());
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
             }
         }
+        $predefinedUser = null;
+        if($message && $user){
+            $predefinedUser = StudentReg::model()->findByPk($user);
+        }
 
         $this->renderPartial('create', array(
             'model' => $model,
+            'message' => $message,
+            'predefinedUser' => $predefinedUser
         ),false,true);
     }
 

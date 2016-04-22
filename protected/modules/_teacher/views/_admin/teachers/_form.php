@@ -1,8 +1,13 @@
 <?php
 /* @var $model Teacher */
 /* @var $form CActiveForm */
-/* @var $scenario string */
+/* @var $scenario string
+ * @var $predefinedUser StudentReg
+ */
 ?>
+<script>
+    scenario = '<?=(isset($predefinedUser))?"definedUser":"";?>';
+</script>
 <div class="formMargin">
     <div class="col-md-8">
         <?php $form = $this->beginWidget('CActiveForm', array(
@@ -134,8 +139,6 @@
     </div>
 </div><!-- form -->
 <script>
-
-
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -161,6 +164,12 @@
         }
     });
     users.initialize();
+
+    if (scenario == "definedUser") {
+        $jq('#typeahead').val('<?=($predefinedUser)?addslashes(CHtml::decode($predefinedUser->userNameWithEmail())):"";?>');
+        $jq("#user_id").val('<?=($predefinedUser)?$predefinedUser->id:0;?>');
+    }
+
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',
