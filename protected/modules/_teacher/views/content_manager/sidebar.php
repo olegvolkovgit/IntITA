@@ -27,8 +27,8 @@
         <li>
             <a href="#"
                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/teacherConsultants'); ?>',
-                   'Викладачі-консультанти')">
-                Викладачі-консультанти
+                   'Викладачі')">
+                Викладачі
             </a>
         </li>
     </ul>

@@ -99,12 +99,63 @@ class ContentManagerController extends TeacherCabinetController
         }
     }
 
-    public function actionRenderAddRoleForm($role)
+    public function actionRenderAddForm($role)
     {
         if($role == ""){
             throw new \application\components\Exceptions\IntItaException(400, 'Неправильна роль.');
         }
-        $view = "addForms/_add".ucfirst($role);
+        $view = "/_content_manager/addForms/_add".ucfirst($role);
         $this->renderPartial($view, array(), false, true);
+    }
+
+    public function actionUsersAddForm($role, $query)
+    {
+        $roleModel = Role::getInstance(new UserRoles($role));
+        if ($query && $roleModel) {
+            echo $roleModel->addRoleFormList($query);
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionSendCoworkerRequest(){
+        $this->renderPartial('/_content_manager/_sendResponseAssignCoworker', array(
+        ), false, true);
+    }
+
+    public function actionUsersWithoutCoworkersByQuery($query){
+        echo Teacher::usersWithoutCoworkersByQuery($query);
+    }
+
+    public function actionSendRequest(){
+        $userToAssign = Yii::app()->request->getPost('user', 0);
+        $user = Yii::app()->request->getPost('sender', 0);
+
+        $teacherModel = StudentReg::model()->findByPk($userToAssign);
+        $userModel = StudentReg::model()->findByPk($user);
+
+        if($teacherModel && $userModel){
+            $message = new MessagesCoworkerRequest();
+            if($message->isRequestOpen(array($userModel->id))) {
+                echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення співробітника двічі.";
+            } else {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message->build($userModel, $teacherModel);
+                    $message->create();
+                    $sender = new MailTransport();
+
+                    $message->send($sender);
+
+                    $transaction->commit();
+                    echo "Запит на призначення співробітника успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Запит на призначення співробітника не вдалося надіслати.");
+                }
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
     }
 }

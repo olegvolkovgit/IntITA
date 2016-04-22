@@ -4,14 +4,14 @@
         <li>
             <button class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/renderAddForm',
-                        array('role' => "admin")); ?>', 'Призначити викладача')">
+                        array('role' => "teacherConsultant")); ?>', 'Призначити викладача')">
                 Призначити викладача
             </button>
         </li>
         <li>
             <button class="btn btn-primary"
                     onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/addTeacherConsultantForm',
-                        array('role' => "admin")); ?>', 'Призначити модуль для викладача')">
+                        array('role' => "teacher_consultant")); ?>', 'Призначити модуль для викладача')">
                 Призначити модуль для викладача
             </button>
         </li>

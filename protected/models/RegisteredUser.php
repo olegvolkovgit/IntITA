@@ -115,7 +115,7 @@ class RegisteredUser
 
     public function getAttributesByRole($role)
     {
-        if (empty($this->_roleAttributes)) {
+        if (empty($this->_roleAttributes[(string)$role])) {
             $this->loadAttributes($role);
         }
         return $this->_roleAttributes[(string)$role];

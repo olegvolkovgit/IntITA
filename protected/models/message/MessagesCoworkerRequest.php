@@ -120,15 +120,13 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 		return 'id_message';
 	}
 
-	public function build(Module $module, StudentReg $user, $chained = null, $original = null)
+	public function build(StudentReg $user, $chained = null, $original = null)
 	{
 		//create and init parent model
 		$this->message = new Messages();
 		$this->message->build($user->id, self::TYPE, $chained, $original);
-		$this->module = $module;
-		$this->id_module = $module->module_ID;
 		$this->author = $user;
-		$this->receivers = MessageReceiver::requestsReceiversArray();
+		$this->receivers = UserAdmin::adminsArray();
 	}
 
 	public function create()
@@ -142,10 +140,11 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 	public function send(IMailSender $sender)
 	{
 		$sender = new MailTransport();
-		$sender->renderBodyTemplate($this->template, array($this->module, $this->author));
+		$sender->renderBodyTemplate($this->template, array($this->author));
+
 		foreach ($this->receivers as $receiver) {
-			if ($this->addReceiver($receiver)) {
-				$sender->send($receiver->email, '', $this->title(), '');
+			if ($this->addReceiver($receiver->user)) {
+				$sender->send($receiver->user->email, '', $this->title(), '');
 			}
 		}
 		$this->message->draft = 0;

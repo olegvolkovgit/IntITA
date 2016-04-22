@@ -21,21 +21,17 @@
             </button>
 
             <button type="reset" class="btn btn-default"
-                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/users/index") ?>')">
+                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/teacherConsultants") ?>')">
                 Скасувати
             </button>
         </form>
         <br>
         <div class="alert alert-info">
-            Призначити викладачем можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
+            Призначити автором можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
             за посиланням:
             <a href="#" class="alert-link"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
-                   'Додати співробітника')">Додати співробітника</a>.
-            <br>
-            Список усіх співробітників:
-            <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                'Співробітники')">Список</a>.
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/sendCoworkerRequest'); ?>',
+                   'Запит на призначення співробітника')">Надіслати запит</a>.
         </div>
     </div>
 </div>
@@ -44,7 +40,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/users/usersAddForm?role=teacher_consultant&query=%QUERY',
+            url: basePath + '/_teacher/_content_manager/contentManager/usersAddForm?role=teacher_consultant&query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
