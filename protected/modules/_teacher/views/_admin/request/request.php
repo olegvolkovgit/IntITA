@@ -16,11 +16,13 @@ $sender = $model->sender();
                 <h4><?= $model->title(); ?></h4>
             </div>
             <div class="panel-body">
+                <?php if($module){?>
                 <h4>
                     Модуль: <a
                         href="<?= Yii::app()->createUrl('module/index', array('idModule' => $module->module_ID)); ?>">
                         <?= $module->getTitle(); ?></a>
                 </h4>
+                <?php }?>
                 <?php if ($model->type() == Request::TEACHER_CONSULTANT_REQUEST) { ?>
                     <h4>
                         Викладач-консультант: <a
@@ -37,9 +39,14 @@ $sender = $model->sender();
                 <ul class="list-inline">
                     <li>
                         <button class="btn btn-outline btn-success"
+                                <?php if($model->message0->type != MessagesType::COWORKER_REQUEST){?>
                                 onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/approve",
-                                    array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Підтвердити запит?')">
-                            Підтвердити
+                                    array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Підтвердити запит?')"
+                                <?php } else {?>
+                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/create",
+                                        array("message" => $model->getMessageId(), "user" => $model->id_teacher)); ?>', 'Додати співробітника')"
+                            <?php }?>
+                        >Підтвердити
                         </button>
                     </li>
                     <li>

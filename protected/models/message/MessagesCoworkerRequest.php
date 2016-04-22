@@ -14,6 +14,7 @@
  * @property Messages $idMessage
  * @property StudentReg $idTeacher
  * @property StudentReg $userApproved
+ * @property Messages $message0
  */
 class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 {
@@ -22,6 +23,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 	const TYPE = 5;
 	private $receivers = array();
 	private $author;
+	private $coworker;
 	private $message;
 	const DELETED = 1;
 	const ACTIVE = 0;
@@ -41,7 +43,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_message, id_teacher', 'required'),
+			array('id_teacher', 'required'),
 			array('id_message, id_teacher, user_approved, cancelled', 'numerical', 'integerOnly'=>true),
 			array('date_approved', 'safe'),
 			// The following rule is used by search().
@@ -59,6 +61,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 		return array(
 			'idMessage' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 			'idTeacher' => array(self::BELONGS_TO, 'StudentReg', 'id_teacher'),
+            'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
 			'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
 		);
 	}
@@ -120,12 +123,14 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 		return 'id_message';
 	}
 
-	public function build(StudentReg $user, $chained = null, $original = null)
+	public function build(StudentReg $user, StudentReg $teacher, $chained = null, $original = null)
 	{
 		//create and init parent model
 		$this->message = new Messages();
 		$this->message->build($user->id, self::TYPE, $chained, $original);
 		$this->author = $user;
+        $this->id_teacher = $teacher->id;
+		$this->coworker = $teacher;
 		$this->receivers = UserAdmin::adminsArray();
 	}
 
@@ -140,7 +145,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 	public function send(IMailSender $sender)
 	{
 		$sender = new MailTransport();
-		$sender->renderBodyTemplate($this->template, array($this->author));
+		$sender->renderBodyTemplate($this->template, array($this->author, $this->coworker));
 
 		foreach ($this->receivers as $receiver) {
 			if ($this->addReceiver($receiver->user)) {
@@ -205,9 +210,9 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 
 	public function approve(StudentReg $userApprove)
 	{
-		$user = RegisteredUser::userById($this->message0->sender);
-		//add rights to edit module
-		if ($user->isTeacher()) {
+//		$user = RegisteredUser::userById($this->message0->sender);
+//		//add rights to edit module
+//		if ($user->isTeacher()) {
 //			if ($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
 //				//update current request, set approved status
 //				$this->user_approved = $userApprove->id;
@@ -218,8 +223,8 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 //					}
 //				}
 //			}
-			return "Операцію не вдалося виконати";
-		} else return "Обраний викладач вже є співробітником.";
+//			return "Операцію не вдалося виконати";
+//		} else return "Обраний викладач вже є співробітником.";
 	}
 
 	public function sendApproveMessage(StudentReg $user){
@@ -261,9 +266,10 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 		return "Запит на призначення співробітника";
 	}
 
+    // not supported
 	public function module()
 	{
-		return $this->idModule;
+		return null;
 	}
 
 	public function type()

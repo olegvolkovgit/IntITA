@@ -3,7 +3,8 @@
 class ContentManagerController extends TeacherCabinetController
 {
 
-    public function hasRole(){
+    public function hasRole()
+    {
         return Yii::app()->user->model->isContentManager();
     }
 
@@ -22,15 +23,18 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
     }
 
-    public function actionAddConsultantModuleForm(){
+    public function actionAddConsultantModuleForm()
+    {
         $this->renderPartial('/_content_manager/addForms/_addConsultantModule', array(), false, true);
     }
 
-    public function actionAddTeacherConsultantForm(){
+    public function actionAddTeacherConsultantForm()
+    {
         $this->renderPartial('/_content_manager/addForms/_addTeacherConsultant', array(), false, true);
     }
 
-    public function actionAddTeacherModuleForm(){
+    public function actionAddTeacherModuleForm()
+    {
         $this->renderPartial('/_content_manager/addForms/_addTeacherAccess', array(), false, true);
     }
 
@@ -44,7 +48,7 @@ class ContentManagerController extends TeacherCabinetController
         $user = RegisteredUser::userById($userId);
 
         if ($userId && $attribute && $value && $role) {
-            if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
+            if ($user->setRoleAttribute(new UserRoles($role), $attribute, $value)) {
                 echo "success";
             } else {
                 echo "error";
@@ -60,7 +64,7 @@ class ContentManagerController extends TeacherCabinetController
         $module = Yii::app()->request->getPost('module', '0');
 
         $user = RegisteredUser::userById($teacher);
-        if($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)){
+        if ($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)) {
             $permission = new PayModules();
             $permission->unsetModulePermission($teacher, $module, array('read', 'edit'));
             echo "success";
@@ -84,13 +88,15 @@ class ContentManagerController extends TeacherCabinetController
         echo UserConsultant::consultantsList();
     }
 
-    public function actionDashboard(){
+    public function actionDashboard()
+    {
         $this->renderPartial('/content_manager/_dashboard', array(), false, true);
     }
 
-    public function actionShowTeacher($id){
+    public function actionShowTeacher($id)
+    {
         $user = RegisteredUser::userById($id);
-        if($user) {
+        if ($user) {
             $this->renderPartial('/_content_manager/_showTeacher', array(
                 'user' => $user
             ), false, true);
@@ -101,10 +107,10 @@ class ContentManagerController extends TeacherCabinetController
 
     public function actionRenderAddForm($role)
     {
-        if($role == ""){
+        if ($role == "") {
             throw new \application\components\Exceptions\IntItaException(400, 'Неправильна роль.');
         }
-        $view = "/_content_manager/addForms/_add".ucfirst($role);
+        $view = "/_content_manager/addForms/_add" . ucfirst($role);
         $this->renderPartial($view, array(), false, true);
     }
 
@@ -118,25 +124,27 @@ class ContentManagerController extends TeacherCabinetController
         }
     }
 
-    public function actionSendCoworkerRequest(){
-        $this->renderPartial('/_content_manager/_sendResponseAssignCoworker', array(
-        ), false, true);
+    public function actionSendCoworkerRequest()
+    {
+        $this->renderPartial('/_content_manager/_sendResponseAssignCoworker', array(), false, true);
     }
 
-    public function actionUsersWithoutCoworkersByQuery($query){
+    public function actionUsersWithoutCoworkersByQuery($query)
+    {
         echo Teacher::usersWithoutCoworkersByQuery($query);
     }
 
-    public function actionSendRequest(){
+    public function actionSendRequest()
+    {
         $userToAssign = Yii::app()->request->getPost('user', 0);
         $user = Yii::app()->request->getPost('sender', 0);
 
         $teacherModel = StudentReg::model()->findByPk($userToAssign);
         $userModel = StudentReg::model()->findByPk($user);
 
-        if($teacherModel && $userModel){
+        if ($teacherModel && $userModel) {
             $message = new MessagesCoworkerRequest();
-            if($message->isRequestOpen(array($userModel->id))) {
+            if ($message->isRequestOpen(array($userModel->id))) {
                 echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення співробітника двічі.";
             } else {
                 $transaction = Yii::app()->db->beginTransaction();
@@ -145,10 +153,12 @@ class ContentManagerController extends TeacherCabinetController
                     $message->create();
                     $sender = new MailTransport();
 
-                    $message->send($sender);
-
-                    $transaction->commit();
-                    echo "Запит на призначення співробітника успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                    if ($message->send($sender)) {
+                        $transaction->commit();
+                        echo "Запит на призначення співробітника успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                    } else {
+                        echo "Запит на призначення співробітника не вдалося надіслати.";
+                    }
                 } catch (Exception $e) {
                     $transaction->rollback();
                     throw new \application\components\Exceptions\IntItaException(500, "Запит на призначення співробітника не вдалося надіслати.");
