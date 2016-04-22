@@ -250,8 +250,10 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         return true;
 	}
 
-    public function isRequestOpen($module, $user)
+    public function isRequestOpen($params)
     {
+        $module = $params[0];
+        $user = $params[1];
         return (Yii::app()->db->createCommand(array(
                 'select' => 'count(*)',
                 'from' => 'messages_author_request mr',

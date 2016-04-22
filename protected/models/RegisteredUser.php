@@ -273,7 +273,7 @@ class RegisteredUser
             return false;
         else {
             $request = new MessagesAuthorRequest();
-            return !$request->isRequestOpen($module, $this->registrationData->id);
+            return !$request->isRequestOpen(array($module, $this->registrationData->id));
         }
     }
 

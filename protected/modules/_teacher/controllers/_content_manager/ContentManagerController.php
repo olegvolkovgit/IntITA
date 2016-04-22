@@ -23,15 +23,15 @@ class ContentManagerController extends TeacherCabinetController
     }
 
     public function actionAddConsultantModuleForm(){
-        $this->renderPartial('/_content_manager/_addConsultantModule', array(), false, true);
+        $this->renderPartial('/_content_manager/addForms/_addConsultantModule', array(), false, true);
     }
 
     public function actionAddTeacherConsultantForm(){
-        $this->renderPartial('/_content_manager/_addTeacherConsultant', array(), false, true);
+        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultant', array(), false, true);
     }
 
     public function actionAddTeacherModuleForm(){
-        $this->renderPartial('/_content_manager/_addTeacherAccess', array(), false, true);
+        $this->renderPartial('/_content_manager/addForms/_addTeacherAccess', array(), false, true);
     }
 
     public function actionSetTeacherRoleAttribute()
@@ -88,10 +88,10 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial('/content_manager/_dashboard', array(), false, true);
     }
 
-    public function actionEditTeacherConsultant($id){
+    public function actionShowTeacher($id){
         $user = RegisteredUser::userById($id);
         if($user) {
-            $this->renderPartial('/_content_manager/_teacherConsultant', array(
+            $this->renderPartial('/_content_manager/_showTeacher', array(
                 'user' => $user
             ), false, true);
         } else {
@@ -99,14 +99,12 @@ class ContentManagerController extends TeacherCabinetController
         }
     }
 
-    public function actionViewConsultant($id){
-        $user = RegisteredUser::userById($id);
-        if($user) {
-            $this->renderPartial('/_content_manager/_viewConsultant', array(
-                'user' => $user
-            ), false, true);
-        } else {
-            throw new \application\components\Exceptions\IntItaException(400);
+    public function actionRenderAddRoleForm($role)
+    {
+        if($role == ""){
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильна роль.');
         }
+        $view = "addForms/_add".ucfirst($role);
+        $this->renderPartial($view, array(), false, true);
     }
 }
