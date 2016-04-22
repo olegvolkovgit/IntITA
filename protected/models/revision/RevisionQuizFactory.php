@@ -25,7 +25,6 @@ class RevisionQuizFactory
             case LectureElement::TEST :
                 $test = RevisionTests::createTest($newLectureElement->id, $arr['testTitle'], $arr['answers']);
                 if($test){
-                    RevisionLecturePage::addQuiz($arr['pageId'], $newLectureElement->id);
                     return true;
                 } else
                     return false;

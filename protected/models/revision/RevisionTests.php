@@ -217,4 +217,25 @@ class RevisionTests extends CActiveRecord
 	public static function getTestId($idLectureElement){
 		return RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idLectureElement))->id;
 	}
+    public function getTestType() {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'answer';
+        $criteria->addCondition('id_test = :id_test and is_valid = 1');
+        $criteria->params = array(':id_test' => $this->id);
+        $count = RevisionTestsAnswers::model()->count($criteria);
+
+        return ($count > 1)?2:1;
+    }
+    public function testAnswers(){
+        $answers=[];
+        $test = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test' => $this->id));
+        foreach($test as $key=>$answer){
+            $row = array();
+            $row['id']=$answer->id;
+            $row['answer']=$answer->answer;
+            array_push($answers, $row);
+        }
+        return $answers;
+    }
+
 }
