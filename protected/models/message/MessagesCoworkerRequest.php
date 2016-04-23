@@ -216,7 +216,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
         if ($this->save()) {
-            if ($this->sendApproveMessage($this->idTeacher)) {
+            if ($this->sendApproveMessage($user->registrationData)) {
                 return true;
             }
         }
