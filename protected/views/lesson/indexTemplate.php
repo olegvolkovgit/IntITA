@@ -81,6 +81,7 @@ $finishedLecture = $lecture->isFinished($user);
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse,  'module' => $lecture->module)); ?>
 </div>
 <div ng-cloak class="lessonBlock" id="lessonBlock"  ng-app="lessonApp" >
+    <div ng-controller="lessonPageCtrl">
     <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
@@ -99,7 +100,7 @@ $finishedLecture = $lecture->isFinished($user);
         $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
         ?>
     </div>
-    <div ng-controller="lessonPageCtrl">
+
         <!--modal task error1-->
         <?php
         $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
