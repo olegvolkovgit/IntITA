@@ -5,6 +5,7 @@
  */
 ?>
 <div class="col-md-8">
+    <?php if(!$predefinedUser){?>
     <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
@@ -12,6 +13,7 @@
                     'Співробітники')">Співробітники</button>
     </li>
     </ul>
+    <?php } ?>
 <?php $this->renderPartial('_form', array(
     'model' => $model,
     'scenario' => 'create',

@@ -73,7 +73,7 @@ class TeachersController extends TeacherCabinetController{
 
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
-            if ($model->save()) {
+             if ($model->save()) {
                 if($messageId && $userApproved){
                     $message = MessagesCoworkerRequest::model()->findByPk($messageId);
                     $user = StudentReg::model()->findByPk($userApproved);

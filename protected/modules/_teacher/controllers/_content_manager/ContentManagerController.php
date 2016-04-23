@@ -144,7 +144,7 @@ class ContentManagerController extends TeacherCabinetController
 
         if ($teacherModel && $userModel) {
             $message = new MessagesCoworkerRequest();
-            if ($message->isRequestOpen(array($userModel->id))) {
+            if ($message->isRequestOpen(array($teacherModel->id))) {
                 echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення співробітника двічі.";
             } else {
                 $transaction = Yii::app()->db->beginTransaction();

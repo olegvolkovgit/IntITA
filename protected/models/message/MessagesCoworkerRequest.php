@@ -216,7 +216,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
         if ($this->save()) {
-            if ($this->sendApproveMessage($user->registrationData)) {
+            if ($this->sendApproveMessage($this->idTeacher)) {
                 return true;
             }
         }
@@ -226,7 +226,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
     public function sendApproveMessage(StudentReg $user)
     {
         $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->approveTemplate, array($this->module()));
+        $sender->renderBodyTemplate($this->approveTemplate, array($user));
 
         $sender->send($user->email, '', 'Підтверджено запит на призначення співробітника', '');
         return true;
@@ -292,5 +292,9 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         if ($read["read"])
             return true;
         else return false;
+    }
+
+    public function teacher(){
+        return $this->idTeacher;
     }
 }
