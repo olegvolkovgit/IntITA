@@ -3,6 +3,7 @@
 /* @var $form CActiveForm */
 /* @var $scenario string
  * @var $predefinedUser StudentReg
+ * @var $message int
  */
 ?>
 <script>
@@ -134,6 +135,9 @@
             <?php echo $form->textField($model, 'user_id',
                 array('class' => 'form-control', 'id' => 'userIdHidden')); ?>
         </div>
+        <input id="userIdHidden" type="text" class="form-control" name="message" value="<?=($message)?$message:0;?>">
+        <input  id="userIdHidden" type="text" class="form-control" name="message"
+                value="<?=($predefinedUser)?$predefinedUser->id:0;?>">
 
         <?php $this->endWidget(); ?>
     </div>

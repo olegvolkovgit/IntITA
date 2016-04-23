@@ -1,6 +1,7 @@
 <?php
 /* @var $model Teacher
  * @var $predefinedUser StudentReg
+ * @var $message int
  */
 ?>
 <div class="col-md-8">
@@ -11,5 +12,10 @@
                     'Співробітники')">Співробітники</button>
     </li>
     </ul>
-<?php $this->renderPartial('_form', array('model' => $model, 'scenario' => 'create', 'predefinedUser' => $predefinedUser)); ?>
+<?php $this->renderPartial('_form', array(
+    'model' => $model,
+    'scenario' => 'create',
+    'predefinedUser' => $predefinedUser,
+    'message' => $message
+)); ?>
 </div>
