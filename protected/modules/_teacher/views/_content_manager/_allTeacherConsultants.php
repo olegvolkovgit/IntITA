@@ -16,8 +16,6 @@
             </button>
         </li>
     </ul>
-    <br>
-    <br>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
