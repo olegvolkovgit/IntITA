@@ -64,16 +64,20 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionCreate($message = 0, $user = 0)
+    public function actionCreate()
     {
+        $messageId = Yii::app()->request->getPost('message', 0);
+        $userApproved = Yii::app()->request->getPost('user', 0);
+
         $model = new Teacher;
 
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
             if ($model->save()) {
-                if($message && $user){
-                    $message = MessagesCoworkerRequest::model()->findByPk($message);
-                    $message->approve(Yii::app()->user->model);
+                if($messageId && $userApproved){
+                    $message = MessagesCoworkerRequest::model()->findByPk($messageId);
+                    $user = StudentReg::model()->findByPk($userApproved);
+                    $message->approve($user);
                 }
                 $this->redirect($this->pathToCabinet());
             } else {
@@ -81,13 +85,13 @@ class TeachersController extends TeacherCabinetController{
             }
         }
         $predefinedUser = null;
-        if($message && $user){
-            $predefinedUser = StudentReg::model()->findByPk($user);
+        if($messageId && $userApproved){
+            $predefinedUser = StudentReg::model()->findByPk($userApproved);
         }
 
         $this->renderPartial('create', array(
             'model' => $model,
-            'message' => $message,
+            'message' => $messageId,
             'predefinedUser' => $predefinedUser
         ),false,true);
     }
