@@ -152,7 +152,7 @@ body.ie8 #hambMenu {
 .nav-tabs>li>a{
     background-color: #e0e0e0;
 }
-#userIdHidden{
+#userIdHidden, #columnHidden{
     visibility: hidden;
 }
 #userInfo{
