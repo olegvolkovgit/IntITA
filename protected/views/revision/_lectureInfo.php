@@ -5,12 +5,12 @@
         <td>
             <div>{{lectureData.lecture.status}}</div>
             <div class="editButtons">
+                <img ng-if=lectureData ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $lectureRevision->id_revision)); ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
+                     title="Попередній перегляд"/>
                 <img ng-if=lectureData.lecture.canApprove ng-click=approveRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'approve.png'); ?>"
                      title="Затвердити"/>
-                <img ng-if=lectureData.lecture.canEdit ng-click=editRevision('<?=Yii::app()->createUrl("revision/editLectureRevision", array("idRevision" => $lectureRevision->id_revision)); ?>')
-                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
-                     title="<?php echo Yii::t('lecture', '0686') ?>"/>
                 <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>

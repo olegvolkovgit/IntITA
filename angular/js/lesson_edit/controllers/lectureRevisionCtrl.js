@@ -5,83 +5,29 @@ angular
     .module('lectureRevision')
     .controller('lectureRevisionCtrl', lectureRevisionCtrl);
 
-function lectureRevisionCtrl($scope, $http) {
-    $scope.getLecturePages = function(id) {
-        var promise = $http({
-            url: basePath+'/revision/lecturePages',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            return response.data;
-        }, function errorCallback() {
-            return false;
-        });
-        return promise;
-    };
-    $scope.getLecturePages(idRevision).then(function (response) {
-        $scope.dataPages=response;
+function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
+    getLectureData.getData(idRevision).then(function(response){
+        $rootScope.lectureData=response;
     });
-
-    $scope.viewPage = function(pageId) {
-        location.href=basePath+'/revision/viewPageRevision?idPage='+pageId;
-    };
     $scope.editPageRevision = function(pageId) {
         location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
     };
-    $scope.sendRevision = function(pageId) {
-        $http({
-            url: basePath+'/revision/sendPageRevision',
-            method: "POST",
-            data: $.param({idPage:pageId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
-            });
-        }, function errorCallback() {
-            return false;
-        });
+    $scope.previewRevision = function(url) {
+        location.href=url;
     };
-    $scope.approvePageRevision = function(pageId) {
+    $scope.sendRevision = function(id) {
         $http({
-            url: basePath+'/revision/approvePageRevision',
+            url: basePath+'/revision/sendForApproveLecture',
             method: "POST",
-            data: $.param({idPage:pageId}),
+            data: $.param({idRevision: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
+                location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
             });
         }, function errorCallback() {
-            return false;
-        });
-    };
-    $scope.rejectPageRevision = function(pageId) {
-        $http({
-            url: basePath+'/revision/rejectPageRevision',
-            method: "POST",
-            data: $.param({idPage:pageId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
-            });
-        }, function errorCallback() {
-            return false;
-        });
-    };
-    $scope.cancelPageRevision = function(pageId) {
-        $http({
-            url: basePath+'/revision/cancelPageRevision',
-            method: "POST",
-            data: $.param({idPage:pageId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
-            });
-        }, function errorCallback() {
+            bootbox.alert("Відправити заняття на затвердження не вдалося. Зв'яжіться з адміністрацією");
             return false;
         });
     };
@@ -92,8 +38,8 @@ function lectureRevisionCtrl($scope, $http) {
             data: $.param({idRevision:idRevision}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
                 $('body,html').animate({scrollTop: $(document).height()}, 500);
             });
         }, function errorCallback(response) {
@@ -110,8 +56,8 @@ function lectureRevisionCtrl($scope, $http) {
             data: $.param({idPage:pageId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
             });
         }, function errorCallback() {
             return false;
@@ -124,8 +70,8 @@ function lectureRevisionCtrl($scope, $http) {
             data: $.param({idPage:pageId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
-            $scope.getLecturePages(idRevision).then(function (response) {
-                $scope.dataPages=response;
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
             });
         }, function errorCallback() {
             return false;

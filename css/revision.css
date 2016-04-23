@@ -24,6 +24,18 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 .lectureInfo table.table {
     table-layout: fixed;
 }
+#pages.table a,#pages.table td{
+    cursor: pointer;
+}
+#pages.table tr:hover{
+    background:#F2F2F2;
+}
+#pages.table tr:first-child:hover{
+    background:none;
+}
+#pages.table tr:first-child td{
+    cursor: default;
+}
 .lectureInfo table.table td:first-child {
     width: 35%;
 }
@@ -31,6 +43,5 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
     float: right;
     display: inline;
     cursor: pointer;
-    height: 32px;
     margin: 5px
 }
