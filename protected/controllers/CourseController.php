@@ -213,7 +213,7 @@ class CourseController extends Controller
 
         $user=Studentreg::model()->findByPk($data["userId"]);
         if($user->isTeacher()){
-            $data["teacherId"] = $user->user_id;
+            $data["teacherId"] = $user->id;
             $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
         }else{
             $data["teacherId"] = false;
