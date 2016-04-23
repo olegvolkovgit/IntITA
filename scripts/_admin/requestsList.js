@@ -58,6 +58,7 @@ function setRequestStatus(url, message) {
 }
 
 function approveCoworkerRequest(url, message, user){
+    showAjaxLoader();
     $jq.ajax({
         url: url,
         type: "POST",
@@ -69,6 +70,9 @@ function approveCoworkerRequest(url, message, user){
         },
         error: function () {
             bootbox.alert("Операцію не вдалося виконати.");
+        },
+        complete: function(){
+            hideAjaxLoader();
         }
     });
 }
