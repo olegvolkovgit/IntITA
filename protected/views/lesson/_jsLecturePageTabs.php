@@ -6,7 +6,7 @@
  * Time: 13:44
  */
 ?>
-<div name="lecturePage" ng-controller="lessonPageCtrl">
+<div name="lecturePage" >
     <div class="tabsWidget">
         <div class="lessonPart">
             <div class="labelBlock" id="labelBlock">

@@ -52,8 +52,8 @@ class TestsController extends Controller
     public function actionCheckTestAnswer(){
         $emptyanswers = [];
         $user = Yii::app()->request->getPost('user', '');
-        $page = Yii::app()->request->getPost('page',0);
-        $lesson = Yii::app()->request->getPost('lesson',0);
+        $page = Yii::app()->request->getPost('page');
+        $lesson = Yii::app()->request->getPost('lesson');
         $test =  Yii::app()->request->getPost('test', '');
         $answers = Yii::app()->request->getPost('answers', $emptyanswers);
         $testType = Yii::app()->request->getPost('testType', 1);
@@ -66,6 +66,8 @@ class TestsController extends Controller
                 $r->TrueAnswer(Yii::app()->user->getId(),$page,$lesson);
             } else {
                 TestsMarks::addTestMark($user, $test, 0);
+                $r = new LogTracks;
+                $r->FalseAnswer(Yii::app()->user->getId(),$page,$lesson);
             }
         }
         $this->redirect(Yii::app()->request->urlReferrer);

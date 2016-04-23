@@ -30,10 +30,10 @@ class LogTracks extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('logtime', 'required'),
-			array('event, lesson, user, part', 'length', 'max'=>255),
+			array('event_id, lesson, user, part', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, event, lesson, user, part, logtime', 'safe', 'on'=>'search'),
+			array('id, event_id, lesson, user, part, logtime', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +55,7 @@ class LogTracks extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'event' => 'Event',
+			'event_id' => 'Event_id',
 			'lesson' => 'Lesson',
 			'user' => 'User',
 			'part' => 'Part',
@@ -82,7 +82,7 @@ class LogTracks extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('event',$this->event,true);
+		$criteria->compare('event_id',$this->event_id,true);
 		$criteria->compare('lesson',$this->lesson,true);
 		$criteria->compare('user',$this->user,true);
 		$criteria->compare('part',$this->part,true);
@@ -108,11 +108,8 @@ class LogTracks extends CActiveRecord
 
 		$f = new LogTracks();
 		$f->user =$user;
-
-		$f->part =1000;
 		$f->logtime = new CDbExpression('NOW()');
-		$f->event = "LogIn";
-		$f->lesson = 1000;
+		$f->event_id = 1;
 		$f->save();
 
 
@@ -122,11 +119,8 @@ class LogTracks extends CActiveRecord
 
 		$f = new LogTracks();
 		$f->user =$user;
-
-		$f->part =1000;
 		$f->logtime = new CDbExpression('NOW()');
-		$f->event = "LogOut";
-		$f->lesson = 1000;
+		$f->event_id = 2;
 		$f->save();
 
 
@@ -139,7 +133,21 @@ class LogTracks extends CActiveRecord
 
 		$f->part =$page;
 		$f->logtime = new CDbExpression('NOW()');
-		$f->event = "TrueAnswer";
+		$f->event_id = 3;
+		$f->lesson = $lesson;
+		$f->save();
+
+
+	}
+	public function FalseAnswer($user,$page,$lesson)
+	{
+
+		$f = new LogTracks();
+		$f->user =$user;
+
+		$f->part =$page;
+		$f->logtime = new CDbExpression('NOW()');
+		$f->event_id = 4;
 		$f->lesson = $lesson;
 		$f->save();
 
@@ -152,7 +160,7 @@ class LogTracks extends CActiveRecord
 		$f->part =$part;
 
 		$f->logtime = new CDbExpression('NOW()');
-		$f->event = $event;
+		$f->event_id = $event;
 		$f->lesson = $lesson;
 		$f->save();
 	}
