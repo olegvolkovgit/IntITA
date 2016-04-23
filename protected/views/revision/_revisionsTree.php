@@ -29,7 +29,7 @@
     }
     function cancelSendRevision(idRevision) {
         $.ajax({
-            method: "GET",
+            method: "POST",
             url: "<?=Yii::app()->createUrl('/revision/cancelSendForApproveLecture');?>",
             data: {idRevision:idRevision}
         })

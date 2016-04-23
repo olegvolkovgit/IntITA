@@ -62,7 +62,6 @@ class RevisionController extends Controller
         }
         $this->render("lectureview", array(
             "lectureRevision" => $lectureRevision,
-            "idRevision"=>$idRevision,
             "pages" => $lectureRevision->lecturePages
         ));
     }
@@ -131,26 +130,6 @@ class RevisionController extends Controller
         $quiz = $page->getQuiz();
 
         $this->render("indexCKE", array(
-            'user' => Yii::app()->user->getId(),
-            "page" => $page,
-            "video" => $video,
-            "dataProvider" => $dataProvider,
-            "quiz" => $quiz));
-    }
-    public function actionViewPageRevision($idPage) {
-
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
-            throw new RevisionControllerException(403, 'Access denied.');
-        }
-
-        $video = $page->getVideo();
-        $lectureBody = $page->getLectureBody();
-        $dataProvider = new CArrayDataProvider($lectureBody);
-        $quiz = $page->getQuiz();
-
-        $this->render("previewPage", array(
             'user' => Yii::app()->user->getId(),
             "page" => $page,
             "video" => $video,
@@ -637,23 +616,6 @@ class RevisionController extends Controller
         echo CJSON::encode($data);
     }
 
-    public function actionLecturePages()
-    {
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
-        $editor=$this->isUserEditor(Yii::app()->user, $lectureRevision);
-        $editable=$lectureRevision->isEditable();
-        $data = [];
-        foreach ($lectureRevision->lecturePages as $key=>$page) {
-            $data[$key]["id"] = $page->id;
-            $data[$key]["page_title"] = $page->page_title;
-            $data[$key]["page_order"] = $page->page_order;
-            $data[$key]["editor"] = $editor;
-            $data[$key]["editable"] = $editable;
-        }
-        echo CJSON::encode($data);
-    }
-
     /**
      * Legacy methods
      *
@@ -764,7 +726,9 @@ class RevisionController extends Controller
         $lecture = [];
         $data = array('lecture' => array(),'pages' => array());
         foreach ($lectureRevision->lecturePages as $key=>$page) {
+            $pages[$key]["id"] = $page->id;
             $pages[$key]['title'] = $page->page_title;
+            $pages[$key]["page_order"] = $page->page_order;
         }
         $lecture['status']=$lectureRevision->getStatus();
         $lecture['canEdit']=$lectureRevision->canEdit();
