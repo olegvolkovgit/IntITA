@@ -3,10 +3,10 @@
     <div class="panel-body">
         <form role="form">
             <div class="form-group">
-                <input type="text" hidden="hidden" value="author" id="role">
+                <input type="text" hidden="hidden" value="consultant" id="role">
                 <label>Викладач:</label>
                 <br>
-                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
+                <input id="typeaheadTeacher" type="text" class="form-control" placeholder="Викладач"
                        size="135" required autofocus>
                 <input type="number" hidden="hidden" id="user" value="0"/>
             </div>
@@ -14,26 +14,33 @@
                 <label>
                     <strong>Модуль:</strong>
                 </label>
-                <input type="number" hidden="hidden" id="moduleId" value="0"/>
-                <input id="typeaheadModule" type="text" class="form-control" placeholder="Назва модуля"
+                <input type="number" hidden="hidden" id="moduleConsultantId" value="0"/>
+                <input id="typeaheadTeacherModule" type="text" class="form-control" placeholder="Назва модуля"
                        size="135">
             </div>
             <br>
             <div class="form-group">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttrCM('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleId')">Призначити автора модуля</button>
+                            'module', '#moduleConsultantId', 'teacher_consultant')">Призначити
+                    викладача для модуля
+                </button>
             </div>
         </form>
-<!--        <div class="alert alert-info">-->
-<!--            --><?php //if(Yii::app()->user->model->isAdmin()){?>
-<!--                Призначити консультанта для даного модуля можна на сторінці-->
-<!--                <a href="#" class="alert-link">Призначити консультанта</a>.-->
-<!--            --><?php //} else {?>
-<!--                Якщо в списку немає потрібного консультанта, можна надіслати запит для призначення консультанта-->
-<!--                <a href="#" class="alert-link">Надіслати запит</a>.-->
-<!--            --><?php //}?>
-<!--        </div>-->
+        <div class="alert alert-info">
+            <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                Викладачем модуля можна призначити лише зареєтрованого співробітника, який має права викладача.
+                Якщо потрібного користувача немає в списку викладачів, то надати права викладача користувачу можна на сторінці
+                <a href="#" class="alert-link"
+                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/renderAddRoleForm',
+                       array('role' => 'teacherConsultant')); ?>', 'Призначити викладача')">
+                    Призначити викладача</a>.
+            <?php } else { ?>
+                Викладачем модуля можна призначити лише зареєтрованого співробітника, який має права викладача.
+                Якщо потрібного користувача немає в списку викладачів, то можна надіслати запит для призначення ролі викладача
+                <a href="#" class="alert-link">Надіслати запит</a>.
+            <?php } ?>
+        </div>
     </div>
 </div>
 
@@ -42,7 +49,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/permissions/teachersByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_admin/permissions/teacherConsultantsByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
@@ -77,7 +84,7 @@
     users.initialize();
     modules.initialize();
 
-    $jq('#typeahead').typeahead(null, {
+    $jq('#typeaheadTeacher').typeahead(null, {
         name: 'users',
         display: 'email',
         limit: 10,
@@ -92,7 +99,7 @@
         }
     });
 
-    $jq('#typeaheadModule').typeahead(null, {
+    $jq('#typeaheadTeacherModule').typeahead(null, {
         name: 'modules',
         display: 'title',
         limit: 10,
@@ -107,11 +114,11 @@
         }
     });
 
-    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
-        $jq("#moduleId").val(item.id);
+    $jq('#typeaheadTeacherModule').on('typeahead:selected', function (e, item) {
+        $jq("#moduleConsultantId").val(item.id);
     });
 
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+    $jq('#typeaheadTeacher').on('typeahead:selected', function (e, item) {
         $jq("#user").val(item.id);
     });
 </script>

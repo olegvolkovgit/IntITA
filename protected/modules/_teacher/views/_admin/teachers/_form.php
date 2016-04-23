@@ -1,8 +1,14 @@
 <?php
 /* @var $model Teacher */
 /* @var $form CActiveForm */
-/* @var $scenario string */
+/* @var $scenario string
+ * @var $predefinedUser StudentReg
+ * @var $message int
+ */
 ?>
+<script>
+    scenario = '<?=(isset($predefinedUser))?"definedUser":"";?>';
+</script>
 <div class="formMargin">
     <div class="col-md-8">
         <?php $form = $this->beginWidget('CActiveForm', array(
@@ -129,13 +135,14 @@
             <?php echo $form->textField($model, 'user_id',
                 array('class' => 'form-control', 'id' => 'userIdHidden')); ?>
         </div>
+        <input id="userIdHidden" type="text" class="form-control" name="message" value="<?=($message)?$message:0;?>">
+        <input  id="userIdHidden" type="text" class="form-control" name="message"
+                value="<?=($predefinedUser)?$predefinedUser->id:0;?>">
 
         <?php $this->endWidget(); ?>
     </div>
 </div><!-- form -->
 <script>
-
-
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -161,6 +168,12 @@
         }
     });
     users.initialize();
+
+    if (scenario == "definedUser") {
+        $jq('#typeahead').val('<?=($predefinedUser)?addslashes(CHtml::decode($predefinedUser->userNameWithEmail())):"";?>');
+        $jq("#user_id").val('<?=($predefinedUser)?$predefinedUser->id:0;?>');
+    }
+
     $jq('#typeahead').typeahead(null, {
         name: 'users',
         display: 'email',

@@ -4,6 +4,7 @@
  * @var $model StudentReg
  */
 $model = $user->registrationData;
+$teacher = $user->getTeacher();
 ?>
 <div class="row">
     <div class="col-md-3">

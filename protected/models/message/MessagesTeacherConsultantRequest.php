@@ -229,8 +229,10 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         } else return "Обраний викладач вже призначений викладачем-консультантом по даному модулю.";
     }
 
-    public function isRequestOpen($module, $user)
+    public function isRequestOpen($params)
     {
+        $module = $params[0];
+        $user = $params[1];
         return (Yii::app()->db->createCommand(array(
                 'select' => 'count(*)',
                 'from' => 'messages_teacher_consultant_request mr',

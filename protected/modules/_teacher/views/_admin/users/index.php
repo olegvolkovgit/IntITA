@@ -23,7 +23,7 @@
                     </li>
                     <li><a href="#content_manager" data-toggle="tab">Контент менеджери (<?=$counters["contentManagers"];?>)</a>
                     </li>
-                    <li><a href="#teacher_consultant" data-toggle="tab">Викладачі-консультанти (<?=$counters["teacherConsultants"];?>)</a>
+                    <li><a href="#teacher_consultant" data-toggle="tab">Викладачі (<?=$counters["teacherConsultants"];?>)</a>
                     </li>
                     <li><a href="#trainer" data-toggle="tab">Тренери (<?=$counters["trainers"];?>)</a>
                     </li>
