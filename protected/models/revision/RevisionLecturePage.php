@@ -202,17 +202,17 @@ class RevisionLecturePage extends CActiveRecord
 
             $quiz = $this->getQuiz();
             if ($quiz != null) {
-                $newQuiz = $quiz->cloneQuiz($newRevision->id);
+                $newQuiz = $quiz->cloneLectureElement($newRevision->id);
                 $newRevision->quiz = $newQuiz->id;
             }
 
             if ($this->video != null) {
-                $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneVideo($newRevision->id);
+                $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneLectureElement($newRevision->id);
                 $newRevision->video = $newVideo->id;
             }
 
             foreach ($this->lectureElements as $lectureElement) {
-                $newLectureElement = $lectureElement->cloneText($newRevision->id);
+                $newLectureElement = $lectureElement->cloneLectureElement($newRevision->id);
             }
 
             $newRevision->saveCheck();
@@ -284,6 +284,7 @@ class RevisionLecturePage extends CActiveRecord
         $element->html_block = $html_block;
         $element->id_page = $this->id;
         $element->saveCheck();
+
         return $element;
     }
 
@@ -385,7 +386,6 @@ class RevisionLecturePage extends CActiveRecord
      * Deletes lecture element
      * @param $idElement
      * @throws CDbException
-     * @internal param $user
      */
     public function deleteElement($idElement) {
        foreach ($this->lectureElements as $lectureElement) {
@@ -442,6 +442,34 @@ class RevisionLecturePage extends CActiveRecord
         }
 
         return $newPage;
+    }
+
+    public function addLectureElement($idType, $html_block, $quiz) {
+
+        switch($idType) {
+            case LectureElement::VIDEO:
+            case LectureElement::TEST:
+            case LectureElement::PLAIN_TASK:
+            case LectureElement::SKIP_TASK:
+            case LectureElement::TASK:
+                $order = 0;
+                break;
+            default:
+                $order = $this->getNextOrder();
+                break;
+        }
+
+        $newElement = RevisionLectureElement::create($idType, $order, $html_block, $this->id, $quiz);
+
+        if ($newElement->isQuiz()) {
+            $this->quiz = $newElement->id;
+            $this->update(['quiz']);
+        }
+
+        if ($newElement->isVideo()) {
+            $this->video = $newElement->id;
+            $this->update(['video']);
+        }
     }
 
     /**

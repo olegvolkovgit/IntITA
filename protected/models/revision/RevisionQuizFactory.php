@@ -2,33 +2,20 @@
 
 class RevisionQuizFactory
 {
-    public static function createQuiz($arr)
+    /**
+     * Factory method to create new quiz
+     * @param RevisionLectureElement $lectureElement
+     * @param array $quiz
+     * @return bool|null
+     */
+    public static function create($lectureElement, $quiz)
     {
-        //todo refactor creating lecture element
-        $newLectureElement = new RevisionLectureElement();
-        $newLectureElement->id_type = $arr['type'];
-        $newLectureElement->id_page = $arr['pageId'];
-        $newLectureElement->block_order = 0;
-        $newLectureElement->html_block = $arr['condition'];
-        $newLectureElement->saveCheck();
-
-        $page = RevisionLecturePage::model()->findByPk($newLectureElement->id_page);
-        if ($page != null) {
-            $page->quiz = $newLectureElement->id;
-            $page->update(array('quiz'));
-        }
-
-        switch($arr['type'])
+        switch($lectureElement->id_type)
         {
             case 'plain_task' :
                 break;
             case LectureElement::TEST :
-                $test = RevisionTests::createTest($newLectureElement->id, $arr['testTitle'], $arr['answers']);
-                if($test){
-                    RevisionLecturePage::addQuiz($arr['pageId'], $newLectureElement->id);
-                    return true;
-                } else
-                    return false;
+                $test = RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers']);
                 break;
             case 'task' :
                 break;
@@ -40,8 +27,24 @@ class RevisionQuizFactory
         return null;
     }
 
-    public static function editQuiz($arr) {
-
+    /**
+     * Factory method to edit quiz
+     * @param array $arr of following structure
+     * [
+     *  'idBlock' =>  RevisionLectureElement->id,
+     *  'condition' =>  RevisionLectureElement->html_block,
+     *  'testTitle' =>  RevisionTest->title,
+     *  'optionsNum' => foo,
+     *  'answers' =>
+     *      [
+     *          0 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
+     *          1 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
+     *      ]
+     * ]
+     * @return bool|null
+     * @throws CDbException
+     */
+    public static function edit($arr) {
         //todo refactor modify lecture element
         $lectureElementRevision = RevisionLectureElement::model()->findByPk($arr['idBlock']);
         $lectureElementRevision->html_block = $arr['condition'];
@@ -69,7 +72,13 @@ class RevisionQuizFactory
         return null;
     }
 
-    public static function deleteQuiz($idLectureElement) {
+    /**
+     * Deletes quiz revision
+     * @param $idLectureElement - RevisionLectureElement->id
+     * @return null
+     * @throws CDbException
+     */
+    public static function delete($idLectureElement) {
         //todo refactor deleting lecture element
         $lectureElementRevision = RevisionLectureElement::model()->findByPk($idLectureElement);
 
@@ -96,6 +105,7 @@ class RevisionQuizFactory
     }
 
     /**
+     * Clone quiz model into new revision
      * @param RevisionLectureElement $lectureElementOld
      * @param RevisionLectureElement $lectureElementNew
      * @return array|mixed|null
@@ -119,6 +129,13 @@ class RevisionQuizFactory
         }
     }
 
+    /**
+     * Save RevisionTest into regular DB
+     * @param RevisionLectureElement $revisionLectureElement
+     * @param LectureElement $newLectureElement
+     * @param $idUserCreated
+     * @return Tests
+     */
     public static function saveToRegularDB($revisionLectureElement, $newLectureElement, $idUserCreated) {
         switch($newLectureElement->id_type)
         {
@@ -137,8 +154,13 @@ class RevisionQuizFactory
         }
     }
 
-    public static function deleteFromRegularDB($quizes) {
-        foreach ($quizes as $idType => $idElements) {
+    /**
+     * Deletes quizzes.
+     * @param $quizzes
+     * @throws CDbException
+     */
+    public static function deleteFromRegularDB($quizzes) {
+        foreach ($quizzes as $idType => $idElements) {
             if (count($idElements)>0) {
                 switch($idType)
                 {
@@ -166,6 +188,7 @@ class RevisionQuizFactory
     }
 
     /**
+     * Creates quiz revision from existing lecture
      * @param LectureElement $lectureElement
      * @param RevisionLectureElement $revisionLectureElement
      * @return RevisionTests

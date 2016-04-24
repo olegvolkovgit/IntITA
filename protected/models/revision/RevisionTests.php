@@ -117,7 +117,7 @@ class RevisionTests extends CActiveRecord
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            $newAnswer = RevisionTestsAnswers::createAnswer($newTest->id, $answer);
+            RevisionTestsAnswers::createAnswer($newTest->id, $answer);
         }
 
         return $newTest;

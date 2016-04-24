@@ -110,16 +110,6 @@ class RevisionLecture extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function scopes() {
-        return array(
-            'withApprovedPages' => array(
-                'with' => 'lecturePages',
-                'order' => 'page_order ASC',
-                'condition' => 'id_user_approved IS NOT NULL AND id_user_cancelled IS NULL',
-            ),
-        );
-    }
-
     /**
      * Save lecture model with error checking
      * @throws RevisionLectureException
@@ -454,6 +444,8 @@ class RevisionLecture extends CActiveRecord
                     $revLectureElement->saveCheck();
 
                     RevisionQuizFactory::createFromLecture($lectureElement, $revLectureElement);
+
+                    $revNewPage->quiz = $revLectureElement->id;
                 }
 
                 foreach ($page->getLectureElements() as $lectureElement) {
@@ -468,6 +460,8 @@ class RevisionLecture extends CActiveRecord
 
                 }
 
+                $revNewPage->saveCheck();
+
             }
 
             $transaction->commit();
@@ -479,6 +473,9 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Deletes lecture related with revision with id_Lecture form regular DB
+     */
     public function deleteLectureFromRegularDB() {
         //remove old data if lecture exists in regular DB
         if ($this->id_lecture != null) {
@@ -486,6 +483,12 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Returns lecture QuickUnion structure.
+     * If $idModule specified - returns revisions of this module, else - all revisions
+     * @param null|$idModule
+     * @return array
+     */
     public static function getLecturesTree($idModule = null) {
         if ($idModule != null) {
             $allIdList = Yii::app()->db->createCommand()
@@ -503,6 +506,10 @@ class RevisionLecture extends CActiveRecord
         return RevisionLecture::getQuickUnionStructure($allIdList);
     }
 
+    /**
+     * Returns lecture revision status
+     * @return string
+     */
     public function getStatus() {
         if ($this->isCancelled()) {
             return "Скасована";
@@ -519,6 +526,25 @@ class RevisionLecture extends CActiveRecord
         return 'Доступна для редагування';
     }
 
+    public function addLectureElement($pageId, $lectureElementData){
+        $page = $this->getPageById($pageId);
+        $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+        $page->addLectureElement($lectureElementData['idType'], $lectureElementData['html_block'], $quiz);
+    }
+
+    /**
+     * Returns lecture page of this lecture by Id or null
+     * @param $pageId
+     * @return null|RevisionLecturePage
+     */
+    private function getPageById($pageId) {
+        foreach ($this->lecturePages as $lecturePage) {
+            if ($lecturePage->id = $pageId) {
+                return $lecturePage;
+            }
+        }
+        return null;
+    }
 
     /**
      * Flushes current revision into regular DB.
@@ -544,6 +570,10 @@ class RevisionLecture extends CActiveRecord
         $this->saveCheck();
     }
 
+    /**
+     * Creates new lecture in regular DB
+     * @return Lecture
+     */
     private function saveLectureModelToRegularDB() {
         //todo maybe need to store idTeacher separately in vc_* DB?
 //        $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
@@ -778,6 +808,4 @@ class RevisionLecture extends CActiveRecord
     private function isCancelled() {
         return $this->properties->id_user_cancelled != null;
     }
-
-
 }

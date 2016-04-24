@@ -107,7 +107,7 @@ class RevisionLectureElement extends CActiveRecord
 	}
 
     /**
-     * Save properties model with error checking
+     * Save model with error checking
      * @throws RevisionLectureException
      */
 	public function saveCheck($runValidation=true,$attributes=null) {
@@ -130,36 +130,28 @@ class RevisionLectureElement extends CActiveRecord
 		$this->save();
 	}
 
-    //todo refactor clone methods - remove copy-paste
+    public static function create($idType, $blockOrder, $htmlBlock, $idPage=null, $quiz=null) {
+        $revLectureElement = new RevisionLectureElement();
+        $revLectureElement->id_page = $idPage;
+        $revLectureElement->id_type = $idType;
+        $revLectureElement->block_order = $blockOrder;
+        $revLectureElement->html_block = $htmlBlock;
+        $revLectureElement->saveCheck();
+
+        if ($revLectureElement->isQuiz() && $quiz) {
+            RevisionQuizFactory::create($revLectureElement, $quiz);
+        }
+
+        return $revLectureElement;
+    }
+
     /**
-     * Clone video element
-     * @param null $idNewPage
+     * Clone lecture element
+     * @param $idNewPage - new page revision id
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
      */
-    public function cloneVideo($idNewPage = null){
-		if ($idNewPage == null) {
-			$idNewPage = $this->id_page;
-		}
-
-		$clone = new RevisionLectureElement();
-		$clone->id_page = $idNewPage;
-		$clone->id_type = $this->id_type;
-		$clone->block_order = $this->block_order;
-		$clone->html_block = $this->html_block;
-
-        $clone->saveCheck();
-
-        return $clone;
-	}
-
-    /**
-     * Clone text element
-     * @param $idNewPage
-     * @return RevisionLectureElement
-     * @throws RevisionLectureElementException
-     */
-    public function cloneText($idNewPage) {
+    public function cloneLectureElement($idNewPage) {
         if ($idNewPage == null) {
             $idNewPage = $this->id_page;
         }
@@ -169,12 +161,38 @@ class RevisionLectureElement extends CActiveRecord
         $clone->id_type = $this->id_type;
         $clone->block_order = $this->block_order;
         $clone->html_block = $this->html_block;
+
         $clone->saveCheck();
+
+        if ($this->isQuiz()) {
+            RevisionQuizFactory::cloneQuiz($this, $clone);
+        }
 
         return $clone;
     }
 
+//    public function cloneQuiz($idNewPage) {
+//
+//        $clone = new RevisionLectureElement();
+//        $clone->id_page = $idNewPage;
+//        $clone->id_type = $this->id_type;
+//        $clone->block_order = $this->block_order;
+//        $clone->html_block = $this->html_block;
+//        $clone->saveCheck();
+//
+//        RevisionQuizFactory::cloneQuiz($this, $clone);
+//
+//        return $clone;
+//    }
+
+    /**
+     * Saves lecture element to into regular DB
+     * @param $idNewLecture
+     * @param null $idUserCreated
+     * @return LectureElement
+     */
     public function saveElementModelToRegularDB($idNewLecture, $idUserCreated=null) {
+
         $new = new LectureElement();
         $new->id_type = $this->id_type;
         $new->id_lecture = $idNewLecture;
@@ -189,20 +207,11 @@ class RevisionLectureElement extends CActiveRecord
         return $new;
     }
 
-    public function cloneQuiz($idNewPage) {
-        $clone = new RevisionLectureElement();
-        $clone->id_page = $idNewPage;
-        $clone->id_type = $this->id_type;
-        $clone->block_order = $this->block_order;
-        $clone->html_block = $this->html_block;
-        $clone->saveCheck();
-
-        RevisionQuizFactory::cloneQuiz($this, $clone);
-
-        return $clone;
-    }
-
-    private function isQuiz() {
+    /**
+     * Returns true if the lecture element is quiz
+     * @return bool
+     */
+    public function isQuiz() {
         if ($this->id_type == LectureElement::PLAIN_TASK  || //plain task
             $this->id_type == LectureElement::TEST || //test
             $this->id_type == LectureElement::TASK  || //task
@@ -212,5 +221,9 @@ class RevisionLectureElement extends CActiveRecord
         else {
             return false;
         }
+    }
+
+    public function isVideo() {
+        return $this->id_type == LectureElement::VIDEO;
     }
 }
