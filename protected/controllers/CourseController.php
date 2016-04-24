@@ -213,7 +213,7 @@ class CourseController extends Controller
 
         $user=Studentreg::model()->findByPk($data["userId"]);
         if($user->isTeacher()){
-            $data["teacherId"] = $user->teacher->teacher_id;
+            $data["teacherId"] = $user->id;
             $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
         }else{
             $data["teacherId"] = false;
@@ -230,7 +230,7 @@ class CourseController extends Controller
             $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
 
             if( $data["teacherId"]){
-                $data["modules"][$i]['isAuthor']=Teacher::isTeacherIdAuthorModule( $data["teacherId"], $modules[$i]['id_module']);
+                $data["modules"][$i]['isAuthor']=Teacher::isTeacherIdAuthorModule( $data["userId"], $modules[$i]['id_module']);
             }else{
                 $data["modules"][$i]['isAuthor']=false;
             }

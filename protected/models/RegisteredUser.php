@@ -13,7 +13,6 @@
  */
 class RegisteredUser
 {
-    //put your code here
     //StudentReg variable
     public $registrationData;
     //array UserRoles
@@ -22,7 +21,6 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    private $_teacherRoles = array(UserRoles::TRAINER, UserRoles::CONSULTANT, UserRoles::TEACHER_CONSULTANT);
 
     public function __construct(StudentReg $registrationData)
     {
@@ -61,7 +59,7 @@ class RegisteredUser
     private function loadRoles()
     {
         $sql = '';
-        $roles = UserRolesDataSource::allUserRoles();
+        $roles = AllRolesDataSource::roles();
         $lastKey = array_search(end($roles), $roles);
         foreach($roles as $key=>$role){
             $model = Role::getInstance($role);
@@ -115,7 +113,7 @@ class RegisteredUser
 
     public function getAttributesByRole($role)
     {
-        if (empty($this->_roleAttributes)) {
+        if (empty($this->_roleAttributes[(string)$role])) {
             $this->loadAttributes($role);
         }
         return $this->_roleAttributes[(string)$role];
@@ -144,7 +142,7 @@ class RegisteredUser
 
     public function isAdmin()
     {
-        return in_array(UserRoles::ADMIN, $this->getRoles());
+        return $this->hasRole(UserRoles::ADMIN);
     }
 
     public function isAccountant()
@@ -185,11 +183,7 @@ class RegisteredUser
 
     public function isAuthor()
     {
-        if ($this->isTeacher()) {
-            return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
-        } else {
-            return false;
-        }
+        return $this->hasRole(UserRoles::AUTHOR);
     }
 
     public function canApprove()
@@ -241,12 +235,12 @@ class RegisteredUser
 
     public function teacherRoles()
     {
-        return array_intersect($this->getRoles(), UserRolesDataSource::allColleaguesRoles());
+        return array_intersect($this->getRoles(), TeacherRolesDataSource::roles());
     }
 
     public function noSetTeacherRoles()
     {
-        return array_diff(UserRolesDataSource::allColleaguesRoles(), array_intersect($this->getRoles(), UserRolesDataSource::allColleaguesRoles()));
+        return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()));
     }
 
     public function requests()
@@ -262,8 +256,9 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+        $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
 
-        return array_merge($authorRequests, $consultantRequests);
+        return array_merge($authorRequests, $consultantRequests, $assignCoworkerRequests);
     }
 
     public function canPlanConsultation(Teacher $teacher)
@@ -277,7 +272,7 @@ class RegisteredUser
             return false;
         else {
             $request = new MessagesAuthorRequest();
-            return !$request->isRequestOpen($module, $this->registrationData->id);
+            return !$request->isRequestOpen(array($module, $this->registrationData->id));
         }
     }
 

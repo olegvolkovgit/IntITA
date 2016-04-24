@@ -24,7 +24,14 @@
         $.ajax({
             method: "POST",
             url: "<?=Yii::app()->createUrl('/revision/SendForApproveLecture');?>",
-            data: {idLecture:idRevision}
+            data: {idRevision:idRevision}
+        })
+    }
+    function cancelSendRevision(idRevision) {
+        $.ajax({
+            method: "POST",
+            url: "<?=Yii::app()->createUrl('/revision/cancelSendForApproveLecture');?>",
+            data: {idRevision:idRevision}
         })
     }
 
@@ -32,7 +39,7 @@
         $.ajax({
             method: "POST",
             url: "<?=Yii::app()->createUrl('/revision/rejectLectureRevision');?>",
-            data: {idLecture:idRevision}
+            data: {idRevision:idRevision}
         })
     }
 
@@ -40,7 +47,7 @@
         $.ajax({
             method: "POST",
             url: "<?=Yii::app()->createUrl('/revision/approveLectureRevision');?>",
-            data: {idLecture:idRevision}
+            data: {idRevision:idRevision}
         })
     }
 
@@ -48,7 +55,7 @@
         $.ajax({
             method: "POST",
             url: "<?=Yii::app()->createUrl('/revision/cancelLectureRevision');?>",
-            data: {idLecture:idRevision}
+            data: {idRevision:idRevision}
         })
     }
 

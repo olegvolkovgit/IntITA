@@ -12,7 +12,9 @@ foreach ($requests as $key=>$request) {
                     'message' => $request->getMessageId())) ?>', '<?=$request->title()?>')">
                     <strong><?= $request->sender()->userName(); ?></strong>
                     <span class="pull-right text-muted"><em><?=$request->title();?></em></span>
+                    <?php if ($request->module()){?>
                     <div>Модуль: <em><?= $request->module()->getTitle(); ?></em></div>
+                     <?php }?>
                 </div>
             </div>
         </a>

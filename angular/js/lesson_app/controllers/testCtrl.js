@@ -19,8 +19,7 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
         }
         $('#ajaxLoad').show();
         answers = $scope.getUserAnswers(testType);
-        var lesson = idLecture;//Сюда засунуть id Лекции
-        alert(idLecture);
+        var lesson = idLecture;
         var page = $rootScope.currentPage;
         $http({
             method: "POST",

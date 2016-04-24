@@ -297,6 +297,7 @@ class RevisionLecturePage extends CActiveRecord
         $criteria = new CDbCriteria(array(
             "condition" => "page_order<:page_order AND id_revision=:id_revision",
             "params" => array(':page_order' => $this->page_order, ':id_revision' => $this->id_revision),
+            'order' => 'page_order DESC',
             'limit' => '1'
         ));
 
@@ -304,8 +305,6 @@ class RevisionLecturePage extends CActiveRecord
 
         if ($prevPage) {
             $this->swapPageOrder($this, $prevPage);
-            $this->page_order = ($this->page_order>1?$this->page_order-1:1);
-            $this->saveCheck();
         }
     }
 
@@ -316,8 +315,9 @@ class RevisionLecturePage extends CActiveRecord
     public function moveDown() {
 
         $criteria = new CDbCriteria(array(
-            "condition" => "page_order<:page_order AND id_revision=:id_revision",
+            "condition" => "page_order>:page_order AND id_revision=:id_revision",
             "params" => array(':page_order' => $this->page_order, ':id_revision' => $this->id_revision),
+            'order' => 'page_order ASC',
             'limit' => '1'
         ));
 
@@ -325,12 +325,7 @@ class RevisionLecturePage extends CActiveRecord
 
         if ($nextPage) {
             $this->swapPageOrder($this, $nextPage);
-            $this->page_order = ($this->page_order>1?$this->page_order-1:1);
-            $this->saveCheck();
         }
-
-        $this->page_order = $this->page_order+1;
-        $this->saveCheck();
     }
 
     /**
@@ -502,6 +497,7 @@ class RevisionLecturePage extends CActiveRecord
      * @param RevisionLecturePage $b
      */
     private function swapPageOrder($a, $b) {
+
         if ($a != null && $b != null) {
             $swap = $a->page_order;
             $a->page_order = $b->page_order;
@@ -509,6 +505,12 @@ class RevisionLecturePage extends CActiveRecord
             $a->saveCheck();
             $b->saveCheck();
         }
+    }
+    public function getRevisionPageVideo()
+    {
+        $videoLink = str_replace("watch?v=", "embed/", RevisionLectureElement::model()->findByPk($this->video)->html_block);
+        $videoLink = str_replace("&feature=youtu.be", "", $videoLink);
+        return $videoLink;
     }
 
 }

@@ -39,7 +39,13 @@ class ConsultationscalendarController extends Controller
 	public function initialize($id,$idCourse)
 	{
 		$lecture = Lecture::model()->findByPk($id);
-		$editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
+
+		$editMode = false;
+		$author = new Author();
+		if(Yii::app()->user->model->isAuthor()) {
+			$editMode = $author->isTeacherAuthorModule(Yii::app()->user->getID(), $lecture->idModule);
+		}
+
 		if(!$lecture)
 			throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
 
@@ -109,7 +115,7 @@ class ConsultationscalendarController extends Controller
             $numcons = explode(",", Yii::app()->request->getPost('timecons'));
             for ($i=0; $i<count($numcons);$i++ ){
                 if(Consultationscalendar::consultationFree($idteacher,$numcons[$i],$date)){
-                    Teacher::addConsult($idteacher,$numcons[$i],$date,$idlecture);
+                    Teacher::addConsult($numcons[$i],$date,$idlecture);
                 } else {
                     $this->redirect( array('consultationerror','lecture'=>$idlecture,'idCourse'=>$idCourse));
                 }

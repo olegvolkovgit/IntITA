@@ -17,6 +17,7 @@ class MessagesType extends CActiveRecord
 	const PAYMENT = 2;
 	const AUTHOR_REQUEST = 3;
 	const TEACHER_CONSULTANT_REQUEST = 4;
+	const COWORKER_REQUEST = 5;
 
 	/**
 	 * @return string the associated database table name

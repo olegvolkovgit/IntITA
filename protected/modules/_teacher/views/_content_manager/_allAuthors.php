@@ -1,12 +1,14 @@
 <div class="col-lg-12">
     <br>
-    <button class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/addTeacherModuleForm',
-                array('role'=>"admin")); ?>', 'Призначити автора модуля')">
-        Призначити автора модуля
-    </button>
-    <br>
-    <br>
+    <ul class="list-inline">
+        <li>
+            <button class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/addTeacherModuleForm',
+                        array('role' => "author")); ?>', 'Призначити автора модуля')">
+                Призначити модуль
+            </button>
+        </li>
+    </ul>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

@@ -246,12 +246,12 @@ function  initAuthorsTableCM(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">'+name["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' +  name["url"] + '\', \'Автор модуля\');">'+ name["title"] +'</a>';
                 }},
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Автор модуля\');">'+email["title"]+'</a>';
+                    return '<a href="#" onclick="load( \'' +  email["url"] + '\', \'Автор модуля\');">'+ email["title"] +'</a>';
                 }
             }
         ],

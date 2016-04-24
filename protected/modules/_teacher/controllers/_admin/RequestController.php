@@ -13,10 +13,8 @@ class RequestController extends TeacherCabinetController
 
     public function actionRequest($message)
     {
-        $model = MessagesAuthorRequest::model()->findByPk($message);
-        if(!$model){
-            $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
-        }
+        $messageModel = Messages::model()->findByPk($message);
+        $model = RequestFactory::getInstance($messageModel);
         if($model) {
             $this->renderPartial('request', array(
                 'model' => $model
@@ -31,13 +29,12 @@ class RequestController extends TeacherCabinetController
     }
 
     public function actionApprove($message, $user){
-        $model = MessagesAuthorRequest::model()->findByPk($message);
-        if(!$model){
-            $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
-        }
+        $messageModel = Messages::model()->findByPk($message);
+        $model = RequestFactory::getInstance($messageModel);
         $userModel = StudentReg::model()->findByPk($user);
+
         if($model && $userModel){
-            echo $model->approve($userModel);
+           echo $model->approve($userModel);
         } else {
             echo "Операцію не вдалося виконати.";
         }

@@ -28,7 +28,10 @@ class ModuleController extends Controller
         $isPaidModule=false;
         if (!Yii::app()->user->isGuest) {
             $userId=Yii::app()->user->getID();
-            $editMode = Teacher::isTeacherAuthorModule($userId,$idModule);
+            $author = new Author();
+            if(Yii::app()->user->model->isAuthor()) {
+                $editMode = $author->isTeacherAuthorModule($userId, $idModule);
+            }
             if($idCourse!=0 && PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read'))){
                 $isPaidCourse=true;
             }
@@ -62,7 +65,12 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getID(),$idModule);
+        $editMode = false;
+        $author = new Author();
+        if(Yii::app()->user->model->isAuthor()) {
+            $editMode = $author->isTeacherAuthorModule(Yii::app()->user->getID(), $idModule);
+        }
+
         if(!$editMode) {
             throw new \application\components\Exceptions\IntItaException('403', 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном автора модуля.');
         }
