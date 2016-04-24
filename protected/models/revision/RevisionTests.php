@@ -141,31 +141,40 @@ class RevisionTests extends CActiveRecord
         $testAnswers = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test'=>$this->id));
 
         $oldAnswersCount = count($testAnswers);
-
         $newAnswersCount = count($answers);
         $length = min($oldAnswersCount, $newAnswersCount);
 
         $i = 0;
-
         for (; $i < $length; $i++) {
-            $testAnswers[$i]->answer = $answers[$i]['answer'];
-            $testAnswers[$i]->is_valid = $answers[$i]['is_valid'];
-            $testAnswers[$i]->update(array('answer', 'is_valid'));
+            $testAnswers[$i]->edit($answers[$i]['answer'], $answers[$i]['is_valid']);
         }
 
-        //if needs to add new answers
         if ($oldAnswersCount < $newAnswersCount) {
+            //if needs to add new answers
             for (; $i < $newAnswersCount; $i++) {
                 RevisionTestsAnswers::createAnswer($this->id, $answers[$i]);
             }
-            //if needs to delete odd answers
         } elseif($oldAnswersCount > $newAnswersCount) {
+            //if needs to delete odd answers
             $pkToDelete = [];
             for (; $i < $oldAnswersCount; $i++) {
                 array_push($pkToDelete, $this->testsAnswers[$i]->id);
             }
             RevisionTestsAnswers::model()->deleteByPk($pkToDelete);
         }
+    }
+
+    /**
+     * @return bool|void
+     * @throws CDbException
+     */
+    protected function beforeDelete() {
+        foreach ($this->testsAnswers as $testAnswer) {
+            if (!$testAnswer->delete()) {
+                return false;
+            }
+        }
+        return parent::beforeDelete();
     }
 
     public function deleteTest() {

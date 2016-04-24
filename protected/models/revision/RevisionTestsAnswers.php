@@ -143,6 +143,12 @@ class RevisionTestsAnswers extends CActiveRecord
         return $newTestAnswer;
     }
 
+    public function edit($answer, $isValid) {
+        $this->answer = $answer;
+        $this->is_valid = $isValid;
+        $this->update(array('answer', 'is_valid'));
+    }
+
 	public static function getTestValid($idLectureElement){
 		$answers=[];
 		$test = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test' => RevisionTests::getTestId($idLectureElement)));

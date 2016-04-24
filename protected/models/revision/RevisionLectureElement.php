@@ -145,6 +145,27 @@ class RevisionLectureElement extends CActiveRecord
         return $revLectureElement;
     }
 
+    public function edit($htmlBlock, $quiz) {
+        $this->html_block = $htmlBlock;
+        $this->saveCheck();
+
+        if ($this->isQuiz()) {
+            RevisionQuizFactory::edit($this, $quiz);
+        }
+    }
+
+    /**
+     * @return bool|void
+     */
+    protected function beforeDelete(){
+        $result = true;
+        if ($this->isQuiz()) {
+            return RevisionQuizFactory::delete($this->id, $this->id_type);
+        }
+        return parent::beforeDelete();
+    }
+
+
     /**
      * Clone lecture element
      * @param $idNewPage - new page revision id

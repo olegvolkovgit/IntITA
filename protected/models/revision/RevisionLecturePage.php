@@ -467,6 +467,28 @@ class RevisionLecturePage extends CActiveRecord
         }
     }
 
+    public function editLectureElement($idBlock, $htmlBlock, $quiz) {
+        $revLectureElement = $this->getElementById($idBlock);
+        if ($revLectureElement) {
+            $revLectureElement->edit($htmlBlock, $quiz);
+            return $revLectureElement;
+        }
+        return false;
+    }
+
+    /**
+     * @param $idBlock
+     * @return bool
+     * @throws CDbException
+     */
+    public function deleteLectureElement($idBlock){
+        $revLectureElement = $this->getElementById($idBlock);
+        if ($revLectureElement) {
+            return $revLectureElement->delete();
+        }
+        return false;
+    }
+
     /**
      * Swaps elements order
      * @param RevisionLectureElement $a
@@ -506,11 +528,31 @@ class RevisionLecturePage extends CActiveRecord
             $b->saveCheck();
         }
     }
+
     public function getRevisionPageVideo()
     {
         $videoLink = str_replace("watch?v=", "embed/", RevisionLectureElement::model()->findByPk($this->video)->html_block);
         $videoLink = str_replace("&feature=youtu.be", "", $videoLink);
         return $videoLink;
+    }
+
+    /**
+     * @param $idBlock
+     * @return null|RevisionLectureElement
+     */
+    private function getElementById($idBlock) {
+        if ($idBlock == $this->video) {
+            return $this->getVideo();
+        }
+        if ($idBlock = $this->quiz) {
+            return $this->getQuiz();
+        }
+        foreach ($this->lectureElements as $lectureElement) {
+            if ($lectureElement->id = $idBlock) {
+                return $lectureElement;
+            }
+        }
+        return null;
     }
 
 }

@@ -541,8 +541,26 @@ class RevisionLecture extends CActiveRecord
 
     public function addLectureElement($pageId, $lectureElementData){
         $page = $this->getPageById($pageId);
-        $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
-        $page->addLectureElement($lectureElementData['idType'], $lectureElementData['html_block'], $quiz);
+        if ($page) {
+            $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+            $page->addLectureElement($lectureElementData['idType'], $lectureElementData['html_block'], $quiz);
+        }
+    }
+
+    public function editLectureElement($pageId, $lectureElementData) {
+        $page = $this->getPageById($pageId);
+        if ($page) {
+            $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+            $page->editLectureElement($lectureElementData['id_block'], $lectureElementData['html_block'], $quiz);
+        }
+    }
+
+    public function deleteLectureElement($pageId, $idBlock) {
+        $page = $this->getPageById($pageId);
+        if ($page) {
+            return $page->deleteLectureElement($idBlock);
+        }
+        return false;
     }
 
     /**

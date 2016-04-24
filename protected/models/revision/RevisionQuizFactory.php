@@ -6,7 +6,15 @@ class RevisionQuizFactory
      * Factory method to create new quiz
      * @param RevisionLectureElement $lectureElement
      * @param array $quiz
-     * @return bool|null
+     *
+     * For test
+     * ['testTitle' => 'foo',
+     *  'answers' => [
+     *          0 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
+     *          ...
+     *      ]
+     * ]
+     * @return RevisionTests|null
      */
     public static function create($lectureElement, $quiz)
     {
@@ -15,7 +23,7 @@ class RevisionQuizFactory
             case 'plain_task' :
                 break;
             case LectureElement::TEST :
-                $test = RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers']);
+                return RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers']);
                 break;
             case 'task' :
                 break;
@@ -29,38 +37,29 @@ class RevisionQuizFactory
 
     /**
      * Factory method to edit quiz
+     * @param RevisionLectureElement $revLectureElement
      * @param array $arr of following structure
-     * [
-     *  'idBlock' =>  RevisionLectureElement->id,
-     *  'condition' =>  RevisionLectureElement->html_block,
-     *  'testTitle' =>  RevisionTest->title,
-     *  'optionsNum' => foo,
-     *  'answers' =>
-     *      [
+     *
+     * For test
+     * ['testTitle' => 'foo',
+     *  'answers' => [
      *          0 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
-     *          1 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
+     *          ...
      *      ]
      * ]
      * @return bool|null
-     * @throws CDbException
      */
-    public static function edit($arr) {
-        //todo refactor modify lecture element
-        $lectureElementRevision = RevisionLectureElement::model()->findByPk($arr['idBlock']);
-        $lectureElementRevision->html_block = $arr['condition'];
-        $lectureElementRevision->update(array('html_block'));
-
-        switch($lectureElementRevision->id_type)
+    public static function edit($revLectureElement, $quiz) {
+        switch($revLectureElement->id_type)
         {
             case 'plain_task' :
                 break;
             case LectureElement::TEST :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementRevision->id));
-                $test->editTest($arr['testTitle'], $arr['answers']);
-                if($test){
-                    return true;
-                } else
-                    return false;
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElement->id));
+                if ($test) {
+                    $test->editTest($quiz['testTitle'], $quiz['answers']);
+                    return $test;
+                }
                 break;
             case 'task' :
                 break;
@@ -74,23 +73,20 @@ class RevisionQuizFactory
 
     /**
      * Deletes quiz revision
-     * @param $idLectureElement - RevisionLectureElement->id
+     * @param $revLectureElementId
+     * @param $revLectureElementType
      * @return null
      * @throws CDbException
+     * @internal param RevisionLectureElement $revLectureElement
      */
-    public static function delete($idLectureElement) {
-        //todo refactor deleting lecture element
-        $lectureElementRevision = RevisionLectureElement::model()->findByPk($idLectureElement);
-
-        switch($lectureElementRevision->id_type)
+    public static function delete($revLectureElementId, $revLectureElementType) {
+        switch($revLectureElementType)
         {
             case 'plain_task' :
                 break;
             case LectureElement::TEST :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idLectureElement));
-                if($test->deleteTest()) {
-                    $test->delete();
-                };
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
+                return $test->delete();
                 break;
             case 'task' :
                 break;
@@ -99,9 +95,7 @@ class RevisionQuizFactory
             default:
                 break;
         }
-
-        $lectureElementRevision->delete();
-        return null;
+        return false;
     }
 
     /**

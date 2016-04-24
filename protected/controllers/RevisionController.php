@@ -334,7 +334,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->upElement($idElement, Yii::app()->user);
+        $page->upElement($idElement);
     }
 
     public function actionDownLectureElement() {
@@ -347,7 +347,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->downElement($idElement, Yii::app()->user);
+        $page->downElement($idElement);
     }
 
     public function actionDeleteLectureElement() {
@@ -360,7 +360,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->deleteElement($idElement, Yii::app()->user);
+        $page->deleteElement($idElement);
     }
 
     /**
@@ -438,7 +438,7 @@ class RevisionController extends Controller {
     }
 
     /**
-     * curl -XPOST --data 'revisionId=138&pageId=691&idType=12&condition=condition&testTitle=testTitle&optionsNum=2&pageId=1&answer1=answer1&is_valid1=1&answer2=answer2&is_valid2=0' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
+     * curl -XPOST --data 'revisionId=138&pageId=691&idType=12&condition=condition&testTitle=testTitle&optionsNum=2&answer1=answer1&is_valid1=1&answer2=answer2&is_valid2=0' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      * @return bool|null
      * @throws CDbException
      * @throws RevisionLectureElementException
@@ -472,36 +472,49 @@ class RevisionController extends Controller {
     }
 
     /**
-     * curl -XPOST --data 'idBlock=492&testTitle=testTitle2&optionsNum=3&PageId=1&answer1=answer3&is_valid1=1&answer2=answer4&is_valid2=0&answer3=answer5' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
+     * curl -XPOST --data 'revisionId=138&pageId=691&idBlock=756&condition=condition2&testTitle=testTitle2&optionsNum=2&answer1=answer3&answer2=answer4&is_valid2=1' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
      */
     public function actionEditTest() {
-        $arr = [];
-        $arr['idBlock'] = Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->html_block
-        $arr['condition'] = Yii::app()->request->getPost('condition', '');    //RevisionLectureElement->html_block
-        $arr['testTitle'] = Yii::app()->request->getPost('testTitle', '');     //RevisionTest->title
-        $arr['optionsNum'] = Yii::app()->request->getPost('optionsNum', 0);    //options amount
 
+        $revisionId = Yii::app()->request->getPost('revisionId');
+        $pageId = Yii::app()->request->getPost('pageId');
+        $lectureElementId = Yii::app()->request->getPost('idBlock');
+
+        $htmlBlock = Yii::app()->request->getPost('condition', '');
+        $optionsNum = Yii::app()->request->getPost('optionsNum', 0);    //options amount
+
+        $quiz = [];
+        $quiz['testTitle'] = Yii::app()->request->getPost('testTitle', '');     //RevisionTest->title
 
         $options = [];
-        for ($i = 0; $i < $arr['optionsNum']; $i++) {
+        for ($i = 0; $i < $optionsNum; $i++) {
             $options[$i]["answer"] = Yii::app()->request->getPost("answer" . ($i + 1), '');     //RevisionTestAnswer->answer
             $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid" . ($i + 1), 0);  //RevisionTestAnswer->is_valid
         }
 
-        $arr['answers'] = $options;
+        $quiz['answers'] = $options;
 
-        if (RevisionQuizFactory::edit($arr))
-            $this->redirect(Yii::app()->request->urlReferrer);
+        $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
+
+        $lectureRevision->editLectureElement($pageId, [
+            'id_block' => $lectureElementId,
+            'html_block' => $htmlBlock,
+            'quiz' => $quiz
+        ]);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
-     * curl -XPOST --data 'idBlock=496' 'http://intita.project/revision/DeleteTest'
+     * curl -XPOST --data 'revisionId=138&pageId=691&idBlock=757' 'http://intita.project/revision/DeleteTest'  -b XDEBUG_SESSION=PHPSTORM
      */
     public function actionDeleteTest() {
-        $arr = [];
-        $idBlock = Yii::app()->request->getPost('idBlock', 0);         //RevisionLectureElement->id
+        $revisionId = Yii::app()->request->getPost('revisionId');
+        $pageId = Yii::app()->request->getPost('pageId');
+        $idBlock = Yii::app()->request->getPost('idBlock', 0);
 
-        RevisionQuizFactory::delete($idBlock);
+        $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
+        $lectureRevision->deleteLectureElement($pageId, $idBlock);
     }
 
     /**
