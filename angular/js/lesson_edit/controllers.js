@@ -227,21 +227,6 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.removeEditHtml= function(){
         $scope.myEditCodeMirror.setValue($scope.myEditCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
     }
-    $scope.editPageTitle=function(idPage){
-        var pageTitle=angular.element(document.querySelector("#pageTitle"));
-        $http({
-            url: basePath+'/revision/editPageTitle',
-            method: "POST",
-            data: $.param({idPage: idPage, title: pageTitle.val()}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        })
-            .success(function (response) {
-                bootbox.alert('Назву сторінки відредаговано');
-            })
-            .error(function () {
-                bootbox.alert('Назву сторінки відредагувати не вдалося');
-            })
-    }
     $scope.editPageVideo=function(idPage){
         var pageVideo=angular.element(document.querySelector("#pageVideo"));
         $http({

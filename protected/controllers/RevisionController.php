@@ -125,6 +125,8 @@ class RevisionController extends Controller
         }
 
         $video = $page->getVideo();
+
+        if(!$video) $video=$page->getVideoElementAtPage();
         $lectureBody = $page->getLectureBody();
         $dataProvider = new CArrayDataProvider($lectureBody);
         $quiz = $page->getQuiz();
@@ -138,33 +140,31 @@ class RevisionController extends Controller
     }
 
     public function actionAddVideo() {
+        $idElement = Yii::app()->request->getPost("pk");
+        $element=RevisionLectureElement::model()->findByPk($idElement);
+        $url = Yii::app()->request->getPost("value");
 
-        $idPage = Yii::app()->request->getPost("idPage");
-        $url = Yii::app()->request->getPost("url");
-
-        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $page = RevisionLecturePage::model()->findByPk($element->id_page);
+        $idRevision = $page->id_revision;
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
-
         $page->saveVideo($url, Yii::app()->user);
-
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionEditPageTitle() {
-        $idPage = Yii::app()->request->getPost("idPage");
-        $title = Yii::app()->request->getPost("title");
+        $idPage = Yii::app()->request->getPost("pk");
+        $title = Yii::app()->request->getPost("value");
+
         $page = RevisionLecturePage::model()->findByPk($idPage);
+        $idRevision = $page->id_revision;
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
         $page->setTitle($title, Yii::app()->user);
-
-        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionAddLectureElement() {

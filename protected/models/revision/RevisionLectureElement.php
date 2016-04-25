@@ -31,8 +31,9 @@ class RevisionLectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_page, id_type, block_order, html_block', 'required'),
+			array('id_page, id_type, block_order, html_block', 'required','except'=>'videoLink'),
 			array('id_page, id_type, block_order', 'numerical', 'integerOnly'=>true),
+			array('html_block', 'match', 'pattern' => '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/', 'message' => 'Поле має бути посиланням', 'on'=>'videoLink'),
 			array('html_block', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -119,6 +120,7 @@ class RevisionLectureElement extends CActiveRecord
     /**
      * Initialize video element
      * @param $url
+	 * @throws RevisionLectureElementException
      * @param $idPage
      */
     public function initVideoElement($url, $idPage) {
@@ -126,6 +128,9 @@ class RevisionLectureElement extends CActiveRecord
 		$this->id_type = LectureElement::VIDEO;
 		$this->block_order = 0;
 		$this->html_block = $url;
+		if(!$this->validate())
+			throw new RevisionLectureElementException('400',implode("; ", $this->getErrors()['html_block']));
+//			throw new CException(implode("; ", $this->getErrors()['html_block']));
 
 		$this->save();
 	}

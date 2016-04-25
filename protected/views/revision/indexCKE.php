@@ -78,9 +78,34 @@ $this->breadcrumbs = array(
             <div class="lessonPart">
                 <table class="table" id="pageView">
                     <tr>
-                        <td>Назва</td>
-                        <td><input type="text" class="form-control" id="pageTitle" value="<?=$page->page_title?>"/></td>
-                        <td><input class="btn btn-default" type="button" value="Зберегти" ng-click="editPageTitle('<?= $page->id ?>')" ></td>
+                        <h1>
+                            <?php
+                            $this->widget('editable.EditableField', array(
+                                'type' => 'text',
+                                'model' => $page,
+                                'attribute' => 'page_title',
+                                'url' => $this->createUrl('revision/editPageTitle'),
+                                'title' => Yii::t('module', '0369'),
+                                'placement' => 'right',
+                            ));
+                            ?>
+                        </h1>
+                        <h2>
+                            <?php
+//                            var_dump($video);die;
+                            $this->widget('editable.EditableField', array(
+                                'type' => 'text',
+                                'model' => $video,
+                                'attribute' => 'html_block',
+                                'url' => $this->createUrl('revision/addVideo'),
+                                'title' => Yii::t('module', '0369'),
+                                'placement' => 'right',
+                            ));
+                            ?>
+                        </h2>
+<!--                        <td>Назва</td>-->
+<!--                        <td><input type="text" class="form-control" id="pageTitle" value="--><?//=$page->page_title?><!--"/></td>-->
+<!--                        <td><input class="btn btn-default" type="button" value="Зберегти" ng-click="editPageTitle('--><?//= $page->id ?><!--')" ></td>-->
                     </tr>
                     <tr>
                         <td><?php echo Yii::t('lecture', '0613'); ?></td>
