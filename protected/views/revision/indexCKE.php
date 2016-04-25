@@ -111,18 +111,19 @@ $this->breadcrumbs = array(
                                 'url' => $this->createUrl('revision/editVideo'),
                                 'title' => Yii::t('module', '0369'),
                                 'placement' => 'right',
+                                'params'     => array('idRevision' => $page->id_revision, 'idPage' => $page->id),
                             ));
                             ?>
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png'); ?>"
                                  class="editIco"
                                  title="Видалити відео"
-                                 ng-click="deleteVideo(<?php echo $page->id?>)">
+                                 ng-click="deleteVideo(<?= $page->id ?>,<?= $page->id_revision ?>,<?= $page->video ?>)">
                         <?php } else { ?>
                             <div class="row col-lg-4">
                                 <div class="input-group" ng-form="myForm">
                                     <input type="url" class="form-control" name="inputUrl" ng-model="url.text" id="pageVideo" required />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-secondary" type="button" ng-disabled="myForm.$invalid" ng-click="addPageVideo('<?= $page->id ?>')">Додати відео</button>
+                                        <button class="btn btn-secondary" type="button" ng-disabled="myForm.$invalid" ng-click="addPageVideo(<?= $page->id ?>,<?= $page->id_revision ?>)">Додати відео</button>
                                     </span>
                                 </div>
                             </div>
