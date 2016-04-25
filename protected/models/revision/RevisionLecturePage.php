@@ -153,11 +153,10 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Initialises page
      * @param $idRevision
-     * @param $user
      * @param int $order
      * @throws RevisionLecturePageException
      */
-    public function initialize($idRevision, $user, $order=1) {
+    public function initialize($idRevision, $order = 1) {
 		//default values
 		$this->page_title = "";
 		$this->video = null;
@@ -174,13 +173,11 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Clone revision
      * Returns new page instance or current instance if the page is not cloneable
-     * @param $user
      * @param null $idNewRevision
      * @return RevisionLecturePage
-     * @throws RevisionLecturePageException
      * @throws Exception
      */
-    public function clonePage($user, $idNewRevision = null) {
+    public function clonePage($idNewRevision = null) {
 
         if ($idNewRevision == null) {
             $idNewRevision = $this->id_revision;
@@ -204,21 +201,19 @@ class RevisionLecturePage extends CActiveRecord
 
             $newRevision->saveCheck();
 
-            //todo copy elements - quiz;
-
             $quiz = $this->getQuiz();
             if ($quiz != null) {
-                $newQuiz = $quiz->cloneQuiz($newRevision->id);
+                $newQuiz = $quiz->cloneLectureElement($newRevision->id);
                 $newRevision->quiz = $newQuiz->id;
             }
 
             if ($this->video != null) {
-                $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneVideo($newRevision->id);
+                $newVideo = RevisionLectureElement::model()->findByPk($this->video)->cloneLectureElement($newRevision->id);
                 $newRevision->video = $newVideo->id;
             }
 
             foreach ($this->lectureElements as $lectureElement) {
-                $newLectureElement = $lectureElement->cloneText($newRevision->id);
+                $newLectureElement = $lectureElement->cloneLectureElement($newRevision->id);
             }
 
             $newRevision->saveCheck();
@@ -249,10 +244,9 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Adds video block or edit if the video bloc exists
      * @param $url
-     * @throws RevisionLectureElementException
      * @throws RevisionLecturePageException
      */
-    public function saveVideo($url, $user) {
+    public function saveVideo($url) {
         if ($this->video != null) {
             $videoElement = RevisionLectureElement::model()->findByPk($this->video);
             $videoElement->setScenario('videoLink');
@@ -287,7 +281,7 @@ class RevisionLecturePage extends CActiveRecord
      * @param $title
      * @throws RevisionLecturePageException
      */
-    public function setTitle($title, $user) {
+    public function setTitle($title) {
         $this->page_title = $title;
         $this->saveCheck(true,'page_title');
     }
@@ -298,9 +292,8 @@ class RevisionLecturePage extends CActiveRecord
      * @param $html_block
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
-     * @throws RevisionLecturePageException
      */
-    public function addTextBlock($idType, $html_block, $user) {
+    public function addTextBlock($idType, $html_block) {
         $order = $this->getNextOrder();
 
         $element = new RevisionLectureElement();
@@ -309,6 +302,7 @@ class RevisionLecturePage extends CActiveRecord
         $element->html_block = $html_block;
         $element->id_page = $this->id;
         $element->saveCheck();
+
         return $element;
     }
 
@@ -316,7 +310,7 @@ class RevisionLecturePage extends CActiveRecord
      * Moves page up
      * @throws RevisionLecturePageException
      */
-    public function moveUp($user) {
+    public function moveUp() {
 
         $criteria = new CDbCriteria(array(
             "condition" => "page_order<:page_order AND id_revision=:id_revision",
@@ -336,7 +330,7 @@ class RevisionLecturePage extends CActiveRecord
      * Move page down
      * @throws RevisionLecturePageException
      */
-    public function moveDown($user) {
+    public function moveDown() {
 
         $criteria = new CDbCriteria(array(
             "condition" => "page_order>:page_order AND id_revision=:id_revision",
@@ -379,7 +373,7 @@ class RevisionLecturePage extends CActiveRecord
      * Shift element up
      * @param $idElement
      */
-    public function upElement($idElement, $user) {
+    public function upElement($idElement) {
         foreach ($this->lectureElements as $key => $lectureElement) {
             if ($lectureElement->id == $idElement) {
                 if ($key == 0) {
@@ -395,7 +389,7 @@ class RevisionLecturePage extends CActiveRecord
      * Shift element down
      * @param $idElement
      */
-    public function downElement($idElement, $user) {
+    public function downElement($idElement) {
         foreach ($this->lectureElements as $key => $lectureElement) {
             if ($lectureElement->id == $idElement) {
                 if ($key == count($this->lectureElements)-1) {
@@ -411,10 +405,9 @@ class RevisionLecturePage extends CActiveRecord
     /**
      * Deletes lecture element
      * @param $idElement
-     * @param $user
      * @throws CDbException
      */
-    public function deleteElement($idElement, $user) {
+    public function deleteElement($idElement) {
        foreach ($this->lectureElements as $lectureElement) {
            if ($lectureElement->id == $idElement) {
                $lectureElement->delete();
@@ -471,6 +464,56 @@ class RevisionLecturePage extends CActiveRecord
         return $newPage;
     }
 
+    public function addLectureElement($idType, $html_block, $quiz) {
+
+        switch($idType) {
+            case LectureElement::VIDEO:
+            case LectureElement::TEST:
+            case LectureElement::PLAIN_TASK:
+            case LectureElement::SKIP_TASK:
+            case LectureElement::TASK:
+                $order = 0;
+                break;
+            default:
+                $order = $this->getNextOrder();
+                break;
+        }
+
+        $newElement = RevisionLectureElement::create($idType, $order, $html_block, $this->id, $quiz);
+
+        if ($newElement->isQuiz()) {
+            $this->quiz = $newElement->id;
+            $this->update(['quiz']);
+        }
+
+        if ($newElement->isVideo()) {
+            $this->video = $newElement->id;
+            $this->update(['video']);
+        }
+    }
+
+    public function editLectureElement($idBlock, $htmlBlock, $quiz) {
+        $revLectureElement = $this->getElementById($idBlock);
+        if ($revLectureElement) {
+            $revLectureElement->edit($htmlBlock, $quiz);
+            return $revLectureElement;
+        }
+        return false;
+    }
+
+    /**
+     * @param $idBlock
+     * @return bool
+     * @throws CDbException
+     */
+    public function deleteLectureElement($idBlock){
+        $revLectureElement = $this->getElementById($idBlock);
+        if ($revLectureElement) {
+            return $revLectureElement->delete();
+        }
+        return false;
+    }
+
     /**
      * Swaps elements order
      * @param RevisionLectureElement $a
@@ -510,11 +553,31 @@ class RevisionLecturePage extends CActiveRecord
             $b->saveCheck();
         }
     }
+
     public function getRevisionPageVideo()
     {
         $videoLink = str_replace("watch?v=", "embed/", RevisionLectureElement::model()->findByPk($this->video)->html_block);
         $videoLink = str_replace("&feature=youtu.be", "", $videoLink);
         return $videoLink;
+    }
+
+    /**
+     * @param $idBlock
+     * @return null|RevisionLectureElement
+     */
+    private function getElementById($idBlock) {
+        if ($idBlock == $this->video) {
+            return $this->getVideo();
+        }
+        if ($idBlock = $this->quiz) {
+            return $this->getQuiz();
+        }
+        foreach ($this->lectureElements as $lectureElement) {
+            if ($lectureElement->id = $idBlock) {
+                return $lectureElement;
+            }
+        }
+        return null;
     }
 
 }

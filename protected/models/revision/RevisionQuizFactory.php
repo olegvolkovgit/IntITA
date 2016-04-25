@@ -2,32 +2,28 @@
 
 class RevisionQuizFactory
 {
-    public static function createQuiz($arr)
+    /**
+     * Factory method to create new quiz
+     * @param RevisionLectureElement $lectureElement
+     * @param array $quiz
+     *
+     * For test
+     * ['testTitle' => 'foo',
+     *  'answers' => [
+     *          0 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
+     *          ...
+     *      ]
+     * ]
+     * @return RevisionTests|null
+     */
+    public static function create($lectureElement, $quiz)
     {
-        //todo refactor creating lecture element
-        $newLectureElement = new RevisionLectureElement();
-        $newLectureElement->id_type = $arr['type'];
-        $newLectureElement->id_page = $arr['pageId'];
-        $newLectureElement->block_order = 0;
-        $newLectureElement->html_block = $arr['condition'];
-        $newLectureElement->saveCheck();
-
-        $page = RevisionLecturePage::model()->findByPk($newLectureElement->id_page);
-        if ($page != null) {
-            $page->quiz = $newLectureElement->id;
-            $page->update(array('quiz'));
-        }
-
-        switch($arr['type'])
+        switch($lectureElement->id_type)
         {
             case 'plain_task' :
                 break;
             case LectureElement::TEST :
-                $test = RevisionTests::createTest($newLectureElement->id, $arr['testTitle'], $arr['answers']);
-                if($test){
-                    return true;
-                } else
-                    return false;
+                return RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers']);
                 break;
             case 'task' :
                 break;
@@ -36,65 +32,74 @@ class RevisionQuizFactory
             default:
                 break;
         }
-        return null;
-    }
-
-    public static function editQuiz($arr) {
-
-        //todo refactor modify lecture element
-        $lectureElementRevision = RevisionLectureElement::model()->findByPk($arr['idBlock']);
-        $lectureElementRevision->html_block = $arr['condition'];
-        $lectureElementRevision->update(array('html_block'));
-
-        switch($lectureElementRevision->id_type)
-        {
-            case 'plain_task' :
-                break;
-            case LectureElement::TEST :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementRevision->id));
-                $test->editTest($arr['testTitle'], $arr['answers']);
-                if($test){
-                    return true;
-                } else
-                    return false;
-                break;
-            case 'task' :
-                break;
-            case 'skip_task':
-                break;
-            default:
-                break;
-        }
-        return null;
-    }
-
-    public static function deleteQuiz($idLectureElement) {
-        //todo refactor deleting lecture element
-        $lectureElementRevision = RevisionLectureElement::model()->findByPk($idLectureElement);
-
-        switch($lectureElementRevision->id_type)
-        {
-            case 'plain_task' :
-                break;
-            case LectureElement::TEST :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $idLectureElement));
-                if($test->deleteTest()) {
-                    $test->delete();
-                };
-                break;
-            case 'task' :
-                break;
-            case 'skip_task':
-                break;
-            default:
-                break;
-        }
-
-        $lectureElementRevision->delete();
         return null;
     }
 
     /**
+     * Factory method to edit quiz
+     * @param RevisionLectureElement $revLectureElement
+     * @param array $arr of following structure
+     *
+     * For test
+     * ['testTitle' => 'foo',
+     *  'answers' => [
+     *          0 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
+     *          ...
+     *      ]
+     * ]
+     * @return bool|null
+     */
+    public static function edit($revLectureElement, $quiz) {
+        switch($revLectureElement->id_type)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST :
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElement->id));
+                if ($test) {
+                    $test->editTest($quiz['testTitle'], $quiz['answers']);
+                    return $test;
+                }
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
+        }
+        return null;
+    }
+
+    /**
+     * Deletes quiz revision
+     * @param $revLectureElementId
+     * @param $revLectureElementType
+     * @return null
+     * @throws CDbException
+     * @internal param RevisionLectureElement $revLectureElement
+     */
+    public static function delete($revLectureElementId, $revLectureElementType) {
+        switch($revLectureElementType)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST :
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
+                return $test->delete();
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * Clone quiz model into new revision
      * @param RevisionLectureElement $lectureElementOld
      * @param RevisionLectureElement $lectureElementNew
      * @return array|mixed|null
@@ -118,6 +123,13 @@ class RevisionQuizFactory
         }
     }
 
+    /**
+     * Save RevisionTest into regular DB
+     * @param RevisionLectureElement $revisionLectureElement
+     * @param LectureElement $newLectureElement
+     * @param $idUserCreated
+     * @return Tests
+     */
     public static function saveToRegularDB($revisionLectureElement, $newLectureElement, $idUserCreated) {
         switch($newLectureElement->id_type)
         {
@@ -136,8 +148,13 @@ class RevisionQuizFactory
         }
     }
 
-    public static function deleteFromRegularDB($quizes) {
-        foreach ($quizes as $idType => $idElements) {
+    /**
+     * Deletes quizzes.
+     * @param $quizzes
+     * @throws CDbException
+     */
+    public static function deleteFromRegularDB($quizzes) {
+        foreach ($quizzes as $idType => $idElements) {
             if (count($idElements)>0) {
                 switch($idType)
                 {
@@ -161,6 +178,35 @@ class RevisionQuizFactory
                         break;
                 }
             }
+        }
+    }
+
+    /**
+     * Creates quiz revision from existing lecture
+     * @param LectureElement $lectureElement
+     * @param RevisionLectureElement $revisionLectureElement
+     * @return RevisionTests
+     */
+    public static function createFromLecture($lectureElement, $revisionLectureElement) {
+        switch($lectureElement->id_type)
+        {
+            case 'plain_task' :
+                break;
+            case LectureElement::TEST:
+                    $oldTest = Tests::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
+                    $oldTestAnswers = TestsAnswers::model()->findAllByAttributes(['id_test' => $oldTest->id]);
+                    $answers = [];
+                    foreach ($oldTestAnswers as $answer) {
+                        array_push($answers, ['answer' => $answer->answer, 'is_valid' => $answer->is_valid]);
+                    }
+                    return RevisionTests::createTest($revisionLectureElement->id, $oldTest->title, $answers);
+                break;
+            case 'task' :
+                break;
+            case 'skip_task':
+                break;
+            default:
+                break;
         }
     }
 }
