@@ -165,7 +165,7 @@ class Consultationscalendar extends CActiveRecord
         if ($this->user_id==$user->registrationData->id) {
             if($this->delete()) return true;
         }else{
-            if($user->isTeacher() && $user->id==$this->teacher_id){
+            if($user->isTeacher() && $user->id==$this->user_id){
                 if($this->delete()) return true;
             }
         }

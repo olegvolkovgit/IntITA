@@ -115,7 +115,7 @@ class ConsultationscalendarController extends Controller
             $numcons = explode(",", Yii::app()->request->getPost('timecons'));
             for ($i=0; $i<count($numcons);$i++ ){
                 if(Consultationscalendar::consultationFree($idteacher,$numcons[$i],$date)){
-                    Teacher::addConsult($numcons[$i],$date,$idlecture);
+					Teacher::addConsult($numcons[$i],$date,$idlecture, $idteacher);
                 } else {
                     $this->redirect( array('consultationerror','lecture'=>$idlecture,'idCourse'=>$idCourse));
                 }
