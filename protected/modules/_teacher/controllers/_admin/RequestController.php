@@ -34,7 +34,11 @@ class RequestController extends TeacherCabinetController
         $userModel = StudentReg::model()->findByPk($user);
 
         if($model && $userModel){
-           echo $model->approve($userModel);
+            if(!$model->isApproved()) {
+                echo $model->approve($userModel);
+            } else {
+                echo "Запит вже підтверджено. Ви не можете підтвердити запит двічі.";
+            }
         } else {
             echo "Операцію не вдалося виконати.";
         }

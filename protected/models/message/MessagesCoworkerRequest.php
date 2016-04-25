@@ -297,4 +297,12 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
     public function teacher(){
         return $this->idTeacher;
     }
+
+    public function isApproved(){
+        if($this->date_approved != null && $this->user_approved != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
