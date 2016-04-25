@@ -168,4 +168,15 @@ class ContentManagerController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400);
         }
     }
+
+    public function actionAssignRole(){
+        $userId = Yii::app()->request->getPost('userId');
+        $role = Yii::app()->request->getPost('role');
+        $user = RegisteredUser::userById($userId);
+
+        if ($user->setRole($role))
+            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$role;
+        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
+        Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
+    }
 }

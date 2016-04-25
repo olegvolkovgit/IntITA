@@ -15,7 +15,7 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
+                    onclick="assignRoleCM('<?php echo Yii::app()->createUrl("/_teacher/_content_manager/contentManager/assignRole"); ?>',
                         'consultant', '9'); return false;">
                 Призначити консультанта
             </button>
