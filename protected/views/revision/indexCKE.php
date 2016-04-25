@@ -151,10 +151,10 @@ $this->breadcrumbs = array(
                 <div style="display: block; clear: both">
                     <?php echo Yii::t('lecture', '0691'); ?>
                     <br>
-                    <button selected-button ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                    <button selected-button ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                    <button selected-button ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                    <button selected-button ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
                 </div>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
@@ -184,10 +184,10 @@ $this->breadcrumbs = array(
             } else {
 //                ?>
             <div id="buttonsPanel">
-                <button onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
-                <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
-                <button onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
+                <button class="btn btn-default" onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
+                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
+                <button class="btn btn-default" onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button class="btn btn-default" onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php
             }

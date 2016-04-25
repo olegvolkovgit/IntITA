@@ -34,8 +34,8 @@
             <input name="idType" id="testType" type="hidden" value="plain"/>
         </fieldset>
         <br>
-        <input type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>
+        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>
+        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" onclick='cancelTest()'>
     </form>
-    <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
 

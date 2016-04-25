@@ -245,14 +245,8 @@ img {
 .formLabel {
     text-decoration: none;
 }
-
-#cancelButton {
-    margin-top: 10px;
-    width: 100px;
-}
-#addBlockSubmit{
-    margin-top: 10px;
-    width: 100px;
+#blockFormCode input,#blockForm input {
+    margin-top: 5px;
 }
 
 .teacherBlock div.photobg {
