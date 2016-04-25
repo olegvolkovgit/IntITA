@@ -12,14 +12,14 @@ class m160425_101524_create_messages_approve_revision_table extends CDbMigration
 			'CONSTRAINT `FK_messages_approve_revision_messages` FOREIGN KEY (`id_message`) REFERENCES `messages` (`id`)',
 			'CONSTRAINT `FK_messages_approve_revision_vc_lecture` FOREIGN KEY (`id_revision`) REFERENCES `vc_lecture` (`id_revision`)'
 		),
-			'COMMENT=\'Message to revision\'s author for successful approving revision . \'
+			'COMMENT=\'Message to revision\\\'s author for successful approving revision . \'
             COLLATE=\'utf8_general_ci\'
             ENGINE=InnoDB'
 		);
 		$this->insert('messages_type', array(
 			'id' => '6',
 			'type' => 'approve_revision',
-			'description' => 'Message to revision\'s author for successful approving revision.'
+			'description' => 'Message to revision\\\'s author for successful approving revision.'
 		));
 	}
 
