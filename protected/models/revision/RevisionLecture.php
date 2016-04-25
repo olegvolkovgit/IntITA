@@ -322,7 +322,21 @@ class RevisionLecture extends CActiveRecord
             $this->properties->id_user_rejected = $user->getId();
             $this->properties->saveCheck();
         } else {
-            //todo inform user
+            //sending inform message to revision author
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesRejectRevision();
+                $comment = '';
+                $message->build(Yii::app()->user->model->registrationData, $this, $comment);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+            }
         }
     }
 
@@ -356,6 +370,20 @@ class RevisionLecture extends CActiveRecord
                     throw $e;
                 }
 
+                //sending inform message to revision author
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message = new MessagesApproveRevision();
+                    $message->build(Yii::app()->user->model->registrationData, $this);
+                    $message->create();
+                    $sender = new MailTransport();
+
+                    $message->send($sender);
+                    $transaction->commit();
+                } catch (Exception $e){
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+                }
             } else {
                 //todo inform user
             }
