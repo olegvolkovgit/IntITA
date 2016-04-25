@@ -75,45 +75,51 @@ $this->breadcrumbs = array(
             <h1 class="lessonPart lessonEditPart">
                 <?php echo Yii::t('lecture', '0073') . " " . $page->revision->id_lecture.': '.$page->revision->properties->title_ua; ?>
             </h1>
-            <div class="lessonPart">
-                <table class="table" id="pageView">
-                    <tr>
-                        <h1>
-                            <?php
+            <table class="table" id="pageView">
+                <tr>
+                    <div class="pageTitle">
+                        Назва сторінки:
+                        <?php
+                        $this->widget('editable.EditableField', array(
+                            'type' => 'text',
+                            'model' => $page,
+                            'attribute' => 'page_title',
+                            'url' => $this->createUrl('revision/editPageTitle'),
+                            'title' => Yii::t('module', '0369'),
+                            'placement' => 'right',
+                        ));
+                        ?>
+                    </div>
+                    <div class="videoLink">
+                        <?php
+                        if($page->video){
+                            echo Yii::t('lecture', '0613').': ';
                             $this->widget('editable.EditableField', array(
                                 'type' => 'text',
-                                'model' => $page,
-                                'attribute' => 'page_title',
-                                'url' => $this->createUrl('revision/editPageTitle'),
-                                'title' => Yii::t('module', '0369'),
-                                'placement' => 'right',
-                            ));
-                            ?>
-                        </h1>
-                        <h2>
-                            <?php
-//                            var_dump($video);die;
-                            $this->widget('editable.EditableField', array(
-                                'type' => 'text',
-                                'model' => $video,
+                                'model' => $page->getVideo(),
                                 'attribute' => 'html_block',
-                                'url' => $this->createUrl('revision/addVideo'),
+                                'url' => $this->createUrl('revision/editVideo'),
                                 'title' => Yii::t('module', '0369'),
                                 'placement' => 'right',
                             ));
                             ?>
-                        </h2>
-<!--                        <td>Назва</td>-->
-<!--                        <td><input type="text" class="form-control" id="pageTitle" value="--><?//=$page->page_title?><!--"/></td>-->
-<!--                        <td><input class="btn btn-default" type="button" value="Зберегти" ng-click="editPageTitle('--><?//= $page->id ?><!--')" ></td>-->
-                    </tr>
-                    <tr>
-                        <td><?php echo Yii::t('lecture', '0613'); ?></td>
-                        <td><input type="text" class="form-control" id="pageVideo" value="<?=(isset($video)?$video->html_block:"") ?>"/></td>
-                        <td><input class="btn btn-default" type="button" value="Зберегти" ng-click="editPageVideo('<?= $page->id ?>')"></td>
-                    </tr>
-                </table>
-            </div>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png'); ?>"
+                                 class="editIco"
+                                 title="Видалити відео"
+                                 ng-click="deleteVideo(<?php echo $page->id?>)">
+                        <?php } else { ?>
+                            <div class="row col-lg-4">
+                                <div class="input-group" ng-form="myForm">
+                                    <input type="url" class="form-control" name="inputUrl" ng-model="url.text" id="pageVideo" required />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-secondary" type="button" ng-disabled="myForm.$invalid" ng-click="addPageVideo('<?= $page->id ?>')">Додати відео</button>
+                                    </span>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </tr>
+            </table>
             <br>
             <br>
             <fieldset>

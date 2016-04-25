@@ -227,7 +227,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.removeEditHtml= function(){
         $scope.myEditCodeMirror.setValue($scope.myEditCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
     }
-    $scope.editPageVideo=function(idPage){
+    $scope.addPageVideo=function(idPage){
         var pageVideo=angular.element(document.querySelector("#pageVideo"));
         $http({
             url: basePath+'/revision/addVideo',
@@ -235,11 +235,29 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             data: $.param({idPage: idPage, url: pageVideo.val()}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         })
-            .success(function (response) {
-                bootbox.alert('Посилання на відео відредаговано');
+            .success(function () {
+                bootbox.alert('Відео додано', function () {
+                    location.reload();
+                });
             })
             .error(function () {
-                bootbox.alert('Посилання на відео відредагувати не вдалося');
+                bootbox.alert('Посилання на відео додати не вдалося');
             })
+    };
+    $scope.deleteVideo=function(id){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити відео?')
+            .then(function() {
+                $http({
+                    url: basePath + '/revision/deleteVideo',
+                    method: "POST",
+                    data: $.param({idPage: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Видалити відео не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+            });
     }
 }
