@@ -54,12 +54,13 @@ $this->breadcrumbs = array(
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/><!-- highlight include -->
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"/>
 <link rel="stylesheet" type="text/css" href="http://latex.codecogs.com/css/equation-embed.css"/>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js"></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 
-<div ng-app="lessonEdit" class="lessonEdit">
+<div ng-app="lessonEdit" class="pageRevision">
     <div ng-controller="CKEditorCtrl">
         <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
         <div data-ng-init="
@@ -73,11 +74,16 @@ $this->breadcrumbs = array(
         </div>
         <div id="lecturePage">
             <h1 class="lessonPart lessonEditPart">
-                <?php echo Yii::t('lecture', '0073') . " " . $page->revision->id_lecture.': '.$page->revision->properties->title_ua; ?>
+                <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
             </h1>
+            <div class='icons'>
+                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)).'#/page'.$page->page_order; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
+                     title="Попередній перегляд"/>
+            </div>
             <table class="table" id="pageView">
                 <tr>
-                    <div class="pageTitle">
+                    <div class="pageTitleCke">
                         Назва сторінки:
                         <?php
                         $this->widget('editable.EditableField', array(
@@ -120,10 +126,8 @@ $this->breadcrumbs = array(
                     </div>
                 </tr>
             </table>
-            <br>
-            <br>
             <fieldset>
-                <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
+                <h3>Контент сторінки:</h3>
                 <div id="blockList">
                     <?php $this->renderPartial('/revision/_blocks_list_CKE', array('dataProvider' => $dataProvider, 'editMode' => 1, 'user' => $user)); ?>
                 </div>
@@ -168,7 +172,7 @@ $this->breadcrumbs = array(
 //                        break;
                     case '12':
                     case '13':
-                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id));
+                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision));
                         break;
                     default:
                         break;
@@ -176,7 +180,7 @@ $this->breadcrumbs = array(
             } else {
 //                ?>
             <div id="buttonsPanel">
-                <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
+                <button onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
                 <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <button onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
@@ -185,7 +189,7 @@ $this->breadcrumbs = array(
             }
             ?>
             <?php if ($page->quiz == null) {
-            $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id));
+            $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
 //            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
 //            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
 //            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));

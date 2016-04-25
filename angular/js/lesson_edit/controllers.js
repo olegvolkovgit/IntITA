@@ -5,7 +5,9 @@ angular
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
     $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
-
+    $scope.previewRevision = function(url) {
+        location.href=url;
+    };
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
@@ -256,6 +258,22 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                     location.reload();
                 }, function errorCallback() {
                     bootbox.alert("Видалити відео не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+            });
+    }
+    $scope. deleteTest=function(revisionId,pageId,idBlock){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити тест?')
+            .then(function() {
+                $http({
+                    url: basePath + '/revision/deleteTest',
+                    method: "POST",
+                    data: $.param({revisionId: revisionId,pageId: pageId,idBlock: idBlock}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Видалити тест не вдалося. Зв'яжіться з адміністрацією");
                     return false;
                 });
             });

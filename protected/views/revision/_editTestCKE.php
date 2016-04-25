@@ -38,12 +38,14 @@ idBlock=<?php echo $idElement; ?>;'>
             <br>
             <input name="optionsNum" id="optionsNum" type="hidden" value="{{dataTest.answers.length}}"/>
             <input name="idBlock" type="hidden" value="{{idBlock}}"/>
+            <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
+            <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
         </fieldset>
         <br>
         <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests{{idBlock}}'  ng-disabled=editTestForm.$invalid>
     </form>
     <br>
     <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
-    <button onclick='unableTest(<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
+    <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
 </div>
 
