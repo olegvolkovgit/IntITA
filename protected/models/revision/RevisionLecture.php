@@ -567,6 +567,10 @@ class RevisionLecture extends CActiveRecord
         return 'Доступна для редагування';
     }
 
+    /**
+     * @param integer $pageId
+     * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar']
+     */
     public function addLectureElement($pageId, $lectureElementData){
         $page = $this->getPageById($pageId);
         if ($page) {
@@ -575,6 +579,10 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * @param integer $pageId
+     * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar']
+     */
     public function editLectureElement($pageId, $lectureElementData) {
         $page = $this->getPageById($pageId);
         if ($page) {

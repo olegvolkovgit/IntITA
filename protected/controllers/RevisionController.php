@@ -137,39 +137,68 @@ class RevisionController extends Controller {
             "quiz" => $quiz));
     }
 
+    /**
+     * curl -XPOST http://intita.project/revision/addvideo -d 'idRevision=138&idPage=691'  -b XDEBUG_SESSION=PHPSTORM
+     * @throws RevisionControllerException
+     */
+
     public function actionAddVideo() {
-        $idPage = Yii::app()->request->getPost("idPage");
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $idPage = Yii::app()->request->getPost('idPage');
+        $idType = LectureElement::VIDEO;
+
         $url = Yii::app()->request->getPost("url");
 
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-        $idRevision = $page->id_revision;
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
-        $page->saveVideo($url);
+
+        $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $url]);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
+
+    /**
+     * curl -XPOST http://intita.project/revision/editvideo -d 'idRevision=138&idPage=691&pk=758&value=url2'  -b XDEBUG_SESSION=PHPSTORM
+     * @throws RevisionControllerException
+     */
     public function actionEditVideo() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $idPage = Yii::app()->request->getPost('idPage');
         $idElement = Yii::app()->request->getPost("pk");
-        $element=RevisionLectureElement::model()->findByPk($idElement);
         $url = Yii::app()->request->getPost("value");
-        $page = RevisionLecturePage::model()->findByPk($element->id_page);
-        $idRevision = $page->id_revision;
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
-        $page->saveVideo($url);
+
+        $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $url]);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * curl -XPOST http://intita.project/revision/deletevideo -d 'idRevision=138&idPage=691&pk=758'  -b XDEBUG_SESSION=PHPSTORM
+     * @throws RevisionControllerException
+     */
     public function actionDeleteVideo() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
         $idPage = Yii::app()->request->getPost('idPage');
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-        $page->deleteVideo();
+        $idElement = Yii::app()->request->getPost("pk");
+
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
+            throw new RevisionControllerException(403, 'Access denied.');
+        }
+
+        $lectureRevision->deleteLectureElement($idPage, $idElement);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     public function actionEditPageTitle() {

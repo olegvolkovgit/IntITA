@@ -77,7 +77,6 @@ class RevisionQuizFactory
      * @param $revLectureElementType
      * @return null
      * @throws CDbException
-     * @internal param RevisionLectureElement $revLectureElement
      */
     public static function delete($revLectureElementId, $revLectureElementType) {
         switch($revLectureElementType)

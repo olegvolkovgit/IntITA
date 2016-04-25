@@ -454,14 +454,29 @@ class RevisionLecturePage extends CActiveRecord
         return $newPage;
     }
 
+    /**
+     * @param $idType
+     * @param $html_block
+     * @param $quiz
+     * @throws CDbException
+     * @throws RevisionLecturePageException
+     */
     public function addLectureElement($idType, $html_block, $quiz) {
 
         switch($idType) {
             case LectureElement::VIDEO:
+                if ($this->video) {
+                    throw new RevisionLecturePageException('Неможливо додати відео. На цій сторінці вже існує відео-блок.');
+                }
+                $order = 0;
+                break;
             case LectureElement::TEST:
             case LectureElement::PLAIN_TASK:
             case LectureElement::SKIP_TASK:
             case LectureElement::TASK:
+                if ($this->quiz) {
+                    throw new RevisionLecturePageException('Неможливо додати тест. На цій сторінці вже існує блок тесту.');
+                }
                 $order = 0;
                 break;
             default:
@@ -498,9 +513,21 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function deleteLectureElement($idBlock){
         $revLectureElement = $this->getElementById($idBlock);
+
+        if ($revLectureElement->isQuiz()) {
+            $this->quiz = null;
+            $this->update(['quiz']);
+        }
+
+        if ($revLectureElement->isVideo()) {
+            $this->video = null;
+            $this->update(['video']);
+        }
+
         if ($revLectureElement) {
             return $revLectureElement->delete();
         }
+
         return false;
     }
 

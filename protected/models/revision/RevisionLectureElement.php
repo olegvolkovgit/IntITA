@@ -150,12 +150,12 @@ class RevisionLectureElement extends CActiveRecord
     }
 
     public function edit($htmlBlock, $quiz) {
-        $this->html_block = $htmlBlock;
-        $this->saveCheck();
-
         if ($this->isQuiz()) {
             RevisionQuizFactory::edit($this, $quiz);
         }
+
+        $this->html_block = $htmlBlock;
+        $this->saveCheck();
     }
 
     /**
