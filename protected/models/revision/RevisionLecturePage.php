@@ -51,7 +51,7 @@ class RevisionLecturePage extends CActiveRecord
 		return array(
 			array('id_revision, page_order', 'required'),
 			array('id_page, id_parent_page, id_revision, page_order, video, quiz', 'numerical', 'integerOnly'=>true),
-			array('page_title', 'length', 'max'=>255),
+			array('page_title', 'length', 'max'=>75),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, id_page, id_parent_page, id_revision, page_title, page_order, video, quiz', 'safe', 'on'=>'search'),
@@ -559,11 +559,11 @@ class RevisionLecturePage extends CActiveRecord
         if ($idBlock == $this->video) {
             return $this->getVideo();
         }
-        if ($idBlock = $this->quiz) {
+        if ($idBlock == $this->quiz) {
             return $this->getQuiz();
         }
         foreach ($this->lectureElements as $lectureElement) {
-            if ($lectureElement->id = $idBlock) {
+            if ($lectureElement->id == $idBlock) {
                 return $lectureElement;
             }
         }

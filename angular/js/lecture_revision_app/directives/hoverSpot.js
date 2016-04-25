@@ -3,7 +3,7 @@
  */
 //Change tooltips when lecture spots hover
 angular
-    .module('revisionPreviewApp')
+    .module('lecturePreviewRevisionApp')
     .directive('hoverSpot', hoverSpot);
 
 function hoverSpot() {

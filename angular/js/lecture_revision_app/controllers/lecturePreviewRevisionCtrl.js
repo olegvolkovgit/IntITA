@@ -2,17 +2,22 @@
  * Created by Wizlight on 03.11.2015.
  */
 angular
-    .module('revisionPreviewApp')
-    .controller('lectureRevisionCtrl',lectureRevisionCtrl);
+    .module('lecturePreviewRevisionApp')
+    .controller('lecturePreviewRevisionCtrl',lecturePreviewRevisionCtrl);
 
-function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
+function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData) {
+    //load from service lecture data for scope
     getLectureData.getData(idRevision).then(function(response){
         $rootScope.lectureData=response;
     });
+    $scope.editPageRevision = function(pageId) {
+        location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
+    };
 
     $scope.editRevision = function(url) {
         location.href = url;
     };
+    //edit revision status
     $scope.sendRevision = function(id) {
         $http({
             url: basePath+'/revision/sendForApproveLecture',

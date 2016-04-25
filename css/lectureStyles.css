@@ -927,8 +927,9 @@ a.cke_dialog_ui_fileButton{
     border-radius: 5px;
     padding: 5px;
 }
-.pageTitle{
+.pageTitleCke{
     font-size: 24px;
+    margin-bottom: 5px;
 }
 .videoLink{
     font-size: 20px;

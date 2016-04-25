@@ -56,7 +56,7 @@ class RevisionController extends Controller {
         }
 
         if (!$lectureRevision->isEditable()) {
-            throw new RevisionControllerException(400, 'This lecture cannot be modified.');
+            throw new RevisionControllerException(400, 'Цю ревізію редагувати не можна');
         }
         $this->render("lectureview", array(
             "lectureRevision" => $lectureRevision,
@@ -118,9 +118,12 @@ class RevisionController extends Controller {
     public function actionEditPageRevision($idPage) {
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
-
+        $lectureRevision=RevisionLecture::model()->findByPk($page->id_revision);
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
+        }
+        if (!$lectureRevision->isEditable()) {
+            throw new RevisionControllerException(400, 'This lecture cannot be modified.');
         }
 
         $lectureBody = $page->getLectureBody();
@@ -338,7 +341,6 @@ class RevisionController extends Controller {
 
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
-
         $lectureRev->approve(Yii::app()->user);
     }
 
@@ -479,9 +481,7 @@ class RevisionController extends Controller {
         }
         $quiz['answers'] = $options;
 
-
         $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
-
         $lectureRevision->addLectureElement($pageId, ['idType' => $idType,
             'html_block' => $htmlBlock,
             'quiz' => $quiz]);

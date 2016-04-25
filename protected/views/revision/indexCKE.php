@@ -42,6 +42,7 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getTaskJson.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/directives/ajaxLoader.js'); ?>"></script>
 
 
 <script type="text/javascript">
@@ -71,6 +72,9 @@ $this->breadcrumbs = array(
         saveBtn='<?php echo addslashes(Yii::t('lecture', '0771')); ?>';
         closeBtn='<?php echo addslashes(Yii::t('lecture', '0772')); ?>';
             ">
+        </div>
+        <div data-loading id="loaderContainer">
+            <img id="ajaxLoader" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
         </div>
         <div id="lecturePage">
             <h1 class="lessonPart lessonEditPart">

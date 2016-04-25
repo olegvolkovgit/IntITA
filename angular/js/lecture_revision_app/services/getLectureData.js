@@ -2,7 +2,7 @@
  * Created by Wizlight on 22.04.2016.
  */
 angular
-    .module('revisionPreviewApp')
+    .module('revisionServices',[])
     .service('getLectureData', [
         '$http',
         function($http) {

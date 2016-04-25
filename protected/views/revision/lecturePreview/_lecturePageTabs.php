@@ -25,6 +25,11 @@
                hover-spot="{{$index}}">
                 <div class="spotDone"></div>
             </a>
+            <div class="editPageIco">
+                <img ng-if=lectureData.lecture.canEdit ng-click=editPageRevision(lectureData.pages[currentPage-1].id)
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
+                     title="<?php echo Yii::t('lecture', '0686') ?>"/>
+            </div>
         </div>
         <?php $this->renderPartial('lecturePreview/_page'); ?>
     </div>

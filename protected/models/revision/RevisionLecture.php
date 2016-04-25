@@ -598,7 +598,7 @@ class RevisionLecture extends CActiveRecord
      */
     private function getPageById($pageId) {
         foreach ($this->lecturePages as $lecturePage) {
-            if ($lecturePage->id = $pageId) {
+            if ($lecturePage->id == $pageId) {
                 return $lecturePage;
             }
         }
