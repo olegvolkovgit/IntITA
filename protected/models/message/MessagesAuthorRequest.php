@@ -306,4 +306,12 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             return true;
         else return false;
     }
+
+    public function isApproved(){
+        if($this->date_approved != null && $this->user_approved != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -20,7 +20,7 @@
 class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_teacherConsultantModuleRequest';
-    const TYPE = 4;
+    const TYPE = MessagesType::TEACHER_CONSULTANT_REQUEST;
     private $receivers = array();
     private $module;
     private $author;
@@ -288,5 +288,13 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 
     public function message(){
         return $this->message0;
+    }
+
+    public function isApproved(){
+        if($this->date_approved != null && $this->user_approved != null){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

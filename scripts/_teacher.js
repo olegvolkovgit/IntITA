@@ -389,6 +389,7 @@ function performOperationWithConfirm(url, message, data, callback){
 function initTeacherConsultationsTable(){
     $jq('#consultationsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 2, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_consultant/consultant/getConsultationsList",
             "dataSrc": "data"
@@ -554,6 +555,7 @@ function checkMandatory()
 function initConsultationsTable(){
     $jq('#studentConsultationsTable').DataTable({
         "autoWidth": false,
+        "order": [[ 2, "desc" ]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getConsultationsList",
             "dataSrc": "data"
