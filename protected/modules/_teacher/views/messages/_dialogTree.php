@@ -23,16 +23,18 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                 <strong>
                                     <?= $message->message0->sender0->userName() . ", " . $message->message0->sender0->email; ?>
                                 </strong>
-                            <?php } else {?>
-<!--                                <img src="--><?//= StaticFilesHelper::createImagePath('mainpage', 'Logo_small.png') ?><!--" id="avatar"-->
-<!--                                     style="height:24px"/>-->
+                            <?php } else { ?>
+                                <!--                                <img src="--><?//= StaticFilesHelper::createImagePath('mainpage', 'Logo_small.png') ?><!--" id="avatar"-->
+                                <!--                                     style="height:24px"/>-->
                                 <strong>
-                                    INTITA, no-reply@<?=Config::getBaseUrlWithoutSchema();?>
+                                    INTITA, no-reply@<?= Config::getBaseUrlWithoutSchema(); ?>
                                 </strong>
-                            <?php }?>
-                            <em>
-                                <div><?= $message->subject(); ?></div>
-                            </em>
+                            <?php } ?>
+                            <div>
+                                <em>
+                                    <?= $message->subject(); ?>
+                                </em>
+                            </div>
                         </a>
                         <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date); ?></em>
