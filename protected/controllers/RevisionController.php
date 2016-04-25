@@ -60,7 +60,6 @@ class RevisionController extends Controller {
         }
         $this->render("lectureview", array(
             "lectureRevision" => $lectureRevision,
-            "idRevision" => $idRevision,
             "pages" => $lectureRevision->lecturePages
         ));
     }
@@ -124,7 +123,6 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $video = $page->getVideo();
         $lectureBody = $page->getLectureBody();
         $dataProvider = new CArrayDataProvider($lectureBody);
         $quiz = $page->getQuiz();
@@ -132,31 +130,51 @@ class RevisionController extends Controller {
         $this->render("indexCKE", array(
             'user' => Yii::app()->user->getId(),
             "page" => $page,
-            "video" => $video,
             "dataProvider" => $dataProvider,
             "quiz" => $quiz));
     }
 
     public function actionAddVideo() {
-
         $idPage = Yii::app()->request->getPost("idPage");
         $url = Yii::app()->request->getPost("url");
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
+        $idRevision = $page->id_revision;
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
+        $page->saveVideo($url);
 
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    public function actionEditVideo() {
+        $idElement = Yii::app()->request->getPost("pk");
+        $element=RevisionLectureElement::model()->findByPk($idElement);
+        $url = Yii::app()->request->getPost("value");
+        $page = RevisionLecturePage::model()->findByPk($element->id_page);
+        $idRevision = $page->id_revision;
+
+        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+            throw new RevisionControllerException(403, 'Access denied.');
+        }
         $page->saveVideo($url);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionEditPageTitle() {
-        $idPage = Yii::app()->request->getPost("idPage");
-        $title = Yii::app()->request->getPost("title");
+    public function actionDeleteVideo() {
+        $idPage = Yii::app()->request->getPost('idPage');
         $page = RevisionLecturePage::model()->findByPk($idPage);
+        $page->deleteVideo();
+    }
+
+    public function actionEditPageTitle() {
+        $idPage = Yii::app()->request->getPost("pk");
+        $title = Yii::app()->request->getPost("value");
+
+        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $idRevision = $page->id_revision;
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
@@ -632,22 +650,6 @@ class RevisionController extends Controller {
         echo CJSON::encode($data);
     }
 
-    public function actionLecturePages() {
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
-        $editor = $this->isUserEditor(Yii::app()->user, $lectureRevision);
-        $editable = $lectureRevision->isEditable();
-        $data = [];
-        foreach ($lectureRevision->lecturePages as $key => $page) {
-            $data[$key]["id"] = $page->id;
-            $data[$key]["page_title"] = $page->page_title;
-            $data[$key]["page_order"] = $page->page_order;
-            $data[$key]["editor"] = $editor;
-            $data[$key]["editable"] = $editable;
-        }
-        echo CJSON::encode($data);
-    }
-
     /**
      * Legacy methods
      *
@@ -686,18 +688,6 @@ class RevisionController extends Controller {
         $lesson = Lecture::model()->findByPk($idLesson);
 
         $lesson->saveBlock($order, $content, Yii::app()->user->getId());
-    }
-
-    public function actionDeleteVideo() {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $pageOrder = Yii::app()->request->getPost('pageOrder');
-
-        $lecture = Lecture::model()->findByPk($idLecture);
-
-        $lecture->deleteVideo($pageOrder, Yii::app()->user->getId());
-
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     //reorder blocks on lesson page - up block

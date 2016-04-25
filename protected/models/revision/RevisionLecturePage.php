@@ -145,7 +145,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function saveCheck($runValidation=true,$attributes=null) {
         if(!$this->save($runValidation,$attributes)) {
-            throw new RevisionLecturePageException(implode("; ", $this->getErrors()));
+            throw new RevisionLecturePageException('400',implode("; ", $this->getErrors()[$attributes]));
         }
     }
 
@@ -244,11 +244,15 @@ class RevisionLecturePage extends CActiveRecord
      * Adds video block or edit if the video bloc exists
      * @param $url
      * @throws RevisionLecturePageException
+     * @throws RevisionLectureElementException
      */
     public function saveVideo($url) {
         if ($this->video != null) {
             $videoElement = RevisionLectureElement::model()->findByPk($this->video);
             $videoElement->html_block = $url;
+            $videoElement->setScenario('videoLink');
+            if(!$videoElement->validate())
+                throw new RevisionLectureElementException('400',implode("; ", $videoElement->getErrors()["html_block"]));
             $videoElement->saveCheck();
         } else {
             $videoElement = new RevisionLectureElement();
@@ -256,6 +260,17 @@ class RevisionLecturePage extends CActiveRecord
             $this->video = $videoElement->id;
             $this->saveCheck();
         }
+    }
+    /**
+     * Delete video block
+     * @throws RevisionLecturePageException
+     */
+    public function deleteVideo()
+    {
+        $videoElement = RevisionLectureElement::model()->findByPk($this->video);
+        $this->video = null;
+        $this->saveCheck();
+        $videoElement->delete();
     }
 
     /**
@@ -265,7 +280,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function setTitle($title) {
         $this->page_title = $title;
-        $this->saveCheck();
+        $this->saveCheck(true,'page_title');
     }
 
     /**
