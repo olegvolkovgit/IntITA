@@ -7,9 +7,9 @@
  */
 $user = $params[0];
 $revision = $params[1];
-$comment = $params[2]
+$comment = $params[2];
 ?>
-Ваша ревізія № <a href="<?=Yii::app()->createAbsoluteUrl('revision/showRevision', array('id' => $revision->id_revision));?>"
+Ваша ревізія № <a href="<?=Yii::app()->createAbsoluteUrl('revision/previewLectureRevision', array('idRevision' => $revision->id_revision));?>"
  target="_blank">
     <?=$revision->id_revision;?>
 </a>
@@ -17,7 +17,7 @@ $comment = $params[2]
 з таким коментарем <q><?=$comment;?></q>
 <?php }?>.
 Переглянути відхилені зміни можна за посиланням
-<a href="<?=Yii::app()->createAbsoluteUrl('revision/showRevision', array('id' => $revision->id_revision));?>"
+<a href="<?=Yii::app()->createAbsoluteUrl('revision/previewLectureRevision', array('idRevision' => $revision->id_revision));?>"
    target="_blank">Ревізія</a>.
 
 

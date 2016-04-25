@@ -215,7 +215,7 @@ class MessagesRejectRevision extends Messages implements IMessage
 
     public function text(){
         $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->template, array($this->message0->sender0, $this->revision,
+        $sender->renderBodyTemplate($this->template, array($this->message0->sender0, $this->idRevision,
             substr($this->comment, 0, 50)));
         return $sender->template();
     }

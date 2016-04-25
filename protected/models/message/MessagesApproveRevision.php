@@ -210,16 +210,8 @@ class MessagesApproveRevision extends Messages implements IMessage
 	}
 
 	public function text(){
-		if(!$this->billableObject){
-			if($this->service_id == null) {
-				return "Вітаємо!<br> Тобі надано доступ до лекцій модуля N!.";
-			} else {
-				$service = AbstractIntITAService::getServiceById($this->service_id);
-				$this->billableObject = $service->getBillableObject();
-			}
-		}
 		$sender = new MailTransport();
-		$sender->renderBodyTemplate($this->billableObject->paymentMailTemplate(), array($this->billableObject));
+		$sender->renderBodyTemplate($this->template, array($this->message0->sender0, $this->idRevision));
 		return $sender->template();
 	}
 

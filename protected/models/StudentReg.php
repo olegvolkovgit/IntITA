@@ -803,8 +803,10 @@ class StudentReg extends CActiveRecord
 
         $userMessages = UserMessages::model()->findAll($criteria);
         $paymentMessages = MessagesPayment::model()->findAll($criteria);
+        $approveRevisionMessages = MessagesApproveRevision::model()->findAll($criteria);
+        $rejectRevisionMessages = MessagesRejectRevision::model()->findAll($criteria);
 
-        $all = array_merge($userMessages, $paymentMessages);
+        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages);
         $user = Yii::app()->user->model;
 //        if($user->isAdmin() || $user->isContentManager()){
 //            $criteria1 = new CDbCriteria();
@@ -839,7 +841,8 @@ class StudentReg extends CActiveRecord
         $criteria->order = 'm.id DESC';
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
         $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id.' and
-        (m.type='.MessagesType::USER.' or m.type='.MessagesType::PAYMENT.')');
+        (m.type='.MessagesType::USER.' or m.type='.MessagesType::PAYMENT.' or m.type='.MessagesType::APPROVE_REVISION.'
+         or m.type='.MessagesType::REJECT_REVISION.')');
 
         return Messages::model()->findAll($criteria);
     }
