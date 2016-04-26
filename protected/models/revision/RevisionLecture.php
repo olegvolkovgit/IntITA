@@ -305,6 +305,7 @@ class RevisionLecture extends CActiveRecord
      * Rejects lecture revision
      * @param $user
      * @throws RevisionLecturePropertiesException
+     * @throws \application\components\Exceptions\IntItaException
      */
     public function reject ($user) {
         if ($this->isRejectable()) {
@@ -597,6 +598,11 @@ class RevisionLecture extends CActiveRecord
             return $page->deleteLectureElement($idBlock);
         }
         return false;
+    }
+
+    public function setPageTitle($idPage, $title) {
+        $page = $this->getPageById($idPage);
+        $page->setTitle($title);
     }
 
     /**

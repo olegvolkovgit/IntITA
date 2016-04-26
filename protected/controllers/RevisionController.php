@@ -101,24 +101,26 @@ class RevisionController extends Controller {
         echo $json;
     }
 
-    public function actionNewPageRevision() {
-
-        $idPage = Yii::app()->request->getPost("idPage");
-
-        $pageRevision = RevisionLecturePage::model()->findByPk($idPage);
-
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($pageRevision->id_revision))) {
-            throw new RevisionControllerException(403, 'Access denied.');
-        }
-
-        $newRevision = $pageRevision->clonePage();
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
+//    public function actionNewPageRevision() {
+//
+//        $idPage = Yii::app()->request->getPost("idPage");
+//
+//        $pageRevision = RevisionLecturePage::model()->findByPk($idPage);
+//
+//        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($pageRevision->id_revision))) {
+//            throw new RevisionControllerException(403, 'Access denied.');
+//        }
+//
+//        $newRevision = $pageRevision->clonePage();
+//        $this->redirect(Yii::app()->request->urlReferrer);
+//    }
 
     public function actionEditPageRevision($idPage) {
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
+
         $lectureRevision=RevisionLecture::model()->findByPk($page->id_revision);
+
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
@@ -201,18 +203,22 @@ class RevisionController extends Controller {
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * curl -XPOST http://intita.project/revision/EditPageTitle -d 'idRevision=139&pk=694&value=title'  -b XDEBUG_SESSION=PHPSTORM
+     * @throws RevisionControllerException
+     */
     public function actionEditPageTitle() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
         $idPage = Yii::app()->request->getPost("pk");
         $title = Yii::app()->request->getPost("value");
 
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-        $idRevision = $page->id_revision;
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->setTitle($title);
+        $lectureRevision->setPageTitle($idPage, $title);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
