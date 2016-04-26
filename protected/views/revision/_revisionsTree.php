@@ -1,70 +1,11 @@
+<div class="form-group">
+    <label for="input-select-node">Пошук ревізії:</label>
+    <input type="input" class="form-control" id="input-select-node" placeholder="Ідентифікатор ревізії">
+</div>
+<div class="form-group">
+    <input type="button" class="btn btn-secondary" value="Очистити пошук" ng-click="clearSearch()">
+    <input type="button" class="btn btn-secondary" value="Звернути дерево" ng-click="collapseAll()">
+    <input type="button" class="btn btn-secondary" value="Розвернути дерево" ng-click="expandAll()">
+</div>
 <div id="tree">
 </div>
-
-<script>
-
-    function getTree() {
-        "use strict";
-        // Some logic to retrieve, or generate tree structure
-        var treeData = <?=$json?>;
-        addButtons(treeData);
-        return treeData;
-    }
-
-    $('#tree').treeview({
-        data: getTree(),
-        levels: 0
-    });
-
-    function editRevision(idRevision) {
-        location.href = "<?=Yii::app()->createUrl('/revision/EditLectureRevision');?>" + '?idRevision=' + idRevision;
-    }
-
-    function sendRevision(idRevision) {
-        $.ajax({
-            method: "POST",
-            url: "<?=Yii::app()->createUrl('/revision/SendForApproveLecture');?>",
-            data: {idRevision:idRevision}
-        })
-    }
-    function cancelSendRevision(idRevision) {
-        $.ajax({
-            method: "POST",
-            url: "<?=Yii::app()->createUrl('/revision/cancelSendForApproveLecture');?>",
-            data: {idRevision:idRevision}
-        })
-    }
-
-    function reject(idRevision) {
-        $.ajax({
-            method: "POST",
-            url: "<?=Yii::app()->createUrl('/revision/rejectLectureRevision');?>",
-            data: {idRevision:idRevision}
-        })
-    }
-
-    function approve(idRevision) {
-        $.ajax({
-            method: "POST",
-            url: "<?=Yii::app()->createUrl('/revision/approveLectureRevision');?>",
-            data: {idRevision:idRevision}
-        })
-    }
-
-    function cancel(idRevision) {
-        $.ajax({
-            method: "POST",
-            url: "<?=Yii::app()->createUrl('/revision/cancelLectureRevision');?>",
-            data: {idRevision:idRevision}
-        })
-    }
-
-    function previewRevision(idRevision) {
-        location.href = "<?=Yii::app()->createUrl('/revision/previewLectureRevision');?>" + '?idRevision=' + idRevision;
-    }
-
-    function createRevision(idRevision) {
-        location.href = "<?=Yii::app()->createUrl('/revision/createLectureRevision');?>" + '?idRevision=' + idRevision;
-    }
-
-</script>
