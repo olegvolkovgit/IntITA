@@ -143,7 +143,7 @@ $this->breadcrumbs = array(
                         </div>
                         <div ng-class="{content: instructionStyle}" >
                             <?php
-                            $this->renderPartial('/revision/_addBlockCKE', array('idPage' => $page->id, 'editMode' => 1));
+                            $this->renderPartial('/revision/_addBlockCKE', array('idPage' => $page->id, 'idRevision' => $page->id_revision, 'editMode' => 1));
                             ?>
                         </div>
                     </div>
