@@ -570,7 +570,7 @@ class RevisionLecture extends CActiveRecord
 
     /**
      * @param integer $pageId
-     * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar']
+     * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar', quiz=>[] ]
      */
     public function addLectureElement($pageId, $lectureElementData){
         $page = $this->getPageById($pageId);
@@ -582,7 +582,7 @@ class RevisionLecture extends CActiveRecord
 
     /**
      * @param integer $pageId
-     * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar']
+     * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar', quiz=>[]]
      */
     public function editLectureElement($pageId, $lectureElementData) {
         $page = $this->getPageById($pageId);
