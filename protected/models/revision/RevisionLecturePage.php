@@ -246,32 +246,32 @@ class RevisionLecturePage extends CActiveRecord
      * @throws RevisionLecturePageException
      * @throws RevisionLectureElementException
      */
-    public function saveVideo($url) {
-        if ($this->video != null) {
-            $videoElement = RevisionLectureElement::model()->findByPk($this->video);
-            $videoElement->html_block = $url;
-            $videoElement->setScenario('videoLink');
-            if(!$videoElement->validate())
-                throw new RevisionLectureElementException('400',implode("; ", $videoElement->getErrors()["html_block"]));
-            $videoElement->saveCheck();
-        } else {
-            $videoElement = new RevisionLectureElement();
-            $videoElement->initVideoElement($url, $this->id);
-            $this->video = $videoElement->id;
-            $this->saveCheck();
-        }
-    }
+//    public function saveVideo($url) {
+//        if ($this->video != null) {
+//            $videoElement = RevisionLectureElement::model()->findByPk($this->video);
+//            $videoElement->html_block = $url;
+//            $videoElement->setScenario('videoLink');
+//            if(!$videoElement->validate())
+//                throw new RevisionLectureElementException('400',implode("; ", $videoElement->getErrors()["html_block"]));
+//            $videoElement->saveCheck();
+//        } else {
+//            $videoElement = new RevisionLectureElement();
+//            $videoElement->initVideoElement($url, $this->id);
+//            $this->video = $videoElement->id;
+//            $this->saveCheck();
+//        }
+//    }
     /**
      * Delete video block
      * @throws RevisionLecturePageException
      */
-    public function deleteVideo()
-    {
-        $videoElement = RevisionLectureElement::model()->findByPk($this->video);
-        $this->video = null;
-        $this->saveCheck();
-        $videoElement->delete();
-    }
+//    public function deleteVideo()
+//    {
+//        $videoElement = RevisionLectureElement::model()->findByPk($this->video);
+//        $this->video = null;
+//        $this->saveCheck();
+//        $videoElement->delete();
+//    }
 
     /**
      * Sets or update title
