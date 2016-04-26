@@ -5,7 +5,9 @@ angular
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
     $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
-
+    $scope.previewRevision = function(url) {
+        location.href=url;
+    };
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
@@ -227,34 +229,53 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.removeEditHtml= function(){
         $scope.myEditCodeMirror.setValue($scope.myEditCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
     }
-    $scope.editPageTitle=function(idPage){
-        var pageTitle=angular.element(document.querySelector("#pageTitle"));
-        $http({
-            url: basePath+'/revision/editPageTitle',
-            method: "POST",
-            data: $.param({idPage: idPage, title: pageTitle.val()}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        })
-            .success(function (response) {
-                bootbox.alert('Назву сторінки відредаговано');
-            })
-            .error(function () {
-                bootbox.alert('Назву сторінки відредагувати не вдалося');
-            })
-    }
-    $scope.editPageVideo=function(idPage){
+    $scope.addPageVideo=function(idPage,idRevision){
         var pageVideo=angular.element(document.querySelector("#pageVideo"));
         $http({
             url: basePath+'/revision/addVideo',
             method: "POST",
-            data: $.param({idPage: idPage, url: pageVideo.val()}),
+            data: $.param({idPage: idPage, idRevision: idRevision, url: pageVideo.val()}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         })
-            .success(function (response) {
-                bootbox.alert('Посилання на відео відредаговано');
+            .success(function () {
+                bootbox.alert('Відео додано', function () {
+                    location.reload();
+                });
             })
             .error(function () {
-                bootbox.alert('Посилання на відео відредагувати не вдалося');
+                bootbox.alert('Посилання на відео додати не вдалося');
             })
+    };
+    $scope.deleteVideo=function(idPage,idRevision,idElement){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити відео?')
+            .then(function() {
+                $http({
+                    url: basePath + '/revision/deleteVideo',
+                    method: "POST",
+                    data: $.param({idPage: idPage, idRevision: idRevision, pk: idElement}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Видалити відео не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+            });
+    }
+    $scope. deleteTest=function(revisionId,pageId,idBlock){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити тест?')
+            .then(function() {
+                $http({
+                    url: basePath + '/revision/deleteTest',
+                    method: "POST",
+                    data: $.param({revisionId: revisionId,pageId: pageId,idBlock: idBlock}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Видалити тест не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+            });
     }
 }

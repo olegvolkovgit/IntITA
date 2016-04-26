@@ -66,19 +66,33 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionCreate()
     {
+        $messageId = Yii::app()->request->getPost('message', 0);
+        $userApproved = Yii::app()->request->getPost('user', 0);
+
         $model = new Teacher;
 
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
-            if ($model->save()) {
+             if ($model->save()) {
+                if($messageId && $userApproved){
+                    $message = MessagesCoworkerRequest::model()->findByPk($messageId);
+                    $user = StudentReg::model()->findByPk($userApproved);
+                    $message->approve($user);
+                }
                 $this->redirect($this->pathToCabinet());
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
             }
         }
+        $predefinedUser = null;
+        if($messageId && $userApproved){
+            $predefinedUser = StudentReg::model()->findByPk($userApproved);
+        }
 
         $this->renderPartial('create', array(
             'model' => $model,
+            'message' => $messageId,
+            'predefinedUser' => $predefinedUser
         ),false,true);
     }
 

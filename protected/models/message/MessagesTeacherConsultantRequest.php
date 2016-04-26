@@ -20,7 +20,7 @@
 class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_teacherConsultantModuleRequest';
-    const TYPE = 4;
+    const TYPE = MessagesType::TEACHER_CONSULTANT_REQUEST;
     private $receivers = array();
     private $module;
     private $author;
@@ -229,8 +229,10 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         } else return "Обраний викладач вже призначений викладачем-консультантом по даному модулю.";
     }
 
-    public function isRequestOpen($module, $user)
+    public function isRequestOpen($params)
     {
+        $module = $params[0];
+        $user = $params[1];
         return (Yii::app()->db->createCommand(array(
                 'select' => 'count(*)',
                 'from' => 'messages_teacher_consultant_request mr',
@@ -286,5 +288,13 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 
     public function message(){
         return $this->message0;
+    }
+
+    public function isApproved(){
+        if($this->date_approved != null && $this->user_approved != null){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

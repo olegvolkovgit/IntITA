@@ -15,6 +15,13 @@ class Author extends Role
     }
 
     /**
+     * @return string sql for check role author.
+     */
+    public function checkRoleSql(){
+        return 'select "author" from teacher_module tm where tm.idTeacher = :id and end_time IS NULL';
+    }
+
+    /**
      * @return string the role title (ua)
      */
     public function title(){
@@ -31,7 +38,7 @@ class Author extends Role
             ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time')
             ->from('teacher_module tm')
             ->join('module m', 'm.module_ID=tm.idModule')
-            ->where('idTeacher=:id', array(':id' => $user->getTeacherModel()->teacher_id))
+            ->where('idTeacher=:id', array(':id' => $user->id))
             ->queryAll();
 
         $list = [];
@@ -61,10 +68,10 @@ class Author extends Role
     {
         switch ($attribute) {
             case 'module':
-                if($this->checkModule($user->getTeacherModel()->teacher_id, $value)) {
+                if($this->checkModule($user->id, $value)) {
                     return Yii::app()->db->createCommand()->
                     insert('teacher_module', array(
-                        'idTeacher' => $user->getTeacherModel()->teacher_id,
+                        'idTeacher' => $user->id,
                         'idModule' => $value
                     ));
                 } else {
@@ -83,6 +90,13 @@ class Author extends Role
         else return true;
     }
 
+    public function isTeacherAuthorModule($teacher, $module){
+        if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
+            ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar())
+            return true;
+        else return false;
+    }
+
     public function cancelAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
@@ -90,7 +104,7 @@ class Author extends Role
                 return Yii::app()->db->createCommand()->
                 update('teacher_module', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'idTeacher=:user and idModule=:module', array(':user' => $user->getTeacherModel()->teacher_id, 'module' => $value));
+                ), 'idTeacher=:user and idModule=:module', array(':user' => $user->id, 'module' => $value));
                 break;
             default:
                 return false;

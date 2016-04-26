@@ -8,6 +8,10 @@ class MessagesFactory
                 return UserMessages::model()->findByPk($model->id);
             case MessagesType::PAYMENT:
                 return MessagesPayment::model()->findByPk($model->id);
+            case MessagesType::APPROVE_REVISION:
+                return MessagesApproveRevision::model()->findByPk($model->id);
+            case MessagesType::REJECT_REVISION:
+                return MessagesRejectRevision::model()->findByPk($model->id);
 //            case MessagesType::AUTHOR_REQUEST:
 //                return MessagesAuthorRequest::model()->findByPk($model->id);
 //            case MessagesType::TEACHER_CONSULTANT_REQUEST:

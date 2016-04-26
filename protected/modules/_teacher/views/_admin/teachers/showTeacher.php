@@ -47,7 +47,7 @@
         <div class="col-md-9">
             <ul class="list-group">
                 <li class="list-group-item">Ім'я:
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>">
                         <?php echo $teacher->getName() ?></a></li>
                 <li class="list-group-item">Електронна пошта: <?php echo $teacher->user->email; ?></li>
                 <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
@@ -67,16 +67,7 @@
                                            '<?= $teacher->user_id; ?>');"><em>скасувати</em>
                                     </a>
                                 </li>
-                            <?php }
-                            if ($user->isAuthor()) { ?>
-                                <li>
-                                    author: <a href="#"
-                                               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','<?=addslashes($teacher->user->userName()).", роль author"; ?>')"><em>редагувати</em>
-                                    </a>
-                                </li>
-                            <?php }
-                            ?>
+                            <?php } ?>
                         </ul>
                     </li>
                 <?php } ?>

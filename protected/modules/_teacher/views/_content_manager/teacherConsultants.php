@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <ul id="accessTabs" class="nav nav-tabs">
-            <li class="active"><a href="#all" data-toggle="tab">Викладачі-консультанти</a>
+            <li class="active"><a href="#all" data-toggle="tab">Викладачі</a>
             </li>
         </ul>
         <div class="tab-content">

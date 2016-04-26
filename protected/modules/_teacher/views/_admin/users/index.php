@@ -11,6 +11,8 @@
             </li>
             <li><a href="#students" data-toggle="tab">Студенти (<?=$counters["students"];?>)</a>
             </li>
+            <li><a href="#teacher" data-toggle="tab">Співробітники (<?=$counters["teachers"];?>)</a>
+            </li>
             <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ролі користувачів
                 <span class="caret"></span></a>
@@ -19,11 +21,9 @@
                     </li>
                     <li><a href="#accountant" data-toggle="tab">Бухгалтери (<?=$counters["accountants"];?>)</a>
                     </li>
-                    <li><a href="#teacher" data-toggle="tab">Співробітники (<?=$counters["teachers"];?>)</a>
-                    </li>
                     <li><a href="#content_manager" data-toggle="tab">Контент менеджери (<?=$counters["contentManagers"];?>)</a>
                     </li>
-                    <li><a href="#teacher_consultant" data-toggle="tab">Викладачі-консультанти (<?=$counters["teacherConsultants"];?>)</a>
+                    <li><a href="#teacher_consultant" data-toggle="tab">Викладачі (<?=$counters["teacherConsultants"];?>)</a>
                     </li>
                     <li><a href="#trainer" data-toggle="tab">Тренери (<?=$counters["trainers"];?>)</a>
                     </li>

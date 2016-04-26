@@ -28,7 +28,7 @@ if ($idCourse != 0) {
     lang = '<?php echo CommonHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
     basePath = '<?php echo  Config::getBaseUrl(); ?>';
-    idTeacher = '<?php echo Teacher::getTeacherId($user);?>';
+    idTeacher = '<?php echo $user;?>';
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>

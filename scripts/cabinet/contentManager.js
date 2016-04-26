@@ -74,6 +74,26 @@ function cancelTeacherAccessCM(url) {
     }
 }
 
+function assignRoleCM(url, role) {
+    user = $jq("#userId").val();
+    if (user == 0) {
+        bootbox.alert('Виберіть користувача.');
+    } else {
+        var posting = $jq.post(url, {userId: user, role: role});
+        posting.done(function (response) {
+                bootbox.alert(response, function(){
+                    window.history.back();
+                });
+            })
+            .fail(function () {
+                bootbox.alert("Користувачу не вдалося призначити обрану роль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail, function(){
+                    window.history.back();
+                });
+            });
+    }
+}
+
 function selectTeacherModules(url, teacher) {
     if (teacher == 0) {
         bootbox.alert("Виберіть викладача.");
@@ -246,12 +266,12 @@ function  initAuthorsTableCM(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">'+name["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' +  name["url"] + '\', \'Автор модуля\');">'+ name["title"] +'</a>';
                 }},
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Автор модуля\');">'+email["title"]+'</a>';
+                    return '<a href="#" onclick="load( \'' +  email["url"] + '\', \'Автор модуля\');">'+ email["title"] +'</a>';
                 }
             }
         ],

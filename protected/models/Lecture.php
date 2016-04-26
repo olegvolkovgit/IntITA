@@ -345,8 +345,15 @@ class Lecture extends CActiveRecord
     public static function accessLecture($id, $order, $enabledOrder,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         $user = Yii::app()->user->getId();
+        $editMode = false;
+        if(!Yii::app()->user->isGuest) {
+            if (Yii::app()->user->model->isAuthor()) {
+                $model = new Author();
+                $editMode = $model->checkModule($user, $lecture->idModule);
+            }
+        }
+
         if (Yii::app()->user->isGuest) {
             return false;
         } else {
