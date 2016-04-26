@@ -20,14 +20,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
-        $lecturesTree = RevisionLecture::getLecturesTree();
-
-        $json = $this->buildLectureTreeJson($lectureRev, $lecturesTree);
-
-        $this->render('index', array(
-            'json' => $json
-        ));
+        $this->render('index');
     }
 
     public function actionCreateNewLecture() {
@@ -515,7 +508,7 @@ class RevisionController extends Controller {
         ));
     }
 
-    public function actionLecturesRevisionsInModule() {
+    public function actionBuildRevisionsInModule() {
         $idModule = Yii::app()->request->getPost('idModule');
         $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
@@ -523,12 +516,20 @@ class RevisionController extends Controller {
 
         echo $json;
     }
-    public function actionLectureRevisions() {
+    public function actionBuildLectureRevisions() {
         $idLecture = Yii::app()->request->getPost('idLecture');
         $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
         $relatedRev = $lectureRev->getRelatedLectures();
         $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
         $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+
+        echo $json;
+    }
+    public function actionBuildAllRevisions() {
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $lecturesTree = RevisionLecture::getLecturesTree();
+        $json = $this->buildLectureTreeJson($lectureRev, $lecturesTree);
+
         echo $json;
     }
 

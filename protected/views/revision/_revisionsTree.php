@@ -4,8 +4,8 @@
 </div>
 <div class="form-group">
     <input type="button" class="btn btn-secondary" value="Очистити пошук" ng-click="clearSearch()">
-    <input type="button" class="btn btn-secondary" value="Звернути дерево" ng-click="collapseAll()">
-    <input type="button" class="btn btn-secondary" value="Розвернути дерево" ng-click="expandAll()">
+    <input type="button" class="btn btn-secondary" value="Згорнути дерево" ng-click="collapseAll()">
+    <input type="button" class="btn btn-secondary" value="Розгорнути дерево" ng-click="expandAll()">
 </div>
 <div id="tree">
 </div>

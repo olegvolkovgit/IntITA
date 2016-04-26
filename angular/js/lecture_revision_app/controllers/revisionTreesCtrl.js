@@ -6,33 +6,36 @@ angular
     .controller('revisionTreesCtrl',revisionTreesCtrl);
 
 function revisionTreesCtrl($compile, $scope, $http) {
-    if(idLecture)var idTree=idLecture;
-        else var idTree=idModule;
+    if(idLecture) var idTree=idLecture;
+        else if(idModule) var idTree=idModule;
+    else idTree=null;
 
     //load current lectures from main BD
-    $scope.getCurrentLectures = function(idModule) {
-        var promise = $http({
-            url: basePath+'/revision/buildCurrentLectureJson',
-            method: "POST",
-            data: $.param({idModule: idModule}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            return response.data;
-        }, function errorCallback() {
-            bootbox.alert("Виникла помилка при завантажені списку актуальних занять модуля. Зв'яжіться з адміністрацією");
-            return false;
+    if(idModule) {
+        $scope.getCurrentLectures = function (idModule) {
+            var promise = $http({
+                url: basePath + '/revision/buildCurrentLectureJson',
+                method: "POST",
+                data: $.param({idModule: idModule}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                return response.data;
+            }, function errorCallback() {
+                bootbox.alert("Виникла помилка при завантажені списку актуальних занять модуля. Зв'яжіться з адміністрацією");
+                return false;
+            });
+            return promise;
+        };
+        $scope.getCurrentLectures(idModule).then(function (response) {
+            $scope.currentLectures = response;
         });
-        return promise;
-    };
-    $scope.getCurrentLectures(idModule).then(function(response){
-        $scope.currentLectures=response;
-    });
+    }
 
     //lectures json for revision tree
     if(idLecture){
         $scope.getLectureRevisionsJson = function(idLecture) {
             var promise = $http({
-                url: basePath+'/revision/lectureRevisions',
+                url: basePath+'/revision/buildLectureRevisions',
                 method: "POST",
                 data: $.param({idLecture: idLecture}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -44,10 +47,10 @@ function revisionTreesCtrl($compile, $scope, $http) {
             });
             return promise;
         };
-    }else{
+    }else if(idModule){
         $scope.getLectureRevisionsJson = function(idModule) {
             var promise = $http({
-                url: basePath+'/revision/lecturesRevisionsInModule',
+                url: basePath+'/revision/buildRevisionsInModule',
                 method: "POST",
                 data: $.param({idModule: idModule}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -55,6 +58,20 @@ function revisionTreesCtrl($compile, $scope, $http) {
                 return response.data;
             }, function errorCallback() {
                 bootbox.alert("Виникла помилка при завантажені списку ревізій модуля. Зв'яжіться з адміністрацією");
+                return false;
+            });
+            return promise;
+        };
+    }else{
+        $scope.getLectureRevisionsJson = function() {
+            var promise = $http({
+                url: basePath+'/revision/buildAllRevisions',
+                method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                return response.data;
+            }, function errorCallback() {
+                bootbox.alert("Виникла помилка при завантажені списку ревізій. Зв'яжіться з адміністрацією");
                 return false;
             });
             return promise;

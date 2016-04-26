@@ -6,10 +6,14 @@ if(isset($idLecture)){
         'Ревізії модуля' => Yii::app()->createUrl("revision/moduleLecturesRevisions", array("idModule" => $idModule)),
         'Ревізії занять',
     );
-}else{
+}else if(isset($idModule)){
     $this->breadcrumbs = array(
         'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $idModule)),
         'Ревізії занять модуля',
+    );
+}else{
+    $this->breadcrumbs = array(
+        'Усі ревізії занять',
     );
 }
 ?>
@@ -21,12 +25,12 @@ if(isset($idLecture)){
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script type="text/javascript">
     basePath='<?php echo  Config::getBaseUrl(); ?>';
-    idModule = <?php echo $idModule;?>;
+    idModule = <?php echo isset($idModule)?$idModule:0;?>;
     idLecture = <?php echo isset($idLecture)?$idLecture:0;?>;
 </script>
 <div id="revisionMainBox" ng-app="revisionTreesApp">
     <div class="form-group" ng-controller="revisionTreesCtrl" ng-cloak>
-        <?php if(!isset($idLecture)){ ?>
+        <?php if(!isset($idLecture) && isset($idModule)){ ?>
             <a href="" ng-click="isReplyFormOpen = !isReplyFormOpen">Актуальні версії занять(натисніть, для відображення)</a>
             <ul ng-show="isReplyFormOpen" class="list-group">
                 <li class="list-group-item node-tree" ng-repeat="lecture in currentLectures track by $index">
