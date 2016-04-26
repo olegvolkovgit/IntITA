@@ -110,16 +110,6 @@ class RevisionLecture extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function scopes() {
-        return array(
-            'withApprovedPages' => array(
-                'with' => 'lecturePages',
-                'order' => 'page_order ASC',
-                'condition' => 'id_user_approved IS NOT NULL AND id_user_cancelled IS NULL',
-            ),
-        );
-    }
-
     /**
      * Save lecture model with error checking
      * @throws RevisionLectureException
@@ -152,7 +142,7 @@ class RevisionLecture extends CActiveRecord
         $revLecture->saveCheck();
 
         $revLecturePage = new RevisionLecturePage();
-        $revLecturePage->initialize($revLecture->id_revision, $user);
+        $revLecturePage->initialize($revLecture->id_revision);
 
 		return $revLecture;
 	}
@@ -164,7 +154,7 @@ class RevisionLecture extends CActiveRecord
      */
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
-        $revLecturePage->initialize($this->id_revision, $user, $this->getLastPageOrder()+1);
+        $revLecturePage->initialize($this->id_revision, $this->getLastPageOrder() + 1);
         $this->properties->setUpdateDate($user);
         return $revLecturePage;
     }
@@ -300,7 +290,7 @@ class RevisionLecture extends CActiveRecord
             $newRevision->saveCheck();
 
             foreach ($this->lecturePages as $page) {
-                $page->clonePage($user, $newRevision->id_revision);
+                $page->clonePage($newRevision->id_revision);
             }
             $transaction->commit();
         } catch (Exception $e) {
@@ -435,6 +425,7 @@ class RevisionLecture extends CActiveRecord
      * @param $user
      * @return RevisionLecture
      * @throws Exception
+     * todo refactor
      */
     public static function createNewRevisionFromLecture($lecture, $user) {
 
@@ -481,8 +472,22 @@ class RevisionLecture extends CActiveRecord
                     $revNewPage->video = $revVideo->id;
                 }
 
-//            TODO quiz
-//            $revNewPage->quiz
+
+                if ($page->quiz) {
+                    //todo
+                    $lectureElement = LectureElement::model()->findByPk($page->quiz);
+
+                    $revLectureElement = new RevisionLectureElement();
+                    $revLectureElement->id_page = $revNewPage->id;
+                    $revLectureElement->id_type = $lectureElement->id_type;
+                    $revLectureElement->block_order = $lectureElement->block_order;
+                    $revLectureElement->html_block = $lectureElement->html_block;
+                    $revLectureElement->saveCheck();
+
+                    RevisionQuizFactory::createFromLecture($lectureElement, $revLectureElement);
+
+                    $revNewPage->quiz = $revLectureElement->id;
+                }
 
                 foreach ($page->getLectureElements() as $lectureElement) {
                     if ($lectureElement->isTextBlock()) {
@@ -496,6 +501,8 @@ class RevisionLecture extends CActiveRecord
 
                 }
 
+                $revNewPage->saveCheck();
+
             }
 
             $transaction->commit();
@@ -507,6 +514,9 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Deletes lecture related with revision with id_Lecture form regular DB
+     */
     public function deleteLectureFromRegularDB() {
         //remove old data if lecture exists in regular DB
         if ($this->id_lecture != null) {
@@ -514,6 +524,12 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    /**
+     * Returns lecture QuickUnion structure.
+     * If $idModule specified - returns revisions of this module, else - all revisions
+     * @param null|$idModule
+     * @return array
+     */
     public static function getLecturesTree($idModule = null) {
         if ($idModule != null) {
             $allIdList = Yii::app()->db->createCommand()
@@ -531,6 +547,10 @@ class RevisionLecture extends CActiveRecord
         return RevisionLecture::getQuickUnionStructure($allIdList);
     }
 
+    /**
+     * Returns lecture revision status
+     * @return string
+     */
     public function getStatus() {
         if ($this->isCancelled()) {
             return "Скасована";
@@ -547,6 +567,51 @@ class RevisionLecture extends CActiveRecord
         return 'Доступна для редагування';
     }
 
+    /**
+     * @param integer $pageId
+     * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar']
+     */
+    public function addLectureElement($pageId, $lectureElementData){
+        $page = $this->getPageById($pageId);
+        if ($page) {
+            $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+            $page->addLectureElement($lectureElementData['idType'], $lectureElementData['html_block'], $quiz);
+        }
+    }
+
+    /**
+     * @param integer $pageId
+     * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar']
+     */
+    public function editLectureElement($pageId, $lectureElementData) {
+        $page = $this->getPageById($pageId);
+        if ($page) {
+            $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+            $page->editLectureElement($lectureElementData['id_block'], $lectureElementData['html_block'], $quiz);
+        }
+    }
+
+    public function deleteLectureElement($pageId, $idBlock) {
+        $page = $this->getPageById($pageId);
+        if ($page) {
+            return $page->deleteLectureElement($idBlock);
+        }
+        return false;
+    }
+
+    /**
+     * Returns lecture page of this lecture by Id or null
+     * @param $pageId
+     * @return null|RevisionLecturePage
+     */
+    private function getPageById($pageId) {
+        foreach ($this->lecturePages as $lecturePage) {
+            if ($lecturePage->id == $pageId) {
+                return $lecturePage;
+            }
+        }
+        return null;
+    }
 
     /**
      * Flushes current revision into regular DB.
@@ -572,6 +637,10 @@ class RevisionLecture extends CActiveRecord
         $this->saveCheck();
     }
 
+    /**
+     * Creates new lecture in regular DB
+     * @return Lecture
+     */
     private function saveLectureModelToRegularDB() {
         //todo maybe need to store idTeacher separately in vc_* DB?
 //        $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));

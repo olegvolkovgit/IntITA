@@ -111,23 +111,16 @@ class RevisionTests extends CActiveRecord
     }
 
     public static function createTest($idLectureElement, $title, $answers) {
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            $newTest = new RevisionTests();
-            $newTest->id_lecture_element = $idLectureElement;
-            $newTest->title = $title;
-            $newTest->saveCheck();
+        $newTest = new RevisionTests();
+        $newTest->id_lecture_element = $idLectureElement;
+        $newTest->title = $title;
+        $newTest->saveCheck();
 
-            foreach ($answers as $answer) {
-                $newAnswer = RevisionTestsAnswers::createAnswer($newTest->id, $answer);
-            }
-
-            $transaction->commit();
-            return $newTest;
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw ($e);
+        foreach ($answers as $answer) {
+            RevisionTestsAnswers::createAnswer($newTest->id, $answer);
         }
+
+        return $newTest;
     }
 
     public function cloneTest($idLectureElement) {
@@ -148,31 +141,40 @@ class RevisionTests extends CActiveRecord
         $testAnswers = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test'=>$this->id));
 
         $oldAnswersCount = count($testAnswers);
-
         $newAnswersCount = count($answers);
         $length = min($oldAnswersCount, $newAnswersCount);
 
         $i = 0;
-
         for (; $i < $length; $i++) {
-            $testAnswers[$i]->answer = $answers[$i]['answer'];
-            $testAnswers[$i]->is_valid = $answers[$i]['is_valid'];
-            $testAnswers[$i]->update(array('answer', 'is_valid'));
+            $testAnswers[$i]->edit($answers[$i]['answer'], $answers[$i]['is_valid']);
         }
 
-        //if needs to add new answers
         if ($oldAnswersCount < $newAnswersCount) {
+            //if needs to add new answers
             for (; $i < $newAnswersCount; $i++) {
                 RevisionTestsAnswers::createAnswer($this->id, $answers[$i]);
             }
-            //if needs to delete odd answers
         } elseif($oldAnswersCount > $newAnswersCount) {
+            //if needs to delete odd answers
             $pkToDelete = [];
             for (; $i < $oldAnswersCount; $i++) {
                 array_push($pkToDelete, $this->testsAnswers[$i]->id);
             }
             RevisionTestsAnswers::model()->deleteByPk($pkToDelete);
         }
+    }
+
+    /**
+     * @return bool|void
+     * @throws CDbException
+     */
+    protected function beforeDelete() {
+        foreach ($this->testsAnswers as $testAnswer) {
+            if (!$testAnswer->delete()) {
+                return false;
+            }
+        }
+        return parent::beforeDelete();
     }
 
     public function deleteTest() {

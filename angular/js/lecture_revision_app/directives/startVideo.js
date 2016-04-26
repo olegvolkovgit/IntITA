@@ -2,7 +2,7 @@
  * Created by Wizlight on 06.02.2016.
  */
 angular
-    .module('revisionPreviewApp')
+    .module('lecturePreviewRevisionApp')
     .directive('startVideo', startVideo);
 
 function startVideo() {

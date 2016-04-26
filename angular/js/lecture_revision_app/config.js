@@ -2,7 +2,7 @@
  * Created by Wizlight on 14.12.2015.
  */
 angular
-    .module('revisionPreviewApp')
+    .module('lecturePreviewRevisionApp')
     .run([
         '$rootScope', '$state', '$stateParams','$http',
         function ($rootScope, $state, $stateParams, $http) {
@@ -48,7 +48,7 @@ angular
     ]);
 
 angular
-    .module('revisionPreviewApp')
+    .module('lecturePreviewRevisionApp')
     .config(['$locationProvider','$stateProvider','$urlRouterProvider', function($locationProvider,$stateProvider,$urlRouterProvider){
         $urlRouterProvider.otherwise("/page1");
         $stateProvider

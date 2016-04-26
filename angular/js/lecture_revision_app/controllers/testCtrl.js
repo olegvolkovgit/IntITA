@@ -2,7 +2,7 @@
  * Created by Wizlight on 10.12.2015.
  */
 angular
-    .module('revisionPreviewApp')
+    .module('lecturePreviewRevisionApp')
     .controller('testCtrl',testCtrl);
 
 function testCtrl($http, $scope) {

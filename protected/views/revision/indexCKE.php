@@ -42,6 +42,7 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getTaskJson.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/directives/ajaxLoader.js'); ?>"></script>
 
 
 <script type="text/javascript">
@@ -54,12 +55,13 @@ $this->breadcrumbs = array(
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/><!-- highlight include -->
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"/>
 <link rel="stylesheet" type="text/css" href="http://latex.codecogs.com/css/equation-embed.css"/>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js"></script>
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 
-<div ng-app="lessonEdit" class="lessonEdit">
+<div ng-app="lessonEdit" class="pageRevision">
     <div ng-controller="CKEditorCtrl">
         <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
         <div data-ng-init="
@@ -71,28 +73,66 @@ $this->breadcrumbs = array(
         closeBtn='<?php echo addslashes(Yii::t('lecture', '0772')); ?>';
             ">
         </div>
+        <div data-loading id="loaderContainer">
+            <img id="ajaxLoader" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
+        </div>
         <div id="lecturePage">
             <h1 class="lessonPart lessonEditPart">
-                <?php echo Yii::t('lecture', '0073') . " " . $page->revision->id_lecture.': '.$page->revision->properties->title_ua; ?>
+                <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
             </h1>
-            <div class="lessonPart">
-                <table class="table" id="pageView">
-                    <tr>
-                        <td>Назва</td>
-                        <td><input type="text" class="form-control" id="pageTitle" value="<?=$page->page_title?>"/></td>
-                        <td><input class="btn btn-default" type="button" value="Зберегти" ng-click="editPageTitle('<?= $page->id ?>')" ></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo Yii::t('lecture', '0613'); ?></td>
-                        <td><input type="text" class="form-control" id="pageVideo" value="<?=(isset($video)?$video->html_block:"") ?>"/></td>
-                        <td><input class="btn btn-default" type="button" value="Зберегти" ng-click="editPageVideo('<?= $page->id ?>')"></td>
-                    </tr>
-                </table>
+            <div class='icons'>
+                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)).'#/page'.$page->page_order; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
+                     title="Попередній перегляд"/>
             </div>
-            <br>
-            <br>
+            <table class="table" id="pageView">
+                <tr>
+                    <div class="pageTitleCke">
+                        Назва сторінки:
+                        <?php
+                        $this->widget('editable.EditableField', array(
+                            'type' => 'text',
+                            'model' => $page,
+                            'attribute' => 'page_title',
+                            'url' => $this->createUrl('revision/editPageTitle'),
+                            'title' => Yii::t('module', '0369'),
+                            'placement' => 'right',
+                        ));
+                        ?>
+                    </div>
+                    <div class="videoLink">
+                        <?php
+                        if($page->video){
+                            echo Yii::t('lecture', '0613').': ';
+                            $this->widget('editable.EditableField', array(
+                                'type' => 'text',
+                                'model' => $page->getVideo(),
+                                'attribute' => 'html_block',
+                                'url' => $this->createUrl('revision/editVideo'),
+                                'title' => Yii::t('module', '0369'),
+                                'placement' => 'right',
+                                'params'     => array('idRevision' => $page->id_revision, 'idPage' => $page->id),
+                            ));
+                            ?>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png'); ?>"
+                                 class="editIco"
+                                 title="Видалити відео"
+                                 ng-click="deleteVideo(<?= $page->id ?>,<?= $page->id_revision ?>,<?= $page->video ?>)">
+                        <?php } else { ?>
+                            <div class="row col-lg-4">
+                                <div class="input-group" ng-form="myForm">
+                                    <input type="url" class="form-control" name="inputUrl" ng-model="url.text" id="pageVideo" required />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-secondary" type="button" ng-disabled="myForm.$invalid" ng-click="addPageVideo(<?= $page->id ?>,<?= $page->id_revision ?>)">Додати відео</button>
+                                    </span>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </tr>
+            </table>
             <fieldset>
-                <legend><?php echo Yii::t('lecture', '0690'); ?></legend>
+                <h3>Контент сторінки:</h3>
                 <div id="blockList">
                     <?php $this->renderPartial('/revision/_blocks_list_CKE', array('dataProvider' => $dataProvider, 'editMode' => 1, 'user' => $user)); ?>
                 </div>
@@ -112,10 +152,10 @@ $this->breadcrumbs = array(
                 <div style="display: block; clear: both">
                     <?php echo Yii::t('lecture', '0691'); ?>
                     <br>
-                    <button selected-button ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                    <button selected-button ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                    <button selected-button ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                    <button selected-button ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
                 </div>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
@@ -137,7 +177,7 @@ $this->breadcrumbs = array(
 //                        break;
                     case '12':
                     case '13':
-                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id));
+                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision));
                         break;
                     default:
                         break;
@@ -145,16 +185,16 @@ $this->breadcrumbs = array(
             } else {
 //                ?>
             <div id="buttonsPanel">
-                <button onclick="showAddTestFormCKE('plain')"><?php echo Yii::t('lecture', '0697'); ?></button>
-                <button onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
-                <button onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
+                <button class="btn btn-default" onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
+                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
+                <button class="btn btn-default" onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button class="btn btn-default" onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php
             }
             ?>
             <?php if ($page->quiz == null) {
-            $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id));
+            $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
 //            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
 //            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
 //            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));

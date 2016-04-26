@@ -10,7 +10,7 @@
                      title="Затвердити"/>
                 <img ng-if=lectureData.lecture.canEdit ng-click=editRevision('<?=Yii::app()->createUrl("revision/editLectureRevision", array("idRevision" => $lectureRevision->id_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
-                     title="<?php echo Yii::t('lecture', '0686') ?>"/>
+                     title="Редагувати заняття"/>
                 <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>

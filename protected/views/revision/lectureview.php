@@ -6,15 +6,16 @@ $this->breadcrumbs = array(
     'Ревізія даного заняття',
 );
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/lectureRevisionCtrl.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getLectureData.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/app.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/controllers/lectureRevisionCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/getLectureData.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/directives/ajaxLoader.js'); ?>"></script>
 <script>
     idRevision = '<?php echo $lectureRevision->id_revision;?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
-<div ng-app="lectureRevision">
+<div ng-app="lectureRevisionApp">
     <div ng-controller="lectureRevisionCtrl">
         <div ng-cloak id="revisionMainBox">
             <?php
@@ -50,13 +51,15 @@ $this->breadcrumbs = array(
             </table>
         </div>
     </div>
+    <div data-loading id="loaderContainer">
+        <img id="ajaxLoader" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
+    </div>
 </div>
-
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-treeview.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'revision.js'); ?>"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" >
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrap-treeview.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"
-<br>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+

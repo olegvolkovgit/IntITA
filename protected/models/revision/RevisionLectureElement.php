@@ -33,6 +33,7 @@ class RevisionLectureElement extends CActiveRecord
 		return array(
 			array('id_page, id_type, block_order, html_block', 'required'),
 			array('id_page, id_type, block_order', 'numerical', 'integerOnly'=>true),
+			array('html_block', 'match', 'pattern' => '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/', 'message' => 'Поле має бути посиланням', 'on'=>'videoLink'),
 			array('html_block', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -107,18 +108,19 @@ class RevisionLectureElement extends CActiveRecord
 	}
 
     /**
-     * Save properties model with error checking
+     * Save model with error checking
      * @throws RevisionLectureException
      */
 	public function saveCheck($runValidation=true,$attributes=null) {
 		if (!$this->save($runValidation, $attributes)) {
-			throw new RevisionLectureElementException(implode(", ", $this->getErrors()));
+			throw new RevisionLectureElementException('400',implode(", ", $this->getErrors()));
 		}
 	}
 
     /**
      * Initialize video element
      * @param $url
+	 * @throws RevisionLectureElementException
      * @param $idPage
      */
     public function initVideoElement($url, $idPage) {
@@ -126,40 +128,55 @@ class RevisionLectureElement extends CActiveRecord
 		$this->id_type = LectureElement::VIDEO;
 		$this->block_order = 0;
 		$this->html_block = $url;
-
+        $this->setScenario('videoLink');
+		if(!$this->validate())
+			throw new RevisionLectureElementException('400',implode("; ", $this->getErrors()['html_block']));
 		$this->save();
 	}
 
-    //todo refactor clone methods - remove copy-paste
+    public static function create($idType, $blockOrder, $htmlBlock, $idPage=null, $quiz=null) {
+        $revLectureElement = new RevisionLectureElement();
+        $revLectureElement->id_page = $idPage;
+        $revLectureElement->id_type = $idType;
+        $revLectureElement->block_order = $blockOrder;
+        $revLectureElement->html_block = $htmlBlock;
+        $revLectureElement->saveCheck();
+
+        if ($revLectureElement->isQuiz() && $quiz) {
+            RevisionQuizFactory::create($revLectureElement, $quiz);
+        }
+
+        return $revLectureElement;
+    }
+
+    public function edit($htmlBlock, $quiz) {
+        if ($this->isQuiz()) {
+            RevisionQuizFactory::edit($this, $quiz);
+        }
+
+        $this->html_block = $htmlBlock;
+        $this->saveCheck();
+    }
+
     /**
-     * Clone video element
-     * @param null $idNewPage
+     * @return bool|void
+     */
+    protected function beforeDelete(){
+        $result = true;
+        if ($this->isQuiz()) {
+            return RevisionQuizFactory::delete($this->id, $this->id_type);
+        }
+        return parent::beforeDelete();
+    }
+
+
+    /**
+     * Clone lecture element
+     * @param $idNewPage - new page revision id
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
      */
-    public function cloneVideo($idNewPage = null){
-		if ($idNewPage == null) {
-			$idNewPage = $this->id_page;
-		}
-
-		$clone = new RevisionLectureElement();
-		$clone->id_page = $idNewPage;
-		$clone->id_type = $this->id_type;
-		$clone->block_order = $this->block_order;
-		$clone->html_block = $this->html_block;
-
-        $clone->saveCheck();
-
-        return $clone;
-	}
-
-    /**
-     * Clone text element
-     * @param $idNewPage
-     * @return RevisionLectureElement
-     * @throws RevisionLectureElementException
-     */
-    public function cloneText($idNewPage) {
+    public function cloneLectureElement($idNewPage) {
         if ($idNewPage == null) {
             $idNewPage = $this->id_page;
         }
@@ -169,12 +186,38 @@ class RevisionLectureElement extends CActiveRecord
         $clone->id_type = $this->id_type;
         $clone->block_order = $this->block_order;
         $clone->html_block = $this->html_block;
+
         $clone->saveCheck();
+
+        if ($this->isQuiz()) {
+            RevisionQuizFactory::cloneQuiz($this, $clone);
+        }
 
         return $clone;
     }
 
+//    public function cloneQuiz($idNewPage) {
+//
+//        $clone = new RevisionLectureElement();
+//        $clone->id_page = $idNewPage;
+//        $clone->id_type = $this->id_type;
+//        $clone->block_order = $this->block_order;
+//        $clone->html_block = $this->html_block;
+//        $clone->saveCheck();
+//
+//        RevisionQuizFactory::cloneQuiz($this, $clone);
+//
+//        return $clone;
+//    }
+
+    /**
+     * Saves lecture element to into regular DB
+     * @param $idNewLecture
+     * @param null $idUserCreated
+     * @return LectureElement
+     */
     public function saveElementModelToRegularDB($idNewLecture, $idUserCreated=null) {
+
         $new = new LectureElement();
         $new->id_type = $this->id_type;
         $new->id_lecture = $idNewLecture;
@@ -189,20 +232,11 @@ class RevisionLectureElement extends CActiveRecord
         return $new;
     }
 
-    public function cloneQuiz($idNewPage) {
-        $clone = new RevisionLectureElement();
-        $clone->id_page = $idNewPage;
-        $clone->id_type = $this->id_type;
-        $clone->block_order = $this->block_order;
-        $clone->html_block = $this->html_block;
-        $clone->saveCheck();
-
-        RevisionQuizFactory::cloneQuiz($this, $clone);
-
-        return $clone;
-    }
-
-    private function isQuiz() {
+    /**
+     * Returns true if the lecture element is quiz
+     * @return bool
+     */
+    public function isQuiz() {
         if ($this->id_type == LectureElement::PLAIN_TASK  || //plain task
             $this->id_type == LectureElement::TEST || //test
             $this->id_type == LectureElement::TASK  || //task
@@ -212,5 +246,9 @@ class RevisionLectureElement extends CActiveRecord
         else {
             return false;
         }
+    }
+
+    public function isVideo() {
+        return $this->id_type == LectureElement::VIDEO;
     }
 }

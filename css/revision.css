@@ -45,3 +45,35 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
     cursor: pointer;
     margin: 5px
 }
+.pageRevision{
+    word-wrap: break-word;
+}
+.pageRevision #lecturePage{
+    margin-top: 0;
+}
+.icons{
+    text-align: right;
+}
+.icons img{
+    width: 32px;
+    cursor: pointer;
+}
+#revisionMainBox .lessonPart{
+    height: 70px;
+}
+#revisionMainBox #labelBlock p, #revisionMainBox #tooltip p {
+    width: inherit;
+}
+.editPageIco{
+    float: right;
+}
+.editPageIco img{
+    position: absolute;
+    width: 32px;
+    right: 0;
+    cursor: pointer;
+}
+#loaderContainer{
+    width: 100%;
+    text-align: center;
+}
