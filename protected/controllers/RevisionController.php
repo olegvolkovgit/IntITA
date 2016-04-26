@@ -297,31 +297,37 @@ class RevisionController extends Controller {
     }
 
     /**
-     * curl -XPOST --data 'idPage=2' 'http://intita.project/revision/UpPage' -b XDEBUG_SESSION=PHPSTORM
+     * curl -XPOST --data 'idRevision=136&idPage=686' 'http://intita.project/revision/UpPage' -b XDEBUG_SESSION=PHPSTORM
      * @throws RevisionControllerException
      */
     public function actionUpPage() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
         $idPage = Yii::app()->request->getPost('idPage');
 
-        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->moveUp();
+        $lectureRevision->movePageUp($idPage);
     }
 
+    /**
+     * curl -XPOST --data 'idRevision=136&idPage=686' 'http://intita.project/revision/DownPage' -b XDEBUG_SESSION=PHPSTORM
+     * @throws RevisionControllerException
+     */
     public function actionDownPage() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
         $idPage = Yii::app()->request->getPost('idPage');
 
-        $page = RevisionLecturePage::model()->findByPk($idPage);
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->moveDown();
+        $lectureRevision->movePageDown($idPage);
     }
 
     public function actionCheckLecture() {

@@ -605,6 +605,21 @@ class RevisionLecture extends CActiveRecord
         $page->setTitle($title);
     }
 
+
+    public function movePageUp($idPage) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->moveUp();
+        }
+    }
+
+    public function movePageDown($idPage) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->moveDown();
+        }
+    }
+
     /**
      * Returns lecture page of this lecture by Id or null
      * @param $pageId
