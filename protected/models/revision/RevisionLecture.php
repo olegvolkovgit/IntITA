@@ -18,7 +18,6 @@ class RevisionLecture extends CActiveRecord
 {
 
     private $approveResultCashed = null;
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -618,6 +617,41 @@ class RevisionLecture extends CActiveRecord
         if ($page) {
             $page->moveDown();
         }
+    }
+
+    public function upElement($idPage, $idElement) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->upElement($idElement);
+        }
+    }
+
+    public function downElement($idPage, $idElement) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->downElement($idElement);
+        }
+    }
+
+    public function editProperties($params) {
+
+        $filtered = [];
+        foreach (RevisionLecture::getEditableProperties() as $property) {
+            if (isset($params[$property])) {
+                $filtered = $params[$property];
+            }
+        }
+
+        $this->properties->setAttributes($filtered);
+        $this->properties->saveCheck();
+    }
+
+    /**
+     * Returns list of properties which can be edited
+     * @return array
+     */
+    public static function getEditableProperties() {
+        return ['title_ua', 'title_ru', 'title_en'];
     }
 
     /**

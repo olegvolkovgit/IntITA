@@ -289,7 +289,7 @@ class RevisionController extends Controller {
         //$this->redirect(Yii::app()->request->urlReferrer);
     }
 
-
+    //@todo
     public function actionGetLectureElement() {
         $idEl = Yii::app()->request->getPost('idElement');
         $html = RevisionLectureElement::model()->findByPk($idEl)->html_block;
@@ -330,6 +330,7 @@ class RevisionController extends Controller {
         $lectureRevision->movePageDown($idPage);
     }
 
+    // @todo
     public function actionCheckLecture() {
         $idRevision = Yii::app()->request->getPost('idRevision');
 
@@ -418,30 +419,40 @@ class RevisionController extends Controller {
         $lectureRev->approve(Yii::app()->user);
     }
 
+    /**
+     * curl -XPOST http://intita.project/revision/UpLectureElement -d 'idRevision=139&idPage=694&idElement=772' -b XDEBUG_SESSION=PHPSTORM
+     */
+
     public function actionUpLectureElement() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
         $idPage = Yii::app()->request->getPost('idPage');
         $idElement = Yii::app()->request->getPost('idElement');
 
-        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->upElement($idElement);
+        $lectureRevision->upElement($idPage, $idElement);
     }
 
+    /**
+     * curl -XPOST http://intita.project/revision/DownLectureElement -d 'idRevision=139&idPage=694&idElement=772' -b XDEBUG_SESSION=PHPSTORM
+     */
+
     public function actionDownLectureElement() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
         $idPage = Yii::app()->request->getPost('idPage');
         $idElement = Yii::app()->request->getPost('idElement');
 
-        $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $page->downElement($idElement);
+        $lectureRevision->downElement($idPage, $idElement);
     }
 
     /**
@@ -614,6 +625,30 @@ class RevisionController extends Controller {
         $idPage = Yii::app()->request->getPost('idPage');
         $page = RevisionLecturePage::model()->findByPk($idPage);
         $page->delete();
+    }
+
+
+    /**
+     *  curl -XPOST --data 'idRevision=139&title_ua=title_ua&title_ru=title_ru&title_en=title_en&alias=alias' 'http://intita.project/revision/EditProperties' -b XDEBUG_SESSION=PHPSTORM
+     */
+    public function actionEditProperties() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
+            throw new RevisionControllerException(403, 'Access denied.');
+        }
+
+        $params = [];
+        foreach (RevisionLecture::getEditableProperties() as $property) {
+            $input = Yii::app()->request->getPost($property);
+            if (isset($input)) {
+                $params[$property] = $input;
+            }
+        }
+
+        $lectureRevision->editProperties($params);
     }
 
     /**
