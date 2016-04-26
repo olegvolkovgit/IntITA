@@ -20,6 +20,7 @@ class StudentController extends TeacherCabinetController
     {
         $this->renderPartial('/_student/_consultations', array(), false, true);
     }
+
     public function actionCancelConsultation($id)
     {
         $model = Consultationscalendar::model()->findByPk($id);
@@ -30,5 +31,22 @@ class StudentController extends TeacherCabinetController
 
     public function actionGetConsultationsList(){
         echo Consultationscalendar::studentConsultationsList(Yii::app()->user->getId());
+    }
+
+    public function actionFinances()
+    {
+        $this->renderPartial('/_student/_finances', array(), false, true);
+    }
+
+    public function actionGetPayCoursesList(){
+        echo PayCourses::getPayCoursesListByUser();
+    }
+
+    public function actionGetPayModulesList(){
+        echo PayModules::getPayModulesListByUser();
+    }
+
+    public function actionGetAgreementsList(){
+        echo UserAgreements::agreementsListByUser();
     }
 }

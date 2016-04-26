@@ -6,7 +6,7 @@
 /* @var $post StudentReg */
 /* @var $user RegisteredUser */
 /* @var $form CActiveForm */
-/* @var $agreements*/
+/* @var $addressString string*/
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <script>
@@ -40,13 +40,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 
                     <div class="aboutInfo">
                         <p>
-                            <?php
-                            $param = "title_".Yii::app()->session["lg"];
-                            if(!is_null($post->country))
-                                echo AddressCountry::model()->findByPk($post->country)->$param.", ";
-                            if(!is_null($post->city))
-                                echo AddressCity::model()->findByPk($post->city)->$param;
-                            echo $post::getAdressYears($post->birthday, $post->address); ?>
+                            <span class="colorP">
+                            <?php if ($addressString != "")
+                                echo $addressString;
+                            ?>
+                            </span>
                         </p>
                     </div>
                     <div class="aboutInfo">
@@ -104,9 +102,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             <hr class="lineUnderTab">
             <ul>
                 <li>
-                    <?php echo Yii::t('profile', '0115'); ?>
-                </li>
-                <li>
                     <?php echo Yii::t('profile', '0116'); ?>
                 </li>
                 <li>
@@ -123,9 +118,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 </div>
                 <div id="myRatting">
                     <?php $this->renderPartial('_myRatting', array('user' => $user)); ?>
-                </div>
-                <div id="mylettersSend">
-                    <?php $this->renderPartial('_mylettersSend', array('letter' => $letter, 'sentLettersProvider' => $sentLettersProvider, 'receivedLettersProvider' => $receivedLettersProvider)); ?>
                 </div>
                 <div id="myMark">
                     <p class="tabHeader"><?php echo Yii::t('profile', '0116'); ?></p>
@@ -146,12 +138,10 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     ?>
                 </div>
                 <div id="finances">
-                    <?php $this->renderPartial('_finances', array('paymentsCourses' => $paymentsCourses,
-                        'paymentsModules' => $paymentsModules,
+                    <?php $this->renderPartial('_finances', array(
                         'course' => $course,
                         'module' => $module,
-                        'schema' => $schema,
-                        'agreements' => $agreements
+                        'schema' => $schema
                     )); ?>
                 </div>
             </div>

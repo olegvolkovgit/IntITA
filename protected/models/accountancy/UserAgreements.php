@@ -369,15 +369,26 @@ class UserAgreements extends CActiveRecord
         else return false;
     }
 
-    public static function getDataProviderByUser($user){
+    public static function agreementsListByUser(){
         $criteria = new CDbCriteria;
-        $criteria->addCondition('user_id=' . $user);
-        $dataProvider =  new CActiveDataProvider('UserAgreements', array(
-            'criteria' => $criteria,
-            'pagination' => false,
-        ));
+        $criteria->addCondition('user_id=' . Yii::app()->user->getId());
+        $agreements = UserAgreements::model()->findAll($criteria);
+        $return = array('data' => array());
 
-        return $dataProvider;
+        foreach ($agreements as $record) {
+            $row = array();
+
+            $row["title"]["name"] = "Договір ".$record->number;
+            $row["title"]["url"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
+            $row["date"] = $record->create_date;
+            $row["summa"] = ($record->summa != 0)?$record->summa: "безкоштовно";
+            $row["schema"] = CHtml::encode($record->paymentSchema->name);
+            $row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }
 
