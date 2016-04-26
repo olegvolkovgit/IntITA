@@ -133,11 +133,12 @@
 
     <div class="form-group">
         <?php echo $form->textField($model, 'user_id',
-            array('class' => 'form-control', 'id' => 'userIdHidden')); ?>
+            array('class' => 'form-control', 'id' => 'userIdHidden'));
+        ?>
     </div>
-    <input id="columnHidden" type="text" class="form-control" name="message" value="<?= ($message) ? $message : 0; ?>">
+    <input id="columnHidden" type="text" class="form-control" name="message" value="<?= (isset($message)) ? $message : 0; ?>">
     <input id="columnHidden" type="text" class="form-control" name="user"
-           value="<?= ($predefinedUser) ? $predefinedUser->id : 0; ?>">
+           value="<?= (isset($predefinedUser)) ? $predefinedUser->id : 0; ?>">
 
     <?php $this->endWidget(); ?>
 </div>
@@ -169,8 +170,8 @@
     users.initialize();
 
     if (scenario == "definedUser") {
-        $jq('#typeahead').val('<?=($predefinedUser) ? addslashes(CHtml::decode($predefinedUser->userNameWithEmail())) : "";?>');
-        $jq("#userIdHidden").val('<?=($predefinedUser) ? $predefinedUser->id : 0;?>');
+        $jq('#typeahead').val('<?=(isset($predefinedUser)) ? addslashes(CHtml::decode($predefinedUser->userNameWithEmail())) : "";?>');
+        $jq("#userIdHidden").val('<?=(isset($predefinedUser)) ? $predefinedUser->id : 0;?>');
     }
 
     $jq('#typeahead').typeahead(null, {
