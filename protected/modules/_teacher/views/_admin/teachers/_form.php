@@ -133,7 +133,8 @@
 
     <div class="form-group">
         <?php echo $form->textField($model, 'user_id',
-            array('class' => 'form-control', 'id' => 'userIdHidden')); ?>
+            array('class' => 'form-control', 'id' => 'userIdHidden'));
+        ?>
     </div>
     <input id="columnHidden" type="text" class="form-control" name="message" value="<?= (isset($message)) ? $message : 0; ?>">
     <input id="columnHidden" type="text" class="form-control" name="user"
