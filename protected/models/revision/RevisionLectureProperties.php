@@ -161,13 +161,7 @@ class RevisionLectureProperties extends CActiveRecord
      */
     public function saveCheck() {
         if(!$this->save()) {
-			$errors=[];
-			foreach($this->getErrors() as $attribute){
-				foreach($attribute as $error){
-					array_push($errors,$error);
-				}
-			}
-            throw new RevisionLecturePropertiesException('400',$errors[0]);
+            throw new RevisionLecturePropertiesException('400',$this->getValidationErrors());
         }
     }
 
@@ -236,4 +230,13 @@ class RevisionLectureProperties extends CActiveRecord
         }
     }
 
+	public function getValidationErrors() {
+		$errors=[];
+		foreach($this->getErrors() as $attribute){
+			foreach($attribute as $error){
+				array_push($errors,$error);
+			}
+		}
+		return $errors[0];
+	}
 }
