@@ -48,9 +48,9 @@ if(isset($idLecture)){
                             <li>
                                 <a ng-href={{lecture.lecturePreviewLink}} >Переглянути заняття</a>
                             </li>
-    <!--                           <li>-->
-    <!--                               <a href="#">Скасувати</a>-->
-    <!--                           </li>-->
+    <!--                          <li>-->
+    <!--                              <a href="#">Скасувати</a>-->
+    <!--                          </li>-->
                             </ul>
                         </div>
                     </li>
