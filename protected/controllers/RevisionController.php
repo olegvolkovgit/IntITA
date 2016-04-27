@@ -760,7 +760,9 @@ class RevisionController extends Controller {
         $jsonArray = [];
         foreach ($lectures as $lecture) {
             $node = array();
-            $node['text'] = "Ревізія №" . $lecture->id_revision . " " . $lecture->properties->title_ua . ". Статус: " . $lecture->getStatus();
+            $node['text'] = "Ревізія №" . $lecture->id_revision . " " .
+                $lecture->properties->title_ua . ". Статус: <strong>" . $lecture->getStatus().'</strong>'.
+                ' Створена: '.$lecture->properties->start_date.' Модифікована: '.$lecture->properties->update_date;
             $node['selectable'] = false;
             $node['id'] = $lecture->id_revision;
             $node['creatorId'] = $lecture->properties->id_user_created;
