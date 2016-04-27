@@ -1,11 +1,12 @@
 <?php
 /* @var $model Course */
 $price = $model->priceOffline();
-if ($price == 0) {
+if ($price == 0 && $model->getBasePrice() != 0) {
     echo Yii::t('courses', '0147') . ' '; ?>
     <span class="colorGreen"><?= Yii::t('module', '0421'); ?></span>
     <?php
 } else {
+if ($model->getBasePrice() != 0) {
     ?>
     <span class="spoilerLinks"
           onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>', 'Offline')">
@@ -47,12 +48,13 @@ if ($price != 0) {
             'id' => 'payments-form',
             'enableAjaxValidation' => false,
         )); ?>
-        <input value="<?=PaymentScheme::ADVANCE?>" type="hidden" name="schema"/>
+        <input value="<?= PaymentScheme::ADVANCE ?>" type="hidden" name="schema"/>
         <div id="rowRadio">
             <?php $this->renderPartial('_offlinePaymentScheme', array('model' => $model)); ?>
         </div>
         <?php if ($model->status != 0) {
             $this->endWidget();
         } ?>
-    <?php } ?>
+    <?php }
+    }?>
 </div>
