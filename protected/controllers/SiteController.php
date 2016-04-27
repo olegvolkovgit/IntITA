@@ -229,8 +229,16 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        $r = new LogTracks;
-        $r->LogOut(Yii::app()->user->getId());
+
+        $event = 'LogOut';
+        $lesson = Yii::app()->request->getPost('lesson',0);
+        $part = Yii::app()->request->getPost('page',0);
+        $user_id = Yii::app()->user->id;
+
+        $Model = EventsFactory::trackEvent($event);
+        $Model->trackEvent($user_id,$lesson,$part);
+//        $r = new LogTracks;
+//        $r->LogOut(Yii::app()->user->getId());
         $id = 0;
         foreach ($_SESSION as $key => $value) {
             if (strpos($key, '__id')) {
@@ -737,8 +745,13 @@ class SiteController extends Controller
                 if ($statusmodel->status == 1) {
                     if ($model->login()) {
                         $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
-                        $r = new LogTracks;
-                        $r->Login(Yii::app()->user->getId());
+                        $event = 'LogIn';
+                        $lesson = Yii::app()->request->getPost('lesson',0);
+                        $part = Yii::app()->request->getPost('page',0);
+                        $user_id = Yii::app()->user->id;
+
+                        $Model = EventsFactory::trackEvent($event);
+                        $Model->trackEvent($user_id,$lesson,$part);
                         //                        Forum login
                         if (!ForumUser::login($userModel))
                             throw new ForumException('Forum user not save!!!');
