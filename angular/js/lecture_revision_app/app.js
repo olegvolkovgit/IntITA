@@ -9,3 +9,6 @@ angular
 
 angular
     .module('lecturePreviewRevisionApp', ['ui.router','hljs','ui.codemirror','revisionServices','directive.loading']);
+
+angular
+    .module('revisionTreesApp', ['directive.loading']);

@@ -714,7 +714,7 @@
 		item: '<li class="list-group-item"></li>',
 		indent: '<span class="indent"></span>',
 		icon: '<span class="icon"></span>',
-		link: '<a href="#" style="color:inherit;"></a>',
+		link: '<a style="color:inherit;"></a>',
 		badge: '<span class="badge"></span>',
 
         //dropdown elements
@@ -722,7 +722,7 @@
         ddbutton: '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"></button>',
         ddbuttonspan: '<span class="caret"></span>',
         ddmenu: '<ul class="dropdown-menu pull-right"></ul>',
-        dditem: '<li><a href="#"></a></li>',
+        dditem: '<li><a></a></li>',
         ddseparator: '<li role="separator" class="divider"></li>'
 
     };

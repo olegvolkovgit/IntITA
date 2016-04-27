@@ -20,14 +20,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
-        $lecturesTree = RevisionLecture::getLecturesTree();
-
-        $json = $this->buildLectureTreeJson($lectureRev, $lecturesTree);
-
-        $this->render('index', array(
-            'json' => $json
-        ));
+        $this->render('index');
     }
 
     public function actionCreateNewLecture() {
@@ -475,12 +468,9 @@ class RevisionController extends Controller {
             $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
         }
 
-        $relatedRev = $lectureRev->getRelatedLectures();
-        $relatedTree = RevisionLecture::getLecturesTree($lecture->idModule);
-        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
-
         $this->render('index', array(
-            'json' => $json,
+            'idModule' => $lectureRev->id_module,
+            'idLecture' => $idLecture,
         ));
     }
 
@@ -513,15 +503,34 @@ class RevisionController extends Controller {
     }
 
     public function actionModuleLecturesRevisions($idModule) {
+        $this->render('index', array(
+            'idModule' => $idModule,
+        ));
+    }
 
+    public function actionBuildRevisionsInModule() {
+        $idModule = Yii::app()->request->getPost('idModule');
         $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
         $json = $this->buildLectureTreeJson($lectureRev, $relatedTree);
 
-        $this->render('index', array(
-            'idModule' => $idModule,
-            'json' => $json,
-        ));
+        echo $json;
+    }
+    public function actionBuildLectureRevisions() {
+        $idLecture = Yii::app()->request->getPost('idLecture');
+        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+        $relatedRev = $lectureRev->getRelatedLectures();
+        $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+
+        echo $json;
+    }
+    public function actionBuildAllRevisions() {
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $lecturesTree = RevisionLecture::getLecturesTree();
+        $json = $this->buildLectureTreeJson($lectureRev, $lecturesTree);
+
+        echo $json;
     }
 
     public function actionShowRevision($idRevision) {
@@ -826,7 +835,7 @@ class RevisionController extends Controller {
 
         $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);
         if($lectureRevision){
-            $this->redirect(Yii::app()->createUrl('/revision/EditLectureRevision',array('idRevision'=>$lectureRevision->id_revision)));
+            $this->redirect(Yii::app()->createUrl('/revision/editLectureRevision',array('idRevision'=>$lectureRevision->id_revision)));
         }else{
             throw new RevisionControllerException(500, 'CreateLectureRevision error');
         }
@@ -897,5 +906,18 @@ class RevisionController extends Controller {
         $answers = Yii::app()->request->getPost('answers', $emptyanswers);
 
         echo RevisionTestsAnswers::checkTestAnswer($test, $answers);
+    }
+    public function actionBuildCurrentLectureJson() {
+        $idModule = Yii::app()->request->getPost('idModule');
+        $currentLectures=Lecture::model()->findAllByAttributes(array("idModule" => $idModule),array('order'=>'`order` ASC'));
+        $data = [];
+        foreach ($currentLectures as $key=>$lecture) {
+            $data[$key]['title'] = $lecture->title_ua;
+            $data[$key]['order'] = $lecture->order;
+            $data[$key]['id'] = $lecture->id;
+            $data[$key]['revisionsLink'] = Yii::app()->createUrl('/revision/editLecture',array('idLecture'=>$lecture->id));
+            $data[$key]['lecturePreviewLink'] = Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => 0));
+        }
+        echo CJSON::encode($data);
     }
 }

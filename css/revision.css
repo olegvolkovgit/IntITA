@@ -2,6 +2,7 @@
     margin: 0 auto;
     width: 1200px;
     overflow: visible;
+    position: relative;
 }
 .editIco{
     cursor: pointer;
