@@ -97,9 +97,9 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             $scope.editCodeRedactor = response.data;
             var template = '<div id="CKECodeEdit'+idEl+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
                 $scope.editCodeRedactor+'</textarea>'+
-                '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+idEl+')">'+
-                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+idEl+')">' +
-                '<input class="codeBut removeHtml" type="submit" value="Очистити форматування" ng-click="removeEditHtml()">' +
+                '<input class="btn btn-primary codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+idEl+')">'+
+                '<input class="btn btn-primary codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+idEl+')">' +
+                '<input class="btn btn-primary codeBut removeHtml" type="submit" value="Очистити форматування" ng-click="removeEditHtml()">' +
                 '</div>';
             ($compile(template)($scope)).insertAfter(element);
             $scope.myEditCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECodeEdit'), {
@@ -193,7 +193,8 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             $http({
                 url: basePath+'/revision/editLectureElement',
                 method: "POST",
-                data: $.param({html_block: $scope.myEditCodeMirror.getValue(), idElement: idEl}),
+                data: $.param({html_block: $scope.myEditCodeMirror.getValue(), idElement: idEl,
+                    idRevision: idRevision, idPage: idPage}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             })
                 .success(function (response) {

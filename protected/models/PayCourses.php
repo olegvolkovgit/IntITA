@@ -230,4 +230,24 @@ class PayCourses extends CActiveRecord
         return $result;
     }
 
+    public static function getPayCoursesListByUser(){
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        $modules = PayCourses::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($modules as $record) {
+            $row = array();
+
+            $row["title"]["name"] = CHtml::encode($record->course->getTitle());
+            $row["title"]["url"] = Yii::app()->createAbsoluteUrl("course/index", array("id" =>$record->course->course_ID));
+            $row["summa"] = ($record->course->getBasePrice() != 0)?$record->course->getBasePrice(): "безкоштовно";
+            //$row["schema"] = CHtml::encode($record->paymentSchema->name);
+            //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 }

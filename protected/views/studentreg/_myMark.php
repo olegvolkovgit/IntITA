@@ -8,7 +8,7 @@ if(Teacher::model()->exists('user_id=:ID', array(':ID'=>$id)))
 else return;
 ?>
 <div class="mymark">
-    <a class="teachername" href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id));?>"><?php echo $teacher->firstName().' '.$teacher->lastName();?></a>
+    <a class="teachername" href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id));?>"><?php echo $teacher->firstName().' '.$teacher->lastName();?></a>
     <div class="stars">
     <?php echo CommonHelper::getRating($data['rate']); ?>
     </div>

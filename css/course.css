@@ -203,7 +203,9 @@ span.readmore-js-toggle{
 .courseInfo table{
     border-spacing: 0;
 }
-
+#tooltip{
+    text-decoration: none
+}
 .courseTeacherDetail td{
     padding-left: 0;
     vertical-align: top;
@@ -458,7 +460,7 @@ input.paymentPlan_value{
     height: 75px;
     white-space: nowrap;
 }
-#firstRadio{
+#firstRadioOnline, #firstRadioOffline{
     display: none;
 }
 #rowRadio input:checked+span > .mainPay{

@@ -13,7 +13,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
                  id="editIco" title="<?php echo Yii::t('module', '0373'); ?>"/>
         </a>
 
-        <a href="<?php echo Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$module->module_ID)); ?>">
+        <a href="<?php echo Yii::app()->createUrl('/revision/moduleLecturesRevisions', array('idModule'=>$module->module_ID)); ?>">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                  id="viewIco" title="Переглянути ревізії модуля"/>
         </a>

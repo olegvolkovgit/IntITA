@@ -49,6 +49,7 @@ $this->breadcrumbs = array(
     lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
     idPage = '<?php echo $page->id;?>';
+    idRevision = '<?php echo $page->id_revision;?>';
     idLecture = '<?php echo $page->revision->id_lecture;?>';
     idModule = <?php echo $page->revision->id_module;?>;
 </script>
@@ -95,8 +96,9 @@ $this->breadcrumbs = array(
                             'model' => $page,
                             'attribute' => 'page_title',
                             'url' => $this->createUrl('revision/editPageTitle'),
-                            'title' => Yii::t('module', '0369'),
+                            'title' => 'Введи назву частини',
                             'placement' => 'right',
+                            'params'     => array('idRevision' => $page->id_revision),
                         ));
                         ?>
                     </div>
@@ -143,7 +145,7 @@ $this->breadcrumbs = array(
                         </div>
                         <div ng-class="{content: instructionStyle}" >
                             <?php
-                            $this->renderPartial('/revision/_addBlockCKE', array('idPage' => $page->id, 'editMode' => 1));
+                            $this->renderPartial('/revision/_addBlockCKE', array('idPage' => $page->id, 'idRevision' => $page->id_revision, 'editMode' => 1));
                             ?>
                         </div>
                     </div>

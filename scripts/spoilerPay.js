@@ -13,6 +13,7 @@ function paymentSpoiler(a,b, type){
             document.getElementById("spoilerTriangle" + type).innerHTML="\u25BC";
             $('#numbersFirst' + type).show();
         }
+        $('#type').val(type);
         $('#firstRadio' + type).toggle('normal');
         $('.spoilerBody' + type).toggle('normal');
         return false;

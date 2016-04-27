@@ -36,7 +36,7 @@ $sender = $model->sender();
                         href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $sender->id)); ?>" target="_blank">
                         <?= $sender->userNameWithEmail(); ?></a>
                 </h4>
-                 <?php if($model->message0->type == Request::COWORKER_REQUEST){
+                 <?php if($model->message0->type == MessagesType::COWORKER_REQUEST){
                     $teacher = $model->teacher();?>
                     <h4>
                         Призначити співробітником: <a

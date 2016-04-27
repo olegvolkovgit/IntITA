@@ -18,7 +18,6 @@ class RevisionLecture extends CActiveRecord
 {
 
     private $approveResultCashed = null;
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -305,6 +304,7 @@ class RevisionLecture extends CActiveRecord
      * Rejects lecture revision
      * @param $user
      * @throws RevisionLecturePropertiesException
+     * @throws \application\components\Exceptions\IntItaException
      */
     public function reject ($user) {
         if ($this->isRejectable()) {
@@ -569,7 +569,7 @@ class RevisionLecture extends CActiveRecord
 
     /**
      * @param integer $pageId
-     * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar']
+     * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar', quiz=>[] ]
      */
     public function addLectureElement($pageId, $lectureElementData){
         $page = $this->getPageById($pageId);
@@ -581,7 +581,7 @@ class RevisionLecture extends CActiveRecord
 
     /**
      * @param integer $pageId
-     * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar']
+     * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar', quiz=>[]]
      */
     public function editLectureElement($pageId, $lectureElementData) {
         $page = $this->getPageById($pageId);
@@ -597,6 +597,61 @@ class RevisionLecture extends CActiveRecord
             return $page->deleteLectureElement($idBlock);
         }
         return false;
+    }
+
+    public function setPageTitle($idPage, $title) {
+        $page = $this->getPageById($idPage);
+        $page->setTitle($title);
+    }
+
+
+    public function movePageUp($idPage) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->moveUp();
+        }
+    }
+
+    public function movePageDown($idPage) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->moveDown();
+        }
+    }
+
+    public function upElement($idPage, $idElement) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->upElement($idElement);
+        }
+    }
+
+    public function downElement($idPage, $idElement) {
+        $page = $this->getPageById($idPage);
+        if ($page) {
+            $page->downElement($idElement);
+        }
+    }
+
+    public function editProperties($params) {
+
+        $filtered = [];
+        foreach (RevisionLecture::getEditableProperties() as $property) {
+            if (isset($params[$property])) {
+                $filtered[$property] = $params[$property];
+            }
+        }
+
+        $this->properties->setAttributes($filtered);
+        $this->properties->saveCheck();
+    }
+
+    /**
+     * Returns list of properties which can be edited
+     * @return array
+     */
+    public static function getEditableProperties() {
+        return ['title_ua', 'title_ru', 'title_en'];
     }
 
     /**
@@ -785,7 +840,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be approv
      * @return bool
      */
-    private function isApprovable() {
+    public function isApprovable() {
         if ($this->isSended() &&
             !$this->isRejected() &&
             !$this->isCancelled() &&
@@ -800,7 +855,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be reject
      * @return bool
      */
-    private function isRejectable() {
+    public function isRejectable() {
         if ($this->isSended() &&
             !$this->isApproved() &&
             !$this->isRejected()) {
@@ -813,7 +868,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be cancel
      * @return bool
      */
-    private function isCancellable() {
+    public function isCancellable() {
         if ($this->isSended() &&
             !$this->isApproved() ||
             $this->isCancelled()) {
@@ -826,7 +881,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be send
      * @return bool
      */
-    private function isSendable() {
+    public function isSendable() {
         if (!$this->isSended() &&
             !$this->isRejected() &&
             !$this->isApproved() &&
@@ -836,6 +891,19 @@ class RevisionLecture extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be cancel send for approve
+     * @return bool
+     */
+    public function isSendedCancellable() {
+        if ($this->isSended() &&
+            !$this->isRejected() &&
+            !$this->isApproved() &&
+            !$this->isCancelled()) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Return true if revision can be clone
      * @return bool
@@ -856,7 +924,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision was sended
      * @return bool
      */
-    private function isSended() {
+    public function isSended() {
         return $this->properties->id_user_sended_approval != null;
     }
 

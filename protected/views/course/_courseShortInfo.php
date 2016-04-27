@@ -12,6 +12,7 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
             <td>
                 <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
                 <span class="courseLevel">
+                    <a href="#" data-toggle="tooltip" title="<?php echo $model->level(); ?>" id="tooltip">
                      <?php
                      $rate = $model->getRate();
                      for ($i = 0; $i < $rate; $i++) {
@@ -25,6 +26,7 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
                          <?php
                      }
                      ?>
+                        </a>
                 </span>
             </td>
             <td class="courseLevel">
@@ -96,5 +98,9 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
         $this->renderPartial('_paymentsForm', array('model' => $model)); ?>
     </div>
 </div>
-
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.cookie.js'); ?>"></script>

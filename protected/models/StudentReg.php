@@ -312,7 +312,7 @@ class StudentReg extends CActiveRecord
 
     public static function getAdressYears($birthday, $adress = '')
     {
-        $brthAdr = ", ". $adress;
+        $brthAdr = $adress;
         if (!empty($adress) && !empty($birthday)) $brthAdr = $brthAdr . ", ";
 
         $myAge = $birthday;
@@ -1122,5 +1122,17 @@ class StudentReg extends CActiveRecord
             $callBack=Yii::app()->request->baseUrl;
         }else $callBack='';
         return $callBack;
+    }
+
+    public function addressString(){
+        $param = "title_" . Yii::app()->session["lg"];
+        $result = '';
+        if (!is_null($this->country))
+            $result .= AddressCountry::model()->findByPk($this->country)->$param;
+        if (!is_null($this->city))
+            $result .=  ", ". AddressCity::model()->findByPk($this->city)->$param;
+        $result .=  self::getAdressYears($this->birthday, $this->address);
+
+        return ($result != ", ")? $result:'';
     }
 }

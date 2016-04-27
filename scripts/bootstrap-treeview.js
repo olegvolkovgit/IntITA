@@ -615,10 +615,30 @@
 
                 $.each(node.ddbutton.actions, function addElement (id, action){
                     if (action.type == 'button') {
-                        var $action = $(_this.template.dditem);
-                        $action.children('a').click({el: treeItem}, action.action);
-                        $action.children('a').html(action.title);
-                        $ddlist.append($action);
+						if(!node.isSendable && (action.actionType=='send')){
+							return;
+						}
+						if(!node.isApprovable && (action.actionType=='approve')){
+							return;
+						}
+						if(!node.isCancellable && (action.actionType=='cancel')){
+							return;
+						}
+						if(!node.isEditable && (action.actionType=='edit')){
+							return;
+						}
+						if(!node.isRejectable && (action.actionType=='reject')){
+							return;
+						}
+						if(!node.isSendedCancellable && (action.actionType=='cancelSend')){
+							return;
+						}
+						if(node.creatorId==action.userId || action.visible){
+							var $action = $(_this.template.dditem);
+							$action.children('a').click({el: treeItem}, action.action);
+							$action.children('a').html(action.title);
+							$ddlist.append($action);
+						}
                     }
                     if (action.type == 'separator') {
                         var $separator = $(_this.template.ddseparator);
@@ -714,7 +734,7 @@
 		item: '<li class="list-group-item"></li>',
 		indent: '<span class="indent"></span>',
 		icon: '<span class="icon"></span>',
-		link: '<a href="#" style="color:inherit;"></a>',
+		link: '<a style="color:inherit;"></a>',
 		badge: '<span class="badge"></span>',
 
         //dropdown elements
@@ -722,7 +742,7 @@
         ddbutton: '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"></button>',
         ddbuttonspan: '<span class="caret"></span>',
         ddmenu: '<ul class="dropdown-menu pull-right"></ul>',
-        dditem: '<li><a href="#"></a></li>',
+        dditem: '<li><a></a></li>',
         ddseparator: '<li role="separator" class="divider"></li>'
 
     };
