@@ -638,7 +638,7 @@ class RevisionLecture extends CActiveRecord
         $filtered = [];
         foreach (RevisionLecture::getEditableProperties() as $property) {
             if (isset($params[$property])) {
-                $filtered = $params[$property];
+                $filtered[$property] = $params[$property];
             }
         }
 

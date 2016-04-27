@@ -59,7 +59,7 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
         $http({
             url: basePath+'/revision/upPage',
             method: "POST",
-            data: $.param({idPage:pageId}),
+            data: $.param({idPage:pageId, idRevision: idRevision}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
             getLectureData.getData(idRevision).then(function(response){
@@ -73,7 +73,7 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
         $http({
             url: basePath+'/revision/downPage',
             method: "POST",
-            data: $.param({idPage:pageId}),
+            data: $.param({idPage:pageId, idRevision: idRevision}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
             getLectureData.getData(idRevision).then(function(response){

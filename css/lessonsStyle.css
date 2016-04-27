@@ -663,17 +663,5 @@ a.postlink {
     height: 300px;
 }
 .codeBut{
-    background:#4B75A4;
-    color:#FFF;
-    width:100px;
-    border-radius: 4px;
-    margin-right: 4px;
-    margin-bottom: 5px;
- }
-.codeBut:hover{
-    background:#666666;
-    color:#FFF;
-}
-.codeBut.removeHtml{
-    width:200px;
+    margin: 5px 5px 0 0;
 }

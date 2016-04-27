@@ -150,11 +150,11 @@
                         exec: function() {
                             // id=openCKE**** - 7-position *
                             var idEl = element.attr('id').substring(7);
-
                             $http({
                                 url: basePath+'/revision/editLectureElement',
                                 method: "POST",
-                                data: $.param({html_block: scope.editRedactor, idElement: idEl}),
+                                data: $.param({html_block: scope.editRedactor, idElement: idEl,
+                                    idRevision: idRevision, idPage: idPage}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                             })
                                 .success(function (response) {

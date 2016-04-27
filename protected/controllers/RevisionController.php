@@ -660,6 +660,22 @@ class RevisionController extends Controller {
         $lectureRevision->editProperties($params);
     }
 
+//    action editProperties for editable.EditableField widget
+    public function actionXEditableEditProperties() {
+        $idRevision = Yii::app()->request->getPost('pk');
+        $attr = Yii::app()->request->getPost('name');
+        $input = Yii::app()->request->getPost('value');
+
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
+            throw new RevisionControllerException(403, 'Access denied.');
+        }
+
+        $params[$attr] = $input;
+        $lectureRevision->editProperties($params);
+    }
+
     /**
      * Returns true if $user can approve or reject.
      * @param $user

@@ -49,6 +49,7 @@ $this->breadcrumbs = array(
     lang = '<?php if(CommonHelper::getLanguage()=='ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
     idPage = '<?php echo $page->id;?>';
+    idRevision = '<?php echo $page->id_revision;?>';
     idLecture = '<?php echo $page->revision->id_lecture;?>';
     idModule = <?php echo $page->revision->id_module;?>;
 </script>
@@ -97,6 +98,7 @@ $this->breadcrumbs = array(
                             'url' => $this->createUrl('revision/editPageTitle'),
                             'title' => Yii::t('module', '0369'),
                             'placement' => 'right',
+                            'params'     => array('idRevision' => $page->id_revision),
                         ));
                         ?>
                     </div>
