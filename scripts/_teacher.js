@@ -688,7 +688,7 @@ function initPayCoursesList() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="/' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
                 }
             },
             //{
@@ -722,7 +722,7 @@ function initPayModulesTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="/' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
                 }
             },
             //{
@@ -769,9 +769,9 @@ function initAgreementsTable() {
             {"data": "summa"},
             {
                 "width": "15%",
-                "data": "invoicesUrl",
-                "render": function (url) {
-                    return '<a href="#" onclick="load('+ url + ',\'Рахунки\');">рахунки</a>';
+                "data": "invoices",
+                "render": function (invoices) {
+                    return '<a href="#" onclick="load('+ invoices["url"] + ',\'' + invoices["name"]+ '\');">рахунки</a>';
                 }
             }
         ],

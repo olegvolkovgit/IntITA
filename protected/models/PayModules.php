@@ -271,7 +271,7 @@ class PayModules extends CActiveRecord
             $row = array();
 
             $row["title"]["name"] = CHtml::encode($record->module->getTitle());
-            $row["title"]["url"] = "'".Yii::app()->createAbsoluteUrl("module/index", array("idModule" =>$record->module->module_ID))."'";
+            $row["title"]["url"] = Yii::app()->createAbsoluteUrl("module/index", array("idModule" =>$record->module->module_ID));
             $row["summa"] = ($record->module->getBasePrice() != 0)?$record->module->getBasePrice(): "безкоштовно";
             //$row["schema"] = CHtml::encode($record->paymentSchema->name);
             //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";

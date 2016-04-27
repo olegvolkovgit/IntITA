@@ -17,6 +17,7 @@
  * @property string $number
  * @property float $summa
  * @property integer $cancel_reason_type
+ * @property integer $education_form
  *
  * @property Service $service
  * @property StudentReg $user
@@ -26,6 +27,9 @@
  */
 class UserAgreements extends CActiveRecord
 {
+    const EDUCATION_FORM_ONLINE = 0;
+    const EDUCATION_FORM_OFFLINE = 1;
+
     /**
      * @return string the associated database table name
      */
@@ -49,7 +53,7 @@ class UserAgreements extends CActiveRecord
             array('approval_date, cancel_date, close_date', 'safe'),
             // The following rule is used by search().
             array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
-			cancel_date, close_date, payment_schema, cancel_reason_type', 'safe', 'on' => 'search'),
+			cancel_date, close_date, payment_schema, education_form, cancel_reason_type', 'safe', 'on' => 'search'),
         );
     }
 
@@ -89,6 +93,7 @@ class UserAgreements extends CActiveRecord
             'number' => 'Номер',
             'summa' => 'Сума',
             'cancel_reason_type' => 'Причина закриття',
+            'education_form' => 'Форма навчання', // online/offline
         );
     }
 
@@ -121,6 +126,7 @@ class UserAgreements extends CActiveRecord
         $criteria->compare('payment_schema', $this->payment_schema, true);
         $criteria->compare('summa', $this->summa, true);
         $criteria->compare('cancel_reason_type', $this->cancel_reason_type, true);
+        $criteria->compare('education_form', $this->education_form, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -160,7 +166,7 @@ class UserAgreements extends CActiveRecord
     }
     
     
-    public static function courseAgreement($user, $course, $schema)
+    public static function courseAgreement($user, $course, $schema, $educForm = UserAgreements::EDUCATION_FORM_ONLINE)
     {
         $service = CourseService::getService($course);
         if ($service) {
@@ -169,7 +175,7 @@ class UserAgreements extends CActiveRecord
                 return $model;
             }
         }
-        return self::newAgreement($user, 'CourseService', $course, $schema);
+        return self::newAgreement($user, 'CourseService', $course, $schema, $educForm);
     }
 
     public static function courseAgreementExist($user, $course)
@@ -184,7 +190,7 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    public static function moduleAgreement($user, $module, $schema)
+    public static function moduleAgreement($user, $module, $schema, $educForm = UserAgreements::EDUCATION_FORM_ONLINE)
     {
         $service = ModuleService::getService($module);
         if ($service) {
@@ -193,7 +199,7 @@ class UserAgreements extends CActiveRecord
                 return $model;
             }
         }
-        return self::newAgreement($user, 'ModuleService', $module, $schema);
+        return self::newAgreement($user, 'ModuleService', $module, $schema, $educForm);
     }
 
     public static function moduleAgreementExist($user, $module)
@@ -208,7 +214,7 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id, $schemaId)
+    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, $educForm)
     {
         $schema = PaymentScheme::getSchema($schemaId);
         $serviceModel = $modelFactory::getService($param_id);
@@ -218,6 +224,7 @@ class UserAgreements extends CActiveRecord
         $model->user_id = $user;
         $model->payment_schema = $schemaId;
         $model->service_id = $serviceModel->service_id;
+        $model->education_form = $educForm;
 
         $model->summa = $schema->getSumma($billableObject);
         $startDate = new DateTime();
@@ -377,13 +384,13 @@ class UserAgreements extends CActiveRecord
 
         foreach ($agreements as $record) {
             $row = array();
-
             $row["title"]["name"] = "Договір ".$record->number;
-            $row["title"]["url"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
-            $row["date"] = $record->create_date;
+            $row["title"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
+            $row["date"] = date("d.m.y", strtotime($record->create_date));
             $row["summa"] = ($record->summa != 0)?$record->summa: "безкоштовно";
             $row["schema"] = CHtml::encode($record->paymentSchema->name);
-            $row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
+            $row["invoices"]["name"] = "Договір ".$record->number;
+            $row["invoices"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
 
             array_push($return['data'], $row);
         }
