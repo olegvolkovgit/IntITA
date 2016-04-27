@@ -20,7 +20,10 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $this->render('index');
+        $this->render('index',array(
+            'isApprover' => true,
+            'userId' => Yii::app()->user->getId(),
+        ));
     }
 
     public function actionCreateNewLecture() {
@@ -460,7 +463,7 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
         }
 
@@ -471,6 +474,8 @@ class RevisionController extends Controller {
         $this->render('index', array(
             'idModule' => $lectureRev->id_module,
             'idLecture' => $idLecture,
+            'isApprover' => $this->isUserApprover(Yii::app()->user),
+            'userId' => Yii::app()->user->getId(),
         ));
     }
 
@@ -503,8 +508,14 @@ class RevisionController extends Controller {
     }
 
     public function actionModuleLecturesRevisions($idModule) {
+        if (!$this->isUserTeacher(Yii::app()->user, $idModule) && !$this->isUserApprover(Yii::app()->user)) {
+            throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
+        }
+
         $this->render('index', array(
             'idModule' => $idModule,
+            'isApprover' => $this->isUserApprover(Yii::app()->user),
+            'userId' => Yii::app()->user->getId(),
         ));
     }
 
@@ -752,6 +763,13 @@ class RevisionController extends Controller {
             $node['text'] = "Ревізія №" . $lecture->id_revision . " " . $lecture->properties->title_ua . ". Статус: " . $lecture->getStatus();
             $node['selectable'] = false;
             $node['id'] = $lecture->id_revision;
+            $node['creatorId'] = $lecture->properties->id_user_created;
+            $node['isSendable'] = $lecture->isSendable();
+            $node['isApprovable'] = $lecture->isApprovable();
+            $node['isCancellable'] = $lecture->isCancellable();
+            $node['isEditable'] = $lecture->isEditable();
+            $node['isRejectable'] = $lecture->isRejectable();
+            $node['isSendedCancellable'] = $lecture->isSendedCancellable();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }

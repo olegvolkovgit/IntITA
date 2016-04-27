@@ -840,7 +840,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be approv
      * @return bool
      */
-    private function isApprovable() {
+    public function isApprovable() {
         if ($this->isSended() &&
             !$this->isRejected() &&
             !$this->isCancelled() &&
@@ -855,7 +855,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be reject
      * @return bool
      */
-    private function isRejectable() {
+    public function isRejectable() {
         if ($this->isSended() &&
             !$this->isApproved() &&
             !$this->isRejected()) {
@@ -868,7 +868,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be cancel
      * @return bool
      */
-    private function isCancellable() {
+    public function isCancellable() {
         if ($this->isSended() &&
             !$this->isApproved() ||
             $this->isCancelled()) {
@@ -881,7 +881,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision can be send
      * @return bool
      */
-    private function isSendable() {
+    public function isSendable() {
         if (!$this->isSended() &&
             !$this->isRejected() &&
             !$this->isApproved() &&
@@ -891,6 +891,19 @@ class RevisionLecture extends CActiveRecord
         return false;
     }
 
+    /**
+     * Return true if revision can be cancel send for approve
+     * @return bool
+     */
+    public function isSendedCancellable() {
+        if ($this->isSended() &&
+            !$this->isRejected() &&
+            !$this->isApproved() &&
+            !$this->isCancelled()) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Return true if revision can be clone
      * @return bool
@@ -911,7 +924,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision was sended
      * @return bool
      */
-    private function isSended() {
+    public function isSended() {
         return $this->properties->id_user_sended_approval != null;
     }
 

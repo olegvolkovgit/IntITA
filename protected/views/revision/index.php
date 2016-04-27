@@ -27,6 +27,8 @@ if(isset($idLecture)){
     basePath='<?php echo  Config::getBaseUrl(); ?>';
     idModule = <?php echo isset($idModule)?$idModule:0;?>;
     idLecture = <?php echo isset($idLecture)?$idLecture:0;?>;
+    isApprover = '<?php echo $isApprover;?>';
+    userId = '<?php echo $userId;?>';
 </script>
 <div id="revisionMainBox" ng-app="revisionTreesApp">
     <div class="form-group" ng-controller="revisionTreesCtrl" ng-cloak>
