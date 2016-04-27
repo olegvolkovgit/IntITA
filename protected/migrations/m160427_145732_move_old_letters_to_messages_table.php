@@ -8,7 +8,7 @@ class m160427_145732_move_old_letters_to_messages_table extends CDbMigration
 		$letters = $this->getDBConnection()->createCommand($sql)->query();
 
 		foreach($letters as $row){
-            if($this->getDBConnection()->createCommand('select count()')->queryScalar()) {
+            if($this->getDBConnection()->createCommand('select count(id) from user where id='.$row['addressee_id'])->queryScalar()) {
                 $this->insert('messages', array(
                     'sender' => $row['sender_id'],
                     'create_date' => strtotime($row['date']),
