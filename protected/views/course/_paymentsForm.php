@@ -1,6 +1,5 @@
 <?php
 /* @var $model Course */
-$price = $model->getBasePrice();
 ?>
 <div class="paymentsForm">
     <?php
@@ -11,72 +10,12 @@ $price = $model->getBasePrice();
             'enableAjaxValidation' => false,
         )); ?>
         <input value="1" type="hidden" name="schema"/>
-        <div id="rowRadio">
-            <div class="spoilerBodyOnline">
-                <div class="paymentsListOdd">
-                    <input id='firstRadioOnline' type="radio" class="paymentPlan_value" name="payment" value="1">
-                    <?php $this->renderPartial('_advancePaymentSchema', array(
-                        'model' => $model,
-                        'price' => $price,
-                        'discount' => 30
-                    )); ?>
-                </div>
+        <input value="Online" type="hidden" name="type" id="type"/>
 
-                <div class="paymentsListEven">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="2">
-                    <?php $this->renderPartial('_basePaymentSchema', array(
-                        'image1' => StaticFilesHelper::createPath('image', 'course', 'coins.png'),
-                        'image2' => StaticFilesHelper::createPath('image', 'course', 'checkCoins.png'),
-                        'model' => $model,
-                        'price' => $price,
-                        'number' => 2,
-                        'discount' => 10
-                    )); ?>
-                </div>
+        <?php $this->renderPartial('_onlinePaymentsScheme', array('model' => $model)); ?>
 
-                <div class="paymentsListOdd">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="3">
-                    <?php $this->renderPartial('_basePaymentSchema', array(
-                        'image1' => StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'),
-                        'image2' => StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png'),
-                        'model' => $model,
-                        'price' => $price,
-                        'number' => 4,
-                        'discount' => 8
-                    )); ?>
-                </div>
-
-                <div class="paymentsListEven">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="4">
-                    <?php $this->renderPartial('_monthlyPaymentSchema', array('model' => $model, 'price' => $price)); ?>
-                </div>
-
-                <div class="paymentsListOdd">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="5">
-                    <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                        'year' => 2)); ?>
-                </div>
-
-                <div class="paymentsListEven">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="6">
-                    <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                        'year' => 3)); ?>
-                </div>
-
-                <div class="paymentsListOdd">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="7">
-                    <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                        'year' => 4)); ?>
-                </div>
-
-                <div class="paymentsListEven">
-                    <input type="radio" class="paymentPlan_value" name="payment" value="8">
-                    <?php $this->renderPartial('_creditPaymentSchema', array('model' => $model, 'price' => $price,
-                        'year' => 5)); ?>
-                </div>
-            </div>
-        </div>
         <?php $this->renderPartial('_offlinePaymentsForm', array('model' => $model)); ?>
+
         <div class="markAndButton">
             <div class="markCourse">
                 <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
@@ -111,14 +50,15 @@ $price = $model->getBasePrice();
     <?php } ?>
 </div>
 
-
 <script>
     $(function () {
         $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
     function redirectToProfile() {
         schema = $('input:radio[name="payment"]:checked').val();
+        type = $('#type').val();
         $.cookie('courseSchema', schema, {'path': "/"});
-        $.cookie('openProfileTab', 5, {'path': "/"});
+        $.cookie('agreementType', type, {'path': "/"});
+        $.cookie('openProfileTab', 4, {'path': "/"});
     }
 </script>
