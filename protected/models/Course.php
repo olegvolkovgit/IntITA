@@ -1051,4 +1051,9 @@ class Course extends CActiveRecord implements IBillableObject
 
         return json_encode($result);
     }
+
+    public function priceOffline(){
+        return round($this->getBasePrice() * Config::getCoeffModuleOffline());
+    }
+
 }

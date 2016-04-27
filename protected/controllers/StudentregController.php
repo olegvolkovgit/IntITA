@@ -230,6 +230,7 @@ class StudentRegController extends Controller
             throw new \application\components\Exceptions\IntItaException('403', 'Гість не може проглядати профіль користувача');
         $user = RegisteredUser::userById($idUser);
         $model = $user->registrationData;
+        $addressString = $model->addressString();
         if (!$model)
             throw new \application\components\Exceptions\IntItaException('403', 'Користувача з таким ідентифікатором не існує');
         $dataProvider = $model->getDataProfile();
@@ -244,26 +245,17 @@ class StudentRegController extends Controller
             throw new \application\components\Exceptions\IntItaException('400', "Такого курса немає. Список усіх курсів доступний на сторінці Курси.");
         }
         if ($idUser == Yii::app()->user->getId()) {
-            $letter = new Letters();
-            $sentLettersProvider = $model->getSentLettersData();
-            $receivedLettersProvider = $model->getReceivedLettersData();
-            $paymentsModules = $model->getPaymentsModules();
-            $agreements = UserAgreements::getDataProviderByUser(Yii::app()->user->getId());
 
             $this->render("studentprofile", array(
                 'dataProvider' => $dataProvider,
                 'post' => $model,
                 'user' => $user,
-                'letter' => $letter,
-                'sentLettersProvider' => $sentLettersProvider,
-                'receivedLettersProvider' => $receivedLettersProvider,
-                'paymentsCourses' => $paymentsCourses,
-                'paymentsModules' => $paymentsModules,
                 'markProvider' => $markProvider,
+                'paymentsCourses' => $paymentsCourses,
+                'addressString' => $addressString,
                 'course' => $course,
                 'schema' => $schema,
                 'module' => $module,
-                'agreements' => $agreements,
                 'owner' => 'true'
             ));
         } else {
@@ -271,6 +263,7 @@ class StudentRegController extends Controller
                 'dataProvider' => $dataProvider,
                 'post' => $model,
                 'user' => $user,
+                'addressString' => $addressString,
                 'markProvider' => $markProvider,
                 'paymentsCourses' => $paymentsCourses,
                 'owner' => 'false'

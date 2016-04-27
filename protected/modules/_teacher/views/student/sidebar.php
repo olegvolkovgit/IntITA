@@ -21,5 +21,13 @@
                 Консультації
             </a>
         </li>
+        <li id="nav">
+            <a href="#"
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_student/student/finances',
+                   array('id' => $model->id)) ?>',
+                   'Фінанси')">
+                Фінанси
+            </a>
+        </li>
     </ul>
 </li>

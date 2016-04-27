@@ -240,7 +240,7 @@ class RegisteredUser
 
     public function noSetTeacherRoles()
     {
-        return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()));
+        return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()), array(UserRoles::AUTHOR));
     }
 
     public function requests()

@@ -49,7 +49,21 @@
                 <li class="list-group-item">Ім'я:
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>">
                         <?php echo $teacher->getName() ?></a></li>
-                <li class="list-group-item">Електронна пошта: <?php echo $teacher->user->email; ?></li>
+                <li class="list-group-item">Ім'я російською:
+                    <?=$teacher->last_name_ru." ".$teacher->first_name_ru." ".$teacher->middle_name_ru; ?>
+                </li>
+                <li class="list-group-item">Ім'я англійською:
+                    <?=$teacher->last_name_en." ".$teacher->first_name_en." ".$teacher->middle_name_en; ?>
+                </li>
+                <li class="list-group-item">Електронна пошта: <a href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                        'scenario' => 'message',
+                        'receiver' => $teacher->user_id
+                    ))?>">
+                    <?php echo $teacher->user->email; ?></a>
+                </li>
+                <li class="list-group-item">Приватний чат:
+                    <a href="<?= Config::getChatPath().$teacher->user_id;?>"
+                       target="_blank">почати чат</a></li>
                 <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
 
                 <?php if (!empty($user->getRoles())) { ?>

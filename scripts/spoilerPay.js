@@ -2,17 +2,20 @@
  * Created by Wizlight on 02.06.2015.
  */
 /**-------Спойлер ціни курсу--------*/
-function paymentSpoiler(a,b){
-        var nameSpoiler = document.getElementById("spoilerClick").innerHTML;
+function paymentSpoiler(a,b, type){
+        var nameSpoiler = document.getElementById("spoilerClick" + type).innerHTML;
         if(nameSpoiler==a){
-            document.getElementById("spoilerClick").innerHTML=b;
-            document.getElementById("spoilerTriangle").innerHTML="\u25B2";
+            document.getElementById("spoilerClick" + type).innerHTML=b;
+            document.getElementById("spoilerTriangle" + type).innerHTML="\u25B2";
+            $('#numbersFirst' + type).hide();
         } else if(nameSpoiler==b){
-            document.getElementById("spoilerClick").innerHTML=a;
-            document.getElementById("spoilerTriangle").innerHTML="\u25BC";
+            document.getElementById("spoilerClick" + type).innerHTML=a;
+            document.getElementById("spoilerTriangle" + type).innerHTML="\u25BC";
+            $('#numbersFirst' + type).show();
         }
-        $('#firstRadio').toggle('normal');
-        $('.spoilerBody').toggle('normal');
+        $('#type').val(type);
+        $('#firstRadio' + type).toggle('normal');
+        $('.spoilerBody' + type).toggle('normal');
         return false;
     }
 $(document).ready(function () {
