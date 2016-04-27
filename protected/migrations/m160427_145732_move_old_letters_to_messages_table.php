@@ -4,6 +4,7 @@ class m160427_145732_move_old_letters_to_messages_table extends CDbMigration
 {
 	public function up()
 	{
+        date_default_timezone_set('UTC');
 		$sql = "SELECT * FROM letters";
 		$letters = $this->getDBConnection()->createCommand($sql)->query();
 
