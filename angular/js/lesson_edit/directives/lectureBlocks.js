@@ -45,7 +45,7 @@ angular
                     $http({
                         url: basePath + '/revision/upLectureElement',
                         method: "POST",
-                        data: $.param({idElement:idEl, idPage:idPage}),
+                        data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function () {
@@ -75,7 +75,7 @@ angular
                     $http({
                         url: basePath + '/revision/downLectureElement',
                         method: "POST",
-                        data: $.param({idElement:idEl, idPage:idPage}),
+                        data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function () {
@@ -107,7 +107,7 @@ angular
                             $http({
                                 url: basePath + '/revision/deleteLectureElement',
                                 method: "POST",
-                                data: $.param({idElement:idEl, idPage:idPage}),
+                                data: $.param({idElement:idEl, idPage:idPage, idRevision: idRevision}),
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             })
                                 .success(function () {
