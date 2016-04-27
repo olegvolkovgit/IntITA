@@ -96,7 +96,7 @@ $this->breadcrumbs = array(
                             'model' => $page,
                             'attribute' => 'page_title',
                             'url' => $this->createUrl('revision/editPageTitle'),
-                            'title' => Yii::t('module', '0369'),
+                            'title' => 'Введи назву частини',
                             'placement' => 'right',
                             'params'     => array('idRevision' => $page->id_revision),
                         ));
