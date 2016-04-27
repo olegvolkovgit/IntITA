@@ -36,15 +36,48 @@
     </tr>
     <tr>
         <td>Назва (укр):</td>
-        <td><?=$lectureRevision->properties->title_ua?></td>
+        <td>
+            <?php
+            $this->widget('editable.EditableField', array(
+                'type' => 'text',
+                'model' => $lectureRevision->properties,
+                'attribute' => 'title_ua',
+                'url' => $this->createUrl('revision/XEditableEditProperties'),
+                'title' => Yii::t('lecture', '0567'),
+                'placement' => 'right',
+            ));
+            ?>
+        </td>
     </tr>
     <tr>
         <td>Назва (рос):</td>
-        <td><?=$lectureRevision->properties->title_ru?></td>
+        <td>
+            <?php
+            $this->widget('editable.EditableField', array(
+                'type' => 'text',
+                'model' => $lectureRevision->properties,
+                'attribute' => 'title_ru',
+                'url' => $this->createUrl('revision/XEditableEditProperties'),
+                'title' => Yii::t('lecture', '0567'),
+                'placement' => 'right',
+            ));
+            ?>
+        </td>
     </tr>
     <tr>
         <td>Назва (англ):</td>
-        <td><?=$lectureRevision->properties->title_en?></td>
+        <td>
+            <?php
+            $this->widget('editable.EditableField', array(
+                'type' => 'text',
+                'model' => $lectureRevision->properties,
+                'attribute' => 'title_en',
+                'url' => $this->createUrl('revision/XEditableEditProperties'),
+                'title' => Yii::t('lecture', '0567'),
+                'placement' => 'right',
+            ));
+            ?>
+        </td>
     </tr>
     <tr>
         <td>Автор:</td>
