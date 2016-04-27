@@ -62,12 +62,18 @@ class TestsController extends Controller
         if ($user!=0) {
             if (TestsAnswers::checkTestAnswer($test, $answers)) {
                 TestsMarks::addTestMark($user, $test, 1);
-                $r = new LogTracks;
-                $r->TrueAnswer(Yii::app()->user->getId(),$page,$lesson);
+                $event = 'TrueAnswer';
+                $user_id = Yii::app()->user->id;
+                $Model = EventsFactory::TrackEvent($event);
+                $Model->TrackEvent($user_id,$lesson,$page);
             } else {
                 TestsMarks::addTestMark($user, $test, 0);
-                $r = new LogTracks;
-                $r->FalseAnswer(Yii::app()->user->getId(),$page,$lesson);
+
+                $event = 'FalseAnswer';
+                $user_id = Yii::app()->user->id;
+                $Model = EventsFactory::TrackEvent($event);
+                $Model->TrackEvent($user_id,$lesson,$page);
+
             }
         }
         $this->redirect(Yii::app()->request->urlReferrer);

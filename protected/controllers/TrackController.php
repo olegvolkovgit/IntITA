@@ -9,8 +9,18 @@ class TrackController extends Controller
 		// $arr['time'] = Yii::app()->request->getPost('part');
 		// $arr['name'] = Yii::app()->request->getPost('events');
 		// $arr['vvvv'] = Yii::app()->request->getPost('lesson');
-		$f = new LogTracks();
-		$f->Track_lessons(Yii::app()->user->id,Yii::app()->request->getPost('part'),Yii::app()->request->getPost('events'),Yii::app()->request->getPost('lesson'));
+		//$tmp= new EventsFactoryController;
+		$event = Yii::app()->request->getPost('events');
+		$lesson = Yii::app()->request->getPost('lesson',0);
+		$part = Yii::app()->request->getPost('part',0);
+		$user_id = Yii::app()->user->id;
+		$Model = EventsFactory::TrackEvent($event);
+		//$TrackEvent= new TrackVideoModel();
+
+		$Model->TrackEvent($user_id,$lesson,$part);
+
+		//$f = new LogTracks();
+		//$f->Track_lessons(Yii::app()->user->id,Yii::app()->request->getPost('part'),Yii::app()->request->getPost('events'),Yii::app()->request->getPost('lesson'));
 
 
 

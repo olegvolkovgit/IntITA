@@ -5,13 +5,16 @@
  *
  * The followings are the available columns in table 'log_tracks':
  * @property integer $id
- * @property string $event
+ * @property integer $event_id
  * @property string $lesson
  * @property string $user
  * @property string $part
  * @property string $logtime
+ *
+ * The followings are the available model relations:
+ * @property EventsName $event
  */
-class LogTracks extends CActiveRecord
+class EventsFactory extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -29,8 +32,9 @@ class LogTracks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('logtime', 'required'),
-			array('event_id, lesson, user, part', 'length', 'max'=>255),
+			array('event_id, logtime', 'required'),
+			array('event_id', 'numerical', 'integerOnly'=>true),
+			array('lesson, user, part', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, event_id, lesson, user, part, logtime', 'safe', 'on'=>'search'),
@@ -45,6 +49,7 @@ class LogTracks extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'event' => array(self::BELONGS_TO, 'EventsName', 'event_id'),
 		);
 	}
 
@@ -55,7 +60,7 @@ class LogTracks extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'event_id' => 'Event_id',
+			'event_id' => 'Event',
 			'lesson' => 'Lesson',
 			'user' => 'User',
 			'part' => 'Part',
@@ -82,7 +87,7 @@ class LogTracks extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('event_id',$this->event_id,true);
+		$criteria->compare('event_id',$this->event_id);
 		$criteria->compare('lesson',$this->lesson,true);
 		$criteria->compare('user',$this->user,true);
 		$criteria->compare('part',$this->part,true);
@@ -97,71 +102,31 @@ class LogTracks extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return LogTracks the static model class
+	 * @return EventsFactory the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-	public function Login($user)
+	public static function TrackEvent($string)
 	{
 
-		$f = new LogTracks();
-		$f->user =$user;
-		$f->logtime = new CDbExpression('NOW()');
-		$f->event_id = 1;
-		$f->save();
+        switch($string) {
+            case 'Start_Video':
+				return new TrackVideoModel();
+            case 'LogIn':
+                return new TrackLogInModel();
+            case 'LogOut':
+                return new TrackLogOutModel();
+            case 'Open_Quiz':
+                return new TrackOpenQuizModel();
+            case 'Open_Text':
+                return new TrackOpenTextModel();
+            case 'TrueAnswer':
+                return new TrackTrueQuizModel();
+            case 'FalseAnswer':
+                return new TrackFalseQuizModel();
 
-
-	}
-	public function LogOut($user)
-	{
-
-		$f = new LogTracks();
-		$f->user =$user;
-		$f->logtime = new CDbExpression('NOW()');
-		$f->event_id = 2;
-		$f->save();
-
-
-	}
-	public function TrueAnswer($user,$page,$lesson)
-	{
-
-		$f = new LogTracks();
-		$f->user =$user;
-
-		$f->part =$page;
-		$f->logtime = new CDbExpression('NOW()');
-		$f->event_id = 3;
-		$f->lesson = $lesson;
-		$f->save();
-
-
-	}
-	public function FalseAnswer($user,$page,$lesson)
-	{
-
-		$f = new LogTracks();
-		$f->user =$user;
-
-		$f->part =$page;
-		$f->logtime = new CDbExpression('NOW()');
-		$f->event_id = 4;
-		$f->lesson = $lesson;
-		$f->save();
-
-
-	}
-	public function Track_lessons($id,$part,$event,$lesson)
-	{
-		$f = new LogTracks();
-		$f->user =$id;
-		$f->part =$part;
-
-		$f->logtime = new CDbExpression('NOW()');
-		$f->event_id = $event;
-		$f->lesson = $lesson;
-		$f->save();
+    }
 	}
 }
