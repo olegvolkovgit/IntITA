@@ -78,3 +78,6 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
     width: 100%;
     text-align: center;
 }
+.modal {
+    z-index: 9999;
+}

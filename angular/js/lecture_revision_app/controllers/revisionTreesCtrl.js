@@ -101,82 +101,110 @@ function revisionTreesCtrl($compile, $scope, $http) {
         var template = angular.element(document.querySelector("#tree"));
         $compile(template)($scope);
     };
-
+    //init actions for revision tree
+    var approverActions=[{
+        "type": "button",
+        "actionType": "approve",
+        "title": "Затвердити",
+        "visible": true,
+        "userId":userId,
+        "action": function(event) {
+            var idRevision = $(event.data.el).attr('id');
+            var nodeId = $(event.data.el).attr('data-nodeid');
+            $scope.approveRevision(idRevision, nodeId);
+        }
+    },
+        {
+            "type": "button",
+            "actionType": "reject",
+            "title": "Відхилити",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.rejectRevision(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancel",
+            "title": "Скасувати",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelRevision(idRevision, nodeId);
+            }
+        }];
+    var authorActions=[
+        {
+            "type": "button",
+            "title": "Створити нову ревізію",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                createRevision(idRevision);
+            }
+        },
+        {
+            "type": "button",
+            "title": "Переглянути",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                previewRevision(idRevision);
+            }
+        }
+    ];
+    var generalActions=[
+        {
+            "type": "button",
+            "actionType": "edit",
+            "title": "Редагувати",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                editRevision(idRevision);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "send",
+            "title": "Відправити на затвердження",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.sendRevision(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelSend",
+            "title": "Скасувати відправлення на затвердження",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelSendRevision(idRevision, nodeId);
+            }
+        },
+    ];
+    if(isApprover){
+        var actions=approverActions.concat(authorActions, generalActions);
+    }else{
+        var actions=authorActions.concat(generalActions);
+    }
+    //console.log(actions);
     //init buttons
     $scope.addButtonsNg= function(treeData) {
         var treeButtons = {
             "title": "Дії",
-            "actions": [
-                {
-                    "type": "button",
-                    "title": "Створити нову ревізію",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        createRevision(idRevision);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Переглянути",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        previewRevision(idRevision);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Редагувати",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        editRevision(idRevision);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Відправити на затвердження",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        var nodeId = $(event.data.el).attr('data-nodeid');
-                        $scope.sendRevision(idRevision, nodeId);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Скасувати відправлення на затвердження",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        var nodeId = $(event.data.el).attr('data-nodeid');
-                        $scope.cancelSendRevision(idRevision, nodeId);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Затвердити",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        var nodeId = $(event.data.el).attr('data-nodeid');
-                        $scope.approveRevision(idRevision, nodeId);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Відхилити",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        var nodeId = $(event.data.el).attr('data-nodeid');
-                        $scope.rejectRevision(idRevision, nodeId);
-                    }
-                },
-                {
-                    "type": "button",
-                    "title": "Скасувати",
-                    "action": function(event) {
-                        var idRevision = $(event.data.el).attr('id');
-                        var nodeId = $(event.data.el).attr('data-nodeid');
-                        $scope.cancelRevision(idRevision, nodeId);
-                    }
-                }
-            ]
+            "actions": actions
         };
 
         $.each(treeData, function(k, v) {
