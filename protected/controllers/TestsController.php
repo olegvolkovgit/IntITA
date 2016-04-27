@@ -64,15 +64,15 @@ class TestsController extends Controller
                 TestsMarks::addTestMark($user, $test, 1);
                 $event = 'TrueAnswer';
                 $user_id = Yii::app()->user->id;
-                $Model = EventsFactory::TrackEvent($event);
-                $Model->TrackEvent($user_id,$lesson,$page);
+                $Model = EventsFactory::trackEvent($event);
+                $Model->trackEvent($user_id,$lesson,$page);
             } else {
                 TestsMarks::addTestMark($user, $test, 0);
 
                 $event = 'FalseAnswer';
                 $user_id = Yii::app()->user->id;
-                $Model = EventsFactory::TrackEvent($event);
-                $Model->TrackEvent($user_id,$lesson,$page);
+                $Model = EventsFactory::trackEvent($event);
+                $Model->trackEvent($user_id,$lesson,$page);
 
             }
         }

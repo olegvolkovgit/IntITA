@@ -1,19 +1,5 @@
 <?php
 
-/**
- * This is the model class for table "log_tracks".
- *
- * The followings are the available columns in table 'log_tracks':
- * @property integer $id
- * @property integer $event_id
- * @property string $lesson
- * @property string $user
- * @property string $part
- * @property string $logtime
- *
- * The followings are the available model relations:
- * @property EventsName $event
- */
 class TrackLogInModel extends CActiveRecord
 {
     /**
@@ -68,47 +54,7 @@ class TrackLogInModel extends CActiveRecord
         );
     }
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
-     *
-     * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
-     */
-    public function search()
-    {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id',$this->id);
-        $criteria->compare('event_id',$this->event_id);
-        $criteria->compare('lesson',$this->lesson,true);
-        $criteria->compare('user',$this->user,true);
-        $criteria->compare('part',$this->part,true);
-        $criteria->compare('logtime',$this->logtime,true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
-    }
-
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return TrackVideoModel the static model class
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-    public function TrackEvent($user,$lesson,$part)
+    public function trackEvent($user,$lesson,$part)
     {
         $this->part =$part;
         $this->lesson = $lesson;

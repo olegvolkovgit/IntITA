@@ -235,8 +235,8 @@ class SiteController extends Controller
         $part = Yii::app()->request->getPost('page',0);
         $user_id = Yii::app()->user->id;
 
-        $Model = EventsFactory::TrackEvent($event);
-        $Model->TrackEvent($user_id,$lesson,$part);
+        $Model = EventsFactory::trackEvent($event);
+        $Model->trackEvent($user_id,$lesson,$part);
 //        $r = new LogTracks;
 //        $r->LogOut(Yii::app()->user->getId());
         $id = 0;
@@ -750,8 +750,8 @@ class SiteController extends Controller
                         $part = Yii::app()->request->getPost('page',0);
                         $user_id = Yii::app()->user->id;
 
-                        $Model = EventsFactory::TrackEvent($event);
-                        $Model->TrackEvent($user_id,$lesson,$part);
+                        $Model = EventsFactory::trackEvent($event);
+                        $Model->trackEvent($user_id,$lesson,$part);
                         //                        Forum login
                         if (!ForumUser::login($userModel))
                             throw new ForumException('Forum user not save!!!');
