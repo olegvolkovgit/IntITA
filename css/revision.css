@@ -3,6 +3,7 @@
     width: 1200px;
     overflow: visible;
     position: relative;
+    word-wrap: break-word;
 }
 .editIco{
     cursor: pointer;
