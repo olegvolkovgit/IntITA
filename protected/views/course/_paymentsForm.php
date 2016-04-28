@@ -33,8 +33,9 @@
                         ?>
                         <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton"
                            onclick="redirectToProfile()"
-                           href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                               'idUser' => Yii::app()->user->getId(),
+                           href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                               'scenario' => 'payCourse',
+                               'receiver' => 0,
                                'course' => $model->course_ID,
                            )); ?>"><?php echo Yii::t('course', '0328'); ?>
                         </a>
@@ -59,6 +60,5 @@
         type = $('#type').val();
         $.cookie('courseSchema', schema, {'path': "/"});
         $.cookie('agreementType', type, {'path': "/"});
-        $.cookie('openProfileTab', 4, {'path': "/"});
     }
 </script>
