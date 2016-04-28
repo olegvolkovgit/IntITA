@@ -22,6 +22,10 @@ class ContentManagerController extends TeacherCabinetController
     {
         $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
     }
+    public function actionCourseStatus()
+    {
+        $this->renderPartial('/_content_manager/courseStatus', array(), false, true);
+    }
 
     public function actionAddConsultantModuleForm()
     {

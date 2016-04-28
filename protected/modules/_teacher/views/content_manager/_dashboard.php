@@ -24,6 +24,10 @@
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/teacherConsultants'); ?>',
                                'Викладачі')">Викладачі</a>
                     </li>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/courseStatus'); ?>',
+                               'Стан курсу')">Стан курсу</a>
+                    </li>
                  </ul>
             </div>
             <div class="panel-footer">
