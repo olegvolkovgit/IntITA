@@ -272,7 +272,7 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $this->renderPartial('_addLessonForm', array('newmodel' => $model), false, true);
+        $this->renderPartial('_addLessonForm', array('model' => $model), false, true);
     }
 
     public function actionUpdateModuleAttribute()
@@ -322,22 +322,5 @@ class ModuleController extends Controller
         $fullData=CJSON::encode(array_merge($modelData,$data));
 
         echo $fullData;
-    }
-    public function actionUpdateLectureTitle()
-    {
-        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $titleParam = "title_".$lang;
-
-        $title=Yii::app()->request->getParam('title');
-        $id=Yii::app()->request->getParam('lectureId');
-
-        $lecture=Lecture::model()->findByPk($id);
-        $lecture->$titleParam=$title;
-        if($lecture->validate()){
-            $lecture->save();
-            echo 'success';
-        }else{
-            echo CJSON::encode(array_shift($lecture->getErrors()));
-        }
     }
 }
