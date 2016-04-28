@@ -964,4 +964,16 @@ class RevisionLecture extends CActiveRecord
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
     }
 
+    public static function getParentRevisionForLecture($idLecture) {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'vc_lecture';
+        $criteria->condition = 'id_lecture=' . $idLecture;
+        $criteria->with = array('properties');
+        $criteria->order = 'properties.approve_date DESC';
+        $criteria->addCondition('properties.id_user_approved IS NOT NULL');
+        $criteria->limit = 1;
+        $revisions = RevisionLecture::model()->find($criteria);
+        return isset($revisions->id_revision)?$revisions->id_revision:null;
+    }
+
 }

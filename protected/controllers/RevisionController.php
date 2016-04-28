@@ -953,6 +953,7 @@ class RevisionController extends Controller {
             $data[$key]['id'] = $lecture->id;
             $data[$key]['revisionsLink'] = Yii::app()->createUrl('/revision/editLecture',array('idLecture'=>$lecture->id));
             $data[$key]['lecturePreviewLink'] = Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => 0));
+            $data[$key]['approvedFromRevision'] = RevisionLecture::getParentRevisionForLecture($lecture->id);
         }
         echo CJSON::encode($data);
     }
