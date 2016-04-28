@@ -100,7 +100,7 @@ class LessonController extends Controller
             $view='indexTemplate';
         } else $view='index1';
 
-        $this->render($view, array(
+        $this->render('indexTemplate', array(
             'dataProvider' => $dataProvider,
             'lecture' => $lecture,
             'editMode' => $editMode,
