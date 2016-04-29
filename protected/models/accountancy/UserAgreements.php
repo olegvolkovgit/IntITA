@@ -142,15 +142,15 @@ class UserAgreements extends CActiveRecord
     }
 
     
-    public static function agreementByParams($type, $user, $module, $course, $schemaNum)
+    public static function agreementByParams($type, $user, $module, $course, $schemaNum, $educForm)
     {
         $agreement = null;
         switch ($type){
             case 'Module':
-                $agreement = UserAgreements::moduleAgreement($user, $module, 1);
+                $agreement = UserAgreements::moduleAgreement($user, $module, 1, $educForm);
                 break;
             case 'Course':
-                $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
+                $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum, $educForm);
                 break;
             default :
                 $agreement = null;
@@ -160,7 +160,7 @@ class UserAgreements extends CActiveRecord
     }
     
     
-    public static function courseAgreement($user, $course, $schema)
+    public static function courseAgreement($user, $course, $schema, $educForm)
     {
         $service = CourseService::getService($course);
         if ($service) {
@@ -184,7 +184,7 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    public static function moduleAgreement($user, $module, $schema)
+    public static function moduleAgreement($user, $module, $schema, $educForm)
     {
         $service = ModuleService::getService($module);
         if ($service) {
@@ -334,6 +334,13 @@ class UserAgreements extends CActiveRecord
         return $dataProvider;
     }
 
+    public function invoices()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('agreement_id='.$this->id);
+
+        return Invoice::model()->findAll($criteria);
+    }
 
     public function cancelOperation()
     {

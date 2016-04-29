@@ -6,7 +6,7 @@
  * Date: 10.03.16
  * Time: 11:53
  */
-class RevisionLecturePropertiesException extends RevisionException {
+class RevisionPlainTaskException extends RevisionException {
 
     protected $view = '/site/error';
     public $statusCode;

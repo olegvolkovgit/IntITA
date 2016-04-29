@@ -3,6 +3,8 @@
  * @var $model StudentReg
  * @var $scenario
  * @var $receiver
+ * @var $course int
+ * @var $module int
  * @var $requests array
  * @var $newMessages array
  * @var $countNewMessages int
@@ -108,6 +110,8 @@
     </div>
     <!-- /.modal -->
 </div>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css'); ?>"/>
+
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -134,10 +138,23 @@
 <script>
     window.onload = function()
     {
-
-        if(scenario == 'message'){
-            load('<?=Yii::app()->createUrl("/_teacher/messages/write",
-                array('id' => $model->id, 'receiver' => $receiver));?>');
+        switch (scenario) {
+            case 'message':
+                load('<?=Yii::app()->createUrl("/_teacher/messages/write",
+                    array('id' => $model->id, 'receiver' => $receiver));?>', 'Нове повідомлення');
+                break;
+            case 'payCourse':
+                    window.history.pushState(null, null, basePath + "/cabinet/#");
+                    load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
+                        array('course' => $course));?>', 'Оплата курса');
+                break;
+            case 'payModule':
+                window.history.pushState(null, null, basePath + "/cabinet/#");
+                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payModule",
+                    array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
+                break;
+            default:
+                break;
         }
         history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
                     array('user' => $model->id)); ?>'},"")

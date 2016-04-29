@@ -158,7 +158,7 @@ class TeacherConsultant extends Role
 
     public function setStudentAttribute(StudentReg $teacher, $student, $module)
     {
-        if ($this->checkStudent($teacher->id, $student, $module)) {
+        if ($this->checkStudent($student, $module)) {
             return Yii::app()->db->createCommand()->
             insert('teacher_consultant_student', array(
                 'id_teacher' => $teacher->id,
@@ -171,12 +171,12 @@ class TeacherConsultant extends Role
     }
 
 
-    public function checkStudent($teacher, $module, $student)
+    public function checkStudent($module, $student)
     {
         if (Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
-            ' and id_teacher=' . $teacher . ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar()
+            ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar()
         ) {
-            $this->errorMessage = "Даний викладач вже має права консультанта для обраного модуля для обраного студента.";
+            $this->errorMessage = "Для даного студента вже призначено викладача.";
             return false;
         } else return true;
     }

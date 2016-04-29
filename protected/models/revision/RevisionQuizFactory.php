@@ -20,7 +20,8 @@ class RevisionQuizFactory
     {
         switch($lectureElement->id_type)
         {
-            case 'plain_task' :
+            case LectureElement::PLAIN_TASK :
+                return RevisionPlainTask::createTest($lectureElement->id);
                 break;
             case LectureElement::TEST :
                 return RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers']);
@@ -52,7 +53,7 @@ class RevisionQuizFactory
     public static function edit($revLectureElement, $quiz) {
         switch($revLectureElement->id_type)
         {
-            case 'plain_task' :
+            case LectureElement::PLAIN_TASK :
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElement->id));
@@ -81,7 +82,9 @@ class RevisionQuizFactory
     public static function delete($revLectureElementId, $revLectureElementType) {
         switch($revLectureElementType)
         {
-            case 'plain_task' :
+            case LectureElement::PLAIN_TASK :
+                $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
+                $test->delete();
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
@@ -106,12 +109,13 @@ class RevisionQuizFactory
     public static function cloneQuiz($lectureElementOld, $lectureElementNew){
         switch($lectureElementOld->id_type)
         {
-            case 'plain_task' :
+            case LectureElement::PLAIN_TASK :
+                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
+                return $test->cloneTest($lectureElementNew->id);
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
-                $test->cloneTest($lectureElementNew->id);
-                return $test;
+                return $test->cloneTest($lectureElementNew->id);
                 break;
             case 'task' :
                 break;
@@ -132,7 +136,9 @@ class RevisionQuizFactory
     public static function saveToRegularDB($revisionLectureElement, $newLectureElement, $idUserCreated) {
         switch($newLectureElement->id_type)
         {
-            case 'plain_task' :
+            case LectureElement::PLAIN_TASK :
+                $test = RevisionPlainTask::model()->findByAttributes(['id_lecture_element' => $revisionLectureElement->id]);
+                return $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);;
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revisionLectureElement->id));
@@ -149,6 +155,12 @@ class RevisionQuizFactory
 
     /**
      * Deletes quizzes.
+     *
+     *   [
+     *      idType => [
+     *                  id_lecture_element
+     *                ]
+     *   ]
      * @param $quizzes
      * @throws CDbException
      */
@@ -157,7 +169,10 @@ class RevisionQuizFactory
             if (count($idElements)>0) {
                 switch($idType)
                 {
-                    case 'plain_task' :
+                    case LectureElement::PLAIN_TASK :
+                        foreach ($idElements as $element) {
+                            PlainTask::model()->deleteByPk($element);
+                        }
                         break;
                     case LectureElement::TEST :
                         foreach ($idElements as $element) {
@@ -189,7 +204,9 @@ class RevisionQuizFactory
     public static function createFromLecture($lectureElement, $revisionLectureElement) {
         switch($lectureElement->id_type)
         {
-            case 'plain_task' :
+            case LectureElement::PLAIN_TASK :
+                    $oldTest = PlainTask::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
+                    RevisionPlainTask::createTest($revisionLectureElement->id, $oldTest->id);
                 break;
             case LectureElement::TEST:
                     $oldTest = Tests::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
