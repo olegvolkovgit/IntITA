@@ -355,6 +355,9 @@ class RevisionLecture extends CActiveRecord
                     $this->properties->saveCheck();
 
                     $transaction->commit();
+                    $this->createDirectory();
+                    $this->createTemplates();
+
                 } catch (Exception $e) {
                     $transaction->rollback();
                     throw $e;
@@ -756,6 +759,7 @@ class RevisionLecture extends CActiveRecord
         RevisionQuizFactory::deleteFromRegularDB($quizes);
 
         $oldLecture->delete();
+        $oldLecture->removeOldTemplatesDirectory();
     }
 
     /**
@@ -962,6 +966,30 @@ class RevisionLecture extends CActiveRecord
     }
     public function canRejectRevision() {
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
+    }
+
+    public static function getParentRevisionForLecture($idLecture) {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'vc_lecture';
+        $criteria->condition = 'id_lecture=' . $idLecture;
+        $criteria->with = array('properties');
+        $criteria->order = 'properties.approve_date DESC';
+        $criteria->addCondition('properties.id_user_approved IS NOT NULL');
+        $criteria->limit = 1;
+        $revisions = RevisionLecture::model()->find($criteria);
+        return isset($revisions->id_revision)?$revisions->id_revision:null;
+    }
+
+    //Create directory for lecture template
+    private function createDirectory() {
+        if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->id_module."/lecture_".$this->id_lecture)){
+            mkdir(Yii::app()->basePath . "/../content/module_".$this->id_module."/lecture_".$this->id_lecture);
+        }
+    }
+    //Create templates
+    private function createTemplates() {
+        $lecture=Lecture::model()->findByPk($this->id_lecture);
+        $lecture->saveLectureContent();
     }
 
 }

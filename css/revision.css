@@ -3,6 +3,7 @@
     width: 1200px;
     overflow: visible;
     position: relative;
+    word-wrap: break-word;
 }
 .editIco{
     cursor: pointer;
@@ -80,4 +81,14 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 }
 .modal {
     z-index: 9999;
+}
+.dropdown.treeview-dropdown{
+    position: absolute;
+    top: 0;
+    left: 95%;
+    margin: 5px 0 0 0;
+}
+.list-group-item.node-tree{
+    padding-right: 70px;
+    word-wrap: break-word;
 }

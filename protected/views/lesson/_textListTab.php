@@ -7,7 +7,7 @@ if (isset($message)){
 
 $this->widget('zii.widgets.CListView', array(
     'dataProvider'=>$dataProvider,
-    'itemView'=>'_textTab',
+    'itemView'=>'/lesson/_textTab',
     'summaryText' => '',
     'emptyText' => $emptyText.'<br><br><br><br><br>',
     'pagerCssClass'=>'YiiPager',
