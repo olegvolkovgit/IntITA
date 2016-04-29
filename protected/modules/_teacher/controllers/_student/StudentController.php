@@ -104,6 +104,26 @@ class StudentController extends TeacherCabinetController
         }
     }
 
+    public function actionPayModule($course, $module){
+
+        if(UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, 'Online');
+            $this->renderPartial('/_student/_agreement', array(
+                'agreement' => $agreement,
+            ));
+        } else {
+            $model = Module::model()->findByPk($module);
+            if (!$model) {
+                throw new \application\components\Exceptions\IntItaException(400);
+            }
+
+            $this->renderPartial('/_student/_payModule', array(
+                'model' => $model,
+                'course' => $course
+            ));
+        }
+    }
+
     public function actionNewCourseAgreement(){
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);

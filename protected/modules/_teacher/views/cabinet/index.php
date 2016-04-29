@@ -4,6 +4,7 @@
  * @var $scenario
  * @var $receiver
  * @var $course int
+ * @var $module int
  * @var $requests array
  * @var $newMessages array
  * @var $countNewMessages int
@@ -146,6 +147,11 @@
                     window.history.pushState(null, null, basePath + "/cabinet/#");
                     load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
                         array('course' => $course));?>', 'Оплата курса');
+                break;
+            case 'payModule':
+                window.history.pushState(null, null, basePath + "/cabinet/#");
+                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payModule",
+                    array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
                 break;
             default:
                 break;

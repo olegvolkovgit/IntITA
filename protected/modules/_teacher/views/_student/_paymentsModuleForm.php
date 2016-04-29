@@ -1,15 +1,10 @@
 <?php
-/*
- * @var $module int
+/**
  * @var $model Module
- * */
-    $model = Module::model()->findByPk($module);
+ * @var $course int
+ */
     $price = Module::getModuleSumma($model->module_ID, $course);
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerPayProfile.js') ?>"></script>
-
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css');?>"/>
-
 <div class="paymentsForm">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'action' => '#',
@@ -33,7 +28,7 @@
     <?php } ?>
     <?php $this->endWidget();?>
 </div>
-<div id="kalebas"></div>
+
     <?php echo CHtml::button(Yii::t('profile', '0261'), array('class' => "ButtonFinances",
         'submit' => array('payments/index'),
         'params' => array(
@@ -45,7 +40,7 @@
     );?>
 
 <script>
-    $(function() {
-        $('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
+    $jq(function() {
+        $jq('input:radio[name="payment"]').filter('[value="1"]').attr('checked', true);
     });
 </script>
