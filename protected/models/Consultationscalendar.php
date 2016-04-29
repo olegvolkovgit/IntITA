@@ -160,12 +160,13 @@ class Consultationscalendar extends CActiveRecord
         $t=$t1.':'.$t2.'-'.$t3.':'.$t4;
         return $t;
     }
+
     public function deleteConsultation(RegisteredUser $user)
     {
         if ($this->user_id==$user->registrationData->id) {
             if($this->delete()) return true;
         }else{
-            if($user->isTeacher() && $user->id==$this->user_id){
+            if($user->isTeacher() && $user->id==$this->teacher_id){
                 if($this->delete()) return true;
             }
         }
@@ -188,7 +189,7 @@ class Consultationscalendar extends CActiveRecord
             $row["date_cons"] = $record["date_cons"];
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
-            $row["url"] = Yii::app()->createUrl('/_teacher/_student/student/cancelConsultation/', array('id' => $record["cons_id"]));
+            $row["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/cancelConsultation/', array('id' => $record["cons_id"]));
             array_push($return['data'], $row);
         }
 

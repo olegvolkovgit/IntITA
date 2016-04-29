@@ -26,7 +26,6 @@ class ConsultantController extends TeacherCabinetController
         echo Consultationscalendar::consultationsList(Yii::app()->user->getId());
     }
 
-
     public function actionCancelConsultation($id)
     {
         $model = Consultationscalendar::model()->findByPk($id);
