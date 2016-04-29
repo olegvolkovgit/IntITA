@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="consultantsTable">
+                <table class="table table-striped table-bordered table-hover" id="statusOfCourseTable">
                     <thead>
                     <tr>
                         <th>Назва курсу</th>
@@ -22,5 +22,5 @@
     </div>
 </div>
 <script>
-    initConsultantsTable();
+    initCourseListTable();
 </script>

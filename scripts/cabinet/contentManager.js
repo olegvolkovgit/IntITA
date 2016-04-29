@@ -285,10 +285,54 @@ function  initAuthorsTableCM(){
 }
 
 function initConsultantsTable(){
-    $jq('#consultantsTable').DataTable({
+    $jq('#statusOfCourseTable').DataTable({
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
+                }},
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "register"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "width": "15%",
+                "data": "cancelDate"
+            },
+            {
+                "width": "15%",
+                "data": "cancel",
+                "render": function (params) {
+                    return '<a href="#" onclick="cancelRoleCM(' + params + ')">скасувати</a>';
+                }
+            }],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+function initCourseListTable(){
+    $jq('#statusOfCourseTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getCourseList",
             "dataSrc": "data"
         },
         "columns": [

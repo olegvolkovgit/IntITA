@@ -81,6 +81,10 @@ class ContentManagerController extends TeacherCabinetController
     {
         echo UserTeacherConsultant::teacherConsultantsListCM();
     }
+    public function actionGetCourseList()
+    {
+        echo UserContentManager::listOfCourses();
+    }
 
     public function actionGetAuthorsList()
     {
