@@ -30,7 +30,7 @@ function load(url, header, histories, tab) {
     });
 }
 
-function createAccount(url, course) {
+function createAccount(url, course, module) {
     schema = $jq('input:radio[name="payment"]:checked').val();
     educationForm = $jq('#educationForm').val();
     if (schema == 0) {
@@ -42,7 +42,8 @@ function createAccount(url, course) {
             data: {
                 payment: schema,
                 course : course,
-                educationForm: educationForm
+                educationForm: educationForm,
+                module: module
             },
             cache: false,
             success: function (id) {
