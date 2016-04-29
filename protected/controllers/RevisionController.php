@@ -82,8 +82,8 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->with('properties')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new CHttpException(403, 'Access denied.');
-//            throw new RevisionControllerException(403, 'Access denied.');
+//            throw new CHttpException(403, 'Access denied.');
+            throw new RevisionControllerException('Access denied.');
         }
 
         $newPage = $lectureRevision->addPage(Yii::app()->user);
@@ -550,7 +550,16 @@ class RevisionController extends Controller {
     }
 
     /**
+     * Test
      * curl -XPOST --data 'revisionId=138&pageId=691&idType=12&condition=condition&testTitle=testTitle&optionsNum=2&answer1=answer1&is_valid1=1&answer2=answer2&is_valid2=0' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
+     *
+     * Plain task
+     * curl -XPOST --data 'revisionId=139&pageId=699&idType=6&condition=condition' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
+     *
+     * Skip task
+     *
+     * Taks
+     *
      * @return bool|null
      * @throws CDbException
      * @throws RevisionLectureElementException
@@ -562,18 +571,13 @@ class RevisionController extends Controller {
         $idType = Yii::app()->request->getPost('idType');
 
         $htmlBlock = trim(Yii::app()->request->getPost('condition', ''));
-        $optionsNum = Yii::app()->request->getPost('optionsNum', 0); //options amount
 
-        $quiz = [];
-        $quiz['testTitle'] = Yii::app()->request->getPost('testTitle', '');
-        $options = [];
-        for ($i = 0; $i < $optionsNum; $i++) {
-            $options[$i]["answer"] = trim(Yii::app()->request->getPost("answer" . ($i + 1), ''));
-            $options[$i]["is_valid"] = trim(Yii::app()->request->getPost("is_valid" . ($i + 1), 0));
-        }
-        $quiz['answers'] = $options;
+        $quiz = $this->getQuizParams($idType);
 
         $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
+
+        //todo check
+
         $lectureRevision->addLectureElement($pageId, ['idType' => $idType,
             'html_block' => $htmlBlock,
             'quiz' => $quiz]);
@@ -589,20 +593,11 @@ class RevisionController extends Controller {
         $revisionId = Yii::app()->request->getPost('revisionId');
         $pageId = Yii::app()->request->getPost('pageId');
         $lectureElementId = Yii::app()->request->getPost('idBlock');
+        $idType = Yii::app()->request->getPost('idType');
 
         $htmlBlock = trim(Yii::app()->request->getPost('condition', ''));
-        $optionsNum = Yii::app()->request->getPost('optionsNum', 0);    //options amount
 
-        $quiz = [];
-        $quiz['testTitle'] = Yii::app()->request->getPost('testTitle', '');     //RevisionTest->title
-
-        $options = [];
-        for ($i = 0; $i < $optionsNum; $i++) {
-            $options[$i]["answer"] = trim(Yii::app()->request->getPost("answer" . ($i + 1), ''));     //RevisionTestAnswer->answer
-            $options[$i]["is_valid"] = Yii::app()->request->getPost("is_valid" . ($i + 1), 0);  //RevisionTestAnswer->is_valid
-        }
-
-        $quiz['answers'] = $options;
+        $quiz = $this->getQuizParams($idType);
 
         $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
 
@@ -789,6 +784,34 @@ class RevisionController extends Controller {
         $data["valid"]=$valid;
 
         echo CJSON::encode($data);
+    }
+
+    /**
+     * @param integer $idType
+     * @return array
+     */
+    private function getQuizParams($idType) {
+
+        $quiz = [];
+        switch ($idType) {
+            case LectureElement::PLAIN_TASK:
+                break;
+            case LectureElement::TEST:
+                $optionsNum = Yii::app()->request->getPost('optionsNum', 0); //options amount
+                $quiz['testTitle'] = Yii::app()->request->getPost('testTitle', '');
+                $options = [];
+                for ($i = 0; $i < $optionsNum; $i++) {
+                    $options[$i]["answer"] = trim(Yii::app()->request->getPost("answer" . ($i + 1), ''));
+                    $options[$i]["is_valid"] = trim(Yii::app()->request->getPost("is_valid" . ($i + 1), 0));
+                }
+                $quiz['answers'] = $options;
+                break;
+            case LectureElement::TASK:
+                break;
+            case LectureElement::SKIP_TASK:
+                break;
+        }
+        return $quiz;
     }
 
     /**
