@@ -146,7 +146,7 @@ function revisionTreesCtrl($compile, $scope, $http) {
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                createRevision(idRevision);
+                $scope.createRevision(idRevision);
             }
         },
         {
@@ -298,7 +298,7 @@ function revisionTreesCtrl($compile, $scope, $http) {
         });
     };
 
-    function createRevision(idRevision) {
+    $scope.createRevision = function(idRevision) {
         location.href = basePath+'/revision/createLectureRevision?idRevision=' + idRevision;
     }
 

@@ -583,6 +583,15 @@ class Lecture extends CActiveRecord
             closedir($handle);
         }
     }
+    public function removeOldTemplatesDirectory(){
+        $dir=StaticFilesHelper::pathToDeleteLecturePageHtml($this->idModule, $this->id);
+            if ($objs = glob($dir."/*")) {
+                foreach($objs as $obj) {
+                    is_dir($obj) ? removeDirectory($obj) : unlink($obj);
+                }
+            }
+            rmdir($dir);
+    }
     public static function lectureToTemplate($id)
     {
         $lecture = Lecture::model()->findByPk($id);

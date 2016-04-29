@@ -99,4 +99,12 @@ class StaticFilesHelper {
     public static function pathToLectureAudio($module, $lecture){
         return 'content/module_'.$module."/lecture_".$lecture."/audio/";
     }
+    public static function pathToImagesContent($name){
+        $subDir = substr($name, 0, 2);
+        return 'content/images/'.$subDir.'/';
+    }
+    public static function pathToAudioContent($name){
+        $subDir = substr($name, 0, 2);
+        return 'content/audio/'.$subDir.'/';
+    }
 }

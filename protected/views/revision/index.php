@@ -36,12 +36,16 @@ if(isset($idLecture)){
             <a href="" ng-click="isReplyFormOpen = !isReplyFormOpen">Актуальні версії занять(натисніть, для відображення)</a>
             <ul ng-show="isReplyFormOpen" class="list-group">
                 <li class="list-group-item node-tree" ng-repeat="lecture in currentLectures track by $index">
-                    {{lecture.title}} (Порядковий номер: {{lecture.order}})
+                    <strong>{{lecture.title}}</strong>
+                    <span ng-if="lecture.approvedFromRevision">(Ревізія №{{lecture.approvedFromRevision}})</span>
                     <div class="dropdown treeview-dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                             Дії<span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu pull-right">
+                            <li ng-if="lecture.approvedFromRevision">
+                                <a ng-click="createRevision(lecture.approvedFromRevision)">Створити нову ревізію</a>
+                            </li>
                             <li>
                                 <a ng-href={{lecture.revisionsLink}} >Переглянути ревізії заняття(створює початкову ревізію, якщо інших немає)</a>
                             </li>
