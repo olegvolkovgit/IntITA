@@ -24,7 +24,7 @@ class TrainerController extends TeacherCabinetController
         $module = Module::model()->findByPk($idModule);
         if ($id && $idModule) {
             $role = new TeacherConsultant();
-            $isTeacherDefined = !$role->checkStudent(Yii::app()->user->getId(), $idModule, $id);
+            $isTeacherDefined = !$role->checkStudent($idModule, $id);
             if($isTeacherDefined){
                 $role = new Student();
                 $teacher = $role->getTeacherForModuleDefined($id, $idModule);
@@ -63,7 +63,7 @@ class TrainerController extends TeacherCabinetController
         $model = StudentReg::model()->findByPk($teacher);
 
         $role = new TeacherConsultant();
-        if ($role->checkStudent($model->id, $module, $student)) {
+        if ($role->checkStudent($module, $student)) {
             if ($role->setStudentAttribute($model, $student, $module)) {
                 echo "Операцію успішно виконано.";
             } else {
