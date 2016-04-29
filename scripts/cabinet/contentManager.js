@@ -346,24 +346,8 @@ function initCourseListTable(){
                 "render": function (email) {
                     return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
                 }
-            },
-            {
-                type: 'de_date', targets: 1 ,
-                "width": "15%",
-                "data": "register"
-            },
-            {
-                type: 'de_date', targets: 1 ,
-                "width": "15%",
-                "data": "cancelDate"
-            },
-            {
-                "width": "15%",
-                "data": "cancel",
-                "render": function (params) {
-                    return '<a href="#" onclick="cancelRoleCM(' + params + ')">скасувати</a>';
-                }
-            }],
+            }
+         ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
