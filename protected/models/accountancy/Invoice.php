@@ -253,9 +253,9 @@ class Invoice extends CActiveRecord
 
     public static function invoicesListByAgreement($agreement){
         $criteria = new CDbCriteria();
-        $criteria->addSearchCondition('agreement_id', $agreement);
+        $criteria->condition = 'agreement_id='.$agreement;
 
-        $invoices = Invoice::model()->findAll();
+        $invoices = Invoice::model()->findAll($criteria);
         $return = array('data' => array());
 
         foreach ($invoices as $record) {

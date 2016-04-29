@@ -637,7 +637,7 @@ function checkMandatory() {
 function  initInvoicesTable(id){
     $jq('#invoicesTable').DataTable({
         "autoWidth": false,
-        "order": [[0, "desc"]],
+        "order": [[2, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getInvoicesByAgreement",
             "dataSrc": "data",
@@ -812,7 +812,7 @@ function initPayModulesTable() {
 function initAgreementsTable() {
     $jq('#agreementsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"]],
+        "order": [[2, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getAgreementsList",
             "dataSrc": "data"
