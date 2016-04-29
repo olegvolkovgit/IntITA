@@ -130,7 +130,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         }
     };
     /*add Skip Task*/
-    $scope.createSkipTaskCKE = function (url, pageId, author) {
+    $scope.createSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
@@ -144,7 +144,8 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
 
         var newSkipTask = {
             "page":pageId,
-            "author": author,
+            "revisionId":revisionId,
+            "idType":quizType,
             "question": question,
             "condition":condition,
             "text": text,
@@ -161,13 +162,13 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                //alert("Завдання успішно додано до лекції!");
-                 location.reload();
+                alert("Завдання успішно додано до лекції!");
+                // location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                location.reload();
+                //location.reload();
             })
             .always(function () {
             });
@@ -263,7 +264,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 });
             });
     }
-    $scope. deleteTest=function(revisionId,pageId,idBlock){
+    $scope.deleteTest=function(revisionId,pageId,idBlock){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити тест?')
             .then(function() {
                 $http({

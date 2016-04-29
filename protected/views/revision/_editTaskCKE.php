@@ -7,10 +7,11 @@
  */
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/taskCtrl.js'); ?>"></script>
-<div ng-init='idBlock=<?php echo $idBlock; ?>;'>
+<div ng-init='idPage=<?php echo $pageId; ?>;
+idBlock=<?php echo $idElement; ?>;'>
 <div class="editTask" ng-controller="taskCtrl">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$lecture,'task'=>Task::getTaskId($idBlock))); ?>" method="post" target="_blank">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>Task::getTaskId($idElement))); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
@@ -21,27 +22,29 @@
                 <option value="php">PHP</option>
                 <option value="js">JavaScript</option>
             </select>
+            <input name="idBlock" type="hidden" value="<?php echo $idElement ?>"/>
+            <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
-            <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo Yii::app()->user->getId();?>"/>
+            <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
             <br>
             <br>
             Умова задачі*:
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" required ng-model="dataTask.condition">
             </textarea>
             <input name="idTaskBlock" type="hidden" value="{{idBlock}}"/>
-            <input type="hidden" ng-init="task=<?php echo Task::getTaskId($idBlock); ?>" ng-model="task" />
+            <input type="hidden" ng-init="task=<?php echo RevisionTask::getTaskId($idElement); ?>" ng-model="task" />
             <input type="submit" ng-disabled="addTask.$invalid" value="Створення та редагування юніттестів" />
         </fieldset>
     </form>
     <div class="editTaskButton">
         <button ng-click="editTaskCKE(idBlock)">Зберегти зміни умови задачі</button><br>
         <button onclick='cancelTask()'>Скасувати</button><br>
-        <button onclick='unableTask(<?php echo $pageId;?>)'>Видалити задачу</button>
+        <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
+<!--        <button onclick='unableTask(--><?php //echo $pageId;?>//)'>Видалити задачу</button>
     </div>
 </div>
 <script>
-    var selectLang='<?php echo Task::getTaskLang($idBlock); ?>';
+    var selectLang='<?php echo RevisionTask::getTaskLang($idElement); ?>';
     originLang=selectLang;
     selectedLang=selectLang;
     $("select#programLang option[value="+"'"+ selectLang +"'"+ "]").attr('selected', 'true');
