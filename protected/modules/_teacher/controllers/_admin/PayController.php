@@ -109,7 +109,7 @@ class PayController extends TeacherCabinetController
 
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($payModule->idModule, $userName);
+                $resultText = PayModules::getCancelText($payModule->module, $userName);
                 $payModule->delete();
             } else {
                 $resultText = PayModules::getCancelErrorText($userName);
