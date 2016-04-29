@@ -1047,4 +1047,8 @@ class Module extends CActiveRecord implements IBillableObject
     public function getIndepedentModulePrice(){
         return round($this->module_price * Config::getCoeffIndependentModule());
     }
+
+    public function priceOffline(){
+        return round($this->getBasePrice() * Config::getCoeffModuleOffline());
+    }
 }

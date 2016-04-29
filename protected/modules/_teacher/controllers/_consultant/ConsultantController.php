@@ -25,4 +25,12 @@ class ConsultantController extends TeacherCabinetController
     public function actionGetConsultationsList(){
         echo Consultationscalendar::consultationsList(Yii::app()->user->getId());
     }
+
+    public function actionCancelConsultation($id)
+    {
+        $model = Consultationscalendar::model()->findByPk($id);
+        $user = RegisteredUser::userById(Yii::app()->user->getId());
+        if ($model->deleteConsultation($user))
+            echo 'success';
+    }
 }

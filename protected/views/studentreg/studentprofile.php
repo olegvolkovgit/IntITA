@@ -98,14 +98,8 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <li>
                     <?php echo Yii::t('profile', '0113'); ?>
                 </li>
-            </ul>
-            <hr class="lineUnderTab">
-            <ul>
                 <li>
                     <?php echo Yii::t('profile', '0116'); ?>
-                </li>
-                <li>
-                    <?php echo Yii::t('profile', '0117'); ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -136,13 +130,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         ),
                     ));
                     ?>
-                </div>
-                <div id="finances">
-                    <?php $this->renderPartial('_finances', array(
-                        'course' => $course,
-                        'module' => $module,
-                        'schema' => $schema
-                    )); ?>
                 </div>
             </div>
         </div>

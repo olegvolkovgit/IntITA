@@ -30,6 +30,33 @@ function load(url, header, histories, tab) {
     });
 }
 
+function createAccount(url, course, module) {
+    schema = $jq('input:radio[name="payment"]:checked').val();
+    educationForm = $jq('#educationForm').val();
+    if (schema == 0) {
+        bootbox.alert("Виберіть схему проплати.");
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                payment: schema,
+                course : course,
+                educationForm: educationForm,
+                module: module
+            },
+            cache: false,
+            success: function (id) {
+                load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
+            },
+            error: function(){
+                bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                    adminEmail);
+            }
+        });
+    }
+}
+
 function cancelTeacherAccess(url, header, redirect) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
@@ -608,6 +635,44 @@ function checkMandatory() {
     }
 }
 
+function  initInvoicesTable(id){
+    $jq('#invoicesTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "asc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getInvoicesByAgreement",
+            "dataSrc": "data",
+            "data" : { id : id}
+        },
+        "columns": [
+            {  "data": "title",
+                "render": function (title) {
+                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
+                }
+            },
+            {"data": "summa"},
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date"
+            },
+            {
+                "width": "15%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="' + url + '">надрукувати</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function initConsultationsTable() {
     $jq('#studentConsultationsTable').DataTable({
         "autoWidth": false,
@@ -748,7 +813,7 @@ function initPayModulesTable() {
 function initAgreementsTable() {
     $jq('#agreementsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"]],
+        "order": [[2, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getAgreementsList",
             "dataSrc": "data"

@@ -7,7 +7,7 @@ class CabinetController extends TeacherCabinetController
         return !Yii::app()->user->isGuest;
     }
 
-    public function actionIndex($scenario = "dashboard", $receiver = 0)
+    public function actionIndex($scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
     {
         $model = Yii::app()->user->model;
 
@@ -25,6 +25,8 @@ class CabinetController extends TeacherCabinetController
             'countNewMessages' => $countNewMessages,
             'scenario' => $scenario,
             'receiver' => $receiver,
+            'course' => $course,
+            'module' => $module,
             'requests' => $requests
         ));
     }
@@ -142,5 +144,4 @@ class CabinetController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
-
 }
