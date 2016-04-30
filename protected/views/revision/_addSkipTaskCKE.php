@@ -17,8 +17,8 @@
                       ng-model="addSkipTaskQuest"></textarea>
             <br>
         </fieldset>
-        <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/addTask'); ?>',
-         <?php echo $pageId;?>, <?php echo Yii::app()->user->getId();?>)"
+        <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('revision/addTest'); ?>',
+         <?php echo $pageId;?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)"
                ng-disabled="addSkipTask.$invalid" value="<?=Yii::t('editor', '0789');?>">
     </form>
     <br>

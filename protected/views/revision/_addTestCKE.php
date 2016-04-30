@@ -31,7 +31,7 @@
             <input name="optionsNum" id="optionsNum" type="hidden" value="1"/>
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
-            <input name="idType" id="testType" type="hidden" value="plain"/>
+            <input name="idType" id="testType" type="hidden"/>
         </fieldset>
         <br>
         <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>

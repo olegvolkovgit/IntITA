@@ -21,7 +21,7 @@ function skipTaskCtrl($scope, $http) {
         $scope.dataSkipTask=response;
     });
 
-    $scope.editSkipTaskCKE = function (url, pageId, author) {
+    $scope.editSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.dataSkipTask.source;
         var condition = $scope.dataSkipTask.condition;
 
@@ -37,7 +37,8 @@ function skipTaskCtrl($scope, $http) {
 
         var newSkipTask = {
             "page":pageId,
-            "author": author,
+            "revisionId":revisionId,
+            "idType":quizType,
             "question": question,
             "condition":condition,
             "text": text,

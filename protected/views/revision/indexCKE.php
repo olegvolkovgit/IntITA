@@ -36,6 +36,11 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/config.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/plainTaskCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/skipTaskCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/taskCtrl.js'); ?>"></script>
+
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/lectureBlocks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/sendTaskJsonService.js'); ?>"></script>
@@ -165,21 +170,18 @@ $this->breadcrumbs = array(
             if ($page->quiz != null) {
                 $data = $page->getQuiz();
                 switch ($data['id_type']) {
-//                    case '5':
-//                        $this->renderPartial('/editor/_editTaskCKE', array('idBlock' => $data['id_block'],
-//                            'pageId' => $page->id, 'lecture' => $lecture->id));
-//                        break;
-//                    case '6':
-//                        $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
-//                            'pageId' => $page->id));
-//                        break;
-//                    case '9' :
-//                        $this->renderPartial('/editor/_editSkipTaskCKE', array('data' => $data,
-//                            'pageId' => $page->id));
-//                        break;
+                    case '5':
+                        $this->renderPartial('/revision/_editTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>5));
+                        break;
+                    case '6':
+                        $this->renderPartial('/revision/_editPlainTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>6));
+                        break;
+                    case '9' :
+                        $this->renderPartial('/revision/_editSkipTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>9));
+                        break;
                     case '12':
                     case '13':
-                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision));
+                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>12));
                         break;
                     default:
                         break;
@@ -188,8 +190,8 @@ $this->breadcrumbs = array(
 //                ?>
             <div id="buttonsPanel">
                 <button class="btn btn-default" onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
-                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button class="btn btn-default" onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('6')"><?php echo Yii::t('lecture', '0698'); ?></button>
+                <button class="btn btn-default" onclick="showAddTaskFormCKE('5')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <button class="btn btn-default" onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php
@@ -197,9 +199,9 @@ $this->breadcrumbs = array(
             ?>
             <?php if ($page->quiz == null) {
             $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
-//            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
-//            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
-//            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
+            $this->renderPartial('/revision/_addTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>5));
+            $this->renderPartial('/revision/_addPlainTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
+            $this->renderPartial('/revision/_addSkipTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>9));
             }?>
         </div>
     </div>

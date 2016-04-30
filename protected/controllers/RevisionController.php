@@ -390,12 +390,13 @@ class RevisionController extends Controller {
     }
 
     public function actionCancelLectureRevision () {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idLecture);
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
-        if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
+        if (!$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
+
         $lectureRev->cancel(Yii::app()->user);
     }
 
@@ -496,15 +497,6 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel($user);
-        $lectureRev->deleteLectureFromRegularDB();
-
-        $relatedRev = $lectureRev->getRelatedLectures();
-        $relatedTree = RevisionLecture::getLecturesTree($lecture->idModule);
-        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
-
-        $this->render('index', array(
-            'json' => $json,
-        ));
     }
 
     public function actionModuleLecturesRevisions($idModule) {
@@ -976,7 +968,8 @@ class RevisionController extends Controller {
             $data[$key]['id'] = $lecture->id;
             $data[$key]['revisionsLink'] = Yii::app()->createUrl('/revision/editLecture',array('idLecture'=>$lecture->id));
             $data[$key]['lecturePreviewLink'] = Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => 0));
-            $data[$key]['approvedFromRevision'] = RevisionLecture::getParentRevisionForLecture($lecture->id);
+            $data[$key]['approvedFromRevision'] =
+                RevisionLecture::getParentRevisionForLecture($lecture->id)?RevisionLecture::getParentRevisionForLecture($lecture->id)->id_revision:null;
         }
         echo CJSON::encode($data);
     }
