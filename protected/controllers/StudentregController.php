@@ -27,12 +27,12 @@ class StudentRegController extends Controller
     public function actionCountryAutoComplete($term, $lang)
     {
         $criteria = new CDbCriteria();
-        $criteria->compare('title_'.$lang, $term, true);
+        $criteria->compare('title_' . $lang, $term, true);
         $model = new AddressCountry();
         $results = [];
-        $param = "title_".$lang;
+        $param = "title_" . $lang;
         foreach ($model->findAll($criteria) as $m) {
-            $results[] = array('id'=>$m->id, 'value'=>$m->$param);
+            $results[] = array('id' => $m->id, 'value' => $m->$param);
         }
         echo CJSON::encode($results);
     }
@@ -45,7 +45,7 @@ class StudentRegController extends Controller
         $model = new AddressCity();
         $result = [];
         foreach ($model->findAll($criteria) as $m) {
-            $result[] = array('id'=>$m->id, 'value'=>$m->title_ua);
+            $result[] = array('id' => $m->id, 'value' => $m->title_ua);
         }
         echo CJSON::encode($result);
     }
@@ -220,7 +220,7 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser, $course = 0, $schema = 1, $module = 0)
+    public function actionProfile($idUser)
     {
         if (Yii::app()->user->isGuest) {
             $this->render('/site/authorize');
@@ -236,39 +236,21 @@ class StudentRegController extends Controller
         $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
         $paymentsCourses = $model->getPaymentsCourses();
-        if ($course != 0 || $module != 0) {
-            if (!$user->isStudent()) {
-                UserStudent::addStudent($model);
-            }
-        }
-        if ($course != 0 && !Course::model()->exists('course_ID=' . $course)) {
-            throw new \application\components\Exceptions\IntItaException('400', "Такого курса немає. Список усіх курсів доступний на сторінці Курси.");
-        }
-        if ($idUser == Yii::app()->user->getId()) {
 
-            $this->render("studentprofile", array(
-                'dataProvider' => $dataProvider,
-                'post' => $model,
-                'user' => $user,
-                'markProvider' => $markProvider,
-                'paymentsCourses' => $paymentsCourses,
-                'addressString' => $addressString,
-                'course' => $course,
-                'schema' => $schema,
-                'module' => $module,
-                'owner' => 'true'
-            ));
-        } else {
-            $this->render("profile", array(
-                'dataProvider' => $dataProvider,
-                'post' => $model,
-                'user' => $user,
-                'addressString' => $addressString,
-                'markProvider' => $markProvider,
-                'paymentsCourses' => $paymentsCourses,
-                'owner' => 'false'
-            ));
+        $owner = false;
+        if ($idUser == Yii::app()->user->getId()) {
+            $owner = true;
         }
+
+        $this->render("profile", array(
+            'dataProvider' => $dataProvider,
+            'post' => $model,
+            'user' => $user,
+            'markProvider' => $markProvider,
+            'paymentsCourses' => $paymentsCourses,
+            'addressString' => $addressString,
+            'owner' => $owner
+        ));
     }
 
     public function actionEdit()

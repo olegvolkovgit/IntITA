@@ -10,6 +10,11 @@ class CabinetController extends TeacherCabinetController
     public function actionIndex($scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
     {
         $model = Yii::app()->user->model;
+        if ($course != 0 || $module != 0) {
+            if (!Yii::app()->user->isStudent()) {
+                UserStudent::addStudent($model);
+            }
+        }
 
         if (!$model) {
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
