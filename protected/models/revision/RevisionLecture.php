@@ -768,7 +768,7 @@ class RevisionLecture extends CActiveRecord
             RevisionQuizFactory::deleteFromRegularDB($quizes);
 
             $oldLecture->delete();
-//            $oldLecture->removeOldTemplatesDirectory();
+            $oldLecture->removeOldTemplatesDirectory();
         }
     }
 

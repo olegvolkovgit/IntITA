@@ -585,7 +585,8 @@ class Lecture extends CActiveRecord
     }
     public function removeOldTemplatesDirectory(){
         $dir=StaticFilesHelper::pathToDeleteLecturePageHtml($this->idModule, $this->id);
-        if(file_exists(Yii::getpathOfAlias('webroot').'/'. $dir)) {
+        if(file_exists(Yii::getpathOfAlias('webroot').'/'. $dir) &&
+            !file_exists(Yii::getpathOfAlias('webroot').'/'. $dir.'/images')) {
             if ($objs = glob($dir . "/*")) {
                 foreach ($objs as $obj) {
                     is_dir($obj) ? removeDirectory($obj) : unlink($obj);
