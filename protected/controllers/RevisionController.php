@@ -5,6 +5,7 @@ class RevisionController extends Controller {
 
     public function init()
     {
+        parent::init();
         $app = Yii::app();
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
@@ -29,7 +30,7 @@ class RevisionController extends Controller {
     public function actionCreateNewLecture() {
 
         $idModule = Yii::app()->request->getPost("idModule");
-        $order = Yii::app()->request->getPost("order");
+//        $order = Yii::app()->request->getPost("order");
         $titleUa = trim(Yii::app()->request->getPost("titleUa"));
         $titleEn = trim(Yii::app()->request->getPost("titleEn"));
         $titleRu = trim(Yii::app()->request->getPost("titleRu"));
@@ -37,8 +38,8 @@ class RevisionController extends Controller {
         if (!$this->isUserTeacher(Yii::app()->user, $idModule)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
-
-        $revLecture = RevisionLecture::createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, Yii::app()->user);
+//$order remove
+        $revLecture = RevisionLecture::createNewLecture($idModule, $titleUa, $titleEn, $titleRu, Yii::app()->user);
 
         $this->redirect(array('revision/editlecturerevision', 'idRevision' => $revLecture->id_revision));
     }

@@ -24,6 +24,7 @@ return array(
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
+        'application.models.track.*',
         'application.models.accountancy.*',
         'application.models.message.*',
         'application.models.quiz.*',
