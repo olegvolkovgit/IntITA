@@ -194,17 +194,17 @@ class RevisionLecture extends CActiveRecord
         }
 
         // check lecture order collision
-        $ordersList = Yii::app()->db->createCommand()
-        ->select('id, order')
-            ->from('lectures')
-            ->where('idModule='.$this->id_module)
-            ->queryAll();
-
-        foreach ($ordersList as $item) {
-            if ($item['order'] == $this->properties->order && $item['id'] != $this->id_lecture) {
-                array_push($result, "This revision has the same order as lecture id #".$item['id']);
-            }
-        }
+//        $ordersList = Yii::app()->db->createCommand()
+//        ->select('id, order')
+//            ->from('lectures')
+//            ->where('idModule='.$this->id_module)
+//            ->queryAll();
+//
+//        foreach ($ordersList as $item) {
+//            if ($item['order'] == $this->properties->order && $item['id'] != $this->id_lecture) {
+//                array_push($result, "This revision has the same order as lecture id #".$item['id']);
+//            }
+//        }
 
         $this->approveResultCashed = $result;
         return $result;
@@ -346,11 +346,10 @@ class RevisionLecture extends CActiveRecord
             if (empty($this->approveResultCashed)) {
 
                 $transaction = Yii::app()->db->beginTransaction();
-
                 try {
-//                    canceled old revision when aprroved new/  id_user_cancelled WTF?
-                    $oldRevision=RevisionLecture::getParentRevisionForLecture($this->id_lecture);
-                    if($oldRevision) {
+//                    canceled old revision when aprroved new
+                    if($this->id_lecture){
+                        $oldRevision=RevisionLecture::getParentRevisionForLecture($this->id_lecture);
                         $oldRevision->properties->end_date = new CDbExpression('NOW()');
                         $oldRevision->properties->id_user_cancelled = $user->getId();
                         $oldRevision->properties->saveCheck();
