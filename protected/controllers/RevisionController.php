@@ -5,6 +5,7 @@ class RevisionController extends Controller {
 
     public function init()
     {
+        parent::init();
         $app = Yii::app();
         if (isset($app->session['lg'])) {
             $app->language = $app->session['lg'];
