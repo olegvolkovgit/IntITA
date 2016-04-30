@@ -21,7 +21,7 @@ function skipTaskCtrl($scope, $http) {
         $scope.dataSkipTask=response;
     });
 
-    $scope.editSkipTaskCKE = function (url, pageId, author) {
+    $scope.editSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.dataSkipTask.source;
         var condition = $scope.dataSkipTask.condition;
 
@@ -30,12 +30,15 @@ function skipTaskCtrl($scope, $http) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
-        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2 />' );
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
+            return '<input type=text size="'+p5.length+'" id=skipTask'+p2+' caseInsensitive='+p3+' />';
+        });
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
             "page":pageId,
-            "author": author,
+            "revisionId":revisionId,
+            "idType":quizType,
             "question": question,
             "condition":condition,
             "text": text,

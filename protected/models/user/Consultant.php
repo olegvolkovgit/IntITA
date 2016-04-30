@@ -3,6 +3,7 @@
 class Consultant extends Role
 {
     private $dbModel;
+    private $errorMessage = "";
 
     /**
      * @return string the associated database table name
@@ -13,6 +14,13 @@ class Consultant extends Role
     }
 
     /**
+     * @return string sql for check role consultant.
+     */
+    public function checkRoleSql(){
+        return 'select "consultant" from user_consultant acs where acs.id_user = :id and end_date IS NULL';
+    }
+
+    /**
      * @return string the role title (ua)
      */
     public function title()
@@ -20,24 +28,18 @@ class Consultant extends Role
         return 'Консультант';
     }
 
+    public function getErrorMessage(){
+        return $this->errorMessage;
+    }
+
     public function attributes(StudentReg $user)
     {
-        $records = Yii::app()->db->createCommand()
-            ->select('module, language, m.title_ua, cm.start_time, cm.end_time')
+        $list = Yii::app()->db->createCommand()
+            ->select('module id, language lang, m.title_ua title, cm.start_time start_date, cm.end_time end_date')
             ->from('consultant_modules cm')
             ->join('module m', 'm.module_ID=cm.module')
             ->where('consultant=:id', array(':id' => $user->id))
             ->queryAll();
-
-        $list = [];
-        foreach ($records as $record) {
-            $row["id"] = $record['module'];
-            $row["title"] = $record['title_ua'];
-            $row["start_date"] = $record['start_time'];
-            $row["end_date"] = $record['end_time'];
-            $row["lang"] = $record['language'];
-            array_push($list, $row);
-        }
 
         $attribute = array(
             'key' => 'module',
@@ -46,7 +48,7 @@ class Consultant extends Role
             'value' => $list
         );
         $result = [];
-        array_push($result, $attribute);
+        $result["module"] = $attribute;
 
         return $result;
     }
@@ -71,8 +73,10 @@ class Consultant extends Role
 
     public function checkModule($teacher, $module){
         if(Yii::app()->db->createCommand('select consultant from consultant_modules where module='.$module.
-            ' and consultant='.$teacher.' and end_time IS NULL')->queryScalar())
+            ' and consultant='.$teacher.' and end_time IS NULL')->queryScalar()) {
+            $this->errorMessage = "Даний викладач вже має права консультанта для обраного модуля.";
             return false;
+        }
         else return true;
     }
 
@@ -100,6 +104,31 @@ class Consultant extends Role
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN consultant_modules cm ON cm.consultant = s.id';
         $criteria->addCondition('cm.consultant IS NOT NULL and cm.end_time IS NULL');
+        $criteria->group = 's.id';
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
+    public static function addConsultantsByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN user_consultant uc ON uc.id_user = s.id';
+        $criteria->addCondition('uc.id_user IS NOT NULL and uc.end_date IS NULL');
+        $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
 
@@ -114,20 +143,32 @@ class Consultant extends Role
     }
 
     public function checkBeforeDeleteRole(StudentReg $teacher){
-        return !$this->existOpenTaskAnswers($teacher);
+       // return !$this->existOpenTaskAnswers($teacher);
+        return true;
     }
 
-    public function existOpenTaskAnswers(StudentReg $teacher){
-        return (count($this->openPlainTaskAnswers($teacher)) > 0);
-    }
-
-    public function openPlainTaskAnswers(StudentReg $teacher){
+    public function addRoleFormList($query){
         $criteria = new CDbCriteria();
-        $criteria->select = '*';
-        $criteria->alias = 'ans';
-        $criteria->join = 'LEFT JOIN plain_task_answer_teacher pt ON pt.id_plain_task_answer = ans.id';
-        $criteria->condition = 'pt.id_teacher = '.$teacher->id.' and end_date IS NOT NULL';
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN teacher t on t.user_id = s.id';
+        $criteria->join .= ' LEFT JOIN user_consultant uc ON uc.id_user = s.id';
+        $criteria->addCondition('t.user_id IS NOT NULL and uc.id_user IS NULL or uc.end_date IS NOT NULL');
+        $criteria->group = 's.id';
 
-        return PlainTaskAnswer::model()->findAll($criteria);
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
     }
 }

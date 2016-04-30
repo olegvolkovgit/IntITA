@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $user StudentReg
+ * @var $model StudentReg
  */
 ?>
 <li>
@@ -10,15 +10,16 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/modules',
-                array('id' => $user->id)) ?>',
+                array('id' => $model->id)) ?>',
                 'Модулі')">
                 Модулі
             </a>
         </li>
         <li>
-            <a href="#" onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showTeacherPlainTaskList'); ?>',
-                '<?php echo $user->id ?>')">
-                Всі задачі
+            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/consultations',
+                array('id' => $model->id)) ?>',
+                'Консультації')">
+                Консультації
             </a>
         </li>
     </ul>

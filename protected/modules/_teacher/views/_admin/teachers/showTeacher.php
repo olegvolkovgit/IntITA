@@ -12,8 +12,8 @@
         <ul class="list-inline">
             <li>
                 <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Викладачі')">
-                    Викладачі
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Співробітники')">
+                    Співробітники
                 </button>
             </li>
             <li>
@@ -47,19 +47,33 @@
         <div class="col-md-9">
             <ul class="list-group">
                 <li class="list-group-item">Ім'я:
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)) ?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>">
                         <?php echo $teacher->getName() ?></a></li>
-                <li class="list-group-item">Електронна пошта: <?php echo $teacher->user->email; ?></li>
+                <li class="list-group-item">Ім'я російською:
+                    <?=$teacher->last_name_ru." ".$teacher->first_name_ru." ".$teacher->middle_name_ru; ?>
+                </li>
+                <li class="list-group-item">Ім'я англійською:
+                    <?=$teacher->last_name_en." ".$teacher->first_name_en." ".$teacher->middle_name_en; ?>
+                </li>
+                <li class="list-group-item">Електронна пошта: <a href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                        'scenario' => 'message',
+                        'receiver' => $teacher->user_id
+                    ))?>">
+                    <?php echo $teacher->user->email; ?></a>
+                </li>
+                <li class="list-group-item">Приватний чат:
+                    <a href="<?= Config::getChatPath().$teacher->user_id;?>"
+                       target="_blank">почати чат</a></li>
                 <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
 
                 <?php if (!empty($user->getRoles())) { ?>
-                    <li class="list-group-item">Ролі викладача:
+                    <li class="list-group-item">Ролі користувача:
                         <ul>
                             <?php foreach ($user->teacherRoles() as $role) { ?>
                                 <li><?= $role; ?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','Редагувати роль')"><em>редагувати</em>
+                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?=addslashes($teacher->user->userName()).", роль ".$role; ?>')"><em>редагувати</em>
                                     </a>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
@@ -67,16 +81,7 @@
                                            '<?= $teacher->user_id; ?>');"><em>скасувати</em>
                                     </a>
                                 </li>
-                            <?php }
-                            if ($user->isAuthor()) { ?>
-                                <li>
-                                    author: <a href="#"
-                                               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                                   array('id' => $teacher->user_id, 'role' => 'author')); ?>','Редагувати роль')"><em>редагувати</em>
-                                    </a>
-                                </li>
-                            <?php }
-                            ?>
+                            <?php } ?>
                         </ul>
                     </li>
                 <?php } ?>
@@ -86,14 +91,16 @@
                         <ul>
                             <?php
                             foreach ($teacher->modulesActive as $module) {
-                                ?>
-                                <li>
-                                    <a href="<?php echo Yii::app()->createUrl('module/index',
-                                        array('idModule' => $module->module_ID)); ?>">
-                                        <?php echo $module->getTitle() . ', ' . $module->language; ?>
-                                    </a>
-                                </li>
-                                <?php
+                                if(!$module->cancelled) {
+                                    ?>
+                                    <li>
+                                        <a href="<?php echo Yii::app()->createUrl('module/index',
+                                            array('idModule' => $module->module_ID)); ?>">
+                                            <?php echo $module->getTitle() . ', ' . $module->language; ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
                             }
                             ?>
                         </ul>

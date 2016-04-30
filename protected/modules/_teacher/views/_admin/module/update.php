@@ -84,7 +84,9 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        moduleEdit(data,hasError,form[0].action,$(form).serialize());
+                        if(moduleValidation(data,hasError)){
+                            moduleUpdate(form[0].action);
+                        };
                         return false;
                 }'),
             )); ?>
@@ -124,5 +126,11 @@
         </div>
     </div>
 </div>
+<script>
+    $jq(document).ready(function () {
+        if(history.state!=null)
+            openTab('#editModuleTabs', history.state.tab);
+    });
+</script>
 
 

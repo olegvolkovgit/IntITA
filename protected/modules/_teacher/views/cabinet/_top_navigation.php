@@ -2,8 +2,9 @@
 /* @var $message Messages *
  * @var $record UserMessages *
  * @var $model RegisteredUser
- * @var $authorRequests array
+ * @var $requests array
  * @var $newMessages array
+ * @var $countNewMessages int
  */
 ?>
 <div class="navbar-header">
@@ -25,8 +26,8 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <?php if(!empty($newMessages)){?>
-                <span class="label label-success"><?=count($newMessages)?></span>
+            <?php if($countNewMessages > 0){?>
+                <span class="label label-success"><?=$countNewMessages;?></span>
             <?php }?>
             <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
             <i class="fa fa-caret-down"></i>
@@ -36,16 +37,16 @@
         </ul>
     </li>
 
-    <?php if($model->isAdmin()){?>
+    <?php if($model->isAdmin() || $model->isContentManager()){?>
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <?php if(!empty($authorRequests)){?>
-                <span class="label label-success"><?=count($authorRequests)?></span>
+            <?php if(!empty($requests)){?>
+                <span class="label label-success"><?=count($requests)?></span>
             <?php }?>
             <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-tasks">
-            <?php $this->renderPartial('top_nav_tasks', array('authorRequests' => $authorRequests));?>
+            <?php $this->renderPartial('top_nav_requests', array('requests' => $requests));?>
         </ul>
     </li>
     <?php }?>

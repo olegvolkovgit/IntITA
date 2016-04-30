@@ -16,6 +16,9 @@ function startVideo() {
             });
             element.on("click", function () {
                 element.html(attrs.startVideo);
+
+
+              
             })
         }
     }

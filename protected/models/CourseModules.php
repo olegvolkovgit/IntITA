@@ -97,7 +97,7 @@ class CourseModules extends CActiveRecord
 
         $criteria->addCondition('id_course='.$id);
 
-		$criteria->compare('id_course',$this->id_course);
+		$criteria->compare('t.id_course',$this->id_course);
 		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('order',$this->order);
         $criteria->compare('mandatory_modules',$this->mandatory_modules);
@@ -163,6 +163,11 @@ class CourseModules extends CActiveRecord
 
         $model->id_course = $idCourse;
         $model->id_module = $idModule;
+
+        if(CourseModules::model()->findByAttributes(array('id_course' => $idCourse, 'id_module' => $idModule))){
+            echo 'duplicate ';
+            return false;
+        }
 
         $model->order = CourseModules::getLastModuleOrder($idCourse) + 1;
 
@@ -294,4 +299,19 @@ class CourseModules extends CActiveRecord
 
         return Module::model()->findAll($criteria);
     }
+
+   public static function modulesWithStudentTeacher($course, $student){
+//       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang,
+//              IF((tcs.end_date IS NULL), concat(IFNULL(u.secondName, ""), " ", IFNULL(u.firstName, "")," ",IFNULL(u.middleName, "")), "") as trainerName
+//              from module m left join course_modules cm on m.module_ID = cm.id_module
+//              LEFT JOIN teacher_consultant_student tcs ON tcs.id_module=m.module_ID
+//              left join user u on tcs.id_teacher = u.id
+//              where cm.id_course='.$course.' and tcs.id_student='.$student.' and tcs.end_date IS NULL';
+
+       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang
+              from module m left join course_modules cm on m.module_ID = cm.id_module
+              where cm.id_course='.$course;
+
+       return Yii::app()->db->createCommand($sql)->queryAll();
+   }
 }

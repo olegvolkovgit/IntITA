@@ -138,7 +138,7 @@ img.mask{
     display: none;
 }
 
-#editIco, #requestBth{
+#editIco, #requestBth, #viewIco{
     float:right;
     margin-top: 20px;
     margin-right: 40px;
@@ -425,4 +425,17 @@ td.button-column{
     display: inline-block;
     overflow: hidden;
     position: relative;
+}
+.btnChat{
+    height:20px;
+    width: 40px;
+    border-radius:10px;
+    border:none;
+    border-top:1px solid #9fb5ce;
+    background:#4b75a4;
+    box-shadow:0px 2px 0px #7f7f7f;
+    margin-top:10px;
+    text-decoration: none;
+    padding: 3px 0 6px 0;
+    margin-bottom: 6px;
 }

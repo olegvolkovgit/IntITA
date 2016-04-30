@@ -50,8 +50,12 @@ class TeacherCabinetController extends CController
         }
 
         if (Yii::app()->user->isGuest) {
-            $this->render('authorize');
-            Yii::app()->end();
+            if(Yii::app()->request->isAjaxRequest){
+                Yii::app()->end();
+            }else{
+                $this->render('authorize');
+                Yii::app()->end();
+            }
         }
 
         $this->pageTitle = Yii::app()->name;
@@ -61,6 +65,19 @@ class TeacherCabinetController extends CController
     {
         $this->pathToCabinet = Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id));
         return $this->pathToCabinet;
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'expression'=>array($this, 'hasRole'),
+            ),
+            array('deny',
+                'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.",
+                'users'=>array('*'),
+            ),
+        );
     }
 
     public function behaviors()

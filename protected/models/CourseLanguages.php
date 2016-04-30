@@ -32,7 +32,6 @@ class CourseLanguages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lang_ua, lang_ru, lang_en', 'required'),
 			array('lang_ua, lang_ru, lang_en', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			array('id, lang_ua, lang_ru, lang_en', 'safe', 'on'=>'search'),
@@ -102,4 +101,25 @@ class CourseLanguages extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function cancelLinkedCourse($lang){
+        $param = 'lang_'.$lang;
+        $this->$param = null;
+        if($this->save()){
+            if($this->isOneDefined()){
+                $this->delete();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isOneDefined(){
+        $coursesDefined = 0;
+        foreach(array("lang_ua", "lang_ru", "lang_en") as $item){
+            if($this->$item > 0) $coursesDefined++;
+        }
+        return ($coursesDefined > 1)?false:true;
+    }
 }

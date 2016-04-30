@@ -8,6 +8,10 @@
 
 class TeachersController extends TeacherCabinetController{
 
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     protected function performAjaxValidation($model)
     {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacher-form') {
@@ -62,19 +66,33 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionCreate()
     {
+        $messageId = Yii::app()->request->getPost('message', 0);
+        $userApproved = Yii::app()->request->getPost('user', 0);
+
         $model = new Teacher;
 
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
-            if ($model->save()) {
+             if ($model->save()) {
+                if($messageId && $userApproved){
+                    $message = MessagesCoworkerRequest::model()->findByPk($messageId);
+                    $user = StudentReg::model()->findByPk($userApproved);
+                    $message->approve($user);
+                }
                 $this->redirect($this->pathToCabinet());
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
             }
         }
+        $predefinedUser = null;
+        if($messageId && $userApproved){
+            $predefinedUser = StudentReg::model()->findByPk($userApproved);
+        }
 
         $this->renderPartial('create', array(
             'model' => $model,
+            'message' => $messageId,
+            'predefinedUser' => $predefinedUser
         ),false,true);
     }
 
@@ -149,11 +167,7 @@ class TeachersController extends TeacherCabinetController{
 
         $user = RegisteredUser::userById($id);
         if ($id && $role) {
-            if ($user->cancelRole(new UserRoles($role))) {
-                echo "success";
-            } else {
-                echo "error";
-            }
+            echo $user->cancelRoleMessage(new UserRoles($role));
         } else {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
         }

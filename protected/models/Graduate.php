@@ -20,6 +20,8 @@
  * @property string $last_name_en
  * @property string $first_name_ru
  * @property string $last_name_ru
+ *
+ * @property Course $course
  */
 class Graduate extends CActiveRecord
 {
@@ -64,6 +66,7 @@ class Graduate extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'course' => array(self::BELONGS_TO, 'Course', 'courses_page'),
 		);
 	}
 
@@ -185,6 +188,7 @@ class Graduate extends CActiveRecord
         foreach ($graduates as $record) {
             $row = array();
             $row["name"]["title"] = $record->last_name." ".$record->first_name;
+			$row["name"]["header"] = addslashes($record->last_name." ".$record->first_name);
             $row["avatar"] = StaticFilesHelper::createPath('image', 'graduates', $record->avatar);
             $row["position"] = CHtml::encode($record->position);
             $row["workPlace"] = CHtml::encode($record->work_place);

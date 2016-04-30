@@ -34,36 +34,38 @@
 
     }
 
-    function cancelTeacherAccess(url) {
-        var user = $jq("#user").val();
-        var moduleId = $jq("select[name=modules] option:selected").val();
-
-        if(user == 0) {
-            bootbox.alert("Виберіть викладача.");
-        }else {
-            $jq.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    'module': moduleId,
-                    'user' : user
-                },
-                cache: false,
-                success: function (data) {
-                   if(data == "success"){
-                       showDialog("Операцію успішно виконано.");
-                       loadCancelAuthorModule();
-                   } else {
-                       showDialog("Операцію не вдалося виконати.");
-                   }
-                },
-                error:function()
-                {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        }
-    }
+    //function cancelTeacherAccess(url,header,redirect) {
+    //    var user = $jq("#user").val();
+    //    var moduleId = $jq("select[name=modules] option:selected").val();
+    //
+    //    if(user == 0) {
+    //        bootbox.alert("Виберіть викладача.");
+    //    }else {
+    //        $jq.ajax({
+    //            type: "POST",
+    //            url: url,
+    //            data: {
+    //                'module': moduleId,
+    //                'user' : user
+    //            },
+    //            cache: false,
+    //            success: function (data) {
+    //               if(data == "success"){
+    //                   showDialog("Операцію успішно виконано.");
+    //                   //if(redirect=='teacherAccess')
+    //                   //    loadAddTeacherAccess(header,'1');
+    //                   //else loadCancelAuthorModule();
+    //               } else {
+    //                   showDialog("Операцію не вдалося виконати.");
+    //               }
+    //            },
+    //            error:function()
+    //            {
+    //                showDialog("Операцію не вдалося виконати.");
+    //            }
+    //        });
+    //    }
+    //}
 
     function selectTeacherModules(url, teacher) {
         if (teacher == 0) {
@@ -79,10 +81,6 @@
                 }
             });
         }
-    }
-
-    function changeUserStatus() {
-        document.getElementById('').style.display = 'block';
     }
 
     function selectModule(url) {
@@ -101,19 +99,6 @@
                 }
             });
         }
-    }
-
-    function selectLecture() {
-        var module = $('select[name="module"]').val();
-        $.ajax({
-            type: "POST",
-            url: "/_admin/permissions/showLectures",
-            data: {module: module},
-            cache: false,
-            success: function (response) {
-                $('div[name="selectLecture"]').html(response);
-            }
-        });
     }
 
     function newPermissions(url)

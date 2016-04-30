@@ -2,6 +2,10 @@
 
 class PermissionsController extends TeacherCabinetController
 {
+    public function hasRole()
+    {
+        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
+    }
 
     public function actionIndex()
     {
@@ -12,11 +16,24 @@ class PermissionsController extends TeacherCabinetController
     {
         $id = Yii::app()->request->getPost('teacher', '0');
 
-        if($id == 0)
+        if ($id == 0)
             throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний викладач.");
         $user = RegisteredUser::userById($id);
 
         $modules = $user->getAttributesByRole(UserRoles::AUTHOR)["module"];
+
+        echo $this->renderPartial('_modules', array('modules' => $modules));
+    }
+
+    public function actionShowConsultantModules()
+    {
+        $id = Yii::app()->request->getPost('teacher', '0');
+
+        if ($id == 0)
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний викладач.");
+        $user = RegisteredUser::userById($id);
+
+        $modules = $user->getAttributesByRole(UserRoles::CONSULTANT)["module"];
 
         echo $this->renderPartial('_modules', array('modules' => $modules));
     }
@@ -27,12 +44,36 @@ class PermissionsController extends TeacherCabinetController
         $module = Yii::app()->request->getPost('module', '0');
 
         $user = RegisteredUser::userById($teacher);
-        if($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)){
+        if ($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)) {
             $permission = new PayModules();
             $permission->unsetModulePermission($teacher, $module, array('read', 'edit'));
-                echo "success";
+            echo "success";
         } else {
             echo "error";
+        }
+    }
+
+    public function actionCancelConsultantPermission()
+    {
+        $teacher = Yii::app()->request->getPost('user', '0');
+        $module = Yii::app()->request->getPost('module', '0');
+
+        $user = RegisteredUser::userById($teacher);
+        if ($user->unsetRoleAttribute(UserRoles::CONSULTANT, 'module', $module)) {
+            echo "success";
+        } else {
+            echo "error";
+        }
+
+    }
+
+    public function actionModulesByQuery($query)
+    {
+        if ($query) {
+            $modules = Module::allModules($query);
+            echo $modules;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 
@@ -54,5 +95,15 @@ class PermissionsController extends TeacherCabinetController
     public function actionConsultantsByQuery($query)
     {
         echo Consultant::consultantsByQuery($query);
+    }
+
+    public function actionAddConsultantsByQuery($query)
+    {
+        echo Consultant::addConsultantsByQuery($query);
+    }
+
+    public function actionTeacherConsultantsByQuery($query)
+    {
+        echo TeacherConsultant::teacherConsultantsByQuery($query);
     }
 }

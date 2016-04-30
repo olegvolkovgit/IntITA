@@ -15,9 +15,21 @@ foreach ($teachers as $teacher) {
                         <img class="teacherphoto"
                              src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->avatar()) ?>">
                     </div>
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->teacher_id)); ?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)); ?>">
                         <?php echo Yii::t('module', '0228'); ?>
                         &#187;</a>
+                    <br>
+                    <a class="btnChat" href="<?php
+                        if (!Yii::app()->user->isGuest){
+                            echo Config::getBaseUrl(); echo Config::getChatPath(); echo $teacher->user_id; echo '" target="_blank';
+                        } else {
+                            echo '#" '.'onclick="openSignIn();';
+                        }
+                    ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                    <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                        'scenario' => 'message',
+                        'receiver' => $teacher->user_id
+                    ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
                 </td>
                 <td class="teacherBoxRight">
                     <h2><?php echo Yii::t('module', '0227'); ?></h2>

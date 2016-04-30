@@ -8,21 +8,25 @@
 <div class="col-md-12">
     <div class="row">
         <form>
-            <input type="number" hidden="hidden" value="<?= $user; ?>" id="user">
+            <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
-                <input type="number" hidden="hidden" id="value" value="0"/>
+                <input type="number" hidden="hidden" id="student" value="0"/>
                 <input id="typeahead" type="text" class="form-control" name="student" placeholder="Студент"
                        size="65" required autofocus>
             </div>
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            '<?= $attribute["key"] ?>', '#value')">
+                            '<?= $attribute["key"] ?>', '#student')">
                     Додати студента
                 </button>
             </div>
         </form>
+    </div>
+    <br>
+    <div>
+        <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
     </div>
     <br>
     <div class="dataTable_wrapper">
@@ -40,7 +44,7 @@
             foreach ($attribute["value"] as $item) { ?>
             <tr>
                 <td>
-                    <?= $item["title"]; ?>
+                    <?= (($item["title"]) == null)?$item["title"]:$item["email"]; ?>
                     <a href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $item["id"])); ?>"
                        target="_blank">
                         (профіль)
@@ -74,7 +78,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/teachers/usersWithoutTrainers?query=%QUERY',
+            url: basePath + '/_teacher/_admin/teachers/usersByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
@@ -107,6 +111,6 @@
     });
 
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#value").val(item.id);
+        $jq("#student").val(item.id);
     });
 </script>

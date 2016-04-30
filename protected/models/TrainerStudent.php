@@ -118,4 +118,15 @@ class TrainerStudent extends CActiveRecord
 
         return $users;
     }
+
+	public static function getTrainerByStudent($trainerId)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->alias = 'user';
+		$criteria->join = 'INNER JOIN trainer_student on user.id = trainer_student.trainer';
+		$criteria->condition = 'student = :student and end_time IS NULL';
+		$criteria->params = array(':student' => $trainerId);
+
+		return StudentReg::model()->find($criteria);
+	}
 }

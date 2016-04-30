@@ -6,9 +6,9 @@ function testCtrl($scope, $http) {
 
     $scope.getDataTest = function(id) {
         var promise = $http({
-            url: basePath+'/tests/dataTest',
+            url: basePath+'/revision/dataTest',
             method: "POST",
-            data: $.param({idBlock: id}),
+            data: $.param({idPage: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             return response.data;
@@ -17,7 +17,7 @@ function testCtrl($scope, $http) {
         });
         return promise;
     };
-    $scope.getDataTest($scope.idBlock).then(function (response) {
+    $scope.getDataTest($scope.idPage).then(function (response) {
         $scope.dataTest=response;
     });
 

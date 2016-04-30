@@ -6,9 +6,15 @@ abstract class Role
 
     abstract function tableName();
 
+    abstract function checkRoleSql();
+
     abstract function title();
 
+    abstract function getErrorMessage();
+
     abstract function attributes(StudentReg $user);
+
+    abstract function addRoleFormList($query);
 
     abstract function checkBeforeDeleteRole(StudentReg $user);
 
@@ -33,6 +39,15 @@ abstract class Role
                 break;
             case "author":
                 $model = new Author();
+                break;
+            case "content_manager":
+                $model = new ContentManager();
+                break;
+            case "teacher_consultant":
+                $model = new TeacherConsultant();
+                break;
+            case "tenant":
+                $model = new Tenant();
                 break;
             default :
                 $model = null;

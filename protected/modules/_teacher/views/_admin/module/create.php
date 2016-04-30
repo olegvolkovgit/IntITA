@@ -35,13 +35,15 @@
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data'
                 ),
-                'enableAjaxValidation' => true,
-                'enableClientValidation' => false,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        moduleCreate(data,hasError,form[0].action,$(form).serialize());
+                        if(moduleValidation(data,hasError)){
+                            moduleCreate(form[0].action);
+                        };
                         return false;
                 }'),
             )); ?>
@@ -58,13 +60,6 @@
                 <div class="tab-pane fade" id="en">
                     <?php $this->renderPartial('_enEditTab', array('model' => $model, 'form' => $form)); ?>
                 </div>
-            </div>
-            <div class="form-group formMargin">
-                <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',
-                    array(
-                        'class' => 'btn btn-primary',
-                        'id' => 'submitButton',
-                    )); ?>
             </div>
             <?php $this->endWidget(); ?>
         </div>

@@ -10,8 +10,6 @@
  * @property string $title_en
  * @property string $alias
  * @property string $language
- * @property integer $module_duration_hours
- * @property integer $module_duration_days
  * @property integer $lesson_count
  * @property string $module_price
  * @property string $for_whom
@@ -65,7 +63,8 @@ class Module extends CActiveRecord implements IBillableObject
             array('status', 'required'),
             array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
-            array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
+            array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d\/]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри та символ "/"'),
+            array('lesson_count, hours_in_day, days_in_week,
             module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
             array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
@@ -119,10 +118,8 @@ class Module extends CActiveRecord implements IBillableObject
             'title_en' => 'Назва англійською',
             'alias' => 'Псевдонім',
             'language' => 'Мова',
-//            'module_duration_hours' => 'Тривалість модуля (години)',
-//            'module_duration_days' => 'Тривалість модуля (дні)',
             'lesson_count' => 'Кількість лекцій',
-            'module_price' => 'Ціна',
+            'module_price' => 'Ціна модуля базова, USD',
             'for_whom' => 'Для кого',
             'what_you_learn' => 'Що ти вивчиш',
             'what_you_get' => 'Що ти отримаєш',
@@ -132,6 +129,7 @@ class Module extends CActiveRecord implements IBillableObject
             'status' => 'Статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
+            'level' => 'Рівень',
 
         );
     }
@@ -158,8 +156,6 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('language', $this->language, true);
-//        $criteria->compare('module_duration_hours', $this->module_duration_hours);
-//        $criteria->compare('module_duration_days', $this->module_duration_days);
         $criteria->compare('lesson_count', $this->lesson_count);
         $criteria->compare('module_price', $this->module_price, true);
         $criteria->compare('for_whom', $this->for_whom, true);
@@ -865,11 +861,11 @@ class Module extends CActiveRecord implements IBillableObject
     public static function allModules($query){
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
-        $criteria->alias = "s";
         $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
+        $criteria->addCondition('cancelled=0');
 
         $data = Module::model()->findAll($criteria);
 
@@ -978,8 +974,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
-        $criteria->join = 'JOIN course_modules cm ON cm.id_module = m.module_ID';
-        $criteria->addCondition('cm.id_course <>'.$course);
+        $criteria->join = 'LEFT JOIN course_modules cm ON cm.id_module = m.module_ID';
+        $criteria->addCondition('cm.id_course IS NULL or cm.id_course <>'.$course);
         $data = Module::model()->findAll($criteria);
 
         $result = array();
@@ -1050,5 +1046,9 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getIndepedentModulePrice(){
         return round($this->module_price * Config::getCoeffIndependentModule());
+    }
+
+    public function priceOffline(){
+        return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 }

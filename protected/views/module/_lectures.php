@@ -12,6 +12,12 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                  id="editIco" title="<?php echo Yii::t('module', '0373'); ?>"/>
         </a>
+
+        <a href="<?php echo Yii::app()->createUrl('/revision/moduleLecturesRevisions', array('idModule'=>$module->module_ID)); ?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
+                 id="viewIco" title="Переглянути ревізії модуля"/>
+        </a>
+
     <?php } ?>
     <?php if (!Yii::app()->user->isGuest) {
     if (Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>
@@ -34,11 +40,11 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>function($data) use ($enabledLessonOrder,$idCourse) {
+            'value' =>function($data,$row) use ($enabledLessonOrder,$idCourse) {
                 if (Lecture::accessLecture($data->id,$data->order,$enabledLessonOrder,$idCourse))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
-                $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.$data->order.'.';
+                $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.($row+1).'.';
                 return $value;
             },
             'header'=>false,

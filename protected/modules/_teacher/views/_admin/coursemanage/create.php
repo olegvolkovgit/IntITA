@@ -43,13 +43,15 @@
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',
                 ),
-                'enableAjaxValidation' => true,
-                'enableClientValidation' => false,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        courseCreate(data,hasError,form[0].action,$(form).serialize());
+                        if(courseValidation(data,hasError)){
+                            courseCreate(form[0].action);
+                        };
                         return false;
                 }'),
             )); ?>
@@ -70,13 +72,6 @@
                     <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create',
                         'form' => $form)); ?>
                 </div>
-            </div>
-            <div class="form-group formMargin">
-                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
-                    array(
-                        'class' => 'btn btn-primary',
-                        'id' => 'submitButton',
-                    )); ?>
             </div>
             <?php $this->endWidget(); ?>
         </div>

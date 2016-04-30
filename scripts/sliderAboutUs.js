@@ -7,20 +7,12 @@ $(function(){
         $('.owl-item').height(document.body.clientWidth/3);
     });
 });
-function textSliderCentr() { /* Центрування тексту картинки слайдеру*/
-    $('.about1').css('margin-left', (document.body.clientWidth*0.2)+'px');
-    $('.about2').css('margin-left', -(document.body.clientWidth*0.2)+'px');
-    $('.about3').css('margin-left', -(document.body.clientWidth*0.05)+'px');
-    $('.about4').css('margin-left', -(document.body.clientWidth*0.3)+'px');
-    $('.about1').width(document.body.clientWidth);
-    $('.about2').width(document.body.clientWidth);
-    $('.about3').width(document.body.clientWidth);
-    $('.about4').width(document.body.clientWidth);
-    $('.about5').width(document.body.clientWidth);
-    $('.about6').width(document.body.clientWidth);
+function textSliderCentr(count) { /* Центрування тексту картинки слайдеру*/
+    for(var i=1;i<=count;i++){
+        var elHalfWidth=$('.about'+i).css('width').slice(0, -2)/2;
+        $('.about'+i).css('margin-left', (document.body.clientWidth*$('.about'+i).attr('left')/100-elHalfWidth)+'px');
+    }
 }
-$(function() { textSliderCentr(); });
-$(window).resize(function() { textSliderCentr(); });
 
 function sliderBoxCentr() { /* Центрування центрального боксу слайдера*/
     $('#sliderCenterBox').css('margin-top', document.body.clientWidth/3/2+'px');

@@ -225,6 +225,8 @@ class LecturePage extends CActiveRecord
 
         $model->save();
         Lecture::setLectureNotVerified($lecture);
+
+        return $model;
     }
 
     public static function addVideo($pageId, $block){
@@ -396,5 +398,19 @@ class LecturePage extends CActiveRecord
         if($pageOrder!=$lastPage)
             return 0;
         else return 1;
+    }
+
+    public function getLectureElements() {
+        $elementsList = Yii::app()->db->createCommand()->
+            select("element")->
+            from("lecture_element_lecture_page")->
+            where("page=".$this->id)->
+            queryAll();
+
+        $elementsList = array_map(function($element){
+            return $element['element'];
+        }, $elementsList);
+
+        return LectureElement::model()->findAllByPk($elementsList);
     }
 }

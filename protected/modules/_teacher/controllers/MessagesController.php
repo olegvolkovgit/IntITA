@@ -2,6 +2,10 @@
 
 class MessagesController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return !Yii::app()->user->isGuest;
+    }
+
     public function actionIndex()
     {
         $id = Yii::app()->user->getId();
@@ -82,10 +86,9 @@ class MessagesController extends TeacherCabinetController
 
     public function actionSendUserMessage()
     {
-        $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
-        $user = StudentReg::model()->findByPk($id);
+        $user = Yii::app()->user->model->registrationData;
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
@@ -129,13 +132,12 @@ class MessagesController extends TeacherCabinetController
 
     public function actionReply()
     {
-        $id = Yii::app()->request->getPost('id', 0);
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
         $parentId = Yii::app()->request->getPost('parent', 0);
         $receiverId = Yii::app()->request->getPost('receiver', 0);
 
-        $user = StudentReg::model()->findByPk($id);
+        $user = Yii::app()->user->model->registrationData;
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
@@ -158,7 +160,6 @@ class MessagesController extends TeacherCabinetController
 
     public function actionForward()
     {
-        $userId = Yii::app()->request->getPost('id', 0);
         $parentId = Yii::app()->request->getPost('parent', 0);
         $forwardToId = Yii::app()->request->getPost('forwardToId', 0);
         $subject = Yii::app()->request->getPost('subject', '');
@@ -166,7 +167,7 @@ class MessagesController extends TeacherCabinetController
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $sender = StudentReg::model()->findByPk($userId);
+            $sender = Yii::app()->user->model->registrationData;
             $message = UserMessages::model()->findByPk($parentId);
             $receiver = StudentReg::model()->findByPk($forwardToId);
             $message->newSubject = $subject;

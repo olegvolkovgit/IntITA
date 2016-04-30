@@ -10,9 +10,13 @@
 <div class="formMargin">
     <div class="form-group">
         <?php echo $form->labelEx($model, 'language', array('for' => 'language')); ?>
-        <?php echo $form->dropDownList($model, 'language', array(
+        <?php if ($scenario == "update") {
+            echo $form->textField($model, 'language', array('class' => 'form-control', 'disabled'=>true));
+        }else {
+            echo $form->dropDownList($model, 'language', array(
             'ua' => 'Українська', 'en' => 'English', 'ru' => 'Русский'),
-            array('options' => array('ua' => array('selected' => true)), 'empty' => 'Виберіть мову', 'class' => 'form-control')); ?>
+            array('options' => array('ua' => array('selected' => true)), 'empty' => 'Виберіть мову', 'class' => 'form-control'));
+        } ?>
         <?php echo $form->error($model, 'language'); ?>
     </div>
 
@@ -48,6 +52,11 @@
             '0' => Yii::t('coursemanage', '0396'), '1' => Yii::t('coursemanage', '0397')),
             array('options' => array('0' => array('selected' => true)), 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'status'); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'course_img'); ?>
+        <?php echo $form->fileField($model, 'course_img', array('onchange' => "CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
     </div>
     <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),

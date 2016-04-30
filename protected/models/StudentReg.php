@@ -30,9 +30,15 @@
  * @property string $token
  * @property string $activkey_lifetime
  * @property string $status
- * property string $reg_time
+ * @property string $reg_time
  * @property string $avatar
  * @property string $identity
+ * @property string $skype
+ * @property integer $country
+ * @property integer $city
+ *
+ * @property AddressCountry $country0
+ * @property AddressCity $city0
  */
 class StudentReg extends CActiveRecord
 {
@@ -70,8 +76,8 @@ class StudentReg extends CActiveRecord
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
             array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
-            array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail'),
-            array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext'),
+            array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
+            array('email', 'email', 'message' => Yii::t('error', '0271'), 'on' => 'recovery,resetemail,fromraptoext,linkingemail'),
             array('email', 'authenticateEmail', 'on' => 'recovery'),
             array('password, new_password_repeat, new_password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'changepass'),
             array('new_password_repeat, new_password', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recoverypass'),
@@ -92,9 +98,9 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity', 'safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country, city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity', 'safe', 'on' => 'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
         );
     }
 
@@ -154,6 +160,8 @@ class StudentReg extends CActiveRecord
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student'),
+            'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
+            'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
         );
     }
 
@@ -191,6 +199,9 @@ class StudentReg extends CActiveRecord
             'vkontakte' => 'VK',
             'twitter' => 'Twitter',
             'reg_time' => 'Registration Time',
+            'skype' => 'Skype',
+            'country' => Yii::t('regexp', '0817'),
+            'city' => Yii::t('regexp', '0818'),
         );
     }
 
@@ -267,6 +278,9 @@ class StudentReg extends CActiveRecord
         $criteria->compare('activkey_lifetime', $this->activkey_lifetime, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('reg_time', $this->reg_time, true);
+        $criteria->compare('skype', $this->skype, true);
+        $criteria->compare('t.country', $this->country, true);
+        $criteria->compare('t.city', $this->city, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -312,13 +326,6 @@ class StudentReg extends CActiveRecord
         return $brthAdr;
     }
 
-    public static function getEducform($educform)
-    {
-        $user = Teacher::model()->find("user_id=:user_id", array(':user_id' => Yii::app()->user->id));
-        if ($educform && !$user)
-            return StudentReg::getUserData($educform, '0106');
-    }
-
     public static function getEdForm($edForm)
     {
         if (isset($edForm) &&
@@ -328,51 +335,6 @@ class StudentReg extends CActiveRecord
         } else {
             $val = '';
         }
-        return $val;
-    }
-
-    public static function getFacebooknameProfile($facebook)
-    {
-        if ($facebook) {
-            $pos = strpos($facebook, 'facebook.com/');
-            $val = substr($facebook, $pos + 13);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getGooglenameProfile($googlename)
-    {
-        if ($googlename) {
-            $pos = strpos($googlename, 'google.com/');
-            $val = substr($googlename, $pos + 11);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getLinkedinId($linkedin)
-    {
-        if ($linkedin) {
-            $pos = strpos($linkedin, 'linkedin.com/');
-            $val = substr($linkedin, $pos + 13);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getVkId($vk)
-    {
-        if ($vk) {
-            $pos = strpos($vk, 'vk.com/');
-            $val = substr($vk, $pos + 7);
-        } else $val = '';
-        return $val;
-    }
-
-    public static function getTwitternameProfile($twitter)
-    {
-        if ($twitter) {
-            $pos = strpos($twitter, 'twitter.com/');
-            $val = substr($twitter, $pos + 12);
-        } else $val = '';
         return $val;
     }
 
@@ -617,7 +579,7 @@ class StudentReg extends CActiveRecord
     public static function getUserName($id)
     {
         $model = StudentReg::model()->findByPk($id);
-        $name = $model->firstName . " " . $model->secondName;
+        $name = addslashes($model->firstName . " " . $model->secondName);
         return trim($name);
     }
 
@@ -633,24 +595,8 @@ class StudentReg extends CActiveRecord
         if ($name == "") {
             return $this->email;
         } else {
-            return trim($name. ", ".$this->email);
+            return trim(CHtml::encode($name). ", ".$this->email);
         }
-    }
-
-    public static function getRoleString($id)
-    {
-        $model = StudentReg::model()->findByPk($id);
-        if ($model->isAdmin()) {
-            return 'адмін';
-        }
-        if ($model->isAccountant()) {
-            return 'бухгалтер';
-        }
-        if ($model->isTeacher()) {
-            return 'викладач';
-        }
-
-        return 'студент';
     }
 
     public static function getUserInfo()
@@ -689,11 +635,7 @@ class StudentReg extends CActiveRecord
 
     public function isStudent()
     {
-        if ($this->isAdmin() || $this->isAccountant() || $this->isTeacher()) {
-            return false;
-        } else {
-            return true;
-        }
+        return Yii::app()->user->model->isStudent();
     }
 
     public static function generateUsersList()
@@ -713,20 +655,11 @@ class StudentReg extends CActiveRecord
         if (Yii::app()->user->isGuest) {
             return false;
         }
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $user = Yii::app()->user->model;
         if ($user->isAdmin() || $user->isTeacher()) {
             return true;
         }
         return false;
-    }
-
-    public static function canAddResponse()
-    {
-        if (Yii::app()->user->isGuest) {
-            return false;
-        }
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        return $user->isStudent();
     }
 
     public static function linkInMouseLine()
@@ -865,21 +798,62 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'm';
         $criteria->order = 'm.id_message DESC';
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition('r.id_receiver =:id');
-        $criteria->addCondition('r.deleted IS NULL');
+        $criteria->addCondition('r.id_receiver =:id and r.deleted IS NULL');
         $criteria->params = array(':id' => $this->id);
 
-        return UserMessages::model()->findAll($criteria);
+        $userMessages = UserMessages::model()->findAll($criteria);
+        $paymentMessages = MessagesPayment::model()->findAll($criteria);
+        $approveRevisionMessages = MessagesApproveRevision::model()->findAll($criteria);
+        $rejectRevisionMessages = MessagesRejectRevision::model()->findAll($criteria);
+
+        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages);
+        $user = Yii::app()->user->model;
+//        if($user->isAdmin() || $user->isContentManager()){
+//            $criteria1 = new CDbCriteria();
+//            $criteria1->select = '*';
+//            $criteria1->alias = 'm';
+//            $criteria1->order = 'm.id_message DESC';
+//            $criteria1->join = 'JOIN message_receiver r ON r.id_message = m.id_message';
+//            $criteria1->addCondition('r.id_receiver =:id and r.deleted IS NULL and m.cancelled=0');
+//            $criteria1->params = array(':id' => $this->id);
+//
+//            $authorRequests = MessagesAuthorRequest::model()->findAll($criteria1);
+//            $teacherConsultantRequests = MessagesTeacherConsultantRequest::model()->findAll($criteria1);
+//            $all =  array_merge($all, $authorRequests, $teacherConsultantRequests);
+//        }
+
+        function sortById($a, $b)
+        {
+            if ($a->id_message == $b->id_message) {
+                return 0;
+            }
+            return ($a->id_message < $b->id_message) ? 1 : -1;
+        }
+
+        usort($all, "sortById");
+
+        return $all;
     }
 
     public function newReceivedMessages(){
         $criteria = new CDbCriteria();
         $criteria->alias = 'm';
-        $criteria->order = 'm.id_message DESC';
-        $criteria->join = 'LEFT JOIN message_receiver r ON r.id_message = m.id_message';
-        $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id);
+        $criteria->order = 'm.id DESC';
+        $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
+        $criteria->addCondition ('r.deleted IS NULL AND r.read IS NULL and r.id_receiver ='.$this->id.' and
+        (m.type='.MessagesType::USER.' or m.type='.MessagesType::PAYMENT.' or m.type='.MessagesType::APPROVE_REVISION.'
+         or m.type='.MessagesType::REJECT_REVISION.')');
 
-        return UserMessages::model()->findAll($criteria);
+        return Messages::model()->findAll($criteria);
+    }
+
+    public function newMessages($newReceivedMessages){
+        $result = [];
+        foreach($newReceivedMessages as $key=>$message){
+            array_push($result, MessagesFactory::getInstance($message));
+            if($key == 4) break;
+        }
+        return $result;
     }
 
     public function sentMessages(){
@@ -901,14 +875,15 @@ class StudentReg extends CActiveRecord
 
     public static function getStudentsList($startDate, $endDate) {
 
-        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, user_student.start_date, u.id as trainer, concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")) as trainerName
-              from user inner join user_student on user.id = user_student.id_user
-              left join trainer_student ts on user_student.id_user=ts.student
-              left join user u on ts.trainer = u.id where ts.end_time IS NULL';
+        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer, IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, "")), "") as trainerName
+              from user inner join user_student us on user.id = us.id_user
+              left join trainer_student ts on us.id_user=ts.student
+              left join user u on ts.trainer = u.id where (ts.end_time IS NULL or (ts.end_time IS NOT NULL and ts.student IS NOT NULL))';
 
         if (isset($startDate) && isset($endDate)){
-            $sql .= " and TIMESTAMP(user_student.start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate';";
+            $sql .= " and TIMESTAMP(start_date) BETWEEN " . "'$startDate'". " AND " . "'$endDate' ";
         }
+        $sql .= ' group by user.id';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
 
@@ -940,34 +915,6 @@ class StudentReg extends CActiveRecord
      * @param $query string - query from typeahead
      * @return string - json for typeahead field in user manage page (cabinet, add)
      */
-    public static function usersWithoutAdmins($query)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
-        $criteria->alias = "s";
-        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
-        $criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL');
-
-        $data = StudentReg::model()->findAll($criteria);
-
-        $result = [];
-        foreach ($data as $key=>$model) {
-            $result["results"][$key]["id"] = $model->id;
-            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
-            $result["results"][$key]["email"] = $model->email;
-            $result["results"][$key]["url"] = $model->avatarPath();
-        }
-        return json_encode($result);
-    }
-
-    /**
-     * @param $query string - query from typeahead
-     * @return string - json for typeahead field in user manage page (cabinet, add)
-     */
     public static function usersWithoutAccountants($query)
     {
         $criteria = new CDbCriteria();
@@ -990,50 +937,6 @@ class StudentReg extends CActiveRecord
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
-    }
-
-    public function addAdmin()
-    {
-        if (Yii::app()->db->createCommand()->insert('user_admin', array(
-            'id_user' => $this->id,
-        ))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function addAccountant()
-    {
-        if (Yii::app()->db->createCommand()->insert('user_accountant', array(
-            'id_user' => $this->id,
-        ))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function cancelAdmin()
-    {
-        if (Yii::app()->db->createCommand()->update('user_admin', array(
-            'end_date'=>date('Y-m-d H:i:s'),
-        ), 'id_user=:id', array(':id'=>$this->id))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function cancelAccountant()
-    {
-        if (Yii::app()->db->createCommand()->update('user_accountant', array(
-            'end_date'=>date('Y-m-d H:i:s'),
-        ), 'id_user=:id', array(':id'=>$this->id))) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -1126,7 +1029,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelAdmin')."'".", '".$record["id"]."'";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'admin', '".$record["id"]."', '3'";
             array_push($return['data'], $row);
         }
 
@@ -1149,7 +1052,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelAccountant')."'".", '".$record["id"]."'";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'accountant', '".$record["id"]."', '3'";
             array_push($return['data'], $row);
         }
 
@@ -1209,5 +1112,27 @@ class StudentReg extends CActiveRecord
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
+    }
+
+    public static function authRedirect($callBack)
+    {
+        if($callBack && isset($_SERVER["HTTP_REFERER"])){
+            $callBack=$_SERVER["HTTP_REFERER"];
+        }else if($callBack && !isset($_SERVER["HTTP_REFERER"])){
+            $callBack=Yii::app()->request->baseUrl;
+        }else $callBack='';
+        return $callBack;
+    }
+
+    public function addressString(){
+        $param = "title_" . Yii::app()->session["lg"];
+        $result = '';
+        if (!is_null($this->country))
+            $result .= AddressCountry::model()->findByPk($this->country)->$param;
+        if (!is_null($this->city))
+            $result .=  ", ". AddressCity::model()->findByPk($this->city)->$param;
+        $result .=  self::getAdressYears($this->birthday, $this->address);
+
+        return ($result != ", ")? $result:'';
     }
 }

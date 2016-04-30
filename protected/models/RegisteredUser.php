@@ -13,7 +13,6 @@
  */
 class RegisteredUser
 {
-    //put your code here
     //StudentReg variable
     public $registrationData;
     //array UserRoles
@@ -22,7 +21,6 @@ class RegisteredUser
     private $_teacher;
     private $_isTeacher = false;
     private $_roleAttributes = array();
-    private $_teacherRoles = array( UserRoles::TRAINER, UserRoles::CONSULTANT);
 
     public function __construct(StudentReg $registrationData)
     {
@@ -60,16 +58,18 @@ class RegisteredUser
 
     private function loadRoles()
     {
-        $sql = '(select "admin",id_user from user_admin a where a.id_user = ' . $this->id . ' and end_date IS NULL)
-                    union
-                (select "accountant", id_user from user_accountant ac where ac.id_user = ' . $this->id . ' and end_date IS NULL)
-                    union
-                (select "student", id_user from user_student st where st.id_user = ' . $this->id . ' and end_date IS NULL)
-                     union
-                (select "trainer", id_user from user_trainer at where at.id_user = ' . $this->id . ' and end_date IS NULL)
-                     union
-                (select "consultant", id_user from user_consultant acs where acs.id_user = ' . $this->id . ' and end_date IS NULL)';
-        $rolesArray = Yii::app()->db->createCommand($sql)->queryAll();
+        $sql = '';
+        $roles = AllRolesDataSource::roles();
+        $lastKey = array_search(end($roles), $roles);
+        foreach($roles as $key=>$role){
+            $model = Role::getInstance($role);
+            $sql .= "(".$model->checkRoleSql().")";
+            if ($key != $lastKey) {
+                $sql .= " union ";
+            }
+        }
+
+        $rolesArray = Yii::app()->db->createCommand($sql)->bindValue(":id",$this->id,PDO::PARAM_STR)->queryAll();
 
         $result = array_map(function ($row) {
             return new UserRoles($row["admin"]);
@@ -113,13 +113,14 @@ class RegisteredUser
 
     public function getAttributesByRole($role)
     {
-        if (empty($this->_roleAttributes)) {
+        if (empty($this->_roleAttributes[(string)$role])) {
             $this->loadAttributes($role);
         }
         return $this->_roleAttributes[(string)$role];
     }
 
-    private function loadAttributes($role){
+    private function loadAttributes($role)
+    {
         if ($this->hasRole($role)) {
             $roleObj = Role::getInstance($role);
             $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
@@ -127,19 +128,21 @@ class RegisteredUser
         return $this->_roleAttributes[(string)$role];
     }
 
-    public function setRoleAttribute($role, $attribute, $value){
+    public function setRoleAttribute($role, $attribute, $value)
+    {
         $roleObj = Role::getInstance($role);
         return $roleObj->setAttribute($this->registrationData, $attribute, $value);
     }
 
-    public function unsetRoleAttribute($role, $attribute, $value){
+    public function unsetRoleAttribute($role, $attribute, $value)
+    {
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
     }
 
     public function isAdmin()
     {
-        return in_array(UserRoles::ADMIN, $this->getRoles());
+        return $this->hasRole(UserRoles::ADMIN);
     }
 
     public function isAccountant()
@@ -151,6 +154,22 @@ class RegisteredUser
     {
         return $this->hasRole(UserRoles::TRAINER);
     }
+
+    public function isTeacherConsultant()
+    {
+        return $this->hasRole(UserRoles::TEACHER_CONSULTANT);
+    }
+
+    public function isContentManager()
+    {
+        return $this->hasRole(UserRoles::CONTENT_MANAGER);
+    }
+
+    public function isTenant()
+    {
+        return $this->hasRole(UserRoles::TENANT);
+    }
+
 
     public function isConsultant()
     {
@@ -164,17 +183,18 @@ class RegisteredUser
 
     public function isAuthor()
     {
-        if($this->isTeacher()) {
-            return TeacherModule::model()->exists('idTeacher=:teacher', array('teacher' => $this->getTeacher()->teacher_id));
-        } else {
-            return false;
-        }
+        return $this->hasRole(UserRoles::AUTHOR);
+    }
+
+    public function canApprove()
+    {
+        return $this->isAdmin();
     }
 
     //todo author role check
     public function hasRole($role)
     {
-        if($role == "author"){
+        if ($role == "author") {
             return true;
         }
         return in_array($role, $this->getRoles());
@@ -198,33 +218,66 @@ class RegisteredUser
         return $roleObj->cancelRole($this->registrationData);
     }
 
+    public function cancelRoleMessage(UserRoles $role)
+    {
+        if (!$this->hasRole($role)) {
+            return "Користувачу не була призначена обрана роль.";
+        }
+        $roleObj = Role::getInstance($role);
+        if ($roleObj->cancelRole($this->registrationData)) {
+            return "Роль успішно відмінено.";
+        } elseif ($roleObj->getErrorMessage() != "") {
+            return $roleObj->getErrorMessage();
+        } else {
+            return "Роль не вдалося відмінити. Спробуйте пізніше або зверніться до адміністратора.";
+        }
+    }
+
     public function teacherRoles()
     {
-        return array_intersect($this->getRoles(), $this->_teacherRoles);
+        return array_intersect($this->getRoles(), TeacherRolesDataSource::roles());
     }
 
     public function noSetTeacherRoles()
     {
-        return array_diff($this->_teacherRoles, array_intersect($this->getRoles(), $this->_teacherRoles));
+        return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()), array(UserRoles::AUTHOR));
     }
 
-    public function authorRequests(){
-        if (!$this->isAdmin())
+    public function requests()
+    {
+        if (!$this->isAdmin() && !$this->isContentManager())
             return [];
         else {
-            return MessagesAuthorRequest::notApprovedRequests();
+            return $this->loadRequests();
         }
     }
 
-    public function canPlanConsultation(Teacher $teacher){
+    private function loadRequests()
+    {
+        $authorRequests = MessagesAuthorRequest::notApprovedRequests();
+        $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+        $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
+
+        return array_merge($authorRequests, $consultantRequests, $assignCoworkerRequests);
+    }
+
+    public function canPlanConsultation(Teacher $teacher)
+    {
         return $this->registrationData->id != $teacher->user_id;
     }
 
-    public function canSendRequest($module){
-        if(!$this->isTeacher())
+    public function canSendRequest($module)
+    {
+        if (!$this->isTeacher())
             return false;
         else {
-            return !MessagesAuthorRequest::isRequestOpen($module, $this->registrationData->id);
+            $request = new MessagesAuthorRequest();
+            return !$request->isRequestOpen(array($module, $this->registrationData->id));
         }
+    }
+
+    public function canAddResponse()
+    {
+        return $this->isStudent();
     }
 }

@@ -134,6 +134,65 @@ $this->breadcrumbs = array(
 
                 <div id="addreg">
                     <div class="row">
+                        <?php echo $form->label($model, 'country'); ?>
+                        <?php
+                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                            'name' => 'countryTypeahead',
+                            'source' => 'js: function(request, response) {
+                                        $.getJSON("' . $this->createUrl('studentreg/countryAutoComplete') . '", {
+                                        term: request.term.split(/,s*/).pop(),
+                                        lang: "' . Yii::app()->session["lg"] . '"
+                                    }, response);
+                            }',
+                            'value' => '',
+                            'options' => array(
+                                'minLength' => '2',
+                                'showAnim' => 'fold',
+                                'select' => 'js: function(event, ui) {
+                                            this.value = ui.item.value;
+                                            $("#StudentReg_country").val(ui.item.id);
+                                            $("#cityTypeahead").autocomplete( "option", "disabled", false );
+                                           return false;
+                                    }',
+                            ),
+                            'htmlOptions'=>array(
+                                'placeholder' => 'виберіть країну'
+                            )
+                        )); ?>
+                        <span><?php echo $form->error($model, 'country'); ?></span>
+                        <?php echo $form->hiddenField($model, 'country'); ?>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'city'); ?>
+                        <?php
+                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                            'name' => 'cityTypeahead',
+                            'source' => 'js: function(request, response) {
+                                        $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
+                                        term: request.term.split(/,s*/).pop(),
+                                        country: $("#StudentReg_country").val()
+                                    }, response);
+                            }',
+                            'value' => '',
+                            'options' => array(
+                                'minLength' => '2',
+                                'showAnim' => 'fold',
+                                'disabled' => true,
+                                'select' => 'js: function(event, ui) {
+                                            this.value = ui.item.value;
+                                            $("#StudentReg_city").val(ui.item.id);
+                                            return false;
+                                    }',
+                            ),
+                            'htmlOptions' => array(
+                                'maxlength' => 50,
+                                'placeholder' => 'виберіть місто'
+                            ),
+                        )); ?>
+                        <span><?php echo $form->error($model, 'city'); ?></span>
+                        <?php echo $form->hiddenField($model, 'city'); ?>
+                    </div>
+                    <div class="row">
                         <?php echo $form->label($model, 'address'); ?>
                         <?php echo $form->textField($model, 'address', array('maxlength' => 100)); ?>
                         <span><?php echo $form->error($model, 'address'); ?></span>
@@ -156,6 +215,11 @@ $this->breadcrumbs = array(
                     <div class="row">
                         <?php echo $form->textField($model, 'aboutUs', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs')); ?>
                         <span><?php echo $form->error($model, 'aboutUs'); ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'skype'); ?>
+                        <?php echo $form->textField($model, 'skype', array('maxlength' => 50, 'id' => 'skype')); ?>
+                        <span><?php echo $form->error($model, 'skype'); ?></span>
                     </div>
                     <div class="rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>

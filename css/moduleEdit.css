@@ -250,3 +250,7 @@ table.lecturesTable{
     font-size:16px;
     vertical-align: middle;
 }
+.backButton a:focus, .backButton a:hover {
+     color: #fff;
+     text-decoration: none;
+}

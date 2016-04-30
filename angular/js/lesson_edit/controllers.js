@@ -5,7 +5,9 @@ angular
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
     $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
     $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
-
+    $scope.previewRevision = function(url) {
+        location.href=url;
+    };
     $scope.unableSkipTask = function(pageId){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити завдання?')
             .then(function() {
@@ -67,16 +69,16 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         $scope.isReady = true;
     });
 
-    $scope.getBlockHtml = function (blockOrder, idLecture, element) {
+    $scope.getBlockHtml = function (idEl, element) {
         $http({
-            url: basePath + '/lesson/editBlock',
+            url: basePath + '/revision/getLectureElement',
             method: "POST",
-            data: $.param({order: blockOrder, lecture: idLecture}),
+            data: $.param({idElement: idEl}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.editRedactor = response.data;
             var template = '<textarea data-ng-cloak class="openCKE" ' +
-                'id="openCKE' + blockOrder + '"' +
+                'id="openCKE' + idEl + '"' +
                 'ckeditor="editorOptions" name="editor" ng-model="editRedactor">' +
                 '</textarea>';
             ($compile(template)($scope)).insertAfter(element);
@@ -85,19 +87,19 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             alert($scope.errorMsg);
         });
     };
-    $scope.getCodeHtml = function (blockOrder, idLecture, element) {
+    $scope.getCodeHtml = function (idEl, element) {
         $http({
-            url: basePath + '/lesson/editBlock',
+            url: basePath + '/revision/getLectureElement',
             method: "POST",
-            data: $.param({order: blockOrder, lecture: idLecture}),
+            data: $.param({idElement: idEl}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.editCodeRedactor = response.data;
-            var template = '<div id="CKECodeEdit'+blockOrder+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
+            var template = '<div id="CKECodeEdit'+idEl+'"><textarea class="openCKE" id="CKECodeEdit" name="editor" >' +
                 $scope.editCodeRedactor+'</textarea>'+
-                '<input class="codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+blockOrder+')">'+
-                '<input class="codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+blockOrder+')">' +
-                '<input class="codeBut removeHtml" type="submit" value="Очистити форматування" ng-click="removeEditHtml()">' +
+                '<input class="btn btn-primary codeBut" type="submit" value="Зберегти" ng-click="saveCodeBlock('+idEl+')">'+
+                '<input class="btn btn-primary codeBut" type="submit" value="Закрити" ng-click="closeCodeBlock('+idEl+')">' +
+                '<input class="btn btn-primary codeBut removeHtml" type="submit" value="Очистити форматування" ng-click="removeEditHtml()">' +
                 '</div>';
             ($compile(template)($scope)).insertAfter(element);
             $scope.myEditCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECodeEdit'), {
@@ -128,7 +130,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         }
     };
     /*add Skip Task*/
-    $scope.createSkipTaskCKE = function (url, pageId, author) {
+    $scope.createSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
@@ -142,7 +144,8 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
 
         var newSkipTask = {
             "page":pageId,
-            "author": author,
+            "revisionId":revisionId,
+            "idType":quizType,
             "question": question,
             "condition":condition,
             "text": text,
@@ -159,13 +162,13 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                //alert("Завдання успішно додано до лекції!");
-                 location.reload();
+                alert("Завдання успішно додано до лекції!");
+                // location.reload();
             })
             .fail(function () {
                 alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                location.reload();
+                //location.reload();
             })
             .always(function () {
             });
@@ -187,11 +190,12 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             document.getElementById('blockType').value = type;
         }
     }
-    $scope.saveCodeBlock= function(order){
+    $scope.saveCodeBlock= function(idEl){
             $http({
-                url: basePath+'/lesson/saveBlock',
+                url: basePath+'/revision/editLectureElement',
                 method: "POST",
-                data: $.param({content: $scope.myEditCodeMirror.getValue(), idLecture: idLecture, order: order}),
+                data: $.param({html_block: $scope.myEditCodeMirror.getValue(), idElement: idEl,
+                    idRevision: idRevision, idPage: idPage}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             })
                 .success(function (response) {
@@ -225,6 +229,55 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         });
     }
     $scope.removeEditHtml= function(){
-        $scope.myEditCodeMirror.setValue($('#CKECodeEdit').text().replace(/<\/?[^>]+>/g,''));
+        $scope.myEditCodeMirror.setValue($scope.myEditCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
+    }
+    $scope.addPageVideo=function(idPage,idRevision){
+        var pageVideo=angular.element(document.querySelector("#pageVideo"));
+        $http({
+            url: basePath+'/revision/addVideo',
+            method: "POST",
+            data: $.param({idPage: idPage, idRevision: idRevision, url: pageVideo.val()}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        })
+            .success(function () {
+                bootbox.alert('Відео додано', function () {
+                    location.reload();
+                });
+            })
+            .error(function () {
+                bootbox.alert('Посилання на відео додати не вдалося');
+            })
+    };
+    $scope.deleteVideo=function(idPage,idRevision,idElement){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити відео?')
+            .then(function() {
+                $http({
+                    url: basePath + '/revision/deleteVideo',
+                    method: "POST",
+                    data: $.param({idPage: idPage, idRevision: idRevision, pk: idElement}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Видалити відео не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+            });
+    }
+    $scope.deleteTest=function(revisionId,pageId,idBlock){
+        $ngBootbox.confirm('Ви впевнені, що хочете видалити тест?')
+            .then(function() {
+                $http({
+                    url: basePath + '/revision/deleteTest',
+                    method: "POST",
+                    data: $.param({revisionId: revisionId,pageId: pageId,idBlock: idBlock}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Видалити тест не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+            });
     }
 }

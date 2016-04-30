@@ -6,7 +6,7 @@
     $behval = Null;
     $motivval = Null;
 ?>
-<?php if (StudentReg::canAddResponse()) { ?>
+<?php if (!Yii::app()->user->isGuest && Yii::app()->user->model->canAddResponse()) { ?>
     <div class="lessonTask">
         <img class="lessonBut"
              src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'lessButton.png'); ?>">
@@ -109,18 +109,51 @@
     });
 
     $(document).ready(function () {
-        max = 500;
+        min = <?=Config::getMinLengthResponse()?>;
+        max = <?=Config::getMaxLengthResponse()?>;
         $('html').on('keydown', '.wysibb-text-editor', function () {
-            content = $(this);
-            $(this).keyup(function(e){ check_charcount($(this), max, e); });
-            $(this).keydown(function(e){ check_charcount($(this), max, e); });
+//            content = $(this);
+            $(this).keyup(function(e){ check_charcount($(this), max, min, e); });
+            $(this).keydown(function(e){ check_charcount($(this), max, min, e); });
         });
-        function check_charcount(content, max, e)
-        {
-            if(e.which != 8 && $(content).html().length > max)
+        function check_charcount(content, max, min, e) {
+            tmpstr = content.text().replace(/\s/gm, '');
+            if(tmpstr.length < min){
+                document.getElementById('sendResponse').disabled = true;
+                document.getElementById('sendResponse').setAttribute('onmouseover', 'showHint(1)');
+                document.getElementById('sendResponse').setAttribute('onmouseout', 'hideHint()');
+            } else {
+                document.getElementById('sendResponse').disabled = false;
+                document.getElementById('sendResponse').removeAttribute('onmouseover');
+                document.getElementById('sendResponse').removeAttribute('onmouseout');
+                if(tmpstr.length > max){
+                    document.getElementById('sendResponse').disabled = true;
+                    document.getElementById('sendResponse').setAttribute('onmouseover', 'showHint(0)');
+                    document.getElementById('sendResponse').setAttribute('onmouseout', 'hideHint()');
+                }
+            }
+            if(e.which != 8 && tmpstr.length > max)
             {
                 e.preventDefault();
             }
         }
     });
+</script>
+<script>
+    function showHint(sel){
+        var x = document.createElement("div");
+        x.setAttribute('id','hint');
+        if(sel) {
+            var mess = '<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>';
+        } else {
+            var mess = '<?php echo Yii::t("response", "0821", array('{max}'=>Config::getMaxLengthResponse())) ?>';
+        }
+        var t = document.createTextNode(mess);
+        x.appendChild(t);
+        document.getElementById("response-form").appendChild(x);
+    }
+    function hideHint(){
+        var x = document.getElementById("hint");
+        x.parentNode.removeChild(x);
+    }
 </script>

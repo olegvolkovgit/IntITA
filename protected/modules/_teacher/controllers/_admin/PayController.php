@@ -8,6 +8,9 @@
  */
 class PayController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
 
     public function actionIndex()
     {
@@ -106,7 +109,7 @@ class PayController extends TeacherCabinetController
 
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($payModule->idModule, $userName);
+                $resultText = PayModules::getCancelText($payModule->module, $userName);
                 $payModule->delete();
             } else {
                 $resultText = PayModules::getCancelErrorText($userName);
@@ -128,7 +131,7 @@ class PayController extends TeacherCabinetController
             $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
             if ($payCourse) {
-                $resultText = PayCourses::getCancelText($payCourse->idCourse, $userName);
+                $resultText = PayCourses::getCancelText($payCourse->course, $userName);
 
                 $payCourse->delete();
             } else {

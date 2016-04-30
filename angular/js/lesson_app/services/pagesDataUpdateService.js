@@ -35,13 +35,13 @@ angular
                     data: $.param({moduleId: idModule, editMode: editMode}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
-                    $rootScope.moduleFinished = 'medalIco.png';
+                    $rootScope.moduleFinished = response.data.icoPath+'medalIco.png';
                     if (!response.data.access) {
-                        $rootScope.moduleFinished = 'medalIcoFalse.png';
+                        $rootScope.moduleFinished = response.data.icoPath+'medalIcoFalse.png';
                     } else {
                         for (var i = 0; i < response.data.lectures.length; i++) {
                             if (!response.data.lectures[i].isDone || !response.data.lectures[i].isQuizDone) {
-                                $rootScope.moduleFinished = 'medalIcoFalse.png';
+                                $rootScope.moduleFinished = response.data.icoPath+'medalIcoFalse.png';
                                 break;
                             }
                         }

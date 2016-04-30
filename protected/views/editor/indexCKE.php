@@ -39,7 +39,7 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/htmlmixed/htmlmixed.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/mode/php/php.js'); ?>"></script>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'ckeditor/ckeditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ng-ckeditor.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
@@ -51,7 +51,8 @@ if ($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/sendTaskJsonService.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/getTaskJson.js'); ?>"></script>
-<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
+<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
 
 
 <script type="text/javascript">
@@ -73,7 +74,7 @@ if ($idCourse != 0) {
 <script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
-    idTeacher = '<?php echo Teacher::getTeacherId($user);?>';
+    idTeacher = '<?php echo $user;?>';
     idLecture = '<?php echo $page->id_lecture;?>';
 </script>
 <?php $this->renderPartial('/site/_hamburgermenu'); ?>
@@ -192,7 +193,7 @@ if ($idCourse != 0) {
                         <div ng-class="{content: instructionStyle}" >
                             <?php
                             $this->renderPartial('/editor/_addBlockCKE', array('lecture' => $lecture, 'editMode' => 1,
-                                'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
+                                'teacher' => $user, 'pageOrder' => $page->page_order));
                             ?>
                         </div>
                     </div>
@@ -245,11 +246,10 @@ if ($idCourse != 0) {
             }
             ?>
             <?php if ($page->quiz == null) {
-                $author = Teacher::getTeacherId($user);
-            $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
+            $this->renderPartial('/editor/_addTestCKE', array('lecture' => $lecture->id, 'author' => $user, 'pageId' => $page->id));
             $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
-            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
-            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
+            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $user, 'pageId' => $page->id));
+            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $user));
             }?>
         </div>
     </div>

@@ -23,7 +23,7 @@
             </select>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?=Yii::app()->user->getId();?>"/>
             <br>
             <br>
             Умова задачі*:

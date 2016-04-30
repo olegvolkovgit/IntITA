@@ -183,6 +183,7 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
+        
         $model = new StudentReg('loginuser');
         // if it is ajax validation request
         $this->performAjaxValidation($model, 'authForm');
@@ -193,7 +194,10 @@ class SiteController extends Controller
             // validate user input and redirect to the previous page if valid
             if ($statusmodel->status == 1) {
                 if ($model->login()) {
+                  // TrackController::actionLogin();
+
                     $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                    Forum login
 
@@ -225,6 +229,16 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+
+        $event = 'LogOut';
+        $lesson = Yii::app()->request->getPost('lesson',0);
+        $part = Yii::app()->request->getPost('page',0);
+        $user_id = Yii::app()->user->id;
+
+        $Model = EventsFactory::trackEvent($event);
+        $Model->trackEvent($user_id,$lesson,$part);
+//        $r = new LogTracks;
+//        $r->LogOut(Yii::app()->user->getId());
         $id = 0;
         foreach ($_SESSION as $key => $value) {
             if (strpos($key, '__id')) {
@@ -595,7 +609,7 @@ class SiteController extends Controller
         $model = $this->getTokenAcc($token);
         $key = 'codename41';
         $mailDeHash = Mail::strcode(base64_decode($email), $key);
-        $hashModel = new StudentReg('resetemail');
+        $hashModel = new StudentReg('linkingemail');
         $hashModel->email = $mailDeHash;
         if (!$hashModel->validate())
             throw new \application\components\Exceptions\IntItaException('403', 'Змінити email не вдалося. Некоректний email');
@@ -731,6 +745,13 @@ class SiteController extends Controller
                 if ($statusmodel->status == 1) {
                     if ($model->login()) {
                         $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
+                        $event = 'LogIn';
+                        $lesson = Yii::app()->request->getPost('lesson',0);
+                        $part = Yii::app()->request->getPost('page',0);
+                        $user_id = Yii::app()->user->id;
+
+                        $Model = EventsFactory::trackEvent($event);
+                        $Model->trackEvent($user_id,$lesson,$part);
                         //                        Forum login
                         if (!ForumUser::login($userModel))
                             throw new ForumException('Forum user not save!!!');
@@ -774,5 +795,13 @@ class SiteController extends Controller
         if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
             throw new MailException('The letter was not sent');
         $this->redirect(Yii::app()->createUrl('/site/reactivationInfo', array('email' => $email)));
+    }
+
+    public function actionAuthorize()
+    {
+        $this->layout = "//layouts/lessonlayout";
+        $this->render('authorize', array(
+            'callBack' => true,
+        ));
     }
 }

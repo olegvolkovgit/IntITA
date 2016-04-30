@@ -113,4 +113,45 @@ class UserTrainer extends CActiveRecord
 
 		return $users;
 	}
+
+
+	public static function modulesWithoutConsult(StudentReg $user){
+		$singleModules = Yii::app()->db->createCommand()
+			->select('COUNT(pm.id_module)')
+			->from('trainer_student tr')
+            ->join('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
+            ->join('pay_modules pm', 'pm.id_user=tcs.id_student')
+			->where('tr.end_time IS NULL and tr.trainer = :id and pm.id_module <> tcs.id_module',
+				array(':id'=>$user->id))
+			->queryAll();
+
+		$count = Yii::app()->db->createCommand()
+			->select('student')
+			->from('trainer_student tr')
+			->leftJoin('teacher_consultant_student tcs', 'tcs.id_student=tr.student')
+			->where('tr.end_time IS NULL and tr.trainer = :id',
+				array(':id'=>$user->id))
+			->queryAll();
+		return $singleModules;
+	}
+
+	public static function trainersList(){
+        $sql = 'select * from user as u, user_trainer as ut where u.id = ut.id_user';
+        $consultants = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($consultants as $record) {
+            $row = array();
+            $row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+            $row["email"]["title"] = $record["email"];
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
+                array('id' => $record['id']));
+            $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
+            $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
+            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'trainer', '".$record["id"]."', '8'";
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }

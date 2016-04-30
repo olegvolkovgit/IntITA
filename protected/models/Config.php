@@ -159,6 +159,22 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('dollarRate');
     }
 
+    public static function getChatPath(){
+        return Yii::app()->config->get('chatPath');
+    }
+
+    public static function getMinLengthResponse(){
+        return Yii::app()->config->get('minLengthResponse');
+    }
+
+    public static function getMaxLengthResponse(){
+        return Yii::app()->config->get('maxLengthResponse');
+    }
+
+	public static function getCoeffModuleOffline(){
+		return Yii::app()->config->get('coeffModuleOffline');
+	}
+
 	public static function getItemsList(){
         $criteria = new CDbCriteria();
         $criteria->addCondition('hidden='.Config::VISIBLE);

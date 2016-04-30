@@ -166,29 +166,6 @@ class PlainTaskAnswer extends CActiveRecord
         return Teacher::model()->findAll($criteria);
     }
 
-    public static function assignedConsult($idPlainTaskAnswer, $consult)
-    {
-        if(Yii::app()->db->createCommand('select count(*) from plain_task_answer_teacher where end_date IS NULL
-            and id_plain_task_answer='.$idPlainTaskAnswer)->queryScalar()){
-            return false;
-        } else {
-            return Yii::app()->db->createCommand()
-                ->insert('plain_task_answer_teacher',
-                    array('id_plain_task_answer' => $idPlainTaskAnswer, 'id_teacher' => $consult));
-        }
-    }
-
-    public static function TeacherPlainTask($idTeacher)
-    {
-        $result = Yii::app()->db->createCommand()
-            ->select('plain_task_answer.id')
-            ->from('plain_task_answer')
-            ->leftJoin('plain_task_answer_teacher', 'id = id_plain_task_answer')
-            ->where('id_teacher = :id_teacher', array(':id_teacher' => $idTeacher))
-            ->queryAll();
-        return $result;
-    }
-
     public static function newTeacherPlainTask($teacherPlainTask)
     {
         $result = [];
@@ -210,68 +187,14 @@ class PlainTaskAnswer extends CActiveRecord
         return $result;
     }
 
-
-    public static function getTaskWithTrainer()
-    {
-        $trainerUsers = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
-        $plainTasksArr = [];
-
-        if ($trainerUsers) {
-            foreach ($trainerUsers as $user) {
-                $tasks = Yii::app()->db->createCommand(array(
-                    'select' => array('*'),
-                    'from' => 'plain_task_answer',
-                    'join' => 'RIGHT JOIN plain_task_answer_teacher
-                     on plain_task_answer_teacher.id_plain_task_answer = id',
-                    'where' => 'end_date IS NULL and id_student = ' . $user->id
-                ))->queryAll();
-
-                if (!empty($tasks)) {
-                    foreach ($tasks as $task) {
-                        $model = PlainTaskAnswer::model()->findByPk($task['id']);
-                        array_push($plainTasksArr, $model);
-                    }
-                }
-            }
-        }
-        return $plainTasksArr;
-    }
-
-    public static function editConsult($id, $teacherId)
-    {
-        Yii::app()->db->createCommand()
-            ->update('plain_task_answer_teacher', array(
-                'id_teacher' => $teacherId,
-            ), 'plain_task_answer_teacher.id_plain_task_answer = :id', array(':id' => $id)
-            );
-    }
-
-    public function checkTeacherAccess($teacher)
-    {
-        if (Yii::app()->db->createCommand()->select('id_plain_task_answer')
-                ->from('plain_task_answer_teacher')
-                ->where('id_plain_task_answer=:id and end_date IS NULL and id_teacher=:teacher',
-                    array(':id' => $this->id, 'teacher' => $teacher))
-                ->queryScalar() > 1
-        ) return true;
-        else return false;
-    }
-
-    public function removeConsult($teacher)
-    {
-        return Yii::app()->db->createCommand()->update('plain_task_answer_teacher', array(
-            'end_date' => date('Y-m-d H:i:s'),
-        ), 'id_plain_task_answer=:id and id_teacher =:teacher and end_date IS NULL', array(':id' => $this->id, ':teacher' => $teacher));
-    }
-
     public static function plainTaskListByTeacher($id)
     {
         $criteria = new CDbCriteria();
         $criteria->select = '*';
         $criteria->alias = 'ans';
         $criteria->order = 'ans.id DESC';
-        $criteria->join = 'JOIN plain_task_answer_teacher t ON ans.id = t.id_plain_task_answer';
-        $criteria->addCondition('t.id_teacher =:id and t.end_date IS NULL');
+        $criteria->join = 'JOIN teacher_consultant_student tcm ON ans.id_student = tcm.id_student';
+        $criteria->addCondition('tcm.id_teacher =:id and tcm.end_date IS NULL');
         $criteria->params = array(':id' => $id);
         return PlainTaskAnswer::model()->findAll($criteria);
     }

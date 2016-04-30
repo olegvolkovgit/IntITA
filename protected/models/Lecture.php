@@ -76,7 +76,7 @@ class Lecture extends CActiveRecord
 
             'module' => array(self::BELONGS_TO, 'Module', 'idModule'),
             'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
-            'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture'),
+            'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture', 'order'=>'pages.page_order ASC'),
         );
     }
 
@@ -230,7 +230,6 @@ class Lecture extends CActiveRecord
         $order = Lecture::model()->count("idModule=$module and `order`>0");
 
         $lecture->order = ++$order;
-        $lecture->idTeacher = $teacher;
         $lecture->alias = 'lecture' . $order;
 
         $lecture->save();
@@ -346,13 +345,20 @@ class Lecture extends CActiveRecord
     public static function accessLecture($id, $order, $enabledOrder,$idCourse=0)
     {
         $lecture = Lecture::model()->findByPk($id);
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$lecture->idModule);
         $user = Yii::app()->user->getId();
-        if (StudentReg::isAdmin() || $editMode) {
-            return true;
+        $editMode = false;
+        if(!Yii::app()->user->isGuest) {
+            if (Yii::app()->user->model->isAuthor()) {
+                $model = new Author();
+                $editMode = $model->checkModule($user, $lecture->idModule);
+            }
         }
+
         if (Yii::app()->user->isGuest) {
             return false;
+        } else {
+            if (Yii::app()->user->model->isAdmin() || $editMode)
+                return true;
         }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
@@ -400,26 +406,6 @@ class Lecture extends CActiveRecord
         return $passedLecture;
     }
 
-    public function lectureTeacher()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->select = "teacher_id";
-        $criteria->addCondition("isPrint=1");
-        $criteria->order = 'rating ASC';
-        $teachers = Teacher::model()->findAll($criteria);
-
-        foreach ($teachers as $key) {
-            if (TeacherModule::model()->exists('idTeacher=:idTeacher and idModule=:idModule', array(
-                ':idTeacher' => $key->teacher_id,
-                ':idModule' => $this->idModule
-            ))
-            ) {
-                return $key;
-            }
-        }
-        return null;
-    }
-
     public function getFinishedPages($user)
     {
         $pages = $this->pages;
@@ -462,12 +448,14 @@ class Lecture extends CActiveRecord
         $sortedLectures = Lecture::model()->findAll($criteria);
 
         $lecturesCount = count($sortedLectures);
-        foreach ($sortedLectures as $lecture) {
+        foreach ($sortedLectures as $key=>$lecture) {
             if (!$lecture->isFinished($user)) {
                 return $lecture->order;
             }
         }
-        return $lecturesCount;
+        if(empty($sortedLectures))
+            return 0;
+        else return $sortedLectures[count($sortedLectures)-1]['order'];
     }
 
     public static function getLectureTitle($id)
@@ -545,18 +533,16 @@ class Lecture extends CActiveRecord
         $title = "title_" . $lang;
         return $title;
     }
-
-    public static function getNextId($id)
+     public function nextLectureId()
     {
-        $current = Lecture::model()->findByPk($id);
-        return Lecture::model()->findByAttributes(array('order' => $current->order + 1, 'idModule' => $current->idModule))->id;
+        $sqlNextLectureId =
+            "SELECT id FROM lectures WHERE idModule=" . $this->idModule . " AND `order` > ".$this->order." ORDER BY `order` ASC LIMIT 1";
+        $nextLectureId = Yii::app()->db->createCommand($sqlNextLectureId)->queryScalar();
+        return $nextLectureId;
     }
-
     public function saveLectureContent(){
 
-        $pages = $this->getAllLecturePages();
-
-        foreach ($pages as $page) {
+        foreach ($this->pages as $key=>$page) {
             $textList = $page->getBlocksListById();
             $dataProvider = LectureElement::getLectureText($textList);
             $langs = ['ua', 'ru', 'en'];
@@ -581,10 +567,32 @@ class Lecture extends CActiveRecord
                             $html = '';
                             break;
                     };
-                    $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $page->page_order, $lang, $type);
+                    $file = StaticFilesHelper::pathToLecturePageHtml($this->idModule, $this->id, $key+1, $lang, $type);
                     file_put_contents($file, $html);
                 }
             }
+        }
+    }
+    public function deleteLectureContent(){
+        $path=StaticFilesHelper::pathToDeleteLecturePageHtml($this->idModule, $this->id);
+        if ($handle = opendir($path)) {
+            while (($file = readdir($handle))) {
+                if(is_file("$path/$file"))
+                    unlink("$path/$file");
+            }
+            closedir($handle);
+        }
+    }
+    public function removeOldTemplatesDirectory(){
+        $dir=StaticFilesHelper::pathToDeleteLecturePageHtml($this->idModule, $this->id);
+        if(file_exists(Yii::getpathOfAlias('webroot').'/'. $dir) &&
+            !file_exists(Yii::getpathOfAlias('webroot').'/'. $dir.'/images')) {
+            if ($objs = glob($dir . "/*")) {
+                foreach ($objs as $obj) {
+                    is_dir($obj) ? removeDirectory($obj) : unlink($obj);
+                }
+            }
+            rmdir($dir);
         }
     }
     public static function lectureToTemplate($id)
@@ -842,5 +850,40 @@ class Lecture extends CActiveRecord
 
     public function freeLabel(){
         return ($this->isFree())?'безкоштовна':'платна';
+    }
+
+    public function saveBlock($order, $content, $userId) {
+        $lectureElement = LectureElement::model()->findByAttributes(array('id_lecture' => $this->id, 'block_order' => $order));
+    }
+
+    public function addVideo($htmlBlock, $pageOrder, $userId) {
+        $lectureElement = new LectureElement();
+        $lectureElement->id_lecture = $this->id;
+        $lectureElement->block_order = 0;
+        $lectureElement->html_block = $htmlBlock;
+        $lectureElement->id_type = LectureElement::VIDEO;
+        $lectureElement->save();
+
+        $pageId = LecturePage::model()->findByAttributes(array('id_lecture' => $lectureElement->id_lecture, 'page_order' => $pageOrder))->id;
+        LecturePage::addVideo($pageId, $lectureElement->id_block);
+    }
+
+    public function deleteVideo($pageOrder, $userId) {
+        $modelLecturePage = LecturePage::model()->findByAttributes(array('id_lecture' => $this->id, 'page_order' => $pageOrder));
+
+        if ($modelLecturePage->video) {
+            $element = LectureElement::model()->findByPk($modelLecturePage->video);
+            LecturePage::model()->updateByPk($modelLecturePage->id, array('video' => NULL));
+
+            $element->delete();
+        }
+
+    }
+    public function lastLectureOrder()
+    {
+        $sqlLastOrder =
+            "SELECT `order` FROM lectures WHERE idModule=" . $this->idModule . "  ORDER BY `order` DESC LIMIT 1";
+        $lastLectureOrder = Yii::app()->db->createCommand($sqlLastOrder)->queryScalar();
+        return $lastLectureOrder;
     }
 }

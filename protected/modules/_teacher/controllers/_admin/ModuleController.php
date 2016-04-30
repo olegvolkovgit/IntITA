@@ -8,6 +8,10 @@
  */
 class ModuleController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     public function actionIndex()
     {
         $this->renderPartial('index', array(), false, true);
@@ -156,9 +160,10 @@ class ModuleController extends TeacherCabinetController
     {
         $idModule = Yii::app()->request->getPost('module', 0);
         $idCourse = Yii::app()->request->getPost('course', 0);
-        $mandatory = Yii::app()->request->getPost('mandatory', 0);
+        $mandatory = Yii::app()->request->getPost('mandatory', -1);
 
-        if ($idModule && $idCourse && $mandatory) {
+        if($mandatory == 0) $mandatory = "NULL";
+        if ($idModule && $idCourse && $mandatory != -1) {
             if (Yii::app()->db->createCommand('UPDATE course_modules SET mandatory_modules=' . $mandatory . ' WHERE id_module=' .
                 $idModule . ' and id_course=' . $idCourse)->query()
             ) {
@@ -186,13 +191,18 @@ class ModuleController extends TeacherCabinetController
 
     public function actionCoursePrice($id, $course)
     {
-        $course = Course::model()->findByPk($course);
-        $module = Module::model()->findByPk($id);
+        if($id && $course) {
+            $model = CourseModules::model()->findByAttributes(array(
+                'id_course' => $course,
+                'id_module' => $id
+            ));
 
-        $this->renderPartial('coursePrice', array(
-            'module' => $module,
-            'course' => $course,
-        ), false, true);
+            $this->renderPartial('coursePrice', array(
+                'model' => $model,
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
     }
 
     public function actionAddCoursePrice()
@@ -251,5 +261,14 @@ class ModuleController extends TeacherCabinetController
         } else {
             echo "false";
         }
+    }
+
+    public function actionAddConsultantModule($idModule)
+    {
+        $module = Module::model()->findByPk($idModule);
+
+        $this->renderPartial('/_admin/module/_consultantModule', array(
+            'module' => $module,
+        ), false, true);
     }
 }
