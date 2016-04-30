@@ -221,12 +221,17 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
                 $this->user_approved = $userApprove->id;
                 $this->date_approved = date("Y-m-d H:i:s");
                 if ($this->save()) {
+                    $this->notify($userApprove);
                     return "Запит успішно підтверджений.";
                 }
             }
             return "Операцію не вдалося виконати";
 
         } else return "Обраний викладач вже призначений викладачем-консультантом по даному модулю.";
+    }
+
+    public function notify(StudentReg $userApprove){
+
     }
 
     public function isRequestOpen($params)
