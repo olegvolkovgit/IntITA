@@ -130,9 +130,9 @@ class RevisionLecture extends CActiveRecord
      * @return RevisionLecture
      * @throws RevisionLectureException
      */
-    public static function createNewLecture($idModule, $titleUa, $titleEn, $titleRu, $user) {
+    public static function createNewLecture($idModule, $order, $titleUa, $titleEn, $titleRu, $user) {
 		$revLectureProperties =  new RevisionLectureProperties();
-		$revLectureProperties->initialize($titleUa, $titleEn, $titleRu, $user);
+		$revLectureProperties->initialize($order, $titleUa, $titleEn, $titleRu, $user);
 
 		$revLecture = new RevisionLecture();
 		$revLecture->id_module = $idModule;
