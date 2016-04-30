@@ -11,8 +11,8 @@
         <?php
         $forWhomArray = explode(";", $model->$param);
         ?>
-        <li class="<?=$param?>Item"><?= substr($forWhomArray[0], 0, 100); ?>
-            <a href="#"  onclick="showBlock('#<?=$param?>Block', '#<?=$param?>Item');">детальніше...</a></li>
+        <li id="<?=$param?>Item"><?= (strlen($forWhomArray[0]) <= 60)?$forWhomArray[0]:mb_substr($forWhomArray[0], 0, 60, 'UTF-8')."..."; ?>
+            <a href="#" onclick="showBlock('#<?=$param?>Block', '#<?=$param?>Item', '#linkDetail<?=$param?>'); return false;">детальніше...</a></li>
         <div id="<?=$param?>Block" style="display: none">
             <?php
             foreach ($forWhomArray as $key => $item) {
@@ -21,8 +21,9 @@
                 <?php
             }
             ?>
-            <br>
-            <a class="linkDetail" href="#" onclick="hideBlock('#<?=$param?>Block', '#<?=$param?>Item');">приховати</a>
+            <a id="linkDetail<?=$param?>" href="#" onclick="hideBlock('#<?=$param?>Block', '#<?=$param?>Item', '#linkDetail<?=$param?>');  return false;">
+                приховати
+            </a>
         </div>
     <?php } ?>
 </ul>

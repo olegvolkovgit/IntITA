@@ -12,14 +12,14 @@ $whatYouGet = 'what_you_get_' . $langParam;
     ?>
 </div>
 <script>
-    function showBlock(id, item){
-        $('.linkDetail').hide();
+    function showBlock(id, item, link){
         $(item).hide();
         $(id).show();
+        $(link).show();
     }
-    function hideBlock(id, item){
+    function hideBlock(id, item, link){
         $(item).show();
-        $('.linkDetail').show();
+        $(link).show();
         $(id).hide();
     }
 </script>
