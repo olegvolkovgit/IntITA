@@ -64,7 +64,7 @@ function showAddPlainTaskForm(testType){
     document.getElementById('buttonsPanel').style.display = 'none';
 }
 function showAddPlainTaskFormCKE(testType){
-    document.getElementById('testType').value = testType;
+    document.getElementById('plainTaskType').value = testType;
     document.getElementById('addPlainTask').style.display = 'block';
     document.getElementById('cancelButton').style.display = 'none';
     document.getElementById('buttonsPanel').style.display = 'none';

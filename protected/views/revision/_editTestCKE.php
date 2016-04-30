@@ -40,6 +40,7 @@ idBlock=<?php echo $idElement; ?>;'>
             <input name="idBlock" type="hidden" value="{{idBlock}}"/>
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
+            <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
         </fieldset>
         <br>
         <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests{{idBlock}}'  ng-disabled=editTestForm.$invalid>
