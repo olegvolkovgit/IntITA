@@ -7,7 +7,7 @@
 <ul>
     <a name="<?=$param?>"></a>
     <?php if ($model->$param != '') { ?>
-        <p class="subCourseInfo"><b><?php echo Yii::t('course', '0204'); ?></b></p>
+        <p class="subCourseInfo"><b><?=$model->getPropertyLabel($param);?></b></p>
         <?php
         if(strlen($model->$param) < 75){?>
             <li><?php echo $model->$param; ?></li>

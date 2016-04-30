@@ -1056,4 +1056,8 @@ class Course extends CActiveRecord implements IBillableObject
         return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 
+    public function getPropertyLabel($param){
+        //remove language from item label
+        return substr(Course::model()->attributeLabels()[$param], 0, -5);
+    }
 }
