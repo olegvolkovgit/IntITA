@@ -174,14 +174,14 @@ class RevisionLectureProperties extends CActiveRecord
      * @param $user
      * @throws RevisionLecturePropertiesException
      */
-    public function initialize($order, $titleUa, $titleEn, $titleRu, $user){
-		//ktodo refactor default values
+    public function initialize($titleUa, $titleEn, $titleRu, $user){
+		//todo refactor default values
 		$this->image = "lectureImage.png";
-		$this->alias = "lecture" . $order;
+		$this->alias = "lecture";
 		$this->id_type = 1;
 		$this->is_free = 0;
 
-		$this->order = $order;
+		$this->order = 0;
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
