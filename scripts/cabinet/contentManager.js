@@ -340,13 +340,7 @@ function initCourseListTable(){
                 "data": "name",
                 "render": function (name) {
                     return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
-                }},
-            {
-                "data": "email",
-                "render": function (email) {
-                    return email["title"];
-                }
-            }
+                }}
          ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');

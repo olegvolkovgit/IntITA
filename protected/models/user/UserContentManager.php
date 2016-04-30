@@ -125,14 +125,27 @@ class UserContentManager extends CActiveRecord
 
 
 
-		$sql = 'select * from course';
-		$course = Yii::app()->db->createCommand($sql)->queryAll();
+		//$sql2= new Lecture;
+		//$course = $sql2->statisticalName();
+		//$tmp =Module::model()->getTitle();
+		//$model = Module::model()->findByPk([1,2,3]);//получили один модуль полностью
+		//$model2 = new Module;
+		//$tmp = $model2->lectures;
+		//$tmp= $model->lectures;
+
+
+
+		//$r =$tmp->lectures;
+		//$dddd = new Module;
+		$sql = 'select title_ua from lectures'; //рабочий лекции
+		$course = Yii::app()->db->createCommand($sql)->queryAll();//рабочий лекции
+
 		$return = array('data' => array());
 
 		foreach($course as $record){
 			$row = array();
-			$row["name"]["title"] = $record["title_ua"];
-			$row["email"]["title"] = $record["modules_count"];
+			$row["name"]["title"] = $record['title_ua'];
+			//$row["email"]["title"] = $record["modules_count"];
 
 			array_push($return['data'], $row);
 		}
