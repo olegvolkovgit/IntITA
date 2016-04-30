@@ -349,10 +349,12 @@ class RevisionLecture extends CActiveRecord
 
                 try {
 //                    canceled old revision when aprroved new/  id_user_cancelled WTF?
-                    $oldRevision=RevisionLecture::getParentRevisionForLecture($this->id_lecture);
-                    $oldRevision->properties->end_date = new CDbExpression('NOW()');
-                    $oldRevision->properties->id_user_cancelled = $user->getId();
-                    $oldRevision->properties->saveCheck();
+//                    $oldRevision=RevisionLecture::getParentRevisionForLecture($this->id_lecture);
+//                    if($oldRevision) {
+//                        $oldRevision->properties->end_date = new CDbExpression('NOW()');
+//                        $oldRevision->properties->id_user_cancelled = $user->getId();
+//                        $oldRevision->properties->saveCheck();
+//                    }
 
                     $this->saveToRegularDB();
 
