@@ -344,7 +344,7 @@ function initCourseListTable(){
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
+                    return email["title"];
                 }
             }
          ],
