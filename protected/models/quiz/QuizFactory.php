@@ -40,6 +40,7 @@ class QuizFactory {
                 $conditionId = LectureElement::addNewSkipTaskBlock($lecture , $arr['condition']);
                 $questionId = LectureElement::addNewSkipTaskBlock($lecture , $arr['text']);
 
+
                 if ($questionId && $conditionId) {
                     $arr['condition'] = $conditionId;
                     $arr['questionId'] = $questionId;

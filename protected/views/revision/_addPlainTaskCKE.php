@@ -11,7 +11,7 @@
         <fieldset>
             <label><?php echo Yii::t('lecture','0774'); ?></label>
             <br>
-           <textarea ng-cloak ckeditor="editorOptionsTask" name="block_element" id="plainTask" class="plainTaskCondition" placeholder="<?php echo Yii::t('lecture','0773'); ?>" required ng-model="addTaskPlain"></textarea>
+           <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="plainTask" class="plainTaskCondition" placeholder="<?php echo Yii::t('lecture','0773'); ?>" required ng-model="addTaskPlain"></textarea>
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" id="plainTaskType" type="hidden"/>

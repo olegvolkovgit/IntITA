@@ -143,7 +143,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
-            "page":pageId,
+            "pageId":pageId,
             "revisionId":revisionId,
             "idType":quizType,
             "question": question,

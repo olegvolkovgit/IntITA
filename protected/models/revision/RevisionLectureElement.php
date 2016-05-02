@@ -142,7 +142,7 @@ class RevisionLectureElement extends CActiveRecord
         $revLectureElement->html_block = $htmlBlock;
         $revLectureElement->saveCheck();
 
-        if ($revLectureElement->isQuiz() && $quiz) {
+        if ($revLectureElement->isQuiz() && isset($quiz)) {
             RevisionQuizFactory::create($revLectureElement, $quiz);
         }
 
