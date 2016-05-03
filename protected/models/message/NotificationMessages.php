@@ -2,20 +2,22 @@
 
 class NotificationMessages implements IMessage
 {
-    //array of models for all receivers
-    private $receivers;
+    const TYPE = MessagesType::NOTIFICATION;
     //UserMessages model
     private $message;
 
-    //todo
-    public function build(){
+    public function build($subject, $text, $receivers, StudentReg $sender, $chained = null, $original = null){
+        $this->message = new UserMessages();
+        $this->message->build($subject, $text, $receivers, $sender, $chained, $original);
 
+        return $this;
     }
+
     /**
-     *
+     * Create a user message model.
      */
     public function create(){
-        //todo
+        $this->message->create();
     }
 
     /**
@@ -23,24 +25,22 @@ class NotificationMessages implements IMessage
      * @param IMailSender $sender
      */
     public function send(IMailSender $sender){
-        //todo
+        $this->message->send($sender);
     }
 
     /**
-     * Not supported.
      * @param StudentReg $receiver
      * @return bool
      */
     public function read(StudentReg $receiver){
-        return false;
+        return $this->message->read($receiver);
     }
 
     /**
-     * Not supported.
      * @param StudentReg $receiver
      */
     public function deleteMessage(StudentReg $receiver){
-        return false;
+        return $this->message->delete($receiver);
     }
 
     /**
@@ -57,5 +57,12 @@ class NotificationMessages implements IMessage
      */
     public function forward(StudentReg $receiver){
         return null;
+    }
+
+    /**
+     * @return int MessagesType constant code.
+     */
+    public function type(){
+        return self::TYPE;
     }
 }

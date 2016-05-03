@@ -31,6 +31,7 @@ class UserMessages extends Messages implements IMessage
         $this->subject = CHtml::encode($subject);
         $this->text = CHtml::encode($text);
         $this->receivers = $receivers;
+        return $this;
     }
 
     /**
@@ -136,9 +137,11 @@ class UserMessages extends Messages implements IMessage
     {
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
-                $subject = "Нове повідомлення";
+                if($this->subject == '') {
+                    $this->subject = "Нове повідомлення";
+                }
 
-                $sender->send($receiver->email, "", $subject, "");
+                $sender->send($receiver->email, "", $this->subject, "");
             }
         }
 
