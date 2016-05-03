@@ -142,7 +142,7 @@ class RevisionLectureElement extends CActiveRecord
         $revLectureElement->html_block = $htmlBlock;
         $revLectureElement->saveCheck();
 
-        if ($revLectureElement->isQuiz() && $quiz) {
+        if ($revLectureElement->isQuiz() && isset($quiz)) {
             RevisionQuizFactory::create($revLectureElement, $quiz);
         }
 
@@ -164,9 +164,9 @@ class RevisionLectureElement extends CActiveRecord
     protected function beforeDelete(){
         $result = true;
         if ($this->isQuiz()) {
-            return RevisionQuizFactory::delete($this->id, $this->id_type);
+            $result = RevisionQuizFactory::delete($this->id, $this->id_type);
         }
-        return parent::beforeDelete();
+        return ($result && parent::beforeDelete());
     }
 
 

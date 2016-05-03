@@ -154,7 +154,7 @@ class RevisionLecture extends CActiveRecord
     public function addPage($user){
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($this->id_revision, $this->getLastPageOrder() + 1);
-        $this->properties->setUpdateDate($user);
+        $this->setUpdateDate($user);
         return $revLecturePage;
     }
 
@@ -581,70 +581,81 @@ class RevisionLecture extends CActiveRecord
     /**
      * @param integer $pageId
      * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar', quiz=>[] ]
+     * @param $user
+     * @throws RevisionLecturePageException
      */
-    public function addLectureElement($pageId, $lectureElementData){
+    public function addLectureElement($pageId, $lectureElementData, $user){
         $page = $this->getPageById($pageId);
         if ($page) {
             $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
             $page->addLectureElement($lectureElementData['idType'], $lectureElementData['html_block'], $quiz);
+            $this->setUpdateDate($user);
         }
     }
 
     /**
      * @param integer $pageId
      * @param array $lectureElementData ['id_block' => 'foo', 'html_block' => 'bar', quiz=>[]]
+     * @param $user
      */
-    public function editLectureElement($pageId, $lectureElementData) {
+    public function editLectureElement($pageId, $lectureElementData, $user) {
         $page = $this->getPageById($pageId);
         if ($page) {
             $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
             $page->editLectureElement($lectureElementData['id_block'], $lectureElementData['html_block'], $quiz);
+            $this->setUpdateDate($user);
         }
     }
 
-    public function deleteLectureElement($pageId, $idBlock) {
+    public function deleteLectureElement($pageId, $idBlock, $user) {
         $page = $this->getPageById($pageId);
-        if ($page) {
-            return $page->deleteLectureElement($idBlock);
+        if ($page && $page->deleteLectureElement($idBlock)) {
+            $this->setUpdateDate($user);
+            return true;
         }
         return false;
     }
 
-    public function setPageTitle($idPage, $title) {
+    public function setPageTitle($idPage, $title, $user) {
         $page = $this->getPageById($idPage);
         $page->setTitle($title);
+        $this->setUpdateDate($user);
     }
 
 
-    public function movePageUp($idPage) {
+    public function movePageUp($idPage, $user) {
         $page = $this->getPageById($idPage);
         if ($page) {
             $page->moveUp();
+            $this->setUpdateDate($user);
         }
     }
 
-    public function movePageDown($idPage) {
+    public function movePageDown($idPage, $user) {
         $page = $this->getPageById($idPage);
         if ($page) {
             $page->moveDown();
+            $this->setUpdateDate($user);
         }
     }
 
-    public function upElement($idPage, $idElement) {
+    public function upElement($idPage, $idElement, $user) {
         $page = $this->getPageById($idPage);
         if ($page) {
             $page->upElement($idElement);
+            $this->setUpdateDate($user);
         }
     }
 
-    public function downElement($idPage, $idElement) {
+    public function downElement($idPage, $idElement, $user) {
         $page = $this->getPageById($idPage);
         if ($page) {
             $page->downElement($idElement);
+            $this->setUpdateDate($user);
         }
     }
 
-    public function editProperties($params) {
+    public function editProperties($params, $user) {
 
         $filtered = [];
         foreach (RevisionLecture::getEditableProperties() as $property) {
@@ -655,6 +666,16 @@ class RevisionLecture extends CActiveRecord
 
         $this->properties->setAttributes($filtered);
         $this->properties->saveCheck();
+        $this->setUpdateDate($user);
+    }
+
+    public function deletePage($idPage, $user) {
+        $page = $this->getPageById($idPage);
+        if ($page && $page->delete()) {
+            $this->setUpdateDate($user);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -852,6 +873,9 @@ class RevisionLecture extends CActiveRecord
      * @return int
      */
     private function getLastPageOrder(){
+        if(count($this->lecturePages) == 0) {
+            return 0;
+        }
         return $this->lecturePages[count($this->lecturePages)-1]->page_order;
     }
 
@@ -1007,6 +1031,10 @@ class RevisionLecture extends CActiveRecord
     private function createTemplates() {
         $lecture=Lecture::model()->findByPk($this->id_lecture);
         $lecture->saveLectureContent();
+    }
+
+    private function setUpdateDate($user) {
+        $this->properties->setUpdateDate($user);
     }
 
 }

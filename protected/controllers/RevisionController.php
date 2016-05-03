@@ -38,7 +38,7 @@ class RevisionController extends Controller {
         if (!$this->isUserTeacher(Yii::app()->user, $idModule)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
-//$order remove
+        //$order remove
         $revLecture = RevisionLecture::createNewLecture($idModule, $titleUa, $titleEn, $titleRu, Yii::app()->user);
 
         $this->redirect(array('revision/editlecturerevision', 'idRevision' => $revLecture->id_revision));
@@ -55,6 +55,7 @@ class RevisionController extends Controller {
         if (!$lectureRevision->isEditable()) {
             throw new RevisionControllerException(400, 'Цю ревізію редагувати не можна');
         }
+
         $this->render("lectureview", array(
             "lectureRevision" => $lectureRevision,
             "pages" => $lectureRevision->lecturePages
@@ -98,20 +99,6 @@ class RevisionController extends Controller {
         echo $json;
     }
 
-//    public function actionNewPageRevision() {
-//
-//        $idPage = Yii::app()->request->getPost("idPage");
-//
-//        $pageRevision = RevisionLecturePage::model()->findByPk($idPage);
-//
-//        if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($pageRevision->id_revision))) {
-//            throw new RevisionControllerException(403, 'Access denied.');
-//        }
-//
-//        $newRevision = $pageRevision->clonePage();
-//        $this->redirect(Yii::app()->request->urlReferrer);
-//    }
-
     public function actionEditPageRevision($idPage) {
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
@@ -154,7 +141,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $url]);
+        $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $url], Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -175,7 +162,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $url]);
+        $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $url], Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -195,7 +182,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->deleteLectureElement($idPage, $idElement);
+        $lectureRevision->deleteLectureElement($idPage, $idElement, Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -215,7 +202,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->setPageTitle($idPage, $title);
+        $lectureRevision->setPageTitle($idPage, $title, Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -237,7 +224,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $html_block]);
+        $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $html_block], Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -258,10 +245,9 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $html_block]);
+        $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $html_block], Yii::app()->user);
 
         //$this->redirect(Yii::app()->request->urlReferrer);
-
     }
 
     /**
@@ -281,7 +267,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->deleteLectureElement($idPage, $idElement);
+        $lectureRevision->deleteLectureElement($idPage, $idElement, Yii::app()->user);
 
         //$this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -307,7 +293,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->movePageUp($idPage);
+        $lectureRevision->movePageUp($idPage, Yii::app()->user);
     }
 
     /**
@@ -324,7 +310,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->movePageDown($idPage);
+        $lectureRevision->movePageDown($idPage, Yii::app()->user);
     }
 
     // @todo
@@ -432,7 +418,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->upElement($idPage, $idElement);
+        $lectureRevision->upElement($idPage, $idElement, Yii::app()->user);
     }
 
     /**
@@ -450,7 +436,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied.');
         }
 
-        $lectureRevision->downElement($idPage, $idElement);
+        $lectureRevision->downElement($idPage, $idElement, Yii::app()->user);
     }
 
     /**
@@ -550,8 +536,10 @@ class RevisionController extends Controller {
      * curl -XPOST --data 'revisionId=139&pageId=699&idType=6&condition=condition' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      *
      * Skip task
+     * curl -XPOST --data 'revisionId=141&pageId=705&idType=9&condition=condition&question=question&source=source&text=text&answer[0][index]=1&answer[0][caseInsensitive]=1&answer[0][value]=answer1&answer[1][index]=2&answer[1][caseInsensitive]=0&answer[1][value]=answer1' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      *
      * Taks
+     * curl -XPOST --data 'revisionId=141&pageId=715&idType=5&condition=condition&language=language&assignment=1&table=table' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      *
      * @return bool|null
      * @throws CDbException
@@ -565,7 +553,7 @@ class RevisionController extends Controller {
 
         $htmlBlock = trim(Yii::app()->request->getPost('condition', ''));
 
-        $quiz = $this->getQuizParams($idType);
+        $quiz = RevisionQuizFactory::getQuizParams($idType, Yii::app()->request);
 
         $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
 
@@ -573,13 +561,13 @@ class RevisionController extends Controller {
 
         $lectureRevision->addLectureElement($pageId, ['idType' => $idType,
             'html_block' => $htmlBlock,
-            'quiz' => $quiz]);
+            'quiz' => $quiz], Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
-     * curl -XPOST --data 'revisionId=138&pageId=691&idBlock=756&condition=condition2&testTitle=testTitle2&optionsNum=2&answer1=answer3&answer2=answer4&is_valid2=1' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
+     * curl -XPOST --data 'revisionId=138&pageId=691&idBlock=756&condition=condition2&testTitle=testTit le2&optionsNum=2&answer1=answer3&answer2=answer4&is_valid2=1' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
      */
     public function actionEditTest() {
 
@@ -590,7 +578,7 @@ class RevisionController extends Controller {
 
         $htmlBlock = trim(Yii::app()->request->getPost('condition', ''));
 
-        $quiz = $this->getQuizParams($idType);
+        $quiz = RevisionQuizFactory::getQuizParams($idType, Yii::app()->request);
 
         $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
 
@@ -598,7 +586,7 @@ class RevisionController extends Controller {
             'id_block' => $lectureElementId,
             'html_block' => $htmlBlock,
             'quiz' => $quiz
-        ]);
+        ], Yii::app()->user);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -612,7 +600,7 @@ class RevisionController extends Controller {
         $idBlock = Yii::app()->request->getPost('idBlock', 0);
 
         $lectureRevision = RevisionLecture::model()->findByPk($revisionId);
-        $lectureRevision->deleteLectureElement($pageId, $idBlock);
+        $lectureRevision->deleteLectureElement($pageId, $idBlock, Yii::app()->user);
     }
 
     /**
@@ -631,8 +619,9 @@ class RevisionController extends Controller {
      */
     public function actionDeletePage() {
         $idPage = Yii::app()->request->getPost('idPage');
-        $page = RevisionLecturePage::model()->findByPk($idPage);
-        $page->delete();
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+        $lectureRevision->deletePage($idPage, Yii::app()->user);
     }
 
 
@@ -656,7 +645,7 @@ class RevisionController extends Controller {
             }
         }
 
-        $lectureRevision->editProperties($params);
+        $lectureRevision->editProperties($params, Yii::app()->user);
     }
 
 //    action editProperties for editable.EditableField widget
@@ -672,7 +661,7 @@ class RevisionController extends Controller {
         }
 
         $params[$attr] = $input;
-        $lectureRevision->editProperties($params);
+        $lectureRevision->editProperties($params, Yii::app()->user);
     }
 
     /**
@@ -777,34 +766,6 @@ class RevisionController extends Controller {
         $data["valid"]=$valid;
 
         echo CJSON::encode($data);
-    }
-
-    /**
-     * @param integer $idType
-     * @return array
-     */
-    private function getQuizParams($idType) {
-
-        $quiz = [];
-        switch ($idType) {
-            case LectureElement::PLAIN_TASK:
-                break;
-            case LectureElement::TEST:
-                $optionsNum = Yii::app()->request->getPost('optionsNum', 0); //options amount
-                $quiz['testTitle'] = Yii::app()->request->getPost('testTitle', '');
-                $options = [];
-                for ($i = 0; $i < $optionsNum; $i++) {
-                    $options[$i]["answer"] = trim(Yii::app()->request->getPost("answer" . ($i + 1), ''));
-                    $options[$i]["is_valid"] = trim(Yii::app()->request->getPost("is_valid" . ($i + 1), 0));
-                }
-                $quiz['answers'] = $options;
-                break;
-            case LectureElement::TASK:
-                break;
-            case LectureElement::SKIP_TASK:
-                break;
-        }
-        return $quiz;
     }
 
     /**

@@ -531,6 +531,26 @@ class RevisionLecturePage extends CActiveRecord
         return false;
     }
 
+    public function beforeDelete() {
+        $result = true;
+
+        $lectureElements = $this->getLectureBody();
+//        array_merge($lectureElements, );
+        array_push($lectureElements, $this->getQuiz());
+        array_push($lectureElements, $this->getVideo());
+
+        foreach ($lectureElements as $lectureElement) {
+            if ($lectureElement) {
+                $result = $lectureElement->delete();
+                if (!$result) {
+                    return false;
+                }
+            }
+        }
+
+        return ($result && parent::beforeDelete());
+    }
+
     /**
      * Swaps elements order
      * @param RevisionLectureElement $a
