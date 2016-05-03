@@ -1,6 +1,43 @@
 <?php
 
 class RevisionQuizFactory {
+
+
+    /**
+     * @param integer $idType
+     * @param CHttpRequest $request
+     * @return array
+     */
+    public static function getQuizParams($idType, $request) {
+
+        $quiz = [];
+        switch ($idType) {
+            case LectureElement::PLAIN_TASK:
+                break;
+            case LectureElement::TEST:
+                $optionsNum = $request->getPost('optionsNum', 0); //options amount
+                $quiz['testTitle'] = $request->getPost('testTitle', '');
+                $options = [];
+                for ($i = 0; $i < $optionsNum; $i++) {
+                    $options[$i]["answer"] = trim($request->getPost("answer" . ($i + 1), ''));
+                    $options[$i]["is_valid"] = trim($request->getPost("is_valid" . ($i + 1), 0));
+                }
+                $quiz['answers'] = $options;
+                break;
+            case LectureElement::TASK:
+                $quiz['language'] = $request->getPost('language', 'c++');
+                $quiz['assignment'] = $request->getPost('assignment', 0);
+                $quiz['table'] = $request->getPost('table', '');
+                break;
+            case LectureElement::SKIP_TASK:
+                $quiz['question'] = $request->getPost('question');      //question
+                $quiz['source'] = $request->getPost('text');            //skip task
+                $quiz['answers'] = $request->getPost('answer', null);   // 2D array - index value caseSensetive
+                break;
+        }
+        return $quiz;
+    }
+
     /**
      * Factory method to create new quiz
      * @param RevisionLectureElement $lectureElement
@@ -72,7 +109,7 @@ class RevisionQuizFactory {
                 return $test;
                 break;
             case LectureElement::SKIP_TASK:
-                $test = RevisionSkipTask::model()->findByAttributes(array('id_lecture_element' => $revLectureElement->id));
+                $test = RevisionSkipTask::model()->findByAttributes(array('condition' => $revLectureElement->id));
                 return $test->editTest($quiz['question'], $quiz['source'], $quiz['answers']);
                 break;
             default:
@@ -92,19 +129,31 @@ class RevisionQuizFactory {
         switch ($revLectureElementType) {
             case LectureElement::PLAIN_TASK :
                 $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
-                return $test->delete();
+                if ($test) {
+                    return $test->delete();
+                }
+                return true;
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
-                return $test->delete();
+                if ($test) {
+                    return $test->delete();
+                }
+                return true;
                 break;
             case LectureElement::TASK :
                 $test = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
-                return $test->delete();
+                if ($test) {
+                    return $test->delete();
+                }
+                return true;
                 break;
             case LectureElement::SKIP_TASK:
-                $test = RevisionSkipTask::model()->findByAttributes(array('id_lecture_element' => $revLectureElementId));
-                $test->delete();
+                $test = RevisionSkipTask::model()->findByAttributes(array('condition' => $revLectureElementId));
+                if ($test) {
+                    return $test->delete();
+                }
+                return true;
                 break;
             default:
                 break;
@@ -133,7 +182,7 @@ class RevisionQuizFactory {
                 return $test->cloneTest($lectureElementNew->id);
                 break;
             case LectureElement::SKIP_TASK:
-                $test = RevisionSkipTask::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
+                $test = RevisionSkipTask::model()->findByAttributes(array('condition' => $lectureElementOld->id));
                 return $test->cloneTest($lectureElementNew->id);
                 break;
             default:
@@ -164,7 +213,7 @@ class RevisionQuizFactory {
                 return $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
                 break;
             case LectureElement::SKIP_TASK:
-                $test = RevisionSkipTask::model()->findByAttributes(array('id_lecture_element' => $revisionLectureElement->id));
+                $test = RevisionSkipTask::model()->findByAttributes(array('condition' => $revisionLectureElement->id));
                 return $test->saveToRegularDB($newLectureElement, $idUserCreated);
                 break;
             default:
@@ -211,7 +260,7 @@ class RevisionQuizFactory {
                         }
                         break;
                     case LectureElement::SKIP_TASK:
-                        $test = SkipTask::model()->findByAttributes(['block_element' => $element]);
+                        $test = SkipTask::model()->findByAttributes(['condition' => $element]);
                         if ($test) {
                             $questionLE = LectureElement::model()->findByPk($test->question);
                             foreach ($test->skipTaskAnswers as $answer) {

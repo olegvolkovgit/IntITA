@@ -167,21 +167,20 @@ $this->breadcrumbs = array(
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
             <?php
-            if ($page->quiz != null) {
-                $data = $page->getQuiz();
-                switch ($data['id_type']) {
-                    case '5':
-                        $this->renderPartial('/revision/_editTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>5));
+            if ($quiz != null) {
+                switch ($quiz->id_type) {
+                    case LectureElement::TASK:
+                        $this->renderPartial('/revision/_editTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::TASK));
                         break;
-                    case '6':
-                        $this->renderPartial('/revision/_editPlainTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>6));
+                    case LectureElement::PLAIN_TASK:
+                        $this->renderPartial('/revision/_editPlainTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::PLAIN_TASK));
                         break;
-                    case '9' :
-                        $this->renderPartial('/revision/_editSkipTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>9));
+                    case LectureElement::SKIP_TASK :
+                        $this->renderPartial('/revision/_editSkipTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::SKIP_TASK));
                         break;
-                    case '12':
-                    case '13':
-                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>12));
+                    case LectureElement::TEST:
+                    case LectureElement::FINAL_TEST:
+                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::TEST));
                         break;
                     default:
                         break;
