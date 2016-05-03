@@ -219,15 +219,12 @@ class RevisionLectureProperties extends CActiveRecord
     /**
      * Sets update date and id user.
      * @param $user - current user model
-     * @param bool $isSave - true (default) if need to save of false if no need to save
-     * @throws RevisionLecturePageException
+     * @throws RevisionLecturePropertiesException
      */
-    public function setUpdateDate($user, $isSave = true) {
+    public function setUpdateDate($user) {
         $this->update_date = new CDbExpression('NOW()');
         $this->id_user_updated = $user->getId();
-        if ($isSave) {
-            $this->saveCheck();
-        }
+        $this->saveCheck();
     }
 
 	public function getValidationErrors() {
