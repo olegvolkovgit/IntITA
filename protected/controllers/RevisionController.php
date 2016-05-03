@@ -550,8 +550,10 @@ class RevisionController extends Controller {
      * curl -XPOST --data 'revisionId=139&pageId=699&idType=6&condition=condition' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      *
      * Skip task
+     * curl -XPOST --data 'revisionId=141&pageId=705&idType=9&condition=condition&question=question&source=source&text=text&answer[0][index]=1&answer[0][caseInsensitive]=1&answer[0][value]=answer1&answer[1][index]=2&answer[1][caseInsensitive]=0&answer[1][value]=answer1' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      *
      * Taks
+     * curl -XPOST --data 'revisionId=141&pageId=715&idType=5&condition=condition&language=language&assignment=1&table=table' 'http://intita.project/revision/addtest' -b XDEBUG_SESSION=PHPSTORM
      *
      * @return bool|null
      * @throws CDbException
@@ -579,7 +581,7 @@ class RevisionController extends Controller {
     }
 
     /**
-     * curl -XPOST --data 'revisionId=138&pageId=691&idBlock=756&condition=condition2&testTitle=testTitle2&optionsNum=2&answer1=answer3&answer2=answer4&is_valid2=1' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
+     * curl -XPOST --data 'revisionId=138&pageId=691&idBlock=756&condition=condition2&testTitle=testTit le2&optionsNum=2&answer1=answer3&answer2=answer4&is_valid2=1' 'http://intita.project/revision/EditTest' -b XDEBUG_SESSION=PHPSTORM
      */
     public function actionEditTest() {
 
@@ -800,8 +802,14 @@ class RevisionController extends Controller {
                 $quiz['answers'] = $options;
                 break;
             case LectureElement::TASK:
+                $quiz['language'] = Yii::app()->request->getPost('language', 'c++');
+                $quiz['assignment'] = Yii::app()->request->getPost('assignment', 0);
+                $quiz['table'] = Yii::app()->request->getPost('table', '');
                 break;
             case LectureElement::SKIP_TASK:
+                $quiz['question'] = Yii::app()->request->getPost('question');    //question
+                $quiz['source'] = Yii::app()->request->getPost('text');        //skip task
+                $quiz['answers'] = Yii::app()->request->getPost('answer', null); // 2D array - index value caseSensetive
                 break;
         }
         return $quiz;
