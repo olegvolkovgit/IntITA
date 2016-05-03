@@ -8,6 +8,7 @@ class NotificationMessages implements IMessage
 
     public function build($subject, $text, $receivers, StudentReg $sender, $chained = null, $original = null){
         $this->message = new UserMessages();
+        $this->message->setMailHeader($subject);
         $this->message->build($subject, $text, $receivers, $sender, $chained, $original);
 
         return $this;
