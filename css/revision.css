@@ -14,7 +14,9 @@
 .lessonText {
     padding-right: 20px;
 }
-a,a:active,a:focus,button,button:active,input[type="submit"],input[type="submit"]:active{outline:none;!important;}
+#revisionMainBox a,#revisionMainBox a:active,#revisionMainBox a:focus,#revisionMainBox button,
+#revisionMainBox button:active,#revisionMainBox input[type="submit"],
+#revisionMainBox input[type="submit"]:active{outline:none;!important;}
 @-moz-document url-prefix(){a:focus{;outline:none;!important;}}
 html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
 .lectureInfo{

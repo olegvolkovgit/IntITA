@@ -87,7 +87,7 @@ $this->breadcrumbs = array(
                 <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
             </h1>
             <div class='icons'>
-                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)).'#/page'.$page->page_order; ?>')
+                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
                      title="Попередній перегляд"/>
             </div>
