@@ -39,6 +39,7 @@
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
+ * @property StudentReg $trainer
  */
 class StudentReg extends CActiveRecord
 {
