@@ -280,4 +280,33 @@ class RegisteredUser
     {
         return $this->isStudent();
     }
+
+    public function hasLectureAccess(Lecture $lecture, $editMode = false, $idCourse = 0){
+        $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
+        if ($this->isAdmin() || $editMode) {
+            return true;
+        }
+        if ($this->isTeacherConsultant()) {
+            $consult = new TeacherConsultant();
+            if($consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
+        if($idCourse!=0){
+            $course = Course::model()->findByPk($idCourse);
+            if(!$course->status)
+                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));}
+        if (!($lecture->isFree)) {
+            $modulePermission = new PayModules();
+            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')))
+                throw new CHttpException(403, Yii::t('errors', '0139'));
+            if ($lecture->order > $enabledLessonOrder)
+                throw new CHttpException(403, Yii::t('errors', '0646'));
+        } else {
+            if ($lecture->order > $enabledLessonOrder)
+                throw new CHttpException(403, Yii::t('errors', '0646'));
+        }
+
+        return true;
+    }
 }
