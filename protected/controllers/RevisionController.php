@@ -47,7 +47,8 @@ class RevisionController extends Controller {
     public function actionEditLectureRevision($idRevision) {
 
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
-
+        if(!$lectureRevision)
+            throw new RevisionControllerException(404);
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, 'У тебе немає прав для редагування цієї ревізії');
         }
@@ -65,7 +66,8 @@ class RevisionController extends Controller {
     public function actionPreviewLectureRevision($idRevision) {
 
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
-
+        if(!$lectureRevision)
+            throw new RevisionControllerException(404);
         if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRevision->id_module)) {
             throw new RevisionControllerException(403, 'Access denied.');
         }
@@ -102,7 +104,8 @@ class RevisionController extends Controller {
     public function actionEditPageRevision($idPage) {
 
         $page = RevisionLecturePage::model()->findByPk($idPage);
-
+        if(!$page)
+            throw new RevisionControllerException(404);
         $lectureRevision=RevisionLecture::model()->findByPk($page->id_revision);
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
@@ -470,7 +473,8 @@ class RevisionController extends Controller {
 
     public function actionRevisionsBranch($idRevision) {
         $lectureRev = RevisionLecture::model()->findByPk($idRevision);
-
+        if(!$lectureRev)
+            throw new RevisionControllerException(404);
         if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
         }
