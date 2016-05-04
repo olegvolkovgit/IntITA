@@ -350,9 +350,11 @@ class RevisionLecture extends CActiveRecord
 //                    canceled old revision when aprroved new
                     if($this->id_lecture){
                         $oldRevision=RevisionLecture::getParentRevisionForLecture($this->id_lecture);
-                        $oldRevision->properties->end_date = new CDbExpression('NOW()');
-                        $oldRevision->properties->id_user_cancelled = $user->getId();
-                        $oldRevision->properties->saveCheck();
+                        if($oldRevision){
+                            $oldRevision->properties->end_date = new CDbExpression('NOW()');
+                            $oldRevision->properties->id_user_cancelled = $user->getId();
+                            $oldRevision->properties->saveCheck();
+                        }
                     }
 
                     $this->saveToRegularDB();
@@ -912,14 +914,11 @@ class RevisionLecture extends CActiveRecord
      * @return bool
      */
     public function isCancellable() {
-        if (!$this->isApproved()
-//            $this->isSended() &&
-//            !$this->isApproved() ||
-//            $this->isCancelled()
-        ) {
-            return false;
+        if ($this->isApproved() && !$this->isCancelled())
+        {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
