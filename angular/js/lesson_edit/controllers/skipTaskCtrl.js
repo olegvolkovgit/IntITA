@@ -6,7 +6,7 @@ function skipTaskCtrl($scope, $http) {
 
     $scope.getDataSkipTask = function(id) {
         var promise = $http({
-            url: basePath+'/skipTask/dataSkipTask',
+            url: basePath+'/revision/dataSkipTaskCondition',
             method: "POST",
             data: $.param({idBlock: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -36,7 +36,8 @@ function skipTaskCtrl($scope, $http) {
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
-            "page":pageId,
+            "pageId":pageId,
+            "idBlock":$scope.idBlock,
             "revisionId":revisionId,
             "idType":quizType,
             "question": question,
@@ -55,10 +56,11 @@ function skipTaskCtrl($scope, $http) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                //alert("Завдання успішно додано до лекції!");
+                alert("Завдання успішно додано до лекції!");
                 location.reload();
             })
             .fail(function () {
+                return;
                 bootbox.alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
                 location.reload();

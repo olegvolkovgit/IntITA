@@ -944,4 +944,14 @@ class RevisionController extends Controller {
 
         echo CJSON::encode($data);
     }
+    public function actionDataSkipTaskCondition()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $skipTask=RevisionSkipTask::model()->findByAttributes(array("condition" => $idBlock));
+        $data["condition"]=$skipTask->lectureElement->html_block;
+        $data["source"]=$skipTask->source;
+
+        echo CJSON::encode($data);
+    }
 }

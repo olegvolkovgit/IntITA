@@ -27,10 +27,9 @@ idBlock=<?php echo $idElement; ?>;'>
             <br>
         </fieldset>
         <input type="submit" ng-click="editSkipTaskCKE('<?php echo Yii::app()->createUrl('/revision/editTest'); ?>',
-         <?php echo $idElement; ?>)"
+         <?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)"
                ng-disabled="addSkipTask.$invalid" value="<?php echo Yii::t('lecture', '0706'); ?>">
     </form>
     <br>
     <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
-<!--    <button ng-click='unableSkipTask(--><?php //echo $pageId; ?><!--)'>--><?php //echo Yii::t('editor','0799'); ?><!--</button>-->
 </div>

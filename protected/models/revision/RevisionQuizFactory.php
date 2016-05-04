@@ -30,8 +30,8 @@ class RevisionQuizFactory {
                 $quiz['table'] = $request->getPost('table', '');
                 break;
             case LectureElement::SKIP_TASK:
-                $quiz['question'] = $request->getPost('question');      //question
-                $quiz['source'] = $request->getPost('text');            //skip task
+                $quiz['question'] = $request->getPost('text');      //question
+                $quiz['source'] = $request->getPost('question');            //skip task
                 $quiz['answers'] = $request->getPost('answer', null);   // 2D array - index value caseSensetive
                 break;
         }
