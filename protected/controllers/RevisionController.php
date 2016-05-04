@@ -935,4 +935,13 @@ class RevisionController extends Controller {
         }
         echo CJSON::encode($data);
     }
+    public function actionPlainTaskCondition()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $plainTask=RevisionLectureElement::model()->findByPk($idBlock);
+        $data["condition"]=$plainTask->html_block;
+
+        echo CJSON::encode($data);
+    }
 }
