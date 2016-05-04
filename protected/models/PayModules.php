@@ -111,6 +111,9 @@ class PayModules extends CActiveRecord
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
     public static function setFlags($rights){
+        if(in_array('edit', $rights) && !in_array('read', $rights)){
+            array_push($rights, 'read');
+        }
         $flag = 0;
         for ($i = 0; $i < count($rights); $i++) {
             $right = $rights[$i];

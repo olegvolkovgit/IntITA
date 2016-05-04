@@ -77,6 +77,7 @@ class OldController extends TeacherCabinetController
         $module = Yii::app()->request->getPost('module');
         $user = Yii::app()->request->getPost('user');
 
+
         if (!empty($module)) {
             if (PayModules::model()->exists('id_user=:user and id_module=:resource',
                 array(':user' => $user, ':resource' => $module))
