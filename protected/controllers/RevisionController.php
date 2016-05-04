@@ -271,8 +271,6 @@ class RevisionController extends Controller {
         }
 
         $lectureRevision->deleteLectureElement($idPage, $idElement, Yii::app()->user);
-
-        //$this->redirect(Yii::app()->request->urlReferrer);
     }
 
     //@todo
@@ -903,9 +901,10 @@ class RevisionController extends Controller {
     public function actionVideoPreview()
     {
         $idRevision = $_GET['idRevision'];
-        $idPage = $_GET['idPage'];
+        $pageOrder = $_GET['idPage'];
 
-        $page = RevisionLecturePage::model()->findByAttributes(array("id_revision" => $idRevision, "page_order" => $idPage));
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+        $page=$lectureRevision->lecturePages[$pageOrder-1];
 
         echo $this->renderPartial('lecturePreview/_videoTab',
             array('page' => $page), true);
@@ -913,9 +912,10 @@ class RevisionController extends Controller {
     public function actionTextPreview()
     {
         $idRevision = $_GET['idRevision'];
-        $idPage = $_GET['idPage'];
+        $pageOrder = $_GET['idPage'];
 
-        $page = RevisionLecturePage::model()->findByAttributes(array("id_revision" => $idRevision, "page_order" => $idPage));
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+        $page=$lectureRevision->lecturePages[$pageOrder-1];
 
         $dataProvider = new CArrayDataProvider($page->getLectureBody());
 
@@ -925,9 +925,11 @@ class RevisionController extends Controller {
     public function actionQuizPreview()
     {
         $idRevision = $_GET['idRevision'];
-        $idPage = $_GET['idPage'];
+        $pageOrder = $_GET['idPage'];
 
-        $page = RevisionLecturePage::model()->findByAttributes(array("id_revision" => $idRevision, "page_order" => $idPage));
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+        $page=$lectureRevision->lecturePages[$pageOrder-1];
+
         $quiz = $page->getQuiz();
         echo $this->renderPartial('lecturePreview/_quiz',
             array('quiz' => $quiz), true);
