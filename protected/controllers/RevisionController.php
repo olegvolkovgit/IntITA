@@ -957,4 +957,32 @@ class RevisionController extends Controller {
         }
         echo CJSON::encode($data);
     }
+    public function actionPlainTaskCondition()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $plainTask=RevisionLectureElement::model()->findByPk($idBlock);
+        $data["condition"]=$plainTask->html_block;
+
+        echo CJSON::encode($data);
+    }
+    public function actionDataSkipTaskCondition()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $skipTask=RevisionSkipTask::model()->findByAttributes(array("condition" => $idBlock));
+        $data["condition"]=$skipTask->lectureElement->html_block;
+        $data["source"]=$skipTask->source;
+
+        echo CJSON::encode($data);
+    }
+    public function actionDataTaskCondition()
+    {
+        $idBlock = Yii::app()->request->getPost('idBlock');
+        $data = [];
+        $task=RevisionTask::model()->findByAttributes(array("id_lecture_element" => $idBlock));
+        $data["condition"] =  $task->lectureElement->html_block;;
+
+        echo CJSON::encode($data);
+    }
 }

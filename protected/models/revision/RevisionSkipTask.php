@@ -142,7 +142,7 @@ class RevisionSkipTask extends CActiveRecord {
     public function editTest($question, $source, $answers) {
         $this->question = $question;
         $this->source = $source;
-
+        $this->saveCheck();
 
         $oldCount = count($this->answers);
         $newCount = count($answers);
@@ -150,12 +150,12 @@ class RevisionSkipTask extends CActiveRecord {
         $i = 0;
         $length = min($oldCount, $newCount);
         for (; $i < $length; $i++) {
-            $this->answers[$i]->edit($answers[$i]['value'], $answers[$i]['caseInSensitive'], $answers[$i]['index']);
+            $this->answers[$i]->edit($answers[$i]['value'], $answers[$i]['caseInsensitive'], $answers[$i]['index']);
         }
 
         if ($oldCount < $newCount) {
             for (; $i < $newCount; $i++) {
-                RevisionSkipTaskAnswers::createAnswer($this->id, $answers[$i]['value'], $answers[$i]['caseInSensitive'], $answers[$i]['index']);
+                RevisionSkipTaskAnswers::createAnswer($this->id, $answers[$i]['value'], $answers[$i]['caseInsensitive'], $answers[$i]['index']);
             }
         } elseif ($oldCount > $newCount) {
             $pkToDelete = [];

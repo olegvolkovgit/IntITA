@@ -7,7 +7,7 @@ idBlock=<?php echo $idElement; ?>;'>
         <fieldset>
             <label><?php echo Yii::t('lecture','0774'); ?></label>
             <br>
-            <textarea ng-cloak ckeditor="editorOptionsTask" name="block_element" class="plainTaskCondition"
+            <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" class="plainTaskCondition"
                       placeholder="<?php echo Yii::t('lecture','0773');  ?>" required ng-model="dataSkipTask.condition">
             </textarea>
             <input name="idBlock" type="hidden" value="<?php echo $idElement;?>"/>
@@ -20,5 +20,4 @@ idBlock=<?php echo $idElement; ?>;'>
         </fieldset>
     </form>
     <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
-<!--    <button ng-click='unablePlainTask(--><?php //echo $pageId; ?><!--)'>--><?php //echo Yii::t('lecture','0718'); ?><!--</button>-->
 </div>
