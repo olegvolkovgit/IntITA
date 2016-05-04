@@ -85,7 +85,7 @@ $finishedLecture = $lecture->isFinished($user);
     <?php $this->renderPartial('_sidebar', array('lecture' => $lecture,'editMode'=>$editMode, 'idCourse' => $idCourse,'finishedLecture' => $finishedLecture, 'passedPages'=>$passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
-            <?php echo Lecture::getLectureTitle($lecture->id); ?>
+            <?php echo $lecture->title(); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
                     <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">

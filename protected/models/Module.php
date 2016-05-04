@@ -1015,6 +1015,15 @@ class Module extends CActiveRecord implements IBillableObject
         else return false;
     }
 
+    public function lastLecture()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
+        return Lecture::model()->find($criteria);
+    }
+
     public static function isAliasUnique($alias){
         return Module::model()->exists('alias=:alias', array(':alias' => $alias)) == false;
     }
