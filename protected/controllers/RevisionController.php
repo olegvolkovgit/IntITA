@@ -459,9 +459,24 @@ class RevisionController extends Controller {
             $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
         }
 
-        $this->render('index', array(
+        $this->render('revisionsBranch', array(
             'idModule' => $lectureRev->id_module,
-            'idLecture' => $idLecture,
+            'idRevision' => $lectureRev->id_revision,
+            'isApprover' => $this->isUserApprover(Yii::app()->user),
+            'userId' => Yii::app()->user->getId(),
+        ));
+    }
+
+    public function actionRevisionsBranch($idRevision) {
+        $lectureRev = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user)) {
+            throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
+        }
+
+        $this->render('revisionsBranch', array(
+            'idModule' => $lectureRev->id_module,
+            'idRevision' => $idRevision,
             'isApprover' => $this->isUserApprover(Yii::app()->user),
             'userId' => Yii::app()->user->getId(),
         ));
@@ -491,7 +506,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
         }
 
-        $this->render('index', array(
+        $this->render('moduleLecturesRevisions', array(
             'idModule' => $idModule,
             'isApprover' => $this->isUserApprover(Yii::app()->user),
             'userId' => Yii::app()->user->getId(),
@@ -506,9 +521,9 @@ class RevisionController extends Controller {
 
         echo $json;
     }
-    public function actionBuildLectureRevisions() {
-        $idLecture = Yii::app()->request->getPost('idLecture');
-        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+    public function actionBuildRevisionsBranch() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->findByPk(array("id_revision" => $idRevision));
         $relatedRev = $lectureRev->getRelatedLectures();
         $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
         $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
