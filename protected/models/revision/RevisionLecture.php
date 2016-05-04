@@ -401,7 +401,6 @@ class RevisionLecture extends CActiveRecord
      */
     public function cancel($user) {
         if ($this->isCancellable()) {
-            $this->deleteLectureFromRegularDB();
             $this->properties->end_date = new CDbExpression('NOW()');
             $this->properties->id_user_cancelled = $user->getId();
             $this->properties->saveCheck();
@@ -761,6 +760,7 @@ class RevisionLecture extends CActiveRecord
      */
     private function removePreviousRecords(){
         $oldLecture = Lecture::model()->findByPk($this->id_lecture);
+
         if($oldLecture) {
             //remove lecture pages
 
@@ -1002,7 +1002,7 @@ class RevisionLecture extends CActiveRecord
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isApprovable());
     }
     public function canCancelRevision() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancellable());
+        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isCancellable());
     }
     public function canRejectRevision() {
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());

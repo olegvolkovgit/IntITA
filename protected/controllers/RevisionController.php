@@ -385,6 +385,7 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel(Yii::app()->user);
+        $lectureRev->deleteLectureFromRegularDB();
     }
 
     /**
@@ -484,7 +485,6 @@ class RevisionController extends Controller {
 
     public function actionDeleteLecture() {
         $idLecture = Yii::app()->request->getPost('idLecture');
-        $idModule = Yii::app()->request->getPost('idModule');
         $user = Yii::app()->user;
         $lecture = Lecture::model()->findByPk($idLecture);
 
@@ -499,6 +499,7 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel($user);
+        $lectureRev->deleteLectureFromRegularDB();
     }
 
     public function actionModuleLecturesRevisions($idModule) {
