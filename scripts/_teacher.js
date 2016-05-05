@@ -169,6 +169,28 @@ function cancelTeacherRole(url, role, teacher) {
     });
 }
 
+function changeUserStatus(url, user, message) {
+    bootbox.confirm(message, function (response) {
+        if (response) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {user: user},
+                success: function (result) {
+                    bootbox.confirm(result);
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
 function loadPage(url) {
     $jq.ajax({
         url: url,
@@ -822,7 +844,7 @@ function initAgreementsTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');">' + title["name"]+ '</a>';
+                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"]+ '</a>';
                 }
             },
             {"data": "schema"},

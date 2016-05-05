@@ -36,6 +36,7 @@
  * @property string $skype
  * @property integer $country
  * @property integer $city
+ * @property integer $cancelled
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
@@ -43,6 +44,14 @@
  */
 class StudentReg extends CActiveRecord
 {
+    // status - is account active
+    const ACTIVATED = 1;
+    const NONACTIVE = 0;
+
+    // cancelled - is account deleted
+    const ACTIVE = 0;
+    const DELETED = 1;
+
     public $password_repeat;
     public $send_letter;
     public $upload;
@@ -99,9 +108,11 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
-            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country, city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
+            array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country,
+            city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype, cancelled', 'safe'),
             // The following rule is used by search().
-            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education, educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype', 'safe', 'on' => 'search'),
+            array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
+            educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled', 'safe', 'on' => 'search'),
         );
     }
 
@@ -203,6 +214,7 @@ class StudentReg extends CActiveRecord
             'skype' => 'Skype',
             'country' => Yii::t('regexp', '0817'),
             'city' => Yii::t('regexp', '0818'),
+            'cancelled' => 'Cancelled',
         );
     }
 
@@ -282,6 +294,7 @@ class StudentReg extends CActiveRecord
         $criteria->compare('skype', $this->skype, true);
         $criteria->compare('t.country', $this->country, true);
         $criteria->compare('t.city', $this->city, true);
+        $criteria->compare('cancelled', $this->cancelled, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -898,13 +911,15 @@ class StudentReg extends CActiveRecord
         foreach ($result as $record) {
             $row = array();
 
-            $row["student-name"] = $record["studentName"];
-            $row["email"] = $record["email"];
+            $row["student"]["name"] = addslashes($record["studentName"]);
+            $row["email"]["title"] = $record["email"];
+            $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
+            $row["email"]["url"] = $row["student"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
             $row["date"] = date("d.m.Y", strtotime($record["start_date"]));
             $row["trainer-name"] = (is_null($record["endTime"]))?"":$record["trainerName"];
             $row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
                 Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
-            $row["addAccessLink"] = "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
 
             array_push($return['data'], $row);
         }
@@ -1012,14 +1027,18 @@ class StudentReg extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"] = $record->secondName . " " . $record->firstName . " " . $record->middleName;
-            $row["email"] = $record->email;
+            $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
+            $row["user"]["name"] = addslashes($name);
+            $row["email"]["title"] = $record["email"];
+            $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
+            $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
             $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", $record["reg_time"]) : '<em>невідомо</em>';
-            $row["profile"] = Config::getBaseUrl() . "/profile/" . $record->id;
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->id
             ));
+            $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+
             array_push($return['data'], $row);
         }
 
@@ -1153,5 +1172,21 @@ class StudentReg extends CActiveRecord
         }
 
         return ($result != ", ") ? $result : '';
+    }
+
+    public function accountStatus(){
+        return ($this->status == self::ACTIVATED)?"активований":"не активований";
+    }
+
+    public function status(){
+        return ($this->cancelled == self::ACTIVE)?"активний":"видалений";
+    }
+
+    public function isAccountActivated(){
+        return $this->status == self::ACTIVATED;
+    }
+
+    public function isUserCancelled(){
+        return $this->status == self::ACTIVE;
     }
 }
