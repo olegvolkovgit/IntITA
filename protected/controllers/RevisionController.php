@@ -54,7 +54,7 @@ class RevisionController extends Controller {
         }
 
         if (!$lectureRevision->isEditable()) {
-            throw new RevisionControllerException(400, 'Цю ревізію редагувати не можна');
+            throw new RevisionControllerException(403, 'Цю ревізію редагувати не можна');
         }
 
         $this->render("lectureview", array(
