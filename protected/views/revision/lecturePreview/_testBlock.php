@@ -58,7 +58,6 @@ $testType = $test->getTestType();
             </table>
             </div>
             <div ng-controller="testCtrl">
-                <img style="display: none" id="ajaxLoad" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
                 <button class="testSubmit" ng-click='sendTestAnswer(<?php echo $test->id ?>,<?php echo $testType; ?>);' >
                     <?php echo $buttonName; ?>
                 </button>

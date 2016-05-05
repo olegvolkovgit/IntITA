@@ -17,7 +17,7 @@ if (!is_null($page->quiz)) {
 
     switch (LectureElement::getQuizType($page->quiz)) {
         case '5':
-            $this->renderPartial('_taskBlock', array(
+            $this->renderPartial('/lesson/_taskBlock', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user,
@@ -25,7 +25,7 @@ if (!is_null($page->quiz)) {
             ));
             break;
         case '6':
-            $this->renderPartial('_plainTaskBlock', array(
+            $this->renderPartial('/lesson/_plainTaskBlock', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user,
@@ -33,7 +33,7 @@ if (!is_null($page->quiz)) {
             ));
             break;
         case '9' :
-            $this->renderPartial('_skipTaskBlock', array(
+            $this->renderPartial('/lesson/_skipTaskBlock', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user,
@@ -42,7 +42,7 @@ if (!is_null($page->quiz)) {
             break;
         case '12':
         case '13':
-            $this->renderPartial('_testBlock', array(
+            $this->renderPartial('/lesson/_testBlock', array(
                 'data' => LectureElement::model()->findByPk($page->quiz),
                 'editMode' => $editMode,
                 'user' => $user,
