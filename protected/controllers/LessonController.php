@@ -75,7 +75,7 @@ class LessonController extends Controller
 
         $isLastLecture=$lecture->isLastLecture();
 
-        if($lecture->verified && !$editMode) {
+        if($lecture->verified) {
             $view='indexTemplate';
         } else $view='index1';
 
