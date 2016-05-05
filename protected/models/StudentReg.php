@@ -900,12 +900,13 @@ class StudentReg extends CActiveRecord
 
             $row["student-name"] = $record["studentName"];
             $row["email"] = $record["email"];
-            $row["date"] = date("d.m.Y h:i:s", strtotime($record["start_date"]));
+            $row["date"] = date("d.m.Y", strtotime($record["start_date"]));
             $row["trainer-name"] = (is_null($record["endTime"]))?"":$record["trainerName"];
             $row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
                 Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
-            array_push($return['data'], $row);
+            $row["addAccessLink"] = "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
 
+            array_push($return['data'], $row);
         }
 
         return json_encode($return);
@@ -1146,7 +1147,10 @@ class StudentReg extends CActiveRecord
             $result .= AddressCountry::model()->findByPk($this->country)->$param;
         if (!is_null($this->city))
             $result .= ", " . AddressCity::model()->findByPk($this->city)->$param;
-        $result .= self::getAdressYears($this->birthday, $this->address);
+        $address = self::getAdressYears($this->birthday, $this->address);
+        if($address != ''){
+            $result .= ", ".$address;
+        }
 
         return ($result != ", ") ? $result : '';
     }
