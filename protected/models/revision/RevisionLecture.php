@@ -750,6 +750,7 @@ class RevisionLecture extends CActiveRecord
         }
         $newLecture->idType = $this->properties->id_type;
         $newLecture->isFree = $this->properties->is_free;
+        $newLecture->verified = 1;
         $newLecture->save();
         return $newLecture;
     }

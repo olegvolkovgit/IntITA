@@ -18,7 +18,7 @@ angular
                 });
                 return promise;
             };
-            this.cancelSendRevision = function(id,nodeId) {
+            this.cancelSendRevision = function(id) {
                 var promise = $http({
                     url: basePath+'/revision/cancelSendForApproveLecture',
                     method: "POST",
@@ -32,7 +32,7 @@ angular
                 });
                 return promise;
             };
-            this.approveRevision = function(id,nodeId) {
+            this.approveRevision = function(id) {
                 var promise = $http({
                     url: basePath+'/revision/approveLectureRevision',
                     method: "POST",
@@ -46,7 +46,7 @@ angular
                 });
                 return promise;
             };
-            this.rejectRevision = function(id,nodeId) {
+            this.rejectRevision = function(id) {
                 var promise = $http({
                     url: basePath+'/revision/rejectLectureRevision',
                     method: "POST",
@@ -60,7 +60,7 @@ angular
                 });
                 return promise;
             };
-            this.cancelRevision = function(id,nodeId) {
+            this.cancelRevision = function(id) {
                 var promise = $http({
                     url: basePath+'/revision/cancelLectureRevision',
                     method: "POST",

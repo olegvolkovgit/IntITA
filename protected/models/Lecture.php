@@ -530,6 +530,16 @@ class Lecture extends CActiveRecord
         }
     }
 
+    public function titleForBreadcrumbs()
+    {
+        $titleParam = "title_" . CommonHelper::getLanguage();
+        if ($this->$titleParam == '') {
+            return $this->title_ua;
+        } else {
+            return $this->$titleParam;
+        }
+    }
+
     public static function getLectureTypeTitle($idType)
     {
         if (LectureType::model()->exists('id=:idType', array(':idType' => $idType))) {

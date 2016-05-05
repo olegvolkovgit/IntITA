@@ -34,7 +34,7 @@
                         </button>
                         <ul class="dropdown-menu pull-right">
                             <li ng-if="lecture.approvedFromRevision">
-                                <a ng-click="createRevision(lecture.approvedFromRevision)">Створити нову ревізію</a>
+                                <a ng-click="createRev(lecture.approvedFromRevision)">Створити нову ревізію</a>
                             </li>
                             <li>
                                 <a ng-href={{lecture.revisionsLink}} >Переглянути ревізії заняття(створює початкову ревізію, якщо інших немає)</a>
