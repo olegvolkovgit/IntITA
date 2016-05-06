@@ -121,6 +121,12 @@ class UserContentManager extends CActiveRecord
 
 		return json_encode($return);
 	}
+	public function counter($id){
+
+		$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
+		$course22 = Yii::app()->db->createCommand($sql22)->queryAll();
+		return $course22;
+	}
 	public static function listOfCourses(){
 
 
@@ -137,16 +143,24 @@ class UserContentManager extends CActiveRecord
 
 		//$r =$tmp->lectures;
 		//$dddd = new Module;
-		$sql = 'select title_ua from lectures'; //рабочий лекции
+		$sql = 'select * from module'; //рабочий лекции
 		$course = Yii::app()->db->createCommand($sql)->queryAll();//рабочий лекции
-
+		//SELECT COUNT(*) FROM `table` WHERE `field_1`='value_1'
 		$return = array('data' => array());
+
+		//$temporary2=14;
+			//$sql22 = 'SELECT COUNT(*) as counter FROM lectures ';
+			//$course22 = Yii::app()->db->createCommand($sql22)->queryAll();
+		//$num_rows = mysql_num_rows($course22);
 
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['title_ua'];
-			//$row["email"]["title"] = $record["modules_count"];
-
+			$row["lesson"]["title"] = $record["lesson_count"];
+			$tmp=UserContentManager::counter($record['module_ID']);
+			$row["video"]=$tmp;
+			$row["test"]=2;
+			$row["part"]=3;
 			array_push($return['data'], $row);
 		}
 
@@ -169,4 +183,5 @@ class UserContentManager extends CActiveRecord
 //
 //		return json_encode($return);
 	}
+
 }

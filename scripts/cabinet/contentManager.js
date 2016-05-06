@@ -285,7 +285,7 @@ function  initAuthorsTableCM(){
 }
 
 function initConsultantsTable(){
-    $jq('#statusOfCourseTable').DataTable({
+    $jq('#consultantsTable').DataTable({
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
@@ -339,8 +339,26 @@ function initCourseListTable(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
-                }}
+                    return '<a href="#" onclick="load(\'' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                }},
+            {
+                "data": "lesson",
+                "render": function (email) {
+                    return email["title"];
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "video"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "test"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "part"
+            }
          ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');

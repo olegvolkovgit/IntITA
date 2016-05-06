@@ -7,11 +7,11 @@
                 <table class="table table-striped table-bordered table-hover" id="statusOfCourseTable">
                     <thead>
                     <tr>
-                        <th style="width:35%;">Назва курсу</th>
-                        <th>К-ть модулів</th>
-                        <th>К-ть слів у кожній частині</th>
-                        <th>Наявність відео</th>
-                        <th>Наявність тестів</th>
+                        <th style="width:30%;" >Назва модуля</th>
+                        <th style="width:12%;">К-ть лекцій</th>
+                        <th style="width:12%;">К-ть відео</th>
+                        <th style="width:12%;">К-ть тестів</th>
+                        <th style="width:12%;">К-ть частин</th>
                     </tr>
                     </thead>
                     <tbody>

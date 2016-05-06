@@ -876,9 +876,12 @@ class Lecture extends CActiveRecord implements ILessonsStatistics
     }
     //ILessonStatistics implementations
     public function statisticalName(){
-       $tmp =Module::model()->findByPk(3);
-        $r =$tmp->lectures;
-       return $r;
+        $sql = 'select * from module'; //рабочий лекции
+        $course = Yii::app()->db->createCommand($sql)->queryAll();
+        echo $course;
+//       $tmp =Module::model()->findByPk(3);
+//        $r =$tmp->lectures;
+//       return $r;
     }
 
     public function isVideoPresent(){}

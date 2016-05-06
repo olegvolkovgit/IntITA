@@ -187,4 +187,5 @@ class ContentManagerController extends TeacherCabinetController
         else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
+
 }
