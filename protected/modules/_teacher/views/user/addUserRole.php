@@ -44,35 +44,17 @@ $user = $model->registrationData;
                     </select>
                 </div>
                 <br>
-                <input class="btn btn-default" type="submit"
-                       onclick="setRole('<?php echo Yii::app()->createUrl('/_teacher/user/setUserRole'); ?>'); return false"
+                <input class="btn btn-success" type="submit"
+                       onclick="setUserRole('<?php echo Yii::app()->createUrl('/_teacher/user/setUserRole'); ?>'); return false"
                        value="Призначити роль">
+
+                <button type="reset" class="btn btn-default"
+                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/user/index', array('id' => $user->id)); ?>',
+                            '<?=addslashes($user->userName())." <".$user->email.">";?>')">
+                    Скасувати
+                </button>
             </fieldset>
         </form>
     </div>
 </div>
-<script>
-    function setRole(){
-        var role = $jq("select[name=role] option:selected").val();
-        var user = $jq("#user").val();
-        $jq.ajax({
-            url: url,
-            type: 'post',
-            async: true,
-            data: {role: role, user: user},
-            success: function (response) {
-                if (response == "success") {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/user/index/id/" + teacher, '');
-                    });
-                } else {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            },
-            error: function () {
-                showDialog("Операцію не вдалося виконати.");
-            }
-        });
-    }
-</script>
 

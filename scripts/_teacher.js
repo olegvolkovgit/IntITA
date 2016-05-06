@@ -94,6 +94,30 @@ function reloadPage(event) {
     }
 }
 
+function setUserRole(url){
+    var role = $jq("select[name=role] option:selected").val();
+    var user = $jq("#user").val();
+    alert(role);
+    alert(user);
+    $jq.ajax({
+        url: url,
+        type: 'post',
+        async: true,
+        data: {role: role, user: user},
+        success: function (response) {
+            if (response == "success") {
+                bootbox.confirm("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/user/index/id/" + user, '');
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
 function setTeacherRole(url) {
     var role = $jq("select[name=role] option:selected").val();
     var teacher = $jq("#teacher").val();
@@ -169,7 +193,31 @@ function cancelTeacherRole(url, role, teacher) {
     });
 }
 
-function changeUserStatus(url, user, message) {
+function cancelUserRole(url, role, user, header) {
+    bootbox.confirm("Скасувати роль?", function (response) {
+        if (response) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {role: role, user: user},
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/user/index/id/" + user, header);
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
+function changeUserStatus(url, user, message, header) {
     bootbox.confirm(message, function (response) {
         if (response) {
             $jq.ajax({
@@ -178,7 +226,9 @@ function changeUserStatus(url, user, message) {
                 async: true,
                 data: {user: user},
                 success: function (result) {
-                    bootbox.confirm(result);
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/user/index/id/" + user, header);
+                    });
                 },
                 error: function () {
                     showDialog("Операцію не вдалося виконати.");

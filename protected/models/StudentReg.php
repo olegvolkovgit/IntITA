@@ -109,7 +109,7 @@ class StudentReg extends CActiveRecord
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country,
-            city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype, cancelled', 'safe'),
+            city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
             educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled', 'safe', 'on' => 'search'),
@@ -1186,7 +1186,17 @@ class StudentReg extends CActiveRecord
         return $this->status == self::ACTIVATED;
     }
 
-    public function isUserCancelled(){
-        return $this->status == self::ACTIVE;
+    public function isActive(){
+        return $this->cancelled == self::ACTIVE;
+    }
+
+    public function changeAccountStatus(){
+        $this->status = ($this->isAccountActivated())?StudentReg::NONACTIVE:StudentReg::ACTIVATED;
+        return $this->save(true, array('status'));
+    }
+
+    public function changeUserStatus(){
+        $this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
+        return $this->save(true, array('cancelled'));
     }
 }

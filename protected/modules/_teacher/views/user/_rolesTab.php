@@ -28,7 +28,8 @@ $user = $model->registrationData;
                         <a href="#"
                            onclick="cancelUserRole('<?= Yii::app()->createUrl("/_teacher/user/unsetUserRole"); ?>',
                                '<?= $role ?>',
-                               '<?= $user->id; ?>');"><em>скасувати</em>
+                               '<?= $user->id; ?>',
+                               '<?=addslashes($user->userName())." <".$user->email.">";?>');"><em>скасувати</em>
                         </a>
                     </li>
                 <?php } ?>
@@ -36,3 +37,6 @@ $user = $model->registrationData;
         <?php } ?>
     </div>
 </div>
+<script>
+
+</script>

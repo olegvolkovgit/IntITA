@@ -49,7 +49,8 @@ $user = $model->registrationData;
                     <button type="button" class="btn btn-outline btn-primary btn-xs"
                         onclick="changeUserStatus('<?=Yii::app()->createUrl("/_teacher/user/changeAccountStatus");?>',
                             '<?=$user->id?>',
-                            '<?=($user->isAccountActivated())?"Заблокувати акаунт користувача?":"Активувати акаунт користувача?";?>');
+                            '<?=($user->isAccountActivated())?"Заблокувати акаунт користувача?":"Активувати акаунт користувача?";?>',
+                            '<?=addslashes($user->userName())." <".$user->email.">";?>');
                             return false;">
                         змінити
                     </button>
@@ -58,7 +59,8 @@ $user = $model->registrationData;
                     <button type="button" class="btn  btn-outline btn-primary btn-xs"
                             onclick="changeUserStatus('<?=Yii::app()->createUrl("/_teacher/user/changeUserStatus");?>',
                                 '<?=$user->id?>',
-                                '<?=($user->isAccountActivated())?"Заблокувати акаунт користувача?":"Активувати акаунт користувача?";?>');
+                                '<?=($user->isActive())?"Видалити користувача?":"Відновити користувача?";?>',
+                                '<?=addslashes($user->userName())." <".$user->email.">";?>');
                                 return false;">
                         змінити
                     </button>

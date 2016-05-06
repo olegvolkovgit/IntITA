@@ -23,7 +23,7 @@ class UserController extends TeacherCabinetController {
 
     public function actionAddRole($id){
         $model = RegisteredUser::userById($id);
-        $roles = AllRolesDataSource::roles();
+        $roles = array_diff(AllRolesDataSource::roles(), $model->getRoles());
 
         $this->renderPartial('addUserRole', array(
             'model' => $model,
@@ -31,23 +31,41 @@ class UserController extends TeacherCabinetController {
         ), false, true);
     }
 
-    //todo
     public function actionChangeAccountStatus(){
-
+        $user = Yii::app()->request->getPost('user', '0');
+        $model = StudentReg::model()->findByPk($user);
+        if($model){
+            if($model->changeAccountStatus()){
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
+            }
+        } else {
+            echo "Неправильний запит. Такого користувача не існує.";
+        }
     }
 
-    //todo
     public function actionChangeUserStatus(){
-
+        $user = Yii::app()->request->getPost('user', '0');
+        $model = StudentReg::model()->findByPk($user);
+        if($model){
+            if($model->changeUserStatus()){
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
+            }
+        } else {
+            echo "Неправильний запит. Такого користувача не існує.";
+        }
     }
 
     public function actionUnsetUserRole(){
-        $user = Yii::app()->request->getPost('userId', '0');
+        $user = Yii::app()->request->getPost('user', '0');
         $role = Yii::app()->request->getPost('role', '');
         if($user && $role){
             $model = RegisteredUser::userById($user);
             $roleModel = Role::getInstance($role);
-            if(!$roleModel->checkBeforeDeleteRole($user->registrationData)){
+            if(!$roleModel->checkBeforeDeleteRole($model->registrationData)){
                 echo $roleModel->getErrorMessage();
             } else {
                 if ($model->cancelRole(new UserRoles($role))) {
@@ -81,7 +99,6 @@ class UserController extends TeacherCabinetController {
         }
     }
 
-    //todo
     public function actionSetUserRole()
     {
         $id = Yii::app()->request->getPost('user', 0);
