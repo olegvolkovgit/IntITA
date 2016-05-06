@@ -58,5 +58,20 @@ angular
                 });
                 return promise;
             };
+
+            this.getApprovedBranchRevisions  = function(idRevision) {
+                var promise = $http({
+                    url: basePath+'/revision/buildApprovedLectureRevisions',
+                    method: "POST",
+                    data: $.param({idRevision: idRevision}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені затвердженої гілки ревізії. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
         }
     ]);

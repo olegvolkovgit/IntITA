@@ -540,7 +540,20 @@ class RevisionController extends Controller {
 
         echo $json;
     }
+    //build revisions tree in branch from approved lecture
+    public function actionBuildApprovedLectureRevisions() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->findByPk(array("id_revision" => $idRevision));
+        //get revision which is approved
+        $approvedRevision = $lectureRev->getApprovedRevision();
+        $relatedRev = $lectureRev->getRelatedLecturesFromApproved();
+        $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
+        //make id_parent of approved revision as id_revision
+        $relatedTree[$approvedRevision->id_revision]=$approvedRevision->id_revision;
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
 
+        echo $json;
+    }
     public function actionShowRevision($idRevision) {
         $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
 

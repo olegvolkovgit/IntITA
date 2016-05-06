@@ -430,6 +430,13 @@ class RevisionLecture extends CActiveRecord
     public function getRelatedLectures() {
         return RevisionLecture::model()->with('properties')->findAllByPk($this->getRelatedIdList());
     }
+    /**
+     * Returns related revisions list from approved revision
+     * @return RevisionLecture[]
+     */
+    public function getRelatedLecturesFromApproved() {
+        return RevisionLecture::model()->with('properties')->findAllByPk($this->getRelatedIdListFromApproved());
+    }
 
     /**
      * Creates new revision from existing lecture
@@ -871,6 +878,31 @@ class RevisionLecture extends CActiveRecord
         return $idArray;
     }
 
+    private function getRelatedIdListFromApproved () {
+        //get list of ids of all lectures in the module.
+        $allIdList = Yii::app()->db->createCommand()
+            ->select('id_revision, id_parent')
+            ->from('vc_lecture')
+            ->where('id_module='.$this->id_module)
+            ->queryAll();
+
+        $quickUnion = $this->getQuickUnionStructure($allIdList);
+        //make id_parent of approved revision as id_revision
+        $quickUnion[$this->getApprovedRevision()->id_revision]=$this->getApprovedRevision()->id_revision;
+
+        // pushing in resulting array only the keys, which have the same root as $this
+        $thisRoot = $this->getQURoot($quickUnion, $this->id_revision);
+
+        $idArray = array();
+        foreach ($quickUnion as $key => $value) {
+            if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
+                array_push($idArray, $key);
+            }
+        }
+
+        return $idArray;
+    }
+
     /**
      * Return order of the last page
      * @return int
@@ -1016,6 +1048,18 @@ class RevisionLecture extends CActiveRecord
         $criteria->with = array('properties');
         $criteria->order = 'properties.approve_date DESC';
         $criteria->addCondition('properties.id_user_approved IS NOT NULL');
+        $criteria->limit = 1;
+        $revisions = RevisionLecture::model()->find($criteria);
+        return isset($revisions)?$revisions:null;
+    }
+    public function getApprovedRevision() {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'vc_lecture';
+        $criteria->condition = 'id_lecture=' . $this->id_lecture;
+        $criteria->with = array('properties');
+        $criteria->order = 'properties.approve_date DESC';
+        $criteria->addCondition('properties.id_user_approved IS NOT NULL and
+         properties.id_user_cancelled IS NULL');
         $criteria->limit = 1;
         $revisions = RevisionLecture::model()->find($criteria);
         return isset($revisions)?$revisions:null;
