@@ -641,7 +641,7 @@ class LessonController extends Controller
         $moduleTitle = $title;
 
         foreach ($iterator as $key =>$item) {
-            if (Lecture::accessLecture($item->id, $item->order, $enabledLessonOrder)) {
+            if ($item->hasAccessLecture($enabledLessonOrder)) {
                 if($item->id==$idLecture) $currentOrder=$key+1;
                 $lectures[$key]['access'] = true;
                 $lectures[$key]['order'] = $item->order;

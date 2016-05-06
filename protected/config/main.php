@@ -34,7 +34,7 @@ return array(
         'application.components.*',
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
-        //'ext.yii2-debug.*',
+       // 'ext.yii2-debug.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
@@ -52,6 +52,7 @@ return array(
         '_admin',
         '_teacher',
         '_accountancy',
+        //'debug',
     ),
 
     // application components
