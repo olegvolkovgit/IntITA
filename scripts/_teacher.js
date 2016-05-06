@@ -41,7 +41,7 @@ function createAccount(url, course, module) {
             url: url,
             data: {
                 payment: schema,
-                course : course,
+                course: course,
                 educationForm: educationForm,
                 module: module
             },
@@ -49,7 +49,7 @@ function createAccount(url, course, module) {
             success: function (id) {
                 load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
             },
-            error: function(){
+            error: function () {
                 bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
                     adminEmail);
             }
@@ -94,7 +94,7 @@ function reloadPage(event) {
     }
 }
 
-function setUserRole(url){
+function setUserRole(url) {
     var role = $jq("select[name=role] option:selected").val();
     var user = $jq("#user").val();
     alert(role);
@@ -216,6 +216,38 @@ function cancelUserRole(url, role, user, header) {
         }
     });
 }
+
+
+function addStudentAttr(url, user, header, type) {
+    value = $jq('#value').val();
+    if(type == 'module') {
+        module = value;
+        course = 0;
+    } else if(type == 'course') {
+        module = 0;
+        course = value;
+    }
+    if (value != 0) {
+        $jq.ajax({
+            url: url,
+            type: 'post',
+            async: true,
+            data: {user: user, module: module, course: course},
+            success: function (result) {
+                bootbox.confirm(result, function () {
+                    load(basePath + "/_teacher/user/index/id/" + user, header);
+                });
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+
+        })
+    } else {
+        bootbox.alert('Виберіть курс чи модуль!');
+    }
+}
+
 
 function changeUserStatus(url, user, message, header) {
     bootbox.confirm(message, function (response) {
@@ -707,19 +739,20 @@ function checkMandatory() {
     }
 }
 
-function  initInvoicesTable(id){
+function initInvoicesTable(id) {
     $jq('#invoicesTable').DataTable({
         "autoWidth": false,
         "order": [[2, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getInvoicesByAgreement",
             "dataSrc": "data",
-            "data" : { id : id}
+            "data": {id: id}
         },
         "columns": [
-            {  "data": "title",
+            {
+                "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             {"data": "summa"},
@@ -825,7 +858,7 @@ function initPayCoursesList() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -859,7 +892,7 @@ function initPayModulesTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -894,7 +927,7 @@ function initAgreementsTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"]+ '</a>';
+                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"] + '</a>';
                 }
             },
             {"data": "schema"},
@@ -908,7 +941,7 @@ function initAgreementsTable() {
                 "width": "15%",
                 "data": "invoices",
                 "render": function (invoices) {
-                    return '<a href="#" onclick="load('+ invoices["url"] + ',\'' + invoices["name"]+ '\');">рахунки</a>';
+                    return '<a href="#" onclick="load(' + invoices["url"] + ',\'' + invoices["name"] + '\');">рахунки</a>';
                 }
             }
         ],

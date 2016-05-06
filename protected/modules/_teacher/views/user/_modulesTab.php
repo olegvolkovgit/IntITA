@@ -10,8 +10,6 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
     <div class="panel-body">
         <div class="row">
             <form>
-                <input type="number" hidden="hidden" value="<?= $user->id; ?>" id="user">
-                <input type="text" hidden="hidden" value="student" id="role">
                 <div class="col col-md-6">
                     <input type="number" hidden="hidden" id="value" value="0"/>
                     <input id="typeaheadModule" type="text" class="form-control" name="module" placeholder="Назва модуля"
@@ -19,8 +17,10 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
                 </div>
                 <div class="col col-md-2">
                     <button type="button" class="btn btn-success"
-                            onclick="addStudentAttr('<?php //todo echo Yii::app()->createUrl('/_teacher/user/setStudentRoleAttribute'); ?>',
-                                'module', '#value')">
+                            onclick="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payModule'); ?>',
+                                '<?= $user->id; ?>',
+                                '<?=addslashes($user->userName())." <".$user->email.">";?>',
+                                'module')">
                         Сплатити модуль
                     </button>
                 </div>
@@ -91,7 +91,7 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
     });
 
     $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
-        $jq("#module").val(item.id);
+        $jq("#value").val(item.id);
     });
 </script>
 

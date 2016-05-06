@@ -19,8 +19,10 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                 </div>
                 <div class="col col-md-2">
                     <button type="button" class="btn btn-success"
-                            onclick="addStudentAttr('<?php //todo echo Yii::app()->createUrl('/_teacher/user/setStudentRoleAttribute'); ?>',
-                                'course', '#value')">
+                            onclick="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payCourse'); ?>',
+                                '<?= $user->id; ?>',
+                                '<?=addslashes($user->userName())." <".$user->email.">";?>',
+                                'course')">
                         Сплатити курс
                     </button>
                 </div>
@@ -110,7 +112,7 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
     });
 
     $jq('#typeaheadCourse').on('typeahead:selected', function (e, item) {
-        $jq("#course").val(item.id);
+        $jq("#value").val(item.id);
     });
 </script>
 

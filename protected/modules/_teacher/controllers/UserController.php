@@ -115,24 +115,4 @@ class UserController extends TeacherCabinetController {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
         }
     }
-
-    //todo
-    public function actionSetStudentRoleAttribute(){
-        $request = Yii::app()->request;
-        $userId = $request->getPost('user', 0);
-        $role = $request->getPost('role', '');
-        $attribute = $request->getPost('attribute', '');
-        $value = $request->getPost('attributeValue', 0);
-        $user = RegisteredUser::userById($userId);
-
-        if ($userId && $attribute && $value && $role) {
-            if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
-                echo "success";
-            } else {
-                echo "error";
-            }
-        } else {
-            echo "error";
-        }
-    }
 }
