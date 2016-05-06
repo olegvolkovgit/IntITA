@@ -285,7 +285,7 @@ function  initAuthorsTableCM(){
 }
 
 function initConsultantsTable(){
-    $jq('#statusOfCourseTable').DataTable({
+    $jq('#consultantsTable').DataTable({
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
