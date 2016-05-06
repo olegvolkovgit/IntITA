@@ -431,13 +431,6 @@ class RevisionLecture extends CActiveRecord
     public function getRelatedLectures() {
         return RevisionLecture::model()->with('properties')->findAllByPk($this->getRelatedIdList());
     }
-    /**
-     * Returns related revisions list from approved revision
-     * @return RevisionLecture[]
-     */
-    public function getRelatedLecturesFromApproved() {
-        return RevisionLecture::model()->with('properties')->findAllByPk($this->getRelatedIdListFromApproved());
-    }
 
     /**
      * Creates new revision from existing lecture
@@ -879,8 +872,7 @@ class RevisionLecture extends CActiveRecord
 
         return $idArray;
     }
-
-    private function getRelatedIdListFromApproved () {
+    public function getQuickUnionRevisions () {
         //get list of ids of all lectures in the module.
         $allIdList = Yii::app()->db->createCommand()
             ->select('id_revision, id_parent')
@@ -889,12 +881,12 @@ class RevisionLecture extends CActiveRecord
             ->queryAll();
 
         $quickUnion = $this->getQuickUnionStructure($allIdList);
-        //make id_parent of approved revision as id_revision
-        $quickUnion[$this->getApprovedRevision()->id_revision]=$this->getApprovedRevision()->id_revision;
+        return $quickUnion;
+    }
 
+    public function getRelatedIdListInBranch ($quickUnion) {
         // pushing in resulting array only the keys, which have the same root as $this
         $thisRoot = $this->getQURoot($quickUnion, $this->id_revision);
-
         $idArray = array();
         foreach ($quickUnion as $key => $value) {
             if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
@@ -904,6 +896,38 @@ class RevisionLecture extends CActiveRecord
 
         return $idArray;
     }
+
+    public function getRelatedIdListFromApproved ($quickUnion, $idApprovedRevision) {
+        // make id_parent of approved revision as id_revision
+        $quickUnion[$idApprovedRevision]=$idApprovedRevision;
+
+        // pushing in resulting array only the keys, which have the same root as $this
+        $thisRoot=$idApprovedRevision;
+        $idArray = array();
+        foreach ($quickUnion as $key => $value) {
+            if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
+                array_push($idArray, $key);
+            }
+        }
+
+        return $idArray;
+    }
+
+//    private function getRelatedIdListFromApproved ($id) {
+//        //make id_parent of approved revision as id_revision
+//        $quickUnion[$id]=$id;
+//
+//        // pushing in resulting array only the keys, which have the same root as $this
+//        $thisRoot=$id;
+//        $idArray = array();
+//        foreach ($quickUnion as $key => $value) {
+//            if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
+//                array_push($idArray, $key);
+//            }
+//        }
+//
+//        return $idArray;
+//    }
 
     /**
      * Return order of the last page
@@ -1054,28 +1078,16 @@ class RevisionLecture extends CActiveRecord
 //        $revisions = RevisionLecture::model()->find($criteria);
 //        return isset($revisions)?$revisions:null;
 //    }
-    public static function getParentRevisionForLecture($idLecture) {
+    public function getApprovedRevision($array) {
         $criteria = new CDbCriteria;
         $criteria->alias = 'vc_lecture';
-        $criteria->condition = 'id_lecture=' . $idLecture;
-        $criteria->with = array('properties');
-        $criteria->order = 'properties.approve_date DESC';
-        $criteria->addCondition('properties.id_user_approved IS NOT NULL');
-        $criteria->limit = 1;
-        $revisions = RevisionLecture::model()->find($criteria);
-        return isset($revisions)?$revisions:null;
-    }
-    public function getApprovedRevision() {
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'vc_lecture';
-        $criteria->condition = 'id_lecture=' . $this->id_lecture;
+        $criteria->addInCondition('id_revision', $array, 'OR');
         $criteria->with = array('properties');
         $criteria->order = 'properties.approve_date DESC';
         $criteria->addCondition('properties.id_user_approved IS NOT NULL and
          properties.id_user_cancelled IS NULL');
         $criteria->limit = 1;
-        $revisions = RevisionLecture::model()->find($criteria);
-        return isset($revisions)?$revisions:null;
+        return RevisionLecture::model()->find($criteria);
     }
 
     //Create directory for lecture template
