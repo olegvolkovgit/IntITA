@@ -733,7 +733,7 @@ class Module extends CActiveRecord implements IBillableObject
         $this->title_en = $titleEn;
 
         if ($this->save()) {
-            $this->alias = $this->module_ID;
+            //$this->alias = $this->module_ID;
             $this->module_img = "module.png";
             $this->update(array('alias', 'module_img'));
 
