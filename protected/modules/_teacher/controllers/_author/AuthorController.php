@@ -8,12 +8,12 @@ class AuthorController extends TeacherCabinetController
 
     public function actionModules($id)
     {
-        $consultant = RegisteredUser::userById($id);
-        $modules = $consultant->getAttributesByRole(UserRoles::AUTHOR)["module"];
+        $author = RegisteredUser::userById($id);
+        $modules = $author->getAttributesByRole(UserRoles::AUTHOR)["module"];
 
-        $this->renderPartial('/_consultant/_modules', array(
+        $this->renderPartial('/_author/_modules', array(
             'attribute' => $modules,
-            'user' => $consultant
+            'user' => $author
         ), false, true);
     }
 }

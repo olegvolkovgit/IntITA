@@ -35,9 +35,9 @@ class Author extends Role
     public function attributes(StudentReg $user)
     {
         $records = Yii::app()->db->createCommand()
-            ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time')
+            ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time, m.cancelled')
             ->from('teacher_module tm')
-            ->join('module m', 'm.module_ID=tm.idModule')
+            ->leftJoin('module m', 'm.module_ID=tm.idModule')
             ->where('idTeacher=:id', array(':id' => $user->id))
             ->queryAll();
 
@@ -48,6 +48,7 @@ class Author extends Role
             $row["start_date"] = $record['start_time'];
             $row["end_date"] = $record['end_time'];
             $row["lang"] = $record['language'];
+            $row["cancelled"] = $record['cancelled'];
             array_push($list, $row);
         }
 
