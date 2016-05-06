@@ -158,9 +158,9 @@ class UserContentManager extends CActiveRecord
 			$row["name"]["title"] = $record['title_ua'];
 			$row["lesson"]["title"] = $record["lesson_count"];
 			$tmp=UserContentManager::counter($record['module_ID']);
-			$row["video"]=$tmp;
-			$row["test"]=2;
-			$row["part"]=3;
+			$row["video"]=$record['module_ID'];
+			$row["test"]=$record['days_in_week'];
+			$row["part"]=$record['module_price'];
 			array_push($return['data'], $row);
 		}
 
