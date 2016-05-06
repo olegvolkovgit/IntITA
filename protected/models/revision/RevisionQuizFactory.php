@@ -170,7 +170,7 @@ class RevisionQuizFactory {
     public static function cloneQuiz($lectureElementOld, $lectureElementNew) {
         switch ($lectureElementOld->id_type) {
             case LectureElement::PLAIN_TASK :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
+                $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
                 return $test->cloneTest($lectureElementNew->id);
                 break;
             case LectureElement::TEST :
@@ -254,7 +254,7 @@ class RevisionQuizFactory {
                         }
                         break;
                     case LectureElement::TASK :
-                        $test = Task::model()->findByAttributes(array('block_element' => $element));
+                        $test = Task::model()->findByAttributes(array('condition' => $element));
                         if ($test) {
                             $test->delete();
                         }
@@ -307,7 +307,7 @@ class RevisionQuizFactory {
                 $oldTask = SkipTask::model()->findByAttributes(['condition' => $lectureElement->id_block]);
                 $questionLE = $oldTask->question0;
                 $answers = [];
-                foreach ($oldTask->answers as $answer) {
+                foreach ($oldTask->skipTaskAnswers   as $answer) {
                     array_push($answers, ['value' => $answer->answer, 'caseInSensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
                 }
                 return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $oldTask->id);

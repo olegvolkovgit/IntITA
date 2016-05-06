@@ -13,6 +13,7 @@
  * The followings are the available model relations:
  * @property RevisionLectureProperties $properties
  * @property RevisionLecturePage[] $lecturePages
+ * @property RevisionLecture $parent
  */
 class RevisionLecture extends CActiveRecord
 {
@@ -49,6 +50,7 @@ class RevisionLecture extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision'=>'id_parent']),
 			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', 'id'),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
@@ -347,13 +349,12 @@ class RevisionLecture extends CActiveRecord
 
                 $transaction = Yii::app()->db->beginTransaction();
                 try {
-//                    canceled old revision when aprroved new
+//                    cancels old revision when new one approves
                     if($this->id_lecture){
-                        $oldRevision=RevisionLecture::getParentRevisionForLecture($this->id_lecture);
-                        if($oldRevision){
-                            $oldRevision->properties->end_date = new CDbExpression('NOW()');
-                            $oldRevision->properties->id_user_cancelled = $user->getId();
-                            $oldRevision->properties->saveCheck();
+                        if ($this->parent) {
+                            $this->parent->properties->end_date = new CDbExpression('NOW()');
+                            $this->parent->properties->id_user_cancelled = $user->getId();
+                            $this->parent->properties->saveCheck();
                         }
                     }
 
@@ -789,6 +790,7 @@ class RevisionLecture extends CActiveRecord
             $oldLectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
 
             $quizes = [];
+
             foreach ($oldLectureElements as $oldLectureElement) {
 
                 if ($oldLectureElement->isQuiz()) {
@@ -797,11 +799,11 @@ class RevisionLecture extends CActiveRecord
                     }
                     array_push($quizes[$oldLectureElement->id_type], $oldLectureElement->id_block);
                 }
-
-                $oldLectureElement->delete();
             }
 
             RevisionQuizFactory::deleteFromRegularDB($quizes);
+
+            LectureElement::model()->deleteAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
 
             $oldLecture->delete();
             $oldLecture->removeOldTemplatesDirectory();
@@ -1041,6 +1043,17 @@ class RevisionLecture extends CActiveRecord
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
     }
 
+//    public static function getParentRevisionForLecture($idLecture) {
+//        $criteria = new CDbCriteria;
+//        $criteria->alias = 'vc_lecture';
+//        $criteria->condition = 'id_lecture=' . $idLecture;
+//        $criteria->with = array('properties');
+//        $criteria->order = 'properties.approve_date DESC';
+//        $criteria->addCondition('properties.id_user_approved IS NOT NULL');
+//        $criteria->limit = 1;
+//        $revisions = RevisionLecture::model()->find($criteria);
+//        return isset($revisions)?$revisions:null;
+//    }
     public static function getParentRevisionForLecture($idLecture) {
         $criteria = new CDbCriteria;
         $criteria->alias = 'vc_lecture';
