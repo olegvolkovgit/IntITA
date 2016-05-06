@@ -122,7 +122,7 @@ function initUsersTable() {
             {
                 data: "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'' + email["title"]+ '\');">' + email["title"]+ '</a>';
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'' + email["header"]+ '\');">' + email["title"]+ '</a>';
                 }
             },
             {
