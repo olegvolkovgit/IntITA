@@ -106,4 +106,27 @@ class PermissionsController extends TeacherCabinetController
     {
         echo TeacherConsultant::teacherConsultantsByQuery($query);
     }
+
+
+    public function actionUnsetTeacherRoleAttribute()
+    {
+        $request = Yii::app()->request;
+        $userId = $request->getPost('user', 0);
+        $role = $request->getPost('role', '');
+        $attribute = $request->getPost('attribute', '');
+        $value = $request->getPost('attributeValue', 0);
+
+        $user = RegisteredUser::userById($userId);
+
+        if ($userId && $attribute && $value && $role) {
+            $model = new Consultant();
+            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
+                echo "success";
+            } else {
+                echo "error";
+            }
+        } else {
+            echo "error";
+        }
+    }
 }
