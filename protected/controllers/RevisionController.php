@@ -541,6 +541,7 @@ class RevisionController extends Controller {
         echo $json;
     }
     //build revisions tree in branch from approved lecture
+    //todo refactor
     public function actionBuildApprovedLectureRevisions() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->findByPk($idRevision);
