@@ -501,7 +501,6 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel($user);
-
         $lectureRev->deleteLectureFromRegularDB();
     }
 
@@ -541,7 +540,32 @@ class RevisionController extends Controller {
 
         echo $json;
     }
+    //build revisions tree in branch from approved lecture
+    public function actionBuildApprovedLectureRevisions() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->findByPk($idRevision);
 
+        $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
+
+        $quickUnion=$lectureRev->getQuickUnionRevisions();
+        $branchRevisionsId=$lectureRev->getRelatedIdListInBranch($quickUnion);
+        //get revision which is approved
+        $approvedRevision=$lectureRev->getApprovedRevision($branchRevisionsId);
+        if($approvedRevision){
+            $branchRevisionsIdFromApproved=$lectureRev->getRelatedIdListFromApproved($quickUnion,$approvedRevision->id_revision);
+            $relatedTree[$approvedRevision->id_revision]=$approvedRevision->id_revision;
+        }else{
+            $branchRevisionsIdFromApproved=[];
+        }
+
+        $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($branchRevisionsIdFromApproved);
+
+        //make id_parent of approved revision as id_revision
+
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+
+        echo $json;
+    }
     public function actionShowRevision($idRevision) {
         $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
 

@@ -55,7 +55,7 @@
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
                         <a href="#"
-                           onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>',
+                           onclick="cancelModuleAttrCM('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>',
                                '<?= $item["id"] ?>', '<?= $attribute["key"] ?>'); return false;">
                             скасувати
                         </a>

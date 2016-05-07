@@ -5,7 +5,23 @@ angular
     .module('revisionTreesApp')
     .controller('revisionTreesCtrl',revisionTreesCtrl);
 
-function revisionTreesCtrl($compile, $rootScope, $scope) {
+function revisionTreesCtrl($compile, $rootScope, $scope, revisionsTree) {
+    if (typeof idRevision!='undefined') {
+        $scope.loadApprovedTree = function (approvedCheck) {
+            if (approvedCheck) {
+                revisionsTree.getApprovedBranchRevisions(idRevision).then(function (response) {
+                    $rootScope.revisionsJson = response;
+                    $scope.treeUpdate();
+                });
+            } else {
+                revisionsTree.getRevisionsBranch(idRevision).then(function (response) {
+                    $rootScope.revisionsJson = response;
+                    $scope.treeUpdate();
+                });
+            }
+        };
+    }
+
     //init tree after load json
     $scope.revisionsTreeInit= function(){
         $('#tree').treeview({
@@ -25,7 +41,9 @@ function revisionTreesCtrl($compile, $rootScope, $scope) {
             data: $scope.getTree(),
             levels: 0
         });
-        $('#tree').treeview('revealNode', [ parseInt(nodeId), { silent: true } ]);
+        if (nodeId) {
+            $('#tree').treeview('revealNode', [parseInt(nodeId), {silent: true}]);
+        }
         var template = angular.element(document.querySelector("#tree"));
         $compile(template)($scope);
     };

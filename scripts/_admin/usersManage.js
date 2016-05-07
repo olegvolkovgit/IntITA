@@ -114,20 +114,21 @@ function initUsersTable() {
         },
         "columns": [
             {
-                "data": "name"
+                data: "user",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(\'' + user["url"] + '\', \'' + user["header"]+ '\');">' + user["name"]+ '</a>';
+                }
             },
-            {"data": "email"},
+            {
+                data: "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'' + email["header"]+ '\');">' + email["title"]+ '</a>';
+                }
+            },
             {
                 type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
-            },
-            {
-                "width": "20%",
-                "data": "profile",
-                "render": function (url) {
-                    return '<a href="' + url + '" target="_blank">Профіль користувача</a>';
-                }
             },
             {
                 "width": "5%",
@@ -136,7 +137,15 @@ function initUsersTable() {
                     return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
                         '<i class="fa fa-envelope fa-fw"></i></a>';
                 }
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "addAccessLink",
+                "render": function (link) {
+                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">доступ</button>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
@@ -602,15 +611,26 @@ function initTenantsTable(){
 function initStudentsList() {
     return $jq('#studentsTable').DataTable( {
         "order": [[ 2, "desc" ]],
+        "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/users/getStudentsList",
             "dataSrc": "data"
         },
         "columns": [
-            { data: "student-name" },
-            { data: "email" },
             {
-                type: 'de_datetime', targets: 0,
+                data: "student",
+                "render": function (student) {
+                    return '<a href="#" onclick="load(\'' + student["url"] + '\', \'' + student["header"]+ '\');">' + student["name"]+ '</a>';
+                }
+            },
+            {
+                data: "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'' + email["title"]+ '\');">' + email["title"]+ '</a>';
+                }
+            },
+            {
+                "width": "12%",
                 data: "date"
             },
             { data: "trainer-name" },
@@ -619,6 +639,13 @@ function initStudentsList() {
                 data: "url",
                 "render": function (url) {
                     return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
+                }
+            },
+            {
+                "width": "10%",
+                "data": "addAccessLink",
+                "render": function (link) {
+                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">доступ</button>';
                 }
             }
         ],
