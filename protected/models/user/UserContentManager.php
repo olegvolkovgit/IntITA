@@ -183,14 +183,41 @@ class UserContentManager extends CActiveRecord
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
-	public function existOfVideoInPart($idParts,$idLesson){
+	public function existOfVideoInPart($idPart,$idLesson){
 
-		$sql = 'SELECT video FROM `lecture_page` where  `lecture_page`.`id_lecture`='.$idLesson.' AND `lecture_page`.`id` ='.$idParts;
+		$sql = 'SELECT video FROM `lecture_page` where  `lecture_page`.`id_lecture`='.$idLesson.' AND `lecture_page`.`id` ='.$idPart;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		if($result)
 		return true;
 		else
 			return false;
+	}
+	public function existOfTestInPart($idPart,$idLesson){
+
+		$sql = 'SELECT quiz FROM `lecture_page` where  `lecture_page`.`id_lecture`='.$idLesson.' AND `lecture_page`.`id` ='.$idPart;
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
+		if($result)
+			return true;
+		else
+			return false;
+	}
+	public function counterOfWordInPart($idPart,$idLesson){
+
+		$sql = 'SELECT * FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::INSTRUCTION . ',
+ 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')  AND `lecture_element`.`id_lecture`='.$idLesson.'AND `lecture_element`.`id_block`='.$idPart;
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$counter=0;
+		foreach($result as $record){
+			//$row = array();
+			//$row["name"]["title"] = $record['html_block'];
+			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
+			for($i=0;$i<(count($words)-1);$i++){
+				$counter++;
+			}
+		}
+		return 0;
 	}
 
 	public static function listOfCourses(){
@@ -239,8 +266,8 @@ class UserContentManager extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = $record['page_title'];
 			$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
-			$row["test"]=1;
-			$row["word"]=2;
+			$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
+			$row["word"]='не доделал 8-)';
 			array_push($return['data'], $row);
 		}
 		return json_encode($return);
