@@ -158,6 +158,24 @@ class UserContentManager extends CActiveRecord
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
+	public function counterOfWordInLesson($idLesson,$idModule){
+
+		$sql = 'SELECT * FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::INSTRUCTION . ',
+ 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ') and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$counter=0;
+		foreach($result as $record){
+			//$row = array();
+			//$row["name"]["title"] = $record['html_block'];
+			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
+			for($i=0;$i<(count($words)-1);$i++){
+				$counter++;
+			}
+		}
+		return $counter;
+	}
 	public function counterOfPartsInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
@@ -196,7 +214,7 @@ class UserContentManager extends CActiveRecord
 			$row["parts"] = UserContentManager::counterOfPartsInLesson($record["id"],$idModule);
 			$row["video"]=UserContentManager::counterOfVideoInLesson($record["id"],$idModule);
 			$row["tests"]=UserContentManager::counterOfTaskInLesson($record["id"],$idModule);
-//			$row["part"]=UserContentManager::counterOfParts($record["module_ID"]);
+			$row["word"]=UserContentManager::counterOfWordInLesson($record["id"],$idModule);
 			array_push($return['data'], $row);
 		}
 

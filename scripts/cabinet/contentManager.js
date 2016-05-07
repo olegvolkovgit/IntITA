@@ -395,6 +395,10 @@ function initLessonsListTable(idModule){
             {
                 type: 'number', targets: 1 ,
                 "data": "tests"
+            },
+            {
+                type: 'number', targets: 1 ,
+                "data": "word"
             }
          ],
         "createdRow": function (row, data, index) {
