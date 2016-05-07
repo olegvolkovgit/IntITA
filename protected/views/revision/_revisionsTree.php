@@ -8,10 +8,15 @@
     <input type="button" class="btn btn-secondary" value="Розгорнути дерево" ng-click="expandAll()">
     <input type="button" class="btn btn-secondary" value="Оновити дерево" ng-click="updateTree()">
     <div ng-show="approvedTree" style="display: inline-block">
-        <input type="checkbox" ng-model="approvedRevisions" ng-change="loadApprovedTree(approvedRevisions)" id="changeTree" />
-        <label for="changeTree">Затверджені ревізії</label>
+        <label>
+            <input type="radio" ng-checked=true ng-model="approvedRevisions" ng-change="loadTreeMode()" id="allTree" value="false">
+            Всі ревізії
+        </label>
+        <label>
+            <input type="radio" ng-model="approvedRevisions" ng-change="loadTreeMode()" id="approvedTree" value="true">
+            Затверджені ревізії
+        </label>
     </div>
-
 </div>
 <div id="tree">
 </div>

@@ -17,9 +17,13 @@ angular
                 });
                 return promise;
             };
-            this.getLectureRevisionsInModuleJson  = function(idModule) {
+            this.getLectureRevisionsInModuleJson  = function(idModule,approved) {
+                var url;
+                if(approved=='true') {
+                    url=basePath+'/revision/buildApprovedBranchPartInModule';
+                } else url=basePath+'/revision/buildRevisionsInModule';
                 var promise = $http({
-                    url: basePath+'/revision/buildRevisionsInModule',
+                    url: url,
                     method: "POST",
                     data: $.param({idModule: idModule}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -31,9 +35,14 @@ angular
                 });
                 return promise;
             };
-            this.getRevisionsBranch  = function(idRevision) {
+
+            this.getRevisionsBranch  = function(idRevision,approved) {
+                var url;
+                if(approved=='true') {
+                    url=basePath+'/revision/buildApprovedLectureRevisions';
+                } else url=basePath+'/revision/buildRevisionsBranch';
                 var promise = $http({
-                    url: basePath+'/revision/buildRevisionsBranch',
+                    url: url,
                     method: "POST",
                     data: $.param({idRevision: idRevision}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -45,6 +54,7 @@ angular
                 });
                 return promise;
             };
+
             this.getAllRevisionsJson = function() {
                 var promise = $http({
                     url: basePath+'/revision/buildAllRevisions',
@@ -54,35 +64,6 @@ angular
                     return response.data;
                 }, function errorCallback() {
                     bootbox.alert("Виникла помилка при завантажені списку ревізій. Зв'яжіться з адміністрацією");
-                    return false;
-                });
-                return promise;
-            };
-
-            this.getApprovedBranchRevisions  = function(idRevision) {
-                var promise = $http({
-                    url: basePath+'/revision/buildApprovedLectureRevisions',
-                    method: "POST",
-                    data: $.param({idRevision: idRevision}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback(response) {
-                    return response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені затвердженої гілки ревізії. Зв'яжіться з адміністрацією");
-                    return false;
-                });
-                return promise;
-            };
-            this.getApprovedBranchPartInModule  = function(idModule) {
-                var promise = $http({
-                    url: basePath+'/revision/buildApprovedBranchPartInModule',
-                    method: "POST",
-                    data: $.param({idModule: idModule}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback(response) {
-                    return response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені затверджених ревізій. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;

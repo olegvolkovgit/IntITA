@@ -169,6 +169,13 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             $scope.$parent.treeUpdate(nodeId);
         });
     };
+
+    $scope.updateTree = function() {
+        revisionsTree.getAllRevisionsJson().then(function(response){
+            $rootScope.revisionsJson=response;
+            $scope.revisionsTreeInit();
+        });
+    }
 }
 
 
