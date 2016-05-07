@@ -121,88 +121,45 @@ class UserContentManager extends CActiveRecord
 
 		return json_encode($return);
 	}
-	public function counter($id){
+	public function counterOfVideo($id){
 
-		//$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
-		$sql22 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
+		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
 		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
-		$course22 = Yii::app()->db->createCommand($sql22)->queryScalar();
-		return $course22;
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
+		return $result;
 	}
-	public function counter2($id){
+	public function counterOfTask($id){
 
-		//$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
 		$sql22 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
  		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$id;
-		$course22 = Yii::app()->db->createCommand($sql22)->queryScalar();
-		return $course22;
+		$result = Yii::app()->db->createCommand($sql22)->queryScalar();
+		return $result;
 	}
-	public function counter3($id){
+	public function counterOfParts($id){
 
-		//$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
 		$sql22 = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_page`.`id_lecture` where  `lectures`.`idModule`='.$id;
-		$course22 = Yii::app()->db->createCommand($sql22)->queryScalar();
-		return $course22;
+		$result = Yii::app()->db->createCommand($sql22)->queryScalar();
+		return $result;
 	}
 	public static function listOfCourses(){
 
-
-
-		//$sql2= new Lecture;
-		//$course = $sql2->statisticalName();
-		//$tmp =Module::model()->getTitle();
-		//$model = Module::model()->findByPk([1,2,3]);//получили один модуль полностью
-		//$model2 = new Module;
-		//$tmp = $model2->lectures;
-		//$tmp= $model->lectures;
-
-
-
-		//$r =$tmp->lectures;
-		//$dddd = new Module;
-		$sql = 'select * from module'; //рабочий лекции
-		$course = Yii::app()->db->createCommand($sql)->queryAll();//рабочий лекции
-		//SELECT COUNT(*) FROM `table` WHERE `field_1`='value_1'
+		$sql = 'select * from module'; 
+		$course = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
-
-		//$temporary2=14;
-			//$sql22 = 'SELECT COUNT(*) as counter FROM lectures ';
-			//$course22 = Yii::app()->db->createCommand($sql22)->queryAll();
-		//$num_rows = mysql_num_rows($course22);
 
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['title_ua'];
 			$row["lesson"]["title"] = $record["lesson_count"];
-			$tmp=UserContentManager::counter($record["module_ID"]);
-			$tmp2=UserContentManager::counter2($record["module_ID"]);
-			$tmp3=UserContentManager::counter3($record["module_ID"]);
-			$row["video"]=$tmp;
-			$row["test"]=$tmp2;
-			$row["part"]=$tmp3;
+			$row["video"]=UserContentManager::counterOfVideo($record["module_ID"]);
+			$row["test"]=UserContentManager::counterOfTask($record["module_ID"]);
+			$row["part"]=UserContentManager::counterOfParts($record["module_ID"]);
 			array_push($return['data'], $row);
 		}
 
 		return json_encode($return);
-//		$sql = 'select * from user as u, user_consultant as uc where u.id = uc.id_user';
-//		$consultants = Yii::app()->db->createCommand($sql)->queryAll();
-//		$return = array('data' => array());
-//
-//		foreach ($consultants as $record) {
-//			$row = array();
-//			$row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
-//			$row["email"]["title"] = $record["email"];
-//			$row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_content_manager/contentManager/showTeacher',
-//				array('id' => $record['id']));
-//			$row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
-//			$row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
-//			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'consultant', '".$record["id"]."', '9'";
-//			array_push($return['data'], $row);
-//		}
-//
-//		return json_encode($return);
 	}
 
 }
