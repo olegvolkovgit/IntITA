@@ -4,13 +4,12 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="statusOfLessonsTable">
+                <table class="table table-striped table-bordered table-hover" id="statusOfPartsTable">
                     <thead>
                     <tr>
-                        <th style="width:30%;" >Назва заняття</th>
-                        <th style="width:12%;">К-ть частин</th>
-                        <th style="width:12%;">К-ть відео</th>
-                        <th style="width:12%;">К-ть тестів</th>
+                        <th style="width:30%;" >Частина заняття</th>
+                        <th style="width:12%;">Наявність відео</th>
+                        <th style="width:12%;">Наявність тесту</th>
                         <th style="width:12%;">К-ть слів</th>
 
                     </tr>
@@ -23,5 +22,5 @@
     </div>
 </div>
 <script>
-    initLessonsListTable(<?=$idModule?>);
+    initPartsListTable(<?=$idLesson?>);
 </script>

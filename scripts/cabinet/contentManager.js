@@ -381,7 +381,7 @@ function initLessonsListTable(idModule){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showPartsList?idLesson=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
                 }},
             {
                 type: 'number', targets: 1 ,
@@ -401,6 +401,45 @@ function initLessonsListTable(idModule){
                 "data": "word"
             }
          ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initPartsListTable(idLesson){
+
+    $jq('#statusOfPartsTable').DataTable({
+
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getPartsList?idLesson="+idLesson,
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return name["title"];
+                }},
+            {
+                type: 'number', targets: 1 ,
+                "data": "video"
+            }
+            ,
+            {
+                type: 'number', targets: 1 ,
+                "data": "test"
+            }
+            ,
+            {
+                type: 'number', targets: 1 ,
+                "data": "word"
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },

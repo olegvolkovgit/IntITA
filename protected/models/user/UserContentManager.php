@@ -183,6 +183,16 @@ class UserContentManager extends CActiveRecord
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
+	public function existOfVideoInPart($idParts,$idLesson){
+
+		$sql = 'SELECT video FROM `lecture_page` where  `lecture_page`.`id_lecture`='.$idLesson.' AND `lecture_page`.`id` ='.$idParts;
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
+		if($result)
+		return true;
+		else
+			return false;
+	}
+
 	public static function listOfCourses(){
 
 		$sql = 'select * from module';
@@ -210,7 +220,7 @@ class UserContentManager extends CActiveRecord
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['title_ua'];
-//			$row["name"]["url"] = $record["module_ID"];
+			$row["name"]["url"] = $record["id"];
 			$row["parts"] = UserContentManager::counterOfPartsInLesson($record["id"],$idModule);
 			$row["video"]=UserContentManager::counterOfVideoInLesson($record["id"],$idModule);
 			$row["tests"]=UserContentManager::counterOfTaskInLesson($record["id"],$idModule);
@@ -218,6 +228,21 @@ class UserContentManager extends CActiveRecord
 			array_push($return['data'], $row);
 		}
 
+		return json_encode($return);
+	}
+	public static function listOfParts($idLesson){
+		$sql = 'select * from lecture_page where id_lecture='.$idLesson;
+		$course = Yii::app()->db->createCommand($sql)->queryAll();
+		$return = array('data' => array());
+
+		foreach($course as $record){
+			$row = array();
+			$row["name"]["title"] = $record['page_title'];
+			$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
+			$row["test"]=1;
+			$row["word"]=2;
+			array_push($return['data'], $row);
+		}
 		return json_encode($return);
 	}
 }

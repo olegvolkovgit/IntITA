@@ -191,12 +191,18 @@ class ContentManagerController extends TeacherCabinetController
 
 
     public function actionGetLessonsList($idModule) {
-        echo UserContentManager::listOfLessons($idModule);;
+        echo UserContentManager::listOfLessons($idModule);
     }
-
+    public function actionGetPartsList($idLesson) {
+        echo UserContentManager::listOfParts($idLesson);
+    }
     public function actionShowLessonsList($idModule) {
         $this->renderPartial('/_content_manager/_listOfLessons', array('idModule' => $idModule), false, true);
-       // $this->renderPartial('adfasf', ['idModule' => $idModule], false, true);
+
+    }
+    public function actionShowPartsList($idLesson) {
+        $this->renderPartial('/_content_manager/_listOfParts', array('idLesson' => $idLesson), false, true);
+
     }
 
 }
