@@ -386,6 +386,10 @@ function initLessonsListTable(idModule){
             {
                 type: 'number', targets: 1 ,
                 "data": "parts"
+            },
+            {
+                type: 'number', targets: 1 ,
+                "data": "video"
             }
          ],
         "createdRow": function (row, data, index) {
