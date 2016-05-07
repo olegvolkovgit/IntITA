@@ -123,8 +123,27 @@ class UserContentManager extends CActiveRecord
 	}
 	public function counter($id){
 
-		$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
-		$course22 = Yii::app()->db->createCommand($sql22)->queryAll();
+		//$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
+		$sql22 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
+		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
+		$course22 = Yii::app()->db->createCommand($sql22)->queryScalar();
+		return $course22;
+	}
+	public function counter2($id){
+
+		//$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
+		$sql22 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
+ 		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$id;
+		$course22 = Yii::app()->db->createCommand($sql22)->queryScalar();
+		return $course22;
+	}
+	public function counter3($id){
+
+		//$sql22 = 'SELECT COUNT(*) as counter FROM lectures WHERE idModule='.$id;
+		$sql22 = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_page`.`id_lecture` where  `lectures`.`idModule`='.$id;
+		$course22 = Yii::app()->db->createCommand($sql22)->queryScalar();
 		return $course22;
 	}
 	public static function listOfCourses(){
@@ -157,10 +176,12 @@ class UserContentManager extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = $record['title_ua'];
 			$row["lesson"]["title"] = $record["lesson_count"];
-			$tmp=UserContentManager::counter($record['module_ID']);
-			$row["video"]=$record['module_ID'];
-			$row["test"]=$record['days_in_week'];
-			$row["part"]=$record['module_price'];
+			$tmp=UserContentManager::counter($record["module_ID"]);
+			$tmp2=UserContentManager::counter2($record["module_ID"]);
+			$tmp3=UserContentManager::counter3($record["module_ID"]);
+			$row["video"]=$tmp;
+			$row["test"]=$tmp2;
+			$row["part"]=$tmp3;
 			array_push($return['data'], $row);
 		}
 
