@@ -566,6 +566,27 @@ class RevisionController extends Controller {
 
         echo $json;
     }
+    public function actionBuildApprovedBranchPartInModule() {
+        $idModule = Yii::app()->request->getPost('idModule');
+        $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
+        $relatedTree = RevisionLecture::getLecturesTree($idModule);
+
+        $approvedRevisions=RevisionLecture::getApprovedRevisionsInModule($idModule);
+        $quickUnion=$lectureRev[0]->getQuickUnionRevisions();
+        if($approvedRevisions){
+            $moduleRevisions=[];
+            foreach($approvedRevisions as $branch){
+                $moduleRevisions=array_merge($moduleRevisions, $branch->getRelatedIdListFromApproved($quickUnion,$branch->id_revision));
+                $relatedTree[$branch->id_revision]=$branch->id_revision;
+            }
+        }else{
+            $moduleRevisions=[];
+        }
+        $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+
+        echo $json;
+    }
     public function actionShowRevision($idRevision) {
         $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
 
@@ -978,7 +999,8 @@ class RevisionController extends Controller {
             $data[$key]['revisionsLink'] = Yii::app()->createUrl('/revision/editLecture',array('idLecture'=>$lecture->id));
             $data[$key]['lecturePreviewLink'] = Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => 0));
             $lectureRev = RevisionLecture::model()->with('parent')->findByAttributes(["id_lecture" => $lecture->id]);
-            $data[$key]['approvedFromRevision'] = ($lectureRev && $lectureRev->parent)?$lectureRev->parent->id_revision:null;
+            $data[$key]['approvedFromRevision'] = RevisionLecture::getParentRevisionForLecture($lecture->id)?RevisionLecture::getParentRevisionForLecture($lecture->id)->id_revision:null;
+//                ($lectureRev && $lectureRev->parent)?$lectureRev->parent->id_revision:null;
         }
         echo CJSON::encode($data);
     }

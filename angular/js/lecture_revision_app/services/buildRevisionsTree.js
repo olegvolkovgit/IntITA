@@ -73,5 +73,19 @@ angular
                 });
                 return promise;
             };
+            this.getApprovedBranchPartInModule  = function(idModule) {
+                var promise = $http({
+                    url: basePath+'/revision/buildApprovedBranchPartInModule',
+                    method: "POST",
+                    data: $.param({idModule: idModule}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені затверджених ревізій. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
         }
     ]);

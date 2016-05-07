@@ -6,6 +6,7 @@ angular
     .controller('moduleLecturesRevisionsCtrl',moduleLecturesRevisionsCtrl);
 
 function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
+    $scope.approvedTree=true;
     //load current lectures from main BD
     revisionsTree.getCurrentLectures(idModule).then(function (response) {
         $scope.currentLectures = response;

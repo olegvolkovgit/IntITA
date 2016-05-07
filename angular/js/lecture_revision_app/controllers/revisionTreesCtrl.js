@@ -22,6 +22,22 @@ function revisionTreesCtrl($compile, $rootScope, $scope, revisionsTree) {
         };
     }
 
+    if (typeof idModule!='undefined') {
+        $scope.loadApprovedTree = function (approvedCheck) {
+            if (approvedCheck) {
+                revisionsTree.getApprovedBranchPartInModule(idModule).then(function (response) {
+                    $rootScope.revisionsJson = response;
+                    $scope.treeUpdate();
+                });
+            } else {
+                revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function (response) {
+                    $rootScope.revisionsJson = response;
+                    $scope.treeUpdate();
+                });
+            }
+        };
+    }
+
     //init tree after load json
     $scope.revisionsTreeInit= function(){
         $('#tree').treeview({

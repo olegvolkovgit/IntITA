@@ -6,7 +6,7 @@ angular
     .controller('revisionsBranchCtrl',revisionsBranchCtrl);
 
 function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
-    $scope.branch=true;
+    $scope.approvedTree=true;
     //init tree after load json
     revisionsTree.getRevisionsBranch(idRevision).then(function(response){
         $rootScope.revisionsJson=response;
