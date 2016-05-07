@@ -8,7 +8,7 @@
                     <thead>
                     <tr>
                         <th style="width:30%;" >Назва модуля</th>
-                        <th style="width:12%;">К-ть лекцій</th>
+                        <th style="width:12%;">К-ть занять</th>
                         <th style="width:12%;">К-ть відео</th>
                         <th style="width:12%;">К-ть тестів</th>
                         <th style="width:12%;">К-ть частин</th>
