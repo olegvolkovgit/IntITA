@@ -6,6 +6,7 @@
     <input type="button" class="btn btn-secondary" value="Очистити пошук" ng-click="clearSearch()">
     <input type="button" class="btn btn-secondary" value="Згорнути дерево" ng-click="collapseAll()">
     <input type="button" class="btn btn-secondary" value="Розгорнути дерево" ng-click="expandAll()">
+    <input type="button" class="btn btn-secondary" value="Оновити дерево" ng-click="updateTree()">
     <div ng-show="approvedTree" style="display: inline-block">
         <input type="checkbox" ng-model="approvedRevisions" ng-change="loadApprovedTree(approvedRevisions)" id="changeTree" />
         <label for="changeTree">Затверджені ревізії</label>

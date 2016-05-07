@@ -939,6 +939,9 @@ class RevisionController extends Controller {
         $lecture['canApprove']=$lectureRevision->canApprove();
         $lecture['canCancelRevision']=$lectureRevision->canCancelRevision();
         $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
+        $lecture['link']=
+            $lecture['canCancelRevision']?
+                Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;
 
         $data['lecture']=$lecture;
         $data['pages']=$pages;

@@ -569,7 +569,7 @@ class RevisionLecture extends CActiveRecord
             return "Скасована";
         }
         if ($this->isApproved()) {
-            return "Затвердженна";
+            return "Затверджена";
         }
         if ($this->isRejected()) {
             return "Відхилена";
