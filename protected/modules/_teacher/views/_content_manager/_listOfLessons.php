@@ -8,10 +8,11 @@
                     <thead>
                     <tr>
                         <th style="width:30%;" >Назва заняття</th>
-                        <th style="width:12%;">Середня к-ть слів</th>
+                        <th style="width:12%;">К-ть частин</th>
+                        <th style="width:18%;">Середня к-ть слів</th>
                         <th style="width:12%;">К-ть відео</th>
                         <th style="width:12%;">К-ть тестів</th>
-                        <th style="width:12%;">К-ть частин</th>
+
                     </tr>
                     </thead>
                     <tbody>

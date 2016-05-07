@@ -382,7 +382,11 @@ function initLessonsListTable(idModule){
                 "data": "name",
                 "render": function (name) {
                     return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
-                }}
+                }},
+            {
+                type: 'number', targets: 1 ,
+                "data": "parts"
+            }
          ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
