@@ -121,14 +121,14 @@ class UserContentManager extends CActiveRecord
 
 		return json_encode($return);
 	}
-	public function counterOfVideo($id){
+	public function counterOfVideoInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
 		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
-	public function counterOfTask($id){
+	public function counterOfTaskInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
@@ -150,7 +150,7 @@ class UserContentManager extends CActiveRecord
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
-	public function counterOfParts($id){
+	public function counterOfPartsInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_page`.`id_lecture` where  `lectures`.`idModule`='.$id;
@@ -168,9 +168,9 @@ class UserContentManager extends CActiveRecord
 			$row["name"]["title"] = $record['title_ua'];
 			$row["name"]["url"] = $record["module_ID"];
 			$row["lesson"]["title"] = $record["lesson_count"];
-			$row["video"]=UserContentManager::counterOfVideo($record["module_ID"]);
-			$row["test"]=UserContentManager::counterOfTask($record["module_ID"]);
-			$row["part"]=UserContentManager::counterOfParts($record["module_ID"]);
+			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
+			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
+			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
 			array_push($return['data'], $row);
 		}
 
