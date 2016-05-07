@@ -130,22 +130,22 @@ class UserContentManager extends CActiveRecord
 	}
 	public function counterOfTask($id){
 
-		$sql22 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
  		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$id;
-		$result = Yii::app()->db->createCommand($sql22)->queryScalar();
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
 	public function counterOfParts($id){
 
-		$sql22 = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
+		$sql = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_page`.`id_lecture` where  `lectures`.`idModule`='.$id;
-		$result = Yii::app()->db->createCommand($sql22)->queryScalar();
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
 	public static function listOfCourses(){
 
-		$sql = 'select * from module'; 
+		$sql = 'select * from module';
 		$course = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
 
