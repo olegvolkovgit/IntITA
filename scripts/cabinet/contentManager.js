@@ -339,7 +339,7 @@ function initCourseListTable(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
                 }},
             {
                 "data": "lesson",
@@ -359,6 +359,30 @@ function initCourseListTable(){
                 type: 'de_date', targets: 1 ,
                 "data": "part"
             }
+         ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initLessonsListTable(idModule){
+    $jq('#statusOfLessonsTable').DataTable({
+
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getLessonsList?idModule="+idModule,
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                }}
          ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');

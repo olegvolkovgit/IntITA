@@ -188,4 +188,15 @@ class ContentManagerController extends TeacherCabinetController
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
+
+
+    public function actionGetLessonsList($idModule) {
+        echo UserContentManager::listOfLessons($idModule);;
+    }
+
+    public function actionShowLessonsList($idModule) {
+        $this->renderPartial('/_content_manager/_listOfLessons', array('idModule' => $idModule), false, true);
+       // $this->renderPartial('adfasf', ['idModule' => $idModule], false, true);
+    }
+
 }

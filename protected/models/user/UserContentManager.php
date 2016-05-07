@@ -152,6 +152,7 @@ class UserContentManager extends CActiveRecord
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['title_ua'];
+			$row["name"]["url"] = $record["module_ID"];
 			$row["lesson"]["title"] = $record["lesson_count"];
 			$row["video"]=UserContentManager::counterOfVideo($record["module_ID"]);
 			$row["test"]=UserContentManager::counterOfTask($record["module_ID"]);
@@ -161,5 +162,22 @@ class UserContentManager extends CActiveRecord
 
 		return json_encode($return);
 	}
+	public static function listOfLessons($idModule){
+		$sql = 'select * from lectures where idModule='.$idModule;
+		$course = Yii::app()->db->createCommand($sql)->queryAll();
+		$return = array('data' => array());
 
+		foreach($course as $record){
+			$row = array();
+			$row["name"]["title"] = $record['title_ua'];
+//			$row["name"]["url"] = $record["module_ID"];
+//			$row["lesson"]["title"] = $record["lesson_count"];
+//			$row["video"]=UserContentManager::counterOfVideo($record["module_ID"]);
+//			$row["test"]=UserContentManager::counterOfTask($record["module_ID"]);
+//			$row["part"]=UserContentManager::counterOfParts($record["module_ID"]);
+			array_push($return['data'], $row);
+		}
+
+		return json_encode($return);
+	}
 }
