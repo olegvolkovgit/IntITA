@@ -136,17 +136,25 @@ class UserContentManager extends CActiveRecord
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
-	public function counterOfPartsInLesson($id,$idModule){
+	public function counterOfTaskInLesson($idLesson,$idModule){
 
-		$sql = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_page`.`id_lecture` where  `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$id;
+		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
+ 		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
-	public function counterOfVideoInLesson($id,$idModule){
+	public function counterOfPartsInLesson($idLesson,$idModule){
+
+		$sql = 'SELECT count(*) FROM `lecture_page` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_page`.`id_lecture` where  `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
+		return $result;
+	}
+	public function counterOfVideoInLesson($idLesson,$idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
-		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$id;
+		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
@@ -187,7 +195,7 @@ class UserContentManager extends CActiveRecord
 //			$row["name"]["url"] = $record["module_ID"];
 			$row["parts"] = UserContentManager::counterOfPartsInLesson($record["id"],$idModule);
 			$row["video"]=UserContentManager::counterOfVideoInLesson($record["id"],$idModule);
-//			$row["test"]=UserContentManager::counterOfTask($record["module_ID"]);
+			$row["tests"]=UserContentManager::counterOfTaskInLesson($record["id"],$idModule);
 //			$row["part"]=UserContentManager::counterOfParts($record["module_ID"]);
 			array_push($return['data'], $row);
 		}

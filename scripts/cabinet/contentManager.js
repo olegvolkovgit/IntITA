@@ -391,6 +391,11 @@ function initLessonsListTable(idModule){
                 type: 'number', targets: 1 ,
                 "data": "video"
             }
+            ,
+            {
+                type: 'number', targets: 1 ,
+                "data": "tests"
+            }
          ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
