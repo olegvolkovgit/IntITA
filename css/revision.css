@@ -28,8 +28,13 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 .lectureInfo table.table {
     table-layout: fixed;
 }
+#pages.table{
+    table-layout: fixed;
+}
 #pages.table a,#pages.table td{
     cursor: pointer;
+    width: 10%;
+    /*text-align: center;*/
 }
 #pages.table tr:hover{
     background:#F2F2F2;
@@ -39,6 +44,10 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 }
 #pages.table tr:first-child td{
     cursor: default;
+}
+#pages.table td.titleCell{
+    width: 70%;
+    /*text-align: left;*/
 }
 .lectureInfo table.table td:first-child {
     width: 35%;
