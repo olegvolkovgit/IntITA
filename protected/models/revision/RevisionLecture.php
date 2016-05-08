@@ -449,8 +449,8 @@ class RevisionLecture extends CActiveRecord
             $revLectureProperties->title_en = $lecture->title_en;
             $revLectureProperties->start_date = new CDbExpression('NOW()');
             $revLectureProperties->id_user_created = $user->getId();
-            $revLectureProperties->end_date = new CDbExpression('NOW()');
-            $revLectureProperties->id_user_cancelled = $user->getId();
+            $revLectureProperties->approve_date = new CDbExpression('NOW()');
+            $revLectureProperties->id_user_approved = $user->getId();
             $revLectureProperties->saveCheck();
 
             $revLecture = new RevisionLecture();
@@ -513,7 +513,7 @@ class RevisionLecture extends CActiveRecord
             }
 
             $transaction->commit();
-            return $revLecture;
+            return $revLecture->cloneLecture($user);
 
         } catch (Exception $e) {
             $transaction->rollback();
