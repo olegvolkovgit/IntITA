@@ -450,23 +450,54 @@ class RevisionController extends Controller {
 
     public function actionEditLecture($idLecture) {
 
-        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+        $lectureRevisions = RevisionLecture::model()->findAllByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
 
         if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
         }
 
-        if ($lectureRev == null) {
+        $lectureRev = null;
+        /*if there is no revisions we create new revision from lecture in DB, else we should find */
+        if (empty($lectureRevisions)) {
             $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+        } else {
+            /*find all editable revisions */
+            $editableRevisions = [];
+            $lastApproved = null;
+            foreach ($lectureRevisions as $lectureRevision) {
+                if ($lectureRevision->isEditable()) {
+                    array_push($editableRevisions, $lectureRevision);
+                } 
+                if ($lectureRevision->isApproved()) {
+                    $lastApproved = $lectureRevision;
+                }
+            }
+            /*
+             * If we haven't found any editable revision we should create new revision from last approved
+             * If we have found only one revision just show it
+             * If we have found several editable revisions show revisions tree;
+             */
+            if (count($editableRevisions) == 0) {
+                $lectureRev = $lastApproved->cloneLecture(Yii::app()->user);
+            } else if(count($editableRevisions) == 1) {
+                $lectureRev = $editableRevisions[0];
+            } else {
+                $this->render('revisionsBranch', array(
+                    'idModule' => $editableRevisions[0]->id_module,
+                    'idRevision' => $editableRevisions[0]->id_revision,
+                    'isApprover' => $this->isUserApprover(Yii::app()->user),
+                    'userId' => Yii::app()->user->getId(),
+                ));
+                return;
+            }
         }
 
-        $this->render('revisionsBranch', array(
-            'idModule' => $lectureRev->id_module,
-            'idRevision' => $lectureRev->id_revision,
-            'isApprover' => $this->isUserApprover(Yii::app()->user),
-            'userId' => Yii::app()->user->getId(),
+        $this->render("lectureview", array(
+            "lectureRevision" => $lectureRev,
+            "pages" => $lectureRev->lecturePages
         ));
+
     }
 
     public function actionRevisionsBranch($idRevision) {

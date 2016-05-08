@@ -1033,7 +1033,7 @@ class RevisionLecture extends CActiveRecord
      * Return true if revision was approved
      * @return bool
      */
-    private function isApproved() {
+    public function isApproved() {
         return $this->properties->id_user_approved != null;
     }
 
