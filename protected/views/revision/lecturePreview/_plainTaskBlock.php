@@ -2,7 +2,8 @@
 /* @var $data LectureElement */
 if ($data['id_type'] == 6) {
     ?>
-    <div class="element" ng-controller="plainTaskCtrl">
+<!--    <div class="element" ng-controller="plainTaskCtrl">-->
+    <div class="element">
         <div class="lessonTask">
             <div class="lessonBG">
                 <div class="instrTaskImg">
