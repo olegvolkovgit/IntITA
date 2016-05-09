@@ -1025,6 +1025,12 @@ class RevisionController extends Controller {
 
         echo RevisionTestsAnswers::checkTestAnswer($test, $answers);
     }
+    public function actionCheckSkipAnswer()
+    {
+        $quizId = $_POST['id'];
+        $answers = $_POST['answers'];
+        echo RevisionSkipTaskAnswers::checkSkipAnswer($quizId,$answers);
+    }
     public function actionBuildCurrentLectureJson() {
         $idModule = Yii::app()->request->getPost('idModule');
         $currentLectures=Lecture::model()->findAllByAttributes(array("idModule" => $idModule),array('order'=>'`order` ASC'));

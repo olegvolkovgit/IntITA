@@ -146,4 +146,32 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         return $newSkipTaskAnswer;
     }
 
+    public static function checkSkipAnswer($quizId,$answers)
+    {
+        $isDone = true;
+        $skipTaskAnswers = RevisionSkipTask::model()->findByAttributes(array('condition' => $quizId))->answers;
+        usort($skipTaskAnswers, function($a, $b)
+        {
+            return strcmp($a->answer_order, $b->answer_order);
+        });
+
+        for($i = 0;$i < count($skipTaskAnswers);$i++)
+        {
+            $answer = $answers[$i][0];
+            $taskAnswer = $skipTaskAnswers[$i]->answer;
+            if($answers[$i][2] == 1)
+            {
+                $answer = mb_convert_case($answer, MB_CASE_UPPER, "UTF-8");
+                $taskAnswer = mb_convert_case($taskAnswer, MB_CASE_UPPER, "UTF-8");
+            }
+
+            if(strcmp($answer,$taskAnswer) != 0)
+            {
+                $isDone = false;
+                break;
+            }
+        }
+        return $isDone;
+    }
+
 }

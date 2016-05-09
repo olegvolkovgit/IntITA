@@ -31,8 +31,8 @@
                         </div>
                     </form>
                     <div>
-                        <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
-                                ng-click="sendSkipTaskAnswer(<?php echo $data->id_block ?>)" >
+                        <button class="taskSubmit"
+                                ng-click="sendSkipTaskAnswer(<?php echo $data->id ?>)" >
                             <?php echo $buttonName; ?>
                         </button>
                     </div>

@@ -261,4 +261,13 @@ class RevisionLectureElement extends CActiveRecord
         }
         return $errors[0];
     }
+
+    public function getSkipTaskQuestion()
+    {
+        $skipTask = RevisionSkipTask::model()->findByAttributes(array('condition' => $this->id));
+        if ($skipTask) {
+            return $skipTask->question;
+        }
+        return null;
+    }
 }
