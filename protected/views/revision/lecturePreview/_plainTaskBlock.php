@@ -26,8 +26,7 @@ if ($data['id_type'] == 6) {
                         </div>
                     </form>
                     <div>
-                        <button class="taskSubmit" <?php if ($user == 0 || $editMode) echo " disabled"; ?>
-                                ng-click="sendPlainTaskAnswer(<?php echo $data->id_block ?>)">
+                        <button class="taskSubmit" style="background: grey" <?php echo "disabled"; ?> >
                             <?php echo $buttonName; ?>
                         </button>
                     </div>
