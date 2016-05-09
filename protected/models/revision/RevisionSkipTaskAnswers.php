@@ -105,11 +105,11 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         }
     }
 
-    public static function createAnswer($testId, $answer, $caseInSensitive, $order) {
+    public static function createAnswer($testId, $answer, $caseInsensitive, $order) {
         $newAnswer = new RevisionSkipTaskAnswers();
         $newAnswer->id_task = $testId;
         $newAnswer->answer = $answer;
-        $newAnswer->case_in_sensitive = $caseInSensitive;
+        $newAnswer->case_in_sensitive = $caseInsensitive;
         $newAnswer->answer_order = $order;
 
         $newAnswer->saveCheck();
@@ -129,9 +129,9 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         return $newAnswer;
     }
 
-    public function edit($answer, $caseInSensitive, $order) {
+    public function edit($answer, $caseInsensitive, $order) {
         $this->answer = $answer;
-        $this->case_in_sensitive = $caseInSensitive;
+        $this->case_in_sensitive = $caseInsensitive;
         $this->answer_order = $order;
         $this->saveCheck();
     }
