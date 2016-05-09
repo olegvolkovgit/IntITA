@@ -432,7 +432,7 @@ class RevisionLecturePage extends CActiveRecord
 
         //lecture elements
         foreach ($this->lectureElements as $element) {
-            $newElement = $element->saveElementModelToRegularDB($idNewLecture);
+            $newElement = $element->saveElementModelToRegularDB($idNewLecture, $idUserCreated);
             array_push($idNewElements, array('page'=>$idNewPage, 'element'=>$newElement->id_block));
         }
 
