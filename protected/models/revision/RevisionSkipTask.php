@@ -117,7 +117,7 @@ class RevisionSkipTask extends CActiveRecord {
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInSensitive'], $answer['index']);
+            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index']);
         }
 
         return $newTest;

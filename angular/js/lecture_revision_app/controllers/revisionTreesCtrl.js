@@ -6,22 +6,6 @@ angular
     .controller('revisionTreesCtrl',revisionTreesCtrl);
 
 function revisionTreesCtrl($compile, $rootScope, $scope, revisionsTree) {
-    if (typeof idRevision!='undefined') {
-        $scope.loadApprovedTree = function (approvedCheck) {
-            if (approvedCheck) {
-                revisionsTree.getApprovedBranchRevisions(idRevision).then(function (response) {
-                    $rootScope.revisionsJson = response;
-                    $scope.treeUpdate();
-                });
-            } else {
-                revisionsTree.getRevisionsBranch(idRevision).then(function (response) {
-                    $rootScope.revisionsJson = response;
-                    $scope.treeUpdate();
-                });
-            }
-        };
-    }
-
     //init tree after load json
     $scope.revisionsTreeInit= function(){
         $('#tree').treeview({
@@ -59,6 +43,7 @@ function revisionTreesCtrl($compile, $rootScope, $scope, revisionsTree) {
     $scope.expandAll = function() {
         $('#tree').treeview('expandAll', { silent: true });
     };
+
     var findSelectableNodes = function() {
         return $('#tree').treeview('search', [ $('#input-select-node').val(), { ignoreCase: false, exactMatch: false } ]);
     };

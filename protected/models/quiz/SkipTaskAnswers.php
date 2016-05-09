@@ -111,7 +111,7 @@ class SkipTaskAnswers extends CActiveRecord
                 $model->id_task = $task;
                 $model->answer = $answer['value'];
                 $model->answer_order = $answer['index'];
-                $model->case_in_sensitive = $answer['caseInsensitive'];//$answers[$i]['caseInSensitive'];
+                $model->case_in_sensitive = $answer['caseInsensitive'];//$answers[$i]['caseInsensitive'];
                 $model->save();
             }
         }
@@ -145,7 +145,7 @@ class SkipTaskAnswers extends CActiveRecord
         {
             $model[$i]->answer = $answers[$i]['value'];
             $model[$i]->answer_order = $answers[$i]['index'];
-            $model[$i]->case_in_sensitive = $answers[$i]['caseInsensitive'];//$answers[$i]['caseInSensitive'];
+            $model[$i]->case_in_sensitive = $answers[$i]['caseInsensitive'];//$answers[$i]['caseInsensitive'];
             $model[$i]->id_task = $skipTaskId;
             $model[$i]->save();
         }

@@ -6,15 +6,16 @@ angular
     .controller('moduleLecturesRevisionsCtrl',moduleLecturesRevisionsCtrl);
 
 function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
+    $scope.approvedTree=true;
     //load current lectures from main BD
     revisionsTree.getCurrentLectures(idModule).then(function (response) {
         $scope.currentLectures = response;
     });
 
     //init tree after load json
-    revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function(response){
+    revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function(response){
         $rootScope.revisionsJson=response;
-        $scope.$parent.revisionsTreeInit();
+        $scope.revisionsTreeInit();
     });
     //init actions for revision tree
     var approverActions=[{
@@ -155,6 +156,9 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     $scope.approveRev = function(id,nodeId) {
         revisionsActions.approveRevision(id).then(function(){
             $scope.updateModuleLecturesRevisionsTree(nodeId);
+            revisionsTree.getCurrentLectures(idModule).then(function (response) {
+                $scope.currentLectures = response;
+            });
         });
     };
     $scope.rejectRev = function(id,nodeId) {
@@ -165,15 +169,32 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     $scope.cancelRev = function(id,nodeId) {
         revisionsActions.cancelRevision(id).then(function(){
             $scope.updateModuleLecturesRevisionsTree(nodeId);
+            revisionsTree.getCurrentLectures(idModule).then(function (response) {
+                $scope.currentLectures = response;
+            });
         });
     };
     //update revisions tree in module
     $scope.updateModuleLecturesRevisionsTree = function(nodeId){
-        revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function(response){
+        revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function(response){
             $rootScope.revisionsJson=response;
-            $scope.$parent.treeUpdate(nodeId);
+            $scope.treeUpdate(nodeId);
         });
     };
+
+    $scope.loadTreeMode = function () {
+        revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function (response) {
+            $rootScope.revisionsJson = response;
+            $scope.treeUpdate();
+        });
+    };
+
+    $scope.updateTree = function() {
+        revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function (response) {
+            $rootScope.revisionsJson = response;
+            $scope.revisionsTreeInit();
+        });
+    }
 }
 
 

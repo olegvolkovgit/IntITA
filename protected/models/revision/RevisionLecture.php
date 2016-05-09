@@ -563,7 +563,7 @@ class RevisionLecture extends CActiveRecord
             return "Скасована";
         }
         if ($this->isApproved()) {
-            return "Затвердженна";
+            return "Затверджена";
         }
         if ($this->isRejected()) {
             return "Відхилена";
@@ -1094,6 +1094,16 @@ class RevisionLecture extends CActiveRecord
          properties.id_user_cancelled IS NULL');
         $criteria->limit = 1;
         return RevisionLecture::model()->find($criteria);
+    }
+    public static function getApprovedRevisionsInModule($idModule) {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'vc_lecture';
+        $criteria->condition = 'id_module=' . $idModule;
+        $criteria->with = array('properties');
+        $criteria->order = 'properties.approve_date DESC';
+        $criteria->addCondition('properties.id_user_approved IS NOT NULL and
+         properties.id_user_cancelled IS NULL');
+        return RevisionLecture::model()->findAll($criteria);
     }
 
     //Create directory for lecture template
