@@ -31,7 +31,7 @@ class RevisionLectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_page, id_type, block_order, html_block', 'required'),
+			array('id_page, id_type, block_order', 'required'),
 			array('id_page, id_type, block_order', 'numerical', 'integerOnly'=>true),
 			array('html_block', 'match', 'pattern' => '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/', 'message' => 'Поле має бути посиланням', 'on'=>'videoLink'),
 			array('html_block', 'safe'),
@@ -113,7 +113,7 @@ class RevisionLectureElement extends CActiveRecord
      */
 	public function saveCheck($runValidation=true,$attributes=null) {
 		if (!$this->save($runValidation, $attributes)) {
-			throw new RevisionLectureElementException('400',implode(", ", $this->getErrors()));
+			throw new RevisionLectureElementException(implode(", ", $this->getErrors()));
 		}
 	}
 

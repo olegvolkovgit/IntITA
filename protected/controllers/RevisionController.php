@@ -450,23 +450,54 @@ class RevisionController extends Controller {
 
     public function actionEditLecture($idLecture) {
 
-        $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
+        $lectureRevisions = RevisionLecture::model()->findAllByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
 
         if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
         }
 
-        if ($lectureRev == null) {
+        $lectureRev = null;
+        /*if there is no revisions we create new revision from lecture in DB, else we should find */
+        if (empty($lectureRevisions)) {
             $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+        } else {
+            /*find all editable revisions */
+            $editableRevisions = [];
+            $lastApproved = null;
+            foreach ($lectureRevisions as $lectureRevision) {
+                if ($lectureRevision->isEditable()) {
+                    array_push($editableRevisions, $lectureRevision);
+                } 
+                if ($lectureRevision->isApproved()) {
+                    $lastApproved = $lectureRevision;
+                }
+            }
+            /*
+             * If we haven't found any editable revision we should create new revision from last approved
+             * If we have found only one revision just show it
+             * If we have found several editable revisions show revisions tree;
+             */
+            if (count($editableRevisions) == 0) {
+                $lectureRev = $lastApproved->cloneLecture(Yii::app()->user);
+            } else if(count($editableRevisions) == 1) {
+                $lectureRev = $editableRevisions[0];
+            } else {
+                $this->render('revisionsBranch', array(
+                    'idModule' => $editableRevisions[0]->id_module,
+                    'idRevision' => $editableRevisions[0]->id_revision,
+                    'isApprover' => $this->isUserApprover(Yii::app()->user),
+                    'userId' => Yii::app()->user->getId(),
+                ));
+                return;
+            }
         }
 
-        $this->render('revisionsBranch', array(
-            'idModule' => $lectureRev->id_module,
-            'idRevision' => $lectureRev->id_revision,
-            'isApprover' => $this->isUserApprover(Yii::app()->user),
-            'userId' => Yii::app()->user->getId(),
+        $this->render("lectureview", array(
+            "lectureRevision" => $lectureRev,
+            "pages" => $lectureRev->lecturePages
         ));
+
     }
 
     public function actionRevisionsBranch($idRevision) {
@@ -541,6 +572,7 @@ class RevisionController extends Controller {
         echo $json;
     }
     //build revisions tree in branch from approved lecture
+    //todo refactor
     public function actionBuildApprovedLectureRevisions() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->findByPk($idRevision);
@@ -977,8 +1009,8 @@ class RevisionController extends Controller {
             $data[$key]['id'] = $lecture->id;
             $data[$key]['revisionsLink'] = Yii::app()->createUrl('/revision/editLecture',array('idLecture'=>$lecture->id));
             $data[$key]['lecturePreviewLink'] = Yii::app()->createUrl("lesson/index", array("id" => $lecture->id, "idCourse" => 0));
-            $lectureRev = RevisionLecture::model()->with('parent')->findByAttributes(["id_lecture" => $lecture->id]);
-            $data[$key]['approvedFromRevision'] = ($lectureRev && $lectureRev->parent)?$lectureRev->parent->id_revision:null;
+            $lectureRev = RevisionLecture::getParentRevisionForLecture($lecture->id);
+            $data[$key]['approvedFromRevision'] = ($lectureRev)?$lectureRev->id_revision:null;
         }
         echo CJSON::encode($data);
     }
