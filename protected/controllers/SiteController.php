@@ -309,6 +309,7 @@ class SiteController extends Controller
         } else {
             $this->setNetworkData($user, $model);
             $model->status = 1;
+            $model->reg_time = time();
             if ($model->validate()) {
                 $model->save();
                 $model = new StudentReg();
@@ -352,10 +353,10 @@ class SiteController extends Controller
             $post = Yii::app()->request->getPost('StudentReg');
             if ($model->token == Yii::app()->request->getPost('tokenhid')) {
                 $model->attributes = Yii::app()->request->getPost('StudentReg');
-                $model->password = $post['new_password'];
                 $model->token = null;
                 $model->activkey_lifetime = null;
                 $model->status = 1;
+                $model->password = sha1($post['new_password']);
                 if ($model->validate()) {
                     $model->save();
                     $modellogin = new StudentReg('loginuser');
@@ -589,6 +590,7 @@ class SiteController extends Controller
                     $this->redirect(Yii::app()->createUrl('/site/linkingemailinfo', array('email' => $model->email, 'network' => $model->identity)));
                 } else {
                     //linking new email to network
+                    $model->reg_time = time();
                     $model->save();
                     $sender = new MailTransport();
                     $sender->renderBodyTemplate('_verificationEmailMail', array($model, $lang));
@@ -723,6 +725,11 @@ class SiteController extends Controller
                 $model->token = sha1($getToken . $getTime);
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
+
+                if ($model->password !== Null)
+                    $model->password = sha1($model->password);
+                $model->reg_time = time();
+
                 if ($model->validate()) {
                     $model->save();
                     $sender = new MailTransport();
