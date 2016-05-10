@@ -97,8 +97,6 @@ function reloadPage(event) {
 function setUserRole(url) {
     var role = $jq("select[name=role] option:selected").val();
     var user = $jq("#user").val();
-    alert(role);
-    alert(user);
     $jq.ajax({
         url: url,
         type: 'post',
