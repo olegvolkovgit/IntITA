@@ -84,7 +84,7 @@ class Student extends Role
             ->where('pm.id_user=:id and rights & :mask',
                 array(':id' => $user->id, ':mask' => $mask))
             ->group('m.module_ID')
-            ->order('tcs.end_date DESC')
+            ->order('tcs.end_date ASC')
             ->queryAll();
         return $this->modules;
     }
