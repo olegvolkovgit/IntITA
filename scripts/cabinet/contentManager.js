@@ -1,5 +1,5 @@
 
-function addTeacherAttrCM(url, attr, id, role,header,redirect) {
+function addTeacherAttrCM(url, attr, id, role) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();

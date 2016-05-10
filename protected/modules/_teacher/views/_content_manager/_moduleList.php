@@ -16,7 +16,7 @@
             </div>
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
+                        onclick="addTeacherAttrCM('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
                             '<?= $attribute["key"] ?>', '#value')">
                     Додати модуль
                 </button>
