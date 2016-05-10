@@ -162,11 +162,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                alert("Завдання успішно додано до лекції!");
-                // location.reload();
+                bootbox.alert("Завдання успішно додано до лекції!", function () {location.reload()});
             })
             .fail(function () {
-                alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                bootbox.alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
                 //location.reload();
             })
