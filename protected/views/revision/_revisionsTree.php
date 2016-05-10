@@ -6,6 +6,17 @@
     <input type="button" class="btn btn-secondary" value="Очистити пошук" ng-click="clearSearch()">
     <input type="button" class="btn btn-secondary" value="Згорнути дерево" ng-click="collapseAll()">
     <input type="button" class="btn btn-secondary" value="Розгорнути дерево" ng-click="expandAll()">
+    <input type="button" class="btn btn-secondary" value="Оновити дерево" ng-click="updateTree()">
+    <div ng-show="approvedTree" style="display: inline-block">
+        <label>
+            <input type="radio" ng-checked=true ng-model="approvedRevisions" ng-change="loadTreeMode()" id="allTree" value="false">
+            Всі ревізії
+        </label>
+        <label>
+            <input type="radio" ng-model="approvedRevisions" ng-change="loadTreeMode()" id="approvedTree" value="true">
+            Затверджені ревізії
+        </label>
+    </div>
 </div>
 <div id="tree">
 </div>

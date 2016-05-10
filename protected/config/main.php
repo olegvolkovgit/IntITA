@@ -25,6 +25,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.models.track.*',
+        'application.models.track.statistics.*',
         'application.models.accountancy.*',
         'application.models.message.*',
         'application.models.quiz.*',

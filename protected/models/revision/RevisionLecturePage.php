@@ -145,7 +145,7 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function saveCheck($runValidation=true,$attributes=null) {
         if(!$this->save($runValidation,$attributes)) {
-            throw new RevisionLecturePageException('400',implode("; ", $this->getErrors()[$attributes]));
+            throw new RevisionLecturePageException('400',$this->getValidationErrors());
         }
     }
 
@@ -356,7 +356,9 @@ class RevisionLecturePage extends CActiveRecord
      * @return RevisionLectureElement static
      */
     public function getVideo() {
-        return RevisionLectureElement::model()->findByPk($this->video);
+        $model=RevisionLectureElement::model()->findByPk($this->video);
+        $model->setScenario('videoLink');
+        return $model;
     }
 
     /**
@@ -432,7 +434,7 @@ class RevisionLecturePage extends CActiveRecord
 
         //lecture elements
         foreach ($this->lectureElements as $element) {
-            $newElement = $element->saveElementModelToRegularDB($idNewLecture);
+            $newElement = $element->saveElementModelToRegularDB($idNewLecture, $idUserCreated);
             array_push($idNewElements, array('page'=>$idNewPage, 'element'=>$newElement->id_block));
         }
 
@@ -615,6 +617,16 @@ class RevisionLecturePage extends CActiveRecord
             }
         }
         return null;
+    }
+
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return $errors[0];
     }
 
 }

@@ -87,7 +87,7 @@ $this->breadcrumbs = array(
                 <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
             </h1>
             <div class='icons'>
-                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)).'#/page'.$page->page_order; ?>')
+                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
                      title="Попередній перегляд"/>
             </div>
@@ -185,8 +185,7 @@ $this->breadcrumbs = array(
                     default:
                         break;
                 }
-            } else {
-//                ?>
+            } else { ?>
             <div id="buttonsPanel">
                 <button class="btn btn-default" onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
                 <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('6')"><?php echo Yii::t('lecture', '0698'); ?></button>
@@ -198,9 +197,9 @@ $this->breadcrumbs = array(
             ?>
             <?php if ($page->quiz == null) {
             $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
-            $this->renderPartial('/revision/_addTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>5));
+            $this->renderPartial('/revision/_addTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::TASK));
             $this->renderPartial('/revision/_addPlainTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
-            $this->renderPartial('/revision/_addSkipTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>9));
+            $this->renderPartial('/revision/_addSkipTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::SKIP_TASK));
             }?>
         </div>
     </div>

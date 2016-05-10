@@ -30,8 +30,8 @@ class RevisionQuizFactory {
                 $quiz['table'] = $request->getPost('table', '');
                 break;
             case LectureElement::SKIP_TASK:
-                $quiz['question'] = $request->getPost('question');      //question
-                $quiz['source'] = $request->getPost('text');            //skip task
+                $quiz['question'] = $request->getPost('text');      //question
+                $quiz['source'] = $request->getPost('question');            //skip task
                 $quiz['answers'] = $request->getPost('answer', null);   // 2D array - index value caseSensetive
                 break;
         }
@@ -170,7 +170,7 @@ class RevisionQuizFactory {
     public static function cloneQuiz($lectureElementOld, $lectureElementNew) {
         switch ($lectureElementOld->id_type) {
             case LectureElement::PLAIN_TASK :
-                $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
+                $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
                 return $test->cloneTest($lectureElementNew->id);
                 break;
             case LectureElement::TEST :
@@ -254,7 +254,7 @@ class RevisionQuizFactory {
                         }
                         break;
                     case LectureElement::TASK :
-                        $test = Task::model()->findByAttributes(array('block_element' => $element));
+                        $test = Task::model()->findByAttributes(array('condition' => $element));
                         if ($test) {
                             $test->delete();
                         }
@@ -307,8 +307,8 @@ class RevisionQuizFactory {
                 $oldTask = SkipTask::model()->findByAttributes(['condition' => $lectureElement->id_block]);
                 $questionLE = $oldTask->question0;
                 $answers = [];
-                foreach ($oldTask->answers as $answer) {
-                    array_push($answers, ['value' => $answer->answer, 'caseInSensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
+                foreach ($oldTask->skipTaskAnswers   as $answer) {
+                    array_push($answers, ['value' => $answer->answer, 'caseInsensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
                 }
                 return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $oldTask->id);
                 break;

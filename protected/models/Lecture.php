@@ -24,7 +24,7 @@
  * @property LectureType $type
  * @property Module $module
  */
-class Lecture extends CActiveRecord
+class Lecture extends CActiveRecord implements ILessonsStatistics
 {
     const MAX_RAIT = 6;
     const FREE = 1;
@@ -530,6 +530,16 @@ class Lecture extends CActiveRecord
         }
     }
 
+    public function titleForBreadcrumbs()
+    {
+        $titleParam = "title_" . CommonHelper::getLanguage();
+        if ($this->$titleParam == '') {
+            return $this->title_ua;
+        } else {
+            return $this->$titleParam;
+        }
+    }
+
     public static function getLectureTypeTitle($idType)
     {
         if (LectureType::model()->exists('id=:idType', array(':idType' => $idType))) {
@@ -930,4 +940,18 @@ class Lecture extends CActiveRecord
         $lastLectureOrder = Yii::app()->db->createCommand($sqlLastOrder)->queryScalar();
         return $lastLectureOrder;
     }
+    //ILessonStatistics implementations
+    public function statisticalName(){
+        $sql = 'select * from module'; //рабочий лекции
+        $course = Yii::app()->db->createCommand($sql)->queryAll();
+        echo $course;
+//       $tmp =Module::model()->findByPk(3);
+//        $r =$tmp->lectures;
+//       return $r;
+    }
+
+    public function isVideoPresent(){}
+    public function isTestPresent(){}
+    public function wordsCount(){}
+
 }

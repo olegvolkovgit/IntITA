@@ -94,7 +94,7 @@ input[type="submit"]::-moz-focus-inner{padding:0;border:0;}
 .my-cool-breadcrumbs{padding-bottom:24px;display:inline-block;margin-top:40px;color:#264b73;width:70%;word-wrap:break-word;}
 .my-cool-breadcrumbs a{color:#4b75a4;text-decoration:underline;}
 .my-cool-breadcrumbs a:hover{color:#264b73;}
-div.profileStatus{position:absolute;top:10px;right:0;float:right;display:block;z-index:0;}
+div.profileStatus{position:absolute;top:10px;right:0;float:right;display:block;z-index:1;}
 .profileStatus a{text-decoration:none;}
 div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidden;}
 .profileStatus .minavatar img{width:70px;min-height:70px;}

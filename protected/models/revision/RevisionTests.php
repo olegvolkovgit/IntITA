@@ -188,8 +188,6 @@ class RevisionTests extends CActiveRecord
     }
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
-        //todo
-
         $newTest = new Tests();
         $newTest->block_element = $lectureElementId;
         $newTest->author = $idUserCreated;

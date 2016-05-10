@@ -3,6 +3,7 @@
 $this->breadcrumbs = array(
     'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $lectureRevision->id_module)),
     'Ревізії занять модуля' => Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$lectureRevision->id_module)),
+    'Ревізії заняття' => Yii::app()->createUrl('/revision/revisionsBranch', array('idRevision'=>$lectureRevision->id_revision)),
     'Ревізія даного заняття',
 );
 ?>
@@ -32,14 +33,18 @@ $this->breadcrumbs = array(
             <table id="pages" class="table">
                 <tr>
                     <td>Номер ревізії</td>
-                    <td>Назва</td>
-                    <td>Порядковий номер</td>
+                    <td class="titleCell" >Назва</td>
+                    <td>Порядок</td>
+                    <td>Відео</td>
+                    <td>Завдання</td>
                     <td>Навігація</td>
                 </tr>
                 <tr ng-repeat="page in lectureData.pages track by $index">
                     <td ng-click="editPageRevision(page.id)">{{page.id}}</td>
                     <td ng-click="editPageRevision(page.id)">{{page.title}}</td>
                     <td ng-click="editPageRevision(page.id)">{{page.page_order}}</td>
+                    <td ng-click="editPageRevision(page.id)"><div ng-if="page.video">+</div></td>
+                    <td ng-click="editPageRevision(page.id)"><div ng-if="page.quiz">+</div></td>
                     <td>
                         <div style="display: inline-block" ng-if="lectureData.lecture.canEdit">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(page.id);">
