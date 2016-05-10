@@ -139,6 +139,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
+        if(number<1){
+            bootbox.alert("Виділіть хоч одне слово-пропуск!");
+            return;
+        }
         text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2 />' );
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
@@ -165,7 +169,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 bootbox.alert("Завдання успішно додано до лекції!", function () {location.reload()});
             })
             .fail(function () {
-                bootbox.alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                bootbox.alert("Вибачте, але на сайті виникла помилка і додати завдання до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
                 //location.reload();
             })

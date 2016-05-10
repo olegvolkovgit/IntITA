@@ -34,13 +34,14 @@ idBlock=<?php echo $idElement; ?>;'>
             </textarea>
             <input name="idTaskBlock" type="hidden" value="{{idBlock}}"/>
             <input type="hidden" ng-init="task=<?php echo $revisionTask->id; ?>" ng-model="task" />
-            <input type="submit" ng-disabled="addTask.$invalid" value="Створення та редагування юніттестів" />
         </fieldset>
+        <br>
+        <input class="btn btn-default" type="submit" value="Створення та редагування юніттестів" ng-disabled="addTask.$invalid">
+        <input class="btn btn-default" type="button" value="Зберегти зміни умови задачі" ng-click="editTaskCKE(idBlock,<?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)">
+        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0708'); ?>" ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'>
     </form>
     <div class="editTaskButton">
-        <button ng-click="editTaskCKE(idBlock,<?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)">Зберегти зміни умови задачі</button><br>
-        <button onclick='cancelTask()'>Скасувати</button><br>
-        <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
+
     </div>
 </div>
 <script>

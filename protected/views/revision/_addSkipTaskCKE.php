@@ -14,7 +14,7 @@
             <label for="questionId"><?=Yii::t('editor', '0791');?></label>
             <br>
             <textarea ng-cloak ckeditor="editorOptionsSkipTask" name="question" id="questionId" cols="105" rows="5"
-                      ng-model="addSkipTaskQuest"></textarea>
+                      required ng-model="addSkipTaskQuest"></textarea>
             <br>
         </fieldset>
         <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('revision/addTest'); ?>',

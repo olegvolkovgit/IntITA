@@ -42,11 +42,9 @@ idBlock=<?php echo $idElement; ?>;'>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
         </fieldset>
-        <br>
-        <input class='buttonForm' type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests{{idBlock}}'  ng-disabled=editTestForm.$invalid>
+        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0706'); ?>" id='addtests{{idBlock}}'  ng-disabled=editTestForm.$invalid>
+        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0708'); ?>" ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'>
     </form>
     <br>
-    <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
-    <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
 </div>
 
