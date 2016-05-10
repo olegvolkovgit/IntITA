@@ -76,7 +76,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
                                        '<?= $student->registrationData->userName(); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
-                                    if ($module["end_date"] == null) {
+                                    if (is_null($module["end_date"])) {
                                         ?>
                                         <em>(викладач - <?= $module["teacherName"] ?>)</em>
                                     <?php } else { ?>

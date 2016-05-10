@@ -257,4 +257,13 @@ class TeacherConsultant extends Role
         }
         return json_encode($result);
     }
+
+
+    public function isTeachModule($teacher, $module){
+        if (empty(Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
+            ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
+            return true;
+        }
+        else return false;
+    }
 }
