@@ -390,6 +390,14 @@ class Lecture extends CActiveRecord implements ILessonsStatistics
             if (Yii::app()->user->model->isAuthor()) {
                 $model = new Author();
                 $editMode = $model->isTeacherAuthorModule($user, $this->idModule);
+                return true;
+            }
+
+            if (Yii::app()->user->model->isTeacherConsultant()) {
+                $model = new TeacherConsultant();
+                if($model->isTeachModule($user, $this->idModule)){
+                    return true;
+                }
             }
 
             if (Yii::app()->user->model->isAdmin() || $editMode)
