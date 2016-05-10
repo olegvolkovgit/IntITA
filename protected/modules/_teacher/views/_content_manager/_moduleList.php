@@ -39,7 +39,9 @@
             </thead>
             <tbody>
             <?php
-            foreach ($attribute["value"] as $item) {?>
+            foreach ($attribute["value"] as $item) {
+                if(!$item["end_date"] && ($item["cancelled"] == Module::ACTIVE)){
+            ?>
             <tr>
                 <td>
                     <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
@@ -47,10 +49,10 @@
                     </a>
                 </td>
                 <td>
-                    <?= date("d.m.Y",strtotime($item["start_date"])); ?>
+                    <?= date("d.m.Y", strtotime($item["start_date"])); ?>
                 </td>
                 <td>
-                    <?= ($item["end_date"] != "")?date("d.m.Y",strtotime($item["end_date"])):""; ?>
+                    <?= ($item["end_date"] != "") ? date("d.m.Y", strtotime($item["end_date"])) : ""; ?>
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
@@ -62,6 +64,7 @@
                     <?php } ?>
                 </td>
                 <?php
+                }
                 } ?>
             </tr>
             </tbody>
