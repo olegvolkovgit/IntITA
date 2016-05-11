@@ -146,6 +146,10 @@ class StudentRegController extends Controller
             else $_POST['StudentReg']['educform'] = 'Онлайн';
 
             $model->attributes = $_POST['StudentReg'];
+            if ($model->password !== Null){
+                $model->password = sha1($model->password);
+                $model->password_repeat = sha1($model->password_repeat);
+            }
 
             $getToken = rand(0, 99999);
             $getTime = date("Y-m-d H:i:s");

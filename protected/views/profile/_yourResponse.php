@@ -109,32 +109,38 @@
     });
 
     $(document).ready(function () {
-        $('#sendResponse').tooltip();
-        document.getElementById('sendResponse').disabled = true;
-        document.getElementById('sendResponse').setAttribute('title','<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>');
-        min = <?=Config::getMinLengthResponse()?>;
-        max = <?=Config::getMaxLengthResponse()?>;
-        $('html').on('keydown', '.wysibb-text-editor', function () {
+        var responseButton=document.getElementById('sendResponse');
+        if(responseButton) {
+            $('#sendResponse').tooltip();
+            responseButton.disabled = true;
+            responseButton.setAttribute('title', '<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>');
+            min = <?=Config::getMinLengthResponse()?>;
+            max = <?=Config::getMaxLengthResponse()?>;
+            $('html').on('keydown', '.wysibb-text-editor', function () {
 //            content = $(this);
-            $(this).keyup(function(e){ check_charcount($(this), max, min, e); });
-            $(this).keydown(function(e){ check_charcount($(this), max, min, e); });
-        });
-        function check_charcount(content, max, min, e) {
-            tmpstr = content.text().replace(/\s/gm, '');
-            if(tmpstr.length < min){
-                document.getElementById('sendResponse').disabled = true;
-                document.getElementById('sendResponse').setAttribute('title','<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>');
-            } else {
-                document.getElementById('sendResponse').disabled = false;
-                document.getElementById('sendResponse').removeAttribute('title');
-                if(tmpstr.length > max){
-                    document.getElementById('sendResponse').disabled = true;
-                    document.getElementById('sendResponse').setAttribute('title','<?php echo Yii::t("response", "0821", array('{max}'=>Config::getMaxLengthResponse())) ?>');
+                $(this).keyup(function (e) {
+                    check_charcount($(this), max, min, e);
+                });
+                $(this).keydown(function (e) {
+                    check_charcount($(this), max, min, e);
+                });
+            });
+            function check_charcount(content, max, min, e) {
+                tmpstr = content.text().replace(/\s/gm, '');
+                if (tmpstr.length < min) {
+                    responseButton.disabled = true;
+                    responseButton.setAttribute('title', '<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>');
+                } else {
+                    responseButton.disabled = false;
+                    responseButton.removeAttribute('title');
+                    if (tmpstr.length > max) {
+                        responseButton.disabled = true;
+                        responseButton.setAttribute('title', '<?php echo Yii::t("response", "0821", array('{max}'=>Config::getMaxLengthResponse())) ?>');
+                    }
                 }
-            }
-            if(e.which != 8 && tmpstr.length > max)
-            {
-                e.preventDefault();
+                if (e.which != 8 && tmpstr.length > max) {
+                    e.preventDefault();
+                }
             }
         }
     });

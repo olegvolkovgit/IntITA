@@ -16,8 +16,8 @@
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" id="plainTaskType" type="hidden"/>
             <br>
-            <input type="submit" value="<?=Yii::t('editor', '0787');?>" id='addtests' ng-disabled=plainTask.block_element.$error.required>
+            <input class="btn btn-default" type="submit" value="<?=Yii::t('editor', '0787');?>" id='addtests' ng-disabled=plainTask.block_element.$error.required>
+            <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" onclick='cancelTest()'>
         </fieldset>
     </form>
-    <button onclick='cancelTest()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
