@@ -12,7 +12,7 @@ class CabinetController extends TeacherCabinetController
         $model = Yii::app()->user->model;
         if ($course != 0 || $module != 0) {
             if (!$model->isStudent()) {
-                UserStudent::addStudent($model);
+                UserStudent::addStudent($model->registrationData);
             }
         }
 
