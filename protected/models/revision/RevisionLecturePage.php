@@ -357,7 +357,8 @@ class RevisionLecturePage extends CActiveRecord
      */
     public function getVideo() {
         $model=RevisionLectureElement::model()->findByPk($this->video);
-        $model->setScenario('videoLink');
+        if($model)
+            $model->setScenario('videoLink');
         return $model;
     }
 
