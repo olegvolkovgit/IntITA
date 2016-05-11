@@ -112,30 +112,24 @@
         var responseButton=document.getElementById('sendResponse');
         if(responseButton) {
             $('#sendResponse').tooltip();
-            responseButton.disabled = true;
-            responseButton.setAttribute('title', '<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>');
             min = <?=Config::getMinLengthResponse()?>;
             max = <?=Config::getMaxLengthResponse()?>;
-            $('html').on('keydown', '.wysibb-text-editor', function () {
-//            content = $(this);
-                $(this).keyup(function (e) {
-                    check_charcount($(this), max, min, e);
-                });
-                $(this).keydown(function (e) {
-                    check_charcount($(this), max, min, e);
-                });
-            });
+            $('.responseBG').on('mousemove', function (e) { check_charcount($('.wysibb-text-editor'), max, min, e); });
+            $('.BBCode').on('keypress', '.wysibb-text-editor', function (e) { check_charcount($(this), max, min, e); });
             function check_charcount(content, max, min, e) {
                 tmpstr = content.text().replace(/\s/gm, '');
                 if (tmpstr.length < min) {
-                    responseButton.disabled = true;
-                    responseButton.setAttribute('title', '<?php echo Yii::t("response", "0820", array('{min}'=>Config::getMinLengthResponse())) ?>');
+                    sendButton.disabled = true;
+                    sendButton.setAttribute('title', '<?php echo Yii::t("response", "0820", array('{min}' => Config::getMinLengthResponse())) ?>');
+                    sendButton.setAttribute('style', 'background:gray');
                 } else {
-                    responseButton.disabled = false;
-                    responseButton.removeAttribute('title');
+                    sendButton.disabled = false;
+                    sendButton.removeAttribute('title');
+                    sendButton.removeAttribute('style');
                     if (tmpstr.length > max) {
-                        responseButton.disabled = true;
-                        responseButton.setAttribute('title', '<?php echo Yii::t("response", "0821", array('{max}'=>Config::getMaxLengthResponse())) ?>');
+                        sendButton.disabled = true;
+                        sendButton.setAttribute('title', '<?php echo Yii::t("response", "0821", array('{max}' => Config::getMaxLengthResponse())) ?>');
+                        sendButton.setAttribute('style', 'background:gray');
                     }
                 }
                 if (e.which != 8 && tmpstr.length > max) {
