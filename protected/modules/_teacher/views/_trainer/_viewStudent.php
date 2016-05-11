@@ -44,7 +44,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                                            array("id" => $student->id, "idModule" => $record["id"])); ?>',
                                                            '<?= $student->registrationData->userName(); ?>');">
                                                         <?= $record["title"] . " (" . $record["lang"] . ")";
-                                                        if (is_null($record["end_date"]) && $record["teacherId"]) {
+                                                        if ($record["teacherId"] != 0) {
                                                             ?>
                                                             <em>(викладач - <?= $record["teacherName"] ?>)</em>
                                                         <?php } else { ?>
@@ -81,7 +81,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
                                        '<?= $student->registrationData->userName(); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
-                                    if (is_null($module["end_date"]) && $module["teacherId"]) {
+                                    if ($module["teacherId"] != 0) {
                                         ?>
                                         <em>(викладач - <?= $module["teacherName"] ?>)</em>
                                     <?php } else { ?>
