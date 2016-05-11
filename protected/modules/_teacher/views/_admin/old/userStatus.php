@@ -38,7 +38,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         'email',
         array(
             'header' => '',
-            'value' => 'date("l jS \of F Y h:i:s A", $data->reg_time)'
+            'value' => 'date("l jS \of F Y h:i:s A", strtotime($data->reg_time))'
         ),
         'status',
 

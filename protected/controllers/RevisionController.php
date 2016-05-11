@@ -598,6 +598,27 @@ class RevisionController extends Controller {
 
         echo $json;
     }
+    public function actionBuildApprovedBranchPartInModule() {
+        $idModule = Yii::app()->request->getPost('idModule');
+        $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
+        $relatedTree = RevisionLecture::getLecturesTree($idModule);
+
+        $approvedRevisions=RevisionLecture::getApprovedRevisionsInModule($idModule);
+        $quickUnion=$lectureRev[0]->getQuickUnionRevisions();
+        if($approvedRevisions){
+            $moduleRevisions=[];
+            foreach($approvedRevisions as $branch){
+                $moduleRevisions=array_merge($moduleRevisions, $branch->getRelatedIdListFromApproved($quickUnion,$branch->id_revision));
+                $relatedTree[$branch->id_revision]=$branch->id_revision;
+            }
+        }else{
+            $moduleRevisions=[];
+        }
+        $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
+        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+
+        echo $json;
+    }
     public function actionShowRevision($idRevision) {
         $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
 
@@ -942,6 +963,8 @@ class RevisionController extends Controller {
             $pages[$key]["id"] = $page->id;
             $pages[$key]['title'] = $page->page_title;
             $pages[$key]["page_order"] = $page->page_order;
+            $pages[$key]["quiz"] = $page->quiz;
+            $pages[$key]["video"] = $page->video;
         }
         $lecture['status']=$lectureRevision->getStatus();
         $lecture['canEdit']=$lectureRevision->canEdit();
@@ -950,6 +973,9 @@ class RevisionController extends Controller {
         $lecture['canApprove']=$lectureRevision->canApprove();
         $lecture['canCancelRevision']=$lectureRevision->canCancelRevision();
         $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
+        $lecture['link']=
+            $lecture['canCancelRevision']?
+                Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;
 
         $data['lecture']=$lecture;
         $data['pages']=$pages;
@@ -998,6 +1024,12 @@ class RevisionController extends Controller {
         $answers = Yii::app()->request->getPost('answers', $emptyanswers);
 
         echo RevisionTestsAnswers::checkTestAnswer($test, $answers);
+    }
+    public function actionCheckSkipAnswer()
+    {
+        $quizId = $_POST['id'];
+        $answers = $_POST['answers'];
+        echo RevisionSkipTaskAnswers::checkSkipAnswer($quizId,$answers);
     }
     public function actionBuildCurrentLectureJson() {
         $idModule = Yii::app()->request->getPost('idModule');

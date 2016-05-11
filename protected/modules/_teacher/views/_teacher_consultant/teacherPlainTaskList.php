@@ -12,7 +12,7 @@ if (!empty($teacherPlainTasks)) { ?>
                     <table class="table table-striped table-bordered table-hover" id="tasksTable">
                         <thead>
                         <tr>
-                            <th style="width: 15%">Модуль</th>
+                            <th style="width: 15%">Лекція</th>
                             <th style="width: 20%">Задача</th>
                             <th style="width: 15%">Користувач</th>
                             <th>Відповідь</th>

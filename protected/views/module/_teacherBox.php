@@ -20,22 +20,32 @@ foreach ($teachers as $teacher) {
                         &#187;</a>
                     <br>
                     <a class="btnChat" href="<?php
-                        if (!Yii::app()->user->isGuest){
-                            echo Config::getBaseUrl(); echo Config::getChatPath(); echo $teacher->user_id; echo '" target="_blank';
-                        } else {
-                            echo '#" '.'onclick="openSignIn();';
-                        }
-                    ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
-                    <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                        'scenario' => 'message',
-                        'receiver' => $teacher->user_id
-                    ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
+                    if (!Yii::app()->user->isGuest) {
+                        echo Config::getBaseUrl();
+                        echo Config::getChatPath();
+                        echo $teacher->user_id;
+                        echo '" target="_blank';
+                    } else {
+                        echo '#" ' . 'onclick="openSignIn();';
+                    }
+                    ?>" data-toggle="tooltip" data-placement="left" title="<?= Yii::t('teacher', '0794'); ?>"><img
+                            src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png'); ?>"></a>
+                    <a class="btnChat" href="<?php
+                    if (!Yii::app()->user->isGuest) {
+                        echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                            'scenario' => 'message',
+                            'receiver' => $teacher->user_id
+                        ));
+                    } else {
+                        echo '#" ' . 'onclick="openSignIn();';
+                    }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img
+                            src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
                 </td>
                 <td class="teacherBoxRight">
                     <h2><?php echo Yii::t('module', '0227'); ?></h2>
 
                     <div style="line-height: 1.2;">
-                        <?php echo $teacher->getLastFirstName();?>
+                        <?php echo $teacher->getLastFirstName(); ?>
                         <br>
                         <?php echo $teacher->user->email; ?>
                         <br>
@@ -48,6 +58,6 @@ foreach ($teachers as $teacher) {
             </tr>
         </table>
     </div>
-<?php
+    <?php
 }
 ?>

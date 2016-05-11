@@ -305,14 +305,6 @@ class StudentReg extends CActiveRecord
         ));
     }
 
-    protected function beforeSave()
-    {
-        if ($this->password !== Null)
-            $this->password = sha1($this->password);
-        $this->reg_time = time();
-        return parent::beforeSave();
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -902,7 +894,7 @@ class StudentReg extends CActiveRecord
               left join user u on ts.trainer = u.id';
 
         if (isset($startDate) && isset($endDate)) {
-            $sql .= " and TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate' ";
+            $sql .= " where TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate' ";
         }
         $sql .= ' group by user.id';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -1032,7 +1024,7 @@ class StudentReg extends CActiveRecord
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
             $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", $record["reg_time"]) : '<em>невідомо</em>';
+            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->id
@@ -1161,17 +1153,17 @@ class StudentReg extends CActiveRecord
     public function addressString()
     {
         $param = "title_" . Yii::app()->session["lg"];
-        $result = '';
-        if (!is_null($this->country))
-            $result .= AddressCountry::model()->findByPk($this->country)->$param;
-        if (!is_null($this->city))
-            $result .= ", " . AddressCity::model()->findByPk($this->city)->$param;
+        $result = [];
+        if (!is_null($this->country) && AddressCountry::model()->findByPk($this->country)->$param)
+            array_push($result,AddressCountry::model()->findByPk($this->country)->$param);
+        if (!is_null($this->city) && AddressCity::model()->findByPk($this->city)->$param)
+            array_push($result,AddressCity::model()->findByPk($this->city)->$param);
         $address = self::getAdressYears($this->birthday, $this->address);
         if($address != ''){
-            $result .= ", ".$address;
+            array_push($result,$address);
         }
 
-        return ($result != ", ") ? $result : '';
+        return (count($result)!=0) ? implode(", ", $result) : '';
     }
 
     public function accountStatus(){

@@ -146,6 +146,10 @@ class StudentRegController extends Controller
             else $_POST['StudentReg']['educform'] = 'Онлайн';
 
             $model->attributes = $_POST['StudentReg'];
+            if ($model->password !== Null){
+                $model->password = sha1($model->password);
+                $model->password_repeat = sha1($model->password_repeat);
+            }
 
             $getToken = rand(0, 99999);
             $getTime = date("Y-m-d H:i:s");
@@ -229,10 +233,11 @@ class StudentRegController extends Controller
         if (Yii::app()->user->isGuest || $idUser == 0)
             throw new \application\components\Exceptions\IntItaException('403', 'Гість не може проглядати профіль користувача');
         $user = RegisteredUser::userById($idUser);
+        if (!$user)
+            throw new \application\components\Exceptions\IntItaException('404', 'Такого користувача немає');
         $model = $user->registrationData;
         $addressString = $model->addressString();
-        if (!$model)
-            throw new \application\components\Exceptions\IntItaException('403', 'Користувача з таким ідентифікатором не існує');
+
         $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
         $paymentsCourses = $model->getPaymentsCourses();

@@ -36,7 +36,7 @@ function testCtrl($http, $scope) {
         }, function errorCallback() {
             $('#ajaxLoad').hide();
             button.removeAttr('disabled');
-            bootbox.alert("Вибачте, але на сайті виникла помилка. Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
+            bootbox.alert("Вибачте, але на сайті виникла помилка. Зв'яжіться з адміністратором сайту.");
         });
     };
     $scope.getUserAnswers = function (testType) {

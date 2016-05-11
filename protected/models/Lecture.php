@@ -24,7 +24,7 @@
  * @property LectureType $type
  * @property Module $module
  */
-class Lecture extends CActiveRecord
+class Lecture extends CActiveRecord implements ILessonsStatistics
 {
     const MAX_RAIT = 6;
     const FREE = 1;
@@ -390,6 +390,14 @@ class Lecture extends CActiveRecord
             if (Yii::app()->user->model->isAuthor()) {
                 $model = new Author();
                 $editMode = $model->isTeacherAuthorModule($user, $this->idModule);
+                return true;
+            }
+
+            if (Yii::app()->user->model->isTeacherConsultant()) {
+                $model = new TeacherConsultant();
+                if($model->isTeachModule($user, $this->idModule)){
+                    return true;
+                }
             }
 
             if (Yii::app()->user->model->isAdmin() || $editMode)
@@ -940,4 +948,18 @@ class Lecture extends CActiveRecord
         $lastLectureOrder = Yii::app()->db->createCommand($sqlLastOrder)->queryScalar();
         return $lastLectureOrder;
     }
+    //ILessonStatistics implementations
+    public function statisticalName(){
+        $sql = 'select * from module'; //рабочий лекции
+        $course = Yii::app()->db->createCommand($sql)->queryAll();
+        echo $course;
+//       $tmp =Module::model()->findByPk(3);
+//        $r =$tmp->lectures;
+//       return $r;
+    }
+
+    public function isVideoPresent(){}
+    public function isTestPresent(){}
+    public function wordsCount(){}
+
 }

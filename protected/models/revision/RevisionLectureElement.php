@@ -113,7 +113,7 @@ class RevisionLectureElement extends CActiveRecord
      */
 	public function saveCheck($runValidation=true,$attributes=null) {
 		if (!$this->save($runValidation, $attributes)) {
-			throw new RevisionLectureElementException(implode(", ", $this->getErrors()));
+			throw new RevisionLectureElementException('400',$this->getValidationErrors());
 		}
 	}
 
@@ -250,5 +250,24 @@ class RevisionLectureElement extends CActiveRecord
 
     public function isVideo() {
         return $this->id_type == LectureElement::VIDEO;
+    }
+
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return $errors[0];
+    }
+
+    public function getSkipTaskQuestion()
+    {
+        $skipTask = RevisionSkipTask::model()->findByAttributes(array('condition' => $this->id));
+        if ($skipTask) {
+            return $skipTask->question;
+        }
+        return null;
     }
 }

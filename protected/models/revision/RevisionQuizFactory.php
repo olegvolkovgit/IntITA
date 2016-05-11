@@ -308,7 +308,7 @@ class RevisionQuizFactory {
                 $questionLE = $oldTask->question0;
                 $answers = [];
                 foreach ($oldTask->skipTaskAnswers   as $answer) {
-                    array_push($answers, ['value' => $answer->answer, 'caseInSensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
+                    array_push($answers, ['value' => $answer->answer, 'caseInsensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
                 }
                 return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $oldTask->id);
                 break;

@@ -30,6 +30,10 @@ function skipTaskCtrl($scope, $http) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
+        if(number<1){
+            bootbox.alert("Виділіть хоч одне слово-пропуск!");
+            return;
+        }
         text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             return '<input type=text size="'+p5.length+'" id=skipTask'+p2+' caseInsensitive='+p3+' />';
         });
@@ -56,14 +60,13 @@ function skipTaskCtrl($scope, $http) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                alert("Завдання успішно додано до лекції!");
-                location.reload();
+                bootbox.alert("Завдання успішно додано до лекції!", function () {location.reload()});
             })
             .fail(function () {
                 return;
-                bootbox.alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                bootbox.alert("Вибачте, але на сайті виникла помилка і додати завдання до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                location.reload();
+                //location.reload();
             })
             .always(function () {
             });

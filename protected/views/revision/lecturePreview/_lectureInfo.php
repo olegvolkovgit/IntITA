@@ -23,7 +23,7 @@
                 <img ng-if=lectureData.lecture.canRejectRevision ng-click=rejectRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
                      title="Відхилити ревізію"/>
-                <a href="<?php echo Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)); ?>">
+                <a ng-href="{{lectureData.lecture.link}}" >
                     <img style="width: 48px" ng-if=lectureData.lecture.canCancelRevision
                          src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                          title="Переглянути заняття"/>

@@ -6,11 +6,11 @@ angular
     .controller('revisionsBranchCtrl',revisionsBranchCtrl);
 
 function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
-    $scope.branch=true;
+    $scope.approvedTree=true;
     //init tree after load json
-    revisionsTree.getRevisionsBranch(idRevision).then(function(response){
+    revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
         $rootScope.revisionsJson=response;
-        $scope.$parent.revisionsTreeInit();
+        $scope.revisionsTreeInit();
     });
     //init actions for revision tree
     var approverActions=[{
@@ -155,11 +155,25 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        revisionsTree.getRevisionsBranch(idRevision).then(function(response){
+        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
             $rootScope.revisionsJson=response;
-            $scope.$parent.treeUpdate(nodeId);
+            $scope.treeUpdate(nodeId);
         });
     };
+
+    $scope.loadTreeMode = function () {
+        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function (response) {
+            $rootScope.revisionsJson = response;
+            $scope.treeUpdate();
+        });
+    };
+
+    $scope.updateTree = function() {
+        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
+            $rootScope.revisionsJson=response;
+            $scope.revisionsTreeInit();
+        });
+    }
 }
 
 

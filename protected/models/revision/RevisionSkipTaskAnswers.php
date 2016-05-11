@@ -105,11 +105,11 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         }
     }
 
-    public static function createAnswer($testId, $answer, $caseInSensitive, $order) {
+    public static function createAnswer($testId, $answer, $caseInsensitive, $order) {
         $newAnswer = new RevisionSkipTaskAnswers();
         $newAnswer->id_task = $testId;
         $newAnswer->answer = $answer;
-        $newAnswer->case_in_sensitive = $caseInSensitive;
+        $newAnswer->case_in_sensitive = $caseInsensitive;
         $newAnswer->answer_order = $order;
 
         $newAnswer->saveCheck();
@@ -129,9 +129,9 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         return $newAnswer;
     }
 
-    public function edit($answer, $caseInSensitive, $order) {
+    public function edit($answer, $caseInsensitive, $order) {
         $this->answer = $answer;
-        $this->case_in_sensitive = $caseInSensitive;
+        $this->case_in_sensitive = $caseInsensitive;
         $this->answer_order = $order;
         $this->saveCheck();
     }
@@ -144,6 +144,34 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
             'case_in_sensitive' => $this->case_in_sensitive]);
         $newSkipTaskAnswer->save();
         return $newSkipTaskAnswer;
+    }
+
+    public static function checkSkipAnswer($quizId,$answers)
+    {
+        $isDone = true;
+        $skipTaskAnswers = RevisionSkipTask::model()->findByAttributes(array('condition' => $quizId))->answers;
+        usort($skipTaskAnswers, function($a, $b)
+        {
+            return strcmp($a->answer_order, $b->answer_order);
+        });
+
+        for($i = 0;$i < count($skipTaskAnswers);$i++)
+        {
+            $answer = $answers[$i][0];
+            $taskAnswer = $skipTaskAnswers[$i]->answer;
+            if($answers[$i][2] == 1)
+            {
+                $answer = mb_convert_case($answer, MB_CASE_UPPER, "UTF-8");
+                $taskAnswer = mb_convert_case($taskAnswer, MB_CASE_UPPER, "UTF-8");
+            }
+
+            if(strcmp($answer,$taskAnswer) != 0)
+            {
+                $isDone = false;
+                break;
+            }
+        }
+        return $isDone;
     }
 
 }

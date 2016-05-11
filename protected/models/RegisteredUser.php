@@ -32,8 +32,7 @@ class RegisteredUser
         if (($id !== null) && (($registrationData = StudentReg::model()->findByPk($id)) !== null)) {
             return new RegisteredUser($registrationData);
         }
-        //TODO:
-        throw new CDbException('500', "No such user");
+        throw new \application\components\Exceptions\IntItaException('404', 'Такого користувача немає');
     }
 
     //Model Methods

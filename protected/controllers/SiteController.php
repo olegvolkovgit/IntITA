@@ -88,7 +88,7 @@ class SiteController extends Controller
             case '500':
                 $breadcrumbs = Yii::t('breadcrumbs', '0783');
                 if(!$isGotMessage)
-                //   $error["message"] = Yii::t('breadcrumbs', '0783');
+                   $error["message"] = Yii::t('breadcrumbs', '0783');
                 break;
             default:
                 $breadcrumbs = Yii::t('breadcrumbs', '0784');
@@ -352,10 +352,10 @@ class SiteController extends Controller
             $post = Yii::app()->request->getPost('StudentReg');
             if ($model->token == Yii::app()->request->getPost('tokenhid')) {
                 $model->attributes = Yii::app()->request->getPost('StudentReg');
-                $model->password = $post['new_password'];
                 $model->token = null;
                 $model->activkey_lifetime = null;
                 $model->status = 1;
+                $model->password = sha1($post['new_password']);
                 if ($model->validate()) {
                     $model->save();
                     $modellogin = new StudentReg('loginuser');
@@ -723,6 +723,10 @@ class SiteController extends Controller
                 $model->token = sha1($getToken . $getTime);
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
+
+                if ($model->password !== Null)
+                    $model->password = sha1($model->password);
+
                 if ($model->validate()) {
                     $model->save();
                     $sender = new MailTransport();
