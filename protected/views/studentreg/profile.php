@@ -1,6 +1,7 @@
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'profile.css'); ?>"/>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/profileCtrl.js'); ?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/profileCtrl.js'); ?>"></script>
 <?php
 /* @var $this StudentregController
  * @var $post StudentReg
@@ -24,13 +25,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <td>
                     <h2><?php $post->getProfileRole(); ?></h2>
                 </td>
-                <?php if($owner){?>
-                <td>
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
-                </td>
-                <td>
-                    <a href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>"><?php echo Yii::t('profile', '0096'); ?></a>
-                </td>
+                <?php if ($owner) { ?>
+                    <td>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
+                    </td>
+                    <td>
+                        <a href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>"><?php echo Yii::t('profile', '0096'); ?></a>
+                    </td>
                 <?php } ?>
             </tr>
         </table>
@@ -39,7 +40,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class='profileInfo'>
             <tr>
                 <td>
-                    <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                    <?php if ($owner) { ?>
+                        <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                    <?php } ?>
                     <h1>{{profileData.nickname}}</h1>
                     <h1>{{profileData.firstName}}</h1>
                     <h1>{{profileData.secondName}}</h1>
@@ -54,19 +57,25 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         </p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.aboutMy"><span class="colorP"><?php echo Yii::t('profile', '0100') ?></span>{{profileData.aboutMy}}</p>
+                        <p ng-if="profileData.aboutMy"><span
+                                class="colorP"><?php echo Yii::t('profile', '0100') ?></span>{{profileData.aboutMy}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.email"><span class="colorP"><?php echo Yii::t('profile', '0101') ?></span>{{profileData.email}}</p>
+                        <p ng-if="profileData.email"><span class="colorP"><?php echo Yii::t('profile', '0101') ?></span>{{profileData.email}}
+                        </p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.phone"><span class="colorP"><?php echo Yii::t('profile', '0102') ?></span>{{profileData.phone}}</p>
+                        <p ng-if="profileData.phone"><span class="colorP"><?php echo Yii::t('profile', '0102') ?></span>{{profileData.phone}}
+                        </p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.skype"><span class="colorP"><?php echo 'Skype:' ?></span>{{profileData.skype}}</p>
+                        <p ng-if="profileData.skype"><span class="colorP"><?php echo 'Skype:' ?></span>{{profileData.skype}}
+                        </p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.education"><span class="colorP"><?php echo Yii::t('profile', '0103') ?></span>{{profileData.education}}</p>
+                        <p ng-if="profileData.education"><span
+                                class="colorP"><?php echo Yii::t('profile', '0103') ?></span>{{profileData.education}}
+                        </p>
                     </div>
                     <div class="aboutInfo">
                         <p ng-if="profileData.interests">
@@ -77,15 +86,18 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                         </p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.aboutUs"><span class="colorP"><?php echo Yii::t('profile', '0105') ?></span>{{profileData.aboutUs}}</p>
+                        <p ng-if="profileData.aboutUs"><span
+                                class="colorP"><?php echo Yii::t('profile', '0105') ?></span>{{profileData.aboutUs}}</p>
                     </div>
                     <div class="aboutInfo">
-                        <p ng-if="profileData.educform && !profileData.teacher"><span class="colorP"><?php echo Yii::t('profile', '0106') ?></span>{{profileData.educform}}</p>
+                        <p ng-if="profileData.educform && !profileData.teacher"><span
+                                class="colorP"><?php echo Yii::t('profile', '0106') ?></span>{{profileData.educform}}
+                        </p>
                     </div>
                     <div class="aboutInfo">
                         <span ng-if="networks.length" class="colorP"><?php echo Yii::t('user', '0779') ?>:</span>
                     </div>
-                    <div class="aboutInfo"  ng-repeat="network in networks track by $index">
+                    <div class="aboutInfo" ng-repeat="network in networks track by $index">
                         <span class='networkLink'><a href="{{networks[$index][0]}}" target='_blank'>{{networks[$index][1]}}</a></span>
                     </div>
                 </td>
@@ -96,13 +108,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <div class="tabs">
             <ul>
                 <li>
-                    <?=($owner)?Yii::t('profile', '0108'):'Курси'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0108') : 'Курси'; ?>
                 </li>
                 <li>
-                    <?=($owner)?Yii::t('profile', '0113'):'Рейтинг'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0113') : 'Рейтинг'; ?>
                 </li>
                 <li>
-                    <?=($owner)?Yii::t('profile', '0116'):'Оцінювання'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0116') : 'Оцінювання'; ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -142,9 +154,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 <script type="text/javascript">
     lang = '<?php if (CommonHelper::getLanguage() == 'ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
 </script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+<script
+    src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'profileDialogs.js'); ?>"></script>
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
+<link
+    href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>"
+    rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+      href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
 <!-- Scripts for open tabs -->
