@@ -26,7 +26,6 @@ function moduleEditCtrl($http,$scope) {
     }
 
     $scope.getModuleData=function (idModule) {
-        $('#moduleLoading').show();
         var promise = $http({
             url: basePath+'/module/moduleData',
             method: "POST",
@@ -46,6 +45,7 @@ function moduleEditCtrl($http,$scope) {
 
     $scope.upLecture=function (idLecture, idModule) {
         $('#lessonForm').hide();
+        $('#moduleLoading').show();
         $http({
             url: basePath+'/module/upLesson',
             method: "POST",
@@ -58,11 +58,13 @@ function moduleEditCtrl($http,$scope) {
                 $('#moduleLoading').hide();
             });
         }, function errorCallback() {
+            $('#moduleLoading').hide();
             bootbox.alert('Не вдалось перемістити заняття');
         });
     };
     $scope.downLecture=function (idLecture, idModule) {
         $('#lessonForm').hide();
+        $('#moduleLoading').show();
         $http({
             url: basePath+'/module/downLesson',
             method: "POST",
@@ -75,6 +77,7 @@ function moduleEditCtrl($http,$scope) {
                 $('#moduleLoading').hide();
             });
         }, function errorCallback() {
+            $('#moduleLoading').hide();
             bootbox.alert('Не вдалось перемістити заняття');
         });
     }
@@ -83,6 +86,7 @@ function moduleEditCtrl($http,$scope) {
 
         bootbox.confirm($scope.msg, function(result){
             if(result){
+                $('#moduleLoading').show();
                 $http({
                     url: basePath+'/revision/DeleteLecture',
                     method: "POST",
@@ -95,6 +99,7 @@ function moduleEditCtrl($http,$scope) {
                         $('#moduleLoading').hide();
                     });
                 }, function errorCallback() {
+                    $('#moduleLoading').hide();
                     bootbox.alert('Не вдалось дезактивувати заняття');
                 });
             };
@@ -110,29 +115,6 @@ function moduleEditCtrl($http,$scope) {
     $scope.hideForm=function (id) {
         $form = document.getElementById(id);
         $form.style.display = 'none';
-    }
-    $scope.saveTitle=function(idLecture,idModule,event){
-        var lectureTitle=angular.element(event.currentTarget).prev().val();
-        $http({
-            url: basePath + '/module/UpdateLectureTitle',
-            method: "POST",
-            data: $.param({lectureId: idLecture,title:lectureTitle}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            if(response.data=='success'){
-                $scope.getModuleData(idModule).then(function (response) {
-                    moduleListUpdate(response);
-                    $('#moduleLoading').hide();
-                    bootbox.alert($scope.saveMsg, function () {
-                        angular.element(event.currentTarget).next().click();
-                    });
-                });
-            }else{
-                bootbox.alert(response.data[0]);
-            }
-        }, function errorCallback() {
-            bootbox.alert('Назву заняття змінити не вдалося');
-        });
     }
 
     function moduleListUpdate(response){

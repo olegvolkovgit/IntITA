@@ -1,4 +1,4 @@
-<label>Властивоті лекції: </label>
+<label xmlns="http://www.w3.org/1999/html">Властивоті лекції: </label>
 <table class="table">
     <tr>
         <td>Cтатус:</td>
@@ -23,6 +23,11 @@
                 <img ng-if=lectureData.lecture.canRejectRevision ng-click=rejectRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
                      title="Відхилити ревізію"/>
+                <a ng-href="{{lectureData.lecture.link}}" >
+                    <img style="width: 48px" ng-if=lectureData.lecture.canCancelRevision
+                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
+                         title="Переглянути заняття"/>
+                </a>
             </div>
         </td>
     </tr>

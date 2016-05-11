@@ -58,8 +58,10 @@ class Admin extends Role
 		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
 		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-		$criteria->join = 'LEFT JOIN user_admin u ON u.id_user = s.id';
-		$criteria->addCondition('u.id_user IS NULL or u.end_date IS NOT NULL');
+		$criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+		$criteria->join .= ' LEFT JOIN user_admin u ON u.id_user = s.id';
+		$criteria->addCondition('t.user_id IS NOT NULL and (u.id_user IS NULL or u.end_date IS NOT NULL)');
+        $criteria->group = 's.id';
 
 		$data = StudentReg::model()->findAll($criteria);
 

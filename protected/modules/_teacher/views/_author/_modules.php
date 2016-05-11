@@ -16,7 +16,7 @@
             <tbody>
             <?php
             foreach ($attribute["value"] as $item) {
-                if (!$item["end_date"]) {
+                if (!$item["end_date"] && ($item["cancelled"] == Module::ACTIVE)) {
                     ?>
                     <tr>
                         <td>

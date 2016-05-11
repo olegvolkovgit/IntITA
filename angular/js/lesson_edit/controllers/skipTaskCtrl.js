@@ -6,7 +6,7 @@ function skipTaskCtrl($scope, $http) {
 
     $scope.getDataSkipTask = function(id) {
         var promise = $http({
-            url: basePath+'/skipTask/dataSkipTask',
+            url: basePath+'/revision/dataSkipTaskCondition',
             method: "POST",
             data: $.param({idBlock: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -21,7 +21,7 @@ function skipTaskCtrl($scope, $http) {
         $scope.dataSkipTask=response;
     });
 
-    $scope.editSkipTaskCKE = function (url, pageId, author) {
+    $scope.editSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.dataSkipTask.source;
         var condition = $scope.dataSkipTask.condition;
 
@@ -30,14 +30,20 @@ function skipTaskCtrl($scope, $http) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
+        if(number<1){
+            bootbox.alert("Виділіть хоч одне слово-пропуск!");
+            return;
+        }
         text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             return '<input type=text size="'+p5.length+'" id=skipTask'+p2+' caseInsensitive='+p3+' />';
         });
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
-            "page":pageId,
-            "author": author,
+            "pageId":pageId,
+            "idBlock":$scope.idBlock,
+            "revisionId":revisionId,
+            "idType":quizType,
             "question": question,
             "condition":condition,
             "text": text,
@@ -54,13 +60,13 @@ function skipTaskCtrl($scope, $http) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                //alert("Завдання успішно додано до лекції!");
-                location.reload();
+                bootbox.alert("Завдання успішно додано до лекції!", function () {location.reload()});
             })
             .fail(function () {
-                bootbox.alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                return;
+                bootbox.alert("Вибачте, але на сайті виникла помилка і додати завдання до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                location.reload();
+                //location.reload();
             })
             .always(function () {
             });

@@ -30,10 +30,16 @@
                                     echo '#" '.'onclick="openSignIn();';
                                 }
                                 ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
-                            <a class="btnChat"  href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                                'scenario' => 'message',
-                                'receiver' => $teacherValue->user_id
-                            ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
+                            <a class="btnChat" href="<?php
+                            if (!Yii::app()->user->isGuest) {
+                                echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                                    'scenario' => 'message',
+                                    'receiver' => $teacherValue->user_id
+                                ));
+                            } else {
+                                echo '#" ' . 'onclick="openSignIn();';
+                            }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img
+                                    src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
                         </td>
                         <td>
                             <h2><?php echo $teacherValue->lastName(); ?></h2>
@@ -72,12 +78,12 @@
                 </table>
                 <div class="aboutMore">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'readMore.png');?>"/>
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->user_id));?>">
                         <?php echo Yii::t('teachers', '0062'); ?> &#187;
                     </a>
                     <br>
                     <?php echo CommonHelper::getRating($teacherValue->rating); ?>
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->teacher_id));?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacherValue->user_id));?>">
                         <?php echo Yii::t('teachers', '0063'); ?> &#187;
                     </a>
                 </div>

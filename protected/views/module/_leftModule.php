@@ -27,10 +27,11 @@ if (!Yii::app()->user->isGuest) {
                             } elseif ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
                                 ?>
                                 <a id="paymentButtonModule" onclick="redirectToProfile()"
-                                   href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                                       'idUser' => Yii::app()->user->getId(),
-                                       'course' => (isset($_GET['idCourse'])) ? $_GET['idCourse'] : 0,
-                                       'module' => $post->module_ID
+                                   href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                                       'scenario' => 'payModule',
+                                       'receiver' => 0,
+                                       'course' => 0,
+                                       'module' => $post->module_ID,
                                    )); ?>"><?php echo Yii::t('module', '0279'); ?></a>
                                 <?php
                             }
@@ -49,9 +50,11 @@ if (!Yii::app()->user->isGuest) {
                             } else if (!$isPaidCourse) {
                                 ?>
                                 <a id="paymentButtonCourse" onclick="redirectToProfile()"
-                                   href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                                       'idUser' => Yii::app()->user->getId(),
-                                       'course' => $_GET['idCourse'],
+                                   href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                                       'scenario' => 'payModule',
+                                       'receiver' => 0,
+                                       'course' =>  $_GET['idCourse'],
+                                       'module' => $post->module_ID,
                                    )); ?>"><?php echo Yii::t('course', '0328'); ?></a>
                                 <?php
                             }

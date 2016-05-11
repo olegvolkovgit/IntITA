@@ -85,7 +85,7 @@ class TeacherConsultant extends Role
     private function loadModules()
     {
         $records = Yii::app()->db->createCommand()
-            ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date')
+            ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date, m.cancelled')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
             ->where('id_teacher=:id', array(':id' => $this->user->id))
@@ -158,7 +158,7 @@ class TeacherConsultant extends Role
 
     public function setStudentAttribute(StudentReg $teacher, $student, $module)
     {
-        if ($this->checkStudent($teacher->id, $student, $module)) {
+        if ($this->checkStudent($student, $module)) {
             return Yii::app()->db->createCommand()->
             insert('teacher_consultant_student', array(
                 'id_teacher' => $teacher->id,
@@ -171,12 +171,12 @@ class TeacherConsultant extends Role
     }
 
 
-    public function checkStudent($teacher, $module, $student)
+    public function checkStudent($module, $student)
     {
         if (Yii::app()->db->createCommand('select id_teacher from teacher_consultant_student where id_module=' . $module .
-            ' and id_teacher=' . $teacher . ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar()
+            ' and id_student=' . $student . ' and end_date IS NULL')->queryScalar()
         ) {
-            $this->errorMessage = "Даний викладач вже має права консультанта для обраного модуля для обраного студента.";
+            $this->errorMessage = "Для даного студента вже призначено викладача.";
             return false;
         } else return true;
     }
@@ -256,5 +256,14 @@ class TeacherConsultant extends Role
             $result["results"][$key]["url"] = $model->avatarPath();
         }
         return json_encode($result);
+    }
+
+
+    public function isTeachModule($teacher, $module){
+        if (empty(Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
+            ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
+            return true;
+        }
+        else return false;
     }
 }

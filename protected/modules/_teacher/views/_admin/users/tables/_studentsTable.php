@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set(Config::getServerTimezone());
 $currentTime = date('Y-m-d H:i:s');
 $last_24h = date('Y-m-d H:i:s', time()-60*60*24);
 $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
@@ -41,6 +42,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <th>Зареєстровано</th>
                         <th>Тренер</th>
                         <th>Змінити тренера</th>
+                        <th>Доступ</th>
                     </tr>
                     </thead>
                     <tbody>

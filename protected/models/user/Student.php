@@ -4,6 +4,8 @@ class Student extends Role
 {
 	private $dbModel;
 	private $errorMessage = "";
+    private $modules;
+    private $courses;
 
 	/**
 	 * @return string the associated database table name
@@ -35,29 +37,22 @@ class Student extends Role
 	{
 		$mask = PayModules::setFlags(array('read'));
 
-        $courses = Yii::app()->db->createCommand()
-            ->select('id_course id, language lang, c.title_ua title')
-            ->from('pay_courses pm')
-            ->join('course c', 'c.course_ID=pm.id_course')
-            ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
-            ->queryAll();
+        if(!$this->courses){
+            $this->loadCourses($user, $mask);
+        }
+        $courses = $this->courses;
 
-		$modules = Yii::app()->db->createCommand()
-			->select('module_ID id, language lang, m.title_ua title, u.id teacherId, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) teacherName')
-			->from('pay_modules pm')
-			->join('module m', 'm.module_ID=pm.id_module')
-            ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
-            ->leftJoin('user u', 'u.id=tcs.id_teacher')
-			->where('id_user=:id and rights & :mask and (tcs.id_student IS NULL or (tcs.id_student=:id and tcs.end_date IS NULL))',
-                array(':id' => $user->id, ':mask' => $mask))
-			->queryAll();
+        if(!$this->modules){
+            $this->loadModules($user, $mask);
+        }
+        $modules = $this->modules;
 
 		return array(
             array(
                 'key' => 'module',
                 'title' => 'Модулі',
                 'type' => 'module-list',
-                'value' => $modules
+                'value' => $modules,
             ),
             array(
                 'key' => 'course',
@@ -67,6 +62,32 @@ class Student extends Role
             )
         );
 	}
+
+    private function loadCourses(StudentReg $user, $mask){
+
+        $this->courses = Yii::app()->db->createCommand()
+            ->select('id_course id, language lang, c.title_ua title')
+            ->from('pay_courses pm')
+            ->join('course c', 'c.course_ID=pm.id_course')
+            ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
+            ->queryAll();
+    }
+
+    private function loadModules(StudentReg $user, $mask){
+
+        $this->modules = Yii::app()->db->createCommand()
+            ->select('module_ID id, language lang, m.title_ua title, u.id teacherId, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) teacherName, tcs.end_date')
+            ->from('pay_modules pm')
+            ->join('module m', 'm.module_ID=pm.id_module')
+            ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
+            ->leftJoin('user u', 'u.id=tcs.id_teacher')
+            ->where('pm.id_user=:id and rights & :mask',
+                array(':id' => $user->id, ':mask' => $mask))
+            ->group('m.module_ID')
+            ->order('tcs.end_date DESC')
+            ->queryAll();
+        return $this->modules;
+    }
 
     public function getTeacherForModuleDefined($student, $module)
     {

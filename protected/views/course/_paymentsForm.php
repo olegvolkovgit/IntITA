@@ -3,51 +3,47 @@
 ?>
 <div class="paymentsForm">
     <?php
-    if ($model->status != 0) {
-        $form = $this->beginWidget('CActiveForm', array(
-            'action' => '#',
-            'id' => 'payments-form',
-            'enableAjaxValidation' => false,
-        )); ?>
-        <input value="1" type="hidden" name="schema"/>
-        <input value="Online" type="hidden" name="type" id="type"/>
+    $form = $this->beginWidget('CActiveForm', array(
+        'action' => '#',
+        'id' => 'payments-form',
+        'enableAjaxValidation' => false,
+    )); ?>
+    <input value="1" type="hidden" name="schema"/>
+    <input value="Online" type="hidden" name="type" id="type"/>
 
-        <?php $this->renderPartial('_onlinePaymentsScheme', array('model' => $model)); ?>
+    <?php $this->renderPartial('_onlinePaymentsScheme', array('model' => $model)); ?>
 
-        <?php $this->renderPartial('_offlinePaymentsForm', array('model' => $model)); ?>
+    <?php $this->renderPartial('_offlinePaymentsForm', array('model' => $model)); ?>
 
-        <div class="markAndButton">
-            <div class="markCourse">
-                <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
+    <div class="markAndButton">
+        <div class="markCourse">
+            <span class="colorP"><?php echo Yii::t('course', '0203'); ?> </span>
                             <span>
                                 <?php echo CommonHelper::getRating($model->rating); ?>
                             </span>
-            </div>
-            <div class="startCourse">
-                <?php
-                if (Yii::app()->user->isGuest) {
-                    echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
-                        'onclick' => 'openSignIn();'));
-                } else {
-                    if ($model->status != 0) {
-                        ?>
-                        <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton"
-                           onclick="redirectToProfile()"
-                           href="<?php echo Yii::app()->createUrl('studentreg/profile', array(
-                               'idUser' => Yii::app()->user->getId(),
-                               'course' => $model->course_ID,
-                           )); ?>"><?php echo Yii::t('course', '0328'); ?>
-                        </a>
-                        <?php
-                    }
-                } ?>
-            </div>
         </div>
-
-        <?php if ($model->status != 0) {
-            $this->endWidget();
-        } ?>
-    <?php } ?>
+        <div class="startCourse">
+            <?php
+            if (Yii::app()->user->isGuest) {
+                echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
+                    'onclick' => 'openSignIn();'));
+            } else {
+                if ($model->status != 0) {
+                    ?>
+                    <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton"
+                       onclick="redirectToProfile()"
+                       href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                           'scenario' => 'payCourse',
+                           'receiver' => 0,
+                           'course' => $model->course_ID,
+                       )); ?>"><?php echo Yii::t('course', '0328'); ?>
+                    </a>
+                    <?php
+                }
+            } ?>
+        </div>
+    </div>
+    <?php $this->endWidget();?>
 </div>
 
 <script>
@@ -59,6 +55,5 @@
         type = $('#type').val();
         $.cookie('courseSchema', schema, {'path': "/"});
         $.cookie('agreementType', type, {'path': "/"});
-        $.cookie('openProfileTab', 4, {'path': "/"});
     }
 </script>

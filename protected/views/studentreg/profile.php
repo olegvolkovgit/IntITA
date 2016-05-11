@@ -3,11 +3,15 @@
 <script
     src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/profileCtrl.js'); ?>"></script>
 <?php
-/* @var $this StudentregController */
-/* @var $post StudentReg */
-/* @var $user RegisteredUser */
-/* @var $form CActiveForm */
-/* @var $addressString string */
+/* @var $this StudentregController
+ * @var $post StudentReg
+ * @var $user RegisteredUser
+ * @var $form CActiveForm
+ * @var $addressString string*
+ * @var $paymentsCourses
+ * @var $markProvider
+ * @var $owner
+ */
 $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 ?>
 <script>
@@ -21,6 +25,14 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 <td>
                     <h2><?php $post->getProfileRole(); ?></h2>
                 </td>
+                <?php if ($owner) { ?>
+                    <td>
+                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
+                    </td>
+                    <td>
+                        <a href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>"><?php echo Yii::t('profile', '0096'); ?></a>
+                    </td>
+                <?php } ?>
             </tr>
         </table>
         <img class='avatarimg' src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $post->avatar); ?>"/>
@@ -28,6 +40,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <table class='profileInfo'>
             <tr>
                 <td>
+                    <?php if ($owner) { ?>
+                        <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                    <?php } ?>
                     <h1>{{profileData.nickname}}</h1>
                     <h1>{{profileData.firstName}}</h1>
                     <h1>{{profileData.secondName}}</h1>
@@ -93,25 +108,19 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <div class="tabs">
             <ul>
                 <li>
-                    <?php echo 'Курси'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0108') : 'Курси'; ?>
                 </li>
                 <li>
-                    <?php echo Yii::t('profile', '0109'); ?>
+                    <?= ($owner) ? Yii::t('profile', '0113') : 'Рейтинг'; ?>
                 </li>
                 <li>
-                    <?php echo 'Рейтинг'; ?>
-                </li>
-                <li>
-                    <?php echo 'Оцінювання'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0116') : 'Оцінювання'; ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
             <div class="tabsContent">
                 <div id="myCourse">
                     <?php $this->renderPartial('_mycourse', array('paymentsCourses' => $paymentsCourses)); ?>
-                </div>
-                <div id="timetable">
-                    <?php $this->renderPartial('_timetable', array('dataProvider' => $dataProvider, 'user' => $post, 'owner' => $owner)); ?>
                 </div>
                 <div id="myRatting">
                     <?php $this->renderPartial('_myRatting', array('user' => $user)); ?>
@@ -149,7 +158,6 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
     src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'profileDialogs.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
 <link
     href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>"
     rel="stylesheet">

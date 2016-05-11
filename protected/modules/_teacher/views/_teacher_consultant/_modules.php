@@ -13,14 +13,16 @@
                 <td>
                     <ul>
                         <?php foreach ($modules["value"] as $module) {
-                            ?>
-                            <li>
-                                <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
-                                   target="_blank">
-                                    <?= $module["title"] . " (" . $module["lang"] . ")"; ?>
-                                </a>
-                            </li>
-                        <?php } ?>
+                            if (is_null($module["end_date"])) {
+                                ?>
+                                <li>
+                                    <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
+                                       target="_blank">
+                                        <?= $module["title"] . " (" . $module["lang"] . ")"; ?>
+                                    </a>
+                                </li>
+                            <?php }
+                        }?>
                     </ul>
                 </td>
             <?php } else {

@@ -1,9 +1,7 @@
 <?php
-/*
+/**
  * @var Invoice $data
- * @var integer $cssClass
- * $row  Row
- * @var $this PaymentsController
+ * @var string $cssClass
  */
 ?>
    <span class="<?php echo $cssClass?>">

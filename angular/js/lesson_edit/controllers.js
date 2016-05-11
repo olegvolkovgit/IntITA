@@ -130,7 +130,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         }
     };
     /*add Skip Task*/
-    $scope.createSkipTaskCKE = function (url, pageId, author) {
+    $scope.createSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
@@ -139,12 +139,17 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
+        if(number<1){
+            bootbox.alert("Виділіть хоч одне слово-пропуск!");
+            return;
+        }
         text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, '<input type=text id=skipTask$1 caseInsensitive=$2 />' );
         pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
-            "page":pageId,
-            "author": author,
+            "pageId":pageId,
+            "revisionId":revisionId,
+            "idType":quizType,
             "question": question,
             "condition":condition,
             "text": text,
@@ -161,13 +166,12 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         var jsonSkip = $.post(url, newSkipTask, function () {
         })
             .done(function () {
-                //alert("Завдання успішно додано до лекції!");
-                 location.reload();
+                bootbox.alert("Завдання успішно додано до лекції!", function () {location.reload()});
             })
             .fail(function () {
-                alert("Вибачте, але на сайті виникла помилка і додати задачу до заняття наразі неможливо. " +
+                bootbox.alert("Вибачте, але на сайті виникла помилка і додати завдання до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                location.reload();
+                //location.reload();
             })
             .always(function () {
             });
@@ -263,7 +267,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 });
             });
     }
-    $scope. deleteTest=function(revisionId,pageId,idBlock){
+    $scope.deleteTest=function(revisionId,pageId,idBlock){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити тест?')
             .then(function() {
                 $http({

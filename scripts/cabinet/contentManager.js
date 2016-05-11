@@ -1,5 +1,5 @@
 
-function addTeacherAttrCM(url, attr, id, role,header,redirect) {
+function addTeacherAttrCM(url, attr, id, role) {
     user = $jq('#user').val();
     if (!role) {
         role = $jq('#role').val();
@@ -328,6 +328,36 @@ function initConsultantsTable(){
         }
     });
 }
+
+function cancelModuleAttrCM(url, id, attr, role, user) {
+    if (!user) {
+        user = $jq('#user').val();
+    }
+    if (!role) {
+        role = $jq('#role').val();
+    }
+    if (user && role) {
+        $jq.ajax({
+            url: url,
+            type: "POST",
+            async: true,
+            data: {user: user, role: role, attribute: attr, attributeValue: id},
+            success: function (response) {
+                if (response == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function (){
+                        window.history.back();
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
 function initCourseListTable(){
     $jq('#statusOfCourseTable').DataTable({
         "autoWidth": false,

@@ -16,7 +16,7 @@
             </div>
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
+                        onclick="addTeacherAttrCM('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
                             '<?= $attribute["key"] ?>', '#value')">
                     Додати модуль
                 </button>
@@ -39,7 +39,9 @@
             </thead>
             <tbody>
             <?php
-            foreach ($attribute["value"] as $item) {?>
+            foreach ($attribute["value"] as $item) {
+                if(!$item["end_date"] && ($item["cancelled"] == Module::ACTIVE)){
+            ?>
             <tr>
                 <td>
                     <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
@@ -47,21 +49,22 @@
                     </a>
                 </td>
                 <td>
-                    <?= date("d.m.Y",strtotime($item["start_date"])); ?>
+                    <?= date("d.m.Y", strtotime($item["start_date"])); ?>
                 </td>
                 <td>
-                    <?= ($item["end_date"] != "")?date("d.m.Y",strtotime($item["end_date"])):""; ?>
+                    <?= ($item["end_date"] != "") ? date("d.m.Y", strtotime($item["end_date"])) : ""; ?>
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
                         <a href="#"
-                           onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>',
+                           onclick="cancelModuleAttrCM('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>',
                                '<?= $item["id"] ?>', '<?= $attribute["key"] ?>'); return false;">
                             скасувати
                         </a>
                     <?php } ?>
                 </td>
                 <?php
+                }
                 } ?>
             </tr>
             </tbody>

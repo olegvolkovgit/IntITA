@@ -30,6 +30,33 @@ function load(url, header, histories, tab) {
     });
 }
 
+function createAccount(url, course, module) {
+    schema = $jq('input:radio[name="payment"]:checked').val();
+    educationForm = $jq('#educationForm').val();
+    if (schema == 0) {
+        bootbox.alert("Виберіть схему проплати.");
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                payment: schema,
+                course: course,
+                educationForm: educationForm,
+                module: module
+            },
+            cache: false,
+            success: function (id) {
+                load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
+            },
+            error: function () {
+                bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                    adminEmail);
+            }
+        });
+    }
+}
+
 function cancelTeacherAccess(url, header, redirect) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
@@ -67,6 +94,28 @@ function reloadPage(event) {
     }
 }
 
+function setUserRole(url) {
+    var role = $jq("select[name=role] option:selected").val();
+    var user = $jq("#user").val();
+    $jq.ajax({
+        url: url,
+        type: 'post',
+        async: true,
+        data: {role: role, user: user},
+        success: function (response) {
+            if (response == "success") {
+                bootbox.confirm("Операцію успішно виконано.", function () {
+                    load(basePath + "/_teacher/user/index/id/" + user, '');
+                });
+            } else {
+                showDialog("Операцію не вдалося виконати.");
+            }
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
 function setTeacherRole(url) {
     var role = $jq("select[name=role] option:selected").val();
     var teacher = $jq("#teacher").val();
@@ -129,6 +178,86 @@ function cancelTeacherRole(url, role, teacher) {
                 success: function (result) {
                     bootbox.confirm(result, function () {
                         load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, "Викладач");
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
+function cancelUserRole(url, role, user, header) {
+    bootbox.confirm("Скасувати роль?", function (response) {
+        if (response) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {role: role, user: user},
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/user/index/id/" + user, header);
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
+
+function addStudentAttr(url, user, header, type) {
+    value = $jq('#value').val();
+    if(type == 'module') {
+        module = value;
+        course = 0;
+    } else if(type == 'course') {
+        module = 0;
+        course = value;
+    }
+    if (value != 0) {
+        $jq.ajax({
+            url: url,
+            type: 'post',
+            async: true,
+            data: {user: user, module: module, course: course},
+            success: function (result) {
+                bootbox.confirm(result, function () {
+                    load(basePath + "/_teacher/user/index/id/" + user, header);
+                });
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+
+        })
+    } else {
+        bootbox.alert('Виберіть курс чи модуль!');
+    }
+}
+
+
+function changeUserStatus(url, user, message, header) {
+    bootbox.confirm(message, function (response) {
+        if (response) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {user: user},
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/user/index/id/" + user, header);
                     });
                 },
                 error: function () {
@@ -388,7 +517,7 @@ function performOperationWithConfirm(url, message, data, callback) {
 function initTeacherConsultationsTable() {
     $jq('#consultationsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"]],
+        "order": [[2, "desc"], [3, "desc"]],
         "ajax": {
             "url": basePath + "/_teacher/_consultant/consultant/getConsultationsList",
             "dataSrc": "data"
@@ -608,10 +737,49 @@ function checkMandatory() {
     }
 }
 
+function initInvoicesTable(id) {
+    $jq('#invoicesTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "asc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getInvoicesByAgreement",
+            "dataSrc": "data",
+            "data": {id: id}
+        },
+        "columns": [
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                }
+            },
+            {"data": "summa"},
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date"
+            },
+            {
+                "width": "15%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="' + url + '">надрукувати</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function initConsultationsTable() {
     $jq('#studentConsultationsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"]],
+        "order": [[2, "desc"], [3, "desc"]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getConsultationsList",
             "dataSrc": "data"
@@ -688,7 +856,7 @@ function initPayCoursesList() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -722,7 +890,7 @@ function initPayModulesTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"]+ '</a>';
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -748,7 +916,7 @@ function initPayModulesTable() {
 function initAgreementsTable() {
     $jq('#agreementsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"]],
+        "order": [[2, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_student/student/getAgreementsList",
             "dataSrc": "data"
@@ -757,7 +925,7 @@ function initAgreementsTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');">' + title["name"]+ '</a>';
+                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"] + '</a>';
                 }
             },
             {"data": "schema"},
@@ -771,7 +939,7 @@ function initAgreementsTable() {
                 "width": "15%",
                 "data": "invoices",
                 "render": function (invoices) {
-                    return '<a href="#" onclick="load('+ invoices["url"] + ',\'' + invoices["name"]+ '\');">рахунки</a>';
+                    return '<a href="#" onclick="load(' + invoices["url"] + ',\'' + invoices["name"] + '\');">рахунки</a>';
                 }
             }
         ],

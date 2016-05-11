@@ -31,7 +31,7 @@ class RevisionLectureElement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_page, id_type, block_order, html_block', 'required'),
+			array('id_page, id_type, block_order', 'required'),
 			array('id_page, id_type, block_order', 'numerical', 'integerOnly'=>true),
 			array('html_block', 'match', 'pattern' => '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/', 'message' => 'Поле має бути посиланням', 'on'=>'videoLink'),
 			array('html_block', 'safe'),
@@ -113,7 +113,7 @@ class RevisionLectureElement extends CActiveRecord
      */
 	public function saveCheck($runValidation=true,$attributes=null) {
 		if (!$this->save($runValidation, $attributes)) {
-			throw new RevisionLectureElementException('400',implode(", ", $this->getErrors()));
+			throw new RevisionLectureElementException('400',$this->getValidationErrors());
 		}
 	}
 
@@ -142,7 +142,7 @@ class RevisionLectureElement extends CActiveRecord
         $revLectureElement->html_block = $htmlBlock;
         $revLectureElement->saveCheck();
 
-        if ($revLectureElement->isQuiz() && $quiz) {
+        if ($revLectureElement->isQuiz() && isset($quiz)) {
             RevisionQuizFactory::create($revLectureElement, $quiz);
         }
 
@@ -164,9 +164,9 @@ class RevisionLectureElement extends CActiveRecord
     protected function beforeDelete(){
         $result = true;
         if ($this->isQuiz()) {
-            return RevisionQuizFactory::delete($this->id, $this->id_type);
+            $result = RevisionQuizFactory::delete($this->id, $this->id_type);
         }
-        return parent::beforeDelete();
+        return ($result && parent::beforeDelete());
     }
 
 
@@ -250,5 +250,24 @@ class RevisionLectureElement extends CActiveRecord
 
     public function isVideo() {
         return $this->id_type == LectureElement::VIDEO;
+    }
+
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return $errors[0];
+    }
+
+    public function getSkipTaskQuestion()
+    {
+        $skipTask = RevisionSkipTask::model()->findByAttributes(array('condition' => $this->id));
+        if ($skipTask) {
+            return $skipTask->question;
+        }
+        return null;
     }
 }

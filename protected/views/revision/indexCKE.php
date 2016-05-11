@@ -7,6 +7,7 @@
 $this->breadcrumbs = array(
     'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $page->revision->id_module)),
     'Ревізії занять модуля' => Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$page->revision->id_module)),
+    'Ревізії заняття' => Yii::app()->createUrl('/revision/revisionsBranch', array('idRevision'=>$page->id_revision)),
     'Ревізія заняття даної сторінки' => Yii::app()->createUrl('/revision/EditLectureRevision', array('idRevision'=>$page->id_revision)),
     'Ревізія сторінки заняття',
 );
@@ -36,6 +37,11 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/config.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers.js'); ?>"></script>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/plainTaskCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/skipTaskCtrl.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/taskCtrl.js'); ?>"></script>
+
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/lectureBlocks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/directives/styleDirectives.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/services/sendTaskJsonService.js'); ?>"></script>
@@ -82,7 +88,7 @@ $this->breadcrumbs = array(
                 <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
             </h1>
             <div class='icons'>
-                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)).'#/page'.$page->page_order; ?>')
+                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
                      title="Попередній перегляд"/>
             </div>
@@ -162,34 +168,29 @@ $this->breadcrumbs = array(
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>
             <?php
-            if ($page->quiz != null) {
-                $data = $page->getQuiz();
-                switch ($data['id_type']) {
-//                    case '5':
-//                        $this->renderPartial('/editor/_editTaskCKE', array('idBlock' => $data['id_block'],
-//                            'pageId' => $page->id, 'lecture' => $lecture->id));
-//                        break;
-//                    case '6':
-//                        $this->renderPartial('/editor/_editPlainTaskCKE', array('data' => $data,
-//                            'pageId' => $page->id));
-//                        break;
-//                    case '9' :
-//                        $this->renderPartial('/editor/_editSkipTaskCKE', array('data' => $data,
-//                            'pageId' => $page->id));
-//                        break;
-                    case '12':
-                    case '13':
-                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision));
+            if ($quiz != null) {
+                switch ($quiz->id_type) {
+                    case LectureElement::TASK:
+                        $this->renderPartial('/revision/_editTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::TASK));
+                        break;
+                    case LectureElement::PLAIN_TASK:
+                        $this->renderPartial('/revision/_editPlainTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::PLAIN_TASK));
+                        break;
+                    case LectureElement::SKIP_TASK :
+                        $this->renderPartial('/revision/_editSkipTaskCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::SKIP_TASK));
+                        break;
+                    case LectureElement::TEST:
+                    case LectureElement::FINAL_TEST:
+                        $this->renderPartial('/revision/_editTestCKE', array('idElement' => $page->quiz, 'pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::TEST));
                         break;
                     default:
                         break;
                 }
-            } else {
-//                ?>
+            } else { ?>
             <div id="buttonsPanel">
                 <button class="btn btn-default" onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
-                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('plainTask')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button class="btn btn-default" onclick="showAddTaskFormCKE('plain')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('6')"><?php echo Yii::t('lecture', '0698'); ?></button>
+                <button class="btn btn-default" onclick="showAddTaskFormCKE('5')"><?php echo Yii::t('lecture', '0699'); ?></button>
                 <button class="btn btn-default" onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php
@@ -197,9 +198,9 @@ $this->breadcrumbs = array(
             ?>
             <?php if ($page->quiz == null) {
             $this->renderPartial('/revision/_addTestCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
-//            $this->renderPartial('/editor/_addTaskCKE', array('pageId' => $page->id,'lecture' => $lecture->id));
-//            $this->renderPartial('/editor/_addPlainTaskCKE', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
-//            $this->renderPartial('/editor/_addSkipTaskCKE', array('pageId' => $page->id, 'lecture' => $lecture->id, 'author' => $author));
+            $this->renderPartial('/revision/_addTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::TASK));
+            $this->renderPartial('/revision/_addPlainTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision));
+            $this->renderPartial('/revision/_addSkipTaskCKE', array('pageId' => $page->id,'revisionId'=>$page->id_revision,'quizType'=>LectureElement::SKIP_TASK));
             }?>
         </div>
     </div>

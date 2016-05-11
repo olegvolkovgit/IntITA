@@ -35,7 +35,7 @@ class Consultant extends Role
     public function attributes(StudentReg $user)
     {
         $list = Yii::app()->db->createCommand()
-            ->select('module id, language lang, m.title_ua title, cm.start_time start_date, cm.end_time end_date')
+            ->select('module id, language lang, m.title_ua title, cm.start_time start_date, cm.end_time end_date, m.cancelled')
             ->from('consultant_modules cm')
             ->join('module m', 'm.module_ID=cm.module')
             ->where('consultant=:id', array(':id' => $user->id))

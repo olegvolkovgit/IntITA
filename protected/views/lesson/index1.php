@@ -83,17 +83,10 @@ $finishedLecture = $lecture->isFinished($user);
     <?php $this->renderPartial('_sidebar', array('lecture' => $lecture, 'editMode' => $editMode, 'idCourse' => $idCourse, 'finishedLecture' => $finishedLecture, 'passedPages' => $passedPages)); ?>
     <div class="lessonText">
         <div class="lessonTheme">
-            <?php echo Lecture::getLectureTitle($lecture->id); ?>
+            <?php echo $lecture->title(); ?>
             <div style="display: inline-block; float: right; margin-top: 10px">
                 <?php if ($editMode) { ?>
-                    <a href="<?php echo Yii::app()->createUrl('lesson/showPagesList', array('idLecture' => $lecture->id,
-                        'idCourse' => $idCourse)); ?>">
-                        <img style="margin-left: 5px"
-                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'list.jpg'); ?>"
-                             class="editButton" title="<?php echo Yii::t('lecture', '0688'); ?>"/>
-                    </a>
                     <a href="<?=Yii::app()->createUrl("revision/editlecture", array("idLecture" => $lecture->id)); ?>">
-<!--                    <a ng-controller="lessonPageCtrl" href="{{currentLocation+currentPage+'?editCKE'}}">-->
                         <img style="margin-left: 5px"
                              src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                              id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') ?>"/>

@@ -24,7 +24,7 @@ class TrainerController extends TeacherCabinetController
         $module = Module::model()->findByPk($idModule);
         if ($id && $idModule) {
             $role = new TeacherConsultant();
-            $isTeacherDefined = !$role->checkStudent(Yii::app()->user->getId(), $idModule, $id);
+            $isTeacherDefined = !$role->checkStudent($idModule, $id);
             if($isTeacherDefined){
                 $role = new Student();
                 $teacher = $role->getTeacherForModuleDefined($id, $idModule);
@@ -63,7 +63,7 @@ class TrainerController extends TeacherCabinetController
         $model = StudentReg::model()->findByPk($teacher);
 
         $role = new TeacherConsultant();
-        if ($role->checkStudent($model->id, $module, $student)) {
+        if ($role->checkStudent($module, $student)) {
             if ($role->setStudentAttribute($model, $student, $module)) {
                 echo "Операцію успішно виконано.";
             } else {
@@ -134,13 +134,14 @@ class TrainerController extends TeacherCabinetController
         $teacher = Yii::app()->request->getPost('teacher', 0);
         $user = Yii::app()->request->getPost('user', 0);
         $module = Yii::app()->request->getPost('module', 0);
+
         $teacherModel = StudentReg::model()->findByPk($teacher);
         $moduleModel = Module::model()->findByPk($module);
         $userModel = StudentReg::model()->findByPk($user);
 
         if($teacherModel && $moduleModel && $userModel){
             $message = new MessagesTeacherConsultantRequest();
-            if($message->isRequestOpen($moduleModel->module_ID, $userModel->id)) {
+            if($message->isRequestOpen(array($moduleModel->module_ID, $userModel->id))) {
                 echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення викладача-консультанта для модуля двічі.";
             } else {
                 $transaction = Yii::app()->db->beginTransaction();

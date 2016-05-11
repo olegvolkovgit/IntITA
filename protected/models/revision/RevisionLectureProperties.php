@@ -50,7 +50,7 @@ class RevisionLectureProperties extends CActiveRecord
 			array('order, id_type, is_free, start_date', 'required'),
 			array('order, id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
-			array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+                array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=_а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
 			array('alias', 'length', 'max'=>10),
 			array('update_date, send_approval_date, reject_date, approve_date, end_date', 'safe'),
 			// The following rule is used by search().
@@ -174,14 +174,14 @@ class RevisionLectureProperties extends CActiveRecord
      * @param $user
      * @throws RevisionLecturePropertiesException
      */
-    public function initialize($order, $titleUa, $titleEn, $titleRu, $user){
-		//ktodo refactor default values
+    public function initialize($titleUa, $titleEn, $titleRu, $user){
+		//todo refactor default values
 		$this->image = "lectureImage.png";
-		$this->alias = "lecture" . $order;
+		$this->alias = "lecture";
 		$this->id_type = 1;
 		$this->is_free = 0;
 
-		$this->order = $order;
+		$this->order = 0;
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
@@ -219,15 +219,12 @@ class RevisionLectureProperties extends CActiveRecord
     /**
      * Sets update date and id user.
      * @param $user - current user model
-     * @param bool $isSave - true (default) if need to save of false if no need to save
-     * @throws RevisionLecturePageException
+     * @throws RevisionLecturePropertiesException
      */
-    public function setUpdateDate($user, $isSave = true) {
+    public function setUpdateDate($user) {
         $this->update_date = new CDbExpression('NOW()');
         $this->id_user_updated = $user->getId();
-        if ($isSave) {
-            $this->saveCheck();
-        }
+        $this->saveCheck();
     }
 
 	public function getValidationErrors() {

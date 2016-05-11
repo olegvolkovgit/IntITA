@@ -82,4 +82,88 @@ class StudentController extends TeacherCabinetController
             return false;
         }
     }
+
+    public function actionPayCourse($course, $schema = 1, $type = 'Online'){
+
+        if(UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)){
+            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, $schema, $type);
+            $this->renderPartial('/_student/_agreement', array(
+                'agreement' => $agreement,
+            ));
+        } else {
+            $courseModel = Course::model()->findByPk($course);
+            if (!$courseModel) {
+                throw new \application\components\Exceptions\IntItaException(400);
+            }
+
+            $this->renderPartial('/_student/payCourse', array(
+                'course' => $courseModel,
+                'schema' => $schema,
+                'type' => $type,
+            ));
+        }
+    }
+
+    public function actionPayModule($course, $module){
+
+        if(UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, 'Online');
+            $this->renderPartial('/_student/_agreement', array(
+                'agreement' => $agreement,
+            ));
+        } else {
+            $model = Module::model()->findByPk($module);
+            if (!$model) {
+                throw new \application\components\Exceptions\IntItaException(400);
+            }
+
+            $this->renderPartial('/_student/_payModule', array(
+                'model' => $model,
+                'course' => $course
+            ));
+        }
+    }
+
+    public function actionNewCourseAgreement(){
+        $user = Yii::app()->user->getId();
+        $course = Yii::app()->request->getPost('course', 0);
+        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+        $schemaNum = Yii::app()->request->getPost('payment', '0');
+
+        $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
+
+        echo $agreement->id;
+    }
+
+    public function actionNewModuleAgreement(){
+        $user = Yii::app()->user->getId();
+        $course = Yii::app()->request->getPost('course', 0);
+        $module = $_POST["module"];
+        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+
+        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
+
+        echo $agreement->id;
+    }
+
+    public function actionInvoice($id, $nolayout = false){
+        $model = Invoice::model()->findByPk($id);
+
+        if($model){
+            if ($this->hasAccountAccess($model->user_created)) {
+//                if ($nolayout) {
+//                    $this->layout = false;
+//                }
+                $this->renderPartial('/_student/invoice', array('invoice' => $model));
+            } else {
+                echo 'У вас немає доступу до цього рахунка.';
+            }
+        } else {
+            echo "Такого рахунка не існує.";
+        }
+    }
+
+    public function actionGetInvoicesByAgreement($id){
+        echo Invoice::invoicesListByAgreement($id);
+    }
 }

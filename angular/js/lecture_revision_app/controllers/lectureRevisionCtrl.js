@@ -84,18 +84,22 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
         });
     };
     $scope.delete = function(pageId) {
-        //$http({
-        //    url: basePath+'/revision/deletePage',
-        //    method: "POST",
-        //    data: $.param({idPage:pageId}),
-        //    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        //}).then(function successCallback() {
-        //    getLectureData.getData(idRevision).then(function(response){
-        //        $rootScope.lectureData=response;
-        //    });
-        //}, function errorCallback() {
-        //    return false;
-        //});
+        bootbox.confirm('Видалити частину заняття?', function(result){
+            if(result){
+                $http({
+                    url: basePath+'/revision/deletePage',
+                    method: "POST",
+                    data: $.param({idPage:pageId,idRevision:idRevision}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    getLectureData.getData(idRevision).then(function(response){
+                        $rootScope.lectureData=response;
+                    });
+                }, function errorCallback() {
+                    return false;
+                });
+            };
+        })
     };
     //check whether you can send the lecture for approval
     $scope.checkLecture = function() {

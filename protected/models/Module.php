@@ -733,7 +733,7 @@ class Module extends CActiveRecord implements IBillableObject
         $this->title_en = $titleEn;
 
         if ($this->save()) {
-            $this->alias = $this->module_ID;
+            //$this->alias = $this->module_ID;
             $this->module_img = "module.png";
             $this->update(array('alias', 'module_img'));
 
@@ -1015,6 +1015,15 @@ class Module extends CActiveRecord implements IBillableObject
         else return false;
     }
 
+    public function lastLecture()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
+        return Lecture::model()->find($criteria);
+    }
+
     public static function isAliasUnique($alias){
         return Module::model()->exists('alias=:alias', array(':alias' => $alias)) == false;
     }
@@ -1046,5 +1055,9 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getIndepedentModulePrice(){
         return round($this->module_price * Config::getCoeffIndependentModule());
+    }
+
+    public function priceOffline(){
+        return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 }

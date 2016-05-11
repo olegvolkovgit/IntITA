@@ -11,7 +11,7 @@ class RevisionLectureElementException extends RevisionException {
     protected $view = '/site/error';
     public $statusCode;
 
-    public function __construct($status,$message=null,$code=0)
+    public function __construct($status=500,$message=null,$code=0)
     {
         $this->statusCode=$status;
 

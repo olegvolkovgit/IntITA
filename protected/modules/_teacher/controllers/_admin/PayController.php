@@ -39,6 +39,9 @@ class PayController extends TeacherCabinetController
         } else {
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
+            if(!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID)) {
+               UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, 'Online');
+            }
             $message = new MessagesPayment();
             $message->build(null, $user, $module);
             $message->create();
@@ -70,7 +73,9 @@ class PayController extends TeacherCabinetController
             $permission = new PayCourses();
             $course = Course::model()->findByPk($courseId);
             $permission->setCourseRead($userId, $course->course_ID);
-
+            if(!UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course->course_ID)) {
+                UserAgreements::agreementByParams('Course', $user->id, 0, $course->course_ID, 1, 'Online');
+            }
             $message = new MessagesPayment();
             $message->build(null, $user, $course);
             $message->create();
@@ -105,12 +110,16 @@ class PayController extends TeacherCabinetController
             $resultText = '';
             $userId = Yii::app()->request->getPost('user');
             $moduleId = Yii::app()->request->getPost('module');
-            $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
+            $user = StudentReg::model()->findByPk($userId);
+            $userName = $user->getNameOrEmail();
 
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($payModule->idModule, $userName);
-                $payModule->delete();
+                $resultText = PayModules::getCancelText($payModule->module, $userName);
+                //if ($payModule->delete()){
+                    $this->notify($user, 'Скасовано доступ до модуля',
+                        '_payModuleCancelledNotification', array($payModule->module, $user->trainer->trainer0));
+              //  }
             } else {
                 $resultText = PayModules::getCancelErrorText($userName);
 
@@ -126,14 +135,18 @@ class PayController extends TeacherCabinetController
             $resultText = '';
             $userId = Yii::app()->request->getPost('user');
             $courseId = Yii::app()->request->getPost('course');
-            $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
+            $student = StudentReg::model()->findByPk($userId);
+            $userName = $student->getNameOrEmail();
 
             $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
             if ($payCourse) {
                 $resultText = PayCourses::getCancelText($payCourse->course, $userName);
 
-                $payCourse->delete();
+                if($payCourse->delete()){
+                    $this->notify($student, 'Скасовано доступ до курса',
+                        '_payCourseCancelledNotification', array($payCourse->course, $student->trainer->trainer0));
+                }
             } else {
                 $resultText = PayCourses::getCancelErrorText($userName);
             }
@@ -145,4 +158,20 @@ class PayController extends TeacherCabinetController
         echo Course::readyCoursesList($query);
     }
 
+    public function notify(StudentReg $student, $subject, $template, $params){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new NotificationMessages();
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate($template, $params);
+            $message->build($subject, $sender->template(), array($student), Yii::app()->user->model->registrationData);
+            $message->create();
+
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
+    }
 }

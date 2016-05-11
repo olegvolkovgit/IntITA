@@ -25,6 +25,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.models.track.*',
+        'application.models.track.statistics.*',
         'application.models.accountancy.*',
         'application.models.message.*',
         'application.models.quiz.*',
@@ -34,7 +35,7 @@ return array(
         'application.components.*',
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
-        //'ext.yii2-debug.*',
+       // 'ext.yii2-debug.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
@@ -52,6 +53,7 @@ return array(
         '_admin',
         '_teacher',
         '_accountancy',
+        //'debug',
     ),
 
     // application components
@@ -148,6 +150,12 @@ return array(
                     'categories' => 'application',
                     'levels'=>'error, warning, trace, profile, info',
                     'showInFireBug' => true
+                ),
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning, trace, info, profile',
+                    'categories'=>'system.db.*',
+                    'logFile'=>'sql.log',
                 ),
             ),
         ),

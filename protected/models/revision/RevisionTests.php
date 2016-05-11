@@ -110,10 +110,11 @@ class RevisionTests extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $title, $answers) {
+    public static function createTest($idLectureElement, $title, $answers, $idTest=null) {
         $newTest = new RevisionTests();
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $title;
+        $newTest->id_test = $idTest;
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
@@ -124,14 +125,15 @@ class RevisionTests extends CActiveRecord
     }
 
     public function cloneTest($idLectureElement) {
-            $newTest = new RevisionTests();
-            $newTest->id_lecture_element = $idLectureElement;
-            $newTest->title = $this->title;
-            $newTest->saveCheck();
+        $newTest = new RevisionTests();
+        $newTest->id_lecture_element = $idLectureElement;
+        $newTest->title = $this->title;
+        $newTest->saveCheck();
 
-            foreach ($this->testsAnswers as $answer) {
-                $answer->cloneTestAnswer($newTest->id);
-            }
+        foreach ($this->testsAnswers as $answer) {
+            $answer->cloneTestAnswer($newTest->id);
+        }
+        return $newTest;
     }
 
     public function editTest($title, $answers) {
@@ -186,8 +188,6 @@ class RevisionTests extends CActiveRecord
     }
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
-        //todo
-
         $newTest = new Tests();
         $newTest->block_element = $lectureElementId;
         $newTest->author = $idUserCreated;

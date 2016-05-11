@@ -21,19 +21,43 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
             <td width="20%">Курси:</td>
             <td>
                 <?php if (!empty($courses)) { ?>
-                    <ul>
-                        <?php foreach ($courses as $course) {
-                            ?>
-                            <li>
-                                <a href="#"
-                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherCourse",
-                                       array("id" => $student->id, "idCourse" => $course["id"])); ?>',
-                                       '<?= $student->registrationData->userNameWithEmail(); ?>');">
-                                    <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                    <?php foreach ($courses as $course) {
+                        ?>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse<?= $course["id"] ?>">
+                                            <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
+                                    <ul>
+                                        <?php
+                                        $courseModules = CourseModules::modulesWithStudentTeacher($course["id"], $student->id);
+                                        foreach ($courseModules as $record) {?>
+                                            <li>
+                                                <a href="#"
+                                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
+                                                       array("id" => $student->id, "idModule" => $record["id"])); ?>',
+                                                       '<?= $student->registrationData->userName(); ?>');">
+                                                    <?= $record["title"] . " (" . $record["lang"].")";
+//                                                    if ($record["teacherName"] != "") {
+//                                                        ?>
+<!--                                                        <em>(викладач - --><?//= $record["teacherName"] ?><!--)</em>-->
+<!--                                                    --><?php //} else { ?>
+<!--                                                        <span class="warningMessage"><em>викладача не призначено</em></span>-->
+<!--                                                    --><?php //} ?>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php } ?>
                 <?php } else { ?>
                     <em>Курсів немає.</em>
                 <?php } ?>
@@ -52,11 +76,12 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
                                        '<?= $student->registrationData->userName(); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
-                                        if($module["teacherName"] != ""){?>
+                                    if (is_null($module["end_date"])) {
+                                        ?>
                                         <em>(викладач - <?= $module["teacherName"] ?>)</em>
-                                    <?php } else {?>
-                                            <span class="warningMessage"><em>викладача не призначено</em></span>
-                                    <?php }?>
+                                    <?php } else { ?>
+                                        <span class="warningMessage"><em>викладача не призначено</em></span>
+                                    <?php } ?>
                                 </a>
                             </li>
                         <?php } ?>

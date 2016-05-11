@@ -3,7 +3,8 @@
  * @var $pageId integer
  */ ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/skipTaskCtrl.js'); ?>"></script>
-<div ng-init='idBlock=<?php echo $data->id_block; ?>;'>
+<div ng-init='idPage=<?php echo $pageId; ?>;
+idBlock=<?php echo $idElement; ?>;'>
 <div id="editSkipTask">
     <form name="editSkipTask" ng-controller="skipTaskCtrl">
         <fieldset>
@@ -19,18 +20,16 @@
                       placeholder="<?php echo Yii::t('lecture', '0773'); ?>"
                       required ng-model="dataSkipTask.source"></textarea>
             <br>
-            <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId; ?>"/>
-            <input name="lecture" id="lecture" type="hidden" value="<?php echo $data->id_lecture; ?>"/>
-            <input name="testType" id="testType" type="hidden" value="skipTask"/>
-            <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
-            <input name="author" id="author" type="hidden"
-                   value="<?php echo Yii::app()->user->getId(); ?>"/>
+            <input name="idBlock" type="hidden" value="<?php echo $idElement;?>"/>
+            <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
+            <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
+            <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
             <br>
         </fieldset>
-        <input type="submit" ng-click="editSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/editSkipTask'); ?>',
-         <?php echo $data->id_block; ?>, <?php echo Yii::app()->user->getId(); ?>)"
-               ng-disabled="addSkipTask.$invalid" value="<?php echo Yii::t('lecture', '0706'); ?>">
+        <input type="submit" ng-click="editSkipTaskCKE('<?php echo Yii::app()->createUrl('/revision/editTest'); ?>',
+         <?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)"
+               ng-disabled="editSkipTask.$invalid" value="<?php echo Yii::t('lecture', '0706'); ?>">
     </form>
     <br>
-    <button ng-click='unableSkipTask(<?php echo $pageId; ?>)'><?php echo Yii::t('editor','0799'); ?></button>
+    <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
 </div>

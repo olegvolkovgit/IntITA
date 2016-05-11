@@ -31,9 +31,8 @@
                         </div>
                     </form>
                     <div>
-                        <img style="display: none" id="ajaxLoad" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
-                        <button class="taskSubmit" <?php if ($user == 0) echo " disabled";?>
-                                ng-click="sendSkipTaskAnswer(<?php echo $data->id_block ?>)" >
+                        <button class="taskSubmit"
+                                ng-click="sendSkipTaskAnswer(<?php echo $data->id ?>)" >
                             <?php echo $buttonName; ?>
                         </button>
                     </div>
