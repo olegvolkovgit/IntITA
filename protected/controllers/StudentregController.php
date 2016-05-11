@@ -150,7 +150,6 @@ class StudentRegController extends Controller
                 $model->password = sha1($model->password);
                 $model->password_repeat = sha1($model->password_repeat);
             }
-            $model->reg_time = time();
 
             $getToken = rand(0, 99999);
             $getTime = date("Y-m-d H:i:s");

@@ -1024,7 +1024,7 @@ class StudentReg extends CActiveRecord
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
             $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", $record["reg_time"]) : '<em>невідомо</em>';
+            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->id

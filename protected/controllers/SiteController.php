@@ -309,7 +309,6 @@ class SiteController extends Controller
         } else {
             $this->setNetworkData($user, $model);
             $model->status = 1;
-            $model->reg_time = time();
             if ($model->validate()) {
                 $model->save();
                 $model = new StudentReg();
@@ -590,7 +589,6 @@ class SiteController extends Controller
                     $this->redirect(Yii::app()->createUrl('/site/linkingemailinfo', array('email' => $model->email, 'network' => $model->identity)));
                 } else {
                     //linking new email to network
-                    $model->reg_time = time();
                     $model->save();
                     $sender = new MailTransport();
                     $sender->renderBodyTemplate('_verificationEmailMail', array($model, $lang));
@@ -728,7 +726,6 @@ class SiteController extends Controller
 
                 if ($model->password !== Null)
                     $model->password = sha1($model->password);
-                $model->reg_time = time();
 
                 if ($model->validate()) {
                     $model->save();
