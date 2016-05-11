@@ -36,22 +36,27 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                     <ul>
                                         <?php
                                         $courseModules = CourseModules::modulesWithStudentTeacher($course["id"], $student->id);
-                                        foreach ($courseModules as $record) {?>
-                                            <li>
-                                                <a href="#"
-                                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
-                                                       array("id" => $student->id, "idModule" => $record["id"])); ?>',
-                                                       '<?= $student->registrationData->userName(); ?>');">
-                                                    <?= $record["title"] . " (" . $record["lang"].")";
-//                                                    if ($record["teacherName"] != "") {
-//                                                        ?>
-<!--                                                        <em>(викладач - --><?//= $record["teacherName"] ?><!--)</em>-->
-<!--                                                    --><?php //} else { ?>
-<!--                                                        <span class="warningMessage"><em>викладача не призначено</em></span>-->
-<!--                                                    --><?php //} ?>
-                                                </a>
-                                            </li>
-                                        <?php } ?>
+                                        if(count($courseModules) > 0) {
+                                            foreach ($courseModules as $record) { ?>
+                                                <li>
+                                                    <a href="#"
+                                                       onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
+                                                           array("id" => $student->id, "idModule" => $record["id"])); ?>',
+                                                           '<?= $student->registrationData->userName(); ?>');">
+                                                        <?= $record["title"] . " (" . $record["lang"] . ")";
+                                                        if ($record["teacherId"] != 0) {
+                                                            ?>
+                                                            <em>(викладач - <?= $record["teacherName"] ?>)</em>
+                                                        <?php } else { ?>
+                                                            <span class="warningMessage"><em>викладача не
+                                                                    призначено</em></span>
+                                                        <?php } ?>
+                                                    </a>
+                                                </li>
+                                            <?php }
+                                        } else {
+                                            echo "Модулів у даному курсі ще немає.";
+                                        }?>
                                     </ul>
                                 </div>
                             </div>
@@ -76,7 +81,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
                                        '<?= $student->registrationData->userName(); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
-                                    if (is_null($module["end_date"])) {
+                                    if ($module["teacherId"] != 0) {
                                         ?>
                                         <em>(викладач - <?= $module["teacherName"] ?>)</em>
                                     <?php } else { ?>

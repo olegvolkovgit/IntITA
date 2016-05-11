@@ -76,15 +76,16 @@ class Student extends Role
     private function loadModules(StudentReg $user, $mask){
 
         $this->modules = Yii::app()->db->createCommand()
-            ->select('module_ID id, language lang, m.title_ua title, u.id teacherId, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) teacherName, tcs.end_date')
+            ->select('module_ID id, language lang, m.title_ua title,IF(tcs.end_date is null, u.id, 0) as teacherId,
+            CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) as teacherName, tcs.end_date, tcs.start_date')
             ->from('pay_modules pm')
             ->join('module m', 'm.module_ID=pm.id_module')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
             ->leftJoin('user u', 'u.id=tcs.id_teacher')
             ->where('pm.id_user=:id and rights & :mask',
                 array(':id' => $user->id, ':mask' => $mask))
+            ->order('m.module_ID, tcs.end_date DESC')
             ->group('m.module_ID')
-            ->order('tcs.end_date DESC')
             ->queryAll();
         return $this->modules;
     }
