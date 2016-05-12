@@ -8,7 +8,7 @@ $model = $params[0];
 <h4>Вітаємо!</h4>
 <br>
 Вам надано права викладача на модуль <strong>
-    <a href="<?= Yii::app()->createAbsoluteUrl('module/index', array('id' => $model->module_ID)); ?>">
+    <a href="<?= Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->module_ID)); ?>">
         <?= $model->getTitle(); ?>
     </a>
 </strong>.
