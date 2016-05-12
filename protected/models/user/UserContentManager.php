@@ -201,7 +201,43 @@ class UserContentManager extends CActiveRecord
 		else
 			return false;
 	}
+	public  function  counterOfWordInPart2($idBlock,$idLesson,$idPage){//Вывожу кол-во html блоков задействованных
+		$sql2='SELECT * FROM lecture_element_lecture_page WHERE page='.$idBlock;
+		$result2 = Yii::app()->db->createCommand($sql2)->queryAll();
+		//выбираем Основы мови С ч1.......Вступ
+//		SELECT * FROM `lecture_element` LEFT JOIN `lecture_page` on `lecture_page`.`id_lecture`
+//			= `lecture_element`.`id_lecture` where `id_type` IN (1,3,4,7) and `lecture_element`.`block_order`=1
+//		AND `lecture_element`.`id_lecture`=100 AND `lecture_page`.`page_order`=1
+		$tt=0;
+		foreach($result2 as $rr){
+			$rr34[$tt]=$rr['element'];
+			$tt++;
+		}
+		$ids = join(',',$rr34);
+		$sql = 'SELECT * FROM `lecture_element`  where `id_type` IN (' . LectureElement::INSTRUCTION . ',
+ 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')
+ 		 AND `lecture_element`.`id_lecture`='.$idLesson;
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$counter=0;
+		//$i2=0;
+		//$counter2[0]=0;
+		foreach($result as $record){
+			//$row = array();
+			//$row["name"]["title"] = $record['html_block'];
+			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0,PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
+			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
+			$counter+=count($words);
+//			for($i=0;$i<(count($words));$i++){
+//
+//				//$counter++;
+//			}
+			//$counter2[$i2]=$counter;
+			//$i2++;
+		}
+		return $tt;
+	}
 	public function counterOfWordInPart($idBlock,$idLesson){
+
 		//выбираем Основы мови С ч1.......Вступ
 //		SELECT * FROM `lecture_element` LEFT JOIN `lecture_page` on `lecture_page`.`id_lecture`
 //			= `lecture_element`.`id_lecture` where `id_type` IN (1,3,4,7) and `lecture_element`.`block_order`=1
@@ -306,7 +342,7 @@ class UserContentManager extends CActiveRecord
 			$row["name"]["title"] = $record['page_title'];
 			$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
 			$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
-			$row["word"]=UserContentManager::counterOfWordInPart($record["page_order"],$idLesson);
+			$row["word"]=UserContentManager::counterOfWordInPart2($record["id"],$idLesson,$record["page_order"]);
 
 			array_push($return['data'], $row);
 		}
