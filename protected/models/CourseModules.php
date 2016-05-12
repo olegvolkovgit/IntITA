@@ -305,10 +305,10 @@ class CourseModules extends CActiveRecord
               IF(tcs.end_date is null, u.id, 0) as teacherId, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) teacherName, tcs.end_date
               from module m
               left join course_modules cm on m.module_ID = cm.id_module
-              right join teacher_consultant_student tcs on tcs.id_module=m.module_ID
-              right join user u on u.id=tcs.id_teacher
-              where cm.id_course='.$course.' and tcs.id_student='.$student.'
-              group by CONVERT(tcs.end_date, DATETIME)';
+              left join teacher_consultant_student tcs on tcs.id_module=m.module_ID
+              left join user u on u.id=tcs.id_teacher
+              where cm.id_course='.$course.'
+              group by m.module_ID';
 
        return Yii::app()->db->createCommand($sql)->queryAll();
    }

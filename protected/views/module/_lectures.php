@@ -40,8 +40,8 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>function(Lecture $data,$row) use ($enabledLessonOrder,$idCourse) {
-                if ($data->hasAccessLecture($enabledLessonOrder,$idCourse))
+            'value' =>function(Lecture $data,$row) use ($enabledLessonOrder,$idCourse,$isReadyCourse) {
+                if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.($row+1).'.';
@@ -57,12 +57,12 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
-            'value' => function(Lecture $data) use ($idCourse,$enabledLessonOrder) {
+            'value' => function(Lecture $data) use ($idCourse,$enabledLessonOrder, $isReadyCourse) {
                 $titleParam = 'title_'.CommonHelper::getLanguage();
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
-            if ($data->hasAccessLecture($enabledLessonOrder,$idCourse)) {
+            if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse)) {
                 return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
                     array("id" => $data->id, "idCourse" => $idCourse)));
             }

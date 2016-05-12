@@ -29,7 +29,7 @@
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
                     'user1' => $message->message0->sender0->id, 'user2' => $user->id)) ?>')">
-                    <em><?= $message->subject(); ?></em>
+                    <em><?= CHtml::encode($message->subject()); ?></em>
                 </td>
                 <td class="center">
                     <em><?= CommonHelper::formatMessageDate($message->message0->create_date); ?></em>

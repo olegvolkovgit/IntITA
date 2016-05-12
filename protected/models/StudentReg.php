@@ -40,7 +40,7 @@
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
- * @property StudentReg $trainer
+ * @property TrainerStudent $trainer
  */
 class StudentReg extends CActiveRecord
 {
@@ -903,7 +903,7 @@ class StudentReg extends CActiveRecord
         foreach ($result as $record) {
             $row = array();
 
-            $row["student"]["name"] = addslashes($record["studentName"]);
+            $row["student"]["name"] = $record["studentName"];
             $row["email"]["title"] = $record["email"];
             $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
             $row["email"]["url"] = $row["student"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
@@ -1020,7 +1020,7 @@ class StudentReg extends CActiveRecord
         foreach ($users as $record) {
             $row = array();
             $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
-            $row["user"]["name"] = addslashes($name);
+            $row["user"]["name"] = $name;
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
             $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));

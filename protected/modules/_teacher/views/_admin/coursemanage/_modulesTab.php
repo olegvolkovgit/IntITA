@@ -53,10 +53,45 @@
                                         <?= $item["order"]; ?>
                                     </td>
                                     <td>
-                                        <?= $item["price_in_course"]; ?>
+                                        <?php if ($scenario == "update") { ?>
+                                            <a href="#"
+                                               onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/coursePrice', array(
+                                                   'id' => $item->moduleInCourse->module_ID, 'course' => $item->id_course)); ?>',
+                                                   'Додати/змінити ціну модуля у курсі')">
+                                                <?php if ($item->price_in_course != null) {
+                                                    echo $item->price_in_course . " (ред.)";
+                                                } else {
+                                                    if ($item->moduleInCourse->module_price) {
+                                                        echo $item->moduleInCourse->module_price . " (ред.)";
+                                                    } else {
+                                                        echo "безкоштовно (ред.)";
+                                                    }
+                                                } ?>
+                                            </a>
+                                        <?php } else {
+                                            if ($item->price_in_course != null) {
+                                                echo $item->price_in_course;
+                                            } else {
+                                                if ($item->moduleInCourse->module_price) {
+                                                    echo $item->moduleInCourse->module_price;
+                                                } else {
+                                                    echo "безкоштовно";
+                                                }
+                                            }
+                                        }
+                                        ?>
                                     </td>
                                     <td>
-                                        <?= $item["mandatory_modules"]; ?>
+                                        <?php if ($scenario == "update") { ?>
+                                            <a href="#"
+                                               onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array(
+                                                   'id' => $item->moduleInCourse->module_ID, 'course' => $item->id_course)); ?>',
+                                                   'Задати попередній модуль у курсі')">
+                                                <?= ($item->mandatory_modules != null) ? $item->mandatory->getTitle() . " (ред.)" : "редагувати"; ?>
+                                            </a>
+                                        <?php } else {
+                                            echo ($item->mandatory_modules != null) ? $item->mandatory->getTitle() : "";
+                                        } ?>
                                     </td>
                                     <?php
                                     } ?>

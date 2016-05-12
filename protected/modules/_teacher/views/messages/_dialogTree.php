@@ -32,7 +32,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             <?php } ?>
                             <div>
                                 <em>
-                                    <?= $message->subject(); ?>
+                                    <?= CHtml::encode($message->subject()); ?>
                                 </em>
                             </div>
                         </a>
@@ -74,7 +74,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                          class="panel-collapse collapse <?php if ($key == 0) echo 'in'; ?>">
                         <div class="panel-body">
                             <p>
-                                <?= $message->text(); ?>
+                                <?= CHtml::encode($message->text()); ?>
                                 <br>
                                 <?php
                                 $forwarded = $message->message0->forwarded();

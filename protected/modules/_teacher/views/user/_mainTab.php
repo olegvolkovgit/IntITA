@@ -4,6 +4,7 @@
  * @var $module Module
  * @var $user StudentReg
  * @var $role UserRoles
+ * @var $trainer StudentReg
  */
 $user = $model->registrationData;
 ?>
@@ -49,9 +50,9 @@ $user = $model->registrationData;
                 <?php if($model->isStudent()){?>
                 <li class="list-group-item">Тренер:
                     <?php
-                    if (!is_null($user->trainer) && is_null($user->trainer->end_time)){?>
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $user->trainer->trainer)) ?>" target="_blank">
-                        <?php echo $user->trainer->trainer0->getLastFirstName(); ?></a>
+                    if ($trainer){?>
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $trainer->id)) ?>" target="_blank">
+                        <?php echo $trainer->userNameWithEmail(); ?></a>
                         <button type="button" class="btn  btn-outline btn-primary btn-xs"
                                 onclick="load('<?=Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $user->id))?>',
                                     '<?= addslashes($user->userName()." <".$user->email.">"); ?>'); return false;">

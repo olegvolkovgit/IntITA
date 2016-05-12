@@ -386,6 +386,7 @@ class UserAgreements extends CActiveRecord
             $row = array();
             $row["title"]["name"] = "Договір ".$record->number;
             $row["title"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
+            $row["object"] = CHtml::encode($record->service->description);
             $row["date"] = date("d.m.y", strtotime($record->create_date));
             $row["summa"] = ($record->summa != 0)?number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;"): "безкоштовно";
             $row["schema"] = CHtml::encode($record->paymentSchema->name);
