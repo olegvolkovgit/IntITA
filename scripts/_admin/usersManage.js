@@ -167,7 +167,7 @@ function initConsultantsRolesTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -222,7 +222,7 @@ function initTrainersTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -276,7 +276,7 @@ function initTeachersTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -451,7 +451,7 @@ function initContentManagersTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -506,7 +506,7 @@ function initTeacherConsultantsTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {

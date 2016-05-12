@@ -26,7 +26,7 @@ foreach ($teachers as $teacher) {
                         echo $teacher->user_id;
                         echo '" target="_blank';
                     } else {
-                        echo '#" ' . 'onclick="openSignIn();';
+                        echo '" ' . 'onclick="openSignIn();';
                     }
                     ?>" data-toggle="tooltip" data-placement="left" title="<?= Yii::t('teacher', '0794'); ?>"><img
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png'); ?>"></a>
@@ -37,7 +37,7 @@ foreach ($teachers as $teacher) {
                             'receiver' => $teacher->user_id
                         ));
                     } else {
-                        echo '#" ' . 'onclick="openSignIn();';
+                        echo '" ' . 'onclick="openSignIn();';
                     }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
                 </td>
