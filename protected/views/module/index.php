@@ -20,7 +20,7 @@ if($idCourse != 0) {
 ?>
 
 <div class="ModuleBlock">
-    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse,"isPaidCourse"=>$isPaidCourse,"isPaidModule"=>$isPaidModule));?>
+    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse,"isPaidCourse"=>$isPaidCourse,"isPaidModule"=>$isPaidModule,'isReadyCourse' => $isReadyCourse));?>
 
     <div class="rightModule">
          <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>
