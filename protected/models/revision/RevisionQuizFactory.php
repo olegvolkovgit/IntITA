@@ -316,4 +316,10 @@ class RevisionQuizFactory {
                 break;
         }
     }
+
+    public static function getQuizId($idModule) {
+        $query = "INSERT INTO `quiz_uid` (`id_module`) VALUES ($idModule)";
+        $result = Yii::app()->db->createCommand()->query($query);
+        return $result;
+    }
 }
