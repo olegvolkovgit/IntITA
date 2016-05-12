@@ -20,7 +20,7 @@ if ($editMode){
                        if (!Yii::app()->user->isGuest){
                            echo Config::getBaseUrl(); echo Config::getChatPath(); echo $model->user_id; echo '" target="_blank';
                        } else {
-                           echo '#" '.'onclick="openSignIn();';
+                           echo '" onclick="openSignIn();';
                        }
                     ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                     <a class="btnChat" href="<?php
@@ -30,7 +30,7 @@ if ($editMode){
                             'receiver' => $model->user_id
                         ));
                     } else {
-                        echo '#" ' . 'onclick="openSignIn();';
+                        echo '"onclick="openSignIn();';
                     }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
             </div>
