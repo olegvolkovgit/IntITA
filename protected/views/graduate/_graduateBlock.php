@@ -35,11 +35,17 @@
                         <?php } ?>
                     </div>
                     <div>
-                        <?php if(!empty($data->position)){
-                            echo Yii::t('graduates', '0317') ?>
-                            <a href="<?php echo $data->work_site; ?>"
-                               target="_blank"> <?php echo $data->work_place; ?> </a>
-                        <?php } ?>
+                        <?php if(!empty($data->work_place)) {
+                            echo Yii::t('graduates', '0317');
+                            if (!empty($data->work_site)) {
+                                ?>
+                                <a href="<?php echo $data->work_site; ?>"
+                                   target="_blank"> <?php echo $data->work_place; ?> </a>
+                            <?php } else {
+                                echo "<span> ".$data->work_place."</span>";
+                            }
+                        }
+                        ?>
                     </div>
                     <div>
                         <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
