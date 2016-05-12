@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $model RegisteredUser
+ * @var $trainer StudentReg
  */
 ?>
 <div class="panel panel-default">
@@ -25,7 +26,7 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade in active" id="mainTab">
-                <?php $this->renderPartial('_mainTab', array('model' =>$model));?>
+                <?php $this->renderPartial('_mainTab', array('model' =>$model, 'trainer' => $trainer));?>
             </div>
             <div class="tab-pane fade" id="rolesTab">
                 <?php $this->renderPartial('_rolesTab', array('model' =>$model));?>

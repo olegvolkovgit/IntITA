@@ -241,7 +241,7 @@ class PayCourses extends CActiveRecord
 
             $row["title"]["name"] = CHtml::encode($record->course->getTitle());
             $row["title"]["url"] = Yii::app()->createAbsoluteUrl("course/index", array("id" =>$record->course->course_ID));
-            $row["summa"] = ($record->course->getBasePrice() != 0)?$record->course->getBasePrice(): "безкоштовно";
+            $row["summa"] = ($record->course->getBasePrice() != 0)? number_format(CommonHelper::getPriceUah($record->course->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
             //$row["schema"] = CHtml::encode($record->paymentSchema->name);
             //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
 

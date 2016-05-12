@@ -924,19 +924,29 @@ function initAgreementsTable() {
         "columns": [
             {
                 "data": "title",
+                "width": "20%",
                 "render": function (title) {
                     return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"] + '</a>';
                 }
             },
-            {"data": "schema"},
+            {
+                "data": "object"
+            },
+            {
+                "data": "schema",
+                "width": "25%"
+            },
             {
                 type: 'de_date', targets: 1,
-                "width": "15%",
+                "width": "10%",
                 "data": "date"
             },
-            {"data": "summa"},
             {
-                "width": "15%",
+                "data": "summa",
+                "width": "12%"
+            },
+            {
+                "width": "10%",
                 "data": "invoices",
                 "render": function (invoices) {
                     return '<a href="#" onclick="load(' + invoices["url"] + ',\'' + invoices["name"] + '\');">рахунки</a>';
