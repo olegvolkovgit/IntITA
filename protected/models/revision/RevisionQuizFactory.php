@@ -25,7 +25,7 @@ class RevisionQuizFactory {
                 $quiz['answers'] = $options;
                 break;
             case LectureElement::TASK:
-                $quiz['language'] = $request->getPost('language', 'c++');
+                $quiz['language'] = $request->getPost('lang', 'c++');
                 $quiz['assignment'] = $request->getPost('assignment', 0);
                 $quiz['table'] = $request->getPost('table', '');
                 break;
