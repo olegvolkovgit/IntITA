@@ -160,9 +160,8 @@ class UserContentManager extends CActiveRecord
 	}
 	public function counterOfWordInLesson($idLesson,$idModule){
 
-		$sql = 'SELECT * FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::INSTRUCTION . ',
- 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ') and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
+		$sql = 'SELECT * FROM `lecture_element`  where `id_type` IN (' . LectureElement::INSTRUCTION . ',
+ 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')  AND `lecture_element`.`id_lecture`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$counter=0;
 		foreach($result as $record){
@@ -170,9 +169,10 @@ class UserContentManager extends CActiveRecord
 			//$row["name"]["title"] = $record['html_block'];
 			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
-			for($i=0;$i<(count($words)-1);$i++){
-				$counter++;
-			}
+//			for($i=0;$i<(count($words)-1);$i++){
+//				$counter++;
+//			}
+			$counter+=count($words);
 		}
 		return $counter;
 	}
@@ -201,23 +201,63 @@ class UserContentManager extends CActiveRecord
 		else
 			return false;
 	}
-	public function counterOfWordInPart($idPart,$idLesson){
-
-		$sql = 'SELECT * FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+	public function counterOfWordInPart($idBlock,$idLesson){
+		//выбираем Основы мови С ч1.......Вступ
+//		SELECT * FROM `lecture_element` LEFT JOIN `lecture_page` on `lecture_page`.`id_lecture`
+//			= `lecture_element`.`id_lecture` where `id_type` IN (1,3,4,7) and `lecture_element`.`block_order`=1
+//		AND `lecture_element`.`id_lecture`=100 AND `lecture_page`.`page_order`=1
+		$sql = 'SELECT * FROM `lecture_element` LEFT JOIN `lecture_page` on `lecture_page`.`id_lecture`
  		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::INSTRUCTION . ',
- 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')  AND `lecture_element`.`id_lecture`='.$idLesson.'AND `lecture_element`.`id_block`='.$idPart;
+ 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')
+ 		 and `lecture_element`.`block_order`='.$idBlock.' AND `lecture_element`.`id_lecture`='.$idLesson.'
+ 		 AND `lecture_page`.`page_order`='.$idBlock;
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$counter=0;
+		//$i2=0;
+		//$counter2[0]=0;
 		foreach($result as $record){
 			//$row = array();
 			//$row["name"]["title"] = $record['html_block'];
-			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0,PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
-			for($i=0;$i<(count($words)-1);$i++){
-				$counter++;
-			}
+			$counter+=count($words);
+//			for($i=0;$i<(count($words));$i++){
+//
+//				//$counter++;
+//			}
+			//$counter2[$i2]=$counter;
+			//$i2++;
 		}
-		return 0;
+		return $counter;
+//		$sql = 'SELECT * FROM `lecture_element`  where `id_type` IN (' . LectureElement::INSTRUCTION . ',
+// 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ') and `lecture_element`.`block_order`='.$idBlock.' AND `lecture_element`.`id_lecture`='.$idLesson;
+//		$result = Yii::app()->db->createCommand($sql)->queryAll();
+//		$counter=0;
+//		foreach($result as $record){
+//			//$row = array();
+//			//$row["name"]["title"] = $record['html_block'];
+//			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0,1 );
+//			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
+//			for($i=0;$i<(count($words)-1);$i++){
+//				$counter++;
+//			}
+//		}
+//		return $counter;
+//		$sql = 'SELECT * FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+// 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::INSTRUCTION . ',
+// 		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')  AND `lecture_element`.`id_lecture`='.$idLesson.'AND `lecture_element`.`id_block`='.$idPart;
+//		$result = Yii::app()->db->createCommand($sql)->queryAll();
+//		$counter=0;
+//		foreach($result as $record){
+//			//$row = array();
+//			//$row["name"]["title"] = $record['html_block'];
+//			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $record['html_block'], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+//			//$keywords = preg_split("/\.|\s|,/g",$record['html_block'] );
+//			for($i=0;$i<(count($words)-1);$i++){
+//				$counter++;
+//			}
+//		}
+//		return 0;
 	}
 
 	public static function listOfCourses(){
@@ -261,13 +301,13 @@ class UserContentManager extends CActiveRecord
 		$sql = 'select * from lecture_page where id_lecture='.$idLesson;
 		$course = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
-
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['page_title'];
 			$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
 			$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
-			$row["word"]='не доделал 8-)';
+			$row["word"]=UserContentManager::counterOfWordInPart($record["page_order"],$idLesson);
+
 			array_push($return['data'], $row);
 		}
 		return json_encode($return);
