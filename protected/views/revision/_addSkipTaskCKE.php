@@ -17,11 +17,11 @@
                       required ng-model="addSkipTaskQuest"></textarea>
             <br>
         </fieldset>
-        <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('revision/addTest'); ?>',
+        <input type="submit" class="btn btn-default" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('revision/addTest'); ?>',
          <?php echo $pageId;?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)"
                ng-disabled="addSkipTask.$invalid" value="<?=Yii::t('editor', '0789');?>">
+        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" onclick='cancelSkipTask()'>
     </form>
     <br>
-    <button onclick='cancelSkipTask()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
 

@@ -460,7 +460,8 @@ class Teacher extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
-            $row["name"]["title"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
+            $row["name"]["title"] = addslashes($record->user->secondName." ".$record->user->firstName." ".$record->user->middleName);
             $row["email"]["title"] = $record->user->email;
             $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
                 array('id' => $record->user_id));

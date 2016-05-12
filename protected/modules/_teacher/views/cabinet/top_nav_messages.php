@@ -19,7 +19,7 @@ foreach ($newMessages as $key=>$record) {
                     <em><?= date("h:m, d F", strtotime($message->create_date)); ?></em>
                 </span>
             </div>
-            <div><?= $record->subject(); ?></div>
+            <div><?= CHtml::encode($record->subject()); ?></div>
         </a>
     </li>
     <?php

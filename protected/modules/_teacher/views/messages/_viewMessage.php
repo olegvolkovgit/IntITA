@@ -7,7 +7,7 @@
             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                  style="height:24px"/>
             <strong><?= $message->message0->sender0->userName(); ?></strong>
-            <em><?= substr($message->subject, 0, 50) . "..."; ?></em>
+            <em><?= substr(CHtml::encode($message->subject), 0, 50) . "..."; ?></em>
         </a>
         <div class="pull-right">
             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
@@ -16,7 +16,7 @@
     <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse in">
         <div class="panel-body">
             <p>
-                <?=$message->text;?>
+                <?=CHtml::encode($message->text);?>
                 <br>
                 <?php
                 $forwarded = $message->message0->forwarded();

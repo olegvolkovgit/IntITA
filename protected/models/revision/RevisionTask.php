@@ -142,11 +142,11 @@ class RevisionTask extends CActiveRecord
     public function editTest($assignment, $language, $table) {
 
         //todo what for this fields uses
-        $newTask = new RevisionTask();
-        $newTask->assignment = $assignment;
-        $newTask->language = $language;
-        $newTask->table = $table;
-        return;
+		$this->assignment = $assignment;
+		$this->language = $language;
+		$this->table = $table;
+		$this->saveCheck();
+		return;
     }
 
     public function deleteTest() {

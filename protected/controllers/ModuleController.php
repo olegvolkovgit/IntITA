@@ -39,6 +39,11 @@ class ModuleController extends Controller
                 $isPaidModule=true;
             }
         }
+        if($idCourse!=0){
+            $isReadyCourse=Course::model()->findByPk($idCourse)->status;
+        }else{
+            $isReadyCourse=true;
+        }
 
         $this->render('index', array(
             'post' => $model,
@@ -49,6 +54,7 @@ class ModuleController extends Controller
             'idCourse' => $idCourse,
             'isPaidCourse' => $isPaidCourse,
             'isPaidModule' => $isPaidModule,
+            'isReadyCourse' => $isReadyCourse,
         ));
     }
 
