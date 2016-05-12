@@ -10,6 +10,7 @@
  * @property integer $id_lecture_element
  * @property string $table
  * @property integer $id_test
+ * @property integer $uid
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -32,13 +33,13 @@ class RevisionTask extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_lecture_element', 'required'),
-			array('assignment, id_lecture_element, id_test', 'numerical', 'integerOnly'=>true),
+			array('id_lecture_element, uid', 'required'),
+			array('assignment, id_lecture_element, id_test, uid', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>12),
 			array('table', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, language, assignment, id_lecture_element, table, id_test', 'safe', 'on'=>'search'),
+			array('id, language, assignment, id_lecture_element, table, id_test, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class RevisionTask extends CActiveRecord
 			'id_lecture_element' => 'Id Lecture Element',
 			'table' => 'Table',
 			'id_test' => 'Id Test',
+            'uid' => 'UID'
 		);
 	}
 
@@ -93,6 +95,7 @@ class RevisionTask extends CActiveRecord
 		$criteria->compare('id_lecture_element',$this->id_lecture_element);
 		$criteria->compare('table',$this->table,true);
 		$criteria->compare('id_test',$this->id_test);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

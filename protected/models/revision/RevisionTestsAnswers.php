@@ -8,6 +8,7 @@
  * @property integer $id_test
  * @property string $answer
  * @property integer $is_valid
+ * @property integet $uid
  *
  * The followings are the available model relations:
  * @property Tests $test
@@ -30,11 +31,11 @@ class RevisionTestsAnswers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_test, answer, is_valid', 'required'),
-			array('id_test, is_valid', 'numerical', 'integerOnly'=>true),
+			array('id_test, answer, is_valid, uid', 'required'),
+			array('id_test, is_valid, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_test, answer, is_valid', 'safe', 'on'=>'search'),
+			array('id, id_test, answer, is_valid, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +61,7 @@ class RevisionTestsAnswers extends CActiveRecord
 			'id_test' => 'Id Test',
 			'answer' => 'Answer',
 			'is_valid' => 'Is Valid',
+            'uid' => 'UID'
 		);
 	}
 
@@ -85,6 +87,7 @@ class RevisionTestsAnswers extends CActiveRecord
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('answer',$this->answer,true);
 		$criteria->compare('is_valid',$this->is_valid);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

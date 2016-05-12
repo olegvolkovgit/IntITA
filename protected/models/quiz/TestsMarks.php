@@ -8,6 +8,7 @@
  * @property integer $id_user
  * @property integer $id_test
  * @property integer $mark
+ * @property integer $uid
  */
 class TestsMarks extends CActiveRecord
 {
@@ -27,11 +28,11 @@ class TestsMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_test, mark', 'required'),
-			array('id, id_user, id_test, mark', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_test, mark, uid', 'required'),
+			array('id, id_user, id_test, mark, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_test, mark', 'safe', 'on'=>'search'),
+			array('id, id_user, id_test, mark, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +57,7 @@ class TestsMarks extends CActiveRecord
 			'id_user' => 'Id User',
 			'id_test' => 'Id Test',
 			'mark' => 'Mark',
+			'uid' => 'UID',
 		);
 	}
 
@@ -81,6 +83,7 @@ class TestsMarks extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('mark',$this->mark);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

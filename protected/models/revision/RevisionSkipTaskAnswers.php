@@ -9,6 +9,7 @@
  * @property string $answer
  * @property integer $answer_order
  * @property integer $case_in_sensitive
+ * @property integer $uid
  *
  * The followings are the available model relations:
  * @property RevisionSkipTaskSkipTask $task
@@ -28,12 +29,12 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_task, answer, answer_order', 'required'),
-            array('id_task, answer_order, case_in_sensitive', 'numerical', 'integerOnly' => true),
+            array('id_task, answer, answer_order, uid', 'required'),
+            array('id_task, answer_order, case_in_sensitive, uid', 'numerical', 'integerOnly' => true),
             array('answer', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, id_task, answer, answer_order, case_in_sensitive', 'safe', 'on' => 'search'),
+            array('id, id_task, answer, answer_order, case_in_sensitive, uid', 'safe', 'on' => 'search'),
         );
     }
 
@@ -58,6 +59,7 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
             'answer' => 'Answer',
             'answer_order' => 'Answer Order',
             'case_in_sensitive' => 'Case In Sensitive',
+            'uid' => 'UID',
         );
     }
 
@@ -83,6 +85,7 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         $criteria->compare('answer', $this->answer, true);
         $criteria->compare('answer_order', $this->answer_order);
         $criteria->compare('case_in_sensitive', $this->case_in_sensitive);
+        $criteria->compare('uid', $this->uid);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

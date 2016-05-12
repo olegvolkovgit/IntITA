@@ -11,6 +11,7 @@
  * @property string $result
  * @property string $warning
  * @property string $date
+ * @property integer $uid
  *
  * The followings are the available model relations:
  * @property StudentReg $idUser
@@ -33,11 +34,11 @@ class TaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_task, mark, date', 'required'),
-			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_task, mark, date, uid', 'required'),
+			array('id_user, id_task, mark, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_task, mark, result, warning, date', 'safe', 'on'=>'search'),
+			array('id, id_user, id_task, mark, result, warning, date, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class TaskMarks extends CActiveRecord
 			'result' => 'Result',
 			'warning' => 'Warning',
 			'date' => 'Date',
+			'uid' => 'UID',
 		);
 	}
 
@@ -94,6 +96,7 @@ class TaskMarks extends CActiveRecord
 		$criteria->compare('result',$this->result,true);
 		$criteria->compare('warning',$this->warning,true);
 		$criteria->compare('date',$this->date,true);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

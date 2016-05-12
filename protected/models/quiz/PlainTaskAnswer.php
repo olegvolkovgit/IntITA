@@ -10,6 +10,7 @@
  * @property integer $id_plain_task
  * @property string $date
  * @property int $consultant
+ * @property integer $uid
  *
  * @property PlainTask $plainTask
  * @property StudentReg $user
@@ -32,10 +33,10 @@ class PlainTaskAnswer extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_student, id_plain_task', 'required'),
-            array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly' => true),
+            array('id_student, id_plain_task, uid', 'required'),
+            array('id_student, id_plain_task,consultant, uid', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on' => 'search'),
+            array('id, answer,consultant, id_student, id_plain_task, date, uid', 'safe', 'on' => 'search'),
         );
     }
 
@@ -63,6 +64,7 @@ class PlainTaskAnswer extends CActiveRecord
             'id_student' => 'Id Student',
             'id_plain_task' => 'Id Plain Task',
             'consultant' => 'Consultant',
+            'uid' => 'UID'
         );
     }
 
@@ -88,6 +90,7 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->compare('id_plain_task', $this->id_plain_task);
         $criteria->compare('date', $this->date);
         $criteria->compare('consultant', $this->consultant);
+        $criteria->compare('uid', $this->uid);
 
 
         return new CActiveDataProvider($this, array(
