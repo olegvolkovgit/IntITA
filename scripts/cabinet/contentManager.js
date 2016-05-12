@@ -201,7 +201,7 @@ function  initTeacherConsultantsTableCM(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">'+name["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">'+name["name"]+'</a>';
                 }},
             {
                 "data": "email",
@@ -295,7 +295,7 @@ function initConsultantsTable(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["name"]+'</a>';
                 }},
             {
                 "data": "email",
