@@ -44,7 +44,8 @@ class RevisionQuizFactory {
      * @param array $quiz
      *
      * For test
-     * ['testTitle' => 'foo',
+     * ['idModule' => id_module
+     *  'testTitle' => 'foo',
      *  'answers' => [
      *          0 => ['answer' => 'RevisionTestAnswer->answer', 'is_valid' => RevisionTestAnswer->is_valid]
      *          ...
@@ -52,23 +53,23 @@ class RevisionQuizFactory {
      * ]
      *
      * For task
-     * ['assignment' => 'foo', 'language' => 'bar', 'table' => 'baz']
+     * ['idModule' => id_module, 'assignment' => 'foo', 'language' => 'bar', 'table' => 'baz']
      *
      * @return RevisionTests|null
      */
     public static function create($lectureElement, $quiz) {
         switch ($lectureElement->id_type) {
             case LectureElement::PLAIN_TASK :
-                return RevisionPlainTask::createTest($lectureElement->id);
+                return RevisionPlainTask::createTest($lectureElement->id, $quiz['idModule']);
                 break;
             case LectureElement::TEST :
-                return RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers']);
+                return RevisionTests::createTest($lectureElement->id, $quiz['testTitle'], $quiz['answers'], $quiz['idModule']);
                 break;
             case LectureElement::TASK :
-                return RevisionTask::createTest($lectureElement->id, $quiz['assignment'], $quiz['language'], $quiz['table']);
+                return RevisionTask::createTest($lectureElement->id, $quiz['assignment'], $quiz['language'], $quiz['table'], $quiz['idModule']);
                 break;
             case LectureElement::SKIP_TASK:
-                return RevisionSkipTask::createTest($lectureElement->id, $quiz['question'], $quiz['source'], $quiz['answers']);
+                return RevisionSkipTask::createTest($lectureElement->id, $quiz['question'], $quiz['source'], $quiz['answers'], $quiz['idModule']);
                 break;
             default:
                 break;
@@ -168,6 +169,7 @@ class RevisionQuizFactory {
      * @return array|mixed|null
      */
     public static function cloneQuiz($lectureElementOld, $lectureElementNew) {
+
         switch ($lectureElementOld->id_type) {
             case LectureElement::PLAIN_TASK :
                 $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
@@ -234,47 +236,48 @@ class RevisionQuizFactory {
      * @throws CDbException
      */
     public static function deleteFromRegularDB($quizzes) {
-        foreach ($quizzes as $idType => $idElements) {
-            foreach ($idElements as $element) {
-                switch ($idType) {
-                    case LectureElement::PLAIN_TASK :
-                        $test = PlainTask::model()->findByAttributes(array('block_element' => $element));
-                        if ($test) {
-                            $test->delete();
-                        }
-                        break;
-                    case LectureElement::TEST :
-                        $test = Tests::model()->findByAttributes(array('block_element' => $element));
-                        $testAnswers = TestsAnswers::model()->findAllByAttributes(array('id_test' => $test->id));
-                        foreach ($testAnswers as $testAnswer) {
-                            $testAnswer->delete();
-                        }
-                        if ($test) {
-                            $test->delete();
-                        }
-                        break;
-                    case LectureElement::TASK :
-                        $test = Task::model()->findByAttributes(array('condition' => $element));
-                        if ($test) {
-                            $test->delete();
-                        }
-                        break;
-                    case LectureElement::SKIP_TASK:
-                        $test = SkipTask::model()->findByAttributes(['condition' => $element]);
-                        if ($test) {
-                            $questionLE = LectureElement::model()->findByPk($test->question);
-                            foreach ($test->skipTaskAnswers as $answer) {
-                                $answer->delete();
-                            }
-                            $test->delete();
-                            $questionLE->delete();
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        return true;
+//        foreach ($quizzes as $idType => $idElements) {
+//            foreach ($idElements as $element) {
+//                switch ($idType) {
+//                    case LectureElement::PLAIN_TASK :
+//                        $test = PlainTask::model()->findByAttributes(array('block_element' => $element));
+//                        if ($test) {
+//                            $test->delete();
+//                        }
+//                        break;
+//                    case LectureElement::TEST :
+//                        $test = Tests::model()->findByAttributes(array('block_element' => $element));
+//                        $testAnswers = TestsAnswers::model()->findAllByAttributes(array('id_test' => $test->id));
+//                        foreach ($testAnswers as $testAnswer) {
+//                            $testAnswer->delete();
+//                        }
+//                        if ($test) {
+//                            $test->delete();
+//                        }
+//                        break;
+//                    case LectureElement::TASK :
+//                        $test = Task::model()->findByAttributes(array('condition' => $element));
+//                        if ($test) {
+//                            $test->delete();
+//                        }
+//                        break;
+//                    case LectureElement::SKIP_TASK:
+//                        $test = SkipTask::model()->findByAttributes(['condition' => $element]);
+//                        if ($test) {
+//                            $questionLE = LectureElement::model()->findByPk($test->question);
+//                            foreach ($test->skipTaskAnswers as $answer) {
+//                                $answer->delete();
+//                            }
+//                            $test->delete();
+//                            $questionLE->delete();
+//                        }
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        }
     }
 
     /**
@@ -284,10 +287,15 @@ class RevisionQuizFactory {
      * @return RevisionTests
      */
     public static function createFromLecture($lectureElement, $revisionLectureElement) {
+
+        //todo change this while createNewRevisionFromLecture
+        $sql = "SELECT `lectures`.`idModule` FROM `lectures` WHERE `lectures`.`id` = $lectureElement->id_lecture";
+        $idModule = Yii::app()->db->createCommand($sql)->queryScalar();
+
         switch ($lectureElement->id_type) {
             case LectureElement::PLAIN_TASK :
                 $oldTest = PlainTask::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
-                return RevisionPlainTask::createTest($revisionLectureElement->id, $oldTest->id);
+                return RevisionPlainTask::createTest($revisionLectureElement->id, $idModule, $oldTest->id);
                 break;
             case LectureElement::TEST:
                 $oldTest = Tests::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
@@ -297,11 +305,11 @@ class RevisionQuizFactory {
                     array_push($answers, ['answer' => $answer->answer, 'is_valid' => $answer->is_valid]);
                 }
 
-                return RevisionTests::createTest($revisionLectureElement->id, $oldTest->title, $answers);
+                return RevisionTests::createTest($revisionLectureElement->id, $oldTest->title, $answers, $idModule, $oldTest->id);
                 break;
             case LectureElement::TASK :
                 $oldTask = Task::model()->findByAttributes(array('condition' => $lectureElement->id_block));
-                return RevisionTask::createTest($revisionLectureElement->id, $oldTask->assignment, $oldTask->language, $oldTask->table, $oldTask->id);
+                return RevisionTask::createTest($revisionLectureElement->id, $oldTask->assignment, $oldTask->language, $oldTask->table, $idModule, $oldTask->id);
                 break;
             case LectureElement::SKIP_TASK:
                 $oldTask = SkipTask::model()->findByAttributes(['condition' => $lectureElement->id_block]);
@@ -310,7 +318,7 @@ class RevisionQuizFactory {
                 foreach ($oldTask->skipTaskAnswers   as $answer) {
                     array_push($answers, ['value' => $answer->answer, 'caseInsensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
                 }
-                return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $oldTask->id);
+                return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $idModule, $oldTask->id);
                 break;
             default:
                 break;
@@ -319,7 +327,15 @@ class RevisionQuizFactory {
 
     public static function getQuizId($idModule) {
         $query = "INSERT INTO `quiz_uid` (`id_module`) VALUES ($idModule)";
-        $result = Yii::app()->db->createCommand()->query($query);
-        return $result;
+        Yii::app()->db->createCommand($query)->query();
+        return Yii::app()->db->getLastInsertID();
+    }
+
+    public static function cloneQuizUID($uid) {
+        $query = "SELECT `id_module` FROM `quiz_uid` WHERE `uid`=1 INTO @idModule;
+                  INSERT INTO `quiz_uid` (`id_module`) VALUES (@idModule);";
+        Yii::app()->db->createCommand($query)->query();
+        return Yii::app()->db->getLastInsertID();
+
     }
 }

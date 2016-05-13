@@ -9,7 +9,7 @@
  * @property string $answer
  * @property integer $answer_order
  * @property integer $case_in_sensitive
- * @property integer $uid
+ * @property integer $quiz_uid
  *
  * The followings are the available model relations:
  * @property SkipTask $idTask
@@ -32,11 +32,11 @@ class SkipTaskAnswers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_task, answer, answer_order, uid', 'required'),
-			array('id_task, answer_order, case_in_sensitive, uid', 'numerical', 'integerOnly'=>true),
+			array('id_task, answer, answer_order, quiz_uid', 'required'),
+			array('id_task, answer_order, case_in_sensitive, quiz_uid', 'numerical', 'integerOnly'=>true),
 			array('answer', 'length', 'max'=>255),
 
-			array('id, id_task, answer, answer_order, case_in_sensitive, uid', 'safe', 'on'=>'search'),
+			array('id, id_task, answer, answer_order, case_in_sensitive, quiz_uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,7 +63,7 @@ class SkipTaskAnswers extends CActiveRecord
 			'answer' => 'Answer',
 			'answer_order' => 'Answer Order',
             'case_in_sensitive' => 'Case in sensitive',
-            'uid' => 'UID',
+            'quiz_uid' => 'quiz_uid',
 		);
 	}
 
@@ -88,7 +88,7 @@ class SkipTaskAnswers extends CActiveRecord
 		$criteria->compare('answer',$this->answer,true);
 		$criteria->compare('answer_order',$this->answer_order);
         $criteria->compare('case_in_sensitive', $this->case_in_sensitive);
-        $criteria->compare('uid', $this->uid);
+        $criteria->compare('quiz_uid', $this->quiz_uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

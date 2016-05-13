@@ -8,7 +8,7 @@
  * @property integer $author
  * @property integer $condition
  * @property integer $question
- * @property integer $source
+ * @property string $source
  * @property integer $uid
 
  *
@@ -39,7 +39,7 @@ class SkipTask extends Quiz
 		// will receive user inputs.
 		return array(
 			array('author, condition, question, source, uid', 'required'),
-			array('author, condition, question', 'numerical, uid', 'integerOnly'=>true),
+			array('author, condition, question, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			array('id, author, condition, question, source, uid', 'safe', 'on'=>'search'),
 		);

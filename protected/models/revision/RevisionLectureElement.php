@@ -134,7 +134,7 @@ class RevisionLectureElement extends CActiveRecord
 		$this->save();
 	}
 
-    public static function create($idType, $blockOrder, $htmlBlock, $idPage=null, $quiz=null) {
+    public static function create($idType, $blockOrder, $htmlBlock, $idPage, $quiz=null) {
         $revLectureElement = new RevisionLectureElement();
         $revLectureElement->id_page = $idPage;
         $revLectureElement->id_type = $idType;
@@ -195,20 +195,6 @@ class RevisionLectureElement extends CActiveRecord
 
         return $clone;
     }
-
-//    public function cloneQuiz($idNewPage) {
-//
-//        $clone = new RevisionLectureElement();
-//        $clone->id_page = $idNewPage;
-//        $clone->id_type = $this->id_type;
-//        $clone->block_order = $this->block_order;
-//        $clone->html_block = $this->html_block;
-//        $clone->saveCheck();
-//
-//        RevisionQuizFactory::cloneQuiz($this, $clone);
-//
-//        return $clone;
-//    }
 
     /**
      * Saves lecture element to into regular DB

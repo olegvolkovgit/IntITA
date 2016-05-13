@@ -108,10 +108,11 @@ class RevisionPlainTask extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $idTest=null) {
+    public static function createTest($idLectureElement, $idModule, $idTest=null) {
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
         $newPlainTest->id_test = $idTest;
+        $newPlainTest->uid = RevisionQuizFactory::getQuizId($idModule);
         $newPlainTest->saveCheck();
 
         return $newPlainTest;
@@ -120,6 +121,7 @@ class RevisionPlainTask extends CActiveRecord
     public function cloneTest($idLectureElement) {
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
+        $newPlainTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
         $newPlainTest->saveCheck();
 
         return $newPlainTest;
@@ -137,6 +139,7 @@ class RevisionPlainTask extends CActiveRecord
         $newPlainTask = new PlainTask();
         $newPlainTask->block_element = $lectureElementId;
         $newPlainTask->author = $idUserCreated;
+        $newPlainTask->uid = $this->uid;
         $newPlainTask->save();
 
         return $newPlainTask;

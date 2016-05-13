@@ -119,14 +119,14 @@ class RevisionTask extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $assignment, $language, $table, $idTest=null) {
+    public static function createTest($idLectureElement, $assignment, $language, $table, $idModule, $idTest = null) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->assignment = $assignment;
         $newTask->language = $language;
         $newTask->table = $table;
-
         $newTask->id_test = $idTest;
+        $newTask->uid = RevisionQuizFactory::getQuizId($idModule);
 
         $newTask->saveCheck();
 
@@ -137,7 +137,7 @@ class RevisionTask extends CActiveRecord
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test']));
-
+        $newTask->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
         $newTask->saveCheck();
         return $newTask;
     }
@@ -159,7 +159,7 @@ class RevisionTask extends CActiveRecord
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table']));
         $newTask->author = $idUserCreated;
         $newTask->condition = $lectureElementId;
-
+        $newTask->uid = $this->uid;
         $newTask->save();
 
         return $newTask;

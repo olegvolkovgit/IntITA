@@ -109,18 +109,20 @@ class RevisionSkipTask extends CActiveRecord {
         }
     }
 
-    public static function createTest($lectureElementId, $question, $source, $answers, $idTest = null) {
+    public static function createTest($lectureElementId, $question, $source, $answers, $idModule, $idTest = null) {
+        $uid = RevisionQuizFactory::getQuizId($idModule);
+        
         $newTest = new RevisionSkipTask();
         $newTest->condition = $lectureElementId;
         $newTest->question = $question;
         $newTest->source = $source;
-
+        $newTest->uid = $uid;
         $newTest->id_test = $idTest;
 
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index']);
+            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index'], $uid);
         }
 
         return $newTest;
@@ -132,11 +134,11 @@ class RevisionSkipTask extends CActiveRecord {
         $newTest->question = $this->question;
         $newTest->source = $this->source;
         $newTest->id_test = $this->id_test;
-
+        $newTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);;
         $newTest->saveCheck();
 
         foreach ($this->answers as $answer) {
-            $answer->cloneAnswer($newTest->id);
+            $answer->cloneAnswer($newTest->id, $newTest->uid);
         }
 
         return $newTest;
@@ -206,6 +208,7 @@ class RevisionSkipTask extends CActiveRecord {
         $skipTask->condition = $lectureElement->id_block;
         $skipTask->question = $questionLE->id_block;
         $skipTask->source = $this->source;
+        $skipTask->uid = $this->uid;
         $skipTask->save();
 
         foreach ($this->answers as $answer) {

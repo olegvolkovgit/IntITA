@@ -113,15 +113,18 @@ class RevisionTests extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $title, $answers, $idTest=null) {
+    public static function createTest($idLectureElement, $title, $answers, $idModule, $idTest = null) {
+        $uid = RevisionQuizFactory::getQuizId($idModule);
+
         $newTest = new RevisionTests();
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $title;
         $newTest->id_test = $idTest;
+        $newTest->uid = $uid;
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            RevisionTestsAnswers::createAnswer($newTest->id, $answer);
+            RevisionTestsAnswers::createAnswer($newTest->id, $answer, $uid);
         }
 
         return $newTest;
@@ -131,10 +134,11 @@ class RevisionTests extends CActiveRecord
         $newTest = new RevisionTests();
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $this->title;
+        $newTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
         $newTest->saveCheck();
 
         foreach ($this->testsAnswers as $answer) {
-            $answer->cloneTestAnswer($newTest->id);
+            $answer->cloneTestAnswer($newTest->id, $newTest->uid);
         }
         return $newTest;
     }
@@ -195,6 +199,7 @@ class RevisionTests extends CActiveRecord
         $newTest->block_element = $lectureElementId;
         $newTest->author = $idUserCreated;
         $newTest->title = $this->title;
+        $newTest->uid = $this->uid;
         $newTest->save();
 
         foreach ($this->testsAnswers as $testsAnswer) {
