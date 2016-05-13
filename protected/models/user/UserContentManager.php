@@ -269,8 +269,18 @@ class UserContentManager extends CActiveRecord
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['page_title'];
-			$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
-			$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
+			if(UserContentManager::existOfVideoInPart($record["id"],$idLesson)){
+				$row["video"]='<div style="padding-left: 40%"><img src="/images/icons/right.jpg"></div>';
+			}else{
+				$row["video"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
+			}
+			if(UserContentManager::existOfTestInPart($record["id"],$idLesson)){
+				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/right.jpg"></div>';
+			}else{
+				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
+			}
+			//$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
+			//$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
 			$row["word"]=UserContentManager::counterOfWordInPart($record["id"],$idLesson,$record["page_order"]);
 
 			array_push($return['data'], $row);

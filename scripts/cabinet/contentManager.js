@@ -441,7 +441,6 @@ function initLessonsListTable(idModule){
 }
 
 function initPartsListTable(idLesson){
-
     $jq('#statusOfPartsTable').DataTable({
 
         "autoWidth": false,
