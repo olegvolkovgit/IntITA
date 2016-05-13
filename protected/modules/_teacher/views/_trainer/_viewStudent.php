@@ -1,6 +1,8 @@
 <?php
 /**
  * @var $student RegisteredUser
+ * @var $modules array
+ * @var $teachersByModule array
  */
 $modules = $student->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
 $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
@@ -35,7 +37,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
                                     <ul>
                                         <?php
-                                        $courseModules = CourseModules::modulesWithStudentTeacher($course["id"], $student->id);
+                                        $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
                                         if(count($courseModules) > 0) {
                                             foreach ($courseModules as $record) { ?>
                                                 <li>
@@ -44,12 +46,11 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                                            array("id" => $student->id, "idModule" => $record["id"])); ?>',
                                                            '<?= addslashes($student->registrationData->userName()); ?>');">
                                                         <?= $record["title"] . " (" . $record["lang"] . ")";
-                                                        if ($record["teacherId"] != 0) {
+                                                        if (isset($teachersByModule[$record["id"]])) {
                                                             ?>
-                                                            <em>(викладач - <?= $record["teacherName"] ?>)</em>
+                                                            <em>(викладач - <?= $teachersByModule[$record["id"]]; ?>)</em>
                                                         <?php } else { ?>
-                                                            <span class="warningMessage"><em>викладача не
-                                                                    призначено</em></span>
+                                                            <span class="warningMessage"><em>викладача не призначено</em></span>
                                                         <?php } ?>
                                                     </a>
                                                 </li>
@@ -61,7 +62,6 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 </div>
                             </div>
                         </div>
-
                     <?php } ?>
                 <?php } else { ?>
                     <em>Курсів немає.</em>
@@ -81,9 +81,9 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
                                        '<?= addslashes($student->registrationData->userName()); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
-                                    if ($module["teacherId"] != 0) {
+                                    if (isset($teachersByModule[$module["id"]])) {
                                         ?>
-                                        <em>(викладач - <?= $module["teacherName"] ?>)</em>
+                                        <em>(викладач - <?= $teachersByModule[$module["id"]]; ?>)</em>
                                     <?php } else { ?>
                                         <span class="warningMessage"><em>викладача не призначено</em></span>
                                     <?php } ?>

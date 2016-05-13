@@ -39,11 +39,17 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
                                    target="_blank">
                                     <?= $module["title"] . " (" . $module["lang"] . ")  "; ?>
                                 </a>
+                                <input type="number" hidden="hidden" id="moduleId" value="<?=$module["id"];?>"/>
                                 <button type="button" class="btn btn-outline btn-success btn-xs"
                                         onclick="load('<?= Yii::app()->createUrl("/_teacher/user/agreement",
                                             array("user" => $user->id, "param" => $module["id"], "type" => "module")) ?>')">
                                     <em>договір</em>
                                 </button>
+                                <a href="#" onclick="cancelModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelModule'); ?>',
+                                    '<?=$module["id"];?>',
+                                    '<?=$user->id?>'); return false;">
+                                    <span class="warningMessage"><em> скасувати доступ</em></span>
+                                </a>
                             </li>
                         <?php } ?>
                     </ul>

@@ -43,7 +43,8 @@ class TeacherConsultantController extends TeacherCabinetController
 
     public function actionModules($id){
         $user = RegisteredUser::userById($id);
-        $modules = $user->getAttributesByRole(UserRoles::TEACHER_CONSULTANT)[0];
+        $role = new TeacherConsultant();
+        $modules = $role->activeModules($user->registrationData);
 
         return $this->renderPartial('/_teacher_consultant/_modules', array(
             'modules' => $modules,
