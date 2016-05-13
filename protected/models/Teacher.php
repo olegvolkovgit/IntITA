@@ -19,6 +19,7 @@
  * @property string $first_name_ru
  * @property string $middle_name_ru
  * @property string $last_name_ru
+ * @property integer $cancelled
  *
  * @property StudentReg $user
  * @property Module $modules
@@ -26,8 +27,10 @@
  */
 class Teacher extends CActiveRecord
 {
-    const ACTIVE = 1;
-    const DELETED = 0;
+    const SHOW = 1;
+    const HIDE = 0;
+    const ACTIVE = 0;
+    const DELETED = 1;
 
     /**
      * @return string the associated database table name
@@ -53,7 +56,8 @@ class Teacher extends CActiveRecord
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
             array('profile_text_first, profile_text_short, profile_text_last, rate_knowledge, rate_efficiency,
-            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en,first_name_ru, middle_name_ru, last_name_ru',
+            rate_relations, user_id, isPrint, first_name_en, middle_name_en, last_name_en,first_name_ru, middle_name_ru,
+            last_name_ru, cancelled',
                 'safe', 'on' => 'search'),
         );
     }
@@ -94,6 +98,7 @@ class Teacher extends CActiveRecord
             'first_name_ru' => 'Ім&#8217;я (російською)',
             'middle_name_ru' => 'По батькові (російською)',
             'last_name_ru' => 'Прізвище (російською)',
+            'cancelled' => 'Видалений',
         );
     }
 
@@ -126,6 +131,7 @@ class Teacher extends CActiveRecord
         $criteria->compare('first_name_ru', $this->first_name_ru, true);
         $criteria->compare('middle_name_ru', $this->middle_name_ru, true);
         $criteria->compare('last_name_ru', $this->last_name_ru, true);
+        $criteria->compare('cancelled', $this->cancelled, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -429,23 +435,6 @@ class Teacher extends CActiveRecord
         if (isset($author)) return true; else return false;
     }
 
-
-    public static function addTeacherAccess($teacher, $module)
-    {
-        $model = new TeacherModule();
-        if (!TeacherModule::model()->exists('idTeacher=:teacher AND idModule=:module', array(
-            ':teacher' => $teacher,
-            ':module' => $module,
-        ))
-        ) {
-            $model->idTeacher = $teacher;
-            $model->idModule = $module;
-            if ($model->validate()) {
-                $model->save();
-            }
-        }
-    }
-
     public function getStatus()
     {
         if ($this->isPrint)
@@ -455,7 +444,9 @@ class Teacher extends CActiveRecord
 
     public static function teachersList()
     {
-        $users = Teacher::model()->findAll();
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'cancelled = '.Teacher::ACTIVE;
+        $users = Teacher::model()->findAll($criteria);
         $return = array('data' => array());
 
         foreach ($users as $record) {
@@ -507,7 +498,7 @@ class Teacher extends CActiveRecord
             ));
             $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             $row["addModuleLink"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $record->user_id))."'";
-            if($record->isActive()){
+            if($record->isShow()){
                 $row["status"] = "видимий";
                 $row["changeStatus"]["title"] = "приховати";
                 $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->user_id))."'";
@@ -521,8 +512,26 @@ class Teacher extends CActiveRecord
         return json_encode($return);
     }
 
+    public function isShow(){
+        return $this->isPrint == Teacher::SHOW;
+    }
+
+    public function setShowMode(){
+        $this->isPrint = Teacher::SHOW;
+        $this->save();
+    }
+
+    public function setHideMode(){
+        $this->isPrint = Teacher::HIDE;
+        $this->save();
+    }
+
     public function isActive(){
-        return $this->isPrint == Teacher::ACTIVE;
+        return $this->cancelled == Teacher::ACTIVE;
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == Teacher::DELETED;
     }
 
     public function setActive(){
@@ -544,7 +553,7 @@ class Teacher extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN teacher t ON t.user_id = s.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and t.isPrint='.Teacher::ACTIVE);
+        $criteria->addCondition('t.user_id IS NOT NULL and t.isPrint='.Teacher::SHOW);
 
         $data = StudentReg::model()->findAll($criteria);
 
