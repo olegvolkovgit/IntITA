@@ -182,6 +182,7 @@ class Consultant extends Role
                 ':id' => $teacher->id,
                 ':isCancel' => Module::ACTIVE
             ))
+            ->group('m.module_ID')
             ->queryAll();
 
         return $records;

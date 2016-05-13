@@ -269,13 +269,14 @@ class TeacherConsultant extends Role
     public function activeModules(StudentReg $teacher)
     {
         $records = Yii::app()->db->createCommand()
-            ->select('id_module id, language lang, m.title_ua title')
+            ->select('id_module id, language lang, m.title_ua title, tcm.start_date')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
             ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel', array(
                 ':id' => $teacher->id,
                 ':isCancel' => Module::ACTIVE
             ))
+            ->group('id')
             ->queryAll();
 
         return $records;
