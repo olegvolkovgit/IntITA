@@ -2,52 +2,55 @@
 
 class Student extends Role
 {
-	private $dbModel;
-	private $errorMessage = "";
+    private $dbModel;
+    private $errorMessage = "";
     private $modules;
     private $courses;
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'user_student';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'user_student';
+    }
 
-	/**
-	 * @return string sql for check role student.
-	 */
-	public function checkRoleSql(){
-		return 'select "student" from user_student st where st.id_user = :id and end_date IS NULL';
-	}
+    /**
+     * @return string sql for check role student.
+     */
+    public function checkRoleSql()
+    {
+        return 'select "student" from user_student st where st.id_user = :id and end_date IS NULL';
+    }
 
-    public function getErrorMessage(){
+    public function getErrorMessage()
+    {
         return $this->errorMessage;
     }
 
-	/**
-	 * @return string the role title (ua)
-	 */
-	public function title(){
-		return 'Студент';
-	}
+    /**
+     * @return string the role title (ua)
+     */
+    public function title()
+    {
+        return 'Студент';
+    }
 
-	public function attributes(StudentReg $user)
-	{
-		$mask = PayModules::setFlags(array('read'));
+    public function attributes(StudentReg $user)
+    {
+        $mask = PayModules::setFlags(array('read'));
 
-        if(!$this->courses){
+        if (!$this->courses) {
             $this->loadCourses($user, $mask);
         }
         $courses = $this->courses;
 
-        if(!$this->modules){
+        if (!$this->modules) {
             $this->loadModules($user, $mask);
         }
         $modules = $this->modules;
 
-		return array(
+        return array(
             array(
                 'key' => 'module',
                 'title' => 'Модулі',
@@ -61,9 +64,10 @@ class Student extends Role
                 'value' => $courses
             )
         );
-	}
+    }
 
-    private function loadCourses(StudentReg $user, $mask){
+    private function loadCourses(StudentReg $user, $mask)
+    {
 
         $this->courses = Yii::app()->db->createCommand()
             ->select('id_course id, language lang, c.title_ua title')
@@ -73,7 +77,8 @@ class Student extends Role
             ->queryAll();
     }
 
-    private function loadModules(StudentReg $user, $mask){
+    private function loadModules(StudentReg $user, $mask)
+    {
 
         $this->modules = Yii::app()->db->createCommand()
             ->select('module_ID id, language lang, m.title_ua title,IF(tcs.end_date is null, u.id, 0) as teacherId,
@@ -95,22 +100,39 @@ class Student extends Role
         $criteria = new CDbCriteria();
         $criteria->alias = 'u';
         $criteria->join = 'LEFT JOIN teacher_consultant_student tcs ON tcs.id_teacher=u.id';
-        $criteria->addCondition('tcs.id_module='.$module.' and tcs.id_student='.$student.' and tcs.end_date IS NULL');
+        $criteria->addCondition('tcs.id_module=' . $module . ' and tcs.id_student=' . $student . ' and tcs.end_date IS NULL');
 
         return StudentReg::model()->find($criteria);
     }
 
-	public  function cancelAttribute(StudentReg $user, $attribute, $value)
-	{
-		return false;
-	}
+    public function cancelAttribute(StudentReg $user, $attribute, $value)
+    {
+        return false;
+    }
 
-	public function checkBeforeDeleteRole(StudentReg $user){
-		return true;
-	}
+    public function checkBeforeDeleteRole(StudentReg $user)
+    {
+        return true;
+    }
 
-	//not supported
-	public function addRoleFormList($query){
-		return array();
-	}
+    //not supported
+    public function addRoleFormList($query)
+    {
+        return array();
+    }
+
+    public function getTeachersForModules(StudentReg $student)
+    {
+        $records = Yii::app()->db->createCommand()
+            ->select('module_ID id, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName, " <", u.email, ">") as teacherName')
+            ->from('module m')
+            ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
+            ->leftJoin('user u', 'u.id=tcs.id_teacher')
+            ->where('tcs.id_student = :id and tcs.end_date IS NULL',
+                array(':id' => $student->id))
+            ->group('m.module_ID')
+            ->queryAll();
+
+        return array_column($records, 'teacherName', 'id');
+    }
 }
