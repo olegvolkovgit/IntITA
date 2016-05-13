@@ -126,10 +126,10 @@ function loadUserInfo(user){
 }
 function checkModuleField(url, moduleId, userId)
 {
-    if(moduleId){
+    if(!moduleId){
         moduleId = document.getElementById('moduleId').value;
     }
-    if(userId){
+    if(!userId){
         userId = document.getElementById('user').value;
     }
 

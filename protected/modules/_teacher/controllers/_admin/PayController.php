@@ -29,6 +29,7 @@ class PayController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
 
+
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
         $module = Module::model()->findByPk($moduleId);
@@ -115,9 +116,10 @@ class PayController extends TeacherCabinetController
 
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
+                $receiver = (is_null($user->trainer))?Teacher::model()->findByPk(Config::getAdminId()):$user->trainer->trainer0;
                 if ($payModule->delete()) {
                     $this->notify($user, 'Скасовано доступ до модуля',
-                        '_payModuleCancelledNotification', array($payModule->module, $user->trainer->trainer0));
+                        '_payModuleCancelledNotification', array($payModule->module, $receiver));
                     echo PayModules::getCancelText($payModule->module, $userName);
                 }
 
@@ -139,10 +141,11 @@ class PayController extends TeacherCabinetController
 
             $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
+            $receiver = (is_null($student->trainer))?Teacher::model()->findByPk(Config::getAdminId()):$student->trainer->trainer0;
             if ($payCourse) {
                 if ($payCourse->delete()) {
                     $this->notify($student, 'Скасовано доступ до курса',
-                        '_payCourseCancelledNotification', array($payCourse->course, $student->trainer->trainer0));
+                        '_payCourseCancelledNotification', array($payCourse->course, $receiver));
                 }
                 echo PayCourses::getCancelText($payCourse->course, $userName);
             } else {
