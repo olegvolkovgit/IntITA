@@ -197,4 +197,8 @@ class Config extends CActiveRecord
 	public static function getServerTimezone(){
 		return Yii::app()->config->get('serverTimezone');
 	}
+
+	public static function getLectureDurationInHours(){
+		return Yii::app()->config->get('lectureDurationInHours');
+	}
 }
