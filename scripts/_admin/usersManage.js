@@ -630,17 +630,17 @@ function initStudentsList() {
                 }
             },
             {
-                "width": "12%",
+                "width": "20%",
                 data: "date"
             },
-            { data: "trainer-name" },
-            {
-                "width": "10%",
-                data: "url",
-                "render": function (url) {
-                    return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
-                }
-            },
+            //{ data: "trainer-name" },
+            //{
+            //    "width": "10%",
+            //    data: "url",
+            //    "render": function (url) {
+            //        return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
+            //    }
+            //},
             {
                 "width": "10%",
                 "data": "addAccessLink",
