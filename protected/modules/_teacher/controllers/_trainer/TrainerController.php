@@ -97,9 +97,12 @@ class TrainerController extends TeacherCabinetController
     public function actionViewStudent($id)
     {
         $student = RegisteredUser::userById($id);
+        $role = new Student();
+        $teachersByModule = $role->getTeachersForModules($student->registrationData);
 
         $this->renderPartial('/_trainer/_viewStudent', array(
             'student' => $student,
+            'teachersByModule' => $teachersByModule
         ), false, true);
     }
 
