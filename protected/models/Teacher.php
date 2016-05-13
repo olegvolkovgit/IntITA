@@ -456,7 +456,15 @@ class Teacher extends CActiveRecord
             $row["email"]["title"] = $record->user->email;
             $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
                 array('id' => $record->user_id));
-            $row["profile"] = Config::getBaseUrl()."/teacher/".$record->user_id;
+            if($record->isShow()){
+                $row["status"] = "видимий";
+                $row["changeStatus"]["title"] = "приховати";
+                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->user_id))."'";
+            } else {
+                $row["status"] = 'невидимий';
+                $row["changeStatus"]["title"] = "показати";
+                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->user_id))."'";
+            }
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
                 'receiver' => $record->user_id
@@ -514,6 +522,10 @@ class Teacher extends CActiveRecord
 
     public function isShow(){
         return $this->isPrint == Teacher::SHOW;
+    }
+
+    public function isHide(){
+        return $this->isPrint == Teacher::HIDE;
     }
 
     public function setShowMode(){

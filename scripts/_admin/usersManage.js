@@ -286,10 +286,15 @@ function initTeachersTable() {
                 }
             },
             {
-                "width": "20%",
-                "data": "profile",
-                "render": function (url) {
-                    return '<a href="' + url + '" target="_blank">Персональна сторінка</a>';
+                "width": "10%",
+                "data": "status"
+            },
+            {
+                "width": "10%",
+                "data": "changeStatus",
+                "render": function (changeStatus) {
+                    return '<a href="#" onclick="setTeacherStatus(' +  changeStatus["link"] + ', \'true\')">' +
+                        changeStatus["title"] + '</a>';
                 }
             },
             {

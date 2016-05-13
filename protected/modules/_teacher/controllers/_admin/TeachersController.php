@@ -123,16 +123,16 @@ class TeachersController extends TeacherCabinetController{
     public function actionDelete($id)
     {
         $model = Teacher::model()->findByPk($id);
-        $model->setDeleted();
-        if(!$model->isActive()) echo 'success';
+        $model->setHideMode();
+        if($model->isHide()) echo 'success';
         else echo "error";
     }
 
     public function actionRestore($id)
     {
         $model = Teacher::model()->findByPk($id);
-        $model->setActive();
-        if($model->isActive()) echo 'success';
+        $model->setShowMode();
+        if($model->isShow()) echo 'success';
         else echo "error";
     }
 
