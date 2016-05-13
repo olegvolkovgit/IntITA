@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $attribute array
+ * @var $modules array
  * @var $item array
  */
 ?>
@@ -15,21 +15,19 @@
             </thead>
             <tbody>
             <?php
-            foreach ($attribute["value"] as $item) {
-                if (!$item["end_date"]) {
-                    ?>
-                    <tr>
-                        <td>
-                            <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>"
-                               target="_blank">
-                                <?= $item["title"]; ?>
-                            </a>
-                        </td>
-                        <td>
-                            <?= date("d.m.Y", strtotime($item["start_date"])); ?>
-                        </td>
-                    </tr>
-                <?php }
+            foreach ($modules as $item) { ?>
+                <tr>
+                    <td>
+                        <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>"
+                           target="_blank">
+                            <?= $item["title"]; ?>
+                        </a>
+                    </td>
+                    <td>
+                        <?= date("d.m.Y", strtotime($item["start_time"])); ?>
+                    </td>
+                </tr>
+                <?php
             } ?>
             </tbody>
         </table>
