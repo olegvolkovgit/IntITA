@@ -8,21 +8,19 @@
     <table class="table table-hover">
         <tbody>
         <tr>
-            <?php if (!empty($modules["value"])) { ?>
+            <?php if (!empty($modules)) { ?>
                 <td width="20%">Модулі:</td>
                 <td>
                     <ul>
-                        <?php foreach ($modules["value"] as $module) {
-                            if (is_null($module["end_date"])) {
-                                ?>
-                                <li>
-                                    <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
-                                       target="_blank">
-                                        <?= $module["title"] . " (" . $module["lang"] . ")"; ?>
-                                    </a>
-                                </li>
-                            <?php }
-                        }?>
+                        <?php foreach ($modules as $module) { ?>
+                            <li>
+                                <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
+                                   target="_blank">
+                                    <?= $module["title"] . " (" . $module["lang"] . ")"; ?>
+                                </a>
+                            </li>
+                        <?php }
+                        ?>
                     </ul>
                 </td>
             <?php } else {

@@ -86,6 +86,7 @@
         $jq("#startDate").datepicker(lang);
         $jq("#endDate").datepicker(lang);
 
+        //$jq('.nav-tabs a[href="#accountant"]').tab('show');
        if(history.state!=null)
         openTab('#userTabs', history.state.tab);
     });
