@@ -13,7 +13,7 @@
         <fieldset>
             <legend id="label">Додати нову задачу:</legend>
             Мова програмування:<br>
-            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" >
+            <select class="form-control" style="width:auto;" id="programLang" name="lang" placeholder="(Виберіть мову програмування)" >
                 <option value="c++">С++</option>
                 <option value="c#">C#</option>
                 <option value="java">Java</option>
@@ -25,8 +25,6 @@
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
-            <br>
-            <br>
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" required ng-model="addTask"></textarea>
         </fieldset>
         <br>

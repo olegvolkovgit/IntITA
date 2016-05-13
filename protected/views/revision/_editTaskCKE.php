@@ -16,7 +16,7 @@ idBlock=<?php echo $idElement; ?>;'>
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
-            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" OnChange='langChoose(this)'>
+            <select class="form-control" style="width:auto;" id="programLang" name="lang" placeholder="(Виберіть мову програмування)" OnChange='langChoose(this)'>
                 <option value="c++">С++</option>
                 <option value="c#">C#</option>
                 <option value="java">Java</option>
@@ -27,8 +27,6 @@ idBlock=<?php echo $idElement; ?>;'>
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
-            <br>
-            <br>
             Умова задачі*:
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" required ng-model="dataTask.condition">
             </textarea>
