@@ -97,6 +97,9 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl,tab,header) {
                                 case "consultant":
                                     loadAddModuleConsultant(user);
                                     break;
+                                case "teacher_consultant":
+                                    loadTeacherConsultantList(user);
+                                    break;
                             }
                         }
                     });
