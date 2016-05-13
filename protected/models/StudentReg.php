@@ -888,7 +888,7 @@ class StudentReg extends CActiveRecord
     {
 
         $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer,
-              IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, "")), "") as trainerName, ts.end_time as endTime
+              IFNULL((ts.end_time), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, ""))) as trainerName, ts.end_time as endTime
               from user inner join user_student us on user.id = us.id_user
               left join trainer_student ts on us.id_user=ts.student
               left join user u on ts.trainer = u.id';
@@ -907,10 +907,10 @@ class StudentReg extends CActiveRecord
             $row["email"]["title"] = $record["email"];
             $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
             $row["email"]["url"] = $row["student"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["date"] = date("d.m.Y", strtotime($record["start_date"]));
-            $row["trainer-name"] = (is_null($record["endTime"]))?"":$record["trainerName"];
-            $row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
-                Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
+            $row["date"] = date("d.m.Y H:m", strtotime($record["start_date"]));
+            //$row["trainer-name"] = (!is_null($record["endTime"]))?"":$record["trainerName"];
+            //$row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
+             //   Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
             $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
 
             array_push($return['data'], $row);
