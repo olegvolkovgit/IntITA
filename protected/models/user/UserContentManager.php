@@ -201,7 +201,7 @@ class UserContentManager extends CActiveRecord
 		else
 			return false;
 	}
-	public  function  counterOfWordInPart($idBlock,$idLesson,$idPage){//Вывожу кол-во html блоков задействованных
+	public  function  counterOfWordInPart($idBlock,$idLesson){
 		$sql2='SELECT * FROM lecture_element_lecture_page WHERE page='.$idBlock;
 		$result2 = Yii::app()->db->createCommand($sql2)->queryAll();
 
@@ -281,7 +281,7 @@ class UserContentManager extends CActiveRecord
 			}
 			//$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
 			//$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
-			$row["word"]=UserContentManager::counterOfWordInPart($record["id"],$idLesson,$record["page_order"]);
+			$row["word"]=UserContentManager::counterOfWordInPart($record["id"],$idLesson);
 
 			array_push($return['data'], $row);
 		}
