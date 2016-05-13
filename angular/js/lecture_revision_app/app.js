@@ -8,7 +8,7 @@ angular
     .module('lectureRevisionApp', ['revisionServices','directive.loading']);
 
 angular
-    .module('lecturePreviewRevisionApp', ['ui.router','hljs','ui.codemirror','revisionServices','directive.loading']);
+    .module('lecturePreviewRevisionApp', ['ui.router','hljs','ui.codemirror','revisionServices','directive.loading','ipCookie']);
 
 angular
     .module('revisionTreesApp', ['directive.loading']);

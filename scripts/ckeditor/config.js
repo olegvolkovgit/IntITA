@@ -16,5 +16,6 @@ CKEDITOR.editorConfig = function( config ) {
     config.filebrowserImageUploadUrl="/lesson/CKEUploadImageAudio";
 
     //native font for intita
+    config.contentsCss = '/css/fontface.css';
     config.font_names = 'MyriadPro/MyriadPro;' + config.font_names;
 };

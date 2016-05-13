@@ -93,6 +93,9 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 .modal {
     z-index: 9999;
 }
+.modal-backdrop {
+    z-index: 9998;
+}
 .dropdown.treeview-dropdown{
     position: absolute;
     top: 0;
