@@ -35,7 +35,7 @@
             <a href="#"
                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/courseStatus'); ?>',
                    'Стан курсу')">
-                Стан курсу
+                Стан модулів
             </a>
         </li>
     </ul>

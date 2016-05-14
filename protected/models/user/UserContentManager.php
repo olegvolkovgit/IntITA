@@ -205,8 +205,8 @@ class UserContentManager extends CActiveRecord
 	public  function  counterOfWordInPart($idBlock,$idLesson){
 		$sql2='SELECT * FROM lecture_element_lecture_page WHERE page='.$idBlock;
 		$result2 = Yii::app()->db->createCommand($sql2)->queryAll();
-
-		$arrayOfIdBlocks=[];
+		if(!$result2)return 0;
+				$arrayOfIdBlocks=[];
 		foreach($result2 as $key=>$value){
 			$arrayOfIdBlocks[$key]=$value['element'];
 		}
@@ -214,6 +214,7 @@ class UserContentManager extends CActiveRecord
 		$sql = 'SELECT * FROM `lecture_element`  where `id_type` IN (' . LectureElement::INSTRUCTION . ',
  		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')
  		 AND `lecture_element`.`id_lecture`='.$idLesson.' and `id_block` IN ('.$stringOfIdBlocks.')';
+
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$counter=0;
 		foreach($result as $record){
