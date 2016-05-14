@@ -31,7 +31,7 @@ class InterpreterController extends Controller
 
     public function actionIndex($id,$task)
     {
-        $task = RevisionTask::model()->findByPk($task);
+        $task = RevisionTask::model()->findByAttributes(array('uid'=>$task));
         $this->initialize($id,$task);
 
         $this->render('index',array('task'=>$task));

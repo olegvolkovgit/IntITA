@@ -115,7 +115,7 @@ class TaskMarks extends CActiveRecord
 	}
 
     public static function addMark($idTask, $status, $result='', $date, $warning=''){
-        $task = Task::model()->findByPk($idTask);
+        $task = Task::model()->findByAttributes(array('uid'=>$idTask));
 
         $model = new TaskMarks();
 
