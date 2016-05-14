@@ -10,6 +10,7 @@
  * @property integer $id_plain_task
  * @property string $date
  * @property int $consultant
+ * @property integer $quiz_uid
  *
  * @property PlainTask $plainTask
  * @property StudentReg $user
@@ -32,10 +33,10 @@ class PlainTaskAnswer extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_student, id_plain_task', 'required'),
-            array('id_student, id_plain_task,consultant', 'numerical', 'integerOnly' => true),
+            array('id_student, id_plain_task, quiz_uid', 'required'),
+            array('id_student, id_plain_task,consultant, quiz_uid', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, answer,consultant, id_student, id_plain_task, date', 'safe', 'on' => 'search'),
+            array('id, answer,consultant, id_student, id_plain_task, date, quiz_uid', 'safe', 'on' => 'search'),
         );
     }
 
@@ -63,6 +64,7 @@ class PlainTaskAnswer extends CActiveRecord
             'id_student' => 'Id Student',
             'id_plain_task' => 'Id Plain Task',
             'consultant' => 'Consultant',
+            'quiz_uid' => 'quiz_uid'
         );
     }
 
@@ -88,6 +90,7 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->compare('id_plain_task', $this->id_plain_task);
         $criteria->compare('date', $this->date);
         $criteria->compare('consultant', $this->consultant);
+        $criteria->compare('quiz_uid', $this->quiz_uid);
 
 
         return new CActiveDataProvider($this, array(
@@ -108,10 +111,13 @@ class PlainTaskAnswer extends CActiveRecord
 
     public static function fillHole($answer, $id_student, $id_plain_task)
     {
+        $plainTask = PlainTask::model()->findByPk($id_plain_task);
+
         $plainTaskAnswer = new PlainTaskAnswer();
         $plainTaskAnswer->answer = $answer;
         $plainTaskAnswer->id_student = $id_student;
-        $plainTaskAnswer->id_plain_task = $id_plain_task;
+        $plainTaskAnswer->id_plain_task = $plainTask->id;
+        $plainTaskAnswer->quiz_uid = $plainTask->uid;
 
         return $plainTaskAnswer;
     }

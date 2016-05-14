@@ -10,6 +10,7 @@
  * @property integer $id_lecture_element
  * @property string $table
  * @property integer $id_test
+ * @property integer $uid
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -32,13 +33,13 @@ class RevisionTask extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_lecture_element', 'required'),
-			array('assignment, id_lecture_element, id_test', 'numerical', 'integerOnly'=>true),
+			array('id_lecture_element, uid', 'required'),
+			array('assignment, id_lecture_element, id_test, uid', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>12),
 			array('table', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, language, assignment, id_lecture_element, table, id_test', 'safe', 'on'=>'search'),
+			array('id, language, assignment, id_lecture_element, table, id_test, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class RevisionTask extends CActiveRecord
 			'id_lecture_element' => 'Id Lecture Element',
 			'table' => 'Table',
 			'id_test' => 'Id Test',
+            'uid' => 'UID'
 		);
 	}
 
@@ -93,6 +95,7 @@ class RevisionTask extends CActiveRecord
 		$criteria->compare('id_lecture_element',$this->id_lecture_element);
 		$criteria->compare('table',$this->table,true);
 		$criteria->compare('id_test',$this->id_test);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -116,14 +119,14 @@ class RevisionTask extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $assignment, $language, $table, $idTest=null) {
+    public static function createTest($idLectureElement, $assignment, $language, $table, $idModule, $idTest = null) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->assignment = $assignment;
         $newTask->language = $language;
         $newTask->table = $table;
-
         $newTask->id_test = $idTest;
+        $newTask->uid = RevisionQuizFactory::getQuizId($idModule);
 
         $newTask->saveCheck();
 
@@ -134,19 +137,17 @@ class RevisionTask extends CActiveRecord
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test']));
-
+        $newTask->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
         $newTask->saveCheck();
         return $newTask;
     }
 
     public function editTest($assignment, $language, $table) {
-
-        //todo what for this fields uses
-		$this->assignment = $assignment;
-		$this->language = $language;
-		$this->table = $table;
-		$this->saveCheck();
-		return;
+        $this->assignment = $assignment;
+        $this->language = $language;
+        $this->table = $table;
+        $this->saveCheck();
+        return;
     }
 
     public function deleteTest() {
@@ -158,7 +159,7 @@ class RevisionTask extends CActiveRecord
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table']));
         $newTask->author = $idUserCreated;
         $newTask->condition = $lectureElementId;
-
+        $newTask->uid = $this->uid;
         $newTask->save();
 
         return $newTask;
