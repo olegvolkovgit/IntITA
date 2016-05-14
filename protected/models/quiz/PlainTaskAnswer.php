@@ -193,8 +193,9 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->select = '*';
         $criteria->alias = 'ans';
         $criteria->order = 'ans.id DESC';
-        $criteria->join = 'JOIN teacher_consultant_student tcm ON ans.id_student = tcm.id_student';
-        $criteria->addCondition('tcm.id_teacher =:id and tcm.end_date IS NULL');
+        $criteria->join = ' LEFT JOIN teacher_consultant_student tcs ON ans.id_student = tcs.id_student';
+        $criteria->join .= ' LEFT JOIN teacher_consultant_module tcm ON tcs.id_module = tcm.id_module';
+        $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL and tcm.end_date IS NULL and tcm.id_teacher=:id');
         $criteria->params = array(':id' => $id);
         $criteria->group = 'ans.id DESC';
         return PlainTaskAnswer::model()->findAll($criteria);

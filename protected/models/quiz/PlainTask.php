@@ -8,7 +8,8 @@
  * @property integer $block_element
  * @property integer $author
  *
- *  @property LecturePage $lecturePage
+ * @property LecturePage $lecturePage
+ * @property LectureElement $lectureElement
  */
 class PlainTask extends Quiz
 {
