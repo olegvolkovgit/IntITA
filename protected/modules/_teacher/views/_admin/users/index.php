@@ -89,6 +89,11 @@
         //$jq('.nav-tabs a[href="#accountant"]').tab('show');
        if(history.state!=null)
         openTab('#userTabs', history.state.tab);
+
+        $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+            var currentTab = $jq(e.target).text(); // get current tab
+            $jq("#pageTitle").html(currentTab);
+        });
     });
 
 </script>
