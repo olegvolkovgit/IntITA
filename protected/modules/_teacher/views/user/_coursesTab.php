@@ -58,7 +58,7 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                     <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
                                         <ul>
                                             <?php
-                                            $courseModules = CourseModules::modulesWithStudentTeacher($course["id"], $user->id);
+                                            $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
                                             foreach ($courseModules as $record) { ?>
                                                 <li class="list-group-item">
                                                     <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"
