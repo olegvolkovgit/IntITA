@@ -171,7 +171,7 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
-            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'trainer'),
+            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
             'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
         );
