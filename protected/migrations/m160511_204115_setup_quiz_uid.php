@@ -102,8 +102,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
     public function safeUp() {
         
         /*remove Skip task foreign keys*/
-        $this->dropForeignKey('FK_skip_task_lecture_element', 'skip_task');
-        $this->dropForeignKey('FK_skip_task_question_lecture_element', 'skip_task');
+//        $this->dropForeignKey('FK_skip_task_lecture_element', 'skip_task');
+//        $this->dropForeignKey('FK_skip_task_question_lecture_element', 'skip_task');
 
         /* Create quiz_uid table*/
         $this->createTable('quiz_uid', [
@@ -131,6 +131,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
         /* Fill uid cells in quiz tables */
 
         /* Plain task */
+        print_r(">>>>>>>>>>>>>>>>>>Plain task\r\n");
+
         $getAllPlainTasksId =
             "SELECT 
                 plain_task.id AS quizId, IF(idModule,idModule,0) AS moduleId
@@ -148,6 +150,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
         }
 
         /* Skip task */
+        print_r(">>>>>>>>>>>>>>>>>>Skip task\r\n");
+
         $getAllSkipTasks =
             "SELECT
                 `skip_task`.`id` AS quizId,
@@ -166,6 +170,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
         }
 
         /* Task */
+        print_r(">>>>>>>>>>>>>>>>>>Task\r\n");
+
         $getAllTasks =
             "SELECT
                 `task1`.`id` AS quizId,
@@ -184,6 +190,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
         }
 
         /* Tests */
+        print_r(">>>>>>>>>>>>>>>>>>Tests\r\n");
+
         $getAllTests =
             "SELECT
                 `tests`.`id` AS quizId,
@@ -256,8 +264,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
 
         $this->dropColumn('vc_tests', 'uid');
         $this->dropColumn('vc_tests_answers', 'quiz_uid');
-        
-        
+
+
         $this->dropForeignKey("FK_plain_task_quiz_uid", 'plain_task');
         $this->dropForeignKey("FK_plain_task_answer_quiz_uid", 'plain_task_answer');
 
@@ -272,7 +280,7 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
         $this->dropForeignKey("FK_tests_answers_quiz_uid", 'tests_answers');
         $this->dropForeignKey("FK_tests_marks_quiz_uid", 'tests_marks');
 
-        
+
         $this->dropColumn('plain_task', 'uid');
         $this->dropColumn('plain_task_answer', 'quiz_uid');
 
@@ -289,8 +297,8 @@ class m160511_204115_setup_quiz_uid extends CDbMigration {
 
         $this->dropTable('quiz_uid');
 
-        $this->addForeignKey('FK_skip_task_lecture_element', 'skip_task', 'condition', 'lecture_element', 'id_block');
-        $this->addForeignKey('FK_skip_task_question_lecture_element', 'skip_task', 'question', 'lecture_element', 'id_block');
+//        $this->addForeignKey('FK_skip_task_lecture_element', 'skip_task', 'condition', 'lecture_element', 'id_block');
+//        $this->addForeignKey('FK_skip_task_question_lecture_element', 'skip_task', 'question', 'lecture_element', 'id_block');
 
         return true;
 
