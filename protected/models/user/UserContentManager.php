@@ -281,8 +281,7 @@ class UserContentManager extends CActiveRecord
 			}else{
 				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
 			}
-			//$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
-			//$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
+
 			$row["word"]=UserContentManager::counterOfWordInPart($record["id"],$idLesson);
 
 			array_push($return['data'], $row);
