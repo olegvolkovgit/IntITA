@@ -138,6 +138,7 @@ class RevisionTask extends CActiveRecord
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test']));
         $newTask->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
+		$this->cloneInterpreterJson($newTask->uid);
         $newTask->saveCheck();
         return $newTask;
     }
@@ -164,4 +165,31 @@ class RevisionTask extends CActiveRecord
 
         return $newTask;
     }
+
+	public function cloneInterpreterJson($newId) {
+		$url = Config::getInterpreterServer();
+		$json= array(
+			'operation' => 'getJson',
+			'task' => $this->uid,
+		);
+		$json=json_encode($json);
+		$result = file_get_contents($url, false, stream_context_create(array(
+			'http' => array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+				'content' => $json
+			)
+		)));
+		//todo
+		$result=json_decode($result)->json;
+		$pos = strpos($result, ' "task":'.$this->uid);
+		$newJson= $pos!==false ? substr_replace($result, ' "task":'.$newId, $pos, strlen(' "task":'.$this->uid)) : $result;
+		file_get_contents($url, false, stream_context_create(array(
+			'http' => array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+				'content' => $newJson
+			)
+		)));
+	}
 }
