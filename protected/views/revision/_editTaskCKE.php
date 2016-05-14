@@ -12,7 +12,7 @@ $revisionTask=RevisionTask::model()->findByAttributes(array('id_lecture_element'
 idBlock=<?php echo $idElement; ?>;'>
 <div class="editTask" ng-controller="taskCtrl">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->id)); ?>" method="post" target="_blank">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->uid)); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
@@ -31,7 +31,7 @@ idBlock=<?php echo $idElement; ?>;'>
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" required ng-model="dataTask.condition">
             </textarea>
             <input name="idTaskBlock" type="hidden" value="{{idBlock}}"/>
-            <input type="hidden" ng-init="task=<?php echo $revisionTask->id; ?>" ng-model="task" />
+            <input type="hidden" ng-init="task=<?php echo $revisionTask->uid; ?>" ng-model="task" />
         </fieldset>
         <br>
         <input class="btn btn-default" type="submit" value="Створення та редагування юніттестів" ng-disabled="addTask.$invalid">

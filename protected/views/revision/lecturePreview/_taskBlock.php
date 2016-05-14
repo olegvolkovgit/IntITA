@@ -1,7 +1,7 @@
 <?php if($data['id_type'] == 5 || $data['id_type'] == 6){?>
     <?php
     $task=RevisionTask::model()->findByAttributes(array('id_lecture_element' => $data['id']));
-    $taskId=$task->id;
+    $taskId=$task->uid;
     $taskLang=$task->language;
     $intServer=htmlspecialchars(json_encode(Config::getInterpreterServer()));
     ?>
