@@ -44,7 +44,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                                     <a href="#"
                                                        onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
                                                            array("id" => $student->id, "idModule" => $record["id"])); ?>',
-                                                           '<?= $student->registrationData->userName(); ?>');">
+                                                           '<?= addslashes($student->registrationData->userName()); ?>');">
                                                         <?= $record["title"] . " (" . $record["lang"] . ")";
                                                         if (isset($teachersByModule[$record["id"]])) {
                                                             ?>
@@ -79,7 +79,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 <a href="#"
                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
-                                       '<?= $student->registrationData->userName(); ?>');">
+                                       '<?= addslashes($student->registrationData->userName()); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
                                     if (isset($teachersByModule[$module["id"]])) {
                                         ?>

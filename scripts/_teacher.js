@@ -57,7 +57,7 @@ function createAccount(url, course, module) {
     }
 }
 
-function cancelTeacherAccess(url, header, redirect) {
+function cancelTeacherAccess(url, header, redirect,role) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
 
@@ -74,7 +74,18 @@ function cancelTeacherAccess(url, header, redirect) {
             cache: false,
             success: function (data) {
                 if (data == "success") {
-                    bootbox.alert("Операцію успішно виконано.");
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        switch (role) {
+                            case "author":
+                                if(redirect == 'teacherAccess')
+                                    loadAddTeacherAccess(header, '1');
+                                break;
+                            case "consultant":
+                                if(redirect == 'teacherAccess')
+                                    loadAddTeacherAccess(header, '3');
+                                break;
+                        }
+                    });
                 } else {
                     bootbox.alert("Операцію не вдалося виконати.");
                 }

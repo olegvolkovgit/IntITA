@@ -42,7 +42,7 @@ $this->breadcrumbs = array(
                 <tr ng-repeat="page in lectureData.pages track by $index">
                     <td ng-click="editPageRevision(page.id)">{{page.id}}</td>
                     <td ng-click="editPageRevision(page.id)">{{page.title}}</td>
-                    <td ng-click="editPageRevision(page.id)">{{page.page_order}}</td>
+                    <td ng-click="editPageRevision(page.id)">{{$index+1}}</td>
                     <td ng-click="editPageRevision(page.id)"><div ng-if="page.video">+</div></td>
                     <td ng-click="editPageRevision(page.id)"><div ng-if="page.quiz">+</div></td>
                     <td>

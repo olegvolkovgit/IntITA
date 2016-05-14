@@ -15,7 +15,8 @@
                 <div name="teacherModules" class="form-group"></div>
                 <br>
                 <input type="submit" class="btn btn-outline btn-warning" value="Скасувати"
-                       onclick="cancelTeacherAccess('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/cancelConsultantPermission'); ?>');
+                       onclick="cancelTeacherAccess('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/cancelConsultantPermission'); ?>',
+                           'Права доступа','teacherAccess','consultant');
                            return false;">
             </div>
         </form>

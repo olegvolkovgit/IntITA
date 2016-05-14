@@ -31,7 +31,7 @@ $modules = $course->module;
                                 <a href="#"
                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
                                        array("id" => $student->id, "idModule" => $module->moduleInCourse->module_ID)); ?>',
-                                       '<?= $student->userName(); ?>');">
+                                       '<?= addslashes($student->userName()); ?>');">
                                     <?= $module->moduleInCourse->getTitle() . " (" . $module->moduleInCourse->language . ")"; ?>
                                 </a>
                             </li>

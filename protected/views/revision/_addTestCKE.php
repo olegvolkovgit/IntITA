@@ -9,11 +9,9 @@
     <form onSubmit="return checkAnswersCKE($('#optionsList input:checkbox:checked'));" name="addTestForm" method="post" action="<?php echo Yii::app()->createUrl('revision/addTest');?>" novalidate>
         <fieldset>
             <?php echo Yii::t('lecture', '0713'); ?>
-            <br>
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="conditionTest" size="80" placeholder="<?php echo Yii::t('lecture', '0714'); ?>" required ng-model="testCondition"></textarea>
             <fieldset>
-                <legend id="label1"><?php echo Yii::t('lecture', '0701'); ?></legend>
-                <legend style="margin-left: 920px" id="label2"><?php echo Yii::t('lecture', '0704'); ?></legend>
+                <legend id="label1"><?php echo Yii::t('lecture', '0701').'(поставте галочку навпроти вірної відповіді):'; ?></legend>
                 <ol  class='answerList' id="optionsList" class="inputs">
                     <li ng-repeat="answer in answers track by $index">
                         <textarea ng-cloak class="testVariant" type="text" ckeditor="editorOptionsAnswer" name="answer{{$index+1}}" id="option{{$index+1}}" size="80" required ng-model="option" ></textarea>
