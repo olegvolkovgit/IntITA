@@ -11,7 +11,7 @@ $this->widget('zii.widgets.CListView', array(
     'itemView'=>'/revision/_contentCKE',
     'summaryText' => '',
     'viewData' => array('editMode' => $editMode, 'user' => $user),
-    'emptyText' => Yii::t('lecture', '0422').'<br><br><br><br><br>',
+    'emptyText' => Yii::t('lecture', '0422').'<br>',
     'pagerCssClass'=>'YiiPager',
     'ajaxUpdate' => true,
     'id'=>"blocks_list",

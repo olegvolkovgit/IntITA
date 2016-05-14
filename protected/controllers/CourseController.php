@@ -203,7 +203,7 @@ class CourseController extends Controller
                 else $data["modules"][$i]['access']=true;
                 $module=Module::model()->findByPk($modules[$i]['id_module']);
                 $data["modules"][$i]['id']= $modules[$i]['id_module'];
-                $data["modules"][$i]['time']= $module->averageModuleDuration();
+                $data["modules"][$i]['time']= $module->monthsCount();
                 $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
                 $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
             }
@@ -225,7 +225,7 @@ class CourseController extends Controller
         for($i = 0;$i < count($modules);$i++){
             $module=Module::model()->findByPk($modules[$i]['id_module']);
             $data["modules"][$i]['id']= $modules[$i]['id_module'];
-            $data["modules"][$i]['time']= $module->averageModuleDuration();
+            $data["modules"][$i]['time']= $module->monthsCount();
             $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
             $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
 

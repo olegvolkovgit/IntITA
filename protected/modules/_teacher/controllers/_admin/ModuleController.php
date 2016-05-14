@@ -26,6 +26,9 @@ class ModuleController extends TeacherCabinetController
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
             if ($model->save()) {
+                if(!file_exists(Yii::app()->basePath . "/../content/module_".$model->module_ID)){
+                    mkdir(Yii::app()->basePath . "/../content/module_".$model->module_ID);
+                }
                 if (!empty($_FILES['Module']['name']['module_img'])) {
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);

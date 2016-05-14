@@ -488,8 +488,8 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria2->addInCondition('module_ID', $modulesId, 'OR');
         $modulesInfo = Module::model()->findAll($criteria2);
         $lessonsCount = 0;
-        foreach ($modulesInfo as $modul) {
-            $lessonsCount = $lessonsCount + $modul->lesson_count;
+        foreach ($modulesInfo as $module) {
+            $lessonsCount = $lessonsCount + $module->getLecturesCount();
         }
 
         return $lessonsCount;

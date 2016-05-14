@@ -50,7 +50,7 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
             <?php if ($lessonsCount != 0) {
                 echo ', ' . Yii::t('course', '0209'); ?>
                 -<b>
-                    <?php echo ceil($lessonsCount / 36); ?><?php echo Yii::t('course', '0664'); ?>
+                    <?php echo ceil($lessonsCount / (36/Config::getLectureDurationInHours())); ?><?php echo Yii::t('course', '0664'); ?>
                 </b>
                 <?php echo '(3 ' . Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220') . ')';
             } ?>

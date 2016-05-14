@@ -367,7 +367,7 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public function monthsCount(){
-        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week));
+        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours()));
     }
 
     public static function lessonsInMonth($idModule)
@@ -569,16 +569,6 @@ class Module extends CActiveRecord implements IBillableObject
                 </td>
                 </tr>
             </table>';
-    }
-
-    public static function getAverageModuleDuration($lesson_count, $hours_in_day, $days_in_week)
-    {
-        return round($lesson_count * 7 / ($hours_in_day * $days_in_week));
-    }
-
-    public function averageModuleDuration()
-    {
-        return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));
     }
 
     public static function getTimeAnsweredQuiz($quiz, $user)

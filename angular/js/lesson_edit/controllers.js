@@ -114,21 +114,22 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             alert($scope.errorMsg);
         });
     };
-
-    $scope.answers = [{id: 1}];
+    //init test form
+    $scope.answers = [{"id":1},{"id":2},{"id":3},{"id":4},{"id":5}];
+    var optionsNum = angular.element(document.querySelector("#optionsNum"));
+    optionsNum.val(5);
 
     $scope.addAnswer = function () {
         $scope.answers.push({id: $scope.answers.length });
-        var optionsNum = angular.element(document.querySelector("#optionsNum"));
         optionsNum.val(parseInt(optionsNum.val()) + 1);
     };
     $scope.deleteAnswer = function () {
         $scope.answers.splice(-1, 1);
-        var optionsNum = angular.element(document.querySelector("#optionsNum"));
         if (optionsNum.val() > 0) {
             optionsNum.val(parseInt(optionsNum.val()) - 1);
         }
     };
+
     /*add Skip Task*/
     $scope.createSkipTaskCKE = function (url, pageId, revisionId,quizType) {
         var questionTemp = $scope.addSkipTaskQuest;
@@ -176,23 +177,36 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
             .always(function () {
             });
     };
+
+    //add content block
     $scope.addTextBlock = function(type){
-        if(type==7){
-            $scope.instructionStyle=true;
-        }else{
-            $scope.instructionStyle=false;
-        }
         document.getElementById('addBlock').style.display = 'block';
-        if(type==3) {
-            document.getElementById('blockForm').style.display = 'none';
-            document.getElementById('blockFormCode').style.display = 'block';
-            document.getElementById('blockTypeCode').value = type;
-        }else{
-            document.getElementById('blockFormCode').style.display = 'none';
-            document.getElementById('blockForm').style.display = 'block';
-            document.getElementById('blockType').value = type;
-        }
-    }
+        document.getElementById('blockFormCode').style.display = 'none';
+        document.getElementById('blockForm').style.display = 'block';
+        document.getElementById('blockType').value = type;
+    };
+    $scope.addInstructionBlock = function(type){
+        $scope.instructionStyle=true;
+        document.getElementById('addBlock').style.display = 'block';
+        document.getElementById('blockFormCode').style.display = 'none';
+        document.getElementById('blockForm').style.display = 'block';
+        document.getElementById('blockType').value = type;
+    };
+    $scope.addCodeBlock = function(type){
+        $scope.instructionStyle=false;
+        document.getElementById('addBlock').style.display = 'block';
+        document.getElementById('blockForm').style.display = 'none';
+        document.getElementById('blockFormCode').style.display = 'block';
+        document.getElementById('blockTypeCode').value = type;
+        myCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECode'), {
+            lineNumbers: true,             // показывать номера строк
+            matchBrackets: true,             // подсвечивать парные скобки
+            mode: "javascript",
+            theme: "rubyblue",               // стиль подсветки
+            indentUnit: 4                    // размер табуляции
+        });
+    };
+
     $scope.saveCodeBlock= function(idEl){
             $http({
                 url: basePath+'/revision/editLectureElement',
@@ -215,7 +229,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 .error(function () {
                     alert($scope.errorMsg);
                 })
-    }
+    };
     $scope.closeCodeBlock= function(order){
         angular.element('#CKECodeEdit' + order).remove();
         angular.element('#t' + order).show();
@@ -283,4 +297,16 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 });
             });
     }
+}
+
+function blockValidation() {
+    if(myCodeMirror.getValue().trim()==''){
+        bootbox.alert('Блок не може бути пустий');
+        return false;
+    }else{
+        return true;
+    }
+}
+function removeHtml() {
+    myCodeMirror.setValue(myCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
 }
