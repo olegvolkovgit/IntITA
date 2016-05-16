@@ -22,9 +22,9 @@ class ContentManagerController extends TeacherCabinetController
     {
         $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
     }
-    public function actionStatusOfModules()
+    public function actionStatusOfModules($id)
     {
-        $this->renderPartial('/_content_manager/statusOfModules', array(), false, true);
+        $this->renderPartial('/_content_manager/statusOfModules', array('id' => $id), false, true);
     }
 
     public function actionStatusOfCourses()
@@ -86,9 +86,14 @@ class ContentManagerController extends TeacherCabinetController
     {
         echo UserTeacherConsultant::teacherConsultantsListCM();
     }
-    public function actionGetModulesList()
+    public function actionGetModulesList($id)
     {
-        echo UserContentManager::listOfModules();
+        echo UserContentManager::listOfModules($id);
+    }
+
+    public function actionGetCoursesList()
+    {
+        echo UserContentManager::listOfCourses();
     }
 
     public function actionGetAuthorsList()
