@@ -125,14 +125,14 @@ class UserContentManager extends CActiveRecord
 	public function counterOfVideoInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
-		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
+		`lectures`.`id` = `lecture_element`.`id_lecture` where `lecture_element`.`id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
 	public function counterOfTaskInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
  		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
@@ -140,7 +140,7 @@ class UserContentManager extends CActiveRecord
 	public function counterOfTaskInLesson($idLesson,$idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
  		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
@@ -155,7 +155,7 @@ class UserContentManager extends CActiveRecord
 	public function counterOfVideoInLesson($idLesson,$idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
-		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
+		`lectures`.`id` = `lecture_element`.`id_lecture` where `lecture_element`.`id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
