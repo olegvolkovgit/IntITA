@@ -6,7 +6,8 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="all">
-                <?php $this->renderPartial('/_content_manager/_allModules');?>
+                
+                <?php $this->renderPartial('/_content_manager/_allModules', array('id' => $id));?>
             </div>
         </div>
     </div>

@@ -361,14 +361,14 @@ function initCoursesListTable(){
     $jq('#statusOfCoursesTable').DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList",
+            "url": basePath + "/_teacher/_content_manager/contentManager/getCoursesList",
             "dataSrc": "data"
         },
         "columns": [
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
                 }},
             {
                 "data": "lesson",
@@ -397,11 +397,11 @@ function initCoursesListTable(){
         }
     });
 }
-function initModulesListTable(){
+function initModulesListTable(id){
     $jq('#statusOfModulesTable').DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList",
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id="+id,
             "dataSrc": "data"
         },
         "columns": [

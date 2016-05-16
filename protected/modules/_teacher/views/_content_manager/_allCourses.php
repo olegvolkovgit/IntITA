@@ -10,7 +10,7 @@
                     <thead>
                     <tr>
                         <th style="width:30%;" >Назва курсу</th>
-                        <th style="width:12%;">К-ть занять</th>
+                        <th style="width:12%;">К-ть модулів</th>
                         <th style="width:12%;">К-ть відео</th>
                         <th style="width:12%;">К-ть тестів</th>
                         <th style="width:12%;">К-ть частин</th>

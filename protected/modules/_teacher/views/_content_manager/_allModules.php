@@ -22,5 +22,5 @@
     </div>
 </div>
 <script>
-    initModulesListTable();
+    initModulesListTable(<?=$id?>);
 </script>
