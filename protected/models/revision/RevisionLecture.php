@@ -169,12 +169,18 @@ class RevisionLecture extends CActiveRecord
 
         //check if at least one approved page exist
         if (count($this->lecturePages) == 0) {
-            array_push($result, "Не можна відправити ревізію на затвердження без жодної частини");
+            array_push($result, "Не можна відправити ревізію на затвердження без жодної частини.");
         }
 
         //count all orders
         $orders = array();
         foreach ($this->lecturePages as $page) {
+            $quiz=$page->getQuiz();
+            if ($quiz != null && $quiz->id_type==LectureElement::TASK) {
+                $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
+                if(!$task->existenceInterpreterTask())
+                array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
+            }
             if(isset($orders[$page->page_order])) {
                 $orders[$page->page_order]['count']++;
                 array_push($orders[$page->page_order]['lectures'], $page->id);

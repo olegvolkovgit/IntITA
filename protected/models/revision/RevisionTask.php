@@ -168,6 +168,19 @@ class RevisionTask extends CActiveRecord
 
 	public function cloneInterpreterJson($newId) {
 		$url = Config::getInterpreterServer();
+//		$json= array(
+//			"operation"=> "copyTask",
+//			"task" => $this->uid,
+//			"new_task" => $newId
+//		);
+//		$json=json_encode($json);
+//		file_get_contents($url, false, stream_context_create(array(
+//			'http' => array(
+//				'method'  => 'POST',
+//				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+//				'content' => $json
+//			)
+//		)));
 		$json= array(
 			'operation' => 'getJson',
 			'task' => $this->uid,
@@ -182,8 +195,8 @@ class RevisionTask extends CActiveRecord
 		)));
 		//todo
 		$result=json_decode($result)->json;
-		$pos = strpos($result, ' "task":'.$this->uid);
-		$newJson= $pos!==false ? substr_replace($result, ' "task":'.$newId, $pos, strlen(' "task":'.$this->uid)) : $result;
+		$pos = strpos($result,'"task":"'.$this->uid.'"');
+		$newJson= $pos!==false ? substr_replace($result, '"task":'.$newId, $pos, strlen('"task":"'.$this->uid.'"')) : $result;
 		file_get_contents($url, false, stream_context_create(array(
 			'http' => array(
 				'method'  => 'POST',
@@ -191,5 +204,24 @@ class RevisionTask extends CActiveRecord
 				'content' => $newJson
 			)
 		)));
+	}
+	//Check the existence of the task in the Interpreter DB
+	public function existenceInterpreterTask() {
+		$url = Config::getInterpreterServer();
+		$json= array(
+			'operation' => 'getJson',
+			'task' => $this->uid,
+		);
+		$json=json_encode($json);
+		$result = file_get_contents($url, false, stream_context_create(array(
+			'http' => array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+				'content' => $json
+			)
+		)));
+		if(json_decode($result)->status=='failed')
+			return false;
+		else return true;
 	}
 }
