@@ -192,19 +192,21 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
         document.getElementById('blockForm').style.display = 'block';
         document.getElementById('blockType').value = type;
     };
-    $scope.addCodeBlock = function(type){
-        $scope.instructionStyle=false;
+    $scope.addCodeBlock = function(type) {
+        $scope.instructionStyle = false;
         document.getElementById('addBlock').style.display = 'block';
         document.getElementById('blockForm').style.display = 'none';
         document.getElementById('blockFormCode').style.display = 'block';
         document.getElementById('blockTypeCode').value = type;
-        myCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECode'), {
-            lineNumbers: true,             // показывать номера строк
-            matchBrackets: true,             // подсвечивать парные скобки
-            mode: "javascript",
-            theme: "rubyblue",               // стиль подсветки
-            indentUnit: 4                    // размер табуляции
-        });
+        if (typeof myCodeMirror=='undefined') {
+            myCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECode'), {
+                lineNumbers: true,             // показывать номера строк
+                matchBrackets: true,             // подсвечивать парные скобки
+                mode: "javascript",
+                theme: "rubyblue",               // стиль подсветки
+                indentUnit: 4                    // размер табуляции
+            });
+        }
     };
 
     $scope.saveCodeBlock= function(idEl){

@@ -65,10 +65,11 @@ class LessonController extends Controller
             $page = $_GET['page'];
         }
 
-        $pageModel=$lecture->pages[$page-1];
-        if(!$pageModel){
+        if(!isset($lecture->pages[$page-1])){
             throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
         }
+        $pageModel=$lecture->pages[$page-1];
+
         $textList = $pageModel->getBlocksListById();
 
         $dataProvider = LectureElement::getLectureText($textList);

@@ -636,7 +636,9 @@ function initStudentsList() {
             },
             {
                 "width": "20%",
-                data: "date"
+                data: "date",
+                type: 'de_datetime',
+                targets: 0
             },
             //{ data: "trainer-name" },
             //{

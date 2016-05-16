@@ -144,7 +144,7 @@ $this->breadcrumbs = array(
                 <div id="blockList">
                     <?php $this->renderPartial('/revision/_blocks_list_CKE', array('dataProvider' => $dataProvider, 'editMode' => 1, 'user' => $user)); ?>
                 </div>
-                <div id="addBlock">
+                <div ng-cloak id="addBlock">
                     <div ng-class="{lessonInstr: instructionStyle,  lessonBG: instructionStyle}">
                         <div ng-show="instructionStyle" class="instrTaskImg" >
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
