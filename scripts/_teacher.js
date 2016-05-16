@@ -57,7 +57,7 @@ function createAccount(url, course, module) {
     }
 }
 
-function cancelTeacherAccess(url, header, redirect,role) {
+function cancelTeacherAccess(url, header, redirect, role) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
 
@@ -77,11 +77,11 @@ function cancelTeacherAccess(url, header, redirect,role) {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         switch (role) {
                             case "author":
-                                if(redirect == 'teacherAccess')
+                                if (redirect == 'teacherAccess')
                                     loadAddTeacherAccess(header, '1');
                                 break;
                             case "consultant":
-                                if(redirect == 'teacherAccess')
+                                if (redirect == 'teacherAccess')
                                     loadAddTeacherAccess(header, '3');
                                 break;
                         }
@@ -114,13 +114,9 @@ function setUserRole(url) {
         async: true,
         data: {role: role, user: user},
         success: function (response) {
-            if (response == "success") {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/user/index/id/" + user, '');
-                });
-            } else {
-                showDialog("Операцію не вдалося виконати.");
-            }
+            bootbox.confirm(response, function () {
+                load(basePath + "/_teacher/user/index/id/" + user, '');
+            });
         },
         error: function () {
             showDialog("Операцію не вдалося виконати.");
@@ -229,10 +225,10 @@ function cancelUserRole(url, role, user, header) {
 
 function addStudentAttr(url, user, header, type) {
     value = $jq('#value').val();
-    if(type == 'module') {
+    if (type == 'module') {
         module = value;
         course = 0;
-    } else if(type == 'course') {
+    } else if (type == 'course') {
         module = 0;
         course = value;
     }
