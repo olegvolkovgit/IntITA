@@ -575,7 +575,7 @@ class Module extends CActiveRecord implements IBillableObject
     {
         switch (LectureElement::model()->findByPk($quiz)->id_type) {
             case '5':
-                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
+                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $quiz))->uid);
                 break;
             case '6':
                 $plain=PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
@@ -584,10 +584,10 @@ class Module extends CActiveRecord implements IBillableObject
                 else return false;
                 break;
             case '12':
-                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
+                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->uid);
                 break;
             case '9':
-                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $quiz))->id);
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $quiz))->uid);
                 break;
             default:
                 return false;

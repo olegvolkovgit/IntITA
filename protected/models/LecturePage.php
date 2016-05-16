@@ -187,25 +187,25 @@ class LecturePage extends CActiveRecord
                 case '5':
                     $test = Task::model()->findByAttributes(array('condition' => $quiz));
                     if($test){
-                        $testMark = TaskMarks::isTaskDone($user,$test->id);
+                        $testMark = TaskMarks::isTaskDone($user,$test->uid);
                         if($testMark) return $testMark;
                     }
                     break;
                 case '6':
                     $task = PlainTask::model()->findByAttributes(array('block_element' => $quiz));
-                    return $testMark = PlainTaskMarks::isTaskDone($user,$task->id);
+                    return $testMark = PlainTaskMarks::isTaskDone($user,$task->uid);
                     break;
                 case '9':
                     $skipTask = SkipTask::model()->findByAttributes(array('condition' => $quiz));
                     if($skipTask){
-                        $testMark = SkipTaskMarks::isTaskDone($user,$skipTask->id);
+                        $testMark = SkipTaskMarks::isTaskDone($user,$skipTask->uid);
                         if($testMark) return $testMark;
                     }
                     break;
                 case '12':
                 case '13':
                     $test = Tests::model()->findByAttributes(array('block_element' => $quiz));
-                    $testMark = TestsMarks::isTestDone($user, $test->id);
+                    $testMark = TestsMarks::isTestDone($user, $test->uid);
                     if($testMark)  return $testMark;
                 break;
 

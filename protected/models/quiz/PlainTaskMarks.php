@@ -102,7 +102,7 @@ class PlainTaskMarks extends CActiveRecord
 	}
 
     public static function isTaskDone($user, $idTask){
-		return PlainTaskAnswer::model()->exists('id_student =:user and id_plain_task =:task',
+		return PlainTaskAnswer::model()->exists('id_student =:user and quiz_uid =:task',
 			array(':user' => $user, ':task' => $idTask));
     }
 
