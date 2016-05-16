@@ -1,10 +1,5 @@
 
-/**
- * Created by PhpStorm.
- * User: Игорь
- * Date: 16.05.2016
- * Time: 12:49
- */
+
 <div class="col-lg-12">
     <br>
 

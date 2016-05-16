@@ -411,7 +411,7 @@ function initLessonsListTable(idModule){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showPartsList?idLesson=' +  name["url"] + '\', \'Лекція\');">'+ name["title"] +'</a>';
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showPartsList?idLesson=' +  name["url"] + '\', \'Заняття\');">'+ name["title"] +'</a>';
                 }},
             {
                 type: 'number', targets: 1 ,

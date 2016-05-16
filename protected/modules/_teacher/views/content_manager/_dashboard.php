@@ -26,7 +26,11 @@
                     </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfModules'); ?>',
-                               'Стан курсу')">Стан курсу</a>
+                               'Стан модулів')">Стан модулів</a>
+                    </li>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfCourses'); ?>',
+                               'Стан курсів')">Стан курсів</a>
                     </li>
                  </ul>
             </div>
