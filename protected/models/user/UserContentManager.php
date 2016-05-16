@@ -226,10 +226,23 @@ class UserContentManager extends CActiveRecord
 		return $counter;
 	}
 
-	public static function listOfModules(){
-
-		$sql = 'select * from module';
-		$course = Yii::app()->db->createCommand($sql)->queryAll();
+	public static function listOfModules($id){
+		if($id){
+			$sql2 = 'select * from course_modules where id_course='.$id;
+			$course2 = Yii::app()->db->createCommand($sql2)->queryAll();
+			if(!$course2)return 0;
+			$arrayOfIdModules=[];
+			foreach($course2 as $key=>$value){
+				$arrayOfIdModules[$key]=$value['id_module'];
+			}
+			$stringOfIdModules = join(',',$arrayOfIdModules);
+			$sql = 'select * from module where module_ID in ('.$stringOfIdModules.')';
+			$course = Yii::app()->db->createCommand($sql)->queryAll();
+		}
+		else {
+			$sql = 'select * from module';
+			$course = Yii::app()->db->createCommand($sql)->queryAll();
+		}
 		$return = array('data' => array());
 
 		foreach($course as $record){
@@ -247,18 +260,18 @@ class UserContentManager extends CActiveRecord
 	}
 	public static function listOfCourses(){
 
-		$sql = 'select * from module';
+		$sql = 'select * from course';
 		$course = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
 
 		foreach($course as $record){
 			$row = array();
 			$row["name"]["title"] = $record['title_ua'];
-			$row["name"]["url"] = $record["module_ID"];
-			$row["lesson"]["title"] = $record["lesson_count"];
-			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
-			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
-			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
+			$row["name"]["url"] = $record["course_ID"];
+			$row["lesson"]["title"] = $record["modules_count"];
+			$row["video"]=1;
+			$row["test"]=2;
+			$row["part"]=3;
 			array_push($return['data'], $row);
 		}
 
