@@ -467,12 +467,6 @@ class LectureElement extends CActiveRecord
                 $this->id_type == LectureElement::INSTRUCTION ||
                 $this->id_type == LectureElement::EXAMPLE);
     }
-    //ILessonStatistics implementations
-    public function wordsCount(){
-        return $this->html_block;
-    }
-    public function statisticalName(){}
-    public function isVideoPresent(){}
-    public function isTestPresent(){}
+
 
 }

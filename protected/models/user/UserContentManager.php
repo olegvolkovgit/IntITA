@@ -226,7 +226,25 @@ class UserContentManager extends CActiveRecord
 		return $counter;
 	}
 
+	public static function listOfModules(){
 
+		$sql = 'select * from module';
+		$course = Yii::app()->db->createCommand($sql)->queryAll();
+		$return = array('data' => array());
+
+		foreach($course as $record){
+			$row = array();
+			$row["name"]["title"] = $record['title_ua'];
+			$row["name"]["url"] = $record["module_ID"];
+			$row["lesson"]["title"] = $record["lesson_count"];
+			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
+			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
+			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
+			array_push($return['data'], $row);
+		}
+
+		return json_encode($return);
+	}
 	public static function listOfCourses(){
 
 		$sql = 'select * from module';
