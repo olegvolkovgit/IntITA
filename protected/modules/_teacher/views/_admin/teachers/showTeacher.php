@@ -3,8 +3,10 @@
  * @var $module Module
  * @var $user RegisteredUser
  * @var $role UserRoles
+ * @var $model StudentReg
  * @var $teacher Teacher
  */
+$model = $user->registrationData;
 ?>
 <div class="col-md-12">
     <div class="row">
@@ -67,7 +69,29 @@
                 <li class="list-group-item">Приватний чат:
                     <a href="<?= Config::getChatPath() . $teacher->user_id; ?>"
                        target="_blank">почати чат</a></li>
-                <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
+                <li class="list-group-item">Статус співробітника: <em><?php echo $teacher->getStatus(); ?></em></li>
+                <li class="list-group-item">Акаунт: <em><?php echo $model->accountStatus(); ?></em>
+                    <button type="button" class="btn btn-outline btn-primary btn-xs"
+                            onclick="changeUserStatus('<?=Yii::app()->createUrl("/_teacher/user/changeAccountStatus");?>',
+                                '<?=$model->id?>',
+                                '<?=($model->isAccountActivated())?"Заблокувати акаунт користувача?":"Активувати акаунт користувача?";?>',
+                                '<?=addslashes($model->userName())." <".$model->email.">";?>',
+                                'coworkers');
+                                return false;">
+                        змінити
+                    </button>
+                </li>
+                <li class="list-group-item">Статус користувача: <em><?php echo $model->status(); ?></em>
+                    <button type="button" class="btn  btn-outline btn-primary btn-xs"
+                            onclick="changeUserStatus('<?=Yii::app()->createUrl("/_teacher/user/changeUserStatus");?>',
+                                '<?=$model->id?>',
+                                '<?=($model->isActive())?"Видалити користувача?":"Відновити користувача?";?>',
+                                '<?=addslashes($model->userName())." <".$model->email.">";?>',
+                                'coworkers');
+                                return false;">
+                        змінити
+                    </button>
+                </li>
 
                 <?php if (!empty($user->getRoles())) { ?>
                     <li class="list-group-item">Ролі користувача:

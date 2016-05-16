@@ -205,8 +205,8 @@ class UserContentManager extends CActiveRecord
 	public  function  counterOfWordInPart($idBlock,$idLesson){
 		$sql2='SELECT * FROM lecture_element_lecture_page WHERE page='.$idBlock;
 		$result2 = Yii::app()->db->createCommand($sql2)->queryAll();
-
-		$arrayOfIdBlocks=[];
+		if(!$result2)return 0;
+				$arrayOfIdBlocks=[];
 		foreach($result2 as $key=>$value){
 			$arrayOfIdBlocks[$key]=$value['element'];
 		}
@@ -214,6 +214,7 @@ class UserContentManager extends CActiveRecord
 		$sql = 'SELECT * FROM `lecture_element`  where `id_type` IN (' . LectureElement::INSTRUCTION . ',
  		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')
  		 AND `lecture_element`.`id_lecture`='.$idLesson.' and `id_block` IN ('.$stringOfIdBlocks.')';
+
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$counter=0;
 		foreach($result as $record){
@@ -225,7 +226,25 @@ class UserContentManager extends CActiveRecord
 		return $counter;
 	}
 
+	public static function listOfModules(){
 
+		$sql = 'select * from module';
+		$course = Yii::app()->db->createCommand($sql)->queryAll();
+		$return = array('data' => array());
+
+		foreach($course as $record){
+			$row = array();
+			$row["name"]["title"] = $record['title_ua'];
+			$row["name"]["url"] = $record["module_ID"];
+			$row["lesson"]["title"] = $record["lesson_count"];
+			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
+			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
+			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
+			array_push($return['data'], $row);
+		}
+
+		return json_encode($return);
+	}
 	public static function listOfCourses(){
 
 		$sql = 'select * from module';
@@ -280,8 +299,7 @@ class UserContentManager extends CActiveRecord
 			}else{
 				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
 			}
-			//$row["video"]=UserContentManager::existOfVideoInPart($record["id"],$idLesson);
-			//$row["test"]=UserContentManager::existOfTestInPart($record["id"],$idLesson);
+
 			$row["word"]=UserContentManager::counterOfWordInPart($record["id"],$idLesson);
 
 			array_push($return['data'], $row);

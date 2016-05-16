@@ -192,6 +192,7 @@ function loadTeacherConsultantList(id) {
 }
 function  initTeacherConsultantsTableCM(){
     $jq('#teacherConsultantsTable').DataTable({
+        "order": [[3, "desc"]],
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getTeacherConsultantsList",
@@ -287,6 +288,7 @@ function  initAuthorsTableCM(){
 function initConsultantsTable(){
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,
+        "order": [[3, "desc"]],
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
             "dataSrc": "data"
@@ -357,12 +359,51 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
         });
     }
 }
-
-function initCourseListTable(){
-    $jq('#statusOfCourseTable').DataTable({
+function initCoursesListTable(){
+    $jq('#statusOfCoursesTable').DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getCourseList",
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                }},
+            {
+                "data": "lesson",
+                "render": function (email) {
+                    return email["title"];
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "video"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "test"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "part"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+function initModulesListTable(){
+    $jq('#statusOfModulesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList",
             "dataSrc": "data"
         },
         "columns": [
@@ -411,7 +452,7 @@ function initLessonsListTable(idModule){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showPartsList?idLesson=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showPartsList?idLesson=' +  name["url"] + '\', \'Заняття\');">'+ name["title"] +'</a>';
                 }},
             {
                 type: 'number', targets: 1 ,

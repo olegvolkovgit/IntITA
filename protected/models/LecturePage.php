@@ -13,7 +13,7 @@
  *
  *  @property Lecture $lecture
  */
-class LecturePage extends CActiveRecord implements ILessonsStatistics
+class LecturePage extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -413,14 +413,5 @@ class LecturePage extends CActiveRecord implements ILessonsStatistics
 
         return LectureElement::model()->findAllByPk($elementsList);
     }
-    //ILessonStatistics implementations
-    public function isVideoPresent(){
-        return $this->video;
-    }
-    public function isTestPresent(){
-        return $this->quiz;
-    }
-    public function statisticalName(){}
 
-    public function wordsCount(){}
 }
