@@ -525,7 +525,7 @@ class RevisionLecture extends CActiveRecord
             $transaction->rollback();
             throw $e;
         }
-        return $revLecture->cloneLecture($user);
+        return $revLecture;
     }
 
     /**
