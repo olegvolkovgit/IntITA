@@ -120,4 +120,20 @@ class Author extends Role
     public function addRoleFormList($query){
         return array();
     }
+
+    public function activeModules(StudentReg $teacher)
+    {
+        $records = Yii::app()->db->createCommand()
+            ->select('tm.idModule id, language lang, m.title_ua title, tm.start_time')
+            ->from('teacher_module tm')
+            ->leftJoin('module m', 'm.module_ID=tm.idModule')
+            ->where('idTeacher=:id and tm.end_time IS NULL and m.cancelled=:isCancel', array(
+                ':id' => $teacher->id,
+                ':isCancel' => Module::ACTIVE
+            ))
+            ->group('tm.idModule')
+            ->queryAll();
+
+        return $records;
+    }
 }

@@ -11,6 +11,7 @@
  * @property string $result
  * @property string $warning
  * @property string $date
+ * @property integer $quiz_uid
  *
  * The followings are the available model relations:
  * @property StudentReg $idUser
@@ -33,11 +34,11 @@ class TaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_task, mark, date', 'required'),
-			array('id_user, id_task, mark', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_task, mark, date, quiz_uid', 'required'),
+			array('id_user, id_task, mark, quiz_uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_task, mark, result, warning, date', 'safe', 'on'=>'search'),
+			array('id, id_user, id_task, mark, result, warning, date, quiz_uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class TaskMarks extends CActiveRecord
 			'result' => 'Result',
 			'warning' => 'Warning',
 			'date' => 'Date',
+			'quiz_uid' => 'quiz_uid',
 		);
 	}
 
@@ -94,6 +96,7 @@ class TaskMarks extends CActiveRecord
 		$criteria->compare('result',$this->result,true);
 		$criteria->compare('warning',$this->warning,true);
 		$criteria->compare('date',$this->date,true);
+		$criteria->compare('quiz_uid',$this->quiz_uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,15 +114,18 @@ class TaskMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addMark($task, $status, $result='', $date, $warning=''){
+    public static function addMark($idTask, $status, $result='', $date, $warning=''){
+        $task = Task::model()->findByAttributes(array('uid'=>$idTask));
+
         $model = new TaskMarks();
 
-        $model->id_task = $task;
+        $model->id_task = $task->id;
         $model->id_user = Yii::app()->user->getId();
         $model->mark = ($status == 'true')?1:0;
         $model->result = $result;
         $model->warning = $warning;
         $model->date = $date;
+        $model->quiz_uid = $task->uid;
         if($model->save()){
 			return true;
 		};

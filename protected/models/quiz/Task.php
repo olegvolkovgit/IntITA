@@ -11,7 +11,8 @@
  * @property integer $condition
  * @property integer $author
  * @property string $table
- *
+ * @property integer $uid
+ * 
  * The followings are the available model relations:
  */
 class Task extends Quiz
@@ -32,12 +33,12 @@ class Task extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			//array('condition', 'required'),
-			array('assignment, condition, author', 'numerical', 'integerOnly'=>true),
+			array('uid', 'required'),
+			array('assignment, condition, author, uid', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>15),
 			array('table', 'length', 'max'=>20),
 			// The following rule is used by search().
-			array('id, language, assignment, condition, author, table', 'safe', 'on'=>'search'),
+			array('id, language, assignment, condition, author, table, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +66,7 @@ class Task extends Quiz
 			'condition' => 'Condition',
 			'author' => 'Author',
 			'table' => 'Table',
+            'uid' => 'UID'
 		);
 	}
 
@@ -92,6 +94,7 @@ class Task extends Quiz
 		$criteria->compare('condition',$this->condition);
 		$criteria->compare('author',$this->author);
 		$criteria->compare('table',$this->table,true);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -150,7 +153,7 @@ class Task extends Quiz
 //    }
 	public static function getTaskId($idBlock)
 	{
-		return Task::model()->findByAttributes(array('condition' => $idBlock))->id;
+		return Task::model()->findByAttributes(array('condition' => $idBlock))->uid;
 	}
 
     public static function getTaskLang($idBlock)

@@ -436,6 +436,7 @@ class RevisionLecture extends CActiveRecord
      */
     public static function createNewRevisionFromLecture($lecture, $user) {
 
+        $revLecture = null;
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $revLectureProperties = new RevisionLectureProperties();
@@ -513,12 +514,12 @@ class RevisionLecture extends CActiveRecord
             }
 
             $transaction->commit();
-            return $revLecture->cloneLecture($user);
 
         } catch (Exception $e) {
             $transaction->rollback();
             throw $e;
         }
+        return $revLecture->cloneLecture($user);
     }
 
     /**
@@ -583,7 +584,13 @@ class RevisionLecture extends CActiveRecord
     public function addLectureElement($pageId, $lectureElementData, $user){
         $page = $this->getPageById($pageId);
         if ($page) {
-            $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+            if (array_key_exists('quiz', $lectureElementData)) {
+                $quiz = $lectureElementData['quiz'];
+                /* pass module id for getting quiz uid*/
+                $quiz['idModule'] = $this->id_module;
+            } else {
+                $quiz = null;
+            }
             $page->addLectureElement($lectureElementData['idType'], $lectureElementData['html_block'], $quiz);
             $this->setUpdateDate($user);
         }

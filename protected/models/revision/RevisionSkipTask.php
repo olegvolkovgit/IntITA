@@ -9,6 +9,7 @@
  * @property string $question
  * @property string $source
  * @property integer $id_test
+ * @property integer $uid
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -29,11 +30,11 @@ class RevisionSkipTask extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('condition, question, source', 'required'),
-            array('condition, id_test', 'numerical', 'integerOnly' => true),
+            array('condition, question, source, uid', 'required'),
+            array('condition, id_test, uid', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, condition, question, source, id_test', 'safe', 'on' => 'search'),
+            array('id, condition, question, source, id_test, uid', 'safe', 'on' => 'search'),
         );
     }
 
@@ -59,6 +60,7 @@ class RevisionSkipTask extends CActiveRecord {
             'question' => 'Question',
             'source' => 'Source',
             'id_test' => 'Id Test',
+            'uid' => 'UID',
         );
     }
 
@@ -84,6 +86,7 @@ class RevisionSkipTask extends CActiveRecord {
         $criteria->compare('question', $this->question, true);
         $criteria->compare('source', $this->source, true);
         $criteria->compare('id_test', $this->id_test);
+        $criteria->compare('uid', $this->uid);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -106,18 +109,20 @@ class RevisionSkipTask extends CActiveRecord {
         }
     }
 
-    public static function createTest($lectureElementId, $question, $source, $answers, $idTest = null) {
+    public static function createTest($lectureElementId, $question, $source, $answers, $idModule, $idTest = null) {
+        $uid = RevisionQuizFactory::getQuizId($idModule);
+        
         $newTest = new RevisionSkipTask();
         $newTest->condition = $lectureElementId;
         $newTest->question = $question;
         $newTest->source = $source;
-
+        $newTest->uid = $uid;
         $newTest->id_test = $idTest;
 
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index']);
+            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index'], $uid);
         }
 
         return $newTest;
@@ -129,11 +134,11 @@ class RevisionSkipTask extends CActiveRecord {
         $newTest->question = $this->question;
         $newTest->source = $this->source;
         $newTest->id_test = $this->id_test;
-
+        $newTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);;
         $newTest->saveCheck();
 
         foreach ($this->answers as $answer) {
-            $answer->cloneAnswer($newTest->id);
+            $answer->cloneAnswer($newTest->id, $newTest->uid);
         }
 
         return $newTest;
@@ -203,6 +208,7 @@ class RevisionSkipTask extends CActiveRecord {
         $skipTask->condition = $lectureElement->id_block;
         $skipTask->question = $questionLE->id_block;
         $skipTask->source = $this->source;
+        $skipTask->uid = $this->uid;
         $skipTask->save();
 
         foreach ($this->answers as $answer) {

@@ -167,7 +167,7 @@ function initConsultantsRolesTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -222,7 +222,7 @@ function initTrainersTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -276,7 +276,7 @@ function initTeachersTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -286,10 +286,15 @@ function initTeachersTable() {
                 }
             },
             {
-                "width": "20%",
-                "data": "profile",
-                "render": function (url) {
-                    return '<a href="' + url + '" target="_blank">Персональна сторінка</a>';
+                "width": "10%",
+                "data": "status"
+            },
+            {
+                "width": "10%",
+                "data": "changeStatus",
+                "render": function (changeStatus) {
+                    return '<a href="#" onclick="setTeacherStatus(' +  changeStatus["link"] + ', \'true\')">' +
+                        changeStatus["title"] + '</a>';
                 }
             },
             {
@@ -451,7 +456,7 @@ function initContentManagersTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -506,7 +511,7 @@ function initTeacherConsultantsTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\',  \'' + name["title"] + ' \');">' + name["name"] + '</a>';
                 }
             },
             {
@@ -630,17 +635,17 @@ function initStudentsList() {
                 }
             },
             {
-                "width": "12%",
+                "width": "20%",
                 data: "date"
             },
-            { data: "trainer-name" },
-            {
-                "width": "10%",
-                data: "url",
-                "render": function (url) {
-                    return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
-                }
-            },
+            //{ data: "trainer-name" },
+            //{
+            //    "width": "10%",
+            //    data: "url",
+            //    "render": function (url) {
+            //        return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
+            //    }
+            //},
             {
                 "width": "10%",
                 "data": "addAccessLink",

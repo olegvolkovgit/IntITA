@@ -258,12 +258,27 @@ class TeacherConsultant extends Role
         return json_encode($result);
     }
 
-
     public function isTeachModule($teacher, $module){
         if (empty(Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
             ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
             return true;
         }
         else return false;
+    }
+
+    public function activeModules(StudentReg $teacher)
+    {
+        $records = Yii::app()->db->createCommand()
+            ->select('id_module id, language lang, m.title_ua title, tcm.start_date')
+            ->from('teacher_consultant_module tcm')
+            ->join('module m', 'm.module_ID=tcm.id_module')
+            ->where('id_teacher=:id and tcm.end_date IS NULL and m.cancelled=:isCancel', array(
+                ':id' => $teacher->id,
+                ':isCancel' => Module::ACTIVE
+            ))
+            ->group('id')
+            ->queryAll();
+
+        return $records;
     }
 }

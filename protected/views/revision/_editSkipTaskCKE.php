@@ -24,12 +24,11 @@ idBlock=<?php echo $idElement; ?>;'>
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
-            <br>
         </fieldset>
-        <input type="submit" ng-click="editSkipTaskCKE('<?php echo Yii::app()->createUrl('/revision/editTest'); ?>',
+        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture','0706'); ?>" ng-click="editSkipTaskCKE('<?php echo Yii::app()->createUrl('/revision/editTest'); ?>',
          <?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)"
-               ng-disabled="editSkipTask.$invalid" value="<?php echo Yii::t('lecture', '0706'); ?>">
+               ng-disabled="editSkipTask.$invalid">
+        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0708'); ?>" ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'>
     </form>
     <br>
-    <button ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'><?php echo Yii::t('lecture', '0708'); ?></button>
 </div>

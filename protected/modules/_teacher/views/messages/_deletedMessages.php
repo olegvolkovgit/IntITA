@@ -29,7 +29,7 @@
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/message", array(
                         'id' => $userMessage->id_message)) ?>', 'Видалене повідомлення')">
-                        <em><?=$userMessage->subject; ?></em>
+                        <em><?= CHtml::encode($userMessage->subject); ?></em>
                     </td>
                     <td class="center">
                         <em><?=CommonHelper::formatMessageDate($userMessage->message0->create_date); ?></em>

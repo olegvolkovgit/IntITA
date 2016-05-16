@@ -12,11 +12,11 @@ $revisionTask=RevisionTask::model()->findByAttributes(array('id_lecture_element'
 idBlock=<?php echo $idElement; ?>;'>
 <div class="editTask" ng-controller="taskCtrl">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->id)); ?>" method="post" target="_blank">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->uid)); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>
-            <select id="programLang" name="lang" placeholder="(Виберіть мову програмування)" OnChange='langChoose(this)'>
+            <select class="form-control" style="width:auto;" id="programLang" name="lang" placeholder="(Виберіть мову програмування)" OnChange='langChoose(this)'>
                 <option value="c++">С++</option>
                 <option value="c#">C#</option>
                 <option value="java">Java</option>
@@ -27,13 +27,11 @@ idBlock=<?php echo $idElement; ?>;'>
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
-            <br>
-            <br>
             Умова задачі*:
             <textarea ng-cloak ckeditor="editorOptionsTask" name="condition" required ng-model="dataTask.condition">
             </textarea>
             <input name="idTaskBlock" type="hidden" value="{{idBlock}}"/>
-            <input type="hidden" ng-init="task=<?php echo $revisionTask->id; ?>" ng-model="task" />
+            <input type="hidden" ng-init="task=<?php echo $revisionTask->uid; ?>" ng-model="task" />
         </fieldset>
         <br>
         <input class="btn btn-default" type="submit" value="Створення та редагування юніттестів" ng-disabled="addTask.$invalid">

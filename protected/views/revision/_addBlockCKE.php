@@ -29,23 +29,3 @@
         <input class="btn btn-default" type="button" value="Очистити форматування" onclick="removeHtml()">
     </form>
 </div>
-<script>
-    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('CKECode'), {
-        lineNumbers: true,             // показывать номера строк
-        matchBrackets: true,             // подсвечивать парные скобки
-        mode: "javascript",
-        theme: "rubyblue",               // стиль подсветки
-        indentUnit: 4                    // размер табуляции
-    });
-    function blockValidation() {
-        if(myCodeMirror.getValue().trim()==''){
-            bootbox.alert('Блок не може бути пустий');
-            return false;
-        }else{
-            return true;
-        }
-    }
-    function removeHtml() {
-        myCodeMirror.setValue(myCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
-    }
-</script>

@@ -9,6 +9,7 @@
  * @property integer $id_task
  * @property integer $mark
  * @property string $time
+ * @property integer $quiz_uid
  *
  * The followings are the available model relations:
  * @property SkipTask $idTask
@@ -32,11 +33,11 @@ class SkipTaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user, id_task, mark', 'required'),
-			array('user, id_task, mark', 'numerical', 'integerOnly'=>true),
+			array('user, id_task, mark, quiz_uid', 'required'),
+			array('user, id_task, mark, quiz_uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user, id_task, mark, time', 'safe', 'on'=>'search'),
+			array('id, user, id_task, mark, time, quiz_uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +65,7 @@ class SkipTaskMarks extends CActiveRecord
 			'id_task' => 'Id Task',
 			'mark' => 'Mark',
 			'time' => 'Time',
+            'quiz_uid' => 'quiz_uid'
 		);
 	}
 
@@ -90,6 +92,7 @@ class SkipTaskMarks extends CActiveRecord
 		$criteria->compare('id_task',$this->id_task);
 		$criteria->compare('mark',$this->mark);
 		$criteria->compare('time',$this->time,true);
+		$criteria->compare('quiz_uid',$this->quiz_uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -151,6 +154,7 @@ class SkipTaskMarks extends CActiveRecord
         $skipTaskMarks->mark = $mark;
         $skipTaskMarks->user =(int)Yii::app()->user->id;
         $skipTaskMarks->id_task = $skipTask->id;
+        $skipTaskMarks->quiz_uid = $skipTask->uid;
         $skipTaskMarks->save();
 
         return $isDone;

@@ -4,6 +4,7 @@
  * @var $module Module
  * @var $user StudentReg
  * @var $role UserRoles
+ * @var $trainer StudentReg
  */
 $user = $model->registrationData;
 ?>
@@ -29,11 +30,14 @@ $user = $model->registrationData;
                 <li class="list-group-item">Ім'я, email:
                     <a href="<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => $user->id)) ?>" target="_blank">
                         <?php echo $user->userNameWithEmail() ?></a></li>
-                <li class="list-group-item">Електронна пошта: <a href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                <li class="list-group-item">Електронна пошта:
+                    <a href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
                         'scenario' => 'message',
                         'receiver' => $user->id
                     ))?>" target="_blank">
-                        <?php echo $user->email;?></a>
+                        <?php echo $user->email." ";?>
+                        <i class="fa fa-envelope fa-fw"></i>
+                    </a>
                     <?php if($user->skype){
                             echo "<br>Skype: ".$user->skype;
                         }
@@ -44,14 +48,16 @@ $user = $model->registrationData;
                     <br>
                     Приватний чат:
                     <a href="<?= Config::getChatPath().$user->id;?>"
-                       target="_blank">почати чат</a></li>
+                       target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i>
+                    </a>
+                </li>
 
                 <?php if($model->isStudent()){?>
                 <li class="list-group-item">Тренер:
                     <?php
-                    if (!is_null($user->trainer) && is_null($user->trainer->end_time)){?>
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $user->trainer->trainer)) ?>" target="_blank">
-                        <?php echo $user->trainer->trainer0->getLastFirstName(); ?></a>
+                    if ($trainer){?>
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $trainer->id)) ?>" target="_blank">
+                        <?php echo $trainer->userNameWithEmail(); ?></a>
                         <button type="button" class="btn  btn-outline btn-primary btn-xs"
                                 onclick="load('<?=Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $user->id))?>',
                                     '<?= addslashes($user->userName()." <".$user->email.">"); ?>'); return false;">

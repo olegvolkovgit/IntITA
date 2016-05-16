@@ -39,7 +39,7 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
-                <b> <?php echo $post->lesson_count . " " . Yii::t('module', '0216'); ?></b><?php
+                <b> <?php echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?></b><?php
                 if ($post->lesson_count != 0) {?>
                     <?=", " . Yii::t('module', '0217')?> - <b><?=$post->monthsCount() . " " . Yii::t('module', '0218');?></b> (
                 <?=$post->hours_in_day . " " . Yii::t('module', '0219') . ", " . $post->days_in_week . " " .

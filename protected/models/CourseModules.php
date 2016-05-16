@@ -300,17 +300,12 @@ class CourseModules extends CActiveRecord
         return Module::model()->findAll($criteria);
     }
 
-   public static function modulesWithStudentTeacher($course, $student){
-//       $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang,
-//              IF((tcs.end_date IS NULL), concat(IFNULL(u.secondName, ""), " ", IFNULL(u.firstName, "")," ",IFNULL(u.middleName, "")), "") as trainerName
-//              from module m left join course_modules cm on m.module_ID = cm.id_module
-//              LEFT JOIN teacher_consultant_student tcs ON tcs.id_module=m.module_ID
-//              left join user u on tcs.id_teacher = u.id
-//              where cm.id_course='.$course.' and tcs.id_student='.$student.' and tcs.end_date IS NULL';
-
+   public static function modulesInfoByCourse($course){
        $sql = 'select m.module_ID as id, m.title_ua as title, m.language as lang
-              from module m left join course_modules cm on m.module_ID = cm.id_module
-              where cm.id_course='.$course;
+              from module m
+              left join course_modules cm on m.module_ID = cm.id_module
+              where cm.id_course='.$course.'
+              group by m.module_ID';
 
        return Yii::app()->db->createCommand($sql)->queryAll();
    }

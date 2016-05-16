@@ -82,11 +82,11 @@ function translateName(source, id, sourceId) {
     $jq(id).val(toEnglish(source));
 }
 
-function loadTeachersIndex() {
+function loadAdminTeachersIndex() {
     load(basePath + '/_teacher/_admin/teachers/index', 'Викладачі');
 }
 
-function setTeacherStatus(url) {
+function setTeacherStatus(url, usersPage) {
     bootbox.confirm('Змінити статус викладача?', function (result) {
         if (result) {
             $jq.ajax({
@@ -94,7 +94,13 @@ function setTeacherStatus(url) {
                 type: "POST",
                 success: function (response) {
                     if(response == "success") {
-                        bootbox.confirm("Статус викладача змінено.", loadTeachersIndex);
+                        bootbox.confirm("Статус викладача змінено.", function(){
+                            if(usersPage == 'true'){
+                                loadUsersIndex(2);
+                            } else {
+                                loadAdminTeachersIndex();
+                            }
+                        });
                     } else {
                         showDialog("Операцію не вдалося виконати.");
                     }

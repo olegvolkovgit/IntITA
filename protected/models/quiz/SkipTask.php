@@ -8,7 +8,8 @@
  * @property integer $author
  * @property integer $condition
  * @property integer $question
- * @property integer $source
+ * @property string $source
+ * @property integer $uid
 
  *
  * The followings are the available model relations:
@@ -37,10 +38,10 @@ class SkipTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, condition, question, source', 'required'),
-			array('author, condition, question', 'numerical', 'integerOnly'=>true),
+			array('author, condition, question, source, uid', 'required'),
+			array('author, condition, question, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id, author, condition, question, source', 'safe', 'on'=>'search'),
+			array('id, author, condition, question, source, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +71,7 @@ class SkipTask extends Quiz
 			'condition' => 'Condition',
 			'question' => 'Question',
             'source' => 'Source',
+            'uid' => 'UID'
 		);
 	}
 
@@ -94,6 +96,7 @@ class SkipTask extends Quiz
 		$criteria->compare('condition',$this->condition);
 		$criteria->compare('question',$this->question);
         $criteria->compare('source', $this->source);
+        $criteria->compare('uid', $this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

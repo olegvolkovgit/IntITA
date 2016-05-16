@@ -48,12 +48,17 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                                         array("user" => $user->id, "param" => $course["id"], "type" => "course")) ?>')">
                                                 <em>договір</em>
                                             </button>
+                                            <a href="#" onclick="cancelCourse('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelCourse'); ?>',
+                                                '<?=$course["id"]?>',
+                                                '<?=$user->id?>'); return false;">
+                                                <span class="warningMessage"><em> скасувати доступ</em></span>
+                                            </a>
                                         </h4>
                                     </div>
                                     <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
                                         <ul>
                                             <?php
-                                            $courseModules = CourseModules::modulesWithStudentTeacher($course["id"], $user->id);
+                                            $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
                                             foreach ($courseModules as $record) { ?>
                                                 <li class="list-group-item">
                                                     <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"

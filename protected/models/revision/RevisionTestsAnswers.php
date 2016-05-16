@@ -8,6 +8,7 @@
  * @property integer $id_test
  * @property string $answer
  * @property integer $is_valid
+ * @property integer $quiz_uid
  *
  * The followings are the available model relations:
  * @property Tests $test
@@ -30,11 +31,11 @@ class RevisionTestsAnswers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_test, answer, is_valid', 'required'),
-			array('id_test, is_valid', 'numerical', 'integerOnly'=>true),
+			array('id_test, answer, is_valid, quiz_uid', 'required'),
+			array('id_test, is_valid, quiz_uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_test, answer, is_valid', 'safe', 'on'=>'search'),
+			array('id, id_test, answer, is_valid, quiz_uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +61,7 @@ class RevisionTestsAnswers extends CActiveRecord
 			'id_test' => 'Id Test',
 			'answer' => 'Answer',
 			'is_valid' => 'Is Valid',
+            'quiz_uid' => 'quiz_uid'
 		);
 	}
 
@@ -85,6 +87,7 @@ class RevisionTestsAnswers extends CActiveRecord
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('answer',$this->answer,true);
 		$criteria->compare('is_valid',$this->is_valid);
+		$criteria->compare('quiz_uid',$this->quiz_uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,23 +114,26 @@ class RevisionTestsAnswers extends CActiveRecord
     /**
      * @param $idTest
      * @param $answer - array('answer' => 'foo', 'is_valid' => 1|0 )
+     * @param $quiz_uid
      * @return RevisionTestsAnswers
      * @throws RevisionTestsAnswersException
      */
-    public static function createAnswer($idTest, $answer) {
+    public static function createAnswer($idTest, $answer, $quiz_uid) {
         $newTestAnswer = new RevisionTestsAnswers();
         $newTestAnswer->id_test = $idTest;
         $newTestAnswer->answer = $answer['answer'];
         $newTestAnswer->is_valid = $answer['is_valid'];
+        $newTestAnswer->quiz_uid = $quiz_uid;
         $newTestAnswer->saveCheck();
         return $newTestAnswer;
     }
 
-    public function cloneTestAnswer($idTest) {
+    public function cloneTestAnswer($idTest, $quiz_uid) {
         $newTestAnswer = new RevisionTestsAnswers();
         $newTestAnswer->id_test = $idTest;
         $newTestAnswer->answer = $this->answer;
         $newTestAnswer->is_valid = $this->is_valid;
+        $newTestAnswer->quiz_uid = $quiz_uid;
         $newTestAnswer->saveCheck();
         return $newTestAnswer;
     }
@@ -137,7 +143,7 @@ class RevisionTestsAnswers extends CActiveRecord
         $newTestAnswer->id_test = $idTest;
         $newTestAnswer->answer = $this->answer;
         $newTestAnswer->is_valid = $this->is_valid;
-
+        $newTestAnswer->quiz_uid = $this->quiz_uid;
         //todo saveCheck
         $newTestAnswer->save();
         return $newTestAnswer;

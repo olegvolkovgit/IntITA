@@ -8,6 +8,7 @@
  * @property integer $id_user
  * @property integer $id_test
  * @property integer $mark
+ * @property integer $quiz_uid
  */
 class TestsMarks extends CActiveRecord
 {
@@ -27,11 +28,11 @@ class TestsMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_test, mark', 'required'),
-			array('id, id_user, id_test, mark', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_test, mark, quiz_uid', 'required'),
+			array('id, id_user, id_test, mark, quiz_uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_user, id_test, mark', 'safe', 'on'=>'search'),
+			array('id, id_user, id_test, mark, quiz_uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +57,7 @@ class TestsMarks extends CActiveRecord
 			'id_user' => 'Id User',
 			'id_test' => 'Id Test',
 			'mark' => 'Mark',
+			'quiz_uid' => 'quiz_uid',
 		);
 	}
 
@@ -81,6 +83,7 @@ class TestsMarks extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('mark',$this->mark);
+		$criteria->compare('quiz_uid',$this->quiz_uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,11 +101,15 @@ class TestsMarks extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addTestMark($user, $test, $mark){
+    public static function addTestMark($user, $idTest, $mark){
+
+        $test = Tests::model()->findByPk($idTest);
+
         $model = new TestsMarks();
 
         $model->id_user = $user;
-        $model->id_test = $test;
+        $model->id_test = $test->id;
+        $model->quiz_uid = $test->uid;
         $model->mark = $mark;
 
         $model->save(true);

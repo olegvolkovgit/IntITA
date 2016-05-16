@@ -380,7 +380,7 @@ class Lecture extends CActiveRecord implements ILessonsStatistics
         return true;
     }
 
-    public function hasAccessLecture($enabledOrder, $idCourse = 0)
+    public function hasAccessLecture($enabledOrder, $idReadyCourse=true)
     {
         $user = Yii::app()->user->getId();
         $editMode = false;
@@ -389,8 +389,8 @@ class Lecture extends CActiveRecord implements ILessonsStatistics
         } else {
             if (Yii::app()->user->model->isAuthor()) {
                 $model = new Author();
-                $editMode = $model->isTeacherAuthorModule($user, $this->idModule);
-                return true;
+                if($model->isTeacherAuthorModule($user, $this->idModule))
+                    return true;
             }
 
             if (Yii::app()->user->model->isTeacherConsultant()) {
@@ -403,10 +403,8 @@ class Lecture extends CActiveRecord implements ILessonsStatistics
             if (Yii::app()->user->model->isAdmin() || $editMode)
                 return true;
         }
-        if ($idCourse != 0) {
-            $course = Course::model()->findByPk($idCourse);
-            if (!$course->status)
-                return false;
+        if (!$idReadyCourse) {
+            return false;
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();

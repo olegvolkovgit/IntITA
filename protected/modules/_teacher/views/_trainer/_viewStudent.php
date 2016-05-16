@@ -1,6 +1,8 @@
 <?php
 /**
  * @var $student RegisteredUser
+ * @var $modules array
+ * @var $teachersByModule array
  */
 $modules = $student->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
 $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
@@ -35,28 +37,31 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
                                     <ul>
                                         <?php
-                                        $courseModules = CourseModules::modulesWithStudentTeacher($course["id"], $student->id);
-                                        foreach ($courseModules as $record) {?>
-                                            <li>
-                                                <a href="#"
-                                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
-                                                       array("id" => $student->id, "idModule" => $record["id"])); ?>',
-                                                       '<?= $student->registrationData->userName(); ?>');">
-                                                    <?= $record["title"] . " (" . $record["lang"].")";
-//                                                    if ($record["teacherName"] != "") {
-//                                                        ?>
-<!--                                                        <em>(викладач - --><?//= $record["teacherName"] ?><!--)</em>-->
-<!--                                                    --><?php //} else { ?>
-<!--                                                        <span class="warningMessage"><em>викладача не призначено</em></span>-->
-<!--                                                    --><?php //} ?>
-                                                </a>
-                                            </li>
-                                        <?php } ?>
+                                        $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
+                                        if(count($courseModules) > 0) {
+                                            foreach ($courseModules as $record) { ?>
+                                                <li>
+                                                    <a href="#"
+                                                       onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
+                                                           array("id" => $student->id, "idModule" => $record["id"])); ?>',
+                                                           '<?= addslashes($student->registrationData->userName()); ?>');">
+                                                        <?= $record["title"] . " (" . $record["lang"] . ")";
+                                                        if (isset($teachersByModule[$record["id"]])) {
+                                                            ?>
+                                                            <em>(викладач - <?= $teachersByModule[$record["id"]]; ?>)</em>
+                                                        <?php } else { ?>
+                                                            <span class="warningMessage"><em>викладача не призначено</em></span>
+                                                        <?php } ?>
+                                                    </a>
+                                                </li>
+                                            <?php }
+                                        } else {
+                                            echo "Модулів у даному курсі ще немає.";
+                                        }?>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-
                     <?php } ?>
                 <?php } else { ?>
                     <em>Курсів немає.</em>
@@ -74,11 +79,11 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 <a href="#"
                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
                                        array("id" => $student->id, "idModule" => $module["id"])); ?>',
-                                       '<?= $student->registrationData->userName(); ?>');">
+                                       '<?= addslashes($student->registrationData->userName()); ?>');">
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
-                                    if (is_null($module["end_date"])) {
+                                    if (isset($teachersByModule[$module["id"]])) {
                                         ?>
-                                        <em>(викладач - <?= $module["teacherName"] ?>)</em>
+                                        <em>(викладач - <?= $teachersByModule[$module["id"]]; ?>)</em>
                                     <?php } else { ?>
                                         <span class="warningMessage"><em>викладача не призначено</em></span>
                                     <?php } ?>

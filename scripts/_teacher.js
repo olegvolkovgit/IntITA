@@ -57,7 +57,7 @@ function createAccount(url, course, module) {
     }
 }
 
-function cancelTeacherAccess(url, header, redirect) {
+function cancelTeacherAccess(url, header, redirect,role) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
 
@@ -74,7 +74,18 @@ function cancelTeacherAccess(url, header, redirect) {
             cache: false,
             success: function (data) {
                 if (data == "success") {
-                    bootbox.alert("Операцію успішно виконано.");
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        switch (role) {
+                            case "author":
+                                if(redirect == 'teacherAccess')
+                                    loadAddTeacherAccess(header, '1');
+                                break;
+                            case "consultant":
+                                if(redirect == 'teacherAccess')
+                                    loadAddTeacherAccess(header, '3');
+                                break;
+                        }
+                    });
                 } else {
                     bootbox.alert("Операцію не вдалося виконати.");
                 }
@@ -924,19 +935,29 @@ function initAgreementsTable() {
         "columns": [
             {
                 "data": "title",
+                "width": "20%",
                 "render": function (title) {
                     return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"] + '</a>';
                 }
             },
-            {"data": "schema"},
+            {
+                "data": "object"
+            },
+            {
+                "data": "schema",
+                "width": "25%"
+            },
             {
                 type: 'de_date', targets: 1,
-                "width": "15%",
+                "width": "10%",
                 "data": "date"
             },
-            {"data": "summa"},
             {
-                "width": "15%",
+                "data": "summa",
+                "width": "12%"
+            },
+            {
+                "width": "10%",
                 "data": "invoices",
                 "render": function (invoices) {
                     return '<a href="#" onclick="load(' + invoices["url"] + ',\'' + invoices["name"] + '\');">рахунки</a>';

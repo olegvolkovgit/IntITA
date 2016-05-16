@@ -41,28 +41,31 @@
 
     <div class="row">
         <div class="col-md-3">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->user->avatar); ?>"
-                 class="img-thumbnail" style="height:200px">
+            <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>" target="_blank">
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->user->avatar); ?>"
+                     class="img-thumbnail" style="height:200px">
+            </a>
         </div>
         <div class="col-md-9">
             <ul class="list-group">
                 <li class="list-group-item">Ім'я:
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>" target="_blank">
                         <?php echo $teacher->getName() ?></a></li>
                 <li class="list-group-item">Ім'я російською:
-                    <?=$teacher->last_name_ru." ".$teacher->first_name_ru." ".$teacher->middle_name_ru; ?>
+                    <?= $teacher->last_name_ru . " " . $teacher->first_name_ru . " " . $teacher->middle_name_ru; ?>
                 </li>
                 <li class="list-group-item">Ім'я англійською:
-                    <?=$teacher->last_name_en." ".$teacher->first_name_en." ".$teacher->middle_name_en; ?>
+                    <?= $teacher->last_name_en . " " . $teacher->first_name_en . " " . $teacher->middle_name_en; ?>
                 </li>
-                <li class="list-group-item">Електронна пошта: <a href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                        'scenario' => 'message',
-                        'receiver' => $teacher->user_id
-                    ))?>">
-                    <?php echo $teacher->user->email; ?></a>
+                <li class="list-group-item">Електронна пошта: <a
+                        href="<?= Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                            'scenario' => 'message',
+                            'receiver' => $teacher->user_id
+                        )) ?>">
+                        <?php echo $teacher->user->email; ?></a>
                 </li>
                 <li class="list-group-item">Приватний чат:
-                    <a href="<?= Config::getChatPath().$teacher->user_id;?>"
+                    <a href="<?= Config::getChatPath() . $teacher->user_id; ?>"
                        target="_blank">почати чат</a></li>
                 <li class="list-group-item">Статус: <em><?php echo $teacher->getStatus(); ?></em></li>
 
@@ -73,7 +76,7 @@
                                 <li><?= $role; ?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?=addslashes($teacher->user->userName()).", роль ".$role; ?>')"><em>редагувати</em>
+                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?= addslashes($teacher->user->userName()) . ", роль " . $role; ?>')"><em>редагувати</em>
                                     </a>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
@@ -91,7 +94,7 @@
                         <ul>
                             <?php
                             foreach ($teacher->modulesActive as $module) {
-                                if(!$module->cancelled) {
+                                if (!$module->cancelled) {
                                     ?>
                                     <li>
                                         <a href="<?php echo Yii::app()->createUrl('module/index',

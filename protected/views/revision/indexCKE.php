@@ -160,10 +160,10 @@ $this->breadcrumbs = array(
                 <div style="display: block; clear: both">
                     <?php echo Yii::t('lecture', '0691'); ?>
                     <br>
-                    <button selected-button class="btn btn-default" ng-click="addTextBlock('1')"><?php echo Yii::t('lecture', '0692'); ?></button>
-                    <button selected-button class="btn btn-default" ng-click="addTextBlock('3')"><?php echo Yii::t('lecture', '0693'); ?></button>
-                    <button selected-button class="btn btn-default" ng-click="addTextBlock('4')"><?php echo Yii::t('lecture', '0694'); ?></button>
-                    <button selected-button class="btn btn-default" ng-click="addTextBlock('7')"><?php echo Yii::t('lecture', '0695'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('<?php echo LectureElement::TEXT; ?>')"><?php echo Yii::t('lecture', '0692'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addCodeBlock('<?php echo LectureElement::CODE; ?>')"><?php echo Yii::t('lecture', '0693'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addTextBlock('<?php echo LectureElement::EXAMPLE; ?>')"><?php echo Yii::t('lecture', '0694'); ?></button>
+                    <button selected-button class="btn btn-default" ng-click="addInstructionBlock('<?php echo LectureElement::INSTRUCTION; ?>')"><?php echo Yii::t('lecture', '0695'); ?></button>
                 </div>
             </fieldset>
             <h3><label for="pageQuiz"><?php echo Yii::t('lecture', '0696'); ?></label></h3>

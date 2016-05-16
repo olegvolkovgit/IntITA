@@ -171,4 +171,20 @@ class Consultant extends Role
         }
         return json_encode($result);
     }
+
+    public function activeModules(StudentReg $teacher)
+    {
+        $records = Yii::app()->db->createCommand()
+            ->select('module id, language lang, m.title_ua title, cm.start_time')
+            ->from('consultant_modules cm')
+            ->join('module m', 'm.module_ID=cm.module')
+            ->where('consultant=:id and cm.end_time IS NULL and m.cancelled=:isCancel', array(
+                ':id' => $teacher->id,
+                ':isCancel' => Module::ACTIVE
+            ))
+            ->group('m.module_ID')
+            ->queryAll();
+
+        return $records;
+    }
 }

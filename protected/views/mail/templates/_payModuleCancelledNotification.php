@@ -18,5 +18,5 @@ $trainer = $params[1];
 Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
     'scenario' => 'message',
     'receiver' => $trainer->user_id
-)); ?>">написати тренеру</a>.
+)); ?>">написати адміністратору</a>.
 <br>

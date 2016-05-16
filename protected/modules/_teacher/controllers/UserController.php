@@ -9,15 +9,11 @@ class UserController extends TeacherCabinetController {
     public function actionIndex($id)
     {
         $model = RegisteredUser::userById($id);
-        $this->renderPartial('index', array(
-            'model' => $model
-        ), false, true);
-    }
+        $trainer = TrainerStudent::getTrainerByStudent($id);
 
-    public function actionUserAccess($id = 1){
-        $model = RegisteredUser::userById($id);
-        $this->renderPartial('_userAccess', array(
-            'model' => $model
+        $this->renderPartial('index', array(
+            'model' => $model,
+            'trainer' => $trainer
         ), false, true);
     }
 

@@ -16,7 +16,7 @@
                 <br>
                 <input type="submit" class="btn btn-outline btn-warning" value="Скасувати"
                        onclick="cancelTeacherAccess('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/cancelTeacherPermission'); ?>',
-                           'Права доступа','teacherAccess');
+                           'Права доступа','teacherAccess','author');
                            return false;">
             </div>
         </form>

@@ -11,7 +11,7 @@
             <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
                 <input type="number" hidden="hidden" id="value" value="0"/>
-                <input id="typeahead" type="text" class="form-control" name="module" placeholder="Назва модуля"
+                <input id="typeahead_<?= $role; ?>" type="text" class="form-control" name="module" placeholder="Назва модуля"
                        size="65" required autofocus>
             </div>
             <div class="col col-md-2">
@@ -28,7 +28,7 @@
         <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
     </div>
     <div class="dataTable_wrapper">
-        <table class="table table-striped table-bordered table-hover" id="modulesTable">
+        <table class="table table-striped table-bordered table-hover" id="modulesTable_<?= $role; ?>">
             <thead>
             <tr>
                 <th width="45%">Модуль</th>
@@ -91,7 +91,7 @@
 
     modules.initialize();
 
-    $jq('#typeahead').typeahead(null, {
+    $jq('#typeahead_'+'<?= $role; ?>').typeahead(null, {
         name: 'modules',
         display: 'title',
         limit: 10,
@@ -106,11 +106,11 @@
         }
     });
 
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+    $jq('#typeahead_'+'<?= $role; ?>').on('typeahead:selected', function (e, item) {
         $jq("#value").val(item.id);
     });
 
-    $jq('#modulesTable').DataTable({
+    $jq('#modulesTable_'+'<?= $role; ?>').DataTable({
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         },

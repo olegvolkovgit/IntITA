@@ -40,7 +40,7 @@
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
- * @property StudentReg $trainer
+ * @property TrainerStudent $trainer
  */
 class StudentReg extends CActiveRecord
 {
@@ -171,7 +171,7 @@ class StudentReg extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
-            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student'),
+            'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
             'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
         );
@@ -888,7 +888,7 @@ class StudentReg extends CActiveRecord
     {
 
         $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer,
-              IF((ts.end_time IS NULL), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, "")), "") as trainerName, ts.end_time as endTime
+              IFNULL((ts.end_time), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, ""))) as trainerName, ts.end_time as endTime
               from user inner join user_student us on user.id = us.id_user
               left join trainer_student ts on us.id_user=ts.student
               left join user u on ts.trainer = u.id';
@@ -903,14 +903,14 @@ class StudentReg extends CActiveRecord
         foreach ($result as $record) {
             $row = array();
 
-            $row["student"]["name"] = addslashes($record["studentName"]);
+            $row["student"]["name"] = $record["studentName"];
             $row["email"]["title"] = $record["email"];
             $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
             $row["email"]["url"] = $row["student"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["date"] = date("d.m.Y", strtotime($record["start_date"]));
-            $row["trainer-name"] = (is_null($record["endTime"]))?"":$record["trainerName"];
-            $row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
-                Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
+            $row["date"] = date("d.m.Y H:m", strtotime($record["start_date"]));
+            //$row["trainer-name"] = (!is_null($record["endTime"]))?"":$record["trainerName"];
+            //$row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
+             //   Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
             $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
 
             array_push($return['data'], $row);
@@ -1020,7 +1020,7 @@ class StudentReg extends CActiveRecord
         foreach ($users as $record) {
             $row = array();
             $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
-            $row["user"]["name"] = addslashes($name);
+            $row["user"]["name"] = $name;
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
             $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
