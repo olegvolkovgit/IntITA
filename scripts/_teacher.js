@@ -132,13 +132,9 @@ function setTeacherRole(url) {
         async: true,
         data: {role: role, teacher: teacher},
         success: function (response) {
-            if (response == "success") {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
-                });
-            } else {
-                showDialog("Операцію не вдалося виконати.");
-            }
+            bootbox.confirm(response, function () {
+                load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
+            });
         },
         error: function () {
             showDialog("Операцію не вдалося виконати.");
@@ -254,7 +250,7 @@ function addStudentAttr(url, user, header, type) {
 }
 
 
-function changeUserStatus(url, user, message, header) {
+function changeUserStatus(url, user, message, header, target) {
     bootbox.confirm(message, function (response) {
         if (response) {
             $jq.ajax({
@@ -264,7 +260,11 @@ function changeUserStatus(url, user, message, header) {
                 data: {user: user},
                 success: function (result) {
                     bootbox.confirm(result, function () {
-                        load(basePath + "/_teacher/user/index/id/" + user, header);
+                        if(target == 'coworkers'){
+                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
+                        } else {
+                            load(basePath + "/_teacher/user/index/id/" + user, header);
+                        }
                     });
                 },
                 error: function () {
