@@ -349,7 +349,7 @@ class RevisionController extends Controller {
         if (empty($result)) {
             $lectureRev->sendForApproval(Yii::app()->user);
         } else {
-            echo implode("; ", $result);
+            echo implode(", ",$result);
         }
     }
     public function actionCancelSendForApproveLecture() {

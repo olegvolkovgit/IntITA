@@ -169,7 +169,7 @@ class RevisionLecture extends CActiveRecord
 
         //check if at least one approved page exist
         if (count($this->lecturePages) == 0) {
-            array_push($result, "There are no approved pages in this lecture");
+            array_push($result, "Не можна відправити ревізію на затвердження без жодної частини");
         }
 
         //count all orders
