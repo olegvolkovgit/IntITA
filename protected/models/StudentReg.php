@@ -813,8 +813,9 @@ class StudentReg extends CActiveRecord
         $paymentMessages = MessagesPayment::model()->findAll($criteria);
         $approveRevisionMessages = MessagesApproveRevision::model()->findAll($criteria);
         $rejectRevisionMessages = MessagesRejectRevision::model()->findAll($criteria);
+        $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
-        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages);
+        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages);
         $user = Yii::app()->user->model;
 //        if($user->isAdmin() || $user->isContentManager()){
 //            $criteria1 = new CDbCriteria();

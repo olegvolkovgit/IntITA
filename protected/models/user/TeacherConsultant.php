@@ -183,8 +183,8 @@ class TeacherConsultant extends Role
 
     public function checkModule($teacher, $module)
     {
-        if (Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
-                ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryScalar() == 0) {
+        if (empty(Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
+            ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
             return false;
         } else return true;
     }

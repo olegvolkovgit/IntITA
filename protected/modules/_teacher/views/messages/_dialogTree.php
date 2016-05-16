@@ -74,7 +74,9 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                          class="panel-collapse collapse <?php if ($key == 0) echo 'in'; ?>">
                         <div class="panel-body">
                             <p>
-                                <?= CHtml::encode($message->text()); ?>
+                                <?php
+                                if($message->type())
+                                CHtml::encode($message->text()); ?>
                                 <br>
                                 <?php
                                 $forwarded = $message->message0->forwarded();

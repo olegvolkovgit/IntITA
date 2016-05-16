@@ -163,7 +163,7 @@ class PayController extends TeacherCabinetController
     {
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $message = new NotificationMessages();
+            $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
             $message->build($subject, $sender->template(), array($student), Yii::app()->user->model->registrationData);
