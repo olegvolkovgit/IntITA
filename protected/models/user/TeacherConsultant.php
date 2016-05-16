@@ -142,7 +142,7 @@ class TeacherConsultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                if ($this->checkModule($user->id, $value)) {
+                if (!$this->checkModule($user->id, $value)) {
                     return Yii::app()->db->createCommand()->
                     insert('teacher_consultant_module', array(
                         'id_teacher' => $user->id,
@@ -183,8 +183,8 @@ class TeacherConsultant extends Role
 
     public function checkModule($teacher, $module)
     {
-        if (empty(Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
-                ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
+        if (Yii::app()->db->createCommand('select count(id_module) from teacher_consultant_module where id_module=' . $module .
+                ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryScalar() == 0) {
             return false;
         } else return true;
     }
