@@ -357,7 +357,46 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
         });
     }
 }
-
+function initCoursesListTable(){
+    $jq('#statusOfCoursesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
+                }},
+            {
+                "data": "lesson",
+                "render": function (email) {
+                    return email["title"];
+                }
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "video"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "test"
+            },
+            {
+                type: 'de_date', targets: 1 ,
+                "data": "part"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
 function initModulesListTable(){
     $jq('#statusOfModulesTable').DataTable({
         "autoWidth": false,

@@ -946,6 +946,6 @@ class Lecture extends CActiveRecord
         $lastLectureOrder = Yii::app()->db->createCommand($sqlLastOrder)->queryScalar();
         return $lastLectureOrder;
     }
- 
+
 
 }
