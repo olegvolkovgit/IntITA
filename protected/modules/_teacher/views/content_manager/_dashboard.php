@@ -25,7 +25,7 @@
                                'Викладачі')">Викладачі</a>
                     </li>
                     <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/courseStatus'); ?>',
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfModules'); ?>',
                                'Стан курсу')">Стан курсу</a>
                     </li>
                  </ul>
