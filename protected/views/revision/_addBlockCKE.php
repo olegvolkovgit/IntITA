@@ -9,7 +9,7 @@
 <div id="blockForm">
     <form name='addCKEBlock' id="addBlockForm" action="<?php echo Yii::app()->createUrl('revision/addLectureElement'); ?>" method="post">
         <input name="idType" value="" id="blockType" type="hidden">
-        <input name="idPage" value="<?php echo $idPage; ?>" id="page" type="hidden">        
+        <input name="idPage" value="<?php echo $idPage; ?>" id="page" type="hidden">
         <input name="idRevision" value="<?php echo $idRevision; ?>" id="page" type="hidden">
 
         <textarea id="CKE" ng-cloak ckeditor="editorOptions" name="html_block" ng-model="CkeAdd" required></textarea>
