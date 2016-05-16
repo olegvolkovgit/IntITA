@@ -358,11 +358,11 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
     }
 }
 
-function initCourseListTable(){
-    $jq('#statusOfCourseTable').DataTable({
+function initModulesListTable(){
+    $jq('#statusOfModulesTable').DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getCourseList",
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList",
             "dataSrc": "data"
         },
         "columns": [
