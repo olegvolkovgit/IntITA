@@ -8,6 +8,7 @@
  * @property integer $id_lecture_element
  * @property integer $id_test
  * @property integer $uid
+ * @property integer $updated
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $idLectureElement
@@ -31,10 +32,10 @@ class RevisionPlainTask extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_lecture_element, uid', 'required'),
-			array('id, id_lecture_element, id_test, uid', 'numerical', 'integerOnly'=>true),
+			array('id, id_lecture_element, id_test, uid, updated', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lecture_element, id_test, uid', 'safe', 'on'=>'search'),
+			array('id, id_lecture_element, id_test, uid, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +51,15 @@ class RevisionPlainTask extends CActiveRecord
 		);
 	}
 
-	/**
+    public function behaviors(){
+        return array(
+            'uidUpdateBehavior' => array(
+                'class' => 'RevisionQuizUidUpdateBehavior'
+            ),
+        );
+    }
+
+    /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -59,7 +68,8 @@ class RevisionPlainTask extends CActiveRecord
 			'id' => 'ID',
 			'id_lecture_element' => 'Id Lecture Element',
 			'id_test' => 'Id Test',
-            'uid' => 'UID'
+            'uid' => 'UID',
+            'updated' => 'Updated'
 		);
 	}
 
@@ -85,6 +95,7 @@ class RevisionPlainTask extends CActiveRecord
 		$criteria->compare('id_lecture_element',$this->id_lecture_element);
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('uid',$this->uid);
+		$criteria->compare('updated',$this->updated);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,11 +119,11 @@ class RevisionPlainTask extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $idModule, $idTest=null) {
+    public static function createTest($idLectureElement, $idModule, $idTest=null, $uid=null) {
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
         $newPlainTest->id_test = $idTest;
-        $newPlainTest->uid = RevisionQuizFactory::getQuizId($idModule);
+        $newPlainTest->uid = $uid ? $uid: RevisionQuizFactory::getQuizId($idModule);
         $newPlainTest->saveCheck();
 
         return $newPlainTest;
@@ -121,7 +132,7 @@ class RevisionPlainTask extends CActiveRecord
     public function cloneTest($idLectureElement) {
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
-        $newPlainTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
+        $newPlainTest->uid = $this->uid;
         $newPlainTest->saveCheck();
 
         return $newPlainTest;
@@ -136,12 +147,18 @@ class RevisionPlainTask extends CActiveRecord
     }
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
-        $newPlainTask = new PlainTask();
-        $newPlainTask->block_element = $lectureElementId;
-        $newPlainTask->author = $idUserCreated;
-        $newPlainTask->uid = $this->uid;
-        $newPlainTask->save();
-
-        return $newPlainTask;
+        $plainTask = PlainTask::model()->findByAttributes(['uid' => $this->uid]);
+        if($plainTask == null) {
+            $newPlainTask = new PlainTask();
+            $newPlainTask->block_element = $lectureElementId;
+            $newPlainTask->author = $idUserCreated;
+            $newPlainTask->uid = $this->uid;
+            $newPlainTask->save();
+            return $newPlainTask;
+        } else {
+            $plainTask->block_element = $lectureElementId;
+            $plainTask->save();
+        }
+        return false;
     }
 }

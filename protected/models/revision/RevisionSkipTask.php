@@ -10,6 +10,7 @@
  * @property string $source
  * @property integer $id_test
  * @property integer $uid
+ * @property integer $updated
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -31,10 +32,10 @@ class RevisionSkipTask extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('condition, question, source, uid', 'required'),
-            array('condition, id_test, uid', 'numerical', 'integerOnly' => true),
+            array('condition, id_test, uid, updated', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, condition, question, source, id_test, uid', 'safe', 'on' => 'search'),
+            array('id, condition, question, source, id_test, uid, updated', 'safe', 'on' => 'search'),
         );
     }
 
@@ -50,6 +51,15 @@ class RevisionSkipTask extends CActiveRecord {
         );
     }
 
+    public function behaviors() {
+        return array(
+            'uidUpdateBehavior' => array(
+                'class' => 'RevisionQuizUidUpdateBehavior'
+            ),
+        );
+    }
+
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -61,6 +71,7 @@ class RevisionSkipTask extends CActiveRecord {
             'source' => 'Source',
             'id_test' => 'Id Test',
             'uid' => 'UID',
+            'updated' => 'Updated'
         );
     }
 
@@ -87,6 +98,7 @@ class RevisionSkipTask extends CActiveRecord {
         $criteria->compare('source', $this->source, true);
         $criteria->compare('id_test', $this->id_test);
         $criteria->compare('uid', $this->uid);
+        $criteria->compare('updated', $this->updated);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -109,20 +121,20 @@ class RevisionSkipTask extends CActiveRecord {
         }
     }
 
-    public static function createTest($lectureElementId, $question, $source, $answers, $idModule, $idTest = null) {
-        $uid = RevisionQuizFactory::getQuizId($idModule);
-        
+    public static function createTest($lectureElementId, $question, $source, $answers, $idModule, $idTest = null, $uid = null) {
+
+
         $newTest = new RevisionSkipTask();
         $newTest->condition = $lectureElementId;
         $newTest->question = $question;
         $newTest->source = $source;
-        $newTest->uid = $uid;
+        $newTest->uid = $uid ? $uid: RevisionQuizFactory::getQuizId($idModule);
         $newTest->id_test = $idTest;
 
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index'], $uid);
+            RevisionSkipTaskAnswers::createAnswer($newTest->id, $answer['value'], $answer['caseInsensitive'], $answer['index'], $newTest->uid);
         }
 
         return $newTest;
@@ -134,7 +146,7 @@ class RevisionSkipTask extends CActiveRecord {
         $newTest->question = $this->question;
         $newTest->source = $this->source;
         $newTest->id_test = $this->id_test;
-        $newTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);;
+        $newTest->uid = $this->uid;
         $newTest->saveCheck();
 
         foreach ($this->answers as $answer) {
@@ -164,7 +176,7 @@ class RevisionSkipTask extends CActiveRecord {
             }
         } elseif ($oldCount > $newCount) {
             $pkToDelete = [];
-            for(; $i < $oldCount; $i++) {
+            for (; $i < $oldCount; $i++) {
                 array_push($pkToDelete, $this->answers[$i]->id);
             }
             RevisionSkipTaskAnswers::model()->deleteByPk($pkToDelete);
@@ -196,6 +208,8 @@ class RevisionSkipTask extends CActiveRecord {
      */
     public function saveToRegularDB($lectureElement, $idUserCreated) {
         //todo;
+        $skipTask = SkipTask::model()->findByAttributes(['uid' => $this->uid]);
+
         $questionLE = new LectureElement();
         $questionLE->block_order = 0;
         $questionLE->html_block = $this->question;
@@ -203,17 +217,25 @@ class RevisionSkipTask extends CActiveRecord {
         $questionLE->id_type = LectureElement::SKIP_TASK;
         $questionLE->save();
 
-        $skipTask = new SkipTask();
-        $skipTask->author = $idUserCreated;
-        $skipTask->condition = $lectureElement->id_block;
-        $skipTask->question = $questionLE->id_block;
-        $skipTask->source = $this->source;
-        $skipTask->uid = $this->uid;
-        $skipTask->save();
+        if ($skipTask == null) {
 
-        foreach ($this->answers as $answer) {
-            $answer->saveToRegularDB($skipTask->id);
+            $skipTask = new SkipTask();
+            $skipTask->author = $idUserCreated;
+            $skipTask->condition = $lectureElement->id_block;
+            $skipTask->question = $questionLE->id_block;
+            $skipTask->source = $this->source;
+            $skipTask->uid = $this->uid;
+            $skipTask->save();
+
+            foreach ($this->answers as $answer) {
+                $answer->saveToRegularDB($skipTask->id);
+            }
+            return $skipTask;
+        } else {
+            $skipTask->condition = $lectureElement->id_block;
+            $skipTask->question = $questionLE->id_block;
+            $skipTask->save();
         }
-        return $skipTask;
+        return false;
     }
 }
