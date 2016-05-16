@@ -192,6 +192,7 @@ function loadTeacherConsultantList(id) {
 }
 function  initTeacherConsultantsTableCM(){
     $jq('#teacherConsultantsTable').DataTable({
+        "order": [[3, "desc"]],
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getTeacherConsultantsList",
@@ -287,6 +288,7 @@ function  initAuthorsTableCM(){
 function initConsultantsTable(){
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,
+        "order": [[3, "desc"]],
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getConsultantsList",
             "dataSrc": "data"
