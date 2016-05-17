@@ -665,7 +665,7 @@ function initStudentsList() {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     } );
-};
+}
 
 
 /**

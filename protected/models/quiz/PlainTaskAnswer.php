@@ -144,7 +144,7 @@ class PlainTaskAnswer extends CActiveRecord
     public function getCondition()
     {
         $plainTask = $this->plainTask;
-        return $plainTask->lectureElement->html_block;
+        return $plainTask->getDescription();
     }
 
     public function getModule()
@@ -219,7 +219,7 @@ class PlainTaskAnswer extends CActiveRecord
         return PlainTaskMarks::model()->find($criteria);
     }
 
-    public function getModuleTitle()
+    public function getLectureTitle()
     {
         return Yii::app()->db->createCommand()
             ->select('title_ua')

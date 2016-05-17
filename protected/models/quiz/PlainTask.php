@@ -133,6 +133,6 @@ class PlainTask extends Quiz
 
     public function getDescription()
     {
-		return $this->lectureElement->html_block;
+		return ($this->lectureElement)?$this->lectureElement->html_block:"недоступна";
     }
 }
