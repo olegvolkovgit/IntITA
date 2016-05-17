@@ -39,7 +39,7 @@ class ContentManagerController extends TeacherCabinetController
 
     public function actionAddTeacherConsultantForm()
     {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultant', array(), false, true);
+        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultantModule', array(), false, true);
     }
 
     public function actionAddTeacherModuleForm()
