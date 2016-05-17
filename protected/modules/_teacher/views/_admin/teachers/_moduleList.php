@@ -111,6 +111,16 @@
         "order": [[ 2, "asc" ]],
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+        },
+        "columns": [
+            null,
+            {
+                "type": "de_date", targets: 1,
+            },
+            {
+                "type": "de_date", targets: 1,
+            },
+            null
+        ]
     } );
 </script>

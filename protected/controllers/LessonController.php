@@ -620,8 +620,8 @@ class LessonController extends Controller
 
         $lecture = Lecture::model()->findByPk($id);
         $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
-
-        $passedPages = LecturePage::getAccessPages($id, $user, $editMode, Yii::app()->user->model->isAdmin());
+        $pagesAccess=Yii::app()->user->model->hasLecturePagesAccess($lecture,$editMode);
+        $passedPages = LecturePage::getAccessPages($id, $user, $pagesAccess);
 
         echo json_encode($passedPages);
     }
