@@ -132,7 +132,7 @@ class LecturePage extends CActiveRecord
         ));
     }
 
-    public static function getAccessPages($idLecture, $user, $editMode=0, $isAdmin=0){
+    public static function getAccessPages($idLecture, $user, $pagesAccess){
         /*Sort page_order by Ascending*/
         $criteria= new CDbCriteria;
         $criteria->alias='lecture_page';
@@ -142,7 +142,7 @@ class LecturePage extends CActiveRecord
         $pages = LecturePage::model()->findAll($criteria);
 
         $result = [];
-        if($editMode || $isAdmin){
+        if($pagesAccess){
             for ($i = 0, $count = count($pages); $i < $count; $i++ ){
                 $result[$i]['order'] = $pages[$i]->page_order;
                 $result[$i]['isDone'] = true;
