@@ -1095,7 +1095,32 @@ class StudentReg extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN teacher t ON t.user_id = s.id';
-        $criteria->addCondition('t.user_id IS NULL');
+        $criteria->addCondition('t.user_id IS NULL and s.cancelled='.StudentReg::ACTIVE);
+        $data = StudentReg::model()->findAll($criteria);
+        $result = array();
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["firstName"] = ($model->firstName) ? $model->firstName : "";
+            $result["results"][$key]["lastName"] = ($model->secondName) ? $model->secondName : "";
+            $result["results"][$key]["middleName"] = ($model->middleName) ? $model->middleName : "";
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["tel"] = $model->phone;
+            $result["results"][$key]["skype"] = $model->skype;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
+    public static function usersByQuery($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE);
         $data = StudentReg::model()->findAll($criteria);
         $result = array();
         foreach ($data as $key => $model) {
@@ -1126,7 +1151,7 @@ class StudentReg extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN trainer_student ts ON ts.student = s.id';
-        $criteria->addCondition('ts.student IS NULL or ts.end_time IS NOT NULL');
+        $criteria->addCondition('ts.student IS NULL or ts.end_time IS NOT NULL and s.cancelled='.StudentReg::ACTIVE);
 
         $data = StudentReg::model()->findAll($criteria);
 

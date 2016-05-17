@@ -247,7 +247,7 @@ class UserContentManager extends CActiveRecord
 
 		foreach($course as $record){
 			$row = array();
-			$row["name"]["title"] = $record['title_ua'];
+			$row["name"]["title"] = CHtml::encode($record['title_ua']);
 			$row["name"]["url"] = $record["module_ID"];
 			$row["lesson"]["title"] = $record["lesson_count"];
 			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
@@ -266,7 +266,7 @@ class UserContentManager extends CActiveRecord
 
 		foreach($course as $record){
 			$row = array();
-			$row["name"]["title"] = $record['title_ua'];
+			$row["name"]["title"] = CHtml::encode($record['title_ua']);
 			$row["name"]["url"] = $record["course_ID"];
 			$row["lesson"]["title"] = $record["modules_count"];
 			$row["video"]=1;
