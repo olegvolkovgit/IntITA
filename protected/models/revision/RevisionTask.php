@@ -183,7 +183,7 @@ class RevisionTask extends CActiveRecord
 //		)));
 		$json= array(
 			'operation' => 'getJson',
-			'task' => $this->uid,
+			'task' => ($this->uid)?$this->uid:$this->id_test,
 		);
 		$json=json_encode($json);
 		$result = file_get_contents($url, false, stream_context_create(array(
