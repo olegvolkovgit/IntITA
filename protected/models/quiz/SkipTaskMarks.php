@@ -112,7 +112,7 @@ class SkipTaskMarks extends CActiveRecord
 
     public static function isTaskDone($user, $idTask)
     {
-        return SkipTaskMarks::model()->exists('user =:user and id_task =:task and mark = 1',
+        return SkipTaskMarks::model()->exists('user =:user and quiz_uid =:task and mark = 1',
             array(':user' => $user, ':task' => $idTask));
     }
 
@@ -161,9 +161,9 @@ class SkipTaskMarks extends CActiveRecord
 
     }
 	public static function taskTime($user, $idTest){
-		if(SkipTaskMarks::model()->exists('user =:user and id_task =:task and mark = 1',
+		if(SkipTaskMarks::model()->exists('user =:user and quiz_uid =:task and mark = 1',
 			array(':user' => $user, ':task' => $idTest))){
-			return SkipTaskMarks::model()->findByAttributes(array('user' => $user,'id_task' => $idTest,'mark' => 1))->time;
+			return SkipTaskMarks::model()->findByAttributes(array('user' => $user,'quiz_uid' => $idTest,'mark' => 1))->time;
 		}else return false;
 	}
 }

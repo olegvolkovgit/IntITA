@@ -452,7 +452,7 @@ class RevisionController extends Controller {
 
         $lectureRevisions = RevisionLecture::model()->findAllByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
-        if (!$lecture) {
+        if (!$lecture || !$lecture->idModule) {
             throw new RevisionControllerException(404, 'Сторінка не знайдена');
         }
 
@@ -463,7 +463,7 @@ class RevisionController extends Controller {
         $lectureRev = null;
         /*if there is no revisions we create new revision from lecture in DB, else we should find */
         if (empty($lectureRevisions)) {
-            $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+            $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user)->cloneLecture(Yii::app()->user);
         } else {
             /*find all editable revisions */
             $editableRevisions = [];

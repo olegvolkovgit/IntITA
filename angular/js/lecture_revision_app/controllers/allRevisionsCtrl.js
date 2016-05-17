@@ -164,7 +164,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        revisionsTree.getRevisionsBranch(idRevision).then(function(response){
+        revisionsTree.getAllRevisionsJson().then(function(response){
             $rootScope.revisionsJson=response;
             $scope.$parent.treeUpdate(nodeId);
         });
