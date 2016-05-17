@@ -452,7 +452,7 @@ class RevisionController extends Controller {
 
         $lectureRevisions = RevisionLecture::model()->findAllByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
-        if (!$lecture) {
+        if (!$lecture || !$lecture->idModule) {
             throw new RevisionControllerException(404, 'Сторінка не знайдена');
         }
 
