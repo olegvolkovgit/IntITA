@@ -169,7 +169,7 @@ class RevisionLecture extends CActiveRecord
 
         //check if at least one approved page exist
         if (count($this->lecturePages) == 0) {
-            array_push($result, "There are no approved pages in this lecture");
+            array_push($result, "Не можна відправити ревізію на затвердження без жодної частини.");
         }
 
         //count all orders
@@ -180,6 +180,14 @@ class RevisionLecture extends CActiveRecord
                 array_push($orders[$page->page_order]['lectures'], $page->id);
             } else {
                 $orders[$page->page_order] = array('order'=>$page->page_order, 'count'=>1, 'lectures'=>array($page->id));
+            }
+            $quiz=$page->getQuiz();
+            if ($quiz != null && $quiz->id_type==LectureElement::TASK) {
+                $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
+                if(!$task->existenceInterpreterTask()){
+                    array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
+                    break;
+                }
             }
         }
         //process orders array to find collision and generate result
@@ -519,7 +527,7 @@ class RevisionLecture extends CActiveRecord
             $transaction->rollback();
             throw $e;
         }
-        return $revLecture->cloneLecture($user);
+        return $revLecture;
     }
 
     /**

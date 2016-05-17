@@ -25,7 +25,10 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
             method: "POST",
             data: $.param({idRevision: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        }).then(function successCallback(response) {
+            if(response.data!='')
+                bootbox.alert(response.data);
+            else
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
                 location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;

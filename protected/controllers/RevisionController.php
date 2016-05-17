@@ -349,7 +349,7 @@ class RevisionController extends Controller {
         if (empty($result)) {
             $lectureRev->sendForApproval(Yii::app()->user);
         } else {
-            echo implode("; ", $result);
+            echo implode(", ",$result);
         }
     }
     public function actionCancelSendForApproveLecture() {
@@ -452,6 +452,9 @@ class RevisionController extends Controller {
 
         $lectureRevisions = RevisionLecture::model()->findAllByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
+        if (!$lecture || !$lecture->idModule) {
+            throw new RevisionControllerException(404, 'Сторінка не знайдена');
+        }
 
         if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
@@ -460,7 +463,7 @@ class RevisionController extends Controller {
         $lectureRev = null;
         /*if there is no revisions we create new revision from lecture in DB, else we should find */
         if (empty($lectureRevisions)) {
-            $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+            $lectureRev = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user)->cloneLecture(Yii::app()->user);
         } else {
             /*find all editable revisions */
             $editableRevisions = [];

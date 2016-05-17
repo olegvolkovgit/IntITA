@@ -295,7 +295,7 @@ class RevisionQuizFactory {
         switch ($lectureElement->id_type) {
             case LectureElement::PLAIN_TASK :
                 $oldTest = PlainTask::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
-                return RevisionPlainTask::createTest($revisionLectureElement->id, $idModule, $oldTest->id);
+                return RevisionPlainTask::createTest($revisionLectureElement->id, $idModule, $oldTest->id, $oldTest->uid);
                 break;
             case LectureElement::TEST:
                 $oldTest = Tests::model()->findByAttributes(array('block_element' => $lectureElement->id_block));
@@ -305,11 +305,11 @@ class RevisionQuizFactory {
                     array_push($answers, ['answer' => $answer->answer, 'is_valid' => $answer->is_valid]);
                 }
 
-                return RevisionTests::createTest($revisionLectureElement->id, $oldTest->title, $answers, $idModule, $oldTest->id);
+                return RevisionTests::createTest($revisionLectureElement->id, $oldTest->title, $answers, $idModule, $oldTest->id, $oldTest->uid);
                 break;
             case LectureElement::TASK :
                 $oldTask = Task::model()->findByAttributes(array('condition' => $lectureElement->id_block));
-                return RevisionTask::createTest($revisionLectureElement->id, $oldTask->assignment, $oldTask->language, $oldTask->table, $idModule, $oldTask->id);
+                return RevisionTask::createTest($revisionLectureElement->id, $oldTask->assignment, $oldTask->language, $oldTask->table, $idModule, $oldTask->id, $oldTask->uid);
                 break;
             case LectureElement::SKIP_TASK:
                 $oldTask = SkipTask::model()->findByAttributes(['condition' => $lectureElement->id_block]);
@@ -318,7 +318,7 @@ class RevisionQuizFactory {
                 foreach ($oldTask->skipTaskAnswers   as $answer) {
                     array_push($answers, ['value' => $answer->answer, 'caseInsensitive' => $answer->case_in_sensitive, 'index' => $answer->answer_order]);
                 }
-                return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $idModule, $oldTask->id);
+                return RevisionSkipTask::createTest($revisionLectureElement->id, $questionLE->html_block, $oldTask->source, $answers, $idModule, $oldTask->id, $oldTask->uid);
                 break;
             default:
                 break;

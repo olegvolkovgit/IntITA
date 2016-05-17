@@ -106,3 +106,6 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
     padding-right: 70px;
     word-wrap: break-word;
 }
+#pageVideo{
+    z-index: 3;
+}

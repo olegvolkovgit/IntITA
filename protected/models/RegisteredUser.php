@@ -291,6 +291,12 @@ class RegisteredUser
                 return true;
             }
         }
+        if ($this->isConsultant()) {
+            $consult = new Consultant();
+            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
@@ -307,5 +313,25 @@ class RegisteredUser
         }
 
         return true;
+    }
+
+    public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
+        if ($this->isAdmin() || $editMode) {
+            return true;
+        }
+        if ($this->isTeacherConsultant()) {
+            $consult = new TeacherConsultant();
+            if($consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
+        if ($this->isConsultant()) {
+            $consult = new Consultant();
+            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

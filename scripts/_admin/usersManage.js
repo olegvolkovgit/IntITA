@@ -636,7 +636,9 @@ function initStudentsList() {
             },
             {
                 "width": "20%",
-                data: "date"
+                data: "date",
+                type: 'de_datetime',
+                targets: 0
             },
             //{ data: "trainer-name" },
             //{
@@ -663,7 +665,7 @@ function initStudentsList() {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     } );
-};
+}
 
 
 /**

@@ -395,7 +395,14 @@ class Lecture extends CActiveRecord
 
             if (Yii::app()->user->model->isTeacherConsultant()) {
                 $model = new TeacherConsultant();
-                if($model->isTeachModule($user, $this->idModule)){
+                if($model->checkModule($user, $this->idModule)){
+                    return true;
+                }
+            }
+
+            if (Yii::app()->user->model->isConsultant()) {
+                $consult = new Consultant();
+                if(!$consult->checkModule($user, $this->idModule)){
                     return true;
                 }
             }

@@ -39,7 +39,7 @@ class ContentManagerController extends TeacherCabinetController
 
     public function actionAddTeacherConsultantForm()
     {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultant', array(), false, true);
+        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultantModule', array(), false, true);
     }
 
     public function actionAddTeacherModuleForm()
@@ -104,6 +104,18 @@ class ContentManagerController extends TeacherCabinetController
     public function actionGetConsultantsList()
     {
         echo UserConsultant::consultantsList();
+    }
+
+    public function actionCancelRole()
+    {
+        $user = Yii::app()->request->getPost('userId', '0');
+        $role = Yii::app()->request->getPost('role', '');
+        if($user && $role){
+            $model = RegisteredUser::userById($user);
+            echo $model->cancelRoleMessage(new UserRoles($role));
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора ".Config::getAdminEmail();
+        }
     }
 
     public function actionDashboard()

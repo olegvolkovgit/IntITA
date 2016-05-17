@@ -179,11 +179,21 @@ class TeachersController extends TeacherCabinetController{
         $role = Yii::app()->request->getPost('role', '');
 
         $user = RegisteredUser::userById($id);
+        if(!$user->registrationData->isActive()){
+            echo "Акаунт користувача заблокований. Заблокованому користувачу не можна призначити роль.";
+            die;
+        }
         if ($id && $role) {
+            if($role != UserRoles::STUDENT){
+                if(!$user->isTeacher()){
+                    echo "Користувач не є співробітником, призначити йому вибрану роль неможливо.";
+                    die;
+                }
+            }
             if ($user->setRole(new UserRoles($role))) {
-                echo "success";
+                echo "Операцію успішно виконано.";
             } else {
-                echo "error";
+                echo "Операцію не вдалося виконати.";
             }
         } else {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
@@ -221,7 +231,7 @@ class TeachersController extends TeacherCabinetController{
     public function actionUsersByQuery($query)
     {
         if ($query) {
-            $users = StudentReg::usersWithoutTeachers($query);
+            $users = StudentReg::usersByQuery($query);
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
