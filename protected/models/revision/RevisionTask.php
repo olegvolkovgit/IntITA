@@ -168,7 +168,7 @@ class RevisionTask extends CActiveRecord
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
         $task = Task::model()->findByAttributes(['uid' => $this->uid]);
-        if ($task) {
+        if ($task == null) {
             $newTask = new Task();
             $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table']));
             $newTask->author = $idUserCreated;
