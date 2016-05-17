@@ -9,6 +9,7 @@
  * @property string $title
  * @property integer $id_test
  * @property integer $uid
+ * @property integer $updated
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -33,11 +34,11 @@ class RevisionTests extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_lecture_element, uid', 'required'),
-			array('id_lecture_element, id_test, uid', 'numerical', 'integerOnly'=>true),
+			array('id_lecture_element, id_test, uid, updated', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_lecture_element, title, id_test, uid', 'safe', 'on'=>'search'),
+			array('id, id_lecture_element, title, id_test, uid, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +55,15 @@ class RevisionTests extends CActiveRecord
 		);
 	}
 
-	/**
+    public function behaviors(){
+        return array(
+            'uidUpdateBehavior' => array(
+                'class' => 'RevisionQuizUidUpdateBehavior'
+            ),
+        );
+    }
+
+    /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -63,7 +72,8 @@ class RevisionTests extends CActiveRecord
 			'id' => 'ID',
 			'id_lecture_element' => 'Id Lecture Element',
 			'title' => 'Title',
-            'uid' => 'UID'
+            'uid' => 'UID',
+            'updated' => 'Updated'
 		);
 	}
 
@@ -90,6 +100,7 @@ class RevisionTests extends CActiveRecord
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('uid',$this->uid);
+		$criteria->compare('updated',$this->updated);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -113,18 +124,16 @@ class RevisionTests extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $title, $answers, $idModule, $idTest = null) {
-        $uid = RevisionQuizFactory::getQuizId($idModule);
-
+    public static function createTest($idLectureElement, $title, $answers, $idModule, $idTest = null, $uid=null) {
         $newTest = new RevisionTests();
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $title;
         $newTest->id_test = $idTest;
-        $newTest->uid = $uid;
+        $newTest->uid = $uid ? $uid: RevisionQuizFactory::getQuizId($idModule);
         $newTest->saveCheck();
 
         foreach ($answers as $answer) {
-            RevisionTestsAnswers::createAnswer($newTest->id, $answer, $uid);
+            RevisionTestsAnswers::createAnswer($newTest->id, $answer, $newTest->uid);
         }
 
         return $newTest;
@@ -134,7 +143,9 @@ class RevisionTests extends CActiveRecord
         $newTest = new RevisionTests();
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $this->title;
-        $newTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
+        $newTest->uid = $this->uid;
+        $newTest->updated = $this->updated;
+        $newTest->id_test = $this->id_test;
         $newTest->saveCheck();
 
         foreach ($this->testsAnswers as $answer) {
@@ -145,7 +156,7 @@ class RevisionTests extends CActiveRecord
 
     public function editTest($title, $answers) {
         $this->title = $title;
-        $this->update(array('title'));
+        $this->saveCheck();
 
         $testAnswers = RevisionTestsAnswers::model()->findAllByAttributes(array('id_test'=>$this->id));
 
@@ -161,7 +172,7 @@ class RevisionTests extends CActiveRecord
         if ($oldAnswersCount < $newAnswersCount) {
             //if needs to add new answers
             for (; $i < $newAnswersCount; $i++) {
-                RevisionTestsAnswers::createAnswer($this->id, $answers[$i]);
+                RevisionTestsAnswers::createAnswer($this->id, $answers[$i], $this->uid);
             }
         } elseif($oldAnswersCount > $newAnswersCount) {
             //if needs to delete odd answers
@@ -195,26 +206,34 @@ class RevisionTests extends CActiveRecord
     }
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
-        $newTest = new Tests();
-        $newTest->block_element = $lectureElementId;
-        $newTest->author = $idUserCreated;
-        $newTest->title = $this->title;
-        $newTest->uid = $this->uid;
-        $newTest->save();
 
-        foreach ($this->testsAnswers as $testsAnswer) {
-            $testsAnswer->saveToRegularDB($newTest->id);
+        $test = Tests::model()->findByAttributes(['uid' => $this->uid]);
+
+        if ($test == null) {
+            $newTest = new Tests();
+            $newTest->block_element = $lectureElementId;
+            $newTest->author = $idUserCreated;
+            $newTest->title = $this->title;
+            $newTest->uid = $this->uid;
+            $newTest->save();
+
+            foreach ($this->testsAnswers as $testsAnswer) {
+                $testsAnswer->saveToRegularDB($newTest->id);
+            }
+
+//            if ($this->id_test) {
+                //copy test marks
+//                TestsMarks::model()->updateAll(array('id_test' => $newTest->id), 'id_test=:id_test', array(':id_test' => $this->id_test));
+//            }
+
+//            $this->id_test = $newTest->id;
+//            $this->save();
+            return $newTest;
+        } else {
+            $test->block_element = $lectureElementId;
+            $test->save();
         }
-
-        if ($this->id_test) {
-            //copy test marks
-            TestsMarks::model()->updateAll(array('id_test' => $newTest->id), 'id_test=:id_test', array(':id_test' => $this->id_test));
-        }
-
-        $this->id_test = $newTest->id;
-        $this->save();
-
-        return $newTest;
+        return false;
     }
 	public static function getTestAnswers($idLectureElement){
 		$answers=[];

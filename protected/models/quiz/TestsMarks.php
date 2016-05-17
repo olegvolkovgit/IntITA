@@ -116,13 +116,13 @@ class TestsMarks extends CActiveRecord
     }
 
     public static function isTestDone($user, $idTest){
-        return TestsMarks::model()->exists('id_user =:user and id_test =:test and mark = 1',
+        return TestsMarks::model()->exists('id_user =:user and quiz_uid =:test and mark = 1',
             array(':user' => $user, ':test' => $idTest));
     }
 	public static function testTime($user, $idTest){
-		if(TestsMarks::model()->exists('id_user =:user and id_test =:test and mark = 1',
+		if(TestsMarks::model()->exists('id_user =:user and quiz_uid =:test and mark = 1',
 			array(':user' => $user, ':test' => $idTest))){
-			return TestsMarks::model()->findByAttributes(array('id_user' => $user,'id_test' => $idTest,'mark' => 1))->time;
+			return TestsMarks::model()->findByAttributes(array('id_user' => $user,'quiz_uid' => $idTest,'mark' => 1))->time;
 		}else return false;
 	}
 }
