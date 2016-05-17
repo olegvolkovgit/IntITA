@@ -120,7 +120,7 @@ class RevisionTests extends CActiveRecord
 
     public function saveCheck($runValidation=true, $attributes=null) {
         if(!$this->save($runValidation,$attributes)) {
-            throw new RevisionTestsException(implode("; ", $this->getErrors()));
+            throw new RevisionTestsException($this->getValidationErrors(),'400');
         }
     }
 
@@ -265,6 +265,16 @@ class RevisionTests extends CActiveRecord
             array_push($answers, $row);
         }
         return $answers;
+    }
+
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return $errors[0];
     }
 
 }
