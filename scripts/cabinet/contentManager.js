@@ -251,7 +251,7 @@ function cancelRoleCM(url, role, user) {
             })
             .fail(function () {
                 bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(tab));
+                    "операцію пізніше або напишіть на адресу " + adminEmail);
             });
     }
 }

@@ -106,6 +106,18 @@ class ContentManagerController extends TeacherCabinetController
         echo UserConsultant::consultantsList();
     }
 
+    public function actionCancelRole()
+    {
+        $user = Yii::app()->request->getPost('userId', '0');
+        $role = Yii::app()->request->getPost('role', '');
+        if($user && $role){
+            $model = RegisteredUser::userById($user);
+            echo $model->cancelRoleMessage(new UserRoles($role));
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора ".Config::getAdminEmail();
+        }
+    }
+
     public function actionDashboard()
     {
         $this->renderPartial('/content_manager/_dashboard', array(), false, true);
