@@ -231,7 +231,7 @@ class TeachersController extends TeacherCabinetController{
     public function actionUsersByQuery($query)
     {
         if ($query) {
-            $users = StudentReg::usersWithoutTeachers($query);
+            $users = StudentReg::usersByQuery($query);
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
