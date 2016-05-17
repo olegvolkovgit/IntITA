@@ -122,8 +122,6 @@ class RevisionSkipTask extends CActiveRecord {
     }
 
     public static function createTest($lectureElementId, $question, $source, $answers, $idModule, $idTest = null, $uid = null) {
-
-
         $newTest = new RevisionSkipTask();
         $newTest->condition = $lectureElementId;
         $newTest->question = $question;
@@ -147,6 +145,8 @@ class RevisionSkipTask extends CActiveRecord {
         $newTest->source = $this->source;
         $newTest->id_test = $this->id_test;
         $newTest->uid = $this->uid;
+        $newTest->updated = $this->updated;
+        $newTest->id_test = $this->id_test;
         $newTest->saveCheck();
 
         foreach ($this->answers as $answer) {
@@ -172,7 +172,7 @@ class RevisionSkipTask extends CActiveRecord {
 
         if ($oldCount < $newCount) {
             for (; $i < $newCount; $i++) {
-                RevisionSkipTaskAnswers::createAnswer($this->id, $answers[$i]['value'], $answers[$i]['caseInsensitive'], $answers[$i]['index']);
+                RevisionSkipTaskAnswers::createAnswer($this->id, $answers[$i]['value'], $answers[$i]['caseInsensitive'], $answers[$i]['index'], $this->uid);
             }
         } elseif ($oldCount > $newCount) {
             $pkToDelete = [];

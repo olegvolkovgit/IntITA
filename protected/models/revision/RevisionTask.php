@@ -147,10 +147,10 @@ class RevisionTask extends CActiveRecord
     public function cloneTest($idLectureElement) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
-        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test']));
+        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'updated', 'id_test']));
         $newTask->uid = $this->uid;
-		$this->cloneInterpreterJson($newTask->uid);
         $newTask->saveCheck();
+        $this->cloneInterpreterJson($newTask->uid);
         return $newTask;
     }
 

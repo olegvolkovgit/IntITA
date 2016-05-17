@@ -133,6 +133,8 @@ class RevisionPlainTask extends CActiveRecord
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
         $newPlainTest->uid = $this->uid;
+        $newPlainTest->updated = $this->updated;
+        $newPlainTest->id_test = $this->id_test;
         $newPlainTest->saveCheck();
 
         return $newPlainTest;

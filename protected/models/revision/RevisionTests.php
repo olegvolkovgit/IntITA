@@ -144,6 +144,8 @@ class RevisionTests extends CActiveRecord
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $this->title;
         $newTest->uid = $this->uid;
+        $newTest->updated = $this->updated;
+        $newTest->id_test = $this->id_test;
         $newTest->saveCheck();
 
         foreach ($this->testsAnswers as $answer) {
@@ -219,13 +221,13 @@ class RevisionTests extends CActiveRecord
                 $testsAnswer->saveToRegularDB($newTest->id);
             }
 
-            if ($this->id_test) {
+//            if ($this->id_test) {
                 //copy test marks
-                TestsMarks::model()->updateAll(array('id_test' => $newTest->id), 'id_test=:id_test', array(':id_test' => $this->id_test));
-            }
+//                TestsMarks::model()->updateAll(array('id_test' => $newTest->id), 'id_test=:id_test', array(':id_test' => $this->id_test));
+//            }
 
-            $this->id_test = $newTest->id;
-            $this->save();
+//            $this->id_test = $newTest->id;
+//            $this->save();
             return $newTest;
         } else {
             $test->block_element = $lectureElementId;
