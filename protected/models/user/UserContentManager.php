@@ -410,6 +410,8 @@ class UserContentManager extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = CHtml::encode($record['title_ua']);
 			$row["name"]["url"] = $record["course_ID"];
+			if($record["modules_count"]===NULL)
+				$record["modules_count"]=0;
 			$row["module"] = $record["modules_count"];
 			$row["lesson"]=UserContentManager::counterOfLessonInCourse($record["course_ID"]);
 			$row["video"]=UserContentManager::counterOfVideoInCourse($record["course_ID"]);
