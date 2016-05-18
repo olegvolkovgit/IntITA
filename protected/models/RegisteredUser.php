@@ -255,9 +255,14 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
-        $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
 
-        return array_merge($authorRequests, $consultantRequests, $assignCoworkerRequests);
+        $result = array_merge($authorRequests, $consultantRequests);
+        if($this->isAdmin()){
+            $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
+            $result = array_merge($assignCoworkerRequests);
+        }
+
+        return $result;
     }
 
     public function canPlanConsultation(Teacher $teacher)

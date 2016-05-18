@@ -19,6 +19,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_newAuthorModuleRequest';
     private $approveTemplate = '_approveAuthorModuleRequest';
+    private $cancelTemplate = '_cancelAuthorModuleRequest';
     const TYPE = 3;
     private $receivers = array();
     private $module;
@@ -219,8 +220,13 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 
     public function setDeleted()
     {
+        $user = RegisteredUser::userById($this->message0->sender);
+
         $this->cancelled = MessagesAuthorRequest::DELETED;
         if($this->save()){
+                if ($this->sendCancelMessage($user->registrationData)) {
+                    return "Операцію успішно виконано.";
+                }
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
@@ -254,6 +260,14 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $sender->send($user->email, '', 'Підтверджено запит на редагування модуля', '');
         return true;
 	}
+
+    public function sendCancelMessage(StudentReg $user){
+        $sender = new MailTransport();
+        $sender->renderBodyTemplate($this->cancelTemplate, array($this->module()));
+
+        $sender->send($user->email, '', 'Відхилено запит на редагування модуля', '');
+        return true;
+    }
 
     public function isRequestOpen($params)
     {
