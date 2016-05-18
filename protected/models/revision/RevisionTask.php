@@ -150,7 +150,6 @@ class RevisionTask extends CActiveRecord
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'updated', 'id_test']));
         $newTask->uid = $this->uid;
         $newTask->saveCheck();
-        $this->cloneInterpreterJson($newTask->uid);
         return $newTask;
     }
 
@@ -183,7 +182,7 @@ class RevisionTask extends CActiveRecord
         return false;
     }
 
-	public function cloneInterpreterJson($newId) {
+	public function cloneInterpreterJson($oldId) {
 		$url = Config::getInterpreterServer();
 //		$json= array(
 //			"operation"=> "copyTask",
@@ -200,7 +199,7 @@ class RevisionTask extends CActiveRecord
 //		)));
 		$json= array(
 			'operation' => 'getJson',
-			'task' => ($this->uid)?$this->uid:$this->id_test,
+			'task' => ($oldId)?$oldId:$this->id_test,
 		);
 		$json=json_encode($json);
 		$result = file_get_contents($url, false, stream_context_create(array(
@@ -212,8 +211,12 @@ class RevisionTask extends CActiveRecord
 		)));
 		//todo
 		$result=json_decode($result)->json;
-		$pos = strpos($result,'"task":"'.$this->uid.'"');
-		$newJson= $pos!==false ? substr_replace($result, '"task":'.$newId, $pos, strlen('"task":"'.$this->uid.'"')) : $result;
+		$pos = strpos($result,'"task":"'.$oldId.'"');
+		$newJson= $pos!==false ? substr_replace($result, '"task":'.$this->uid, $pos, strlen('"task":"'.$oldId.'"')) : $result;
+		if(!$pos){
+			$pos = strpos($result,'"task":'.$oldId);
+			$newJson= $pos!==false ? substr_replace($result, '"task":'.$this->uid, $pos, strlen('"task":'.$oldId)) : $result;
+		}
 		file_get_contents($url, false, stream_context_create(array(
 			'http' => array(
 				'method'  => 'POST',

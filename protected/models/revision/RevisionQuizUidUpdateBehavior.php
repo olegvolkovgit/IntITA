@@ -17,7 +17,11 @@ class RevisionQuizUidUpdateBehavior extends CActiveRecordBehavior{
      */
     private function setUpdated() {
         $this->owner->updated = self::QUIZ_UPDATED;
+        $oldUid=$this->owner->uid;
         $this->owner->uid = RevisionQuizFactory::cloneQuizUID($this->owner->uid);
+        if($this->owner->lectureElement->id_type==LectureElement::TASK){
+            $this->owner->cloneInterpreterJson($oldUid);
+        }
     }
 
     /**
