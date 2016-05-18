@@ -637,7 +637,8 @@ function initStudentsList() {
             {
                 "width": "20%",
                 data: "date",
-                type: 'de_date', targets: 1
+                type: 'de_datetime',
+                targets: 0
             },
             //{ data: "trainer-name" },
             //{

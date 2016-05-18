@@ -38,7 +38,9 @@
             <?php } else { ?>
                 Викладачем модуля можна призначити лише зареєтрованого співробітника, який має права викладача.
                 Якщо потрібного користувача немає в списку викладачів, то можна надіслати запит для призначення ролі викладача
-                <a href="#" class="alert-link">Надіслати запит</a>.
+                <a href="#" class="alert-link"
+                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendCoworkerRequest"); ?>',
+                       'Запит на призначення викладача'); return false;">Надіслати запит</a>.
             <?php } ?>
         </div>
     </div>

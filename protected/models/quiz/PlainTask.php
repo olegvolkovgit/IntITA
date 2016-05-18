@@ -84,7 +84,7 @@ class PlainTask extends Quiz
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
-		$criteria->compare('uid',$this->uid);
+		$criteria->compare('t.uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -133,6 +133,6 @@ class PlainTask extends Quiz
 
     public function getDescription()
     {
-		return $this->lectureElement->html_block;
+		return ($this->lectureElement)?$this->lectureElement->html_block:"недоступна";
     }
 }

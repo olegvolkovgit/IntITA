@@ -11,6 +11,7 @@
  * @property string $table
  * @property integer $id_test
  * @property integer $uid
+ * @property integer $updated
  *
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
@@ -34,12 +35,12 @@ class RevisionTask extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_lecture_element, uid', 'required'),
-			array('assignment, id_lecture_element, id_test, uid', 'numerical', 'integerOnly'=>true),
+			array('assignment, id_lecture_element, id_test, uid, updated', 'numerical', 'integerOnly'=>true),
 			array('language', 'length', 'max'=>12),
 			array('table', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, language, assignment, id_lecture_element, table, id_test, uid', 'safe', 'on'=>'search'),
+			array('id, language, assignment, id_lecture_element, table, id_test, uid, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +56,15 @@ class RevisionTask extends CActiveRecord
 		);
 	}
 
-	/**
+    public function behaviors(){
+        return array(
+            'uidUpdateBehavior' => array(
+                'class' => 'RevisionQuizUidUpdateBehavior'
+            ),
+        );
+    }
+
+    /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -67,7 +76,8 @@ class RevisionTask extends CActiveRecord
 			'id_lecture_element' => 'Id Lecture Element',
 			'table' => 'Table',
 			'id_test' => 'Id Test',
-            'uid' => 'UID'
+            'uid' => 'UID',
+            'updated' => 'Updated'
 		);
 	}
 
@@ -96,6 +106,7 @@ class RevisionTask extends CActiveRecord
 		$criteria->compare('table',$this->table,true);
 		$criteria->compare('id_test',$this->id_test);
 		$criteria->compare('uid',$this->uid);
+		$criteria->compare('updated',$this->updated);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -119,14 +130,14 @@ class RevisionTask extends CActiveRecord
         }
     }
 
-    public static function createTest($idLectureElement, $assignment, $language, $table, $idModule, $idTest = null) {
+    public static function createTest($idLectureElement, $assignment, $language, $table, $idModule, $idTest = null, $uid=null) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->assignment = $assignment;
         $newTask->language = $language;
         $newTask->table = $table;
         $newTask->id_test = $idTest;
-        $newTask->uid = RevisionQuizFactory::getQuizId($idModule);
+        $newTask->uid = $uid ? $uid: RevisionQuizFactory::getQuizId($idModule);
 
         $newTask->saveCheck();
 
@@ -136,10 +147,10 @@ class RevisionTask extends CActiveRecord
     public function cloneTest($idLectureElement) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
-        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test']));
-        $newTask->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
-		$this->cloneInterpreterJson($newTask->uid);
+        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'updated', 'id_test']));
+        $newTask->uid = $this->uid;
         $newTask->saveCheck();
+        $this->cloneInterpreterJson($newTask->uid);
         return $newTask;
     }
 
@@ -156,17 +167,63 @@ class RevisionTask extends CActiveRecord
     }
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
-        $newTask = new Task();
-        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table']));
-        $newTask->author = $idUserCreated;
-        $newTask->condition = $lectureElementId;
-        $newTask->uid = $this->uid;
-        $newTask->save();
-
-        return $newTask;
+        $task = Task::model()->findByAttributes(['uid' => $this->uid]);
+        if ($task == null) {
+            $newTask = new Task();
+            $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table']));
+            $newTask->author = $idUserCreated;
+            $newTask->condition = $lectureElementId;
+            $newTask->uid = $this->uid;
+            $newTask->save();
+            return $newTask;
+        } else {
+            $task->condition = $lectureElementId;
+            $task->save();
+        }
+        return false;
     }
 
 	public function cloneInterpreterJson($newId) {
+		$url = Config::getInterpreterServer();
+//		$json= array(
+//			"operation"=> "copyTask",
+//			"task" => $this->uid,
+//			"new_task" => $newId
+//		);
+//		$json=json_encode($json);
+//		file_get_contents($url, false, stream_context_create(array(
+//			'http' => array(
+//				'method'  => 'POST',
+//				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+//				'content' => $json
+//			)
+//		)));
+		$json= array(
+			'operation' => 'getJson',
+			'task' => ($this->uid)?$this->uid:$this->id_test,
+		);
+		$json=json_encode($json);
+		$result = file_get_contents($url, false, stream_context_create(array(
+			'http' => array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+				'content' => $json
+			)
+		)));
+		//todo
+		$result=json_decode($result)->json;
+		$pos = strpos($result,'"task":"'.$this->uid.'"');
+		$newJson= $pos!==false ? substr_replace($result, '"task":'.$newId, $pos, strlen('"task":"'.$this->uid.'"')) : $result;
+		file_get_contents($url, false, stream_context_create(array(
+			'http' => array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+				'content' => $newJson
+			)
+		)));
+	}
+	//Check the existence of the task in the Interpreter DB
+	public function existenceInterpreterTask() {
 		$url = Config::getInterpreterServer();
 		$json= array(
 			'operation' => 'getJson',
@@ -180,16 +237,8 @@ class RevisionTask extends CActiveRecord
 				'content' => $json
 			)
 		)));
-		//todo
-		$result=json_decode($result)->json;
-		$pos = strpos($result, ' "task":'.$this->uid);
-		$newJson= $pos!==false ? substr_replace($result, ' "task":'.$newId, $pos, strlen(' "task":'.$this->uid)) : $result;
-		file_get_contents($url, false, stream_context_create(array(
-			'http' => array(
-				'method'  => 'POST',
-				'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
-				'content' => $newJson
-			)
-		)));
+		if(json_decode($result)->status=='failed')
+			return false;
+		else return true;
 	}
 }

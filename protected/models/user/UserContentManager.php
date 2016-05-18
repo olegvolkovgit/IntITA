@@ -125,14 +125,14 @@ class UserContentManager extends CActiveRecord
 	public function counterOfVideoInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
-		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
+		`lectures`.`id` = `lecture_element`.`id_lecture` where `lecture_element`.`id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
 	public function counterOfTaskInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
  		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
@@ -140,7 +140,7 @@ class UserContentManager extends CActiveRecord
 	public function counterOfTaskInLesson($idLesson,$idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_element`.`id_lecture` where `id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
  		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
@@ -155,7 +155,7 @@ class UserContentManager extends CActiveRecord
 	public function counterOfVideoInLesson($idLesson,$idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
-		`lectures`.`id` = `lecture_element`.`id_lecture` where `id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
+		`lectures`.`id` = `lecture_element`.`id_lecture` where `lecture_element`.`id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
 		$result = Yii::app()->db->createCommand($sql)->queryScalar();
 		return $result;
 	}
@@ -226,21 +226,52 @@ class UserContentManager extends CActiveRecord
 		return $counter;
 	}
 
-
-	public static function listOfCourses(){
-
-		$sql = 'select * from module';
-		$course = Yii::app()->db->createCommand($sql)->queryAll();
+	public static function listOfModules($id){
+		if($id){
+			$sql2 = 'select * from course_modules where id_course='.$id;
+			$course2 = Yii::app()->db->createCommand($sql2)->queryAll();
+			if(!$course2)return 0;
+			$arrayOfIdModules=[];
+			foreach($course2 as $key=>$value){
+				$arrayOfIdModules[$key]=$value['id_module'];
+			}
+			$stringOfIdModules = join(',',$arrayOfIdModules);
+			$sql = 'select * from module where module_ID in ('.$stringOfIdModules.')';
+			$course = Yii::app()->db->createCommand($sql)->queryAll();
+		}
+		else {
+			$sql = 'select * from module';
+			$course = Yii::app()->db->createCommand($sql)->queryAll();
+		}
 		$return = array('data' => array());
 
 		foreach($course as $record){
 			$row = array();
-			$row["name"]["title"] = $record['title_ua'];
+			$row["name"]["title"] = CHtml::encode($record['title_ua']);
 			$row["name"]["url"] = $record["module_ID"];
 			$row["lesson"]["title"] = $record["lesson_count"];
 			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
 			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
 			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
+			array_push($return['data'], $row);
+		}
+
+		return json_encode($return);
+	}
+	public static function listOfCourses(){
+
+		$sql = 'select * from course';
+		$course = Yii::app()->db->createCommand($sql)->queryAll();
+		$return = array('data' => array());
+
+		foreach($course as $record){
+			$row = array();
+			$row["name"]["title"] = CHtml::encode($record['title_ua']);
+			$row["name"]["url"] = $record["course_ID"];
+			$row["lesson"]["title"] = $record["modules_count"];
+			$row["video"]=1;
+			$row["test"]=2;
+			$row["part"]=3;
 			array_push($return['data'], $row);
 		}
 

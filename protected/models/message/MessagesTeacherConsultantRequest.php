@@ -202,8 +202,13 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 
     public function setDeleted()
     {
+        $user = RegisteredUser::userById($this->id_teacher);
+
         $this->cancelled = MessagesTeacherConsultantRequest::DELETED;
         if($this->save()){
+            $this->notify(Yii::app()->user->model->registrationData, $this->message()->sender0,
+                'Запит на призначення викладача відхилено',
+                '_teacherConsultantRequestCancelled', array($user->registrationData));
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";

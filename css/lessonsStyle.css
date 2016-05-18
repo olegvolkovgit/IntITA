@@ -270,7 +270,7 @@ div.lessonButFinal
     padding-top: 4px;
 }
 .sendAnswer {
-    margin: 10px 22px 10px 30px;
+    margin: 10px 22px 10px 0;
     overflow:hidden;
 }
 .sendAnswer textarea {

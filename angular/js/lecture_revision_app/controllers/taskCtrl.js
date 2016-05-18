@@ -69,6 +69,8 @@ function taskCtrl($rootScope, $http, $timeout, $scope, getTaskJson,userAnswerTas
                     getTaskResult(idTask);
                 }else if(response=='error'){
                     bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
+                }else{
+                    bootbox.alert("Задача не містить юніттестів");
                 }
                 button.removeAttr('disabled');
             });

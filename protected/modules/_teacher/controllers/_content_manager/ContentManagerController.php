@@ -22,9 +22,14 @@ class ContentManagerController extends TeacherCabinetController
     {
         $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
     }
-    public function actionCourseStatus()
+    public function actionStatusOfModules($id)
     {
-        $this->renderPartial('/_content_manager/courseStatus', array(), false, true);
+        $this->renderPartial('/_content_manager/statusOfModules', array('id' => $id), false, true);
+    }
+
+    public function actionStatusOfCourses()
+    {
+        $this->renderPartial('/_content_manager/statusOfCourses', array(), false, true);
     }
 
     public function actionAddConsultantModuleForm()
@@ -34,7 +39,7 @@ class ContentManagerController extends TeacherCabinetController
 
     public function actionAddTeacherConsultantForm()
     {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultant', array(), false, true);
+        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultantModule', array(), false, true);
     }
 
     public function actionAddTeacherModuleForm()
@@ -81,7 +86,12 @@ class ContentManagerController extends TeacherCabinetController
     {
         echo UserTeacherConsultant::teacherConsultantsListCM();
     }
-    public function actionGetCourseList()
+    public function actionGetModulesList($id)
+    {
+        echo UserContentManager::listOfModules($id);
+    }
+
+    public function actionGetCoursesList()
     {
         echo UserContentManager::listOfCourses();
     }
@@ -94,6 +104,18 @@ class ContentManagerController extends TeacherCabinetController
     public function actionGetConsultantsList()
     {
         echo UserConsultant::consultantsList();
+    }
+
+    public function actionCancelRole()
+    {
+        $user = Yii::app()->request->getPost('userId', '0');
+        $role = Yii::app()->request->getPost('role', '');
+        if($user && $role){
+            $model = RegisteredUser::userById($user);
+            echo $model->cancelRoleMessage(new UserRoles($role));
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора ".Config::getAdminEmail();
+        }
     }
 
     public function actionDashboard()
@@ -188,18 +210,19 @@ class ContentManagerController extends TeacherCabinetController
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
-
-
     public function actionGetLessonsList($idModule) {
         echo UserContentManager::listOfLessons($idModule);
     }
+
     public function actionGetPartsList($idLesson) {
         echo UserContentManager::listOfParts($idLesson);
     }
+
     public function actionShowLessonsList($idModule) {
         $this->renderPartial('/_content_manager/_listOfLessons', array('idModule' => $idModule), false, true);
 
     }
+
     public function actionShowPartsList($idLesson) {
         $this->renderPartial('/_content_manager/_listOfParts', array('idLesson' => $idLesson), false, true);
 

@@ -48,7 +48,7 @@ class PlainTaskAnswer extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'plainTask' => array(self::BELONGS_TO, 'PlainTask', 'id_plain_task'),
+            'plainTask' => array(self::BELONGS_TO, 'PlainTask', 'quiz_uid'),
             'user' => array(self::BELONGS_TO, 'StudentReg', 'id_student'),
         );
     }
@@ -144,7 +144,7 @@ class PlainTaskAnswer extends CActiveRecord
     public function getCondition()
     {
         $plainTask = $this->plainTask;
-        return $plainTask->lectureElement->html_block;
+        return $plainTask->getDescription();
     }
 
     public function getModule()
@@ -219,12 +219,12 @@ class PlainTaskAnswer extends CActiveRecord
         return PlainTaskMarks::model()->find($criteria);
     }
 
-    public function getModuleTitle()
+    public function getLectureTitle()
     {
         return Yii::app()->db->createCommand()
             ->select('title_ua')
             ->from('plain_task')
-            ->where('plain_task.id = :id', array(':id' => $this->id_plain_task))
+            ->where('plain_task.uid = :id', array(':id' => $this->quiz_uid))
             ->join('lecture_element', 'lecture_element.id_block = block_element')
             ->join('lectures', 'lectures.id = lecture_element.id_lecture')
             ->queryScalar();
