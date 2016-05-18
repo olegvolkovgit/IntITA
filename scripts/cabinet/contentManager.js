@@ -373,21 +373,23 @@ function initCoursesListTable(){
                     return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
                 }},
             {
-                "data": "lesson",
-                "render": function (email) {
-                    return email["title"];
-                }
+                type: 'number', targets: 1 ,
+                "data": "module"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'number', targets: 1 ,
+                "data": "lesson"
+            },
+            {
+                type: 'number', targets: 1 ,
                 "data": "video"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'number', targets: 1 ,
                 "data": "test"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'number', targets: 1 ,
                 "data": "part"
             }
         ],
