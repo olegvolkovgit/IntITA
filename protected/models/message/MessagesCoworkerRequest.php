@@ -214,12 +214,10 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 
     public function approve(StudentReg $userApprove)
     {
-        $user = RegisteredUser::userById($this->message0->sender);
-
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
         if ($this->save()) {
-            if ($this->sendApproveMessage($user->registrationData)) {
+            if ($this->sendApproveMessage($this->idTeacher)) {
                 return true;
             }
         }
@@ -316,5 +314,9 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         } else {
             return false;
         }
+    }
+
+    public function isDeleted(){
+        return self::DELETED;
     }
 }

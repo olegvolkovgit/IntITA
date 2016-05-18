@@ -333,4 +333,8 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             return false;
         }
     }
+
+    public function isDeleted(){
+        return self::DELETED;
+    }
 }

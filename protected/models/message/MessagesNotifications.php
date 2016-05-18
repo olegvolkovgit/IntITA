@@ -107,6 +107,11 @@ class MessagesNotifications extends Messages implements IMessage
 		return parent::model($className);
 	}
 
+	public function primaryKey()
+	{
+		return 'id_message';
+	}
+
     public function build($subject, $text, $receivers, StudentReg $sender, $chained = null, $original = null)
     {
         //create and init parent model

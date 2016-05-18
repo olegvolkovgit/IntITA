@@ -220,11 +220,11 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         $user = RegisteredUser::userById($this->id_teacher);
         //add rights to edit module
         $role = new TeacherConsultant();
-        if ($role->checkModule($this->id_teacher, $this->id_module)) {
-            //if ($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
+        if (!$role->checkModule($this->id_teacher, $this->id_module)) {
+            if ($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
                 //update current request, set approved status
-             //   $this->user_approved = $userApprove->id;
-              //  $this->date_approved = date("Y-m-d H:i:s");
+                $this->user_approved = $userApprove->id;
+                $this->date_approved = date("Y-m-d H:i:s");
                 if ($this->save()) {
                     $this->notify(Yii::app()->user->model->registrationData, $this->message()->sender0,
                         'Запит на призначення викладача успішно підтверджено',
@@ -234,8 +234,8 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
                         '_notifyTeacherConsultant', array($this->module()));
                     return "Запит успішно підтверджений.";
                 }
-//            }
-//            return "Операцію не вдалося виконати";
+            }
+            return "Операцію не вдалося виконати";
 
         } else return "Обраний викладач вже призначений викладачем-консультантом по даному модулю.";
     }
@@ -324,5 +324,9 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         } else {
             return false;
         }
+    }
+
+    public function isDeleted(){
+        return self::DELETED;
     }
 }

@@ -75,8 +75,12 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                         <div class="panel-body">
                             <p>
                                 <?php
-                                if($message->type())
-                                CHtml::encode($message->text()); ?>
+                                if($message->type() != MessagesType::NOTIFICATION){
+                                    echo CHtml::encode($message->text());
+                                } else {
+                                    echo $message->text();
+                                }
+                                ?>
                                 <br>
                                 <?php
                                 $forwarded = $message->message0->forwarded();

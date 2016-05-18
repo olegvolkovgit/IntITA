@@ -259,7 +259,7 @@ class RegisteredUser
         $result = array_merge($authorRequests, $consultantRequests);
         if($this->isAdmin()){
             $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
-            $result = array_merge($assignCoworkerRequests);
+            $result = array_merge($result, $assignCoworkerRequests);
         }
 
         return $result;
