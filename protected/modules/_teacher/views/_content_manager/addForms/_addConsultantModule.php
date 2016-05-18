@@ -38,9 +38,8 @@
                 Консультантом модуля можна призначити лише зареєтрованого співробітника, який має права консультанта.
                 Якщо потрібного користувача немає в списку консультантів, то можна надіслати запит для призначення ролі консультанта
                 корисутвачу <a href="#" class="alert-link"
-                               onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendResponseAssignRole",
-                                   array("idModule" => $module->module_ID)) ?>',
-                                   'Запит на призначення викладача-консультанта для модуля'); return false;">Надіслати запит</a>.
+                               onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendCoworkerRequest"); ?>',
+                                   'Запит на призначення викладача'); return false;">Надіслати запит</a>.
             <?php } ?>
         </div>
     </div>

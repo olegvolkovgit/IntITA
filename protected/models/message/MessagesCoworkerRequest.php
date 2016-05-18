@@ -20,7 +20,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_newCoworkerRequest';
     private $approveTemplate = '_approveCoworkerRequest';
-    const TYPE = 5;
+    const TYPE = Request::COWORKER_REQUEST;
     private $receivers = array();
     private $author;
     private $coworker;
