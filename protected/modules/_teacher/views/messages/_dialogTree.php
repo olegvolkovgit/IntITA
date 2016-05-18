@@ -8,7 +8,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
 
 <div class="col-lg-12 message">
-    <h3><?= $dialog->header; ?></h3>
+    <h3><?= $dialog->partner1->userNameWithEmail(); ?></h3>
 
     <div class="panel-group" id="accordion">
         <?php foreach ($dialog->messages() as $key => $message) {
@@ -75,7 +75,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                         <div class="panel-body">
                             <p>
                                 <?php
-                                if($message->type() != MessagesType::NOTIFICATION){
+                                if($message->type() == MessagesType::USER){
                                     echo CHtml::encode($message->text());
                                 } else {
                                     echo $message->text();
