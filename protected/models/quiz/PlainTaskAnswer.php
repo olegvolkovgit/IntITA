@@ -224,7 +224,7 @@ class PlainTaskAnswer extends CActiveRecord
         return Yii::app()->db->createCommand()
             ->select('title_ua')
             ->from('plain_task')
-            ->where('plain_task.id = :id', array(':id' => $this->quiz_uid))
+            ->where('plain_task.uid = :id', array(':id' => $this->quiz_uid))
             ->join('lecture_element', 'lecture_element.id_block = block_element')
             ->join('lectures', 'lectures.id = lecture_element.id_lecture')
             ->queryScalar();

@@ -168,7 +168,7 @@ class RevisionTask extends CActiveRecord
 
     public function saveToRegularDB($lectureElementId, $idUserCreated) {
         $task = Task::model()->findByAttributes(['uid' => $this->uid]);
-        if ($task) {
+        if ($task == null) {
             $newTask = new Task();
             $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table']));
             $newTask->author = $idUserCreated;
@@ -200,7 +200,7 @@ class RevisionTask extends CActiveRecord
 //		)));
 		$json= array(
 			'operation' => 'getJson',
-			'task' => $this->uid,
+			'task' => ($this->uid)?$this->uid:$this->id_test,
 		);
 		$json=json_encode($json);
 		$result = file_get_contents($url, false, stream_context_create(array(

@@ -45,10 +45,9 @@ class RequestController extends TeacherCabinetController
     }
 
     public function actionCancel($message, $user){
-        $model = MessagesAuthorRequest::model()->findByPk($message);
-        if(!$model){
-            $model = MessagesTeacherConsultantRequest::model()->findByPk($message);
-        }
+        $messageModel = Messages::model()->findByPk($message);
+        $model = RequestFactory::getInstance($messageModel);
+
         if($model){
             echo $model->setDeleted($user);
         } else {

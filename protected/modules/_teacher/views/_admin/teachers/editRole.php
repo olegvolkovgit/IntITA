@@ -10,7 +10,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                    'Співробітники')">Співробіники
+                    'Співробітники')">Співробітники
         </button>
     </li>
     <li>

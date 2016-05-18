@@ -120,7 +120,10 @@ function initRequestsTable() {
         "columns": [
             {
                 "width": "30%",
-                "data": "user"
+                "data": "user",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                }
             },
             {
                 "width": "50%",
@@ -251,7 +254,7 @@ function cancelRoleCM(url, role, user) {
             })
             .fail(function () {
                 bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, loadUsersIndex(tab));
+                    "операцію пізніше або напишіть на адресу " + adminEmail);
             });
     }
 }

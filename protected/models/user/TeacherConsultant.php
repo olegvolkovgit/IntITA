@@ -142,7 +142,7 @@ class TeacherConsultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                if ($this->checkModule($user->id, $value)) {
+                if (!$this->checkModule($user->id, $value)) {
                     return Yii::app()->db->createCommand()->
                     insert('teacher_consultant_module', array(
                         'id_teacher' => $user->id,

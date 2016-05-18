@@ -175,17 +175,19 @@ class RevisionLecture extends CActiveRecord
         //count all orders
         $orders = array();
         foreach ($this->lecturePages as $page) {
-            $quiz=$page->getQuiz();
-            if ($quiz != null && $quiz->id_type==LectureElement::TASK) {
-                $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
-                if(!$task->existenceInterpreterTask())
-                array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
-            }
             if(isset($orders[$page->page_order])) {
                 $orders[$page->page_order]['count']++;
                 array_push($orders[$page->page_order]['lectures'], $page->id);
             } else {
                 $orders[$page->page_order] = array('order'=>$page->page_order, 'count'=>1, 'lectures'=>array($page->id));
+            }
+            $quiz=$page->getQuiz();
+            if ($quiz != null && $quiz->id_type==LectureElement::TASK) {
+                $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
+                if(!$task->existenceInterpreterTask()){
+                    array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
+                    break;
+                }
             }
         }
         //process orders array to find collision and generate result

@@ -255,9 +255,14 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
-        $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
 
-        return array_merge($authorRequests, $consultantRequests, $assignCoworkerRequests);
+        $result = array_merge($authorRequests, $consultantRequests);
+        if($this->isAdmin()){
+            $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
+            $result = array_merge($assignCoworkerRequests);
+        }
+
+        return $result;
     }
 
     public function canPlanConsultation(Teacher $teacher)
@@ -291,6 +296,12 @@ class RegisteredUser
                 return true;
             }
         }
+        if ($this->isConsultant()) {
+            $consult = new Consultant();
+            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
@@ -307,5 +318,25 @@ class RegisteredUser
         }
 
         return true;
+    }
+
+    public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
+        if ($this->isAdmin() || $editMode) {
+            return true;
+        }
+        if ($this->isTeacherConsultant()) {
+            $consult = new TeacherConsultant();
+            if($consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
+        if ($this->isConsultant()) {
+            $consult = new Consultant();
+            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

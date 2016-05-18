@@ -149,7 +149,7 @@ class UserTeacherConsultant extends CActiveRecord
 			$row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
 			$row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
 			$row["profile"] = Config::getBaseUrl()."/profile/".$record["id"];
-			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'teacher_consultant', '".$record["id"]."'";
+			$row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_content_manager/contentManager/cancelRole')."'".", 'teacher_consultant', '".$record["id"]."'";
 			array_push($return['data'], $row);
 		}
 
