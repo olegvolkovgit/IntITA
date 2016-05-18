@@ -20,7 +20,8 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_newCoworkerRequest';
     private $approveTemplate = '_approveCoworkerRequest';
-    const TYPE = Request::COWORKER_REQUEST;
+    private $cancelTemplate = '_cancelCoworkerRequest';
+    const TYPE = MessagesType::COWORKER_REQUEST;
     private $receivers = array();
     private $author;
     private $coworker;
@@ -202,7 +203,9 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
     public function setDeleted()
     {
         $this->cancelled = MessagesCoworkerRequest::DELETED;
+
         if ($this->save()) {
+            $this->sendCancelMessage($this->idTeacher);
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
@@ -229,6 +232,15 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         $sender->renderBodyTemplate($this->approveTemplate, array($user));
 
         $sender->send($user->email, '', 'Підтверджено запит на призначення співробітника', '');
+        return true;
+    }
+
+    public function sendCancelMessage(StudentReg $user)
+    {
+        $sender = new MailTransport();
+        $sender->renderBodyTemplate($this->cancelTemplate, array($user));
+
+        $sender->send($user->email, '', 'Відхилено запит на призначення співробітника', '');
         return true;
     }
 
