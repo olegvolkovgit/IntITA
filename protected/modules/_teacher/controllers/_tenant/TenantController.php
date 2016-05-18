@@ -13,13 +13,13 @@ class TenantController extends TeacherCabinetController
         return Yii::app()->user->model->isTenant();
     }
 
-    public function actionShowPhrases($id)
+    public function actionShowPhrases()
     {
         $tmp = 1;
         $tmp2 = 2;
         $tmp3 = 3;
 
-        $this->renderPartial('/_tenant/_allPhrases', array(
+        $this->renderPartial('/_tenant/allPhrases', array(
             'modules' => $tmp,
             'user' => $tmp2
         ), false, true);
