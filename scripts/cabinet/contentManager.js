@@ -120,7 +120,10 @@ function initRequestsTable() {
         "columns": [
             {
                 "width": "30%",
-                "data": "user"
+                "data": "user",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                }
             },
             {
                 "width": "50%",

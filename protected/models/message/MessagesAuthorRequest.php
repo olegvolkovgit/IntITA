@@ -197,14 +197,19 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
-        $requests = array_merge($authorRequests, $consultantRequests);
+        $coworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
-            $row["user"] = $record->sender()->userNameWithEmail();
-            $row["module"]["title"] = $record->module()->getTitle();
-            $row["module"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    "message" => $record->getMessageId())) . "'";
+            $row["user"]["title"] = $record->sender()->userNameWithEmail();
+            if($record->type() != Request::COWORKER_REQUEST) {
+                $row["module"]["title"] = $record->module()->getTitle();
+            } else {
+                $row["module"]["title"] = "не вказано";
+            }
+            $row["module"]["link"] = $row["user"]["link"] =  "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
+                        "message" => $record->getMessageId())) . "'";
             $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
             $row["type"] = $record->title();
             array_push($return['data'], $row);
