@@ -198,12 +198,16 @@ class Teacher extends CActiveRecord
 
     public static function updateFirstText($id, $firstText)
     {
-        return Teacher::model()->updateByPk($id, array('profile_text_first' => $firstText));
+        $teacher=Teacher::model()->findByAttributes(array('teacher_id'=>$id));
+        $teacher->profile_text_first=$firstText;
+        return $teacher->update('profile_text_first');
     }
 
     public static function updateSecondText($id, $secondText)
     {
-        return Teacher::model()->updateByPk($id, array('profile_text_last' => $secondText));
+        $teacher=Teacher::model()->findByAttributes(array('teacher_id'=>$id));
+        $teacher->profile_text_last=$secondText;
+        return $teacher->update('profile_text_last');
     }
 
 

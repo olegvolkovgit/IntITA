@@ -37,6 +37,9 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
                                         $("select#programLang option[value="+"'"+ tempLang +"'"+ "]").attr('selected', 'true');
                                     })
                                 }
+                                bootbox.alert("Зміни умови відбулися", function () {
+                                    location.reload();
+                                });
                             });
                         }
                     });

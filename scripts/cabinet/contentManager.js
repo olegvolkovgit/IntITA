@@ -402,8 +402,13 @@ function initCoursesListTable(){
         }
     });
 }
+
 function initModulesListTable(id){
     $jq('#statusOfModulesTable').DataTable({
+        oLanguage: {
+            sProcessing: "<img src='/images/common/loading.gif' /></div>"
+        },
+        processing : true,
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id="+id,
