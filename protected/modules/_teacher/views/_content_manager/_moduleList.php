@@ -40,7 +40,7 @@
             <tbody>
             <?php
             foreach ($attribute["value"] as $item) {
-                if(!$item["end_date"] && ($item["cancelled"] == Module::ACTIVE)){
+                if($item["cancelled"] == Module::ACTIVE){
             ?>
             <tr>
                 <td>
@@ -58,7 +58,7 @@
                     <?php if ($item["end_date"] == '') { ?>
                         <a href="#"
                            onclick="cancelModuleAttrCM('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>',
-                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>'); return false;">
+                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>','<?= (string)$role; ?>'); return false;">
                             скасувати
                         </a>
                     <?php } ?>
