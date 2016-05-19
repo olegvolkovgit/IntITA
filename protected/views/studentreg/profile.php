@@ -108,13 +108,13 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         <div class="tabs">
             <ul>
                 <li>
-                    <?= ($owner) ? Yii::t('profile', '0108') : 'Курси'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0108') : Yii::t('profile', '0822'); ?>
                 </li>
                 <li>
-                    <?= ($owner) ? Yii::t('profile', '0113') : 'Рейтинг'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0113') : Yii::t('profile', '0823'); ?>
                 </li>
                 <li>
-                    <?= ($owner) ? Yii::t('profile', '0116') : 'Оцінювання'; ?>
+                    <?= ($owner) ? Yii::t('profile', '0116') : Yii::t('profile', '0824'); ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -126,7 +126,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <?php $this->renderPartial('_myRatting', array('user' => $user,'owner'=>$owner)); ?>
                 </div>
                 <div id="myMark">
-                    <p class="tabHeader"><?php echo ($owner) ? Yii::t('profile', '0116') : 'Оцінювання'; ?></p>
+                    <p class="tabHeader"><?php echo ($owner) ? Yii::t('profile', '0116') : Yii::t('profile', '0824'); ?></p>
                     <?php
                     $this->widget('zii.widgets.CListView', array(
                         'dataProvider' => $markProvider,

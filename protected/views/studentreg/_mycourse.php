@@ -1,4 +1,4 @@
-<p class="tabHeader"><?php echo ($owner) ? Yii::t('profile', '0108') : 'Курси' ?></p>
+<p class="tabHeader"><?php echo ($owner) ? Yii::t('profile', '0108') : Yii::t('profile', '0822'); ?></p>
 <div class="profileCourse">
     <table class="currentCourseTitle">
         <tr>
