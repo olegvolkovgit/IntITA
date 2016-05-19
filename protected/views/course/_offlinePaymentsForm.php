@@ -9,7 +9,7 @@ if ($price == 0 && $model->getBasePrice() != 0) {
 if ($model->getBasePrice() != 0) {
     ?>
     <span class="spoilerLinks"
-          onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>', 'Offline')">
+          onclick="paymentSpoiler('<?php echo Yii::t('course', '0819'); ?>', '<?php echo Yii::t('course', '0415'); ?>', 'Offline')">
         <span id="spoilerClickOffline"><?php echo Yii::t('course', '0819'); ?></span>
         <span id="spoilerTriangleOffline"> &#9660;</span></span>
 <?php }
@@ -22,15 +22,14 @@ if ($price != 0) {
                     <tr>
                         <td>
                             <div class="numbers" id="numbersFirstOffline">
-                                <span
-                                    class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
-                                &nbsp<span class="coursePriceStatus2">
-                                <?php echo PaymentHelper::discountedPrice($price, 30) . " " . Yii::t('courses', '0322'); ?>
-                            </span>
-                            <span id="discount">
-                                <img style="text-align:right" src="
-                                <?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>
-                                (<?php echo Yii::t('courses', '0144') . ' - 30%)'; ?>
+                                <span class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
+                                &nbsp
+                                <span class="coursePriceStatus2">
+                                    <?php echo PaymentHelper::discountedPrice($price, 30) . " " . Yii::t('courses', '0322'); ?>
+                                </span>
+                                <span id="discount">
+                                    <img style="text-align:right" src="<?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>
+                                    (<?php echo Yii::t('courses', '0144') . ' - 30%)'; ?>
                                 </span>
                             </div>
                         </td>

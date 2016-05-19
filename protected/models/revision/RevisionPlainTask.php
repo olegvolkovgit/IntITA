@@ -141,6 +141,7 @@ class RevisionPlainTask extends CActiveRecord
     }
 
     public function editTest() {
+        $this->saveCheck();
         return;
     }
 
