@@ -223,10 +223,9 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $user = RegisteredUser::userById($this->message0->sender);
 
         $this->cancelled = MessagesAuthorRequest::DELETED;
-        if($this->save()){
-                if ($this->sendCancelMessage($user->registrationData)) {
-                    return "Операцію успішно виконано.";
-                }
+        if($this->save()) {
+            $this->notify($user->registrationData, 'Відхилено запит на редагування модуля', $this->cancelTemplate,
+                array($this->module()));
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
@@ -244,29 +243,30 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
                 $this->user_approved = $userApprove->id;
                 $this->date_approved = date("Y-m-d H:i:s");
                 if ($this->save()) {
-                    if ($this->sendApproveMessage($user->registrationData)) {
-                        return "Операцію успішно виконано.";
-                    }
+                    $this->notify($user->registrationData, 'Підтверджено запит на редагування модуля', $this->approveTemplate,
+                        array($this->module()));
+                    return "Операцію успішно виконано.";
                 }
             }
             return "Операцію не вдалося виконати";
         } else return "Обраний викладач вже призначений автором даного модуля.";
     }
 
-	public function sendApproveMessage(StudentReg $user){
-        $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->approveTemplate, array($this->module()));
+    public function notify(StudentReg $user, $subject, $template, $params){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new MessagesNotifications();
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate($template, $params);
+            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->create();
 
-        $sender->send($user->email, '', 'Підтверджено запит на редагування модуля', '');
-        return true;
-	}
-
-    public function sendCancelMessage(StudentReg $user){
-        $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->cancelTemplate, array($this->module()));
-
-        $sender->send($user->email, '', 'Відхилено запит на редагування модуля', '');
-        return true;
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
     }
 
     public function isRequestOpen($params)
@@ -332,5 +332,9 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         } else {
             return false;
         }
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == self::DELETED;
     }
 }

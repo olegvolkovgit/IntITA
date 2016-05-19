@@ -138,9 +138,7 @@ class UserMessages extends Messages implements IMessage
     {
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
-                $subject = ($this->header != '')?$this->header:"Нове повідомлення";
-
-                $sender->send($receiver->email, "", $subject, "");
+                $sender->send($receiver->email, "", "Нове повідомлення", "");
             }
         }
 
@@ -283,9 +281,5 @@ class UserMessages extends Messages implements IMessage
 
     public function type(){
         return MessagesType::USER;
-    }
-
-    public function setMailHeader($header){
-        $this->header = $header;
     }
 }

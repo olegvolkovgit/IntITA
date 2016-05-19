@@ -205,7 +205,8 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         $this->cancelled = MessagesCoworkerRequest::DELETED;
 
         if ($this->save()) {
-            $this->sendCancelMessage($this->idTeacher);
+            $this->notify($this->sender(), 'Відхилено запит на призначення співробітника',
+                $this->cancelTemplate, array($this->idTeacher));
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
@@ -214,34 +215,31 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 
     public function approve(StudentReg $userApprove)
     {
-        $user = RegisteredUser::userById($this->message0->sender);
-
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
         if ($this->save()) {
-            if ($this->sendApproveMessage($user->registrationData)) {
+            $this->notify($this->sender(), 'Підтверджено запит на призначення співробітника',
+                $this->approveTemplate, array($this->idTeacher));
                 return true;
-            }
         }
         return false;
     }
 
-    public function sendApproveMessage(StudentReg $user)
-    {
-        $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->approveTemplate, array($user));
+    public function notify(StudentReg $user, $subject, $template, $params){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new MessagesNotifications();
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate($template, $params);
+            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->create();
 
-        $sender->send($user->email, '', 'Підтверджено запит на призначення співробітника', '');
-        return true;
-    }
-
-    public function sendCancelMessage(StudentReg $user)
-    {
-        $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->cancelTemplate, array($user));
-
-        $sender->send($user->email, '', 'Відхилено запит на призначення співробітника', '');
-        return true;
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
     }
 
     /**
@@ -316,5 +314,9 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         } else {
             return false;
         }
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == self::DELETED;
     }
 }
