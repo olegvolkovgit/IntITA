@@ -108,7 +108,7 @@
     });
 
     $jq('#modulesListTable').DataTable( {
-        "order": [[ 2, "asc" ]],
+        "order": [[ 2, "desc" ]],
         language: {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         },
