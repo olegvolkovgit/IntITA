@@ -10,8 +10,8 @@ $this->breadcrumbs=array(
 <div class='errorblock'>
     <div class="error">
     <?php echo CHtml::encode($message)?>
-    <?php echo 'File : ' . CHtml::encode($trace) ?>
-    <?php echo 'File : ' . CHtml::encode($file) ?>
-    <?php echo 'Line : ' . CHtml::encode($line) ?>
+<!--    --><?php //echo 'File : ' . CHtml::encode($trace) ?>
+<!--    --><?php //echo 'File : ' . CHtml::encode($file) ?>
+<!--    --><?php //echo 'Line : ' . CHtml::encode($line) ?>
     </div>
 </div>
