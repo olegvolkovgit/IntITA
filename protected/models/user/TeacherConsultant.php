@@ -106,7 +106,7 @@ class TeacherConsultant extends Role
                 return Yii::app()->db->createCommand()->
                 update('teacher_consultant_module', array(
                     'end_date' => date("Y-m-d H:i:s"),
-                ), 'id_teacher=:user and id_module=:module', array(':user' => $user->id, 'module' => $value));
+                ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value));
                 break;
             default:
                 return false;
