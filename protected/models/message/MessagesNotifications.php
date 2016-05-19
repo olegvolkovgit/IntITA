@@ -232,4 +232,8 @@ class MessagesNotifications extends Messages implements IMessage
     public function text(){
         return $this->text;
     }
+
+	public function message(){
+		return $this->message0;
+	}
 }

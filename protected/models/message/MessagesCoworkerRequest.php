@@ -317,6 +317,6 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
     }
 
     public function isDeleted(){
-        return self::DELETED;
+        return $this->cancelled == self::DELETED;
     }
 }

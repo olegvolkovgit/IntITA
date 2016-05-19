@@ -327,6 +327,6 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
     }
 
     public function isDeleted(){
-        return self::DELETED;
+        return $this->cancelled == self::DELETED;
     }
 }

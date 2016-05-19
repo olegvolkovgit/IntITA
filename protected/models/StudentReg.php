@@ -852,7 +852,7 @@ class StudentReg extends CActiveRecord
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
         $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . $this->id . ' and
         (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
-         or m.type=' . MessagesType::REJECT_REVISION . ')');
+         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . ')');
 
         return Messages::model()->findAll($criteria);
     }
