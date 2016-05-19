@@ -258,7 +258,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($user), StudentReg::model()->findByPk(Config::getAdminId()));
+            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
             $message->create();
 
             $message->send($sender);

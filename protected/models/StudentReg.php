@@ -1217,4 +1217,8 @@ class StudentReg extends CActiveRecord
         $this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
         return $this->save(true, array('cancelled'));
     }
+
+    public static function getAdminModel(){
+        return StudentReg::model()->findByPk(Config::getAdminId());
+    }
 }

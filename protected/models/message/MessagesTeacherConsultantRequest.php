@@ -265,7 +265,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
                 'select' => 'count(*)',
                 'from' => 'messages_teacher_consultant_request mr',
                 'join' => 'LEFT JOIN messages m ON m.id = mr.id_message',
-                'where' => 'mr.id_module=' . $module . ' and m.sender=' . $user . ' and cancelled=' . MessagesTeacherConsultantRequest::ACTIVE .
+                'where' => 'mr.id_module=' . $module . ' and mr.id_teacher=' . $user . ' and cancelled=' . MessagesTeacherConsultantRequest::ACTIVE .
                     ' and date_approved IS NULL'
             ))->queryScalar() > 0) ? true : false;
     }

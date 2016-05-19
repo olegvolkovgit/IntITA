@@ -144,7 +144,7 @@ class TrainerController extends TeacherCabinetController
 
         if($teacherModel && $moduleModel && $userModel){
             $message = new MessagesTeacherConsultantRequest();
-            if($message->isRequestOpen(array($moduleModel->module_ID, $userModel->id))) {
+            if($message->isRequestOpen(array($moduleModel->module_ID, $teacherModel->id))) {
                 echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення викладача-консультанта для модуля двічі.";
             } else {
                 $transaction = Yii::app()->db->beginTransaction();
