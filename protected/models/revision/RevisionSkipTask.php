@@ -16,7 +16,7 @@
  * @property RevisionLectureElement $lectureElement
  * @property RevisionSkipTaskAnswers[] $answers
  */
-class RevisionSkipTask extends CActiveRecord {
+class RevisionSkipTask extends RevisionQuiz {
     /**
      * @return string the associated database table name
      */
@@ -50,15 +50,6 @@ class RevisionSkipTask extends CActiveRecord {
             'answers' => array(self::HAS_MANY, 'RevisionSkipTaskAnswers', 'id_task'),
         );
     }
-
-    public function behaviors() {
-        return array(
-            'uidUpdateBehavior' => array(
-                'class' => 'RevisionQuizUidUpdateBehavior'
-            ),
-        );
-    }
-
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -145,7 +136,7 @@ class RevisionSkipTask extends CActiveRecord {
         $newTest->source = $this->source;
         $newTest->id_test = $this->id_test;
         $newTest->uid = $this->uid;
-        $newTest->updated = $this->updated;
+        $newTest->updated = $this->updated == 1 ? 1 : 0;
         $newTest->id_test = $this->id_test;
         $newTest->saveCheck();
 

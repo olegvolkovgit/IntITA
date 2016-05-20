@@ -16,7 +16,7 @@
  * The followings are the available model relations:
  * @property RevisionLectureElement $lectureElement
  */
-class RevisionTask extends CActiveRecord
+class RevisionTask extends RevisionQuiz
 {
 	/**
 	 * @return string the associated database table name
@@ -55,14 +55,6 @@ class RevisionTask extends CActiveRecord
 			'lectureElement' => array(self::BELONGS_TO, 'RevisionLectureElement', 'id_lecture_element'),
 		);
 	}
-
-    public function behaviors(){
-        return array(
-            'uidUpdateBehavior' => array(
-                'class' => 'RevisionQuizUidUpdateBehavior'
-            ),
-        );
-    }
 
     /**
 	 * @return array customized attribute labels (name=>label)
@@ -147,7 +139,8 @@ class RevisionTask extends CActiveRecord
     public function cloneTest($idLectureElement) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
-        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'updated', 'id_test']));
+        $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'id_test']));
+        $newTask->updated = $this->updated == 1 ? 1 : 0;
         $newTask->uid = $this->uid;
         $newTask->saveCheck();
         return $newTask;
