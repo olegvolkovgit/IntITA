@@ -12,7 +12,7 @@
                         <th style="width:30%;" >Фраза</th>
                         <th style="width:12%;">Змінити</th>
                         <th style="width:12%;">Видалити</th>
-                       
+
                     </tr>
                     </thead>
                     <tbody>
