@@ -113,7 +113,7 @@ class AddressCountry extends CActiveRecord
                 return Yii::app()->db->lastInsertID;
             }
         } else {
-            if($oldModel->$param == $newTitle){
+            if(strtolower($oldModel->$param) == strtolower($newTitle)){
                 return $oldId;
             } else {
                 if($exist = AddressCountry::model()->findByAttributes(array($param => $newTitle))){
@@ -144,7 +144,38 @@ class AddressCountry extends CActiveRecord
 
             array_push($return['data'], $row);
         }
-
         return json_encode($return);
 	}
+
+	public static function newCountry($titleUa, $titleRu, $titleEn){
+        $model = new AddressCountry();
+
+        $model->title_ua = $titleUa;
+        $model->title_ru = $titleRu;
+        $model->title_en = $titleEn;
+
+        return $model->save();
+	}
+
+    public static function countriesByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, title_ua, title_ru, title_en";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
+
+        $data = AddressCountry::model()->findAll($criteria);
+        $result = array();
+
+        foreach ($data as $key => $record) {
+
+            $result["results"][$key]["id"] = $record->id;
+            $result["results"][$key]["titleUa"] = CHtml::encode($record->title_ua);
+            $result["results"][$key]["titleRu"] = CHtml::encode($record->title_ru);
+            $result["results"][$key]["titleEn"] = CHtml::encode($record->title_en);
+
+        }
+        return json_encode($result);
+    }
 }
