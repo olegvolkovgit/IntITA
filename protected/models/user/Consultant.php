@@ -87,7 +87,7 @@ class Consultant extends Role
                 return Yii::app()->db->createCommand()->
                 update('consultant_modules', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'consultant=:user and module=:module', array(':user' => $user->id, 'module' => $value));
+                ), 'consultant=:user and module=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value));
                 break;
             default:
                 return false;

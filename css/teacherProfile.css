@@ -187,9 +187,11 @@ img.lessonBut  {
 .editableText{
     width: 410px;
 }
+.editableText img{
+    max-width: 410px;
+}
 .editableText p{
     margin: 2px 0;
-    text-indent: 20px;
 }
 .hideInput{
     position: absolute;

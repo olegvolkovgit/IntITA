@@ -813,8 +813,9 @@ class StudentReg extends CActiveRecord
         $paymentMessages = MessagesPayment::model()->findAll($criteria);
         $approveRevisionMessages = MessagesApproveRevision::model()->findAll($criteria);
         $rejectRevisionMessages = MessagesRejectRevision::model()->findAll($criteria);
+        $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
-        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages);
+        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages);
         $user = Yii::app()->user->model;
 //        if($user->isAdmin() || $user->isContentManager()){
 //            $criteria1 = new CDbCriteria();
@@ -851,7 +852,7 @@ class StudentReg extends CActiveRecord
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
         $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . $this->id . ' and
         (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
-         or m.type=' . MessagesType::REJECT_REVISION . ')');
+         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . ')');
 
         return Messages::model()->findAll($criteria);
     }
@@ -1054,7 +1055,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'admin', '" . $record["id"] . "', '3'";
+            $row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'admin', '" . $record["id"] . "', '4'";
             array_push($return['data'], $row);
         }
 
@@ -1078,7 +1079,7 @@ class StudentReg extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["id"]
             ));
-            $row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'accountant', '" . $record["id"] . "', '3'";
+            $row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'accountant', '" . $record["id"] . "', '5'";
             array_push($return['data'], $row);
         }
 
@@ -1215,5 +1216,9 @@ class StudentReg extends CActiveRecord
     public function changeUserStatus(){
         $this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
         return $this->save(true, array('cancelled'));
+    }
+
+    public static function getAdminModel(){
+        return StudentReg::model()->findByPk(Config::getAdminId());
     }
 }

@@ -195,13 +195,13 @@ span.colorGreen {
 }
 .instrTaskText {
     display: inline-block;
-    width: 92%;
-    margin: 20px 0 0 30px;
+    width: 95%;
+    margin: 20px 0 0 10px;
 }
 .instructionText {
     display: inline-block;
-    width: 92%;
-    margin: 20px 0 0 30px;
+    width: 95%;
+    margin: 20px 0 0 10px;
 }
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
@@ -270,7 +270,7 @@ div.lessonButFinal
     padding-top: 4px;
 }
 .sendAnswer {
-    margin: 10px 22px 10px 0;
+    margin: 10px 22px 10px 10px;
     overflow:hidden;
 }
 .sendAnswer textarea {

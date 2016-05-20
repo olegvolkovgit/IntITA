@@ -52,8 +52,12 @@ class TeacherConsultantController extends TeacherCabinetController
     }
 
     public function actionStudents($id){
-        $user = RegisteredUser::userById($id);
-        $students = $user->getAttributesByRole(UserRoles::TEACHER_CONSULTANT)[1];
+        $user = StudentReg::model()->findByPk($id);
+        if(!$user){
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
+        $role = new TeacherConsultant();
+        $students = $role->activeStudents($user);
 
         return $this->renderPartial('/_teacher_consultant/_students', array(
             'students' => $students,

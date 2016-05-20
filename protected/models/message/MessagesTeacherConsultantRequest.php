@@ -220,7 +220,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         $user = RegisteredUser::userById($this->id_teacher);
         //add rights to edit module
         $role = new TeacherConsultant();
-        if ($role->checkModule($this->id_teacher, $this->id_module)) {
+        if (!$role->checkModule($this->id_teacher, $this->id_module)) {
             if ($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
                 //update current request, set approved status
                 $this->user_approved = $userApprove->id;
@@ -243,7 +243,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
     public function notify(StudentReg $userApprove, StudentReg $teacher, $subject, $template, $params){
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $message = new NotificationMessages();
+            $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
             $message->build($subject, $sender->template(), array($teacher), $userApprove);
@@ -265,7 +265,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
                 'select' => 'count(*)',
                 'from' => 'messages_teacher_consultant_request mr',
                 'join' => 'LEFT JOIN messages m ON m.id = mr.id_message',
-                'where' => 'mr.id_module=' . $module . ' and m.sender=' . $user . ' and cancelled=' . MessagesTeacherConsultantRequest::ACTIVE .
+                'where' => 'mr.id_module=' . $module . ' and mr.id_teacher=' . $user . ' and cancelled=' . MessagesTeacherConsultantRequest::ACTIVE .
                     ' and date_approved IS NULL'
             ))->queryScalar() > 0) ? true : false;
     }
@@ -324,5 +324,9 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         } else {
             return false;
         }
+    }
+
+    public function isDeleted(){
+        return $this->cancelled == self::DELETED;
     }
 }

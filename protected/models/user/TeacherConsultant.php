@@ -106,7 +106,7 @@ class TeacherConsultant extends Role
                 return Yii::app()->db->createCommand()->
                 update('teacher_consultant_module', array(
                     'end_date' => date("Y-m-d H:i:s"),
-                ), 'id_teacher=:user and id_module=:module', array(':user' => $user->id, 'module' => $value));
+                ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value));
                 break;
             default:
                 return false;
@@ -280,5 +280,15 @@ class TeacherConsultant extends Role
             ->queryAll();
 
         return $records;
+    }
+
+    public function activeStudents(StudentReg $teacher){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 's';
+        $criteria->join = 'left join teacher_consultant_student tcs on tcs.id_student = s.id';
+        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL');
+        $criteria->group = 's.id';
+
+        return StudentReg::model()->findAll($criteria);
     }
 }

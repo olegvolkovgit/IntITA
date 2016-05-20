@@ -136,6 +136,7 @@ class RegisteredUser
     public function unsetRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
+        date_default_timezone_set(Config::getServerTimezone());
         return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
     }
 
@@ -259,7 +260,7 @@ class RegisteredUser
         $result = array_merge($authorRequests, $consultantRequests);
         if($this->isAdmin()){
             $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
-            $result = array_merge($assignCoworkerRequests);
+            $result = array_merge($result, $assignCoworkerRequests);
         }
 
         return $result;

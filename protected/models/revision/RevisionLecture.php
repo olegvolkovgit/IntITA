@@ -795,21 +795,22 @@ class RevisionLecture extends CActiveRecord
 
             $oldLectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
 
-            $quizes = [];
+            $quizzes = [];
 
             foreach ($oldLectureElements as $oldLectureElement) {
 
                 if ($oldLectureElement->isQuiz()) {
-                    if (!array_key_exists($oldLectureElement->id_type, $quizes)) {
-                        $quizes[$oldLectureElement->id_type] = [];
+                    if (!array_key_exists($oldLectureElement->id_type, $quizzes)) {
+                        $quizzes[$oldLectureElement->id_type] = [];
                     }
-                    array_push($quizes[$oldLectureElement->id_type], $oldLectureElement->id_block);
+                    array_push($quizzes[$oldLectureElement->id_type], $oldLectureElement->id_block);
                 }
             }
 
-            RevisionQuizFactory::deleteFromRegularDB($quizes);
+            RevisionQuizFactory::deleteFromRegularDB($quizzes);
 
-            LectureElement::model()->deleteAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
+            $quizTypes = LectureElement::TEST . ', ' . LectureElement::TASK . ', '. LectureElement::PLAIN_TASK . ', ' .LectureElement::SKIP_TASK;
+            LectureElement::model()->deleteAll("id_lecture=:id_lecture AND id_type NOT IN ($quizTypes)", array(':id_lecture' => $this->id_lecture));
 
             $oldLecture->delete();
             $oldLecture->removeOldTemplatesDirectory();

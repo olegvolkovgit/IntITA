@@ -14,6 +14,7 @@
         </li>
         <li>
             <a href="#"
+<<<<<<< HEAD
                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
                    'Розмови')">
                 Розмови

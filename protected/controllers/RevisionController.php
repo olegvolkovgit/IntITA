@@ -18,7 +18,7 @@ class RevisionController extends Controller {
 
     public function actionIndex() {
         if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $this->render('index',array(
@@ -36,7 +36,7 @@ class RevisionController extends Controller {
         $titleRu = trim(Yii::app()->request->getPost("titleRu"));
 
         if (!$this->isUserTeacher(Yii::app()->user, $idModule)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
         //$order remove
         $revLecture = RevisionLecture::createNewLecture($idModule, $titleUa, $titleEn, $titleRu, Yii::app()->user);
@@ -50,11 +50,11 @@ class RevisionController extends Controller {
         if(!$lectureRevision)
             throw new RevisionControllerException(404);
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'У тебе немає прав для редагування цієї ревізії');
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
 
         if (!$lectureRevision->isEditable()) {
-            throw new RevisionControllerException(403, 'Цю ревізію редагувати не можна');
+            throw new RevisionControllerException(400, Yii::t('revision', '0826'));
         }
 
         $this->render("lectureview", array(
@@ -69,7 +69,7 @@ class RevisionController extends Controller {
         if(!$lectureRevision)
             throw new RevisionControllerException(404);
         if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user, $lectureRevision->id_module)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $this->render("lecturePreview/lectureview", array(
@@ -86,8 +86,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->with('properties')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-//            throw new CHttpException(403, 'Access denied.');
-            throw new RevisionControllerException('Access denied.');
+            throw new RevisionControllerException(Yii::t('error', '0590'));
         }
 
         $newPage = $lectureRevision->addPage(Yii::app()->user);
@@ -109,10 +108,10 @@ class RevisionController extends Controller {
         $lectureRevision=RevisionLecture::model()->findByPk($page->id_revision);
 
         if (!$this->isUserEditor(Yii::app()->user, RevisionLecture::model()->findByPk($page->id_revision))) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
         if (!$lectureRevision->isEditable()) {
-            throw new RevisionControllerException(400, 'This lecture cannot be modified.');
+            throw new RevisionControllerException(400, Yii::t('revision', '0826'));
         }
 
         $lectureBody = $page->getLectureBody();
@@ -141,7 +140,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $url], Yii::app()->user);
@@ -162,7 +161,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $url], Yii::app()->user);
@@ -182,7 +181,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->deleteLectureElement($idPage, $idElement, Yii::app()->user);
@@ -202,7 +201,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->setPageTitle($idPage, $title, Yii::app()->user);
@@ -224,7 +223,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->addLectureElement($idPage, ['idType' => $idType, 'html_block' => $html_block], Yii::app()->user);
@@ -245,7 +244,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->editLectureElement($idPage, ['id_block' => $idElement, 'html_block' => $html_block], Yii::app()->user);
@@ -267,7 +266,7 @@ class RevisionController extends Controller {
         $page = RevisionLecturePage::model()->with('lectureElements')->findByPk($idPage);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->deleteLectureElement($idPage, $idElement, Yii::app()->user);
@@ -291,7 +290,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->movePageUp($idPage, Yii::app()->user);
@@ -308,7 +307,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->movePageDown($idPage, Yii::app()->user);
@@ -321,7 +320,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->with('lecturePages')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $result = $lectureRevision->checkConflicts();
@@ -341,7 +340,7 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $result = $lectureRev->checkConflicts();
@@ -358,7 +357,7 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRev)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRev->cancelSendForApproval();
@@ -367,7 +366,7 @@ class RevisionController extends Controller {
     public function actionRejectLectureRevision() {
 
         if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to reject a lecture');
+            throw new RevisionControllerException(403, Yii::t('revision', '0827'));
         }
 
         $idRevision = Yii::app()->request->getPost('idRevision');
@@ -382,7 +381,7 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRev->cancel(Yii::app()->user);
@@ -397,7 +396,7 @@ class RevisionController extends Controller {
     public function actionApproveLectureRevision() {
 
         if (!$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to approve a lecture');
+            throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
 
         $idRevision = Yii::app()->request->getPost('idRevision');
@@ -417,7 +416,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->upElement($idPage, $idElement, Yii::app()->user);
@@ -435,7 +434,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision->downElement($idPage, $idElement, Yii::app()->user);
@@ -453,11 +452,11 @@ class RevisionController extends Controller {
         $lectureRevisions = RevisionLecture::model()->findAllByAttributes(array("id_lecture" => $idLecture));
         $lecture = Lecture::model()->findByPk($idLecture);
         if (!$lecture || !$lecture->idModule) {
-            throw new RevisionControllerException(404, 'Сторінка не знайдена');
+            throw new RevisionControllerException(404, Yii::t('breadcrumbs', '0782'));
         }
 
         if (!$this->isUserTeacher(Yii::app()->user, $lecture->idModule) && !$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
+            throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
         $lectureRev = null;
@@ -508,7 +507,7 @@ class RevisionController extends Controller {
         if(!$lectureRev)
             throw new RevisionControllerException(404);
         if (!$this->isUserTeacher(Yii::app()->user,$lectureRev->id_module) && !$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
+            throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
         $this->render('revisionsBranch', array(
@@ -527,7 +526,7 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->findByAttributes(array("id_lecture" => $idLecture));
 
         if (!$this->isUserTeacher($user, $lecture->idModule)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to delete lecture.');
+            throw new RevisionControllerException(403, Yii::t('revision', '0830'));
         }
 
         if ($lectureRev == null) {
@@ -540,7 +539,7 @@ class RevisionController extends Controller {
 
     public function actionModuleLecturesRevisions($idModule) {
         if (!$this->isUserTeacher(Yii::app()->user, $idModule) && !$this->isUserApprover(Yii::app()->user)) {
-            throw new RevisionControllerException(403, 'Access denied. You have not privileges to view lecture.');
+            throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
         $this->render('moduleLecturesRevisions', array(
@@ -733,7 +732,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $params = [];
@@ -756,7 +755,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $params[$attr] = $input;
@@ -942,7 +941,7 @@ class RevisionController extends Controller {
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
-            throw new RevisionControllerException(403, 'Access denied.');
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
         $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user);

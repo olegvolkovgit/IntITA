@@ -968,3 +968,57 @@ function initAgreementsTable() {
         }
     });
 }
+
+function addCountry(url){
+    titleUa = $jq('[name="titleUa"]').val();
+    titleRu = $jq('[name="titleRu"]').val();
+    titleEn = $jq('[name="titleEn"]').val();
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            titleUa: titleUa,
+            titleRu: titleRu,
+            titleEn: titleEn
+        },
+        async: true,
+        success: function (response) {
+            bootbox.alert(response, loadAddressIndex);
+        },
+        error: function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        }
+    });
+}
+
+function addCity(url){
+    country  = $jq('#country').val();
+    if(country == 0){
+        bootbox.alert('Виберіть країну.');
+    } else {
+        titleUa = $jq('[name="titleUa"]').val();
+        titleRu = $jq('[name="titleRu"]').val();
+        titleEn = $jq('[name="titleEn"]').val();
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                country: country,
+                titleUa: titleUa,
+                titleRu: titleRu,
+                titleEn: titleEn
+            },
+            async: true,
+            success: function (response) {
+                bootbox.alert(response, loadAddressIndex);
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
+function loadAddressIndex(){
+    load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
+}

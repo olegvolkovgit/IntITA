@@ -105,7 +105,7 @@ class Author extends Role
                 return Yii::app()->db->createCommand()->
                 update('teacher_module', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'idTeacher=:user and idModule=:module', array(':user' => $user->id, 'module' => $value));
+                ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value));
                 break;
             default:
                 return false;

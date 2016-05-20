@@ -31,6 +31,9 @@ function addTeacherAttrCM(url, attr, id, role) {
                         case "consultant":
                             showDialog("Консультанту вже призначений даний модуль для консультацій");
                             break;
+                        case "teacher_consultant":
+                            showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
                         default:
                             showDialog("Операцію не вдалося виконати");
                             break;
@@ -376,21 +379,23 @@ function initCoursesListTable(){
                     return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
                 }},
             {
-                "data": "lesson",
-                "render": function (email) {
-                    return email["title"];
-                }
+                type: 'number', targets: 1 ,
+                "data": "module"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'number', targets: 1 ,
+                "data": "lesson"
+            },
+            {
+                type: 'number', targets: 1 ,
                 "data": "video"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'number', targets: 1 ,
                 "data": "test"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'number', targets: 1 ,
                 "data": "part"
             }
         ],
@@ -398,10 +403,12 @@ function initCoursesListTable(){
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+            "url": basePath+"/scripts/cabinet/Ukranian.json",
+        },
+        processing : true,
     });
 }
+
 function initModulesListTable(id){
     $jq('#statusOfModulesTable').DataTable({
         "autoWidth": false,
@@ -438,8 +445,9 @@ function initModulesListTable(id){
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+            "url": basePath+"/scripts/cabinet/Ukranian.json",
+        },
+        processing : true,
     });
 }
 

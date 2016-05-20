@@ -94,6 +94,11 @@ class RevisionQuizFactory {
     public static function edit($revLectureElement, $quiz) {
         switch ($revLectureElement->id_type) {
             case LectureElement::PLAIN_TASK :
+                $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $revLectureElement->id));
+                if ($test) {
+                    $test->editTest();
+                }
+                return $test;
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revLectureElement->id));
