@@ -124,13 +124,13 @@ class Student extends Role
     public function getTeachersForModules(StudentReg $student)
     {
         $records = Yii::app()->db->createCommand()
-            ->select('module_ID id, CONCAT(u.secondName, " ", u.firstName, " ", u.middleName, " <", u.email, ">") as teacherName')
+            ->select('module_ID id, CONCAT(IFNULL(u.secondName, ""), " ", IFNULL(u.firstName, ""), " ", IFNULL(u.middleName, ""),
+             ", ", IFNULL(u.email, "")) as teacherName')
             ->from('module m')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
             ->leftJoin('user u', 'u.id=tcs.id_teacher')
-            ->where('tcs.id_student = :id and tcs.end_date IS NULL',
+            ->where('tcs.id_student = :id and tcs.end_date IS NULL and u.id IS NOT NULL',
                 array(':id' => $student->id))
-            ->group('m.module_ID')
             ->queryAll();
 
         return array_column($records, 'teacherName', 'id');
