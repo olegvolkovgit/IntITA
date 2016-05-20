@@ -113,7 +113,7 @@ class AddressCountry extends CActiveRecord
                 return Yii::app()->db->lastInsertID;
             }
         } else {
-            if($oldModel->$param == $newTitle){
+            if(strtolower($oldModel->$param) == strtolower($newTitle)){
                 return $oldId;
             } else {
                 if($exist = AddressCountry::model()->findByAttributes(array($param => $newTitle))){
@@ -144,7 +144,16 @@ class AddressCountry extends CActiveRecord
 
             array_push($return['data'], $row);
         }
-
         return json_encode($return);
+	}
+
+	public static function newCountry($titleUa, $titleRu, $titleEn){
+        $model = new AddressCountry();
+
+        $model->title_ua = $titleUa;
+        $model->title_ru = $titleRu;
+        $model->title_en = $titleEn;
+
+        return $model->save();
 	}
 }
