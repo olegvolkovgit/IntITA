@@ -156,4 +156,15 @@ class AddressCity extends CActiveRecord
 
         return json_encode($return);
 	}
+
+	public static function newCity(AddressCountry $country, $titleUa, $titleRu, $titleEn){
+		$model = new AddressCity();
+
+		$model->title_ua = $titleUa;
+		$model->title_ru = $titleRu;
+		$model->title_en = $titleEn;
+		$model->country = $country->id;
+
+		return $model->save();
+	}
 }
