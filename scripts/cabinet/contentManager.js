@@ -365,6 +365,7 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
         });
     }
 }
+
 function initCoursesListTable(){
     $jq('#statusOfCoursesTable').DataTable({
         "autoWidth": false,
@@ -397,6 +398,42 @@ function initCoursesListTable(){
             {
                 type: 'number', targets: 1 ,
                 "data": "part"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": basePath+"/scripts/cabinet/Ukranian.json",
+        },
+        processing : true,
+    });
+}
+
+function initAllPhrasesTable(){
+    $jq('#allPhrasesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_tenant/tenant/getAllPhrases",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                type:'string',targets: 1,
+                "data": "text"
+            },
+            {
+
+                "data": "change",
+                "render": function (change) {
+                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  change + '\', \'Модуль\');">Змінити</a>';
+            }
+            },{
+
+                "data": "_delete",
+                "render": function (_delete) {
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  _delete + '\', \'Модуль\');">Видалити</a>';
+                }
             }
         ],
         "createdRow": function (row, data, index) {

@@ -24,5 +24,11 @@ class TenantController extends TeacherCabinetController
             'user' => $tmp2
         ), false, true);
     }
+    public function actionGetAllPhrases()
+    {
+
+        echo Tenant::getAllPhrases();
+
+    }
 
 }

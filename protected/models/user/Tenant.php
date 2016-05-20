@@ -124,4 +124,23 @@ class Tenant extends Role
             'end_date'=>date("Y-m-d H:i:s"),
         ), 'chat_user_id=(select id from chat_user where intita_user_id=:id)', array(':id'=>$user->id));
     }
+    public static function getAllPhrases(){
+        $sql = 'select * from chat_phrases';
+        $course = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach($course as $record){
+            $row = array();
+
+            $row["text"] = $record['text'];
+            $row["name"]["url"] = $record["id"];
+            $row["change"]=$record["id"];
+            $row['_delete']=$record["id"];
+
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 }
