@@ -2,7 +2,16 @@
 
 <div class="col-lg-12">
     <br>
+    <ul class="list-inline">
+        <li>
+            <button class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/renderAddPhrase'
+                       ); ?>', 'Створити фразу')">
+                Створити фразу
+            </button>
+        </li>
 
+    </ul>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

@@ -30,5 +30,11 @@ class TenantController extends TeacherCabinetController
         echo Tenant::getAllPhrases();
 
     }
+    public function actionRenderAddPhrase()
+    {
+
+        $view = "/_tenant/addPhrase";
+        $this->renderPartial($view, array(), false, true);
+    }
 
 }
