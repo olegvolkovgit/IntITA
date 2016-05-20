@@ -369,6 +369,9 @@ class Module extends CActiveRecord implements IBillableObject
     public function monthsCount(){
         return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours()));
     }
+    public function moduleDurationInDays(){
+        return $this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours());
+    }
 
     public static function lessonsInMonth($idModule)
     {
