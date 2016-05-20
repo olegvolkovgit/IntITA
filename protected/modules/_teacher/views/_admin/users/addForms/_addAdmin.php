@@ -17,7 +17,7 @@
 
             <button class="btn btn-primary"
                     onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
-                        'admin', '3'); return false;">
+                        'admin', '4'); return false;">
                 Призначити адміністратором
             </button>
 
