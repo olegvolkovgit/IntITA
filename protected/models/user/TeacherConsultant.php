@@ -281,4 +281,14 @@ class TeacherConsultant extends Role
 
         return $records;
     }
+
+    public function activeStudents(StudentReg $teacher){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 's';
+        $criteria->join = 'left join teacher_consultant_student tcs on tcs.id_student = s.id';
+        $criteria->addCondition('id_teacher='.$teacher->id.' and tcs.end_date IS NULL');
+        $criteria->group = 's.id';
+
+        return StudentReg::model()->findAll($criteria);
+    }
 }
