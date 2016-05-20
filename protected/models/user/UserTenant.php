@@ -112,7 +112,7 @@ class UserTenant extends CActiveRecord
 
         foreach ($tenants as $record) {
             $row = array();
-            $row["name"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+            $row["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
             $row["email"] = $record["email"];
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
             $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
