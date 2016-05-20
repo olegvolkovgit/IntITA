@@ -24,4 +24,4 @@
     <input type="submit" value=<?php echo Yii::t('module', '0383'); ?> id="submitButton" onclick="trimLectureName()" ng-disabled=addLesson.$invalid >
 </form>
 <button id="cancelButton"
-        ng-click="hideForm('lessonForm');" ><?php echo Yii::t('module', '0384'); ?></button>
+        onclick="hideForm('lessonForm');" ><?php echo Yii::t('module', '0384'); ?></button>
