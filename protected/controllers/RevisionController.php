@@ -476,13 +476,13 @@ class RevisionController extends Controller {
                 }
             }
             /*
-             * If we haven't found any editable revision we should create new revision from last approved
-             * If we have found only one revision just show it
+             * If we haven't found any editable revision or found one revision other user we should create new revision from last approved
+             * If we have found only one revision of this user just show it
              * If we have found several editable revisions show revisions tree;
              */
-            if (count($editableRevisions) == 0) {
+            if (count($editableRevisions) == 0 || (count($editableRevisions) == 1 && !$editableRevisions[0]->canEdit())) {
                 $lectureRev = $lastApproved->cloneLecture(Yii::app()->user);
-            } else if(count($editableRevisions) == 1) {
+            } else if(count($editableRevisions) == 1 && $editableRevisions[0]->canEdit()) {
                 $lectureRev = $editableRevisions[0];
             } else {
                 $this->render('revisionsBranch', array(
