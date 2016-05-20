@@ -15,14 +15,9 @@ class TenantController extends TeacherCabinetController
 
     public function actionShowPhrases()
     {
-        $tmp = 1;
-        $tmp2 = 2;
-        $tmp3 = 3;
 
-        $this->renderPartial('/_tenant/allPhrases', array(
-            'modules' => $tmp,
-            'user' => $tmp2
-        ), false, true);
+
+        $this->renderPartial('/_tenant/allPhrases', array(), false, true);
     }
     public function actionGetAllPhrases()
     {
@@ -36,5 +31,8 @@ class TenantController extends TeacherCabinetController
         $view = "/_tenant/addPhrase";
         $this->renderPartial($view, array(), false, true);
     }
+    public function savePhrase(){
 
+        Tenant::savePhrase();
+    }
 }

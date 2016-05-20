@@ -424,15 +424,15 @@ function initAllPhrasesTable(){
             },
             {
 
-                "data": "change",
-                "render": function (change) {
-                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  change + '\', \'Модуль\');">Змінити</a>';
+                "data": "id",
+                "render": function (id) {
+                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  id + '\', \'Модуль\');">Змінити</a>';
             }
             },{
 
-                "data": "_delete",
-                "render": function (_delete) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  _delete + '\', \'Модуль\');">Видалити</a>';
+                "data": "id",
+                "render": function (id) {
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  id + '\', \'Модуль\');">Видалити</a>';
                 }
             }
         ],

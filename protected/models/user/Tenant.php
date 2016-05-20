@@ -133,14 +133,22 @@ class Tenant extends Role
             $row = array();
 
             $row["text"] = $record['text'];
-            $row["name"]["url"] = $record["id"];
-            $row["change"]=$record["id"];
-            $row['_delete']=$record["id"];
+            $row["id"]=$record["id"];
+
 
 
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
+    }
+    public static function savePhrase(){
+        $id=20;
+        $phrase='3424234';
+        $sql = "INSERT INTO chat_phrases('text') VALUES('3123') where id=".$id;
+        Yii::app()->db->createCommand($sql)->queryAll();
+
+
+
     }
 }
