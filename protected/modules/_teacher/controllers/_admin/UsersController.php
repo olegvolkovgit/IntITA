@@ -2,31 +2,52 @@
 
 class UsersController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     public function actionIndex()
     {
-        $countAdmins = StudentReg::countAdmins();
-        $countAccountants = StudentReg::countAccountants();
-        $countTeachers = StudentReg::countTeachers();
-        $countUsers = StudentReg::model()->count();
-        $countStudents = StudentReg::countStudents();
+        $counters = [];
+
+        $counters["admins"] = UserAdmin::model()->count("end_date IS NULL");
+        $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
+        $counters["teachers"] = Teacher::model()->count('cancelled='.Teacher::ACTIVE);
+        $counters["students"] = UserStudent::model()->count("end_date IS NULL");
+        $counters["users"] = StudentReg::model()->count();
+        $counters["tenants"] = UserTenant::model()->count("end_date IS NULL");
+        $counters["trainers"] = UserTrainer::model()->count("end_date IS NULL");
+        $counters["consultants"] = UserConsultant::model()->count("end_date IS NULL");
+        $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
+        $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
 
         $this->renderPartial('index', array(
-            'countAdmins' => $countAdmins,
-            'countAccountants' => $countAccountants,
-            'countTeachers' => $countTeachers,
-            'countUsers' => $countUsers,
-            'countStudents' => $countStudents
+            'counters' => $counters
         ), false, true);
     }
 
-    public function actionRenderAdminForm()
+    public function actionRenderAddRoleForm($role)
     {
-        $this->renderPartial('_addAdmin', array(), false, true);
+        if($role == ""){
+            throw new \application\components\Exceptions\IntItaException(400, 'Неправильна роль.');
+        }
+        $view = "addForms/_add".ucfirst($role);
+        $this->renderPartial($view, array(), false, true);
     }
 
-    public function actionRenderAccountantForm()
-    {
-        $this->renderPartial('_addAccountant', array(), false, true);
+    public function actionAssignRole(){
+        $userId = Yii::app()->request->getPost('userId');
+        $role = Yii::app()->request->getPost('role');
+        $user = RegisteredUser::userById($userId);
+
+        if ($user->hasRole($role)) {
+            echo "Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
+            return;
+        }
+        if ($user->setRole($role))
+            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$role;
+        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
+        Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
     public function actionAddAdmin()
@@ -49,35 +70,23 @@ class UsersController extends TeacherCabinetController
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
-    public function actionCancelAdmin()
+    public function actionCancelRole()
     {
-        $user = Yii::app()->request->getPost('user', '0');
-        $model = StudentReg::model()->findByPk($user);
-        echo $model->cancelAdmin();
-    }
-
-    public function actionCancelAccountant()
-    {
-        $user = Yii::app()->request->getPost('user', '0');
-        $model = StudentReg::model()->findByPk($user);
-        echo $model->cancelAccountant();
-    }
-
-    public function actionUsersWithoutAdmins($query)
-    {
-        if ($query) {
-            $users = StudentReg::usersWithoutAdmins($query);
-            echo $users;
+        $user = Yii::app()->request->getPost('userId', '0');
+        $role = Yii::app()->request->getPost('role', '');
+        if($user && $role){
+            $model = RegisteredUser::userById($user);
+            echo $model->cancelRoleMessage(new UserRoles($role));
         } else {
-            throw new \application\components\Exceptions\IntItaException('400');
+            echo "Неправильний запит. Зверніться до адміністратора ".Config::getAdminEmail();
         }
     }
 
-    public function actionUsersWithoutAccountants($query)
+    public function actionUsersAddForm($role, $query)
     {
-        if ($query) {
-            $users = StudentReg::usersWithoutAccountants($query);
-            echo $users;
+        $roleModel = Role::getInstance(new UserRoles($role));
+        if ($query && $roleModel) {
+            echo $roleModel->addRoleFormList($query);
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
@@ -95,6 +104,21 @@ class UsersController extends TeacherCabinetController
         echo StudentReg::usersList();
     }
 
+    public function actionGetTenantsList()
+    {
+        echo UserTenant::tenantsList();
+    }
+
+    public function actionGetContentManagersList()
+    {
+        echo UserContentManager::contentManagersList();
+    }
+
+    public function actionGetTeacherConsultantsList()
+    {
+        echo UserTeacherConsultant::teacherConsultantsList();
+    }
+
     public function actionGetTeachersList()
     {
         echo Teacher::teachersList();
@@ -108,6 +132,16 @@ class UsersController extends TeacherCabinetController
     public function actionGetAccountantsList()
     {
         echo StudentReg::accountantsData();
+    }
+
+    public function actionGetTrainersList()
+    {
+        echo UserTrainer::trainersList();
+    }
+
+    public function actionGetConsultantsList()
+    {
+        echo UserConsultant::consultantsList();
     }
 
     public function actionAddTrainer($id)
@@ -134,15 +168,16 @@ class UsersController extends TeacherCabinetController
         else echo "error";
     }
 
-    public function actionChangeTrainer($id, $oldTrainerId)
+    public function actionChangeTrainer($id)
     {
-        $trainerStudent = TrainerStudent::model()->findByAttributes(array('student' => $id, 'trainer' => $oldTrainerId));
-
-        if (!$trainerStudent)
-            throw new CHttpException(404, 'Вказана сторінка не знайдена');
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+        if($trainer){
+            $oldTrainer = RegisteredUser::userById($trainer->id)->getTeacher();
+        } else {
+            $oldTrainer = null;
+        }
 
         $user = StudentReg::model()->findByPk($id);
-        $oldTrainer = RegisteredUser::userById($oldTrainerId)->getTeacher();
 
         $trainers = Teacher::getAllTrainers();
 
@@ -166,13 +201,14 @@ class UsersController extends TeacherCabinetController
     public function actionEditTrainer()
     {
         $userId = Yii::app()->request->getPost('userId');
-        $oldTrainerId = Yii::app()->request->getPost('oldTrainerId');
         $trainerId = Yii::app()->request->getPost('trainerId');
 
         $trainer = RegisteredUser::userById($trainerId);
-        $oldTrainer = RegisteredUser::userById($oldTrainerId);
-
-        $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
+        if($oldTrainerId) {
+            $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
+            $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        }
         if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";
     }
@@ -180,9 +216,9 @@ class UsersController extends TeacherCabinetController
     public function actionRemoveTrainer()
     {
         $userId = Yii::app()->request->getPost('userId');
-        $oldTrainerId = Yii::app()->request->getPost('oldTrainerId');
 
-        $oldTrainer = RegisteredUser::userById($oldTrainerId);
+        $trainer = TrainerStudent::getTrainerByStudent($userId);
+        $oldTrainer = RegisteredUser::userById($trainer->id);
 
         if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";

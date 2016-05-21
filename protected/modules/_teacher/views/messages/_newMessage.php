@@ -16,7 +16,6 @@
     <div class="panel-body">
         <div class="row">
         <form role="form" name="message">
-            <input class="form-control" name="id" id="hidden" value="<?=$user?>">
             <input type="number" hidden="hidden" id="receiverId" value="0"/>
 
             <div class="form-group col-md-8" id="receiver">
@@ -71,7 +70,7 @@
     users.initialize();
 
     if (scenario == "mailTo") {
-        $jq('#typeahead').val('<?=($receiver)?$receiver->userNameWithEmail():"";?>');
+        $jq('#typeahead').val('<?=($receiver)?addslashes(CHtml::decode($receiver->userNameWithEmail())):"";?>');
         $jq("#receiverId").val('<?=($receiver)?$receiver->id:0;?>');
     }
 

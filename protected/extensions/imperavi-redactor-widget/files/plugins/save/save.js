@@ -22,8 +22,8 @@ if (!RedactorPlugins) var RedactorPlugins = {};
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: '/lesson/save',
-                    data: {'content':html,'idLecture':idLecture,'order':order}
+                    url: '/revision/saveBlock',
+                    data: {'content':html,'idLecture':idLecture,'order':order.substring(2)}
                 });
 			}
 		};

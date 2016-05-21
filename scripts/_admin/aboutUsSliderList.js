@@ -12,7 +12,8 @@ function initAboutusSliderList(){
             {
                 "data": "photo",
                 "render": function (photo) {
-                    return '<a href="#" onclick="load('  + photo["link"] + ')"><img class="carouselImage" src="'  + photo["image"] + '"></a>';
+                    return '<a href="#" onclick="load('  + photo["link"] + ')"><img class="carouselImage" src="'  + photo["image"] + '"></a>'+
+                    '<div>'+photo["text"]+'</div>';
                 }
             },
             {
@@ -28,7 +29,22 @@ function initAboutusSliderList(){
                 "render": function (linkDown) {
                     return '<a href="#" onclick="load('  + linkDown + ')">вниз</a>';
                 }
-            }],
+            },
+            {
+                "width": "10%",
+                "data": "textUp",
+                "render": function (textUp) {
+                    return '<a href="#" onclick="load('  + textUp + ')">вверх</a>';
+                }
+            },
+            {
+                "width": "10%",
+                "data": "textDown",
+                "render": function (textDown) {
+                    return '<a href="#" onclick="load('  + textDown + ')">вниз</a>';
+                }
+            }
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },

@@ -6,9 +6,17 @@ abstract class Role
 
     abstract function tableName();
 
+    abstract function checkRoleSql();
+
     abstract function title();
 
+    abstract function getErrorMessage();
+
     abstract function attributes(StudentReg $user);
+
+    abstract function addRoleFormList($query);
+
+    abstract function checkBeforeDeleteRole(StudentReg $user);
 
     abstract function cancelAttribute(StudentReg $user, $attribute, $value);
 
@@ -32,6 +40,15 @@ abstract class Role
             case "author":
                 $model = new Author();
                 break;
+            case "content_manager":
+                $model = new ContentManager();
+                break;
+            case "teacher_consultant":
+                $model = new TeacherConsultant();
+                break;
+            case "tenant":
+                $model = new Tenant();
+                break;
             default :
                 $model = null;
         }
@@ -48,6 +65,9 @@ abstract class Role
 
     public function cancelRole(StudentReg $user)
     {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
         return Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),

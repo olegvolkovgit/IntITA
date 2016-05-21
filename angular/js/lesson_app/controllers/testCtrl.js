@@ -6,6 +6,7 @@ angular
     .controller('testCtrl',testCtrl);
 
 function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateService,openDialogsService) {
+
     $scope.sendTestAnswer = function (block_order, typeButton, test, testType, editMode) {
         var button=angular.element(document.querySelector(".testSubmit"));
         button.attr('disabled', true);
@@ -18,6 +19,8 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
         }
         $('#ajaxLoad').show();
         answers = $scope.getUserAnswers(testType);
+        var lesson = idLecture;
+        var page = $rootScope.currentPage;
         $http({
             method: "POST",
             url: basePath + "/tests/checkTestAnswer",
@@ -26,7 +29,9 @@ function testCtrl($rootScope,$http, $scope, accessLectureService,pagesUpdateServ
                 test: test,
                 answers: answers,
                 testType: testType,
-                editMode: editMode
+                editMode: editMode,
+                lesson: lesson,
+                page: page
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false

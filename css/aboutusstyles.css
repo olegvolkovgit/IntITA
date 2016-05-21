@@ -75,22 +75,9 @@
 .buutt a:hover{border-top-color:#454545;background:#454545;color:#fcfcfc;cursor:pointer;}
 .buutt a:active{border-top-color:#363636;background:#363636;}
 .slideAbout img{width:100%;height:100%;z-index:0;min-height:396px;}
-.slideAbout .sliderCenterBoxLine hr{width:1.5em;}
 .slideAbout .textabout{font-size:16px;text-align:center;margin-top:10px;}
-.aboutUsText{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;margin:0 auto;top:10%;color:#ffffff;line-height:1.1;min-width:1200px;width:100%}
-div.about1{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;color:white;top:25%;line-height:1.1;min-width:1200px;}
+.aboutUsText{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;margin:0 auto;top:10%;color:#ffffff;line-height:1.1;}
 .headerAbout{font-size:32px;}
-.about1 .sliderCenterBoxLine hr{border:1px solid white;width:100px;}
-div.about2{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;top:35%;color:#32567d;line-height:1.1;min-width:1200px;}
-.about2 .sliderCenterBoxLine hr{border:1px solid #32567d;width:100px;}
-div.about3{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;top:4%;color:#000000;line-height:1.1;min-width:1200px;}
-.about3 .sliderCenterBoxLine hr{border:1px solid #000000;width:100px;}
-div.about4{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;top:10%;color:#000000;line-height:1.1;min-width:1200px;}
-.about4 .sliderCenterBoxLine hr{border:1px solid #000000;width:100px;}
-div.about5{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;margin:0 auto;top:10%;color:#ffffff;line-height:1.1;min-width:1200px;}
-.about5 .sliderCenterBoxLine hr{border:1px solid white;width:100px;}
-div.about6{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;margin:0 auto;top:4%;color:#ffffff;line-height:1.1;min-width:1200px;}
-.about6 .sliderCenterBoxLine hr{border:1px solid white;width:100px;}
 .fullpageaboutus .block{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;width:400px;height:200px;margin:0;padding:0;background:#f2f2f2;border-radius:15px 15px 0 0;border-bottom:none;cursor:pointer;border-left:1px solid #d9d9d9;border-right:1px solid #d9d9d9;}
 .fullpageaboutus .selectedTab{-webkit-transform:translateY(-3px) scaleY(1.1);-moz-transform:translateY(-3px) scaleY(1.1);-o-transform:translateY(-3px) scaleY(1.1);-ms-transform:translateY(-3px) scaleY(1.1);transform:translateY(-3px) scaleY(1.1);background:#ebebeb;}
 .fullpageaboutus + #aboutDetailMain{margin-top:0;}

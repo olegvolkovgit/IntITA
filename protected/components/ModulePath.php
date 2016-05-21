@@ -26,9 +26,17 @@ class ModulePath extends Path
         $this->getModule();
 
         if ($this->module != null) {
+            if($this->module->language != $this->lang){
+                throw new \application\components\Exceptions\IntItaException(404);
+            }
+
             $this->getLecture();
-            if($this->lecture != null) {
-                $this->checkPageDefined();
+            $this->checkPageDefined();
+
+            if($this->lecture == null) {
+                if($this->getLectureOrder()) {
+                    throw new \application\components\Exceptions\IntItaException(404, 'Сторінка не знайдена.');
+                }
             }
         }
 

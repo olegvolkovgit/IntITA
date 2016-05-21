@@ -1,29 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 12.04.2015
- * Time: 2:05
+ * @var $data LectureElement
  */
 ?>
 <br>
 <?php
-    for ($i = count($data); $i > 0; $i--){
-
-        switch ($data['id_type']){
-            case 1:
-                $this->renderPartial('/editor/imperavi/_textBlock', array('data'=>$data, 'editMode' => $editMode));
-                break;
-            case 3:
-                $this->renderPartial('/editor/imperavi/_codeBlock', array('data'=>$data, 'editMode' => $editMode));
-                break;
-            case 4:
-                $this->renderPartial('/editor/imperavi/_exampleBlock', array('data'=>$data, 'editMode' => $editMode));
-                break;
-            case 7:
-                $this->renderPartial('/editor/imperavi/_instructionBlock', array('data'=>$data, 'editMode' => $editMode));
-                break;
-            default:
-        }
-    }
+switch ($data->id_type) {
+    case LectureElement::TEXT:
+        $this->renderPartial('/editor/imperavi/_textBlock', array('data' => $data, 'editMode' => $editMode));
+        break;
+    case LectureElement::CODE:
+        $this->renderPartial('/editor/imperavi/_codeBlock', array('data' => $data, 'editMode' => $editMode));
+        break;
+    case LectureElement::EXAMPLE:
+        $this->renderPartial('/editor/imperavi/_exampleBlock', array('data' => $data, 'editMode' => $editMode));
+        break;
+    case LectureElement::INSTRUCTION:
+        $this->renderPartial('/editor/imperavi/_instructionBlock', array('data' => $data, 'editMode' => $editMode));
+        break;
+    default:
+}
 ?>

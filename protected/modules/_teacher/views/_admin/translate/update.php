@@ -8,10 +8,13 @@
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>')">
             Інтерфейсні повідомлення</button>
     </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/view', array('id' => $model->id_record)); ?>',
+                    '<?="Переглянути повідомлення #".$model->id_record?>')">
+            Переглянути</button>
+    </li>
 </ul>
-<div class="page-header">
-    <h4>Редагувати повідомлення #<?php echo $model->id_record; ?></h4>
-</div>
 <div class="updateTranslateForm">
     <?php $this->renderPartial('_form', array('model' => $model)); ?>
 </div>

@@ -26,22 +26,14 @@ class CoursesController extends Controller
      */
     public function actionIndex($selector = 'all')
     {
-        $criteria = Course::getCriteriaBySelector($selector);
-        $dataProvider = Course::getCoursesByLevel($criteria);
+        $blocks = Course::getCoursesByLang($selector);
 
-        $coursesLang = CourseLanguages::getCoursesByLang($criteria);
-
-        $total = count(Course::model()->findAllByAttributes(array('cancelled' => 0)));
-        $totalSelector = count($coursesLang);
-        $count1 = round($totalSelector/2);
-        $count2 = $totalSelector - $count1;
+        $counters = Course::countersBySelectors();
+        $totalBlocks = count($blocks);
 
         $this->render('index', array(
-            'coursesLangs'=>$coursesLang,
-            'dataProvider' => $dataProvider,
-            'total' => $total,
-            'count1' => $count1,
-            'count2' => $count2,
+            'blocks' => $blocks,
+            'counters' => $counters,
         ));
     }
 }

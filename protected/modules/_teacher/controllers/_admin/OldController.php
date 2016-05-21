@@ -2,6 +2,10 @@
 
 class OldController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     public function actionIndex()
     {
         $model = new PayModules('search');
@@ -72,6 +76,7 @@ class OldController extends TeacherCabinetController
         $rights = Yii::app()->request->getPost('rights');
         $module = Yii::app()->request->getPost('module');
         $user = Yii::app()->request->getPost('user');
+
 
         if (!empty($module)) {
             if (PayModules::model()->exists('id_user=:user and id_module=:resource',

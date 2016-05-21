@@ -31,18 +31,11 @@
             'cols' => 50, 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'what_you_get_ru'); ?>
     </div>
-
     <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('coursemanage', '0398') : Yii::t('coursemanage', '0399'),
             array(
                 'class' => 'btn btn-primary',
                 'id' => 'submitButton',
-                'ajax'=>array(
-                    'type'=>'POST',
-                    'url'=>$model->isNewRecord ? Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'):
-                        Yii::app()->createUrl('/_teacher/_admin/coursemanage/update', array('id' => $model->course_ID)) ,
-                    'success'=>'function(data) {bootbox.alert(data);}',
-                )
             )); ?>
     </div>
 </div>

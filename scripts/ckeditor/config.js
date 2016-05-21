@@ -13,5 +13,9 @@ CKEDITOR.editorConfig = function( config ) {
     //config.filebrowserUploadUrl = '/lesson/CKEUploadImage';
     //config.extraPlugins = 'Audio';
     config.extraAllowedContent = 'audio[*]{*}';
-    config.filebrowserImageUploadUrl="/lesson/CKEUploadImageAudio?idModule="+idModule+"&idLecture="+idLecture;
+    config.filebrowserImageUploadUrl="/lesson/CKEUploadImageAudio";
+
+    //native font for intita
+    config.contentsCss = '/css/fontface.css';
+    config.font_names = 'MyriadPro/MyriadPro;' + config.font_names;
 };

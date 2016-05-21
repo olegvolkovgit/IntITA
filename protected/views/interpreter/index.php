@@ -12,9 +12,9 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/sendTaskJsonService.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/getTaskJson.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/directives/interpreterForms.js'); ?>"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'interpreter.css'); ?>"/>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
 
 
@@ -34,8 +34,8 @@
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
-<input type="hidden" ng-init='lang="<?php echo Task::getTaskLangById($idTask); ?>"' ng-model="lang" />
-<input type="hidden" ng-init='task="<?php echo $idTask; ?>"' ng-model="task" />
+<input type="hidden" ng-init='lang="<?php echo $task->language; ?>"' ng-model="lang" />
+<input type="hidden" ng-init='task="<?php echo $task->uid; ?>"' ng-model="task" />
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
 <body ng-app="interpreterApp">
 <div ng-controller="interpreterCtrl">
@@ -584,7 +584,7 @@
                         </table>
             </pre>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row col header">
                 <div>Назва функції</div>
                 <input class="form-control functionName" maxlength="32" ng-pattern="/^[a-zA-Z_][0-9a-zA-Z_]?[^\s]*$/" placeholder="Назва функції" ng-model="finalResult.name" required ng-change="fNameGenerate()"/>
@@ -592,7 +592,7 @@
             </div>
         </div>
         <h2 id="title">Параметри функції</h2>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row col" id="params">
                 <div ng-repeat="form in args track by $index">
                     <params-form/>
@@ -606,12 +606,14 @@
         <div ng-repeat="unit in units track by $index">
             <unit-form/>
         </div>
-        <div class="container-fluid">
-            <button ng-click="addDellFormResult(0)" type="button" class="btn btn-default pull-right btnInterp" title="Додати юніттест">
-                <span class="glyphicon-plus glyphicon glyphicon" aria-hidden="true"></span>
-            </button>
+        <div class="row">
+            <div class="container">
+                <button ng-click="addDellFormResult(0)" type="button" class="btn btn-default pull-right btnInterp" title="Додати юніттест">
+                    <span class="glyphicon-plus glyphicon glyphicon" aria-hidden="true"></span>
+                </button>
+            </div>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <h2 id="title">Еталонний код</h2>
             <div class="row col header">
                 Еталон(не обов'язкове поле, якщо вказані result value в кожному юніт-тесті)

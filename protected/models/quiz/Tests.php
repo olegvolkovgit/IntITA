@@ -8,6 +8,8 @@
  * @property integer $id
  * @property integer $block_element
  * @property integer $author
+ * @property string $title
+ * @property integer $uid
  *
  * The followings are the available model relations:
  */
@@ -29,11 +31,11 @@ class Tests extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('author, block_element', 'required'),
-			array('id, block_element, author', 'numerical', 'integerOnly'=>true),
+			array('author, block_element, uid', 'required'),
+			array('id, block_element, author, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, block_element, author', 'safe', 'on'=>'search'),
+			array('id, block_element, author, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +60,7 @@ class Tests extends Quiz
 			'id' => 'ID',
 			'block_element' => 'Block Element',
 			'author' => 'Author',
+            'uid' => 'UID'
 		);
 	}
 
@@ -82,6 +85,7 @@ class Tests extends Quiz
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
+		$criteria->compare('uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

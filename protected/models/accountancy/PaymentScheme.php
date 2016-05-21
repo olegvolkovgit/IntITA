@@ -13,7 +13,16 @@
  */
 class PaymentScheme extends CActiveRecord
 {
-	/**
+	const ADVANCE = 1;
+    const BASE_TWO_PAYS = 2;
+    const BASE_FOUR_PAYS = 3;
+    const MONTHLY = 4;
+    const CREDIT_TWO_YEARS = 5;
+    const CREDIT_THREE_YEARS = 6;
+    const CREDIT_FOUR_YEARS = 7;
+    const CREDIT_FIVE_YEARS = 8;
+
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()

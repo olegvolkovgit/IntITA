@@ -248,7 +248,6 @@ $header = new Header();
         </div>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
 <!-- footer -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 <!-- Humburger script -->

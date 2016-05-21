@@ -3,9 +3,11 @@
  * @var $model StudentReg
  * @var $scenario
  * @var $receiver
- * @var $authorRequests array
+ * @var $course int
+ * @var $module int
+ * @var $requests array
  * @var $newMessages array
- *
+ * @var $countNewMessages int
  */
 ?>
 <!DOCTYPE html>
@@ -22,7 +24,6 @@
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/consult.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?= StaticFilesHelper::fullPathTo('css', 'formattedForm.css') ?>"/>
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
 
@@ -72,9 +73,13 @@
         <?php echo $this->renderPartial('_top_navigation', array(
             'model' => $model,
             'newMessages' => $newMessages,
-            'authorRequests' => $authorRequests
+            'requests' => $requests,
+            'countNewMessages' =>$countNewMessages
         )); ?>
-        <?php echo $this->renderPartial('_sidebar_navigation', array('model' => $model)); ?>
+        <?php echo $this->renderPartial('_sidebar_navigation', array(
+            'model' => $model,
+            'countNewMessages' =>$countNewMessages
+        )); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>
@@ -105,6 +110,8 @@
     </div>
     <!-- /.modal -->
 </div>
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css'); ?>"/>
+
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -116,12 +123,14 @@
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/js/sb-admin-2.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teacher.js');?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_trainer/trainer.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-de.js"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_teachers/newPlainTask.js'); ?>"></script>
+<?php if(Yii::app()->user->model->isContentManager()){?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cabinet/contentManager.js'); ?>"></script>
+<?php }?>
 <!--Typeahead  scripts -->
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'handlebars.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'typeahead.js'); ?>"></script>
@@ -129,10 +138,23 @@
 <script>
     window.onload = function()
     {
-
-        if(scenario == 'message'){
-            load('<?=Yii::app()->createUrl("/_teacher/messages/write",
-                array('id' => $model->id, 'receiver' => $receiver));?>');
+        switch (scenario) {
+            case 'message':
+                load('<?=Yii::app()->createUrl("/_teacher/messages/write",
+                    array('id' => $model->id, 'receiver' => $receiver));?>', 'Нове повідомлення');
+                break;
+            case 'payCourse':
+                    window.history.pushState(null, null, basePath + "/cabinet/#");
+                    load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
+                        array('course' => $course));?>', 'Оплата курса');
+                break;
+            case 'payModule':
+                window.history.pushState(null, null, basePath + "/cabinet/#");
+                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payModule",
+                    array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
+                break;
+            default:
+                break;
         }
         history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
                     array('user' => $model->id)); ?>'},"")

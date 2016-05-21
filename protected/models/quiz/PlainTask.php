@@ -7,8 +7,10 @@
  * @property integer $id
  * @property integer $block_element
  * @property integer $author
+ * @property integer $uid
  *
- *  @property LecturePage $lecturePage
+ * @property LecturePage $lecturePage
+ * @property LectureElement $lectureElement
  */
 class PlainTask extends Quiz
 {
@@ -28,10 +30,10 @@ class PlainTask extends Quiz
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('block_element, author', 'required'),
-			array('block_element, author', 'numerical', 'integerOnly'=>true),
+			array('block_element, author, uid', 'required'),
+			array('block_element, author, uid', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id, block_element, author', 'safe', 'on'=>'search'),
+			array('id, block_element, author, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +59,7 @@ class PlainTask extends Quiz
 			'id' => 'ID',
 			'block_element' => Yii::t('lecture','0774'),
 			'author' => Yii::t('lecture','0775'),
+			'uid' => 'UID',
 		);
 	}
 
@@ -81,6 +84,7 @@ class PlainTask extends Quiz
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_element',$this->block_element);
 		$criteria->compare('author',$this->author);
+		$criteria->compare('t.uid',$this->uid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -129,51 +133,6 @@ class PlainTask extends Quiz
 
     public function getDescription()
     {
-		return $this->lectureElement->html_block;
-    }
-
-    public static function getPlainTaskAnswersWithoutTrainer()
-    {
-        $trainerUsers = TrainerStudent::getStudentByTrainer(Yii::app()->user->id);
-
-        $plainTasksArr = [];
-        $plainTasksAnswers = [];
-
-        if($trainerUsers)
-        {
-            foreach($trainerUsers as $user){
-                $tasks = Yii::app()->db->createCommand(array(
-                    'select' => array('*'),
-                    'from' => 'plain_task_answer',
-                    'order' => 'pt.start_date ASC',
-                    'join' => 'RIGHT JOIN plain_task_answer_teacher pt
-                     on pt.id_plain_task_answer = id',
-                    'where' => 'pt.id_plain_task_answer IS NULL or (pt.end_date IS NOT NULL)
-                    and id_student = '.$user->id,
-                    'group' =>'id_plain_task_answer',
-                ))->queryAll();
-                foreach($tasks as $oneTask) {
-                    if (isset($oneTask['id'])) {
-                        array_push($plainTasksArr, $oneTask['id']);
-                    }
-                }
-            }
-        }
-        if($plainTasksArr)
-        {
-            foreach($plainTasksArr as $plainTask)
-            {
-                $plainAnswer = PlainTaskAnswer::model()->findByPk($plainTask);
-
-                array_push($plainTasksAnswers,$plainAnswer);
-            }
-        }
-
-        return $plainTasksAnswers;
-    }
-
-    public static function countPlainTaskAnswersWithoutTrainer()
-    {
-        return count(self::getPlainTaskAnswersWithoutTrainer());
+		return ($this->lectureElement)?$this->lectureElement->html_block:"недоступна";
     }
 }

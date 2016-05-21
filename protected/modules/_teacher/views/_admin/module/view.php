@@ -17,7 +17,7 @@
             <li>
                 <button type="button" class="btn btn-primary"
                         onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/update',
-                            array('id' => $model->module_ID)); ?>', '<?='Модуль '.$model->title_ua;?>')">Редагувати модуль
+                            array('id' => $model->module_ID)); ?>', '<?='Модуль '.addslashes($model->title_ua);?>')">Редагувати модуль
                 </button>
             </li>
             <li>

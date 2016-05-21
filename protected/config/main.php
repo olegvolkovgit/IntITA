@@ -24,15 +24,18 @@ return array(
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
+        'application.models.track.*',
+        'application.models.track.statistics.*',
         'application.models.accountancy.*',
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
+        'application.models.revision.*',
         'application.models.user.*',
         'application.components.*',
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
-        //'ext.yii2-debug.*',
+       // 'ext.yii2-debug.*',
         'application.helpers.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
@@ -50,6 +53,7 @@ return array(
         '_admin',
         '_teacher',
         '_accountancy',
+        //'debug',
     ),
 
     // application components
@@ -102,6 +106,7 @@ return array(
                 'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet' => '_teacher/cabinet/index',
                 'profile/edit' => 'studentreg/edit',
+                'agreement/<id:\d+>' => 'payments/showAgreement',
 
 
                 array('class' => 'CourseRule'),//rules for course page ($routes: 'course/index', 'module/index', 'lesson/index')
@@ -146,6 +151,12 @@ return array(
                     'levels'=>'error, warning, trace, profile, info',
                     'showInFireBug' => true
                 ),
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning, trace, info, profile',
+                    'categories'=>'system.db.*',
+                    'logFile'=>'sql.log',
+                ),
             ),
         ),
 
@@ -173,5 +184,6 @@ return array(
         // this is used in teacher profile page
         'adminEmail' => 'Wizlightdragon@gmail.com',
         'languages' => array('en' => 'English', 'ua' => 'Ukrainian', 'ru' => 'Russian'),
+        'dbDateFormat'=>'Y-m-d H:i:s'
     ),
 );

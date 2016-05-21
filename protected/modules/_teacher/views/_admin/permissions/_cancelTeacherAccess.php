@@ -1,23 +1,26 @@
 <br>
-<div id="cancelTeacherAccess">
-    <form role="form" class="col col-md-9">
-        <div class="form-group">
-            <input type="text" hidden="hidden" value="author" id="role">
-            <label>Викладач:</label>
-            <br>
-            <input id="typeahead2" type="text" class="form-control" placeholder="Викладач"
-                   size="135" required autofocus>
-            <input type="number" hidden="hidden" id="user" value="0"/>
-        </div>
-        <div class="form-group">
-            <br>
-            <div name="teacherModules" class="form-group"></div>
-            <br>
-            <input type="submit" class="btn btn-outline btn-warning" value="Скасувати"
-                   onclick="cancelTeacherAccess('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/cancelTeacherPermission'); ?>');
-                       return false;">
-        </div>
-    </form>
+<div class="panel panel-default col-md-7">
+    <div class="panel-body">
+        <form role="form">
+            <div class="form-group">
+                <input type="text" hidden="hidden" value="author" id="role">
+                <label>Викладач:</label>
+                <br>
+                <input id="typeahead2" type="text" class="form-control" placeholder="Викладач"
+                       size="135" required autofocus>
+                <input type="number" hidden="hidden" id="user" value="0"/>
+            </div>
+            <div class="form-group">
+                <br>
+                <div name="teacherModules" class="form-group"></div>
+                <br>
+                <input type="submit" class="btn btn-outline btn-warning" value="Скасувати"
+                       onclick="cancelTeacherAccess('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/cancelTeacherPermission'); ?>',
+                           'Права доступа','teacherAccess','author');
+                           return false;">
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -57,7 +60,7 @@
         }
     });
 
-    $jq('#typeahead2').on('typeahead:selected', function (e, item){
+    $jq('#typeahead2').on('typeahead:selected', function (e, item) {
         $jq("#user").val(item.id);
         selectTeacherModules('<?=Yii::app()->createUrl("/_teacher/_admin/permissions/showTeacherModules");?>', item.id);
     });

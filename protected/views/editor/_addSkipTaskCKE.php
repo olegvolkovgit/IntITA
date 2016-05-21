@@ -18,7 +18,7 @@
             <br>
         </fieldset>
         <input type="submit" ng-click="createSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/addTask'); ?>',
-         <?php echo $pageId;?>, <?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>)"
+         <?php echo $pageId;?>, <?=Yii::app()->user->getId();?>)"
                ng-disabled="addSkipTask.$invalid" value="<?=Yii::t('editor', '0789');?>">
     </form>
     <br>

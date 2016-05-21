@@ -40,7 +40,7 @@
             <tr>
                 <td>
                     <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
-                        <?= $item["title"] . " (" . $item["lang"] . ")"; ?>
+                        <?= CHtml::encode($item["title"]) . " (" . $item["lang"] . ")"; ?>
                     </a>
                 </td>
                 <td>

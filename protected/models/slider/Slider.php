@@ -40,6 +40,20 @@ abstract class Slider extends CActiveRecord {
         $model->order = $prevModel->order;
         $prevModel->order = $tmp;
     }
+    public static function swapText($model,$prevModel)
+    {
+        $tmp_ua = $model->text_ua;
+        $tmp_ru = $model->text_ru;
+        $tmp_en = $model->text_en;
+
+        $model->text_ua = $prevModel->text_ua;
+        $model->text_ru = $prevModel->text_ru;
+        $model->text_en = $prevModel->text_en;
+
+        $prevModel->text_ua = $tmp_ua;
+        $prevModel->text_ru = $tmp_ru;
+        $prevModel->text_en = $tmp_en;
+    }
 
     public function getLastAboutusOrder()
     {

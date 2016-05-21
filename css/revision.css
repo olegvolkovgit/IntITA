@@ -1,0 +1,111 @@
+#revisionMainBox {
+    margin: 0 auto;
+    width: 1200px;
+    overflow: visible;
+    position: relative;
+    word-wrap: break-word;
+}
+.editIco{
+    cursor: pointer;
+}
+.dropdown-menu a{
+    cursor: pointer;
+}
+.lessonText {
+    padding-right: 20px;
+}
+#revisionMainBox a,#revisionMainBox a:active,#revisionMainBox a:focus,#revisionMainBox button,
+#revisionMainBox button:active,#revisionMainBox input[type="submit"],
+#revisionMainBox input[type="submit"]:active{outline:none;!important;}
+@-moz-document url-prefix(){a:focus{;outline:none;!important;}}
+html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:border-box;}
+.lectureInfo{
+    width: 33%;
+    display: inline-block;
+    padding-left: 20px;
+    word-wrap: break-word;
+}
+.lectureInfo table.table {
+    table-layout: fixed;
+}
+#pages.table{
+    table-layout: fixed;
+}
+#pages.table a,#pages.table td{
+    cursor: pointer;
+    width: 10%;
+    /*text-align: center;*/
+}
+#pages.table tr:hover{
+    background:#F2F2F2;
+}
+#pages.table tr:first-child:hover{
+    background:none;
+}
+#pages.table tr:first-child td{
+    cursor: default;
+}
+#pages.table td.titleCell{
+    width: 70%;
+    /*text-align: left;*/
+}
+.lectureInfo table.table td:first-child {
+    width: 35%;
+}
+.editButtons img{
+    float: right;
+    display: inline;
+    cursor: pointer;
+    margin: 5px
+}
+.pageRevision{
+    word-wrap: break-word;
+}
+.pageRevision #lecturePage{
+    margin-top: 0;
+}
+.icons{
+    text-align: right;
+}
+.icons img{
+    width: 32px;
+    cursor: pointer;
+}
+#revisionMainBox .lessonPart{
+    height: 70px;
+}
+#revisionMainBox #labelBlock p, #revisionMainBox #tooltip p {
+    width: inherit;
+}
+.editPageIco{
+    float: right;
+}
+.editPageIco img{
+    position: absolute;
+    width: 32px;
+    right: 0;
+    cursor: pointer;
+}
+#loaderContainer{
+    width: 100%;
+    text-align: center;
+}
+.modal {
+    z-index: 9999;
+}
+.modal-backdrop {
+    z-index: 9998;
+}
+.dropdown.treeview-dropdown{
+    position: absolute;
+    top: 0;
+    left: 95%;
+    margin: 5px 0 0 0;
+}
+.list-group-item.node-tree{
+    padding-right: 70px;
+    word-wrap: break-word;
+}
+#pageVideo{
+    z-index: 3;
+}

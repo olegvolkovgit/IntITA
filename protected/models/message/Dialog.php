@@ -4,7 +4,7 @@ class Dialog
 {
     public $partner1;
     public $partner2;
-    public $messages;
+    private $messages;
     public $header;
 
     public function __construct(StudentReg $partner1, StudentReg $partner2){
@@ -16,17 +16,23 @@ class Dialog
     public function initMessages()
     {
         $criteria = new CDbCriteria();
-        $criteria->alias = 'um';
-        $criteria->join = 'LEFT JOIN messages as m ON um.id_message = m.id';
-        $criteria->join.= ' LEFT JOIN message_receiver as r ON um.id_message = r.id_message';
+        $criteria->alias = 'm';
+        $criteria->join.= ' LEFT JOIN message_receiver as r ON m.id = r.id_message';
         $criteria->order = 'm.create_date DESC';
-        //$criteria->addCondition ('r.deleted IS NOT NULL', 'AND');
         $criteria->addCondition ('m.sender = '.$this->partner1->id.' and r.id_receiver='.$this->partner2->id, 'OR');
         $criteria->addCondition ('m.sender = '.$this->partner2->id.' and r.id_receiver='.$this->partner1->id, 'OR');
 
-        $this->messages = UserMessages::model()->findAll($criteria);
+        $messages = Messages::model()->findAll($criteria);
+        $result = [];
+        foreach($messages as $record){
+            $record = MessagesFactory::getInstance($record);
+            if($record) {
+                array_push($result, $record);
+            }
+        }
+        $this->messages = $result;
         if(!empty($this->messages)) {
-            $this->header = $this->messages[count($this->messages) - 1]->subject;
+            $this->header = $this->messages[count($this->messages) - 1]->subject();
         } else {
             $this->header = "";
         }
@@ -48,8 +54,9 @@ class Dialog
     //need fix!
     public function read(){
         $flag = true;
-        foreach($this->messages as $message){
+        foreach($this->messages() as $message){
             if(!$message->isRead($this->partner2)) {
+               // var_dump($message);die;
                 $flag = $message->read($this->partner2);
             }
         }

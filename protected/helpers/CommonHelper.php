@@ -8,7 +8,6 @@
  */
 class CommonHelper
 {
-
     public static function getDollarExchangeRate()
     {
         $header = array("Accept: application/json");
@@ -115,7 +114,7 @@ class CommonHelper
 
     public static function getPriceUah($summa)
     {
-        return round($summa * 24);//CommonHelper::getDollarExchangeRate(), 2);
+        return round($summa * Config::getDollarRate());
     }
 
     public static function getRating($rat)

@@ -9,23 +9,57 @@
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>', 'Інтерфейсні повідомлення')">
             Інтерфейсні повідомлення</button>
     </li>
+    <li>
+        <button type="button" class="btn btn-primary"
+                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/update', array('id' => $model->id_record)); ?>',
+                    '<?="Редагувати повідомлення #".$model->id_record?>')">
+            Редагувати</button>
+    </li>
 </ul>
 
-<div class="page-header">
-    <h1>Повідомлення #<?php echo $model->id_record; ?></h1>
-</div>
-<?php $this->widget('zii.widgets.CDetailView', array(
-    'data' => $model,
-    'attributes' => array(
-        'id_record',
-        'id',
-        'language',
-        'translation',
-    ),
-)); ?>
-<br>
-<div class="page-header">
-    <b>Коментар:</b>   <?php echo ($model->comment)?$model->comment->comment:""; ?>
-    <br>
-    <b>Категорія:</b>  <?php echo $model->source->category; ?>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <td width="30%"><strong>ID запису</strong></td>
+                        <td><?= $model->id_record; ?></td>
+                    </tr>
+                    <tr>
+                        <td width="30%"><strong>ID перекладу</strong></td>
+                        <td>
+                            <?= $model->id; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"><strong>Мова</strong></td>
+                        <td>
+                            <?= $model->language; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"><strong>Переклад</strong></td>
+                        <td>
+                            <?= CHtml::encode($model->translation); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"><strong>Коментар:</strong></td>
+                        <td>
+                            <?= MessageComment::getMessageCommentById($model->id); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"><strong>Категорія:</strong></td>
+                        <td>
+                            <?= CHtml::encode($model->source->category); ?>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

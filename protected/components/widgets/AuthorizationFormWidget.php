@@ -12,6 +12,7 @@ class AuthorizationFormWidget extends CWidget
     public $dialog;
     public $authMode='signIn';
     public $action='site/signInSignUp';
+    public $callBack;
 
 
     public function run()
@@ -20,7 +21,7 @@ class AuthorizationFormWidget extends CWidget
         if($this->dialog=='true') $this->form='authFormDialog';
         else $this->form='authForm';
         $this->render('AuthorizationForm/' . $this->form, array(
-            'model'=>$model,'id'=>$this->id,'mode'=>$this->authMode,'action'=>$this->action
+            'model'=>$model,'id'=>$this->id,'mode'=>$this->authMode,'action'=>$this->action,'callBack'=>$this->callBack
         ));
     }
 }

@@ -10,8 +10,6 @@
  * @property string $title_en
  * @property string $alias
  * @property string $language
- * @property integer $module_duration_hours
- * @property integer $module_duration_days
  * @property integer $lesson_count
  * @property string $module_price
  * @property string $for_whom
@@ -64,12 +62,13 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             array('status', 'required'),
             array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
-            array('alias,module_number','unique'),
-            array('module_duration_hours, module_duration_days, lesson_count, hours_in_day, days_in_week,
-            module_number, cancelled, level', 'numerical', 'integerOnly' => true, 'message' => Yii::t('module', '0413')),
-            array('module_price', 'length', 'max' => 10),
+            array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
+            array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d\/]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри та символ "/"'),
+            array('lesson_count, hours_in_day, days_in_week,
+            module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
+            array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
-            array('alias', 'length', 'max' => 30),
+            array('alias', 'length', 'max' => 30, 'message' => 'Довжина псевдоніма занадто велика.'),
             array('language', 'length', 'max' => 6),
             array('title_ua', 'match',
                 'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
@@ -119,10 +118,8 @@ class Module extends CActiveRecord implements IBillableObject
             'title_en' => 'Назва англійською',
             'alias' => 'Псевдонім',
             'language' => 'Мова',
-//            'module_duration_hours' => 'Тривалість модуля (години)',
-//            'module_duration_days' => 'Тривалість модуля (дні)',
             'lesson_count' => 'Кількість лекцій',
-            'module_price' => 'Ціна',
+            'module_price' => 'Ціна модуля базова, USD',
             'for_whom' => 'Для кого',
             'what_you_learn' => 'Що ти вивчиш',
             'what_you_get' => 'Що ти отримаєш',
@@ -132,6 +129,7 @@ class Module extends CActiveRecord implements IBillableObject
             'status' => 'Статус',
             'hours_in_day' => 'Годин в день (рекомендований графік занять)',
             'days_in_week' => 'Днів у тиждень (рекомендований графік занять)',
+            'level' => 'Рівень',
 
         );
     }
@@ -158,8 +156,6 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('title_en', $this->title_en, true);
         $criteria->compare('alias', $this->alias, true);
         $criteria->compare('language', $this->language, true);
-//        $criteria->compare('module_duration_hours', $this->module_duration_hours);
-//        $criteria->compare('module_duration_days', $this->module_duration_days);
         $criteria->compare('lesson_count', $this->lesson_count);
         $criteria->compare('module_price', $this->module_price, true);
         $criteria->compare('for_whom', $this->for_whom, true);
@@ -371,7 +367,10 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public function monthsCount(){
-        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week));
+        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours()));
+    }
+    public function moduleDurationInDays(){
+        return $this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours());
     }
 
     public static function lessonsInMonth($idModule)
@@ -575,21 +574,11 @@ class Module extends CActiveRecord implements IBillableObject
             </table>';
     }
 
-    public static function getAverageModuleDuration($lesson_count, $hours_in_day, $days_in_week)
-    {
-        return round($lesson_count * 7 / ($hours_in_day * $days_in_week));
-    }
-
-    public function averageModuleDuration()
-    {
-        return round($this->lesson_count * 7 / ($this->hours_in_day * $this->days_in_week));
-    }
-
     public static function getTimeAnsweredQuiz($quiz, $user)
     {
         switch (LectureElement::model()->findByPk($quiz)->id_type) {
             case '5':
-                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $quiz))->id);
+                return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $quiz))->uid);
                 break;
             case '6':
                 $plain=PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
@@ -598,10 +587,10 @@ class Module extends CActiveRecord implements IBillableObject
                 else return false;
                 break;
             case '12':
-                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->id);
+                return TestsMarks::testTime($user, Tests::model()->findByAttributes(array('block_element' => $quiz))->uid);
                 break;
             case '9':
-                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $quiz))->id);
+                return SkipTaskMarks::taskTime($user, SkipTask::model()->findByAttributes(array('condition' => $quiz))->uid);
                 break;
             default:
                 return false;
@@ -737,7 +726,7 @@ class Module extends CActiveRecord implements IBillableObject
         $this->title_en = $titleEn;
 
         if ($this->save()) {
-            $this->alias = $this->module_ID;
+            //$this->alias = $this->module_ID;
             $this->module_img = "module.png";
             $this->update(array('alias', 'module_img'));
 
@@ -865,11 +854,11 @@ class Module extends CActiveRecord implements IBillableObject
     public static function allModules($query){
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
-        $criteria->alias = "s";
         $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
+        $criteria->addCondition('cancelled=0');
 
         $data = Module::model()->findAll($criteria);
 
@@ -953,10 +942,10 @@ class Module extends CActiveRecord implements IBillableObject
             $row = array();
 
             $row["id"] = $record->module_ID;
-            $row["alias"] = $record->alias;
+            $row["alias"] = CHtml::encode($record->alias);
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["title"]["header"] = "'Модуль ".CHtml::encode(addslashes($record->title_ua))."'";
+            $row["title"]["header"] = "'Модуль ".addslashes($record->title_ua)."'";
             $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;
             $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
@@ -978,8 +967,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
-        $criteria->join = 'JOIN course_modules cm ON cm.id_module = m.module_ID';
-        $criteria->addCondition('cm.id_course <>'.$course);
+        $criteria->join = 'LEFT JOIN course_modules cm ON cm.id_module = m.module_ID';
+        $criteria->addCondition('cm.id_course IS NULL or cm.id_course <>'.$course);
         $data = Module::model()->findAll($criteria);
 
         $result = array();
@@ -1019,6 +1008,15 @@ class Module extends CActiveRecord implements IBillableObject
         else return false;
     }
 
+    public function lastLecture()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'lecture';
+        $criteria->order = '`order` DESC';
+        $criteria->condition = 'idModule=' . $this->module_ID . ' and `order`>0';
+        return Lecture::model()->find($criteria);
+    }
+
     public static function isAliasUnique($alias){
         return Module::model()->exists('alias=:alias', array(':alias' => $alias)) == false;
     }
@@ -1046,5 +1044,13 @@ class Module extends CActiveRecord implements IBillableObject
 		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module='.$this->module_ID;
 
         return Yii::app()->db->createCommand($sql)->queryAll();
+    }
+
+    public function getIndepedentModulePrice(){
+        return round($this->module_price * Config::getCoeffIndependentModule());
+    }
+
+    public function priceOffline(){
+        return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 }

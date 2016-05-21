@@ -84,14 +84,16 @@
             posting.done(function (response) {
                     if (response == "success")
                         bootbox.alert("Модуль успішно додано.", function () {
-                            load(basePath + '/_teacher/_admin/coursemanage/addExistModule/id/'+course,'Додати модуль до курса '+title);
+                            load(basePath + '/_teacher/_admin/coursemanage/update/id/'+course,'Курс '+title,'','4');
                         });
-                    else {
+                    else if(response == 'duplicate error') {
+                        bootbox.alert("Даний модуль уже присутній в курсі");
+                    }else{
                         bootbox.alert("Операцію не вдалося виконати");
                     }
                 })
                 .fail(function () {
-                    bootbox.alert("Операцію не вдалося виконати");
+                    bootbox.alert("Операцію не вдалося виконати2");
                 });
         }
     }

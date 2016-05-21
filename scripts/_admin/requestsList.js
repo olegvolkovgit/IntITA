@@ -8,13 +8,21 @@ function initRequestsTable() {
         "columns": [
             {
                 "width": "30%",
-                "data": "user"},
+                "data": "user",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                }
+            },
             {
                 "width": "50%",
                 "data": "module",
                 "render": function (module) {
-                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"]+ '</a>';
+                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
                 }
+            },
+            {
+                "width": "20%",
+                "data": "type"
             },
             {
                 "width": "20%",
@@ -38,20 +46,36 @@ function setRequestStatus(url, message) {
                 url: url,
                 type: "POST",
                 success: function (response) {
-                    if(response == "success") {
-                        bootbox.confirm("Операцію виконано.", function(){
-                            load(basePath + '/_teacher/_admin/request/index', 'Запити');
-                        });
-                    } else {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
+                    bootbox.alert(response, function () {
+                        load(basePath + '/_teacher/_admin/request/index', 'Запити');
+                    });
                 },
-                error:function () {
-                    showDialog("Операцію не вдалося виконати.");
+                error: function () {
+                    bootbox.alert("Операцію не вдалося виконати.");
                 }
             });
         } else {
-            showDialog("Операцію відмінено.");
+            bootbox.alert("Операцію відмінено.");
+        }
+    });
+}
+
+function approveCoworkerRequest(url, message, user){
+    showAjaxLoader();
+    $jq.ajax({
+        url: url,
+        type: "POST",
+        data: {message: message, user: user},
+        success: function (response) {
+            bootbox.alert(response, function () {
+                load(basePath + '/_teacher/_admin/request/index', 'Запити');
+            });
+        },
+        error: function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        },
+        complete: function(){
+            hideAjaxLoader();
         }
     });
 }

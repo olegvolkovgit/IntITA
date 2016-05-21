@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $receivedMessages array
- * @var $userMessage UserMessages
+ * @var $message
  * @var $user StudentReg
  */
 ?>
@@ -17,22 +17,22 @@
         </thead>
         <tbody>
         <?php
-        foreach ($receivedMessages as $userMessage) {
+        foreach ($receivedMessages as $message) {
             ?>
-            <tr class="odd gradeX" style="cursor:pointer" <?php if(!$userMessage->isRead($user)) {echo 'id="new"';}?>>
+            <tr class="odd gradeX" style="cursor:pointer" <?php if(!$message->isRead($user)) {echo 'id="new"';}?>>
                 <td class="center">
-                    <input type="checkbox" name="<?= $userMessage->id_message; ?>">
+                    <input type="checkbox" name="<?= $message->id_message; ?>">
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' => $userMessage->message0->sender0->id, 'user2' => $user->id)) ?>')">
-                    <?= $userMessage->message0->sender0->userName() . ", " . $userMessage->message0->sender0->email; ?>
+                    'user1' => $message->message0->sender0->id, 'user2' => $user->id)) ?>')">
+                    <?= $message->message0->sender0->userName() . ", " . $message->message0->sender0->email; ?>
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' => $userMessage->message0->sender0->id, 'user2' => $user->id)) ?>')">
-                    <em><?= $userMessage->subject; ?></em>
+                    'user1' => $message->message0->sender0->id, 'user2' => $user->id)) ?>')">
+                    <em><?= CHtml::encode($message->subject()); ?></em>
                 </td>
                 <td class="center">
-                    <em><?= CommonHelper::formatMessageDate($userMessage->message0->create_date); ?></em>
+                    <em><?= CommonHelper::formatMessageDate($message->message0->create_date); ?></em>
                 </td>
             </tr>
             <?php

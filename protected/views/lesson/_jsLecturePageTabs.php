@@ -6,11 +6,11 @@
  * Time: 13:44
  */
 ?>
-<div name="lecturePage" ng-controller="lessonPageCtrl">
+<div name="lecturePage" >
     <div class="tabsWidget">
         <div class="lessonPart">
             <div class="labelBlock" id="labelBlock">
-                <p><?php echo Yii::t('lecture', '0615')." "?>{{pageData[(currentPage || lastAccessPage)-1].order}}. {{pageData[(currentPage || lastAccessPage)-1].title}}</p>
+                <p><?php echo Yii::t('lecture', '0615')." "?>{{currentPage || lastAccessPage}}. {{pageData[(currentPage || lastAccessPage)-1].title}}</p>
             </div>
             <div id="tooltip"></div>
         </div>
@@ -22,7 +22,7 @@
                ng-class="{pageDone: page.isDone || editMode || isAdmin, pageNoAccess: !(page.isDone || editMode || isAdmin)}"
                ng-attr-id="{{$index+1==(currentPage || lastAccessPage) && 'pagePressed' || undefined }}"
                ui-sref="page({page: $index+1})"
-               title="<?php echo Yii::t('lecture', '0615')." {{page.order}}. {{page.title}}" ?>"
+               title="<?php echo Yii::t('lecture', '0615') ?> {{$index+1}}. {{page.title}}"
                hover-spot="{{$index}}"
                 >
                 <div ng-class="{spotDone: page.isDone || editMode || isAdmin,

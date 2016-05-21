@@ -11,12 +11,11 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleEditCtrl.js'); ?>"></script>
 <script type="text/javascript">
     idModule = <?php echo $module->module_ID;?>;
-    idCourse = <?php echo $idCourse;?>;
     basePath = '<?php echo Config::getBaseUrl();?>';
     lang = '<?php echo CommonHelper::getLanguage();?>';
 </script>
 <div id="lessonHumMenu">
-    <?php $this->renderPartial('/module/_hamburgerMenu', array('idCourse' => $idCourse, 'idModule' => $module->module_ID)); ?>
+    <?php $this->renderPartial('/module/_hamburgerMenu'); ?>
 </div>
 <div class="lessonModule" id="lectures" ng-controller="moduleEditCtrl">
     <div class="moduleTitle">
@@ -51,9 +50,11 @@
                     <span><?php echo Yii::t('module', '0381') ?> {{$index+1}}.</span>
                 </td>
                 <td class="lecturesTitle">
-                    <a href="{{lectures.lecturesLink[$index]}}">
-                        <span class="lectureTitle">{{lecture.title}}</span>
-                    </a>
+                    <div class="moduleTitle">
+                        <a href="{{lectures.lecturesLink[$index]}}">
+                            <span class="lectureTitle">{{lecture.title}}</span>
+                        </a>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -62,17 +63,15 @@
         <?php $this->renderPartial('_addLessonForm', array('model'=>$module)); ?>
     </div>
     <div class="backButton">
-        <a href="<?php
-        if($idCourse==0) echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID));
-        else echo Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)); ?>">
+        <a href="<?php echo isset($_SERVER["HTTP_REFERER"])?$_SERVER["HTTP_REFERER"]:Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID)); ?>">
             <?php echo Yii::t('module', '0808') ?>
         </a>
     </div>
 </div>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootstrap.min.js'); ?>"></script>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'moduleDialogs.js'); ?>"></script>
-<link type='text/css' rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">

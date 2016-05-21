@@ -67,10 +67,14 @@ function findUserByEmail(url) {
     }
 }
 
-function checkCourseField(url)
+function checkCourseField(url, courseId, userId)
 {
-    var courseId = document.getElementById("courseId").value;
-    var userId = document.getElementById('user').value;
+    if(!courseId) {
+        courseId = document.getElementById("courseId").value;
+    }
+    if(!userId) {
+        userId = document.getElementById('user').value;
+    }
     if(courseId == 0){
         showDialog("Виберіть курс.");
         return false;
@@ -98,10 +102,36 @@ function checkCourseField(url)
 
 }
 
-function checkModuleField(url)
+
+function cancelCourse(url, course, user)
 {
-    var moduleId = document.getElementById('moduleId').value;
-    var userId = document.getElementById('user').value;
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {course: course,
+            'user' : user},
+        cache: false,
+        success: function(data){
+            showDialog(data);
+            loadUserInfo(user);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+}
+
+function loadUserInfo(user){
+    load(basePath + "/_teacher/user/index/id/" + user);
+}
+function checkModuleField(url, moduleId, userId)
+{
+    if(!moduleId){
+        moduleId = document.getElementById('moduleId').value;
+    }
+    if(!userId){
+        userId = document.getElementById('user').value;
+    }
 
     if(userId == 0)
     {
@@ -132,6 +162,25 @@ function checkModuleField(url)
     return true;
 }
 
+function cancelModule(url, module, user)
+{
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            'module': module,
+            'user' : user},
+        cache: false,
+        success: function(data){
+            showDialog(data);
+            loadUserInfo(user);
+        },
+        error: function () {
+            showDialog();
+        }
+    });
+    return true;
+}
 function initPayTypeaheads(){
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),

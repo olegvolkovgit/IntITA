@@ -19,6 +19,7 @@
     ?>
     <div ng-cloak class="signUp">
         <input type="hidden" name="formId" value="<?php echo $id ?>">
+        <input type="hidden" name="callBack" value="<?php echo $callBack ?>">
         <div class="rowemail">
             <?php $placeHolderEmail = Yii::t('regform', '0014'); ?>
             <?php echo $form->emailField($model, 'email', array('class' => 'signInEmail', 'placeholder' => $placeHolderEmail, 'size' => 60, 'maxlength' => 40, 'onKeyUp' => "hideSignServerValidationMes(this)", 'ng-model' => "formEmail", "ng-required" => "true")); ?>

@@ -142,15 +142,15 @@ class UserAgreements extends CActiveRecord
     }
 
     
-    public static function agreementByParams($type, $user, $module, $course, $schemaNum)
+    public static function agreementByParams($type, $user, $module, $course, $schemaNum, $educForm)
     {
         $agreement = null;
         switch ($type){
             case 'Module':
-                $agreement = UserAgreements::moduleAgreement($user, $module, 1);
+                $agreement = UserAgreements::moduleAgreement($user, $module, 1, $educForm);
                 break;
             case 'Course':
-                $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
+                $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum, $educForm);
                 break;
             default :
                 $agreement = null;
@@ -160,7 +160,7 @@ class UserAgreements extends CActiveRecord
     }
     
     
-    public static function courseAgreement($user, $course, $schema)
+    public static function courseAgreement($user, $course, $schema, $educForm)
     {
         $service = CourseService::getService($course);
         if ($service) {
@@ -184,7 +184,7 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    public static function moduleAgreement($user, $module, $schema)
+    public static function moduleAgreement($user, $module, $schema, $educForm)
     {
         $service = ModuleService::getService($module);
         if ($service) {
@@ -334,6 +334,13 @@ class UserAgreements extends CActiveRecord
         return $dataProvider;
     }
 
+    public function invoices()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('agreement_id='.$this->id);
+
+        return Invoice::model()->findAll($criteria);
+    }
 
     public function cancelOperation()
     {
@@ -369,15 +376,27 @@ class UserAgreements extends CActiveRecord
         else return false;
     }
 
-    public static function getDataProviderByUser($user){
+    public static function agreementsListByUser(){
         $criteria = new CDbCriteria;
-        $criteria->addCondition('user_id=' . $user);
-        $dataProvider =  new CActiveDataProvider('UserAgreements', array(
-            'criteria' => $criteria,
-            'pagination' => false,
-        ));
+        $criteria->addCondition('user_id=' . Yii::app()->user->getId());
+        $agreements = UserAgreements::model()->findAll($criteria);
+        $return = array('data' => array());
 
-        return $dataProvider;
+        foreach ($agreements as $record) {
+            $row = array();
+            $row["title"]["name"] = "Договір ".$record->number;
+            $row["title"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
+            $row["object"] = CHtml::encode($record->service->description);
+            $row["date"] = date("d.m.y", strtotime($record->create_date));
+            $row["summa"] = ($record->summa != 0)?number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;"): "безкоштовно";
+            $row["schema"] = CHtml::encode($record->paymentSchema->name);
+            $row["invoices"]["name"] = "Договір ".$record->number;
+            $row["invoices"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }
 

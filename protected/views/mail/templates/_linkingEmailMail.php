@@ -11,7 +11,6 @@ $lang = $params[2];
 <br>
 <span>Щоб приєднати дану електронну адресу до соціальної мережі <strong><?=$model->identity;?></strong>, будь ласка перейди за посиланням:</span>
 <br>
-<span>Щоб продивитися нову задачу, перейди за посиланням:</span>
 <a href="<?=Yii::app()->createAbsoluteUrl('site/linkingEmailToNetwork', array('network' => $model->identity,'token' => $model->token,'email' => $hashMail,$model->identity, 'lang'=>$lang))?>">Приєднати</a>.
 <br>
 ​З повагою, INTITA​;

@@ -1,19 +1,19 @@
 <div class="row params">
-    <div class="col-lg-2">
+    <div class="col-md-2 col-sm-4">
         <input ng-pattern="/^[a-zA-Z_][0-9a-zA-Z_]?[^\s]*$/" type="text" class="form-control" placeholder="Назва змінної" maxlength="16" ng-model="form.arg_name" ng-change="updateList($index,form.arg_name)" required>
     </div>
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <select class="selectpicker" ng-model="form.is_array" ng-options="o.value as o.name for o in is_array"  ng-change="sizeRefresh($index,form.is_array,form.type)" >
         </select>
     </div>
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <input type="text" ng-disabled=!form.is_array name="size" ng-pattern='positiveIntPattern' class="form-control" placeholder="Size" ng-model="form.size" ng-change="updatePattern(form.type,form.size,$index)">
     </div>
-    <div class="col-lg-2">
+    <div class="col-sm-2">
         <select class="selectpicker" ng-model="form.type"  ng-options="t.type as t.name for t in types" ng-change="updatePattern(form.type,form.size,$index)">
         </select>
     </div>
-    <div class="argButton col-lg-1">
+    <div class="argButton">
         <button ng-click="addDellForm(1,$index)" type="button" class="btn btn-default pull-right btnInterp" title="Видалити змінну">
             <span ng-class="'glyphicon-minus'" class="glyphicon glyphicon" aria-hidden="true"></span>
         </button>

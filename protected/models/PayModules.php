@@ -9,8 +9,8 @@
  * @property integer $rights
  *
  * The followings are the available model relations:
- * @property Module $idModule
- * @property User $idUser
+ * @property Module $module
+ * @property StudentReg $idUser
  */
 
 //Flags for bits mask - right's array in db
@@ -53,8 +53,8 @@ class PayModules extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
-			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
+			'module' => array(self::BELONGS_TO, 'Module', 'id_module'),
+			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
 	}
 
@@ -111,6 +111,9 @@ class PayModules extends CActiveRecord
      * @param array $rights array of rights for user (allowed read, edit, create, delete)
      * */
     public static function setFlags($rights){
+        if(in_array('edit', $rights) && !in_array('read', $rights)){
+            array_push($rights, 'read');
+        }
         $flag = 0;
         for ($i = 0; $i < count($rights); $i++) {
             $right = $rights[$i];
@@ -259,5 +262,26 @@ class PayModules extends CActiveRecord
         $result = '<br /> В користувача '. $userName. ' не було доступу до даного модуля';
 
         return $result;
+    }
+
+    public static function getPayModulesListByUser(){
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        $modules = PayModules::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($modules as $record) {
+            $row = array();
+
+            $row["title"]["name"] = $record->module->getTitle();
+            $row["title"]["url"] = Yii::app()->createAbsoluteUrl("module/index", array("idModule" =>$record->module->module_ID));
+            $row["summa"] = ($record->module->getBasePrice() != 0)?number_format(CommonHelper::getPriceUah($record->module->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
+            //$row["schema"] = CHtml::encode($record->paymentSchema->name);
+            //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }

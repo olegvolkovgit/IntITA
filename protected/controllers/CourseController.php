@@ -13,9 +13,13 @@ class CourseController extends Controller
      */
     public function actionIndex($id)
     {
-        $canEdit = StudentReg::isAdmin();
+        if(Yii::app()->user->isGuest) {
+            $canEdit = false;
+        } else {
+            $canEdit = Yii::app()->user->model->isAdmin();
+        }
         $model = Course::model()->findByPk($id);
-        if ($model->cancelled == 1) {
+        if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
         }
 
@@ -179,7 +183,7 @@ class CourseController extends Controller
         if(Yii::app()->user->getId())
         $data["userId"] = Yii::app()->user->getId();
         else $data["userId"]=false;
-        $data["isAdmin"] = StudentReg::isAdmin();
+        $data["isAdmin"] = (Yii::app()->user->isGuest)?false:Yii::app()->user->model->isAdmin();
         $data["termination"][0] = Yii::t('module', '0653');
         $data["termination"][1] = Yii::t('module', '0654');
         $data["termination"][2] = Yii::t('module', '0655');
@@ -191,13 +195,15 @@ class CourseController extends Controller
         //if guest or admin return json
         if(!$data["userId"] || $data["isAdmin"]){
             $modules=Course::model()->modulesInCourse($data["courseId"]);
+            if($data["isAdmin"])
+                $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
             for($i = 0;$i < count($modules);$i++){
                 if(!$data["userId"])
                     $data["modules"][$i]['access']=false;
                 else $data["modules"][$i]['access']=true;
                 $module=Module::model()->findByPk($modules[$i]['id_module']);
                 $data["modules"][$i]['id']= $modules[$i]['id_module'];
-                $data["modules"][$i]['time']= $module->averageModuleDuration();
+                $data["modules"][$i]['time']= $module->monthsCount();
                 $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
                 $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
             }
@@ -207,7 +213,7 @@ class CourseController extends Controller
 
         $user=Studentreg::model()->findByPk($data["userId"]);
         if($user->isTeacher()){
-            $data["teacherId"] = $user->teacher->teacher_id;
+            $data["teacherId"] = $user->id;
             $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
         }else{
             $data["teacherId"] = false;
@@ -219,12 +225,12 @@ class CourseController extends Controller
         for($i = 0;$i < count($modules);$i++){
             $module=Module::model()->findByPk($modules[$i]['id_module']);
             $data["modules"][$i]['id']= $modules[$i]['id_module'];
-            $data["modules"][$i]['time']= $module->averageModuleDuration();
+            $data["modules"][$i]['time']= $module->monthsCount();
             $data["modules"][$i]['title']=CHtml::decode($module->getTitle());
             $data["modules"][$i]['link']=Yii::app()->createUrl("module/index", array("idModule" => $modules[$i]['id_module'], "idCourse" => $data["courseId"]));
 
             if( $data["teacherId"]){
-                $data["modules"][$i]['isAuthor']=Teacher::isTeacherIdAuthorModule( $data["teacherId"], $modules[$i]['id_module']);
+                $data["modules"][$i]['isAuthor']=Teacher::isTeacherIdAuthorModule( $data["userId"], $modules[$i]['id_module']);
             }else{
                 $data["modules"][$i]['isAuthor']=false;
             }

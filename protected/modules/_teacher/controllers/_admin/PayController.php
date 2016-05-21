@@ -8,6 +8,10 @@
  */
 class PayController extends TeacherCabinetController
 {
+    public function hasRole()
+    {
+        return Yii::app()->user->model->isAdmin();
+    }
 
     public function actionIndex()
     {
@@ -25,6 +29,7 @@ class PayController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
 
+
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
         $module = Module::model()->findByPk($moduleId);
@@ -36,6 +41,9 @@ class PayController extends TeacherCabinetController
         } else {
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
+            if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID)) {
+                UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, 'Online');
+            }
             $message = new MessagesPayment();
             $message->build(null, $user, $module);
             $message->create();
@@ -67,7 +75,9 @@ class PayController extends TeacherCabinetController
             $permission = new PayCourses();
             $course = Course::model()->findByPk($courseId);
             $permission->setCourseRead($userId, $course->course_ID);
-
+            if (!UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course->course_ID)) {
+                UserAgreements::agreementByParams('Course', $user->id, 0, $course->course_ID, 1, 'Online');
+            }
             $message = new MessagesPayment();
             $message->build(null, $user, $course);
             $message->create();
@@ -98,48 +108,72 @@ class PayController extends TeacherCabinetController
 
     public function actionCancelModule()
     {
-        if (isset($_POST['user']) && isset($_POST['module'])) {
-            $resultText = '';
-            $userId = Yii::app()->request->getPost('user');
-            $moduleId = Yii::app()->request->getPost('module');
-            $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
+        $userId = Yii::app()->request->getPost('user', 0);
+        $moduleId = Yii::app()->request->getPost('module', 0);
+        if ($userId && $moduleId) {
+            $user = StudentReg::model()->findByPk($userId);
+            $userName = $user->getNameOrEmail();
 
             $payModule = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
             if ($payModule) {
-                $resultText = PayModules::getCancelText($payModule->idModule, $userName);
-                $payModule->delete();
+                if ($payModule->delete()) {
+                    $this->notify($user, 'Скасовано доступ до модуля',
+                        '_payModuleCancelledNotification', array($payModule->module, Teacher::model()->findByAttributes(array('user_id' => Config::getAdminId()))));
+                    echo PayModules::getCancelText($payModule->module, $userName);
+                }
+
             } else {
-                $resultText = PayModules::getCancelErrorText($userName);
-
+                echo PayModules::getCancelErrorText($userName);
             }
-            echo $resultText;
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
         }
-
     }
 
     public function actionCancelCourse()
     {
-        if (isset($_POST['user']) && isset($_POST['course'])) {
-            $resultText = '';
-            $userId = Yii::app()->request->getPost('user');
-            $courseId = Yii::app()->request->getPost('course');
-            $userName = StudentReg::model()->findByPk($userId)->getNameOrEmail();
+        $userId = Yii::app()->request->getPost('user', 0);
+        $courseId = Yii::app()->request->getPost('course', 0);
+        if ($userId && $courseId) {
+            $student = StudentReg::model()->findByPk($userId);
+            $userName = $student->getNameOrEmail();
 
             $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
 
             if ($payCourse) {
-                $resultText = PayCourses::getCancelText($payCourse->idCourse, $userName);
-
-                $payCourse->delete();
+                if ($payCourse->delete()) {
+                    $this->notify($student, 'Скасовано доступ до курса',
+                        '_payCourseCancelledNotification', array($payCourse->course, Teacher::model()->findByAttributes(array('user_id' => Config::getAdminId()))));
+                }
+                echo PayCourses::getCancelText($payCourse->course, $userName);
             } else {
-                $resultText = PayCourses::getCancelErrorText($userName);
+                echo PayCourses::getCancelErrorText($userName);
             }
-            echo $resultText;
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
         }
     }
 
-    public function actionCoursesByQuery($query){
+    public function actionCoursesByQuery($query)
+    {
         echo Course::readyCoursesList($query);
     }
 
+    public function notify(StudentReg $student, $subject, $template, $params)
+    {
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new MessagesNotifications();
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate($template, $params);
+            $message->build($subject, $sender->template(), array($student), Yii::app()->user->model->registrationData);
+            $message->create();
+
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
+    }
 }

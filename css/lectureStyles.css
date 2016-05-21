@@ -209,9 +209,9 @@ img {
 
 /*----Edit toolbar----*/
 .editToolbar {
-    position: absolute;
-    margin-top: -25px;
-    float: left;
+    /*position: absolute;*/
+    /*margin-top: -25px;*/
+    /*float: left;*/
 }
 
 .editToolbar img {
@@ -245,14 +245,8 @@ img {
 .formLabel {
     text-decoration: none;
 }
-
-#cancelButton {
-    margin-top: 10px;
-    width: 100px;
-}
-#addBlockSubmit{
-    margin-top: 10px;
-    width: 100px;
+#blockFormCode input,#blockForm input {
+    margin-top: 5px;
 }
 
 .teacherBlock div.photobg {
@@ -694,7 +688,7 @@ a.lectureDisabled{
 .consultationButtons:hover,#mibew-agent-button:hover{
     opacity: 0.7;
 }
-#thisLecture{
+.lectureAccess.thisLecture{
     background: green;
 }
 /*sidebar lectures */
@@ -926,4 +920,14 @@ a.cke_dialog_ui_fileButton{
     background: #F2F2F2;
     border-radius: 5px;
     padding: 5px;
+}
+.pageTitleCke{
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.videoLink{
+    font-size: 20px;
+}
+.videoLink input{
+    display: inline-block;
 }

@@ -3,7 +3,7 @@
  * @var $model Teacher
  */
 ?>
-<p class="tabHeader"><?php echo Yii::t('profile', '0113'); ?></p>
+<p class="tabHeader"><?php echo ($owner) ? Yii::t('profile', '0113') : Yii::t('profile', '0823'); ?></p>
 <div>
 <?php
 if ($user->isTeacher()) {

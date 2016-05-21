@@ -167,20 +167,15 @@ class Translate extends CActiveRecord
 
         foreach ($result as $record) {
             $row = array();
-            $record['translation']=CHtml::encode($record['translation']);
-            foreach($record as $key=>$field) {
-                if($key != 5){
-                    array_push($row, $field);
-                }
-            }
-            $url1 = Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$row[5]));
-            $url2 = Yii::app()->createUrl("/_teacher/_admin/translate/update", array("id"=>$row[5]));
-            $row[5] = "<a href='#' onclick='load(\"".$url1."\")'><i class=\"fa fa-eye\"></i></a>
-                               <a href='#' onclick='load(\"".$url2."\")'><i class=\"fa fa-pencil\"></i></a>";
-
+            $row["id"] = $record["id"];
+            $row["language"] = $record["language"];
+            $row["category"] = CHtml::encode($record["category"]);
+            $row["comment"] = CHtml::encode($record["comment"]);
+            $row["translation"]["text"]=CHtml::encode($record['translation']);
+            $row["translation"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$record["id_record"]))."'";
             array_push($return['data'], $row);
         }
 
-        echo json_encode($return);
+        return json_encode($return);
     }
 }

@@ -10,7 +10,7 @@
         <br>
         <form name="cancel-access">
             <fieldset>
-                <legend>Викладач: <em>
+                <legend>Співробітник: <em>
                         <?php echo $teacher->lastName()." ".$teacher->firstName(). " ".$teacher->middleName();?></em></legend>
                 <input type="text" id="teacher" value="<?php echo $teacher->user_id ?>" style="display:none">
                 Роль:<br>

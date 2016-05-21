@@ -41,9 +41,12 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'module_price'); ?>
-        <?php echo $form->textField($model, 'module_price', array('class' => 'form-control')); ?>
-        <?php echo $form->error($model, 'module_price'); ?>
+        <div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курса (якщо не вказана ціна модуля в конкретному курсі - вкладка
+        <У курсах>) і при розрахунку вартості самостійного модуля.">
+            <?php echo $form->labelEx($model, 'module_price'); ?>
+            <?php echo $form->textField($model, 'module_price', array('class' => 'form-control')); ?>
+            <?php echo $form->error($model, 'module_price'); ?>
+        </div>
     </div>
 
     <div class="form-group">
@@ -57,18 +60,16 @@
         <?php echo $form->textField($model, 'days_in_week', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'days_in_week'); ?>
     </div>
-
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'module_img'); ?>
+        <?php echo $form->fileField($model, 'module_img', array('onchange' => "CheckFile(this)")); ?>
+        <div class="errorMessage" style="display: none"></div>
+    </div>
     <div class="form-group">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',
             array(
                 'class' => 'btn btn-primary',
                 'id' => 'submitButton',
-                'ajax'=>array(
-                    'type'=>'POST',
-                    'url'=>$model->isNewRecord ? Yii::app()->createUrl('/_teacher/_admin/module/create'):
-                        Yii::app()->createUrl('/_teacher/_admin/module/update', array('id' => $model->module_ID)) ,
-                    'success'=>'function(data) {moduleValidation(data);}',
-                )
             )); ?>
     </div>
 </div>

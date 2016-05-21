@@ -42,15 +42,17 @@ class PaymentsController extends Controller
         if (!isset($agreement)) {
             throw new \application\components\Exceptions\IntItaException(500, 'На сайті виникла помилка.');
         }
+        header("Location: ".Yii::app()->createUrl("payments/showAgreement", array("id" => $agreement->id)));
 
-        $this->render('index', array(
-            'agreement' => $agreement,
-        ));
     }
 
     public function actionAgreement($user, $course, $schemaNum = 1)
     {
-        $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
+        if ($user && $course) {
+            $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
+        }
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('agreement_id=' . $agreement->id);
@@ -71,7 +73,7 @@ class PaymentsController extends Controller
     {
         $agreement = UserAgreements::model()->findByPk($id);
         if (!isset($agreement)) {
-            throw new \application\components\Exceptions\IntItaException(500, 'На сайті виникла помилка.');
+            throw new \application\components\Exceptions\IntItaException(400, 'Договір не знайдено.');
         }
 
         $this->render('index', array(

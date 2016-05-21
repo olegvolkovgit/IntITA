@@ -3,22 +3,36 @@
 class CabinetController extends TeacherCabinetController
 {
 
-    public function actionIndex($scenario = "dashboard", $receiver = 0)
+    public function hasRole(){
+        return !Yii::app()->user->isGuest;
+    }
+
+    public function actionIndex($scenario = "dashboard", $receiver = 0, $course = 0, $module = 0)
     {
         $model = Yii::app()->user->model;
+        if ($course != 0 || $module != 0) {
+            if (!$model->isStudent()) {
+                UserStudent::addStudent($model->registrationData);
+            }
+        }
 
         if (!$model) {
             throw new \application\components\Exceptions\IntItaException(400, 'Користувача не знайдено.');
         }
         $newReceivedMessages = $model->newReceivedMessages();
-        $authorRequests = $model->authorRequests();
+        $countNewMessages = count($newReceivedMessages);
+        $newReceivedMessages = $model->newMessages($newReceivedMessages);
+        $requests = $model->requests();
 
         $this->render('index', array(
             'model' => $model,
             'newMessages' => $newReceivedMessages,
+            'countNewMessages' => $countNewMessages,
             'scenario' => $scenario,
             'receiver' => $receiver,
-            'authorRequests' => $authorRequests
+            'course' => $course,
+            'module' => $module,
+            'requests' => $requests
         ));
     }
 
@@ -60,61 +74,6 @@ class CabinetController extends TeacherCabinetController
         return $model;
     }
 
-    public function actionModule($id)
-    {
-        $modules = Teacher::model()->findByPk($id)->modules;
-
-        $this->render('moduleList', array(
-            'modules' => $modules,
-        ));
-    }
-
-    public function actionMyPlainTask($id)
-    {
-
-        $lectureArr = [];
-        $modules = Teacher::model()->findByPk($id)->modules;
-        foreach ($modules as $module) {
-            $lect = $module->lectures;
-            if ($lect) {
-                array_push($lectureArr, $lect);
-            }
-        }
-        $lectureElementsArr = [];
-
-        foreach ($lectureArr as $lectures) {
-            foreach ($lectures as $lecture) {
-                $lecEl = $lecture->lectureEl;
-                if ($lecEl) {
-                    array_push($lectureElementsArr, $lecEl);
-
-                }
-            }
-        }
-        $plainTaskArr = [];
-
-        foreach ($lectureElementsArr as $lectureElements) {
-            foreach ($lectureElements as $lectureElement) {
-                $plainTask = $lectureElement->plainTask;
-                if ($plainTask) {
-                    array_push($plainTaskArr, $plainTask);
-                }
-            }
-        }
-        $this->render('plainTaskList', array(
-            'plainTasks' => $plainTaskArr,
-        ));
-    }
-
-    public function actionShowPlainTask($id)
-    {
-        $plainTask = PlainTask::model()->findByPk($id);
-
-        $this->render('../plainTask/show', array(
-            'plainTask' => $plainTask,
-        ));
-    }
-
     public function actionLoadDashboard($user)
     {
         $model = RegisteredUser::userById($user);
@@ -134,9 +93,6 @@ class CabinetController extends TeacherCabinetController
 
     public function rolesDashboard(RegisteredUser $user, $inRole = null)
     {
-        if ($user->isTeacher()) {
-            $teacher = $user->getTeacher();
-        }
         if ($inRole == null) {
             $roles = $user->getRoles();
         } else $roles = $inRole;
@@ -144,13 +100,13 @@ class CabinetController extends TeacherCabinetController
         foreach ($roles as $role) {
             switch ($role) {
                 case "trainer":
-                    $this->renderTrainerDashboard($teacher, $user, $role);
-                    break;
                 case "author":
-                    $this->renderAuthorDashboard($teacher, $user, $role);
-                    break;
                 case 'consultant':
-                    $this->renderConsultantDashboard($teacher, $user, $role);
+                case 'student':
+                case 'tenant':
+                case 'content_manager':
+                case 'teacher_consultant':
+                    $this->renderDashboard($role, $user);
                     break;
                 case 'admin':
                     $this->renderAdminDashboard();
@@ -158,9 +114,7 @@ class CabinetController extends TeacherCabinetController
                 case 'accountant':
                     $this->renderAccountantDashboard();
                     break;
-                case 'student':
-                    $this->renderStudentDashboard($user);
-                    break;
+
                 default:
                     throw new CHttpException(400, 'Неправильно вибрана роль!');
                     break;
@@ -168,67 +122,11 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
-    public function renderSidebarByRole(UserRoles $role)
-    {
-        $teacher = Teacher::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
-        $user = Yii::app()->user->model;
-        switch ($role) {
-            case 'trainer' :
-                $this->renderPartial('/trainer/sidebar', array(
-                    'teacher' => $teacher,
-                    'user' => $user
-                ));
-                break;
-            case 'consultant' :
-                $this->renderPartial('/consultant/sidebar', array(
-                    'teacher' => $teacher,
-                    'user' => $user
-                ));
-                break;
-        }
-    }
-
-    private function renderTrainerDashboard(Teacher $teacher, RegisteredUser $user, $role)
-    {
-        return $this->renderPartial('/trainer/_trainerDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
-        ));
-    }
-
-    private function renderAuthorDashboard(Teacher $teacher, RegisteredUser $user, $role)
-    {
-        return $this->renderPartial('/author/_authorDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
-        ));
-    }
-
-    private function renderStudentDashboard(RegisteredUser $user)
-    {
-        return $this->renderPartial('/student/_dashboard', array(
+    private function renderDashboard(UserRoles $role, RegisteredUser $user){
+        $view = '/'.$role.'/_dashboard';
+        return $this->renderPartial($view, array(
+            'teacher' => $user->getTeacher(),
             'user' => $user->registrationData
-        ));
-    }
-
-
-    private function renderConsultantDashboard(Teacher $teacher, RegisteredUser $user, $role)
-    {
-        return $this->renderPartial('/consultant/_consultantDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
-        ));
-    }
-
-    private function renderLeaderDashboard(Teacher $teacher, RegisteredUser $user, $role)
-    {
-        return $this->renderPartial('/leader/_leaderDashboard', array(
-            'teacher' => $teacher,
-            'user' => $user->registrationData,
-            'role' => $role,
         ));
     }
 
@@ -251,5 +149,4 @@ class CabinetController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
-
 }

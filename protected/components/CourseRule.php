@@ -123,7 +123,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order . $pageString."/".$template;
                     } else {
-                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . $lecture->module->language . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order . $pageString."/".$template;
                     }
                 }
@@ -133,7 +133,7 @@ class CourseRule extends CBaseUrlRule
 
             if (!empty($params['pageId'])) {
                 $page = LecturePage::model()->findByPk($params['pageId']);
-                if ($lecture = Lecture::model()->findByPk($page->id_lecture)) {
+                if ($lecture = $page->lecture) {
                     if (isset($params['cke'])){
                         $cke = 'CKE';
                     } else {
@@ -147,7 +147,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order .'/'.$page->page_order.'?edit'.$cke;
                     } else {
-                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . $lecture->module->language . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order  .'/'.$page->page_order.'?edit'.$cke;
                     }
                 }
@@ -162,7 +162,7 @@ class CourseRule extends CBaseUrlRule
                         return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
                         . '/' . $lecture->order .'?edit';
                     } else {
-                        return 'module/' . Module::getModuleLang($lecture->idModule) . '/' .Module::getModuleAlias($lecture->idModule, null)
+                        return 'module/' . $lecture->module->language . '/' .Module::getModuleAlias($lecture->idModule, null)
                         . '/' . $lecture->order  .'?edit';
                     }
                 }

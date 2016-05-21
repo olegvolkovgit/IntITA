@@ -1,11 +1,14 @@
 <?php
-/* @var $model StudentReg */
+/**
+ * @var $model StudentReg
+ * @var $countNewMessages int
+ */
 ?>
 
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
+            <li class="sidebar-search" style="display: none">
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" placeholder="Пошук...">
                     <span class="input-group-btn">
@@ -21,30 +24,22 @@
                        array('user' => $model->id)); ?>")'>
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
+            <li>
+                <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/index');?>','Повідомлення')">
+                    <i class="fa fa-envelope fa-fw"></i> Повідомлення
+                <?php if($countNewMessages > 0){?>
+                    <span class="label label-success"><?=$countNewMessages?></span>
+                <?php }?>
+                </a>
+            </li>
 
             <?php
-            if ($model->isAdmin()) {
-                ?>
-                <li id="nav">
-                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/adminPage',
-                        array('user' => $model->id)); ?>', 'Панель адміністратора')">
-                        <i class="fa fa-table fa-fw"></i> Адміністратор</a>
-                </li>
-                <?php
-            }
-
-            if ($model->isAccountant()) {
-                ?>
-                <li>
-                    <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/accountantPage',
-                        array('user' => $model->id)); ?>', 'Панель бухгалтера')">
-                        <i class="fa fa-table fa-fw"></i> Бухгалтер</a>
-                </li>
-                <?php
-            }
-
-            if ($model->isTeacher()) {
-                $this->renderPartial('_teacherRoles');
+            $roles = Yii::app()->user->model->getRoles();
+            foreach($roles as $role) {
+                $view = '/' . $role . '/sidebar';
+                $this->renderPartial($view, array(
+                    'model' => $model
+                ));
             }
             ?>
         </ul>

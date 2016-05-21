@@ -2,7 +2,7 @@ function load(url, header, histories, tab) {
     clearDashboard();
     showAjaxLoader();
     if (histories == undefined || histories == '') {
-        history.pushState({url: url, header: header,tab:tab}, "");
+        history.pushState({url: url, header: header, tab: tab}, "");
     }
     $jq.ajax({
         url: url,
@@ -12,18 +12,89 @@ function load(url, header, histories, tab) {
             container.html('');
             container.html(data);
             if (header) {
-                $jq("#pageTitle").html(header);
+                $jq("#pageTitle").text(header);
             } else {
                 $jq("#pageTitle").html('Особистий кабінет');
             }
         },
-        error: function () {
-            showDialog();
+        error: function (data) {
+            if (data.status == 403) {
+                bootbox.alert('У вас недостатньо прав для перегляду та редагування сторінки.');
+            } else {
+                showDialog();
+            }
         },
-        complete: function(){
+        complete: function () {
             hideAjaxLoader();
         }
     });
+}
+
+function createAccount(url, course, module) {
+    schema = $jq('input:radio[name="payment"]:checked').val();
+    educationForm = $jq('#educationForm').val();
+    if (schema == 0) {
+        bootbox.alert("Виберіть схему проплати.");
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                payment: schema,
+                course: course,
+                educationForm: educationForm,
+                module: module
+            },
+            cache: false,
+            success: function (id) {
+                load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
+            },
+            error: function () {
+                bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                    adminEmail);
+            }
+        });
+    }
+}
+
+function cancelTeacherAccess(url, header, redirect, role) {
+    var user = $jq("#user").val();
+    var moduleId = $jq("select[name=modules] option:selected").val();
+
+    if (user == 0) {
+        bootbox.alert("Виберіть викладача.");
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'module': moduleId,
+                'user': user
+            },
+            cache: false,
+            success: function (data) {
+                if (data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        switch (role) {
+                            case "author":
+                                if (redirect == 'teacherAccess')
+                                    loadAddTeacherAccess(header, '1');
+                                break;
+                            case "consultant":
+                                if (redirect == 'teacherAccess')
+                                    loadAddTeacherAccess(header, '3');
+                                break;
+                        }
+                    });
+                } else {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                }
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
 }
 
 function reloadPage(event) {
@@ -34,6 +105,24 @@ function reloadPage(event) {
     }
 }
 
+function setUserRole(url) {
+    var role = $jq("select[name=role] option:selected").val();
+    var user = $jq("#user").val();
+    $jq.ajax({
+        url: url,
+        type: 'post',
+        async: true,
+        data: {role: role, user: user},
+        success: function (response) {
+            bootbox.confirm(response, function () {
+                load(basePath + "/_teacher/user/index/id/" + user, '');
+            });
+        },
+        error: function () {
+            showDialog("Операцію не вдалося виконати.");
+        }
+    });
+}
 function setTeacherRole(url) {
     var role = $jq("select[name=role] option:selected").val();
     var teacher = $jq("#teacher").val();
@@ -43,18 +132,42 @@ function setTeacherRole(url) {
         async: true,
         data: {role: role, teacher: teacher},
         success: function (response) {
-            if (response == "success") {
-                bootbox.confirm("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
-                });
-            } else {
-                showDialog("Операцію не вдалося виконати.");
-            }
+            bootbox.confirm(response, function () {
+                load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
+            });
         },
         error: function () {
             showDialog("Операцію не вдалося виконати.");
         }
     });
+}
+
+function markPlainTask(url) {
+    var id = $jq('#plainTaskId').val();
+    var mark = $jq('#mark').val();
+    var comment = $jq('[name = comment]').val();
+    var userId = $jq('#userId').val();
+    $jq.ajax({
+        url: url,
+        type: "POST",
+        data: {'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId},
+        success: function () {
+            showDialog('Ваша оцінка записана в базу');
+        },
+        error: function () {
+            showDialog();
+        },
+        complete: function () {
+            location.reload();
+        }
+    });
+
+}
+
+function fillContainer(data) {
+    container = $jq('#pageContainer');
+    container.html('');
+    container.html(data);
 }
 
 function cancelTeacherRole(url, role, teacher) {
@@ -65,14 +178,94 @@ function cancelTeacherRole(url, role, teacher) {
                 type: 'post',
                 async: true,
                 data: {role: role, teacher: teacher},
-                success: function (response) {
-                    if (response == "success") {
-                        bootbox.confirm("Операцію успішно виконано.", function () {
-                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, 'Викладач');
-                        });
-                    } else {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + teacher, "Викладач");
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
+function cancelUserRole(url, role, user, header) {
+    bootbox.confirm("Скасувати роль?", function (response) {
+        if (response) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {role: role, user: user},
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        load(basePath + "/_teacher/user/index/id/" + user, header);
+                    });
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+
+            })
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
+
+function addStudentAttr(url, user, header, type) {
+    value = $jq('#value').val();
+    if (type == 'module') {
+        module = value;
+        course = 0;
+    } else if (type == 'course') {
+        module = 0;
+        course = value;
+    }
+    if (value != 0) {
+        $jq.ajax({
+            url: url,
+            type: 'post',
+            async: true,
+            data: {user: user, module: module, course: course},
+            success: function (result) {
+                bootbox.confirm(result, function () {
+                    load(basePath + "/_teacher/user/index/id/" + user, header);
+                });
+            },
+            error: function () {
+                showDialog("Операцію не вдалося виконати.");
+            }
+
+        })
+    } else {
+        bootbox.alert('Виберіть курс чи модуль!');
+    }
+}
+
+
+function changeUserStatus(url, user, message, header, target) {
+    bootbox.confirm(message, function (response) {
+        if (response) {
+            $jq.ajax({
+                url: url,
+                type: 'post',
+                async: true,
+                data: {user: user},
+                success: function (result) {
+                    bootbox.confirm(result, function () {
+                        if(target == 'coworkers'){
+                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
+                        } else {
+                            load(basePath + "/_teacher/user/index/id/" + user, header);
+                        }
+                    });
                 },
                 error: function () {
                     showDialog("Операцію не вдалося виконати.");
@@ -143,9 +336,9 @@ function sendMessage(url) {
     if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
+        showAjaxLoader();
         var posting = $jq.post(url,
             {
-                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "text": $jq("#text").val(),
@@ -165,17 +358,21 @@ function sendMessage(url) {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
+
+        posting.always(function () {
+            hideAjaxLoader();
+        });
     }
 }
 
 function reply(url) {
     var data = {
-        "id": $jq("input[name=id]").val(),
         "receiver": $jq("input[name=receiver]").val(),
         "parent": $jq("input[name=parent]").val(),
         "subject": $jq("input[name=subject]").val(),
         "text": $jq("#text").val()
     };
+    showAjaxLoader();
     var posting = $jq.post(url, data);
 
     posting.done(function (response) {
@@ -190,7 +387,9 @@ function reply(url) {
             bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                 "напишіть на адресу " + adminEmail, loadMessagesIndex);
         });
-
+    posting.always(function () {
+        hideAjaxLoader();
+    });
 }
 
 function forward(url) {
@@ -198,9 +397,9 @@ function forward(url) {
     if (receiver == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
+        showAjaxLoader();
         var posting = $jq.post(url,
             {
-                "id": $jq("input[name=id]").val(),
                 "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "parent": $jq("input[name=parent]").val(),
@@ -222,6 +421,9 @@ function forward(url) {
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
     }
+    posting.always(function () {
+        hideAjaxLoader();
+    });
 }
 
 function loadMessagesIndex() {
@@ -255,23 +457,23 @@ function loadForm(url, receiver, scenario, message) {
         );
 }
 function showAjaxLoader() {
-    var el=document.getElementById('ajaxLoad');
+    var el = document.getElementById('ajaxLoad');
     el.style.top = window.pageYOffset;
     el.style.left = window.pageXOffset;
     el.style.display = "block";
 }
 function hideAjaxLoader() {
-    var el=document.getElementById('ajaxLoad');
+    var el = document.getElementById('ajaxLoad');
     el.style.display = "none";
 }
 //open tabs by index after load page
-function openTab(id, tabIndex){
+function openTab(id, tabIndex) {
     if (tabIndex != undefined) {
-        $jq(id+' li:eq('+tabIndex+') a').tab('show');
+        $jq(id + ' li:eq(' + tabIndex + ') a').tab('show');
     }
 }
 
-function performOperation(url, data, callback){
+function performOperation(url, data, callback) {
     showAjaxLoader();
     $jq.ajax({
         type: "POST",
@@ -281,16 +483,16 @@ function performOperation(url, data, callback){
         success: function (response) {
             bootbox.alert(response, callback);
         },
-        error:function () {
+        error: function () {
             bootbox.alert("Операцію не вдалося виконати.");
         },
-        complete: function(){
+        complete: function () {
             hideAjaxLoader();
         }
     });
 }
 
-function performOperationWithConfirm(url, message, data, callback){
+function performOperationWithConfirm(url, message, data, callback) {
     showAjaxLoader();
     bootbox.confirm(message, function (result) {
         if (result) {
@@ -300,15 +502,15 @@ function performOperationWithConfirm(url, message, data, callback){
                 data: data,
                 async: true,
                 success: function (response) {
-                    bootbox.alert(response, function() {
-                        if(!response) bootbox.alert("Операцію успішно виконано.");
-                        if(callback) callback();
+                    bootbox.alert(response, function () {
+                        if (!response) bootbox.alert("Операцію успішно виконано.");
+                        if (callback) callback();
                     });
                 },
-                error:function () {
+                error: function () {
                     bootbox.alert("Операцію не вдалося виконати.");
                 },
-                complete: function(){
+                complete: function () {
                     hideAjaxLoader();
                 }
             });
@@ -319,4 +521,504 @@ function performOperationWithConfirm(url, message, data, callback){
     });
 }
 
+function initTeacherConsultationsTable() {
+    $jq('#consultationsTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "desc"], [3, "desc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_consultant/consultant/getConsultationsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "username"},
+            {"data": "lecture"},
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date_cons"
+            },
+            {
+                "width": "15%",
+                "data": "start_cons"
+            },
+            {
+                "width": "15%",
+                "data": "end_cons"
+            },
+            {
+                "width": "10%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\',\'teacherConsultation\');">Відмінити</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
 
+function selectMandatoryModule(url) {
+    var course = $jq('select[name="course"]').val();
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {course: course},
+        cache: false,
+        success: function (response) {
+            $('div[name="selectModule"]').html(response);
+        }
+    });
+}
+
+function selectModule(url) {
+    var course = $('select[name="course"]').val();
+    if (!course) {
+        $('div[name="selectModule"]').html('');
+        $('div[name="selectLecture"]').html('');
+    } else {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {course: course},
+            cache: false,
+            success: function (response) {
+                $('div[name="selectModule"]').html(response);
+            }
+        });
+    }
+}
+
+function newPermissions(url) {
+    var rights = [];
+    $("input[name='permission[]']:checked").each(function () {
+        rights.push($(this).val());
+    });
+    var moduleId = $("select[name=module] option:selected").val();
+    var userId = $("select[name=user] option:selected").val();
+
+    if (rights.length == 0) {
+        showDialog('Виберіть права для користувача');
+        return false;
+    }
+
+    if (moduleId && userId && rights) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'module': moduleId,
+                'user': userId,
+                'rights': rights
+            },
+            cache: false,
+            success: function (data) {
+                fillContainer(data);
+            },
+            error: function (data) {
+                showDialog();
+            }
+        });
+    }
+    else
+        showDialog('Введенні невірні дані!');
+}
+
+function toEnglish(name) {
+    var english = {
+        "А": "A",
+        "а": "a",
+        "Б": "B",
+        "б": "b",
+        "В": "V",
+        "в": "v",
+        "Г": "H",
+        "г": "h",
+        "Ґ": "G",
+        "ґ": "g",
+        "Д": "D",
+        "д": "d",
+        "Е": "E",
+        "е": "e",
+        "Є": "Ye",
+        "є": "ie",
+        "Ж": "Zh",
+        "ж": "zh",
+        "З": "Z",
+        "з": "z",
+        "И": "Y",
+        "и": "y",
+        "І": "I",
+        "і": "i",
+        "Ї": "Yi",
+        "ї": "i",
+        "Й": "Y",
+        "й": "i",
+        "К": "K",
+        "к": "k",
+        "Л": "L",
+        "л": "l",
+        "М": "M",
+        "м": "m",
+        "Н": "N",
+        "н": "n",
+        "О": "O",
+        "о": "o",
+        "П": "P",
+        "п": "p",
+        "Р": "R",
+        "р": "r",
+        "С": "S",
+        "с": "s",
+        "Т": "T",
+        "т": "t",
+        "У": "U",
+        "у": "u",
+        "Ф": "F",
+        "ф": "f",
+        "Х": "Kh",
+        "х": "kh",
+        "Ц": "Ts",
+        "ц": "ts",
+        "Ч": "Ch",
+        "ч": "ch",
+        "Ш": "Sh",
+        "ш": "sh",
+        "Щ": "Shch",
+        "щ": "shch",
+        "Ю": "Yu",
+        "ю": "iu",
+        "Я": "Ya",
+        "я": "ia",
+        "Ь": "",
+        "ь": "",
+        "-": "-",
+        " ": " "
+
+    };
+    result = name.split("");
+    var newName = '';
+    result.forEach(function (item, i, result) {
+        if (item != undefined) {
+            if (english[item] == undefined) return;
+            newName = newName + english[item];
+        }
+    });
+    return newName;
+}
+
+
+function loadCancelAuthorModule() {
+    load(basePath + '/_teacher/_admin/permissions/showCancelTeacherAccess/');
+}
+
+function selectTeacherModules(url, teacher) {
+    if (teacher == 0) {
+        bootbox.alert("Виберіть викладача.");
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {teacher: teacher},
+            cache: false,
+            success: function (response) {
+                $jq('div[name="teacherModules"]').html(response);
+            }
+        });
+    }
+}
+
+function checkMandatory() {
+    var course = $jq('select[name="course"]').val();
+    var module = $jq('select[name="mandatory"]').val();
+
+    if (course && module)
+        return true;
+    else {
+        $jq('.errorMessage').html('Поле не може бути пустим');
+        return false;
+    }
+}
+
+function initInvoicesTable(id) {
+    $jq('#invoicesTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "asc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getInvoicesByAgreement",
+            "dataSrc": "data",
+            "data": {id: id}
+        },
+        "columns": [
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                }
+            },
+            {"data": "summa"},
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date"
+            },
+            {
+                "width": "15%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="' + url + '">надрукувати</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initConsultationsTable() {
+    $jq('#studentConsultationsTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "desc"], [3, "desc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getConsultationsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {"data": "username"},
+            {"data": "lecture"},
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date_cons"
+            },
+            {
+                "width": "15%",
+                "data": "start_cons"
+            },
+            {
+                "width": "15%",
+                "data": "end_cons"
+            },
+            {
+                "width": "10%",
+                "data": "url",
+                "render": function (url) {
+                    return '<a href="#" onclick="cancelConsultation(\'' + url + '\',\'studentConsultation\');">Відмінити</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function cancelConsultation(url, callback) {
+    bootbox.confirm('Відмінити консультацію?', function (result) {
+        if (result) {
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                success: function (response) {
+                    if (response == "success") {
+                        bootbox.alert("Консультацію відмінено.", function () {
+                            if (callback == 'studentConsultation')
+                                load(basePath + '/_teacher/_student/student/consultations/', 'Консультанції');
+                            else if (callback == 'teacherConsultation')
+                                load(basePath + '/_teacher/_consultant/consultant/consultations/', 'Консультанції')
+                        });
+                    } else {
+                        showDialog("Операцію не вдалося виконати.");
+                    }
+                },
+                error: function () {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            });
+        } else {
+            showDialog("Операцію відмінено.");
+        }
+    });
+}
+
+function initPayCoursesList() {
+    $jq('#payCoursesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getPayCoursesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                }
+            },
+            //{
+            //    type: 'de_date', targets: 1,
+            //    "width": "15%",
+            //    "data": "date"
+            //},
+            {"data": "summa"}
+            //{
+            //    "width": "15%",
+            //    "data": "agreement"
+            //}
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initPayModulesTable() {
+    $jq('#payModulesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getPayModulesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                }
+            },
+            //{
+            //    type: 'de_date', targets: 1,
+            //    "width": "15%",
+            //    "data": "date"
+            //},
+            {"data": "summa"}
+            //{
+            //    "width": "15%",
+            //    "data": "agreement"
+            //}
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initAgreementsTable() {
+    $jq('#agreementsTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "asc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getAgreementsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "title",
+                "width": "20%",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"] + '</a>';
+                }
+            },
+            {
+                "data": "object"
+            },
+            {
+                "data": "schema",
+                "width": "25%"
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "10%",
+                "data": "date"
+            },
+            {
+                "data": "summa",
+                "width": "12%"
+            },
+            {
+                "width": "10%",
+                "data": "invoices",
+                "render": function (invoices) {
+                    return '<a href="#" onclick="load(' + invoices["url"] + ',\'' + invoices["name"] + '\');">рахунки</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function addCountry(url){
+    titleUa = $jq('[name="titleUa"]').val();
+    titleRu = $jq('[name="titleRu"]').val();
+    titleEn = $jq('[name="titleEn"]').val();
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            titleUa: titleUa,
+            titleRu: titleRu,
+            titleEn: titleEn
+        },
+        async: true,
+        success: function (response) {
+            bootbox.alert(response, loadAddressIndex);
+        },
+        error: function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        }
+    });
+}
+
+function addCity(url){
+    country  = $jq('#country').val();
+    if(country == 0){
+        bootbox.alert('Виберіть країну.');
+    } else {
+        titleUa = $jq('[name="titleUa"]').val();
+        titleRu = $jq('[name="titleRu"]').val();
+        titleEn = $jq('[name="titleEn"]').val();
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                country: country,
+                titleUa: titleUa,
+                titleRu: titleRu,
+                titleEn: titleEn
+            },
+            async: true,
+            success: function (response) {
+                bootbox.alert(response, loadAddressIndex);
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
+function loadAddressIndex(){
+    load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
+}

@@ -8,6 +8,10 @@
 
 class TeachersController extends TeacherCabinetController{
 
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
+
     protected function performAjaxValidation($model)
     {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacher-form') {
@@ -54,6 +58,7 @@ class TeachersController extends TeacherCabinetController{
 
         $this->renderPartial('_moduleList',array(
             'user' => $user->id,
+            'model' => $user,
             'role' => UserRoles::AUTHOR,
             'attribute' => $attributes["module"]
         ),false,true);
@@ -61,19 +66,33 @@ class TeachersController extends TeacherCabinetController{
 
     public function actionCreate()
     {
+        $messageId = Yii::app()->request->getPost('message', 0);
+        $userApproved = Yii::app()->request->getPost('user', 0);
+
         $model = new Teacher;
 
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
-            if ($model->save()) {
+             if ($model->save()) {
+                if($messageId && $userApproved){
+                    $message = MessagesCoworkerRequest::model()->findByPk($messageId);
+                    $user = StudentReg::model()->findByPk($userApproved);
+                    $message->approve($user);
+                }
                 $this->redirect($this->pathToCabinet());
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
             }
         }
+        $predefinedUser = null;
+        if($messageId && $userApproved){
+            $predefinedUser = StudentReg::model()->findByPk($userApproved);
+        }
 
         $this->renderPartial('create', array(
             'model' => $model,
+            'message' => $messageId,
+            'predefinedUser' => $predefinedUser
         ),false,true);
     }
 
@@ -104,16 +123,16 @@ class TeachersController extends TeacherCabinetController{
     public function actionDelete($id)
     {
         $model = Teacher::model()->findByPk($id);
-        $model->setDeleted();
-        if(!$model->isActive()) echo 'success';
+        $model->setHideMode();
+        if($model->isHide()) echo 'success';
         else echo "error";
     }
 
     public function actionRestore($id)
     {
         $model = Teacher::model()->findByPk($id);
-        $model->setActive();
-        if($model->isActive()) echo 'success';
+        $model->setShowMode();
+        if($model->isShow()) echo 'success';
         else echo "error";
     }
 
@@ -148,11 +167,7 @@ class TeachersController extends TeacherCabinetController{
 
         $user = RegisteredUser::userById($id);
         if ($id && $role) {
-            if ($user->cancelRole(new UserRoles($role))) {
-                echo "success";
-            } else {
-                echo "error";
-            }
+            echo $user->cancelRoleMessage(new UserRoles($role));
         } else {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
         }
@@ -164,11 +179,21 @@ class TeachersController extends TeacherCabinetController{
         $role = Yii::app()->request->getPost('role', '');
 
         $user = RegisteredUser::userById($id);
+        if(!$user->registrationData->isActive()){
+            echo "Акаунт користувача заблокований. Заблокованому користувачу не можна призначити роль.";
+            die;
+        }
         if ($id && $role) {
+            if($role != UserRoles::STUDENT){
+                if(!$user->isTeacher()){
+                    echo "Користувач не є співробітником, призначити йому вибрану роль неможливо.";
+                    die;
+                }
+            }
             if ($user->setRole(new UserRoles($role))) {
-                echo "success";
+                echo "Операцію успішно виконано.";
             } else {
-                echo "error";
+                echo "Операцію не вдалося виконати.";
             }
         } else {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
@@ -206,7 +231,7 @@ class TeachersController extends TeacherCabinetController{
     public function actionUsersByQuery($query)
     {
         if ($query) {
-            $users = StudentReg::usersWithoutTeachers($query);
+            $users = StudentReg::usersByQuery($query);
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');

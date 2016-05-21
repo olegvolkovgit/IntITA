@@ -195,13 +195,13 @@ span.colorGreen {
 }
 .instrTaskText {
     display: inline-block;
-    width: 92%;
-    margin: 20px 0 0 30px;
+    width: 95%;
+    margin: 20px 0 0 10px;
 }
 .instructionText {
     display: inline-block;
-    width: 92%;
-    margin: 20px 0 0 30px;
+    width: 95%;
+    margin: 20px 0 0 10px;
 }
 .instrTaskText ol {
     list-style-type: none; /* Убираем исходные маркеры */
@@ -270,7 +270,7 @@ div.lessonButFinal
     padding-top: 4px;
 }
 .sendAnswer {
-    margin: 10px 22px 10px 30px;
+    margin: 10px 22px 10px 10px;
     overflow:hidden;
 }
 .sendAnswer textarea {
@@ -663,17 +663,5 @@ a.postlink {
     height: 300px;
 }
 .codeBut{
-    background:#4B75A4;
-    color:#FFF;
-    width:100px;
-    border-radius: 4px;
-    margin-right: 4px;
-    margin-bottom: 5px;
- }
-.codeBut:hover{
-    background:#666666;
-    color:#FFF;
-}
-.codeBut.removeHtml{
-    width:200px;
+    margin: 5px 5px 0 0;
 }

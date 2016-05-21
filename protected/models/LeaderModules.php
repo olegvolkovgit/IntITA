@@ -46,7 +46,7 @@ class LeaderModules extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'module0' => array(self::BELONGS_TO, 'Module', 'module'),
-			'leader0' => array(self::BELONGS_TO, 'Teacher', 'leader'),
+			'leader0' => array(self::BELONGS_TO, 'User', 'leader'),
 		);
 	}
 

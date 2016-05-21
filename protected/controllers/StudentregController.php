@@ -24,6 +24,32 @@ class StudentRegController extends Controller
         );
     }
 
+    public function actionCountryAutoComplete($term, $lang)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('title_' . $lang, $term, true);
+        $model = new AddressCountry();
+        $results = [];
+        $param = "title_" . $lang;
+        foreach ($model->findAll($criteria) as $m) {
+            $results[] = array('id' => $m->id, 'value' => $m->$param);
+        }
+        echo CJSON::encode($results);
+    }
+
+    public function actionCityAutoComplete($country, $term)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('country', $country, true);
+        $criteria->compare('title_ua', $term, true);
+        $model = new AddressCity();
+        $result = [];
+        foreach ($model->findAll($criteria) as $m) {
+            $result[] = array('id' => $m->id, 'value' => $m->title_ua);
+        }
+        echo CJSON::encode($result);
+    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -120,6 +146,10 @@ class StudentRegController extends Controller
             else $_POST['StudentReg']['educform'] = 'Онлайн';
 
             $model->attributes = $_POST['StudentReg'];
+            if ($model->password !== Null){
+                $model->password = sha1($model->password);
+                $model->password_repeat = sha1($model->password_repeat);
+            }
 
             $getToken = rand(0, 99999);
             $getTime = date("Y-m-d H:i:s");
@@ -139,14 +169,14 @@ class StudentRegController extends Controller
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
                 }
                 $sender = new MailTransport();
-                $sender->renderBodyTemplate('_registrationMail', array($model,$lang));
-                if(!$sender->send($model->email, "",Yii::t('activeemail', '0298'), ""))
+                $sender->renderBodyTemplate('_registrationMail', array($model, $lang));
+                if (!$sender->send($model->email, "", Yii::t('activeemail', '0298'), ""))
                     throw new \application\components\Exceptions\MailException('The letter was not sent ');
 
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
 
-               $this->render("studentreg", array('model' => $model));
+                $this->render("studentreg", array('model' => $model));
 
             }
         }
@@ -194,58 +224,38 @@ class StudentRegController extends Controller
         }
     }
 
-    public function actionProfile($idUser, $course = 0, $schema = 1, $module = 0)
+    public function actionProfile($idUser)
     {
-        if (Yii::app()->user->isGuest || $idUser==0)
+        if (Yii::app()->user->isGuest) {
+            $this->render('/site/authorize');
+            die();
+        }
+        if (Yii::app()->user->isGuest || $idUser == 0)
             throw new \application\components\Exceptions\IntItaException('403', 'Гість не може проглядати профіль користувача');
         $user = RegisteredUser::userById($idUser);
+        if (!$user)
+            throw new \application\components\Exceptions\IntItaException('404', 'Такого користувача немає');
         $model = $user->registrationData;
-        if(!$model)
-            throw new \application\components\Exceptions\IntItaException('403', 'Користувача з таким ідентифікатором не існує');
+        $addressString = $model->addressString();
+
         $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
         $paymentsCourses = $model->getPaymentsCourses();
-        if($course != 0 || $module != 0) {
-            if (!$user->isStudent()){
-                UserStudent::addStudent($model);
-            }
-        }
-        if($course != 0 && !Course::model()->exists('course_ID='.$course)){
-            throw new \application\components\Exceptions\IntItaException('400', "Такого курса немає. Список усіх курсів доступний на сторінці Курси.");
-        }
-        if ($idUser == Yii::app()->user->getId()){
-            $letter = new Letters();
-            $sentLettersProvider = $model->getSentLettersData();
-            $receivedLettersProvider = $model->getReceivedLettersData();
-            $paymentsModules = $model->getPaymentsModules();
-            $agreements = UserAgreements::getDataProviderByUser(Yii::app()->user->getId());
 
-            $this->render("studentprofile", array(
-                'dataProvider' => $dataProvider,
-                'post' => $model,
-                'user' => $user,
-                'letter' => $letter,
-                'sentLettersProvider' => $sentLettersProvider,
-                'receivedLettersProvider' => $receivedLettersProvider,
-                'paymentsCourses' => $paymentsCourses,
-                'paymentsModules' => $paymentsModules,
-                'markProvider' => $markProvider,
-                'course' => $course,
-                'schema' => $schema,
-                'module' => $module,
-                'agreements' => $agreements,
-                'owner'=>'true'
-            ));
-        }else{
-            $this->render("profile", array(
-                'dataProvider' => $dataProvider,
-                'post' => $model,
-                'user' => $user,
-                'markProvider' => $markProvider,
-                'paymentsCourses' => $paymentsCourses,
-                'owner'=>'false'
-            ));
+        $owner = false;
+        if ($idUser == Yii::app()->user->getId()) {
+            $owner = true;
         }
+
+        $this->render("profile", array(
+            'dataProvider' => $dataProvider,
+            'post' => $model,
+            'user' => $user,
+            'markProvider' => $markProvider,
+            'paymentsCourses' => $paymentsCourses,
+            'addressString' => $addressString,
+            'owner' => $owner
+        ));
     }
 
     public function actionEdit()
@@ -278,7 +288,7 @@ class StudentRegController extends Controller
         $model->attributes = $_POST['StudentReg'];
         if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
         if ($model->validate()) {
-            if (isset($model->avatar)){
+            if (isset($model->avatar)) {
                 Avatar::saveStudentAvatar($model);
             }
 
@@ -298,6 +308,17 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('linkedin' => $_POST['StudentReg']['linkedin']));
             $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
             $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
+            $model->updateByPk($id, array('skype' => $_POST['StudentReg']['skype']));
+
+            if (isset($_POST['StudentReg']['country'])) {
+                $newCountryId = AddressCountry::newUserCountry($_POST['StudentReg']['country'], $_POST['countryTypeahead']);
+                $model->updateByPk($id, array('country' => $newCountryId));
+
+                if (isset($_POST['StudentReg']['city'])) {
+                    $newCityId = AddressCity::newUserCity($_POST['StudentReg']['city'], $_POST['cityTypeahead'], $newCountryId);
+                    $model->updateByPk($id, array('city' => $newCityId));
+                }
+            }
 
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
@@ -340,18 +361,19 @@ class StudentRegController extends Controller
     {
         $teacher = Teacher::model()->find("user_id=:user_id", array(':user_id' => $user));
 
-        $data = Teacher::getTeacherSchedule($teacher,$user,$tab);
+        $data = Teacher::getTeacherSchedule($teacher, $user, $tab);
 
         $this->renderPartial('_timetableprovider', array('dataProvider' => $data, 'userId' => $user, 'owner' => $owner));
     }
+
     public function actionGetProfileData()
     {
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
-        if($model->isTeacher()){
-            $role = array ('teacher'=>true);
-        }else{
-            $role = array ('teacher'=>false);
+        if ($model->isTeacher()) {
+            $role = array('teacher' => true);
+        } else {
+            $role = array('teacher' => false);
         }
         $data = array_merge($model->attributes, $role);
         echo json_encode($data);

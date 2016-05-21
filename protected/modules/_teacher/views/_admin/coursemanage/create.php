@@ -24,7 +24,7 @@
     <?php endif; ?>
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
+        <ul id="createCourseTabs" class="nav nav-tabs">
             <li class="active"><a href="#main" data-toggle="tab">Головне</a>
             </li>
             <li><a href="#ua" data-toggle="tab">Українською</a>
@@ -38,19 +38,22 @@
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'course-form',
+                'action'=>Yii::app()->createUrl('/_teacher/_admin/coursemanage/create'),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data',
                 ),
-                'enableAjaxValidation' => true,
-                'enableClientValidation' => false,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);return true;
-                }',
-                )
+                        if(courseValidation(data,hasError)){
+                            courseCreate(form[0].action);
+                        };
+                        return false;
+                }'),
             )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">

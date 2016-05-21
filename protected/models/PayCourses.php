@@ -9,8 +9,8 @@
  * @property integer $rights
  *
  * The followings are the available model relations:
- * @property Course $idCourse
- * @property User $idUser
+ * @property Course $course
+ * @property StudentReg $idUser
  */
 
 //Flags for bits mask - right's array in db
@@ -55,7 +55,7 @@ class PayCourses extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idCourse' => array(self::BELONGS_TO, 'Course', 'id_course'),
+			'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
 			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
 		);
 	}
@@ -89,7 +89,7 @@ class PayCourses extends CActiveRecord
     	$criteria=new CDbCriteria;
 
 		$criteria->compare('id_user',$this->id_user);
-		$criteria->compare('id_course',$this->id_course);
+		$criteria->compare('t.id_course',$this->id_course);
 		$criteria->compare('rights',$this->rights);
 
 		return new CActiveDataProvider($this, array(
@@ -230,4 +230,24 @@ class PayCourses extends CActiveRecord
         return $result;
     }
 
+    public static function getPayCoursesListByUser(){
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        $modules = PayCourses::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($modules as $record) {
+            $row = array();
+
+            $row["title"]["name"] = $record->course->getTitle();
+            $row["title"]["url"] = Yii::app()->createAbsoluteUrl("course/index", array("id" =>$record->course->course_ID));
+            $row["summa"] = ($record->course->getBasePrice() != 0)? number_format(CommonHelper::getPriceUah($record->course->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
+            //$row["schema"] = CHtml::encode($record->paymentSchema->name);
+            //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 }

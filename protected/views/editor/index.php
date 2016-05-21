@@ -28,7 +28,7 @@ if ($idCourse != 0) {
     lang = '<?php echo CommonHelper::getLanguage();?>';
     idLecture = '<?php echo $page->id_lecture;?>';
     basePath = '<?php echo  Config::getBaseUrl(); ?>';
-    idTeacher = '<?php echo Teacher::getTeacherId($user);?>';
+    idTeacher = '<?php echo $user;?>';
 </script>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
@@ -125,7 +125,7 @@ if ($idCourse != 0) {
         <div id="addBlock">
             <?php
             $this->renderPartial('/editor/imperavi/_addBlock', array('lecture' => $lecture, 'editMode' => 1,
-                'teacher' => Teacher::getTeacherId($user), 'pageOrder' => $page->page_order));
+                'teacher' => $user, 'pageOrder' => $page->page_order));
             ?>
         </div>
         <br>
@@ -167,7 +167,7 @@ if ($idCourse != 0) {
     }
     ?>
     <?php if ($page->quiz == null) {
-        $author = Teacher::getTeacherId($user);
+        $author = $user;
         $this->renderPartial('/editor/imperavi/_addTest', array('lecture' => $lecture->id, 'author' => $author, 'pageId' => $page->id));
         $this->renderPartial('/editor/imperavi/_addPlainTask', array('lecture' => $lecture->id,
             'author' => $author, 'pageId' => $page->id));

@@ -48,11 +48,10 @@
         </button>
     </li>
 </ul>
-
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
+        <ul id="editModuleTabs" class="nav nav-tabs">
             <li class="active"><a href="#main" data-toggle="tab">Головне</a>
             </li>
             <li><a href="#ua" data-toggle="tab">Українською</a>
@@ -74,6 +73,7 @@
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'module-form',
+                'action' => Yii::app()->createUrl('/_teacher/_admin/module/update', array('id' => $model->module_ID)),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
                     'enctype' => 'multipart/form-data'
@@ -84,7 +84,10 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);return true;
+                        if(moduleValidation(data,hasError)){
+                            moduleUpdate(form[0].action);
+                        };
+                        return false;
                 }'),
             )); ?>
             <div class="tab-content">
@@ -123,5 +126,11 @@
         </div>
     </div>
 </div>
+<script>
+    $jq(document).ready(function () {
+        if(history.state!=null)
+            openTab('#editModuleTabs', history.state.tab);
+    });
+</script>
 
 

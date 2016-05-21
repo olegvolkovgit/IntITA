@@ -456,4 +456,17 @@ class LectureElement extends CActiveRecord
 
         LecturePage::addTextBlock($this->id_block, $pageId);
     }
+
+    /**
+     * Returns true if current model is text block
+     * @return bool
+     */
+    public function isTextBlock() {
+        return ($this->id_type == LectureElement::TEXT ||
+                $this->id_type == LectureElement::CODE ||
+                $this->id_type == LectureElement::INSTRUCTION ||
+                $this->id_type == LectureElement::EXAMPLE);
+    }
+
+
 }

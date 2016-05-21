@@ -251,5 +251,25 @@ class Invoice extends CActiveRecord
         else return false;
     }
 
+    public static function invoicesListByAgreement($agreement){
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'agreement_id='.$agreement;
 
+        $invoices = Invoice::model()->findAll($criteria);
+        $return = array('data' => array());
+
+        foreach ($invoices as $record) {
+            $row = array();
+
+            $row["title"]["name"] = "Рахунок ".$record->id;
+            $row["title"]["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id));
+            $row["summa"] = number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;");
+            $row["date"] = date("d.m.y", strtotime($record->payment_date));
+            $row["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id, 'nolayout' => true));
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 }

@@ -9,7 +9,7 @@
     <input type="number" hidden="hidden" value="<?= $user; ?>" id="user">
     <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
     <input type="number" class="form-control col col-md-4" name="attributeValue"
-           id="<?= $role."-".$attribute["key"]; ?>" value="<?= $attribute["value"] ?>">
+           id="<?= $role."-".$attribute["key"]; ?>"  value="<?= (int)$attribute["value"]; ?>">
     <br>
     <br>
     <input type="button" class="btn btn-primary"

@@ -25,12 +25,24 @@ class ModuleController extends Controller
 
         $editMode = 0;
         $isPaidCourse=false;
+        $isPaidModule=false;
         if (!Yii::app()->user->isGuest) {
             $userId=Yii::app()->user->getID();
-            $editMode = Teacher::isTeacherAuthorModule($userId,$idModule);
-            if($idCourse!=0 && (StudentReg::isAdmin() || PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read')))){
+            $author = new Author();
+            if(Yii::app()->user->model->isAuthor()) {
+                $editMode = $author->isTeacherAuthorModule($userId, $idModule);
+            }
+            if($idCourse!=0 && PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read'))){
                 $isPaidCourse=true;
             }
+            if(PayModules::model()->checkModulePermission($userId, $idModule, array('read'))){
+                $isPaidModule=true;
+            }
+        }
+        if($idCourse!=0){
+            $isReadyCourse=Course::model()->findByPk($idCourse)->status;
+        }else{
+            $isReadyCourse=true;
         }
 
         $this->render('index', array(
@@ -41,6 +53,8 @@ class ModuleController extends Controller
             'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
             'isPaidCourse' => $isPaidCourse,
+            'isPaidModule' => $isPaidModule,
+            'isReadyCourse' => $isReadyCourse,
         ));
     }
 
@@ -57,7 +71,12 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getID(),$idModule);
+        $editMode = false;
+        $author = new Author();
+        if(Yii::app()->user->model->isAuthor()) {
+            $editMode = $author->isTeacherAuthorModule(Yii::app()->user->getID(), $idModule);
+        }
+
         if(!$editMode) {
             throw new \application\components\Exceptions\IntItaException('403', 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном автора модуля.');
         }
@@ -259,7 +278,7 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $this->renderPartial('_addLessonForm', array('newmodel' => $model), false, true);
+        $this->renderPartial('_addLessonForm', array('model' => $model), false, true);
     }
 
     public function actionUpdateModuleAttribute()
@@ -301,11 +320,10 @@ class ModuleController extends Controller
     {
         $data = [];
         $model = Module::model()->with('teacher', 'lectures')->findByPk(Yii::app()->request->getPost('id'));
-        $course = Yii::app()->request->getPost('course');
         $modelData=get_object_vars($model->getLecturesDataProvider());
 
         for($i = 0;$i < count($modelData['rawData']);$i++){
-            $data['lecturesLink'][$i]=Yii::app()->createUrl("lesson/index", array("id" => $modelData['rawData'][$i]['id'], "idCourse" => $course));
+            $data['lecturesLink'][$i]=Yii::app()->createUrl("lesson/index", array("id" => $modelData['rawData'][$i]['id'], "idCourse" => 0));
         }
         $fullData=CJSON::encode(array_merge($modelData,$data));
 

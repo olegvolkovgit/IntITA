@@ -160,14 +160,63 @@ class Consultationscalendar extends CActiveRecord
         $t=$t1.':'.$t2.'-'.$t3.':'.$t4;
         return $t;
     }
+
     public function deleteConsultation(RegisteredUser $user)
     {
         if ($this->user_id==$user->registrationData->id) {
-            $this->delete();
+            if($this->delete()) return true;
         }else{
             if($user->isTeacher() && $user->id==$this->teacher_id){
-                $this->delete();
+                if($this->delete()) return true;
             }
         }
+    }
+
+	public static function consultationsList($teacher){
+
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
+                left join user u on u.id=cs.user_id
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher;
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            $row["username"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"] = ($record["title_ua"] != "")?$record["title_ua"]:"лекція видалена";
+            $row["date_cons"] = date("d.m.Y",strtotime($record["date_cons"]));
+            $row["start_cons"] = $record["start_cons"];
+            $row["end_cons"] = $record["end_cons"];
+            $row["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/cancelConsultation/', array('id' => $record["cons_id"]));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
+
+    public static function studentConsultationsList($user){
+
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
+                left join user u on u.id=cs.teacher_id
+                 left join lectures l on l.id = cs.lecture_id where cs.user_id='.$user.' order by cs.id DESC';
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            $row["username"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"] = ($record["title_ua"] != "")?$record["title_ua"]:"лекція видалена";
+            $row["date_cons"] = date("d.m.Y",strtotime($record["date_cons"]));
+            $row["start_cons"] = $record["start_cons"];
+            $row["end_cons"] = $record["end_cons"];
+            $row["url"] = Yii::app()->createUrl('/_teacher/_student/student/cancelConsultation/', array('id' => $record["cons_id"]));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }

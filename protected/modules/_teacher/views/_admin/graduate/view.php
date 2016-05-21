@@ -14,7 +14,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id' => $model->id)); ?>',
-                    'Редагувати')">
+                    '<?="Випускник ".addslashes($model->first_name." ".$model->last_name) ?>')">
             Редагувати</button>
     </li>
     <li>
@@ -24,29 +24,33 @@
     </li>
 </ul>
 
-<div class="page-header">
-    <h4>Переглянути інформацію про випускника #<?php echo $model->first_name . " " . $model->last_name; ?> </h4>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <!-- Nav tabs -->
+        <ul id="courseView" class="nav nav-tabs">
+            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
+            </li>
+            <li><a href="#ua" data-toggle="tab">Українською</a>
+            </li>
+            <li><a href="#ru" data-toggle="tab">Російською</a>
+            </li>
+            <li><a href="#en" data-toggle="tab">Англійською</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="main">
+                <?php $this->renderPartial('_mainTab', array('model' => $model)); ?>
+            </div>
+            <div class="tab-pane fade" id="ua">
+                <?php $this->renderPartial('_uaTab', array('model' => $model)); ?>
+            </div>
+            <div class="tab-pane fade" id="ru">
+                <?php $this->renderPartial('_ruTab', array('model' => $model)); ?>
+            </div>
+            <div class="tab-pane fade" id="en">
+                <?php $this->renderPartial('_enTab', array('model' => $model)); ?>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="graduateView">
-    <?php $this->widget('zii.widgets.CDetailView', array(
-        'data' => $model,
-        'attributes' => array(
-            'first_name',
-            'last_name',
-            array(
-                'header' => 'Аватар',
-                'value' => StaticFilesHelper::createPath('image', 'graduates', $model->avatar),
-                'type' => 'image',
-            ),
-            'graduate_date',
-            'position',
-            'work_place',
-            'work_site',
-            'courses_page',
-            'rate',
-            'recall',
-            'first_name_en',
-            'last_name_en',
-        ),
-    )); ?>
-</div>
+

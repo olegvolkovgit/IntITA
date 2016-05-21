@@ -24,8 +24,8 @@ class Avatar {
         {
             $model->course_img=$model->oldLogo;
         } else if(($model->scenario=="update") && (!empty($model->logo['tmp_name'][$name]))){
-            $src=Yii::getPathOfAlias('webroot')."/images/.$folder./".$model->oldLogo;
-            if (is_file($src))
+            $src=Yii::getPathOfAlias('webroot')."/images/".$folder."/".$model->oldLogo;
+            if (is_file($src) && $model->oldLogo!='courseImage.png')
                 unlink($src);
         }
         if (($model->scenario=="insert" || $model->scenario=="update") && !empty($model->logo['tmp_name']['course_img']))

@@ -1,10 +1,10 @@
-<div class="container-fluid" >
+<div class="container" >
     <div class="row spoiler" spoiler-test >Приховати юніттест <i class="fa fa-expand"></i></div>
         <div>
         <!-- list of arguments-->
         <div class="row col value">
             <div ng-repeat="arg in args track by $index">
-                <div class="col-lg-2  value">
+                <div class="col-md-2 col-sm-3 value">
                     <label>{{arg.arg_name}}</label>
                     <input type="text" class="form-control" placeholder='Знач. аргумента'
                            ng-pattern="arg.pattern" ng-model="arg.value[$parent.$index]" required>
@@ -18,7 +18,7 @@
         </div>
         <!-- list of compare blocks-->
         <div class="row col compare">
-            <div class="button col-lg-1">
+            <div class="button">
                 <button ng-click="addDellCompare(0,$index)"  type="button" class="btn btn-default pull-right btnInterp" title="Додати порівняння змінних">
                     <span ng-class="'glyphicon-plus'" class="glyphicon glyphicon"
                           aria-hidden="true"></span>
@@ -35,7 +35,7 @@
         <!-- result block-->
         <div class="row col result">
             <div ng-hide='finalResult.etalon' class="resultBlock">
-                <div class="col-lg-2">
+                <div class="col-md-2 col-sm-3">
                     <input type="text" clean-model class="form-control" placeholder="Result value" ng-pattern=resultPattern ng-model="results[$index]" ng-required='!finalResult.etalon'>
                 </div>
                 <div>
@@ -43,8 +43,8 @@
                 </div>
             </div>
             <div class="resultBlock">
-                <div class="col-lg-2">
-                    <select class="col-lg-2 selectpicker"
+                <div class="col-md-2 col-sm-3">
+                    <select class="col-md-2 col-sm-3 selectpicker"
                             ng-model="compare_marks[$index]" ng-options="c.value as c.name for c in compare | filter:c.bool=(function.type==2)">
                     </select>
                 </div>
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-10">
+            <div class="col-sm-10">
                 <textarea class="form-control" placeholder="tests_code" rows="2"
                           ng-init=tests_code_arr[$index]='' ng-model="tests_code_arr[$index]" disabled></textarea>
             </div>

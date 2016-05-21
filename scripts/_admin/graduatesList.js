@@ -10,7 +10,7 @@ function initGraduatesTable() {
                 "width": "20%",
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(' + name["link"] + ')">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(' + name["link"] + ', ' + '\'Випускник ' +name["header"] + '\''+')">' + name["title"] + '</a>';
                 }
             },
             {

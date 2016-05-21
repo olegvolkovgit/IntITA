@@ -2,6 +2,10 @@
 
 class ExternalSourcesController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAccountant();
+    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed

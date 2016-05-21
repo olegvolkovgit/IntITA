@@ -159,6 +159,22 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('dollarRate');
     }
 
+    public static function getChatPath(){
+        return Yii::app()->config->get('chatPath');
+    }
+
+    public static function getMinLengthResponse(){
+        return Yii::app()->config->get('minLengthResponse');
+    }
+
+    public static function getMaxLengthResponse(){
+        return Yii::app()->config->get('maxLengthResponse');
+    }
+
+	public static function getCoeffModuleOffline(){
+		return Yii::app()->config->get('coeffModuleOffline');
+	}
+
 	public static function getItemsList(){
         $criteria = new CDbCriteria();
         $criteria->addCondition('hidden='.Config::VISIBLE);
@@ -176,5 +192,13 @@ class Config extends CActiveRecord
         }
 
         return json_encode($return);
+	}
+
+	public static function getServerTimezone(){
+		return Yii::app()->config->get('serverTimezone');
+	}
+
+	public static function getLectureDurationInHours(){
+		return Yii::app()->config->get('lectureDurationInHours');
 	}
 }

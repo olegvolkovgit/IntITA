@@ -2,6 +2,10 @@
 
 class InvoicesController extends TeacherCabinetController
 {
+    public function hasRole(){
+        return Yii::app()->user->model->isAccountant();
+    }
+
     /**
      * Lists all models.
      */

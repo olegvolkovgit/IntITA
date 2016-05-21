@@ -24,11 +24,11 @@
             <input name="testType" id="testType" type="hidden" value="skipTask"/>
             <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
             <input name="author" id="author" type="hidden"
-                   value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId()); ?>"/>
+                   value="<?=Yii::app()->user->getId(); ?>"/>
             <br>
         </fieldset>
         <input type="submit" ng-click="editSkipTaskCKE('<?php echo Yii::app()->createUrl('skipTask/editSkipTask'); ?>',
-         <?php echo $data->id_block; ?>, <?php echo Teacher::getTeacherId(Yii::app()->user->getId()); ?>)"
+         <?php echo $data->id_block; ?>, <?=Yii::app()->user->getId(); ?>)"
                ng-disabled="addSkipTask.$invalid" value="<?php echo Yii::t('lecture', '0706'); ?>">
     </form>
     <br>

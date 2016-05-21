@@ -10,17 +10,11 @@
         <?php echo $form->textField($model, 'title_ua', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'title_ua'); ?>
     </div>
-
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array(
-            'class' => 'btn btn-primary',
-            'id' => 'submitButton',
-            'ajax'=>array(
-                'type'=>'POST',
-                'url'=>$model->isNewRecord ? Yii::app()->createUrl('/_teacher/_admin/module/create'):
-                    Yii::app()->createUrl('/_teacher/_admin/module/update', array('id' => $model->module_ID)) ,
-                'success'=>'function(data) {moduleValidation(data);}',
-            )
-        )); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',
+            array(
+                'class' => 'btn btn-primary',
+                'id' => 'submitButton',
+            )); ?>
     </div>
 </div>

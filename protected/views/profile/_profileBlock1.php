@@ -16,12 +16,24 @@ if ($editMode){
                 <img id="teacherImg" src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $model->avatar());?>"/>
                 <br>
                 <div align="center" style="width:85%">
-                    <a class="btnChatHidden" href="#"  data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
-                    <a class="btnChat" href="<?=Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                        'scenario' => 'message',
-                        'receiver' => $model->user_id
-                    ));?>"  data-toggle="tooltip" data-placement="top" title="<?=Yii::t('teacher', '0795');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png');?>"></a>
-                </div>
+                    <a class="btnChat" href="<?php
+                       if (!Yii::app()->user->isGuest){
+                           echo Config::getBaseUrl(); echo Config::getChatPath(); echo $model->user_id; echo '" target="_blank';
+                       } else {
+                           echo '" onclick="openSignIn();';
+                       }
+                    ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
+                    <a class="btnChat" href="<?php
+                    if (!Yii::app()->user->isGuest) {
+                        echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                            'scenario' => 'message',
+                            'receiver' => $model->user_id
+                        ));
+                    } else {
+                        echo '"onclick="openSignIn();';
+                    }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img
+                            src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
+            </div>
             </td>
             <td>
                 <div class="TeacherProfilename">

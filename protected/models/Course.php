@@ -10,7 +10,6 @@
  * @property string $title_ua
  * @property string $title_ru
  * @property string $title_en
- * @property integer $course_duration_lectures
  * @property integer $modules_count
  * @property string $course_price
  * @property integer $status
@@ -42,10 +41,6 @@ class Course extends CActiveRecord implements IBillableObject
     const READY = 1;
     const DEVELOP = 0;
     public $logo = array(), $oldLogo;
-    public $linkedRu;
-    public $linkedUa;
-    public $linkedEn;
-
 
     /**
      * @return string the associated database table name
@@ -64,7 +59,7 @@ class Course extends CActiveRecord implements IBillableObject
         // will receive user inputs.
         return array(
             array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
-            array('course_duration_hours, course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
+            array('course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
             array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
             array('alias, course_price', 'length', 'max' => 20),
@@ -77,7 +72,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru,
 			for_whom_en, what_you_learn_en, what_you_get_en, level, start, course_price, status, review, rating', 'safe'),
             // The following rule is used by search().
-            array('course_ID,alias, language, title_ua, title_ru, title_en, course_duration_hours, modules_count,
+            array('course_ID,alias, language, title_ua, title_ru, title_en, modules_count,
 			course_price, status, for_whom_ua, what_you_learn_ua,what_you_get_ua,
 			 for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en,
 			 course_img, cancelled, course_number', 'safe', 'on' => 'search'),
@@ -93,7 +88,8 @@ class Course extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
         return array(
             'modules' => array(self::HAS_MANY, 'Modules', 'course'),
-            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
+            'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
+                                                'order' => 'module.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
         );
     }
@@ -110,8 +106,7 @@ class Course extends CActiveRecord implements IBillableObject
             'title_ua' => Yii::t('course', '0401'),
             'title_ru' => Yii::t('course', '0744'),
             'title_en' => Yii::t('course', '0743'),
-            'course_duration_hours' => Yii::t('course', '0402'),
-            //'modules_count' => Yii::t('course', '0403'),
+            'modules_count' => Yii::t('course', '0403'),
             'course_price' => Yii::t('course', '0404'),
             'for_whom_ua' => Yii::t('course', '0405') . " (UA)",
             'what_you_learn_ua' => Yii::t('course', '0406') . " (UA)",
@@ -154,8 +149,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->compare('title_ua', $this->title_ua, true);
         $criteria->compare('title_ru', $this->title_ru, true);
         $criteria->compare('title_en', $this->title_en, true);
-        $criteria->compare('course_duration_hours', $this->course_duration_hours);
-        //$criteria->compare('modules_count', $this->modules_count);
+        $criteria->compare('modules_count', $this->modules_count);
         $criteria->compare('course_price', $this->course_price, true);
         $criteria->compare('for_whom_ua', $this->for_whom_ua, true);
         $criteria->compare('what_you_learn_ua', $this->what_you_learn_ua, true);
@@ -408,11 +402,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $result;
     }
 
-    public static function getCourseLang($id)
-    {
-        return Course::model()->findByPk($id)->language;
-    }
-
     public static function getCourseTitlesList()
     {
         $criteria = new CDbCriteria();
@@ -426,11 +415,6 @@ class Course extends CActiveRecord implements IBillableObject
             $result[$i][$titles[$i]['course_ID']] = $titles[$i]['title_ua'] . " (" . $titles[$i]['language'] . ")";
         }
         return $result;
-    }
-
-    public static function getCourseNumber($id)
-    {
-        return Course::model()->findByPk($id)->course_number;
     }
 
     public static function getCreditCoursePrice($idCourse, $years)
@@ -454,12 +438,6 @@ class Course extends CActiveRecord implements IBillableObject
             $title = "title_ua";
         }
         return $this->level0->$title;
-    }
-
-    public static function getCourseLevel($idCourse)
-    {
-        $course = Course::model()->findByPk($idCourse);
-        return $course->level();
     }
 
     public function getRate()
@@ -510,8 +488,8 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria2->addInCondition('module_ID', $modulesId, 'OR');
         $modulesInfo = Module::model()->findAll($criteria2);
         $lessonsCount = 0;
-        foreach ($modulesInfo as $modul) {
-            $lessonsCount = $lessonsCount + $modul->lesson_count;
+        foreach ($modulesInfo as $module) {
+            $lessonsCount = $lessonsCount + $module->getLecturesCount();
         }
 
         return $lessonsCount;
@@ -692,23 +670,22 @@ class Course extends CActiveRecord implements IBillableObject
     public static function juniorCoursesCount()
     {
         return count(Course::model()->findAllByAttributes(array(
-                'level' => array('1', '2', '3'),
-                'language' => 'ua',
-                'cancelled' => 0)
+                'level' => array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR),
+                'cancelled' => Course::AVAILABLE)
         ));
     }
 
     public static function middleCoursesCount()
     {
-        return Course::model()->count('level=:level and language=:lang and cancelled=0',
-            array(':level' => '4', ':lang' => 'ua')
+        return Course::model()->count('level=:level and cancelled=:isAvailable',
+            array(':level' => Level::MIDDLE, ':isAvailable' => Course::AVAILABLE)
         );
     }
 
     public static function seniorCoursesCount()
     {
-        return Course::model()->count('level=:level and language=:lang and cancelled=0',
-            array(':level' => '5', ':lang' => 'ua')
+        return Course::model()->count('level=:level and cancelled=:isAvailable',
+            array(':level' => Level::SENIOR, ':isAvailable' => Course::AVAILABLE)
         );
     }
 
@@ -716,11 +693,6 @@ class Course extends CActiveRecord implements IBillableObject
     {
         return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $this->course_ID
         )->queryAll());
-    }
-
-    public static function getAgreementLink($course, $user){
-        return "<a href=".Yii::app()->createUrl('payments/agreement', array('user' => $user, 'course' => $course)).
-        ">договір</a>";
     }
 
     public function mandatoryModule($id){
@@ -844,33 +816,29 @@ class Course extends CActiveRecord implements IBillableObject
      */
     public function upModule($idModule) {
 
-        $order = $this->getModuleOrderInCourse($this->course_ID, $idModule);
-        if ($order == null) {
-            // Now this method is called from a course instance,
-            // so $order can be null only if specified module is absent in the course.
-            throw new \application\components\Exceptions\ModuleNotFoundException();
-        }
-        $prevOrder = $order - 1;
-
-        $sqlDownPrevModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $this->course_ID AND `order` = $prevOrder";
-        $sqlUpModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $this->course_ID AND id_module = $idModule;";
-
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
-        try
-        {
-            $rowAffected = $connection->createCommand($sqlDownPrevModule)->execute();
-            if ($rowAffected == 0) {
-                throw new \application\components\Exceptions\FirstModuleUpException();
-            }
-            $connection->createCommand($sqlUpModule)->execute();
-            $transaction->commit();
-        }
-        catch(Exception $e)
-        {
-            $transaction->rollback();
-            if (!($e instanceof \application\components\Exceptions\FirstModuleUpException)) {
-                throw $e;
+        $sqlSelectData = "SELECT `id_course`, `id_module`, `order` FROM `course_modules` WHERE `id_course`=".$this->course_ID." ORDER BY `order` ASC";
+        $result = $connection->createCommand($sqlSelectData)->queryAll();
+        $length = count($result);
+        for ($i = 0; $i<$length; $i++) {
+            if ($result[$i]['id_module']==$idModule) {
+                if ($i > 0) {
+                    $sqlDownPrevModule = "UPDATE `course_modules` SET `order` = ".$result[$i-1]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i]['id_module'];
+                    $sqlUpModule = "UPDATE `course_modules` SET `order` = ".$result[$i]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i-1]['id_module'];
+                    $transaction = $connection->beginTransaction();
+                    try
+                    {
+                        $connection->createCommand($sqlDownPrevModule)->execute();
+                        $connection->createCommand($sqlUpModule)->execute();
+                        $transaction->commit();
+                    }
+                    catch(Exception $e)
+                    {
+                        $transaction->rollback();
+                        throw $e;
+                    }
+                }
+                return;
             }
         }
     }
@@ -881,36 +849,33 @@ class Course extends CActiveRecord implements IBillableObject
      * @throws Exception
      */
     public function downModule($idModule) {
-        $order = $this->getModuleOrderInCourse($this->course_ID, $idModule);
-        if ($order == null) {
-            // Now this method is called from a course instance,
-            // so $order can be null only if specified module is absent in the course.
-            throw new \application\components\Exceptions\ModuleNotFoundException();
-        }
-
-        $nextOrder = $order + 1;
-
-        $sqlUpNextModule = "UPDATE `course_modules` SET `order` = `order` - 1 WHERE id_course = $this->course_ID AND `order` = $nextOrder";
-        $sqlDownModule = "UPDATE `course_modules` SET `order` = `order` + 1 WHERE id_course = $this->course_ID AND id_module = $idModule;";
 
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
-        try
-        {
-            $rowAffected = $connection->createCommand($sqlUpNextModule)->execute();
-            if ($rowAffected == 0) {
-                throw new \application\components\Exceptions\LastModuleDownException();
+        $sqlSelectData = "SELECT `id_course`, `id_module`, `order` FROM `course_modules` WHERE `id_course`=".$this->course_ID." ORDER BY `order` ASC";
+        $result = $connection->createCommand($sqlSelectData)->queryAll();
+        $length = count($result);
+        for ($i = 0; $i<$length; $i++) {
+            if ($result[$i]['id_module']==$idModule) {
+                if ($i < $length-1) {
+                    $sqlUpNextModule = "UPDATE `course_modules` SET `order` = ".$result[$i]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i+1]['id_module'];
+                    $sqlDownModule = "UPDATE `course_modules` SET `order` = ".$result[$i+1]['order']." WHERE id_course = $this->course_ID AND `id_module` = ".$result[$i]['id_module'];
+                    $transaction = $connection->beginTransaction();
+                    try
+                    {
+                        $connection->createCommand($sqlUpNextModule)->execute();
+                        $connection->createCommand($sqlDownModule)->execute();
+                        $transaction->commit();
+                    }
+                    catch(Exception $e)
+                    {
+                        $transaction->rollback();
+                        throw $e;
+                    }
+                }
+                return;
             }
-            $connection->createCommand($sqlDownModule)->execute();
-            $transaction->commit();
         }
-        catch(Exception $e)
-        {
-            $transaction->rollback();
-            if (!($e instanceof \application\components\Exceptions\LastModuleDownException)) {
-                throw $e;
-            }
-        }
+        
     }
 
     /**
@@ -1009,5 +974,98 @@ class Course extends CActiveRecord implements IBillableObject
     }
     public function getEncodeAlias(){
         return CHtml::encode($this->alias);
+    }
+
+    /**
+     * Return array of course's blocks organized by linked languages (for courses page).
+     * @param $selector string course's level ID
+     * @return array
+     */
+    public static function getCoursesByLang($selector){
+        $criteria = Course::getCriteriaBySelector($selector);
+        $courses = Course::model()->findAll($criteria);
+
+        $result = [];
+        $langs = array('ua', 'ru', 'en');
+        $coursesLangs = CourseLanguages::model()->findAll();
+        foreach($coursesLangs as $langsRecord){
+            $row = [];
+            //for each language find course model
+            for($i=0; $i < 3; $i++) {
+                if ($langsRecord['lang_'.$langs[$i]] != 0) {
+                    foreach ($courses as $key=>$course) {
+                        if ($langsRecord['lang_'.$langs[$i]] == $course["course_ID"]) {
+                            array_push($row, $course);
+                            unset($courses[$key]);
+                        }
+                    }
+                }
+            }
+            if(!empty($row)) {
+                array_push($result, $row);
+            }
+        }
+
+        function notNullToArray($value)
+        {
+            if($value != null)
+            return array($value);
+        }
+
+        $courses = array_map("notNullToArray", $courses);
+
+        return array_merge($result, $courses);
+    }
+
+    public static function countersBySelectors(){
+        $result = [];
+        $result["junior"] = Course::juniorCoursesCount();
+        $result["middle"] = Course::middleCoursesCount();
+        $result["senior"] = Course::seniorCoursesCount();
+        $result["total"] = Course::model()->count('cancelled = :isCancel', array(':isCancel' => Course::AVAILABLE));
+
+        return $result;
+    }
+
+    public static function coursesByQueryAndLang($query, $lang){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'c';
+        $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ru', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
+        $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
+        $criteria->addCondition('cl.lang_'.$lang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
+
+        $data = Course::model()->findAll($criteria);
+        $result = array();
+        $langParam =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_".$langParam;
+
+        foreach ($data as $key=>$record) {
+            $result["results"][$key]["id"] = $record->course_ID;
+            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+        }
+
+        return json_encode($result);
+    }
+
+    public function priceOffline(){
+        return round($this->getBasePrice() * Config::getCoeffModuleOffline());
+    }
+
+    public function getPropertyLabel($param){
+        //remove language from item label
+        return substr(Course::model()->attributeLabels()[$param], 0, -5);
+    }
+
+    public function courseDurationInDays(){
+        $sum=0;
+        foreach($this->module as $module){
+            $sum=+$sum+$module->moduleInCourse->moduleDurationInDays();
+        }
+        return round($sum);
     }
 }

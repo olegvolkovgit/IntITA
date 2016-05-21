@@ -60,7 +60,7 @@
                                             <a href="#"
                                                onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
                                                    '<?= $model->module_ID; ?>', 'module', 'consultant', '<?=$item["id"]?>',
-                                                   '<?=Yii::app()->createUrl("/_teacher/_admin/module/view", array("id" => $model->module_ID));?>');">
+                                                   '<?=Yii::app()->createUrl("/_teacher/_admin/module/update", array("id" => $model->module_ID));?>','6','Модуль <?php echo $model->getTitle() ?>');">
                                                 скасувати
                                             </a>
                                         <?php } ?>

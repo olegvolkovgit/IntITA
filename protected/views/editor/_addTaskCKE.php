@@ -24,7 +24,7 @@
 <!--            <input type="text" name="name" id="name" placeholder="назва задачі"/>-->
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $lecture;?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?=Yii::app()->user->getId();?>"/>
             <br>
             <br>
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" required ng-model="addTask"></textarea>

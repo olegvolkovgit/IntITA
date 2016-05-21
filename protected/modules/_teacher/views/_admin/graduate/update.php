@@ -22,7 +22,7 @@
             <li>
                 <button type="button" class="btn btn-primary"
                         onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/view', array('id' => $model->id)); ?>',
-                            'Переглянути інформацію про випускника')">
+                            '<?="Випускник ".addslashes($model->first_name." ".$model->last_name);?>')">
                     Переглянути інформацію про випускника
                 </button>
             </li>

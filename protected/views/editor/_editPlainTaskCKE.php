@@ -13,7 +13,7 @@
             <input name="lectureId" id="lectureId" type="hidden" value="<?php echo $data->id_lecture;?>"/>
             <input name="testType" id="testType" type="hidden" value="plain"/>
             <input name="id_block" id="testType" type="hidden" value="<?php echo $data->id_block ?>"/>
-            <input name="author" id="author" type="hidden" value="<?php echo Teacher::getTeacherId(Yii::app()->user->getId());?>"/>
+            <input name="author" id="author" type="hidden" value="<?=Yii::app()->user->getId();?>"/>
             <br>
             <input type="submit" value="<?php echo Yii::t('lecture','0720'); ?>" id="addtests"
                    ng-disabled=plainTaskEdit.block_element.$error.required>

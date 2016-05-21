@@ -43,6 +43,7 @@ class Response extends CActiveRecord
             array('knowledge', 'required', 'message' => 'знання викладача', 'except' => 'emptyrating'),
             array('behavior', 'required', 'message' => 'ефективність викладача', 'except' => 'emptyrating'),
             array('motivation', 'required', 'message' => 'ставлення викладача до студента', 'except' => 'emptyrating'),
+            array('text', 'filter', 'filter' => array($this, 'trimEndLines')),
             array('text', 'required', 'message' => Yii::t("response", "0544")),
             array('who, rate,  is_checked', 'numerical', 'integerOnly' => true),
             array('knowledge,behavior,motivation,who_ip', 'safe'),
@@ -50,6 +51,11 @@ class Response extends CActiveRecord
 
             array('id, who, date, text, rate, is_checked', 'safe', 'on' => 'search'),
         );
+    }
+
+    public function trimEndLines($content){
+        preg_match_all('/(.+)[^\n]/m', $content, $matches);
+        return implode('',$matches[0]);
     }
 
     /**

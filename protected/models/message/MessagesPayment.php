@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'messages_payment':
  * @property integer $id_message
  * @property integer $operation_id
+ * @property integer $service_id
  *
  * The followings are the available model relations:
  * @property Operation $operation
@@ -37,7 +38,7 @@ class MessagesPayment extends Messages implements IMessage
 		// will receive user inputs.
 		return array(
 			array('id_message', 'required'),
-			array('id_message, operation_id', 'numerical', 'integerOnly'=>true),
+			array('id_message, operation_id, service_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			array('id_message, operation_id', 'safe', 'on'=>'search'),
 		);
@@ -64,6 +65,7 @@ class MessagesPayment extends Messages implements IMessage
 		return array(
 			'id_message' => 'Id Message',
 			'operation_id' => 'Operation',
+            'service_id' => 'Service',
 		);
 	}
 
@@ -85,6 +87,7 @@ class MessagesPayment extends Messages implements IMessage
 
 		$criteria->compare('id_message',$this->id_message);
 		$criteria->compare('operation_id',$this->operation_id);
+        $criteria->compare('service_id',$this->service_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -118,6 +121,8 @@ class MessagesPayment extends Messages implements IMessage
         $this->template = $billableObject->paymentMailTemplate();
         $this->billableObject = $billableObject;
         $this->receiver = $user;
+        $this->service_id = ($billableObject->getType() == 'K')?CourseService::getService($billableObject->course_ID)->service_id:
+        ModuleService::getService($billableObject->module_ID)->service_id;
     }
 
 	public function create(){
@@ -143,7 +148,7 @@ class MessagesPayment extends Messages implements IMessage
 	public function read(StudentReg $receiver){
         if (Yii::app()->db->createCommand()->update('message_receiver', array('read' => date("Y-m-d H:i:s")),
                 'id_message=:message and id_receiver=:receiver',
-                array(':message' => $this->message->id, ':receiver' => $receiver->id)) == 1
+                array(':message' => $this->message0->id, ':receiver' => $receiver->id)) == 1
         )
             return true;
         else {
@@ -170,4 +175,68 @@ class MessagesPayment extends Messages implements IMessage
         return false;
 	}
 
+
+	// return true if message read by $receiver (param "read" is NULL)
+	public function isRead(StudentReg $receiver)
+	{
+		$read = Yii::app()->db->createCommand()
+			->select('read')
+			->from('message_receiver')
+			->where('id_message=:message and id_receiver=:receiver',
+				array(':message' => $this->id_message, ':receiver' => $receiver->id)
+			)->queryRow();
+
+		if ($read["read"])
+			return true;
+		else return false;
+	}
+
+    public function subject(){
+        if(!$this->billableObject){
+            if($this->service_id == null) {
+                return "Доступ до лекцій";
+            } else {
+                $service = AbstractIntITAService::getServiceById($this->service_id);
+                $this->billableObject = $service->getBillableObject();
+            }
+        }
+        return $this->billableObject->paymentMailTheme();
+    }
+
+	public function message(){
+		return $this->message0;
+	}
+
+
+    public function isDeleted(StudentReg $receiver)
+    {
+        $read = Yii::app()->db->createCommand()
+            ->select('deleted')
+            ->from('message_receiver')
+            ->where('id_message=:message and id_receiver=:receiver',
+                array(':message' => $this->id_message, ':receiver' => $receiver->id)
+            )->queryRow();
+
+        if ($read["deleted"])
+            return true;
+        else return false;
+    }
+
+    public function text(){
+        if(!$this->billableObject){
+            if($this->service_id == null) {
+                return "Вітаємо!<br> Тобі надано доступ до лекцій модуля N!.";
+            } else {
+                $service = AbstractIntITAService::getServiceById($this->service_id);
+                $this->billableObject = $service->getBillableObject();
+            }
+        }
+        $sender = new MailTransport();
+        $sender->renderBodyTemplate($this->billableObject->paymentMailTemplate(), array($this->billableObject));
+        return $sender->template();
+    }
+
+    public function type(){
+        return MessagesType::PAYMENT;
+    }
 }

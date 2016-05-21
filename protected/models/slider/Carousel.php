@@ -114,8 +114,11 @@ class Carousel extends Slider
 			$row = array();
 			$row["photo"]["image"] = StaticFilesHelper::createPath("image", "mainpage", $record->pictureURL);
 			$row["order"] = $record->order;
+			$row["photo"]["text"] = CHtml::encode($record->text_ua);
 			$row["linkUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/up", array("order"=>$record->order))."'";
 			$row["linkDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/down", array("order"=>$record->order))."'";
+			$row["textUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/textUp", array("order"=>$record->order))."'";
+			$row["textDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/textDown", array("order"=>$record->order))."'";
 			$row["photo"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/carousel/view", array("id"=>$record->id))."'";
 			array_push($return['data'], $row);
 		}

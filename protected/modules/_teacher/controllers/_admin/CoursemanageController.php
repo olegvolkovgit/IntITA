@@ -10,6 +10,11 @@ class CoursemanageController extends TeacherCabinetController
         parent::init();
     }
 
+    public function hasRole()
+    {
+        return Yii::app()->user->model->isAdmin();
+    }
+
     protected function performAjaxValidation($model)
     {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-form') {
@@ -39,10 +44,14 @@ class CoursemanageController extends TeacherCabinetController
 
         if (isset($_POST['Course'])) {
 
-            if (!empty($_FILES)) {
-                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+            if (!empty($_FILES['Course']['tmp_name']['course_img'])) {
+                $fileInfo = new SplFileInfo($_FILES['Course']['name']['course_img']);
+                $extension = $fileInfo->getExtension();
+                $filename = uniqid() . '.' . $extension;
+
+                $_POST['Course']['course_img'] = $filename;
                 $model->logo = $_FILES['Course'];
-                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+                $model->logo['name']['course_img'] = $filename;
             }
             $model->attributes = $_POST['Course'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -53,7 +62,7 @@ class CoursemanageController extends TeacherCabinetController
                 }
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/course/" . $filename,
                         Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $model->course_ID . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -86,10 +95,14 @@ class CoursemanageController extends TeacherCabinetController
 
         if (isset($_POST['Course'])) {
             $model->oldLogo = $model->course_img;
-            if (!empty($_FILES)) {
-                $_POST['Course']['course_img'] = $_FILES['Course']['name']['course_img'];
+            if (!empty($_FILES['Course']['tmp_name']['course_img'])) {
+                $fileInfo = new SplFileInfo($_FILES['Course']['name']['course_img']);
+                $extension = $fileInfo->getExtension();
+                $filename = uniqid() . '.' . $extension;
+
+                $_POST['Course']['course_img'] = $filename;
                 $model->logo = $_FILES['Course'];
-                $fileInfo = new SplFileInfo($_POST['Course']['course_img']);
+                $model->logo['name']['course_img'] = $filename;
             }
             $model->attributes = $_POST['Course'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -99,7 +112,7 @@ class CoursemanageController extends TeacherCabinetController
             if ($model->save()) {
                 if (!empty($_POST['Course']['course_img'])) {
                     ImageHelper::uploadAndResizeImg(
-                        Yii::getPathOfAlias('webroot') . "/images/course/" . $_FILES['Course']['name']['course_img'],
+                        Yii::getPathOfAlias('webroot') . "/images/course/" . $filename,
                         Yii::getPathOfAlias('webroot') . "/images/course/share/shareCourseImg_" . $id . '.' . $fileInfo->getExtension(),
                         210
                     );
@@ -113,6 +126,9 @@ class CoursemanageController extends TeacherCabinetController
 
         }
         $linkedCourses = $model->linkedCourses();
+        if (!$linkedCourses) {
+            $linkedCourses = new CourseLanguages();
+        }
 
         $this->renderPartial('update', array(
             'model' => $model,
@@ -256,17 +272,6 @@ class CoursemanageController extends TeacherCabinetController
         $this->redirect(Yii::app()->createUrl('course/schema', array('id' => $id)));
     }
 
-    public function actionGenerationAvailableModule()
-    {
-
-        if (isset($_POST['course']))
-            $course = $_POST['course'];
-
-        $result = Module::showAvailableModule($course);
-
-        echo $result;
-    }
-
     public function actionGetCoursesList()
     {
         echo Course::coursesList();
@@ -279,6 +284,82 @@ class CoursemanageController extends TeacherCabinetController
             echo $modules;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionAddLinkedCourse($model, $course, $lang)
+    {
+        $courseModel = Course::model()->findByPk($course);
+        $courseLangModel = CourseLanguages::model()->findByPk($model);
+        if (!$courseLangModel) {
+            $courseLangModel = new CourseLanguages();
+        }
+        $this->renderPartial('_addLinkedCourse', array(
+            'model' => $courseLangModel,
+            'course' => $courseModel,
+            'lang' => $lang
+        ), false, true);
+    }
+
+    public function actionCoursesByQueryAndLang($query, $lang)
+    {
+        if ($query && $lang) {
+            echo Course::coursesByQueryAndLang($query, $lang);
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionChangeLinkedCourses()
+    {
+        $linkedId = Yii::app()->request->getPost("linkedCourse", 0);
+        $modelId = Yii::app()->request->getPost("modelId", 0);
+        $courseId = Yii::app()->request->getPost("course", 0);
+        $lang = Yii::app()->request->getPost("lang", '');
+
+        $course = Course::model()->findByPk($courseId);
+        $linkedCourse = Course::model()->findByPk($linkedId);
+        if ($course && $linkedCourse) {
+            if ($modelId == 0) {
+                $model = new CourseLanguages();
+                $param = 'lang_' . $course->language;
+                $model->$param = $course->course_ID;
+            } else {
+                $model = CourseLanguages::model()->findByPk($modelId);
+            }
+            $langParam = "lang_" . $lang;
+            $model->$langParam = $linkedCourse->course_ID;
+
+            if ($model->save()) {
+                echo "Операцію успішно виконано.";
+                Yii::app()->end();
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                Yii::app()->end();
+            }
+        } else {
+            echo "Неправильно введені дані.";
+        }
+
+    }
+
+    public function actionDeleteLinkedCourse()
+    {
+        $id = Yii::app()->request->getPost("id", 0);
+        $lang = Yii::app()->request->getPost("lang", "");
+        $model = CourseLanguages::model()->findByPk($id);
+
+        if ($model) {
+            if ($model->cancelLinkedCourse($lang)) {
+                echo "Операцію успішно виконано.";
+                Yii::app()->end();
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора " . Config::getAdminEmail();
+                Yii::app()->end();
+            }
+        } else {
+            echo "Неправильний запит. Зверніться до адміністратора " . Config::getAdminEmail();
+            Yii::app()->end();
         }
     }
 }

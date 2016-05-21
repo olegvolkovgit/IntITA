@@ -90,11 +90,21 @@ class StaticFilesHelper {
     public static function pathToLecturePageHtml($module, $lecture, $page, $lang, $type){
         return 'content/module_'.$module."/lecture_".$lecture."/page_".$page."_".$type."_".$lang.".html";
     }
-
+    public static function pathToDeleteLecturePageHtml($module, $lecture){
+        return 'content/module_'.$module."/lecture_".$lecture;
+    }
     public static function pathToLectureImages($module, $lecture){
         return 'content/module_'.$module."/lecture_".$lecture."/images/";
     }
     public static function pathToLectureAudio($module, $lecture){
         return 'content/module_'.$module."/lecture_".$lecture."/audio/";
+    }
+    public static function pathToImagesContent($name){
+        $subDir = substr($name, 0, 2);
+        return 'content/images/'.$subDir.'/';
+    }
+    public static function pathToAudioContent($name){
+        $subDir = substr($name, 0, 2);
+        return 'content/audio/'.$subDir.'/';
     }
 }

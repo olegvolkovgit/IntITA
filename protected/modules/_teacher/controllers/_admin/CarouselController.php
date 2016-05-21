@@ -3,6 +3,10 @@
 class CarouselController extends TeacherCabinetController
 {
     private $callerName = 'carousel';
+
+    public function hasRole(){
+        return Yii::app()->user->model->isAdmin();
+    }
     /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -222,6 +226,59 @@ class CarouselController extends TeacherCabinetController
             }
             $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
         }
+        }
+    }
+    public function actionTextUp($order)
+    {
+        if($order == 1)
+            return $this->actionIndex();
+
+        $model = Carousel::model()->findByAttributes(array('order' => $order));
+        $prevModel = Carousel::model()->findByAttributes(array('order' => $order-1));
+        $model->setScenario('swapImage');
+
+        if($prevModel){
+            $model->setScenario('swapImage');
+            $prevModel->setScenario('swapImage');
+            Carousel::swapText($model,$prevModel);
+
+            if($model->validate() && $prevModel->validate())
+            {
+                $model->save();
+                $prevModel->save();
+            }
+
+        }
+        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
+    }
+
+    public function actionTextDown($order)
+    {
+        $model = Carousel::model()->findByAttributes(array('order' => $order));
+
+        if($order == $model->getLastOrder())
+            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
+
+        else
+        {
+
+            $nextModel = $this->getNextModel($order);
+
+            if($nextModel){
+
+                $model->setScenario('swapImage');
+                $nextModel->setScenario('swapImage');
+
+                Carousel::swapText($model,$nextModel);
+
+                if($model->validate() && $nextModel->validate())
+                {
+                    $model->save();
+                    $nextModel->save();
+
+                }
+                $this->redirect(Yii::app()->createUrl('/_teacher/_admin/carousel/index'));
+            }
         }
     }
 

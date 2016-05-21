@@ -21,7 +21,7 @@ function profileCtrl($http,$scope) {
     };
     $scope.getProfileData(userId).then(function (response) {
         $scope.profileData=response;
-        $scope.interests=response.interests.split(',');
+        if(response.interests) $scope.interests=response.interests.split(',');
         var networksArr=[
             [$scope.profileData.facebook, 'Facebook'],
             [$scope.profileData.googleplus, 'Googleplus'],

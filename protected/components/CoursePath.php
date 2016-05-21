@@ -23,14 +23,22 @@ class CoursePath extends Path{
             if($this->course->isDeleted()){
                 throw new \application\components\Exceptions\IntItaException(403, 'Курс видалений. Доступ до його матеріалів обмежений.');
             }
+            if($this->course->language != $this->lang){
+                throw new \application\components\Exceptions\IntItaException(404);
+            }
             $this->getModule();
             if($this->module != null) {
                 if(!$this->course->isContain($this->module)){
                     throw new \application\components\Exceptions\IntItaException(403, 'Даний модуль не входить до складу цього курса.');
                 }
+
                 $this->getLecture();
-                if($this->lecture != null) {
-                    $this->checkPageDefined();
+                $this->checkPageDefined();
+
+                if($this->lecture == null) {
+                    if($this->getLectureOrder()) {
+                        throw new \application\components\Exceptions\IntItaException(404, 'Сторінка не знайдена.');
+                    }
                 }
             }
         }

@@ -4,7 +4,10 @@
  *  @var $newMessages array
  */
 foreach ($newMessages as $key=>$record) {
+    if(!$record) continue;
+
     $message = $record->message();
+
     if(!$record->isRead($model->registrationData))
     ?>
     <li>
@@ -16,11 +19,10 @@ foreach ($newMessages as $key=>$record) {
                     <em><?= date("h:m, d F", strtotime($message->create_date)); ?></em>
                 </span>
             </div>
-            <div><?= $record->subject; ?></div>
+            <div><?= CHtml::encode($record->subject()); ?></div>
         </a>
     </li>
     <?php
-    if ($key >= 4) break;
 }
 ?>
 <li>

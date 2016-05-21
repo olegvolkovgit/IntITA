@@ -36,6 +36,8 @@ if (isset($_GET['div'])){
     <!-- steps style -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactorProfile.js'); ?>"></script>
+    <!-- Підключення Bootsrtap-tooltip -->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-datetimepicker/bootstrap/js/tooltip.js'); ?>"></script>
 <?php
 $this->renderPartial('/site/_shareMetaTag', array(
     'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),

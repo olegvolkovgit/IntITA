@@ -6,7 +6,7 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
 
     $scope.getDataTask = function(id) {
         var promise = $http({
-            url: basePath+'/task/dataTask',
+            url: basePath+'/revision/dataTaskCondition',
             method: "POST",
             data: $.param({idBlock: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -21,8 +21,8 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
         $scope.dataTask=response;
     });
 
-    $scope.editTaskCKE = function (blockId) {
-        editTaskCondition(blockId)
+    $scope.editTaskCKE = function (blockId, pageId, revisionId,quizType) {
+        editTaskCondition(blockId, pageId, revisionId,quizType)
             .then(function(editResponse) {
                 if(editResponse){
                     getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
@@ -33,10 +33,13 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
                             $scope.editedJson.lang=selectedLang;
                             sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
                                 if(!response){
-                                    editTaskCondition(blockId, tempLang).then(function() {
+                                    editTaskCondition(blockId, pageId, revisionId,quizType, tempLang).then(function() {
                                         $("select#programLang option[value="+"'"+ tempLang +"'"+ "]").attr('selected', 'true');
                                     })
                                 }
+                                bootbox.alert("Зміни умови відбулися", function () {
+                                    location.reload();
+                                });
                             });
                         }
                     });
@@ -46,12 +49,14 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
             });
     };
 
-    function editTaskCondition(blockId,lng) {
+    function editTaskCondition(blockId, pageId, revisionId, quizType, lng) {
         lng = typeof lng !== 'undefined' ? lng : selectedLang;
         var promise = $http({
-            url: basePath + '/task/editTaskCKE',
+            url: basePath + '/revision/editTest',
             method: "POST",
-            data: $.param({idTaskBlock: blockId, condition: $scope.dataTask.condition, lang:lng}),
+            data: $.param({revisionId:revisionId,pageId:pageId,
+                idBlock: blockId, condition: $scope.dataTask.condition,
+                lang:lng, idType:quizType}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             return true;

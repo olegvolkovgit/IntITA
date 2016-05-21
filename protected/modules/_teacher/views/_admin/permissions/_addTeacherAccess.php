@@ -22,7 +22,7 @@
             <div class="form-group">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleId')">Призначити автора модуля</button>
+                            'module', '#moduleId','','Права доступа','teacherAccess')">Призначити автора модуля</button>
             </div>
         </form>
     </div>
@@ -52,7 +52,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
+            url: basePath + '/_teacher/_admin/permissions/modulesByQuery?query=%QUERY',
             wildcard: '%QUERY',
             filter: function (modules) {
                 return $jq.map(modules.results, function (module) {

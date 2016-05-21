@@ -6,11 +6,11 @@
  * @var $courses array
  */
 ?>
+<?php if (!empty($courses)) { ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="col-md-12">
             <div class="row">
-                <?php if (!empty($courses)){ ?>
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover" id="modulesListTable">
                         <thead>
@@ -35,26 +35,45 @@
                                 <?= $item->order; ?>
                             </td>
                             <td>
-                                <?php if ($scenario == "update") {?>
-                                    <a href="#" onclick="load('<?=Yii::app()->createUrl('/_teacher/_admin/module/coursePrice', array(
-                                        'id' =>$model->module_ID, 'course' => $item->id_course));?>',
-                                        'Додати/змінити ціну модуля у курсі')">
-                                        <?= ($item->price_in_course != null)?$item->price_in_course." (ред.)":"редагувати";?>
+                                <?php if ($scenario == "update") { ?>
+                                    <a href="#"
+                                       onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/coursePrice', array(
+                                           'id' => $model->module_ID, 'course' => $item->id_course)); ?>',
+                                           'Додати/змінити ціну модуля у курсі')">
+                                       <?php if ($item->price_in_course != null) {
+                                            echo $item->price_in_course . " (ред.)";
+                                        } else {
+                                            if ($item->moduleInCourse->module_price) {
+                                                echo $item->moduleInCourse->module_price . " (ред.)";
+                                            } else {
+                                                echo "безкоштовно (ред.)";
+                                            }
+                                        } ?>
                                     </a>
                                 <?php } else {
-                                    echo ($item->price_in_course != null)?$item->price_in_course:"";
-                                }?>
+                                    if ($item->price_in_course != null) {
+                                        echo $item->price_in_course;
+                                    } else {
+                                        if ($item->moduleInCourse->module_price) {
+                                            echo $item->moduleInCourse->module_price;
+                                        } else {
+                                            echo "безкоштовно";
+                                        }
+                                    }
+                                }
+                                ?>
                             </td>
                             <td>
-                                <?php if ($scenario == "update") {?>
-                                    <a href="#" onclick="load('<?=Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array(
-                                        'id' =>$model->module_ID, 'course' => $item->id_course));?>',
-                                        'Задати попередній модуль у курсі')">
-                                    <?= ($item->mandatory_modules != null)?$item->mandatory->getTitle()." (ред.)":"редагувати";?>
+                                <?php if ($scenario == "update") { ?>
+                                    <a href="#"
+                                       onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array(
+                                           'id' => $model->module_ID, 'course' => $item->id_course)); ?>',
+                                           'Задати попередній модуль у курсі')">
+                                        <?= ($item->mandatory_modules != null) ? $item->mandatory->getTitle() . " (ред.)" : "редагувати"; ?>
                                     </a>
                                 <?php } else {
-                                    echo ($item->mandatory_modules != null)?$item->mandatory->getTitle():"";
-                                }?>
+                                    echo ($item->mandatory_modules != null) ? $item->mandatory->getTitle() : "";
+                                } ?>
                             </td>
                             <?php
                             } ?>

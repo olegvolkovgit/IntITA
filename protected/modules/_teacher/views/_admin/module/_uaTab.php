@@ -7,7 +7,7 @@
     <tbody>
     <tr>
         <td width="30%">Назва (укр.) *:</td>
-        <td><?= $model->title_ua; ?></td>
+        <td><?= CHtml::encode($model->title_ua); ?></td>
     </tr>
     </tbody>
 </table>

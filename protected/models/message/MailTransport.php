@@ -32,4 +32,8 @@ class MailTransport implements IMailSender{
             'params' => $params,
         ), true);
     }
+
+    public function template(){
+        return $this->template;
+    }
 }

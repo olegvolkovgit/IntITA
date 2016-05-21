@@ -42,8 +42,8 @@
                             <tr>
                                 <td>
                                     <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher",
-                                        array("id" => $item["id"])); ?>',  '<?="Викладач ".$item["secondName"]." ".$item["firstName"]." ".$item["middleName"]?>');">
-                                        <?= $item["secondName"]." ".$item["firstName"]." ".$item["middleName"]; ?>
+                                        array("id" => $item["id"])); ?>',  '<?="Викладач ".($item["secondName"]." ".$item["firstName"]." ".$item["middleName"]=='  ')?$item["email"]:$item["secondName"]." ".$item["firstName"]." ".$item["middleName"];?>');">
+                                        <?= ($item["secondName"]." ".$item["firstName"]." ".$item["middleName"]=='  ')?$item["email"]:$item["secondName"]." ".$item["firstName"]." ".$item["middleName"]; ?>
                                     </a>
                                 </td>
                                 <td>
@@ -60,7 +60,7 @@
                                             <a href="#"
                                                onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
                                                    '<?= $model->module_ID; ?>', 'module', 'author', '<?=$item["id"]?>',
-                                                   '<?=Yii::app()->createUrl("/_teacher/_admin/module/view", array("id" => $model->module_ID));?>');">
+                                                   '<?=Yii::app()->createUrl("/_teacher/_admin/module/update", array("id" => $model->module_ID));?>','5','Модуль <?php echo $model->getTitle() ?>');">
                                                 скасувати
                                             </a>
                                         <?php } ?>

@@ -31,7 +31,7 @@ $modules = CourseModules::availableMandatoryModules($course->course_ID, $module-
             <div class="form-group">
                 Доступний після завершення модуля:<br>
                 <select name="mandatory" id="moduleList" class="form-control">
-                    <option value=""></option>
+                    <option value="0">Не задано</option>
                         <?php foreach ($modules as $item) {
                             ?>
                             <option

@@ -6,7 +6,7 @@ function plainTaskCtrl($scope, $http) {
 
     $scope.getDataPlainTask = function(id) {
         var promise = $http({
-            url: basePath+'/plainTask/dataPlainTask',
+            url: basePath+'/revision/plainTaskCondition',
             method: "POST",
             data: $.param({idBlock: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

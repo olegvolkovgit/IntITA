@@ -1,8 +1,7 @@
 <?php
 /**
- * @var $teacher Teacher
- * @var $this CabinetController
- * @var $user StudentReg   */
+ * @var $model StudentReg
+ */
 ?>
 <li>
     <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
@@ -10,9 +9,17 @@
         <i class="fa fa-bar-chart-o fa-fw"></i>Консультант<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="#" onclick="showPlainTaskAnswer('<?php echo Yii::app()->createUrl('/_teacher/teacher/showTeacherPlainTaskList'); ?>',
-                '<?php echo $teacher->user_id ?>')">
-                Всі задачі
+            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/modules',
+                array('id' => $model->id)) ?>',
+                'Модулі')">
+                Модулі
+            </a>
+        </li>
+        <li>
+            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/consultations',
+                array('id' => $model->id)) ?>',
+                'Консультації')">
+                Консультації
             </a>
         </li>
     </ul>
