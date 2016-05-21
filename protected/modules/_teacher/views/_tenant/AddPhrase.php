@@ -1,7 +1,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-body">
-        <form role="form">
+        <form >
             <div class="form-group" id="receiver">
 
                 <label>Фраза</label>
@@ -15,13 +15,13 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="addPhrase()">
-Створити фразу
-</button>
+                    onclick="addPhrase();return false;">
+            Створити фразу
+            </button>
 
-            <button type="reset" class="btn btn-default"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>')">
-Скасувати
+                        <button type="reset" class="btn btn-default"
+                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>')">
+            Скасувати
             </button>
         </form>
         <br>
@@ -30,14 +30,11 @@
 </div>
 <script>
    function addPhrase(){
-       var t = document.getElementById('phrase').value;
-
-
-
+       var phrase = document.getElementById('phrase').value;
 
    $jq.ajax({
-       url: basePath + "/_teacher/_tenant/tenant/savePhrase?phrase="+t,
-       async: true
+       url: basePath + "/_teacher/_tenant/tenant/savePhrase?phrase="+phrase,
+
 
    });}
 </script>

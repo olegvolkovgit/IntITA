@@ -145,7 +145,8 @@ class Tenant extends Role
     public static function savePhrase($phrase){
 
         $sql = "INSERT INTO `chat_phrases`(`text`) VALUES('$phrase') ";
-        Yii::app()->db->createCommand($sql)->query();
+        if(!Yii::app()->db->createCommand($sql)->query())
+            return false;
         return true;
 
 
