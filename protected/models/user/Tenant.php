@@ -152,4 +152,24 @@ class Tenant extends Role
 
 
     }
+    public static function editPhrase($id){
+
+        $sql = "SELECT `text` FROM `chat_phrases` WHERE id=".$id;
+        $result=Yii::app()->db->createCommand($sql)->queryAll();
+        if(!$result)
+            return false;
+        $rrr=$result[0];
+        return strval($rrr['text']);
+
+    }
+    public static function updatePhrase($phrase,$id){
+
+        $sql = "UPDATE `chat_phrases` SET `text`='$phrase' WHERE id=".$id;
+
+        if(!Yii::app()->db->createCommand($sql)->query())
+            return false;
+
+        return true;
+
+    }
 }
