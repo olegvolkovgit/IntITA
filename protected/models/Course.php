@@ -1060,4 +1060,12 @@ class Course extends CActiveRecord implements IBillableObject
         //remove language from item label
         return substr(Course::model()->attributeLabels()[$param], 0, -5);
     }
+
+    public function courseDurationInDays(){
+        $sum=0;
+        foreach($this->module as $module){
+            $sum=+$sum+$module->moduleInCourse->moduleDurationInDays();
+        }
+        return round($sum);
+    }
 }

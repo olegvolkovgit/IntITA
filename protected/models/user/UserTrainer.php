@@ -142,7 +142,7 @@ class UserTrainer extends CActiveRecord
 
         foreach ($consultants as $record) {
             $row = array();
-			$row["name"]["name"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
+			$row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
             $row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
             $row["email"]["title"] = $record["email"];
             $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',

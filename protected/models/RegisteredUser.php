@@ -136,6 +136,7 @@ class RegisteredUser
     public function unsetRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
+        date_default_timezone_set(Config::getServerTimezone());
         return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
     }
 

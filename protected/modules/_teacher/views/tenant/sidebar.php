@@ -7,14 +7,14 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/authors'); ?>',
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
                    'Боти')">
                 Боти
             </a>
         </li>
         <li>
             <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/consultants'); ?>',
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
                    'Розмови')">
                 Розмови
             </a>
@@ -22,7 +22,7 @@
 
         <li>
             <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfCourses'); ?>',
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
                    'Типові фрази')">
                 Типові фрази
             </a>

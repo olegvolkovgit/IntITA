@@ -35,7 +35,7 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
                         <span id="demo">
                         <?php if (isset($_SESSION['lg']) ? $lg = $_SESSION['lg'] : $lg = 'ua') ; ?>
                             <a href='<?php echo Yii::app()->createUrl('course/schema', ['id' => $model->course_ID]);
-                            ?>'><?php echo Yii::t('course', '0662'); ?></a>
+                            ?>' target="_blank"><?php echo Yii::t('course', '0662'); ?></a>
                         </span>
                         <br>
                     <?php } ?>
@@ -50,9 +50,9 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
             <?php if ($lessonsCount != 0) {
                 echo ', ' . Yii::t('course', '0209'); ?>
                 -<b>
-                    <?php echo ceil($lessonsCount / (36/Config::getLectureDurationInHours())); ?><?php echo Yii::t('course', '0664'); ?>
+                    <?php echo ceil($model->courseDurationInDays() /30); ?><?php echo Yii::t('course', '0664'); ?>
                 </b>
-                <?php echo '(3 ' . Yii::t('module', '0219'); ?>, 3 <?php echo Yii::t('module', '0220') . ')';
+                <?php
             } ?>
         </div>
         <?php
@@ -78,16 +78,15 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
                                 <tr>
                                     <td>
                                         <div class="numbers" id="numbersFirstOnline">
-                                <span
-                                    class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
-                                            &nbsp<span class="coursePriceStatus2">
-                                <?php echo PaymentHelper::discountedPrice($price, 30) . " " . Yii::t('courses', '0322'); ?>
-                            </span>
-                            <span id="discount">
-                                <img style="text-align:right" src="
-                                <?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>
-                                (<?php echo Yii::t('courses', '0144') . ' - 30%)'; ?>
-                                </span>
+                                            <span class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?>
+                                            </span>
+                                            &nbsp
+                                            <span class="coursePriceStatus2"><?php echo PaymentHelper::discountedPrice($price, 30) . " " . Yii::t('courses', '0322'); ?>
+                                            </span>
+                                            <span id="discount">
+                                                <img style="text-align:right" src="<?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>
+                                                (<?php echo Yii::t('courses', '0144') . ' - 30%)'; ?>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>

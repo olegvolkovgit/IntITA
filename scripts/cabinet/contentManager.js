@@ -31,6 +31,9 @@ function addTeacherAttrCM(url, attr, id, role) {
                         case "consultant":
                             showDialog("Консультанту вже призначений даний модуль для консультацій");
                             break;
+                        case "teacher_consultant":
+                            showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
                         default:
                             showDialog("Операцію не вдалося виконати");
                             break;
@@ -362,6 +365,7 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
         });
     }
 }
+
 function initCoursesListTable(){
     $jq('#statusOfCoursesTable').DataTable({
         "autoWidth": false,
@@ -400,17 +404,50 @@ function initCoursesListTable(){
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+            "url": basePath+"/scripts/cabinet/Ukranian.json",
+        },
+        processing : true,
+    });
+}
+
+function initAllPhrasesTable(){
+    $jq('#allPhrasesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_tenant/tenant/getAllPhrases",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                type:'string',targets: 1,
+                "data": "text"
+            },
+            {
+
+                "data": "id",
+                "render": function (id) {
+                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  id + '\', \'Модуль\');">Змінити</a>';
+            }
+            },{
+
+                "data": "id",
+                "render": function (id) {
+                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  id + '\', \'Модуль\');">Видалити</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": basePath+"/scripts/cabinet/Ukranian.json",
+        },
+        processing : true,
     });
 }
 
 function initModulesListTable(id){
     $jq('#statusOfModulesTable').DataTable({
-        oLanguage: {
-            sProcessing: "<img src='/images/common/loading.gif' /></div>"
-        },
-        processing : true,
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id="+id,
@@ -445,8 +482,9 @@ function initModulesListTable(id){
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
+            "url": basePath+"/scripts/cabinet/Ukranian.json",
+        },
+        processing : true,
     });
 }
 
