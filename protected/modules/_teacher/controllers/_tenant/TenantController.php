@@ -31,8 +31,10 @@ class TenantController extends TeacherCabinetController
         $view = "/_tenant/addPhrase";
         $this->renderPartial($view, array(), false, true);
     }
-    public function savePhrase(){
+    public function actionSavePhrase(){
 
-        Tenant::savePhrase();
+        $tmp=Tenant::savePhrase();
+
+        $this->renderPartial('/_tenant/allPhrases', array(), false, true);
     }
 }
