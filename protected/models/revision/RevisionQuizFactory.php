@@ -206,30 +206,35 @@ class RevisionQuizFactory {
      * @return Tests
      */
     public static function saveToRegularDB($revisionLectureElement, $newLectureElement, $idUserCreated) {
+        $test = null;
+        $newTest = null;
         switch ($newLectureElement->id_type) {
             case LectureElement::PLAIN_TASK :
                 $test = RevisionPlainTask::model()->findByAttributes(['id_lecture_element' => $revisionLectureElement->id]);
-                return $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
+                $newTest = $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $revisionLectureElement->id));
-                return $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
+                $newTest = $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
                 break;
             case LectureElement::TASK :
                 $test = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $revisionLectureElement->id));
-                return $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
+                $newTest = $test->saveToRegularDB($newLectureElement->id_block, $idUserCreated);
                 break;
             case LectureElement::SKIP_TASK:
                 $test = RevisionSkipTask::model()->findByAttributes(array('condition' => $revisionLectureElement->id));
-                return $test->saveToRegularDB($newLectureElement, $idUserCreated);
+                $newTest = $test->saveToRegularDB($newLectureElement, $idUserCreated);
                 break;
             default:
-                return null;
                 break;
         }
+        if ($newTest !== null) {
+            $test->raiseEvent('onAfterApprove', new CEvent($test));
+        }
+        return $newTest;
     }
 
-    /**
+    /*
      * Deletes quizzes.
      *
      *   [

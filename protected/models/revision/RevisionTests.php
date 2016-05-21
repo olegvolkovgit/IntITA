@@ -15,7 +15,7 @@
  * @property RevisionLectureElement $lectureElement
  * @property RevisionTestsAnswers[] $testsAnswers
  */
-class RevisionTests extends CActiveRecord
+class RevisionTests extends RevisionQuiz
 {
 	/**
 	 * @return string the associated database table name
@@ -54,14 +54,6 @@ class RevisionTests extends CActiveRecord
 			'testsAnswers' => array(self::HAS_MANY, 'RevisionTestsAnswers', 'id_test'),
 		);
 	}
-
-    public function behaviors(){
-        return array(
-            'uidUpdateBehavior' => array(
-                'class' => 'RevisionQuizUidUpdateBehavior'
-            ),
-        );
-    }
 
     /**
 	 * @return array customized attribute labels (name=>label)
@@ -144,7 +136,7 @@ class RevisionTests extends CActiveRecord
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $this->title;
         $newTest->uid = $this->uid;
-        $newTest->updated = $this->updated;
+        $newTest->updated = $this->updated == 1 ? 1 : 0;
         $newTest->id_test = $this->id_test;
         $newTest->saveCheck();
 
