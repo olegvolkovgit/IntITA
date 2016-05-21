@@ -15,7 +15,7 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/savePhrase'); ?>')">
+                    onclick="addPhrase()">
 Створити фразу
 </button>
 
@@ -28,3 +28,16 @@
 
     </div>
 </div>
+<script>
+   function addPhrase(){
+       var t = document.getElementById('phrase').value;
+
+
+
+
+   $jq.ajax({
+       url: basePath + "/_teacher/_tenant/tenant/savePhrase?phrase="+t,
+       async: true
+
+   });}
+</script>
