@@ -34,7 +34,9 @@
 
    $jq.ajax({
        url: basePath + "/_teacher/_tenant/tenant/savePhrase?phrase="+phrase,
-
+       success: function () {
+           load(basePath + '/_teacher/_tenant/tenant/showPhrases');
+       },
 
    });}
 </script>
