@@ -30,9 +30,10 @@
 </div>
 <script>
 
-    editPhrase(<?=$phrase?>);
+    editPhrase('<?=$phrase?>');
 
     function editPhrase(phrase){
+
         $jq('#phrase').val(phrase);
         return true;
     }
