@@ -426,7 +426,7 @@ function initAllPhrasesTable(){
 
                 "data": "id",
                 "render": function (id) {
-                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  id + '\', \'Модуль\');">Змінити</a>';
+                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/editPhrase?id=' +  id + '\', \'Модуль\');">Змінити</a>';
             }
             },{
 
