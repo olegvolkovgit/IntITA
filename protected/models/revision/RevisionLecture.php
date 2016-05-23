@@ -51,7 +51,7 @@ class RevisionLecture extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision'=>'id_parent']),
-			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', 'id'),
+			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
 		);
@@ -124,7 +124,6 @@ class RevisionLecture extends CActiveRecord
     /**
      * Creates new lecture according to params
      * @param $idModule
-     * @param $order
      * @param $titleUa
      * @param $titleEn
      * @param $titleRu
@@ -203,19 +202,6 @@ class RevisionLecture extends CActiveRecord
             }
         }
 
-        // check lecture order collision
-//        $ordersList = Yii::app()->db->createCommand()
-//        ->select('id, order')
-//            ->from('lectures')
-//            ->where('idModule='.$this->id_module)
-//            ->queryAll();
-//
-//        foreach ($ordersList as $item) {
-//            if ($item['order'] == $this->properties->order && $item['id'] != $this->id_lecture) {
-//                array_push($result, "This revision has the same order as lecture id #".$item['id']);
-//            }
-//        }
-
         $this->approveResultCashed = $result;
         return $result;
     }
@@ -270,7 +256,7 @@ class RevisionLecture extends CActiveRecord
      */
     public function cancelSendForApproval() {
         if ($this->isApprovable()) {
-            $this->properties->send_approval_date = '0000-00-00 00:00:00';
+            $this->properties->send_approval_date = new CDbExpression('NULL');
             $this->properties->id_user_sended_approval = null;
             $this->properties->saveCheck();
         } else {
@@ -340,15 +326,21 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    public function approve($user) {
+        $this->properties->approve_date = new CDbExpression('NOW()');
+        $this->properties->id_user_approved = $user->getId();
+        $this->properties->saveCheck();
+    }
+
     /**
      * Approves lecture revision
      * @param $user
      * @throws RevisionLecturePropertiesException
      * @throws Exception
      */
-    public function approve($user) {
+    public function release($user) {
 
-        if ($this->isApprovable()) {
+        if ($this->isReadable()) {
             if ($this->approveResultCashed === null) {
                 $this->checkConflicts();
             }
@@ -360,13 +352,13 @@ class RevisionLecture extends CActiveRecord
 
                     $newLecture = $this->saveToRegularDB($user);
 
-                    $this->properties->approve_date = new CDbExpression('NOW()');
-                    $this->properties->id_user_approved = $user->getId();
+                    $this->properties->release_date = new CDbExpression('NOW()');
+                    $this->properties->id_user_released = $user->getId();
                     $this->properties->saveCheck();
 
                     $transaction->commit();
 
-                    //todo refactor - replace commit to the try block end
+                    //todo refactor - replace commit to the try block's end
                     $this->createDirectory($newLecture);
                     $this->createTemplates($newLecture);
 
@@ -450,7 +442,6 @@ class RevisionLecture extends CActiveRecord
             $revLectureProperties = new RevisionLectureProperties();
             $revLectureProperties->image = $lecture->image;
             $revLectureProperties->alias = $lecture->alias;
-            $revLectureProperties->order = $lecture->order;
             $revLectureProperties->id_type = $lecture->idType;
             $revLectureProperties->is_free = $lecture->isFree;
             $revLectureProperties->title_ua = $lecture->title_ua;
@@ -755,13 +746,16 @@ class RevisionLecture extends CActiveRecord
 //        $newLecture->idTeacher = $teacher->teacher_id;
         $newLecture->image = $this->properties->image;
         $newLecture->alias = $this->properties->alias;
+
+        //todo order from module;
 //        $newLecture->order = $this->properties->order;
-        // todo
         if($this->id_lecture != null && Lecture::model()->findByPk($this->id_lecture)){
             $newLecture->order =Lecture::model()->findByPk($this->id_lecture)->order;
         }else{
             $newLecture->order =$newLecture->lastLectureOrder()+1;
         }
+
+
         $newLecture->idType = $this->properties->id_type;
         $newLecture->isFree = $this->properties->is_free;
         $newLecture->verified = 1;
@@ -1021,6 +1015,18 @@ class RevisionLecture extends CActiveRecord
         }
         return false;
     }
+
+    /**
+     * Return true if revision can be ready
+     * @return bool
+     */
+    public function isReadable() {
+        if ($this->isApproved()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Return true if revision can be clone
      * @return bool
@@ -1051,6 +1057,14 @@ class RevisionLecture extends CActiveRecord
      */
     public function isApproved() {
         return $this->properties->id_user_approved != null;
+    }
+
+    /**
+     * Return true if revision is ready
+     * @return bool
+     */
+    public function isReady() {
+        return $this->properties->id_user_released != null;
     }
 
     /**
