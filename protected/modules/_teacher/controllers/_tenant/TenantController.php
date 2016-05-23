@@ -53,7 +53,7 @@ class TenantController extends TeacherCabinetController
 
         $tmp=Tenant::deletePhrase($id);
         $this->renderPartial('/_tenant/allPhrases', array(), false, true);
-        
+
 
     }
 }

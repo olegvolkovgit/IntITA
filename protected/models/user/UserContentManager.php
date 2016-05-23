@@ -207,6 +207,12 @@ class UserContentManager extends CActiveRecord
 		return $result2;
 	}
 
+	public function counterOfLessonsInModule($id){
+
+		$sql = 'SELECT count(*) FROM `lectures` WHERE idModule='.$id;
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
+		return $result;
+	}
 	/**
 	 * @param $id
 	 * @return mixed
@@ -387,7 +393,7 @@ class UserContentManager extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = CHtml::encode($record['title_ua']);
 			$row["name"]["url"] = $record["module_ID"];
-			$row["lesson"]["title"] = $record["lesson_count"];
+			$row["lesson"]["title"] = UserContentManager::counterOfLessonsInModule($record["module_ID"]);
 			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
 			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
 			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
