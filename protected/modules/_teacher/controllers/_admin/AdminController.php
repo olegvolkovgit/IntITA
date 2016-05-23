@@ -8,6 +8,6 @@ class AdminController extends TeacherCabinetController
 
     public function actionIndex()
     {
-        $this->renderPartial('/_admin/index', array(), false, true);
+        $this->renderPartial('/_admin/_dashboard', array(), false, true);
     }
 }

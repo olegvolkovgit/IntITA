@@ -8,6 +8,6 @@ class AccountantController extends TeacherCabinetController
 
     public function actionIndex()
     {
-        $this->renderPartial('/_accountant/index', array(), false, true);
+        $this->renderPartial('/_accountant/_dashboard', array(), false, true);
     }
 }
