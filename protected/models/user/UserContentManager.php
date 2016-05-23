@@ -126,11 +126,19 @@ class UserContentManager extends CActiveRecord
 		return json_encode($return);
 	}
 
+
+	public function counterOfModulesInCourse($id){
+
+		$sql = 'SELECT count(*) from course_modules where id_course='.$id;
+		$result = Yii::app()->db->createCommand($sql)->queryScalar();
+
+		return $result;
+	}
 	/**
 	 * @param $id
 	 * @return int
      */
-	public function counterOfLessonInCourse($id){
+	public function counterOfLessonsInCourse($id){
 
 		$sql = 'SELECT id_module from course_modules where id_course='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -150,7 +158,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $id
 	 * @return int
      */
-	public function counterOfVideoInCourse($id){
+	public function counterOfVideosInCourse($id){
 
 		$sql = 'SELECT id_module from course_modules where id_course='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -171,7 +179,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $id
 	 * @return int
      */
-	public function counterOfTaskInCourse($id){
+	public function counterOfTasksInCourse($id){
 
 		$sql = 'SELECT id_module from course_modules where id_course='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -192,7 +200,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $id
 	 * @return int
      */
-	public function counterOfPartInCourse($id){
+	public function counterOfPartsInCourse($id){
 		$sql = 'SELECT id_module from course_modules where id_course='.$id;
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		if(!$result)return 0;
@@ -217,7 +225,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $id
 	 * @return mixed
      */
-	public function counterOfVideoInModule($id){
+	public function counterOfVideosInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
 		`lectures`.`id` = `lecture_element`.`id_lecture` where `lecture_element`.`id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$id;
@@ -229,7 +237,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $id
 	 * @return mixed
      */
-	public function counterOfTaskInModule($id){
+	public function counterOfTasksInModule($id){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
@@ -243,7 +251,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $idModule
 	 * @return mixed
      */
-	public function counterOfTaskInLesson($idLesson, $idModule){
+	public function counterOfTasksInLesson($idLesson, $idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
@@ -270,7 +278,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $idModule
 	 * @return mixed
      */
-	public function counterOfVideoInLesson($idLesson, $idModule){
+	public function counterOfVideosInLesson($idLesson, $idModule){
 
 		$sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on
 		`lectures`.`id` = `lecture_element`.`id_lecture` where `lecture_element`.`id_type`='.LectureElement::VIDEO.' and `lectures`.`idModule`='.$idModule.' AND `lectures`.`id`='.$idLesson;
@@ -282,7 +290,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $idLesson
 	 * @return int
      */
-	public function counterOfWordInLesson($idLesson){
+	public function counterOfWordsInLesson($idLesson){
 
 		$sql = 'SELECT * FROM `lecture_element`  where `id_type` IN (' . LectureElement::INSTRUCTION . ',
  		' . LectureElement::CODE . ',' . LectureElement::TEXT . ',' . LectureElement::EXAMPLE . ')  AND `lecture_element`.`id_lecture`='.$idLesson;
@@ -342,7 +350,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $idLesson
 	 * @return int
      */
-	public  function  counterOfWordInPart($idBlock, $idLesson){
+	public  function  counterOfWordsInPart($idBlock, $idLesson){
 		$sql2='SELECT * FROM lecture_element_lecture_page WHERE page='.$idBlock;
 		$result2 = Yii::app()->db->createCommand($sql2)->queryAll();
 		if(!$result2)return 0;
@@ -394,8 +402,8 @@ class UserContentManager extends CActiveRecord
 			$row["name"]["title"] = CHtml::encode($record['title_ua']);
 			$row["name"]["url"] = $record["module_ID"];
 			$row["lesson"]["title"] = UserContentManager::counterOfLessonsInModule($record["module_ID"]);
-			$row["video"]=UserContentManager::counterOfVideoInModule($record["module_ID"]);
-			$row["test"]=UserContentManager::counterOfTaskInModule($record["module_ID"]);
+			$row["video"]=UserContentManager::counterOfVideosInModule($record["module_ID"]);
+			$row["test"]=UserContentManager::counterOfTasksInModule($record["module_ID"]);
 			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
 			array_push($return['data'], $row);
 		}
@@ -418,11 +426,11 @@ class UserContentManager extends CActiveRecord
 			$row["name"]["url"] = $record["course_ID"];
 			if($record["modules_count"]===NULL)
 				$record["modules_count"]=0;
-			$row["module"] = $record["modules_count"];
-			$row["lesson"]=UserContentManager::counterOfLessonInCourse($record["course_ID"]);
-			$row["video"]=UserContentManager::counterOfVideoInCourse($record["course_ID"]);
-			$row["test"]=UserContentManager::counterOfTaskInCourse($record["course_ID"]);
-			$row["part"]=UserContentManager::counterOfPartInCourse($record["course_ID"]);
+			$row["module"] = UserContentManager::counterOfModulesInCourse($record["course_ID"]);
+			$row["lesson"]=UserContentManager::counterOfLessonsInCourse($record["course_ID"]);
+			$row["video"]=UserContentManager::counterOfVideosInCourse($record["course_ID"]);
+			$row["test"]=UserContentManager::counterOfTasksInCourse($record["course_ID"]);
+			$row["part"]=UserContentManager::counterOfPartsInCourse($record["course_ID"]);
 			array_push($return['data'], $row);
 		}
 
@@ -443,9 +451,9 @@ class UserContentManager extends CActiveRecord
 			$row["name"]["title"] = $record['title_ua'];
 			$row["name"]["url"] = $record["id"];
 			$row["parts"] = UserContentManager::counterOfPartsInLesson($record["id"],$idModule);
-			$row["video"]=UserContentManager::counterOfVideoInLesson($record["id"],$idModule);
-			$row["tests"]=UserContentManager::counterOfTaskInLesson($record["id"],$idModule);
-			$row["word"]=UserContentManager::counterOfWordInLesson($record["id"]);
+			$row["video"]=UserContentManager::counterOfVideosInLesson($record["id"],$idModule);
+			$row["tests"]=UserContentManager::counterOfTasksInLesson($record["id"],$idModule);
+			$row["word"]=UserContentManager::counterOfWordsInLesson($record["id"]);
 			array_push($return['data'], $row);
 		}
 
@@ -474,7 +482,7 @@ class UserContentManager extends CActiveRecord
 				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
 			}
 
-			$row["word"]=UserContentManager::counterOfWordInPart($record["id"],$idLesson);
+			$row["word"]=UserContentManager::counterOfWordsInPart($record["id"],$idLesson);
 
 			array_push($return['data'], $row);
 		}
