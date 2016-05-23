@@ -1,5 +1,5 @@
 angular
-    .module('lessonEdit')
+    .module('revisionEdit')
     .controller('skipTaskCtrl', skipTaskCtrl)
 
 function skipTaskCtrl($scope, $http) {

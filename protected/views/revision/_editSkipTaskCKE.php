@@ -2,7 +2,6 @@
 /**
  * @var $pageId integer
  */ ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/skipTaskCtrl.js'); ?>"></script>
 <div ng-init='idPage=<?php echo $pageId; ?>;
 idBlock=<?php echo $idElement; ?>;'>
 <div id="editSkipTask">

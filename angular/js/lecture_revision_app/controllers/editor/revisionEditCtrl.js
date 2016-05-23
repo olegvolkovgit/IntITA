@@ -1,5 +1,5 @@
 angular
-    .module('lessonEdit')
+    .module('revisionEdit')
     .controller('CKEditorCtrl', CKEditorCtrl)
 
 function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
@@ -17,7 +17,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                     data: $.param({pageId: pageId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 })
-                    .success(function (response) {
+                    .success(function () {
                         location.reload();
                     })
                     .error(function () {

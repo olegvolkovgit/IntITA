@@ -5,7 +5,7 @@ angular
     .module('lecturePreviewRevisionApp')
     .controller('taskCtrl',taskCtrl);
 
-function taskCtrl($rootScope, $http, $timeout, $scope, getTaskJson,userAnswerTaskService,ipCookie) {
+function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
     $scope.init = function(taskLang)
     {
         $scope.taskLang=taskLang;
@@ -42,7 +42,7 @@ function taskCtrl($rootScope, $http, $timeout, $scope, getTaskJson,userAnswerTas
 
     $scope.getVariables=function(id,url){
         if($scope.variables==undefined){
-            getTaskJson.getJson(id,url)
+            taskJson.getVariablesTask(id,url)
                 .then(function(variable) {
                     $scope.variables=variable;
                     angular.element('#taskVariables').toggle();

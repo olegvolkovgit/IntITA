@@ -7,7 +7,6 @@
  */
 $revisionTask=RevisionTask::model()->findByAttributes(array('id_lecture_element' => $idElement));
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/taskCtrl.js'); ?>"></script>
 <div ng-init='idPage=<?php echo $pageId; ?>;
 idBlock=<?php echo $idElement; ?>;'>
 <div class="editTask" ng-controller="taskCtrl">

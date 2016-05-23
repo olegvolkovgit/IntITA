@@ -1,4 +1,3 @@
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/plainTaskCtrl.js'); ?>"></script>
 <div ng-init='idPage=<?php echo $pageId; ?>;
 idBlock=<?php echo $idElement; ?>;'>
 <div id="editPlainTask" ng-controller="plainTaskCtrl">

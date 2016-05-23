@@ -2,7 +2,7 @@
  * Created by Wizlight on 06.01.2016.
  */
 angular
-    .module('lessonEdit')
+    .module('revisionEdit')
     .directive('editBlock', function ($compile, $ngBootbox) {
         return {
             link: function (scope, element) {
