@@ -142,13 +142,44 @@ class Tenant extends Role
 
         return json_encode($return);
     }
-    public static function savePhrase(){
-        $id=20;
-        $phrase='3424234';
-        $sql = "INSERT INTO chat_phrases('text') VALUES('3123') where id=".$id;
-        Yii::app()->db->createCommand($sql)->queryAll();
+    public static function savePhrase($phrase){
+
+        $sql = "INSERT INTO `chat_phrases`(`text`) VALUES('$phrase') ";
+        if(!Yii::app()->db->createCommand($sql)->query())
+            return false;
+        return true;
 
 
+
+    }
+    public static function editPhrase($id){
+
+        $sql = "SELECT `text` FROM `chat_phrases` WHERE id=".$id;
+        $result=Yii::app()->db->createCommand($sql)->queryAll();
+        if(!$result)
+            return false;
+        $rrr=$result[0];
+        return strval($rrr['text']);
+
+    }
+    public static function updatePhrase($phrase,$id){
+
+        $sql = "UPDATE `chat_phrases` SET `text`='$phrase' WHERE id=".$id;
+
+        if(!Yii::app()->db->createCommand($sql)->query())
+            return false;
+
+        return true;
+
+    }
+    public static function deletePhrase($id){
+
+        $sql = "DELETE FROM `chat_phrases` WHERE id=".$id;
+
+        if(!Yii::app()->db->createCommand($sql)->query())
+            return false;
+
+        return true;
 
     }
 }

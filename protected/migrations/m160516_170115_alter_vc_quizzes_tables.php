@@ -4,12 +4,9 @@ class m160516_170115_alter_vc_quizzes_tables extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn('vc_plain_task', 'updated', 'TINYINT DEFAULT 0');
-        $this->addColumn('vc_skip_task', 'updated', 'TINYINT DEFAULT 0');
-        $this->addColumn('vc_task', 'updated', 'TINYINT DEFAULT 0');
-        $this->addColumn('vc_tests', 'updated', 'TINYINT DEFAULT 0');
 
-        $this->dropIndex('uid', 'vc_plain_task');
+
+  
         $this->dropIndex('uid', 'vc_skip_task');
         $this->dropIndex('uid', 'vc_task');
         $this->dropIndex('uid', 'vc_tests');
