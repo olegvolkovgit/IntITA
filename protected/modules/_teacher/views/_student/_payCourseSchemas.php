@@ -104,8 +104,8 @@
                 <?php if ($price > 0) { ?>
                     <br>
                     <button class="btn btn-primary" type="button"
-                            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
-                                '<?php echo $model->course_ID; ?>', '0')"><?php echo Yii::t('profile', '0261'); ?></button>
+                            onclick="signAgreement('<?php echo Yii::app()->createUrl('/_teacher/_student/student/publicOffer'); ?>',
+                                '<?php echo $model->course_ID; ?>', '0', 'course')"><?php echo Yii::t('profile', '0261'); ?></button>
                 <?php } ?>
             </div>
         </div>
