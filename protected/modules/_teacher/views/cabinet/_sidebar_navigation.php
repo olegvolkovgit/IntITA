@@ -36,7 +36,7 @@
             <?php
             $roles = Yii::app()->user->model->getRoles();
             foreach($roles as $role) {
-                $view = '/' . $role . '/sidebar';
+                $view = '/_' . $role . '/sidebar';
                 $this->renderPartial($view, array(
                     'model' => $model
                 ));
