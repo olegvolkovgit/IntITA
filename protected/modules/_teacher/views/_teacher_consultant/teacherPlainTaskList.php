@@ -28,7 +28,7 @@ if (!empty($teacherPlainTasks)) { ?>
                                 array("idPlainTask" => $plainTaskAnswer->id)) ?>', 'Відповідь на задачу'); return false;"
                                 <?php if (!$mark) echo 'class="success"'; ?>
                                 style="cursor: pointer">
-                                <td class="center"><?=$plainTaskAnswer->getLectureTitle();?></td>
+                                <td class="center"><?=$plainTaskAnswer->getLectureTitle()?$plainTaskAnswer->getLectureTitle():'Лекція видалена';?></td>
                                 <td class="center"><?php echo strip_tags($plainTaskAnswer->plainTask->getDescription()); ?></td>
                                 <td class="center"><?php echo $plainTaskAnswer->getStudentName(); ?></td>
                                 <td class="center">

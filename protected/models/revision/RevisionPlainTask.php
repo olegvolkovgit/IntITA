@@ -13,7 +13,7 @@
  * The followings are the available model relations:
  * @property RevisionLectureElement $idLectureElement
  */
-class RevisionPlainTask extends CActiveRecord
+class RevisionPlainTask extends RevisionQuiz
 {
 	/**
 	 * @return string the associated database table name
@@ -50,14 +50,6 @@ class RevisionPlainTask extends CActiveRecord
 			'lectureElement' => array(self::BELONGS_TO, 'RevisionLectureElement', 'id_lecture_element'),
 		);
 	}
-
-    public function behaviors(){
-        return array(
-            'uidUpdateBehavior' => array(
-                'class' => 'RevisionQuizUidUpdateBehavior'
-            ),
-        );
-    }
 
     /**
 	 * @return array customized attribute labels (name=>label)
@@ -133,7 +125,7 @@ class RevisionPlainTask extends CActiveRecord
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
         $newPlainTest->uid = $this->uid;
-        $newPlainTest->updated = $this->updated;
+        $newPlainTest->updated = $this->updated == 1 ? 1 : 0;
         $newPlainTest->id_test = $this->id_test;
         $newPlainTest->saveCheck();
 

@@ -112,10 +112,6 @@ function moduleEditCtrl($http,$scope) {
             scrollTop: $("#titleUa").offset().top
         }, 1000);
     };
-    $scope.hideForm=function (id) {
-        $form = document.getElementById(id);
-        $form.style.display = 'none';
-    }
 
     function moduleListUpdate(response){
         $scope.lectures=response;
@@ -129,4 +125,9 @@ function moduleEditCtrl($http,$scope) {
         angular.element(document.querySelectorAll(".moduleTitle")).show();
         angular.element(document.querySelectorAll(".editTitle")).hide();
     }
+}
+
+function hideForm(id){
+    $form = document.getElementById(id);
+    $form.style.display = 'none';
 }

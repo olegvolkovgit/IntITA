@@ -5,7 +5,9 @@ function assignRole(url, role, tab) {
     } else {
         var posting = $jq.post(url, {userId: user, role: role});
         posting.done(function (response) {
-                bootbox.alert(response, loadUsersIndex(tab));
+                bootbox.alert(response, function () {
+                    loadUsersIndex(tab);
+                });
             })
             .fail(function () {
                 bootbox.alert("Користувачу не вдалося призначити обрану роль. Спробуйте повторити " +

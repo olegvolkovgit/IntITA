@@ -476,13 +476,13 @@ class RevisionController extends Controller {
                 }
             }
             /*
-             * If we haven't found any editable revision we should create new revision from last approved
-             * If we have found only one revision just show it
+             * If we haven't found any editable revision or found one revision other user we should create new revision from last approved
+             * If we have found only one revision of this user just show it
              * If we have found several editable revisions show revisions tree;
              */
-            if (count($editableRevisions) == 0) {
+            if (count($editableRevisions) == 0 || (count($editableRevisions) == 1 && !$editableRevisions[0]->canEdit())) {
                 $lectureRev = $lastApproved->cloneLecture(Yii::app()->user);
-            } else if(count($editableRevisions) == 1) {
+            } else if(count($editableRevisions) == 1 && $editableRevisions[0]->canEdit()) {
                 $lectureRev = $editableRevisions[0];
             } else {
                 $this->render('revisionsBranch', array(
@@ -606,20 +606,23 @@ class RevisionController extends Controller {
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
 
         $approvedRevisions=RevisionLecture::getApprovedRevisionsInModule($idModule);
-        $quickUnion=$lectureRev[0]->getQuickUnionRevisions();
-        if($approvedRevisions){
-            $moduleRevisions=[];
-            foreach($approvedRevisions as $branch){
-                $moduleRevisions=array_merge($moduleRevisions, $branch->getRelatedIdListFromApproved($quickUnion,$branch->id_revision));
-                $relatedTree[$branch->id_revision]=$branch->id_revision;
-            }
-        }else{
-            $moduleRevisions=[];
-        }
-        $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
-        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
 
-        echo $json;
+        if(count($lectureRev)) {
+            $quickUnion = $lectureRev[0]->getQuickUnionRevisions();
+            if ($approvedRevisions) {
+                $moduleRevisions = [];
+                foreach ($approvedRevisions as $branch) {
+                    $moduleRevisions = array_merge($moduleRevisions, $branch->getRelatedIdListFromApproved($quickUnion, $branch->id_revision));
+                    $relatedTree[$branch->id_revision] = $branch->id_revision;
+                }
+            } else {
+                $moduleRevisions = [];
+            }
+            $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
+            $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+
+            echo $json;
+        }
     }
     public function actionShowRevision($idRevision) {
         $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
