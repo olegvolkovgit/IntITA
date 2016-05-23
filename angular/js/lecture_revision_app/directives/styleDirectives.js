@@ -2,7 +2,7 @@
  * Created by Wizlight on 06.01.2016.
  */
 angular
-    .module('lessonEdit')
+    .module('revisionEdit')
     .directive('selectedButton', function () {
         return {
             link: function (scope, element) {

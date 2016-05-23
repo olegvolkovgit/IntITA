@@ -1,5 +1,5 @@
 angular
-    .module('lessonEdit')
+    .module('revisionEdit')
     .controller('plainTaskCtrl', plainTaskCtrl)
 
 function plainTaskCtrl($scope, $http) {

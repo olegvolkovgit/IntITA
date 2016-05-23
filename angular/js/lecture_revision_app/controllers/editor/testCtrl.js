@@ -1,5 +1,5 @@
 angular
-    .module('lessonEdit')
+    .module('revisionEdit')
     .controller('testCtrl', testCtrl)
 
 function testCtrl($scope, $http) {
