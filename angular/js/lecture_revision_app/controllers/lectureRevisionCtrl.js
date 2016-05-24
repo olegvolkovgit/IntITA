@@ -3,6 +3,33 @@
  */
 angular
     .module('lectureRevisionApp')
+    .filter('quizType', function() {
+        return function(input) {
+            var type;
+            switch (input) {
+                case '5':
+                    type='Задача';
+                    break;
+                case '6':
+                    type='Проста задача';
+                    break;
+                case '9':
+                    type='Задача з пропусками';
+                    break;
+                case '12':
+                    type='Тест';
+                    break;
+                default:
+                    type='';
+            }
+            return type;
+        };
+    })
+    .filter('videoCheck', function() {
+        return function(input) {
+            return input ? '\u2713' : '';
+        };
+    })
     .controller('lectureRevisionCtrl',lectureRevisionCtrl);
 
 function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
