@@ -6,7 +6,6 @@
 
 <span>
     <?php
-    $price = round(Course::getCreditCoursePrice($model->course_ID, $year));
     if ($price == 0) { ?>
         <span style="display: inline-block;margin-top: 3px" class="colorGreen"><?php echo Yii::t('module', '0421'); ?>
             </span>
@@ -32,7 +31,7 @@
                         <tr>
                             <td>
                                 <div class="numbers">
-                                    <span><?php echo $price . ' ' . Yii::t('courses', '0322') . '/' .
+                                    <span><?php echo round($price/(12 * $year)) . ' ' . Yii::t('courses', '0322') . '/' .
                                             Yii::t('module', '0218') . ' х ' . (12 * $year) . ' ' . Yii::t('course', '0324'); ?>
                                         <b> =
                                             <?php echo $price . ' ' . Yii::t('courses', '0322'); ?></b>
