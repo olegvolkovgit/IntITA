@@ -1231,4 +1231,22 @@ class StudentReg extends CActiveRecord
     public static function getAdminModel(){
         return StudentReg::model()->findByPk(Config::getAdminId());
     }
+
+    public function notify($template, $params, $subject){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new MessagesNotifications();
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate($template, $params);
+            $message->build($subject, $sender->template(), array($this),
+                StudentReg::model()->findByPk(Config::getAdminId()));
+            $message->create();
+
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
+    }
 }
