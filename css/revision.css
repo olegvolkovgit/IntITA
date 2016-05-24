@@ -116,3 +116,6 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 #addBlock{
     display: none;
 }
+#currentPage .spotDone{
+    background: green;
+}

@@ -86,6 +86,17 @@ $this->breadcrumbs = array(
             <h1 class="lessonPart lessonEditPart">
                 <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
             </h1>
+            <div class="lectureProgress">
+                <?php foreach($pages as $part){ ?>
+                    <a class="pageTitle" class="pageDone"
+                       id="<?php if($page->id==$part->id) echo "currentPage" ?>"
+                       href="<?=Yii::app()->createUrl("revision/editPageRevision", array("idPage" => $part->id)); ?>"
+                       title="<?php echo $part->page_title ?>"
+                        >
+                        <div class="spotDone"></div>
+                    </a>
+                <?php } ?>
+            </div>
             <div class='icons'>
                 <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
