@@ -894,6 +894,7 @@ class StudentReg extends CActiveRecord
 
         $criteria->alias = 'u';
         $criteria->join = 'inner join user_student us on u.id = us.id_user';
+        $criteria->condition = 'u.cancelled='.StudentReg::ACTIVE;
 //        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, user.educform, user.country, user.city
 //              from user inner join user_student us on user.id = us.id_user';
 
@@ -1020,7 +1021,8 @@ class StudentReg extends CActiveRecord
 
     public static function usersList()
     {
-        $users = StudentReg::model()->findAll();
+        $users = StudentReg::model()->findAll('cancelled='.StudentReg::ACTIVE);
+
         $return = array('data' => array());
 
         foreach ($users as $record) {
