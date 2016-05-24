@@ -1079,4 +1079,14 @@ class RevisionController extends Controller {
 
         echo CJSON::encode($data);
     }
+
+    //get task uid by revision page id
+    public function actionGetTaskUIDbyElementId()
+    {
+        $blockId = Yii::app()->request->getPost('blockId');
+        $quiz=RevisionTask::model()->findByAttributes(array('id_lecture_element'=>$blockId));
+        if($quiz)
+            echo $quiz->uid;
+        else echo false;
+    }
 }
