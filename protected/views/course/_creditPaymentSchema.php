@@ -32,7 +32,7 @@
                         <tr>
                             <td>
                                 <div class="numbers">
-                                    <span><?php echo $price . ' ' . Yii::t('courses', '0322') . '/' .
+                                    <span><?php echo round($price/(12 * $year)) . ' ' . Yii::t('courses', '0322') . '/' .
                                             Yii::t('module', '0218') . ' х ' . (12 * $year) . ' ' . Yii::t('course', '0324'); ?>
                                         <b> =
                                             <?php echo $price . ' ' . Yii::t('courses', '0322'); ?></b>
