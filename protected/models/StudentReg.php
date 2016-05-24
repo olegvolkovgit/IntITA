@@ -59,6 +59,8 @@ class StudentReg extends CActiveRecord
     public $network;
     public $new_password;
     public $new_password_repeat;
+    public $startTime;
+    public $studentName;
 
     private $_identity;
 
@@ -887,18 +889,21 @@ class StudentReg extends CActiveRecord
 
     public static function getStudentsList($startDate, $endDate)
     {
+        $criteria =  new CDbCriteria();
+        $criteria->select = 'u.id,concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")) as studentName, u.email, us.start_date as startTime, u.educform, u.country, u.city';
 
-        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, u.id as trainer,
-              IFNULL((ts.end_time), concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")," ",IFNULL(u.email, ""))) as trainerName, ts.end_time as endTime
-              from user inner join user_student us on user.id = us.id_user
-              left join trainer_student ts on us.id_user=ts.student
-              left join user u on ts.trainer = u.id';
+        $criteria->alias = 'u';
+        $criteria->join = 'inner join user_student us on u.id = us.id_user';
+//        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, user.educform, user.country, user.city
+//              from user inner join user_student us on user.id = us.id_user';
 
+        $criteria->group = 'u.id';
         if (isset($startDate) && isset($endDate)) {
-            $sql .= " where TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate' ";
+           // $sql .= " where TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate' ";
+            $criteria->condition = "TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
         }
-        $sql .= ' group by user.id';
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        //$sql .= ' group by user.id';
+        $result = StudentReg::model()->findAll($criteria);//Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
 
         foreach ($result as $record) {
@@ -908,10 +913,10 @@ class StudentReg extends CActiveRecord
             $row["email"]["title"] = $record["email"];
             $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
             $row["email"]["url"] = $row["student"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["date"] = date("d.m.Y H:m", strtotime($record["start_date"]));
-            //$row["trainer-name"] = (!is_null($record["endTime"]))?"":$record["trainerName"];
-            //$row["url"] = (!$record["trainer"]) ? Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $record["id"])) :
-             //   Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $record["id"], 'oldTrainerId' => $record["trainer"]));
+            $row["date"] = date("d.m.Y H:m", strtotime($record["startTime"]));
+            $row["educForm"] = $record->educform;
+            $row["country"] = ($record->country0)?$record->country0->title_ua:"";
+            $row["city"] = ($record->city0)?$record->city0->title_ua:"";
             $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
 
             array_push($return['data'], $row);
@@ -1025,6 +1030,9 @@ class StudentReg extends CActiveRecord
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
             $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
+            $row["educForm"] = $record->educform;
+            $row["country"] = ($record->country0)?$record->country0->title_ua:"";
+            $row["city"] = ($record->city0)?$record->city0->title_ua:"";
             $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',
