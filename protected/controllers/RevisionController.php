@@ -403,6 +403,18 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->approve(Yii::app()->user);
     }
+    
+    
+    public function actionReadyLectureRevision() {
+
+        if (!$this->isUserApprover(Yii::app()->user)) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0828'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+        $lectureRev->release(Yii::app()->user);
+    }
 
     /**
      * curl -XPOST http://intita.project/revision/UpLectureElement -d 'idRevision=139&idPage=694&idElement=772' -b XDEBUG_SESSION=PHPSTORM
@@ -566,6 +578,7 @@ class RevisionController extends Controller {
 
         echo $json;
     }
+    
     public function actionBuildAllRevisions() {
         $lectureRev = RevisionLecture::model()->with("properties")->findAll();
         $lecturesTree = RevisionLecture::getLecturesTree();
