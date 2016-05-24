@@ -92,6 +92,7 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 #loaderContainer{
     width: 100%;
     text-align: center;
+    z-index: 1000;
 }
 .modal {
     z-index: 9999;
@@ -111,4 +112,7 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 }
 #pageVideo{
     z-index: 3;
+}
+#addBlock{
+    display: none;
 }

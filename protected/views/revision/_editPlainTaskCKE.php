@@ -14,7 +14,7 @@ idBlock=<?php echo $idElement; ?>;'>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
             <br>
-            <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture','0720'); ?>" id='addtests' ng-disabled=plainTaskEdit.block_element.$error.required>
+            <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture','0720'); ?>" id='addtests' ng-disabled=plainTaskEdit.$invalid>
             <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0708'); ?>" ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'>
         </fieldset>
     </form>
