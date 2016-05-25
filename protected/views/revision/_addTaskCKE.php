@@ -20,8 +20,6 @@
                 <option value="php">PHP</option>
                 <option value="js">JavaScript</option>
             </select>
-<!--            Назва:-->
-<!--            <input type="text" name="name" id="name" placeholder="назва задачі"/>-->
             <input name="revisionId" type="hidden" value="<?php echo $revisionId;?>"/>
             <input name="pageId" id="pageId" type="hidden" value="<?php echo $pageId;?>"/>
             <input name="idType" type="hidden" value="<?php echo $quizType;?>"/>
@@ -29,7 +27,7 @@
         </fieldset>
         <br>
         <input class="btn btn-default" type="submit" value="Додати задачу" id='addtests' ng-disabled="addTaskForm.$invalid">
-        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" onclick='cancelTest()'>
+        <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" ng-click='cancelQuiz()'>
     </form>
 </div>
 

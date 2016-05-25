@@ -122,7 +122,9 @@ class RevisionController extends Controller {
             'user' => Yii::app()->user->getId(),
             "page" => $page,
             "dataProvider" => $dataProvider,
-            "quiz" => $quiz));
+            "quiz" => $quiz,
+            "pages"=>$lectureRevision->lecturePages
+        ));
     }
 
     /**
