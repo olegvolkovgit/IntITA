@@ -981,7 +981,7 @@ class RevisionController extends Controller {
             $pages[$key]["id"] = $page->id;
             $pages[$key]['title'] = $page->page_title;
             $pages[$key]["page_order"] = $page->page_order;
-            $pages[$key]["quiz"] = $page->quiz;
+            $pages[$key]["quiz"] = isset($page->getQuiz()->id_type)?$page->getQuiz()->id_type:null;
             $pages[$key]["video"] = $page->video;
         }
         $lecture['status']=$lectureRevision->getStatus();
