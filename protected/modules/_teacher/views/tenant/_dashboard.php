@@ -16,7 +16,7 @@
                                'Боти')">Боти</a>
                     </li>
                     <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/SearchChats'); ?>',
                                'Розмови')">Розмови</a>
                     </li>
 
