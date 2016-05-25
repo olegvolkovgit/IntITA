@@ -205,7 +205,14 @@ class Tenant extends Role
 //            return false;
         $sql5 = "SELECT r.rooms_from_users_id FROM `chat_room_users` as r inner join chat_room_users as u on u.rooms_from_users_id=r.rooms_from_users_id where `r`.`users_id`="."'".$arr1['intita_user_id']."'"." and `u`.`users_id`="."'".$arr2['intita_user_id']."'";
         $result5=Yii::app()->db->createCommand($sql5)->queryAll();
-        return $result5;
+        $return = array('data' => array());
+        foreach($result5 as $record){
+            $row = array();
+            $row['name']=$record['rooms_from_users_id'];
+            array_push($return['data'], $row);
+
+        }
+        return json_encode($return);
 
     }
 }

@@ -8,12 +8,12 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="allPhrasesTable">
+                <table class="table table-striped table-bordered table-hover" id="allChatsTable">
                     <thead>
                     <tr>
                         <th style="width:30%;" >Розмови</th>
 
-                        <th style="width:12%;">Дуже важлива інфа</th>
+                        <th style="width:12%;">Інформація</th>
 
                     </tr>
                     </thead>
@@ -24,3 +24,9 @@
         </div>
     </div>
 </div>
+<script>
+valera('<?=$response?>'')
+function valera(response){
+    console.log(response);
+}
+    </script>

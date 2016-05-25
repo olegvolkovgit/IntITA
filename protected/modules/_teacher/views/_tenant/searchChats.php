@@ -45,9 +45,9 @@
 
         $jq.ajax({
             url: basePath + "/_teacher/_tenant/tenant/FindChats?user1="+user_name1+"&user2="+user_name2,
-            success: function (result) {
-
-                load('/_teacher/_tenant/tenant/ShowChats?result='+result);
+            success: function (response) {
+                console.log(response);
+                load('/_teacher/_tenant/tenant/ShowChats');
             }
 
         });}
