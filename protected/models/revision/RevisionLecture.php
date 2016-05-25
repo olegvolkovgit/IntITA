@@ -51,7 +51,7 @@ class RevisionLecture extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision'=>'id_parent']),
-			'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', 'id'),
+            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
 		);

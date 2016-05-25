@@ -129,8 +129,20 @@ function initUsersTable() {
             },
             {
                 type: 'de_date', targets: 1,
-                "width": "15%",
+                "width": "12%",
                 "data": "register"
+            },
+            {
+                data: "educForm",
+                "width": "12%"
+            },
+            {
+                data: "country",
+                "width": "10%"
+            },
+            {
+                data: "city",
+                "width": "10%"
             },
             {
                 "width": "5%",
@@ -642,14 +654,18 @@ function initStudentsList() {
                 type: 'de_datetime',
                 targets: 0
             },
-            //{ data: "trainer-name" },
-            //{
-            //    "width": "10%",
-            //    data: "url",
-            //    "render": function (url) {
-            //        return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
-            //    }
-            //},
+            {
+                data: "educForm" ,
+                "width": "12%"
+            },
+            {
+                data: "country",
+                "width": "10%"
+            },
+            {
+                data: "city",
+                "width": "10%"
+            },
             {
                 "width": "10%",
                 "data": "addAccessLink",
