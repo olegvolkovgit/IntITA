@@ -23,7 +23,7 @@
     <form name="add-access">
         <fieldset>
             <legend>Співробітник: <em>
-                <?php echo $teacher->lastName()." ".$teacher->firstName(). " ".$teacher->middleName();?></em></legend>
+                <?php echo $teacher->lastName()." ".$teacher->firstName(). " ".$teacher->middleName().' '.$teacher->email();?></em></legend>
             <input type="number" hidden="hidden" value="<?=$teacher->user_id;?>" id="teacher">
             Роль:<br>
             <div class="form-group">
