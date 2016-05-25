@@ -125,6 +125,7 @@ class TeacherConsultant extends Role
         $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
         $criteria->join .= ' LEFT JOIN user_teacher_consultant u ON u.id_user = s.id';
         $criteria->addCondition('t.user_id IS NOT NULL and (u.id_user IS NULL or u.end_date IS NOT NULL)');
+        $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);
 

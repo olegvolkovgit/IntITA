@@ -166,7 +166,7 @@ class PayController extends TeacherCabinetController
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($student), Yii::app()->user->model->registrationData);
+            $message->build($subject, $sender->template(), array($student), StudentReg::model()->findByPk(Config::getAdminId()));
             $message->create();
 
             $message->send($sender);
