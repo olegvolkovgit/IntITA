@@ -423,3 +423,6 @@ hr {
     resize: none;
 }
 /* consult */
+div#page-wrapper {
+    overflow: inherit;!important;
+}
