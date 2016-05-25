@@ -161,4 +161,21 @@ class StudentController extends TeacherCabinetController
     public function actionGetInvoicesByAgreement($id){
         echo Invoice::invoicesListByAgreement($id);
     }
+
+    public function actionNewCourseAgreement(){
+        $user = Yii::app()->user->getId();
+        $course = Yii::app()->request->getPost('course', 0);
+        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+        $schemaNum = Yii::app()->request->getPost('payment', '0');
+        $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
+        echo $agreement->id;
+    }
+    public function actionNewModuleAgreement(){
+        $user = Yii::app()->user->getId();
+        $course = Yii::app()->request->getPost('course', 0);
+        $module = $_POST["module"];
+        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
+        echo $agreement->id;
+    }
 }
