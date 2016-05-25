@@ -437,18 +437,6 @@ class LessonController extends Controller
         $up->update();
     }
 
-    public function actionShowPagesList($id, $idCourse=0)
-    {
-
-        $idModule = Lecture::model()->findByPk($id)->idModule;
-        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule)) {
-            return $this->render('/editor/_pagesList', array('idLecture' => $id, 'idCourse' => $idCourse,
-                'idModule' => $idModule));
-        } else {
-            throw new CHttpException(403, Yii::t('lecture', '0813'));
-        }
-    }
-
     public function actionDeletePage()
     {
         $idLecture = Yii::app()->request->getPost('idLecture', 0);
@@ -456,22 +444,6 @@ class LessonController extends Controller
 
         LecturePage::deletePage($idLecture, $pageOrder);
         LecturePage::reorderPages($idLecture, $pageOrder);
-    }
-
-    public function actionShowPageEditor()
-    {
-        $idLecture = Yii::app()->request->getPost('idLecture', 0);
-        $pageOrder = Yii::app()->request->getPost('pageOrder', 1);
-        $idModule = Lecture::model()->findByPk($idLecture)->idModule;
-
-        if (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule)) {
-            $page = LecturePage::model()->findByAttributes(array('id_lecture' => $idLecture, 'page_order' => $pageOrder));
-            $dataProvider = $page->getPageTextList();
-
-            return $this->renderPartial('_editLecturePageTabs', array(
-                'page' => $page, 'dataProvider' => $dataProvider, 'editMode' => 0, 'user' => Yii::app()->user->getId(), false, true));
-        }
-        throw new CHttpException(403, Yii::t('lecture', '0813'));
     }
 
     public function actionAddNewPage($lecture, $page)
@@ -544,47 +516,6 @@ class LessonController extends Controller
         $lecture = Yii::app()->request->getPost('lecture');
         $html = LectureElement::model()->findByAttributes(array('block_order' => $order, 'id_lecture' => $lecture))->html_block;
         echo $html;
-    }
-
-
-    public function actionEditPage($id, $page, $idCourse=0, $cke = false)
-    {
-        $lecture = Lecture::model()->findByPk($id);
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $lecture->idModule);
-        if (!$editMode) {
-            throw new CHttpException(403, Yii::t('lecture', '0813'));
-        }
-
-        $pageModel=$lecture->pages[$page-1];
-        if(!$pageModel){
-            throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0812'));
-        }
-        $textList = $pageModel->getBlocksListById();
-
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('id_block', $textList);
-
-        $dataProvider = new CActiveDataProvider('LectureElement');
-        $dataProvider->criteria = $criteria;
-        $criteria->order = 'block_order ASC';
-        $dataProvider->setPagination(array(
-                'pageSize' => '200',
-            )
-        );
-
-        $lecture = Lecture::model()->findByPk($id);
-
-        if ($cke) $editorView = 'indexCKE';
-        else $editorView = 'index';
-
-        $this->render('/editor/' . $editorView, array(
-                'user' => Yii::app()->user->getId(),
-                'page' => $pageModel,
-                'dataProvider' => $dataProvider,
-                'idCourse' => $idCourse,
-                'lecture' => $lecture,
-            )
-        );
     }
 
     public function actionSaveBlock()

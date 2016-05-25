@@ -14,7 +14,7 @@
         </label>
         <label>
             <input type="radio" ng-model="approvedRevisions" ng-change="loadTreeMode()" id="approvedTree" value="true">
-            Затверджені ревізії
+            Ревізії в релізі
         </label>
     </div>
 </div>

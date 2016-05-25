@@ -106,15 +106,10 @@ class CabinetController extends TeacherCabinetController
                 case 'tenant':
                 case 'content_manager':
                 case 'teacher_consultant':
+                case 'admin':
+                case 'accountant':
                     $this->renderDashboard($role, $user);
                     break;
-                case 'admin':
-                    $this->renderAdminDashboard();
-                    break;
-                case 'accountant':
-                    $this->renderAccountantDashboard();
-                    break;
-
                 default:
                     throw new CHttpException(400, 'Неправильно вибрана роль!');
                     break;
@@ -123,21 +118,11 @@ class CabinetController extends TeacherCabinetController
     }
 
     private function renderDashboard(UserRoles $role, RegisteredUser $user){
-        $view = '/'.$role.'/_dashboard';
+        $view = '/_'.$role.'/_dashboard';
         return $this->renderPartial($view, array(
             'teacher' => $user->getTeacher(),
             'user' => $user->registrationData
         ));
-    }
-
-    private function renderAdminDashboard()
-    {
-        return $this->renderPartial('/admin/index');
-    }
-
-    private function renderAccountantDashboard()
-    {
-        return $this->renderPartial('/accountant/index');
     }
 
     public function actionUsersByQuery($query)

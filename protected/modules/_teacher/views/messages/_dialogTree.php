@@ -104,5 +104,4 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     'partner1' => $dialog->partner1->id,
     'partner2' => $dialog->partner2->id
 )); ?>
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>" rel="stylesheet">
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'messages/dialog.js'); ?>"></script>
+

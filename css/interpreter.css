@@ -127,7 +127,11 @@ textarea.ng-invalid, textarea.ng-invalid:focus, input.ng-invalid, input.ng-inval
 }
 .functionPrefix{
     display: inline-block;
-    width: 15%;
+    width: 10%;
+}
+.langTask{
+    display: inline-block;
+    width: 5%;
 }
 #interpreterForm input,#interpreterForm label{
     font-size: 12px;

@@ -7,7 +7,6 @@
  */
 $revisionTask=RevisionTask::model()->findByAttributes(array('id_lecture_element' => $idElement));
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/taskCtrl.js'); ?>"></script>
 <div ng-init='idPage=<?php echo $pageId; ?>;
 idBlock=<?php echo $idElement; ?>;'>
 <div class="editTask" ng-controller="taskCtrl">
@@ -34,8 +33,8 @@ idBlock=<?php echo $idElement; ?>;'>
             <input type="hidden" ng-init="task=<?php echo $revisionTask->uid; ?>" ng-model="task" />
         </fieldset>
         <br>
-        <input class="btn btn-default" type="submit" value="Створення та редагування юніттестів" ng-disabled="addTask.$invalid">
-        <input class="btn btn-default" type="button" value="Зберегти зміни умови задачі" ng-click="editTaskCKE(idBlock,<?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)">
+        <input class="btn btn-default" type="submit" value="Створення та редагування юніттестів">
+        <input class="btn btn-default" type="button" value="Зберегти зміни умови задачі" ng-click="editTaskCKE(idBlock,<?php echo $pageId; ?>,<?php echo $revisionId;?>,<?php echo $quizType;?>)"  ng-disabled="addTaskForm.$invalid">
         <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0708'); ?>" ng-click='deleteTest(<?php echo $revisionId;?>,<?php echo $pageId;?>,<?php echo $idElement;?>)'>
     </form>
     <div class="editTaskButton">
