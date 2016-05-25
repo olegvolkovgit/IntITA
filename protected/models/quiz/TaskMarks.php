@@ -138,7 +138,7 @@ class TaskMarks extends CActiveRecord
 	public static function taskTime($user, $idTask){
 		if( TaskMarks::model()->exists('id_user =:user and quiz_uid =:task and mark = 1',
 			array(':user' => $user, ':task' => $idTask))){
-			return TaskMarks::model()->findByAttributes(array('id_user' => $user,'quiz_uid' => $idTask,'mark' => 1))->time;
+			return TaskMarks::model()->findByAttributes(array('id_user' => $user,'quiz_uid' => $idTask,'mark' => 1))->date;
 		}else return false;
 	}
 }

@@ -53,7 +53,20 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
                 var nodeId = $(event.data.el).attr('data-nodeid');
                 $scope.cancelRev(idRevision, nodeId);
             }
-        }];
+        },
+        {
+            "type": "button",
+            "actionType": "release",
+            "title": "Реліз",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.releaseRev(idRevision, nodeId);
+            }
+        }
+    ];
     var authorActions=[
         {
             "type": "button",
@@ -168,6 +181,14 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     };
     $scope.cancelRev = function(id,nodeId) {
         revisionsActions.cancelRevision(id).then(function(){
+            $scope.updateModuleLecturesRevisionsTree(nodeId);
+            revisionsTree.getCurrentLectures(idModule).then(function (response) {
+                $scope.currentLectures = response;
+            });
+        });
+    };
+    $scope.releaseRev = function(id,nodeId) {
+        revisionsActions.releaseRevision(id).then(function(){
             $scope.updateModuleLecturesRevisionsTree(nodeId);
             revisionsTree.getCurrentLectures(idModule).then(function (response) {
                 $scope.currentLectures = response;

@@ -865,6 +865,7 @@ class RevisionController extends Controller {
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isSendedCancellable();
+            $node['isReadable'] = $lecture->isReadable();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }

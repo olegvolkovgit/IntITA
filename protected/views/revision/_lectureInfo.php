@@ -1,4 +1,4 @@
-<label>Властивоті лекції: </label>
+<label>Властивості лекції: </label>
 <table class="table">
     <tr>
         <td>Cтатус:</td>

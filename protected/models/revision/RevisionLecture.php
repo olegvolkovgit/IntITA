@@ -559,14 +559,14 @@ class RevisionLecture extends CActiveRecord
      * @return string
      */
     public function getStatus() {
-        if ($this->isReady()) {
+        if ($this->isReady() && !$this->isCancelled()) {
             return "Реліз";
-        }
-        if ($this->isCancelled()) {
-            return "Скасована";
         }
         if ($this->isApproved()) {
             return "Затверджена";
+        }
+        if ($this->isCancelled()) {
+            return "Скасована";
         }
         if ($this->isRejected()) {
             return "Відхилена";
@@ -1125,8 +1125,8 @@ class RevisionLecture extends CActiveRecord
         $criteria->alias = 'vc_lecture';
         $criteria->addInCondition('id_revision', $array, 'OR');
         $criteria->with = array('properties');
-        $criteria->order = 'properties.approve_date DESC';
-        $criteria->addCondition('properties.id_user_approved IS NOT NULL and
+        $criteria->order = 'properties.release_date DESC';
+        $criteria->addCondition('properties.id_user_released IS NOT NULL and
          properties.id_user_cancelled IS NULL');
         $criteria->limit = 1;
         return RevisionLecture::model()->find($criteria);
@@ -1136,8 +1136,8 @@ class RevisionLecture extends CActiveRecord
         $criteria->alias = 'vc_lecture';
         $criteria->condition = 'id_module=' . $idModule;
         $criteria->with = array('properties');
-        $criteria->order = 'properties.approve_date DESC';
-        $criteria->addCondition('properties.id_user_approved IS NOT NULL and
+        $criteria->order = 'properties.release_date DESC';
+        $criteria->addCondition('properties.id_user_released IS NOT NULL and
          properties.id_user_cancelled IS NULL');
         return RevisionLecture::model()->findAll($criteria);
     }
