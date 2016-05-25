@@ -172,4 +172,14 @@ class Tenant extends Role
         return true;
 
     }
+    public static function deletePhrase($id){
+
+        $sql = "DELETE FROM `chat_phrases` WHERE id=".$id;
+
+        if(!Yii::app()->db->createCommand($sql)->query())
+            return false;
+
+        return true;
+
+    }
 }
