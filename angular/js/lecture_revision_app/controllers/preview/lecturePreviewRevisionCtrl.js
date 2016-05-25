@@ -96,4 +96,19 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData) {
             return false;
         });
     };
+    $scope.releaseRevision = function(id) {
+        $http({
+            url: basePath+'/revision/readyLectureRevision',
+            method: "POST",
+            data: $.param({idRevision: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
+            });
+        }, function errorCallback() {
+            bootbox.alert("Відправити на реліз не вдалося. Зв'яжіться з адміністрацією");
+            return false;
+        });
+    };
 }

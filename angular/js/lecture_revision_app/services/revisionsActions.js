@@ -74,5 +74,19 @@ angular
                 });
                 return promise;
             };
+            this.releaseRevision = function(id) {
+                var promise = $http({
+                    url: basePath+'/revision/readyLectureRevision',
+                    method: "POST",
+                    data: $.param({idRevision: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Відправити на ревізію не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
         }
     ]);

@@ -405,6 +405,18 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->approve(Yii::app()->user);
     }
+    
+    
+    public function actionReadyLectureRevision() {
+
+        if (!$this->isUserApprover(Yii::app()->user)) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0828'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+        $lectureRev->release(Yii::app()->user);
+    }
 
     /**
      * curl -XPOST http://intita.project/revision/UpLectureElement -d 'idRevision=139&idPage=694&idElement=772' -b XDEBUG_SESSION=PHPSTORM
@@ -568,6 +580,7 @@ class RevisionController extends Controller {
 
         echo $json;
     }
+    
     public function actionBuildAllRevisions() {
         $lectureRev = RevisionLecture::model()->with("properties")->findAll();
         $lecturesTree = RevisionLecture::getLecturesTree();
@@ -852,6 +865,7 @@ class RevisionController extends Controller {
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isSendedCancellable();
+            $node['isReadable'] = $lecture->isReadable();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -978,10 +992,11 @@ class RevisionController extends Controller {
         $lecture['canSendForApproval']=$lectureRevision->canSendForApproval();
         $lecture['canCancelSendForApproval']=$lectureRevision->canCancelSendForApproval();
         $lecture['canApprove']=$lectureRevision->canApprove();
-        $lecture['canCancelRevision']=$lectureRevision->canCancelRevision();
+        $lecture['canCancelReadyRevision']=$lectureRevision->canCancelReadyRevision();
         $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
+        $lecture['canReleaseRevision']=$lectureRevision->canReleaseRevision();
         $lecture['link']=
-            $lecture['canCancelRevision']?
+            $lecture['canCancelReadyRevision']?
                 Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;
 
         $data['lecture']=$lecture;
