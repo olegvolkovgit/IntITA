@@ -72,3 +72,18 @@ function skipTaskCtrl($scope, $http) {
             });
     };
 }
+
+function checkAnswersCKE(answers){
+    if($("textarea.testVariant").length<5){
+        bootbox.alert("Мінімальна кількість варіантів відповіді не повина бути менше 5");
+        return false;
+    }
+    if($("textarea.testVariant").length>10){
+        bootbox.alert("Максимальна кількість варіантів відповіді не повина бути більше 10");
+        return false;
+    }
+    if(answers.length==0){
+        bootbox.alert("Виберіть хоч один правильний варіант перед створенням тесту");
+        return false;
+    }
+}

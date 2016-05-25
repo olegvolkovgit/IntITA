@@ -248,10 +248,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                 });
             }
         });
-    }
+    };
     $scope.removeEditHtml= function(){
         $scope.myEditCodeMirror.setValue($scope.myEditCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
-    }
+    };
     $scope.addPageVideo=function(idPage,idRevision){
         var pageVideo=angular.element(document.querySelector("#pageVideo"));
         $http({
@@ -284,7 +284,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                     return false;
                 });
             });
-    }
+    };
     $scope.deleteTest=function(revisionId,pageId,idBlock){
         $ngBootbox.confirm('Ви впевнені, що хочете видалити тест?')
             .then(function() {
@@ -300,6 +300,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
                     return false;
                 });
             });
+    };
+
+    $scope.cancelQuiz=function() {
+        location.reload();
     }
 }
 
@@ -313,4 +317,31 @@ function blockValidation() {
 }
 function removeHtml() {
     myCodeMirror.setValue(myCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
+}
+
+function showAddTaskFormCKE(taskType){
+    task = taskType;
+    document.getElementById('addTask').style.display = 'block';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+
+function showAddSkipTaskFormCKE(){
+    document.getElementById('addSkipTask').style.display = 'block';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+
+function showAddTestFormCKE(testType){
+    document.getElementById('testType').value = testType;
+    document.getElementById('addTest').style.display = 'block';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+function showAddPlainTaskFormCKE(testType){
+    document.getElementById('plainTaskType').value = testType;
+    document.getElementById('addPlainTask').style.display = 'block';
+    document.getElementById('buttonsPanel').style.display = 'none';
+}
+
+function hideFormCKE(id) {
+    $form = document.getElementById(id);
+    $form.style.display = 'none';
 }
