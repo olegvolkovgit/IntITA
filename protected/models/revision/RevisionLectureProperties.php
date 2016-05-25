@@ -200,15 +200,14 @@ class RevisionLectureProperties extends CActiveRecord
      */
     public function cloneProperties($user) {
         $newProperties = new RevisionLectureProperties();
-        $newProperties->setAttributes($this->getAttributes());
-//        $newProperties->image = $this->image;
-//        $newProperties->alias = $this->alias;
-//        $newProperties->id_type = $this->id_type;
-//        $newProperties->is_free = $this->is_free;
-//        $newProperties->order = $this->order;
-//        $newProperties->title_ua = $this->title_ua;
-//        $newProperties->title_ru = $this->title_ru;
-//        $newProperties->title_en = $this->title_en;
+//        $newProperties->setAttributes($this->getAttributes());
+        $newProperties->image = $this->image;
+        $newProperties->alias = $this->alias;
+        $newProperties->id_type = $this->id_type;
+        $newProperties->is_free = $this->is_free;
+        $newProperties->title_ua = $this->title_ua;
+        $newProperties->title_ru = $this->title_ru;
+        $newProperties->title_en = $this->title_en;
 
         $newProperties->start_date = new CDbExpression('NOW()');
         $newProperties->id_user_created = $user->getId();

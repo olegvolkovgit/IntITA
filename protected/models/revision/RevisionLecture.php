@@ -559,6 +559,9 @@ class RevisionLecture extends CActiveRecord
      * @return string
      */
     public function getStatus() {
+        if ($this->isReady()) {
+            return "Реліз";
+        }
         if ($this->isCancelled()) {
             return "Скасована";
         }
@@ -981,7 +984,7 @@ class RevisionLecture extends CActiveRecord
      * @return bool
      */
     public function isCancellable() {
-        if ($this->isApproved() && !$this->isCancelled())
+        if ($this->isReady() && !$this->isCancelled())
         {
             return true;
         }
@@ -1021,7 +1024,7 @@ class RevisionLecture extends CActiveRecord
      * @return bool
      */
     public function isReadable() {
-        if ($this->isApproved()) {
+        if ($this->isApproved() && !$this->isReady()) {
             return true;
         }
         return false;
@@ -1088,11 +1091,14 @@ class RevisionLecture extends CActiveRecord
     public function canApprove() {
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isApprovable());
     }
-    public function canCancelRevision() {
+    public function canCancelReadyRevision() {
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isCancellable());
     }
     public function canRejectRevision() {
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
+    }
+    public function canReleaseRevision() {
+        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isReadable());
     }
 
     /**
