@@ -451,6 +451,8 @@ class RevisionLecture extends CActiveRecord
             $revLectureProperties->id_user_created = $user->getId();
             $revLectureProperties->approve_date = new CDbExpression('NOW()');
             $revLectureProperties->id_user_approved = $user->getId();
+            $revLectureProperties->release_date = new CDbExpression('NOW()');
+            $revLectureProperties->id_user_released = $user->getId();
             $revLectureProperties->saveCheck();
 
             $revLecture = new RevisionLecture();
@@ -559,14 +561,14 @@ class RevisionLecture extends CActiveRecord
      * @return string
      */
     public function getStatus() {
-        if ($this->isReady() && !$this->isCancelled()) {
+        if ($this->isCancelled()) {
+            return "Скасована";
+        }
+        if ($this->isReady()) {
             return "Реліз";
         }
         if ($this->isApproved()) {
             return "Затверджена";
-        }
-        if ($this->isCancelled()) {
-            return "Скасована";
         }
         if ($this->isRejected()) {
             return "Відхилена";
@@ -1182,7 +1184,7 @@ class RevisionLecture extends CActiveRecord
         $idList = $this->getRelatedIdList();
         $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
         foreach ($lectureRevisions as $lectureRevision) {
-            if ($lectureRevision->isApproved()) {
+            if ($lectureRevision->isReady()) {
                 $lectureRevision->cancel($user);
             }
         }
