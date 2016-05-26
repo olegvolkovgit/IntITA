@@ -7,7 +7,6 @@
  * @property integer $id
  * @property string $image
  * @property string $alias
- * @property integer $order
  * @property integer $id_type
  * @property integer $is_free
  * @property string $title_ua
@@ -25,6 +24,8 @@
  * @property integer $id_user_approved
  * @property string $end_date
  * @property integer $id_user_cancelled
+ * @property string $release_date
+ * @property integer $id_user_released
  *
  * The followings are the available model relations:
  * @property Lecture[] $lectures
@@ -47,15 +48,15 @@ class RevisionLectureProperties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order, id_type, is_free, start_date', 'required'),
-			array('order, id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled', 'numerical', 'integerOnly'=>true),
+			array('id_type, is_free, start_date', 'required'),
+			array('id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
-                array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=_а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=_а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
 			array('alias', 'length', 'max'=>10),
-			array('update_date, send_approval_date, reject_date, approve_date, end_date', 'safe'),
+			array('update_date, send_approval_date, reject_date, approve_date, end_date, release_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, image, alias, order, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled', 'safe', 'on'=>'search'),
+			array('id, image, alias, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled, release_date, id_user_released', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,7 +81,6 @@ class RevisionLectureProperties extends CActiveRecord
 			'id' => 'ID',
 			'image' => 'Image',
 			'alias' => 'Alias',
-			'order' => 'Order',
 			'id_type' => 'Id Type',
 			'is_free' => 'Is Free',
 			'title_ua' => 'Title Ua',
@@ -96,6 +96,8 @@ class RevisionLectureProperties extends CActiveRecord
 			'id_user_approved' => 'Id User Approved',
 			'end_date' => 'End Date',
 			'id_user_cancelled' => 'Id User Cancelled',
+			'release_date' => 'Ready Date',
+			'id_user_released' => 'Id User Ready',
 		);
 	}
 
@@ -120,7 +122,6 @@ class RevisionLectureProperties extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('image',$this->image,true);
 		$criteria->compare('alias',$this->alias,true);
-		$criteria->compare('order',$this->order);
 		$criteria->compare('id_type',$this->id_type);
 		$criteria->compare('is_free',$this->is_free);
 		$criteria->compare('title_ua',$this->title_ua,true);
@@ -138,6 +139,8 @@ class RevisionLectureProperties extends CActiveRecord
 		$criteria->compare('id_user_approved',$this->id_user_approved);
 		$criteria->compare('end_date',$this->end_date,true);
 		$criteria->compare('id_user_cancelled',$this->id_user_cancelled);
+		$criteria->compare('release_date',$this->release_date,true);
+		$criteria->compare('id_user_released',$this->id_user_released);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -167,7 +170,6 @@ class RevisionLectureProperties extends CActiveRecord
 
     /**
      * Initialize lecture properties
-     * @param $order
      * @param $titleUa
      * @param $titleEn
      * @param $titleRu
@@ -181,7 +183,6 @@ class RevisionLectureProperties extends CActiveRecord
 		$this->id_type = 1;
 		$this->is_free = 0;
 
-		$this->order = 0;
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
@@ -199,11 +200,11 @@ class RevisionLectureProperties extends CActiveRecord
      */
     public function cloneProperties($user) {
         $newProperties = new RevisionLectureProperties();
+//        $newProperties->setAttributes($this->getAttributes());
         $newProperties->image = $this->image;
         $newProperties->alias = $this->alias;
         $newProperties->id_type = $this->id_type;
         $newProperties->is_free = $this->is_free;
-        $newProperties->order = $this->order;
         $newProperties->title_ua = $this->title_ua;
         $newProperties->title_ru = $this->title_ru;
         $newProperties->title_en = $this->title_en;

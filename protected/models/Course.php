@@ -806,8 +806,9 @@ class Course extends CActiveRecord implements IBillableObject
     {
         $modules= Yii::app()->db->createCommand()
             ->select('id_module')
-            ->from('course_modules')
-            ->where('id_course=:id and `order`>0', array(':id' => $idCourse))
+            ->from('course_modules cm')
+            ->join('module m', 'm.module_ID=cm.id_module')
+            ->where('cm.id_course=:id and cm.`order`>0 and m.cancelled=0', array(':id' => $idCourse))
             ->order('order ASC')
             ->queryAll();
         return $modules;
