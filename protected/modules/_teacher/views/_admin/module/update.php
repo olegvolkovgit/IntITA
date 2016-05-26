@@ -51,7 +51,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul id="editModuleTabs" class="nav nav-tabs">
+        <ul id="editModuleTabs" class="nav nav-tabs moduleTabs">
             <li class="active"><a href="#main" data-toggle="tab">Головне</a>
             </li>
             <li><a href="#ua" data-toggle="tab">Українською</a>
