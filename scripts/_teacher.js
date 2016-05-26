@@ -68,6 +68,33 @@ function newAgreement(url, type, course, module, schema, educationForm){
     });
 }
 
+function createAccount(url, course, module) {
+    schema = $jq('input:radio[name="payment"]:checked').val();
+    educationForm = $jq('#educationForm').val();
+    if (schema == 0) {
+        bootbox.alert("Виберіть схему проплати.");
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                payment: schema,
+                course : course,
+                educationForm: educationForm,
+                module: module
+            },
+            cache: false,
+            success: function (id) {
+                load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
+            },
+            error: function(){
+                bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                    adminEmail);
+            }
+        });
+    }
+}
+
 function cancelTeacherAccess(url, header, redirect, role) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
