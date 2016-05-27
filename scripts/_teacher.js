@@ -521,6 +521,12 @@ function openTab(id, tabIndex) {
         $jq(id + ' li:eq(' + tabIndex + ') a').tab('show');
     }
 }
+//open tabs by index after load page by a href
+function openTabByHref(id, href) {
+    if (href != undefined) {
+        $jq(id+' a[href="#'+href+'"]').tab('show')
+    }
+}
 
 function performOperation(url, data, callback) {
     showAjaxLoader();
