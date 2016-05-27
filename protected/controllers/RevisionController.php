@@ -606,20 +606,21 @@ class RevisionController extends Controller {
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
 
         $approvedRevisions=RevisionLecture::getApprovedRevisionsInModule($idModule);
-        $quickUnion=$lectureRev[0]->getQuickUnionRevisions();
-        if($approvedRevisions){
-            $moduleRevisions=[];
-            foreach($approvedRevisions as $branch){
-                $moduleRevisions=array_merge($moduleRevisions, $branch->getRelatedIdListFromApproved($quickUnion,$branch->id_revision));
-                $relatedTree[$branch->id_revision]=$branch->id_revision;
+        if(count($lectureRev)) {
+            $quickUnion = $lectureRev[0]->getQuickUnionRevisions();
+            if ($approvedRevisions) {
+                $moduleRevisions = [];
+                foreach ($approvedRevisions as $branch) {
+                    $moduleRevisions = array_merge($moduleRevisions, $branch->getRelatedIdListFromApproved($quickUnion, $branch->id_revision));
+                    $relatedTree[$branch->id_revision] = $branch->id_revision;
+                }
+            } else {
+                $moduleRevisions = [];
             }
-        }else{
-            $moduleRevisions=[];
+            $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
+            $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
+            echo $json;
         }
-        $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
-        $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
-
-        echo $json;
     }
     public function actionShowRevision($idRevision) {
         $lectureRev = RevisionLecture::model()->with('properties, lecturePages')->findByPk($idRevision);
@@ -1075,5 +1076,15 @@ class RevisionController extends Controller {
         $data["condition"] =  $task->lectureElement->html_block;;
 
         echo CJSON::encode($data);
+    }
+
+    //get task uid by revision page id
+    public function actionGetTaskUIDbyElementId()
+    {
+        $blockId = Yii::app()->request->getPost('blockId');
+        $quiz=RevisionTask::model()->findByAttributes(array('id_lecture_element'=>$blockId));
+        if($quiz)
+            echo $quiz->uid;
+        else echo false;
     }
 }

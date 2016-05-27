@@ -25,21 +25,25 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
         editTaskCondition(blockId, pageId, revisionId,quizType)
             .then(function(editResponse) {
                 if(editResponse){
-                    getTaskJson.getJson($scope.task,$scope.interpreterServer).then(function(response){
-                        if (response != undefined){
-                            $scope.editedJson=response;
-                            $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
-                            var tempLang=originLang;
-                            $scope.editedJson.lang=selectedLang;
-                            sendTaskJsonService.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
-                                if(!response){
-                                    editTaskCondition(blockId, pageId, revisionId,quizType, tempLang).then(function() {
-                                        $("select#programLang option[value="+"'"+ tempLang +"'"+ "]").attr('selected', 'true');
-                                    })
+                    getTaskUID(blockId).then(function(uid) {
+                        if (uid) {
+                            getTaskJson.getJson(uid, $scope.interpreterServer).then(function (response) {
+                                if (response != undefined) {
+                                    $scope.editedJson = response;
+                                    $scope.editedJson = JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
+                                    var tempLang = originLang;
+                                    $scope.editedJson.lang = selectedLang;
+                                    sendTaskJsonService.sendJson($scope.interpreterServer, $scope.editedJson).then(function (response) {
+                                        if (!response) {
+                                            editTaskCondition(blockId, pageId, revisionId, quizType, tempLang).then(function () {
+                                                $("select#programLang option[value=" + "'" + tempLang + "'" + "]").attr('selected', 'true');
+                                            })
+                                        }
+                                        bootbox.alert("Зміни умови відбулися", function () {
+                                            location.reload();
+                                        });
+                                    });
                                 }
-                                bootbox.alert("Зміни умови відбулися", function () {
-                                    location.reload();
-                                });
                             });
                         }
                     });
@@ -67,4 +71,18 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
         return promise;
     }
 
+    function getTaskUID(blockId) {
+        var promise = $http({
+            url: basePath + '/revision/getTaskUIDbyElementId',
+            method: "POST",
+            data: $.param({blockId:blockId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка при редагуванні задачі");
+            return false;
+        });
+        return promise;
+    }
 }
