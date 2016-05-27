@@ -353,7 +353,20 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
             success: function (response) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function (){
-                        window.history.back();
+                        switch (role) {
+                            case "author":
+                                loadAuthorModuleListCM(user,'Автор модуля','author');
+                                break;
+                            case "consultant":
+                                loadAuthorModuleListCM(user,'Автор модуля','consultant');
+                                break;
+                            case "teacher_consultant":
+                                loadAuthorModuleListCM(user,'Автор модуля','teacher_consultant');
+                                break;
+                            default:
+                                loadAuthorModuleListCM(user,'Автор модуля','main');
+                                break;
+                        }
                     });
                 } else {
                     showDialog("Операцію не вдалося виконати.");
@@ -565,5 +578,9 @@ function initPartsListTable(idLesson){
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
+}
+
+function loadAuthorModuleListCM(id,header,tab) {
+    load(basePath + '/_teacher/_content_manager/contentManager/showTeacher/id/' + id,header,'',tab);
 }
 

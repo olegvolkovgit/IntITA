@@ -18,7 +18,7 @@ $teacher = $user->getTeacher();
                 </li>
             <?php } ?>
             <?php if ($user->isTeacherConsultant()) { ?>
-                <li><a href="#teacherConsultant" data-toggle="tab">Викладач</a>
+                <li><a href="#teacher_consultant" data-toggle="tab">Викладач</a>
                 </li>
             <?php } ?>
         </ul>
@@ -37,10 +37,15 @@ $teacher = $user->getTeacher();
                 </div>
             <?php } ?>
             <?php if ($user->isTeacherConsultant()) { ?>
-                <div class="tab-pane fade" id="teacherConsultant">
+                <div class="tab-pane fade" id="teacher_consultant">
                     <?php $this->renderPartial('/_content_manager/_teacherConsultantTab', array('user' =>$user));?>
                 </div>
             <?php } ?>
         </div>
     </div>
 </div>
+<script>
+    if(history.state!=null){
+        openTabByHref('#accessTabs', history.state.tab);
+    }
+</script>
