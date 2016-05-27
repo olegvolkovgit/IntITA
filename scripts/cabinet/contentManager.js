@@ -18,7 +18,20 @@ function addTeacherAttrCM(url, attr, id, role) {
             success: function (response) {
                 if (response == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                       window.history.back();
+                        switch (role) {
+                            case "author":
+                                loadAuthorModuleListCM(user,'Автор модуля','author');
+                                break;
+                            case "consultant":
+                                loadAuthorModuleListCM(user,'Автор модуля','consultant');
+                                break;
+                            case "teacher_consultant":
+                                loadAuthorModuleListCM(user,'Автор модуля','teacher_consultant');
+                                break;
+                            default:
+                                loadAuthorModuleListCM(user,'Автор модуля','main');
+                                break;
+                        }
                     });
                 } else {
                     switch (role) {
