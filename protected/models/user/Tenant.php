@@ -182,6 +182,9 @@ class Tenant extends Role
         return true;
 
     }
+    public static function getListOfMessagesBetweenUsers($id){
+        return true;
+    }
     public static function getListOfChatsBetweenUsers($user1_name,$user2_name){
 
         $sql = "SELECT `intita_user_id` FROM `chat_user` WHERE `nick_name`="."'".$user1_name."'";

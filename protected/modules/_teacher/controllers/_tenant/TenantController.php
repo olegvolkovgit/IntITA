@@ -68,6 +68,12 @@ class TenantController extends TeacherCabinetController
 
 
     }
+    public function actionFindChat($id)
+    {
+        echo Tenant::getListOfMessagesBetweenUsers($id);
+
+
+    }
     public function actionShowChats($user1,$user2)
     {
 
