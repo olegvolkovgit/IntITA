@@ -182,7 +182,7 @@ class Tenant extends Role
         return true;
 
     }
-    public static function getListOfChatsWithUsers($user1_name,$user2_name){
+    public static function getListOfChatsBetweenUsers($user1_name,$user2_name){
 
         $sql = "SELECT `intita_user_id` FROM `chat_user` WHERE `nick_name`="."'".$user1_name."'";
         $result=Yii::app()->db->createCommand($sql)->queryAll();
@@ -208,7 +208,11 @@ class Tenant extends Role
         $return = array('data' => array());
         foreach($result5 as $record){
             $row = array();
-            $row['name']=$record['rooms_from_users_id'];
+            $row["name"]["title"] = $record['rooms_from_users_id'];
+            $row["name"]["url"] = $record['rooms_from_users_id'];
+
+            $row["name"]["id"]=$record['rooms_from_users_id'];
+
             array_push($return['data'], $row);
 
         }

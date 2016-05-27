@@ -35,8 +35,11 @@ function initListOfChats(user1,user2){
                 "dataSrc": "data"
             },
             "columns": [
-                {   type: 'text', targets: 1 ,
-                    "data": "name"
+                {
+                    "data": "name",
+                    "render": function (name) {
+                        return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/FindChat?id=' +  name['id'] + '\');">'+name['title']+'</a>';
+                    }
                    }
             ],
             "createdRow": function (row, data, index) {
