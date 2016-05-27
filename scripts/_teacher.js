@@ -41,25 +41,131 @@ function signAgreement(url, course, module, type) {
     }
 }
 
-function newAgreement(url, type, course, module, schema, educationForm){
-    $jq.ajax({
-        type: "POST",
-        url: url,
-        data: {
-            payment: schema,
-            course: course,
-            educationForm: educationForm,
-            module: module,
-            type: type
-        },
-        cache: false,
-        success: function (id) {
-            if(id != 0) {
-                load(basePath + '/_teacher/_student/student/agreement/id/' + id, 'Доовір');
-            } else {
+function newAgreement(url, type, course, module, schema, educationForm, offerScenario) {
+    if(offerScenario == "credit"){
+        load(basePath + "/_teacher/_student/student/creditSchemaForm?course=" + course + "&module=" + module +
+            "&type=" + scenario + "&form=" + educationForm + "&schema=" + schema, 'Персональні дані');
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                payment: schema,
+                course: course,
+                educationForm: educationForm,
+                module: module,
+                type: type
+            },
+            cache: false,
+            success: function (id) {
+                if (id != 0) {
+                    load(basePath + '/_teacher/_student/student/agreement/id/' + id, 'Договір');
+                } else {
+                    bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                        adminEmail);
+                }
+            },
+            error: function () {
                 bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
                     adminEmail);
             }
+        });
+    }
+}
+
+
+// language data for datapicker
+var lang = {
+    closeText: 'Закрити',
+    prevText: '&#x3C;Попередній',
+    nextText: 'Наступний&#x3E;',
+    currentText: 'Сьогодні',
+    monthNames: ['Січень','Лютий','Березень','Квітень','Травень','Червень', 'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
+    monthNamesShort: ['Січ','Лют','Бер','Кві','Тра','Чер',
+        'Лип','Сер','Вер','Жов','Лис','Гру'],
+    dayNames: ['неділя','понеділок','вівторок','середа','четвер','п\'ятниця','субота'],
+    dayNamesShort: ['нед','пон','вів','сер','чет','п\'ят','сбт'],
+    dayNamesMin: ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],
+    weekHeader: 'Тиждень',
+    dateFormat: 'yy-mm-dd',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: ''};
+
+function saveUserDataAndSignAccount(url, type, course, module, schema, educationForm){
+    passport = $jq('#passport').val();
+    inn = $jq('#inn').val();
+    documentType = $jq('#document_type').val();
+    issuedDate = $jq('#document_issued_date').val();
+    passportIssued = $jq('#passport_issued').val();
+    if(passport && inn && documentType && issuedDate && passportIssued){
+        $jq.ajax({
+            url: url,
+            data: {
+                passport : passport,
+                inn : inn,
+                document_type : documentType,
+                document_issued_date : issuedDate,
+                passport_issued : passportIssued
+            },
+            type: 'post',
+            success: function (response) {
+                if(response == "success"){
+                    createAgreement(basePath + "/_teacher/_student/student/newAgreement", schema, course, educationForm, module, type);
+                } else {
+                    bootbox.alert("Інформацію про користувача не вдалося оновити.");
+                }
+            },
+            error: function () {
+                bootbox.alert("Договір не вдалося створити. Зверніться до адміністратора " + adminEmail);
+            }
+        });
+    } else {
+        bootbox.alert("Неправильно введені дані.");
+;    }
+}
+
+function createAccount(url, course, module, scenario, offerScenario, schema, educationForm) {
+    if(!schema){
+        schema = $jq('input:radio[name="payment"]:checked').val();
+    }
+    if(!educationForm){
+        educationForm = $jq('#educationForm').val();
+    }
+    if (schema == 0) {
+        bootbox.alert("Виберіть схему проплати.");
+    } else {
+        if (offerScenario != "noOffer") {
+            if (1 <= schema <= 8) {
+                offerScenario = "onlyCheck";
+                load(basePath + "/_teacher/_student/student/publicOffer?course=" + course + "&module=" + module +
+                    "&type=" + scenario + "&form=" + educationForm + "&schema=" + schema, 'Публічна оферта');
+            }
+            else {
+                bootbox.alert("Неправильно вибрана схема проплати.");
+            }
+        } else {
+            createAgreement(url, schema, course, educationForm, module, scenario, offerScenario);
+        }
+    }
+}
+
+function createAgreement(url, schema, course, educationForm, module, scenario){
+    data = {
+        payment: schema,
+        course: course,
+        educationForm: educationForm,
+        module: module,
+        scenario: scenario
+    };
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        cache: false,
+        success: function (response) {
+            loadAgreement(response);
         },
         error: function () {
             bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
@@ -68,31 +174,8 @@ function newAgreement(url, type, course, module, schema, educationForm){
     });
 }
 
-function createAccount(url, course, module) {
-    schema = $jq('input:radio[name="payment"]:checked').val();
-    educationForm = $jq('#educationForm').val();
-    if (schema == 0) {
-        bootbox.alert("Виберіть схему проплати.");
-    } else {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                payment: schema,
-                course : course,
-                educationForm: educationForm,
-                module: module
-            },
-            cache: false,
-            success: function (id) {
-                load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
-            },
-            error: function(){
-                bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
-                    adminEmail);
-            }
-        });
-    }
+function loadAgreement(id) {
+    load(basePath + "/_teacher/_student/student/agreement/id/" + id, 'Договір');
 }
 
 function cancelTeacherAccess(url, header, redirect, role) {
@@ -287,15 +370,15 @@ function addStudentAttr(url, user, header, type) {
     }
 }
 
-function enableAgreeButton(){
-    if($jq('#agree').prop('checked')) {
+function enableAgreeButton() {
+    if ($jq('#agree').prop('checked')) {
         $jq('#agreeButton').prop('disabled', false);
     } else {
         $jq('#agreeButton').prop('disabled', true);
     }
 }
 
-function back(){
+function back() {
     window.history.back();
 }
 
@@ -309,7 +392,7 @@ function changeUserStatus(url, user, message, header, target) {
                 data: {user: user},
                 success: function (result) {
                     bootbox.confirm(result, function () {
-                        if(target == 'coworkers'){
+                        if (target == 'coworkers') {
                             load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
                         } else {
                             load(basePath + "/_teacher/user/index/id/" + user, header);
@@ -1018,7 +1101,7 @@ function initAgreementsTable() {
     });
 }
 
-function addCountry(url){
+function addCountry(url) {
     titleUa = $jq('[name="titleUa"]').val();
     titleRu = $jq('[name="titleRu"]').val();
     titleEn = $jq('[name="titleEn"]').val();
@@ -1040,9 +1123,9 @@ function addCountry(url){
     });
 }
 
-function addCity(url){
-    country  = $jq('#country').val();
-    if(country == 0){
+function addCity(url) {
+    country = $jq('#country').val();
+    if (country == 0) {
         bootbox.alert('Виберіть країну.');
     } else {
         titleUa = $jq('[name="titleUa"]').val();
@@ -1068,6 +1151,6 @@ function addCity(url){
     }
 }
 
-function loadAddressIndex(){
+function loadAddressIndex() {
     load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
 }

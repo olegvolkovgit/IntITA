@@ -4,6 +4,7 @@
  * @var $schema int
  * @var $type string
  * @var $course int
+ * @var $offerScenario string
  */
 $price = $model->getBasePrice();
 ?>
@@ -21,7 +22,8 @@ $price = $model->getBasePrice();
                     'scenario' => 'online',
                     'model' => $model,
                     'price' => $model->getBasePrice(),
-                    'course' => $course
+                    'course' => $course,
+                    'offerScenario' => $offerScenario
                 )); ?>
             </div>
             <div class="tab-pane fade" id="offline">
@@ -29,7 +31,8 @@ $price = $model->getBasePrice();
                     'scenario' => 'online',
                     'model' => $model,
                     'price' => $model->priceOffline(),
-                    'course' => $course
+                    'course' => $course,
+                    'offerScenario' => $offerScenario
                 )); ?>
             </div>
         </div>

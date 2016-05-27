@@ -3,6 +3,7 @@
  * @var $model Course
  * @var $price int
  * @var $scenario string
+ * @var $offerScenario string
  */
 ?>
 <div class="panel-group">
@@ -104,8 +105,8 @@
                 <?php if ($price > 0) { ?>
                     <br>
                     <button class="btn btn-primary" type="button"
-                            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
-                                '<?php echo $model->course_ID; ?>', '0', 'course')"><?php echo Yii::t('profile', '0261'); ?></button>
+                            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/signAgreement'); ?>',
+                                '<?php echo $model->course_ID; ?>', '0', 'course', '<?=$offerScenario?>')"><?php echo Yii::t('profile', '0261'); ?></button>
                 <?php } ?>
             </div>
         </div>

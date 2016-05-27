@@ -5,6 +5,7 @@
  * @var $schemaNum integer
  * @var $educationForm
  * @var $type string
+ * @var $offerScenario string
  */
 ?>
 <div class="col col-md-9">
@@ -33,7 +34,8 @@
                         '<?=$course?>',
                         '<?=$module?>',
                         '<?=$schemaNum?>',
-                        '<?=$educationForm?>'
+                        '<?=$educationForm?>',
+                        '<?=$offerScenario;?>'
                         ); return false;">
                 Підписати договір
             </button>

@@ -703,23 +703,5 @@ function updateStudentList(startDate, endDate) {
 }
 
 
-// language data for datapicker
-var lang = {
-    closeText: 'Закрити',
-    prevText: '&#x3C;Попередній',
-    nextText: 'Наступний&#x3E;',
-    currentText: 'Сьогодні',
-    monthNames: ['Січень','Лютий','Березень','Квітень','Травень','Червень', 'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
-    monthNamesShort: ['Січ','Лют','Бер','Кві','Тра','Чер',
-        'Лип','Сер','Вер','Жов','Лис','Гру'],
-    dayNames: ['неділя','понеділок','вівторок','середа','четвер','п\'ятниця','субота'],
-    dayNamesShort: ['нед','пон','вів','сер','чет','п\'ят','сбт'],
-    dayNamesMin: ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],
-    weekHeader: 'Тиждень',
-    dateFormat: 'yy-mm-dd',
-    firstDay: 1,
-    isRTL: false,
-    showMonthAfterYear: false,
-    yearSuffix: ''};
 
 
