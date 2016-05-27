@@ -142,9 +142,9 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     };
     $scope.finalResult= {
         operation: "addtask",
+        task: $scope.task,
         etalon: $scope.etalon,
         lang: $scope.lang,
-        task: $scope.task,
         function : $scope.function,
         name:$scope.name
     };
