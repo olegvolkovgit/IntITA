@@ -25,8 +25,28 @@
     </div>
 </div>
 <script>
-valera('<?=$response?>'')
-function valera(response){
-    console.log(response);
+initListOfChats('<?=$user1?>','<?=$user2?>')
+function initListOfChats(user1,user2){
+
+        $jq('#allChatsTable').DataTable({
+            "autoWidth": false,
+            "ajax": {
+                "url": basePath + "/_teacher/_tenant/tenant/FindChats?user1="+user1+"&user2="+user2,
+                "dataSrc": "data"
+            },
+            "columns": [
+                {   type: 'text', targets: 1 ,
+                    "data": "name"
+                   }
+            ],
+            "createdRow": function (row, data, index) {
+                $jq(row).addClass('gradeX');
+            },
+            language: {
+                "url": basePath+"/scripts/cabinet/Ukranian.json",
+            },
+            processing : true,
+        });
+
 }
     </script>

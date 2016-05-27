@@ -43,13 +43,7 @@
         var user_name1 = document.getElementById('chat_user1').value;
         var user_name2 = document.getElementById('chat_user2').value;
 
-        $jq.ajax({
-            url: basePath + "/_teacher/_tenant/tenant/FindChats?user1="+user_name1+"&user2="+user_name2,
-            success: function (response) {
-                console.log(response);
-                load('/_teacher/_tenant/tenant/ShowChats');
-            }
-
-        });}
+                load('/_teacher/_tenant/tenant/ShowChats?user1='+user_name1+'&user2='+user_name2);
+         }
 
 </script>

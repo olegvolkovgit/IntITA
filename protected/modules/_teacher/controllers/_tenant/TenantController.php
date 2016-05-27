@@ -66,12 +66,12 @@ class TenantController extends TeacherCabinetController
     {
             echo Tenant::getListOfChatsWithUsers($user1,$user2);
 
-//        $this->renderPartial('/_tenant/showChats', array(), false, true);
+
     }
-    public function actionShowChats($response)
+    public function actionShowChats($user1,$user2)
     {
 
 
-        $this->renderPartial('/_tenant/showChats', array($response), false, true);
+        $this->renderPartial('/_tenant/showChats', array('user1'=>$user1,'user2'=>$user2), false, true);
     }
 }
