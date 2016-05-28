@@ -206,12 +206,13 @@ class Tenant extends Role
 //        $result3=Yii::app()->db->createCommand($sql4)->queryAll();
 //        if(!$result)
 //            return false;
-        $sql5 = "SELECT r.rooms_from_users_id FROM `chat_room_users` as r inner join chat_room_users as u on u.rooms_from_users_id=r.rooms_from_users_id where `r`.`users_id`="."'".$arr1['id']."'"." and `u`.`users_id`="."'".$arr2['id']."'";
+        $sql5 = "SELECT u.rooms_from_users_id,df.name FROM `chat_room_users` as r inner join chat_room_users as u on u.rooms_from_users_id=r.rooms_from_users_id left join `chat_room` as df on df.id=u.rooms_from_users_id where `r`.`users_id`="."'".$arr1['id']."'"." and `u`.`users_id`="."'".$arr2['id']."'";
+        //$sql5 = "SELECT r.rooms_from_users_id FROM `chat_room_users` as r inner join chat_room_users as u on u.rooms_from_users_id=r.rooms_from_users_id where `r`.`users_id`="."'".$arr1['id']."'"." and `u`.`users_id`="."'".$arr2['id']."'";
         $result5=Yii::app()->db->createCommand($sql5)->queryAll();
         $return = array('data' => array());
         foreach($result5 as $record){
             $row = array();
-            $row["name"]["title"] = $record['rooms_from_users_id'];
+            $row["name"]["title"] = $record['name'];
             $row["name"]["url"] = $record['rooms_from_users_id'];
 
             $row["name"]["id"]=$record['rooms_from_users_id'];
