@@ -2,6 +2,7 @@
 /** @var $user integer
  * @var $message int
  * @var $receiver int
+ * @var $subject string
  */
 ?>
 <div id="messageForm<?= $message; ?>">
@@ -13,7 +14,8 @@
             <input id="typeahead" type="text" class="form-control" name="forwardTo" placeholder="Отримувач" size="135"
                    required autofocus>
         </div>
-        <input class="form-control" name="subject" placeholder="Тема">
+        <input class="form-control" name="subject" placeholder="Тема"
+               value="<?=(substr($subject, 0, strlen("Fwd: ")) === "Fwd: ")?$subject:"Fwd: ".$subject;?>"/>
         <br>
         <div class="form-group">
             <textarea class="form-control" rows="6" name="text" id="text" placeholder="Лист" required></textarea>
