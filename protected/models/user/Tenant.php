@@ -187,7 +187,7 @@ class Tenant extends Role
     }
     public static function getListOfChatsBetweenUsers($user1_name,$user2_name){
 
-        $sql = "SELECT `intita_user_id` FROM `chat_user` WHERE `nick_name`="."'".$user1_name."'";
+        $sql = "SELECT `id` FROM `chat_user` WHERE `nick_name`="."'".$user1_name."'";
         $result=Yii::app()->db->createCommand($sql)->queryAll();
         if(!$result)
             return false;
@@ -196,7 +196,7 @@ class Tenant extends Role
 //        $result3=Yii::app()->db->createCommand($sql3)->queryAll();
 //        if(!$result3)
 //            return false;
-        $sql2 = "SELECT `intita_user_id` FROM `chat_user` WHERE `nick_name`="."'".$user2_name."'";
+        $sql2 = "SELECT `id` FROM `chat_user` WHERE `nick_name`="."'".$user2_name."'";
         $result2=Yii::app()->db->createCommand($sql2)->queryAll();
         if(!$result2)
             return false;
@@ -206,7 +206,7 @@ class Tenant extends Role
 //        $result3=Yii::app()->db->createCommand($sql4)->queryAll();
 //        if(!$result)
 //            return false;
-        $sql5 = "SELECT r.rooms_from_users_id FROM `chat_room_users` as r inner join chat_room_users as u on u.rooms_from_users_id=r.rooms_from_users_id where `r`.`users_id`="."'".$arr1['intita_user_id']."'"." and `u`.`users_id`="."'".$arr2['intita_user_id']."'";
+        $sql5 = "SELECT r.rooms_from_users_id FROM `chat_room_users` as r inner join chat_room_users as u on u.rooms_from_users_id=r.rooms_from_users_id where `r`.`users_id`="."'".$arr1['id']."'"." and `u`.`users_id`="."'".$arr2['id']."'";
         $result5=Yii::app()->db->createCommand($sql5)->queryAll();
         $return = array('data' => array());
         foreach($result5 as $record){
