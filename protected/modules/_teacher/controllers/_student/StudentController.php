@@ -99,7 +99,6 @@ class StudentController extends TeacherCabinetController
 
             $this->renderPartial('/_student/agreement/payCourse', array(
                 'course' => $courseModel,
-                //'schema' => $schema,
                 'type' => $type,
                 'offerScenario' => Config::offerScenario()
             ), false, true);
