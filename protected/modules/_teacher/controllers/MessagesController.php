@@ -61,7 +61,8 @@ class MessagesController extends TeacherCabinetController
         $this->renderPartial('_form' . $jsonObj->scenario, array(
             'user' => $jsonObj->user,
             'receiver' => $jsonObj->receiver,
-            'message' => $jsonObj->message
+            'message' => $jsonObj->message,
+            'subject' => $jsonObj->subject
         ));
     }
 

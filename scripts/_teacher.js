@@ -480,7 +480,7 @@ function loadMessagesIndex() {
     load(basePath + "/_teacher/messages/index", 'Листування');
 }
 
-function loadForm(url, receiver, scenario, message) {
+function loadForm(url, receiver, scenario, message, subject) {
     idBlock = "#collapse" + message;
     $jq(idBlock).collapse('show');
     id = "#form" + message;
@@ -488,7 +488,8 @@ function loadForm(url, receiver, scenario, message) {
         "user": user,
         "message": message,
         "receiver": receiver,
-        "scenario": scenario
+        "scenario": scenario,
+        "subject": subject
     };
 
     $jq.post(url, {form: JSON.stringify(command)}, function () {
