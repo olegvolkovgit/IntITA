@@ -615,6 +615,9 @@
 
                 $.each(node.ddbutton.actions, function addElement (id, action){
                     if (action.type == 'button') {
+						if(!node.isReadable && (action.actionType=='release')){
+							return;
+						}
 						if(!node.isSendable && (action.actionType=='send')){
 							return;
 						}

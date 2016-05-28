@@ -589,6 +589,7 @@
                 <div>Назва функції</div>
                 <input class="form-control functionName" maxlength="32" ng-pattern="/^[a-zA-Z_][0-9a-zA-Z_]?[^\s]*$/" placeholder="Назва функції" ng-model="finalResult.name" required ng-change="fNameGenerate()"/>
                 <input class="form-control functionPrefix" disabled ng-model="prefix" />
+                <input class="form-control langTask" disabled ng-model="lang" />
             </div>
         </div>
         <h2 id="title">Параметри функції</h2>

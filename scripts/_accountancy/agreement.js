@@ -158,7 +158,7 @@ function cancel(url, id) {
 }
 
 function refresh() {
-    load(basePath + '/_teacher/_accountancy/agreements/index', 'Список договорів');
+    load(basePath + '/_teacher/_accountant/agreements/index', 'Список договорів');
 }
 
 function deleteCancelReasonTypes(url, id){
@@ -170,7 +170,7 @@ function deleteCancelReasonTypes(url, id){
                 data : {id: id},
                 success: function () {
                     bootbox.confirm("Причина відміни проплат видалена.", function () {
-                        load(basePath + "/_teacher/_accountancy/cancelReasonType/index");
+                        load(basePath + "/_teacher/_accountant/cancelReasonType/index");
                     });
                 }
             });
@@ -189,7 +189,7 @@ function deleteOperationType(url, id){
                 data : {id: id},
                 success: function () {
                     bootbox.confirm("Тип проплат видалений.", function () {
-                        load(basePath + "/_teacher/_accountancy/operationType/index");
+                        load(basePath + "/_teacher/_accountant/operationType/index");
                     });
                 }
             });

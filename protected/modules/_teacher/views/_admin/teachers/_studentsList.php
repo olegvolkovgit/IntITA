@@ -30,7 +30,7 @@
     </div>
     <br>
     <div class="dataTable_wrapper">
-        <table class="table table-striped table-bordered table-hover" id="modulesListTable">
+        <table class="table table-striped table-bordered table-hover" id="studentsListTable">
             <thead>
             <tr>
                 <th>Студент</th>
@@ -51,10 +51,10 @@
                     </a>
                 </td>
                 <td>
-                    <?= $item["start_date"]; ?>
+                    <?= date("d.m.Y",strtotime($item["start_date"])); ?>
                 </td>
                 <td>
-                    <?= $item["end_date"]; ?>
+                    <?= ($item["end_date"] != "")?date("d.m.Y",strtotime($item["end_date"])):""; ?>
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
@@ -113,4 +113,21 @@
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq("#student").val(item.id);
     });
+
+    $jq('#studentsListTable').DataTable( {
+        "order": [[ 2, "desc" ]],
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        },
+        "columns": [
+            null,
+            {
+                "type": "de_date", targets: 1,
+            },
+            {
+                "type": "de_date", targets: 1,
+            },
+            null
+        ]
+    } );
 </script>
