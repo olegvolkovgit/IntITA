@@ -126,13 +126,13 @@ class Invoice extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function createInvoice($summa,DateTime $paymentDate){
+    public static function createInvoice($summa, DateTime $paymentDate){
         $model = new Invoice();
-
+        $expirationDate = clone $paymentDate;
         $model->payment_date = $paymentDate->format('Y-m-d H:i:s');
         $model->summa = $summa;
-        $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days')
-            ->format('Y-m-d H:i:s');
+        $interval = new DateInterval('P'.Config::getExpirationTimeInterval().'D');
+        $model->expiration_date = $expirationDate->add($interval)->format('Y-m-d H:i:s');
 
         return $model;
     }

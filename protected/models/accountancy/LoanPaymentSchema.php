@@ -22,7 +22,8 @@ class LoanPaymentSchema implements IPaymentCalculator{
     }
 
     public function getCloseDate(IBillableObject $payObject, DateTime $startDate){
-        $closeDate = $startDate->modify('+'.$payObject->getDuration().' days' );
+        $interval = new DateInterval('P'.$payObject->getDuration().'D');
+        $closeDate = $startDate->add($interval);
         return $closeDate->getTimestamp();
     }
 

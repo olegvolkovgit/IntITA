@@ -6,7 +6,6 @@
 
 <span>
     <?php
-    $price = round(Course::getCreditCoursePrice($model->course_ID, $year));
     if ($price == 0) { ?>
         <span style="display: inline-block;margin-top: 3px" class="colorGreen"><?php echo Yii::t('module', '0421'); ?>
             </span>

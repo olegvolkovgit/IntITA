@@ -26,7 +26,7 @@
                         echo $_GET['month'];
                     } else {
                         echo date("F");
-                    } ?></span> 2015 р.
+                    } ?></span> “<?php echo " ".date("Y"); ?> р.
             </div>
             <div class="col-sm-5 text-center">
                 <span id="accountTitle">РАХУНОК № <?php echo $model->id; ?></span>
