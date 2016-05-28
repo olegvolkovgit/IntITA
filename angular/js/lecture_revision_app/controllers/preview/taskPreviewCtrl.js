@@ -85,17 +85,19 @@ function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
                             break;
                         case 'done':
                             $('#ajaxLoad').hide();
-                            if(serverResponse.done){
+                            if(serverResponse.done==true){
                                 bootbox.alert("<span style='color:green'>Відповідь на тест вірна</span>");
-                            }else{
-                                var countUnit=serverResponse.testResult.length;
-                                var falseUnits=0;
-                                for(var i=0;i<countUnit;i++){
-                                    if(serverResponse.testResult[i]==false)
+                            } else if(serverResponse.done==false){
+                                var countUnit = serverResponse.testResult.length;
+                                var falseUnits = 0;
+                                for (var i = 0; i < countUnit; i++) {
+                                    if (serverResponse.testResult[i] == false)
                                         falseUnits++;
                                 }
-                                bootbox.alert('Кількість юніттестів, які не пройшов твій код: '+falseUnits+'/'+serverResponse.testResult.length.toString(), function() {
+                                bootbox.alert('Кількість юніттестів, які не пройшов твій код: ' + falseUnits + '/' + serverResponse.testResult.length.toString(), function () {
                                 });
+                            } else {
+                                bootbox.alert("Твій код не скомпілювався. Виправ помилки та спробуй ще раз.<br>Помилка: <br>"+serverResponse.result);
                             }
                             break;
                         case 'failed':
