@@ -224,7 +224,7 @@ class UserAgreements extends CActiveRecord
         $model->close_date = $schema->getCloseDate($billableObject, $startDate);
 
         if ($model->save()) {
-            $invoicesList = $schema->getInvoicesList($billableObject, $startDate);
+            $invoicesList = $schema->getInvoicesList($billableObject, new DateTime());
             $agreementId = $model->id;
             $model->updateByPk($agreementId, array(
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
