@@ -45,7 +45,7 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
                                     });
                                 }
                             });
-                        }
+                        } else bootbox.alert("Виникла помилка при редагуванні задачі");
                     });
                 }else{
                     bootbox.alert("Зберегти зміни не вдалося. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
@@ -85,4 +85,5 @@ function taskCtrl($scope, $http,getTaskJson,sendTaskJsonService) {
         });
         return promise;
     }
+
 }

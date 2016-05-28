@@ -58,11 +58,17 @@ class Consultant extends Role
         switch ($attribute) {
             case 'module':
                 if($this->checkModule($user->id, $value)) {
-                    return Yii::app()->db->createCommand()->
+                    if(Yii::app()->db->createCommand()->
                     insert('consultant_modules', array(
                         'consultant' => $user->id,
                         'module' => $value
-                    ));
+                    ))){
+                        $user->notify('_addConsultantModule', array(Module::model()->findByPk($value)),
+                            'Надано права консультанта');
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
@@ -84,10 +90,16 @@ class Consultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                return Yii::app()->db->createCommand()->
+                if (Yii::app()->db->createCommand()->
                 update('consultant_modules', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'consultant=:user and module=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value));
+                ), 'consultant=:user and module=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
+                    $user->notify('_cancelConsultantModule', array(Module::model()->findByPk($value)),
+                        'Скасовано права консультанта');
+                    return true;
+                } else {
+                    return false;
+                }
                 break;
             default:
                 return false;

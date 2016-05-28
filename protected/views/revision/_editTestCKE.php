@@ -6,7 +6,6 @@
  * Time: 13:57
  */
 ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_edit/controllers/testCtrl.js'); ?>"></script>
 <div ng-init='idPage=<?php echo $pageId; ?>;
 idBlock=<?php echo $idElement; ?>;'>
 </div>

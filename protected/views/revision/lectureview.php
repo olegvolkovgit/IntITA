@@ -36,15 +36,15 @@ $this->breadcrumbs = array(
                     <td class="titleCell" >Назва</td>
                     <td>Порядок</td>
                     <td>Відео</td>
-                    <td>Завдання</td>
+                    <td class="quizType">Завдання</td>
                     <td>Навігація</td>
                 </tr>
                 <tr ng-repeat="page in lectureData.pages track by $index">
                     <td ng-click="editPageRevision(page.id)">{{page.id}}</td>
                     <td ng-click="editPageRevision(page.id)">{{page.title}}</td>
                     <td ng-click="editPageRevision(page.id)">{{$index+1}}</td>
-                    <td ng-click="editPageRevision(page.id)"><div ng-if="page.video">+</div></td>
-                    <td ng-click="editPageRevision(page.id)"><div ng-if="page.quiz">+</div></td>
+                    <td ng-click="editPageRevision(page.id)">{{page.video | videoCheck}}</td>
+                    <td ng-click="editPageRevision(page.id)">{{page.quiz | quizType}}</td>
                     <td>
                         <div style="display: inline-block" ng-if="lectureData.lecture.canEdit">
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(page.id);">

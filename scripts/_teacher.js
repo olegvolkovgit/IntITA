@@ -30,6 +30,44 @@ function load(url, header, histories, tab) {
     });
 }
 
+function signAgreement(url, course, module, type) {
+    schema = $jq('input:radio[name="payment"]:checked').val();
+    educationForm = $jq('#educationForm').val();
+    if (schema == 0) {
+        bootbox.alert("Виберіть схему проплати.");
+    } else {
+        load(basePath + '/_teacher/_student/student/publicOffer?type=' + type +
+            '&course=' + course + '&module=' + module + '&schema=' + schema + '&form=' + educationForm, 'Публічна оферта');
+    }
+}
+
+function newAgreement(url, type, course, module, schema, educationForm){
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            payment: schema,
+            course: course,
+            educationForm: educationForm,
+            module: module,
+            type: type
+        },
+        cache: false,
+        success: function (id) {
+            if(id != 0) {
+                load(basePath + '/_teacher/_student/student/agreement/id/' + id, 'Доовір');
+            } else {
+                bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                    adminEmail);
+            }
+        },
+        error: function () {
+            bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                adminEmail);
+        }
+    });
+}
+
 function createAccount(url, course, module) {
     schema = $jq('input:radio[name="payment"]:checked').val();
     educationForm = $jq('#educationForm').val();
@@ -41,7 +79,7 @@ function createAccount(url, course, module) {
             url: url,
             data: {
                 payment: schema,
-                course: course,
+                course : course,
                 educationForm: educationForm,
                 module: module
             },
@@ -49,7 +87,7 @@ function createAccount(url, course, module) {
             success: function (id) {
                 load(basePath + '/_teacher/_student/student/agreement?id=' + id, 'Договір');
             },
-            error: function () {
+            error: function(){
                 bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
                     adminEmail);
             }
@@ -249,6 +287,17 @@ function addStudentAttr(url, user, header, type) {
     }
 }
 
+function enableAgreeButton(){
+    if($jq('#agree').prop('checked')) {
+        $jq('#agreeButton').prop('disabled', false);
+    } else {
+        $jq('#agreeButton').prop('disabled', true);
+    }
+}
+
+function back(){
+    window.history.back();
+}
 
 function changeUserStatus(url, user, message, header, target) {
     bootbox.confirm(message, function (response) {
@@ -470,6 +519,12 @@ function hideAjaxLoader() {
 function openTab(id, tabIndex) {
     if (tabIndex != undefined) {
         $jq(id + ' li:eq(' + tabIndex + ') a').tab('show');
+    }
+}
+//open tabs by index after load page by a href
+function openTabByHref(id, href) {
+    if (href != undefined) {
+        $jq(id+' a[href="#'+href+'"]').tab('show')
     }
 }
 
@@ -933,7 +988,7 @@ function initAgreementsTable() {
                 "data": "title",
                 "width": "20%",
                 "render": function (title) {
-                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" target="_blank">' + title["name"] + '</a>';
+                    return '<a href="#" onclick="load(' + title["url"] + ',\'' + title["name"] + '\');" >' + title["name"] + '</a>';
                 }
             },
             {

@@ -17,14 +17,17 @@
                 <img ng-if=lectureData.lecture.canCancelSendForApproval ng-click=cancelSendRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_send.png'); ?>"
                      title="Скасувати відправку на затвердження"/>
-                <img ng-if=lectureData.lecture.canCancelRevision ng-click=cancelRevision('<?php echo $lectureRevision->id_revision; ?>')
+                <img ng-if=lectureData.lecture.canCancelReadyRevision ng-click=cancelRevision('<?php echo $lectureRevision->id_revision;  ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_revision.png'); ?>"
                      title="Скасувати ревізію"/>
                 <img ng-if=lectureData.lecture.canRejectRevision ng-click=rejectRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
                      title="Відхилити ревізію"/>
+                <img ng-if=lectureData.lecture.canReleaseRevision ng-click=releaseRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'release.png'); ?>"
+                     title="Реліз ревізії"/>
                 <a ng-href="{{lectureData.lecture.link}}" >
-                    <img style="width: 48px" ng-if=lectureData.lecture.canCancelRevision
+                    <img style="width: 48px" ng-if=lectureData.lecture.canCancelReadyRevision
                          src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                          title="Переглянути заняття"/>
                 </a>

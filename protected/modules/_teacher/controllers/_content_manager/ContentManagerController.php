@@ -120,7 +120,7 @@ class ContentManagerController extends TeacherCabinetController
 
     public function actionDashboard()
     {
-        $this->renderPartial('/content_manager/_dashboard', array(), false, true);
+        $this->renderPartial('/_content_manager/_dashboard', array(), false, true);
     }
 
     public function actionShowTeacher($id)

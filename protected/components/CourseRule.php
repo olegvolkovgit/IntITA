@@ -32,22 +32,6 @@ class CourseRule extends CBaseUrlRule
                                 $_GET['page'] = 1;
                             };
 
-                            if($path->isPageDefined) {
-                                $_GET['page'] = $path->page;
-                                if (isset($_GET['edit'])) {
-                                    $_GET['pageId'] = $path->page;
-                                    return 'lesson/editPage';
-                                }
-                                if (isset($_GET['editCKE'])) {
-                                    $_GET['pageId'] = $path->page;
-                                    $_GET['cke'] = true;
-                                    return 'lesson/editPage';
-                                }
-                            } else {
-                                if (isset($_GET['edit'])) {
-                                    return 'lesson/showPagesList';
-                                }
-                            }
                             return 'lesson/index';
                         }
                         $_GET['idCourse'] = $path->course->getPrimaryKey();
@@ -67,20 +51,6 @@ class CourseRule extends CBaseUrlRule
                                 $_GET['page'] = 1;
                             };
 
-                            if($path->isPageDefined) {
-                                $_GET['page'] = $path->page;
-                                if (isset($_GET['edit'])) {
-                                    return 'lesson/editPage';
-                                }
-                                if (isset($_GET['editCKE'])) {
-                                    $_GET['cke'] = true;
-                                    return 'lesson/editPage';
-                                }
-                            } else {
-                                if (isset($_GET['edit'])) {
-                                    return 'lesson/showPagesList';
-                                }
-                            }
                             return 'lesson/index';
                         } else {
                             $_GET['idModule'] = $path->module->module_ID;
@@ -129,45 +99,7 @@ class CourseRule extends CBaseUrlRule
                 }
             }
         }
-        if ($route == 'lesson/editPage') {
 
-            if (!empty($params['pageId'])) {
-                $page = LecturePage::model()->findByPk($params['pageId']);
-                if ($lecture = $page->lecture) {
-                    if (isset($params['cke'])){
-                        $cke = 'CKE';
-                    } else {
-                        $cke = '';
-                    }
-
-                      if ($params['idCourse'] != 0) {
-                        $course = Course::model()->findByPk($params['idCourse']);
-
-
-                        return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                        . '/' . $lecture->order .'/'.$page->page_order.'?edit'.$cke;
-                    } else {
-                        return 'module/' . $lecture->module->language . '/' .Module::getModuleAlias($lecture->idModule, null)
-                        . '/' . $lecture->order  .'/'.$page->page_order.'?edit'.$cke;
-                    }
-                }
-            }
-        }
-        if ($route == 'lesson/showPagesList') {
-            if (!empty($params['idLecture'])) {
-                if ($lecture = Lecture::model()->findByPk($params['idLecture'])) {
-                    if ($params['idCourse'] != 0) {
-                        $course = Course::model()->findByPk($params['idCourse']);
-
-                        return 'course/' . $course->language . '/' . $course->alias . '/' . Module::getModuleAlias($lecture->idModule, $course->course_ID)
-                        . '/' . $lecture->order .'?edit';
-                    } else {
-                        return 'module/' . $lecture->module->language . '/' .Module::getModuleAlias($lecture->idModule, null)
-                        . '/' . $lecture->order  .'?edit';
-                    }
-                }
-            }
-        }
         if ($route == 'module/index') {
             if (isset($params['idModule'])) {
                 if ($module = Module::model()->findByPk($params['idModule'])) {

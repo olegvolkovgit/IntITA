@@ -288,3 +288,141 @@ td,th{
     margin: 0;
 }
 /*slider aboutUS*/
+/* plain task */
+.fieldsetFormat
+{
+    width: 80%;
+    height: auto;
+    word-wrap: break-word;
+    padding: 10px;
+    margin-left: 50px;
+    display:block;
+}
+.textareaSettings
+{
+    padding: 10px;
+    width: 80%;
+    height: 200px;
+    resize: none;
+}
+#content
+{
+    padding: 10px;
+    width: 600px;
+    height: auto;
+}
+#textareaSettingsbyId
+{
+    padding: 10px;
+    height: 200px;
+    resize: none;
+    overflow-y: scroll;
+}
+/* plain task */
+/* operation */
+.searchCriteria{
+    width: 250px;
+    display: inline-block;
+}
+
+.operationPanel{
+    display: inline;
+}
+
+.findOffer{
+    display: block;
+}
+.findOperation{
+    display: none;
+}
+.list{
+    display : none;
+    margin-left: 75px;
+}
+#operationForm1
+{
+    margin-left: 50px;
+    min-width: 600px;
+}
+.formatted-form
+{
+    min-width: 600px;
+}
+.ajax-formatted-form{
+    /*width: 568px;*/
+}
+.mainOperation
+{
+    width: 700px;
+    background-color:#a7b6a2;
+}
+#operationForm2{
+    margin-left: 50px;
+    min-width: 600px;
+}
+#operationForm3{
+    margin-left: 50px;
+    min-width: 600px;
+}
+div.col-sm-8{
+    padding: 0;
+}
+#icon{
+    width:15px;
+}
+/* operation */
+/* messages */
+#hidden {
+    display: none;
+}
+#new{
+    font-weight: bold;
+}
+img#avatar {
+    height: 24px;
+}
+.typeahead_wrapper { display: block; max-height: 35px; margin-top: 10px; margin-bottom: 10px; }
+.typeahead_photo { vertical-align:top; display:inline-block; max-width: 35px; max-height: 35px; margin-right: 5px; }
+.typeahead_labels { display:inline-block; height: 30px; }
+.typeahead_primary { font-weight: bold; }
+.typeahead_secondary { font-size: .8em; margin-top: -5px; }
+.message{
+    word-wrap: break-word;
+}
+div.dialog{
+    float: none;!important;
+    text-align: right;
+    width: 100%;
+}
+#messageBlock em div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* messages */
+/* graduate */
+.view-label
+{
+    color: #000099;
+}
+/* graduate */
+/* dashboard */
+hr {
+    height: 1px;
+    border: none;
+    color: grey;
+    background: grey;
+    margin-top: 0; /* устраняем начальный отступ для всех браузеров (в ие6 не работает) */
+}
+* html hr {/* хак для ие6 */
+    margin: -7px 0; /* устраняем начальный отступ для ие6 */
+}
+/* dashboard */
+/* consult */
+#textAnswer{
+    resize: none;
+}
+/* consult */
+div#page-wrapper {
+    overflow: inherit;!important;
+}

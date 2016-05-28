@@ -34,9 +34,9 @@ class PlainTaskAnswer extends CActiveRecord
         // will receive user inputs.
         return array(
             array('id_student, id_plain_task, quiz_uid', 'required'),
-            array('id_student, id_plain_task,quiz_uid', 'numerical', 'integerOnly' => true),
+            array('id_student, id_plain_task, quiz_uid', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, answer,id_student, id_plain_task, date, quiz_uid', 'safe', 'on' => 'search'),
+            array('id, answer, id_student, id_plain_task, date, quiz_uid', 'safe', 'on' => 'search'),
         );
     }
 

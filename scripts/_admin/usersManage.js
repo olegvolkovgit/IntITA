@@ -129,8 +129,20 @@ function initUsersTable() {
             },
             {
                 type: 'de_date', targets: 1,
-                "width": "15%",
+                "width": "12%",
                 "data": "register"
+            },
+            {
+                data: "educForm",
+                "width": "12%"
+            },
+            {
+                data: "country",
+                "width": "10%"
+            },
+            {
+                data: "city",
+                "width": "10%"
             },
             {
                 "width": "5%",
@@ -420,7 +432,7 @@ function initAccountantsTable() {
     });
 }
 
-function addTrainer(url, scenario) {
+function addTrainer(url, scenario,header) {
     var id = document.getElementById('user').value;
     var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
     var oldTrainerId = 0;//(scenario != "new") ? $jq("#oldTrainerId").val() : 0;
@@ -434,7 +446,7 @@ function addTrainer(url, scenario) {
         success: function (response) {
             if (response == "success") {
                 bootbox.alert("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі', '', '4');
+                    load(basePath + "/_teacher/user/index/id/" + id, header);
                 });
             } else {
                 showDialog("Операцію не вдалося виконати.");
@@ -642,14 +654,18 @@ function initStudentsList() {
                 type: 'de_datetime',
                 targets: 0
             },
-            //{ data: "trainer-name" },
-            //{
-            //    "width": "10%",
-            //    data: "url",
-            //    "render": function (url) {
-            //        return '<a href="#" onclick="load(\'' + url + '\', \'Редагувати тренера студента\');">редагувати</a>';
-            //    }
-            //},
+            {
+                data: "educForm" ,
+                "width": "12%"
+            },
+            {
+                data: "country",
+                "width": "10%"
+            },
+            {
+                data: "city",
+                "width": "10%"
+            },
             {
                 "width": "10%",
                 "data": "addAccessLink",
