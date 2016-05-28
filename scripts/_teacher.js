@@ -30,6 +30,61 @@ function load(url, header, histories, tab) {
     });
 }
 
+$jq('#deleteModal').on('show.bs.modal', function(e) {
+    var messageId = $jq(e.relatedTarget).data('message-id');
+    $jq(e.currentTarget).find('input[name="messageId"]').val(messageId);
+});
+
+function deleteDialog(url, partner1, partner2) {
+    var command = {
+        "partner1": partner1,
+        "partner2": partner2
+    };
+
+    $jq.post(url, {data: JSON.stringify(command)}, function () {
+        })
+        .done(function () {
+            $jq("#deleteDialog").modal("hide");
+            bootbox.alert("Діалог успішно видалено.");
+            load(basePath + '/_teacher/messages/index', 'Листування');
+        })
+        .fail(function () {
+            bootbox.alert("На сайті виникла помилка.\n" +
+                "Спробуйте перезавантажити сторінку або напишіть нам на адресу " + adminEmail);
+        })
+        .always(function () {
+            },
+            "json"
+        );
+}
+
+function deleteMessage(url, receiver) {
+    var command = {
+        "message": $jq('input[name="messageId"]').val(),
+        "receiver": receiver
+    };
+
+    $jq.post(url, {data: JSON.stringify(command)}, function () {
+        })
+        .done(function () {
+            $jq("#deleteModal").modal("hide");
+            location.reload();
+        })
+        .fail(function () {
+            showDialog();
+            location.reload();
+        })
+        .always(function () {
+            },
+            "json"
+        );
+}
+
+function reset(message) {
+    id = "#messageForm" + message;
+    $jq(id).remove();
+}
+
 function signAgreement(url, course, module, type) {
     schema = $jq('input:radio[name="payment"]:checked').val();
     educationForm = $jq('#educationForm').val();
@@ -72,7 +127,6 @@ function newAgreement(url, type, course, module, schema, educationForm, offerSce
         });
     }
 }
-
 
 // language data for datapicker
 var lang = {
@@ -128,7 +182,7 @@ function saveUserDataAndSignAccount(url, type, course, module, schema, education
 
 function createAccount(url, course, module, scenario, offerScenario, schema, educationForm) {
     if(!schema){
-        schema = $jq('input:radio[name="payment"]:checked').val();
+        schema = $jq('input:radio[name="payment' + scenario + '"]:checked').val();
     }
     if(!educationForm){
         educationForm = $jq('#educationForm').val();
@@ -138,7 +192,6 @@ function createAccount(url, course, module, scenario, offerScenario, schema, edu
     } else {
         if (offerScenario != "noOffer") {
             if (1 <= schema <= 8) {
-                offerScenario = "onlyCheck";
                 load(basePath + "/_teacher/_student/student/publicOffer?course=" + course + "&module=" + module +
                     "&type=" + scenario + "&form=" + educationForm + "&schema=" + schema, 'Публічна оферта');
             }

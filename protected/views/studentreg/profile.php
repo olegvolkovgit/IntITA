@@ -163,4 +163,3 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
     rel="stylesheet">
 <link rel="stylesheet" type="text/css"
       href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
-<!-- Scripts for open tabs -->

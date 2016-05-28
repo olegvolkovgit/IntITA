@@ -83,8 +83,9 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayCourse($course, $schema = 1, $type = 'Online'){
-
+    public function actionPayCourse($course){
+        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
+            : 'Online';
         if(UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)){
             $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, $schema, $type);
             $this->renderPartial('/_student/_agreement', array(
@@ -98,17 +99,17 @@ class StudentController extends TeacherCabinetController
 
             $this->renderPartial('/_student/agreement/payCourse', array(
                 'course' => $courseModel,
-                'schema' => $schema,
+                //'schema' => $schema,
                 'type' => $type,
                 'offerScenario' => Config::offerScenario()
-            ));
+            ), false, true);
         }
     }
 
-    public function actionPayModule($course, $module){
+    public function actionPayModule($course, $module, $type = 'Online'){
 
         if(UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
-            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, 'Online');
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));

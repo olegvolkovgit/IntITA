@@ -4,7 +4,11 @@
  * @var $price int
  * @var $scenario string
  * @var $offerScenario string
+ * @var $schema integer
+ * @var $isSelected bool
  */
+$schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->request->cookies['courseSchema']->value
+    : '0';
 ?>
 <div class="panel-group">
     <div class="panel panel-default">
@@ -24,7 +28,7 @@
                 ?>
                 <div id="rowRadio">
                     <div class="paymentsListOdd">
-                        <input type="radio" class="paymentPlan_value" name="payment"
+                        <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                value="<?= PaymentScheme::ADVANCE ?>">
                         <?php $this->renderPartial('/_student/schemas/_advancePaymentSchema', array(
                             'model' => $model,
@@ -35,7 +39,7 @@
 
                     <div class="spoilerBody">
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::BASE_TWO_PAYS ?>">
                             <?php $this->renderPartial('/_student/schemas/_basePaymentSchema', array(
                                 'image1' => StaticFilesHelper::createPath('image', 'course', 'coins.png'),
@@ -48,7 +52,7 @@
                         </div>
 
                         <div class="paymentsListOdd">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::BASE_FOUR_PAYS ?>">
                             <?php $this->renderPartial('/_student/schemas/_basePaymentSchema', array(
                                 'image1' => StaticFilesHelper::createPath('image', 'course', 'moreCoins.png'),
@@ -61,34 +65,34 @@
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::MONTHLY ?>">
                             <?php $this->renderPartial('/_student/schemas/_monthlyPaymentSchema', array('model' => $model, 'price' => $price)); ?>
                         </div>
 
                         <div class="paymentsListOdd">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::CREDIT_TWO_YEARS ?>">
                             <?php $this->renderPartial('/_student/schemas/_creditPaymentSchema', array('model' => $model, 'price' => $price,
                                 'year' => 2)); ?>
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::CREDIT_THREE_YEARS ?>">
                             <?php $this->renderPartial('/_student/schemas/_creditPaymentSchema', array('model' => $model, 'price' => $price,
                                 'year' => 3)); ?>
                         </div>
 
                         <div class="paymentsListOdd">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::CREDIT_FOUR_YEARS ?>">
                             <?php $this->renderPartial('/_student/schemas/_creditPaymentSchema', array('model' => $model, 'price' => $price,
                                 'year' => 4)); ?>
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
                                    value="<?= PaymentScheme::CREDIT_FIVE_YEARS ?>">
                             <?php $this->renderPartial('/_student/schemas/_creditPaymentSchema', array('model' => $model, 'price' => $price,
                                 'year' => 5)); ?>
@@ -112,6 +116,16 @@
         </div>
     </div>
 </div>
+<?php if($schema != 0 && $isSelected){?>
+<script>
+    $jq(function () {
+        $jq('input:radio[name="payment<?=$scenario;?>"]').filter('[value="<?=$schema;?>"]').attr('checked', true);
+        $jq.cookie('courseSchema', 0, {'path': "/"});
+        $jq.cookie('agreementType', 'Online', {'path': "/"});
+    });
+</script>
+<?php }?>
+
 
 
 
