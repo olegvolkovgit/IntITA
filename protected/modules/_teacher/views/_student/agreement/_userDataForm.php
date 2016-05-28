@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $user RegisteredUser
+ * @var $model StudentReg
  * @var $module integer
  * @var $course integer
  * @var $schemaNum integer
@@ -8,6 +8,7 @@
  * @var $type string
  * @var $offerScenario string
  */
+$model = Yii::app()->user->model;
 ?>
 <div class="col col-md-10">
     <div class="panel panel-default">
@@ -15,11 +16,12 @@
             <form role="form">
                 <div class="form-group col-md-12">
                     <label for="passport">Серія/номер паспорта</label>
-                    <input type="text" class="form-control" id="passport" required maxlength="30">
+                    <input type="text" class="form-control" id="passport" required maxlength="30" value="<?=$model->passport?>">
                 </div>
                 <div class="form-group col-md-12">
                     <label for="document_type">Тип документа</label>
-                    <input type="text" class="form-control" id="document_type" value="паспорт" required maxlength="30">
+                    <input type="text" class="form-control" id="document_type"
+                           value="<?=($model->document_type)?$model->document_type:'паспорт'?>" required maxlength="30">
                     <em>
                         Тип документа, серія і номер якого вказані у полі паспорт
                     </em>
@@ -28,17 +30,17 @@
                 </div>
                 <div class="form-group col-md-12">
                     <label for="passport_issued">Ким виданий (паспорт)</label>
-                    <input type="text" class="form-control" id="passport_issued" required maxlength="255">
+                    <input type="text" class="form-control" id="passport_issued" required maxlength="255" value="<?=$model->passport_issued?>">
                 </div>
 
                 <div class="form-group col-md-12">
                     <label for="document_issued_date">Дата видачі паспорта</label>
-                    <input size="16" type="text" id="document_issued_date"/>
+                    <input size="16" type="text" id="document_issued_date" value="<?=$model->document_issued_date?>"/>
                 </div>
 
                 <div class="form-group col-md-12">
                     <label for="inn">Ідентифікаційний код</label>
-                    <input type="text" class="form-control" id="inn" required maxlength="30">
+                    <input type="text" class="form-control" id="inn" required maxlength="30" value="<?=$model->inn?>">
                 </div>
 
                 <div class="col-md-6">

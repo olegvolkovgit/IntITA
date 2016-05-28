@@ -87,7 +87,7 @@ class StudentController extends TeacherCabinetController
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
             : 'Online';
         if(UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)){
-            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, $schema, $type);
+            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
@@ -198,6 +198,7 @@ class StudentController extends TeacherCabinetController
         $schemaNum = Yii::app()->request->getPost('payment', '0');
         $type = Yii::app()->request->getPost('type', '');
 
+        var_dump($_POST);die;
         $agreement = null;
         switch($type) {
             case 'module':

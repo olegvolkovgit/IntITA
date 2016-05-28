@@ -3,7 +3,7 @@
  * @var $model Course
  * @var $price int
  * @var $scenario string
- * @var $offerScenario string
+  * @var $offerScenario string
  * @var $schema integer
  * @var $isSelected bool
  */
@@ -110,7 +110,8 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                     <br>
                     <button class="btn btn-primary" type="button"
                             onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/signAgreement'); ?>',
-                                '<?php echo $model->course_ID; ?>', '0', 'course', '<?=$offerScenario?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+                                '<?php echo $model->course_ID; ?>', '0', 'course', '<?=$offerScenario?>',
+                                '', '<?=$scenario;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
                 <?php } ?>
             </div>
         </div>

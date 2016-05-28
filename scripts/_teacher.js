@@ -148,6 +148,7 @@ var lang = {
     yearSuffix: ''};
 
 function saveUserDataAndSignAccount(url, type, course, module, schema, educationForm){
+    alert(type);
     passport = $jq('#passport').val();
     inn = $jq('#inn').val();
     documentType = $jq('#document_type').val();
@@ -181,9 +182,12 @@ function saveUserDataAndSignAccount(url, type, course, module, schema, education
 }
 
 function createAccount(url, course, module, scenario, offerScenario, schema, educationForm) {
+    name = 'payment' + educationForm;
     if(!schema){
-        schema = $jq('input:radio[name="payment' + scenario + '"]:checked').val();
+        schema = $jq('input:radio[name="' + name + '"]:checked').val();
     }
+    alert(schema);
+    alert(educationForm);
     if(!educationForm){
         educationForm = $jq('#educationForm').val();
     }

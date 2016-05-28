@@ -38,7 +38,8 @@
     <br>
     <button class="btn btn-primary" type="button"
             onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/signAgreement'); ?>',
-                '<?=$course?>', '<?php echo $model->module_ID; ?>', 'module', '<?=$offerScenario?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+                '<?=$course?>', '<?php echo $model->module_ID; ?>', 'module', '<?=$offerScenario?>',
+                '', '<?=$scenario?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } ?>
 
 <script>
