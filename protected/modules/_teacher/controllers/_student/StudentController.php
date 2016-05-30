@@ -198,7 +198,6 @@ class StudentController extends TeacherCabinetController
         $schemaNum = Yii::app()->request->getPost('payment', '0');
         $type = Yii::app()->request->getPost('type', '');
 
-        var_dump($_POST);die;
         $agreement = null;
         switch($type) {
             case 'module':

@@ -29,7 +29,7 @@
                     } ?></span> 2015 р.
             </div>
             <div class="col-sm-5 text-center">
-                <span id="accountTitle">РАХУНОК № <?php echo $model->id; ?></span>
+                <span id="accountTitle">РАХУНОК № <?php echo $model->getOrderInAgreement(); ?></span>
             </div>
         </div>
         <div class="row">
