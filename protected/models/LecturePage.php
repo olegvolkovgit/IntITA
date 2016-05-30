@@ -148,6 +148,7 @@ class LecturePage extends CActiveRecord
                 $result[$i]['isDone'] = true;
                 $result[$i]['isQuizDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
                 $result[$i]['title'] = $pages[$i]->page_title;
+                $result[$i]['isVideo'] = $pages[$i]->video;
             }
         }else{
             for ($i = 0, $count = count($pages); $i < $count; $i++ ){
@@ -155,6 +156,7 @@ class LecturePage extends CActiveRecord
                 $result[$i]['isDone'] = LecturePage::isQuizDone($pages[$i]->quiz, $user);
                 $result[$i]['isQuizDone'] =$result[$i]['isDone'];
                 $result[$i]['title'] = $pages[$i]->page_title;
+                $result[$i]['isVideo'] = $pages[$i]->video;
 
                 if(LecturePage::isQuizDone($pages[$i]->quiz, $user) == false){
                     $result[$i]['isDone'] = true;
