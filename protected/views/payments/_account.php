@@ -52,7 +52,7 @@
             <tr>
                 <td>1</td>
                 <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та
-                    комп'ютерна грамотність (<?php echo Invoice::getProductTitle($model); ?>)
+                    комп'ютерна грамотність (<?php echo CHtml::encode(Invoice::getProductTitle($model)); ?>)
                 </td>
                 <td><span
                         id="summa"><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",","&nbsp;"); ?></span>
