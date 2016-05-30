@@ -173,6 +173,7 @@ class UserAgreements extends CActiveRecord
                 $agreement = null;
                 break;
         }
+
         return $agreement;
     }
     
@@ -414,6 +415,10 @@ class UserAgreements extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public function getId(){
+        return $this->id;
     }
 }
 

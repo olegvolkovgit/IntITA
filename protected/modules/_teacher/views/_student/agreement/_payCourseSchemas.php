@@ -109,8 +109,8 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                 <?php if ($price > 0) { ?>
                     <br>
                     <button class="btn btn-primary" type="button"
-                            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/signAgreement'); ?>',
-                                '<?php echo $model->course_ID; ?>', '0', 'course', '<?=$offerScenario?>',
+                            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
+                                '<?php echo $model->course_ID; ?>', '0', 'Course', '<?=$offerScenario?>',
                                 '', '<?=$scenario;?>')"><?php echo Yii::t('profile', '0261'); ?></button>
                 <?php } ?>
             </div>

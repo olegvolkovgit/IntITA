@@ -30,7 +30,7 @@ function load(url, header, histories, tab) {
     });
 }
 
-$jq('#deleteModal').on('show.bs.modal', function(e) {
+$jq('#deleteModal').on('show.bs.modal', function (e) {
     var messageId = $jq(e.relatedTarget).data('message-id');
     $jq(e.currentTarget).find('input[name="messageId"]').val(messageId);
 });
@@ -96,36 +96,32 @@ function signAgreement(url, course, module, type) {
     }
 }
 
-function newAgreement(url, type, course, module, schema, educationForm, offerScenario) {
-    if(offerScenario == "credit"){
-        load(basePath + "/_teacher/_student/student/creditSchemaForm?course=" + course + "&module=" + module +
-            "&type=" + scenario + "&form=" + educationForm + "&schema=" + schema, 'Персональні дані');
-    } else {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                payment: schema,
-                course: course,
-                educationForm: educationForm,
-                module: module,
-                type: type
-            },
-            cache: false,
-            success: function (id) {
-                if (id != 0) {
-                    load(basePath + '/_teacher/_student/student/agreement/id/' + id, 'Договір');
-                } else {
-                    bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
-                        adminEmail);
-                }
-            },
-            error: function () {
+function newAgreement(url, type, course, module, schema, educationForm) {
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            payment: schema,
+            course: course,
+            educationForm: educationForm,
+            module: module,
+            type: type
+        },
+        cache: false,
+        success: function (id) {
+            if (id != 0) {
+                load(basePath + '/_teacher/_student/student/agreement/id/' + id, 'Договір');
+            } else {
                 bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
                     adminEmail);
             }
-        });
-    }
+        },
+        error: function () {
+            bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                adminEmail);
+        }
+    });
+
 }
 
 // language data for datapicker
@@ -134,61 +130,26 @@ var lang = {
     prevText: '&#x3C;Попередній',
     nextText: 'Наступний&#x3E;',
     currentText: 'Сьогодні',
-    monthNames: ['Січень','Лютий','Березень','Квітень','Травень','Червень', 'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
-    monthNamesShort: ['Січ','Лют','Бер','Кві','Тра','Чер',
-        'Лип','Сер','Вер','Жов','Лис','Гру'],
-    dayNames: ['неділя','понеділок','вівторок','середа','четвер','п\'ятниця','субота'],
-    dayNamesShort: ['нед','пон','вів','сер','чет','п\'ят','сбт'],
-    dayNamesMin: ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],
+    monthNames: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
+    monthNamesShort: ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер',
+        'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'],
+    dayNames: ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', 'п\'ятниця', 'субота'],
+    dayNamesShort: ['нед', 'пон', 'вів', 'сер', 'чет', 'п\'ят', 'сбт'],
+    dayNamesMin: ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
     weekHeader: 'Тиждень',
     dateFormat: 'yy-mm-dd',
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix: ''};
-
-function saveUserDataAndSignAccount(url, type, course, module, schema, educationForm){
-    alert(type);
-    passport = $jq('#passport').val();
-    inn = $jq('#inn').val();
-    documentType = $jq('#document_type').val();
-    issuedDate = $jq('#document_issued_date').val();
-    passportIssued = $jq('#passport_issued').val();
-    if(passport && inn && documentType && issuedDate && passportIssued){
-        $jq.ajax({
-            url: url,
-            data: {
-                passport : passport,
-                inn : inn,
-                document_type : documentType,
-                document_issued_date : issuedDate,
-                passport_issued : passportIssued
-            },
-            type: 'post',
-            success: function (response) {
-                if(response == "success"){
-                    createAgreement(basePath + "/_teacher/_student/student/newAgreement", schema, course, educationForm, module, type);
-                } else {
-                    bootbox.alert("Інформацію про користувача не вдалося оновити.");
-                }
-            },
-            error: function () {
-                bootbox.alert("Договір не вдалося створити. Зверніться до адміністратора " + adminEmail);
-            }
-        });
-    } else {
-        bootbox.alert("Неправильно введені дані.");
-;    }
-}
+    yearSuffix: ''
+};
 
 function createAccount(url, course, module, scenario, offerScenario, schema, educationForm) {
     name = 'payment' + educationForm;
-    if(!schema){
+    if (!schema) {
         schema = $jq('input:radio[name="' + name + '"]:checked').val();
     }
-    alert(schema);
-    alert(educationForm);
-    if(!educationForm){
+    if (!educationForm) {
         educationForm = $jq('#educationForm').val();
     }
     if (schema == 0) {
@@ -203,12 +164,12 @@ function createAccount(url, course, module, scenario, offerScenario, schema, edu
                 bootbox.alert("Неправильно вибрана схема проплати.");
             }
         } else {
-            createAgreement(url, schema, course, educationForm, module, scenario, offerScenario);
+            createAgreement(url, schema, course, educationForm, module, scenario);
         }
     }
 }
 
-function createAgreement(url, schema, course, educationForm, module, scenario){
+function createAgreement(url, schema, course, educationForm, module, scenario) {
     data = {
         payment: schema,
         course: course,
@@ -665,7 +626,7 @@ function openTab(id, tabIndex) {
 //open tabs by index after load page by a href
 function openTabByHref(id, href) {
     if (href != undefined) {
-        $jq(id+' a[href="#'+href+'"]').tab('show')
+        $jq(id + ' a[href="#' + href + '"]').tab('show')
     }
 }
 

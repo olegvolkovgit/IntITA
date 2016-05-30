@@ -83,10 +83,11 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayCourse($course){
+    public function actionPayCourse($course)
+    {
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
             : 'Online';
-        if(UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)){
+        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)) {
             $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
@@ -105,9 +106,10 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayModule($course, $module, $type = 'Online'){
+    public function actionPayModule($course, $module, $type = 'Online')
+    {
 
-        if(UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
+        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)) {
             $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
@@ -126,60 +128,20 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionSignAgreement(){
-        $user = Yii::app()->user->getId();
-        $course = Yii::app()->request->getPost('course', 0);
-        $module = Yii::app()->request->getPost('module', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
-        $type = Yii::app()->request->getPost('scenario', '');
-        $offerScenario = Yii::app()->request->getPost('offerScenario', '');
-
-        $agreementId = 0;
-        switch($offerScenario){
-            case "default":
-            case "onlyCheck":
-                //$this->actionPublicOffer($type, $course, $module, $schemaNum, $educationForm);
-                break;
-            case "credit":
-                //$this->actionPublicOfferLoanSchema($type, $course, $module, $schemaNum, $educationForm);
-                break;
-            case "noOffer":
-                switch($type) {
-                    case 'module':
-                        $agreementId = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm)->id;
-                        break;
-                    case 'course':
-                        $agreementId = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm)->id;
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
-        }
-        echo $agreementId;
-    }
-
-    public function actionPublicOffer($course, $module, $type, $form, $schema){
-        if($schema >= 1 && $schema <= 4){
-            $offerScenario = "onlyCheck";
-        } else {
-            $offerScenario = "credit";
-        }
+    public function actionPublicOffer($course, $module, $type, $form, $schema)
+    {
 
         $this->renderPartial('/_student/agreement/publicOffer', array(
             'course' => $course,
             'module' => $module,
             'educationForm' => $form,
             'schemaNum' => $schema,
-            'type' => $type,
-            'offerScenario' => $offerScenario
+            'type' => $type
         ));
     }
 
-    public function actionCreditSchemaForm($course, $module, $type, $form, $schema){
+    public function actionCreditSchemaForm($course, $module, $type, $form, $schema)
+    {
 
         $this->renderPartial('/_student/agreement/_userDataForm', array(
             'course' => $course,
@@ -190,45 +152,30 @@ class StudentController extends TeacherCabinetController
         ));
     }
 
-    public function actionNewAgreement(){
+    public function actionGetInvoicesByAgreement($id)
+    {
+        echo Invoice::invoicesListByAgreement($id);
+    }
+
+    public function actionNewCourseAgreement(){
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $educationForm = Yii::app()->request->getPost('educationForm', 'online');
-        $module = Yii::app()->request->getPost('module', 0);
         $schemaNum = Yii::app()->request->getPost('payment', '0');
-        $type = Yii::app()->request->getPost('type', '');
 
-        $agreement = null;
-        switch($type) {
-            case 'module':
-                $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
-                break;
-            case 'course':
-                $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
-                break;
-            default:
-                break;
-        }
+        $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
 
         echo ($agreement)?$agreement->id:0;
     }
 
-    public function actionGetInvoicesByAgreement($id){
-        echo Invoice::invoicesListByAgreement($id);
-    }
+    public function actionNewModuleAgreement(){
+        $user = Yii::app()->user->getId();
+        $course = Yii::app()->request->getPost('course', 0);
+        $module = $_POST["module"];
+        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
 
-    public function actionSaveUserData(){
-        $model = Yii::app()->user->model;
-        $passport = Yii::app()->request->getPost('passport', '');
-        $inn = Yii::app()->request->getPost('inn', '');
-        $documentType = Yii::app()->request->getPost('document_type', '');
-        $issuedDate = Yii::app()->request->getPost('document_issued_date', '');
-        $passportIssued = Yii::app()->request->getPost('passport_issued', '');
+        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
 
-       if($model->updatePassportData($passport, $inn, $documentType, $issuedDate, $passportIssued)){
-           echo "success";
-       } else {
-           echo "Не вдалося оновити інформацію про користувача. Зверніться до адміністратора ".Config::getAdminEmail();
-       }
+        echo ($agreement)?$agreement->id:0;
     }
 }
