@@ -7,10 +7,10 @@ $model = $params[0];
 $hashMail = $params[1];
 $lang = $params[2];
 ?>
-<h4>Вітаємо!</h4>
+<h4><?=Yii::t('mail', '0839')?></h4>
 <br>
-<span>Щоб приєднати дану електронну адресу до соціальної мережі <strong><?=$model->identity;?></strong>, будь ласка перейди за посиланням:</span>
+<span><?=Yii::t('mail', '0841')?> <strong><?=$model->identity;?></strong><?=Yii::t('mail', '0842')?></span>
 <br>
-<a href="<?=Yii::app()->createAbsoluteUrl('site/linkingEmailToNetwork', array('network' => $model->identity,'token' => $model->token,'email' => $hashMail,$model->identity, 'lang'=>$lang))?>">Приєднати</a>.
+<a href="<?=Yii::app()->createAbsoluteUrl('site/linkingEmailToNetwork', array('network' => $model->identity,'token' => $model->token,'email' => $hashMail,$model->identity, 'lang'=>$lang))?>"><?=Yii::t('mail', '0843')?></a>.
 <br>
-​З повагою, INTITA​;
+<?=Yii::t('mail', '0840')?>

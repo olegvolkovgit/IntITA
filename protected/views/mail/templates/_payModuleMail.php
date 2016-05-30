@@ -5,10 +5,10 @@
  */
 $model = $params[0];
 ?>
-<h4>Вітаємо!</h4>
+<h4><?=Yii::t('mail', '0839')?></h4>
 <br>
-Тобі надано доступ до модуля <strong><?=$model->title_ua;?></strong>.
+<?=Yii::t('mail', '0849')?> <strong><?=$model->title_ua;?></strong>.
 <br>
-Щоб розпочати навчання, перейди за посиланням: <a href="<?=Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->module_ID));?>" target="_blank">
+<?=Yii::t('mail', '0848')?> <a href="<?=Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->module_ID));?>" target="_blank">
     <em><?=$model->title_ua.", (".$model->language.")";?></em>
 </a><br>
