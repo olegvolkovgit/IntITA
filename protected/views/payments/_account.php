@@ -26,10 +26,13 @@
                         echo $_GET['month'];
                     } else {
                         echo date("F");
-                    } ?></span> 2015 р.
+                    } ?></span> <?php echo " ".date("Y"); ?> р.
             </div>
             <div class="col-sm-5 text-center">
-                <span id="accountTitle">РАХУНОК № <?php echo $model->getOrderInAgreement(); ?></span>
+                <span id="accountTitle">РАХУНОК № <?php echo $model->number; ?></span>
+                <br>
+                <span>від <?=date("d.m.y", strtotime($model->payment_date));?> по договору №<?=$model->getAgreementNumber()?>
+                    від <?=date("d.m.y", strtotime($model->agreement->create_date));?></span>
             </div>
         </div>
         <div class="row">
@@ -64,6 +67,7 @@
                 <td><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", "&nbsp;"); ?></td>
             </tr>
         </table>
+        <span>Рахунок дійсний протягом <?=Config::getExpirationTimeInterval();?> днів до <?=date("d.m.y", strtotime($model->expiration_date));?></span>
     </div>
 </div>
 
