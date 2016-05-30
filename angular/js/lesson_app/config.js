@@ -48,6 +48,7 @@ angular
             $rootScope.$on('$stateChangeSuccess',
                 function (event, toState, toParams) {
 
+                    $('#text').scrollTop(0);
                     if($rootScope.pageData){
                         if((ipCookie("lessonTab")==0 || typeof(ipCookie("lessonTab"))=='undefined') && !$rootScope.pageData[$rootScope.currentPage-1].isVideo){
                             ipCookie('lessonTab', 1, { path: '/' });
