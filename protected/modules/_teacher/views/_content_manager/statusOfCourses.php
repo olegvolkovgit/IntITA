@@ -4,9 +4,9 @@
         <ul id="accessTabs" class="nav nav-tabs">
             <li class="active"><a href="#all" data-toggle="tab">Всі курси</a>
             </li>
-            <li><a href="#without_videos" data-toggle="tab">Без відео</a>
+            <li><a href="#without_videos" data-toggle="tab">Курси без відео</a>
             </li>
-            <li><a href="#without_tests" data-toggle="tab">Без тестів</a>
+            <li><a href="#without_tests" data-toggle="tab">Курси без тестів</a>
             </li>
         </ul>
         <div class="tab-content">
