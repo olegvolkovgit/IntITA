@@ -414,9 +414,9 @@ class UserContentManager extends CActiveRecord
 	/**
 	 * @return string
      */
-	public static function listOfCourses(){
+	public static function listOfCourses($filter_id){
 
-		$sql = 'select * from course';
+		$sql = "SELECT * FROM course";
 		$course = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
 
@@ -431,6 +431,7 @@ class UserContentManager extends CActiveRecord
 			$row["video"]=UserContentManager::counterOfVideosInCourse($record["course_ID"]);
 			$row["test"]=UserContentManager::counterOfTasksInCourse($record["course_ID"]);
 			$row["part"]=UserContentManager::counterOfPartsInCourse($record["course_ID"]);
+			if(($filter_id==1 && !$row['video'])||($filter_id==2 && !$row['test'])||($filter_id==0))
 			array_push($return['data'], $row);
 		}
 
