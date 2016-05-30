@@ -29,7 +29,7 @@
                             <td>
                                 <div class="numbers">
                                     <span><?php echo Course::getSummaBySchemaNum($model->course_ID, 4) . ' ' . Yii::t('courses', '0322') . '/' .
-                                            Yii::t('module', '0218') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
+                                            Yii::t('payments', '0865') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
                                         <b>
                                             <?php echo Course::getSummaBySchemaNum($model->course_ID, 4, true) . ' ' .
                                                 Yii::t('courses', '0322') ?>
