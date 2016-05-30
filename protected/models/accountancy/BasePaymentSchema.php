@@ -19,7 +19,8 @@ class BasePaymentSchema implements IPaymentCalculator{
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){
-        $closeDate = $startDate->modify('+'.$payObject->getDuration().' days' );
+        $interval = new DateInterval('P'.$payObject->getDuration().'D');
+        $closeDate = $startDate->add($interval);
         return $closeDate->getTimestamp();
     }
 
@@ -30,8 +31,8 @@ class BasePaymentSchema implements IPaymentCalculator{
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){
-            $currentTimeInterval = $currentTimeInterval->modify(' +1 month');
             array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
+            $currentTimeInterval = $currentTimeInterval->modify(' +1 month');
         }
         return $invoicesList;
     }

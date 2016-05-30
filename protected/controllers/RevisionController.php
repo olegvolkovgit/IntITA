@@ -621,7 +621,6 @@ class RevisionController extends Controller {
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
 
         $approvedRevisions=RevisionLecture::getApprovedRevisionsInModule($idModule);
-
         if(count($lectureRev)) {
             $quickUnion = $lectureRev[0]->getQuickUnionRevisions();
             if ($approvedRevisions) {
@@ -635,7 +634,6 @@ class RevisionController extends Controller {
             }
             $relatedRev = RevisionLecture::model()->with('properties')->findAllByPk($moduleRevisions);
             $json = $this->buildLectureTreeJson($relatedRev, $relatedTree);
-
             echo $json;
         }
     }
@@ -1106,5 +1104,4 @@ class RevisionController extends Controller {
             echo $quiz->uid;
         else echo false;
     }
-
 }

@@ -83,7 +83,7 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
                             break;
                         case 'done':
                             $('#ajaxLoad').hide();
-                            if(serverResponse.done){
+                            if(serverResponse.done==true){
                                 $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning)
                                     .then(function(setMarkResponse) {
                                         pagesUpdateService.pagesDataUpdate();
@@ -95,7 +95,7 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
                                             openDialogsService.openTrueDialog();
                                         }
                                     });
-                            }else{
+                            }else if(serverResponse.done==false){
                                 $scope.setMark($scope.taskId, serverResponse.done, serverResponse.date, serverResponse.result, serverResponse.warning);
                                 var countUnit=serverResponse.testResult.length;
                                 var falseUnits=0;
@@ -106,6 +106,8 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
                                 bootbox.alert('Кількість юніттестів, які не пройшов твій код: '+falseUnits+'/'+serverResponse.testResult.length.toString(), function() {
                                     openDialogsService.openFalseDialog();
                                 });
+                            } else {
+                                bootbox.alert("Твій код не скомпілювався. Виправ помилки та спробуй ще раз.<br>Помилка: <br>"+serverResponse.result);
                             }
                             break;
                         case 'failed':
