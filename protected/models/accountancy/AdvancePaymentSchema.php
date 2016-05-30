@@ -22,7 +22,8 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){
-        $closeDate = $startDate->modify('+'.$payObject->getDuration().' days' );
+        $interval = new DateInterval('P'.$payObject->getDuration().'D');
+        $closeDate = $startDate->add($interval);
         return $closeDate->getTimestamp();
     }
 
@@ -34,8 +35,8 @@ class AdvancePaymentSchema implements IPaymentCalculator{
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){
-            $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
             array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
+            $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
         }
         return $invoicesList;
     }

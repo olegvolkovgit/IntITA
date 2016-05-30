@@ -19,7 +19,7 @@
     <h4><em>Тренер:</em></h4>
     <div class="form-group">
         <form method="post"
-              onsubmit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/setTrainer"); ?>', 'new');return false;">
+              onsubmit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/setTrainer"); ?>', 'new','<?php echo addslashes($user->firstName . " " . $user->secondName . " &lt;" . $user->email . "&gt;"); ?>');return false;">
             <input class="form-control" id="user" type="hidden" value="<?php echo $user->id ?>">
             <?php $this->renderPartial('_selectTrainer');?>
             <br>

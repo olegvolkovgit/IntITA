@@ -620,7 +620,7 @@ function loadMessagesIndex() {
     load(basePath + "/_teacher/messages/index", 'Листування');
 }
 
-function loadForm(url, receiver, scenario, message) {
+function loadForm(url, receiver, scenario, message, subject) {
     idBlock = "#collapse" + message;
     $jq(idBlock).collapse('show');
     id = "#form" + message;
@@ -628,7 +628,8 @@ function loadForm(url, receiver, scenario, message) {
         "user": user,
         "message": message,
         "receiver": receiver,
-        "scenario": scenario
+        "scenario": scenario,
+        "subject": subject
     };
 
     $jq.post(url, {form: JSON.stringify(command)}, function () {
@@ -659,6 +660,12 @@ function hideAjaxLoader() {
 function openTab(id, tabIndex) {
     if (tabIndex != undefined) {
         $jq(id + ' li:eq(' + tabIndex + ') a').tab('show');
+    }
+}
+//open tabs by index after load page by a href
+function openTabByHref(id, href) {
+    if (href != undefined) {
+        $jq(id+' a[href="#'+href+'"]').tab('show')
     }
 }
 

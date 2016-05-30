@@ -472,14 +472,14 @@ class UserContentManager extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = $record['page_title'];
 			if(UserContentManager::existOfVideoInPart($record["id"],$idLesson)){
-				$row["video"]='<div style="padding-left: 40%"><img src="/images/icons/right.jpg"></div>';
+				$row["video"]='<div style="padding-left: 40%"><img src="/images/icons/right.png"></div>';
 			}else{
-				$row["video"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
+				$row["video"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.png"></div>';
 			}
 			if(UserContentManager::existOfTestInPart($record["id"],$idLesson)){
-				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/right.jpg"></div>';
+				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/right.png"></div>';
 			}else{
-				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.jpg"></div>';
+				$row["test"]='<div style="padding-left: 40%"><img src="/images/icons/wrong.png"></div>';
 			}
 
 			$row["word"]=UserContentManager::counterOfWordsInPart($record["id"],$idLesson);

@@ -432,7 +432,7 @@ function initAccountantsTable() {
     });
 }
 
-function addTrainer(url, scenario) {
+function addTrainer(url, scenario,header) {
     var id = document.getElementById('user').value;
     var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
     var oldTrainerId = 0;//(scenario != "new") ? $jq("#oldTrainerId").val() : 0;
@@ -446,7 +446,7 @@ function addTrainer(url, scenario) {
         success: function (response) {
             if (response == "success") {
                 bootbox.alert("Операцію успішно виконано.", function () {
-                    load(basePath + "/_teacher/_admin/users/index", 'Користувачі', '', '4');
+                    load(basePath + "/_teacher/user/index/id/" + id, header);
                 });
             } else {
                 showDialog("Операцію не вдалося виконати.");

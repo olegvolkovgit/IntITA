@@ -280,10 +280,10 @@ class RegisteredUser
             return !$request->isRequestOpen(array($module, $this->registrationData->id));
         }
     }
-
-    public function canAddResponse()
+    //id - id user one of which left a review
+    public function canAddResponse($id)
     {
-        return $this->isStudent();
+        return $this->isStudent() && $this->id!=$id;
     }
 
     public function hasLectureAccess(Lecture $lecture, $editMode = false, $idCourse = 0){
