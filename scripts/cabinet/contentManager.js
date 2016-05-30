@@ -485,11 +485,19 @@ function initAllPhrasesTable() {
     });
 }
 
-function initModulesListTable(id) {
-    $jq('#statusOfModulesTable').DataTable({
+function initModulesListTable(id,filter_id) {
+    if (filter_id == 1) {
+        var temp_name = '#statusOfModulesTableWithoutVideos';
+    }
+    if (filter_id == 2) {
+        var temp_name = '#statusOfModulesTableWithoutTests';
+    }if (filter_id == 0) {
+        var temp_name = '#statusOfModulesTable';
+    }
+    $jq(temp_name).DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id=" + id,
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id=" + id+"&filter_id="+filter_id,
             "dataSrc": "data"
         },
         "columns": [

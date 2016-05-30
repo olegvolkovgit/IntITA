@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="statusOfModulesTable3">
+                <table class="table table-striped table-bordered table-hover" id="statusOfModulesTableWithoutTests">
                     <thead>
                     <tr>
                         <th style="width:30%;" >Назва модуля</th>
@@ -22,5 +22,5 @@
     </div>
 </div>
 <script>
-    initModulesListTable(<?=$id?>);
+    initModulesListTable('<?=$id?>','<?=$filter_id?>');
 </script>
