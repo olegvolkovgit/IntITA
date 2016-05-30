@@ -37,6 +37,11 @@
  * @property integer $country
  * @property integer $city
  * @property integer $cancelled
+ * @property string $passport
+ * @property string $document_type
+ * @property string $document_issued_date
+ * @property string $inn
+ * @property string $passport_issued
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
@@ -103,10 +108,11 @@ class StudentReg extends CActiveRecord
             array('password_repeat', 'passdiff', 'on' => 'edit'),
             array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
             array('password', 'compare', 'compareAttribute' => 'password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'reguser'),
-            array('firstName, secondName, nickname, email, password, education', 'length', 'max' => 255),
+            array('firstName, secondName, nickname, email, password, education, passport_issued', 'length', 'max' => 255),
             array('birthday', 'length', 'max' => 11),
             array('phone', 'match', 'pattern' => '^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^', 'message' => 'Введіть коректний номер'),
             array('phone', 'length', 'max' => 15),
+            array('passport, document_type, inn, document_issued_date', 'length', 'max' => 30),
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
@@ -114,7 +120,8 @@ class StudentReg extends CActiveRecord
             city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
-            educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled', 'safe', 'on' => 'search'),
+            educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled,
+            passport, document_type, inn, document_issued_date, passport_issued', 'safe', 'on' => 'search'),
         );
     }
 
@@ -217,6 +224,11 @@ class StudentReg extends CActiveRecord
             'country' => Yii::t('regexp', '0817'),
             'city' => Yii::t('regexp', '0818'),
             'cancelled' => 'Cancelled',
+            'passport' => 'Серія/номер паспорта',
+            'inn' => 'ідентифікаційний номер',
+            'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
+            'document_issued_date' => 'Дата видачі паспорта',
+            'passport_issued' => 'Ким виданий (паспорт)',
         );
     }
 
@@ -297,6 +309,11 @@ class StudentReg extends CActiveRecord
         $criteria->compare('t.country', $this->country, true);
         $criteria->compare('t.city', $this->city, true);
         $criteria->compare('cancelled', $this->cancelled, true);
+        $criteria->compare('passport', $this->passport, true);
+        $criteria->compare('inn', $this->inn, true);
+        $criteria->compare('document_type', $this->document_type, true);
+        $criteria->compare('document_issued_date', $this->document_issued_date, true);
+        $criteria->compare('passport_issued', $this->passport_issued, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -1248,5 +1265,17 @@ class StudentReg extends CActiveRecord
             $transaction->rollback();
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
+    }
+
+    public function updatePassportData($passport, $inn, $documentType, $issuedDate, $passportIssued){
+
+
+        $this->passport = $passport;
+        $this->inn = $inn;
+        $this->document_type = $documentType;
+        $this->document_issued_date = $issuedDate;
+        $this->passport_issued = $passportIssued;
+
+        return $this->save();
     }
 }

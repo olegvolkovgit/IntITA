@@ -139,7 +139,7 @@ class Invoice extends CActiveRecord
 
     public static function setInvoicesParamsAndSave($invoicesList, $user, $agreementId){
 
-        for($i = 0, $count = count($invoicesList); $i < $count; $i++) {
+        for($i = 1, $count = count($invoicesList); $i <= $count; $i++) {
             $invoicesList[$i]->user_created = $user;
             $invoicesList[$i]->agreement_id = $agreementId;
             $invoicesList[$i]->number = $agreementId .'/'. $i;
@@ -258,10 +258,10 @@ class Invoice extends CActiveRecord
         $invoices = Invoice::model()->findAll($criteria);
         $return = array('data' => array());
 
-        foreach ($invoices as $record) {
+        foreach ($invoices as $key=>$record) {
             $row = array();
 
-            $row["title"]["name"] = "Рахунок ".$record->id;
+            $row["title"]["name"] = "Рахунок №".($key + 1);
             $row["title"]["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id));
             $row["summa"] = number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;");
             $row["date"] = date("d.m.y", strtotime($record->payment_date));
@@ -271,5 +271,9 @@ class Invoice extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public function getOrderInAgreement(){
+        return explode("/", $this->number)[1];
     }
 }

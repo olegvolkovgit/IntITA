@@ -3,7 +3,6 @@
 /* @var $price integer */
 /* @var $year integer */
 ?>
-
 <span>
     <?php
     if ($price == 0) { ?>

@@ -201,4 +201,8 @@ class Config extends CActiveRecord
 	public static function getLectureDurationInHours(){
 		return Yii::app()->config->get('lectureDurationInHours');
 	}
+
+	public static function offerScenario(){
+		return "noOffer";
+	}
 }

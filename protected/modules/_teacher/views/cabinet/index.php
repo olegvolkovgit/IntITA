@@ -124,7 +124,7 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-de.js"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'messages/dialog.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 <?php if(Yii::app()->user->model->isContentManager()){?>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cabinet/contentManager.js'); ?>"></script>
 <?php }?>
