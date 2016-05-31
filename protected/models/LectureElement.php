@@ -329,6 +329,7 @@ class LectureElement extends CActiveRecord
                 'pageSize' => '200',
             )
         );
+        
 
         return $dataProvider;
     }

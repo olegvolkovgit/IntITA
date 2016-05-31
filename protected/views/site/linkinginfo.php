@@ -3,5 +3,5 @@ if (!Yii::app()->user->isGuest) $this->redirect(Yii::app()->createUrl('/site/ind
 $this->breadcrumbs = array(Yii::t('activeemail', '0303'));
 ?>
 <div class='infoblock'>
-    <?php echo 'На електронну пошту' . ' ' . $email . ' ' . 'було відправлено листа, для приєднання до неї соціальної мережі '.$network ?>
+    <?php echo Yii::t('activeemail','0863') . ' ' . $email . ' ' . Yii::t('activeemail','0864').' '.$network ?>
 </div>
