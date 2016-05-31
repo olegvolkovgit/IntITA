@@ -66,7 +66,7 @@ if (!empty($teacherPlainTasks)) { ?>
                     },
                     null,
                 ],
-                "order": [[ 4, "desc" ],[ 5, "asc" ]]
+                "order": [[ 5, "asc" ], [ 4, "desc" ]]
             }
         );
     });

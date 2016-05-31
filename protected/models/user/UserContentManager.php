@@ -378,7 +378,7 @@ class UserContentManager extends CActiveRecord
 	 * @param $id
 	 * @return int|string
      */
-	public static function listOfModules($id){
+	public static function listOfModules($id,$filter_id){
 		if($id){
 			$sql2 = 'select * from course_modules where id_course='.$id;
 			$course2 = Yii::app()->db->createCommand($sql2)->queryAll();
@@ -405,7 +405,8 @@ class UserContentManager extends CActiveRecord
 			$row["video"]=UserContentManager::counterOfVideosInModule($record["module_ID"]);
 			$row["test"]=UserContentManager::counterOfTasksInModule($record["module_ID"]);
 			$row["part"]=UserContentManager::counterOfPartsInModule($record["module_ID"]);
-			array_push($return['data'], $row);
+			if(($filter_id==1 && !$row['video'])||($filter_id==2 && !$row['test'])||($filter_id==0))
+				array_push($return['data'], $row);
 		}
 
 		return json_encode($return);
@@ -414,9 +415,9 @@ class UserContentManager extends CActiveRecord
 	/**
 	 * @return string
      */
-	public static function listOfCourses(){
+	public static function listOfCourses($filter_id){
 
-		$sql = 'select * from course';
+		$sql = "SELECT * FROM course";
 		$course = Yii::app()->db->createCommand($sql)->queryAll();
 		$return = array('data' => array());
 
@@ -431,6 +432,7 @@ class UserContentManager extends CActiveRecord
 			$row["video"]=UserContentManager::counterOfVideosInCourse($record["course_ID"]);
 			$row["test"]=UserContentManager::counterOfTasksInCourse($record["course_ID"]);
 			$row["part"]=UserContentManager::counterOfPartsInCourse($record["course_ID"]);
+			if(($filter_id==1 && !$row['video'])||($filter_id==2 && !$row['test'])||($filter_id==0))
 			array_push($return['data'], $row);
 		}
 

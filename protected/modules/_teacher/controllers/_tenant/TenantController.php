@@ -28,7 +28,7 @@ class TenantController extends TeacherCabinetController
     public function actionRenderAddPhrase()
     {
 
-        $view = "/_tenant/addPhrase";
+        $view = '/_tenant/addPhrase';
         $this->renderPartial($view, array(), false, true);
     }
     public function actionSavePhrase($phrase){
@@ -77,7 +77,7 @@ class TenantController extends TeacherCabinetController
     public function actionShowChats($user1,$user2)
     {
 
-
+ 
         $this->renderPartial('/_tenant/showChats', array('user1'=>$user1,'user2'=>$user2), false, true);
     }
 }
