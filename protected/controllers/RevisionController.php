@@ -1130,4 +1130,23 @@ class RevisionController extends Controller {
             echo $quiz->uid;
         else echo false;
     }
+
+    //get data for send letter to author of revision
+    public function actionGetDataForRevisionMail()
+    {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $data = [];
+        $data['authorName'] =StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created);
+        $data['authorId'] =$lectureRevision->properties->id_user_created;
+        $data['theme'] = "Ревізія №" . $lectureRevision->id_revision . " " . $lectureRevision->properties->title_ua;
+        $data["link"]=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$lectureRevision->id_revision));
+
+        echo CJSON::encode($data);
+    }
 }

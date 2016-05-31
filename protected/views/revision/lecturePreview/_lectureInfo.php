@@ -62,6 +62,10 @@
     </tr>
     <tr>
         <td>Автор:</td>
-        <td><?=StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created).' (id='.$lectureRevision->properties->id_user_created.')'?></td>
+        <td><?=StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created).' (id='.$lectureRevision->properties->id_user_created.')'?>
+            <a class="btnSend" href="" ng-click="sendRevisionMessage('<?=$lectureRevision->id_revision?>')" title="Приватне повідомлення">
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>">
+            </a>
+        </td>
     </tr>
 </table>

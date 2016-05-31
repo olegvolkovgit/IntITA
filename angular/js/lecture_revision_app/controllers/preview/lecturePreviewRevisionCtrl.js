@@ -5,7 +5,7 @@ angular
     .module('lecturePreviewRevisionApp')
     .controller('lecturePreviewRevisionCtrl',lecturePreviewRevisionCtrl);
 
-function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData) {
+function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData,revisionMessage) {
     //load from service lecture data for scope
     getLectureData.getData(idRevision).then(function(response){
         $rootScope.lectureData=response;
@@ -142,5 +142,9 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData) {
             bootbox.alert("Відновити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
             return false;
         });
+    };
+    //send message to author of revision
+    $scope.sendRevisionMessage = function(idRevision) {
+        revisionMessage.sendMessage(idRevision);
     };
 }

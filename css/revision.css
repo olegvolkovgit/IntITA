@@ -119,3 +119,17 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 #currentPage .spotDone{
     background: green;
 }
+.btnSend{
+    display: inline-block;
+    height: 20px;
+    width: 40px;
+    border-radius: 10px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    background: #4b75a4;
+    box-shadow: 0 2px 0 #7f7f7f;
+    margin-top: 10px;
+    text-decoration: none;
+    padding: 3px 0 6px 0;
+    text-align: center;
+}
