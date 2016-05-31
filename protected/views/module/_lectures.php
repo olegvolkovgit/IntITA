@@ -62,12 +62,13 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
-            if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse)) {
-                return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
-                    array("id" => $data->id, "idCourse" => $idCourse)));
-            }
-            else
-                return CHtml::encode($data->$titleParam);
+                if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse)) {
+                    return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
+                        array("id" => $data->id, "idCourse" => $idCourse)));
+                } else{
+                    $tooltip=$data->exceptionsForTooltips($enabledLessonOrder,$isReadyCourse);
+                    return '<span class="disablesLink" uib-tooltip="'.$tooltip.'">'.CHtml::encode($data->$titleParam).'</span>';
+                }
             }
         ),
     ),
