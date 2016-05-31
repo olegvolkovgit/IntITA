@@ -11,6 +11,9 @@
                 <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
+                <img ng-if=lectureData.lecture.canCancelEdit ng-click=cancelEditByEditor('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancelled_author.png'); ?>"
+                     title="Відміна автором"/>
             </div>
         </td>
     </tr>
