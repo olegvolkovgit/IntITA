@@ -1,25 +1,33 @@
-<div class="col-lg-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="consultationsTable">
-                    <thead>
-                    <tr>
-                        <th>Студент</th>
-                        <th>Лекція</th>
-                        <th>Дата</th>
-                        <th>Початок</th>
-                        <th>Закінчення</th>
-                        <th>Відмінити</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <!-- Nav tabs -->
+        <ul id="userTabs" class="nav nav-tabs">
+            <li><a href="#planned" data-toggle="tab">Заплановані консультації</a>
+            </li>
+            <li class="active"><a href="#today" data-toggle="tab">Сьогодні</a>
+            </li>
+            <li><a href="#past" data-toggle="tab">Минулі консультації</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane fade" id="planned">
+                <?php $this->renderPartial('/_consultant/_plannedConsultations');?>
+            </div>
+            <div class="tab-pane fade in active" id="today">
+                <?php $this->renderPartial('/_consultant/_todayConsultations');?>
+            </div>
+            <div class="tab-pane fade" id="past">
+                <?php $this->renderPartial('/_consultant/_pastConsultations');?>
             </div>
         </div>
     </div>
 </div>
+
 <script>
-    initTeacherConsultationsTable();
+    $jq(document).ready(function () {
+        initTodayTeacherConsultationsTable();
+        initPlannedTeacherConsultationsTable();
+        initPastTeacherConsultationsTable();
+    });
 </script>

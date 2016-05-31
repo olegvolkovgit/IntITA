@@ -11,6 +11,11 @@
  * @property string $start_cons
  * @property string $end_cons
  * @property string $date_cons
+ *
+ * The followings are the available model relations:
+ * @property StudentReg $user
+ * @property StudentReg $teacher
+ * @property Lecture $lecture
  */
 class Consultationscalendar extends CActiveRecord
 {
@@ -43,6 +48,9 @@ class Consultationscalendar extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
+            'teacher' => array(self::BELONGS_TO, 'StudentReg', 'teacher_id'),
+            'lecture' => array(self::BELONGS_TO, 'Lecture', 'lecture_id'),
 		);
 	}
 
@@ -172,11 +180,13 @@ class Consultationscalendar extends CActiveRecord
         }
     }
 
-	public static function consultationsList($teacher){
+	public static function todayConsultationsList($teacher){
 
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher;
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' and
+                 cs.date_cons BETWEEN STR_TO_DATE(\''.date("Y-m-d").' 00:00:00\', \'%Y-%m-%d %H:%i:%s\')
+                    AND STR_TO_DATE(\''.date("Y-m-d").' 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
@@ -184,17 +194,71 @@ class Consultationscalendar extends CActiveRecord
         foreach ($result as $record) {
             $row = array();
 
-            $row["username"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
-            $row["lecture"] = ($record["title_ua"] != "")?$record["title_ua"]:"лекція видалена";
+            $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"]["name"] = ($record["title_ua"] != "")?$record["title_ua"]:"лекція видалена";
             $row["date_cons"] = date("d.m.Y",strtotime($record["date_cons"]));
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
-            $row["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/cancelConsultation/', array('id' => $record["cons_id"]));
+            $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
 	}
+
+    public static function plannedConsultationsList($teacher){
+
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
+                left join user u on u.id=cs.user_id
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' and
+                 cs.date_cons BETWEEN STR_TO_DATE(\''.date("Y-m-d H:i:s").'\', \'%Y-%m-%d %H:%i:%s\')
+                    AND STR_TO_DATE(\'2999-08-23 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"]["name"] = ($record["title_ua"] != "")?$record["title_ua"]:"лекція видалена";
+            $row["date_cons"] = date("d.m.Y",strtotime($record["date_cons"]));
+            $row["start_cons"] = $record["start_cons"];
+            $row["end_cons"] = $record["end_cons"];
+            $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public static function pastConsultationsList($teacher){
+
+        $currentDate = new DateTime();
+        $currentDate->modify('- 1 days');
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
+                left join user u on u.id=cs.user_id
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' and
+                 cs.date_cons BETWEEN STR_TO_DATE(\'2014-08-23 23:59:59\', \'%Y-%m-%d %H:%i:%s\') AND
+                 STR_TO_DATE(\''.date_format($currentDate, "Y-m-d H:i:s").'\', \'%Y-%m-%d\')';
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"]["name"] = ($record["title_ua"] != "")?$record["title_ua"]:"лекція видалена";
+            $row["date_cons"] = date("d.m.Y",strtotime($record["date_cons"]));
+            $row["start_cons"] = $record["start_cons"];
+            $row["end_cons"] = $record["end_cons"];
+            $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 
     public static function studentConsultationsList($user){
 
@@ -218,5 +282,14 @@ class Consultationscalendar extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    // todo Add datetime filter for appearance of button start consultation
+    public function isAvailable(){
+        if($this->lecture){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
