@@ -418,6 +418,28 @@ class RevisionController extends Controller {
         $lectureRev->release(Yii::app()->user);
     }
 
+    public function actionCancelEditRevisionByEditor () {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRev) && $lectureRev->canCancelEdit()) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $lectureRev->cancelEditRevisionByEditor(Yii::app()->user);
+    }
+
+    public function actionRestoreEditRevisionByEditor () {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRev) && $lectureRev->canRestoreEdit()) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $lectureRev->restoreEditRevisionByEditor();
+    }
+
     /**
      * curl -XPOST http://intita.project/revision/UpLectureElement -d 'idRevision=139&idPage=694&idElement=772' -b XDEBUG_SESSION=PHPSTORM
      */
@@ -864,6 +886,8 @@ class RevisionController extends Controller {
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isSendedCancellable();
             $node['isReadable'] = $lecture->isReadable();
+            $node['isEditCancellable'] = $lecture->isEditable();
+            $node['canRestoreEdit'] = $lecture->isCancelledEditor();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -993,6 +1017,8 @@ class RevisionController extends Controller {
         $lecture['canCancelReadyRevision']=$lectureRevision->canCancelReadyRevision();
         $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
         $lecture['canReleaseRevision']=$lectureRevision->canReleaseRevision();
+        $lecture['canCancelEdit']=$lectureRevision->canCancelEdit();
+        $lecture['canRestoreEdit']=$lectureRevision->canRestoreEdit();
         $lecture['link']=
             $lecture['canCancelReadyRevision']?
                 Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;

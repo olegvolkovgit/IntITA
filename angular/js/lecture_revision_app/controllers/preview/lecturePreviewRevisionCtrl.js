@@ -111,4 +111,36 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData) {
             return false;
         });
     };
+    //canceled edit revision by the editor
+    $scope.cancelEditByEditor = function(id) {
+        $http({
+            url: basePath+'/revision/cancelEditRevisionByEditor',
+            method: "POST",
+            data: $.param({idRevision: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
+            });
+        }, function errorCallback() {
+            bootbox.alert("Відмінити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
+            return false;
+        });
+    };
+    //canceled edit revision by the editor
+    $scope.restoreEditByEditor = function(id) {
+        $http({
+            url: basePath+'/revision/restoreEditRevisionByEditor',
+            method: "POST",
+            data: $.param({idRevision: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
+            });
+        }, function errorCallback() {
+            bootbox.alert("Відновити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
+            return false;
+        });
+    };
 }

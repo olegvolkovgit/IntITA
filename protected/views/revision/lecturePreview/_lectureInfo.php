@@ -26,6 +26,12 @@
                 <img ng-if=lectureData.lecture.canReleaseRevision ng-click=releaseRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'release.png'); ?>"
                      title="Реліз ревізії"/>
+                <img ng-if=lectureData.lecture.canCancelEdit ng-click=cancelEditByEditor('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancelled_author.png'); ?>"
+                     title="Відміна автором"/>
+                <img ng-if=lectureData.lecture.canRestoreEdit ng-click=restoreEditByEditor('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restored.png'); ?>"
+                     title="Відновити редагування"/>
                 <a ng-href="{{lectureData.lecture.link}}" >
                     <img style="width: 48px" ng-if=lectureData.lecture.canCancelReadyRevision
                          src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
