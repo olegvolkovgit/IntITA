@@ -1,7 +1,11 @@
 <?php
-/* @var $model Course */
-/* @var $price integer */
-/* @var $year integer */
+/**
+ * @var $model Course
+ * @var $price integer
+ * @var $schema LoanPaymentSchema
+ * @var $educForm string
+ */
+$year = $schema->yearsCount();
 ?>
 <span>
     <?php

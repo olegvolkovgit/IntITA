@@ -95,7 +95,7 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
                     </tr>
                 </table>
             <?php }
-            $this->renderPartial('_paymentsForm', array('model' => $model));
+            $this->renderPartial('_onlinePaymentsForm', array('model' => $model));
         }?>
     </div>
 </div>

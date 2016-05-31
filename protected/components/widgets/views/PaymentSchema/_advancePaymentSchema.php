@@ -1,7 +1,11 @@
 <?php
-/* @var $model Course */
-/* @var $discount integer */
-/* @var $price integer */
+/**
+ * @var $model Course
+ * @var $discount integer
+ * @var $price integer
+ * @var $schema AdvancePaymentSchema
+ * @var $educForm string
+ */
 ?>
 <span>
 <?php
@@ -10,7 +14,7 @@ if ($price == 0) {
     <span style="display: inline-block;margin-top: 3px" class="colorGreen">
         <?php echo Yii::t('module', '0421'); ?>
     </span>
-<?php
+    <?php
 }
 if ($discount == 0) {
     ?>
@@ -40,7 +44,7 @@ if ($discount == 0) {
             </td>
         </tr>
     </table>
-<?php
+    <?php
 }
 ?>
     <table class="mainPay">
@@ -64,7 +68,7 @@ if ($discount == 0) {
                                 <span
                                     class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
                                 &nbsp<span class="coursePriceStatus2">
-                                <?php echo PaymentHelper::discountedPrice($price, $discount) . " " . Yii::t('courses', '0322'); ?>
+                                <?php echo ($educForm == 'offline')?$schema->getSummaOffline($model):$schema->getSumma($model) . " " . Yii::t('courses', '0322'); ?>
                             </span>
                                 <br>
                             <span id="discount">

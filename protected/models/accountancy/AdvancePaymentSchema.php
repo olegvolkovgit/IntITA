@@ -31,7 +31,7 @@ class AdvancePaymentSchema implements IPaymentCalculator{
         $invoicesList = [];
         $currentTimeInterval = $startDate;
         $timeInterval = $payObject->getDuration() / $this->payCount; //days
-        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject, $startDate),
+        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject),
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){
@@ -39,5 +39,9 @@ class AdvancePaymentSchema implements IPaymentCalculator{
             $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
         }
         return $invoicesList;
+    }
+
+    public function getSummaOffline(IBillableObject $payObject){
+        return $payObject->getBasePrice() * Config::getCoeffModuleOffline() * (1 - $this->discount/100);
     }
 }

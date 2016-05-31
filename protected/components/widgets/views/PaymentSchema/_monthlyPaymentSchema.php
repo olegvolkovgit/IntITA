@@ -1,8 +1,10 @@
 <?php
-/* @var $model Course */
-/* @var $price integer */
+/* @var $model Course
+ * @var $price integer
+ * @var $educForm string
+ * @var $schema AdvancePaymentSchema
+ */
 ?>
-
 <span>
     <?php
     if ($price == 0) { ?>
@@ -28,10 +30,13 @@
                         <tr>
                             <td>
                                 <div class="numbers">
-                                    <span><?php echo Course::getSummaBySchemaNum($model->course_ID, 4) . ' ' . Yii::t('courses', '0322') . '/' .
+                                    <span><?php
+                                        //todo
+                                        echo round($schema->getSumma($model)/12) . ' ' . Yii::t('courses', '0322') . '/' .
                                             Yii::t('module', '0218') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
                                         <b>
-                                            <?php echo Course::getSummaBySchemaNum($model->course_ID, 4, true) . ' ' .
+                                            <?php echo round(($educForm == 'online')?$schema->getSumma($model):
+                                            $schema->getSummaOffline($model)). ' ' .
                                                 Yii::t('courses', '0322') ?>
                                         </b>
                                     </span>

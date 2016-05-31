@@ -40,4 +40,8 @@ class LoanPaymentSchema implements IPaymentCalculator{
 
         return $invoicesList;
     }
+
+    public function yearsCount(){
+        return $this->payCount / 12;
+    }
 }
