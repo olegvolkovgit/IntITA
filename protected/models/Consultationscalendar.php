@@ -181,12 +181,12 @@ class Consultationscalendar extends CActiveRecord
     }
 
 	public static function todayConsultationsList($teacher){
-
+        $currentDate = new DateTime();
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
                  left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' and
-                 cs.date_cons BETWEEN STR_TO_DATE(\''.date("Y-m-d").' 00:00:00\', \'%Y-%m-%d %H:%i:%s\')
-                    AND STR_TO_DATE(\''.date("Y-m-d").' 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
+                 cs.date_cons BETWEEN STR_TO_DATE(\''.date_format($currentDate, "Y-m-d 00:00:00").'\', \'%Y-%m-%d %H:%i:%s\')
+                    AND STR_TO_DATE(\''.date_format($currentDate, "Y-m-d 23:59:59").'\', \'%Y-%m-%d %H:%i:%s\')';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
@@ -207,12 +207,13 @@ class Consultationscalendar extends CActiveRecord
 	}
 
     public static function plannedConsultationsList($teacher){
-
+        $currentDate = new DateTime();
+        $currentDate->modify('+ 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
                  left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' and
-                 cs.date_cons BETWEEN STR_TO_DATE(\''.date("Y-m-d H:i:s").'\', \'%Y-%m-%d %H:%i:%s\')
-                    AND STR_TO_DATE(\'2999-08-23 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
+                 cs.date_cons BETWEEN STR_TO_DATE(\''.date_format($currentDate, "Y-m-d 00:00:00").'\', \'%Y-%m-%d %H:%i:%s\')
+                    AND STR_TO_DATE(\'3000-01-01 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
@@ -239,8 +240,8 @@ class Consultationscalendar extends CActiveRecord
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
                  left join lectures l on l.id = cs.lecture_id where cs.teacher_id='.$teacher.' and
-                 cs.date_cons BETWEEN STR_TO_DATE(\'2014-08-23 23:59:59\', \'%Y-%m-%d %H:%i:%s\') AND
-                 STR_TO_DATE(\''.date_format($currentDate, "Y-m-d H:i:s").'\', \'%Y-%m-%d\')';
+                 cs.date_cons BETWEEN STR_TO_DATE(\'0000-00-00 23:59:59\', \'%Y-%m-%d %H:%i:%s\') AND
+                 STR_TO_DATE(\''.date_format($currentDate, "Y-m-d 00:00:00").'\', \'%Y-%m-%d\')';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());

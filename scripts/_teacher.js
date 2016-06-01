@@ -681,7 +681,7 @@ function performOperationWithConfirm(url, message, data, callback) {
 function initPlannedTeacherConsultationsTable() {
     $jq('#plannedConsultationsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"], [3, "desc"]],
+        "order": [[2, "asc"], [3, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_consultant/consultant/getPlannedConsultationsList",
             "dataSrc": "data"
@@ -773,7 +773,7 @@ function initPastTeacherConsultationsTable() {
 function initTodayTeacherConsultationsTable() {
     $jq('#todayConsultationsTable').DataTable({
         "autoWidth": false,
-        "order": [[2, "desc"], [3, "desc"]],
+        "order": [[2, "asc"], [3, "asc"]],
         "ajax": {
             "url": basePath + "/_teacher/_consultant/consultant/getTodayConsultationsList",
             "dataSrc": "data"
