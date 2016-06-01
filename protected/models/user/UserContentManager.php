@@ -489,22 +489,26 @@ class UserContentManager extends CActiveRecord
      */
     public static function listOfParts($idLesson)
     {
+        $return = array('data' => array());
         $sql = 'select * from lecture_page where id_lecture=' . $idLesson;
         $parts = Yii::app()->db->createCommand($sql)->queryAll();
+        if(!$parts){
+            return json_encode($return);
+        }
         $sql2 = 'select lectures.idModule,lectures.order,course_modules.id_course  from lectures left JOIN course_modules on course_modules.id_module=lectures.idModule where id=' . $idLesson . ' group by `idModule`';
         $result = Yii::app()->db->createCommand($sql2)->queryAll();
-        $id_module = $result[0]['idModule'];
-        $lecture_order = $result[0]['order'];
-        $id_course = $result[0]['id_course'];
+        if(!$result){
+            return json_encode($return);
+        }
         $sql3 = 'SELECT c.alias as course_alias,m.alias as module_alias FROM course as c
         left join course_modules as cm on c.course_ID=cm.id_course
         left join module as m on m.module_ID=cm.id_module
          where c.course_ID=' . $result[0]['id_course'] . ' and m.module_ID=' . $result[0]['idModule'];
         $result2 = Yii::app()->db->createCommand($sql3)->queryAll();
+        if(!$result2){
+            return json_encode($return);
+        }
 
-        $course_alias = $result2[0]['course_alias'];
-        $module_alias = $result2[0]['module_alias'];
-        $return = array('data' => array());
         foreach ($parts as $record) {
             $row = array();
             $row["name"]["title"] = $record['page_title'];
