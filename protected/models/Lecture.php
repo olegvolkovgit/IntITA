@@ -958,19 +958,19 @@ class Lecture extends CActiveRecord
     {
         $user = Yii::app()->user->getId();
         if (Yii::app()->user->isGuest) {
-            return 'Для перегляду заняття спочатку авторизуйся';
+            return Yii::t('exception', '0868');
         }
         if (!$idReadyCourse) {
-            return 'Доступ до заняття обмежений. Курс знаходиться в розробці';
+            return Yii::t('lecture', '0811');
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
-                return 'Для доступу до заняття оплати курс або модуль';
+                return Yii::t('exception', '0869');
             }
         } else {
             if ($this->order > $enabledOrder)
-                return 'Щоб отримати доступ до заняття пройди попередній матеріал';
+                return Yii::t('exception', '0867');
         }
     }
 
