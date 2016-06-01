@@ -4,7 +4,7 @@ class m160601_160202_add_column_education_form_agreements_table extends CDbMigra
 {
 	public function up()
 	{
-		$this->addColumn('acc_user_agreements', 'educForm', '');
+		$this->addColumn('acc_user_agreements', 'educForm', 'INT(11) NOT NULL DEFAULT 1');
 	}
 
 	public function down()
