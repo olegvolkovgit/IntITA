@@ -265,6 +265,35 @@ class RevisionLecture extends CActiveRecord
     }
 
     /**
+     * Cancel edit current revision by editor
+     * @param $user
+     * @throws RevisionLecturePropertiesException
+     */
+    public function cancelEditRevisionByEditor($user) {
+        if ($this->isEditable()) {
+            $this->properties->cancel_edit_date = new CDbExpression('NOW()');
+            $this->properties->id_user_cancelled_edit = $user->getId();
+            $this->properties->saveCheck();
+        } else {
+            //todo inform user
+        }
+    }
+
+    /**
+     * restore edit current revision by editor
+     * @throws RevisionLecturePropertiesException
+     */
+    public function restoreEditRevisionByEditor() {
+        if ($this->isCancelledEditor()) {
+            $this->properties->cancel_edit_date = new CDbExpression('NULL');
+            $this->properties->id_user_cancelled_edit = null;
+            $this->properties->saveCheck();
+        } else {
+            //todo inform user
+        }
+    }
+
+    /**
      * Clones $this into new db instance.
      * Returns new lecture instance or current instance if the lecture is not cloneable
      * @param $user
@@ -412,6 +441,7 @@ class RevisionLecture extends CActiveRecord
         if (!$this->isSended() &&
             !$this->isApproved() &&
             !$this->isCancelled() &&
+            !$this->isCancelledEditor() &&
             !$this->isRejected()) {
             return true;
         }
@@ -561,6 +591,9 @@ class RevisionLecture extends CActiveRecord
      * @return string
      */
     public function getStatus() {
+        if ($this->isCancelledEditor()) {
+            return "Скасована автором";
+        }
         if ($this->isCancelled()) {
             return "Скасована";
         }
@@ -1001,7 +1034,8 @@ class RevisionLecture extends CActiveRecord
         if (!$this->isSended() &&
             !$this->isRejected() &&
             !$this->isApproved() &&
-            !$this->isCancelled()) {
+            !$this->isCancelled() &&
+            !$this->isCancelledEditor()) {
             return true;
         }
         return false;
@@ -1015,7 +1049,8 @@ class RevisionLecture extends CActiveRecord
         if ($this->isSended() &&
             !$this->isRejected() &&
             !$this->isApproved() &&
-            !$this->isCancelled()) {
+            !$this->isCancelled() &&
+            !$this->isCancelledEditor()) {
             return true;
         }
         return false;
@@ -1026,7 +1061,10 @@ class RevisionLecture extends CActiveRecord
      * @return bool
      */
     public function isReadable() {
-        if ($this->isApproved() && !$this->isReady()) {
+        if ($this->isApproved() &&
+            !$this->isReady() &&
+            !$this->isCancelled() &&
+            !$this->isCancelledEditor()) {
             return true;
         }
         return false;
@@ -1080,6 +1118,14 @@ class RevisionLecture extends CActiveRecord
         return $this->properties->id_user_cancelled != null;
     }
 
+    /**
+     * Return true if revision was cancelled edit by author
+     * @return bool
+     */
+    public function isCancelledEditor() {
+        return $this->properties->id_user_cancelled_edit;
+    }
+
     public function canEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
     }
@@ -1101,6 +1147,12 @@ class RevisionLecture extends CActiveRecord
     }
     public function canReleaseRevision() {
         return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isReadable());
+    }
+    public function canCancelEdit() {
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
+    }
+    public function canRestoreEdit() {
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancelledEditor());
     }
 
     /**

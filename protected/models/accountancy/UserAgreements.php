@@ -17,6 +17,11 @@
  * @property string $number
  * @property float $summa
  * @property integer $cancel_reason_type
+ * @property string $passport
+ * @property string $document_type
+ * @property string $document_issued_date
+ * @property string $inn
+ * @property string $passport_issued
  *
  * @property Service $service
  * @property StudentReg $user
@@ -46,10 +51,12 @@ class UserAgreements extends CActiveRecord
             array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly' => true),
             array('service_id, payment_schema', 'length', 'max' => 10),
             array('number', 'length', 'max' => 50),
+            array('passport, document_type, inn', 'length', 'max' => 30),
             array('approval_date, cancel_date, close_date', 'safe'),
             // The following rule is used by search().
             array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
-			cancel_date, close_date, payment_schema, cancel_reason_type', 'safe', 'on' => 'search'),
+			cancel_date, close_date, payment_schema, cancel_reason_type, passport, document_type, inn,
+			document_issued_date, passport_issued', 'safe', 'on' => 'search'),
         );
     }
 
@@ -89,6 +96,11 @@ class UserAgreements extends CActiveRecord
             'number' => 'Номер',
             'summa' => 'Сума',
             'cancel_reason_type' => 'Причина закриття',
+            'passport' => 'Серія/номер паспорта',
+            'inn' => 'ідентифікаційний номер',
+            'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
+            'document_issued_date' => 'Дата видачі паспорта',
+            'passport_issued' => 'Ким виданий (паспорт)',
         );
     }
 
@@ -121,6 +133,11 @@ class UserAgreements extends CActiveRecord
         $criteria->compare('payment_schema', $this->payment_schema, true);
         $criteria->compare('summa', $this->summa, true);
         $criteria->compare('cancel_reason_type', $this->cancel_reason_type, true);
+        $criteria->compare('passport', $this->passport, true);
+        $criteria->compare('inn', $this->inn, true);
+        $criteria->compare('document_type', $this->document_type, true);
+        $criteria->compare('document_issued_date', $this->document_issued_date, true);
+        $criteria->compare('passport_issued', $this->passport_issued, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -156,6 +173,7 @@ class UserAgreements extends CActiveRecord
                 $agreement = null;
                 break;
         }
+
         return $agreement;
     }
     
@@ -397,6 +415,10 @@ class UserAgreements extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public function getId(){
+        return $this->id;
     }
 }
 

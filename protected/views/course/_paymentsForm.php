@@ -35,7 +35,7 @@
                        href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
                            'scenario' => 'payCourse',
                            'receiver' => 0,
-                           'course' => $model->course_ID,
+                           'course' => $model->course_ID
                        )); ?>"><?php echo Yii::t('course', '0328'); ?>
                     </a>
                     <?php

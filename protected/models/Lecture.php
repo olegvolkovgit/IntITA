@@ -954,5 +954,24 @@ class Lecture extends CActiveRecord
         return $lastLectureOrder;
     }
 
+    public function exceptionsForTooltips($enabledOrder, $idReadyCourse=true)
+    {
+        $user = Yii::app()->user->getId();
+        if (Yii::app()->user->isGuest) {
+            return 'Для перегляду заняття спочатку авторизуйся';
+        }
+        if (!$idReadyCourse) {
+            return 'Доступ до заняття обмежений. Курс знаходиться в розробці';
+        }
+        if (!($this->isFree)) {
+            $modulePermission = new PayModules();
+            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
+                return 'Для доступу до заняття оплати курс або модуль';
+            }
+        } else {
+            if ($this->order > $enabledOrder)
+                return 'Щоб отримати доступ до заняття пройди попередній матеріал';
+        }
+    }
 
 }

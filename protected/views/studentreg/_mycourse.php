@@ -15,7 +15,7 @@
         'dataProvider'=>$paymentsCourses,
         'itemView'=>'_currentCourse',
         'template'=>'{items}{pager}',
-        'emptyText'=>'Поточних курсів немає',
+        'emptyText'=>Yii::t('profile', '0831'),
         'pager' => array(
             'firstPageLabel'=>'<<',
             'lastPageLabel'=>'>>',

@@ -4,6 +4,7 @@
  * @var $schema int
  * @var $type string
  * @var $course int
+ * @var $offerScenario string
  */
 $price = $model->getBasePrice();
 ?>
@@ -17,19 +18,21 @@ $price = $model->getBasePrice();
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="online">
-                <?php $this->renderPartial('/_student/_paymentsModuleForm', array(
+                <?php $this->renderPartial('/_student/agreement/_paymentsModuleForm', array(
                     'scenario' => 'online',
                     'model' => $model,
                     'price' => $model->getBasePrice(),
-                    'course' => $course
+                    'course' => $course,
+                    'offerScenario' => $offerScenario
                 )); ?>
             </div>
             <div class="tab-pane fade" id="offline">
-                <?php $this->renderPartial('/_student/_paymentsModuleForm', array(
+                <?php $this->renderPartial('/_student/agreement/_paymentsModuleForm', array(
                     'scenario' => 'online',
                     'model' => $model,
                     'price' => $model->priceOffline(),
-                    'course' => $course
+                    'course' => $course,
+                    'offerScenario' => $offerScenario
                 )); ?>
             </div>
         </div>

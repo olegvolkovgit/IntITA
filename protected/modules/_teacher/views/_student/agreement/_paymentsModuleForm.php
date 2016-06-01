@@ -2,9 +2,9 @@
 /**
  * @var $model Module
  * @var $course int
- * @var $scenario string
+ * @var $offerScenario string
+ * @var $price integer
  */
-$price = Module::getModuleSumma($model->module_ID, $course);
 ?>
 <div class="panel-group">
     <div class="panel panel-default">
@@ -38,7 +38,8 @@ $price = Module::getModuleSumma($model->module_ID, $course);
     <br>
     <button class="btn btn-primary" type="button"
             onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newModuleAgreement'); ?>',
-                '<?=$course?>', '<?php echo $model->module_ID; ?>', 'module')"><?php echo Yii::t('profile', '0261'); ?></button>
+                '<?=$course?>', '<?php echo $model->module_ID; ?>', 'Module', '<?=$offerScenario?>',
+                '', '<?=$scenario?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } ?>
 
 <script>

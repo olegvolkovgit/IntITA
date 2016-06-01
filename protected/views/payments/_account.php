@@ -26,10 +26,13 @@
                         echo $_GET['month'];
                     } else {
                         echo date("F");
-                    } ?></span> “<?php echo " ".date("Y"); ?> р.
+                    } ?></span> <?php echo " ".date("Y"); ?> р.
             </div>
             <div class="col-sm-5 text-center">
-                <span id="accountTitle">РАХУНОК № <?php echo $model->id; ?></span>
+                <span id="accountTitle">РАХУНОК № <?php echo $model->number; ?></span>
+                <br>
+                <span>від <?=date("d.m.y", strtotime($model->payment_date));?> по договору №<?=$model->getAgreementNumber()?>
+                    від <?=date("d.m.y", strtotime($model->agreement->create_date));?></span>
             </div>
         </div>
         <div class="row">
@@ -49,7 +52,7 @@
             <tr>
                 <td>1</td>
                 <td style="text-align: left">Освітні послуги в науково-технічному напрямку - програмування та
-                    комп'ютерна грамотність (<?php echo Invoice::getProductTitle($model); ?>)
+                    комп'ютерна грамотність (<?php echo CHtml::encode(Invoice::getProductTitle($model)); ?>)
                 </td>
                 <td><span
                         id="summa"><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",","&nbsp;"); ?></span>
@@ -64,6 +67,7 @@
                 <td><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", "&nbsp;"); ?></td>
             </tr>
         </table>
+        <span>Рахунок дійсний протягом <?=Config::getExpirationTimeInterval();?> днів до <?=date("d.m.y", strtotime($model->expiration_date));?></span>
     </div>
 </div>
 

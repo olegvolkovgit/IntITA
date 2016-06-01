@@ -16,7 +16,7 @@
     <form>
         <div class="checkbox">
             <label><input type="checkbox" value="agree" id="agree" onclick="enableAgreeButton();">
-                Я погоджусь з умовами публічної оферти та даю згоду на обробку моїх персональних даних
+                Я погоджуюсь з умовами публічної оферти та даю згоду на обробку моїх персональних даних
             </label>
         </div>
         <input name="module" type="hidden" value="<?php echo $module; ?>">
@@ -27,14 +27,11 @@
         <br>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" disabled id="agreeButton"
-                    onclick="newAgreement(
-                        '<?=Yii::app()->createUrl("/_teacher/_student/student/newAgreement");?>',
-                        '<?=$type?>',
-                        '<?=$course?>',
-                        '<?=$module?>',
+                    onclick="createAgreement('<?=Yii::app()->createUrl("/_teacher/_student/student/new".$type."Agreement");?>',
                         '<?=$schemaNum?>',
-                        '<?=$educationForm?>'
-                        ); return false;">
+                        '<?=$course?>',
+                        '<?=$educationForm?>',
+                        '<?=$module?>'); return false;">
                 Підписати договір
             </button>
             <button type="reset" class="btn btn-default" onclick="back(); return false;">Назад</button>

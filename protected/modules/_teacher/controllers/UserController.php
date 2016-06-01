@@ -3,7 +3,7 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isTrainer();
     }
 
     public function actionIndex($id)

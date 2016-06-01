@@ -83,10 +83,12 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayCourse($course, $schema = 1, $type = 'Online'){
-
-        if(UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)){
-            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, $schema, $type);
+    public function actionPayCourse($course)
+    {
+        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
+            : 'Online';
+        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)) {
+            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
@@ -96,18 +98,19 @@ class StudentController extends TeacherCabinetController
                 throw new \application\components\Exceptions\IntItaException(400);
             }
 
-            $this->renderPartial('/_student/payCourse', array(
+            $this->renderPartial('/_student/agreement/payCourse', array(
                 'course' => $courseModel,
-                'schema' => $schema,
                 'type' => $type,
-            ));
+                'offerScenario' => Config::offerScenario()
+            ), false, true);
         }
     }
 
-    public function actionPayModule($course, $module){
+    public function actionPayModule($course, $module, $type = 'Online')
+    {
 
-        if(UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)){
-            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, 'Online');
+        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)) {
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
@@ -117,16 +120,18 @@ class StudentController extends TeacherCabinetController
                 throw new \application\components\Exceptions\IntItaException(400);
             }
 
-            $this->renderPartial('/_student/_payModule', array(
+            $this->renderPartial('/_student/agreement/_payModule', array(
                 'model' => $model,
-                'course' => $course
+                'course' => $course,
+                'offerScenario' => Config::offerScenario()
             ));
         }
     }
 
-    public function actionPublicOffer($type, $course, $module, $schema, $form){
+    public function actionPublicOffer($course, $module, $type, $form, $schema)
+    {
 
-        $this->renderPartial('/_student/publicOffer', array(
+        $this->renderPartial('/_student/agreement/publicOffer', array(
             'course' => $course,
             'module' => $module,
             'educationForm' => $form,
@@ -135,30 +140,20 @@ class StudentController extends TeacherCabinetController
         ));
     }
 
-    public function actionNewAgreement(){
-        $user = Yii::app()->user->getId();
-        $course = Yii::app()->request->getPost('course', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
-        $module = Yii::app()->request->getPost('module', 0);
-        $schemaNum = Yii::app()->request->getPost('payment', '0');
-        $type = Yii::app()->request->getPost('type', '');
+    public function actionCreditSchemaForm($course, $module, $type, $form, $schema)
+    {
 
-        $agreement = null;
-        switch($type) {
-            case 'module':
-                $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
-                break;
-            case 'course':
-                $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
-                break;
-            default:
-                break;
-        }
-
-        echo ($agreement)?$agreement->id:0;
+        $this->renderPartial('/_student/agreement/_userDataForm', array(
+            'course' => $course,
+            'module' => $module,
+            'educationForm' => $form,
+            'schemaNum' => $schema,
+            'type' => $type
+        ));
     }
 
-    public function actionGetInvoicesByAgreement($id){
+    public function actionGetInvoicesByAgreement($id)
+    {
         echo Invoice::invoicesListByAgreement($id);
     }
 
@@ -167,15 +162,20 @@ class StudentController extends TeacherCabinetController
         $course = Yii::app()->request->getPost('course', 0);
         $educationForm = Yii::app()->request->getPost('educationForm', 'online');
         $schemaNum = Yii::app()->request->getPost('payment', '0');
+
         $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);
-        echo $agreement->id;
+
+        echo ($agreement)?$agreement->id:0;
     }
+
     public function actionNewModuleAgreement(){
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $module = $_POST["module"];
         $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+
         $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
-        echo $agreement->id;
+
+        echo ($agreement)?$agreement->id:0;
     }
 }
