@@ -590,7 +590,7 @@ function initPartsListTable(idLesson) {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + basePath + '/course/ua/php\', \'Заняття\');">' + name["title"] +name["page_order"] +name["lecture_order"] +name["alias_module"] +name["alias_course"]+  '</a>';
+                    return '<a href="\course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'\" >' + name["title"] + '</a>';
                 }
             },
             {

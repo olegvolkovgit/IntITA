@@ -407,7 +407,7 @@ class Lecture extends CActiveRecord
                 }
             }
 
-            if (Yii::app()->user->model->isAdmin() || $editMode)
+            if (Yii::app()->user->model->isAdmin() || $editMode||$this->isContentManager())
                 return true;
         }
         if (!$idReadyCourse) {

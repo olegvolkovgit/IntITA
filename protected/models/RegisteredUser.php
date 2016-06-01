@@ -288,7 +288,7 @@ class RegisteredUser
 
     public function hasLectureAccess(Lecture $lecture, $editMode = false, $idCourse = 0){
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
-        if ($this->isAdmin() || $editMode) {
+        if ($this->isAdmin() || $editMode||$this->isContentManager()) {
             return true;
         }
         if ($this->isTeacherConsultant()) {
