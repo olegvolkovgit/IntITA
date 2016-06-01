@@ -11,6 +11,7 @@
             <tr>
                 <th>Студент</th>
                 <th width="20%">Призначено</th>
+                <th>Доступ</th>
             </tr>
             </thead>
             <tbody>
@@ -29,6 +30,12 @@
                         <td>
                             <?= date("d.m.Y", strtotime($item["start_date"])); ?>
                         </td>
+                        <td>
+                            <button type="button" class="btn btn-outline btn-success btn-sm"
+                                    onclick="load('<?=Yii::app()->createUrl("/_teacher/user/index", array("id" => $item["id"]));?>')">
+                                доступ
+                            </button>
+                        </td>
                     </tr>
                 <?php }
             } ?>
@@ -44,7 +51,10 @@
         "columns": [
             null,
             {
-                "type": "de_date", targets: 1,
+                "type": "de_date", targets: 1
+            },
+            {
+                "width": "15%"
             }
         ]
     } );
