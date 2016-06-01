@@ -329,4 +329,35 @@ class ModuleController extends Controller
 
         echo $fullData;
     }
+
+    public function actionAddAccessFreeModule(){
+        $userId = Yii::app()->request->getPost('user', 0);
+        $moduleId = Yii::app()->request->getPost('module', 0);
+
+        $user = StudentReg::model()->findByPk($userId);
+        $module = Module::model()->findByPk($moduleId);
+
+        if($user && $module){
+            $exist = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
+            if (!empty($exist)) {
+               echo "У тебе вже є доступ до цього модуля.";
+                Yii::app()->end();
+            } else {
+                $permission = new PayModules();
+                $permission->setModuleRead($user->id, $module->module_ID);
+                if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID)) {
+                    UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, 'Online');
+                }
+                $message = new MessagesPayment();
+                $message->build(null, $user, $module);
+                $message->create();
+
+                $sender = new MailTransport();
+                $message->send($sender);
+                echo "Вітаємо!<br> Тепер у тебе є доступ до усіх матеріалів цього модуля.";
+            }
+        } else {
+            echo Yii::t('breadcrumbs', '0781');
+        }
+    }
 }

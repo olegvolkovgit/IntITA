@@ -5,7 +5,7 @@ angular
     .module('revisionTreesApp')
     .controller('revisionTreesCtrl',revisionTreesCtrl);
 
-function revisionTreesCtrl($compile, $rootScope, $scope, revisionsTree) {
+function revisionTreesCtrl($compile, $rootScope, $scope, revisionMessage) {
     //init tree after load json
     $scope.revisionsTreeInit= function(){
         $('#tree').treeview({
@@ -63,6 +63,9 @@ function revisionTreesCtrl($compile, $rootScope, $scope, revisionsTree) {
     };
     $scope.openRevisionsBranch = function(idRevision) {
         location.href = basePath+'/revision/revisionsBranch?idRevision=' + idRevision;
+    };
+    $scope.sendRevisionMessage = function(idRevision) {
+        revisionMessage.sendMessage(idRevision);
     };
 }
 

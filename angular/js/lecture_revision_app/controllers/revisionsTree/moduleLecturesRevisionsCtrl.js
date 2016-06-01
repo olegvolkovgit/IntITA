@@ -97,6 +97,16 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
                 var idRevision = $(event.data.el).attr('id');
                 $scope.$parent.previewRev(idRevision);
             }
+        },
+        {
+            "type": "button",
+            "title": "Написати автору ревізії",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.$parent.sendRevisionMessage(idRevision);
+            }
         }
     ];
     var generalActions=[
@@ -130,6 +140,28 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
                 $scope.cancelSendRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelEdit",
+            "title": "Скасувати автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelEditRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "restoreEdit",
+            "title": "Відновити автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.restoreEditRev(idRevision, nodeId);
             }
         },
     ];
@@ -189,6 +221,22 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     };
     $scope.releaseRev = function(id,nodeId) {
         revisionsActions.releaseRevision(id).then(function(){
+            $scope.updateModuleLecturesRevisionsTree(nodeId);
+            revisionsTree.getCurrentLectures(idModule).then(function (response) {
+                $scope.currentLectures = response;
+            });
+        });
+    };
+    $scope.cancelEditRev = function(id,nodeId) {
+        revisionsActions.cancelEditByEditor(id).then(function(){
+            $scope.updateModuleLecturesRevisionsTree(nodeId);
+            revisionsTree.getCurrentLectures(idModule).then(function (response) {
+                $scope.currentLectures = response;
+            });
+        });
+    };
+    $scope.restoreEditRev = function(id,nodeId) {
+        revisionsActions.restoreEditByEditor(id).then(function(){
             $scope.updateModuleLecturesRevisionsTree(nodeId);
             revisionsTree.getCurrentLectures(idModule).then(function (response) {
                 $scope.currentLectures = response;

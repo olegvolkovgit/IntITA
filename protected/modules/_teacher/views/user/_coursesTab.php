@@ -8,6 +8,7 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
+        <?php if(Yii::app()->user->model->isAdmin()){?>
         <div class="row">
             <form>
                 <input type="number" hidden="hidden" value="<?= $user->id; ?>" id="user">
@@ -28,6 +29,7 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                 </div>
             </form>
         </div>
+        <?php } ?>
         <br>
         <div class="panel panel-default">
             <div class="panel-body">
@@ -43,6 +45,7 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                             <a data-toggle="collapse" href="#collapse<?= $course["id"] ?>">
                                                 <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
                                             </a>
+                                            <?php if(Yii::app()->user->model->isAdmin()){?>
                                             <button type="button" class="btn btn-outline btn-success btn-xs"
                                                     onclick="load('<?= Yii::app()->createUrl("/_teacher/user/agreement",
                                                         array("user" => $user->id, "param" => $course["id"], "type" => "course")) ?>')">
@@ -53,6 +56,7 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                                 '<?=$user->id?>'); return false;">
                                                 <span class="warningMessage"><em> скасувати доступ</em></span>
                                             </a>
+                                            <?php } ?>
                                         </h4>
                                     </div>
                                     <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">

@@ -23,7 +23,7 @@ angular
                         }).then(function successCallback(response){
                             $rootScope.pageData = response.data;
 
-                            if((ipCookie("lessonTab")==0 || typeof(ipCookie("lessonTab"))=='undefined') && !$rootScope.pageData[$rootScope.currentPage-1].isVideo){
+                            if((ipCookie("lessonTab")==0 || typeof(ipCookie("lessonTab"))=='undefined') && !$rootScope.pageData[toParams.page-1].isVideo){
                                 ipCookie('lessonTab', 1, { path: '/' });
                                 $('#MyTab-Menu').tabs("option","active",jQuery("#MyTab-Menu a[href*='#text']").parent().index());
                             }
@@ -49,14 +49,16 @@ angular
                 function (event, toState, toParams) {
 
                     $('#text').scrollTop(0);
+
+                    $rootScope.currentPage=toParams.page;
+
                     if($rootScope.pageData){
                         if((ipCookie("lessonTab")==0 || typeof(ipCookie("lessonTab"))=='undefined') && !$rootScope.pageData[$rootScope.currentPage-1].isVideo){
                             ipCookie('lessonTab', 1, { path: '/' });
                             $('#MyTab-Menu').tabs("option","active",jQuery("#MyTab-Menu a[href*='#text']").parent().index());
                         }
                     }
-
-                    $rootScope.currentPage=toParams.page;
+                    
                     setTimeout(function() {
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
                     });

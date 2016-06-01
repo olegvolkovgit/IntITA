@@ -82,6 +82,16 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
                 var idRevision = $(event.data.el).attr('id');
                 $scope.$parent.previewRev(idRevision);
             }
+        },
+        {
+            "type": "button",
+            "title": "Написати автору ревізії",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.$parent.sendRevisionMessage(idRevision);
+            }
         }
     ];
     var generalActions=[
@@ -115,6 +125,28 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
                 $scope.cancelSendRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelEdit",
+            "title": "Скасувати автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelEditRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "restoreEdit",
+            "title": "Відновити автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.restoreEditRev(idRevision, nodeId);
             }
         },
     ];
@@ -163,6 +195,16 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
     $scope.cancelRev = function(id,nodeId) {
         revisionsActions.cancelRevision(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.cancelEditRev = function(id,nodeId) {
+        revisionsActions.cancelEditByEditor(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.restoreEditRev = function(id,nodeId) {
+        revisionsActions.restoreEditByEditor(id).then(function(){
             $scope.updateRevisionsBranch(nodeId);
         });
     };

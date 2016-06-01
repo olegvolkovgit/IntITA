@@ -439,3 +439,6 @@ td.button-column{
     padding: 3px 0 6px 0;
     margin-bottom: 6px;
 }
+.disablesLink{
+    cursor: pointer;
+}

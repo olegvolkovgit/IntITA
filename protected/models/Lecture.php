@@ -407,7 +407,7 @@ class Lecture extends CActiveRecord
                 }
             }
 
-            if (Yii::app()->user->model->isAdmin() || $editMode)
+            if (Yii::app()->user->model->isAdmin() || $editMode||$this->isContentManager())
                 return true;
         }
         if (!$idReadyCourse) {
@@ -474,9 +474,9 @@ class Lecture extends CActiveRecord
         $criteria->order = '`order` ASC';
         $sortedLectures = Lecture::model()->findAll($criteria);
 
-        $lecturesCount = count($sortedLectures);
+        $modulePermission = new PayModules();
         foreach ($sortedLectures as $key => $lecture) {
-            if (!$lecture->isFinished($user)) {
+            if (!$lecture->isFinished($user) || ($user && !$modulePermission->checkModulePermission($user, $idModule, array('read')))) {
                 return $lecture->order;
             }
         }
@@ -954,5 +954,24 @@ class Lecture extends CActiveRecord
         return $lastLectureOrder;
     }
 
+    public function exceptionsForTooltips($enabledOrder, $idReadyCourse=true)
+    {
+        $user = Yii::app()->user->getId();
+        if (Yii::app()->user->isGuest) {
+            return Yii::t('exception', '0868');
+        }
+        if (!$idReadyCourse) {
+            return Yii::t('lecture', '0811');
+        }
+        if (!($this->isFree)) {
+            $modulePermission = new PayModules();
+            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
+                return Yii::t('exception', '0869');
+            }
+        } else {
+            if ($this->order > $enabledOrder)
+                return Yii::t('exception', '0867');
+        }
+    }
 
 }
