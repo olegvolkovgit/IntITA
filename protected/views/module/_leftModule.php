@@ -1,5 +1,8 @@
 <?php
-/* @var $post Module */
+/**
+ * @var $post Module
+ * @var $isPaidModule bool
+ */
 if (!Yii::app()->user->isGuest) {
     if (Yii::app()->user->model->isAdmin()) $post->setScenario('canedit');
 }
@@ -21,22 +24,29 @@ if (!Yii::app()->user->isGuest) {
                 <td>
                     <div class="startModule">
                         <?php
-                        if ($post->getBasePrice() > 0) {
-                            if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
-                                echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                            } elseif ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
-                                ?>
-                                <a id="paymentButtonModule" onclick="redirectToProfile()"
-                                   href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                                       'scenario' => 'payModule',
-                                       'receiver' => 0,
-                                       'course' => 0,
-                                       'module' => $post->module_ID,
-                                   )); ?>"><?php echo Yii::t('module', '0279'); ?></a>
-                                <?php
+                        if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
+                            echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
+                        } else {
+                            if ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
+                                if ($post->getBasePrice() > 0) {
+                                    ?>
+                                    <a id="paymentButtonModule" onclick="redirectToProfile()"
+                                       href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
+                                           'scenario' => 'payModule',
+                                           'receiver' => 0,
+                                           'course' => 0,
+                                           'module' => $post->module_ID,
+                                       )); ?>"><?php echo Yii::t('module', '0279'); ?></a>
+                                <?php } else { ?>
+                                    <a id="paymentButtonModule" onclick="signFreeModule(
+                                        '<?= Yii::app()->createUrl("module/addAccessFreeModule") ?>',
+                                        '<?= Yii::app()->user->getId() ?>',
+                                        '<?= $post->module_ID ?>')">
+                                        <?php echo Yii::t('module', '0279'); ?>
+                                    </a>
+                                <?php }
                             }
-                        }
-                        ?>
+                        } ?>
                     </div>
                 </td>
                 <?php if (isset($_GET['idCourse']) && $_GET['idCourse'] > 0 && Course::getStatus($_GET['idCourse']) == 1) { ?>
@@ -51,9 +61,9 @@ if (!Yii::app()->user->isGuest) {
                                 ?>
                                 <a id="paymentButtonCourse" onclick="redirectToProfile()"
                                    href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                                       'scenario' => 'payModule',
+                                       'scenario' => 'payCourse',
                                        'receiver' => 0,
-                                       'course' =>  $_GET['idCourse'],
+                                       'course' => $_GET['idCourse'],
                                        'module' => $post->module_ID,
                                    )); ?>"><?php echo Yii::t('course', '0328'); ?></a>
                                 <?php
@@ -65,7 +75,7 @@ if (!Yii::app()->user->isGuest) {
             </tr>
         </table>
         <?php
-        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse,'isReadyCourse' => $isReadyCourse)); ?>
+        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse)); ?>
     </div>
 </div>
 
@@ -74,5 +84,24 @@ if (!Yii::app()->user->isGuest) {
 <script>
     function redirectToProfile() {
         $.cookie('openProfileTab', 5, {'path': "/"});
+    }
+    function signFreeModule(url, user, module) {
+        data = {
+            user: user,
+            module: module
+        };
+        $.post(url, data, function () {
+            })
+            .done(function (response) {
+                bootbox.alert(response);
+            })
+            .fail(function () {
+                bootbox.alert("На сайті виникла помилка.\n" +
+                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу " + adminEmail);
+            })
+            .always(function () {
+                },
+                "json"
+            );
     }
 </script>

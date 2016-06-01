@@ -154,10 +154,9 @@
                     array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
                 break;
             default:
-                break;
+                history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
+                    array('user' => $model->id)); ?>'},"");
         }
-        history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
-                    array('user' => $model->id)); ?>'},"")
     };
     window.onpopstate = function(event){
         reloadPage(event);
