@@ -474,9 +474,9 @@ class Lecture extends CActiveRecord
         $criteria->order = '`order` ASC';
         $sortedLectures = Lecture::model()->findAll($criteria);
 
-        $lecturesCount = count($sortedLectures);
+        $modulePermission = new PayModules();
         foreach ($sortedLectures as $key => $lecture) {
-            if (!$lecture->isFinished($user)) {
+            if (!$lecture->isFinished($user) || ($user && !$modulePermission->checkModulePermission($user, $idModule, array('read')))) {
                 return $lecture->order;
             }
         }
