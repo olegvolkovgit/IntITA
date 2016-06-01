@@ -2,6 +2,7 @@
 /**
  * @var $post Module
  * @var $isPaidModule bool
+ * @var $isPaidCourse bool
  */
 if (!Yii::app()->user->isGuest) {
     if (Yii::app()->user->model->isAdmin()) $post->setScenario('canedit');
@@ -78,30 +79,3 @@ if (!Yii::app()->user->isGuest) {
         $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse)); ?>
     </div>
 </div>
-
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
-
-<script>
-    function redirectToProfile() {
-        $.cookie('openProfileTab', 5, {'path': "/"});
-    }
-    function signFreeModule(url, user, module) {
-        data = {
-            user: user,
-            module: module
-        };
-        $.post(url, data, function () {
-            })
-            .done(function (response) {
-                bootbox.alert(response);
-            })
-            .fail(function () {
-                bootbox.alert("На сайті виникла помилка.\n" +
-                    "Спробуйте перезавантажити сторінку або напишіть нам на адресу " + adminEmail);
-            })
-            .always(function () {
-                },
-                "json"
-            );
-    }
-</script>
