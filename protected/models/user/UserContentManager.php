@@ -400,9 +400,12 @@ class UserContentManager extends CActiveRecord
     public static function listOfModules($id, $filter_id)
     {
         if ($id) {
+            $return = array('data' => array());
             $sql2 = 'select * from course_modules where id_course=' . $id;
             $course2 = Yii::app()->db->createCommand($sql2)->queryAll();
-            if (!$course2) return 0;
+            if(!$course2){
+                return json_encode($return);
+            }
             $arrayOfIdModules = [];
             foreach ($course2 as $key => $value) {
                 $arrayOfIdModules[$key] = $value['id_module'];
@@ -410,11 +413,19 @@ class UserContentManager extends CActiveRecord
             $stringOfIdModules = join(',', $arrayOfIdModules);
             $sql = 'select * from module where module_ID in (' . $stringOfIdModules . ')';
             $course = Yii::app()->db->createCommand($sql)->queryAll();
+            if(!$course){
+                return json_encode($return);
+            }
         } else {
+            $return = array('data' => array());
             $sql = 'select * from module';
             $course = Yii::app()->db->createCommand($sql)->queryAll();
+            if(!$course){
+                return json_encode($return);
+            }
+
         }
-        $return = array('data' => array());
+   
 
         foreach ($course as $record) {
             $row = array();
@@ -468,7 +479,9 @@ class UserContentManager extends CActiveRecord
         $sql = 'select * from lectures where idModule=' . $idModule;
         $course = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
-
+        if(!$course){
+            return json_encode($return);
+        }
         foreach ($course as $record) {
             $row = array();
             $row["name"]["title"] = $record['title_ua'];
