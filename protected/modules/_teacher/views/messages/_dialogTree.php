@@ -38,7 +38,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                         </a>
                         <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date); ?></em>
-                            <?php if ($message->type() != MessagesType::PAYMENT) { ?>
+                            <?php if ($message->type() == MessagesType::USER) { ?>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle"
                                             data-toggle="dropdown">
