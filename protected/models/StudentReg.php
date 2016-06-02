@@ -46,6 +46,8 @@
  * @property AddressCountry $country0
  * @property AddressCity $city0
  * @property TrainerStudent $trainer
+ * @property PayModules [] $payModules
+ * @property PayCourses [] $payCourses
  */
 class StudentReg extends CActiveRecord
 {
@@ -183,6 +185,8 @@ class StudentReg extends CActiveRecord
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
             'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
+            'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'condition' => 'rights = 1'),
+            'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'condition' => 'rights = 1'),
         );
     }
 
@@ -912,16 +916,12 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'u';
         $criteria->join = 'inner join user_student us on u.id = us.id_user';
         $criteria->condition = 'u.cancelled='.StudentReg::ACTIVE;
-//        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, user.educform, user.country, user.city
-//              from user inner join user_student us on user.id = us.id_user';
 
         $criteria->group = 'u.id';
         if (isset($startDate) && isset($endDate)) {
-           // $sql .= " where TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate' ";
             $criteria->condition = "TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
         }
-        //$sql .= ' group by user.id';
-        $result = StudentReg::model()->findAll($criteria);//Yii::app()->db->createCommand($sql)->queryAll();
+        $result = StudentReg::model()->findAll($criteria);
         $return = array('data' => array());
 
         foreach ($result as $record) {
@@ -935,8 +935,14 @@ class StudentReg extends CActiveRecord
             $row["educForm"] = $record->educform;
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
-            $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
-
+            $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            if($record->hasPayedContent()){
+                $row["addAccessLink"]["color"] = "success";
+                $row["addAccessLink"]["text"] = "є проплати";
+            } else {
+                $row["addAccessLink"]["color"] = "danger";
+                $row["addAccessLink"]["text"] = "немає проплат";
+            }
             array_push($return['data'], $row);
         }
 
@@ -1053,16 +1059,26 @@ class StudentReg extends CActiveRecord
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
             $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record->id
-            ));
-            $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            if($record->hasPayedContent()){
+                $row["addAccessLink"]["color"] = "success";
+                $row["addAccessLink"]["text"] = "є проплати";
+            } else {
+                $row["addAccessLink"]["color"] = "danger";
+                $row["addAccessLink"]["text"] = "немає проплат";
+            }
+
 
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
+    }
+
+    public function hasPayedContent(){
+        return ($this->payCourses || $this->payModules)?true:false;
+//        return PayModules::model()->exists('id_user=:id', array('id' => $this->id)) ||
+//        PayCourses::model()->exists('id_user=:id', array('id' => $this->id));
     }
 
     public static function adminsData()
