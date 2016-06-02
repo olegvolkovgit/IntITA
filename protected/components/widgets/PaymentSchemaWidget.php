@@ -6,7 +6,6 @@ class PaymentSchemaWidget extends CWidget
     public $schema;
     public $educForm;
     public $discount;
-    public $price;
     public $view;
 
     public function init(){
@@ -22,8 +21,7 @@ class PaymentSchemaWidget extends CWidget
             'model'=>$this->billableObject,
             'schema' => $this->schema,
             'educForm' => $this->educForm,
-            'discount' => $this->discount,
-            'price' => $this->price
+            'discount' => $this->discount
         ));
     }
 }

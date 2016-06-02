@@ -11,8 +11,9 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     use GracefulDivision;
     public $payCount;
     public $discount;
+    private $educForm;
 
-    function __construct($discount, $payCount){
+    function __construct($discount, $payCount, EducationForm $educForm){
         $this->discount = $discount;
         $this->payCount = $payCount;
     }

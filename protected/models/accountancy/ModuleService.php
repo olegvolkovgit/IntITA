@@ -15,6 +15,8 @@ class ModuleService extends AbstractIntITAService
 {
     public $module;
     public $service;
+    //model EducationForm
+    public $educForm;
 
     /**
      * @return string the associated database table name
@@ -110,7 +112,7 @@ class ModuleService extends AbstractIntITAService
 
     protected function descriptionFormatted()
     {
-        return "Модуль " . $this->module->title_ua . " ";
+        return "Модуль " . $this->module->title_ua . " (".$this->getEducationForm()->title_ua.")";
     }
 
     protected function mainModel()
@@ -118,9 +120,9 @@ class ModuleService extends AbstractIntITAService
         return Module::model();
     }
 
-    public static function getService($idModule)
+    public static function getService($idModule, EducationForm $educForm)
     {
-        return parent::getService(__CLASS__, "module_id", $idModule);
+        return parent::getService(__CLASS__, "module_id", $idModule, $educForm);
     }
 
     protected function setMainModel($module)
@@ -171,5 +173,9 @@ class ModuleService extends AbstractIntITAService
                 return true;
         }
         return false;
+    }
+
+    public function getEducationForm(){
+        return $this->educForm;
     }
 }

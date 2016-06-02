@@ -13,8 +13,9 @@ abstract class AbstractIntITAService extends CActiveRecord
     abstract protected function descriptionFormatted();
     abstract public function getProductTitle();
     abstract public function getBillableObject();
+    abstract public function getEducationForm();
 
-    protected static function createService($serviceClass,$service_param,$service_param_value)
+    protected static function createService($serviceClass,$service_param,$service_param_value, EducationForm $educForm)
     {
         $service = new $serviceClass();
         $service->$service_param = $service_param_value;
@@ -22,11 +23,11 @@ abstract class AbstractIntITAService extends CActiveRecord
         return $service;
     }
 
-    protected static function getService($serviceClass,$service_param,$service_param_value)
+    protected static function getService($serviceClass,$service_param,$service_param_value, EducationForm $educForm)
     {
         if (!$serviceClass::model()->exists($service_param.'='.$service_param_value))
         {
-            return self::createService($serviceClass,$service_param,$service_param_value);
+            return self::createService($serviceClass,$service_param,$service_param_value, $educForm);
         } else {
             return $serviceClass::model()->findByAttributes(array($service_param => $service_param_value));
         }
@@ -44,6 +45,7 @@ abstract class AbstractIntITAService extends CActiveRecord
         {
             $service = new Service();
             $service->description = $this->descriptionFormatted();
+            $service->educForm = $this->getEducationForm();
             $service->save();
             $this->service = $service;
             $this->service_id = $service->service_id;

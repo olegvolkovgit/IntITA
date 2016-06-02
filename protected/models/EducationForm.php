@@ -1,29 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "acc_service".
+ * This is the model class for table "education_form".
  *
- * The followings are the available columns in table 'acc_service':
- * @property string $service_id
- * @property string $description
- * @property string $create_date
- * @property string $cancel_date
- * @property integer $billable
- * @property integer $education_form
+ * The followings are the available columns in table 'education_form':
+ * @property integer $id
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
  *
  * The followings are the available model relations:
- * @property CourseService[] $courseServices
- * @property ModuleService[] $moduleServices
- * @property EducationForm $educForm
+ * @property Service[] $services
  */
-class Service extends CActiveRecord
+class EducationForm extends CActiveRecord
 {
+    const ONLINE = 1;
+    const OFFLINE = 2;
+
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_service';
+		return 'education_form';
 	}
 
 	/**
@@ -34,12 +33,10 @@ class Service extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, education_form', 'required'),
-            array('cancel_date', 'safe'),
-			array('billable, education_form', 'numerical', 'integerOnly'=>true),
-			array('description', 'length', 'max'=>512),
+			array('title_ua, title_ru, title_en', 'required'),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>30),
 			// The following rule is used by search().
-			array('service_id, description, create_date, billable, education_form', 'safe', 'on'=>'search'),
+			array('id, title_ua, title_ru, title_en', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,9 +48,7 @@ class Service extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'courseServices' => array(self::HAS_MANY, 'CourseService', 'service_id'),
-            'moduleServices' => array(self::HAS_MANY, 'ModuleService', 'service_id'),
-			'educForm' => array(self::BELONGS_TO, 'EducationForm', 'educForm'),
+			'services' => array(self::HAS_MANY, 'Service', 'education_form'),
 		);
 	}
 
@@ -63,11 +58,10 @@ class Service extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-            'service_id' => 'Service code',
-            'description' => 'service description',
-            'create_date' => 'service creation date',
-            'billable' => 'Is billable',
-            'education_form' => 'Education form (online, offline, etc)'
+			'id' => 'ID',
+			'title_ua' => 'Title Ua',
+			'title_ru' => 'Title Ru',
+			'title_en' => 'Title En',
 		);
 	}
 
@@ -87,12 +81,10 @@ class Service extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('billable',$this->billable);
-        $criteria->compare('cancel_date',$this->cancel_date);
-        $criteria->compare('education_form',$this->education_form);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('title_ua',$this->title_ua,true);
+		$criteria->compare('title_ru',$this->title_ru,true);
+		$criteria->compare('title_en',$this->title_en,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,12 +95,10 @@ class Service extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Service the static model class
+	 * @return EducationForm the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-
 }

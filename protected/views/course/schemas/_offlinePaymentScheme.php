@@ -2,7 +2,6 @@
 /**
  * @var $model Course
  */
-$price = $model->priceOffline();
 ?>
 <div class="spoilerBodyOffline">
     <div class="paymentsListOdd">
@@ -13,8 +12,7 @@ $price = $model->priceOffline();
             'discount' => 30,
             'schema' => new AdvancePaymentSchema(30, 1),
             'educForm' => 'offline',
-            'view' => '_advancePaymentSchema',
-            'price' => $price
+            'view' => '_advancePaymentSchema'
         ));
         ?>
     </div>
@@ -27,8 +25,7 @@ $price = $model->priceOffline();
             'discount' => 10,
             'schema' => new BasePaymentSchema(2),
             'educForm' => 'offline',
-            'view' => '_basePaymentSchema',
-            'price' => $price
+            'view' => '_basePaymentSchema'
         ));
         ?>
     </div>
@@ -41,8 +38,7 @@ $price = $model->priceOffline();
             'discount' => 8,
             'schema' => new BasePaymentSchema(4),
             'educForm' => 'offline',
-            'view' => '_basePaymentSchema',
-            'price' => $price
+            'view' => '_basePaymentSchema'
         ));
         ?>
     </div>
@@ -55,8 +51,7 @@ $price = $model->priceOffline();
             'discount' => 8,
             'schema' => new AdvancePaymentSchema(0, 12),
             'educForm' => 'offline',
-            'view' => '_monthlyPaymentSchema',
-            'price' => $price
+            'view' => '_monthlyPaymentSchema'
         ));
         ?>
     </div>
@@ -68,8 +63,7 @@ $price = $model->priceOffline();
             'billableObject' => $model,
             'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS),
             'educForm' => 'offline',
-            'view' => '_creditPaymentSchema',
-            'price' => $price
+            'view' => '_creditPaymentSchema'
         ));
         ?>
     </div>
@@ -81,8 +75,7 @@ $price = $model->priceOffline();
             'billableObject' => $model,
             'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS),
             'educForm' => 'offline',
-            'view' => '_creditPaymentSchema',
-            'price' => $price
+            'view' => '_creditPaymentSchema'
         ));
         ?>
     </div>
@@ -94,8 +87,7 @@ $price = $model->priceOffline();
             'billableObject' => $model,
             'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS),
             'educForm' => 'offline',
-            'view' => '_creditPaymentSchema',
-            'price' => $price
+            'view' => '_creditPaymentSchema'
         ));
         ?>
     </div>
@@ -107,8 +99,7 @@ $price = $model->priceOffline();
             'billableObject' => $model,
             'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS),
             'educForm' => 'offline',
-            'view' => '_creditPaymentSchema',
-            'price' => $price
+            'view' => '_creditPaymentSchema'
         ));
         ?>
     </div>

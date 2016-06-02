@@ -6,6 +6,7 @@
  * @var $schema AdvancePaymentSchema
  * @var $educForm string
  */
+$price = ($educForm == 'online')?round($schema->getSumma($model)):round(($schema->getSumma($model) * Config::getCoeffModuleOffline()));
 ?>
 <span>
 <?php
@@ -68,7 +69,7 @@ if ($discount == 0) {
                                 <span
                                     class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
                                 &nbsp<span class="coursePriceStatus2">
-                                <?php echo ($educForm == 'offline')?$schema->getSummaOffline($model):$schema->getSumma($model) . " " . Yii::t('courses', '0322'); ?>
+                                <?php echo round($price * 0.7) . " " . Yii::t('courses', '0322'); ?>
                             </span>
                                 <br>
                             <span id="discount">

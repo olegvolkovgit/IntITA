@@ -10,10 +10,12 @@ class LoanPaymentSchema implements IPaymentCalculator{
 
     private $loanValue;
     private $payCount;
+    private $educForm;
 
-    function __construct($loan, $payCount){
+    function __construct($loan, $payCount, EducationForm $educForm){
         $this->loanValue = $loan;
         $this->payCount = $payCount;
+        $this->educForm = $educForm;
      }
 
     public function getSumma(IBillableObject $payObject){

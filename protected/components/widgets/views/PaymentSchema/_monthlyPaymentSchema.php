@@ -4,6 +4,7 @@
  * @var $educForm string
  * @var $schema AdvancePaymentSchema
  */
+$price = ($educForm == 'online')?$schema->getSumma($model):round(($schema->getSumma($model) * Config::getCoeffModuleOffline()));
 ?>
 <span>
     <?php

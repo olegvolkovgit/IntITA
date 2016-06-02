@@ -6,7 +6,9 @@
  * @var $schema BasePaymentSchema
  * @var $image1 string
  * @var $image2 string
+ * @var $educForm string
  */
+$price = ($educForm == 'online')?$schema->getSumma($model):round(($schema->getSumma($model) * Config::getCoeffModuleOffline()));
 if($schema->payCount == 2){
     $image1 = StaticFilesHelper::createPath('image', 'course', 'coins.png');
     $image2 = StaticFilesHelper::createPath('image', 'course', 'checkCoins.png');

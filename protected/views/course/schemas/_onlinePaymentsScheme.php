@@ -2,7 +2,6 @@
 /**
  * @var $model Course
  */
-$price = $model->getBasePrice();
 ?>
 
 <div id="rowRadio">
@@ -15,8 +14,7 @@ $price = $model->getBasePrice();
                 'discount' => 30,
                 'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE),
                 'educForm' => 'online',
-                'view' => '_advancePaymentSchema',
-                'price' => $price,
+                'view' => '_advancePaymentSchema'
             ));
             ?>
         </div>
@@ -29,8 +27,7 @@ $price = $model->getBasePrice();
                 'discount' => 10,
                 'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS),
                 'educForm' => 'online',
-                'view' => '_basePaymentSchema',
-                'price' => $price,
+                'view' => '_basePaymentSchema'
             ));
             ?>
         </div>
@@ -43,8 +40,7 @@ $price = $model->getBasePrice();
                 'discount' => 8,
                 'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS),
                 'educForm' => 'online',
-                'view' => '_basePaymentSchema',
-                'price' => $price,
+                'view' => '_basePaymentSchema'
             ));
             ?>
         </div>
@@ -56,8 +52,7 @@ $price = $model->getBasePrice();
                 'billableObject' => $model,
                 'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY),
                 'educForm' => 'online',
-                'view' => '_monthlyPaymentSchema',
-                'price' => $price
+                'view' => '_monthlyPaymentSchema'
             ));
             ?>
         </div>
@@ -69,8 +64,7 @@ $price = $model->getBasePrice();
                 'billableObject' => $model,
                 'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS),
                 'educForm' => 'online',
-                'view' => '_creditPaymentSchema',
-                'price' => $price
+                'view' => '_creditPaymentSchema'
             ));
             ?>
         </div>
@@ -82,8 +76,7 @@ $price = $model->getBasePrice();
                 'billableObject' => $model,
                 'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS),
                 'educForm' => 'online',
-                'view' => '_creditPaymentSchema',
-                'price' => $price
+                'view' => '_creditPaymentSchema'
             ));
             ?>
         </div>
@@ -96,7 +89,6 @@ $price = $model->getBasePrice();
                 'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema',
-                'price' => $price
             ));
             ?>
         </div>
@@ -109,7 +101,6 @@ $price = $model->getBasePrice();
                 'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema',
-                'price' => $price
             ));
             ?>
         </div>

@@ -9,8 +9,9 @@
 class BasePaymentSchema implements IPaymentCalculator{
 
     public $payCount;
+    private $educForm;
 
-    function __construct($payCount){
+    function __construct($payCount, EducationForm $educForm){
         $this->payCount = $payCount;
     }
 
