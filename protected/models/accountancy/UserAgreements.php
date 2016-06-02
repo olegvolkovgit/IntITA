@@ -138,7 +138,6 @@ class UserAgreements extends CActiveRecord
         $criteria->compare('document_type', $this->document_type, true);
         $criteria->compare('document_issued_date', $this->document_issued_date, true);
         $criteria->compare('passport_issued', $this->passport_issued, true);
-        $criteria->compare('educForm', $this->educForm, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -191,9 +190,9 @@ class UserAgreements extends CActiveRecord
         return self::newAgreement($user, 'CourseService', $course, $schema, $educForm);
     }
 
-    public static function courseAgreementExist($user, $course)
+    public static function courseAgreementExist($user, $course, $educForm)
     {
-        $service = CourseService::getService($course);
+        $service = CourseService::getService($course, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -205,7 +204,7 @@ class UserAgreements extends CActiveRecord
 
     public static function moduleAgreement($user, $module, $schema, $educForm)
     {
-        $service = ModuleService::getService($module);
+        $service = ModuleService::getService($module, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -215,9 +214,9 @@ class UserAgreements extends CActiveRecord
         return self::newAgreement($user, 'ModuleService', $module, $schema, $educForm);
     }
 
-    public static function moduleAgreementExist($user, $module)
+    public static function moduleAgreementExist($user, $module, $educForm)
     {
-        $service = ModuleService::getService($module);
+        $service = ModuleService::getService($module, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -230,14 +229,13 @@ class UserAgreements extends CActiveRecord
     private static function newAgreement($user, $modelFactory, $param_id, $schemaId, $educForm = EducationForm::ONLINE)
     {
         $schema = PaymentScheme::getSchema($schemaId);
-        $serviceModel = $modelFactory::getService($param_id);
+        $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
 
         $model = new UserAgreements();
         $model->user_id = $user;
         $model->payment_schema = $schemaId;
         $model->service_id = $serviceModel->service_id;
-        $model->educForm = $educForm;
 
         $model->summa = $schema->getSumma($billableObject);
         $startDate = new DateTime();
