@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="studentConsultationsTable">
+                <table class="table table-striped table-bordered table-hover" id="plannedConsultationsTable">
                     <thead>
                     <tr>
                         <th>Викладач</th>
@@ -10,7 +10,6 @@
                         <th>Дата</th>
                         <th>Початок</th>
                         <th>Закінчення</th>
-                        <th>Відмінити</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -20,6 +19,3 @@
         </div>
     </div>
 </div>
-<script>
-    initConsultationsTable();
-</script>
