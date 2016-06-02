@@ -200,7 +200,7 @@ class Consultationscalendar extends CActiveRecord
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
             $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
-            $row["start"] = Config::getBaseUrl() . '/#/consultation_view/' . $record['id'];
+            $row["start"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['id'];
             array_push($return['data'], $row);
         }
 
@@ -295,7 +295,7 @@ class Consultationscalendar extends CActiveRecord
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
             $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
-            $row["start"] = Config::getBaseUrl() . '/#/consultation_view/' . $record['id'];
+            $row["start"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['id'];
             array_push($return['data'], $row);
         }
 

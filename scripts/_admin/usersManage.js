@@ -145,18 +145,10 @@ function initUsersTable() {
                 "width": "10%"
             },
             {
-                "width": "5%",
-                "data": "mailto",
-                "render": function (url) {
-                    return '<a class="btnChat"  href="' + url + '"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">' +
-                        '<i class="fa fa-envelope fa-fw"></i></a>';
-                }
-            },
-            {
-                "width": "10%",
+                "width": "15%",
                 "data": "addAccessLink",
                 "render": function (link) {
-                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">доступ</button>';
+                    return '<button type="button" class="btn btn-outline btn-' + link["color"]+ ' btn-block" onclick="load(' +  link["url"] + ')">' + link["text"]+'</button>';
                 }
             }
         ],
@@ -337,8 +329,18 @@ function initAdminsTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["name"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
             {
                 type: 'de_date', targets: 1,
                 "width": "15%",
@@ -389,8 +391,18 @@ function initAccountantsTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["name"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
             {
                 type: 'de_date', targets: 1,
                 "width": "15%",
@@ -667,10 +679,10 @@ function initStudentsList() {
                 "width": "10%"
             },
             {
-                "width": "10%",
+                "width": "15%",
                 "data": "addAccessLink",
                 "render": function (link) {
-                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">доступ</button>';
+                    return '<button type="button" class="btn btn-outline btn-' + link["color"]+ ' btn-block" onclick="load(' +  link["url"] + ')">' + link["text"]+'</button>';
                 }
             }
         ],
