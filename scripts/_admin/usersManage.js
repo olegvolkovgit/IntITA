@@ -337,8 +337,18 @@ function initAdminsTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["name"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
             {
                 type: 'de_date', targets: 1,
                 "width": "15%",
@@ -389,8 +399,18 @@ function initAccountantsTable() {
             "dataSrc": "data"
         },
         "columns": [
-            {"data": "name"},
-            {"data": "email"},
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'' + name["title"] + '\');">' + name["name"] + '</a>';
+                }
+            },
+            {
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Співробітник\');">' + email["title"] + '</a>';
+                }
+            },
             {
                 type: 'de_date', targets: 1,
                 "width": "15%",
