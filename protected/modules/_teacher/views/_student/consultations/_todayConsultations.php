@@ -5,7 +5,7 @@
                 <table class="table table-striped table-bordered table-hover" id="todayConsultationsTable">
                     <thead>
                     <tr>
-                        <th>Студент</th>
+                        <th>Викладач</th>
                         <th>Лекція</th>
                         <th>Дата</th>
                         <th>Початок</th>

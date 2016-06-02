@@ -2,15 +2,14 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="todayConsultationsTable">
+                <table class="table table-striped table-bordered table-hover" id="pastConsultationsTable">
                     <thead>
                     <tr>
-                        <th>Студент</th>
+                        <th>Викладач</th>
                         <th>Лекція</th>
                         <th>Дата</th>
                         <th>Початок</th>
                         <th>Закінчення</th>
-                        <th>Почати</th>
                     </tr>
                     </thead>
                     <tbody>
