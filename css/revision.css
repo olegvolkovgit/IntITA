@@ -133,3 +133,16 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
     padding: 3px 0 6px 0;
     text-align: center;
 }
+#filterSpoiler{
+    cursor: pointer;
+    color: #4b75a4;
+}
+#filterSpoiler:hover{
+    color: #666;
+}
+#checkboxFilter>div{
+    display: inline-block;
+    border-radius: 4px;
+    border:1px solid #ccc;
+    padding: 5px;
+}
