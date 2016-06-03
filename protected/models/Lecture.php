@@ -970,7 +970,7 @@ class Lecture extends CActiveRecord
             }
         } else {
             if ($this->order > $enabledOrder)
-                return Yii::t('exception', '0867');
+                return Yii::t('exception', '0870');
         }
     }
 
