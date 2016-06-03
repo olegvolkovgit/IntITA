@@ -52,7 +52,7 @@ if ($model->status != Course::AVAILABLE) {
         'enableAjaxValidation' => false,
     )); ?>
     <input value="1" type="hidden" name="schema"/>
-    <input value="<?= EducationForm::ONLINE ?>" type="hidden" name="type" id="type"/>
+    <input value="Online" type="hidden" name="type" id="type"/>
 
     <?php $this->renderPartial('schemas/_onlinePaymentsScheme', array('model' => $model)); ?>
 

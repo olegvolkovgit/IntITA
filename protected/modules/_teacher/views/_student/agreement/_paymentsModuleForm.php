@@ -59,9 +59,14 @@
 <?php if ($price > 0) { ?>
     <br>
     <button class="btn btn-primary" type="button"
-            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newModuleAgreement'); ?>',
-                '<?= $course ?>', '<?php echo $model->module_ID; ?>', 'Module', '<?= $offerScenario ?>',
-                '', '<?= $educForm ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+            onclick="createAccount(
+                '<?php echo Yii::app()->createUrl('/_teacher/_student/student/newModuleAgreement'); ?>',
+                '<?= $course ?>',
+                '<?php echo $model->module_ID; ?>',
+                'Module',
+                '<?= $offerScenario ?>',
+                '',
+                '<?= $educForm ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } ?>
 
 <script>

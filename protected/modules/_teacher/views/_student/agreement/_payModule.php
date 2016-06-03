@@ -29,7 +29,7 @@ $price = $model->getBasePrice();
             </div>
             <div class="tab-pane fade" id="offline">
                 <?php $this->renderPartial('/_student/agreement/_paymentsModuleForm', array(
-                    'scenario' => 'online',
+                    'scenario' => 'offline',
                     'model' => $model,
                     'price' => $model->priceOffline(),
                     'course' => $course,

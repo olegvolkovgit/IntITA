@@ -101,9 +101,10 @@ class StudentController extends TeacherCabinetController
     public function actionPayCourse($course)
     {
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
-            : EducationForm::ONLINE;
-        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course, $type)) {
-            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, EducationForm::ONLINE);
+            : 'Online';
+        $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;
+        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course, $educForm)) {
+            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, $educForm);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
@@ -124,9 +125,10 @@ class StudentController extends TeacherCabinetController
     public function actionPayModule($course, $module)
     {
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
-            : EducationForm::ONLINE;
-        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module, $type)) {
-            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $type);
+            : 'Online';
+        $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;
+        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module, $educForm)) {
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $educForm);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));

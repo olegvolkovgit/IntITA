@@ -29,7 +29,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                     ?>
                     <div id="rowRadio">
                         <div class="paymentsListOdd">
-                            <input id='firstRadioOffline' type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input id='firstRadioOffline' type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::ADVANCE ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -44,7 +44,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::BASE_TWO_PAYS ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -59,7 +59,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListOdd">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::BASE_FOUR_PAYS ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -74,7 +74,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::MONTHLY ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -89,7 +89,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListOdd">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::CREDIT_TWO_YEARS ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -103,7 +103,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::CREDIT_THREE_YEARS ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -117,7 +117,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListOdd">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::CREDIT_FOUR_YEARS ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -131,7 +131,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
 
                         <div class="paymentsListEven">
-                            <input type="radio" class="paymentPlan_value" name="payment<?=$scenario?>"
+                            <input type="radio" class="paymentPlan_value" name="payment<?=$educForm?>"
                                    value="<?= PaymentScheme::CREDIT_FIVE_YEARS ?>">
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
@@ -145,7 +145,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                         </div>
                         <input name="course" type="hidden" value="<?php echo $model->course_ID; ?>">
                         <input name="user" type="hidden" value="<?php echo Yii::app()->user->getId(); ?>">
-                        <input name="educationForm" type="hidden" value="<?= $scenario ?>">
+                        <input name="educationForm" type="hidden" value="<?= $educForm ?>">
                     </div>
                 <?php }
                 $this->endWidget(); ?>
@@ -154,8 +154,12 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                 <?php if ($price > 0) { ?>
                     <br>
                     <button class="btn btn-primary" type="button"
-                            onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
-                                '<?php echo $model->course_ID; ?>', '0', 'Course', '<?= $offerScenario ?>',
+                            onclick="createAccount(
+                                '<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
+                                '<?php echo $model->course_ID; ?>',
+                                '0',
+                                'Course',
+                                '<?= $offerScenario ?>',
                                 '', '<?= $educForm; ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
                 <?php } ?>
             </div>
@@ -165,7 +169,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
 <?php if ($schema != 0 && $isSelected) { ?>
     <script>
         $jq(function () {
-            $jq('input:radio[name="payment<?=$scenario;?>"]').filter('[value="<?=$schema;?>"]').attr('checked', true);
+            $jq('input:radio[name="payment<?=$educForm;?>"]').filter('[value="<?=$schema;?>"]').attr('checked', true);
             $jq.cookie('courseSchema', 0, {'path': "/"});
             $jq.cookie('agreementType', 'Online', {'path': "/"});
         });

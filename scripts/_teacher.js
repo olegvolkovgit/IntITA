@@ -145,7 +145,7 @@ var lang = {
 };
 
 function createAccount(url, course, module, scenario, offerScenario, schema, educationForm) {
-    name = 'payment' + scenario;
+    name = 'payment' + educationForm;
     if (!schema) {
         schema = $jq('input:radio[name="' + name + '"]:checked').val();
     }
