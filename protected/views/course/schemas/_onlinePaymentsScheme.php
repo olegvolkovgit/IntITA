@@ -12,7 +12,7 @@
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
                 'discount' => 30,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_advancePaymentSchema'
             ));
@@ -25,7 +25,7 @@
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
                 'discount' => 10,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_basePaymentSchema'
             ));
@@ -38,7 +38,7 @@
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
                 'discount' => 8,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_basePaymentSchema'
             ));
@@ -50,7 +50,7 @@
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_monthlyPaymentSchema'
             ));
@@ -62,7 +62,7 @@
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema'
             ));
@@ -74,7 +74,7 @@
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema'
             ));
@@ -86,7 +86,7 @@
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema',
             ));
@@ -98,7 +98,7 @@
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema',
             ));

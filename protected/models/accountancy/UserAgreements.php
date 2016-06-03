@@ -180,7 +180,7 @@ class UserAgreements extends CActiveRecord
     
     public static function courseAgreement($user, $course, $schema, $educForm)
     {
-        $service = CourseService::getService($course);
+        $service = CourseService::getService($course, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -226,9 +226,10 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, $educForm = EducationForm::ONLINE)
+    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, $educForm)
     {
-        $schema = PaymentScheme::getSchema($schemaId);
+        $schema = PaymentScheme::getSchema($schemaId, $educForm);
+
         $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
 

@@ -25,13 +25,15 @@ class m160602_113340_create_table_education_form extends CDbMigration
                 'title_ua' => 'офлайн'
             )
         ));
-        $this->addForeignKey('FK_acc_service_education_form', 'acc_service', 'education_form', 'education_form', 'id');
+        $this->addForeignKey('FK_acc_course_service_education_form', 'acc_course_service', 'education_form', 'education_form', 'id');
+        $this->addForeignKey('FK_acc_module_service_education_form', 'acc_module_service', 'education_form', 'education_form', 'id');
     }
 
     public function safeDown()
     {
         $this->dropTable('education_form');
-        $this->dropForeignKey('FK_acc_service_education_form', 'acc_service');
+        $this->dropForeignKey('FK_acc_course_service_education_form', 'acc_course_service');
+        $this->dropForeignKey('FK_acc_module_service_education_form', 'acc_module_service');
     }
 
 }

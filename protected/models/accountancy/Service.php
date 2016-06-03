@@ -9,12 +9,10 @@
  * @property string $create_date
  * @property string $cancel_date
  * @property integer $billable
- * @property integer $education_form
  *
  * The followings are the available model relations:
  * @property CourseService[] $courseServices
  * @property ModuleService[] $moduleServices
- * @property EducationForm $educForm
  */
 class Service extends CActiveRecord
 {
@@ -36,10 +34,10 @@ class Service extends CActiveRecord
 		return array(
 			array('description, education_form', 'required'),
             array('cancel_date', 'safe'),
-			array('billable, education_form', 'numerical', 'integerOnly'=>true),
+			array('billable', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>512),
 			// The following rule is used by search().
-			array('service_id, description, create_date, billable, education_form', 'safe', 'on'=>'search'),
+			array('service_id, description, create_date, billable', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +51,6 @@ class Service extends CActiveRecord
 		return array(
             'courseServices' => array(self::HAS_MANY, 'CourseService', 'service_id'),
             'moduleServices' => array(self::HAS_MANY, 'ModuleService', 'service_id'),
-			'educForm' => array(self::BELONGS_TO, 'EducationForm', 'educForm'),
 		);
 	}
 
@@ -66,8 +63,7 @@ class Service extends CActiveRecord
             'service_id' => 'Service code',
             'description' => 'service description',
             'create_date' => 'service creation date',
-            'billable' => 'Is billable',
-            'education_form' => 'Education form (online, offline, etc)'
+            'billable' => 'Is billable'
 		);
 	}
 
@@ -92,7 +88,6 @@ class Service extends CActiveRecord
 		$criteria->compare('create_date',$this->create_date,true);
 		$criteria->compare('billable',$this->billable);
         $criteria->compare('cancel_date',$this->cancel_date);
-        $criteria->compare('education_form',$this->education_form);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

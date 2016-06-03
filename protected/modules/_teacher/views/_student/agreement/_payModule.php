@@ -23,7 +23,8 @@ $price = $model->getBasePrice();
                     'model' => $model,
                     'price' => $model->getBasePrice(),
                     'course' => $course,
-                    'offerScenario' => $offerScenario
+                    'offerScenario' => $offerScenario,
+                    'educForm' => EducationForm::ONLINE
                 )); ?>
             </div>
             <div class="tab-pane fade" id="offline">
@@ -32,7 +33,8 @@ $price = $model->getBasePrice();
                     'model' => $model,
                     'price' => $model->priceOffline(),
                     'course' => $course,
-                    'offerScenario' => $offerScenario
+                    'offerScenario' => $offerScenario,
+                    'educForm' => EducationForm::OFFLINE
                 )); ?>
             </div>
         </div>

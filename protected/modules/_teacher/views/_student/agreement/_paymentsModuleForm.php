@@ -5,6 +5,7 @@
  * @var $offerScenario string
  * @var $price integer
  * @var $scenario string
+ * @var $educForm integer
  */
 ?>
 <div class="panel-group">
@@ -60,7 +61,7 @@
     <button class="btn btn-primary" type="button"
             onclick="createAccount('<?php echo Yii::app()->createUrl('/_teacher/_student/student/newModuleAgreement'); ?>',
                 '<?= $course ?>', '<?php echo $model->module_ID; ?>', 'Module', '<?= $offerScenario ?>',
-                '', '<?= $scenario ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+                '', '<?= $educForm ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } ?>
 
 <script>

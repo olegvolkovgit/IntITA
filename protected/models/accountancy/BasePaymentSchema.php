@@ -11,12 +11,13 @@ class BasePaymentSchema implements IPaymentCalculator{
     public $payCount;
     private $educForm;
 
-    function __construct($payCount, EducationForm $educForm){
+    function __construct($payCount, $educForm){
         $this->payCount = $payCount;
+        $this->educForm = $educForm;
     }
 
     public function getSumma(IBillableObject $payObject){
-        return $payObject->getBasePrice();
+        return ($this->educForm->isOnline())?$payObject->getBasePrice():$payObject->getBasePrice() * Config::getCoeffModuleOffline();
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){
@@ -28,7 +29,7 @@ class BasePaymentSchema implements IPaymentCalculator{
     public function getInvoicesList(IBillableObject $payObject,  DateTime $startDate){
         $invoicesList = [];
         $currentTimeInterval = $startDate;
-        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject, $startDate),
+        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject),
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){

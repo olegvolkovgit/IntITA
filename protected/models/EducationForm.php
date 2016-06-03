@@ -101,4 +101,12 @@ class EducationForm extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function isOnline(){
+		return $this->id == self::ONLINE;
+	}
+
+	public function isOffline(){
+		return $this->id == self::OFFLINE;
+	}
 }

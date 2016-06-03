@@ -12,15 +12,16 @@ class LoanPaymentSchema implements IPaymentCalculator{
     private $payCount;
     private $educForm;
 
-    function __construct($loan, $payCount, EducationForm $educForm){
+    function __construct($loan, $payCount, $educForm){
         $this->loanValue = $loan;
         $this->payCount = $payCount;
         $this->educForm = $educForm;
      }
 
     public function getSumma(IBillableObject $payObject){
+        $basePrice = ($this->educForm->isOnline())?$payObject->getBasePrice():$payObject->getBasePrice() * Config::getCoeffModuleOffline();
         $coeff =  pow((1 + $this->loanValue/100), $this->payCount/12);
-        return round($payObject->getBasePrice() * $coeff);
+        return round($basePrice * $coeff);
     }
 
     public function getCloseDate(IBillableObject $payObject, DateTime $startDate){
@@ -32,7 +33,7 @@ class LoanPaymentSchema implements IPaymentCalculator{
     public function getInvoicesList(IBillableObject $payObject,  DateTime $startDate){
         $invoicesList = [];
         $currentTimeInterval = $startDate;
-        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject, $startDate),
+        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject),
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){

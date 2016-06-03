@@ -15,21 +15,26 @@ abstract class AbstractIntITAService extends CActiveRecord
     abstract public function getBillableObject();
     abstract public function getEducationForm();
 
-    protected static function createService($serviceClass,$service_param,$service_param_value, EducationForm $educForm)
+    protected static function createService($serviceClass,$service_param,$service_param_value, $educForm)
     {
         $service = new $serviceClass();
         $service->$service_param = $service_param_value;
+        $service->education_form = $educForm;
         $service->save();
+
         return $service;
     }
 
-    protected static function getService($serviceClass,$service_param,$service_param_value, EducationForm $educForm)
+    protected static function getService($serviceClass,$service_param,$service_param_value, $educForm)
     {
-        if (!$serviceClass::model()->exists($service_param.'='.$service_param_value))
+        if (!$serviceClass::model()->exists($service_param.'='.$service_param_value.' and education_form='.$educForm))
         {
             return self::createService($serviceClass,$service_param,$service_param_value, $educForm);
         } else {
-            return $serviceClass::model()->findByAttributes(array($service_param => $service_param_value));
+            return $serviceClass::model()->findByAttributes(array(
+                $service_param => $service_param_value,
+                'education_form' => $educForm
+            ));
         }
     }
 
@@ -39,13 +44,12 @@ abstract class AbstractIntITAService extends CActiveRecord
         return parent::beforeValidate();
     }
 
-    protected function setModelIfNeeded(){
+    protected function setModelIfNeeded()
+    {
         $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()));
-        if(!$this->service)
-        {
+        if (!$this->service) {
             $service = new Service();
             $service->description = $this->descriptionFormatted();
-            $service->educForm = $this->getEducationForm();
             $service->save();
             $this->service = $service;
             $this->service_id = $service->service_id;

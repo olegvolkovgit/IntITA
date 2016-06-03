@@ -6,17 +6,17 @@
  * The followings are the available columns in table 'acc_module_service':
  * @property string $service_id
  * @property integer $module_id
+ * @property integer $education_form
  *
  * The followings are the available model relations:
  * @property Service $service
  * @property Module $module
+ * @property EducationForm $educForm
  */
 class ModuleService extends AbstractIntITAService
 {
     public $module;
     public $service;
-    //model EducationForm
-    public $educForm;
 
     /**
      * @return string the associated database table name
@@ -35,11 +35,10 @@ class ModuleService extends AbstractIntITAService
         // will receive user inputs.
         return array(
             array('service_id, module_id', 'required'),
-            array('module_id', 'numerical', 'integerOnly' => true),
+            array('module_id, education_form', 'numerical', 'integerOnly' => true),
             array('service_id', 'length', 'max' => 10),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('service_id, module_id', 'safe', 'on' => 'search'),
+            array('service_id, module_id, education_form', 'safe', 'on' => 'search'),
         );
     }
 
@@ -53,6 +52,7 @@ class ModuleService extends AbstractIntITAService
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
             'module' => array(self::BELONGS_TO, 'Module', 'module_id'),
+            'educForm' => array(self::HAS_ONE, 'EducationForm', 'education_form')
         );
     }
 
@@ -64,6 +64,7 @@ class ModuleService extends AbstractIntITAService
         return array(
             'service_id' => 'Service',
             'module_id' => 'Module',
+            'education_form' => 'Education form',
         );
     }
 
@@ -81,12 +82,11 @@ class ModuleService extends AbstractIntITAService
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('service_id', $this->service_id, true);
         $criteria->compare('module_id', $this->module_id);
+        $criteria->compare('education_form', $this->education_form);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -107,12 +107,12 @@ class ModuleService extends AbstractIntITAService
 
     protected function primaryKeyValue()
     {
-        return $this->module_id;
+        return array($this->module_id, $this->education_form);
     }
 
     protected function descriptionFormatted()
     {
-        return "Модуль " . $this->module->title_ua . " (".$this->getEducationForm()->title_ua.")";
+        return "Модуль " . $this->module->title_ua . " (".$this->educForm->title_ua.")";
     }
 
     protected function mainModel()
@@ -120,7 +120,7 @@ class ModuleService extends AbstractIntITAService
         return Module::model();
     }
 
-    public static function getService($idModule, EducationForm $educForm)
+    public static function getService($idModule, $educForm)
     {
         return parent::getService(__CLASS__, "module_id", $idModule, $educForm);
     }

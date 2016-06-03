@@ -199,11 +199,12 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getDuration()
     {
-        $modules = $this->getCourseModulesSchema($this->course_ID);
-        $tableCells = $this->getTableCells($modules, $this->course_ID);
-        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
-
-        return $courseDurationInMonths;
+        return $this->getApproximatelyDurationInMonths();
+//        $modules = $this->getCourseModulesSchema($this->course_ID);
+//        $tableCells = $this->getTableCells($modules, $this->course_ID);
+//        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
+//
+//        return $courseDurationInMonths;
 
     }
 
@@ -1072,5 +1073,9 @@ class Course extends CActiveRecord implements IBillableObject
             $sum=+$sum+$module->moduleInCourse->moduleDurationInDays();
         }
         return round($sum);
+    }
+
+    public function getApproximatelyDurationInMonths(){
+        return ceil($this->courseDurationInDays() / 30);
     }
 }

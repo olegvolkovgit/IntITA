@@ -101,8 +101,8 @@ class StudentController extends TeacherCabinetController
     public function actionPayCourse($course)
     {
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
-            : 'Online';
-        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course)) {
+            : EducationForm::ONLINE;
+        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course, $type)) {
             $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, EducationForm::ONLINE);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
@@ -121,10 +121,12 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayModule($course, $module, $type)
+    public function actionPayModule($course, $module)
     {
-        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module)) {
-            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, EducationForm::ONLINE);
+        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
+            : EducationForm::ONLINE;
+        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module, $type)) {
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $type);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
@@ -174,7 +176,7 @@ class StudentController extends TeacherCabinetController
     public function actionNewCourseAgreement(){
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
-        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+        $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
         $schemaNum = Yii::app()->request->getPost('payment', '0');
 
         $agreement = UserAgreements::agreementByParams('Course', $user, 0, $course, $schemaNum, $educationForm);

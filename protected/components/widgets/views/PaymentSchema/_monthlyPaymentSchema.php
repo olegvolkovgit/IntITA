@@ -4,7 +4,6 @@
  * @var $educForm string
  * @var $schema AdvancePaymentSchema
  */
-$price = ($educForm == 'online')?$schema->getSumma($model):round(($schema->getSumma($model) * Config::getCoeffModuleOffline()));
 ?>
 <span>
     <?php
@@ -33,11 +32,10 @@ $price = ($educForm == 'online')?$schema->getSumma($model):round(($schema->getSu
                                 <div class="numbers">
                                     <span><?php
                                         //todo
-                                        echo round($schema->getSumma($model)/12) . ' ' . Yii::t('courses', '0322') . '/' .
+                                        echo round($price/12) . ' ' . Yii::t('courses', '0322') . '/' .
                                             Yii::t('module', '0218') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
                                         <b>
-                                            <?php echo round(($educForm == 'online')?$schema->getSumma($model):
-                                            $schema->getSummaOffline($model)). ' ' .
+                                            <?php echo $price. ' ' .
                                                 Yii::t('courses', '0322') ?>
                                         </b>
                                     </span>
