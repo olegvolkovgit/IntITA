@@ -126,10 +126,11 @@ class Tenant extends Role
     }
     public static function getAllPhrases(){
         $sql = 'select * from chat_phrases';
-        $course = Yii::app()->db->createCommand($sql)->queryAll();
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
-
-        foreach($course as $record){
+        if(!$result)
+            return json_encode($return);
+        foreach($result as $record){
             $row = array();
 
             $row["text"] = $record['text'];
@@ -186,17 +187,17 @@ class Tenant extends Role
         return true;
     }
     public static function getListOfChatsBetweenUsers($user1_name,$user2_name){
-
+        $return = array('data' => array());
         $sql = "SELECT `id` FROM `chat_user` WHERE `nick_name`="."'".$user1_name."'";
         $result=Yii::app()->db->createCommand($sql)->queryAll();
         if(!$result)
-            return false;
+            return json_encode($return);
         $arr1=$result[0];
 
         $sql2 = "SELECT `id` FROM `chat_user` WHERE `nick_name`="."'".$user2_name."'";
         $result2=Yii::app()->db->createCommand($sql2)->queryAll();
         if(!$result2)
-            return false;
+            return json_encode($return);
 
         $arr2=$result2[0];
         $sql5 = "SELECT u.rooms_from_users_id,df.name FROM `chat_room_users` as r inner join chat_room_users
@@ -204,8 +205,8 @@ class Tenant extends Role
         where `r`.`users_id`="."'".$arr1['id']."'"." and `u`.`users_id`="."'".$arr2['id']."'";
         $result3=Yii::app()->db->createCommand($sql5)->queryAll();
         if(!$result3)
-            return false;
-        $return = array('data' => array());
+            return json_encode($return);
+
         foreach($result3 as $record){
             $row = array();
             $row["name"]["title"] = $record['name'];
