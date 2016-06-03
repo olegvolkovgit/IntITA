@@ -26,7 +26,7 @@ angular
                             '</div>'+
                             '<div class="form-group col-md-12">'+
                             '<label>Лист</label>'+
-                            '<textarea class="form-control" style="resize: none" rows="6" id="messageText" required><a href="'+response.data.link+'" target="_blank">Посилання на ревізію</a></textarea>'+
+                            '<textarea class="form-control" style="resize: none" rows="6" id="messageText" required>Посилання на ревізію: '+response.data.link+'</textarea>'+
                             '</div>'+
                             '</form>'+
                             '</div>'+
