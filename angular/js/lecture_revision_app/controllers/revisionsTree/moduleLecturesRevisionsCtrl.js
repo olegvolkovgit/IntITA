@@ -3,7 +3,12 @@
  */
 angular
     .module('revisionTreesApp')
-    .controller('moduleLecturesRevisionsCtrl',moduleLecturesRevisionsCtrl);
+    .controller('moduleLecturesRevisionsCtrl',moduleLecturesRevisionsCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
 function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     $scope.approvedTree=true;
@@ -245,7 +250,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     };
     //update revisions tree in module
     $scope.updateModuleLecturesRevisionsTree = function(nodeId){
-        revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function(response){
+        revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
             $rootScope.revisionsJson=response;
             $scope.treeUpdate(nodeId);
         });
@@ -263,6 +268,25 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             $rootScope.revisionsJson = response;
             $scope.revisionsTreeInit();
         });
+    }
+
+    $scope.formData = {};
+    $scope.revisionFilter=function () {
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            $scope.updateTree();
+        }else{
+            revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson = response;
+                $scope.treeUpdate();
+            });
+        }
+        function isEmptyFilter(obj) {
+            for (var key in obj) {
+                if(obj[key])
+                    return false;
+            }
+            return true;
+        }
     }
 }
 
