@@ -194,7 +194,7 @@ class Course extends CActiveRecord implements IBillableObject
             }
         }
 
-        return $price;
+        return $price * Config::getDollarRate();
     }
 
     public function getDuration()
