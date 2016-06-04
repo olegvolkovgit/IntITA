@@ -775,6 +775,7 @@
 	*/
 	Tree.prototype.getParent = function (identifier) {
 		var node = this.identifyNode(identifier);
+		if(typeof node=='undefined') return;
 		return this.nodes[node.parentId];
 	};
 
