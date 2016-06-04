@@ -14,7 +14,7 @@
         <?php if ($model->isAvailable()) { ?>
             <li>
                 <a class="btn btn-success" role="button"
-                   href="<?= Config::getBaseUrl() . '/#/consultation_view/' . $model->id ?>" target="_blank">
+                   href="<?= Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $model->id ?>" target="_blank">
                     Почати консультацію
                 </a>
             </li>
