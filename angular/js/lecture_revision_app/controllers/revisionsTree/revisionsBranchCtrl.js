@@ -11,6 +11,7 @@ angular
     });
 
 function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
+    $scope.formData = {};
     $scope.approvedTree=true;
     //init tree after load json
     revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
@@ -220,10 +221,17 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
-            $rootScope.revisionsJson=response;
-            $scope.treeUpdate(nodeId);
-        });
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function (response) {
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }else{
+            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }
     };
 
     $scope.loadTreeMode = function () {
@@ -240,7 +248,6 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         });
     };
 
-    $scope.formData = {};
     $scope.revisionFilter=function () {
         if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
             $scope.updateTree();
@@ -250,13 +257,14 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
                 $scope.treeUpdate();
             });
         }
-        function isEmptyFilter(obj) {
-            for (var key in obj) {
-                if(obj[key])
-                    return false;
-            }
-            return true;
+    };
+
+    function isEmptyFilter(obj) {
+        for (var key in obj) {
+            if(obj[key])
+                return false;
         }
+        return true;
     }
 }
 

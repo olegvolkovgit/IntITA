@@ -11,6 +11,7 @@ angular
     });
 
 function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
+    $scope.formData = {};
     $scope.approvedTree=true;
     //load current lectures from main BD
     revisionsTree.getCurrentLectures(idModule).then(function (response) {
@@ -250,10 +251,17 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     };
     //update revisions tree in module
     $scope.updateModuleLecturesRevisionsTree = function(nodeId){
-        revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
-            $rootScope.revisionsJson=response;
-            $scope.treeUpdate(nodeId);
-        });
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function(response){
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }else{
+            revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }
     };
 
     $scope.loadTreeMode = function () {
@@ -280,13 +288,14 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
                 $scope.treeUpdate();
             });
         }
-        function isEmptyFilter(obj) {
-            for (var key in obj) {
-                if(obj[key])
-                    return false;
-            }
-            return true;
+    }
+
+    function isEmptyFilter(obj) {
+        for (var key in obj) {
+            if(obj[key])
+                return false;
         }
+        return true;
     }
 }
 
