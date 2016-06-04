@@ -20,8 +20,6 @@ class UserStatusWidget extends CWidget
     {
         parent::run();
         $view = $this->bigView? 'UserStatus/index' : 'UserStatus/small';
-//        var_dump($view); die();
         $this->render($view,array('post'=>$this->registeredUser));
     }
-    //put your code here
 }

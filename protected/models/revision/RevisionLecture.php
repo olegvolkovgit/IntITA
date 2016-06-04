@@ -1242,4 +1242,60 @@ class RevisionLecture extends CActiveRecord
         }
     }
 
+    //revisions id list after filtered
+    public static function getFilteredIdRevisions($status, $idModule) {
+
+        $sqlCancelledEditor=('vcp.id_user_cancelled_edit IS NOT NULL');
+        $sqlCancelled=('vcp.id_user_cancelled IS NOT NULL');
+        $sqlReady=('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
+        $sqlApproved=('vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL');
+        $sqlRejected=('vcp.id_user_rejected IS NOT NULL');
+        $sqlSent=('vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL');
+        $sqlEditable=('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
+
+        $finalSql='';
+        foreach ($status as $key=>$sql){
+            if($sql=='true'){
+                switch ($key) {
+                    case 'approved':
+                        $finalSql=$finalSql.' or '.$sqlApproved;
+                        break;
+                    case 'editable';
+                        $finalSql=$finalSql.' or '.$sqlEditable;
+                        break;
+                    case 'sent';
+                        $finalSql=$finalSql.' or '.$sqlSent;
+                        break;
+                    case 'reject';
+                        $finalSql=$finalSql.' or '.$sqlRejected;
+                        break;
+                    case 'cancelled';
+                        $finalSql=$finalSql.' or '.$sqlCancelled;
+                        break;
+                    case 'cancelledEditor';
+                        $finalSql=$finalSql.' or '.$sqlCancelledEditor;
+                        break;
+                    case 'release';
+                        $finalSql=$finalSql.' or '.$sqlReady;
+                        break;
+                    default:
+                        $finalSql = '';
+                        break;
+                };
+            }
+        }
+        $finalSql=substr($finalSql, 3);
+        $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE vcl.id_module=".$idModule." 
+            and (".$finalSql.")";
+
+        $list = Yii::app()->db->createCommand($sql)->queryAll();
+        $actualIdList=[];
+        foreach ($list as $item) {
+            array_push($actualIdList,$item['id_revision']);
+        }
+
+        return $actualIdList;
+    }
+
 }

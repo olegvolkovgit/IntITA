@@ -3,7 +3,12 @@
  */
 angular
     .module('revisionTreesApp')
-    .controller('revisionsBranchCtrl',revisionsBranchCtrl);
+    .controller('revisionsBranchCtrl',revisionsBranchCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
 function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     $scope.approvedTree=true;
@@ -215,7 +220,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
+        revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
             $rootScope.revisionsJson=response;
             $scope.treeUpdate(nodeId);
         });
@@ -233,6 +238,25 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             $rootScope.revisionsJson=response;
             $scope.revisionsTreeInit();
         });
+    };
+
+    $scope.formData = {};
+    $scope.revisionFilter=function () {
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            $scope.updateTree();
+        }else{
+            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson = response;
+                $scope.treeUpdate();
+            });
+        }
+        function isEmptyFilter(obj) {
+            for (var key in obj) {
+                if(obj[key])
+                    return false;
+            }
+            return true;
+        }
     }
 }
 

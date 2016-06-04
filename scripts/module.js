@@ -1,12 +1,12 @@
 /**
  * Created by Wizlight on 19.08.2015.
  */
-/*Імітуєм клік по схованому input[file]*/
+/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ input[file]*/
 function selectLogo(){
     var img=$("#logoModule");
     img.trigger('click');
 }
-/*Виводить назву файла який загружаємо на аватарку*/
+/*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 function getImgName (str){
     if (str.lastIndexOf('\\')){
         var i = str.lastIndexOf('\\')+1;
@@ -17,4 +17,26 @@ function getImgName (str){
     var filename = str.slice(i);
     var uploaded = document.getElementById("avatarInfo");
     uploaded.innerHTML = filename;
+}
+function redirectToProfile() {
+    $.cookie('openProfileTab', 5, {'path': "/"});
+}
+function signFreeModule(url, user, module) {
+    data = {
+        user: user,
+        module: module
+    };
+    $.post(url, data, function () {
+        })
+        .done(function (response) {
+            bootbox.alert(response);
+        })
+        .fail(function () {
+            bootbox.alert("РќР° СЃР°Р№С‚С– РІРёРЅРёРєР»Р° РїРѕРјРёР»РєР°.\n" +
+                "РЎРїСЂРѕР±СѓР№С‚Рµ РїРµСЂРµР·Р°РІР°РЅС‚Р°Р¶РёС‚Рё СЃС‚РѕСЂС–РЅРєСѓ Р°Р±Рѕ РЅР°РїРёС€С–С‚СЊ РЅР°Рј РЅР° Р°РґСЂРµСЃСѓ " + adminEmail);
+        })
+        .always(function () {
+            },
+            "json"
+        );
 }

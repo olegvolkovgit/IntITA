@@ -26,8 +26,8 @@
 
 <script>
     $jq(document).ready(function () {
-        initTodayTeacherConsultationsTable();
-        initPlannedTeacherConsultationsTable();
-        initPastTeacherConsultationsTable();
+        initTodayConsultationsTable();
+        initPlannedConsultationsTable();
+        initPastConsultationsTable();
     });
 </script>

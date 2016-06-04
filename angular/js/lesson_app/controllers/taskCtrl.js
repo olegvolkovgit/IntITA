@@ -69,6 +69,10 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
                     getTaskResult(idTask);
                 }else if(response=='error'){
                     bootbox.alert("На сервері виникли проблеми. Онови сторінку та спробуй ще раз, або зв'яжися з адміністратором.");
+                }else{
+                    bootbox.alert("Виникла помилка при торимані відповіді. Зв'яжіться з адміністрацією", function () {
+                        $('#ajaxLoad').hide();
+                    });
                 }
                 button.removeAttr('disabled');
             });

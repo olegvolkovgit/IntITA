@@ -1,9 +1,14 @@
 <?php
-/* @var $model Course */
-/* @var $price integer */
-/* @var $year integer */
-?>
+/**
+ * @var $model Course
+ * @var $price integer
+ * @var $schema LoanPaymentSchema
+ * @var $educForm string
+ */
 
+$price = ($educForm == 'online')?$schema->getSumma($model):round(($schema->getSumma($model) * Config::getCoeffModuleOffline()));
+$year = $schema->yearsCount();
+?>
 <span>
     <?php
     if ($price == 0) { ?>

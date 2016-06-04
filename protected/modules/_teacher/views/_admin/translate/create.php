@@ -10,7 +10,7 @@
 
                 <div class="form-group">
                     <label for="id">ID повідомлення *</label>
-                    <input type="number" name="id" required min="1" class="form-control">
+                    <input type="number" name="id" required min="1" max="2147483647" class="form-control">
                 </div>
                 <br>
                 <br>

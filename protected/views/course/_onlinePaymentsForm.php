@@ -11,7 +11,7 @@
     <input value="1" type="hidden" name="schema"/>
     <input value="Online" type="hidden" name="type" id="type"/>
 
-    <?php $this->renderPartial('_onlinePaymentsScheme', array('model' => $model)); ?>
+    <?php $this->renderPartial('schemas/_onlinePaymentsScheme', array('model' => $model)); ?>
 
     <?php $this->renderPartial('_offlinePaymentsForm', array('model' => $model)); ?>
 

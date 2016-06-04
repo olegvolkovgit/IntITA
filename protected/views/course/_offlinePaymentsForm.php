@@ -49,7 +49,7 @@ if ($price != 0) {
         )); ?>
         <input value="<?= PaymentScheme::ADVANCE ?>" type="hidden" name="schema"/>
         <div id="rowRadio">
-            <?php $this->renderPartial('_offlinePaymentScheme', array('model' => $model)); ?>
+            <?php $this->renderPartial('schemas/_offlinePaymentScheme', array('model' => $model)); ?>
         </div>
         <?php if ($model->status != 0) {
             $this->endWidget();

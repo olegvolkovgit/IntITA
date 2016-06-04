@@ -407,7 +407,7 @@ class Lecture extends CActiveRecord
                 }
             }
 
-            if (Yii::app()->user->model->isAdmin() || $editMode||$this->isContentManager())
+            if (Yii::app()->user->model->isAdmin() || $editMode || Yii::app()->user->model->isContentManager())
                 return true;
         }
         if (!$idReadyCourse) {
@@ -474,9 +474,9 @@ class Lecture extends CActiveRecord
         $criteria->order = '`order` ASC';
         $sortedLectures = Lecture::model()->findAll($criteria);
 
-        $lecturesCount = count($sortedLectures);
+        $modulePermission = new PayModules();
         foreach ($sortedLectures as $key => $lecture) {
-            if (!$lecture->isFinished($user)) {
+            if (!$lecture->isFinished($user) || ($user && !$modulePermission->checkModulePermission($user, $idModule, array('read')))) {
                 return $lecture->order;
             }
         }
@@ -958,19 +958,19 @@ class Lecture extends CActiveRecord
     {
         $user = Yii::app()->user->getId();
         if (Yii::app()->user->isGuest) {
-            return 'Для перегляду заняття спочатку авторизуйся';
+            return Yii::t('exception', '0868');
         }
         if (!$idReadyCourse) {
-            return 'Доступ до заняття обмежений. Курс знаходиться в розробці';
+            return Yii::t('lecture', '0811');
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
-                return 'Для доступу до заняття оплати курс або модуль';
+                return Yii::t('exception', '0869');
             }
         } else {
             if ($this->order > $enabledOrder)
-                return 'Щоб отримати доступ до заняття пройди попередній матеріал';
+                return Yii::t('exception', '0870');
         }
     }
 
