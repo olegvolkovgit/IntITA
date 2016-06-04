@@ -529,7 +529,7 @@ class UserContentManager extends CActiveRecord
             $row["name"]["alias_course"] = $result2[0]['course_alias'];
             $row["name"]["lecture_order"] = $result[0]['order'];
             $row["name"]["page_order"] = $record['page_order'];
-
+            $row["name"]["id_module"] = $result[0]['idModule'];
             if (UserContentManager::existOfVideoInPart($record["id"], $idLesson)) {
                 $row["video"] = '<div style="padding-left: 40%"><img src="/images/icons/right.png"></div>';
             } else {
@@ -543,7 +543,10 @@ class UserContentManager extends CActiveRecord
 
             $row["word"] = UserContentManager::counterOfWordsInPart($record["id"], $idLesson);
 
-            array_push($return['data'], $row);
+                array_push($return['data'], $row);
+
+
+
         }
         return json_encode($return);
     }
