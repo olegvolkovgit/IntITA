@@ -3,7 +3,12 @@
  */
 angular
     .module('revisionTreesApp')
-    .controller('allRevisionsCtrl',allRevisionsCtrl);
+    .controller('allRevisionsCtrl',allRevisionsCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
 function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     //init tree after load json
