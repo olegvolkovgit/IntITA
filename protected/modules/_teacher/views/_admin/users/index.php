@@ -72,8 +72,8 @@
 
 <script>
     $jq(document).ready(function () {
-        initStudentsList();
         initUsersTable();
+        initStudentsList();
         initAdminsTable();
         initAccountantsTable();
         initTeachersTable();

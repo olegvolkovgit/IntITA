@@ -5,5 +5,5 @@ $this->breadcrumbs=array(Yii::t('activeemail','0303'));
 
 ?>
 <div class='infoblock'>
-    <?php echo 'Ти успішно приєднав електронну пошту' . ' ' . $email . ' ' . 'до соціальної мережі '.$network.' Тепер можеш увійти в свій обліковий запис через соціальну мережу.' ?>
+    <?php echo Yii::t('activeemail','0860') . ' ' . $email . ' ' .Yii::t('activeemail','0861').' '.$network.' '.Yii::t('activeemail','0862') ?>
 </div>

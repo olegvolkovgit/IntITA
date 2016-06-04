@@ -21,7 +21,7 @@ class CoursePath extends Path{
         $this->getCourse();
         if($this->course != null) {
             if($this->course->isDeleted()){
-                throw new \application\components\Exceptions\IntItaException(403, 'Курс видалений. Доступ до його матеріалів обмежений.');
+                throw new \application\components\Exceptions\IntItaException(403, Yii::t('exception', '0866'));
             }
             if($this->course->language != $this->lang){
                 throw new \application\components\Exceptions\IntItaException(404);
@@ -29,7 +29,7 @@ class CoursePath extends Path{
             $this->getModule();
             if($this->module != null) {
                 if(!$this->course->isContain($this->module)){
-                    throw new \application\components\Exceptions\IntItaException(403, 'Даний модуль не входить до складу цього курса.');
+                    throw new \application\components\Exceptions\IntItaException(403, Yii::t('exception', '0867'));
                 }
 
                 $this->getLecture();
@@ -37,7 +37,7 @@ class CoursePath extends Path{
 
                 if($this->lecture == null) {
                     if($this->getLectureOrder()) {
-                        throw new \application\components\Exceptions\IntItaException(404, 'Сторінка не знайдена.');
+                        throw new \application\components\Exceptions\IntItaException(404);
                     }
                 }
             }

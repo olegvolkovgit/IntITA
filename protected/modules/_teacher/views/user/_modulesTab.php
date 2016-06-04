@@ -8,6 +8,7 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
+        <?php if(Yii::app()->user->model->isAdmin()){?>
         <div class="row">
             <form>
                 <div class="col col-md-6">
@@ -26,6 +27,7 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
                 </div>
             </form>
         </div>
+        <?php } ?>
         <br>
         <div class="panel panel-default">
             <div class="panel-body">
@@ -40,6 +42,7 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
                                     <?= $module["title"] . " (" . $module["lang"] . ")  "; ?>
                                 </a>
                                 <input type="number" hidden="hidden" id="moduleId" value="<?=$module["id"];?>"/>
+                                <?php if(Yii::app()->user->model->isAdmin()){?>
                                 <button type="button" class="btn btn-outline btn-success btn-xs"
                                         onclick="load('<?= Yii::app()->createUrl("/_teacher/user/agreement",
                                             array("user" => $user->id, "param" => $module["id"], "type" => "module")) ?>')">
@@ -50,6 +53,7 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
                                     '<?=$user->id?>'); return false;">
                                     <span class="warningMessage"><em> скасувати доступ</em></span>
                                 </a>
+                                <?php } ?>
                             </li>
                         <?php } ?>
                     </ul>

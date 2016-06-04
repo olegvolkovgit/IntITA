@@ -28,7 +28,7 @@ class TenantController extends TeacherCabinetController
     public function actionRenderAddPhrase()
     {
 
-        $view = "/_tenant/addPhrase";
+        $view = '/_tenant/addPhrase';
         $this->renderPartial($view, array(), false, true);
     }
     public function actionSavePhrase($phrase){
@@ -55,5 +55,29 @@ class TenantController extends TeacherCabinetController
         $this->renderPartial('/_tenant/allPhrases', array(), false, true);
 
 
+    }
+    public function actionSearchChats()
+    {
+
+
+        $this->renderPartial('/_tenant/searchChats', array(), false, true);
+    }
+    public function actionFindChats($user1,$user2)
+    {
+            echo Tenant::getListOfChatsBetweenUsers($user1,$user2);
+
+
+    }
+    public function actionFindChat($id)
+    {
+        echo Tenant::getListOfMessagesBetweenUsers($id);
+
+
+    }
+    public function actionShowChats($user1,$user2)
+    {
+
+ 
+        $this->renderPartial('/_tenant/showChats', array('user1'=>$user1,'user2'=>$user2), false, true);
     }
 }

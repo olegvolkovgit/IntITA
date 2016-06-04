@@ -126,24 +126,24 @@ class Invoice extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function createInvoice($summa,DateTime $paymentDate){
+    public static function createInvoice($summa, DateTime $paymentDate){
         $model = new Invoice();
-
+        $expirationDate = clone $paymentDate;
         $model->payment_date = $paymentDate->format('Y-m-d H:i:s');
         $model->summa = $summa;
-        $model->expiration_date = $paymentDate->modify(' +'.Config::getExpirationTimeInterval().' days')
-            ->format('Y-m-d H:i:s');
+        $interval = new DateInterval('P'.Config::getExpirationTimeInterval().'D');
+        $model->expiration_date = $expirationDate->add($interval)->format('Y-m-d H:i:s');
 
         return $model;
     }
 
     public static function setInvoicesParamsAndSave($invoicesList, $user, $agreementId){
 
-        for($i = 0, $count = count($invoicesList); $i < $count; $i++) {
-            $invoicesList[$i]->user_created = $user;
-            $invoicesList[$i]->agreement_id = $agreementId;
-            $invoicesList[$i]->number = $agreementId .'/'. $i;
-            $invoicesList[$i]->save();
+        foreach ($invoicesList as $key=>$invoice) {
+            $invoice->user_created = $user;
+            $invoice->agreement_id = $agreementId;
+            $invoice->number = $agreementId .'/'. ($key + 1);
+            $invoice->save();
         }
     }
 
@@ -258,10 +258,10 @@ class Invoice extends CActiveRecord
         $invoices = Invoice::model()->findAll($criteria);
         $return = array('data' => array());
 
-        foreach ($invoices as $record) {
+        foreach ($invoices as $key=>$record) {
             $row = array();
 
-            $row["title"]["name"] = "Рахунок ".$record->id;
+            $row["title"]["name"] = "Рахунок №".($key + 1);
             $row["title"]["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id));
             $row["summa"] = number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;");
             $row["date"] = date("d.m.y", strtotime($record->payment_date));
@@ -271,5 +271,9 @@ class Invoice extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public function getOrderInAgreement(){
+        return explode("/", $this->number)[1];
     }
 }

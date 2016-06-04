@@ -39,6 +39,7 @@ angular
             );
             $rootScope.$on('$stateChangeSuccess',
                 function (event, toState, toParams) {
+                    $('#text').scrollTop(0);
                     $rootScope.currentPage=toParams.page;
                     setTimeout(function() {
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);

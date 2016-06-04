@@ -2,13 +2,15 @@
 /** @var $user integer
  * @var $message int
  * @var $receiver int
+ * @var $subject string
  */
 ?>
 <div id="messageForm<?=$message;?>">
     <form role="form" id="messageForm<?=$message;?>">
         <input class="form-control" name="receiver" id="hidden" value="<?=$receiver;?>">
         <input class="form-control" name="parent" id="hidden" value="<?=$message;?>">
-        <input class="form-control" name="subject" placeholder="Тема" autofocus>
+        <input class="form-control" name="subject" placeholder="Тема" autofocus
+               value="<?=(substr($subject, 0, strlen("Re: ")) === "Re: ")?$subject:"Re: ".$subject;?>">
         <br>
         <div class="form-group">
             <textarea class="form-control" rows="6" id="text" name="text" placeholder="Лист" required></textarea>

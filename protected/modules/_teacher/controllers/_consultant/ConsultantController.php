@@ -23,8 +23,24 @@ class ConsultantController extends TeacherCabinetController
         $this->renderPartial('/_consultant/_consultations', array(), false, true);
     }
 
-    public function actionGetConsultationsList(){
-        echo Consultationscalendar::consultationsList(Yii::app()->user->getId());
+    public function actionGetTodayConsultationsList(){
+        echo Consultationscalendar::todayConsultationsList(Yii::app()->user->getId());
+    }
+
+    public function actionGetPastConsultationsList(){
+        echo Consultationscalendar::pastConsultationsList(Yii::app()->user->getId());
+    }
+
+    public function actionGetPlannedConsultationsList(){
+        echo Consultationscalendar::plannedConsultationsList(Yii::app()->user->getId());
+    }
+
+    public function actionConsultation($id){
+        $model = Consultationscalendar::model()->findByPk($id);
+
+        $this->renderPartial('/_consultant/_viewConsultation', array(
+            'model' => $model
+        ), false, true);
     }
 
     public function actionCancelConsultation($id)

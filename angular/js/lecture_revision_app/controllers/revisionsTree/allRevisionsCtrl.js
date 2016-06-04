@@ -3,7 +3,12 @@
  */
 angular
     .module('revisionTreesApp')
-    .controller('allRevisionsCtrl',allRevisionsCtrl);
+    .controller('allRevisionsCtrl',allRevisionsCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
 function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     //init tree after load json
@@ -91,6 +96,16 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
                 var idRevision = $(event.data.el).attr('id');
                 $scope.$parent.previewRev(idRevision);
             }
+        },
+        {
+            "type": "button",
+            "title": "Написати автору ревізії",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.$parent.sendRevisionMessage(idRevision);
+            }
         }
     ];
     var generalActions=[
@@ -124,6 +139,28 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
                 $scope.cancelSendRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelEdit",
+            "title": "Скасувати автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelEditRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "restoreEdit",
+            "title": "Відновити автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.restoreEditRev(idRevision, nodeId);
             }
         },
     ];
@@ -177,6 +214,16 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     };
     $scope.releaseRev = function(id,nodeId) {
         revisionsActions.releaseRevision(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.cancelEditRev = function(id,nodeId) {
+        revisionsActions.cancelEditByEditor(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.restoreEditRev = function(id,nodeId) {
+        revisionsActions.restoreEditByEditor(id).then(function(){
             $scope.updateRevisionsBranch(nodeId);
         });
     };

@@ -1,4 +1,3 @@
-
 function addTeacherAttrCM(url, attr, id, role) {
     user = $jq('#user').val();
     if (!role) {
@@ -20,16 +19,16 @@ function addTeacherAttrCM(url, attr, id, role) {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         switch (role) {
                             case "author":
-                                loadAuthorModuleListCM(user,'Автор модуля','author');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'author');
                                 break;
                             case "consultant":
-                                loadAuthorModuleListCM(user,'Автор модуля','consultant');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'consultant');
                                 break;
                             case "teacher_consultant":
-                                loadAuthorModuleListCM(user,'Автор модуля','teacher_consultant');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'teacher_consultant');
                                 break;
                             default:
-                                loadAuthorModuleListCM(user,'Автор модуля','main');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'main');
                                 break;
                         }
                     });
@@ -64,26 +63,25 @@ function cancelTeacherAccessCM(url) {
     var user = $jq("#user").val();
     var moduleId = $jq("select[name=modules] option:selected").val();
 
-    if(user == 0) {
+    if (user == 0) {
         bootbox.alert("Виберіть викладача.");
-    }else {
+    } else {
         $jq.ajax({
             type: "POST",
             url: url,
             data: {
                 'module': moduleId,
-                'user' : user
+                'user': user
             },
             cache: false,
             success: function (data) {
-                if(data == "success"){
+                if (data == "success") {
                     showDialog("Операцію успішно виконано.");
                 } else {
                     showDialog("Операцію не вдалося виконати.");
                 }
             },
-            error:function()
-            {
+            error: function () {
                 showDialog("Операцію не вдалося виконати.");
             }
         });
@@ -97,13 +95,13 @@ function assignRoleCM(url, role) {
     } else {
         var posting = $jq.post(url, {userId: user, role: role});
         posting.done(function (response) {
-                bootbox.alert(response, function(){
+                bootbox.alert(response, function () {
                     window.history.back();
                 });
             })
             .fail(function () {
                 bootbox.alert("Користувачу не вдалося призначити обрану роль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, function(){
+                    "операцію пізніше або напишіть на адресу " + adminEmail, function () {
                     window.history.back();
                 });
             });
@@ -198,18 +196,18 @@ function loadAddModuleAuthor() {
     load(basePath + '/_teacher/_admin/permissions/showAddTeacherAccess/');
 }
 function loadAddModuleConsultant(id) {
-    load(basePath + '/_teacher/_admin/teachers/editRole/id/'+id+'/role/consultant/','Редагувати роль');
+    load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/consultant/', 'Редагувати роль');
 }
-function loadModuleEdit(id,header,tab) {
-    load(basePath + "/_teacher/_admin/module/update/id/"+id,header,'',tab);
+function loadModuleEdit(id, header, tab) {
+    load(basePath + "/_teacher/_admin/module/update/id/" + id, header, '', tab);
 }
-function loadAddTeacherAccess(header,tab) {
-    load(basePath + "/_teacher/_admin/permissions/index/",header,'',tab);
+function loadAddTeacherAccess(header, tab) {
+    load(basePath + "/_teacher/_admin/permissions/index/", header, '', tab);
 }
 function loadTeacherConsultantList(id) {
     load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/teacher_consultant/', 'Редагувати роль');
 }
-function  initTeacherConsultantsTableCM(){
+function initTeacherConsultantsTableCM() {
     $jq('#teacherConsultantsTable').DataTable({
         "order": [[3, "desc"]],
         "autoWidth": false,
@@ -221,21 +219,22 @@ function  initTeacherConsultantsTableCM(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">'+name["name"]+'</a>';
-                }},
-            {
-                "data": "email",
-                "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Викладач-консультант\');">'+email["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">' + name["name"] + '</a>';
                 }
             },
             {
-                type: 'de_date', targets: 1 ,
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Викладач-консультант\');">' + email["title"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "cancelDate"
             },
@@ -264,7 +263,7 @@ function cancelRoleCM(url, role, user) {
     } else {
         var posting = $jq.post(url, {userId: user, role: role});
         posting.done(function (response) {
-                bootbox.alert(response, function(){
+                bootbox.alert(response, function () {
                     load(basePath + '/_teacher/_content_manager/contentManager/dashboard', 'Викладачі-консультанти');
                 });
             })
@@ -275,7 +274,7 @@ function cancelRoleCM(url, role, user) {
     }
 }
 
-function  initAuthorsTableCM(){
+function initAuthorsTableCM() {
     $jq('#authorsTable').DataTable({
         "autoWidth": false,
         "ajax": {
@@ -286,12 +285,13 @@ function  initAuthorsTableCM(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' +  name["url"] + '\', \'Автор модуля\');">'+ name["title"] +'</a>';
-                }},
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">' + name["title"] + '</a>';
+                }
+            },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load( \'' +  email["url"] + '\', \'Автор модуля\');">'+ email["title"] +'</a>';
+                    return '<a href="#" onclick="load( \'' + email["url"] + '\', \'Автор модуля\');">' + email["title"] + '</a>';
                 }
             }
         ],
@@ -304,7 +304,7 @@ function  initAuthorsTableCM(){
     });
 }
 
-function initConsultantsTable(){
+function initConsultantsTable() {
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,
         "order": [[3, "desc"]],
@@ -316,21 +316,22 @@ function initConsultantsTable(){
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">'+name["name"]+'</a>';
-                }},
-            {
-                "data": "email",
-                "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">'+email["title"]+'</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">' + name["name"] + '</a>';
                 }
             },
             {
-                type: 'de_date', targets: 1 ,
+                "data": "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">' + email["title"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "register"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "width": "15%",
                 "data": "cancelDate"
             },
@@ -365,19 +366,19 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
             data: {user: user, role: role, attribute: attr, attributeValue: id},
             success: function (response) {
                 if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function (){
+                    bootbox.alert("Операцію успішно виконано.", function () {
                         switch (role) {
                             case "author":
-                                loadAuthorModuleListCM(user,'Автор модуля','author');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'author');
                                 break;
                             case "consultant":
-                                loadAuthorModuleListCM(user,'Автор модуля','consultant');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'consultant');
                                 break;
                             case "teacher_consultant":
-                                loadAuthorModuleListCM(user,'Автор модуля','teacher_consultant');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'teacher_consultant');
                                 break;
                             default:
-                                loadAuthorModuleListCM(user,'Автор модуля','main');
+                                loadAuthorModuleListCM(user, 'Автор модуля', 'main');
                                 break;
                         }
                     });
@@ -392,37 +393,49 @@ function cancelModuleAttrCM(url, id, attr, role, user) {
     }
 }
 
-function initCoursesListTable(){
-    $jq('#statusOfCoursesTable').DataTable({
+
+
+
+function initCoursesListTable(filter_id) {
+    if (filter_id == 1) {
+        var temp_name = '#statusOfCoursesTableWithoutVideos';
+    }
+    if (filter_id == 2) {
+        var temp_name = '#statusOfCoursesTableWithoutTests';
+    }if (filter_id == 0) {
+        var temp_name = '#statusOfCoursesTable';
+    }
+    $jq(temp_name).DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getCoursesList",
+            "url": basePath + "/_teacher/_content_manager/contentManager/getCoursesList?filter_id="+filter_id,
             "dataSrc": "data"
         },
         "columns": [
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/StatusOfModules?id=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
-                }},
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_content_manager/contentManager/StatusOfModules?id=' + name["url"] + '\', \'Модуль\');">' + name["title"] + '</a>';
+                }
+            },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "module"
             },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "lesson"
             },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "video"
             },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "test"
             },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "part"
             }
         ],
@@ -430,13 +443,13 @@ function initCoursesListTable(){
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": basePath+"/scripts/cabinet/Ukranian.json",
+            "url": basePath + "/scripts/cabinet/Ukranian.json",
         },
-        processing : true,
+        processing: true,
     });
 }
 
-function initAllPhrasesTable(){
+function initAllPhrasesTable() {
     $jq('#allPhrasesTable').DataTable({
         "autoWidth": false,
         "ajax": {
@@ -445,20 +458,20 @@ function initAllPhrasesTable(){
         },
         "columns": [
             {
-                type:'string',targets: 1,
+                type: 'string', targets: 1,
                 "data": "text"
             },
             {
 
                 "data": "id",
                 "render": function (id) {
-                return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/editPhrase?id=' +  id + '\', \'Змінити фразу\');">Змінити</a>';
-            }
-            },{
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_tenant/tenant/editPhrase?id=' + id + '\', \'Змінити фразу\');">Змінити</a>';
+                }
+            }, {
 
                 "data": "id",
                 "render": function (id) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/deletePhrase?id=' +  id + '\', \'Видалити фразу\');">Видалити</a>';
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_tenant/tenant/deletePhrase?id=' + id + '\', \'Видалити фразу\');">Видалити</a>';
                 }
             }
         ],
@@ -466,25 +479,34 @@ function initAllPhrasesTable(){
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": basePath+"/scripts/cabinet/Ukranian.json",
+            "url": basePath + "/scripts/cabinet/Ukranian.json",
         },
-        processing : true,
+        processing: true,
     });
 }
 
-function initModulesListTable(id){
-    $jq('#statusOfModulesTable').DataTable({
+function initModulesListTable(id,filter_id) {
+    if (filter_id == 1) {
+        var temp_name = '#statusOfModulesTableWithoutVideos';
+    }
+    if (filter_id == 2) {
+        var temp_name = '#statusOfModulesTableWithoutTests';
+    }if (filter_id == 0) {
+        var temp_name = '#statusOfModulesTable';
+    }
+    $jq(temp_name).DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id="+id,
+            "url": basePath + "/_teacher/_content_manager/contentManager/getModulesList?id=" + id+"&filter_id="+filter_id,
             "dataSrc": "data"
         },
         "columns": [
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showLessonsList?idModule=' +  name["url"] + '\', \'Модуль\');">'+ name["title"] +'</a>';
-                }},
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_content_manager/contentManager/showLessonsList?idModule=' + name["url"] + '\', \'Модуль\');">' + name["title"] + '</a>';
+                }
+            },
             {
                 "data": "lesson",
                 "render": function (email) {
@@ -492,95 +514,58 @@ function initModulesListTable(id){
                 }
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "data": "video"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "data": "test"
             },
             {
-                type: 'de_date', targets: 1 ,
+                type: 'de_date', targets: 1,
                 "data": "part"
             }
-         ],
+        ],
         "createdRow": function (row, data, index) {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": basePath+"/scripts/cabinet/Ukranian.json",
+            "url": basePath + "/scripts/cabinet/Ukranian.json",
         },
-        processing : true,
+        processing: true,
     });
 }
 
-function initLessonsListTable(idModule){
+function initLessonsListTable(idModule) {
     $jq('#statusOfLessonsTable').DataTable({
 
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getLessonsList?idModule="+idModule,
+            "url": basePath + "/_teacher/_content_manager/contentManager/getLessonsList?idModule=" + idModule,
             "dataSrc": "data"
         },
         "columns": [
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\''+basePath+'/_teacher/_content_manager/contentManager/showPartsList?idLesson=' +  name["url"] + '\', \'Заняття\');">'+ name["title"] +'</a>';
-                }},
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_content_manager/contentManager/showPartsList?idLesson=' + name["url"] + '\', \'Заняття\');">' + name["title"] + '</a>';
+                }
+            },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "parts"
             },
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "video"
             }
             ,
             {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "tests"
             },
             {
-                type: 'number', targets: 1 ,
-                "data": "word"
-            }
-         ],
-        "createdRow": function (row, data, index) {
-            $jq(row).addClass('gradeX');
-        },
-        language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
-    });
-}
-
-function initPartsListTable(idLesson){
-    $jq('#statusOfPartsTable').DataTable({
-
-        "autoWidth": false,
-        "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getPartsList?idLesson="+idLesson,
-            "dataSrc": "data"
-        },
-        "columns": [
-            {
-                "data": "name",
-                "render": function (name) {
-                    return name["title"];
-                }},
-            {
-                type: 'number', targets: 1 ,
-                "data": "video"
-            }
-            ,
-            {
-                type: 'number', targets: 1 ,
-                "data": "test"
-            }
-            ,
-            {
-                type: 'number', targets: 1 ,
+                type: 'number', targets: 1,
                 "data": "word"
             }
         ],
@@ -593,7 +578,46 @@ function initPartsListTable(idLesson){
     });
 }
 
-function loadAuthorModuleListCM(id,header,tab) {
-    load(basePath + '/_teacher/_content_manager/contentManager/showTeacher/id/' + id,header,'',tab);
+function initPartsListTable(idLesson) {
+    $jq('#statusOfPartsTable').DataTable({
+
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_content_manager/contentManager/getPartsList?idLesson=" + idLesson,
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "name",
+                "render": function (name) {
+                    return '<a href="'+basePath+'/course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
+                }
+            },
+            {
+                type: 'number', targets: 1,
+                "data": "video"
+            }
+            ,
+            {
+                type: 'number', targets: 1,
+                "data": "test"
+            }
+            ,
+            {
+                type: 'number', targets: 1,
+                "data": "word"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function loadAuthorModuleListCM(id, header, tab) {
+    load(basePath + '/_teacher/_content_manager/contentManager/showTeacher/id/' + id, header, '', tab);
 }
 

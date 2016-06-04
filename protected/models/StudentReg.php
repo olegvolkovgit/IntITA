@@ -37,10 +37,17 @@
  * @property integer $country
  * @property integer $city
  * @property integer $cancelled
+ * @property string $passport
+ * @property string $document_type
+ * @property string $document_issued_date
+ * @property string $inn
+ * @property string $passport_issued
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
  * @property TrainerStudent $trainer
+ * @property PayModules [] $payModules
+ * @property PayCourses [] $payCourses
  */
 class StudentReg extends CActiveRecord
 {
@@ -103,10 +110,11 @@ class StudentReg extends CActiveRecord
             array('password_repeat', 'passdiff', 'on' => 'edit'),
             array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
             array('password', 'compare', 'compareAttribute' => 'password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'reguser'),
-            array('firstName, secondName, nickname, email, password, education', 'length', 'max' => 255),
+            array('firstName, secondName, nickname, email, password, education, passport_issued', 'length', 'max' => 255),
             array('birthday', 'length', 'max' => 11),
             array('phone', 'match', 'pattern' => '^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^', 'message' => 'Введіть коректний номер'),
             array('phone', 'length', 'max' => 15),
+            array('passport, document_type, inn, document_issued_date', 'length', 'max' => 30),
             array('phone', 'length', 'min' => 15),
             array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
@@ -114,7 +122,8 @@ class StudentReg extends CActiveRecord
             city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
-            educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled', 'safe', 'on' => 'search'),
+            educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled,
+            passport, document_type, inn, document_issued_date, passport_issued', 'safe', 'on' => 'search'),
         );
     }
 
@@ -176,6 +185,8 @@ class StudentReg extends CActiveRecord
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
             'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
+            'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'condition' => 'rights = 1'),
+            'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'condition' => 'rights = 1'),
         );
     }
 
@@ -217,6 +228,11 @@ class StudentReg extends CActiveRecord
             'country' => Yii::t('regexp', '0817'),
             'city' => Yii::t('regexp', '0818'),
             'cancelled' => 'Cancelled',
+            'passport' => 'Серія/номер паспорта',
+            'inn' => 'ідентифікаційний номер',
+            'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
+            'document_issued_date' => 'Дата видачі паспорта',
+            'passport_issued' => 'Ким виданий (паспорт)',
         );
     }
 
@@ -297,6 +313,11 @@ class StudentReg extends CActiveRecord
         $criteria->compare('t.country', $this->country, true);
         $criteria->compare('t.city', $this->city, true);
         $criteria->compare('cancelled', $this->cancelled, true);
+        $criteria->compare('passport', $this->passport, true);
+        $criteria->compare('inn', $this->inn, true);
+        $criteria->compare('document_type', $this->document_type, true);
+        $criteria->compare('document_issued_date', $this->document_issued_date, true);
+        $criteria->compare('passport_issued', $this->passport_issued, true);
 
 
         return new CActiveDataProvider($this, array(
@@ -895,16 +916,12 @@ class StudentReg extends CActiveRecord
         $criteria->alias = 'u';
         $criteria->join = 'inner join user_student us on u.id = us.id_user';
         $criteria->condition = 'u.cancelled='.StudentReg::ACTIVE;
-//        $sql = 'select user.id,concat(IFNULL(user.firstName, ""), " ", IFNULL(user.secondName, "")) as studentName, user.email, us.start_date, user.educform, user.country, user.city
-//              from user inner join user_student us on user.id = us.id_user';
 
         $criteria->group = 'u.id';
         if (isset($startDate) && isset($endDate)) {
-           // $sql .= " where TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate' ";
             $criteria->condition = "TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
         }
-        //$sql .= ' group by user.id';
-        $result = StudentReg::model()->findAll($criteria);//Yii::app()->db->createCommand($sql)->queryAll();
+        $result = StudentReg::model()->findAll($criteria);
         $return = array('data' => array());
 
         foreach ($result as $record) {
@@ -918,8 +935,14 @@ class StudentReg extends CActiveRecord
             $row["educForm"] = $record->educform;
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
-            $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
-
+            $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            if($record->hasPayedContent()){
+                $row["addAccessLink"]["color"] = "success";
+                $row["addAccessLink"]["text"] = "є проплати";
+            } else {
+                $row["addAccessLink"]["color"] = "danger";
+                $row["addAccessLink"]["text"] = "немає проплат";
+            }
             array_push($return['data'], $row);
         }
 
@@ -1036,16 +1059,26 @@ class StudentReg extends CActiveRecord
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
             $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record->id
-            ));
-            $row["addAccessLink"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
+            if($record->hasPayedContent()){
+                $row["addAccessLink"]["color"] = "success";
+                $row["addAccessLink"]["text"] = "є проплати";
+            } else {
+                $row["addAccessLink"]["color"] = "danger";
+                $row["addAccessLink"]["text"] = "немає проплат";
+            }
+
 
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
+    }
+
+    public function hasPayedContent(){
+        return ($this->payCourses || $this->payModules)?true:false;
+//        return PayModules::model()->exists('id_user=:id', array('id' => $this->id)) ||
+//        PayCourses::model()->exists('id_user=:id', array('id' => $this->id));
     }
 
     public static function adminsData()
@@ -1056,8 +1089,11 @@ class StudentReg extends CActiveRecord
 
         foreach ($admins as $record) {
             $row = array();
-            $row["name"] = $record["secondName"] . " " . $record["firstName"] . " " . $record["middleName"];
-            $row["email"] = $record["email"];
+            $row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
+            $row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
+            $row["email"]["title"] = $record["email"];
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
+                array('id' => $record['id']));
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y", strtotime($record["start_date"])) : "невідомо";
             $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
             $row["profile"] = Config::getBaseUrl() . "/profile/" . $record["id"];
@@ -1080,8 +1116,11 @@ class StudentReg extends CActiveRecord
 
         foreach ($admins as $record) {
             $row = array();
-            $row["name"] = $record["secondName"] . " " . $record["firstName"] . " " . $record["middleName"];
-            $row["email"] = $record["email"];
+            $row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
+            $row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
+            $row["email"]["title"] = $record["email"];
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
+                array('id' => $record['id']));
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y", strtotime($record["start_date"])) : "невідомо";
             $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
             $row["profile"] = Config::getBaseUrl() . "/profile/" . $record["id"];
@@ -1248,5 +1287,17 @@ class StudentReg extends CActiveRecord
             $transaction->rollback();
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
+    }
+
+    public function updatePassportData($passport, $inn, $documentType, $issuedDate, $passportIssued){
+
+
+        $this->passport = $passport;
+        $this->inn = $inn;
+        $this->document_type = $documentType;
+        $this->document_issued_date = $issuedDate;
+        $this->passport_issued = $passportIssued;
+
+        return $this->save();
     }
 }

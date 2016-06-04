@@ -3,7 +3,12 @@
  */
 angular
     .module('revisionTreesApp')
-    .controller('revisionsBranchCtrl',revisionsBranchCtrl);
+    .controller('revisionsBranchCtrl',revisionsBranchCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
 function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     $scope.approvedTree=true;
@@ -82,6 +87,16 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
                 var idRevision = $(event.data.el).attr('id');
                 $scope.$parent.previewRev(idRevision);
             }
+        },
+        {
+            "type": "button",
+            "title": "Написати автору ревізії",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.$parent.sendRevisionMessage(idRevision);
+            }
         }
     ];
     var generalActions=[
@@ -115,6 +130,28 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
                 $scope.cancelSendRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelEdit",
+            "title": "Скасувати автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelEditRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "restoreEdit",
+            "title": "Відновити автором",
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.restoreEditRev(idRevision, nodeId);
             }
         },
     ];
@@ -166,6 +203,16 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             $scope.updateRevisionsBranch(nodeId);
         });
     };
+    $scope.cancelEditRev = function(id,nodeId) {
+        revisionsActions.cancelEditByEditor(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.restoreEditRev = function(id,nodeId) {
+        revisionsActions.restoreEditByEditor(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
     $scope.releaseRev = function(id,nodeId) {
         revisionsActions.releaseRevision(id).then(function(){
             $scope.updateRevisionsBranch(nodeId);
@@ -173,7 +220,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
+        revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
             $rootScope.revisionsJson=response;
             $scope.treeUpdate(nodeId);
         });
@@ -191,6 +238,25 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             $rootScope.revisionsJson=response;
             $scope.revisionsTreeInit();
         });
+    };
+
+    $scope.formData = {};
+    $scope.revisionFilter=function () {
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            $scope.updateTree();
+        }else{
+            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson = response;
+                $scope.treeUpdate();
+            });
+        }
+        function isEmptyFilter(obj) {
+            for (var key in obj) {
+                if(obj[key])
+                    return false;
+            }
+            return true;
+        }
     }
 }
 

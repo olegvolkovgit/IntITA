@@ -38,7 +38,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                         </a>
                         <div class="dialog">
                             <em><?= CommonHelper::formatMessageDate($message->message0->create_date); ?></em>
-                            <?php if ($message->type() != MessagesType::PAYMENT) { ?>
+                            <?php if ($message->type() == MessagesType::USER) { ?>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle"
                                             data-toggle="dropdown">
@@ -48,12 +48,14 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                     <ul class="dropdown-menu pull-right" role="menu">
                                         <li><a href="#"
                                                onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
-                                                   'Reply', '<?= $message->id_message ?>')">
+                                                   'Reply', '<?= $message->id_message ?>',
+                                                   '<?=CHtml::encode($message->subject())?>')">
                                                 Відповісти</a>
                                         </li>
                                         <li><a href="#"
                                                onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
-                                                   'Forward', '<?= $message->id_message ?>')">
+                                                   'Forward', '<?= $message->id_message ?>',
+                                                   '<?=CHtml::encode($message->subject())?>')">
                                                 Переслати</a>
                                         </li>
                                         <?php if ($message->message0->sender0->id != $dialog->partner2->id) { ?>

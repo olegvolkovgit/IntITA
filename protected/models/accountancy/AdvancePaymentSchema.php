@@ -22,7 +22,8 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){
-        $closeDate = $startDate->modify('+'.$payObject->getDuration().' days' );
+        $interval = new DateInterval('P'.$payObject->getDuration().'D');
+        $closeDate = $startDate->add($interval);
         return $closeDate->getTimestamp();
     }
 
@@ -30,13 +31,17 @@ class AdvancePaymentSchema implements IPaymentCalculator{
         $invoicesList = [];
         $currentTimeInterval = $startDate;
         $timeInterval = $payObject->getDuration() / $this->payCount; //days
-        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject, $startDate),
+        $arrayInvoiceSumma = GracefulDivision::getArrayInvoiceSumma($this->getSumma($payObject),
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){
-            $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
             array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
+            $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
         }
         return $invoicesList;
+    }
+
+    public function getSummaOffline(IBillableObject $payObject){
+        return $payObject->getBasePrice() * Config::getCoeffModuleOffline() * (1 - $this->discount/100);
     }
 }

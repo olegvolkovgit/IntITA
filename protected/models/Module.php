@@ -534,44 +534,7 @@ class Module extends CActiveRecord implements IBillableObject
     public static function getModulePricePayment($idModule, $discount = 0, $idCourse)
     {
         $price = Module::getModuleSumma($idModule, $idCourse);
-        if ($price == 0) {
-            return '<span style="display: inline-block;margin-top: 3px" class="colorGreen">' . Yii::t('module', '0421') . '</span>';
-        }
-        if ($discount == 0) {
-            return
-                '<table class="mainPay">
-                    <tr>
-                    <td class="icoPay"><img class="icoNoCheck" src="' .
-                StaticFilesHelper::createPath('image', 'course', 'wallet.png') . '"><img class="icoCheck" src="' .
-                StaticFilesHelper::createPath('image', 'course', 'checkWallet.png') . '"></td>
-                    <td>
-                        <table>
-                            <tr><td><div>' . Yii::t('payment', '0661') . '</div></td></tr>
-                            <tr><td><span class="coursePriceStatus2">' . $price . " " . Yii::t('courses', '0322') . '</span></td></tr>
-                        </table>
-                    </td>
-                    </tr>
-                </table>';
-        }
-        return
-            '<table class="mainPay">
-                <tr>
-                <td class="icoPay"><img class="icoNoCheck" src="' .
-            StaticFilesHelper::createPath('image', 'course', 'wallet.png') . '"><img class="icoCheck" src="' .
-            StaticFilesHelper::createPath('image', 'course', 'checkWallet.png') . '"></td>
-                <td>
-                    <table>
-                        <tr><td><div>' . Yii::t('course', '0197') . '</div></td></tr>
-                        <tr><td>
-                            <div class="numbers"><span class="coursePriceStatus1">' . $price . " " . Yii::t('courses', '0322') . '</span>
-                            &nbsp<span class="coursePriceStatus2">' . PaymentHelper::discountedPrice($price, $discount) . " " . Yii::t('courses', '0322') . '</span><br>
-                            <span id="discount"> <img style="text-align:right" src="' . StaticFilesHelper::createPath('image', 'course', 'pig.png') . '">(' . Yii::t('courses', '0144') . ' - ' . $discount . '%)</span>
-                            </div>
-                        </td></tr>
-                    </table>
-                </td>
-                </tr>
-            </table>';
+
     }
 
     public static function getTimeAnsweredQuiz($quiz, $user)
@@ -859,6 +822,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
         $criteria->addCondition('cancelled=0');
+        $criteria->group = 'module_ID';
 
         $data = Module::model()->findAll($criteria);
 

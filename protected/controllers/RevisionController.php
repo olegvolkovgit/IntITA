@@ -418,6 +418,28 @@ class RevisionController extends Controller {
         $lectureRev->release(Yii::app()->user);
     }
 
+    public function actionCancelEditRevisionByEditor () {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRev) && $lectureRev->canCancelEdit()) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $lectureRev->cancelEditRevisionByEditor(Yii::app()->user);
+    }
+
+    public function actionRestoreEditRevisionByEditor () {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
+
+        if (!$this->isUserEditor(Yii::app()->user, $lectureRev) && $lectureRev->canRestoreEdit()) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $lectureRev->restoreEditRevisionByEditor();
+    }
+
     /**
      * curl -XPOST http://intita.project/revision/UpLectureElement -d 'idRevision=139&idPage=694&idElement=772' -b XDEBUG_SESSION=PHPSTORM
      */
@@ -847,6 +869,88 @@ class RevisionController extends Controller {
         }
     }
 
+    private function appendNodeMultiselect(&$tree, $node, $parents, $actualRevisionsList) {
+//       do if node is in array list
+        if (in_array($node['id'], $actualRevisionsList)) {
+//       change parent node if current parent node absent in array list
+            if(!in_array($parents[$node['id']], $actualRevisionsList)){
+                $tempParent=$parents[$node['id']];
+                while (!in_array($tempParent, $actualRevisionsList)) {
+                    $oldParent=$tempParent;
+                    $tempParent=$parents[$tempParent];
+                    if($oldParent==$tempParent){
+                        $tempParent=$node['id'];
+                        break;
+                    }
+                }
+                $parents[$node['id']]=$tempParent;
+            }
+            if ($parents[$node['id']] == $node['id']) {
+                //if root node
+                $tree[$node['id']] = $node;
+            } else{
+                $path = [];
+
+                if (in_array($parents[$node['id']], $actualRevisionsList)) {
+                    $parentId = $parents[$node['id']];
+                } else {
+                    $parentId = $node['id'];
+                }
+                //building path from root to target node
+                array_push($path, $parentId);
+                $i=0;
+
+                while ($parents[$parentId] != $parentId) {
+                    $i=$i+1;
+
+                    if (!in_array($parents[$parentId], $actualRevisionsList)) {
+                        // find parent
+                        $tempParent=$parents[$parentId];
+                        $end=false;
+
+                        while (!in_array($tempParent, $actualRevisionsList)) {
+                            $oldParent=$tempParent;
+                            $tempParent=$parents[$tempParent];
+                            if($oldParent==$tempParent){
+                                if(!in_array($tempParent, $actualRevisionsList)){
+                                    $end=true;
+                                    break;
+                                }else{
+                                    $parentId=$tempParent;
+                                    break;
+                                }
+                            }
+                        }
+                        if($end) break;
+
+                        array_push($path, $tempParent);
+                        $parentId=$tempParent;
+                    }
+                    if($parents[$parentId] != $parentId){
+                        array_push($path, $parents[$parentId]);
+                        $parentId = $parents[$parentId];
+                    }
+                }
+                
+                //finding reference to target node
+                $targetNode = &$tree;
+                while (count($path) != 0) {
+                    if (!array_key_exists('nodes', $targetNode)) {
+                        $targetNode =& $targetNode[array_pop($path)];
+                    } else {
+                        $targetNode =& $targetNode['nodes'][array_pop($path)];
+                    }
+                }
+                //adding node to 'nodes' array in target node
+
+                if (!array_key_exists('nodes', $targetNode)) {
+                    $targetNode['nodes'] = array();
+                }
+                $targetNode['nodes'][$node['id']] = $node;
+            }
+        }
+    }
+
     private function buildLectureTreeJson($lectures, $lectureTree) {
         $jsonArray = [];
         foreach ($lectures as $lecture) {
@@ -864,8 +968,35 @@ class RevisionController extends Controller {
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isSendedCancellable();
             $node['isReadable'] = $lecture->isReadable();
+            $node['isEditCancellable'] = $lecture->isEditable();
+            $node['canRestoreEdit'] = $lecture->isCancelledEditor();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
+        }
+        return json_encode(array_values($jsonArray));
+    }
+
+    public function buildLectureTreeJsonMultiselect($lectures, $lectureTree, $actualIdList) {
+        $jsonArray = [];
+        foreach ($lectures as $lecture) {
+            $node = array();
+            $node['text'] = "Ревізія №" . $lecture->id_revision . " " .
+                $lecture->properties->title_ua . ". Статус: <strong>" . $lecture->getStatus().'</strong>'.
+                ' Створена: '.$lecture->properties->start_date.' Модифікована: '.$lecture->properties->update_date;
+            $node['selectable'] = false;
+            $node['id'] = $lecture->id_revision;
+            $node['creatorId'] = $lecture->properties->id_user_created;
+            $node['isSendable'] = $lecture->isSendable();
+            $node['isApprovable'] = $lecture->isApprovable();
+            $node['isCancellable'] = $lecture->isCancellable();
+            $node['isEditable'] = $lecture->isEditable();
+            $node['isRejectable'] = $lecture->isRejectable();
+            $node['isSendedCancellable'] = $lecture->isSendedCancellable();
+            $node['isReadable'] = $lecture->isReadable();
+            $node['isEditCancellable'] = $lecture->isEditable();
+            $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+
+            $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }
         return json_encode(array_values($jsonArray));
     }
@@ -993,6 +1124,8 @@ class RevisionController extends Controller {
         $lecture['canCancelReadyRevision']=$lectureRevision->canCancelReadyRevision();
         $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
         $lecture['canReleaseRevision']=$lectureRevision->canReleaseRevision();
+        $lecture['canCancelEdit']=$lectureRevision->canCancelEdit();
+        $lecture['canRestoreEdit']=$lectureRevision->canRestoreEdit();
         $lecture['link']=
             $lecture['canCancelReadyRevision']?
                 Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;
@@ -1104,4 +1237,50 @@ class RevisionController extends Controller {
             echo $quiz->uid;
         else echo false;
     }
+
+    //get data for send letter to author of revision
+    public function actionGetDataForRevisionMail()
+    {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $data = [];
+        $data['authorName'] =StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created);
+        $data['authorId'] =$lectureRevision->properties->id_user_created;
+        $data['theme'] = "Ревізія №" . $lectureRevision->id_revision . " " . $lectureRevision->properties->title_ua;
+        $data["link"]=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$lectureRevision->id_revision));
+
+        echo CJSON::encode($data);
+    }
+
+    public function actionBuildTreeInBranch() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $status = Yii::app()->request->getPost('status');
+        $lectureRev = RevisionLecture::model()->findByPk(array("id_revision" => $idRevision));
+        
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$lectureRev->id_module);
+        
+        $relatedRev = $lectureRev->getRelatedLectures();
+        $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
+        $json = $this->buildLectureTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
+
+        echo $json;
+    }
+
+    public function actionBuildTreeInModule() {
+        $idModule = Yii::app()->request->getPost('idModule');
+        $status = Yii::app()->request->getPost('status');
+        $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$idModule);
+        $relatedTree = RevisionLecture::getLecturesTree($idModule);
+        $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $relatedTree, $actualIdList);
+
+        echo $json;
+    }
+
+
 }

@@ -4,14 +4,14 @@
 angular
     .module('lessonApp')
     .run([
-        '$rootScope', '$state', '$stateParams','$http','paramService','accessLectureService','pagesUpdateService',
-        function ($rootScope, $state, $stateParams, $http, paramService,accessLectureService,pagesUpdateService) {
+        '$rootScope', '$state', '$stateParams','$http','paramService','accessLectureService','pagesUpdateService','ipCookie',
+        function ($rootScope, $state, $stateParams, $http, paramService,accessLectureService,pagesUpdateService,ipCookie) {
             paramService.getStartParam($rootScope, $state, $stateParams);
             pagesUpdateService.getFinishedModule();
             accessLectureService.getAccessLectures();
 
             $rootScope.$on('$stateChangeStart',
-                function (event, toState, toParams, fromState, fromParams) {
+                function (event, toState, toParams) {
                     //перевіряємо при завантажені стейта чи є модель pageData, якщо нема - дістаєм з сервера\
                     if(toParams.page==undefined) toParams.page=lastAccessPage;//при завантажені по дефолту робимо останю доступну частину
                     if($rootScope.pageData==undefined){
@@ -22,6 +22,12 @@ angular
                             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                         }).then(function successCallback(response){
                             $rootScope.pageData = response.data;
+
+                            if((ipCookie("lessonTab")==0 || typeof(ipCookie("lessonTab"))=='undefined') && !$rootScope.pageData[toParams.page-1].isVideo){
+                                ipCookie('lessonTab', 1, { path: '/' });
+                                $('#MyTab-Menu').tabs("option","active",jQuery("#MyTab-Menu a[href*='#text']").parent().index());
+                            }
+
                             $rootScope.pageCount = response.data.length;
                             if(toParams.page>$rootScope.pageCount || $rootScope.pageData[toParams.page-1].isDone==false){
                                 event.preventDefault();
@@ -40,8 +46,19 @@ angular
                 }
             );
             $rootScope.$on('$stateChangeSuccess',
-                function (event, toState, toParams, fromState, fromParams) {
+                function (event, toState, toParams) {
+
+                    $('#text').scrollTop(0);
+
                     $rootScope.currentPage=toParams.page;
+
+                    if($rootScope.pageData){
+                        if((ipCookie("lessonTab")==0 || typeof(ipCookie("lessonTab"))=='undefined') && !$rootScope.pageData[$rootScope.currentPage-1].isVideo){
+                            ipCookie('lessonTab', 1, { path: '/' });
+                            $('#MyTab-Menu').tabs("option","active",jQuery("#MyTab-Menu a[href*='#text']").parent().index());
+                        }
+                    }
+                    
                     setTimeout(function() {
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
                     });
