@@ -69,7 +69,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
     }
 
     public function reject($user) {
-        if (!$this->isRejectable()) {
+        if ($this->isRejectable()) {
             if ($this->beforeReject($user)) {
                 $this->properties->reject_date = new CDbExpression('NOW()');
                 $this->properties->id_user_rejected = $user->getId();
