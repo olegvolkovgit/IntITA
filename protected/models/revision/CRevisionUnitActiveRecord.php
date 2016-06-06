@@ -2,17 +2,233 @@
 
 abstract class CRevisionUnitActiveRecord extends CActiveRecord {
 
-    abstract public function sendForApproval($user);
+    protected function getMessageClasses() {
+        return [];
+    }
 
-    abstract public function revoke();
 
-    abstract public function reject($user);
+    /**
+     * Sends current revision to approve
+     */
 
-    abstract public function approve($user);
+    protected function beforeSendForApproval($user) {
+        return true;
+    }
 
-    abstract public function release($user);
+    public function sendForApproval($user) {
+        if ($this->isSendable()) {
+            if ($this->beforeSendForApproval($user)) {
+                $this->properties->send_approval_date = new CDbExpression('NOW()');
+                $this->properties->id_user_sended_approval = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterSendForApproval();
+            } else {
+                //todo inform user
+            }
 
-    abstract public function cancel($user);
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterSendForApproval() {
+    }
+
+
+    /**
+     * Cancel sends current revision to approve
+     */
+
+    protected function beforeRevoke($user) {
+        return true;
+    }
+
+    public function revoke() {
+        if ($this->isApprovable()) {
+            if ($this->beforeRevoke()) {
+                $this->properties->send_approval_date = new CDbExpression('NULL');
+                $this->properties->id_user_sended_approval = null;
+                $this->properties->saveCheck();
+                $this->afterRevoke();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterRevoke() {
+    }
+
+
+    /**
+     * Rejects lecture revision
+     */
+
+    protected function beforeReject($user) {
+        return true;
+    }
+
+    public function reject($user) {
+        if (!$this->isRejectable()) {
+            if ($this->beforeReject($user)) {
+                $this->properties->reject_date = new CDbExpression('NOW()');
+                $this->properties->id_user_rejected = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterReject();
+            }
+        } else {
+            //sending inform message to revision author
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new $this->messageClasses['reject']();
+                $comment = '';
+                $message->build(Yii::app()->user->model->registrationData, $this, $comment);
+                $message->create();
+                $sender = new MailTransport();
+
+                $message->send($sender);
+                $transaction->commit();
+            } catch (Exception $e) {
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+            }
+        }
+    }
+
+    protected function afterReject() { }
+
+
+    /**
+     * Freeze revision status, pre-release state.
+     */
+
+    protected function beforeApprove($user) {
+        return true;
+    }
+
+    public function approve($user) {
+        if ($this->beforeApprove($user)) {
+            $this->properties->approve_date = new CDbExpression('NOW()');
+            $this->properties->id_user_approved = $user->getId();
+            $this->properties->saveCheck();
+            $this->afterApprove();
+        }
+    }
+
+    protected function afterApprove() { }
+
+
+    /**
+     * Approves lecture revision
+     */
+
+    protected function beforeRelease($user) {
+        return true;
+    }
+
+    public function release($user) {
+        if ($this->isReleaseable()) {
+            if ($this->beforeRelease($user)) {
+                $this->properties->release_date = new CDbExpression('NOW()');
+                $this->properties->id_user_released = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterRelease();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterRelease() { }
+
+
+    /**
+     * Cancels lecture revision
+     */
+
+    protected function beforeCancel($user) {
+        return true;
+    }
+
+    public function cancel($user) {
+        if ($this->isCancellable()) {
+            if ($this->beforeCancel($user)) {
+                $this->properties->end_date = new CDbExpression('NOW()');
+                $this->properties->id_user_cancelled = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterCancel();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterCancel() { }
+
+    
+    /**
+     * Cancel edit current revision by editor
+     * @param $user
+     */
+    public function cancelEditRevisionByEditor($user) {
+        if ($this->isEditable()) {
+            if ($this->beforeCancelEditRevisionByEditor()) {
+                $this->properties->cancel_edit_date = new CDbExpression('NOW()');
+                $this->properties->id_user_cancelled_edit = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterCancelEditRevisionByEditor();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function beforeCancelEditRevisionByEditor() {
+        return true;
+    }
+
+    protected function afterCancelEditRevisionByEditor() {
+    }
+
+
+    /**
+     * Restore edit current revision by editor
+     */
+    protected function beforeRestoreEditRevisionByEditor() {
+        return true;
+    }
+
+    public function restoreEditRevisionByEditor() {
+        if ($this->isCancelledEditor()) {
+            if ($this->beforeRestoreEditRevisionByEditor()) {
+                $this->properties->cancel_edit_date = new CDbExpression('NULL');
+                $this->properties->id_user_cancelled_edit = null;
+                $this->properties->saveCheck();
+                $this->afterRestoreEditRevisionByEditor();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterRestoreEditRevisionByEditor() { }
+
+    
+    /**
+     * Return true if the lecture can be edited
+     * @return bool
+     */
+    public function isEditable() {
+        if (!$this->isSended() &&
+            !$this->isApproved() &&
+            !$this->isCancelled() &&
+            !$this->isCancelledEditor() &&
+            !$this->isRejected()
+        ) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Return true if revision can be approv
@@ -156,6 +372,32 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isCancelledEditor() {
         return $this->properties->id_user_cancelled_edit != null;
+    }
+
+    /**
+     * Returns lecture revision status
+     * @return string
+     */
+    public function getStatus() {
+        if ($this->isCancelledEditor()) {
+            return "Скасована автором";
+        }
+        if ($this->isCancelled()) {
+            return "Скасована";
+        }
+        if ($this->isReleased()) {
+            return "Реліз";
+        }
+        if ($this->isApproved()) {
+            return "Затверджена";
+        }
+        if ($this->isRejected()) {
+            return "Відхилена";
+        }
+        if ($this->isSended()) {
+            return "Відправлена на розгляд";
+        }
+        return 'Доступна для редагування';
     }
 
     public function canEdit() {
