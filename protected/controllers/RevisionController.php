@@ -362,7 +362,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
-        $lectureRev->cancelSendForApproval();
+        $lectureRev->revoke();
     }
 
     public function actionRejectLectureRevision() {
@@ -966,8 +966,8 @@ class RevisionController extends Controller {
             $node['isCancellable'] = $lecture->isCancellable();
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
-            $node['isSendedCancellable'] = $lecture->isSendedCancellable();
-            $node['isReadable'] = $lecture->isReadable();
+            $node['isSendedCancellable'] = $lecture->isRevokeable();
+            $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
 
@@ -991,7 +991,7 @@ class RevisionController extends Controller {
             $node['isCancellable'] = $lecture->isCancellable();
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
-            $node['isSendedCancellable'] = $lecture->isSendedCancellable();
+            $node['isSendedCancellable'] = $lecture->isRevokeable();
             $node['isReadable'] = $lecture->isReadable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();

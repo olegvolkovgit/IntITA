@@ -10,13 +10,14 @@
  * @property integer $id_properties
  *
  */
-class RevisionModule extends CActiveRecord
+class RevisionModule extends CRevisionUnitActiveRecord
 {
 
     private $approveResultCashed = null;
     /**
      * @return string the associated database table name
      */
+    
     public function tableName()
     {
         return 'vc_module';
@@ -122,5 +123,28 @@ class RevisionModule extends CActiveRecord
         $revisions = RevisionModule::model()->find($criteria);
         return isset($revisions)?$revisions:null;
     }
-    
+
+    public function sendForApproval($user) {
+        // TODO: Implement sendForApproval() method.
+    }
+
+    public function revoke() {
+        // TODO: Implement revoke() method.
+    }
+
+    public function reject($user) {
+        // TODO: Implement reject() method.
+    }
+
+    public function approve($user) {
+        // TODO: Implement approve() method.
+    }
+
+    public function release($user) {
+        // TODO: Implement release() method.
+    }
+
+    public function cancel($user) {
+        // TODO: Implement cancel() method.
+    }
 }

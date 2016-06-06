@@ -68,7 +68,7 @@ class Controller extends CController
                      . '\''.$this->getAction()->getId().'\','
                      . '\''.$_SERVER['REMOTE_ADDR'].'\','
                      . '\''.Yii::app()->user->id.'\','
-                     . '\''.implode(', ', array_map(function ($v, $k) { return $k . '=' . $v; }, $this->actionParams, array_keys($this->actionParams))).'\','
+                     . '\''.implode(', ', array_map(function ($v, $k) { return $k . ' =' . $v; }, $this->actionParams, array_keys($this->actionParams))).'\','
                      . '\''.$this->getRoute().'\','
                      . 'CURRENT_TIMESTAMP'
                      . ')';
