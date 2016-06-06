@@ -14,7 +14,7 @@
         <?php if ($model->isAvailable()) { ?>
             <li>
                 <a class="btn btn-success" role="button"
-                   href="<?= Config::getBaseUrl() . '/#/consultation_view/' . $model->id ?>" target="_blank">
+                   href="<?= Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $model->id ?>" target="_blank">
                     Почати консультацію
                 </a>
             </li>
@@ -22,7 +22,7 @@
         <li>
             <button type="button" class="btn btn-outline btn-warning" onclick="cancelConsultation(
                 '<?= Yii::app()->createUrl('/_teacher/_student/student/cancelConsultation/', array('id' => $model->id)) ?>',
-                'teacherConsultation')">Скасувати консультацію
+                'studentConsultation')">Скасувати консультацію
             </button>
         </li>
     </ul>
