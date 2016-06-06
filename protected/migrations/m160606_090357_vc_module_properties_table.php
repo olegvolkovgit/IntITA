@@ -28,25 +28,25 @@ class m160606_090357_vc_module_properties_table extends CDbMigration
 			"start_date" => "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
 			"id_user_created" => "INT",
 
-			"update_date" => "TIMESTAMP",
+			"update_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_updated" => "INT",
 
-			"send_approval_date" => "TIMESTAMP",
+			"send_approval_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_sended_approval" => "INT",
 
-			"reject_date" => "TIMESTAMP",
+			"reject_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_rejected" => "INT",
 
-			"approve_date" => "TIMESTAMP",
+			"approve_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_approved" => "INT",
 
-			"end_date" => "TIMESTAMP",
+			"end_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_cancelled" => "INT",
 
-			"release_date" => "TIMESTAMP",
+			"release_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_released" => "INT",
 
-			"cancel_edit_date" => "TIMESTAMP",
+			"cancel_edit_date" => "TIMESTAMP NULL DEFAULT NULL",
 			"id_user_cancelled_edit" => "INT",
 		));
 	}
