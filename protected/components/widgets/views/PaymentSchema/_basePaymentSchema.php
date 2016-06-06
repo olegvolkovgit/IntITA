@@ -78,9 +78,11 @@ if($schema->payCount == 2){
                                     <?php echo $price . " " . Yii::t('courses', '0322'); ?>
                                 </span>&nbsp
                                 <span class="coursePriceStatus2">
-                                    <?php echo PaymentHelper::discountedPrice($price, $discount) . " " .
+                                    <?php
+                                    $discountedPrice = round($price / $schema->payCount);
+                                    echo $discountedPrice . " " .
                                         Yii::t('courses', '0322'); ?>=</span>
-                                <span><?php echo round(PaymentHelper::discountedPrice($price, $discount) / $schema->payCount) . ' ' .
+                                <span><?php echo round($discountedPrice / $schema->payCount) . ' ' .
                                         Yii::t('courses', '0322') . ' x ' . $schema->payCount . ' ' . Yii::t('course', '0323'); ?>
                                 </span>
                                 </div>

@@ -33,7 +33,7 @@
 
 const EDITOR_ENABLED = 1;
 const EDITOR_DISABLED = 0;
- 
+
 class Module extends CActiveRecord implements IBillableObject
 {
     public $logo = array();
@@ -62,17 +62,17 @@ class Module extends CActiveRecord implements IBillableObject
         return array(
             array('status', 'required'),
             array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
-            array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
+            array('alias', 'unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
             array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d\/]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри та символ "/"'),
             array('lesson_count, hours_in_day, days_in_week,
-            module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
+            module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min' => 0, 'message' => Yii::t('module', '0413'), 'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
             array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30, 'message' => 'Довжина псевдоніма занадто велика.'),
             array('language', 'length', 'max' => 6),
             array('title_ua', 'match',
                 'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
-                'message' => 'Тільки українські символи!','on' => 'insert'),
+                'message' => 'Тільки українські символи!', 'on' => 'insert'),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
@@ -96,11 +96,11 @@ class Module extends CActiveRecord implements IBillableObject
 
         return array(
             'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
-            'Course' => array(self::MANY_MANY,'Course','course_modules(id_module,id_course)'),
-            'lectures' => array(self::HAS_MANY, 'Lecture','idModule',
-                                                'order' => 'lectures.order ASC'),
-            'teacher' => array(self::MANY_MANY, 'Teacher','teacher_module(idModule,idTeacher)',
-                                                'on' => 'teacher.isPrint=1', 'condition'=>'end_time IS NULL'),
+            'Course' => array(self::MANY_MANY, 'Course', 'course_modules(id_module,id_course)'),
+            'lectures' => array(self::HAS_MANY, 'Lecture', 'idModule',
+                'order' => 'lectures.order ASC'),
+            'teacher' => array(self::MANY_MANY, 'Teacher', 'teacher_module(idModule,idTeacher)',
+                'on' => 'teacher.isPrint=1', 'condition' => 'end_time IS NULL'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
         );
@@ -187,7 +187,13 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getBasePrice()
     {
-        return $this->module_price * Config::getDollarRate();
+        return $this->module_price;
+    }
+
+
+    public function getBasePriceUAH()
+    {
+        return $this->getBasePrice() * Config::getDollarRate();
     }
 
     public function getDuration()
@@ -260,13 +266,15 @@ class Module extends CActiveRecord implements IBillableObject
         return $this->find('alias=:alias', array(':alias' == $alias))->module_ID;
     }
 
-    public function level(){
+    public function level()
+    {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $title = "title_" . $lang;
         return $this->level0->$title;
     }
 
-    public function rate(){
+    public function rate()
+    {
         return $this->level0->id;
     }
 
@@ -297,10 +305,11 @@ class Module extends CActiveRecord implements IBillableObject
             return $module;
         } else {
             if ($idCourse != null) {
-                if(!CourseModules::model()->exists('id_course = :course and `order` = :order', array(
+                if (!CourseModules::model()->exists('id_course = :course and `order` = :order', array(
                     'course' => $idCourse,
                     'order' => $alias
-                )))
+                ))
+                )
                     throw new \application\components\Exceptions\IntItaException(404, 'Такого модуля у цьому курсі немає.');
 
                 $idModule = CourseModules::model()->findByAttributes(array(
@@ -314,11 +323,14 @@ class Module extends CActiveRecord implements IBillableObject
         }
     }
 
-    public function monthsCount(){
-        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours()));
+    public function monthsCount()
+    {
+        return round($this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week / Config::getLectureDurationInHours()));
     }
-    public function moduleDurationInDays(){
-        return $this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week/Config::getLectureDurationInHours());
+
+    public function moduleDurationInDays()
+    {
+        return $this->getLecturesCount() * 7 / ($this->hours_in_day * $this->days_in_week / Config::getLectureDurationInHours());
     }
 
     public static function lessonsInMonth($idModule)
@@ -353,11 +365,13 @@ class Module extends CActiveRecord implements IBillableObject
         else return false;
     }
 
-    public function getNumber(){
+    public function getNumber()
+    {
         return $this->module_number;
     }
 
-    public function getType(){
+    public function getType()
+    {
         return 'M';
     }
 
@@ -400,7 +414,7 @@ class Module extends CActiveRecord implements IBillableObject
         return $moduleTitle;
     }
 
-    public static function getModulePrice($moduleId, $idCourse=0)
+    public static function getModulePrice($moduleId, $idCourse = 0)
     {
         if ($idCourse > 0) {
             $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
@@ -464,7 +478,8 @@ class Module extends CActiveRecord implements IBillableObject
         return $model->modulePrice($idCourse);
     }
 
-    public function modulePrice($idCourse = 0){
+    public function modulePrice($idCourse = 0)
+    {
         if ($idCourse > 0) {
             $price = CourseModules::model()->findByAttributes(array('id_module' => $this->module_ID,
                 'id_course' => $idCourse))->price_in_course;
@@ -492,9 +507,9 @@ class Module extends CActiveRecord implements IBillableObject
                 return TaskMarks::taskTime($user, Task::model()->findByAttributes(array('condition' => $quiz))->uid);
                 break;
             case '6':
-                $plain=PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
-                $isAnswer=PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' =>$plain,'id_student'=>$user));
-                if($isAnswer) return $isAnswer->date;
+                $plain = PlainTask::model()->findByAttributes(array('block_element' => $quiz))->id;
+                $isAnswer = PlainTaskAnswer::model()->findByAttributes(array('id_plain_task' => $plain, 'id_student' => $user));
+                if ($isAnswer) return $isAnswer->date;
                 else return false;
                 break;
             case '12':
@@ -525,11 +540,12 @@ class Module extends CActiveRecord implements IBillableObject
      * Checks if model can be editable by current user
      * @return int "1" if model editable by current user, "0" if does not editable
      */
-    public function isEditableByUser($authId) {
+    public function isEditableByUser($authId)
+    {
         if ($this->teacher == null) {
             $this->getRelated('teacher');
         }
-        foreach ($this->teacher as $teacher){
+        foreach ($this->teacher as $teacher) {
             if ($teacher->user_id == $authId) { //if teacher's user_id correspond to authorized user_id
                 return EDITOR_ENABLED;
                 break;
@@ -542,7 +558,8 @@ class Module extends CActiveRecord implements IBillableObject
      * Returns CArrayDataProvider of lectures.
      * @return CArrayDataProvider
      */
-    public function getLecturesDataProvider($reloadLectures = false) {
+    public function getLecturesDataProvider($reloadLectures = false)
+    {
         if ($this->lectures == null || $reloadLectures) {
             $this->getRelated('lectures');
         }
@@ -557,7 +574,8 @@ class Module extends CActiveRecord implements IBillableObject
      * @return Lecture - created lecture instance.
      */
 
-    public function addLecture($params) {
+    public function addLecture($params)
+    {
 
         $teacher = Teacher::model()->find('user_id=:user', array(':user' => Yii::app()->user->getId()));
 
@@ -584,8 +602,9 @@ class Module extends CActiveRecord implements IBillableObject
      * @throws CDbException
      */
 
-    public function getLecturesCount($reloadLectures = false) {
-        if (!isset($this->lectures) || $reloadLectures){
+    public function getLecturesCount($reloadLectures = false)
+    {
+        if (!isset($this->lectures) || $reloadLectures) {
             $this->getRelated('lectures');
         }
         return count($this->lectures);
@@ -597,13 +616,14 @@ class Module extends CActiveRecord implements IBillableObject
      * @param $idLecture
      * @throws CDbException
      */
-    public function disableLesson($idLecture) {
+    public function disableLesson($idLecture)
+    {
 
         $lecture = Lecture::model()->findByPk($idLecture);
 
         $oldLecturePosition = $lecture->order;
 
-        $count =  $this->getLecturesCount();
+        $count = $this->getLecturesCount();
 
         $lecture->idModule = 0;
         $lecture->order = 0;
@@ -613,7 +633,7 @@ class Module extends CActiveRecord implements IBillableObject
             $this->lectures[$i]->decreaseOrderByOne();
         }
 
-        $this->lesson_count = $count-1;
+        $this->lesson_count = $count - 1;
         $this->update(array('lesson_count'));
     }
 
@@ -628,7 +648,8 @@ class Module extends CActiveRecord implements IBillableObject
      * @throws CDbException
      * @throws \application\components\Exceptions\ModuleValidationException
      */
-    public function initNewModule($course, $titleUa, $titleRu, $titleEn, $lang) {
+    public function initNewModule($course, $titleUa, $titleRu, $titleEn, $lang)
+    {
 
         $this->level = $course->level;
         $this->language = $lang;
@@ -641,8 +662,8 @@ class Module extends CActiveRecord implements IBillableObject
             $this->module_img = "module.png";
             $this->update(array('alias', 'module_img'));
 
-            if(!file_exists(Yii::app()->basePath . "/../content/module_".$this->module_ID)){
-                mkdir(Yii::app()->basePath . "/../content/module_".$this->module_ID);
+            if (!file_exists(Yii::app()->basePath . "/../content/module_" . $this->module_ID)) {
+                mkdir(Yii::app()->basePath . "/../content/module_" . $this->module_ID);
             }
 
             $courseModule = new CourseModules();
@@ -652,12 +673,11 @@ class Module extends CActiveRecord implements IBillableObject
             if ($courseModule->save()) {
                 return $this;
             }
-        }
-        else {
+        } else {
             $errors = "";
             foreach ($this->getErrors() as $field => $errorMessages) {
-                $errors .= $field ;
-                if (is_array($errorMessages)){
+                $errors .= $field;
+                if (is_array($errorMessages)) {
                     $errors .= ':';
                     foreach ($errorMessages as $message) {
                         $errors .= ' ' . $message;
@@ -674,7 +694,8 @@ class Module extends CActiveRecord implements IBillableObject
      * Level ups the lecture.
      * @param $idLecture
      */
-    public function upLecture($idLecture) {
+    public function upLecture($idLecture)
+    {
         if ($this->lectures === null) {
             $this->getRelated('lectures');
         }
@@ -686,7 +707,7 @@ class Module extends CActiveRecord implements IBillableObject
                     return;
                 }
 
-                $this->swapLecturesOrder($lecture, $this->lectures[$index-1]);
+                $this->swapLecturesOrder($lecture, $this->lectures[$index - 1]);
                 return;
             }
         }
@@ -697,7 +718,8 @@ class Module extends CActiveRecord implements IBillableObject
      * @param $idLecture
      * @throws CDbException
      */
-    public function downLecture($idLecture) {
+    public function downLecture($idLecture)
+    {
         if ($this->lectures === null) {
             $this->getRelated('lectures');
         }
@@ -708,10 +730,10 @@ class Module extends CActiveRecord implements IBillableObject
 
             if ($lecture->id == $idLecture) {
                 // if the last lecture do nothing
-                if ($index == $count-1) {
+                if ($index == $count - 1) {
                     return;
                 }
-                $this->swapLecturesOrder($lecture, $this->lectures[$index+1]);
+                $this->swapLecturesOrder($lecture, $this->lectures[$index + 1]);
                 return;
             }
         }
@@ -722,7 +744,8 @@ class Module extends CActiveRecord implements IBillableObject
      * @param $lectureA
      * @param $lectureB
      */
-    private function swapLecturesOrder($lectureA, $lectureB) {
+    private function swapLecturesOrder($lectureA, $lectureB)
+    {
         $orderA = $lectureA->order;
         $lectureA->order = $lectureB->order;
         $lectureB->order = $orderA;
@@ -732,23 +755,19 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
 
-    public static function canAccess($idModule,$userId)
+    public static function canAccess($idModule, $userId)
     {
         $services_user = Module::findService($userId);
 
-        if($services_user)
-        {
+        if ($services_user) {
             foreach ($services_user as $service_user) {
                 $service = AbstractIntITAService::getServiceById($service_user['service_id']);
-                if($service)
-                {
+                if ($service) {
                     return $service->checkAccess($idModule);
                 }
             }
 
-        }
-
-        else return false;
+        } else return false;
     }
 
     private static function findService($userId)
@@ -756,13 +775,14 @@ class Module extends CActiveRecord implements IBillableObject
         $service_user = Yii::app()->db->createCommand()
             ->select('service_id, user_id')
             ->from('service_user')
-            ->where('user_id = :user_id',array(':user_id' => $userId))
+            ->where('user_id = :user_id', array(':user_id' => $userId))
             ->queryAll();
 
         return $service_user;
     }
 
-    public static function allModules($query){
+    public static function allModules($query)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
         $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
@@ -775,22 +795,24 @@ class Module extends CActiveRecord implements IBillableObject
         $data = Module::model()->findAll($criteria);
 
         $result = array();
-        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $titleParam = "title_".$lang;
-        foreach ($data as $key=>$record) {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_" . $lang;
+        foreach ($data as $key => $record) {
             $result["results"][$key]["id"] = $record->module_ID;
-            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+            $result["results"][$key]["title"] = $record->$titleParam . " (" . $record->language . ")";
         }
 
         return json_encode($result);
     }
+
     /**
      * Returns id of last quiz in the module.
      * Direct queries to database uses for greater performance
      * @return bool $lectureElement->idBlock or false if nothing found
      * @throws CDbException
      */
-    public function getLastQuizId() {
+    public function getLastQuizId()
+    {
         $sqlPagesList =
             "SELECT id FROM lectures WHERE idModule=" . $this->module_ID . " ORDER BY `order` DESC;";
 
@@ -809,10 +831,10 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public static function getResourceDescription($id)
-     {
-         $module = Module::model()->findByPk($id);
-         return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
-     }
+    {
+        $module = Module::model()->findByPk($id);
+        return "Module" . " " . $module->module_ID . ". " . $module->title_ua;
+    }
 
     /**
      * Returns id of first quiz in the module.
@@ -820,7 +842,8 @@ class Module extends CActiveRecord implements IBillableObject
      * @return bool $lectureElement->idBlock or false if nothing found
      * @throws CDbException
      */
-    public function getFirstQuizId() {
+    public function getFirstQuizId()
+    {
         $sqlPagesList =
             "SELECT id FROM lectures WHERE idModule=" . $this->module_ID . " ORDER BY `order` ASC;";
 
@@ -838,15 +861,18 @@ class Module extends CActiveRecord implements IBillableObject
         return false;
     }
 
-    public function paymentMailTemplate(){
+    public function paymentMailTemplate()
+    {
         return '_payModuleMail';
     }
 
-    public function paymentMailTheme(){
+    public function paymentMailTheme()
+    {
         return 'Доступ до модуля';
     }
 
-    public static function modulesList(){
+    public static function modulesList()
+    {
         $courses = Module::model()->findAll();
         $return = array('data' => array());
 
@@ -857,12 +883,12 @@ class Module extends CActiveRecord implements IBillableObject
             $row["alias"] = CHtml::encode($record->alias);
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["title"]["header"] = "'Модуль ".addslashes($record->title_ua)."'";
+            $row["title"]["header"] = "'Модуль " . addslashes($record->title_ua) . "'";
             $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;
-            $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/view", array("id"=>$record->module_ID))."'";
+            $row["title"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/view", array("id" => $record->module_ID)) . "'";
             $row["cancelled"] = $record->cancelledLabel();
-            $row["addAuthorLink"] = "'".Yii::app()->createUrl("/_teacher/_admin/module/addTeacher", array("id"=>$record->module_ID))."'";
+            $row["addAuthorLink"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/addTeacher", array("id" => $record->module_ID)) . "'";
 
             array_push($return['data'], $row);
         }
@@ -870,7 +896,8 @@ class Module extends CActiveRecord implements IBillableObject
         return json_encode($return);
     }
 
-    public static function modulesNotInDefinedCourse($query, $course){
+    public static function modulesNotInDefinedCourse($query, $course)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "module_ID, title_ua, title_ru, title_en, language";
         $criteria->alias = "m";
@@ -880,35 +907,40 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('title_en', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('module_ID', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN course_modules cm ON cm.id_module = m.module_ID';
-        $criteria->addCondition('cm.id_course IS NULL or cm.id_course <>'.$course);
+        $criteria->addCondition('cm.id_course IS NULL or cm.id_course <>' . $course);
         $data = Module::model()->findAll($criteria);
 
         $result = array();
-        $lang =(Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $titleParam = "title_".$lang;
-        foreach ($data as $key=>$record) {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_" . $lang;
+        foreach ($data as $key => $record) {
             $result["results"][$key]["id"] = $record->module_ID;
-            $result["results"][$key]["title"] = $record->$titleParam." (".$record->language.")";
+            $result["results"][$key]["title"] = $record->$titleParam . " (" . $record->language . ")";
         }
 
         return json_encode($result);
     }
 
-    public function isReady(){
+    public function isReady()
+    {
         return $this->status == Module::READY;
     }
 
-    public function isCancelled(){
+    public function isCancelled()
+    {
         return $this->cancelled == Module::DELETED;
     }
 
-    public function statusLabel(){
-        return ($this->isReady())?'готовий':'в розробці';
+    public function statusLabel()
+    {
+        return ($this->isReady()) ? 'готовий' : 'в розробці';
     }
 
-    public function cancelledLabel(){
-        return (!$this->isCancelled())? 'доступний' : 'видалений';
+    public function cancelledLabel()
+    {
+        return (!$this->isCancelled()) ? 'доступний' : 'видалений';
     }
+
     public function lastLectureID()
     {
         $criteria = new CDbCriteria;
@@ -929,7 +961,8 @@ class Module extends CActiveRecord implements IBillableObject
         return Lecture::model()->find($criteria);
     }
 
-    public static function isAliasUnique($alias){
+    public static function isAliasUnique($alias)
+    {
         return Module::model()->exists('alias=:alias', array(':alias' => $alias)) == false;
     }
 
@@ -951,18 +984,21 @@ class Module extends CActiveRecord implements IBillableObject
         return Module::model()->findAll($criteriaData);
     }
 
-    public function consultants(){
+    public function consultants()
+    {
         $sql = 'select u.id, u.firstName, u.middleName, u.secondName, cm.start_time, cm.end_time from consultant_modules cm
-		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module='.$this->module_ID;
+		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module=' . $this->module_ID;
 
         return Yii::app()->db->createCommand($sql)->queryAll();
     }
 
-    public function getIndepedentModulePrice(){
+    public function getIndepedentModulePrice()
+    {
         return round($this->module_price * Config::getCoeffIndependentModule());
     }
 
-    public function priceOffline(){
+    public function priceOffline()
+    {
         return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 }
