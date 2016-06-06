@@ -180,19 +180,19 @@ class UserAgreements extends CActiveRecord
     
     public static function courseAgreement($user, $course, $schema, $educForm)
     {
-        $service = CourseService::getService($course);
+        $service = CourseService::getService($course, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'CourseService', $course, $schema);
+        return self::newAgreement($user, 'CourseService', $course, $schema, $educForm);
     }
 
-    public static function courseAgreementExist($user, $course)
+    public static function courseAgreementExist($user, $course, $educForm)
     {
-        $service = CourseService::getService($course);
+        $service = CourseService::getService($course, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -204,19 +204,19 @@ class UserAgreements extends CActiveRecord
 
     public static function moduleAgreement($user, $module, $schema, $educForm)
     {
-        $service = ModuleService::getService($module);
+        $service = ModuleService::getService($module, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'ModuleService', $module, $schema);
+        return self::newAgreement($user, 'ModuleService', $module, $schema, $educForm);
     }
 
-    public static function moduleAgreementExist($user, $module)
+    public static function moduleAgreementExist($user, $module, $educForm)
     {
-        $service = ModuleService::getService($module);
+        $service = ModuleService::getService($module, $educForm);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -226,10 +226,11 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id, $schemaId)
+    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, $educForm)
     {
-        $schema = PaymentScheme::getSchema($schemaId);
-        $serviceModel = $modelFactory::getService($param_id);
+        $schema = PaymentScheme::getSchema($schemaId, $educForm);
+
+        $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
 
         $model = new UserAgreements();
@@ -404,7 +405,7 @@ class UserAgreements extends CActiveRecord
             $row = array();
             $row["title"]["name"] = "Договір ".$record->number;
             $row["title"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
-            $row["object"] = CHtml::encode($record->service->description);
+            $row["object"] = ($record->service)?CHtml::encode($record->service->description):"";
             $row["date"] = date("d.m.y", strtotime($record->create_date));
             $row["summa"] = ($record->summa != 0)?number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;"): "безкоштовно";
             $row["schema"] = CHtml::encode($record->paymentSchema->name);

@@ -32,11 +32,10 @@
                                 <div class="numbers">
                                     <span><?php
                                         //todo
-                                        echo round($schema->getSumma($model)/12) . ' ' . Yii::t('courses', '0322') . '/' .
-                                            Yii::t('payments', '0865') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
+                                        echo round($price/12) . ' ' . Yii::t('courses', '0322') . '/' .
+                                            Yii::t('module', '0218') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
                                         <b>
-                                            <?php echo round(($educForm == 'online')?$schema->getSumma($model):
-                                            $schema->getSummaOffline($model)). ' ' .
+                                            <?php echo $price. ' ' .
                                                 Yii::t('courses', '0322') ?>
                                         </b>
                                     </span>
