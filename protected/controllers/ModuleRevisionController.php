@@ -48,4 +48,13 @@ class ModuleRevisionController extends Controller {
         }
         echo CJSON::encode($data);
     }
+
+    public function actionBuildRevisionsInCourse() {
+        $idCourse = Yii::app()->request->getPost('idCourse');
+        $moduleRev = RevisionModule::model()->findAll();
+        $relatedTree = RevisionModule::getModulesTree($idCourse);
+        $json = $this->buildLectureTreeJson($moduleRev, $relatedTree);
+
+        echo $json;
+    }
 }

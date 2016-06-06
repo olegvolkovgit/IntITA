@@ -122,5 +122,49 @@ class RevisionModule extends CActiveRecord
         $revisions = RevisionModule::model()->find($criteria);
         return isset($revisions)?$revisions:null;
     }
+
+    /**
+     * Returns module QuickUnion structure.
+     * If $idCourse specified - returns revisions of this course, else - all revisions
+     * @param null|$idCourse
+     * @return array
+     */
+    public static function getModulesTree($idCourse = null) {
+//        if ($idCourse != null) {
+//            $allIdList = Yii::app()->db->createCommand()
+//                ->select('id_revision, id_parent')
+//                ->from('vc_lecture')
+//                ->where('id_module='.$idModule)
+//                ->queryAll();
+//        } else {
+            $allIdList = Yii::app()->db->createCommand()
+                ->select('id_module_revision, id_parent')
+                ->from('vc_module')
+                ->queryAll();
+//        }
+
+        return RevisionModule::getQuickUnionStructure($allIdList);
+    }
+
+    /**
+     * Returns a Quick Union Structure of related lectures id.
+     * Algorithm based on Quick-Union algorithm
+     * http://algs4.cs.princeton.edu/15uf/
+     * It is important ot keep tree structure, so here is no optimizations
+     *
+     * @return array
+     */
+    private static function getQuickUnionStructure($allIdList) {
+        // building union data structure;
+        // array key represents the elements's id (id_revision),
+        // and array value represents link to root element of this element,
+        // if element is root its value equal to key
+
+        $quickUnion = array();
+        foreach($allIdList as $item) {
+            $quickUnion[$item['id_module_revision']] = ($item['id_parent'] == null ? $item['id_module_revision'] : $item['id_parent']);
+        };
+        return $quickUnion;
+    }
     
 }

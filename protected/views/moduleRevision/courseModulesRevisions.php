@@ -19,6 +19,8 @@ $this->breadcrumbs = array(
 <script type="text/javascript">
     basePath='<?php echo  Config::getBaseUrl(); ?>';
     idCourse ='<?php echo $idCourse;?>';
+    isApprover = '<?php echo $isApprover;?>';
+    userId = '<?php echo $userId;?>';
 </script>
 <div id="revisionMainBox" ng-app="moduleRevisionsApp">
     <div class="form-group" ng-controller="moduleRevisionsTreeCtrl" ng-cloak>
@@ -47,7 +49,7 @@ $this->breadcrumbs = array(
                 </li>
             </ul>
             <?php
-//            $this->renderPartial('_moduleRevisionsTree');
+            $this->renderPartial('_moduleRevisionsTree');
 //            ?>
 <!--            <div data-loading id="loaderContainer">-->
 <!--                <img id="ajaxLoader" src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?><!--" />-->
