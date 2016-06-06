@@ -15,107 +15,101 @@
  * @property RevisionLecturePage[] $lecturePages
  * @property RevisionLecture $parent
  */
-class RevisionLecture extends CActiveRecord
-{
+class RevisionLecture extends CRevisionUnitActiveRecord {
 
     private $approveResultCashed = null;
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'vc_lecture';
-	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('id_parent, id_lecture, id_module, id_properties', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id_revision, id_parent, id_lecture, id_module, id_properties', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'vc_lecture';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision'=>'id_parent']),
-            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
-			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
-                                                        'order' => 'page_order ASC'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('id_parent, id_lecture, id_module, id_properties', 'numerical', 'integerOnly' => true),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id_revision, id_parent, id_lecture, id_module, id_properties', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id_revision' => 'Id Revision',
-			'id_parent' => 'Id Parent',
-			'id_lecture' => 'Id Lecture',
-			'id_module' => 'Id Module',
-			'id_properties' => 'Id Properties',
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision' => 'id_parent']),
+            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id' => 'id_properties']),
+            'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
+                'order' => 'page_order ASC'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id_revision' => 'Id Revision',
+            'id_parent' => 'Id Parent',
+            'id_lecture' => 'Id Lecture',
+            'id_module' => 'Id Module',
+            'id_properties' => 'Id Properties',
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search() {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria->compare('id_revision',$this->id_revision);
-		$criteria->compare('id_parent',$this->id_parent);
-		$criteria->compare('id_lecture',$this->id_lecture);
-		$criteria->compare('id_module',$this->id_module);
-		$criteria->compare('id_properties',$this->id_properties);
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        $criteria->compare('id_revision', $this->id_revision);
+        $criteria->compare('id_parent', $this->id_parent);
+        $criteria->compare('id_lecture', $this->id_lecture);
+        $criteria->compare('id_module', $this->id_module);
+        $criteria->compare('id_properties', $this->id_properties);
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return RevisionLecture the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return RevisionLecture the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
     /**
      * Save lecture model with error checking
      * @throws RevisionLectureException
      */
-    public function saveCheck(){
+    public function saveCheck() {
         if (!$this->save()) {
             throw new RevisionLectureException(implode(", ", $this->getErrors()));
         }
@@ -132,11 +126,11 @@ class RevisionLecture extends CActiveRecord
      * @throws RevisionLectureException
      */
     public static function createNewLecture($idModule, $titleUa, $titleEn, $titleRu, $user) {
-		$revLectureProperties =  new RevisionLectureProperties();
-		$revLectureProperties->initialize($titleUa, $titleEn, $titleRu, $user);
+        $revLectureProperties = new RevisionLectureProperties();
+        $revLectureProperties->initialize($titleUa, $titleEn, $titleRu, $user);
 
-		$revLecture = new RevisionLecture();
-		$revLecture->id_module = $idModule;
+        $revLecture = new RevisionLecture();
+        $revLecture->id_module = $idModule;
         $revLecture->id_properties = $revLectureProperties->id;
 
         $revLecture->saveCheck();
@@ -144,15 +138,15 @@ class RevisionLecture extends CActiveRecord
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($revLecture->id_revision);
 
-		return $revLecture;
-	}
+        return $revLecture;
+    }
 
     /**
      * Adds page to current lecture revision
      * @param $user
      * @return RevisionLecturePage
      */
-    public function addPage($user){
+    public function addPage($user) {
         $revLecturePage = new RevisionLecturePage();
         $revLecturePage->initialize($this->id_revision, $this->getLastPageOrder() + 1);
         $this->setUpdateDate($user);
@@ -174,16 +168,16 @@ class RevisionLecture extends CActiveRecord
         //count all orders
         $orders = array();
         foreach ($this->lecturePages as $page) {
-            if(isset($orders[$page->page_order])) {
+            if (isset($orders[$page->page_order])) {
                 $orders[$page->page_order]['count']++;
                 array_push($orders[$page->page_order]['lectures'], $page->id);
             } else {
-                $orders[$page->page_order] = array('order'=>$page->page_order, 'count'=>1, 'lectures'=>array($page->id));
+                $orders[$page->page_order] = array('order' => $page->page_order, 'count' => 1, 'lectures' => array($page->id));
             }
-            $quiz=$page->getQuiz();
-            if ($quiz != null && $quiz->id_type==LectureElement::TASK) {
+            $quiz = $page->getQuiz();
+            if ($quiz != null && $quiz->id_type == LectureElement::TASK) {
                 $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
-                if(!$task->existenceInterpreterTask()){
+                if (!$task->existenceInterpreterTask()) {
                     array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
                     break;
                 }
@@ -206,90 +200,61 @@ class RevisionLecture extends CActiveRecord
         return $result;
     }
 
-    /**
-     * Return only approved lectures.
-     * @return array
-     */
-    public function getApprovedPages() {
-        return array_filter($this->lecturePages, function ($lecturePage) {
-            if ($lecturePage->id_user_approved != null &&
-                $lecturePage->id_user_cancelled == null) {
-                return true;
-            }
-            return false;
-        });
+    protected function getMessageClasses() {
+        return array_merge(parent::getMessageClasses(), [
+            'reject' => 'MessagesRejectRevision',
+            'approve' => 'MessagesApproveRevision'
+        ]);
     }
 
-    /**
-     * Returns an array of pages ready for approve
-     * @return RevisionLecturePage[]
-     */
-    public function getSendedPages() {
-        $this->lecturePages;
+    protected function beforeSendForApproval($user) {
+        if ($this->approveResultCashed === null) {
+            $this->checkConflicts();
+        }
+        return empty($this->approveResultCashed);
     }
 
-    /**
-     * Sends current revision to approve
-     * @param $user
-     * @throws RevisionLecturePropertiesException
-     */
-    public function sendForApproval($user) {
-        if ($this->isSendable()) {
-            if ($this->approveResultCashed === null) {
-                $this->checkConflicts();
+    protected function beforeRelease($user) {
+        if ($this->approveResultCashed === null) {
+            $this->checkConflicts();
+        }
+        
+        if (empty($this->approveResultCashed)) {
+
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $newLecture = $this->saveToRegularDB($user);
+                $transaction->commit();
+            } catch (Exception $e) {
+                $transaction->rollback();
+                throw $e;
             }
 
-            if (empty($this->approveResultCashed)) {
-                $this->properties->send_approval_date = new CDbExpression('NOW()');
-                $this->properties->id_user_sended_approval = $user->getId();
-                $this->properties->saveCheck();
-            } else {
-                //todo inform user
-            }
+            $this->createDirectory($newLecture);
+            $this->createTemplates($newLecture);
+
+            return true;
         } else {
             //todo inform user
         }
-    }
-    /**
-     * Cancel sends current revision to approve
-     * @throws RevisionLecturePropertiesException
-     */
-    public function cancelSendForApproval() {
-        if ($this->isApprovable()) {
-            $this->properties->send_approval_date = new CDbExpression('NULL');
-            $this->properties->id_user_sended_approval = null;
-            $this->properties->saveCheck();
-        } else {
-            //todo inform user
-        }
+
+        return false;
     }
 
-    /**
-     * Cancel edit current revision by editor
-     * @param $user
-     * @throws RevisionLecturePropertiesException
-     */
-    public function cancelEditRevisionByEditor($user) {
-        if ($this->isEditable()) {
-            $this->properties->cancel_edit_date = new CDbExpression('NOW()');
-            $this->properties->id_user_cancelled_edit = $user->getId();
-            $this->properties->saveCheck();
-        } else {
-            //todo inform user
-        }
-    }
+    protected function afterRelease() {
+        //sending inform message to revision author
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new $this->messageClasses['approve']();
+            $message->build(Yii::app()->user->model->registrationData, $this);
+            $message->create();
+            $sender = new MailTransport();
 
-    /**
-     * restore edit current revision by editor
-     * @throws RevisionLecturePropertiesException
-     */
-    public function restoreEditRevisionByEditor() {
-        if ($this->isCancelledEditor()) {
-            $this->properties->cancel_edit_date = new CDbExpression('NULL');
-            $this->properties->id_user_cancelled_edit = null;
-            $this->properties->saveCheck();
-        } else {
-            //todo inform user
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
     }
 
@@ -323,129 +288,6 @@ class RevisionLecture extends CActiveRecord
         }
 
         return $newRevision;
-    }
-
-    /**
-     * Rejects lecture revision
-     * @param $user
-     * @throws RevisionLecturePropertiesException
-     * @throws \application\components\Exceptions\IntItaException
-     */
-    public function reject ($user) {
-        if ($this->isRejectable()) {
-            $this->properties->reject_date = new CDbExpression('NOW()');;
-            $this->properties->id_user_rejected = $user->getId();
-            $this->properties->saveCheck();
-        } else {
-            //sending inform message to revision author
-            $transaction = Yii::app()->db->beginTransaction();
-            try {
-                $message = new MessagesRejectRevision();
-                $comment = '';
-                $message->build(Yii::app()->user->model->registrationData, $this, $comment);
-                $message->create();
-                $sender = new MailTransport();
-
-                $message->send($sender);
-                $transaction->commit();
-            } catch (Exception $e){
-                $transaction->rollback();
-                throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
-            }
-        }
-    }
-
-    public function approve($user) {
-        $this->properties->approve_date = new CDbExpression('NOW()');
-        $this->properties->id_user_approved = $user->getId();
-        $this->properties->saveCheck();
-    }
-
-    /**
-     * Approves lecture revision
-     * @param $user
-     * @throws RevisionLecturePropertiesException
-     * @throws Exception
-     */
-    public function release($user) {
-
-        if ($this->isReadable()) {
-            if ($this->approveResultCashed === null) {
-                $this->checkConflicts();
-            }
-
-            if (empty($this->approveResultCashed)) {
-
-                $transaction = Yii::app()->db->beginTransaction();
-                try {
-
-                    $newLecture = $this->saveToRegularDB($user);
-
-                    $this->properties->release_date = new CDbExpression('NOW()');
-                    $this->properties->id_user_released = $user->getId();
-                    $this->properties->saveCheck();
-
-                    $transaction->commit();
-
-                    //todo refactor - replace commit to the try block's end
-                    $this->createDirectory($newLecture);
-                    $this->createTemplates($newLecture);
-
-                } catch (Exception $e) {
-                    $transaction->rollback();
-                    throw $e;
-                }
-
-                //sending inform message to revision author
-                $transaction = Yii::app()->db->beginTransaction();
-                try {
-                    $message = new MessagesApproveRevision();
-                    $message->build(Yii::app()->user->model->registrationData, $this);
-                    $message->create();
-                    $sender = new MailTransport();
-
-                    $message->send($sender);
-                    $transaction->commit();
-                } catch (Exception $e){
-                    $transaction->rollback();
-                    throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
-                }
-            } else {
-                //todo inform user
-            }
-        } else {
-            //todo inform user
-        }
-    }
-
-    /**
-     * Cancels lecture revision
-     * @param $user
-     * @throws RevisionLecturePropertiesException
-     */
-    public function cancel($user) {
-        if ($this->isCancellable()) {
-            $this->properties->end_date = new CDbExpression('NOW()');
-            $this->properties->id_user_cancelled = $user->getId();
-            $this->properties->saveCheck();
-        } else {
-            //todo inform user
-        }
-    }
-
-    /**
-     * Return true if the lecture can be edited
-     * @return bool
-     */
-    public function isEditable() {
-        if (!$this->isSended() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor() &&
-            !$this->isRejected()) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -574,7 +416,7 @@ class RevisionLecture extends CActiveRecord
             $allIdList = Yii::app()->db->createCommand()
                 ->select('id_revision, id_parent')
                 ->from('vc_lecture')
-                ->where('id_module='.$idModule)
+                ->where('id_module=' . $idModule)
                 ->queryAll();
         } else {
             $allIdList = Yii::app()->db->createCommand()
@@ -587,38 +429,12 @@ class RevisionLecture extends CActiveRecord
     }
 
     /**
-     * Returns lecture revision status
-     * @return string
-     */
-    public function getStatus() {
-        if ($this->isCancelledEditor()) {
-            return "Скасована автором";
-        }
-        if ($this->isCancelled()) {
-            return "Скасована";
-        }
-        if ($this->isReady()) {
-            return "Реліз";
-        }
-        if ($this->isApproved()) {
-            return "Затверджена";
-        }
-        if ($this->isRejected()) {
-            return "Відхилена";
-        }
-        if ($this->isSended()) {
-            return "Відправлена на розгляд";
-        }
-        return 'Доступна для редагування';
-    }
-
-    /**
      * @param integer $pageId
      * @param array $lectureElementData ['idType' => 'foo', 'html_block' => 'bar', quiz=>[] ]
      * @param $user
      * @throws RevisionLecturePageException
      */
-    public function addLectureElement($pageId, $lectureElementData, $user){
+    public function addLectureElement($pageId, $lectureElementData, $user) {
         $page = $this->getPageById($pageId);
         if ($page) {
             if (array_key_exists('quiz', $lectureElementData)) {
@@ -641,7 +457,7 @@ class RevisionLecture extends CActiveRecord
     public function editLectureElement($pageId, $lectureElementData, $user) {
         $page = $this->getPageById($pageId);
         if ($page) {
-            $quiz = array_key_exists('quiz', $lectureElementData)?$lectureElementData['quiz']:null;
+            $quiz = array_key_exists('quiz', $lectureElementData) ? $lectureElementData['quiz'] : null;
             $page->editLectureElement($lectureElementData['id_block'], $lectureElementData['html_block'], $quiz);
             $this->setUpdateDate($user);
         }
@@ -661,7 +477,6 @@ class RevisionLecture extends CActiveRecord
         $page->setTitle($title);
         $this->setUpdateDate($user);
     }
-
 
     public function movePageUp($idPage, $user) {
         $page = $this->getPageById($idPage);
@@ -787,10 +602,10 @@ class RevisionLecture extends CActiveRecord
 
         //todo order from module;
 //        $newLecture->order = $this->properties->order;
-        if($this->id_lecture != null && Lecture::model()->findByPk($this->id_lecture)){
-            $newLecture->order =Lecture::model()->findByPk($this->id_lecture)->order;
-        }else{
-            $newLecture->order =$newLecture->lastLectureOrder()+1;
+        if ($this->id_lecture != null && Lecture::model()->findByPk($this->id_lecture)) {
+            $newLecture->order = Lecture::model()->findByPk($this->id_lecture)->order;
+        } else {
+            $newLecture->order = $newLecture->lastLectureOrder() + 1;
         }
 
 
@@ -805,10 +620,10 @@ class RevisionLecture extends CActiveRecord
      * Clear regular DB from lecture (pages and elements) witch should be replaced
      * @throws CDbException
      */
-    private function removePreviousRecords(){
+    private function removePreviousRecords() {
         $oldLecture = Lecture::model()->findByPk($this->id_lecture);
 
-        if($oldLecture) {
+        if ($oldLecture) {
             //remove lecture pages
 
             $oldLecturePages = LecturePage::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id_lecture));
@@ -841,7 +656,7 @@ class RevisionLecture extends CActiveRecord
 
             RevisionQuizFactory::deleteFromRegularDB($quizzes);
 
-            $quizTypes = LectureElement::TEST . ', ' . LectureElement::TASK . ', '. LectureElement::PLAIN_TASK . ', ' .LectureElement::SKIP_TASK;
+            $quizTypes = LectureElement::TEST . ', ' . LectureElement::TASK . ', ' . LectureElement::PLAIN_TASK . ', ' . LectureElement::SKIP_TASK;
             LectureElement::model()->deleteAll("id_lecture=:id_lecture AND id_type NOT IN ($quizTypes)", array(':id_lecture' => $this->id_lecture));
 
             $oldLecture->delete();
@@ -851,14 +666,14 @@ class RevisionLecture extends CActiveRecord
 
     /**
      * Return root of $element in $quickUnion data structure;
-     * @param array $quickUnion, key - id_revision, $quickUnion[key] == root of key element or itself if key element is root
+     * @param array $quickUnion , key - id_revision, $quickUnion[key] == root of key element or itself if key element is root
      * @param $element
      * @return bool
      */
     private function getQURoot(&$quickUnion, $element) {
         $root = $quickUnion[$element];
 
-        while ($root!=$quickUnion[$root]) {
+        while ($root != $quickUnion[$root]) {
 //            $quickUnion[$root] = $quickUnion[$quickUnion[$root]];
             $root = $quickUnion[$root];
         }
@@ -883,7 +698,7 @@ class RevisionLecture extends CActiveRecord
         // if element is root its value equal to key
 
         $quickUnion = array();
-        foreach($allIdList as $item) {
+        foreach ($allIdList as $item) {
             $quickUnion[$item['id_revision']] = ($item['id_parent'] == null ? $item['id_revision'] : $item['id_parent']);
         };
         return $quickUnion;
@@ -897,12 +712,12 @@ class RevisionLecture extends CActiveRecord
      *
      * @return array
      */
-    private function getRelatedIdList () {
+    private function getRelatedIdList() {
         //get list of ids of all lectures in the module.
         $allIdList = Yii::app()->db->createCommand()
             ->select('id_revision, id_parent')
             ->from('vc_lecture')
-            ->where('id_module='.$this->id_module)
+            ->where('id_module=' . $this->id_module)
             ->queryAll();
 
         $quickUnion = $this->getQuickUnionStructure($allIdList);
@@ -918,19 +733,20 @@ class RevisionLecture extends CActiveRecord
 
         return $idArray;
     }
-    public function getQuickUnionRevisions () {
+
+    public function getQuickUnionRevisions() {
         //get list of ids of all lectures in the module.
         $allIdList = Yii::app()->db->createCommand()
             ->select('id_revision, id_parent')
             ->from('vc_lecture')
-            ->where('id_module='.$this->id_module)
+            ->where('id_module=' . $this->id_module)
             ->queryAll();
 
         $quickUnion = $this->getQuickUnionStructure($allIdList);
         return $quickUnion;
     }
 
-    public function getRelatedIdListInBranch ($quickUnion) {
+    public function getRelatedIdListInBranch($quickUnion) {
         // pushing in resulting array only the keys, which have the same root as $this
         $thisRoot = $this->getQURoot($quickUnion, $this->id_revision);
         $idArray = array();
@@ -943,12 +759,12 @@ class RevisionLecture extends CActiveRecord
         return $idArray;
     }
 
-    public function getRelatedIdListFromApproved ($quickUnion, $idApprovedRevision) {
+    public function getRelatedIdListFromApproved($quickUnion, $idApprovedRevision) {
         // make id_parent of approved revision as id_revision
-        $quickUnion[$idApprovedRevision]=$idApprovedRevision;
+        $quickUnion[$idApprovedRevision] = $idApprovedRevision;
 
         // pushing in resulting array only the keys, which have the same root as $this
-        $thisRoot=$idApprovedRevision;
+        $thisRoot = $idApprovedRevision;
         $idArray = array();
         foreach ($quickUnion as $key => $value) {
             if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
@@ -959,201 +775,41 @@ class RevisionLecture extends CActiveRecord
         return $idArray;
     }
 
-//    private function getRelatedIdListFromApproved ($id) {
-//        //make id_parent of approved revision as id_revision
-//        $quickUnion[$id]=$id;
-//
-//        // pushing in resulting array only the keys, which have the same root as $this
-//        $thisRoot=$id;
-//        $idArray = array();
-//        foreach ($quickUnion as $key => $value) {
-//            if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
-//                array_push($idArray, $key);
-//            }
-//        }
-//
-//        return $idArray;
-//    }
-
     /**
      * Return order of the last page
      * @return int
      */
-    private function getLastPageOrder(){
-        if(count($this->lecturePages) == 0) {
+    private function getLastPageOrder() {
+        if (count($this->lecturePages) == 0) {
             return 0;
         }
-        return $this->lecturePages[count($this->lecturePages)-1]->page_order;
+        return $this->lecturePages[count($this->lecturePages) - 1]->page_order;
     }
 
-    /**
-     * Return true if revision can be approv
-     * @return bool
-     */
-    public function isApprovable() {
-        if ($this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isCancelled() &&
-            !$this->isApproved() &&
-            $this->id_module != null) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be reject
-     * @return bool
-     */
-    public function isRejectable() {
-        if ($this->isSended() &&
-            !$this->isApproved() &&
-            !$this->isRejected()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be cancel
-     * @return bool
-     */
-    public function isCancellable() {
-        if ($this->isReady() && !$this->isCancelled())
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be send
-     * @return bool
-     */
-    public function isSendable() {
-        if (!$this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be cancel send for approve
-     * @return bool
-     */
-    public function isSendedCancellable() {
-        if ($this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be ready
-     * @return bool
-     */
-    public function isReadable() {
-        if ($this->isApproved() &&
-            !$this->isReady() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return true if revision can be clone
-     * @return bool
-     */
-    private function isClonable () {
-        return (!$this->isRejected() && !$this->isCancelled());
-    }
-
-    /**
-     * Return true if revision was rejected
-     * @return bool
-     */
-    private function isRejected() {
-        return $this->properties->id_user_rejected != null;
-    }
-
-    /**
-     * Return true if revision was sended
-     * @return bool
-     */
-    public function isSended() {
-        return $this->properties->id_user_sended_approval != null;
-    }
-
-    /**
-     * Return true if revision was approved
-     * @return bool
-     */
-    public function isApproved() {
-        return $this->properties->id_user_approved != null;
-    }
-
-    /**
-     * Return true if revision is ready
-     * @return bool
-     */
-    public function isReady() {
-        return $this->properties->id_user_released != null;
-    }
-
-    /**
-     * Return true if revision was cancelled
-     * @return bool
-     */
-    private function isCancelled() {
-        return $this->properties->id_user_cancelled != null;
-    }
-
-    /**
-     * Return true if revision was cancelled edit by author
-     * @return bool
-     */
-    public function isCancelledEditor() {
-        return $this->properties->id_user_cancelled_edit;
-    }
-
-    public function canEdit() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
-    }
-
-    public function canCancelSendForApproval() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isApprovable());
-    }
-    public function canSendForApproval() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isSendable());
-    }
-    public function canApprove() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isApprovable());
-    }
-    public function canCancelReadyRevision() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isCancellable());
-    }
-    public function canRejectRevision() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
-    }
-    public function canReleaseRevision() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isReadable());
-    }
-    public function canCancelEdit() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
-    }
-    public function canRestoreEdit() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancelledEditor());
-    }
+//    Moved to abstract superclass:
+//
+//    public function isApprovable() {
+//    public function isRejectable() {
+//    public function isCancellable() {
+//    public function isSendable() {
+//    public function isRevokeable() {
+//    public function isReleaseable() {
+//    public function isClonable () {
+//    public function isRejected() {
+//    public function isSended() {
+//    public function isApproved() {
+//    public function isReleased() {
+//    public function isCancelled() {
+//    public function isCancelledEditor() {
+//    public function canEdit() {
+//    public function canCancelSendForApproval() {
+//    public function canSendForApproval() {
+//    public function canApprove() {
+//    public function canCancelReadyRevision() {
+//    public function canRejectRevision() {
+//    public function canReleaseRevision() {
+//    public function canCancelEdit() {
+//    public function canRestoreEdit() {
 
     /**
      * Returns last approved lecture in branch
@@ -1169,9 +825,9 @@ class RevisionLecture extends CActiveRecord
         $criteria->order = 'properties.approve_date DESC';
         $criteria->addCondition('properties.id_user_approved IS NOT NULL');
         $criteria->limit = 1;
-        
+
         $revisions = RevisionLecture::model()->find($criteria);
-        return isset($revisions)?$revisions:null;
+        return isset($revisions) ? $revisions : null;
     }
 
     public function getApprovedRevision($array) {
@@ -1185,6 +841,7 @@ class RevisionLecture extends CActiveRecord
         $criteria->limit = 1;
         return RevisionLecture::model()->find($criteria);
     }
+
     public static function getApprovedRevisionsInModule($idModule) {
         $criteria = new CDbCriteria;
         $criteria->alias = 'vc_lecture';
@@ -1196,17 +853,18 @@ class RevisionLecture extends CActiveRecord
         return RevisionLecture::model()->findAll($criteria);
     }
 
-    //Create directory for lecture template
     /**
+     * Create directory for lecture template
      * @param Lecture $newLecture
      */
     private function createDirectory($newLecture) {
-        if(!file_exists(Yii::app()->basePath . "/../content/module_".$newLecture->idModule."/lecture_".$newLecture->id)){
-            mkdir(Yii::app()->basePath . "/../content/module_".$newLecture->idModule."/lecture_".$newLecture->id);
+        if (!file_exists(Yii::app()->basePath . "/../content/module_" . $newLecture->idModule . "/lecture_" . $newLecture->id)) {
+            mkdir(Yii::app()->basePath . "/../content/module_" . $newLecture->idModule . "/lecture_" . $newLecture->id);
         }
     }
-    //Create templates
+
     /**
+     * Create templates
      * @param Lecture $newLecture
      */
     private function createTemplates($newLecture) {
@@ -1225,7 +883,7 @@ class RevisionLecture extends CActiveRecord
      */
     private function setLectureIdInTree($idLecture) {
         $idList = $this->getRelatedIdList();
-        Yii::app()->db->createCommand("UPDATE `vc_lecture` SET `id_lecture`=$idLecture WHERE `id_revision` IN (".implode(',', $idList).")")
+        Yii::app()->db->createCommand("UPDATE `vc_lecture` SET `id_lecture`=$idLecture WHERE `id_revision` IN (" . implode(',', $idList) . ")")
             ->execute();
     }
 
@@ -1236,47 +894,49 @@ class RevisionLecture extends CActiveRecord
         $idList = $this->getRelatedIdList();
         $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
         foreach ($lectureRevisions as $lectureRevision) {
-            if ($lectureRevision->isReady()) {
+            if ($lectureRevision->isReleased()) {
                 $lectureRevision->cancel($user);
             }
         }
     }
 
-    //revisions id list after filtered
+    /**
+     * revisions id list after filtered
+     */
     public static function getFilteredIdRevisions($status, $idModule) {
 
-        $sqlCancelledEditor=('vcp.id_user_cancelled_edit IS NOT NULL');
-        $sqlCancelled=('vcp.id_user_cancelled IS NOT NULL');
-        $sqlReady=('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
-        $sqlApproved=('vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL');
-        $sqlRejected=('vcp.id_user_rejected IS NOT NULL');
-        $sqlSent=('vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL');
-        $sqlEditable=('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
+        $sqlCancelledEditor = ('vcp.id_user_cancelled_edit IS NOT NULL');
+        $sqlCancelled = ('vcp.id_user_cancelled IS NOT NULL');
+        $sqlReady = ('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
+        $sqlApproved = ('vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL');
+        $sqlRejected = ('vcp.id_user_rejected IS NOT NULL');
+        $sqlSent = ('vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL');
+        $sqlEditable = ('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
 
-        $finalSql='';
-        foreach ($status as $key=>$sql){
-            if($sql=='true'){
+        $finalSql = '';
+        foreach ($status as $key => $sql) {
+            if ($sql == 'true') {
                 switch ($key) {
                     case 'approved':
-                        $finalSql=$finalSql.' or '.$sqlApproved;
+                        $finalSql = $finalSql . ' or ' . $sqlApproved;
                         break;
                     case 'editable';
-                        $finalSql=$finalSql.' or '.$sqlEditable;
+                        $finalSql = $finalSql . ' or ' . $sqlEditable;
                         break;
                     case 'sent';
-                        $finalSql=$finalSql.' or '.$sqlSent;
+                        $finalSql = $finalSql . ' or ' . $sqlSent;
                         break;
                     case 'reject';
-                        $finalSql=$finalSql.' or '.$sqlRejected;
+                        $finalSql = $finalSql . ' or ' . $sqlRejected;
                         break;
                     case 'cancelled';
-                        $finalSql=$finalSql.' or '.$sqlCancelled;
+                        $finalSql = $finalSql . ' or ' . $sqlCancelled;
                         break;
                     case 'cancelledEditor';
-                        $finalSql=$finalSql.' or '.$sqlCancelledEditor;
+                        $finalSql = $finalSql . ' or ' . $sqlCancelledEditor;
                         break;
                     case 'release';
-                        $finalSql=$finalSql.' or '.$sqlReady;
+                        $finalSql = $finalSql . ' or ' . $sqlReady;
                         break;
                     default:
                         $finalSql = '';
@@ -1284,15 +944,15 @@ class RevisionLecture extends CActiveRecord
                 };
             }
         }
-        $finalSql=substr($finalSql, 3);
-        $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE vcl.id_module=".$idModule." 
-            and (".$finalSql.")";
+        $finalSql = substr($finalSql, 3);
+        $sql = "SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE vcl.id_module=" . $idModule . " 
+            and (" . $finalSql . ")";
 
         $list = Yii::app()->db->createCommand($sql)->queryAll();
-        $actualIdList=[];
+        $actualIdList = [];
         foreach ($list as $item) {
-            array_push($actualIdList,$item['id_revision']);
+            array_push($actualIdList, $item['id_revision']);
         }
 
         return $actualIdList;
