@@ -281,7 +281,7 @@ function setTeacherRole(url) {
     });
 }
 
-function markPlainTask(url) {
+function markPlainTask(url, idTeacher) {
     var id = $jq('#plainTaskId').val();
     var mark = $jq('#mark').val();
     var comment = $jq('[name = comment]').val();
@@ -291,16 +291,17 @@ function markPlainTask(url) {
         type: "POST",
         data: {'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId},
         success: function () {
-            showDialog('Ваша оцінка записана в базу');
+            bootbox.alert('Ваша оцінка записана в базу', loadPlainTasksList(idTeacher));
         },
         error: function () {
             showDialog();
-        },
-        complete: function () {
-            location.reload();
         }
     });
+}
 
+function loadPlainTasksList(idTeacher){
+    load(basePath + '/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList/?idTeacher=' + idTeacher,
+        'Задачі до перевірки');
 }
 
 function fillContainer(data) {
