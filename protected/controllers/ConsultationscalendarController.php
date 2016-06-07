@@ -111,17 +111,24 @@ class ConsultationscalendarController extends Controller
         $idteacher = Yii::app()->request->getPost('teacherid');
         $idlecture = Yii::app()->request->getPost('lectureid');
 
-        if(Yii::app()->request->getPost('saveConsultation')) {
-            $numcons = explode(",", Yii::app()->request->getPost('timecons'));
-            for ($i=0; $i<count($numcons);$i++ ){
-                if(Consultationscalendar::consultationFree($idteacher,$numcons[$i],$date)){
-					Teacher::addConsult($numcons[$i],$date,$idlecture, $idteacher);
-                } else {
-                    $this->redirect( array('consultationerror','lecture'=>$idlecture,'idCourse'=>$idCourse));
-                }
-            }
-        }
-        header('Location: '.$_SERVER['HTTP_REFERER']);
+		$teacher = RegisteredUser::userById($idteacher);
+        $lecture = Lecture::model()->findByPk($idlecture);
+        $consultant = new Consultant();
+        if($teacher->isConsultant() && $consultant->checkModule($idteacher, $lecture->idModule)) {
+			if (Yii::app()->request->getPost('saveConsultation')) {
+				$numcons = explode(",", Yii::app()->request->getPost('timecons'));
+				for ($i = 0; $i < count($numcons); $i++) {
+					if (Consultationscalendar::consultationFree($idteacher, $numcons[$i], $date)) {
+						$teacher->getTeacher()->addConsult($numcons[$i], $date, $idlecture);
+					} else {
+						$this->redirect(array('consultationerror', 'lecture' => $idlecture, 'idCourse' => $idCourse));
+					}
+				}
+			}
+		} else {
+			$this->redirect(array('consultationerror', 'lecture' => $idlecture, 'idCourse' => $idCourse));
+		}
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
     public function actionDeleteconsultation($id)

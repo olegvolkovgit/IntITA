@@ -218,6 +218,21 @@ class TeachersController extends TeacherCabinetController{
         echo Teacher::teachersAdminList();
     }
 
+    public function actionChangeTeacherStatus(){
+        $user = Yii::app()->request->getPost('user', '0');
+        $model = RegisteredUser::userById($user);
+        $teacher = $model->getTeacher();
+        if($teacher){
+            if($teacher->changeVisibleStatus()){
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
+            }
+        } else {
+            echo "Неправильний запит. Такого користувача не існує.";
+        }
+    }
+
     public function actionModulesByQuery($query)
     {
         if ($query) {
