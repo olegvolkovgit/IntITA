@@ -100,6 +100,9 @@ class StudentController extends TeacherCabinetController
 
     public function actionPayCourse($course)
     {
+        if(!Yii::app()->user->model->isStudent()){
+            Yii::app()->user->model->setRole(UserRoles::STUDENT);
+        }
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
             : 'Online';
         $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;
@@ -124,6 +127,9 @@ class StudentController extends TeacherCabinetController
 
     public function actionPayModule($course, $module)
     {
+        if(!Yii::app()->user->model->isStudent()){
+            Yii::app()->user->model->setRole(UserRoles::STUDENT);
+        }
         $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
             : 'Online';
         $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;

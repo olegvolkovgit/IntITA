@@ -9,7 +9,7 @@ class UserController extends TeacherCabinetController {
     public function actionIndex($id)
     {
         $model = RegisteredUser::userById($id);
-        $trainer = TrainerStudent::getTrainerByStudent($id);
+          $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $this->renderPartial('index', array(
             'model' => $model,

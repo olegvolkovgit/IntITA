@@ -29,7 +29,6 @@ class PayController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
 
-
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
         $module = Module::model()->findByPk($moduleId);
@@ -37,8 +36,12 @@ class PayController extends TeacherCabinetController
         $exist = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
         if (!empty($exist)) {
             $resultText = PayModules::getExistPayModuleText($userName);
-
         } else {
+
+            if(!Yii::app()->user->model->isStudent()){
+                Yii::app()->user->model->setRole(UserRoles::STUDENT);
+            }
+
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
             if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID, EducationForm::ONLINE)) {
@@ -70,8 +73,12 @@ class PayController extends TeacherCabinetController
         $payCourse = PayCourses::model()->findByAttributes(array('id_user' => $userId, 'id_course' => $courseId));
         if (!empty($payCourse)) {
             $resultText = 'У ' . $userName . ' вже <strong>Є</strong> доступ до цього курсу';
-
         } else {
+
+            if(!Yii::app()->user->model->isStudent()){
+                Yii::app()->user->model->setRole(UserRoles::STUDENT);
+            }
+
             $permission = new PayCourses();
             $course = Course::model()->findByPk($courseId);
             $permission->setCourseRead($userId, $course->course_ID);
