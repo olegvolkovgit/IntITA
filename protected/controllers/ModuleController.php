@@ -45,6 +45,8 @@ class ModuleController extends Controller
             $isReadyCourse=true;
         }
 
+        $isContentManager=Yii::app()->user->model->isContentManager();
+        
         $this->render('index', array(
             'post' => $model,
             'teachers' => $model->teacher,
@@ -55,6 +57,7 @@ class ModuleController extends Controller
             'isPaidCourse' => $isPaidCourse,
             'isPaidModule' => $isPaidModule,
             'isReadyCourse' => $isReadyCourse,
+            'isContentManager' => $isContentManager,
         ));
     }
 
