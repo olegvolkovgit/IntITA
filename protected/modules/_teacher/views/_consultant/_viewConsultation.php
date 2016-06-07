@@ -19,12 +19,14 @@
                 </a>
             </li>
         <?php } ?>
+        <?php if ($model->isCanBeCancelled()) { ?>
         <li>
             <button type="button" class="btn btn-outline btn-warning" onclick="cancelConsultation(
                 '<?= Yii::app()->createUrl('/_teacher/_consultant/consultant/cancelConsultation/', array('id' => $model->id)) ?>',
                 'teacherConsultation')">Скасувати консультацію
             </button>
         </li>
+        <?php } ?>
     </ul>
     <div class="panel panel-default">
         <div class="panel-body">

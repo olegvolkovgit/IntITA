@@ -544,17 +544,16 @@ function reply(url) {
 }
 
 function forward(url) {
-    receiver = $jq("#receiverId").val();
-    if (receiver == "0") {
+    forwardTo = $jq("input[name=forwardToId]").val();
+    if (forwardTo == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
         showAjaxLoader();
         var posting = $jq.post(url,
             {
-                "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "parent": $jq("input[name=parent]").val(),
-                "forwardToId": $jq("input[name=forwardToId]").val(),
+                "forwardToId": forwardTo,
                 "text": $jq("#text").val()
             }
         );
