@@ -274,6 +274,20 @@ class Consultationscalendar extends CActiveRecord
         return false;
     }
 
+    public function isCanBeCancelled(){
+        if($this->lecture){
+            $today = new DateTime();
+            $match_date = DateTime::createFromFormat( "Y-m-d", $this->date_cons );
+            $diff = $today->diff($match_date);
+            if ($diff->invert == 1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static function studentTodayConsultationsList($user){
         $currentDate = new DateTime();
