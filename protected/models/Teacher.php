@@ -534,12 +534,12 @@ class Teacher extends CActiveRecord
 
     public function setShowMode(){
         $this->isPrint = Teacher::SHOW;
-        $this->save();
+        return $this->save();
     }
 
     public function setHideMode(){
         $this->isPrint = Teacher::HIDE;
-        $this->save();
+        return $this->save();
     }
 
     public function isActive(){
@@ -558,6 +558,14 @@ class Teacher extends CActiveRecord
     public function setDeleted(){
         $this->isPrint = Teacher::DELETED;
         $this->save();
+    }
+
+    public function changeVisibleStatus(){
+        if($this->isShow()){
+            return $this->setHideMode();
+        } else {
+            return $this->setShowMode();
+        }
     }
 
     public static function teachersWithoutAuthorsModule($query){
