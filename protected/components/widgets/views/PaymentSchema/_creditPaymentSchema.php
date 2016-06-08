@@ -5,8 +5,6 @@
  * @var $schema LoanPaymentSchema
  * @var $educForm string
  */
-
-$price = ($educForm == 'online')?$schema->getSumma($model):round(($schema->getSumma($model) * Config::getCoeffModuleOffline()));
 $year = $schema->yearsCount();
 ?>
 <span>

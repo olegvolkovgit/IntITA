@@ -9,7 +9,7 @@ class UserController extends TeacherCabinetController {
     public function actionIndex($id)
     {
         $model = RegisteredUser::userById($id);
-        $trainer = TrainerStudent::getTrainerByStudent($id);
+          $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $this->renderPartial('index', array(
             'model' => $model,
@@ -78,10 +78,10 @@ class UserController extends TeacherCabinetController {
     public function actionAgreement($user, $param, $type){
         switch($type){
             case "module":
-                $model = UserAgreements::moduleAgreement($user, $param, 1, 'Online');
+                $model = UserAgreements::moduleAgreement($user, $param, 1, EducationForm::ONLINE);
                 break;
             case "course":
-                $model = UserAgreements::courseAgreement($user, $param, 1, 'Online');
+                $model = UserAgreements::courseAgreement($user, $param, 1, EducationForm::ONLINE);
                 break;
             default:
                 throw new \application\components\Exceptions\IntItaException(400);

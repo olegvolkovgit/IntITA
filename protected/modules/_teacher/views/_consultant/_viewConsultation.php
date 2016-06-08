@@ -19,12 +19,14 @@
                 </a>
             </li>
         <?php } ?>
+        <?php if ($model->isCanBeCancelled()) { ?>
         <li>
             <button type="button" class="btn btn-outline btn-warning" onclick="cancelConsultation(
                 '<?= Yii::app()->createUrl('/_teacher/_consultant/consultant/cancelConsultation/', array('id' => $model->id)) ?>',
                 'teacherConsultation')">Скасувати консультацію
             </button>
         </li>
+        <?php } ?>
     </ul>
     <div class="panel panel-default">
         <div class="panel-body">
@@ -46,7 +48,7 @@
                             <?php if($model->lecture){?>
                             <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $model->lecture->idModule)); ?>"
                                target="_blank">
-                                <?= CHtml::encode($model->lecture->module->getTitle()); ?>
+                                <?= $model->lecture->module->getTitle(); ?>
                             </a>
                             <?php } else {
                                 echo "Лекція видалена.";
@@ -59,7 +61,7 @@
                             <?php if($model->lecture){?>
                             <a href="<?= Yii::app()->createUrl('lesson/index', array('id' => $model->lecture_id, 'idCourse' => 0)); ?>"
                                target="_blank">
-                                <?= CHtml::encode($model->lecture->title()); ?>
+                                <?= $model->lecture->title(); ?>
                             </a>
                             <?php } else {
                                 echo "Лекція видалена.";

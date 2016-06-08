@@ -11,9 +11,12 @@
             <div class="panel-body">
                 <ul>
 
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
-                               'Боти')">Боти</a>
+                    <li>
+                        <a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/Bots'); ?>',
+                               'Боти')">
+                            Боти
+                        </a>
                     </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/SearchChats'); ?>',

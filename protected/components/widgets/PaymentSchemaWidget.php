@@ -6,8 +6,8 @@ class PaymentSchemaWidget extends CWidget
     public $schema;
     public $educForm;
     public $discount;
-    public $price;
     public $view;
+    public $price;
 
     public function init(){
 
@@ -18,12 +18,13 @@ class PaymentSchemaWidget extends CWidget
         parent::run();
 
         $view = "PaymentSchema/".$this->view;
+        $price = round($this->schema->getSumma($this->billableObject));
         $this->render($view,array(
             'model'=>$this->billableObject,
             'schema' => $this->schema,
             'educForm' => $this->educForm,
             'discount' => $this->discount,
-            'price' => $this->price
+            'price' => $price
         ));
     }
 }

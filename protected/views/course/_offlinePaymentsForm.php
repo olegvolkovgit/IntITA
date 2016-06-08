@@ -1,6 +1,7 @@
 <?php
 /* @var $model Course */
-$price = $model->priceOffline();
+$schema = PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::OFFLINE);
+$price = round($schema->getSumma($model));
 if ($price == 0 && $model->getBasePrice() != 0) {
     echo Yii::t('courses', '0147') . ' '; ?>
     <span class="colorGreen"><?= Yii::t('module', '0421'); ?></span>
@@ -22,10 +23,10 @@ if ($price != 0) {
                     <tr>
                         <td>
                             <div class="numbers" id="numbersFirstOffline">
-                                <span class="coursePriceStatus1"><?php echo $price . " " . Yii::t('courses', '0322') ?></span>
+                                <span class="coursePriceStatus1"><?php echo round($price * 1.3) . " " . Yii::t('courses', '0322') ?></span>
                                 &nbsp
                                 <span class="coursePriceStatus2">
-                                    <?php echo PaymentHelper::discountedPrice($price, 30) . " " . Yii::t('courses', '0322'); ?>
+                                    <?php echo $price . " " . Yii::t('courses', '0322'); ?>
                                 </span>
                                 <span id="discount">
                                     <img style="text-align:right" src="<?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>

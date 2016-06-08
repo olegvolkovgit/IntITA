@@ -74,10 +74,18 @@ class TenantController extends TeacherCabinetController
 
 
     }
+
     public function actionShowChats($user1,$user2)
     {
 
- 
+
         $this->renderPartial('/_tenant/showChats', array('user1'=>$user1,'user2'=>$user2), false, true);
     }
+    public function actionBots()
+    {
+
+
+        $this->renderPartial('/_tenant/bots', array(), false, true);
+    }
+
 }

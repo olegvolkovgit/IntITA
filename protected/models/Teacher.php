@@ -248,7 +248,7 @@ class Teacher extends CActiveRecord
         return $dataProvider;
     }
 
-    public static function addConsult($numcon, $date, $idlecture, $teacherId)
+    public function addConsult($numcon, $date, $idlecture)
     {
         $calendar = new Consultationscalendar();
 
@@ -257,7 +257,7 @@ class Teacher extends CActiveRecord
             $calendar->start_cons = substr($numcon, 0, 5);
             $calendar->end_cons = substr($numcon, 6, 5);
             $calendar->date_cons = $date;
-            $calendar->teacher_id = $teacherId;
+            $calendar->teacher_id = $this->user_id;
             $calendar->user_id = $user;
             $calendar->lecture_id = $idlecture;
             $calendar->save();
@@ -534,12 +534,12 @@ class Teacher extends CActiveRecord
 
     public function setShowMode(){
         $this->isPrint = Teacher::SHOW;
-        $this->save();
+        return $this->save();
     }
 
     public function setHideMode(){
         $this->isPrint = Teacher::HIDE;
-        $this->save();
+        return $this->save();
     }
 
     public function isActive(){
@@ -558,6 +558,14 @@ class Teacher extends CActiveRecord
     public function setDeleted(){
         $this->isPrint = Teacher::DELETED;
         $this->save();
+    }
+
+    public function changeVisibleStatus(){
+        if($this->isShow()){
+            return $this->setHideMode();
+        } else {
+            return $this->setShowMode();
+        }
     }
 
     public static function teachersWithoutAuthorsModule($query){
