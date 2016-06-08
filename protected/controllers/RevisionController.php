@@ -898,16 +898,11 @@ class RevisionController extends Controller {
                 }
                 //building path from root to target node
                 array_push($path, $parentId);
-                $i=0;
-
                 while ($parents[$parentId] != $parentId) {
-                    $i=$i+1;
-
                     if (!in_array($parents[$parentId], $actualRevisionsList)) {
                         // find parent
                         $tempParent=$parents[$parentId];
                         $end=false;
-
                         while (!in_array($tempParent, $actualRevisionsList)) {
                             $oldParent=$tempParent;
                             $tempParent=$parents[$tempParent];
@@ -927,7 +922,9 @@ class RevisionController extends Controller {
                         $parentId=$tempParent;
                     }
                     if($parents[$parentId] != $parentId){
-                        array_push($path, $parents[$parentId]);
+                        if(in_array($parents[$parentId], $actualRevisionsList)){
+                            array_push($path, $parents[$parentId]);
+                        }
                         $parentId = $parents[$parentId];
                     }
                 }
