@@ -3,20 +3,27 @@ angular
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
 function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
+    $scope.lectureInModule=[];
+
     //load from service lecture data for scope
     getModuleData.getData(idRevision).then(function(response){
         $rootScope.moduleData=response;
     });
 
     getModuleData.getReleasedLecture().then(function(response){
-        // $rootScope.moduleData=response;
-        console.log(response);
+        $scope.readyLectureRevisions=response;
+        // console.log(response);
     });
     
     $scope.editPageRevision = function(pageId) {
         location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
     };
 
+    $scope.addRevisionToModule= function (lectureRevisionId, index) {
+        var revision=$scope.readyLectureRevisions[index];
+        $scope.readyLectureRevisions.splice(index, 1);
+        $scope.lectureInModule.push(revision);
+    };
     // $scope.previewRevision = function(url) {
     //     location.href=url;
     // };

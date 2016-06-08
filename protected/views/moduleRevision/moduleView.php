@@ -20,6 +20,11 @@ $this->breadcrumbs = array(
                 $this->renderPartial('_moduleRevisionInfo', array('moduleRevision' => $moduleRevision));
             ?>
             <br>
+            <label>Доступні ревізії занять: </label>
+            <div ng-repeat="lectureRevision in readyLectureRevisions track by $index">
+                Ревізія №{{lectureRevision.id_revision}} {{lectureRevision.title}} <span class='ico' ng-click="addRevisionToModule(lectureRevision.id_revision, $index)">&plus;</span>
+            </div>
+            <br>
             <label>Перелік ревізій занять: </label>
 
             <table id="pages" class="table">

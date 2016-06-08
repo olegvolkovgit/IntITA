@@ -203,13 +203,14 @@ class ModuleRevisionController extends Controller {
     }
 
     public function actionGetReleasedLecture() {
-        $sql = "SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+        $sql = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
             WHERE vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL";
 
         $list = Yii::app()->db->createCommand($sql)->queryAll();
-        $readyLectureList = [];
-        foreach ($list as $item) {
-            array_push($readyLectureList, $item['id_revision']);
+        $readyLectureList = array();
+        foreach ($list as $key=>$item) {
+            $readyLectureList[$key]['id_revision']=$item['id_revision'];
+            $readyLectureList[$key]['title']=$item['title_ua'];
         }
 
         echo CJSON::encode($readyLectureList);
