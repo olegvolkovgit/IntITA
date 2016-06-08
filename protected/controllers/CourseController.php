@@ -16,7 +16,7 @@ class CourseController extends Controller
         if(Yii::app()->user->isGuest) {
             $canEdit = false;
         } else {
-            $canEdit = Yii::app()->user->model->isAdmin();
+            $canEdit = Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
         }
         $model = Course::model()->findByPk($id);
         if ($model->cancelled == Course::DELETED) {
@@ -183,7 +183,7 @@ class CourseController extends Controller
         if(Yii::app()->user->getId())
         $data["userId"] = Yii::app()->user->getId();
         else $data["userId"]=false;
-        $data["isAdmin"] = (Yii::app()->user->isGuest)?false:Yii::app()->user->model->isAdmin();
+        $data["isAdmin"] = (Yii::app()->user->isGuest)?false:(Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
         $data["termination"][0] = Yii::t('module', '0653');
         $data["termination"][1] = Yii::t('module', '0654');
         $data["termination"][2] = Yii::t('module', '0655');
