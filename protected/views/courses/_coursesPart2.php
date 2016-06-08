@@ -86,16 +86,18 @@
 
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147');
-                        $price = $val[0]->getBasePrice();
-                        if ($price == 0) { ?>
-                            <span class="colorGreen"><?= Yii::t('module', '0421'); ?></span>
-                        <?php
-                        } else { ?>
-                            <span id="coursePriceStatus1"><?= $price . " " . Yii::t('courses', '0322'); ?></span>
-                            &nbsp<span id="coursePriceStatus2"><?= PaymentHelper::discountedPrice($price, 30) . " " .
-                                Yii::t('courses', '0322'); ?></span>
-                            <span id="discount">(<?= Yii::t('courses', '0144'); ?> - 30%)</span>
-                        <?php
+                        $schema = PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE);
+                        $price = round($schema->getSumma($val[0]));
+                        if ($price == 0) {?>
+                            <span class="colorGreen"><?=Yii::t('module', '0421');?></span>
+                            <?php
+                        }
+                        else {?>
+                            <span id="coursePriceStatus1"><?= round($price * 1.3) . " " . Yii::t('courses', '0322');?></span>
+                            &nbsp<span id="coursePriceStatus2"><?=$price. " " .
+                                Yii::t('courses', '0322');?></span>
+                            <span id="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
+                            <?php
                         }
                         ?>
                     </div>

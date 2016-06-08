@@ -187,7 +187,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getBasePrice()
     {
-        return $this->module_price;
+        return $this->module_price * Config::getDollarRate();
     }
 
     public function getDuration()
@@ -269,58 +269,6 @@ class Module extends CActiveRecord implements IBillableObject
     public function rate(){
         return $this->level0->id;
     }
-
-
-    /**
-     * Creating module processes in initNewModule function.
-     * Deprecated.
-     */
-//    public function addNewModule($idCourse, $titleUa, $titleRu, $titleEn, $lang)
-//    {
-//        $module = new Module();
-//        $courseModule = new CourseModules();
-//        $module->level = Course::model()->findByPk($idCourse)->level;
-//        $module->language = $lang;
-//        $module->title_ua = $titleUa;
-//        $module->title_ru = $titleRu;
-//        $module->title_en = $titleEn;
-//        if ($module->validate()) {
-//            if($module->save()){
-//                $idModule = Yii::app()->db->createCommand("SELECT max(module_ID) from module")->queryScalar();
-//                $module->alias = $idModule;
-//                $module->save();
-//                $order = count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $idCourse
-//                )->queryAll());
-//                Module::model()->updateByPk($module->module_ID, array('module_img' => 'module.png'));
-//                if(!file_exists(Yii::app()->basePath . "/../content/module_".$idModule)){
-//                    mkdir(Yii::app()->basePath . "/../content/module_".$idModule);
-//                }
-//                $courseModule->id_course = $idCourse;
-//                $courseModule->id_module = $idModule;
-//                $courseModule->order = $order + 1;
-//                if ($courseModule->validate()) {
-//                    $courseModule->save();
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
-//    public static function getModules($id)
-//    {
-//        $modules = Yii::app()->db->createCommand()
-//            ->select('module_ID')
-//            ->from('module')
-//            ->order('module_ID DESC')
-//            ->where('course=' . $id)
-//            ->queryAll();
-//        $result = [];
-//        for ($i = count($modules) - 1; $i > 0; $i--) {
-//            array_push($result, $modules[$i]["module_ID"]);
-//        }
-//        return $result;
-//    }
 
     public static function getModuleAlias($idModule, $idCourse)
     {

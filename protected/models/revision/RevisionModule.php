@@ -8,7 +8,9 @@
  * @property integer $id_parent
  * @property integer $id_module
  * @property integer $id_properties
- *
+ * 
+ * The followings are the available model relations:
+ * @property RevisionModuleProperties $properties
  */
 class RevisionModule extends CRevisionUnitActiveRecord
 {
@@ -48,8 +50,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return array(
             'parent' => array(self::HAS_ONE, 'RevisionModule', ['id_module_revision'=>'id_parent']),
             'properties' => array(self::HAS_ONE, 'RevisionModuleProperties', ['id'=>'id_properties']),
-//            'moduleLectures' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
-//                'order' => 'lecture_order ASC'),
+            'moduleLectures' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
+                'order' => 'lecture_order ASC'),
         );
     }
 
@@ -147,4 +149,111 @@ class RevisionModule extends CRevisionUnitActiveRecord
     public function cancel($user) {
         // TODO: Implement cancel() method.
     }
+
+    /**
+     * Returns module QuickUnion structure.
+     * If $idCourse specified - returns revisions of this course, else - all revisions
+     * @param null|$idCourse
+     * @return array
+     */
+    public static function getModulesTree($idCourse = null) {
+//        if ($idCourse != null) {
+//            $allIdList = Yii::app()->db->createCommand()
+//                ->select('id_revision, id_parent')
+//                ->from('vc_lecture')
+//                ->where('id_module='.$idModule)
+//                ->queryAll();
+//        } else {
+            $allIdList = Yii::app()->db->createCommand()
+                ->select('id_module_revision, id_parent')
+                ->from('vc_module')
+                ->queryAll();
+//        }
+
+        return RevisionModule::getQuickUnionStructure($allIdList);
+    }
+
+    /**
+     * Returns a Quick Union Structure of related lectures id.
+     * Algorithm based on Quick-Union algorithm
+     * http://algs4.cs.princeton.edu/15uf/
+     * It is important ot keep tree structure, so here is no optimizations
+     *
+     * @return array
+     */
+    private static function getQuickUnionStructure($allIdList) {
+        // building union data structure;
+        // array key represents the elements's id (id_revision),
+        // and array value represents link to root element of this element,
+        // if element is root its value equal to key
+
+        $quickUnion = array();
+        foreach($allIdList as $item) {
+            $quickUnion[$item['id_module_revision']] = ($item['id_parent'] == null ? $item['id_module_revision'] : $item['id_parent']);
+        };
+        return $quickUnion;
+    }
+    
+    public static function createNewModule($titleUa, $titleEn, $titleRu, $user) {
+        $revModuleProperties = new RevisionModuleProperties();
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+
+            $revModuleProperties->initialize($titleUa, $titleEn, $titleRu, $user);
+
+            $revModule = new RevisionModule();
+            $revModule->id_properties = $revModuleProperties->id;
+
+            $revModule->saveCheck();
+
+            $revLecturePage = new RevisionLecturePage();
+            $revLecturePage->initialize($revModule->id_module_revision);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+
+
+        return $revModule;
+    }
+    
+
+    public function editProperties($params, $user) {
+
+        $filtered = [];
+        foreach (RevisionModule::getEditableProperties() as $property) {
+            if (isset($params[$property])) {
+                $filtered[$property] = $params[$property];
+            }
+        }
+
+        $this->properties->setAttributes($filtered);
+        $this->properties->saveCheck();
+        $this->setUpdateDate($user);
+    }
+
+    /**
+     * Returns list of properties which can be edited
+     * @return array
+     */
+    public static function getEditableProperties() {
+        return ['title_ua', 'title_ru', 'title_en'];
+    }
+
+    private function setUpdateDate($user) {
+        $this->properties->setUpdateDate($user);
+    }
+
+    /**
+     * Save module model with error checking
+     * @throws RevisionLectureException
+     */
+    public function saveCheck() {
+        if (!$this->save()) {
+            throw new RevisionLectureException(implode(", ", $this->getErrors()));
+        }
+    }
+    
 }

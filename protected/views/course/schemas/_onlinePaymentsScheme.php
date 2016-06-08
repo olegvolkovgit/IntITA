@@ -2,7 +2,6 @@
 /**
  * @var $model Course
  */
-$price = $model->getBasePrice();
 ?>
 
 <div id="rowRadio">
@@ -13,10 +12,9 @@ $price = $model->getBasePrice();
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
                 'discount' => 30,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE),
                 'educForm' => 'online',
-                'view' => '_advancePaymentSchema',
-                'price' => $price,
+                'view' => '_advancePaymentSchema'
             ));
             ?>
         </div>
@@ -27,10 +25,9 @@ $price = $model->getBasePrice();
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
                 'discount' => 10,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS, EducationForm::ONLINE),
                 'educForm' => 'online',
-                'view' => '_basePaymentSchema',
-                'price' => $price,
+                'view' => '_basePaymentSchema'
             ));
             ?>
         </div>
@@ -41,10 +38,9 @@ $price = $model->getBasePrice();
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
                 'discount' => 8,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS, EducationForm::ONLINE),
                 'educForm' => 'online',
-                'view' => '_basePaymentSchema',
-                'price' => $price,
+                'view' => '_basePaymentSchema'
             ));
             ?>
         </div>
@@ -54,10 +50,9 @@ $price = $model->getBasePrice();
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY, EducationForm::ONLINE),
                 'educForm' => 'online',
-                'view' => '_monthlyPaymentSchema',
-                'price' => $price
+                'view' => '_monthlyPaymentSchema'
             ));
             ?>
         </div>
@@ -67,10 +62,9 @@ $price = $model->getBasePrice();
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
-                'view' => '_creditPaymentSchema',
-                'price' => $price
+                'view' => '_creditPaymentSchema'
             ));
             ?>
         </div>
@@ -80,10 +74,9 @@ $price = $model->getBasePrice();
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
-                'view' => '_creditPaymentSchema',
-                'price' => $price
+                'view' => '_creditPaymentSchema'
             ));
             ?>
         </div>
@@ -93,10 +86,9 @@ $price = $model->getBasePrice();
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema',
-                'price' => $price
             ));
             ?>
         </div>
@@ -106,10 +98,9 @@ $price = $model->getBasePrice();
             <?php
             $this->widget('PaymentSchemaWidget',array(
                 'billableObject' => $model,
-                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS),
+                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS, EducationForm::ONLINE),
                 'educForm' => 'online',
                 'view' => '_creditPaymentSchema',
-                'price' => $price
             ));
             ?>
         </div>

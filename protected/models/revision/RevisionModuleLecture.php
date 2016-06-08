@@ -1,27 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "acc_service".
+ * This is the model class for table "vc_module_lecture".
  *
- * The followings are the available columns in table 'acc_service':
- * @property string $service_id
- * @property string $description
- * @property string $create_date
- * @property string $cancel_date
- * @property integer $billable
- *
- * The followings are the available model relations:
- * @property CourseService[] $courseServices
- * @property ModuleService[] $moduleServices
+ * The followings are the available columns in table 'vc_module_lecture':
+ * @property integer $id
+ * @property integer $id_lecture_revision
+ * @property integer $id_module_revision
+ * @property integer $lecture_order
  */
-class Service extends CActiveRecord
+
+class RevisionModuleLecture extends CRevisionUnitActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_service';
+		return 'vc_module_lecture';
 	}
 
 	/**
@@ -32,12 +28,11 @@ class Service extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, education_form', 'required'),
-            array('cancel_date', 'safe'),
-			array('billable', 'numerical', 'integerOnly'=>true),
-			array('description', 'length', 'max'=>512),
+			array('id, id_lecture_revision, id_module_revision, lecture_order', 'required'),
+			array('id, id_lecture_revision, id_module_revision, lecture_order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('service_id, description, create_date, billable', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, id_lecture_revision, id_module_revision, lecture_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,8 +44,8 @@ class Service extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'courseServices' => array(self::HAS_MANY, 'CourseService', 'service_id'),
-            'moduleServices' => array(self::HAS_MANY, 'ModuleService', 'service_id'),
+            //todo IN condition doesn't work!;
+			'revision' => array(self::BELONGS_TO, 'RevisionModule', 'id_module_revision'),
 		);
 	}
 
@@ -60,10 +55,10 @@ class Service extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-            'service_id' => 'Service code',
-            'description' => 'service description',
-            'create_date' => 'service creation date',
-            'billable' => 'Is billable'
+			'id' => 'ID',
+            'id_lecture_revision' => 'Id Lecture Revision',
+            'id_module_revision' => 'Id Module Revision',
+			'lecture_order' => 'Lecture Order',
 		);
 	}
 
@@ -81,13 +76,14 @@ class Service extends CActiveRecord
 	 */
 	public function search()
 	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('service_id',$this->service_id,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('billable',$this->billable);
-        $criteria->compare('cancel_date',$this->cancel_date);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('id_lecture_revision',$this->id_lecture_revision);
+		$criteria->compare('id_module_revision',$this->id_module_revision);
+		$criteria->compare('lecture_order',$this->lecture_order);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,12 +94,22 @@ class Service extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Service the static model class
+	 * @return RevisionLecturePage the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
+
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return $errors[0];
+    }
 
 }

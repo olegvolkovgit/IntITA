@@ -17,24 +17,21 @@ angular
                 });
                 return promise;
             };
-            // this.getLectureRevisionsInModuleJson  = function(idCourse,approved) {
-            //     var url;
-            //     if(approved=='true') {
-            //         url=basePath+'/revision/buildApprovedBranchPartInModule';
-            //     } else url=basePath+'/revision/buildRevisionsInModule';
-            //     var promise = $http({
-            //         url: url,
-            //         method: "POST",
-            //         data: $.param({idCourse: idCourse}),
-            //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            //     }).then(function successCallback(response) {
-            //         return response.data;
-            //     }, function errorCallback() {
-            //         bootbox.alert("Виникла помилка при завантажені списку ревізій модуля. Зв'яжіться з адміністрацією");
-            //         return false;
-            //     });
-            //     return promise;
-            // };
+            this.getModuleRevisionsInCourse  = function(idCourse) {
+                var url=basePath+'/moduleRevision/buildRevisionsInCourse';
+                var promise = $http({
+                    url: url,
+                    method: "POST",
+                    data: $.param({idCourse: idCourse}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені списку ревізій курса. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
             //
             // this.getRevisionsBranch  = function(idRevision,approved) {
             //     var url;

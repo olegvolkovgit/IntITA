@@ -2,4 +2,4 @@
 
 /* App Module */
 angular
-    .module('moduleRevisionsApp', []);
+    .module('moduleRevisionsApp', ['moduleRevisionServices','directive.loading']);

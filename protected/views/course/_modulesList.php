@@ -13,6 +13,9 @@ $editMode = ($canEdit) ? 'true' : '';
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                  id="viewIco" title="Переглянути ревізії модулів"/>
         </a>
+        <button id="viewIco" ng-cloak ng-click="showRevisionForm()">
+            Створити ревізію модуля
+        </button>
         <div ng-cloak ng-click="showForm()">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'ajaxaddmodule-form',
@@ -90,6 +93,9 @@ $editMode = ($canEdit) ? 'true' : '';
     </div>
     <div id="moduleForm">
         <?php $this->renderPartial('_addLessonForm', array('model' => $model)); ?>
+    </div>
+    <div id="moduleRevisionForm" style="display: none">
+        <?php $this->renderPartial('_addModuleRevisionForm', array('model' => $model)); ?>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>

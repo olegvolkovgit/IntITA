@@ -6,6 +6,7 @@
  * @var $schema BasePaymentSchema
  * @var $image1 string
  * @var $image2 string
+ * @var $educForm string
  */
 if($schema->payCount == 2){
     $image1 = StaticFilesHelper::createPath('image', 'course', 'coins.png');

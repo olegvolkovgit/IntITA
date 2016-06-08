@@ -203,6 +203,6 @@ class Config extends CActiveRecord
 	}
 
 	public static function offerScenario(){
-		return "noOffer";
+		return "default";
 	}
 }

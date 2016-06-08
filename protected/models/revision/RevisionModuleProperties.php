@@ -208,5 +208,62 @@ class RevisionModuleProperties extends CActiveRecord
 		return parent::model($className);
 	}
 
+	/**
+	 * Initialize module properties
+	 * @param $titleUa
+	 * @param $titleEn
+	 * @param $titleRu
+	 * @param $user
+	 * @throws RevisionLecturePropertiesException
+	 */
+	public function initialize($titleUa, $titleEn, $titleRu, $user){
+		//todo refactor default values
+		$this->module_img = "module.png";
+//		$this->module_price = 0;
+		$this->level = 1;
+		$this->language = 'ua';
+		$this->hours_in_day = 3;
+		$this->days_in_week = 3;
+		$this->cancelled = 0;
+		$this->status = 0;
+		$this->title_ua = $titleUa;
+		$this->title_ru = $titleRu;
+		$this->title_en = $titleEn;
+		$this->start_date = new CDbExpression('NOW()');
+		$this->id_user_created = $user->getId();
+
+		$this->saveCheck();
+	}
+
+	/**
+	 * Sets update date and id user.
+	 * @param $user - current user model
+	 * @throws RevisionModuleException
+	 */
+	public function setUpdateDate($user) {
+		$this->update_date = new CDbExpression('NOW()');
+		$this->id_user_updated = $user->getId();
+		$this->saveCheck();
+	}
+
+	/**
+	 * Save properties model with error checking
+	 * @throws RevisionModuleException
+	 */
+	public function saveCheck() {
+		if(!$this->save()) {
+			throw new RevisionModuleException('400',$this->getValidationErrors());
+		}
+	}
+
+	public function getValidationErrors() {
+		$errors=[];
+		foreach($this->getErrors() as $key=>$attribute){
+			foreach($attribute as $error){
+				array_push($errors,$key.': '.$error);
+			}
+		}
+		return implode(", ", $errors);
+	}
 
 }

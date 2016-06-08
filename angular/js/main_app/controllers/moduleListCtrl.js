@@ -182,4 +182,10 @@ function moduleListCtrl($http,$scope) {
             scrollTop: $("#titleUA").offset().top
         }, 1000);
     }
+    $scope.showRevisionForm=function () {
+        document.getElementById('moduleRevisionForm').style.display = 'block';
+        $('html, body').animate({
+            scrollTop: $("#revTitleUA").offset().top
+        }, 1000);
+    }
 }
