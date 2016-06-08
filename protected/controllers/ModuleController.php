@@ -26,6 +26,7 @@ class ModuleController extends Controller
         $editMode = 0;
         $isPaidCourse=false;
         $isPaidModule=false;
+        $isContentManager=false;
         if (!Yii::app()->user->isGuest) {
             $userId=Yii::app()->user->getID();
             $author = new Author();
@@ -38,14 +39,13 @@ class ModuleController extends Controller
             if(PayModules::model()->checkModulePermission($userId, $idModule, array('read'))){
                 $isPaidModule=true;
             }
+            $isContentManager=Yii::app()->user->model->isContentManager();
         }
         if($idCourse!=0){
             $isReadyCourse=Course::model()->findByPk($idCourse)->status;
         }else{
             $isReadyCourse=true;
         }
-
-        $isContentManager=Yii::app()->user->model->isContentManager();
         
         $this->render('index', array(
             'post' => $model,
