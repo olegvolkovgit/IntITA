@@ -34,15 +34,15 @@ $this->breadcrumbs = array(
                     <td>Порядок</td>
                     <td>Навігація</td>
                 </tr>
-                <tr ng-repeat="lecture in moduleData.lectures track by $index">
-                    <td ng-click="editPageRevision(lecture.id)">{{lecture.id}}</td>
-                    <td ng-click="editPageRevision(lecture.id)">{{lecture.id}}</td>
-                    <td ng-click="editPageRevision(lecture.id)">{{$index+1}}</td>
+                <tr ng-repeat="lecture in lectureInModule track by $index">
+                    <td>{{lecture.id_revision}}</td>
+                    <td>{{lecture.title}}</td>
+                    <td>{{$index+1}}</td>
                     <td>
-                        <div style="display: inline-block" ng-if="lectureData.lecture.canEdit">
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(page.id);">
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?>" class="editIco" ng-click="down(page.id);">
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco" ng-click="delete(page.id);">
+                        <div style="display: inline-block" >
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(lecture.id_revision);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?>" class="editIco" ng-click="down(lecture.id_revision);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco" ng-click="removeLecture(lecture.id_revision, $index);">
                         </div>
                     </td>
                 </tr>

@@ -3,11 +3,10 @@ angular
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
 function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
-    $scope.lectureInModule=[];
-
     //load from service lecture data for scope
     getModuleData.getData(idRevision).then(function(response){
         $rootScope.moduleData=response;
+        $scope.lectureInModule=$rootScope.moduleData.lectures;
     });
 
     getModuleData.getReleasedLecture().then(function(response){
@@ -23,6 +22,12 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
         var revision=$scope.readyLectureRevisions[index];
         $scope.readyLectureRevisions.splice(index, 1);
         $scope.lectureInModule.push(revision);
+    };
+    $scope.removeLecture= function (lectureRevisionId, index) {
+        var revision=$scope.lectureInModule[index];
+        $scope.lectureInModule.splice(index, 1);
+        console.log(revision);
+        $scope.readyLectureRevisions.push(revision);
     };
     // $scope.previewRevision = function(url) {
     //     location.href=url;
