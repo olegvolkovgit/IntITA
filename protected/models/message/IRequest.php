@@ -12,4 +12,7 @@ interface IRequest
     public function title();
     public function module();
     public function type();
+    public function statusToString();
+    public function approvedByToString();
+    public function message();
 }
