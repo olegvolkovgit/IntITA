@@ -329,4 +329,25 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
     public function isDeleted(){
         return $this->cancelled == self::DELETED;
     }
+
+    public function statusToString(){
+        if($this->isDeleted()){
+            return 'видалений';
+        } else {
+            if($this->isApproved()){
+                return 'підтверджений';
+            } else {
+                return 'очікує затвердження';
+            }
+        }
+    }
+
+    public function approvedByToString()
+    {
+        if ($this->isApproved()) {
+            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:m", strtotime($this->date_approved));
+        } else {
+            return '';
+        }
+    }
 }
