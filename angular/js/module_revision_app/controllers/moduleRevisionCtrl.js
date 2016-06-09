@@ -11,23 +11,55 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
 
     getModuleData.getReleasedLecture().then(function(response){
         $scope.readyLectureRevisions=response;
-        // console.log(response);
     });
     
-    $scope.editPageRevision = function(pageId) {
-        location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
-    };
+    // $scope.editPageRevision = function(pageId) {
+    //     location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
+    // };
 
     $scope.addRevisionToModule= function (lectureRevisionId, index) {
         var revision=$scope.readyLectureRevisions[index];
         $scope.readyLectureRevisions.splice(index, 1);
         $scope.lectureInModule.push(revision);
     };
-    $scope.removeLecture= function (lectureRevisionId, index) {
+    $scope.removeRevisionFromModule= function (lectureRevisionId, index) {
         var revision=$scope.lectureInModule[index];
         $scope.lectureInModule.splice(index, 1);
-        console.log(revision);
         $scope.readyLectureRevisions.push(revision);
+    };
+    //reorder pages
+    $scope.upRevisionInModule = function(lectureRevisionId, index) {
+        if(index>0){
+            var prevRevision=$scope.lectureInModule[index-1];
+            $scope.lectureInModule[index-1]=$scope.lectureInModule[index];
+            $scope.lectureInModule[index]=prevRevision;
+        }
+    };
+    $scope.downRevisionInModule = function(lectureRevisionId, index) {
+        if(index<$scope.lectureInModule.length-1){
+            var nextRevision=$scope.lectureInModule[index+1];
+            $scope.lectureInModule[index+1]=$scope.lectureInModule[index];
+            $scope.lectureInModule[index]=nextRevision;
+        }
+    };
+
+    $scope.editModuleRevision = function (object) {
+        $.each(object, function(index) {
+            object[index]['lecture_order']=index+1;
+            object[index]['id_module_revision']=idRevision;
+            delete object[index]['title'];
+        });
+        $http({
+            url: basePath+'/moduleRevision/editModuleRevision',
+            method: "POST",
+            data: $.param({moduleLectures: JSON.stringify(object)}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            bootbox.alert("Зміни збережено");
+        }, function errorCallback() {
+            bootbox.alert("Зберегти зміни в ревізію не вдалося. Зв'яжіться з адміністрацією");
+            return false;
+        });
     };
     // $scope.previewRevision = function(url) {
     //     location.href=url;
@@ -88,53 +120,7 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
     //         return false;
     //     });
     // };
-    // //reorder pages
-    // $scope.up = function(pageId) {
-    //     $http({
-    //         url: basePath+'/revision/upPage',
-    //         method: "POST",
-    //         data: $.param({idPage:pageId, idRevision: idRevision}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback() {
-    //         getLectureData.getData(idRevision).then(function(response){
-    //             $rootScope.lectureData=response;
-    //         });
-    //     }, function errorCallback() {
-    //         return false;
-    //     });
-    // };
-    // $scope.down = function(pageId) {
-    //     $http({
-    //         url: basePath+'/revision/downPage',
-    //         method: "POST",
-    //         data: $.param({idPage:pageId, idRevision: idRevision}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback() {
-    //         getLectureData.getData(idRevision).then(function(response){
-    //             $rootScope.lectureData=response;
-    //         });
-    //     }, function errorCallback() {
-    //         return false;
-    //     });
-    // };
-    // $scope.delete = function(pageId) {
-    //     bootbox.confirm('Видалити частину заняття?', function(result){
-    //         if(result){
-    //             $http({
-    //                 url: basePath+'/revision/deletePage',
-    //                 method: "POST",
-    //                 data: $.param({idPage:pageId,idRevision:idRevision}),
-    //                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //             }).then(function successCallback() {
-    //                 getLectureData.getData(idRevision).then(function(response){
-    //                     $rootScope.lectureData=response;
-    //                 });
-    //             }, function errorCallback() {
-    //                 return false;
-    //             });
-    //         };
-    //     })
-    // };
+
     // //check whether you can send the lecture for approval
     // $scope.checkLecture = function() {
     //     $http({

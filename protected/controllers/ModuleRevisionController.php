@@ -28,10 +28,73 @@ class ModuleRevisionController extends Controller {
         ));
     }
 
-    public function actionEditModule() {
+    public function actionEditModuleRevision() {
+        $moduleLectures = json_decode(Yii::app()->request->getPost('moduleLectures'));
+        var_dump($moduleLectures);die;
+    }
+
+    /**
+     * @param $idModule
+     * @throws Exception
+     * @throws RevisionControllerException
+     */
+
+    public function actionEditModule($idModule) {
+
+        $moduleRevisions = RevisionModule::model()->findAllByAttributes(array("id_module" => $idModule));
+        $module = Module::model()->findByPk($idModule);
+        if (!$module) {
+            throw new RevisionControllerException(404, Yii::t('breadcrumbs', '0782'));
+        }
+
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0829'));
+        }
+        $moduleRev = null;
+        /*if there is no revisions we create new revision from module in DB, else we should find */
+        if (empty($moduleRevisions)) {
+            $moduleRev = RevisionModule::createNewRevisionFromModule($module, Yii::app()->user)->cloneModule(Yii::app()->user);
+        } else {
+            /*find all editable revisions */
+            $editableRevisions = [];
+            $lastApproved = null;
+            foreach ($moduleRevisions as $moduleRevision) {
+                if ($moduleRevision->isEditable()) {
+                    array_push($editableRevisions, $moduleRevision);
+                }
+                if ($moduleRevision->isApproved()) {
+                    $lastApproved = $moduleRevision;
+                }
+            }
+            /*
+             * If we haven't found any editable revision or found one revision other user we should create new revision from last approved
+             * If we have found only one revision of this user just show it
+             * If we have found several editable revisions show revisions tree;
+             */
+            if (count($editableRevisions) == 0 || (count($editableRevisions) == 1 && !$editableRevisions[0]->canEdit())) {
+                $moduleRev = $lastApproved->cloneModule(Yii::app()->user);
+            } else if(count($editableRevisions) == 1 && $editableRevisions[0]->canEdit()) {
+                $moduleRev = $editableRevisions[0];
+            } else {
+//                $this->render('revisionsBranch', array(
+//                    'idModule' => $editableRevisions[0]->id_module,
+//                    'idRevision' => $editableRevisions[0]->id_revision,
+//                    'isApprover' => $this->isUserApprover(Yii::app()->user),
+//                    'userId' => Yii::app()->user->getId(),
+//                ));
+                $this->render("moduleView", array(
+                    "moduleRevision" => $moduleRev,
+                ));
+                return;
+            }
+        }
+
+        $this->render("moduleView", array(
+            "moduleRevision" => $moduleRev,
+        ));
 
     }
-    
+
     public function actionBuildCurrentModuleJson() {
         $idCourse = Yii::app()->request->getPost('idCourse');
         Course::model()->findAllByPk($idCourse);
@@ -43,8 +106,8 @@ class ModuleRevisionController extends Controller {
             $data[$key]['id'] = $module->module_ID;
             $data[$key]['revisionsLink'] = Yii::app()->createUrl('/moduleRevision/editModule',array('idModule'=>$module->module_ID));
             $data[$key]['modulePreviewLink'] = Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse));
-            $moduleRev = RevisionModule::getParentRevisionForModule($module->module_ID);
-            $data[$key]['releasedFromRevision'] = ($moduleRev)?$moduleRev->id_module_revision:null;
+//            $moduleRev = RevisionModule::getParentRevisionForModule($module->module_ID);
+            $data[$key]['releasedFromRevision'] = $module->id_module_revision;
         }
         echo CJSON::encode($data);
     }
@@ -132,10 +195,10 @@ class ModuleRevisionController extends Controller {
         }
 
         $revModule = RevisionModule::createNewModule($titleUa, $titleEn, $titleRu, Yii::app()->user);
-        $this->redirect(array('moduleRevision/editModuleRevision', 'idRevision' => $revModule->id_module_revision));
+        $this->redirect(array('moduleRevision/editModuleRevisionPage', 'idRevision' => $revModule->id_module_revision));
     }
 
-    public function actionEditModuleRevision($idRevision) {
+    public function actionEditModuleRevisionPage($idRevision) {
 
         $moduleRevision = RevisionModule::model()->findByPk($idRevision);
 
@@ -164,7 +227,7 @@ class ModuleRevisionController extends Controller {
         $module = [];
         $data = array('module' => array(),'lectures' => array());
         foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
-            $lectures[$key]["id"] = $lecture->id_lecture_revision;
+            $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
             $lectures[$key]["lecture_order"] = $lecture->lecture_order;
         }
         $module['status']=$moduleRevision->getStatus();
@@ -209,7 +272,7 @@ class ModuleRevisionController extends Controller {
         $list = Yii::app()->db->createCommand($sql)->queryAll();
         $readyLectureList = array();
         foreach ($list as $key=>$item) {
-            $readyLectureList[$key]['id_revision']=$item['id_revision'];
+            $readyLectureList[$key]['id_lecture_revision']=$item['id_revision'];
             $readyLectureList[$key]['title']=$item['title_ua'];
         }
 

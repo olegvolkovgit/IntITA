@@ -52,21 +52,21 @@ function moduleRevisionsTreeCtrl($compile, $rootScope, $scope) {
         $('.select-node').prop('disabled', !(selectableNodes.length >= 1));
     });
 
-    $scope.createRev = function(idRevision) {
-        location.href = basePath+'/moduleRevision/createLectureRevision?idRevision=' + idRevision;
+    // $scope.createRev = function(idRevision) {
+    //     location.href = basePath+'/moduleRevision/createLectureRevision?idRevision=' + idRevision;
+    // };
+    // $scope.previewRev = function(idRevision) {
+    //     location.href = basePath+'/moduleRevision/previewLectureRevision?idRevision=' + idRevision;
+    // };
+    $scope.editModuleRev = function(idRevision) {
+        location.href = basePath+'/moduleRevision/editModuleRevisionPage?idRevision=' + idRevision;
     };
-    $scope.previewRev = function(idRevision) {
-        location.href = basePath+'/moduleRevision/previewLectureRevision?idRevision=' + idRevision;
-    };
-    $scope.editRev = function(idRevision) {
-        location.href = basePath+'/moduleRevision/editLectureRevision?idRevision=' + idRevision;
-    };
-    $scope.openRevisionsBranch = function(idRevision) {
-        location.href = basePath+'/moduleRevision/revisionsBranch?idRevision=' + idRevision;
-    };
-    $scope.sendRevisionMessage = function(idRevision) {
+    // $scope.openRevisionsBranch = function(idRevision) {
+    //     location.href = basePath+'/moduleRevision/revisionsBranch?idRevision=' + idRevision;
+    // };
+    // $scope.sendRevisionMessage = function(idRevision) {
         // revisionMessage.sendMessage(idRevision);
-    };
+    // };
 }
 
 

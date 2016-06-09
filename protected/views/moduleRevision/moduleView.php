@@ -20,9 +20,9 @@ $this->breadcrumbs = array(
                 $this->renderPartial('_moduleRevisionInfo', array('moduleRevision' => $moduleRevision));
             ?>
             <br>
-            <label>Доступні ревізії занять: </label>
+            <label>Доступні ревізії занять:</label>
             <div ng-repeat="lectureRevision in readyLectureRevisions track by $index">
-                Ревізія №{{lectureRevision.id_revision}} {{lectureRevision.title}} <span class='ico' ng-click="addRevisionToModule(lectureRevision.id_revision, $index)">&plus;</span>
+                Ревізія №{{lectureRevision.id_lecture_revision}} {{lectureRevision.title}} <span class='ico' ng-click="addRevisionToModule(lectureRevision.id_revision, $index)">&plus;</span>
             </div>
             <br>
             <label>Перелік ревізій занять: </label>
@@ -35,18 +35,20 @@ $this->breadcrumbs = array(
                     <td>Навігація</td>
                 </tr>
                 <tr ng-repeat="lecture in lectureInModule track by $index">
-                    <td>{{lecture.id_revision}}</td>
+                    <td>{{lecture.id_lecture_revision}}</td>
                     <td>{{lecture.title}}</td>
                     <td>{{$index+1}}</td>
                     <td>
                         <div style="display: inline-block" >
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="up(lecture.id_revision);">
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?>" class="editIco" ng-click="down(lecture.id_revision);">
-                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco" ng-click="removeLecture(lecture.id_revision, $index);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png');?>" class="editIco" ng-click="upRevisionInModule(lecture.id_lecture_revision, $index);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png');?>" class="editIco" ng-click="downRevisionInModule(lecture.id_lecture_revision, $index);">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png');?>" class="editIco" ng-click="removeRevisionFromModule(lecture.id_lecture_revision, $index);">
                         </div>
                     </td>
                 </tr>
             </table>
+            <button ng-if="lectureInModule!=''" class="btn btn-primary" ng-click="editModuleRevision(lectureInModule)">Зберегти зміни</button>
+            <br>
         </div>
     </div>
     <div data-loading id="loaderContainer">

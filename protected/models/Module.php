@@ -82,7 +82,7 @@ class Module extends CActiveRecord implements IBillableObject
             // The following rule is used by search().
             array('module_ID, title_ua, title_ru, title_en, alias, language, lesson_count, module_price, for_whom,
             what_you_learn, what_you_get, module_img,
-			days_in_week, hours_in_day, level, module_number, cancelled', 'safe', 'on' => 'search'),
+			days_in_week, hours_in_day, level, module_number, cancelled, id_module_revision', 'safe', 'on' => 'search'),
         );
     }
 
@@ -168,6 +168,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('rating', $this->rating, true);
         $criteria->compare('module_number', $this->module_number, true);
         $criteria->compare('cancelled', $this->cancelled, true);
+        $criteria->compare('id_module_revision', $this->id_module_revision, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
