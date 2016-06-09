@@ -266,7 +266,13 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * @throws Exception
      */
     public function cloneLecture($user) {
-        $transaction = Yii::app()->db->beginTransaction();
+//        $transaction = Yii::app()->db->beginTransaction();
+        $connection = Yii::app()->db;
+        $transaction = null;
+
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
         try {
             $newRevision = new RevisionLecture();
             $newRevision->id_parent = $this->id_revision;
@@ -281,9 +287,15 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             foreach ($this->lecturePages as $page) {
                 $page->clonePage($newRevision->id_revision);
             }
-            $transaction->commit();
+//            $transaction->commit();
+            if ($transaction != null) {
+                $transaction->commit();
+            }
         } catch (Exception $e) {
-            $transaction->rollback();
+//            $transaction->rollback();
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
             throw $e;
         }
 
@@ -309,7 +321,14 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     public static function createNewRevisionFromLecture($lecture, $user) {
 
         $revLecture = null;
-        $transaction = Yii::app()->db->beginTransaction();
+
+        $connection = Yii::app()->db;
+        $transaction = null;
+
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
+//        $transaction = Yii::app()->db->beginTransaction();
         try {
             $revLectureProperties = new RevisionLectureProperties();
             $revLectureProperties->image = $lecture->image;
@@ -386,12 +405,17 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
 
             }
 
-            $transaction->commit();
-
+//            $transaction->commit();
+            if ($transaction != null) {
+                $transaction->commit();
+            }
         } catch (Exception $e) {
-            $transaction->rollback();
+//            $transaction->rollback();
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
             throw $e;
-        }
+        } 
         return $revLecture;
     }
 

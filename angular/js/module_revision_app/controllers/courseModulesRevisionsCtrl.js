@@ -116,7 +116,7 @@ function courseModulesRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTr
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.editRev(idRevision);
+                $scope.editModuleRev(idRevision);
             }
         },
         {
@@ -269,7 +269,7 @@ function courseModulesRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTr
             $rootScope.revisionsJson = response;
             $scope.revisionsTreeInit();
         });
-    }
+    };
     
     $scope.formData = {};
     $scope.revisionFilter=function () {

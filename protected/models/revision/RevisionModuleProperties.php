@@ -63,12 +63,10 @@ class RevisionModuleProperties extends CActiveRecord
 		return array(
 			array('status', 'required'),
 			array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
-			array('alias','unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
 			array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d\/]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри та символ "/"'),
 			array('hours_in_day, days_in_week,
             module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
 			array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
-			array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
 			array('alias', 'length', 'max' => 30, 'message' => 'Довжина псевдоніма занадто велика.'),
 			array('language', 'length', 'max' => 6),
 			array('title_ua', 'match',
@@ -233,6 +231,38 @@ class RevisionModuleProperties extends CActiveRecord
 		$this->id_user_created = $user->getId();
 
 		$this->saveCheck();
+	}
+
+	/**
+	 * Clone properties
+	 * @param $user
+	 * @return RevisionModuleProperties
+	 */
+	public function cloneProperties($user) {
+		$newProperties = new RevisionModuleProperties();
+		$newProperties->module_img = $this->module_img;
+		$newProperties->alias = $this->alias;
+		$newProperties->language = $this->language;
+		$newProperties->module_price = $this->module_price;
+		$newProperties->title_ua = $this->title_ua;
+		$newProperties->title_ru = $this->title_ru;
+		$newProperties->title_en = $this->title_en;
+		$newProperties->for_whom = $this->for_whom;
+		$newProperties->what_you_learn = $this->what_you_learn;
+		$newProperties->what_you_get = $this->what_you_get;
+		$newProperties->level = $this->level;
+		$newProperties->hours_in_day = $this->hours_in_day;
+		$newProperties->days_in_week = $this->days_in_week;
+		$newProperties->rating = $this->rating;
+		$newProperties->module_number = $this->module_number;
+		$newProperties->cancelled = $this->cancelled;
+		$newProperties->status = $this->status;
+		$newProperties->price_offline = $this->price_offline;
+		$newProperties->start_date = new CDbExpression('NOW()');
+		$newProperties->id_user_created = $user->getId();
+		$newProperties->saveCheck();
+
+		return $newProperties;
 	}
 
 	/**

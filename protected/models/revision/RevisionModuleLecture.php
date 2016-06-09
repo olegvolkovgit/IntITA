@@ -28,7 +28,7 @@ class RevisionModuleLecture extends CRevisionUnitActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, id_lecture_revision, id_module_revision, lecture_order', 'required'),
+			array('id_lecture_revision, id_module_revision, lecture_order', 'required'),
 			array('id, id_lecture_revision, id_module_revision, lecture_order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -101,7 +101,53 @@ class RevisionModuleLecture extends CRevisionUnitActiveRecord
 		return parent::model($className);
 	}
 
+	/**
+	 * Clone revision
+	 * Returns new lecture instance or current instance if the lecture is not cloneable
+	 * @param null $idNewRevision
+	 * @return RevisionModuleLecture
+	 * @throws Exception
+	 */
+	public function cloneLecture($idNewRevision = null) {
 
+		if ($idNewRevision == null) {
+			$idNewRevision = $this->id_module_revision;
+		}
+
+		$connection = Yii::app()->db;
+		$transaction = null;
+
+		if ($connection->getCurrentTransaction() == null) {
+			$transaction = $connection->beginTransaction();
+		}
+
+		try {
+			$newRevision = new RevisionModuleLecture();
+			
+			$newRevision->id_lecture_revision = $this->id_lecture_revision;
+			$newRevision->id_module_revision = $idNewRevision;
+			$newRevision->lecture_order = $this->lecture_order;
+			$newRevision->saveCheck();
+
+			if ($transaction != null) {
+				$transaction->commit();
+			}
+		} catch (Exception $e) {
+			if ($transaction != null) {
+				$transaction->rollback();
+			}
+			throw $e;
+		}
+
+		return $newRevision;
+	}
+	
+	public function saveCheck($runValidation=true,$attributes=null) {
+		if(!$this->save($runValidation,$attributes)) {
+			throw new RevisionModuleException('400',$this->getValidationErrors());
+		}
+	}
+	
     public function getValidationErrors() {
         $errors=[];
         foreach($this->getErrors() as $attribute){

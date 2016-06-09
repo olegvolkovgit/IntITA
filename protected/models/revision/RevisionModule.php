@@ -218,6 +218,105 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
         return $revModule;
     }
+
+    /**
+     * Clones $this into new db instance.
+     * Returns new module instance or current instance if the module is not cloneable
+     * @param $user
+     * @return RevisionModule
+     * @throws Exception
+     */
+    public function cloneModule($user) {
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $newRevision = new RevisionModule();
+            $newRevision->id_parent = $this->id_module_revision;
+            $newRevision->id_module = $this->id_module;
+            $newProperties = $this->properties->cloneProperties($user);
+            $newRevision->id_properties = $newProperties->id;
+
+            $newRevision->saveCheck();
+
+            foreach ($this->moduleLectures as $lecture) {
+                $lecture->cloneLecture($newRevision->id_module_revision);
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+
+        return $newRevision;
+    }
+
+    /**
+     * Creates new revision from existing module
+     * @param Module $module
+     * @param $user
+     * @return RevisionModule
+     * @throws Exception
+     * todo refactor
+     */
+    public static function createNewRevisionFromModule($module, $user) {
+
+        $revModule = null;
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $revModuleProperties = new RevisionModuleProperties();
+            $revModuleProperties->title_ua = $module->title_ua;
+            $revModuleProperties->title_ru = $module->title_ru;
+            $revModuleProperties->title_en = $module->title_en;
+            $revModuleProperties->module_img = $module->module_img;
+            $revModuleProperties->alias = $module->alias;
+            $revModuleProperties->language = $module->language;
+            $revModuleProperties->module_price = $module->module_price;
+            $revModuleProperties->for_whom = $module->for_whom;
+            $revModuleProperties->what_you_learn = $module->what_you_learn;
+            $revModuleProperties->what_you_get = $module->what_you_get;
+            $revModuleProperties->level = $module->level;
+            $revModuleProperties->hours_in_day = $module->hours_in_day;
+            $revModuleProperties->days_in_week = $module->days_in_week;
+            $revModuleProperties->rating = $module->rating;
+            $revModuleProperties->module_number = $module->module_number;
+            $revModuleProperties->cancelled = $module->cancelled;
+            $revModuleProperties->status = $module->status;
+            $revModuleProperties->price_offline = $module->price_offline;
+            $revModuleProperties->start_date = new CDbExpression('NOW()');
+            $revModuleProperties->id_user_created = $user->getId();
+            $revModuleProperties->approve_date = new CDbExpression('NOW()');
+            $revModuleProperties->id_user_approved = $user->getId();
+            $revModuleProperties->release_date = new CDbExpression('NOW()');
+            $revModuleProperties->id_user_released = $user->getId();
+            $revModuleProperties->saveCheck();
+
+            $revModule = new RevisionModule();
+            $revModule->id_module = $module->module_ID;
+            $revModule->id_properties = $revModuleProperties->id;
+            $revModule->saveCheck();
+
+            //set actual id_module_revision to regular DB (table module)
+            Module::model()->updateByPk($module->module_ID, array('id_module_revision'=>$revModule->id_module_revision));
+            // lectures
+            foreach ($module->lectures as $key=>$lecture) {
+                $revNewModuleLecture = new RevisionModuleLecture();
+                $revisionOfCurrentLecture=RevisionLecture::getParentRevisionForLecture($lecture->id);
+                if($revisionOfCurrentLecture==null){
+                    $revisionOfCurrentLecture = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user)->cloneLecture(Yii::app()->user);
+                }
+                $revNewModuleLecture->id_lecture_revision = $revisionOfCurrentLecture->id_revision;
+                $revNewModuleLecture->id_module_revision = $revModule->id_module_revision;
+                $revNewModuleLecture->lecture_order =$key+1;
+                $revNewModuleLecture->saveCheck();
+            }
+
+            $transaction->commit();
+
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+        return $revModule;
+    }
     
 
     public function editProperties($params, $user) {
