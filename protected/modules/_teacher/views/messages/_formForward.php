@@ -7,7 +7,6 @@
 ?>
 <div id="messageForm<?= $message; ?>">
     <form role="form" id="messageForm<?= $message; ?>">
-        <input class="form-control" name="receiver" id="hidden" value="<?= $receiver; ?>">
         <input class="form-control" name="parent" id="hidden" value="<?= $message; ?>">
         <input class="form-control" type="number" id="hidden" name="forwardToId" value="0"/>
         <div class="form-group">

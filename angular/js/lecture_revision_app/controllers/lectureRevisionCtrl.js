@@ -157,8 +157,9 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data);
-        }, function errorCallback() {
+        }, function errorCallback(response) {
             console.log('checkLecture error');
+            console.log(response);
             return false;
         });
     };

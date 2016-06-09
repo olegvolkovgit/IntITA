@@ -140,7 +140,7 @@ function initRequestsTable() {
                 }
             },
             {
-                "width": "50%",
+                "width": "40%",
                 "data": "module",
                 "render": function (module) {
                     return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
@@ -151,7 +151,11 @@ function initRequestsTable() {
                 "data": "type"
             },
             {
-                "width": "20%",
+                "width": "15%",
+                "data": "status",
+            },
+            {
+                "width": "15%",
                 "data": "dateCreated"
             }
         ],
@@ -592,9 +596,19 @@ function initPartsListTable(idLesson) {
                 "render": function (name) {
 
                     if(name["alias_module"]===''){
-                        return '<a href="'+basePath+'/module/ua/'+name["id_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
+                        if(name["title"]===''){
+                            return '<a href="'+basePath+'/module/ua/'+name["id_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >Переглянути</a>';
+                        }else{
+                            return '<a href="'+basePath+'/module/ua/'+name["id_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
+                        }
+
                     }else{
-                        return '<a href="'+basePath+'/course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
+                        if(name["title"]===''){
+                            return '<a href="'+basePath+'/course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >Переглянути</a>';
+                        }else{
+                            return '<a href="'+basePath+'/course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
+                        }
+
                     }
 
                 }

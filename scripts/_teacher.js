@@ -57,6 +57,27 @@ function deleteDialog(url, partner1, partner2) {
             "json"
         );
 }
+function editOffer(url, lang) {
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            lang: lang,
+            text: $jq("#offerText").val()
+        },
+        cache: false,
+        success: function (response) {
+            bootbox.alert(response, loadTemplateIndex);
+        },
+        error: function () {
+            bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                adminEmail);
+        }
+    });
+}
+function loadTemplateIndex(){
+    load(basePath + '/_teacher/_admin/level/index', 'Рівні курсів, модулів, оферта')
+}
 
 function deleteMessage(url, receiver) {
     var command = {
@@ -544,17 +565,16 @@ function reply(url) {
 }
 
 function forward(url) {
-    receiver = $jq("#receiverId").val();
-    if (receiver == "0") {
+    forwardTo = $jq("input[name=forwardToId]").val();
+    if (forwardTo == "0") {
         bootbox.alert('Виберіть отримувача повідомлення.');
     } else {
         showAjaxLoader();
         var posting = $jq.post(url,
             {
-                "receiver": receiver,
                 "subject": $jq("input[name=subject]").val(),
                 "parent": $jq("input[name=parent]").val(),
-                "forwardToId": $jq("input[name=forwardToId]").val(),
+                "forwardToId": forwardTo,
                 "text": $jq("#text").val()
             }
         );
