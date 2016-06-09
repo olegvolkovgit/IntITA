@@ -243,6 +243,13 @@ class RevisionLecture extends CActiveRecord
                 $this->properties->send_approval_date = new CDbExpression('NOW()');
                 $this->properties->id_user_sended_approval = $user->getId();
                 $this->properties->saveCheck();
+
+                $sql = 'SELECT DISTINCT * from user as u, user_content_manager as ua where u.id = ua.id_user and ua.end_date IS NULL';
+                $contentManagers = Yii::app()->db->createCommand($sql)->queryAll();
+                foreach ($contentManagers as $manager){
+                    StudentReg::model()->findByPk($manager['id'])->notify('_sendForApproveRevisionNotification', array(StudentReg::model()->findByPk($user->getId()),$this),
+                        'Надіслано запит на затвердження ревізії');
+                }
             } else {
                 //todo inform user
             }
@@ -331,12 +338,12 @@ class RevisionLecture extends CActiveRecord
      * @throws RevisionLecturePropertiesException
      * @throws \application\components\Exceptions\IntItaException
      */
-    public function reject ($user) {
+    public function reject($user) {
         if ($this->isRejectable()) {
             $this->properties->reject_date = new CDbExpression('NOW()');;
             $this->properties->id_user_rejected = $user->getId();
             $this->properties->saveCheck();
-        } else {
+
             //sending inform message to revision author
             $transaction = Yii::app()->db->beginTransaction();
             try {
@@ -352,6 +359,8 @@ class RevisionLecture extends CActiveRecord
                 $transaction->rollback();
                 throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
             }
+        } else {
+
         }
     }
 
@@ -359,6 +368,21 @@ class RevisionLecture extends CActiveRecord
         $this->properties->approve_date = new CDbExpression('NOW()');
         $this->properties->id_user_approved = $user->getId();
         $this->properties->saveCheck();
+
+        //sending inform message to revision author
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $message = new MessagesApproveRevision();
+            $message->build(Yii::app()->user->model->registrationData, $this);
+            $message->create();
+            $sender = new MailTransport();
+
+            $message->send($sender);
+            $transaction->commit();
+        } catch (Exception $e){
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
     }
 
     /**
@@ -395,21 +419,9 @@ class RevisionLecture extends CActiveRecord
                     $transaction->rollback();
                     throw $e;
                 }
-
-                //sending inform message to revision author
-                $transaction = Yii::app()->db->beginTransaction();
-                try {
-                    $message = new MessagesApproveRevision();
-                    $message->build(Yii::app()->user->model->registrationData, $this);
-                    $message->create();
-                    $sender = new MailTransport();
-
-                    $message->send($sender);
-                    $transaction->commit();
-                } catch (Exception $e){
-                    $transaction->rollback();
-                    throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
-                }
+                
+                StudentReg::model()->findByPk($this->properties->id_user_created)->notify('_readyRevisionNotification', array(StudentReg::model()->findByPk($user->getId()),$this),
+                    'Ревізія відправлена в реліз');
             } else {
                 //todo inform user
             }
@@ -503,7 +515,7 @@ class RevisionLecture extends CActiveRecord
                 $video = LectureElement::model()->findByPk($page->video);
                 if ($video != null) {
                     $revVideo = new RevisionLectureElement();
-                    $revVideo->id_page = $revLecture->id_revision;
+                    $revVideo->id_page = $revNewPage->id;
                     $revVideo->id_type = $video->id_type;
                     $revVideo->block_order = $video->block_order;
                     $revVideo->html_block = $video->html_block;
