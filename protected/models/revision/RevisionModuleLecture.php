@@ -10,7 +10,7 @@
  * @property integer $lecture_order
  */
 
-class RevisionModuleLecture extends CRevisionUnitActiveRecord
+class RevisionModuleLecture extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
