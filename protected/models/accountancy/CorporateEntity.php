@@ -18,8 +18,8 @@
  * @property integer $actual_address_city_code
  *
  * The followings are the available model relations:
- * @property AddressCity $legalAddressCityCode
- * @property AddressCity $actualAddressCityCode
+ * @property AddressCity $legalCity
+ * @property AddressCity $actualCity
  */
 class CorporateEntity extends CActiveRecord
 {
@@ -57,8 +57,8 @@ class CorporateEntity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'legalAddressCityCode' => array(self::BELONGS_TO, 'AddressCity', 'legal_address_city_code'),
-			'actualAddressCityCode' => array(self::BELONGS_TO, 'AddressCity', 'actual_address_city_code'),
+			'legalCity' => array(self::BELONGS_TO, 'AddressCity', 'legal_address_city_code'),
+			'actualCity' => array(self::BELONGS_TO, 'AddressCity', 'actual_address_city_code'),
 		);
 	}
 

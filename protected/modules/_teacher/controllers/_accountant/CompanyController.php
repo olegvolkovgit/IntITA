@@ -16,6 +16,20 @@ class CompanyController extends TeacherCabinetController
     }
 
     public function actionRenderAddForm(){
-        $this->renderPartial('_addCompanyForm', array(), false, true);
+        $this->renderPartial('_addForm', array(), false, true);
+    }
+
+    public function actionNewCompany(){
+        $model = new CorporateEntity();
+        $model->attributes = $_POST;
+        var_dump($model);die;
+    }
+
+    public function actionViewCompany($id){
+        $model = CorporateEntity::model()->findByPk($id);
+
+        $this->renderPartial('_viewCompany', array(
+            'model' => $model
+        ), false, true);
     }
 }

@@ -252,8 +252,39 @@ function initCompanies(){
     });
 }
 
+function addCompany(url){
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            title: $jq('[name="title"]').val(),
+            edpnou: $jq('[name="edpnou"]').val(),
+            certificate_of_vat: $jq('[name="certificate_of_vat"]').val(),
+            edpnou_issue_date:$jq('[name="edpnou_issue_date"]').val(),
+            certificate_of_vat_issue_date:$jq('[name="certificate_of_vat_issue_date"]').val(),
+            tax_certificate:$jq('[name="tax_certificate"]').val(),
+            tax_certificate_issue_date:$jq('[name="tax_certificate_issue_date"]').val(),
+            legal_address:$jq('[name="legal_address"]').val(),
+            legal_address_city_code:$jq('#cityLegal').val(),
+            actual_address:$jq('[name="actual_address"]').val(),
+            actual_address_city_code:$jq('#cityActual').val()
+        },
+        async: true,
+        success: function (response) {
+            bootbox.alert(response, loadCompanyIndex);
+        },
+        error: function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        }
+    });
+}
+
 function loadAgreement(id) {
     load(basePath + "/_teacher/_student/student/agreement/id/" + id, 'Договір');
+}
+
+function loadCompanyIndex(){
+    load(basePath + '/_teacher/_accountant/company/index', 'Компанії');
 }
 
 function cancelTeacherAccess(url, header, redirect, role) {
