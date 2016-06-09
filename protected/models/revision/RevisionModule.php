@@ -8,6 +8,7 @@
  * @property integer $id_parent
  * @property integer $id_module
  * @property integer $id_properties
+ * @property integer $uid_module
  * 
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
@@ -33,10 +34,11 @@ class RevisionModule extends CRevisionUnitActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_parent, id_module, id_module_revision, id_properties', 'numerical', 'integerOnly'=>true),
+            array('id_parent, id_module, id_module_revision, id_properties, uid_module', 'numerical', 'integerOnly'=>true),
+            array('uid_module', 'required'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id_parent, id_module, id_module_revision, id_properties', 'safe', 'on'=>'search'),
+            array('id_parent, id_module, id_module_revision, id_properties, uid_module', 'safe', 'on'=>'search'),
         );
     }
 
@@ -65,6 +67,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
             'id_parent' => 'Id Parent',
             'id_module' => 'Id Module',
             'id_properties' => 'Id Properties',
+            'uid_module' => 'uid_module'
         );
     }
 
@@ -90,6 +93,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $criteria->compare('id_parent',$this->id_parent);
         $criteria->compare('id_module',$this->id_module);
         $criteria->compare('id_properties',$this->id_properties);
+        $criteria->compare('uid_module',$this->uid_module);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -124,30 +128,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
         $revisions = RevisionModule::model()->find($criteria);
         return isset($revisions)?$revisions:null;
-    }
-
-    public function sendForApproval($user) {
-        // TODO: Implement sendForApproval() method.
-    }
-
-    public function revoke() {
-        // TODO: Implement revoke() method.
-    }
-
-    public function reject($user) {
-        // TODO: Implement reject() method.
-    }
-
-    public function approve($user) {
-        // TODO: Implement approve() method.
-    }
-
-    public function release($user) {
-        // TODO: Implement release() method.
-    }
-
-    public function cancel($user) {
-        // TODO: Implement cancel() method.
     }
 
     /**
