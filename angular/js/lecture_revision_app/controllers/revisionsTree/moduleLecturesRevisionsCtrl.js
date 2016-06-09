@@ -86,6 +86,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
         },
         {
             "type": "button",
+            "actionType": "create",
             "title": "Створити нову ревізію",
             "visible": true,
             "userId":userId,

@@ -967,6 +967,7 @@ class RevisionController extends Controller {
             $node['isReadable'] = $lecture->isReadable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+            $node['canCreate'] = $lecture->canCreate();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -992,6 +993,7 @@ class RevisionController extends Controller {
             $node['isReadable'] = $lecture->isReadable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+            $node['canCreate'] = $lecture->canCreate();
 
             $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }

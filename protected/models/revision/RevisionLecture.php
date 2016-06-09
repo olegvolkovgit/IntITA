@@ -1166,6 +1166,9 @@ class RevisionLecture extends CActiveRecord
     public function canRestoreEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancelledEditor());
     }
+    public function canCreate() {
+        return (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $this->id_module));
+    }
 
     /**
      * Returns last approved lecture in branch
