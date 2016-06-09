@@ -8,7 +8,7 @@
  * @property integer $id_module
  * @property string $date_approved
  * @property integer $user_approved
- * @property integer cancelled
+ * @property integer $cancelled
  *
  * The followings are the available model relations:
  * @property Module $idModule
@@ -196,22 +196,23 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 
     public static function listAllRequests()
     {
-        $authorRequests = MessagesAuthorRequest::notApprovedRequests();
-        $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
-        $coworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
+        $authorRequests = MessagesAuthorRequest::model()->findAll();
+        $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll();
+        $coworkerRequests = MessagesCoworkerRequest::model()->findAll();
         $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if($record->type() != Request::COWORKER_REQUEST) {
+            if ($record->type() != Request::COWORKER_REQUEST) {
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";
             }
-            $row["module"]["link"] = $row["user"]["link"] =  "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                        "message" => $record->getMessageId())) . "'";
+            $row["module"]["link"] = $row["user"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
+                    "message" => $record->getMessageId())) . "'";
             $row["dateCreated"] = date("d-m-Y", strtotime($record->message0->create_date));
+            $row["status"] = $record->statusToString();
             $row["type"] = $record->title();
             array_push($return['data'], $row);
         }
@@ -223,7 +224,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $user = RegisteredUser::userById($this->message0->sender);
 
         $this->cancelled = MessagesAuthorRequest::DELETED;
-        if($this->save()) {
+        if ($this->save()) {
             $this->notify($user->registrationData, 'Відхилено запит на редагування модуля', $this->cancelTemplate,
                 array($this->module()));
             return "Операцію успішно виконано.";
@@ -252,7 +253,8 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         } else return "Обраний викладач вже призначений автором даного модуля.";
     }
 
-    public function notify(StudentReg $user, $subject, $template, $params){
+    public function notify(StudentReg $user, $subject, $template, $params)
+    {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $message = new MessagesNotifications();
@@ -263,7 +265,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 
             $message->send($sender);
             $transaction->commit();
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $transaction->rollback();
             throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
         }
@@ -307,7 +309,8 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         return Request::AUTHOR_REQUEST;
     }
 
-    public function subject(){
+    public function subject()
+    {
         return "Запит на редагування модуля";
     }
 
@@ -326,15 +329,43 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         else return false;
     }
 
-    public function isApproved(){
-        if($this->date_approved != null && $this->user_approved != null){
+    public function isApproved()
+    {
+        if ($this->date_approved != null && $this->user_approved != null) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function isDeleted(){
+    public function isDeleted()
+    {
         return $this->cancelled == self::DELETED;
+    }
+
+    public function statusToString()
+    {
+        if ($this->isDeleted()) {
+            return 'видалений';
+        } else {
+            if ($this->isApproved()) {
+                return 'підтверджений';
+            } else {
+                return 'очікує затвердження';
+            }
+        }
+    }
+
+    public function approvedByToString()
+    {
+        if ($this->isApproved()) {
+            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:m", strtotime($this->date_approved));
+        } else {
+            return '';
+        }
+    }
+
+    public function message(){
+        return $this->message0;
     }
 }

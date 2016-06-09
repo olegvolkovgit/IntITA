@@ -140,7 +140,7 @@ function initRequestsTable() {
                 }
             },
             {
-                "width": "50%",
+                "width": "40%",
                 "data": "module",
                 "render": function (module) {
                     return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
@@ -151,7 +151,11 @@ function initRequestsTable() {
                 "data": "type"
             },
             {
-                "width": "20%",
+                "width": "15%",
+                "data": "status",
+            },
+            {
+                "width": "15%",
                 "data": "dateCreated"
             }
         ],
