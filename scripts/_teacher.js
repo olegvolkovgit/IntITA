@@ -213,6 +213,45 @@ function createAgreement(url, schema, course, educationForm, module, scenario) {
     });
 }
 
+function initCompanies(){
+    $jq('#companiesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_accountant/company/getCompaniesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(\'' + title["url"] + '\',\'Компанія\');" >' + title["name"] + '</a>';
+                }
+            },
+            {
+                "data": "edrnou",
+                "width": "15%",
+                "render": function (edrnou) {
+                    return '<a href="#" onclick="load(\'' + edrnou["url"] + '\',\'Компанія\');" >' + edrnou["title"] + '</a>';
+                }
+            },
+            {
+                "width": "20%",
+                "data": "legal_address"
+            },
+            {
+                "width": "20%",
+                "data": "actual_address"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function loadAgreement(id) {
     load(basePath + "/_teacher/_student/student/agreement/id/" + id, 'Договір');
 }

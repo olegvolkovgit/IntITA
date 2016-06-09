@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'acc_corporate_entity':
  * @property integer $id
  * @property string $EDPNOU
+ * @property string $title
  * @property string $edpnou_issue_date
  * @property string $certificate_of_vat
  * @property string $certificate_of_vat_issue_date
@@ -41,10 +42,10 @@ class CorporateEntity extends CActiveRecord
 			array('EDPNOU, certificate_of_vat, tax_certificate, legal_address, legal_address_city_code, actual_address, actual_address_city_code', 'required'),
 			array('legal_address_city_code, actual_address_city_code', 'numerical', 'integerOnly'=>true),
 			array('EDPNOU, certificate_of_vat, tax_certificate', 'length', 'max'=>14),
-			array('legal_address, actual_address', 'length', 'max'=>255),
+			array('legal_address, actual_address, title', 'length', 'max'=>255),
 			array('edpnou_issue_date, certificate_of_vat_issue_date, tax_certificate_issue_date', 'safe'),
 			// The following rule is used by search().
-			array('id, EDPNOU, edpnou_issue_date, certificate_of_vat, certificate_of_vat_issue_date, tax_certificate, tax_certificate_issue_date, legal_address, legal_address_city_code, actual_address, actual_address_city_code', 'safe', 'on'=>'search'),
+			array('id, EDPNOU, title, edpnou_issue_date, certificate_of_vat, certificate_of_vat_issue_date, tax_certificate, tax_certificate_issue_date, legal_address, legal_address_city_code, actual_address, actual_address_city_code', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +69,7 @@ class CorporateEntity extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'title' => 'Company name',
 			'EDPNOU' => 'National State Registry of Ukrainian Enterprises and Organizations',
 			'edpnou_issue_date' => 'Дата видачі  ЄДРПОУ',
 			'certificate_of_vat' => 'Свідоцтво платника ПДВ',
@@ -98,6 +100,7 @@ class CorporateEntity extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+        $criteria->compare('title', $this->title);
 		$criteria->compare('EDPNOU',$this->EDPNOU,true);
 		$criteria->compare('edpnou_issue_date',$this->edpnou_issue_date,true);
 		$criteria->compare('certificate_of_vat',$this->certificate_of_vat,true);
@@ -124,4 +127,24 @@ class CorporateEntity extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function companiesList(){
+        $courses = CorporateEntity::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($courses as $record) {
+            $row = array();
+
+            $row["title"]["name"] = CHtml::encode($record->title);
+            $row["title"]["url"] = $row["edrnou"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/company/viewCompany',
+                array('id' => $record->id));
+            $row["edrnou"]["title"] = $record->EDPNOU;
+            $row["legal_address"] = $record->legal_address;
+            $row["actual_address"] = $record->actual_address;
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 }
