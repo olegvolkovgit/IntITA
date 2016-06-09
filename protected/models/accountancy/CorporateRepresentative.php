@@ -95,4 +95,23 @@ class CorporateRepresentative extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function representativesList(){
+        $courses = CorporateRepresentative::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($courses as $record) {
+            $row = array();
+
+            $row["title"]["name"] = CHtml::encode($record->full_name);
+            $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/company/viewRepresentative',
+                array('id' => $record->id));
+            $row["position"] = $record->position;
+            $row["companies"] = 1;
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+	}
 }

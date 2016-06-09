@@ -213,6 +213,38 @@ function createAgreement(url, schema, course, educationForm, module, scenario) {
     });
 }
 
+function initRepresentatives(){
+    $jq('#representativesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_accountant/representative/getRepresentativesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "width": "40%",
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(\'' + title["url"] + '\',\'Компанія\');" >' + title["name"] + '</a>';
+                }
+            },
+            {
+                "width": "20%",
+                "data": "position"
+            },
+            {
+                "data": "companies"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function initCompanies(){
     $jq('#companiesTable').DataTable({
         "autoWidth": false,
