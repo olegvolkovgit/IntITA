@@ -38,9 +38,13 @@ class ConsultantController extends TeacherCabinetController
     public function actionConsultation($id){
         $model = Consultationscalendar::model()->findByPk($id);
 
-        $this->renderPartial('/_consultant/_viewConsultation', array(
-            'model' => $model
-        ), false, true);
+        if($model) {
+            $this->renderPartial('/_consultant/_viewConsultation', array(
+                'model' => $model
+            ), false, true);
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400, 'Такої консультації не існує.');
+        }
     }
 
     public function actionCancelConsultation($id)

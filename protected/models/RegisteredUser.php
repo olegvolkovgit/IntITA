@@ -188,7 +188,7 @@ class RegisteredUser
 
     public function canApprove()
     {
-        return $this->isAdmin();
+        return $this->isAdmin() || $this->isContentManager();
     }
 
     //todo author role check
@@ -322,7 +322,7 @@ class RegisteredUser
     }
 
     public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
-        if ($this->isAdmin() || $editMode) {
+        if ($this->isAdmin() || $editMode || $this->isContentManager()) {
             return true;
         }
         if ($this->isTeacherConsultant()) {

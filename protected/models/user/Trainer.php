@@ -172,7 +172,7 @@ class Trainer extends Role
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN teacher t on t.user_id = s.id';
         $criteria->join .= ' LEFT JOIN user_trainer ut ON ut.id_user = t.user_id';
-        $criteria->addCondition('t.user_id IS NOT NULL and ut.id_user IS NULL');
+        $criteria->addCondition('t.user_id IS NOT NULL and ut.id_user IS NULL or ut.end_date IS NOT NULL');
         $criteria->group = 's.id';
 
         $data = StudentReg::model()->findAll($criteria);

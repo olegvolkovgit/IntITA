@@ -76,6 +76,6 @@ if (!Yii::app()->user->isGuest) {
             </tr>
         </table>
         <?php
-        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse)); ?>
+        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager)); ?>
     </div>
 </div>

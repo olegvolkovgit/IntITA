@@ -43,7 +43,8 @@ $model = $user->registrationData;
 
     <div class="row">
         <div class="col-md-3">
-            <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>" target="_blank">
+            <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>"
+               target="_blank">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $teacher->user->avatar); ?>"
                      class="img-thumbnail" style="height:200px">
             </a>
@@ -51,7 +52,8 @@ $model = $user->registrationData;
         <div class="col-md-9">
             <ul class="list-group">
                 <li class="list-group-item">Ім'я:
-                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>" target="_blank">
+                    <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>"
+                       target="_blank">
                         <?php echo $teacher->getName() ?></a></li>
                 <li class="list-group-item">Ім'я російською:
                     <?= $teacher->last_name_ru . " " . $teacher->first_name_ru . " " . $teacher->middle_name_ru; ?>
@@ -69,13 +71,23 @@ $model = $user->registrationData;
                 <li class="list-group-item">Приватний чат:
                     <a href="<?= Config::getChatPath() . $teacher->user_id; ?>"
                        target="_blank">почати чат</a></li>
-                <li class="list-group-item">Статус співробітника: <em><?php echo $teacher->getStatus(); ?></em></li>
+                <li class="list-group-item">Статус співробітника: <em><?php echo $teacher->getStatus(); ?></em>
+                    <button type="button" class="btn btn-outline btn-primary btn-xs"
+                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/changeTeacherStatus"); ?>',
+                                '<?= $teacher->user_id ?>',
+                                '<?= ($teacher->isShow()) ? "Приховати викладача?" : "Показати викладача?"; ?>',
+                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
+                                'coworkers');
+                                return false;">
+                        змінити
+                    </button>
+                </li>
                 <li class="list-group-item">Акаунт: <em><?php echo $model->accountStatus(); ?></em>
                     <button type="button" class="btn btn-outline btn-primary btn-xs"
-                            onclick="changeUserStatus('<?=Yii::app()->createUrl("/_teacher/user/changeAccountStatus");?>',
-                                '<?=$model->id?>',
-                                '<?=($model->isAccountActivated())?"Заблокувати акаунт користувача?":"Активувати акаунт користувача?";?>',
-                                '<?=addslashes($model->userName())." <".$model->email.">";?>',
+                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
+                                '<?= $model->id ?>',
+                                '<?= ($model->isAccountActivated()) ? "Заблокувати акаунт користувача?" : "Активувати акаунт користувача?"; ?>',
+                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
                                 'coworkers');
                                 return false;">
                         змінити
@@ -83,10 +95,10 @@ $model = $user->registrationData;
                 </li>
                 <li class="list-group-item">Статус користувача: <em><?php echo $model->status(); ?></em>
                     <button type="button" class="btn  btn-outline btn-primary btn-xs"
-                            onclick="changeUserStatus('<?=Yii::app()->createUrl("/_teacher/user/changeUserStatus");?>',
-                                '<?=$model->id?>',
-                                '<?=($model->isActive())?"Видалити користувача?":"Відновити користувача?";?>',
-                                '<?=addslashes($model->userName())." <".$model->email.">";?>',
+                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
+                                '<?= $model->id ?>',
+                                '<?= ($model->isActive()) ? "Видалити користувача?" : "Відновити користувача?"; ?>',
+                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
                                 'coworkers');
                                 return false;">
                         змінити
