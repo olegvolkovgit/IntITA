@@ -504,7 +504,7 @@ class RevisionController extends Controller {
             $editableRevisions = [];
             $lastApproved = null;
             foreach ($lectureRevisions as $lectureRevision) {
-                if ($lectureRevision->isEditable()) {
+                if ($lectureRevision->canEdit()) {
                     array_push($editableRevisions, $lectureRevision);
                 } 
                 if ($lectureRevision->isApproved()) {
