@@ -75,7 +75,7 @@ function editOffer(url, lang) {
         }
     });
 }
-function loadTemplateIndex(){
+function loadTemplateIndex() {
     load(basePath + '/_teacher/_admin/level/index', 'Рівні курсів, модулів, оферта')
 }
 
@@ -213,7 +213,7 @@ function createAgreement(url, schema, course, educationForm, module, scenario) {
     });
 }
 
-function initRepresentatives(){
+function initRepresentatives() {
     $jq('#representativesTable').DataTable({
         "autoWidth": false,
         "ajax": {
@@ -234,6 +234,10 @@ function initRepresentatives(){
             },
             {
                 "data": "companies"
+            },
+            {
+                "width": "10%",
+                "data": "order"
             }
         ],
         "createdRow": function (row, data, index) {
@@ -245,7 +249,7 @@ function initRepresentatives(){
     });
 }
 
-function initCompanies(){
+function initCompanies() {
     $jq('#companiesTable').DataTable({
         "autoWidth": false,
         "ajax": {
@@ -284,7 +288,35 @@ function initCompanies(){
     });
 }
 
-function addCompany(url){
+function addRepresentative(url) {
+    representative = $jq('#representative').val();
+    fullName = $jq('[name="full_name"]').val();
+    position = $jq('[name="position"]').val();
+    if (representative == 0 && !(fullName && position)) {
+        bootbox.alert('Виберіть існуючого представника або додайте нового.');
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                full_name: fullName,
+                position: position,
+                representative: 0,
+                company: $jq('[name="company"]').val(),
+                order: $jq('[name="order"]').val(),
+            },
+            async: true,
+            success: function (response) {
+                bootbox.alert(response, loadRepresentativeIndex);
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
+function addCompany(url) {
     $jq.ajax({
         type: "POST",
         url: url,
@@ -292,14 +324,14 @@ function addCompany(url){
             title: $jq('[name="title"]').val(),
             edpnou: $jq('[name="edpnou"]').val(),
             certificate_of_vat: $jq('[name="certificate_of_vat"]').val(),
-            edpnou_issue_date:$jq('[name="edpnou_issue_date"]').val(),
-            certificate_of_vat_issue_date:$jq('[name="certificate_of_vat_issue_date"]').val(),
-            tax_certificate:$jq('[name="tax_certificate"]').val(),
-            tax_certificate_issue_date:$jq('[name="tax_certificate_issue_date"]').val(),
-            legal_address:$jq('[name="legal_address"]').val(),
-            legal_address_city_code:$jq('#cityLegal').val(),
-            actual_address:$jq('[name="actual_address"]').val(),
-            actual_address_city_code:$jq('#cityActual').val()
+            edpnou_issue_date: $jq('[name="edpnou_issue_date"]').val(),
+            certificate_of_vat_issue_date: $jq('[name="certificate_of_vat_issue_date"]').val(),
+            tax_certificate: $jq('[name="tax_certificate"]').val(),
+            tax_certificate_issue_date: $jq('[name="tax_certificate_issue_date"]').val(),
+            legal_address: $jq('[name="legal_address"]').val(),
+            legal_address_city_code: $jq('#cityLegal').val(),
+            actual_address: $jq('[name="actual_address"]').val(),
+            actual_address_city_code: $jq('#cityActual').val()
         },
         async: true,
         success: function (response) {
@@ -315,8 +347,12 @@ function loadAgreement(id) {
     load(basePath + "/_teacher/_student/student/agreement/id/" + id, 'Договір');
 }
 
-function loadCompanyIndex(){
+function loadCompanyIndex() {
     load(basePath + '/_teacher/_accountant/company/index', 'Компанії');
+}
+
+function loadRepresentativeIndex() {
+    load(basePath + '/_teacher/_accountant/representative/index', 'Представники');
 }
 
 function cancelTeacherAccess(url, header, redirect, role) {
@@ -422,7 +458,7 @@ function markPlainTask(url, idTeacher) {
     });
 }
 
-function loadPlainTasksList(idTeacher){
+function loadPlainTasksList(idTeacher) {
     load(basePath + '/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList/?idTeacher=' + idTeacher,
         'Задачі до перевірки');
 }
@@ -1025,7 +1061,7 @@ function initTodayTeacherConsultationsTable() {
                 "width": "10%",
                 "data": "start",
                 "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' +  link + '" target="_blank">почати</a>';
+                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
                 }
             }
         ],
@@ -1078,7 +1114,7 @@ function initTodayConsultationsTable() {
                 "width": "10%",
                 "data": "start",
                 "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' +  link + '" target="_blank">почати</a>';
+                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
                 }
             }
         ],

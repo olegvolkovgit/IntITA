@@ -147,4 +147,22 @@ class CorporateEntity extends CActiveRecord
 
         return json_encode($return);
     }
+
+    public static function companiesByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, title, EDPNOU";
+        $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('EDPNOU', $query, true, "OR", "LIKE");
+
+        $data = CorporateEntity::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["title"] = $model->title;
+            $result["results"][$key]["edpnou"] = $model->EDPNOU;
+        }
+        return json_encode($result);
+    }
 }

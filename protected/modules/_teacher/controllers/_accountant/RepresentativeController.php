@@ -26,4 +26,17 @@ class RepresentativeController extends TeacherCabinetController
             'model' => $model
         ), false, true);
     }
+
+    public function actionNewRepresentative(){
+        var_dump($_POST);die;
+    }
+
+    public function actionRepresentativeByQuery($query){
+        if ($query) {
+            $users = CorporateRepresentative::representativesByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
 }

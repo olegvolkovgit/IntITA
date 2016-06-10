@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'acc_corporate_representative':
  * @property integer $id
  * @property string $full_name
- * @property string $position
  *
  * The followings are the available model relations:
  */
@@ -28,11 +27,11 @@ class CorporateRepresentative extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('full_name, position', 'required'),
+			array('full_name', 'required'),
 			array('full_name', 'length', 'max'=>255),
 			array('position', 'length', 'max'=>100),
 			// The following rule is used by search().
-			array('id, full_name, position', 'safe', 'on'=>'search'),
+			array('id, full_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +54,6 @@ class CorporateRepresentative extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'full_name' => 'ПІБ',
-			'position' => 'Посада',
 		);
 	}
 
@@ -78,7 +76,6 @@ class CorporateRepresentative extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('full_name',$this->full_name,true);
-		$criteria->compare('position',$this->position,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,21 +94,42 @@ class CorporateRepresentative extends CActiveRecord
 	}
 
 	public static function representativesList(){
-        $courses = CorporateRepresentative::model()->findAll();
+        $sql = 'select cr.id, cr.full_name, cer.position, cer.representative_order, ce.title, ce.EDPNOU from acc_corporate_representative cr
+                left join acc_corporate_entity_representatives cer on cer.corporate_representative = cr.id
+                left join acc_corporate_entity ce on ce.id = cer.corporate_entity
+                where cer.corporate_representative IS NOT NULL';
+        $representatives = Yii::app()->db->createCommand($sql)->queryAll();
         $return = array('data' => array());
 
-        foreach ($courses as $record) {
+        foreach ($representatives as $record) {
             $row = array();
 
-            $row["title"]["name"] = CHtml::encode($record->full_name);
+            $row["title"]["name"] = CHtml::encode($record["full_name"]);
             $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/company/viewRepresentative',
-                array('id' => $record->id));
-            $row["position"] = $record->position;
-            $row["companies"] = 1;
+                array('id' => $record["id"]));
+            $row["position"] = $record["position"];
+            $row["companies"] = $record["EDPNOU"].", ".$record["title"];
+			$row["order"] = $record["representative_order"];
 
             array_push($return['data'], $row);
         }
 
         return json_encode($return);
 	}
+
+    public static function representativesByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, full_name";
+        $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('full_name', $query, true, "OR", "LIKE");
+
+        $data = CorporateRepresentative::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->full_name;
+        }
+        return json_encode($result);
+    }
 }

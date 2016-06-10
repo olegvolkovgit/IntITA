@@ -32,4 +32,13 @@ class CompanyController extends TeacherCabinetController
             'model' => $model
         ), false, true);
     }
+
+    public function actionCompaniesByQuery($query){
+        if ($query) {
+            $users = CorporateEntity::companiesByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
 }
