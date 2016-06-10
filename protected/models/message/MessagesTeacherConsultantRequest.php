@@ -206,9 +206,8 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 
         $this->cancelled = MessagesTeacherConsultantRequest::DELETED;
         if($this->save()){
-            $this->notify(Yii::app()->user->model->registrationData, $this->message()->sender0,
-                'Запит на призначення викладача відхилено',
-                '_teacherConsultantRequestCancelled', array($user->registrationData));
+            $this->message()->sender0->notify('_teacherConsultantRequestCancelled', array($user->registrationData),
+                'Запит на призначення викладача відхилено');
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
@@ -226,35 +225,14 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
                 $this->user_approved = $userApprove->id;
                 $this->date_approved = date("Y-m-d H:i:s");
                 if ($this->save()) {
-                    $this->notify(Yii::app()->user->model->registrationData, $this->message()->sender0,
-                        'Запит на призначення викладача успішно підтверджено',
-                        '_teacherConsultantApproved', array($user->registrationData));
-                    $this->notify(Yii::app()->user->model->registrationData, $user->registrationData,
-                        'Надано права викладача для модуля',
-                        '_notifyTeacherConsultant', array($this->module()));
+                    $this->message()->sender0->notify('_teacherConsultantApproved', array($user->registrationData),
+                        'Запит на призначення викладача успішно підтверджено');
                     return "Запит успішно підтверджений.";
                 }
             }
             return "Операцію не вдалося виконати";
 
         } else return "Обраний викладач вже призначений викладачем-консультантом по даному модулю.";
-    }
-
-    public function notify(StudentReg $userApprove, StudentReg $teacher, $subject, $template, $params){
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            $message = new MessagesNotifications();
-            $sender = new MailTransport();
-            $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($teacher), $userApprove);
-            $message->create();
-
-            $message->send($sender);
-            $transaction->commit();
-        } catch (Exception $e){
-            $transaction->rollback();
-            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
-       }
     }
 
     public function isRequestOpen($params)
