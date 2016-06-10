@@ -69,22 +69,6 @@ angular
                 return promise;
             };
 
-            this.getTestRevisionsBranch  = function(idRevision) {
-                var status='Відправлена на розгляд';
-                var promise = $http({
-                    url: basePath+'/revision/buildTree',
-                    method: "POST",
-                    data: $.param({idRevision: idRevision,status:status}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback(response) {
-                    return response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені списку ревізій заняття. Зв'яжіться з адміністрацією");
-                    return false;
-                });
-                return promise;
-            };
-
             this.revisionTreeFilterInBranch  = function(idRevision,status) {
                 var promise = $http({
                     url: basePath+'/revision/buildTreeInBranch',
@@ -110,6 +94,21 @@ angular
                     return response.data;
                 }, function errorCallback() {
                     bootbox.alert("Виникла помилка при завантажені списку ревізій модуля. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
+
+            this.allRevisionsTreeFilter  = function(status) {
+                var promise = $http({
+                    url: basePath+'/revision/buildAllFilteredRevisionsTree',
+                    method: "POST",
+                    data: $.param({status:status.revisionFilter}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені списку ревізій. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;

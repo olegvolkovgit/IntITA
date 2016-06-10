@@ -1166,6 +1166,9 @@ class RevisionLecture extends CActiveRecord
     public function canRestoreEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancelledEditor());
     }
+    public function canCreate() {
+        return (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $this->id_module));
+    }
 
     /**
      * Returns last approved lecture in branch
@@ -1255,7 +1258,7 @@ class RevisionLecture extends CActiveRecord
     }
 
     //revisions id list after filtered
-    public static function getFilteredIdRevisions($status, $idModule) {
+    public static function getFilteredIdRevisions($status, $idModule=null) {
 
         $sqlCancelledEditor=('vcp.id_user_cancelled_edit IS NOT NULL');
         $sqlCancelled=('vcp.id_user_cancelled IS NOT NULL');
@@ -1297,9 +1300,14 @@ class RevisionLecture extends CActiveRecord
             }
         }
         $finalSql=substr($finalSql, 3);
-        $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+        if($idModule==null){
+            $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE ".$finalSql;
+        }else{
+            $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
             WHERE vcl.id_module=".$idModule." 
             and (".$finalSql.")";
+        }
 
         $list = Yii::app()->db->createCommand($sql)->queryAll();
         $actualIdList=[];
