@@ -27,11 +27,18 @@
         </form>
         <br>
         <div class="alert alert-info">
+            <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                Автором модуля можна призначити лише зареєтрованого співробітника.
+                Якщо потрібного користувача немає в списку авторів, то призначити роль автора можна на сторінці
+                <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create');?>', 'Призначити автора')">
+                    Призначити співробітника</a>.
+            <?php } else { ?>
             Призначити автором можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
             за посиланням:
             <a href="#" class="alert-link"
                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/sendCoworkerRequest'); ?>',
                    'Запит на призначення співробітника')">Надіслати запит</a>.
+            <?php } ?>
         </div>
     </div>
 </div>
