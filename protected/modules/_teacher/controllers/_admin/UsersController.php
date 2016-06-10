@@ -134,12 +134,12 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAdminsList()
     {
-        echo StudentReg::adminsData();
+        echo UserAdmin::adminsData();
     }
 
     public function actionGetAccountantsList()
     {
-        echo StudentReg::accountantsData();
+        echo UserAccountant::accountantsData();
     }
 
     public function actionGetTrainersList()
