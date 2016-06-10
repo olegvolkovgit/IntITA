@@ -1,14 +1,11 @@
 <?php
 /* @var $model Course */
-$order = $model->modulesCount(); ?>
+?>
 <form id="addLessonForm" onsubmit="$('#submitButton').attr('disabled','true');" name="addModule" action="<?php echo Yii::app()->createUrl('module/saveModule'); ?>" method="post">
     <br>
     <span id="formLabel"><?php echo Yii::t('course', '0365') ?></span>
     <br>
-    <span><?php echo Yii::t('course', '0366') . " " . ($order + 1) . ". "; ?></span>
-    <br>
     <input name="idCourse" value="<?php echo $model->course_ID; ?>" type="hidden">
-    <input name="order" value="<?php echo $order + 1 ?>" type="hidden">
     <input name="lang" value="<?php echo $model->language; ?>" type="hidden">
     <div>Назва (UA)*</div>
     <input class="form-control" type="text" name="titleUA" id="titleUA" required ng-model="titleUa"

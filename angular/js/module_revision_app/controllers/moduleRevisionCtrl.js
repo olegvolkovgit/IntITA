@@ -8,24 +8,33 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
         $rootScope.moduleData=response;
         $scope.lectureInModule=$rootScope.moduleData.lectures;
     });
-
-    getModuleData.getReleasedLecture().then(function(response){
-        $scope.readyLectureRevisions=response;
-    });
     
-    // $scope.editPageRevision = function(pageId) {
-    //     location.href=basePath+'/revision/editPageRevision?idPage='+pageId;
-    // };
+    getModuleData.getApprovedLecture().then(function(response){
+        $scope.approvedLecture=response;
+    });
 
-    $scope.addRevisionToModule= function (lectureRevisionId, index) {
-        var revision=$scope.readyLectureRevisions[index];
-        $scope.readyLectureRevisions.splice(index, 1);
+    $scope.addRevisionToModuleFromCurrentList = function (lectureRevisionId, index) {
+        var revision=$scope.approvedLecture.current[index];
+        revision.list='current';
+        $scope.approvedLecture.current.splice(index, 1);
         $scope.lectureInModule.push(revision);
     };
+    $scope.addRevisionToModuleFromForeignList= function (lectureRevisionId, index) {
+        var revision=$scope.approvedLecture.foreign[index];
+        revision.list='foreign';
+        $scope.approvedLecture.foreign.splice(index, 1);
+        $scope.lectureInModule.push(revision);
+    };
+    
     $scope.removeRevisionFromModule= function (lectureRevisionId, index) {
         var revision=$scope.lectureInModule[index];
         $scope.lectureInModule.splice(index, 1);
-        $scope.readyLectureRevisions.push(revision);
+        console.log(revision);
+        if(revision.list=='current'){
+            $scope.approvedLecture.current.push(revision);
+        }else{
+            $scope.approvedLecture.foreign.push(revision);
+        }
     };
     //reorder pages
     $scope.upRevisionInModule = function(lectureRevisionId, index) {
@@ -48,6 +57,7 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
             object[index]['lecture_order']=index+1;
             object[index]['id_module_revision']=idRevision;
             delete object[index]['title'];
+            delete object[index]['link'];
         });
         $http({
             url: basePath+'/moduleRevision/editModuleRevision',

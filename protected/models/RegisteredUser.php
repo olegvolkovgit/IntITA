@@ -188,7 +188,7 @@ class RegisteredUser
 
     public function canApprove()
     {
-        return $this->isAdmin();
+        return $this->isAdmin() || $this->isContentManager();
     }
 
     //todo author role check

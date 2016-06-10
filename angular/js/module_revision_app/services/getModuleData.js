@@ -20,11 +20,12 @@ angular
                 });
                 return promise;
             };
-            this.getReleasedLecture = function () {
+
+            this.getApprovedLecture = function () {
                 var promise = $http({
-                    url: basePath+'/moduleRevision/getReleasedLecture',
+                    url: basePath+'/moduleRevision/getApprovedLecture',
                     method: "POST",
-                    data: $.param({idRevision: 1}),
+                    data: $.param({idModule: idModule}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;

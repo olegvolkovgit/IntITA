@@ -1,6 +1,7 @@
 <?php
 $this->breadcrumbs = array(
-    'Ревізії курса' => Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>0)),
+//    'Ревізії курса' => Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>0)),
+    'Ревізії модуля' => Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$moduleRevision->id_module)),
     'Ревізія даного модуля',
 );
 ?>
@@ -11,6 +12,7 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/directives/ajaxLoader.js'); ?>"></script>
 <script>
     idRevision = '<?php echo $moduleRevision->id_module_revision;?>';
+    idModule = '<?php echo $moduleRevision->id_module;?>';
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
 <div ng-app="moduleRevisionsApp">
@@ -19,10 +21,28 @@ $this->breadcrumbs = array(
             <?php
                 $this->renderPartial('_moduleRevisionInfo', array('moduleRevision' => $moduleRevision));
             ?>
-            <br>
-            <label>Доступні ревізії занять:</label>
-            <div ng-repeat="lectureRevision in readyLectureRevisions track by $index">
-                Ревізія №{{lectureRevision.id_lecture_revision}} {{lectureRevision.title}} <span class='ico' ng-click="addRevisionToModule(lectureRevision.id_revision, $index)">&plus;</span>
+            <h3>Доступні ревізії занять:</h3>
+            <div class="revisionTable">
+                <label>Доступні ревізії занять данного модуля:</label>
+                <div class="revisionsList">
+                    <div ng-repeat="revision in approvedLecture.current track by $index">
+                        <a ng-href="{{revision.link}}" target="_blank">
+                            Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
+                        </a>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">&#10003;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="revisionTable">
+                <label>Доступні ревізії занять інших модулів:</label>
+                <div class="revisionsList">
+                    <div ng-repeat="revision in approvedLecture.foreign track by $index">
+                        <a ng-href="{{revision.link}}" target="_blank">
+                            Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
+                        </a>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">&#10003;</span>
+                    </div>
+                </div>
             </div>
             <br>
             <label>Перелік ревізій занять: </label>
