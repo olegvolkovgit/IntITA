@@ -260,13 +260,13 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
 
     /**
      * Clones $this into new db instance.
-     * Returns new lecture instance or current instance if the lecture is not cloneable
+     * Returns new lecture instance
      * @param $user
+     * @param bool $newModule
      * @return RevisionLecture
      * @throws Exception
      */
-    public function cloneLecture($user) {
-//        $transaction = Yii::app()->db->beginTransaction();
+    public function cloneLecture($user, $newModule = false) {
         $connection = Yii::app()->db;
         $transaction = null;
 
@@ -275,9 +275,9 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         }
         try {
             $newRevision = new RevisionLecture();
-            $newRevision->id_parent = $this->id_revision;
-            $newRevision->id_lecture = $this->id_lecture;
-            $newRevision->id_module = $this->id_module;
+            $newRevision->id_parent = !$newModule ? $this->id_revision : null;
+            $newRevision->id_lecture = !$newModule ? $this->id_lecture : null;
+            $newRevision->id_module = !$newModule ? $this->id_module: $newModule;
 
             $newProperties = $this->properties->cloneProperties($user);
             $newRevision->id_properties = $newProperties->id;

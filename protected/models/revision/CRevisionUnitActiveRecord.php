@@ -39,7 +39,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * Cancel sends current revision to approve
      */
 
-    protected function beforeRevoke($user) {
+    protected function beforeRevoke() {
         return true;
     }
 
