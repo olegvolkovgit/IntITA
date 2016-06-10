@@ -1300,4 +1300,33 @@ class StudentReg extends CActiveRecord
 
         return $this->save();
     }
+
+    public static function withoutRolesUsersList(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = 'left join user_student us on us.id_user=u.id';
+        $criteria->join .= ' left join teacher t on t.user_id=u.id';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
+        $criteria->addCondition('us.id_user IS NULL and t.user_id IS NULL');
+
+        $users = StudentReg::model()->findAll($criteria);
+
+        $return = array('data' => array());
+
+        foreach ($users as $record) {
+            $row = array();
+            $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
+            $row["user"]["name"] = $name;
+            $row["email"]["title"] = $record["email"];
+            $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
+            $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
+            $row["country"] = ($record->country0)?$record->country0->title_ua:"";
+            $row["city"] = ($record->city0)?$record->city0->title_ua:"";
+            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
 }
