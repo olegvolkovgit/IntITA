@@ -1281,5 +1281,15 @@ class RevisionController extends Controller {
         echo $json;
     }
 
+    public function actionBuildAllFilteredRevisionsTree() {
+        $status = Yii::app()->request->getPost('status');
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status);
+        $lecturesTree = RevisionLecture::getLecturesTree();
+        $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $lecturesTree, $actualIdList);
+
+        echo $json;
+    }
+
 
 }
