@@ -115,7 +115,11 @@ class UserConsultant extends CActiveRecord
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
             $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
             $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_content_manager/contentManager/cancelRole')."'".", 'consultant', '".$record["id"]."', '9'";
-            array_push($return['data'], $row);
+			$row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
+				'scenario' => 'message',
+				'receiver' => $record["id"]
+			));
+			array_push($return['data'], $row);
         }
 
         return json_encode($return);
