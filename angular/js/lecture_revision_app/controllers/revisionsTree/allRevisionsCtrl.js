@@ -11,6 +11,8 @@ angular
     });
 
 function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
+    $scope.approvedTree=true;
+    $scope.formData = {};
     //init tree after load json
     revisionsTree.getAllRevisionsJson().then(function(response){
         $rootScope.revisionsJson=response;
@@ -229,10 +231,17 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        revisionsTree.getAllRevisionsJson().then(function(response){
-            $rootScope.revisionsJson=response;
-            $scope.$parent.treeUpdate(nodeId);
-        });
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            revisionsTree.getAllRevisionsJson().then(function(response){
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }else{
+            revisionsTree.allRevisionsTreeFilter($scope.formData).then(function (response) {
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }
     };
 
     $scope.updateTree = function() {
@@ -240,6 +249,25 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             $rootScope.revisionsJson=response;
             $scope.revisionsTreeInit();
         });
+    };
+
+    $scope.revisionFilter=function () {
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            $scope.updateTree();
+        }else{
+            revisionsTree.allRevisionsTreeFilter($scope.formData).then(function (response) {
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate();
+            });
+        }
+    };
+
+    function isEmptyFilter(obj) {
+        for (var key in obj) {
+            if(obj[key])
+                return false;
+        }
+        return true;
     }
 }
 

@@ -20,6 +20,8 @@ class UsersController extends TeacherCabinetController
         $counters["consultants"] = UserConsultant::model()->count("end_date IS NULL");
         $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
         $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
+        //todo
+        $counters["withoutRoles"] = "_";
 
         $this->renderPartial('index', array(
             'counters' => $counters
@@ -104,6 +106,12 @@ class UsersController extends TeacherCabinetController
         echo StudentReg::usersList();
     }
 
+    public function actionGetWithoutRolesUsersList()
+    {
+        echo StudentReg::withoutRolesUsersList();
+    }
+
+
     public function actionGetTenantsList()
     {
         echo UserTenant::tenantsList();
@@ -126,12 +134,12 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAdminsList()
     {
-        echo StudentReg::adminsData();
+        echo UserAdmin::adminsData();
     }
 
     public function actionGetAccountantsList()
     {
-        echo StudentReg::accountantsData();
+        echo UserAccountant::accountantsData();
     }
 
     public function actionGetTrainersList()
