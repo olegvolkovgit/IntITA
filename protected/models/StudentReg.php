@@ -1081,60 +1081,6 @@ class StudentReg extends CActiveRecord
 //        PayCourses::model()->exists('id_user=:id', array('id' => $this->id));
     }
 
-    public static function adminsData()
-    {
-        $sql = 'select * from user as u, user_admin as ua where u.id = ua.id_user';
-        $admins = Yii::app()->db->createCommand($sql)->queryAll();
-        $return = array('data' => array());
-
-        foreach ($admins as $record) {
-            $row = array();
-            $row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
-            $row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
-            $row["email"]["title"] = $record["email"];
-            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
-                array('id' => $record['id']));
-            $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y", strtotime($record["start_date"])) : "невідомо";
-            $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
-            $row["profile"] = Config::getBaseUrl() . "/profile/" . $record["id"];
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record["id"]
-            ));
-            $row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'admin', '" . $record["id"] . "', '4'";
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-    }
-
-    public static function accountantsData()
-    {
-        $sql = 'select * from user as u, user_accountant as ua where u.id = ua.id_user';
-        $admins = Yii::app()->db->createCommand($sql)->queryAll();
-        $return = array('data' => array());
-
-        foreach ($admins as $record) {
-            $row = array();
-            $row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
-            $row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
-            $row["email"]["title"] = $record["email"];
-            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
-                array('id' => $record['id']));
-            $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y", strtotime($record["start_date"])) : "невідомо";
-            $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
-            $row["profile"] = Config::getBaseUrl() . "/profile/" . $record["id"];
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record["id"]
-            ));
-            $row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'accountant', '" . $record["id"] . "', '5'";
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-    }
-
     public static function usersWithoutTeachers($query)
     {
         $criteria = new CDbCriteria();
@@ -1299,5 +1245,34 @@ class StudentReg extends CActiveRecord
         $this->passport_issued = $passportIssued;
 
         return $this->save();
+    }
+
+    public static function withoutRolesUsersList(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = 'left join user_student us on us.id_user=u.id';
+        $criteria->join .= ' left join teacher t on t.user_id=u.id';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
+        $criteria->addCondition('us.id_user IS NULL and t.user_id IS NULL');
+
+        $users = StudentReg::model()->findAll($criteria);
+
+        $return = array('data' => array());
+
+        foreach ($users as $record) {
+            $row = array();
+            $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
+            $row["user"]["name"] = $name;
+            $row["email"]["title"] = $record["email"];
+            $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
+            $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
+            $row["country"] = ($record->country0)?$record->country0->title_ua:"";
+            $row["city"] = ($record->city0)?$record->city0->title_ua:"";
+            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
     }
 }

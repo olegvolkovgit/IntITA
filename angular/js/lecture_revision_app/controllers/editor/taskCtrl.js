@@ -43,6 +43,10 @@ function taskCtrl($scope, $http,taskJson) {
                                             location.reload();
                                         });
                                     });
+                                }else{
+                                    bootbox.alert("Зміни умови відбулися", function () {
+                                        location.reload();
+                                    });
                                 }
                             });
                         } else bootbox.alert("Виникла помилка при редагуванні задачі");

@@ -91,9 +91,12 @@
                             <?php
                         }
                         else {?>
-                            <span id="coursePriceStatus1"><?=$price . " " . Yii::t('courses', '0322');?></span>
-                        &nbsp<span id="coursePriceStatus2"><?=PaymentHelper::discountedPrice($price, 30) . " " .
-                            Yii::t('courses', '0322');?></span>
+                            <span id="coursePriceStatus1">
+                                <?= " ".Yii::t('courses', '0322') . sprintf ("%01.2f", round($price, 2)) . " " . Yii::t('courses', '0322');?>
+                            </span>
+                        &nbsp<span id="coursePriceStatus2">
+                                <?=Yii::t('courses', '0322') . sprintf ("%01.2f", round(PaymentHelper::discountedPrice($price, 30), 2));?>
+                            </span>
                             <span id="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
                         <?php
                         }
