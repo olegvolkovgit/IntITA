@@ -7,7 +7,6 @@ class m160606_090118_corporate_representative_table extends CDbMigration
 		$this->createTable('acc_corporate_representative', array(
 			'id' => 'pk',
             'full_name' => 'VARCHAR(255) NOT NULL COMMENT \'ПІБ\'',
-            'position' => 'VARCHAR(100) NOT NULL COMMENT \'Посада\''
 		));
 	}
 

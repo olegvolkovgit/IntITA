@@ -8,6 +8,7 @@ class m160606_090132_corporate_entity_representatives_table extends CDbMigration
 			'corporate_entity' => 'INT(10) NOT NULL',
 			'corporate_representative' => 'INT(10) NOT NULL',
 			'representative_order' => 'INT(2) NOT NULL',
+			'position' => 'VARCHAR(100) NOT NULL COMMENT \'Посада\'',
             'INDEX `FK_corporate_entity_representatives_corporate_entity` (`corporate_entity`)',
             'INDEX `FK_corporate_entity_representatives_corporate_representative` (`corporate_representative`)',
             'CONSTRAINT `FK_corporate_entity_representatives_corporate_entity` FOREIGN KEY (`corporate_entity`) REFERENCES `acc_corporate_entity` (`id`)',
