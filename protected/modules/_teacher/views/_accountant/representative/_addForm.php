@@ -13,8 +13,8 @@
             <form>
                 <div class="col-lg-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading" id="new">
-                            <a data-toggle="collapse" href="#new" onclick="setScenario('new')">
+                        <div class="panel-heading">
+                            <a data-toggle="collapse" href="#new">
                                 Новий представник
                             </a>
                         </div>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default" id="exist">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <a data-toggle="collapse" href="#exist">
                                 Вибрати існуючого представника
