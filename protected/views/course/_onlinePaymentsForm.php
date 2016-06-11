@@ -24,11 +24,11 @@ if ($model->status != Course::AVAILABLE) {
                             <td>
                                 <div class="numbers" id="numbersFirstOnline">
                                             <span
-                                                class="coursePriceStatus1"><?php echo round($price * 1.3) . " " . Yii::t('courses', '0322') ?>
+                                                class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price * 1.3, 2)); ?>
                                             </span>
                                     &nbsp
                                             <span
-                                                class="coursePriceStatus2"><?php echo $price . " " . Yii::t('courses', '0322'); ?>
+                                                class="coursePriceStatus2"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price, 2)); ?>
                                             </span>
                                             <span id="discount">
                                                 <img style="text-align:right"

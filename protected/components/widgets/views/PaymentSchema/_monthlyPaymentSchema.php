@@ -32,9 +32,9 @@
                                 <div class="numbers">
                                     <span><?php
                                         //todo
-                                        echo Yii::t('courses', '0322') . round($price/12, 2) . ' ' . '/' .
-                                            Yii::t('module', '0218') . ' х 12 ' . Yii::t('course', '0323'); ?>
-                                        &asymp; <b><?php echo $price. ' ' . Yii::t('courses', '0322') ?>
+                                        echo Yii::t('courses', '0322') . sprintf ("%01.2f", round($price/12, 2)) . ' ' . '/' .
+                                            Yii::t('payments', '0865') . ' х 12 ' . Yii::t('course', '0323'); ?>
+                                        &asymp; <b><?php echo sprintf ("%01.2f", $price). ' ' . Yii::t('courses', '0322') ?>
                                         </b>
                                     </span>
                                 </div>

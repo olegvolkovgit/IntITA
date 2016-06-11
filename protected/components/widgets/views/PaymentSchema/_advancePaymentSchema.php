@@ -66,9 +66,9 @@ if ($discount == 0) {
                         <td>
                             <div class="numbers">
                                 <span
-                                    class="coursePriceStatus1"><?php echo round($price * (100 + $discount)/100, 2)  . " " . Yii::t('courses', '0322') ?></span>
+                                    class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price * (100 + $discount)/100, 2)); ?></span>
                                 &asymp; <span class="coursePriceStatus2">
-                                <?php echo Yii::t('courses', '0322').$price . " "; ?>
+                                <?php echo Yii::t('courses', '0322').sprintf ("%01.2f", $price) . " "; ?>
                             </span>
                                 <br>
                             <span id="discount">

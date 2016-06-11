@@ -34,9 +34,9 @@ $year = $schema->yearsCount();
                         <tr>
                             <td>
                                 <div class="numbers">
-                                    <span><?php echo Yii::t('courses', '0322').round($price/(12 * $year), 2) . ' ' . '/' .
+                                    <span><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price/(12 * $year), 2)) . ' ' . '/' .
                                             Yii::t('payments', '0865') . ' х ' . (12 * $year) . ' ' . Yii::t('course', '0324'); ?>
-                                        <b> &asymp; <?php echo $price . ' ' . Yii::t('courses', '0322'); ?></b>
+                                        <b> &asymp; <?php echo sprintf ("%01.2f", $price) . ' ' . Yii::t('courses', '0322'); ?></b>
                                     </span>
                                 </div>
                             </td>
