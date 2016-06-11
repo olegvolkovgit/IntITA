@@ -28,7 +28,7 @@ class RepresentativeController extends TeacherCabinetController
     }
 
     public function actionNewRepresentative(){
-        var_dump($_POST);die;
+        //var_dump($_POST);die;
     }
 
     public function actionRepresentativeByQuery($query){

@@ -22,7 +22,13 @@ class CompanyController extends TeacherCabinetController
     public function actionNewCompany(){
         $model = new CorporateEntity();
         $model->attributes = $_POST;
-        var_dump($model);die;
+        if($model->validate()){
+            $model->save();
+            echo "Компанію успішно створено.";
+        } else {
+            echo "Компанію не вдалося створити";
+        }
+//        var_dump($model);die;
     }
 
     public function actionViewCompany($id){
