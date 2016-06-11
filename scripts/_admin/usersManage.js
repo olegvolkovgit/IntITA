@@ -161,6 +161,51 @@ function initUsersTable() {
     });
 }
 
+
+function initWithoutRolesUsersTable() {
+    $jq('#withoutRolesTable').DataTable({
+        "autoWidth": false,
+        "order": [[ 2, "desc" ]],
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/users/getWithoutRolesUsersList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                data: "user",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(\'' + user["url"] + '\', \'' + user["header"]+ '\');">' + user["name"]+ '</a>';
+                }
+            },
+            {
+                data: "email",
+                "render": function (email) {
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'' + email["header"]+ '\');">' + email["title"]+ '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "12%",
+                "data": "register"
+            },
+            {
+                data: "country",
+                "width": "10%"
+            },
+            {
+                data: "city",
+                "width": "10%"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function initConsultantsRolesTable() {
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,

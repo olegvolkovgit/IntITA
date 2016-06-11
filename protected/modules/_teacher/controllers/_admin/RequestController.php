@@ -25,9 +25,19 @@ class RequestController extends TeacherCabinetController
         }
     }
 
-    public function actionGetRequestList()
+    public function actionGetActiveRequestsList()
     {
-        echo MessagesAuthorRequest::listAllRequests();
+        echo RequestsList::listAllActiveRequests();
+    }
+
+    public function actionGetApprovedRequestsList()
+    {
+        echo RequestsList::listAllApprovedRequests();
+    }
+
+    public function actionGetDeletedRequestsList()
+    {
+        echo RequestsList::listAllDeletedRequests();
     }
 
     public function actionApprove($message, $user)

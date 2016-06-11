@@ -15,9 +15,13 @@ class ResponseController extends TeacherCabinetController{
     public function actionView($id)
     {
         $model = Response::model()->findByPk($id);
-        $this->renderPartial('view',array(
-            'model'=>$model,
-        ),false,true);
+        if(!$model){
+            echo "Такого відгука немає.";
+        } else {
+            $this->renderPartial('view', array(
+                'model' => $model,
+            ), false, true);
+        }
     }
 
     /**
