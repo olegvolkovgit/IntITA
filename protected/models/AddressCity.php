@@ -167,4 +167,22 @@ class AddressCity extends CActiveRecord
 
 		return $model->save();
 	}
+
+	public static function citiesByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, title_ua, country";
+        $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('country', $query, true, "OR", "LIKE");
+
+        $data = AddressCity::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["title"] = $model->title_ua;
+            $result["results"][$key]["country"] = $model->country0->title_ua;
+        }
+return json_encode($result);
+}
 }

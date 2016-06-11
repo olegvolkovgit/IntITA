@@ -165,4 +165,8 @@ class CorporateEntity extends CActiveRecord
         }
         return json_encode($result);
     }
+
+	public static function representativesList(){
+
+    }
 }

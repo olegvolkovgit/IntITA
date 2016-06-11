@@ -44,8 +44,8 @@ if($schema->payCount == 2){
                         <tr>
                             <td>
                                 <div class="numbers">
-                                <span class="coursePriceStatus"><?php echo $price . " " . Yii::t('courses', '0322'); ?>
-                                </span>= <?php echo round($price / $schema->payCount) . ' ' . Yii::t('courses', '0322'); ?>
+                                <span class="coursePriceStatus"><?php echo Yii::t('courses', '0322').$price . " "; ?>
+                                </span>&asymp; <?php echo round($price / $schema->payCount, 2) . ' ' . Yii::t('courses', '0322'); ?>
                                 </div>
                             </td>
                         </tr>
@@ -75,14 +75,13 @@ if($schema->payCount == 2){
                             <td>
                                 <div class="numbers">
                                 <span class="coursePriceStatus">
-                                    <?php echo $price . " " . Yii::t('courses', '0322'); ?>
+                                    <?php echo Yii::t('courses', '0322').$price . " "; ?>
                                 </span>&nbsp
                                 <span class="coursePriceStatus2">
                                     <?php
-                                    $discountedPrice = round($price / $schema->payCount);
-                                    echo $discountedPrice . " " .
-                                        Yii::t('courses', '0322'); ?>=</span>
-                                <span><?php echo round($discountedPrice / $schema->payCount) . ' ' .
+                                    $discountedPrice = round($price / $schema->payCount,2);
+                                    echo  Yii::t('courses', '0322').$discountedPrice . " "; ?>&asymp; </span>
+                                <span><?php echo round($discountedPrice / $schema->payCount, 2) . ' ' .
                                         Yii::t('courses', '0322') . ' x ' . $schema->payCount . ' ' . Yii::t('course', '0323'); ?>
                                 </span>
                                 </div>

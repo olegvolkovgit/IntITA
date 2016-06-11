@@ -93,4 +93,47 @@
         $jq("#certificate_of_vat_issue_date").datepicker(lang);
         $jq("#tax_certificate_issue_date").datepicker(lang);
     });
+
+    var cities = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_accountant/company/citiesByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (cities) {
+                return $jq.map(cities.results, function (city) {
+                    return {
+                        id: city.id,
+                        title: city.title,
+                        country: city.country
+                    };
+                });
+            }
+        }
+    });
+
+    cities.initialize();
+
+    $jq('#typeaheadCityLegal').on('typeahead:selected', function (e, item) {
+        $jq("#cityLegal").val(item.id);
+    });
+
+    $jq('#typeaheadCityActual').on('typeahead:selected', function (e, item) {
+        $jq("#cityActual").val(item.id);
+    });
+
+    $jq('#typeaheadCityLegal, #typeaheadCityActual').typeahead(null, {
+        name: 'cities',
+        display: 'title',
+        limit: 10,
+        source: cities,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'немає міст з такою назвою',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><div class='typeahead_labels'><div class='typeahead_primary'>{{title}}&nbsp;</div><div class='typeahead_secondary'>{{country}}</div></div></div>")
+        }
+    });
 </script>

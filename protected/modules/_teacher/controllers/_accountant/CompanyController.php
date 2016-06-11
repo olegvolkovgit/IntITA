@@ -11,6 +11,10 @@ class CompanyController extends TeacherCabinetController
         $this->renderPartial('index', array(), false, true);
     }
 
+    public function actionCitiesByQuery($query){
+        echo AddressCity::citiesByQuery($query);
+    }
+
     public function actionGetCompaniesList(){
         echo CorporateEntity::companiesList();
     }
@@ -28,7 +32,6 @@ class CompanyController extends TeacherCabinetController
         } else {
             echo "Компанію не вдалося створити";
         }
-//        var_dump($model);die;
     }
 
     public function actionViewCompany($id){
