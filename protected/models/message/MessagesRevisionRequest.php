@@ -19,6 +19,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
 {
     private $template = '_revisionRequest';
     private $approvedTemplate = '_revisionRequestApproved';
+    private $cancelledTemplate = '_revisionRequestCancelled';
     const TYPE = MessagesType::REVISION_REQUEST;
     private $receivers = array();
     private $revision;
@@ -27,100 +28,100 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     const DELETED = 1;
     const ACTIVE = 0;
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'messages_revision_request';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'messages_revision_request';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('id_message, id_revision', 'required'),
-			array('id_message, id_revision, user_approved, cancelled', 'numerical', 'integerOnly'=>true),
-			array('date_approved', 'safe'),
-			// The following rule is used by search().
-			array('id_message, id_revision, date_approved, user_approved, cancelled', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('id_message, id_revision', 'required'),
+            array('id_message, id_revision, user_approved, cancelled', 'numerical', 'integerOnly' => true),
+            array('date_approved', 'safe'),
+            // The following rule is used by search().
+            array('id_message, id_revision, date_approved, user_approved, cancelled', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
-			'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
-			'idRevision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+            'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
+            'idRevision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id_message' => 'Id Message',
-			'id_revision' => 'Id Revision',
-			'date_approved' => 'Date Approved',
-			'user_approved' => 'User Approved',
-			'cancelled' => '0 - actual, 1 - cancelled',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id_message' => 'Id Message',
+            'id_revision' => 'Id Revision',
+            'date_approved' => 'Date Approved',
+            'user_approved' => 'User Approved',
+            'cancelled' => '0 - actual, 1 - cancelled',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_message',$this->id_message);
-		$criteria->compare('id_revision',$this->id_revision);
-		$criteria->compare('date_approved',$this->date_approved,true);
-		$criteria->compare('user_approved',$this->user_approved);
-		$criteria->compare('cancelled',$this->cancelled);
+        $criteria->compare('id_message', $this->id_message);
+        $criteria->compare('id_revision', $this->id_revision);
+        $criteria->compare('date_approved', $this->date_approved, true);
+        $criteria->compare('user_approved', $this->user_approved);
+        $criteria->compare('cancelled', $this->cancelled);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return MessagesRevisionRequest the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return MessagesRevisionRequest the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public function primaryKey()
-	{
-		return 'id_message';
-	}
+    public function primaryKey()
+    {
+        return 'id_message';
+    }
 
     public function build(RevisionLecture $revision, StudentReg $user, $chained = null, $original = null)
     {
@@ -193,35 +194,28 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     public function setDeleted()
     {
         $this->cancelled = self::DELETED;
-        if($this->save()){
-            $this->message()->sender0->notify('_teacherConsultantRequestCancelled', array($this->message0->sender0),
-                'Запит на призначення викладача відхилено');
+        if ($this->save()) {
+            $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
+                'Запит на затвердження ревізії лекції відхилено');
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
         }
     }
 
-    //to do
     public function approve(StudentReg $userApprove)
     {
-        $user = RegisteredUser::userById($this->id_teacher);
-        //add rights to edit module
+        $this->idRevision->approve(Yii::app()->user);
+        $this->user_approved = $userApprove->id;
+        $this->date_approved = date("Y-m-d H:i:s");
+        if ($this->save()) {
+            $this->message()->sender0->notify($this->approvedTemplate,
+                array($this->idRevision),
+                'Запит на затвердження ревізії лекції успішно підтверджено');
+            return "Запит успішно підтверджений.";
+        }
 
-    //    if (!$role->checkModule($this->id_teacher, $this->id_module)) {
-      //      if ($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
-                //update current request, set approved status
-                $this->user_approved = $userApprove->id;
-                $this->date_approved = date("Y-m-d H:i:s");
-                if ($this->save()) {
-                    $this->message()->sender0->notify($this->approvedTemplate, array($user->registrationData),
-                        'Запит на затвердження ревізії лекції успішно підтверджено');
-                    return "Запит успішно підтверджений.";
-                }
-//            }
-//            return "Операцію не вдалося виконати";
-//
-//        } else return "Обраний викладач вже призначений викладачем-консультантом по даному модулю.";
+        return "Операцію не вдалося виконати";
     }
 
     public function isRequestOpen($params)
@@ -262,7 +256,8 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         return Request::REVISION_REQUEST;
     }
 
-    public function subject(){
+    public function subject()
+    {
         return "Запит на призначення викладача-консультанта для модуля";
     }
 
@@ -281,27 +276,31 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         else return false;
     }
 
-    public function message(){
+    public function message()
+    {
         return $this->message0;
     }
 
-    public function isApproved(){
-        if($this->date_approved != null && $this->user_approved != null){
+    public function isApproved()
+    {
+        if ($this->date_approved != null && $this->user_approved != null) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function isDeleted(){
+    public function isDeleted()
+    {
         return $this->cancelled == self::DELETED;
     }
 
-    public function statusToString(){
-        if($this->isDeleted()){
+    public function statusToString()
+    {
+        if ($this->isDeleted()) {
             return 'видалений';
         } else {
-            if($this->isApproved()){
+            if ($this->isApproved()) {
                 return 'підтверджений';
             } else {
                 return 'очікує затвердження';

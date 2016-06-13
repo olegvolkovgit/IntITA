@@ -1218,8 +1218,8 @@ class StudentReg extends CActiveRecord
     }
 
     public function notify($template, $params, $subject){
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
+//        $transaction = Yii::app()->db->beginTransaction();
+//        try {
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
@@ -1228,11 +1228,11 @@ class StudentReg extends CActiveRecord
             $message->create();
 
             $message->send($sender);
-            $transaction->commit();
-        } catch (Exception $e){
-            $transaction->rollback();
-            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
-        }
+          //  $transaction->commit();
+//        } catch (Exception $e){
+//            $transaction->rollback();
+//            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+//        }
     }
 
     public function updatePassportData($passport, $inn, $documentType, $issuedDate, $passportIssued){

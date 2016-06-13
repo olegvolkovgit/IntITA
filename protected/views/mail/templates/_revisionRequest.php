@@ -8,7 +8,7 @@ $author = $params[0];
 $revision = $params[1];
 ?>
 <span>Автор
-    <a href="<?= Yii::app()->createAbsoluteUrl('studentreg/profile', array('idUser' => $author->id)) ?>">
+    <a href="<?= Yii::app()->createAbsoluteUrl('studentreg/profile', array('idUser' => $author->id)) ?>" target="_blank">
         <?= $author->userNameWithEmail() ?>
     </a>
        надіслав запит на зтвердження ревізії лекції
