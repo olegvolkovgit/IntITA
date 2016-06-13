@@ -73,7 +73,10 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
         }
     };
 
-    $scope.editModuleRevision = function (object) {
+    $scope.editModuleRevision = function (lectureList) {
+        // var object =  JSON.stringify(lectureList);
+        // object =  JSON.parse(object);
+        var object=lectureList;
         $.each(object, function(index) {
             object[index]['lecture_order']=index+1;
             object[index]['id_module_revision']=idRevision;
@@ -83,10 +86,12 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
         $http({
             url: basePath+'/moduleRevision/editModuleRevision',
             method: "POST",
-            data: $.param({moduleLectures: JSON.stringify(object)}),
+            data: $.param({moduleLectures: JSON.stringify(object), idModule:idModule}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
-            bootbox.alert("Зміни збережено");
+            bootbox.alert("Зміни збережено", function () {
+                location.reload();
+            });
         }, function errorCallback() {
             bootbox.alert("Зберегти зміни в ревізію не вдалося. Зв'яжіться з адміністрацією");
             return false;

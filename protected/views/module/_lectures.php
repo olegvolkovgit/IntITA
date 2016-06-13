@@ -8,15 +8,15 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 
 <div class="lessonModule" id="lectures">
     <div class="revisionIco">
-        <?php if ($canEdit){?>
-                <a href="<?php echo Yii::app()->createUrl("module/edit", array("idModule" => $module->module_ID)); ?>">
-                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                         title="Створити ревізію заняття в модулі"/>
-                </a>
-
-        <?php } ?>
+<!--        --><?php //if ($canEdit){?>
+<!--                <a href="--><?php //echo Yii::app()->createUrl("module/edit", array("idModule" => $module->module_ID)); ?><!--">-->
+<!--                    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?><!--"-->
+<!--                         title="Створити ревізію заняття в модулі"/>-->
+<!--                </a>-->
+<!---->
+<!--        --><?php //} ?>
         <?php if ($canEdit || $isContentManager){?>
-
+                <label>Ревізії:
                 <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$module->module_ID, 'idCourse'=>$idCourse)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
                          title="Ревізії модуля"/>
@@ -25,6 +25,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'lectureRevisions.png'); ?>"
                          title="Ревізії занять модуля"/>
                 </a>
+                </label>
         <?php } ?>
     </div>
     <?php if (!Yii::app()->user->isGuest) {

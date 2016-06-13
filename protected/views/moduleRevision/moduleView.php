@@ -55,7 +55,7 @@ $this->breadcrumbs = array(
                     <td>Навігація</td>
                 </tr>
                 <tr ng-repeat="lecture in lectureInModule track by $index">
-                    <td>{{lecture.id_lecture_revision}}</td>
+                    <td><span ng-if="lecture.list!='foreign'">{{lecture.id_lecture_revision}}</span></td>
                     <td>{{lecture.title}}</td>
                     <td>{{$index+1}}</td>
                     <td>

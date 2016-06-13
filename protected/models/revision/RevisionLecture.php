@@ -279,7 +279,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $newRevision->id_lecture = !$newModule ? $this->id_lecture : null;
             $newRevision->id_module = !$newModule ? $this->id_module: $newModule;
 
-            $newProperties = $this->properties->cloneProperties($user);
+            $newProperties = $this->properties->cloneProperties($user, $newModule);
             $newRevision->id_properties = $newProperties->id;
 
             $newRevision->saveCheck();
@@ -810,6 +810,10 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         return $this->lecturePages[count($this->lecturePages) - 1]->page_order;
     }
 
+    public function canCreate() {
+        return (Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $this->id_module));
+    }
+    
 //    Moved to abstract superclass:
 //
 //    public function isApprovable() {
@@ -928,7 +932,6 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * revisions id list after filtered
      */
     public static function getFilteredIdRevisions($status, $idModule) {
-
         $sqlCancelledEditor = ('vcp.id_user_cancelled_edit IS NOT NULL');
         $sqlCancelled = ('vcp.id_user_cancelled IS NOT NULL');
         $sqlReady = ('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
@@ -969,16 +972,19 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             }
         }
         $finalSql = substr($finalSql, 3);
-        $sql = "SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE vcl.id_module=" . $idModule . " 
-            and (" . $finalSql . ")";
-
+        if($idModule==null){
+            $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE ".$finalSql;
+        }else{
+            $sql="SELECT DISTINCT vcl.id_revision FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE vcl.id_module=".$idModule." 
+            and (".$finalSql.")";
+        }
         $list = Yii::app()->db->createCommand($sql)->queryAll();
         $actualIdList = [];
         foreach ($list as $item) {
             array_push($actualIdList, $item['id_revision']);
         }
-
         return $actualIdList;
     }
 

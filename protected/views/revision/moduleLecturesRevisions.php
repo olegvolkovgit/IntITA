@@ -50,6 +50,12 @@
                         </div>
                     </li>
             </ul>
+            <div>
+                <a href="" ng-click="isOpenLecture = !isOpenLecture">Створити ревізію нового заняття</a>
+            </div>
+            <div ng-show="isOpenLecture">
+                <?php $this->renderPartial('_addLessonForm', array('idModule'=>$idModule)); ?>
+            </div>
             <?php
             $this->renderPartial('_revisionsTree');
             ?>
