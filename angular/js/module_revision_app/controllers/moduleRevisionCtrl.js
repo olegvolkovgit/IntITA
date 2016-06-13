@@ -74,9 +74,8 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
     };
 
     $scope.editModuleRevision = function (lectureList) {
-        // var object =  JSON.stringify(lectureList);
-        // object =  JSON.parse(object);
-        var object=lectureList;
+        var object =  JSON.stringify(lectureList);
+        object =  JSON.parse(object);
         $.each(object, function(index) {
             object[index]['lecture_order']=index+1;
             object[index]['id_module_revision']=idRevision;
