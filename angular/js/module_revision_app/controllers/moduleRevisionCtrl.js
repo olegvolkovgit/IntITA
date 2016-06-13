@@ -3,15 +3,37 @@ angular
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
 function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
+    $scope.tempId=[];
     //load from service lecture data for scope
     getModuleData.getData(idRevision).then(function(response){
         $rootScope.moduleData=response;
         $scope.lectureInModule=$rootScope.moduleData.lectures;
+        getModuleData.getApprovedLecture().then(function(response){
+            $scope.approvedLecture=response;
+            $.each($scope.approvedLecture.current, function(index) {
+                $.each($scope.lectureInModule, function(indexInModule) {
+                    if($scope.lectureInModule[indexInModule]['id_lecture_revision']==$scope.approvedLecture.current[index]['id_lecture_revision']){
+                        $scope.tempId.push($scope.lectureInModule[indexInModule]['id_lecture_revision']);
+                        return false;
+                    }
+                });
+            });
+            $scope.approvedLecture.current = $scope.approvedLecture.current.filter(function(value) {
+                return !find($scope.tempId,value.id_lecture_revision)
+            });
+        });
     });
-    
-    getModuleData.getApprovedLecture().then(function(response){
-        $scope.approvedLecture=response;
-    });
+
+    //find exist value in array or not
+    function find(array, value) {
+
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == value) return true;
+        }
+
+        return false;
+    }
+
 
     $scope.addRevisionToModuleFromCurrentList = function (lectureRevisionId, index) {
         var revision=$scope.approvedLecture.current[index];
@@ -29,11 +51,10 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
     $scope.removeRevisionFromModule= function (lectureRevisionId, index) {
         var revision=$scope.lectureInModule[index];
         $scope.lectureInModule.splice(index, 1);
-        console.log(revision);
-        if(revision.list=='current'){
-            $scope.approvedLecture.current.push(revision);
-        }else{
+        if(revision.list=='foreign'){
             $scope.approvedLecture.foreign.push(revision);
+        }else{
+            $scope.approvedLecture.current.push(revision);
         }
     };
     //reorder pages

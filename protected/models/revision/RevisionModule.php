@@ -278,7 +278,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
                 $revNewModuleLecture = new RevisionModuleLecture();
                 $revisionOfCurrentLecture=RevisionLecture::getParentRevisionForLecture($lecture->id);
                 if($revisionOfCurrentLecture==null){
-                    $revisionOfCurrentLecture = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user)->cloneLecture(Yii::app()->user);
+                    $revisionOfCurrentLecture = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+//                    $revisionOfCurrentLecture->cloneLecture(Yii::app()->user);
                 }
                 $revNewModuleLecture->id_lecture_revision = $revisionOfCurrentLecture->id_revision;
                 $revNewModuleLecture->id_module_revision = $revModule->id_module_revision;

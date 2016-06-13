@@ -257,6 +257,7 @@ class ModuleRevisionController extends Controller {
         foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
             $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
             $lectures[$key]["lecture_order"] = $lecture->lecture_order;
+            $lectures[$key]["title"] = RevisionLecture::model()->findByPk($lecture->id_lecture_revision)->properties->title_ua;
         }
         $module['status']=$moduleRevision->getStatus();
         $module['canEdit']=$moduleRevision->canEdit();
