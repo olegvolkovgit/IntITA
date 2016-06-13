@@ -36,7 +36,7 @@ if ($discount == 0) {
                     <tr>
                         <td>
                     <span class="coursePriceStatus2">
-                        <?php echo Yii::t('courses', '0322').$price . " "; ?>
+                        <?php echo $price . " " . Yii::t('courses', '0322'); ?>
                     </span>
                         </td>
                     </tr>
@@ -66,9 +66,9 @@ if ($discount == 0) {
                         <td>
                             <div class="numbers">
                                 <span
-                                    class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price * (100 + $discount)/100, 2)); ?></span>
-                                &asymp; <span class="coursePriceStatus2">
-                                <?php echo Yii::t('courses', '0322').sprintf ("%01.2f", $price) . " "; ?>
+                                    class="coursePriceStatus1"><?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round($price, 2)); ?></span>
+                                &nbsp<span class="coursePriceStatus2">
+                                <?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round(($educForm == 'offline')?$schema->getSummaOffline($model):$schema->getSumma($model), 2)); ?>
                             </span>
                                 <br>
                             <span id="discount">
