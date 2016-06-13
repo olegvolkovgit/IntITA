@@ -8,8 +8,7 @@
  * @property integer $id_parent
  * @property integer $id_module
  * @property integer $id_properties
- * @property integer $uid_module
- * 
+ *
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
  */
@@ -34,11 +33,10 @@ class RevisionModule extends CRevisionUnitActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_parent, id_module, id_module_revision, id_properties, uid_module', 'numerical', 'integerOnly'=>true),
-            array('uid_module', 'required'),
+            array('id_parent, id_module, id_module_revision, id_properties', 'numerical', 'integerOnly'=>true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id_parent, id_module, id_module_revision, id_properties, uid_module', 'safe', 'on'=>'search'),
+            array('id_parent, id_module, id_module_revision, id_properties', 'safe', 'on'=>'search'),
         );
     }
 
@@ -67,7 +65,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
             'id_parent' => 'Id Parent',
             'id_module' => 'Id Module',
             'id_properties' => 'Id Properties',
-            'uid_module' => 'uid_module'
         );
     }
 
@@ -93,7 +90,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $criteria->compare('id_parent',$this->id_parent);
         $criteria->compare('id_module',$this->id_module);
         $criteria->compare('id_properties',$this->id_properties);
-        $criteria->compare('uid_module',$this->uid_module);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -133,22 +129,22 @@ class RevisionModule extends CRevisionUnitActiveRecord
     /**
      * Returns module QuickUnion structure.
      * If $idCourse specified - returns revisions of this course, else - all revisions
-     * @param null|$idCourse
+     * @param null|$idModule
      * @return array
      */
-    public static function getModulesTree($idCourse = null) {
-//        if ($idCourse != null) {
-//            $allIdList = Yii::app()->db->createCommand()
-//                ->select('id_revision, id_parent')
-//                ->from('vc_lecture')
-//                ->where('id_module='.$idModule)
-//                ->queryAll();
-//        } else {
+    public static function getModulesTree($idModule = null) {
+        if ($idModule != null) {
+            $allIdList = Yii::app()->db->createCommand()
+                ->select('id_module_revision, id_parent')
+                ->from('vc_module')
+                ->where('id_module='.$idModule)
+                ->queryAll();
+        } else {
             $allIdList = Yii::app()->db->createCommand()
                 ->select('id_module_revision, id_parent')
                 ->from('vc_module')
                 ->queryAll();
-//        }
+        }
 
         return RevisionModule::getQuickUnionStructure($allIdList);
     }
@@ -174,21 +170,22 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return $quickUnion;
     }
     
-    public static function createNewModule($titleUa, $titleEn, $titleRu, $user) {
+    public static function createNewRevision($module, $user) {
         $revModuleProperties = new RevisionModuleProperties();
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
 
-            $revModuleProperties->initialize($titleUa, $titleEn, $titleRu, $user);
+            $revModuleProperties->initialize($module->title_ua, $module->title_en, $module->title_ru, $user);
 
             $revModule = new RevisionModule();
+            $revModule->id_module = $module->module_ID;
             $revModule->id_properties = $revModuleProperties->id;
-
             $revModule->saveCheck();
 
-            $revLecturePage = new RevisionLecturePage();
-            $revLecturePage->initialize($revModule->id_module_revision);
+            $module->id_module_revision=$revModule->id_module_revision;
+            $module->save();
+                
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
@@ -281,7 +278,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
                 $revNewModuleLecture = new RevisionModuleLecture();
                 $revisionOfCurrentLecture=RevisionLecture::getParentRevisionForLecture($lecture->id);
                 if($revisionOfCurrentLecture==null){
-                    $revisionOfCurrentLecture = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user)->cloneLecture(Yii::app()->user);
+                    $revisionOfCurrentLecture = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
+//                    $revisionOfCurrentLecture->cloneLecture(Yii::app()->user);
                 }
                 $revNewModuleLecture->id_lecture_revision = $revisionOfCurrentLecture->id_revision;
                 $revNewModuleLecture->id_module_revision = $revModule->id_module_revision;
@@ -327,12 +325,22 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
     /**
      * Save module model with error checking
-     * @throws RevisionLectureException
+     * @throws RevisionModuleException
      */
     public function saveCheck() {
         if (!$this->save()) {
-            throw new RevisionLectureException(implode(", ", $this->getErrors()));
+            throw new RevisionModuleException('400',$this->getValidationErrors());
         }
+    }
+
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return $errors[0];
     }
     
 }

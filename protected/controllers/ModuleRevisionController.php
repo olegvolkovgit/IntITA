@@ -7,9 +7,8 @@ class ModuleRevisionController extends Controller {
     {
         parent::init();
         $app = Yii::app();
-        if (isset($app->session['lg'])) {
-            $app->language = $app->session['lg'];
-        }
+        $app->language = isset($app->session['lg'])?$app->session['lg']:'ua';
+
         if (Yii::app()->user->isGuest) {
             $this->render('/site/authorize');
             die();
@@ -27,10 +26,31 @@ class ModuleRevisionController extends Controller {
             'userId' => Yii::app()->user->getId(),
         ));
     }
+    
+    // page of module revisions tree 
+    public function actionModuleRevisions($idModule, $idCourse=0) {
+        $module= Module::model()->findByPk($idModule);
+        $approver=RegisteredUser::userById(Yii::app()->user->getId())->canApprove();
+        if (!$approver) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0829'));
+        }
+
+        $this->render('moduleRevisions', array(
+            'idCourse' => $idCourse,
+            'module' => $module,
+            'isApprover' => $approver,
+            'userId' => Yii::app()->user->getId(),
+        ));
+    }
 
     public function actionEditModuleRevision() {
-        $moduleLectures = json_decode(Yii::app()->request->getPost('moduleLectures'));
-        var_dump($moduleLectures);die;
+        $moduleLectures = json_decode(Yii::app()->request->getPost('moduleLectures'),true);
+        $idModule = Yii::app()->request->getPost('idModule');
+        foreach($moduleLectures as $lecture){
+            if(isset($lecture["list"]) && $lecture["list"]=='foreign'){
+                RevisionLecture::model()->findByPk($lecture["id_lecture_revision"])->cloneLecture(Yii::app()->user, $newModule = $idModule);
+            }
+        }
     }
 
     /**
@@ -115,7 +135,16 @@ class ModuleRevisionController extends Controller {
     public function actionBuildRevisionsInCourse() {
         $idCourse = Yii::app()->request->getPost('idCourse');
         $moduleRev = RevisionModule::model()->findAll();
-        $relatedTree = RevisionModule::getModulesTree($idCourse);
+        $relatedTree = RevisionModule::getModulesTree();
+        $json = $this->buildModuleTreeJson($moduleRev, $relatedTree);
+
+        echo $json;
+    }
+
+    public function actionBuildModuleRevisions() {
+        $idModule = Yii::app()->request->getPost('idModule');
+        $moduleRev = RevisionModule::model()->findAllByAttributes(array("id_module" => $idModule));
+        $relatedTree = RevisionModule::getModulesTree($idModule);
         $json = $this->buildModuleTreeJson($moduleRev, $relatedTree);
 
         echo $json;
@@ -185,21 +214,62 @@ class ModuleRevisionController extends Controller {
         }
     }
 
-    public function actionCreateNewModuleRevision() {
-        $titleUa = trim(Yii::app()->request->getPost("revTitleUa"));
-        $titleEn = trim(Yii::app()->request->getPost("revTitleEn"));
-        $titleRu = trim(Yii::app()->request->getPost("revTitleRu"));
+    public function actionCreateRevisionFromModule() {
+        $idModule = trim(Yii::app()->request->getPost("idModule"));
+        $module=Module::model()->findByPk($idModule);
+
+        if(RevisionModule::model()->find('id_module=:id', array(':id'=>$idModule))){
+            echo false;
+            return;
+        }
 
         if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
-        $revModule = RevisionModule::createNewModule($titleUa, $titleEn, $titleRu, Yii::app()->user);
-        $this->redirect(array('moduleRevision/editModuleRevisionPage', 'idRevision' => $revModule->id_module_revision));
+        $revModule =  RevisionModule::createNewRevisionFromModule($module, Yii::app()->user)->cloneModule(Yii::app()->user);
+        
+        echo $revModule->id_module_revision;
+    }
+
+    public function actionCreateModuleRevision($idRevision) {
+        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
+
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $moduleRevision = $moduleRevision->cloneModule(Yii::app()->user);
+        if($moduleRevision){
+            $this->redirect(Yii::app()->createUrl('/moduleRevision/editModuleRevisionPage',array('idRevision'=>$moduleRevision->id_module_revision)));
+        }else{
+            throw new RevisionControllerException(500, 'CreateModuleRevision error');
+        }
+    }
+
+    public function actionCancelEditModuleRevisionByEditor () {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $moduleRev->cancelEditRevisionByEditor(Yii::app()->user);
+    }
+
+    public function actionRestoreEditModuleRevisionByEditor () {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $moduleRev->restoreEditRevisionByEditor();
     }
 
     public function actionEditModuleRevisionPage($idRevision) {
-
         $moduleRevision = RevisionModule::model()->findByPk($idRevision);
 
         if(!$moduleRevision)
@@ -229,6 +299,7 @@ class ModuleRevisionController extends Controller {
         foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
             $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
             $lectures[$key]["lecture_order"] = $lecture->lecture_order;
+            $lectures[$key]["title"] = RevisionLecture::model()->findByPk($lecture->id_lecture_revision)->properties->title_ua;
         }
         $module['status']=$moduleRevision->getStatus();
         $module['canEdit']=$moduleRevision->canEdit();
@@ -265,18 +336,39 @@ class ModuleRevisionController extends Controller {
         $moduleRevision->editProperties($params, Yii::app()->user);
     }
 
-    public function actionGetReleasedLecture() {
-        $sql = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL";
+    public function actionGetApprovedLecture() {
+        $idModule = Yii::app()->request->getPost('idModule');
 
-        $list = Yii::app()->db->createCommand($sql)->queryAll();
-        $readyLectureList = array();
-        foreach ($list as $key=>$item) {
-            $readyLectureList[$key]['id_lecture_revision']=$item['id_revision'];
-            $readyLectureList[$key]['title']=$item['title_ua'];
+        $lecturesInCurrentModule = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module=".$idModule;
+
+        $listFromCurrentModule = Yii::app()->db->createCommand($lecturesInCurrentModule)->queryAll();
+        $approvedLectureList = array();
+        foreach ($listFromCurrentModule as $key=>$item) {
+            $approvedLectureList['current'][$key]['id_lecture_revision']=$item['id_revision'];
+            $approvedLectureList['current'][$key]['title']=$item['title_ua'];
+            $approvedLectureList['current'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
         }
 
-        echo CJSON::encode($readyLectureList);
+        $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
+            WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
+
+        $listFromOtherModules= Yii::app()->db->createCommand($lecturesInOtherModules)->queryAll();
+        foreach ($listFromOtherModules as $key=>$item) {
+            $approvedLectureList['foreign'][$key]['id_lecture_revision']=$item['id_revision'];
+            $approvedLectureList['foreign'][$key]['title']=$item['title_ua'];
+            $approvedLectureList['foreign'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
+        }
+
+        echo CJSON::encode($approvedLectureList);
+    }
+
+    public function actionGetModuleData() {
+        $idModule = trim(Yii::app()->request->getPost("idModule"));
+        $exists = RevisionModule::model()->exists('id_module='.$idModule);
+        $data['revision']=$exists;
+        
+        echo CJSON::encode($data);
     }
 
 }

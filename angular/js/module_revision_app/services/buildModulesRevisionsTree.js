@@ -32,6 +32,38 @@ angular
                 });
                 return promise;
             };
+
+            this.getModuleRevisions  = function(idModule) {
+                var url=basePath+'/moduleRevision/buildModuleRevisions';
+                var promise = $http({
+                    url: url,
+                    method: "POST",
+                    data: $.param({idModule: idModule}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені ревізій модуля. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
+
+            this.getModuleData  = function(idModule) {
+                var url=basePath+'/moduleRevision/getModuleData';
+                var promise = $http({
+                    url: url,
+                    method: "POST",
+                    data: $.param({idModule: idModule}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені даних модуля. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
             //
             // this.getRevisionsBranch  = function(idRevision,approved) {
             //     var url;

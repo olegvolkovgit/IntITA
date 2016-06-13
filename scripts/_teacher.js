@@ -57,6 +57,27 @@ function deleteDialog(url, partner1, partner2) {
             "json"
         );
 }
+function editOffer(url, lang) {
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            lang: lang,
+            text: $jq("#offerText").val()
+        },
+        cache: false,
+        success: function (response) {
+            bootbox.alert(response, loadTemplateIndex);
+        },
+        error: function () {
+            bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора ' +
+                adminEmail);
+        }
+    });
+}
+function loadTemplateIndex() {
+    load(basePath + '/_teacher/_admin/level/index', 'Рівні курсів, модулів, оферта')
+}
 
 function deleteMessage(url, receiver) {
     var command = {
@@ -312,8 +333,146 @@ function createAgreement(url, schema, course, educationForm, module, scenario) {
     });
 }
 
+function initRepresentatives() {
+    $jq('#representativesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_accountant/representative/getRepresentativesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "width": "40%",
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(\'' + title["url"] + '\',\'Компанія\');" >' + title["name"] + '</a>';
+                }
+            },
+            {
+                "width": "20%",
+                "data": "position"
+            },
+            {
+                "data": "companies"
+            },
+            {
+                "width": "10%",
+                "data": "order"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initCompanies() {
+    $jq('#companiesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_accountant/company/getCompaniesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(\'' + title["url"] + '\',\'Компанія\');" >' + title["name"] + '</a>';
+                }
+            },
+            {
+                "data": "edrnou",
+                "width": "15%",
+                "render": function (edrnou) {
+                    return '<a href="#" onclick="load(\'' + edrnou["url"] + '\',\'Компанія\');" >' + edrnou["title"] + '</a>';
+                }
+            },
+            {
+                "width": "20%",
+                "data": "legal_address"
+            },
+            {
+                "width": "20%",
+                "data": "actual_address"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function addRepresentative(url) {
+    representative = $jq('#representative').val();
+    fullName = $jq('[name="full_name"]').val();
+    position = $jq('[name="position"]').val();
+    if (representative == 0 && !(fullName && position)) {
+        bootbox.alert('Виберіть існуючого представника або додайте нового.');
+    } else {
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                full_name: fullName,
+                position: position,
+                representative: 0,
+                company: $jq('[name="company"]').val(),
+                order: $jq('[name="order"]').val(),
+            },
+            async: true,
+            success: function (response) {
+                bootbox.alert(response, loadRepresentativeIndex);
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
+
+function addCompany(url) {
+    $jq.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            title: $jq('[name="title"]').val(),
+            edpnou: $jq('[name="edpnou"]').val(),
+            certificate_of_vat: $jq('[name="certificate_of_vat"]').val(),
+            edpnou_issue_date: $jq('[name="edpnou_issue_date"]').val(),
+            certificate_of_vat_issue_date: $jq('[name="certificate_of_vat_issue_date"]').val(),
+            tax_certificate: $jq('[name="tax_certificate"]').val(),
+            tax_certificate_issue_date: $jq('[name="tax_certificate_issue_date"]').val(),
+            legal_address: $jq('[name="legal_address"]').val(),
+            legal_address_city_code: $jq('#cityLegal').val(),
+            actual_address: $jq('[name="actual_address"]').val(),
+            actual_address_city_code: $jq('#cityActual').val()
+        },
+        async: true,
+        success: function (response) {
+            bootbox.alert(response, loadCompanyIndex);
+        },
+        error: function () {
+            bootbox.alert("Операцію не вдалося виконати.");
+        }
+    });
+}
+
 function loadAgreement(id) {
     load(basePath + "/_teacher/_student/student/agreement/id/" + id, 'Договір');
+}
+
+function loadCompanyIndex() {
+    load(basePath + '/_teacher/_accountant/company/index', 'Компанії');
+}
+
+function loadRepresentativeIndex() {
+    load(basePath + '/_teacher/_accountant/representative/index', 'Представники');
 }
 
 function cancelTeacherAccess(url, header, redirect, role) {
@@ -419,7 +578,7 @@ function markPlainTask(url, idTeacher) {
     });
 }
 
-function loadPlainTasksList(idTeacher){
+function loadPlainTasksList(idTeacher) {
     load(basePath + '/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList/?idTeacher=' + idTeacher,
         'Задачі до перевірки');
 }
@@ -1022,7 +1181,7 @@ function initTodayTeacherConsultationsTable() {
                 "width": "10%",
                 "data": "start",
                 "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' +  link + '" target="_blank">почати</a>';
+                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
                 }
             }
         ],
@@ -1075,7 +1234,7 @@ function initTodayConsultationsTable() {
                 "width": "10%",
                 "data": "start",
                 "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' +  link + '" target="_blank">почати</a>';
+                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
                 }
             }
         ],

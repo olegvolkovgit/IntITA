@@ -52,9 +52,9 @@ function moduleRevisionsTreeCtrl($compile, $rootScope, $scope) {
         $('.select-node').prop('disabled', !(selectableNodes.length >= 1));
     });
 
-    // $scope.createRev = function(idRevision) {
-    //     location.href = basePath+'/moduleRevision/createLectureRevision?idRevision=' + idRevision;
-    // };
+    $scope.createModuleRev = function(idRevision) {
+        location.href = basePath+'/moduleRevision/createModuleRevision?idRevision=' + idRevision;
+    };
     // $scope.previewRev = function(idRevision) {
     //     location.href = basePath+'/moduleRevision/previewLectureRevision?idRevision=' + idRevision;
     // };

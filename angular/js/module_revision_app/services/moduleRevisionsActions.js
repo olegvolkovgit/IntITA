@@ -74,34 +74,34 @@ angular
             //     });
             //     return promise;
             // };
-            // this.cancelEditByEditor = function(id) {
-            //     var promise = $http({
-            //         url: basePath+'/revision/cancelEditRevisionByEditor',
-            //         method: "POST",
-            //         data: $.param({idRevision: id}),
-            //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            //     }).then(function successCallback(response) {
-            //         return response.data;
-            //     }, function errorCallback() {
-            //         bootbox.alert("Відмінити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
-            //         return false;
-            //     });
-            //     return promise;
-            // };
-            // this.restoreEditByEditor = function(id) {
-            //     var promise = $http({
-            //         url: basePath+'/revision/restoreEditRevisionByEditor',
-            //         method: "POST",
-            //         data: $.param({idRevision: id}),
-            //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            //     }).then(function successCallback(response) {
-            //         return response.data;
-            //     }, function errorCallback() {
-            //         bootbox.alert("Відновити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
-            //         return false;
-            //     });
-            //     return promise;
-            // };
+            this.cancelModuleEditByEditor = function(id) {
+                var promise = $http({
+                    url: basePath+'/moduleRevision/cancelEditModuleRevisionByEditor',
+                    method: "POST",
+                    data: $.param({idRevision: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Відмінити ревізію модуля не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
+            this.restoreModuleEditByEditor = function(id) {
+                var promise = $http({
+                    url: basePath+'/moduleRevision/restoreEditModuleRevisionByEditor',
+                    method: "POST",
+                    data: $.param({idRevision: id}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Відновити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
             // this.releaseRevision = function(id) {
             //     var promise = $http({
             //         url: basePath+'/revision/readyLectureRevision',

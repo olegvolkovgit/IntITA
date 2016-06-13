@@ -13,9 +13,6 @@ $editMode = ($canEdit) ? 'true' : '';
             <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                  id="viewIco" title="Переглянути ревізії модулів"/>
         </a>
-        <button id="viewIco" ng-cloak ng-click="showRevisionForm()">
-            Створити ревізію модуля
-        </button>
         <div ng-cloak ng-click="showForm()">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'ajaxaddmodule-form',

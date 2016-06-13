@@ -150,4 +150,30 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 /*module revisions*/
 .ico{
     cursor: pointer;
+    font-size: large;
+}
+.showMore{
+    color:#4b75a4;
+    display: inline-block;
+    cursor: pointer;
+}
+.showMore:hover{
+    color: #666;
+}
+.showMore span{
+    font-size: 14px;
+}
+div.revisionTable{
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+
+}
+.revisionsList {
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: scroll;
+    padding: 5px;
+    border:1px solid #ccc;
+    border-radius: 5px;
 }

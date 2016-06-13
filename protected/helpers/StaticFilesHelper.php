@@ -17,13 +17,13 @@ class StaticFilesHelper {
                 return StaticFilesHelper::createAvatarsPath($name);
                 break;
             case 'common':
-                return StaticFilesHelper::createCommonPath($subcategory, $name);
+                return StaticFilesHelper::createCommonPath($name);
                 break;
             case 'txt':
-                return StaticFilesHelper::createTxtPath($subcategory, $name);
+                return StaticFilesHelper::createTxtPath($name);
                 break;
             default:
-                return StaticFilesHelper::createCommonPath($subcategory, $name);
+                return StaticFilesHelper::createCommonPath($name);
                 break;
         }
     }
@@ -106,5 +106,21 @@ class StaticFilesHelper {
     public static function pathToAudioContent($name){
         $subDir = substr($name, 0, 2);
         return 'content/audio/'.$subDir.'/';
+    }
+
+    public static function documentsDirectoryPath(){
+        return 'documents/';
+    }
+
+    public static function pathToAgreementPDF($name){
+        return StaticFilesHelper::documentsDirectoryPath().'/agreement/'.$name;
+    }
+
+    public static function pathToPassportScan($name){
+        return StaticFilesHelper::documentsDirectoryPath().'/passport/'.$name;
+    }
+
+    public static function pathToInnScan($name){
+        return StaticFilesHelper::documentsDirectoryPath().'/inn/'.$name;
     }
 }

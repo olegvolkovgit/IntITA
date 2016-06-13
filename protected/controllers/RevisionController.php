@@ -30,7 +30,6 @@ class RevisionController extends Controller {
     public function actionCreateNewLecture() {
 
         $idModule = Yii::app()->request->getPost("idModule");
-//        $order = Yii::app()->request->getPost("order");
         $titleUa = trim(Yii::app()->request->getPost("titleUa"));
         $titleEn = trim(Yii::app()->request->getPost("titleEn"));
         $titleRu = trim(Yii::app()->request->getPost("titleRu"));
@@ -994,7 +993,7 @@ class RevisionController extends Controller {
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isRevokeable();
-            $node['isReadable'] = $lecture->isReadable();
+            $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
