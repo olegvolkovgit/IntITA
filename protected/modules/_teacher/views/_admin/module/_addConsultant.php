@@ -3,17 +3,17 @@
  * @var $module Module
  */
 ?>
-<div class="col-md-9">
-    <div class="row">
-        <form>
-            <input type="number" hidden="hidden" value="<?= $module->module_ID; ?>" id="module">
-            <input type="text" hidden="hidden" value="<?= UserRoles::CONSULTANT; ?>" id="role">
-            <div class="col col-md-9">
+<div class="col col-md-9">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <form role="form">
                 <div class="form-group">
                     <label>Модуль:
                         <input type="text" class="form-control" placeholder="Модуль" size="135"
-                               value="<?= $module->getTitle()." (".$module->language.")"; ?>" disabled>
+                               value="<?= $module->getTitle() . " (" . $module->language . ")"; ?>" disabled>
                     </label>
+                    <input type="number" hidden="hidden" value="<?= $module->module_ID; ?>" id="module">
+                    <input type="text" hidden="hidden" value="<?= UserRoles::CONSULTANT; ?>" id="role">
                 </div>
                 <div class="form-group">
                     <input type="number" hidden="hidden" id="user" value="0"/>
@@ -28,8 +28,17 @@
                         Призначити консультанта
                     </button>
                 </div>
+            </form>
+            <br>
+            <div class="alert alert-info">
+                Консультантом модуля можна призначити лише зареєтрованого співробітника.
+                Якщо потрібного користувача немає в списку співробітників, то додати співробітника можна на
+                сторінці
+                <a href="#" class="alert-link"
+                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>', 'Додати співробітника')">
+                    Додати співробітника</a>.
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
