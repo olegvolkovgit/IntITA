@@ -32,11 +32,11 @@
                                 <div class="numbers">
                                     <span><?php
                                         //todo
-                                        echo round($price/12) . ' ' . Yii::t('courses', '0322') . '/' .
-                                            Yii::t('module', '0218') . ' х 12 ' . Yii::t('course', '0323') . ' = '; ?>
-                                        <b>
-                                            <?php echo $price. ' ' .
-                                                Yii::t('courses', '0322') ?>
+                                        echo Yii::t('courses', '0322') . sprintf ("%01.2f", round($schema->getSumma($model)/12, 2)) . '/' .
+                                            Yii::t('payments', '0865') . ' х 12 ' . Yii::t('course', '0323'); ?>
+                                        &asymp;<b>
+                                            <?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round(($educForm == 'online')?$schema->getSumma($model):
+                                            $schema->getSummaOffline($model), 2)) ?>
                                         </b>
                                     </span>
                                 </div>

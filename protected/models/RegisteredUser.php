@@ -256,8 +256,10 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+        $revisionRequests = MessagesRevisionRequest::notApprovedRequests();
 
-        $result = array_merge($authorRequests, $consultantRequests);
+        $result = array_merge($authorRequests, $consultantRequests, $revisionRequests)
+        ;
         if($this->isAdmin()){
             $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
             $result = array_merge($result, $assignCoworkerRequests);

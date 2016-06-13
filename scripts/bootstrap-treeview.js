@@ -615,6 +615,9 @@
 
                 $.each(node.ddbutton.actions, function addElement (id, action){
                     if (action.type == 'button') {
+						if(!node.canCreate && (action.actionType=='create')){
+							return;
+						}
 						if(!node.isEditCancellable && (action.actionType=='cancelEdit')){
 							return;
 						}

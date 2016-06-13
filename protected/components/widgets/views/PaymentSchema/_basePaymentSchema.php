@@ -75,13 +75,14 @@ if($schema->payCount == 2){
                             <td>
                                 <div class="numbers">
                                 <span class="coursePriceStatus">
-                                    <?php echo $price . " " . Yii::t('courses', '0322'); ?>
+                                    <?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round($price, 2)); ?>
                                 </span>&nbsp
                                 <span class="coursePriceStatus2">
-                                    <?php echo PaymentHelper::discountedPrice($price, $discount) . " " .
-                                        Yii::t('courses', '0322'); ?>=</span>
-                                <span><?php echo round(PaymentHelper::discountedPrice($price, $discount) / $schema->payCount) . ' ' .
-                                        Yii::t('courses', '0322') . ' x ' . $schema->payCount . ' ' . Yii::t('course', '0323'); ?>
+                                    <?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round(PaymentHelper::discountedPrice($price, $discount), 2));?>
+                                    &asymp;
+                                </span>
+                                <span><?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round(PaymentHelper::discountedPrice($price, $discount) / $schema->payCount), 2).
+                                        ' x ' . $schema->payCount . ' ' . Yii::t('course', '0323'); ?>
                                 </span>
                                 </div>
                             <span id="discount">

@@ -349,6 +349,7 @@ class RevisionController extends Controller {
 
         if (empty($result)) {
             $lectureRev->sendForApproval(Yii::app()->user);
+            $this->sendRevisionRequest($lectureRev);
         } else {
             echo implode(", ",$result);
         }
@@ -504,7 +505,7 @@ class RevisionController extends Controller {
             $editableRevisions = [];
             $lastApproved = null;
             foreach ($lectureRevisions as $lectureRevision) {
-                if ($lectureRevision->isEditable()) {
+                if ($lectureRevision->canEdit()) {
                     array_push($editableRevisions, $lectureRevision);
                 } 
                 if ($lectureRevision->isApproved()) {
@@ -970,6 +971,7 @@ class RevisionController extends Controller {
             $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+            $node['canCreate'] = $lecture->canCreate();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -995,6 +997,7 @@ class RevisionController extends Controller {
             $node['isReadable'] = $lecture->isReadable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+            $node['canCreate'] = $lecture->canCreate();
 
             $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }
@@ -1282,5 +1285,38 @@ class RevisionController extends Controller {
         echo $json;
     }
 
+    public function actionBuildAllFilteredRevisionsTree() {
+        $status = Yii::app()->request->getPost('status');
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status);
+        $lecturesTree = RevisionLecture::getLecturesTree();
+        $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $lecturesTree, $actualIdList);
 
+        echo $json;
+    }
+
+    private function sendRevisionRequest(RevisionLecture $revision){
+        if($revision){
+            $message = new MessagesRevisionRequest();
+            if($message->isRequestOpen(array($revision))) {
+                echo "Такий запит вже надіслано. Ви не можете надіслати запит на затвердження ревізії лекції двічі.";
+            } else {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message->build($revision, Yii::app()->user->model->registrationData);
+                    $message->create();
+                    $sender = new MailTransport();
+
+                    $message->send($sender);
+                    $transaction->commit();
+                    echo "Запит на затвердження ревізії лекції успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження ревізії лекції не вдалося надіслати.");
+                }
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
+    }
 }

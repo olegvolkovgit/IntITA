@@ -205,4 +205,8 @@ class Config extends CActiveRecord
 	public static function offerScenario(){
 		return "default";
 	}
+
+	public static function getNotifyEmail(){
+        return Yii::app()->config->get('notifyMail');
+    }
 }

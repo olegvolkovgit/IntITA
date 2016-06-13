@@ -9,11 +9,11 @@
 <script>
     scenario = '<?=(isset($predefinedUser)) ? "definedUser" : "";?>';
 </script>
-<div class="col-md-8">
+<div class="col-md-12">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'teacher-form',
         'htmlOptions' => array(
-            'class' => 'formatted-form',
+//            'class' => 'formatted-form',
             'enctype' => 'multipart/form-data',
             'method' => 'POST',
         ),

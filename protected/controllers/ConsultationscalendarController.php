@@ -114,7 +114,7 @@ class ConsultationscalendarController extends Controller
 		$teacher = RegisteredUser::userById($idteacher);
         $lecture = Lecture::model()->findByPk($idlecture);
         $consultant = new Consultant();
-        if($teacher->isConsultant() && $consultant->checkModule($idteacher, $lecture->idModule)) {
+        if($teacher->isConsultant() && !$consultant->checkModule($idteacher, $lecture->idModule)) {
 			if (Yii::app()->request->getPost('saveConsultation')) {
 				$numcons = explode(",", Yii::app()->request->getPost('timecons'));
 				for ($i = 0; $i < count($numcons); $i++) {
@@ -125,8 +125,6 @@ class ConsultationscalendarController extends Controller
 					}
 				}
 			}
-		} else {
-			$this->redirect(array('consultationerror', 'lecture' => $idlecture, 'idCourse' => $idCourse));
 		}
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }

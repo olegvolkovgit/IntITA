@@ -13,6 +13,8 @@
             </li>
             <li><a href="#teacher" data-toggle="tab">Співробітники (<?=$counters["teachers"];?>)</a>
             </li>
+            <li><a href="#withoutRoles" data-toggle="tab">Користувачі без ролі<?//=$counters["withoutRoles"];?></a>
+            </li>
             <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ролі користувачів
                 <span class="caret"></span></a>
@@ -45,6 +47,9 @@
             <div class="tab-pane fade" id="teacher">
                 <?php $this->renderPartial('tables/_teachersTable');?>
             </div>
+            <div class="tab-pane fade" id="withoutRoles">
+                <?php $this->renderPartial('tables/_withoutRolesTable');?>
+            </div>
             <div class="tab-pane fade in active" id="register">
                 <?php $this->renderPartial('tables/_usersTable');?>
             </div>
@@ -74,6 +79,7 @@
     $jq(document).ready(function () {
         initUsersTable();
         initStudentsList();
+        initWithoutRolesUsersTable();
         initAdminsTable();
         initAccountantsTable();
         initTeachersTable();

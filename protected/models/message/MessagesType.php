@@ -22,6 +22,7 @@ class MessagesType extends CActiveRecord
 	const REJECT_REVISION = 7;
 	const APPROVE_REVISION_REQUEST = 8;
 	const NOTIFICATION = 9;
+	const REVISION_REQUEST = 10;
 
 	/**
 	 * @return string the associated database table name
