@@ -233,12 +233,11 @@ class ModuleRevisionController extends Controller {
     }
 
     public function actionCreateModuleRevision($idRevision) {
-        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
-
         if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
 
+        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
         $moduleRevision = $moduleRevision->cloneModule(Yii::app()->user);
         if($moduleRevision){
             $this->redirect(Yii::app()->createUrl('/moduleRevision/editModuleRevisionPage',array('idRevision'=>$moduleRevision->id_module_revision)));
@@ -248,25 +247,92 @@ class ModuleRevisionController extends Controller {
     }
 
     public function actionCancelEditModuleRevisionByEditor () {
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $moduleRev = RevisionModule::model()->findByPk($idRevision);
-
         if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
 
         $moduleRev->cancelEditRevisionByEditor(Yii::app()->user);
     }
 
     public function actionRestoreEditModuleRevisionByEditor () {
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        $moduleRev = RevisionModule::model()->findByPk($idRevision);
-
         if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
 
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
         $moduleRev->restoreEditRevisionByEditor();
+    }
+
+    public function actionSendForApproveModule() {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
+        $moduleRev->sendForApproval(Yii::app()->user);
+    }
+
+    public function actionCancelSendForApproveModule() {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
+        $moduleRev->revoke();
+    }
+
+    public function actionRejectModuleRevision() {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
+        $moduleRev->reject(Yii::app()->user);
+
+    }
+
+    public function actionApproveModuleRevision() {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+        $moduleRev->approve(Yii::app()->user);
+    }
+
+    public function actionCancelModuleRevision () {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+
+        // todo
+//        $moduleRev->cancel(Yii::app()->user);
+//        $moduleRev->deleteLectureFromRegularDB();
+    }
+
+    public function actionReadyModuleRevision() {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev = RevisionModule::model()->findByPk($idRevision);
+//        todo
+//        $moduleRev->release(Yii::app()->user);
     }
 
     public function actionEditModuleRevisionPage($idRevision) {
