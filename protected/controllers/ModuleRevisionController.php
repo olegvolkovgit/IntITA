@@ -335,6 +335,20 @@ class ModuleRevisionController extends Controller {
 //        $moduleRev->release(Yii::app()->user);
     }
 
+    public function actionPreviewModuleRevision($idRevision) {
+
+        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
+        if(!$moduleRevision)
+            throw new RevisionControllerException(404);
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
+
+        $this->render("_modulePreview", array(
+            "moduleRevision" => $moduleRevision,
+        ));
+    }
+
     public function actionEditModuleRevisionPage($idRevision) {
         $moduleRevision = RevisionModule::model()->findByPk($idRevision);
 
