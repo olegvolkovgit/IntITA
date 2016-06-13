@@ -18,7 +18,7 @@ class PaymentSchemaWidget extends CWidget
         parent::run();
 
         $view = "PaymentSchema/".$this->view;
-        $price = round($this->schema->getSumma($this->billableObject));
+        $price = $this->schema->getSumma($this->billableObject);
         $this->render($view,array(
             'model'=>$this->billableObject,
             'schema' => $this->schema,

@@ -144,11 +144,15 @@ class TeacherConsultant extends Role
         switch ($attribute) {
             case 'module':
                 if (!$this->checkModule($user->id, $value)) {
-                    return Yii::app()->db->createCommand()->
+                    if (Yii::app()->db->createCommand()->
                     insert('teacher_consultant_module', array(
                         'id_teacher' => $user->id,
                         'id_module' => $value
-                    ));
+                    ))){
+                        $this->notify($user, $value);
+                        return true;
+                    }
+                    return false;
                 } else {
                     return false;
                 }
@@ -291,5 +295,9 @@ class TeacherConsultant extends Role
         $criteria->group = 's.id';
 
         return StudentReg::model()->findAll($criteria);
+    }
+
+    public function notify(StudentReg $user, $idModule){
+        $user->notify('_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
     }
 }

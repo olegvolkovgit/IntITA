@@ -27,17 +27,16 @@
         </form>
         <div class="alert alert-info">
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                Автором модуля можна призначити лише зареєтрованого співробітника, який має права автора.
+                Автором модуля можна призначити лише зареєтрованого співробітника.
                 Якщо потрібного користувача немає в списку авторів, то призначити роль автора можна на сторінці
-                <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/renderAddRoleForm',
-                    array('role'=>'author'));?>', 'Призначити автора')">
-                    Призначити автора</a>.
+                <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create');?>', 'Призначити автора')">
+                    Призначити співробітника</a>.
             <?php } else { ?>
-                Автором модуля можна призначити лише зареєтрованого співробітника, який має права автора.
-                Якщо потрібного користувача немає в списку авторів, то можна надіслати запит для призначення ролі автора
-                користувачу <a href="#" class="alert-link"
-                               onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendCoworkerRequest"); ?>',
-                                   'Запит на призначення викладача'); return false;">Надіслати запит</a>.
+                Призначити автором можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
+                за посиланням:
+                <a href="#" class="alert-link"
+                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/sendCoworkerRequest'); ?>',
+                       'Запит на призначення співробітника')">Надіслати запит</a>.
             <?php } ?>
         </div>
     </div>

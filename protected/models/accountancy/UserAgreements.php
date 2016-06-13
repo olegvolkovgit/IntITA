@@ -22,12 +22,14 @@
  * @property string $document_issued_date
  * @property string $inn
  * @property string $passport_issued
+ * @property integer $status
  *
  * @property Service $service
  * @property StudentReg $user
  * @property PaymentScheme $paymentSchema
  * @property StudentReg $approvalUser
  * @property StudentReg $cancelUser
+ * @property UserAgreementStatus $status0
  */
 class UserAgreements extends CActiveRecord
 {
@@ -48,7 +50,7 @@ class UserAgreements extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id, service_id, payment_schema', 'required'),
-            array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly' => true),
+            array('user_id, approval_user, cancel_user, status', 'numerical', 'integerOnly' => true),
             array('service_id, payment_schema', 'length', 'max' => 10),
             array('number', 'length', 'max' => 50),
             array('passport, document_type, inn', 'length', 'max' => 30),
@@ -56,7 +58,7 @@ class UserAgreements extends CActiveRecord
             // The following rule is used by search().
             array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
 			cancel_date, close_date, payment_schema, cancel_reason_type, passport, document_type, inn,
-			document_issued_date, passport_issued', 'safe', 'on' => 'search'),
+			document_issued_date, passport_issued, status', 'safe', 'on' => 'search'),
         );
     }
 
@@ -74,6 +76,7 @@ class UserAgreements extends CActiveRecord
             'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
             'paymentSchema' => array(self::BELONGS_TO, 'PaymentScheme', 'payment_schema'),
+            'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status')
         );
     }
 
@@ -241,6 +244,7 @@ class UserAgreements extends CActiveRecord
         $model->summa = $schema->getSumma($billableObject);
         $startDate = new DateTime();
         $model->close_date = $schema->getCloseDate($billableObject, $startDate);
+        $model->status = 1;
 
         if ($model->save()) {
             $invoicesList = $schema->getInvoicesList($billableObject, new DateTime());

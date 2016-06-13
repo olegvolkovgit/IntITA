@@ -504,7 +504,7 @@ class RevisionController extends Controller {
             $editableRevisions = [];
             $lastApproved = null;
             foreach ($lectureRevisions as $lectureRevision) {
-                if ($lectureRevision->isEditable()) {
+                if ($lectureRevision->canEdit()) {
                     array_push($editableRevisions, $lectureRevision);
                 } 
                 if ($lectureRevision->isApproved()) {
@@ -970,6 +970,7 @@ class RevisionController extends Controller {
             $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+            $node['canCreate'] = $lecture->canCreate();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -995,6 +996,7 @@ class RevisionController extends Controller {
             $node['isReadable'] = $lecture->isReadable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
+            $node['canCreate'] = $lecture->canCreate();
 
             $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }
@@ -1278,6 +1280,16 @@ class RevisionController extends Controller {
         $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$idModule);
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
         $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $relatedTree, $actualIdList);
+
+        echo $json;
+    }
+
+    public function actionBuildAllFilteredRevisionsTree() {
+        $status = Yii::app()->request->getPost('status');
+        $lectureRev = RevisionLecture::model()->with("properties")->findAll();
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status);
+        $lecturesTree = RevisionLecture::getLecturesTree();
+        $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $lecturesTree, $actualIdList);
 
         echo $json;
     }
