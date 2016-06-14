@@ -21,6 +21,7 @@ $this->breadcrumbs = array(
             <?php
             $this->renderPartial('_moduleRevisionPreviewInfo', array('moduleRevision' => $moduleRevision));
             ?>
+            <br>
             <label>Перелік ревізій занять: </label>
             <table id="pages" class="table">
                 <tr>

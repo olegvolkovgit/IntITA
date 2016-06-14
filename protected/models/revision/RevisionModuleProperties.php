@@ -63,7 +63,8 @@ class RevisionModuleProperties extends CActiveRecord
 		return array(
 			array('status', 'required'),
 			array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
-			array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d\/]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри та символ "/"'),
+			array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
+			array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
 			array('hours_in_day, days_in_week,
             module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min'=>0, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
 			array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
@@ -95,6 +96,7 @@ class RevisionModuleProperties extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 //			'module' => array(self::BELONGS_TO, 'Module', 'id_properties'),
+			'level0' => array(self::BELONGS_TO, 'Level', 'level'),
 		);
 	}
 

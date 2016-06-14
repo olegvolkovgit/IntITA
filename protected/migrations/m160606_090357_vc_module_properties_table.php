@@ -9,7 +9,7 @@ class m160606_090357_vc_module_properties_table extends CDbMigration
 			"title_ua" => "VARCHAR(255) NOT NULL",
 			"title_ru" => "VARCHAR(255)",
 			"title_en" => "VARCHAR(255)",
-			"alias" => "VARCHAR(10) NOT NULL",
+			"alias" => "VARCHAR(30) NOT NULL",
 			"language" => "VARCHAR(6) NOT NULL",
 			"module_price" => "DECIMAL(10)",
 			"for_whom" => "TEXT",
