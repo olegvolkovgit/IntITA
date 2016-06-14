@@ -421,7 +421,7 @@ function addRepresentative(url) {
             data: {
                 full_name: fullName,
                 position: position,
-                representative: 0,
+                representative: representative,
                 company: $jq('[name="company"]').val(),
                 order: $jq('[name="order"]').val(),
             },

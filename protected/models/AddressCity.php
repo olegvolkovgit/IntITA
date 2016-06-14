@@ -165,7 +165,11 @@ class AddressCity extends CActiveRecord
 		$model->title_en = $titleEn;
 		$model->country = $country->id;
 
-		return $model->save();
+		if($model->save()){
+            return $model;
+        } else {
+            return null;
+        }
 	}
 
 	public static function citiesByQuery($query){

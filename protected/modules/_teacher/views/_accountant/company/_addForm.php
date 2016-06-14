@@ -19,17 +19,17 @@
 
                     <div class="form-group">
                         <label>ЄДРПОУ</label>
-                        <input type="number" name="edpnou" class="form-control" required maxlength="12" size="12">
+                        <input type="number" name="edpnou" class="form-control" required max="9999999999">
                     </div>
 
                     <div class="form-group">
-                        <label>Дата видачі  ЄДРПОУ</label>
+                        <label>Дата видачі ЄДРПОУ</label>
                         <input size="16" type="text" id="edpnou_issue_date" value=""/>
                     </div>
 
                     <div class="form-group">
                         <label>Свідоцтво платника ПДВ</label>
-                        <input type="number" name="certificate_of_vat" class="form-control" required maxlength="12" size="12">
+                        <input type="number" name="certificate_of_vat" class="form-control" required max="9999999999">
                     </div>
 
                     <div class="form-group">
@@ -39,12 +39,12 @@
 
                     <div class="form-group">
                         <label>Свідоцтво платника податку</label>
-                        <input type="number" name="tax_certificate" class="form-control" required maxlength="12" size="12">
+                        <input type="number" name="tax_certificate" class="form-control" required max="9999999999">
                     </div>
 
                     <div class="form-group">
                         <label>Дата видачі свідоцтва платника податку</label>
-                        <input size="16" type="text" id="tax_certificate_issue_date" value=""/>
+                        <input size="16" type="text" id="tax_certificate_issue_date" value="" />
                     </div>
 
                     <div class="form-group">
@@ -72,10 +72,13 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary" onclick="addCompany('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/newCompany')?>');
-                            return false;">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
-                            'Компанії')">Скасувати
+                        <button type="submit" class="btn btn-primary"
+                                onclick="addCompany('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/newCompany') ?>');
+                                    return false;">Зберегти
+                        </button>
+                        <button type="reset" class="btn btn-outline btn-default"
+                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
+                                    'Компанії')">Скасувати
                         </button>
                     </div>
                 </form>
@@ -85,10 +88,11 @@
 </div>
 <script>
     $jq(document).ready(function () {
-        $jq("#edpnou_issue_date").datepicker(lang);
+        $jq("#edpnou_issue_date").datepicker();
         $jq("#certificate_of_vat_issue_date").datepicker(lang);
         $jq("#tax_certificate_issue_date").datepicker(lang);
     });
+
 
     var cities = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
