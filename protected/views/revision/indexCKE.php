@@ -13,8 +13,8 @@ $this->breadcrumbs = array(
 );
 ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
-<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
-<script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
+<script src='https://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script src="https://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
 
 <link rel="stylesheet" type="text/css"
       href="<?php echo StaticFilesHelper::fullPathTo('js', 'codemirror/lib/codemirror.css'); ?>"/>
@@ -62,10 +62,10 @@ $this->breadcrumbs = array(
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'editPage.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/><!-- highlight include -->
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"/>
-<link rel="stylesheet" type="text/css" href="http://latex.codecogs.com/css/equation-embed.css"/>
+<link rel="stylesheet" type="text/css" href="https://latex.codecogs.com/css/equation-embed.css"/>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-<script type="text/javascript" src="http://latex.codecogs.com/js/eq_config.js"></script>
-<script type="text/javascript" src="http://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
+<script type="text/javascript" src="https://latex.codecogs.com/js/eq_config.js"></script>
+<script type="text/javascript" src="https://latex.codecogs.com/js/eq_editor-lite-18.js"></script>
 
 <div ng-app="revisionEdit" class="pageRevision">
     <div ng-controller="CKEditorCtrl">

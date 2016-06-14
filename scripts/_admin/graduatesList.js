@@ -36,7 +36,7 @@ function initGraduatesTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
