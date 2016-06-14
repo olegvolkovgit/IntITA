@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $model CorporateRepresentative
+ * @var $companies array
  */
 ?>
 <div class="row">
@@ -30,7 +31,7 @@
                 <?php $this->renderPartial('_mainTab', array('model' => $model));?>
             </div>
             <div class="tab-pane fade" id="companies">
-                <?php $this->renderPartial('_companiesTab', array('model' => $model));?>
+                <?php $this->renderPartial('_companiesTab', array('model' => $model, 'companies' => $companies));?>
             </div>
         </div>
     </div>

@@ -26,11 +26,19 @@ class CompanyController extends TeacherCabinetController
     public function actionNewCompany(){
         $model = new CorporateEntity();
         $model->attributes = $_POST;
+        $cityLegal = Yii::app()->request->getPost('legal_address_city_code', 0);
+        $cityActual = Yii::app()->request->getPost('actual_address_city_code', 0);
+        if(!AddressCity::model()->findByPk($cityLegal)){
+            $model->legal_address_city_code = AddressCity::newCity(AddressCountry::model()->findByPk(AddressCountry::UKRAINE), $cityLegal, '', '')->id;
+        }
+        if(!AddressCity::model()->findByPk($cityActual)){
+            $model->actual_address_city_code = AddressCity::newCity(AddressCountry::model()->findByPk(AddressCountry::UKRAINE), $cityActual, '', '')->id;
+        }
         if($model->validate()){
             $model->save();
             echo "Компанію успішно створено.";
         } else {
-            echo "Компанію не вдалося створити";
+            echo "Неправильні дані.";
         }
     }
 

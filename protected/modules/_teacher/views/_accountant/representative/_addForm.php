@@ -166,7 +166,7 @@
                 'немає компаній з такою назвою або ЄДРПОУ',
                 '</div>'
             ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><div class='typeahead_labels'><div class='typeahead_primary'>{{title}}&nbsp;</div><div class='typeahead_secondary'>{{edpnou}}</div></div></div>")
+            suggestion: Handlebars.compile("<div class='typeahead_wrapper'><div class='typeahead_labels'><div class='typeahead_primary'>{{title}}&nbsp;</div><div class='typeahead_secondary'>ЄДРПОУ: {{edpnou}}</div></div></div>")
         }
     });
 </script>
