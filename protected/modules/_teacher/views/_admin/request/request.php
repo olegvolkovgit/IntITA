@@ -27,28 +27,13 @@ $sender = $model->sender();
                             <?= $module->getTitle(); ?></a>
                     </h4>
                 <?php } ?>
-                <?php if ($model->type() == Request::TEACHER_CONSULTANT_REQUEST) { ?>
-                    <h4>
-                        Викладач-консультант: <a
-                            href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->idTeacher->id)); ?>"
-                            target="_blank">
-                            <?= $model->idTeacher->userNameWithEmail(); ?></a>
-                    </h4>
-                <?php } ?>
+                <?php $this->renderPartial('_requestDetails', array('model'=> $model));?>
                 <h4>
-                    Користувач: <a
+                    Надіслав користувач: <a
                         href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $sender->id)); ?>"
                         target="_blank">
                         <?= $sender->userNameWithEmail(); ?></a>
                 </h4>
-                <?php if ($model->message0->type == MessagesType::COWORKER_REQUEST) {
-                    $teacher = $model->teacher(); ?>
-                    <h4>
-                        Призначити співробітником: <a
-                            href="<?= Yii::app()->createUrl('studentreg/profile', array('idUser' => $teacher->id)); ?>">
-                            <?= $teacher->userNameWithEmail(); ?></a>
-                    </h4>
-                <?php } ?>
                 <br>
                 <?php if (!($model->isDeleted() || $model->isApproved())) { ?>
                     <ul class="list-inline">
