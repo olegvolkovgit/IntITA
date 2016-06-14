@@ -1,4 +1,4 @@
-<label xmlns="http://www.w3.org/1999/html">Властивоті лекції: </label>
+<label xmlns="http://www.w3.org/1999/html">Властивості лекції: </label>
 <table class="table">
     <tr>
         <td>Cтатус:</td>

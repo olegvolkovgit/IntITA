@@ -55,9 +55,9 @@ function moduleRevisionsTreeCtrl($compile, $rootScope, $scope) {
     $scope.createModuleRev = function(idRevision) {
         location.href = basePath+'/moduleRevision/createModuleRevision?idRevision=' + idRevision;
     };
-    // $scope.previewRev = function(idRevision) {
-    //     location.href = basePath+'/moduleRevision/previewLectureRevision?idRevision=' + idRevision;
-    // };
+    $scope.previewModuleRev = function(idRevision) {
+        location.href = basePath+'/moduleRevision/previewModuleRevision?idRevision=' + idRevision;
+    };
     $scope.editModuleRev = function(idRevision) {
         location.href = basePath+'/moduleRevision/editModuleRevisionPage?idRevision=' + idRevision;
     };

@@ -335,18 +335,30 @@ class ModuleRevisionController extends Controller {
 //        $moduleRev->release(Yii::app()->user);
     }
 
-    public function actionEditModuleRevisionPage($idRevision) {
-        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
+    public function actionPreviewModuleRevision($idRevision) {
 
+        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
         if(!$moduleRevision)
             throw new RevisionControllerException(404);
         if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
 
-//        if (!$lectureRevision->isEditable()) {
-//            throw new RevisionControllerException(400, Yii::t('revision', '0826'));
-//        }
+        $this->render("modulePreview", array(
+            "moduleRevision" => $moduleRevision,
+        ));
+    }
+
+    public function actionEditModuleRevisionPage($idRevision) {
+        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
+        if(!$moduleRevision)
+            throw new RevisionControllerException(404);
+        if (!$moduleRevision->isEditable()) {
+            throw new RevisionControllerException(400, Yii::t('revision', '0826'));
+        }
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0825'));
+        }
 
         $this->render("moduleView", array(
             "moduleRevision" => $moduleRevision,
@@ -377,10 +389,9 @@ class ModuleRevisionController extends Controller {
         $module['canReleaseRevision']=$moduleRevision->canReleaseRevision();
         $module['canCancelEdit']=$moduleRevision->canCancelEdit();
         $module['canRestoreEdit']=$moduleRevision->canRestoreEdit();
-//        $module['link']=
-//            $lecture['canCancelReadyRevision']?
-//                Yii::app()->createUrl("lesson/index", array("id" => $moduleRevision->id_lecture, "idCourse" => 0)):null;
-        
+        $module['link']=
+            $module['canCancelReadyRevision']?
+                Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module, "idCourse" => 0)):null;
         $data['module']=$module;
         $data['lectures']=$lectures;
         echo CJSON::encode($data);

@@ -109,7 +109,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.previewRev(idRevision);
+                $scope.previewModuleRev(idRevision);
             }
         },
         // {

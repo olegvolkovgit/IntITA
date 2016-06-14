@@ -2,7 +2,7 @@ angular
     .module('moduleRevisionsApp')
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
-function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
+function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions) {
     $scope.tempId=[];
     //load from service lecture data for scope
     getModuleData.getData(idRevision).then(function(response){
@@ -96,94 +96,81 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData) {
             return false;
         });
     };
-    // $scope.previewRevision = function(url) {
-    //     location.href=url;
-    // };
-    // //send revision for approve
-    // $scope.sendRevision = function(id) {
-    //     $http({
-    //         url: basePath+'/revision/sendForApproveLecture',
-    //         method: "POST",
-    //         data: $.param({idRevision: id}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback(response) {
-    //         if(response.data!='')
-    //             bootbox.alert(response.data);
-    //         else
-    //         getLectureData.getData(idRevision).then(function(response){
-    //             $rootScope.lectureData=response;
-    //             location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
-    //         });
-    //     }, function errorCallback() {
-    //         bootbox.alert("Відправити заняття на затвердження не вдалося. Зв'яжіться з адміністрацією");
-    //         return false;
-    //     });
-    // };
-    // //canceled edit revision by the editor
-    // $scope.cancelEditByEditor = function(id) {
-    //     $http({
-    //         url: basePath+'/revision/cancelEditRevisionByEditor',
-    //         method: "POST",
-    //         data: $.param({idRevision: id}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback() {
-    //         getLectureData.getData(idRevision).then(function(response){
-    //             $rootScope.lectureData=response;
-    //             location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
-    //         });
-    //     }, function errorCallback() {
-    //         bootbox.alert("Відмінити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
-    //         return false;
-    //     });
-    // };
-    // //add new page for lecture revision
-    // $scope.addPage = function() {
-    //     $http({
-    //         url: basePath+'/revision/addPage',
-    //         method: "POST",
-    //         data: $.param({idRevision:idRevision}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback() {
-    //         getLectureData.getData(idRevision).then(function(response){
-    //             $rootScope.lectureData=response;
-    //             $('body,html').animate({scrollTop: $(document).height()}, 500);
-    //         });
-    //     }, function errorCallback(response) {
-    //         if(response.status==403){
-    //             bootbox.alert('У вас недостатньо прав для редагування сторінки.');
-    //         }
-    //         return false;
-    //     });
-    // };
+    $scope.previewModuleRevision = function(url) {
+        location.href=url;
+    };
+    //edit revision
+    $scope.editModuleRevision = function(url) {
+        location.href=url;
+    };
+    //approve revision
+    $scope.approveModuleRevision = function(id) {
+        moduleRevisionsActions.approveModuleRevision(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+            });
+        });
+    };
+    //send revision for approve
+    $scope.sendModuleRevision = function(id, redirect) {
+        moduleRevisionsActions.sendModuleRevision(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+                if(redirect){
+                    location.href=basePath+'/moduleRevision/previewModuleRevision?idRevision='+idRevision;
+                }
+            });
+        });
+    };
+    //canceled edit revision by the editor
+    $scope.cancelModuleEditByEditor = function(id, redirect) {
+        moduleRevisionsActions.cancelModuleEditByEditor(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+                if(redirect){
+                    location.href=basePath+'/moduleRevision/previewModuleRevision?idRevision='+idRevision;
+                }
+            });
+        });
+    };
 
-    // //check whether you can send the lecture for approval
-    // $scope.checkLecture = function() {
-    //     $http({
-    //         url: basePath+'/revision/checkLecture',
-    //         method: "POST",
-    //         data: $.param({idRevision:idRevision}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback(response) {
-    //         bootbox.alert(response.data);
-    //     }, function errorCallback() {
-    //         console.log('checkLecture error');
-    //         return false;
-    //     });
-    // };
-    // //approve lecture
-    // $scope.approveLecture = function() {
-    //     $http({
-    //         url: basePath+'/revision/sendForApproveLecture',
-    //         method: "POST",
-    //         data: $.param({idLecture:idRevision}),
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-    //     }).then(function successCallback() {
-    //         bootbox.alert('Запит на підтвердження відправлено', function () {
-    //             location.href = basePath+'/revision/previewLectureRevision?idRevision=' + idRevision;
-    //         });
-    //     }, function errorCallback(response) {
-    //         console.log('error '+response.status);
-    //         return false;
-    //     });
-    // };
+    $scope.cancelSendModuleRevision = function(id) {
+        moduleRevisionsActions.cancelSendModuleRevision(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+            });
+        });
+    };
+
+    $scope.cancelModuleRevision = function(id) {
+        moduleRevisionsActions.cancelModuleRevision(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+            });
+        });
+    };
+
+    $scope.rejectModuleRevision = function(id) {
+        moduleRevisionsActions.rejectModuleRevision(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+            });
+        });
+    };
+
+    $scope.releaseModuleRevision = function(id) {
+        moduleRevisionsActions.releaseModuleRevision(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+            });
+        });
+    };
+
+    $scope.restoreModuleEditByEditor = function(id) {
+        moduleRevisionsActions.restoreModuleEditByEditor(id).then(function(){
+            getModuleData.getData(idRevision).then(function(response) {
+                $rootScope.moduleData = response;
+            });
+        });
+    };
 }
