@@ -60,9 +60,14 @@ class TrainerController extends TeacherCabinetController
         $module = Yii::app()->request->getPost('module', 0);
         $student = Yii::app()->request->getPost('student', 0);
 
-        $model = StudentReg::model()->findByPk($teacher);
+        $user = RegisteredUser::userById($teacher);
+        $model =$user->registrationData;
 
         $role = new TeacherConsultant();
+        if(!$user->isTeacherConsultant()){
+            echo "Даному викладачу не призначена роль викладача.";
+            Yii::app()->die();
+        }
         if ($role->checkStudent($module, $student)) {
             if ($role->setStudentAttribute($model, $student, $module)) {
                 echo "Операцію успішно виконано.";
