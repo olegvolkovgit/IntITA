@@ -105,7 +105,7 @@ class CorporateRepresentative extends CActiveRecord
             $row = array();
 
             $row["title"]["name"] = CHtml::encode($record["full_name"]);
-            $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/company/viewRepresentative',
+            $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/representative/viewRepresentative',
                 array('id' => $record["id"]));
             $row["position"] = $record["position"];
             $row["companies"] = $record["EDPNOU"].", ".$record["title"];
@@ -132,4 +132,9 @@ class CorporateRepresentative extends CActiveRecord
         }
         return json_encode($result);
     }
+
+	public function companies(){
+        $sql = "SELECT * FROM acc_corporate_entity_representatives WHERE corporate_representative = ".$this->id;
+		return Yii::app()->db->createCommand($sql)->queryAll();
+	}
 }

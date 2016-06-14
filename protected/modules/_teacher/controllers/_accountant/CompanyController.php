@@ -30,7 +30,7 @@ class CompanyController extends TeacherCabinetController
             $model->save();
             echo "Компанію успішно створено.";
         } else {
-            echo "Компанію не вдалося створити";
+            echo "Неправильні дані.";
         }
     }
 

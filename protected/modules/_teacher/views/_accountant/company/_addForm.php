@@ -50,10 +50,8 @@
                     <div class="form-group">
                         <label>Місто (юридична адреса)</label>
                         <input id="typeaheadCityLegal" type="text" class="typeahead form-control" name="cityLegal"
-                               placeholder="виберіть місто"
-                               size="90" required>
+                               placeholder="виберіть місто" size="90" required>
                         <input type="number" hidden="hidden" id="cityLegal" value="0"/>
-                        <p class="help-block"><em>* якщо немає потрібного міста, можна просто ввести назву (українською мовою)</em></p>
                     </div>
 
                     <div class="form-group">
@@ -64,10 +62,8 @@
                     <div class="form-group">
                         <label>Місто (фактична адреса)</label>
                         <input id="typeaheadCityActual" type="text" class="typeahead form-control" name="cityActual"
-                               placeholder="виберіть місто"
-                               size="90" required>
+                               placeholder="виберіть місто" size="90" required>
                         <input type="number" hidden="hidden" id="cityActual" value="0"/>
-                        <p class="help-block"><em>* якщо немає потрібного міста, можна просто ввести назву (українською мовою)</em></p>
                     </div>
 
                     <div class="form-group">

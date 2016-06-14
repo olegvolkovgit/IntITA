@@ -21,9 +21,11 @@ class RepresentativeController extends TeacherCabinetController
 
     public function actionViewRepresentative($id){
         $model = CorporateRepresentative::model()->findByPk($id);
+        $companies = $model->companies();
 
         $this->renderPartial('_viewRepresentative', array(
-            'model' => $model
+            'model' => $model,
+            'companies' => $companies
         ), false, true);
     }
 

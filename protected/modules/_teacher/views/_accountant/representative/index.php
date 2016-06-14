@@ -7,6 +7,13 @@
                 Додати представника
             </button>
         </li>
+        <li>
+            <button type="button" class="btn btn-primary"
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
+                        'Компанії')">
+                Компанії
+            </button>
+        </li>
     </ul>
 
     <div class="col-lg-12">
