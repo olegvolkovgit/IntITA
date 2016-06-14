@@ -75,7 +75,7 @@ if($schema->payCount == 2){
                             <td>
                                 <div class="numbers">
                                 <span class="coursePriceStatus">
-                                    <?php echo Yii::t('courses', '0322').$price . " "; ?>
+                                    <?php echo Yii::t('courses', '0322').sprintf ("%01.2f", $price) . " "; ?>
                                 </span>&nbsp
                                 <span class="coursePriceStatus2">
                                     <?php
