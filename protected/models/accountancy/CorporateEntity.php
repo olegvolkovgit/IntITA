@@ -166,7 +166,8 @@ class CorporateEntity extends CActiveRecord
         return json_encode($result);
     }
 
-	public static function representativesList(){
-
+	public function representativesList(){
+        $sql = "SELECT * FROM acc_corporate_entity_representatives WHERE corporate_entity = ".$this->id;
+        return Yii::app()->db->createCommand($sql)->queryAll();
     }
 }

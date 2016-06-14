@@ -21,14 +21,32 @@ class RepresentativeController extends TeacherCabinetController
 
     public function actionViewRepresentative($id){
         $model = CorporateRepresentative::model()->findByPk($id);
+        $companies = $model->companies();
 
         $this->renderPartial('_viewRepresentative', array(
-            'model' => $model
+            'model' => $model,
+            'companies' => $companies
         ), false, true);
     }
 
     public function actionNewRepresentative(){
-        //var_dump($_POST);die;
+
+        $name = Yii::app()->request->getPost('full_name', '');
+        $position = Yii::app()->request->getPost('position', '');
+        $order =  Yii::app()->request->getPost('order', 0);
+        $representative = Yii::app()->request->getPost('representative', '');
+        if($representative == 0){
+            $model = new CorporateRepresentative();
+            $model->full_name = $_POST;
+            $model->save();
+        } else {
+            $model = CorporateRepresentative::model()->findByPk($representative);
+        }
+        if ($model){
+            $model->addCompany();
+        } else {
+            echo "Неправильно введені дані.";
+        }
     }
 
     public function actionRepresentativeByQuery($query){
