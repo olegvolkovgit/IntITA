@@ -16,8 +16,6 @@
                      title="Відміна автором"/>
             </div>
         </td>
-    </tr>
-    <tr>
         <td>Номер ревізії:</td>
         <td><?=$moduleRevision->id_module_revision ?></td>
     </tr>
@@ -35,8 +33,6 @@
             ));
             ?>
         </td>
-    </tr>
-    <tr>
         <td>Назва (рос):</td>
         <td>
             <?php
@@ -65,8 +61,6 @@
             ));
             ?>
         </td>
-    </tr>
-    <tr>
         <td>Псевдонім:</td>
         <td>
             <?php
@@ -95,8 +89,6 @@
             ));
             ?>
         </td>
-    </tr>
-    <tr>
         <td>Що ти вивчиш:</td>
         <td>
             <?php
@@ -125,8 +117,6 @@
             ));
             ?>
         </td>
-    </tr>
-    <tr>
         <td>Рівень:</td>
         <td>
             <?php
@@ -164,9 +154,7 @@
             ));
             ?>
         </td>
-    </tr>
-    <tr>
-        <td>Днів в тижні:</td>
+        <td>Днів в тиждень:</td>
         <td>
             <?php
             $this->widget('editable.EditableField', array(
@@ -199,8 +187,6 @@
             ));
             ?>
         </td>
-    </tr>
-    <tr>
         <td>Готовність модуля:</td>
         <td>
             <?php

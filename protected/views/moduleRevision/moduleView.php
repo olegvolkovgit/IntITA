@@ -70,6 +70,7 @@ $this->breadcrumbs = array(
             <button ng-if="lectureInModule!=''" class="btn btn-primary" ng-click="editModuleRevision(lectureInModule)">Зберегти зміни</button>
             <br>
         </div>
+        <br>
     </div>
     <div data-loading id="loaderContainer">
         <img id="ajaxLoader" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
