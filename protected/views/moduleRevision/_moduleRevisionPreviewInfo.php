@@ -1,22 +1,46 @@
 <label class="showMore" ng-click="isOpenMore = !isOpenMore">Властивості ревізії модуля: <span>&#9660;</span></label>
-<table class="table" ng-show="isOpenMore">
+<table class="table" style="margin-bottom: 0">
     <tr>
         <td><label>Cтатус:</label></td>
         <td>
             <div>{{moduleData.module.status}}</div>
             <div class="editButtons">
-                <img ng-if=lectureData ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
-                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
-                     title="Попередній перегляд"/>
-                <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canApprove ng-click=approveModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'approve.png'); ?>"
+                     title="Затвердити"/>
+                <img ng-if=moduleData.module.canEdit ng-click=editModuleRevision('<?=Yii::app()->createUrl("moduleRevision/editModuleRevisionPage", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
+                     title="Редагувати ревізію модуля"/>
+                <img ng-if=moduleData.module.canSendForApproval ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',false)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
-                <img ng-if=lectureData.lecture.canCancelEdit ng-click=cancelEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canCancelSendForApproval ng-click=cancelSendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_send.png'); ?>"
+                     title="Скасувати відправку на затвердження"/>
+                <img ng-if=moduleData.module.canCancelReadyRevision ng-click=cancelModuleRevision('<?php echo $moduleRevision->id_module_revision;  ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_revision.png'); ?>"
+                     title="Скасувати ревізію"/>
+                <img ng-if=moduleData.module.canRejectRevision ng-click=rejectModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
+                     title="Відхилити ревізію"/>
+                <img ng-if=moduleData.module.canReleaseRevision ng-click=releaseModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'release.png'); ?>"
+                     title="Реліз ревізії"/>
+                <img ng-if=moduleData.module.canCancelEdit ng-click=cancelModuleEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>',false)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancelled_author.png'); ?>"
                      title="Відміна автором"/>
+                <img ng-if=moduleData.module.canRestoreEdit ng-click=restoreModuleEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restored.png'); ?>"
+                     title="Відновити редагування"/>
+                <a ng-href="{{moduleData.module.link}}" >
+                    <img style="width: 48px" ng-if=moduleData.module.canCancelReadyRevision
+                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
+                         title="Переглянути заняття"/>
+                </a>
             </div>
-        </td>
     </tr>
+</table>
+<table class="table" ng-show="isOpenMore">
     <tr>
         <td><label>UID модуля ревізії:</label></td>
         <td><?=$moduleRevision->id_module ?></td>

@@ -5,13 +5,13 @@
         <td>
             <div>{{moduleData.module.status}}</div>
             <div class="editButtons">
-                <img ng-if=lectureData ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
+                <img ng-if=moduleData ng-click=previewModuleRevision('<?=Yii::app()->createUrl("moduleRevision/previewModuleRevision", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
                      title="Попередній перегляд"/>
-                <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canSendForApproval ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',true)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
-                <img ng-if=lectureData.lecture.canCancelEdit ng-click=cancelEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canCancelEdit ng-click=cancelModuleEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>',true)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancelled_author.png'); ?>"
                      title="Відміна автором"/>
             </div>
