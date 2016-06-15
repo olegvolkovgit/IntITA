@@ -221,28 +221,16 @@ class Teacher extends CActiveRecord
         return $result;
     }
 
-    //todo
     public static function getTeacherConsult(Lecture $lecture)
     {
-        $teachersconsult = [];
-
         $criteria = new CDbCriteria;
-        $criteria->alias = 'consultant_modules';
-        $criteria->select = 'consultant';
-        $criteria->addCondition('module=' . $lecture->idModule);
-        $criteria->addCondition('end_time IS NULL');
-        $temp = ConsultantModules::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($teachersconsult, $temp[$i]->consultant);
-        }
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'teacher';
-        $criteriaData->condition = 'isPrint = 1';
-        $criteriaData->addInCondition('user_id', $teachersconsult, 'AND');
-
+        $criteria->alias = 't';
+        $criteria->join = 'left join consultant_modules cm on cm.consultant=t.user_id';
+        $criteria->join .= ' left join user_consultant uc on uc.id_user=cm.consultant';
+        $criteria->addCondition('t.isPrint = 1 and cm.end_time IS NULL and uc.end_date IS NULL and cm.module=:module');
+        $criteria->params = array(":module" => $lecture->idModule);
         $dataProvider = new CActiveDataProvider('Teacher', array(
-            'criteria' => $criteriaData,
+            'criteria' => $criteria,
             'pagination' => false,
         ));
         return $dataProvider;
