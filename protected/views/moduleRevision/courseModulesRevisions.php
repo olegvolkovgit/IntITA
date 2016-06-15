@@ -26,7 +26,7 @@ $this->breadcrumbs = array(
 <div id="revisionMainBox" ng-app="moduleRevisionsApp">
     <div class="form-group" ng-controller="moduleRevisionsTreeCtrl" ng-cloak>
         <div ng-controller="courseModulesRevisionsCtrl">
-            <a href="" ng-click="isOpenActualRevisions = !isOpenActualRevisions">Актуальні версії модулів(натисніть, для відображення)</a>
+            <a href="" ng-click="isOpenActualRevisions = !isOpenActualRevisions">Актуальні версії модулів курса(натисніть, для відображення)</a>
             <ul ng-show="isOpenActualRevisions" class="list-group">
                 <li class="list-group-item node-tree" ng-repeat="module in currentModules track by $index">
                     <strong>{{module.title}}</strong>
@@ -51,10 +51,10 @@ $this->breadcrumbs = array(
             </ul>
             <?php
             $this->renderPartial('_moduleRevisionsTree');
-//            ?>
-<!--            <div data-loading id="loaderContainer">-->
-<!--                <img id="ajaxLoader" src="--><?php //echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?><!--" />-->
-<!--            </div>-->
+            ?>
+            <div data-loading id="loaderContainer">
+                <img id="ajaxLoader" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
+            </div>
         </div>
     </div>
 </div>

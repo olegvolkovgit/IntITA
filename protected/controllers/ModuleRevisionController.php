@@ -15,8 +15,20 @@ class ModuleRevisionController extends Controller {
         } else return true;
     }
 
+    public function actionIndex() {
+        $approver=RegisteredUser::userById(Yii::app()->user->getId())->canApprove();
+        if (!$approver) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0829'));
+        }
+
+        $this->render('index',array(
+            'isApprover' => true,
+            'userId' => Yii::app()->user->getId(),
+        ));
+    }
+
     public function actionCourseModulesRevisions($idCourse) {
-        if (!Yii::app()->user->model->isAdmin()) {
+        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
 
@@ -134,6 +146,15 @@ class ModuleRevisionController extends Controller {
 
     public function actionBuildRevisionsInCourse() {
         $idCourse = Yii::app()->request->getPost('idCourse');
+        $list=Course::model()->modulesIdInCourse($idCourse);
+        $moduleRev  = RevisionModule::modelsByList($list);
+        $relatedTree = RevisionModule::getModulesTree();
+        $json = $this->buildModuleTreeJson($moduleRev, $relatedTree);
+
+        echo $json;
+    }
+
+    public function actionBuildAllModulesRevisions() {
         $moduleRev = RevisionModule::model()->findAll();
         $relatedTree = RevisionModule::getModulesTree();
         $json = $this->buildModuleTreeJson($moduleRev, $relatedTree);
@@ -173,6 +194,113 @@ class ModuleRevisionController extends Controller {
             $this->appendNode($jsonArray, $node, $moduleTree);
         }
         return json_encode(array_values($jsonArray));
+    }
+
+    public function buildModuleTreeJsonMultiselect($modules, $moduleTree, $actualIdList) {
+        $jsonArray = [];
+        foreach ($modules as $module) {
+            $node = array();
+            $node['text'] = "Ревізія №" . $module->id_module_revision . " " .
+                $module->properties->title_ua . ". Статус: <strong>" . $module->getStatus().'</strong>'.
+                ' Створена: '.$module->properties->start_date.' Модифікована: '.$module->properties->update_date;
+            $node['selectable'] = false;
+            $node['id'] = $module->id_module_revision;
+            $node['creatorId'] = $module->properties->id_user_created;
+            $node['isSendable'] = $module->isSendable();
+            $node['isApprovable'] = $module->isApprovable();
+            $node['isCancellable'] = $module->isCancellable();
+            $node['isEditable'] = $module->isEditable();
+            $node['isRejectable'] = $module->isRejectable();
+            $node['isSendedCancellable'] = $module->isRevokeable();
+            $node['isReadable'] = $module->isReleaseable();
+            $node['isEditCancellable'] = $module->isEditable();
+            $node['canRestoreEdit'] = $module->isCancelledEditor();
+
+            $this->appendNodeMultiselect($jsonArray, $node, $moduleTree, $actualIdList);
+        }
+        return json_encode(array_values($jsonArray));
+    }
+
+    private function appendNodeMultiselect(&$tree, $node, $parents, $actualRevisionsList) {
+//       do if node is in array list
+        if (in_array($node['id'], $actualRevisionsList)) {
+//       change parent node if current parent node absent in array list
+            if(!in_array($parents[$node['id']], $actualRevisionsList)){
+                $tempParent=$parents[$node['id']];
+                while (!in_array($tempParent, $actualRevisionsList)) {
+                    $oldParent=$tempParent;
+                    $tempParent=$parents[$tempParent];
+                    if($oldParent==$tempParent){
+                        $tempParent=$node['id'];
+                        break;
+                    }
+                }
+                $parents[$node['id']]=$tempParent;
+            }
+            if ($parents[$node['id']] == $node['id']) {
+                //if root node
+                $tree[$node['id']] = $node;
+            } else{
+                $path = [];
+
+                if (in_array($parents[$node['id']], $actualRevisionsList)) {
+                    $parentId = $parents[$node['id']];
+                } else {
+                    $parentId = $node['id'];
+                }
+                //building path from root to target node
+                array_push($path, $parentId);
+                $i=0;
+
+                while ($parents[$parentId] != $parentId) {
+                    $i=$i+1;
+
+                    if (!in_array($parents[$parentId], $actualRevisionsList)) {
+                        // find parent
+                        $tempParent=$parents[$parentId];
+                        $end=false;
+
+                        while (!in_array($tempParent, $actualRevisionsList)) {
+                            $oldParent=$tempParent;
+                            $tempParent=$parents[$tempParent];
+                            if($oldParent==$tempParent){
+                                if(!in_array($tempParent, $actualRevisionsList)){
+                                    $end=true;
+                                    break;
+                                }else{
+                                    $parentId=$tempParent;
+                                    break;
+                                }
+                            }
+                        }
+                        if($end) break;
+
+                        array_push($path, $tempParent);
+                        $parentId=$tempParent;
+                    }
+                    if($parents[$parentId] != $parentId){
+                        array_push($path, $parents[$parentId]);
+                        $parentId = $parents[$parentId];
+                    }
+                }
+
+                //finding reference to target node
+                $targetNode = &$tree;
+                while (count($path) != 0) {
+                    if (!array_key_exists('nodes', $targetNode)) {
+                        $targetNode =& $targetNode[array_pop($path)];
+                    } else {
+                        $targetNode =& $targetNode['nodes'][array_pop($path)];
+                    }
+                }
+                //adding node to 'nodes' array in target node
+
+                if (!array_key_exists('nodes', $targetNode)) {
+                    $targetNode['nodes'] = array();
+                }
+                $targetNode['nodes'][$node['id']] = $node;
+            }
+        }
     }
 
     /**
@@ -448,4 +576,43 @@ class ModuleRevisionController extends Controller {
         echo CJSON::encode($data);
     }
 
+    public function actionBuildTreeInModule() {
+        $idModule = Yii::app()->request->getPost('idModule');
+        $status = Yii::app()->request->getPost('status');
+        $moduleRev = RevisionModule::model()->findByAttributes(array("id_module" => $idModule));
+
+        $actualIdList=RevisionModule::getFilteredIdRevisions($status,$idModule);
+
+        $relatedRev = $moduleRev->getRelatedModules();
+        $relatedTree = RevisionModule::getModulesTree($idModule);
+        $json = $this->buildModuleTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
+
+        echo $json;
+    }
+
+    public function actionBuildTreeInCourse() {
+        $idCourse = Yii::app()->request->getPost('idCourse');
+        $status = Yii::app()->request->getPost('status');
+
+        $actualIdList=RevisionModule::getFilteredIdRevisions($status);
+
+        $list=Course::model()->modulesIdInCourse($idCourse);
+        $relatedRev  = RevisionModule::modelsByList($list);
+        $relatedTree = RevisionModule::getModulesTree(null,$list);
+        $json = $this->buildModuleTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
+
+        echo $json;
+    }
+
+    public function actionBuildAllModulesTree() {
+        $status = Yii::app()->request->getPost('status');
+
+        $actualIdList=RevisionModule::getFilteredIdRevisions($status);
+
+        $relatedRev  = RevisionModule::model()->findAll();
+        $relatedTree = RevisionModule::getModulesTree();
+        $json = $this->buildModuleTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
+
+        echo $json;
+    }
 }

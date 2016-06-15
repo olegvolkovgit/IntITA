@@ -1,23 +1,24 @@
 /**
- * Created by Wizlight on 26.04.2016.
+ * Created by Wizlight on 03.11.2015.
  */
 angular
-    .module('revisionTreesApp')
-    .controller('allRevisionsCtrl',allRevisionsCtrl)
+    .module('moduleRevisionsApp')
+    .controller('allModulesRevisionsCtrl',allModulesRevisionsCtrl)
     .filter('arrow', function() {
         return function(input) {
             return input ? '\u21a5' : '\u21a7';
         };
     });
 
-function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
-    $scope.approvedTree=true;
+function allModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, moduleRevisionsActions) {
     $scope.formData = {};
+
     //init tree after load json
-    revisionsTree.getAllRevisionsJson().then(function(response){
+    modulesRevisionsTree.getAllModulesRevisionsJson().then(function(response){
         $rootScope.revisionsJson=response;
         $scope.revisionsTreeInit();
     });
+
     //init actions for revision tree
     var approverActions=[{
         "type": "button",
@@ -28,7 +29,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
         "action": function(event) {
             var idRevision = $(event.data.el).attr('id');
             var nodeId = $(event.data.el).attr('data-nodeid');
-            $scope.approveRev(idRevision, nodeId);
+            $scope.approveModuleRev(idRevision, nodeId);
         }
     },
         {
@@ -40,7 +41,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.rejectRev(idRevision, nodeId);
+                $scope.rejectModuleRev(idRevision, nodeId);
             }
         },
         {
@@ -52,7 +53,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.cancelRev(idRevision, nodeId);
+                $scope.cancelModuleRev(idRevision, nodeId);
             }
         },
         {
@@ -64,21 +65,21 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.releaseRev(idRevision, nodeId);
+                $scope.releaseModuleRev(idRevision, nodeId);
             }
         }
     ];
     var authorActions=[
-        {
-            "type": "button",
-            "title": "Переглянути ревізії даного заняття",
-            "visible": true,
-            "userId":userId,
-            "action": function(event) {
-                var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.openRevisionsBranch(idRevision);
-            }
-        },
+        // {
+        //     "type": "button",
+        //     "title": "Переглянути ревізії даного заняття",
+        //     "visible": true,
+        //     "userId":userId,
+        //     "action": function(event) {
+        //         var idRevision = $(event.data.el).attr('id');
+        //         $scope.$parent.openRevisionsBranch(idRevision);
+        //     }
+        // },
         {
             "type": "button",
             "title": "Створити нову ревізію",
@@ -86,7 +87,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.createRev(idRevision);
+                $scope.createModuleRev(idRevision);
             }
         },
         {
@@ -96,19 +97,19 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.previewRev(idRevision);
+                $scope.previewModuleRev(idRevision);
             }
         },
-        {
-            "type": "button",
-            "title": "Написати автору ревізії",
-            "visible": true,
-            "userId":userId,
-            "action": function(event) {
-                var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.sendRevisionMessage(idRevision);
-            }
-        }
+        // {
+        //     "type": "button",
+        //     "title": "Написати автору ревізії",
+        //     "visible": true,
+        //     "userId":userId,
+        //     "action": function(event) {
+        //         var idRevision = $(event.data.el).attr('id');
+        //         $scope.$parent.sendRevisionMessage(idRevision);
+        //     }
+        // }
     ];
     var generalActions=[
         {
@@ -118,7 +119,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.editRev(idRevision);
+                $scope.editModuleRev(idRevision);
             }
         },
         {
@@ -129,7 +130,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.sendRev(idRevision, nodeId);
+                $scope.sendModuleRev(idRevision, nodeId);
             }
         },
         {
@@ -140,7 +141,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.cancelSendRev(idRevision, nodeId);
+                $scope.cancelSendModuleRev(idRevision, nodeId);
             }
         },
         {
@@ -151,7 +152,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.cancelEditRev(idRevision, nodeId);
+                $scope.cancelEditModuleRev(idRevision, nodeId);
             }
         },
         {
@@ -162,7 +163,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.restoreEditRev(idRevision, nodeId);
+                $scope.restoreEditModuleRev(idRevision, nodeId);
             }
         },
     ];
@@ -189,55 +190,55 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     };
 
     //edit revision status
-    $scope.sendRev = function(id,nodeId) {
-        revisionsActions.sendRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.sendModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.sendModuleRevision(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.cancelSendRev = function(id,nodeId) {
-        revisionsActions.cancelSendRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.cancelSendModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.cancelSendModuleRevision(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.approveRev = function(id,nodeId) {
-        revisionsActions.approveRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.approveModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.approveModuleRevision(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.rejectRev = function(id,nodeId) {
-        revisionsActions.rejectRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.rejectModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.rejectModuleRevision(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.cancelRev = function(id,nodeId) {
-        revisionsActions.cancelRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.cancelModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.cancelModuleRevision(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.releaseRev = function(id,nodeId) {
-        revisionsActions.releaseRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.releaseModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.releaseModuleRevision(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.cancelEditRev = function(id,nodeId) {
-        revisionsActions.cancelEditByEditor(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.cancelEditModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.cancelModuleEditByEditor(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    $scope.restoreEditRev = function(id,nodeId) {
-        revisionsActions.restoreEditByEditor(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
+    $scope.restoreEditModuleRev = function(id,nodeId) {
+        moduleRevisionsActions.restoreModuleEditByEditor(id).then(function(){
+            $scope.updateAllModuleRevisionsTree(nodeId);
         });
     };
-    //update revisions tree in module
-    $scope.updateRevisionsBranch = function(nodeId){
+    //update module revisions tree
+    $scope.updateAllModuleRevisionsTree = function(nodeId){
         if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
-            revisionsTree.getAllRevisionsJson().then(function(response){
+            modulesRevisionsTree.getAllModulesRevisionsJson().then(function(response){
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }else{
-            revisionsTree.allRevisionsTreeFilter($scope.formData).then(function (response) {
+            modulesRevisionsTree.allModulesRevisionsTreeFilter($scope.formData).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
@@ -245,8 +246,8 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     };
 
     $scope.updateTree = function() {
-        revisionsTree.getAllRevisionsJson().then(function(response){
-            $rootScope.revisionsJson=response;
+        modulesRevisionsTree.getAllModulesRevisionsJson().then(function (response) {
+            $rootScope.revisionsJson = response;
             $scope.revisionsTreeInit();
         });
     };
@@ -255,7 +256,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
         if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
             $scope.updateTree();
         }else{
-            revisionsTree.allRevisionsTreeFilter($scope.formData).then(function (response) {
+            modulesRevisionsTree.allModulesRevisionsTreeFilter($scope.formData).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate();
             });
@@ -270,5 +271,3 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
         return true;
     }
 }
-
-
