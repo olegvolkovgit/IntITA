@@ -152,7 +152,7 @@ class TeachersController extends TeacherCabinetController{
     {
         $user = RegisteredUser::userById($id);
         $teacher = $user->getTeacher();
-        $roles = $user->noSetTeacherRoles();
+        $roles = $user->noSetRoles();
 
         $this->renderPartial('addTeacherRole', array(
             'teacher' => $teacher,

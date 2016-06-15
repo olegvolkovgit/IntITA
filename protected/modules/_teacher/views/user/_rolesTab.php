@@ -14,6 +14,12 @@ $user = $model->registrationData;
                                 'id' => $user->id)); ?>','Призначити роль')">Призначити роль
                     </button>
                 </li>
+                <li>
+                    <button type="button" class="btn btn-primary"
+                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
+                                'Додати співробітника')">Додати співробітника
+                    </button>
+                </li>
             </ul>
         <?php } ?>
 
@@ -39,6 +45,18 @@ $user = $model->registrationData;
                 <?php } ?>
             </ul>
         <?php } ?>
+
+        <div class="alert alert-info">
+            Деякі ролі (<?=implode(', ', TeacherRolesDataSource::roles());?>) можуть бути призначені лише співробітникам. Додати нового співробітника можна
+            за посиланням:
+            <a href="#" class="alert-link"
+               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
+                   'Додати співробітника')">Додати співробітника</a>.
+            <br>
+            Список усіх співробітників:
+            <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
+                'Співробітники')">Список</a>.
+        </div>
     </div>
 </div>
 <script>
