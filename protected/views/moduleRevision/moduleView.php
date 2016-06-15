@@ -57,7 +57,7 @@ $this->breadcrumbs = array(
                 </tr>
                 <tr ng-repeat="lecture in lectureInModule track by $index">
                     <td><span ng-if="lecture.list!='foreign'">{{lecture.id_lecture_revision}}</span></td>
-                    <td>{{lecture.title}}</td>
+                    <td><a ng-href="<?php echo Yii::app()->createUrl("revision/previewLectureRevision", array('idRevision'=>'')) ?>{{lecture.id_lecture_revision}}" >{{lecture.title}}</a></td>
                     <td>{{$index+1}}</td>
                     <td>
                         <div style="display: inline-block" >

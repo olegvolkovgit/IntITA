@@ -74,18 +74,17 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
     };
 
     $scope.editModuleRevision = function (lectureList) {
+        var newObject = new Object();
         var object =  JSON.stringify(lectureList);
         object =  JSON.parse(object);
         $.each(object, function(index) {
             object[index]['lecture_order']=index+1;
-            object[index]['id_module_revision']=idRevision;
-            delete object[index]['title'];
-            delete object[index]['link'];
+            newObject[object[index]['id_lecture_revision']]=object[index]['lecture_order'];
         });
         $http({
             url: basePath+'/moduleRevision/editModuleRevision',
             method: "POST",
-            data: $.param({moduleLectures: JSON.stringify(object), idModule:idModule}),
+            data: $.param({moduleLectures: JSON.stringify(newObject), idRevision:idRevision}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback() {
             bootbox.alert("Зміни збережено", function () {

@@ -57,12 +57,13 @@ class ModuleRevisionController extends Controller {
 
     public function actionEditModuleRevision() {
         $moduleLectures = json_decode(Yii::app()->request->getPost('moduleLectures'),true);
-        $idModule = Yii::app()->request->getPost('idModule');
-        foreach($moduleLectures as $lecture){
-            if(isset($lecture["list"]) && $lecture["list"]=='foreign'){
-                RevisionLecture::model()->findByPk($lecture["id_lecture_revision"])->cloneLecture(Yii::app()->user, $newModule = $idModule);
-            }
-        }
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        var_dump($moduleLectures);die;
+//        foreach($moduleLectures as $lecture){
+//            if(isset($lecture["list"]) && $lecture["list"]=='foreign'){
+//                RevisionLecture::model()->findByPk($lecture["id_lecture_revision"])->cloneLecture(Yii::app()->user, $newModule = $idModule);
+//            }
+//        }
     }
 
     /**
