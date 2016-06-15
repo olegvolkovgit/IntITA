@@ -702,6 +702,16 @@ class Course extends CActiveRecord implements IBillableObject
         return $modules;
     }
 
+    public static function modulesIdInCourse($idCourse)
+    {
+        $moduleList=Course::model()->modulesInCourse($idCourse);
+        $list=array();
+        foreach ($moduleList as $item) {
+            array_push($list,$item["id_module"]);
+        }
+        return $list;
+    }
+
     /**
      * Shifts up specified module;
      * @param $idModule

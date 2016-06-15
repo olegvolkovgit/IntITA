@@ -132,8 +132,14 @@ class RevisionModule extends CRevisionUnitActiveRecord
      * @param null|$idModule
      * @return array
      */
-    public static function getModulesTree($idModule = null) {
-        if ($idModule != null) {
+    public static function getModulesTree($idModule = null, $list = null) {
+        if ($list != null) {
+            $allIdList = Yii::app()->db->createCommand()
+                ->select('id_module_revision, id_parent')
+                ->from('vc_module')
+                ->where(array('in', 'id_module', $list))
+                ->queryAll();
+        } else if ($idModule != null) {
             $allIdList = Yii::app()->db->createCommand()
                 ->select('id_module_revision, id_parent')
                 ->from('vc_module')
@@ -343,5 +349,126 @@ class RevisionModule extends CRevisionUnitActiveRecord
         }
         return $errors[0];
     }
-    
+
+    /**
+     * revisions id list after filtered
+     */
+    public static function getFilteredIdRevisions($status, $idModule=null) {
+        $sqlCancelledEditor = ('vcp.id_user_cancelled_edit IS NOT NULL');
+        $sqlCancelled = ('vcp.id_user_cancelled IS NOT NULL');
+        $sqlReady = ('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
+        $sqlApproved = ('vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL');
+        $sqlRejected = ('vcp.id_user_rejected IS NOT NULL');
+        $sqlSent = ('vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL');
+        $sqlEditable = ('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
+
+        $finalSql = '';
+        foreach ($status as $key => $sql) {
+            if ($sql == 'true') {
+                switch ($key) {
+                    case 'approved':
+                        $finalSql = $finalSql . ' or ' . $sqlApproved;
+                        break;
+                    case 'editable';
+                        $finalSql = $finalSql . ' or ' . $sqlEditable;
+                        break;
+                    case 'sent';
+                        $finalSql = $finalSql . ' or ' . $sqlSent;
+                        break;
+                    case 'reject';
+                        $finalSql = $finalSql . ' or ' . $sqlRejected;
+                        break;
+                    case 'cancelled';
+                        $finalSql = $finalSql . ' or ' . $sqlCancelled;
+                        break;
+                    case 'cancelledEditor';
+                        $finalSql = $finalSql . ' or ' . $sqlCancelledEditor;
+                        break;
+                    case 'release';
+                        $finalSql = $finalSql . ' or ' . $sqlReady;
+                        break;
+                    default:
+                        $finalSql = '';
+                        break;
+                };
+            }
+        }
+        $finalSql = substr($finalSql, 3);
+        if($idModule==null){
+            $sql="SELECT DISTINCT vcm.id_module_revision FROM vc_module vcm LEFT JOIN vc_module_properties vcp ON vcp.id=vcm.id_properties
+            WHERE ".$finalSql;
+        }else{
+            $sql="SELECT DISTINCT vcm.id_module_revision FROM vc_module vcm LEFT JOIN vc_module_properties vcp ON vcp.id=vcm.id_properties
+            WHERE vcm.id_module=".$idModule." 
+            and (".$finalSql.")";
+        }
+        $list = Yii::app()->db->createCommand($sql)->queryAll();
+        $actualIdList = [];
+        foreach ($list as $item) {
+            array_push($actualIdList, $item['id_module_revision']);
+        }
+        return $actualIdList;
+    }
+
+    /**
+     * Returns related revisions list
+     * @return RevisionModule[]
+     */
+    public function getRelatedModules() {
+        return RevisionModule::model()->with('properties')->findAllByPk($this->getRelatedIdList());
+    }
+
+    /**
+     * Returns a list of related lectures id.
+     * Algorithm based on Quick-Union algorithm
+     * http://algs4.cs.princeton.edu/15uf/
+     * Possible ways to improve (in case of bad performance) - implement weight.
+     *
+     * @return array
+     */
+    private function getRelatedIdList() {
+        //get list of ids of all modules in the module.
+        $allIdList = Yii::app()->db->createCommand()
+            ->select('id_module_revision, id_parent')
+            ->from('vc_module')
+            ->where('id_module=' . $this->id_module)
+            ->queryAll();
+
+        $quickUnion = $this->getQuickUnionStructure($allIdList);
+
+        // pushing in resulting array only the keys, which have the same root as $this
+        $thisRoot = $this->getQURoot($quickUnion, $this->id_module_revision);
+        $idArray = array();
+        foreach ($quickUnion as $key => $value) {
+            if ($thisRoot == $this->getQURoot($quickUnion, $value)) {
+                array_push($idArray, $key);
+            }
+        }
+
+        return $idArray;
+    }
+
+    /**
+     * Return root of $element in $quickUnion data structure;
+     * @param array $quickUnion , key - id_revision, $quickUnion[key] == root of key element or itself if key element is root
+     * @param $element
+     * @return bool
+     */
+    private function getQURoot(&$quickUnion, $element) {
+        $root = $quickUnion[$element];
+
+        while ($root != $quickUnion[$root]) {
+            $root = $quickUnion[$root];
+        }
+
+        $quickUnion[$element] = $root;
+
+        return $root;
+    }
+
+    public static function modelsByList($list) {
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id_module', $list);
+        return RevisionModule::model()->findAll($criteria);   
+    }
 }

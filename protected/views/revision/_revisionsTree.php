@@ -7,16 +7,6 @@
     <input type="button" class="btn btn-secondary" value="Згорнути дерево" ng-click="collapseAll()">
     <input type="button" class="btn btn-secondary" value="Розгорнути дерево" ng-click="expandAll()">
     <input type="button" class="btn btn-secondary" value="Оновити дерево" ng-click="updateTree()">
-<!--    <div ng-show="approvedTree" style="display: inline-block">-->
-<!--        <label>-->
-<!--            <input type="radio" ng-checked=true ng-model="approvedRevisions" ng-change="loadTreeMode()" id="allTree" value="false">-->
-<!--            Всі ревізії-->
-<!--        </label>-->
-<!--        <label>-->
-<!--            <input type="radio" ng-model="approvedRevisions" ng-change="loadTreeMode()" id="approvedTree" value="true">-->
-<!--            Ревізії в релізі-->
-<!--        </label>-->
-<!--    </div>-->
 </div>
 <div ng-show="approvedTree" id="checkboxFilter" class="form-group">
     <label ng-click="isFilterOpen = !isFilterOpen" id="filterSpoiler">Фільтр ревізій{{isFilterOpen | arrow}}</label><br>

@@ -8,7 +8,7 @@
                 <img ng-if=moduleData.module.canApprove ng-click=approveModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'approve.png'); ?>"
                      title="Затвердити"/>
-                <img ng-if=moduleData.module.canEdit ng-click=editModuleRevision('<?=Yii::app()->createUrl("moduleRevision/editModuleRevisionPage", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
+                <img ng-if=moduleData.module.canEdit ng-click=editModuleRevisionPage('<?=Yii::app()->createUrl("moduleRevision/editModuleRevisionPage", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
                      title="Редагувати ревізію модуля"/>
                 <img ng-if=moduleData.module.canSendForApproval ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',false)

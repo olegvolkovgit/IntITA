@@ -100,7 +100,7 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         location.href=url;
     };
     //edit revision
-    $scope.editModuleRevision = function(url) {
+    $scope.editModuleRevisionPage = function(url) {
         location.href=url;
     };
     //approve revision

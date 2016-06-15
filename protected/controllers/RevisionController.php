@@ -7,9 +7,8 @@ class RevisionController extends Controller {
     {
         parent::init();
         $app = Yii::app();
-        if (isset($app->session['lg'])) {
-            $app->language = $app->session['lg'];
-        }
+        $app->language = isset($app->session['lg'])?$app->session['lg']:'ua';
+        
         if (Yii::app()->user->isGuest) {
             $this->render('/site/authorize');
             die();
@@ -582,6 +581,7 @@ class RevisionController extends Controller {
             'idModule' => $idModule,
             'isApprover' => $this->isUserApprover(Yii::app()->user),
             'userId' => Yii::app()->user->getId(),
+            'author' => $this->isUserTeacher(Yii::app()->user, $idModule)
         ));
     }
 

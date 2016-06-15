@@ -1,8 +1,14 @@
 angular
     .module('moduleRevisionsApp')
-    .controller('moduleRevisionsCtrl',moduleRevisionsCtrl);
+    .controller('moduleRevisionsCtrl',moduleRevisionsCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
 function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, moduleRevisionsActions) {
+    $scope.formData = {};
     $scope.idModule=idModule;
     //load current modules from main BD
     modulesRevisionsTree.getModuleData(idModule).then(function (response) {
@@ -259,50 +265,42 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
     };
     //update module revisions tree
     $scope.updateModuleRevisionsTree = function(nodeId){
-        // if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
             modulesRevisionsTree.getModuleRevisions(idModule).then(function(response){
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
-        // }else{
-        //     modulesRevisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
-        //         $rootScope.revisionsJson=response;
-        //         $scope.treeUpdate(nodeId);
-        //     });
-        // }
+        }else{
+            modulesRevisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson=response;
+                $scope.treeUpdate(nodeId);
+            });
+        }
     };
-
-    // $scope.loadTreeMode = function () {
-    //     modulesRevisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function (response) {
-    //         $rootScope.revisionsJson = response;
-    //         $scope.treeUpdate();
-    //     });
-    // };
-    //
-    // $scope.updateTree = function() {
-    //     modulesRevisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function (response) {
-    //         $rootScope.revisionsJson = response;
-    //         $scope.revisionsTreeInit();
-    //     });
-    // };
-
-    // $scope.formData = {};
-    // $scope.revisionFilter=function () {
-    //     if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
-    //         $scope.updateTree();
-    //     }else{
-    //         modulesRevisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
-    //             $rootScope.revisionsJson = response;
-    //             $scope.treeUpdate();
-    //         });
-    //     }
-    // };
-    //
-    // function isEmptyFilter(obj) {
-    //     for (var key in obj) {
-    //         if(obj[key])
-    //             return false;
-    //     }
-    //     return true;
-    // }
+    
+    $scope.updateTree = function() {
+        modulesRevisionsTree.getModuleRevisions(idModule).then(function (response) {
+            $rootScope.revisionsJson = response;
+            $scope.revisionsTreeInit();
+        });
+    };
+    
+    $scope.revisionFilter=function () {
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+            $scope.updateTree();
+        }else{
+            modulesRevisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
+                $rootScope.revisionsJson = response;
+                $scope.treeUpdate();
+            });
+        }
+    };
+    
+    function isEmptyFilter(obj) {
+        for (var key in obj) {
+            if(obj[key])
+                return false;
+        }
+        return true;
+    }
 }
