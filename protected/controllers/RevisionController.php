@@ -581,6 +581,7 @@ class RevisionController extends Controller {
             'idModule' => $idModule,
             'isApprover' => $this->isUserApprover(Yii::app()->user),
             'userId' => Yii::app()->user->getId(),
+            'author' => $this->isUserTeacher(Yii::app()->user, $idModule)
         ));
     }
 
