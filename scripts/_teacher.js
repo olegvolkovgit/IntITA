@@ -799,7 +799,7 @@ function performOperationWithConfirm(url, message, data, callback) {
 }
 
 function initPlannedConsultationsTable() {
-    $jq('#plannedConsultationsTable').DataTable({
+    $jq('#studentPlannedConsultationsTable').DataTable({
         "autoWidth": false,
         "order": [[2, "asc"], [3, "asc"]],
         "ajax": {
@@ -937,7 +937,7 @@ function initPastTeacherConsultationsTable() {
 }
 
 function initPastConsultationsTable() {
-    $jq('#pastConsultationsTable').DataTable({
+    $jq('#studentPastConsultationsTable').DataTable({
         "autoWidth": false,
         "order": [[2, "desc"], [3, "desc"]],
         "ajax": {
@@ -1036,7 +1036,7 @@ function initTodayTeacherConsultationsTable() {
 }
 
 function initTodayConsultationsTable() {
-    $jq('#todayConsultationsTable').DataTable({
+    $jq('#studentTodayConsultationsTable').DataTable({
         "autoWidth": false,
         "order": [[2, "asc"], [3, "asc"]],
         "ajax": {

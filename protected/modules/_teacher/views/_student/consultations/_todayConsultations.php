@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="todayConsultationsTable">
+                <table class="table table-striped table-bordered table-hover" id="studentTodayConsultationsTable">
                     <thead>
                     <tr>
                         <th>Викладач</th>
