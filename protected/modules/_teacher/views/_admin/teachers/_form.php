@@ -109,21 +109,21 @@
     <div class="form-group">
         <?php echo $form->labelEx($model, 'profile_text_first'); ?>
         <?php echo $form->textArea($model, 'profile_text_first',
-            array('rows' => 6, 'cols' => 50, 'class' => 'form-control')); ?>
+            array('rows' => 6, 'cols' => 50, 'class' => 'form-control', 'style' => 'resize: vertical')); ?>
         <?php echo $form->error($model, 'profile_text_first'); ?>
     </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'profile_text_short'); ?>
         <?php echo $form->textArea($model, 'profile_text_short',
-            array('rows' => 6, 'cols' => 50, 'class' => 'form-control')); ?>
+            array('rows' => 6, 'cols' => 50, 'class' => 'form-control', 'style' => 'resize: vertical')); ?>
         <?php echo $form->error($model, 'profile_text_short'); ?>
     </div>
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'profile_text_last'); ?>
         <?php echo $form->textArea($model, 'profile_text_last',
-            array('rows' => 6, 'cols' => 50, 'class' => 'form-control')); ?>
+            array('rows' => 6, 'cols' => 50, 'class' => 'form-control', 'style' => 'resize: vertical')); ?>
         <?php echo $form->error($model, 'profile_text_last'); ?>
     </div>
 
