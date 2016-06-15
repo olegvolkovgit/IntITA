@@ -108,12 +108,14 @@ $model = $user->registrationData;
                 <?php if (!empty($user->getRoles())) { ?>
                     <li class="list-group-item">Ролі користувача:
                         <ul>
-                            <?php foreach ($user->teacherRoles() as $role) { ?>
+                            <?php foreach ($user->getRoles() as $role) { ?>
                                 <li><?= $role; ?>
+                                    <?php if($role != "student") {?>
                                     <a href="#"
                                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
                                            array('id' => $teacher->user_id, 'role' => $role)); ?>','<?= addslashes($teacher->user->userName()) . ", роль " . $role; ?>')"><em>редагувати</em>
                                     </a>
+                                    <?php } ?>
                                     <a href="#"
                                        onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
                                            '<?= $role ?>',
