@@ -14,6 +14,7 @@
  * @property RevisionLectureProperties $properties
  * @property RevisionLecturePage[] $lecturePages
  * @property RevisionLecture $parent
+ * @property RevisionModuleLecture moduleOrder
  */
 class RevisionLecture extends CRevisionUnitActiveRecord {
 
@@ -51,6 +52,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id' => 'id_properties']),
             'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                 'order' => 'page_order ASC'),
+            'moduleOrder' => array(self::HAS_ONE, 'RevisionModuleLecture',  'id_lecture_revision')
         );
     }
 
@@ -279,7 +281,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $newRevision->id_lecture = !$newModule ? $this->id_lecture : null;
             $newRevision->id_module = !$newModule ? $this->id_module: $newModule;
 
-            $newProperties = $this->properties->cloneProperties($user, $newModule);
+                $newProperties = $this->properties->cloneProperties($user, $newModule);
             $newRevision->id_properties = $newProperties->id;
 
             $newRevision->saveCheck();

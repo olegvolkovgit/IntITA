@@ -57,12 +57,9 @@ class ModuleRevisionController extends Controller {
 
     public function actionEditModuleRevision() {
         $moduleLectures = json_decode(Yii::app()->request->getPost('moduleLectures'),true);
-        $idModule = Yii::app()->request->getPost('idModule');
-        foreach($moduleLectures as $lecture){
-            if(isset($lecture["list"]) && $lecture["list"]=='foreign'){
-                RevisionLecture::model()->findByPk($lecture["id_lecture_revision"])->cloneLecture(Yii::app()->user, $newModule = $idModule);
-            }
-        }
+        $idModule = Yii::app()->request->getPost('id_module_revision');
+        $moduleRevision = RevisionModule::model()->findByAttributes(['id_module_revision' => $idModule]);
+        $moduleRevision->editLecturesList($moduleLectures, Yii::app()->user);
     }
 
     /**
@@ -503,10 +500,11 @@ class ModuleRevisionController extends Controller {
         $module = [];
         $data = array('module' => array(),'lectures' => array());
         foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
-            $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
-            $lectures[$key]["lecture_order"] = $lecture->lecture_order;
-            $lectures[$key]["title"] = RevisionLecture::model()->findByPk($lecture->id_lecture_revision)->properties->title_ua;
+            $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
+            $lectures[$key]["lecture_order"] = $lecture->moduleOrder->lecture_order;
+            $lectures[$key]["title"] = $lecture->properties->title_ua;
         }
+
         $module['status']=$moduleRevision->getStatus();
         $module['canEdit']=$moduleRevision->canEdit();
         $module['canSendForApproval']=$moduleRevision->canSendForApproval();
@@ -556,7 +554,7 @@ class ModuleRevisionController extends Controller {
         }
 
         $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
+            WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module <>".$idModule;
 
         $listFromOtherModules= Yii::app()->db->createCommand($lecturesInOtherModules)->queryAll();
         foreach ($listFromOtherModules as $key=>$item) {
