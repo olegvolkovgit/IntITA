@@ -15,7 +15,7 @@
 class MessagesRejectRevision extends Messages implements IMessage
 {
 	private $message;
-	private $template = '_rejectRevisionNotification';
+	private $template = 'revision'. DIRECTORY_SEPARATOR . '_rejectRevisionNotification';
 	private $subject;
 	private $receiver;
     private $revision;

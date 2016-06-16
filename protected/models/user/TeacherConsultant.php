@@ -103,10 +103,16 @@ class TeacherConsultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                return Yii::app()->db->createCommand()->
+                if(Yii::app()->db->createCommand()->
                 update('teacher_consultant_module', array(
                     'end_date' => date("Y-m-d H:i:s"),
-                ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value));
+                ), 'id_teacher=:user and id_module=:module and end_date IS NULL', array(':user' => $user->id, 'module' => $value))){
+                    $user->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelModule',
+                        array(Module::model()->findByPk($value)),
+                        'Скасовано модуль');
+                    return true;
+                }
+                return false;
                 break;
             default:
                 return false;
@@ -164,12 +170,19 @@ class TeacherConsultant extends Role
     public function setStudentAttribute(StudentReg $teacher, $student, $module)
     {
         if ($this->checkStudent($student, $module)) {
-            return Yii::app()->db->createCommand()->
+            if (Yii::app()->db->createCommand()->
             insert('teacher_consultant_student', array(
                 'id_teacher' => $teacher->id,
                 'id_module' => $module,
                 'id_student' => $student
-            ));
+            ))){
+                $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_assignNewStudent', array(
+                    StudentReg::model()->findByPk($student),
+                    Module::model()->findByPk($module)
+                ), 'Призначено нового студента');
+                return true;
+            }
+            return false;
         } else {
             return false;
         }
@@ -229,14 +242,21 @@ class TeacherConsultant extends Role
 
     public function cancelStudentAttribute(StudentReg $teacher, $student, $module)
     {
-        return Yii::app()->db->createCommand()->
+        if(Yii::app()->db->createCommand()->
         update('teacher_consultant_student', array(
             'end_date' => date("Y-m-d H:i:s"),
         ), 'id_teacher=:teacher and id_student=:student and id_module=:module', array(
             ':teacher' => $teacher->id,
             ':student' => $student,
             ':module' =>$module
-        ));
+        ))){
+            $teacher->notify('teacher_consultant' . DIRECTORY_SEPARATOR . '_cancelStudent', array(
+                StudentReg::model()->findByPk($student),
+                Module::model()->findByPk($module)
+            ), 'Скасовано студента');
+            return true;
+        }
+        return false;
     }
 
     public static function teacherConsultantsByQuery($query){
@@ -298,6 +318,6 @@ class TeacherConsultant extends Role
     }
 
     public function notify(StudentReg $user, $idModule){
-        $user->notify('_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
+        $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
     }
 }

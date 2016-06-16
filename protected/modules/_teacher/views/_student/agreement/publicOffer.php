@@ -7,11 +7,13 @@
  * @var $type string
  */
 ?>
-<div class="col col-md-9">
+<div class="col col-md-12">
+    <pre>
     <?php
-    $param = (isset(Yii::app()->session['lg']))?"offer_".Yii::app()->session['lg'].".html":"offer_ua.html";
-    echo file_get_contents(Config::getBaseUrl().'/files/offers/'.$param);
+    $param = (isset(Yii::app()->session['lg'])) ? "offer_" . Yii::app()->session['lg'] . ".html" : "offer_ua.html";
+    echo file_get_contents(Config::getBaseUrl() . '/files/offers/' . $param);
     ?>
+        </pre>
     <br>
     <form>
         <div class="checkbox">
@@ -27,11 +29,11 @@
         <br>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" disabled id="agreeButton"
-                    onclick="createAgreement('<?=Yii::app()->createUrl("/_teacher/_student/student/new".$type."Agreement");?>',
-                        '<?=$schemaNum?>',
-                        '<?=$course?>',
-                        '<?=$educationForm?>',
-                        '<?=$module?>'); return false;">
+                    onclick="createAgreement('<?= Yii::app()->createUrl("/_teacher/_student/student/new" . $type . "Agreement"); ?>',
+                        '<?= $schemaNum ?>',
+                        '<?= $course ?>',
+                        '<?= $educationForm ?>',
+                        '<?= $module ?>'); return false;">
                 Підписати договір
             </button>
             <button type="reset" class="btn btn-default" onclick="back(); return false;">Назад</button>
