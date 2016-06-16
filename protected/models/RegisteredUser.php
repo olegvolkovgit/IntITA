@@ -243,6 +243,11 @@ class RegisteredUser
         return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()), array(UserRoles::AUTHOR));
     }
 
+    public function noSetRoles()
+    {
+        return array_diff(AllRolesDataSource::roles(), array_intersect($this->getRoles(), AllRolesDataSource::roles()), array(UserRoles::AUTHOR));
+    }
+
     public function requests()
     {
         if (!$this->isAdmin() && !$this->isContentManager())

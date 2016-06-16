@@ -32,8 +32,8 @@
             </a>
         </li>
         <li>
-            <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>" target="_blank">
-                Всі ревізії</a>
+            <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>" class="active" target="_blank">
+            Всі ревізії</a>
         </li>
         <li>
             <?php $p=45?>
