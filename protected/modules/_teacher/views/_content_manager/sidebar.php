@@ -32,6 +32,10 @@
             </a>
         </li>
         <li>
+            <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>" class="active" target="_blank">
+            Всі ревізії</a>
+        </li>
+        <li>
             <?php $p=45?>
             <a href="#"
                onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_content_manager/contentManager/statusOfModules", array('id' => 0)); ?>',

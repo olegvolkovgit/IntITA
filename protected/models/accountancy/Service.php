@@ -32,12 +32,11 @@ class Service extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description', 'required'),
+			array('description, education_form', 'required'),
             array('cancel_date', 'safe'),
 			array('billable', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>512),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('service_id, description, create_date, billable', 'safe', 'on'=>'search'),
 		);
 	}
@@ -64,7 +63,7 @@ class Service extends CActiveRecord
             'service_id' => 'Service code',
             'description' => 'service description',
             'create_date' => 'service creation date',
-            'billable' => 'Is billable',
+            'billable' => 'Is billable'
 		);
 	}
 
@@ -82,8 +81,6 @@ class Service extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('service_id',$this->service_id,true);
@@ -107,7 +104,6 @@ class Service extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
 
 
 }

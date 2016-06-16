@@ -15,6 +15,7 @@
  */
 class AddressCountry extends CActiveRecord
 {
+	const UKRAINE = 1;
 	/**
 	 * @return string the associated database table name
 	 */

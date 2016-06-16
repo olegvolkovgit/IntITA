@@ -24,6 +24,7 @@
                             Проплати</a>
                     </li>
                 </ul>
+                <br>
             </div>
             <div class="panel-footer">
                 <em>Основні операції</em>
@@ -34,10 +35,45 @@
     <div class="col-lg-4">
         <div class="panel panel-yellow">
             <div class="panel-heading">
+                Компанії
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
+                               'Компанії')">Компанії
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/representative/index'); ?>',
+                               'Представники')">
+                            Представники
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <br>
+            </div>
+            <div class="panel-footer">
+                <em>Компанії та їх представники</em>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
                 Налаштування
             </div>
             <div class="panel-body">
                 <ul>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/template/index'); ?>',
+                               'Шаблони, оферта')">Шаблони, оферта
+                        </a>
+                    </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/operationType/index'); ?>',
                                'Типи проплат')">
