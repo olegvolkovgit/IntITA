@@ -24,7 +24,7 @@ $this->breadcrumbs = array(
             ?>
             <h3>Доступні ревізії занять:</h3>
             <div class="revisionTable">
-                <label>Доступні ревізії занять данного модуля:</label>
+                <label>Доступні ревізії занять данного модуля(входять лише ревізії відправлені в реліз):</label>
                 <div class="revisionsList">
                     <div ng-repeat="revision in approvedLecture.current track by $index">
                         <a ng-href="{{revision.link}}" target="_blank">
@@ -35,7 +35,7 @@ $this->breadcrumbs = array(
                 </div>
             </div>
             <div class="revisionTable">
-                <label>Доступні ревізії занять інших модулів:</label>
+                <label>Доступні ревізії занять інших модулів(затверджені та ревізії в релізі):</label>
                 <div class="revisionsList">
                     <div ng-repeat="revision in approvedLecture.foreign track by $index">
                         <a ng-href="{{revision.link}}" target="_blank">

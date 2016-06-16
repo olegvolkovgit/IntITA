@@ -545,8 +545,9 @@ class ModuleRevisionController extends Controller {
     public function actionGetApprovedLecture() {
         $idModule = Yii::app()->request->getPost('idModule');
 
+        // select only released lecture revision
         $lecturesInCurrentModule = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module=".$idModule;
+            WHERE vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL and vcl.id_module=".$idModule;
 
         $listFromCurrentModule = Yii::app()->db->createCommand($lecturesInCurrentModule)->queryAll();
         $approvedLectureList = array();
@@ -556,6 +557,7 @@ class ModuleRevisionController extends Controller {
             $approvedLectureList['current'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
         }
 
+        // select released and approved lecture revision
         $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
             WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
 
