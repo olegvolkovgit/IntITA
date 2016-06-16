@@ -18,9 +18,9 @@
  */
 class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 {
-    private $template = '_newCoworkerRequest';
-    private $approveTemplate = '_approveCoworkerRequest';
-    private $cancelTemplate = '_cancelCoworkerRequest';
+    private $template =  'coworker'. DIRECTORY_SEPARATOR . '_newCoworkerRequest';
+    private $approveTemplate = 'coworker'. DIRECTORY_SEPARATOR . '_approveCoworkerRequest';
+    private $cancelTemplate = 'coworker'. DIRECTORY_SEPARATOR . '_cancelCoworkerRequest';
     const TYPE = MessagesType::COWORKER_REQUEST;
     private $receivers = array();
     private $author;

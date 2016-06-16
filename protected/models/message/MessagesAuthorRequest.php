@@ -17,9 +17,9 @@
  */
 class MessagesAuthorRequest extends Messages implements IMessage, IRequest
 {
-    private $template = '_newAuthorModuleRequest';
-    private $approveTemplate = '_approveAuthorModuleRequest';
-    private $cancelTemplate = '_cancelAuthorModuleRequest';
+    private $template = 'author'. DIRECTORY_SEPARATOR . '_newAuthorModuleRequest';
+    private $approveTemplate = 'author'. DIRECTORY_SEPARATOR . '_approveAuthorModuleRequest';
+    private $cancelTemplate = 'author'. DIRECTORY_SEPARATOR . '_cancelAuthorModuleRequest';
     const TYPE = 3;
     private $receivers = array();
     private $module;
