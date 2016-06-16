@@ -70,11 +70,17 @@ class Author extends Role
         switch ($attribute) {
             case 'module':
                 if($this->checkModule($user->id, $value)) {
-                    return Yii::app()->db->createCommand()->
+                    if (Yii::app()->db->createCommand()->
                     insert('teacher_module', array(
                         'idTeacher' => $user->id,
                         'idModule' => $value
-                    ));
+                    ))){
+                        $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
+                            array(Module::model()->findByPk($value)),
+                            'Призначено модуль для редагування');
+                        return true;
+                    }
+                    return false;
                 } else {
                     return false;
                 }
@@ -102,10 +108,16 @@ class Author extends Role
     {
         switch ($attribute) {
             case 'module':
-                return Yii::app()->db->createCommand()->
+                if (Yii::app()->db->createCommand()->
                 update('teacher_module', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value));
+                ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
+                    $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
+                        array(Module::model()->findByPk($value)),
+                        'Скасовано модуль для редагування');
+                    return true;
+                }
+                return false;
                 break;
             default:
                 return false;
@@ -135,5 +147,15 @@ class Author extends Role
             ->queryAll();
 
         return $records;
+    }
+
+    //not supported for this role
+    public function notifyAssignRole(StudentReg $user){
+        return false;
+    }
+
+    //not supported for this role
+    public function notifyCancelRole(StudentReg $user){
+        return false;
     }
 }

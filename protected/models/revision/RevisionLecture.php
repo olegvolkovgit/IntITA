@@ -247,7 +247,7 @@ class RevisionLecture extends CActiveRecord
                 $sql = 'SELECT DISTINCT * from user as u, user_content_manager as ua where u.id = ua.id_user and ua.end_date IS NULL';
                 $contentManagers = Yii::app()->db->createCommand($sql)->queryAll();
                 foreach ($contentManagers as $manager){
-                    StudentReg::model()->findByPk($manager['id'])->notify('_sendForApproveRevisionNotification', array(StudentReg::model()->findByPk($user->getId()),$this),
+                    StudentReg::model()->findByPk($manager['id'])->notify('revision'. DIRECTORY_SEPARATOR . '_sendForApproveRevisionNotification', array(StudentReg::model()->findByPk($user->getId()),$this),
                         'Надіслано запит на затвердження ревізії');
                 }
             } else {
@@ -420,7 +420,7 @@ class RevisionLecture extends CActiveRecord
                     throw $e;
                 }
                 
-                StudentReg::model()->findByPk($this->properties->id_user_created)->notify('_readyRevisionNotification', array(StudentReg::model()->findByPk($user->getId()),$this),
+                StudentReg::model()->findByPk($this->properties->id_user_created)->notify('revision'. DIRECTORY_SEPARATOR . '_readyRevisionNotification', array(StudentReg::model()->findByPk($user->getId()),$this),
                     'Ревізія відправлена в реліз');
             } else {
                 //todo inform user
