@@ -13,9 +13,6 @@ class m160606_094025_add_column_status_user_agreement extends CDbMigration
 
         $this->addColumn('acc_user_agreements', 'status', 'INT(11) NOT NULL DEFAULT \'1\'');
 
-        $this->addForeignKey('FK_acc_user_agreements_acc_user_agreement_status', 'acc_user_agreements', 'status',
-            'acc_user_agreement_status', 'id');
-
         $this->insertMultiple('acc_user_agreement_status', array(
            array(
                'id' => 1,
@@ -47,6 +44,8 @@ class m160606_094025_add_column_status_user_agreement extends CDbMigration
             'CONSTRAINT `FK_acc_agreement_status_action_acc_user_agreement_status` FOREIGN KEY (`new_status`) REFERENCES `acc_user_agreement_status` (`id`)'
         ));
 
+        $this->addForeignKey('FK_acc_user_agreements_acc_user_agreement_status', 'acc_user_agreements', 'status',
+            'acc_user_agreement_status', 'id');
 	}
 
 	public function down()
