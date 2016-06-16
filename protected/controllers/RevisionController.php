@@ -1262,9 +1262,10 @@ class RevisionController extends Controller {
     public function actionBuildTreeInBranch() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $lectureRev = RevisionLecture::model()->findByPk(array("id_revision" => $idRevision));
         
-        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$lectureRev->id_module);
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$lectureRev->id_module,$idAuthor);
         
         $relatedRev = $lectureRev->getRelatedLectures();
         $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
@@ -1276,8 +1277,9 @@ class RevisionController extends Controller {
     public function actionBuildTreeInModule() {
         $idModule = Yii::app()->request->getPost('idModule');
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
-        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$idModule);
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$idModule,$idAuthor);
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
         $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $relatedTree, $actualIdList);
 
@@ -1286,8 +1288,9 @@ class RevisionController extends Controller {
 
     public function actionBuildAllFilteredRevisionsTree() {
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $lectureRev = RevisionLecture::model()->with("properties")->findAll();
-        $actualIdList=RevisionLecture::getFilteredIdRevisions($status);
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,null,$idAuthor);
         $lecturesTree = RevisionLecture::getLecturesTree();
         $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $lecturesTree, $actualIdList);
 
@@ -1316,6 +1319,21 @@ class RevisionController extends Controller {
             }
         } else {
             throw new \application\components\Exceptions\IntItaException(400);
+        }
+    }
+
+    public function actionRevisionsAuthors() {
+        if(Yii::app()->request->getPost('idModule')){
+            $idModule=Yii::app()->request->getPost('idModule');
+            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            die;
+        }else if(Yii::app()->request->getPost('idRevision')){
+            $idModule=RevisionLecture::model()->findByPk(Yii::app()->request->getPost('idRevision'))->id_module;
+            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            die;
+        }else{
+            echo json_encode(RevisionLecture::getRevisionsAuthors());
+            die;
         }
     }
 }

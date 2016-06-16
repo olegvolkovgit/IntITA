@@ -559,7 +559,7 @@ class ModuleRevisionController extends Controller {
 
         // select released and approved lecture revision
         $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE (vcp.id_user_released IS NOT NULL or vcp.id_user_approved IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
+            WHERE (vcp.id_user_released IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
 
         $listFromOtherModules= Yii::app()->db->createCommand($lecturesInOtherModules)->queryAll();
         foreach ($listFromOtherModules as $key=>$item) {
