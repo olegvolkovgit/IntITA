@@ -24,7 +24,7 @@ $this->breadcrumbs = array(
             ?>
             <h3>Доступні ревізії занять:</h3>
             <div class="revisionTable">
-                <label>Доступні ревізії занять данного модуля:</label>
+                <label>Доступні ревізії занять данного модуля(входять лише ревізії відправлені в реліз):</label>
                 <div class="revisionsList">
                     <div ng-repeat="revision in approvedLecture.current track by $index">
                         <a ng-href="{{revision.link}}" target="_blank">
@@ -35,7 +35,7 @@ $this->breadcrumbs = array(
                 </div>
             </div>
             <div class="revisionTable">
-                <label>Доступні ревізії занять інших модулів:</label>
+                <label>Доступні ревізії занять інших модулів(входять лише ревізії відправлені в реліз):</label>
                 <div class="revisionsList">
                     <div ng-repeat="revision in approvedLecture.foreign track by $index">
                         <a ng-href="{{revision.link}}" target="_blank">
@@ -57,7 +57,7 @@ $this->breadcrumbs = array(
                 </tr>
                 <tr ng-repeat="lecture in lectureInModule track by $index">
                     <td><span ng-if="lecture.list!='foreign'">{{lecture.id_lecture_revision}}</span></td>
-                    <td>{{lecture.title}}</td>
+                    <td><a ng-href="<?php echo Yii::app()->createUrl("revision/previewLectureRevision", array('idRevision'=>'')) ?>{{lecture.id_lecture_revision}}" >{{lecture.title}}</a></td>
                     <td>{{$index+1}}</td>
                     <td>
                         <div style="display: inline-block" >

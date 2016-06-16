@@ -37,7 +37,7 @@ $this->breadcrumbs = array(
                         </button>
                         <ul class="dropdown-menu pull-right">
                             <li ng-if="module.releasedFromRevision">
-                                <a ng-click="createRev(module.releasedFromRevision)">Створити нову ревізію</a>
+                                <a ng-click="createModuleRev(module.releasedFromRevision)">Створити нову ревізію</a>
                             </li>
                             <li>
                                 <a ng-href={{module.revisionsLink}} >Переглянути ревізії модуля(створює початкову ревізію, якщо інших немає)</a>

@@ -12,14 +12,19 @@ angular
 
 function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     $scope.formData = {};
-    $scope.approvedTree=true;
+    //load list of module authors. First params - id module, second - id lecture revision. If two params are null - load all authors of revisions 
+    revisionsTree.getRevisionsAuthors(idModule,null).then(function(response){
+        $scope.authors=response;
+        $scope.authors.unshift({authorName:"Всі автори", id:"0"});
+        $scope.selectedAuthor = $scope.authors[0];
+    });
     //load current lectures from main BD
     revisionsTree.getCurrentLectures(idModule).then(function (response) {
         $scope.currentLectures = response;
     });
 
     //init tree after load json
-    revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function(response){
+    revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function(response){
         $rootScope.revisionsJson=response;
         $scope.revisionsTreeInit();
     });
@@ -81,7 +86,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.openRevisionsBranch(idRevision);
+                $scope.openRevisionsBranch(idRevision);
             }
         },
         {
@@ -92,7 +97,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.createRev(idRevision);
+                $scope.createRev(idRevision);
             }
         },
         {
@@ -102,7 +107,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.previewRev(idRevision);
+                $scope.previewRev(idRevision);
             }
         },
         {
@@ -112,7 +117,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.sendRevisionMessage(idRevision);
+                $scope.sendRevisionMessage(idRevision);
             }
         }
     ];
@@ -124,7 +129,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.editRev(idRevision);
+                $scope.editRev(idRevision);
             }
         },
         {
@@ -252,13 +257,13 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     };
     //update revisions tree in module
     $scope.updateModuleLecturesRevisionsTree = function(nodeId){
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
-            revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function(response){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
+            revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function(response){
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }else{
-            revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
+            revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
@@ -266,14 +271,14 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
     };
 
     $scope.loadTreeMode = function () {
-        revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function (response) {
+        revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function (response) {
             $rootScope.revisionsJson = response;
             $scope.treeUpdate();
         });
     };
 
     $scope.updateTree = function() {
-        revisionsTree.getLectureRevisionsInModuleJson(idModule,$scope.approvedRevisions).then(function (response) {
+        revisionsTree.getLectureRevisionsInModuleJson(idModule).then(function (response) {
             $rootScope.revisionsJson = response;
             $scope.revisionsTreeInit();
         });
@@ -281,10 +286,10 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
 
     $scope.formData = {};
     $scope.revisionFilter=function () {
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             $scope.updateTree();
         }else{
-            revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData).then(function (response) {
+            revisionsTree.revisionTreeFilterInModule(idModule,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson = response;
                 $scope.treeUpdate();
             });
