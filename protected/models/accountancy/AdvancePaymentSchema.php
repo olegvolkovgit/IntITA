@@ -11,14 +11,17 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     use GracefulDivision;
     public $payCount;
     public $discount;
+    private $educForm;
 
-    function __construct($discount, $payCount){
+    function __construct($discount, $payCount, $educForm){
         $this->discount = $discount;
         $this->payCount = $payCount;
+        $this->educForm = $educForm;
     }
 
     public function getSumma(IBillableObject $payObject){
-        return $payObject->getBasePrice() * (1 - $this->discount/100);
+        $basePrice = ($this->educForm->isOnline())?$payObject->getBasePrice():$payObject->getBasePrice() * Config::getCoeffModuleOffline();
+        return $basePrice * (1 - $this->discount/100);
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){

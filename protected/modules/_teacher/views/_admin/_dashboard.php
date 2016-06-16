@@ -163,7 +163,7 @@
                     </li>
                     <li><a href="#"
                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/index'); ?>',
-                               'Рівні курсів, модулів')">Рівні курсів, модулів, оферта
+                               'Рівні курсів, модулів')">Рівні курсів, модулів
                         </a>
                     </li>
                     <li><a href="#"
