@@ -690,10 +690,10 @@ function forward(url) {
                 bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
                     "напишіть на адресу " + adminEmail, loadMessagesIndex);
             });
+        posting.always(function () {
+            hideAjaxLoader();
+        });
     }
-    posting.always(function () {
-        hideAjaxLoader();
-    });
 }
 
 function loadMessagesIndex() {
