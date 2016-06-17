@@ -35,7 +35,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
                                 'discount' => 30,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::ADVANCE, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_advancePaymentSchema',
                                 'price' => $price
@@ -50,7 +50,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
                                 'discount' => 10,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS, EducationForm::ONLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_TWO_PAYS, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_basePaymentSchema',
                                 'price' => $price
@@ -65,7 +65,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
                                 'discount' => 8,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::BASE_FOUR_PAYS, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_basePaymentSchema',
                                 'price' => $price
@@ -80,7 +80,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
                                 'discount' => 8,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::MONTHLY, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_monthlyPaymentSchema',
                                 'price' => $price
@@ -94,7 +94,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_TWO_YEARS, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_creditPaymentSchema',
                                 'price' => $price
@@ -108,7 +108,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_THREE_YEARS, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_creditPaymentSchema',
                                 'price' => $price
@@ -122,7 +122,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FOUR_YEARS, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_creditPaymentSchema',
                                 'price' => $price
@@ -136,7 +136,7 @@ $schema = isset(Yii::app()->request->cookies['courseSchema']) ? Yii::app()->requ
                             <?php
                             $this->widget('PaymentSchemaWidget', array(
                                 'billableObject' => $model,
-                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS, EducationForm::OFFLINE),
+                                'schema' => PaymentScheme::getSchema(PaymentScheme::CREDIT_FIVE_YEARS, $educForm),
                                 'educForm' => 'offline',
                                 'view' => '_creditPaymentSchema',
                                 'price' => $price
