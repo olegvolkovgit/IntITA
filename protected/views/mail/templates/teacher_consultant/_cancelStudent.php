@@ -8,7 +8,7 @@ $module = $params[1];
 ?>
 <h4>Повідомлення</h4>
 <br>
-Вам скасовано студента (перевірка задач та консультування) <strong>
+Тобі скасовано студента (перевірка задач та консультування) <strong>
     <a href="<?= Yii::app()->createAbsoluteUrl('studentreg/profile', array('idUser' => $student->id)); ?>">
         <?= $student->userNameWithEmail(); ?>
     </a>

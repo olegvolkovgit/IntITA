@@ -7,7 +7,7 @@ $model = $params[0];
 ?>
 <h4>Вітаємо!</h4>
 <br>
-Вам надано права для редагування контенту модуля <strong>
+Тобі надано права для редагування контенту модуля <strong>
     <a href="<?= Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->module_ID)); ?>">
         <?= $model->getTitle(); ?>
     </a>

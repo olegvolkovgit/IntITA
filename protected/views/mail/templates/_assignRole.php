@@ -9,4 +9,4 @@ $role = $params[0];
 <span>Тобі призначено роль <strong><?=$role;?></strong>.</span>
 <br>
 <span>Переглянути доступний функціонал можна у кабінеті:</span>
-<a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/teacher/cabinet');?>">Кабінет</a>
+<a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index');?>">Кабінет</a>

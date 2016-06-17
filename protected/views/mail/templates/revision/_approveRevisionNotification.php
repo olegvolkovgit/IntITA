@@ -7,7 +7,7 @@
 $user = $params[0];
 $revision = $params[1];
 ?>
-Ваша ревізія № <a href="<?=Yii::app()->createAbsoluteUrl('revision/previewLectureRevision', array('idRevision' => $revision->id_revision));?>"
+Твоя ревізія № <a href="<?=Yii::app()->createAbsoluteUrl('revision/previewLectureRevision', array('idRevision' => $revision->id_revision));?>"
                   target="_blank">
     <?=$revision->id_revision;?>
 </a>
