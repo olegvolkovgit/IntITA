@@ -11,6 +11,7 @@
  *
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
+ * @property RevisionLecture[] moduleLectures
  */
 class RevisionModule extends CRevisionUnitActiveRecord
 {
@@ -50,8 +51,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return array(
             'parent' => array(self::HAS_ONE, 'RevisionModule', ['id_module_revision'=>'id_parent']),
             'properties' => array(self::HAS_ONE, 'RevisionModuleProperties', ['id'=>'id_properties']),
-            'moduleLectures' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
-                'order' => 'lecture_order ASC'),
+            'moduleLectures' => array(self::MANY_MANY, 'RevisionLecture', 'vc_module_lecture(id_module_revision, id_lecture_revision)',
+                'order' => 'moduleOrder.lecture_order ASC',
+                'with' => 'moduleOrder'),
         );
     }
 
@@ -221,7 +223,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $newRevision->saveCheck();
 
             foreach ($this->moduleLectures as $lecture) {
-                $lecture->cloneLecture($newRevision->id_module_revision);
+                $lecture->cloneLecture($user, $newRevision->id_module);
             }
             $transaction->commit();
         } catch (Exception $e) {
@@ -285,7 +287,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
                 $revisionOfCurrentLecture=RevisionLecture::getParentRevisionForLecture($lecture->id);
                 if($revisionOfCurrentLecture==null){
                     $revisionOfCurrentLecture = RevisionLecture::createNewRevisionFromLecture($lecture, Yii::app()->user);
-//                    $revisionOfCurrentLecture->cloneLecture(Yii::app()->user);
                 }
                 $revNewModuleLecture->id_lecture_revision = $revisionOfCurrentLecture->id_revision;
                 $revNewModuleLecture->id_module_revision = $revModule->id_module_revision;
@@ -471,4 +472,101 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $criteria->addInCondition('id_module', $list);
         return RevisionModule::model()->findAll($criteria);   
     }
+    
+    public function editLecturesList($moduleLectures, $user) {
+
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+
+        try {
+            $currentLectures = [];
+            foreach ($this->moduleLectures as $lecture) {
+                array_push($currentLectures, $lecture->id_revision);
+            }
+
+            /* Checking lectures order and collect id of lectures */
+            $orders = [];
+            $newLectures = [];
+            foreach ($moduleLectures as $lecture) {
+                if (array_key_exists($lecture['lecture_order'], $orders)) {
+                    throw new Exception('Error while delete lectures. (order)');
+                }
+                $orders[$lecture['lecture_order']] = true;
+                array_push($newLectures, $lecture['id_lecture_revision']);
+            }
+
+            /* Determine lectures which should be attached to this module */
+            $lecturesToAdd = array_diff($newLectures, $currentLectures);
+
+            if (count($lecturesToAdd)) {
+//                $criteria = new CDbCriteria([
+//                    'condition' => 'id_revision in (:id_revision) and id_module <> :not_id_module',
+//                    'params' => [
+//                        'id_revision' => implode(',', $lecturesToAdd),
+//                        'not_id_module' => $this->id_module
+//                    ]
+//                ]);
+//                $revLectures = RevisionLecture::model()->findAll($criteria);
+                $revLectures = RevisionLecture::model()->findAllByPk($lecturesToAdd);
+                foreach ($revLectures as $lecture) {
+                    /* If the lecture we should add, already attached to other module, we bud it to this module*/
+                    if ($lecture->id_module !== $this->id_module) {
+                        $newRevisonLecture = $lecture->cloneLecture($user, $this->id_module);
+                        $moduleLectures[$newRevisonLecture->id_revision] = [
+                            'id_lecture_revision' => $newRevisonLecture->id_revision,
+                            'lecture_order' => $moduleLectures[$lecture->id_revision]['lecture_order']
+                        ];
+                        unset($moduleLectures[$lecture->id_revision]);
+                    }
+
+                }
+
+            }
+
+            /* Remove current lectures related to the module revision and insert new lectures*/
+            $removeCurrentLecturesSQL = "DELETE FROM `vc_module_lecture` WHERE `id_module_revision`=".$this->id_module_revision.";";
+            $rowCount = $connection->createCommand($removeCurrentLecturesSQL)->execute();
+
+            if ($rowCount != count($this->moduleLectures)) {
+                throw new Exception('Error while delete lectures.');
+            }
+
+            $values = [];
+            foreach ($moduleLectures as $addLecture) {
+                $str = "(".$this->id_module_revision . ','. $addLecture['id_lecture_revision'] . ',' . $addLecture['lecture_order'].")";
+                array_push($values, $str);
+            }
+            if (count($values)) {
+                $addLecturesSQL = "INSERT INTO `vc_module_lecture` (`id_module_revision`, `id_lecture_revision`, `lecture_order`) VALUES ".implode(',', $values).";";
+                $rowCount = $connection->createCommand($addLecturesSQL)->execute();
+
+                if ($rowCount != count($values)) {
+                    throw new Exception('Error while delete lectures.');
+                }
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+
+        $this->refresh();
+    }
+
+    /**
+     * Returns lecture instance by id.
+     * Id lecture with specified id is absent in the module return null.
+     *
+     * @param $id
+     * @return null|RevisionLecture
+     */
+    private function getLectureById($id) {
+        foreach ($this->moduleLectures as $lecture) {
+            if ($lecture->id_revision == $id) {
+                return $lecture;
+            }
+        }
+        return null;
+    }
+
 }

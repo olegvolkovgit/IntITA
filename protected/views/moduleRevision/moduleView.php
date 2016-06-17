@@ -68,7 +68,7 @@ $this->breadcrumbs = array(
                     </td>
                 </tr>
             </table>
-            <button ng-if="lectureInModule!=''" class="btn btn-primary" ng-click="editModuleRevision(lectureInModule)">Зберегти зміни</button>
+            <button class="btn btn-primary" ng-click="editModuleRevision(lectureInModule)">Зберегти зміни</button>
             <br>
         </div>
         <br>

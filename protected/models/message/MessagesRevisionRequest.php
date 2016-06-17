@@ -17,9 +17,9 @@
  */
 class MessagesRevisionRequest extends Messages implements IMessage, IRequest
 {
-    private $template = '_revisionRequest';
-    private $approvedTemplate = '_revisionRequestApproved';
-    private $cancelledTemplate = '_revisionRequestCancelled';
+    private $template = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequest';
+    private $approvedTemplate = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequestApproved';
+    private $cancelledTemplate = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequestCancelled';
     const TYPE = MessagesType::REVISION_REQUEST;
     private $receivers = array();
     private $revision;

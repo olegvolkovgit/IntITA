@@ -14,7 +14,7 @@
 class MessagesApproveRevision extends Messages implements IMessage
 {
 	private $message;
-	private $template = '_approveRevisionNotification';
+	private $template = 'revision'. DIRECTORY_SEPARATOR . '_approveRevisionNotification';
 	private $subject;
 	private $receiver;
 	private $revision;

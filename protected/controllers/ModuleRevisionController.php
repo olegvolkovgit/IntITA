@@ -57,13 +57,9 @@ class ModuleRevisionController extends Controller {
 
     public function actionEditModuleRevision() {
         $moduleLectures = json_decode(Yii::app()->request->getPost('moduleLectures'),true);
-        $idRevision = Yii::app()->request->getPost('idRevision');
-        var_dump($moduleLectures);die;
-//        foreach($moduleLectures as $lecture){
-//            if(isset($lecture["list"]) && $lecture["list"]=='foreign'){
-//                RevisionLecture::model()->findByPk($lecture["id_lecture_revision"])->cloneLecture(Yii::app()->user, $newModule = $idModule);
-//            }
-//        }
+        $idModule = Yii::app()->request->getPost('id_module_revision');
+        $moduleRevision = RevisionModule::model()->findByAttributes(['id_module_revision' => $idModule]);
+        $moduleRevision->editLecturesList($moduleLectures, Yii::app()->user);
     }
 
     /**
@@ -504,10 +500,11 @@ class ModuleRevisionController extends Controller {
         $module = [];
         $data = array('module' => array(),'lectures' => array());
         foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
-            $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
-            $lectures[$key]["lecture_order"] = $lecture->lecture_order;
-            $lectures[$key]["title"] = RevisionLecture::model()->findByPk($lecture->id_lecture_revision)->properties->title_ua;
+            $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
+            $lectures[$key]["lecture_order"] = $lecture->moduleOrder->lecture_order;
+            $lectures[$key]["title"] = $lecture->properties->title_ua;
         }
+
         $module['status']=$moduleRevision->getStatus();
         $module['canEdit']=$moduleRevision->canEdit();
         $module['canSendForApproval']=$moduleRevision->canSendForApproval();

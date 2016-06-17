@@ -135,4 +135,14 @@ class Student extends Role
 
         return array_column($records, 'teacherName', 'id');
     }
+
+    //not supported for this role
+    public function notifyAssignRole(StudentReg $user){
+        return false;
+    }
+
+    //not supported for this role
+    public function notifyCancelRole(StudentReg $user){
+        return false;
+    }
 }
