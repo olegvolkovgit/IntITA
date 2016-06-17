@@ -65,17 +65,17 @@ class TrainerController extends TeacherCabinetController
 
         $role = new TeacherConsultant();
         if(!$user->isTeacherConsultant()){
-            echo "Даному викладачу не призначена роль викладача.";
-            Yii::app()->die();
-        }
-        if ($role->checkStudent($module, $student)) {
-            if ($role->setStudentAttribute($model, $student, $module)) {
-                echo "Операцію успішно виконано.";
-            } else {
-                echo "Операцію не вдалося виконати.";
-            }
+            echo "Даному співробітнику не призначена роль викладача.";
         } else {
-            echo "Даного викладача-консультанта вже призначено для цього студента.";
+            if ($role->checkStudent($module, $student)) {
+                if ($role->setStudentAttribute($model, $student, $module)) {
+                    echo "Операцію успішно виконано.";
+                } else {
+                    echo "Операцію не вдалося виконати.";
+                }
+            } else {
+                echo "Даного викладача-консультанта вже призначено для цього студента.";
+            }
         }
     }
 
