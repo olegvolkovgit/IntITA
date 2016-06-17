@@ -11,7 +11,7 @@ $revision = $params[1];
     <a href="<?= Yii::app()->createAbsoluteUrl('studentreg/profile', array('idUser' => $author->id)) ?>" target="_blank">
         <?= $author->userNameWithEmail() ?>
     </a>
-       надіслав запит на зтвердження ревізії лекції
+       надіслав запит на затвердження ревізії лекції
     <a href="<?= Yii::app()->createAbsoluteUrl('revision/previewLectureRevision', array('idRevision' => $revision->id_revision)) ?>">
         Ревізія <?= $revision->id_revision ?>.
     </a>
