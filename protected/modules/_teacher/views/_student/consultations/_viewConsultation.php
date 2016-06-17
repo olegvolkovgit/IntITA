@@ -48,7 +48,7 @@
                             <?php if($model->lecture){?>
                             <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $model->lecture->idModule)); ?>"
                                target="_blank">
-                                <?= CHtml::encode($model->lecture->module->getTitle()); ?>
+                                <?= $model->lecture->module->getTitle(); ?>
                             </a>
                             <?php } else {
                                 echo "Лекція видалена.";
@@ -61,7 +61,7 @@
                             <?php if($model->lecture){?>
                             <a href="<?= Yii::app()->createUrl('lesson/index', array('id' => $model->lecture_id, 'idCourse' => 0)); ?>"
                                target="_blank">
-                                <?= CHtml::encode($model->lecture->title()); ?>
+                                <?= $model->lecture->title(); ?>
                             </a>
                             <?php } else {
                                 echo "Лекція видалена.";
