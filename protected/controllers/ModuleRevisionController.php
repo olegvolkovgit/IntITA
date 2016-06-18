@@ -554,7 +554,7 @@ class ModuleRevisionController extends Controller {
             $approvedLectureList['current'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
         }
 
-        // select released and approved lecture revision
+        // select only released lecture revision
         $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
             WHERE (vcp.id_user_released IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
 

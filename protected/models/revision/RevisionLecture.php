@@ -281,7 +281,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $newRevision->id_lecture = !$newModule ? $this->id_lecture : null;
             $newRevision->id_module = !$newModule ? $this->id_module: $newModule;
 
-                $newProperties = $this->properties->cloneProperties($user, $newModule);
+            $newProperties = $this->properties->cloneProperties($user, $newModule);
             $newRevision->id_properties = $newProperties->id;
 
             $newRevision->saveCheck();
