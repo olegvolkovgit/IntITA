@@ -54,6 +54,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
             'moduleLectures' => array(self::MANY_MANY, 'RevisionLecture', 'vc_module_lecture(id_module_revision, id_lecture_revision)',
                 'order' => 'moduleOrder.lecture_order ASC',
                 'with' => 'moduleOrder'),
+            'moduleLecturesModels' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
+                'order' => 'lecture_order ASC'),
         );
     }
 
@@ -221,10 +223,11 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $newRevision->id_properties = $newProperties->id;
 
             $newRevision->saveCheck();
-
-            foreach ($this->moduleLectures as $lecture) {
-                $lecture->cloneLecture($user, $newRevision->id_module);
+            
+            foreach ($this->moduleLecturesModels as $lecture) {
+                $lecture->cloneModuleLecture($newRevision->id_module_revision);
             }
+            
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
@@ -569,4 +572,78 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return null;
     }
 
+    public function moduleRelease($user) {
+        if ($this->isReleaseable()) {
+            if ($this->beforeRelease($user)) {
+                $this->properties->release_date = new CDbExpression('NOW()');
+                $this->properties->id_user_released = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterRelease();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function beforeRelease($user) {
+        $this->deleteModuleLecturesFromRegularDB();
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            foreach ($this->moduleLectures as $key=>$lecture){
+                $newLecture[$key] = $lecture->saveModuleLecturesToRegularDB($user);
+            }
+            $this->cancelModulesInTree($user);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+        foreach ($this->moduleLectures as $key=>$lecture){
+            $lecture->createDirectory($newLecture[$key]);
+            $lecture->createTemplates($newLecture[$key]);
+        }
+
+        return true;
+    }
+
+    protected function afterRelease() {
+        //todo
+    }
+
+    public function deleteModuleLecturesFromRegularDB() {
+        $module=Module::model()->findByPk($this->id_module);
+        //remove all lectures in module from regular DB
+        $connection = Yii::app()->db;
+        $transaction = null;
+
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
+        try {
+            foreach ($module->lectures as $lecture){
+                $lecture->removeLectureRecords();
+            }
+            if ($transaction != null) {
+                $transaction->commit();
+                return true;
+            }
+        } catch (Exception $e) {
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
+            throw $e;
+        }
+        return false;
+    }
+
+    private function cancelModulesInTree($user) {
+        $idList = $this->getRelatedIdList();
+        $moduleRevisions = RevisionModule::model()->findAllByPk($idList);
+        foreach ($moduleRevisions as $moduleRevision) {
+            if ($moduleRevision->isReleased()) {
+                $moduleRevision->cancel($user);
+            }
+        }
+    }
 }

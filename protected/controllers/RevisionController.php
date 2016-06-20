@@ -386,7 +386,7 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel(Yii::app()->user);
-        $lectureRev->deleteLectureFromRegularDB();
+//        $lectureRev->deleteLectureFromRegularDB();
     }
 
     /**

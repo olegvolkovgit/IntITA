@@ -29,7 +29,7 @@ class RevisionModuleLecture extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_lecture_revision, id_module_revision, lecture_order', 'required'),
-			array('id, id_lecture_revision, id_module_revision, lecture_order', 'numerical', 'integerOnly'=>true),
+			array('id_lecture_revision, id_module_revision, lecture_order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, id_lecture_revision, id_module_revision, lecture_order', 'safe', 'on'=>'search'),
@@ -157,5 +157,40 @@ class RevisionModuleLecture extends CActiveRecord
         }
         return $errors[0];
     }
+
+	public function cloneModuleLecture($idNewRevision = null) {
+
+		if ($idNewRevision == null) {
+			$idNewRevision = $this->id_module_revision;
+		}
+
+		$connection = Yii::app()->db;
+		$transaction = null;
+
+		if ($connection->getCurrentTransaction() == null) {
+			$transaction = $connection->beginTransaction();
+		}
+
+		try {
+			$newRevision = new RevisionModuleLecture();
+
+			$newRevision->id_lecture_revision = $this->id_lecture_revision;
+			$newRevision->id_module_revision = $idNewRevision;
+			$newRevision->lecture_order = $this->lecture_order;
+
+			$newRevision->saveCheck();
+
+			if ($transaction != null) {
+				$transaction->commit();
+			}
+		} catch (Exception $e) {
+			if ($transaction != null) {
+				$transaction->rollback();
+			}
+			throw $e;
+		}
+
+		return $newRevision;
+	}
 
 }

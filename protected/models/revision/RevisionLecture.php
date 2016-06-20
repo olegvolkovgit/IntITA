@@ -217,24 +217,37 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     }
 
     protected function beforeRelease($user) {
+//        if ($this->approveResultCashed === null) {
+//            $this->checkConflicts();
+//        }
+//        
+//        if (empty($this->approveResultCashed)) {
+//
+//            $transaction = Yii::app()->db->beginTransaction();
+//            try {
+//                $newLecture = $this->saveToRegularDB($user);
+//                $transaction->commit();
+//            } catch (Exception $e) {
+//                $transaction->rollback();
+//                throw $e;
+//            }
+//
+//            $this->createDirectory($newLecture);
+//            $this->createTemplates($newLecture);
+//
+//            return true;
+//        } else {
+//            //todo inform user
+//        }
+//
+//        return false;
+
         if ($this->approveResultCashed === null) {
             $this->checkConflicts();
         }
-        
+
         if (empty($this->approveResultCashed)) {
-
-            $transaction = Yii::app()->db->beginTransaction();
-            try {
-                $newLecture = $this->saveToRegularDB($user);
-                $transaction->commit();
-            } catch (Exception $e) {
-                $transaction->rollback();
-                throw $e;
-            }
-
-            $this->createDirectory($newLecture);
-            $this->createTemplates($newLecture);
-
+            $this->cancelLecturesInTree($user);
             return true;
         } else {
             //todo inform user
@@ -585,7 +598,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * Flushes current revision into regular DB.
      * @throws RevisionLectureException
      */
-    private function saveToRegularDB($user) {
+    public function saveToRegularDB($user) {
 
         //write new data
         $newLecture = $this->saveLectureModelToRegularDB();
@@ -602,7 +615,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
 
         $this->saveCheck();
         $this->setLectureIdInTree($newLecture->id);
-        $this->cancelLecturesInTree($user);
+//        $this->cancelLecturesInTree($user);
 
         $newLecture->refresh();
 
@@ -646,7 +659,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * Clear regular DB from lecture (pages and elements) witch should be replaced
      * @throws CDbException
      */
-    private function removePreviousRecords() {
+    public function removePreviousRecords() {
         $oldLecture = Lecture::model()->findByPk($this->id_lecture);
 
         if ($oldLecture) {
@@ -887,7 +900,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * Create directory for lecture template
      * @param Lecture $newLecture
      */
-    private function createDirectory($newLecture) {
+    public function createDirectory($newLecture) {
         if (!file_exists(Yii::app()->basePath . "/../content/module_" . $newLecture->idModule . "/lecture_" . $newLecture->id)) {
             mkdir(Yii::app()->basePath . "/../content/module_" . $newLecture->idModule . "/lecture_" . $newLecture->id);
         }
@@ -897,7 +910,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * Create templates
      * @param Lecture $newLecture
      */
-    private function createTemplates($newLecture) {
+    public function createTemplates($newLecture) {
         if ($newLecture) {
             $newLecture->saveLectureContent();
         }
@@ -1027,5 +1040,30 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         }
         return $authors;
     }
+
+    public function saveModuleLecturesToRegularDB($user) {
+
+        //write new data
+        $newLecture = $this->saveLectureModelToRegularDB();
+        $idNewLecture = $newLecture->id;
+
+        foreach ($this->lecturePages as $page) {
+            $page->savePageModelToRegularDB($idNewLecture, $this->properties->id_user_created);
+        }
+
+        //remove old data if lecture exists in regular DB
+//        if ($this->id_lecture != null) {
+//            $this->removePreviousRecords();
+//        }
+
+        $this->saveCheck();
+        $this->setLectureIdInTree($newLecture->id);
+//        $this->cancelLecturesInTree($user);
+
+        $newLecture->refresh();
+
+        return $newLecture;
+    }
+
 
 }
