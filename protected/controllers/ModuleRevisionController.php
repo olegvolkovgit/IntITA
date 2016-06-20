@@ -444,9 +444,9 @@ class ModuleRevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
 
-        // todo
-//        $moduleRev->cancel(Yii::app()->user);
-//        $moduleRev->deleteLectureFromRegularDB();
+        if($moduleRev->deleteModuleLecturesFromRegularDB()){
+            $moduleRev->cancel(Yii::app()->user);
+        }
     }
 
     public function actionReadyModuleRevision() {
@@ -456,8 +456,8 @@ class ModuleRevisionController extends Controller {
 
         $idRevision = Yii::app()->request->getPost('idRevision');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
-//        todo
-//        $moduleRev->release(Yii::app()->user);
+
+        $moduleRev->moduleRelease(Yii::app()->user);
     }
 
     public function actionPreviewModuleRevision($idRevision) {
@@ -499,10 +499,15 @@ class ModuleRevisionController extends Controller {
         $lectures = [];
         $module = [];
         $data = array('module' => array(),'lectures' => array());
-        foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
-            $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
-            $lectures[$key]["lecture_order"] = $lecture->moduleOrder->lecture_order;
-            $lectures[$key]["title"] = $lecture->properties->title_ua;
+//        foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
+//            $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
+//            $lectures[$key]["lecture_order"] = $lecture->moduleOrder->lecture_order;
+//            $lectures[$key]["title"] = $lecture->properties->title_ua;
+//        }
+        foreach ($moduleRevision->moduleLecturesModels as $key=>$lecture) {
+            $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
+            $lectures[$key]["lecture_order"] = $lecture->lecture_order;
+            $lectures[$key]["title"] = RevisionLecture::model()->findByPk($lecture->id_lecture_revision)->properties->title_ua;
         }
 
         $module['status']=$moduleRevision->getStatus();
@@ -517,7 +522,7 @@ class ModuleRevisionController extends Controller {
         $module['canRestoreEdit']=$moduleRevision->canRestoreEdit();
         $module['link']=
             $module['canCancelReadyRevision']?
-                Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module, "idCourse" => 0)):null;
+                Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module)):null;
         $data['module']=$module;
         $data['lectures']=$lectures;
         echo CJSON::encode($data);
@@ -554,7 +559,7 @@ class ModuleRevisionController extends Controller {
             $approvedLectureList['current'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
         }
 
-        // select released and approved lecture revision
+        // select only released lecture revision
         $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
             WHERE (vcp.id_user_released IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
 

@@ -177,3 +177,6 @@ div.revisionTable{
     border:1px solid #ccc;
     border-radius: 5px;
 }
+div#loading-bar-spinner{
+    left:49%;
+}

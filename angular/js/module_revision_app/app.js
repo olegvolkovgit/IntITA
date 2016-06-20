@@ -2,4 +2,4 @@
 
 /* App Module */
 angular
-    .module('moduleRevisionsApp', ['moduleRevisionServices','directive.loading']);
+    .module('moduleRevisionsApp', ['moduleRevisionServices','angular-loading-bar']);

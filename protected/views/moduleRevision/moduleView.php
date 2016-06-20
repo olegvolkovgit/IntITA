@@ -10,7 +10,8 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/services/getModuleData.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/services/moduleRevisionsActions.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/directives/ajaxLoader.js'); ?>"></script>
+<link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
 <script>
     idRevision = '<?php echo $moduleRevision->id_module_revision;?>';
     idModule = '<?php echo $moduleRevision->id_module;?>';
@@ -30,7 +31,7 @@ $this->breadcrumbs = array(
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">&#10003;</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">&#10133;</span>
                     </div>
                 </div>
             </div>
@@ -41,7 +42,7 @@ $this->breadcrumbs = array(
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">&#10003;</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">&#10133;</span>
                     </div>
                 </div>
             </div>
@@ -72,9 +73,6 @@ $this->breadcrumbs = array(
             <br>
         </div>
         <br>
-    </div>
-    <div data-loading id="loaderContainer">
-        <img id="ajaxLoader" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
     </div>
 </div>
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>"

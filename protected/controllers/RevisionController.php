@@ -386,7 +386,7 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel(Yii::app()->user);
-        $lectureRev->deleteLectureFromRegularDB();
+//        $lectureRev->deleteLectureFromRegularDB();
     }
 
     /**
@@ -1246,7 +1246,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
