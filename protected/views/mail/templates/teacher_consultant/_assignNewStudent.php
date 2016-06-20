@@ -7,7 +7,7 @@ $student = $params[0];
 $module = $params[1];
 ?>
 <h4>Повідомлення</h4>
-<span>Вам призначено нового студента для перевірки задач та консультування
+<span>Тобі призначено нового студента для перевірки задач та консультування
     <a href="<?=Yii::app()->createAbsoluteUrl('studentreg/profile', array('idUser' => $student->id));?>" target="_blank">
         <strong><?= $student->userNameWithEmail();?></strong>
     </a> по модулю <strong>

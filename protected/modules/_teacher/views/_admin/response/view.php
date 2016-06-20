@@ -33,7 +33,7 @@
         <li class="list-group-item list-group-item-info"><h4 class="list-group-item-heading">Від кого: </h4>
             <?php echo $model->user->getNameOrEmail();?></li>
         <li class="list-group-item"><span class="view-label">Дата :</span> <?php echo $model->date ?></li>
-        <li class="list-group-item"><span class="view-label">Відгук :</span> <?php echo CHtml::encode($model->text) ?></li>
+        <li class="list-group-item"><span class="view-label">Відгук :</span> <?php echo $model->text; ?></li>
         <li class="list-group-item"><span class="view-label">Оцінка : </span><?php echo $model->rate ?></li>
         <li class="list-group-item"><span class="view-label">Знання : </span><?php echo $model->knowledge ?></li>
         <li class="list-group-item"><span class="view-label">Поведінка : </span><?php echo $model->behavior ?></li>
