@@ -29,7 +29,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
         <?php } ?>
     </div>
     <?php if (!Yii::app()->user->isGuest) {
-    if (Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>
+    if (1 || Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>
             <a href="#"
                onclick="sendRequest('<?php echo Yii::app()->createUrl("/module/sendRequest", array("user" => Yii::app()->user->getId(), "moduleId" => $module->module_ID)); ?>')">
 
