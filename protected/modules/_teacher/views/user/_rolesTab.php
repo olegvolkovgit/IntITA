@@ -46,6 +46,7 @@ $user = $model->registrationData;
             </ul>
         <?php } ?>
 
+        <?php if($model->isAdmin()){?>
         <div class="alert alert-info">
             Деякі ролі (<?=implode(', ', TeacherRolesDataSource::roles());?>) можуть бути призначені лише співробітникам. Додати нового співробітника можна
             за посиланням:
@@ -57,6 +58,7 @@ $user = $model->registrationData;
             <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
                 'Співробітники')">Список</a>.
         </div>
+        <?php } ?>
     </div>
 </div>
 <script>
