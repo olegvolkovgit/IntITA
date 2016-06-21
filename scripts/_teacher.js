@@ -694,10 +694,16 @@ function changeUserStatus(url, user, message, header, target) {
                 data: {user: user},
                 success: function (result) {
                     bootbox.confirm(result, function () {
-                        if (target == 'coworkers') {
-                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
-                        } else {
-                            load(basePath + "/_teacher/user/index/id/" + user, header);
+                        switch(target){
+                            case 'showTeacher':
+                                load(basePath + "/_teacher/_content_manager/contentManager/showTeacher/id/" + user, header);
+                                break;
+                            case 'coworkers' :
+                                load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
+                                break;
+                            default :
+                                load(basePath + "/_teacher/user/index/id/" + user, header);
+                                break;
                         }
                     });
                 },
