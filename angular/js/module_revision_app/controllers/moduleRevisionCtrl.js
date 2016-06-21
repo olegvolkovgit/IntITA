@@ -10,17 +10,19 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         $scope.lectureInModule=$rootScope.moduleData.lectures;
         getModuleData.getApprovedLecture().then(function(response){
             $scope.approvedLecture=response;
-            $.each($scope.approvedLecture.current, function(index) {
-                $.each($scope.lectureInModule, function(indexInModule) {
-                    if($scope.lectureInModule[indexInModule]['id_lecture_revision']==$scope.approvedLecture.current[index]['id_lecture_revision']){
-                        $scope.tempId.push($scope.lectureInModule[indexInModule]['id_lecture_revision']);
-                        return false;
-                    }
+            if($scope.approvedLecture.current){
+                $.each($scope.approvedLecture.current, function(index) {
+                    $.each($scope.lectureInModule, function(indexInModule) {
+                        if($scope.lectureInModule[indexInModule]['id_lecture_revision']==$scope.approvedLecture.current[index]['id_lecture_revision']){
+                            $scope.tempId.push($scope.lectureInModule[indexInModule]['id_lecture_revision']);
+                            return false;
+                        }
+                    });
                 });
-            });
-            $scope.approvedLecture.current = $scope.approvedLecture.current.filter(function(value) {
-                return !find($scope.tempId,value.id_lecture_revision)
-            });
+                $scope.approvedLecture.current = $scope.approvedLecture.current.filter(function(value) {
+                    return !find($scope.tempId,value.id_lecture_revision)
+                });
+            }
         });
     });
 
@@ -54,7 +56,9 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         if(revision.list=='foreign'){
             $scope.approvedLecture.foreign.push(revision);
         }else{
-            $scope.approvedLecture.current.push(revision);
+            if($scope.approvedLecture.current){
+                $scope.approvedLecture.current.push(revision);
+            }
         }
     };
     //reorder pages

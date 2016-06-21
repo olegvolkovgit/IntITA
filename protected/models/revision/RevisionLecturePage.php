@@ -176,7 +176,7 @@ class RevisionLecturePage extends CActiveRecord
      * @return RevisionLecturePage
      * @throws Exception
      */
-    public function clonePage($idNewRevision = null) {
+    public function clonePage($idNewRevision = null, $newModule) {
 
         if ($idNewRevision == null) {
             $idNewRevision = $this->id_revision;
@@ -202,7 +202,7 @@ class RevisionLecturePage extends CActiveRecord
 
             $quiz = $this->getQuiz();
             if ($quiz != null) {
-                $newQuiz = $quiz->cloneLectureElement($newRevision->id);
+                $newQuiz = $quiz->cloneLectureElement($newRevision->id, $newModule);
                 $newRevision->quiz = $newQuiz->id;
             }
 
