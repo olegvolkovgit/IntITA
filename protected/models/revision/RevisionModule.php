@@ -12,6 +12,7 @@
  * The followings are the available model relations:
  * @property RevisionModuleProperties $properties
  * @property RevisionLecture[] moduleLectures
+ * @property RevisionModuleLecture[] moduleLecturesModels
  */
 class RevisionModule extends CRevisionUnitActiveRecord
 {
@@ -572,24 +573,12 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return null;
     }
 
-    public function moduleRelease($user) {
-        if ($this->isReleaseable()) {
-            if ($this->beforeRelease($user)) {
-                $this->properties->release_date = new CDbExpression('NOW()');
-                $this->properties->id_user_released = $user->getId();
-                $this->properties->saveCheck();
-                $this->afterRelease();
-            }
-        } else {
-            //todo inform user
-        }
-    }
-
     protected function beforeRelease($user) {
-        $this->deleteModuleLecturesFromRegularDB();
         
         $transaction = Yii::app()->db->beginTransaction();
         try {
+            $this->deleteModuleLecturesFromRegularDB();
+            
             foreach ($this->moduleLectures as $key=>$lecture){
                 $newLecture[$key] = $lecture->saveModuleLecturesToRegularDB($user);
             }
@@ -607,10 +596,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return true;
     }
 
-    protected function afterRelease() {
-        //todo
-    }
-
     public function deleteModuleLecturesFromRegularDB() {
         $module=Module::model()->findByPk($this->id_module);
         //remove all lectures in module from regular DB
@@ -621,9 +606,11 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $transaction = $connection->beginTransaction();
         }
         try {
+            
             foreach ($module->lectures as $lecture){
                 $lecture->removeLectureRecords();
             }
+            
             if ($transaction != null) {
                 $transaction->commit();
                 return true;

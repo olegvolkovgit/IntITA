@@ -457,7 +457,7 @@ class ModuleRevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
 
-        $moduleRev->moduleRelease(Yii::app()->user);
+        $moduleRev->release(Yii::app()->user);
     }
 
     public function actionPreviewModuleRevision($idRevision) {
