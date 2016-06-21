@@ -1190,8 +1190,15 @@ function initTodayTeacherConsultationsTable() {
             {
                 "width": "10%",
                 "data": "start",
-                "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
+                "render": function (start) {
+                    switch(start["status"]){
+                        case 'ended':
+                            return 'закінчена';
+                        case 'started':
+                            return '<a type="button" class="btn btn-success btn-sm" href="' + start["link"] + '" target="_blank">почати</a>';
+                        case 'wait':
+                            return 'очікування';
+                    }
                 }
             }
         ],
