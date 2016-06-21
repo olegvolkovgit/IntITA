@@ -623,7 +623,8 @@ class Teacher extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_teacher_consultant utc ON utc.id_user = s.id';
-        $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL and s.cancelled ='.StudentReg::ACTIVE);
+        $criteria->join .= ' LEFT JOIN teacher_consultant_module tcm ON tcm.id_teacher = utc.id_user';
+        $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL and tcm.end_date IS NULL and s.cancelled ='.StudentReg::ACTIVE .' and tcm.id_module = '.$module);
         $data = StudentReg::model()->findAll($criteria);
 
         $result = array();
