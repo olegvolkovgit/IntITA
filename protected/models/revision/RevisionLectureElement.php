@@ -176,7 +176,7 @@ class RevisionLectureElement extends CActiveRecord
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
      */
-    public function cloneLectureElement($idNewPage, $newModule) {
+    public function cloneLectureElement($idNewPage, $newModule=null) {
         if ($idNewPage == null) {
             $idNewPage = $this->id_page;
         }

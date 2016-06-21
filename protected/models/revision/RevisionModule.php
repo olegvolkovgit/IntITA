@@ -586,10 +586,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
     }
 
     protected function beforeRelease($user) {
-        $this->deleteModuleLecturesFromRegularDB();
-        
         $transaction = Yii::app()->db->beginTransaction();
         try {
+            $this->deleteModuleLecturesFromRegularDB();
             foreach ($this->moduleLecturesModels as $key=>$lecture){
                 $lectureRev=RevisionLecture::model()->findByPk($lecture->id_lecture_revision);
                 $newLecture[$key] = $lectureRev->saveModuleLecturesToRegularDB($user);

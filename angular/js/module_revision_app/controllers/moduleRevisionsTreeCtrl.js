@@ -6,7 +6,7 @@ angular
     .controller('moduleRevisionsTreeCtrl',moduleRevisionsTreeCtrl)
     .filter('arrow', function() {
         return function(input) {
-            return input ? '\u21a5' : '\u21a7';
+            return input ? '\u21a7' : '\u21a5';
         };
     });
 

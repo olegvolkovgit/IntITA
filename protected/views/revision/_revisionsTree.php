@@ -10,32 +10,32 @@
 </div>
 <div id="checkboxFilter" class="form-group">
     <label ng-click="isFilterOpen = !isFilterOpen" id="filterSpoiler">Фільтр ревізій{{isFilterOpen | arrow}}</label><br>
-    <div ng-show="isFilterOpen">
+    <div ng-show="!isFilterOpen">
         <div class="form-group">
             <label for="sel1">Автор:</label>
             <select class="form-control" ng-options="author as author.authorName for author in authors track by author.id" ng-model="selectedAuthor"></select>
         </div>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.approved">Затверджені
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.editable">Доступні для редагування
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.sent">Відправлені на розгляд
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.reject">Відхилені
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.cancelled">Скасовані
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.cancelledEditor">Скасовані автором
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.release">В релізі
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="allRevision" ng-model="allRevision">Всі ревізії
         </label><br>
