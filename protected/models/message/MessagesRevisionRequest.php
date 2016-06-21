@@ -245,10 +245,9 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         return "Запит на затвердження ревізії лекції";
     }
 
-    // not supported
     public function module()
     {
-        return null;
+        return $this->idRevision->module;
     }
 
     public function type()
