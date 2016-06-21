@@ -54,8 +54,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
-            'moduleOrder' => array(self::HAS_ONE, 'RevisionModuleLecture',  'id_lecture_revision')
-            'module' => array(self::BELONGS_TO, 'Module', 'id_module'),
+            'moduleOrder' => array(self::HAS_ONE, 'RevisionModuleLecture',  'id_lecture_revision'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module')
 		);
 	}
 
