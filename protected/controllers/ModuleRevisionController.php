@@ -69,14 +69,14 @@ class ModuleRevisionController extends Controller {
      */
 
     public function actionEditModule($idModule) {
-
+        $approver=RegisteredUser::userById(Yii::app()->user->getId())->canApprove();
         $moduleRevisions = RevisionModule::model()->findAllByAttributes(array("id_module" => $idModule));
         $module = Module::model()->findByPk($idModule);
         if (!$module) {
             throw new RevisionControllerException(404, Yii::t('breadcrumbs', '0782'));
         }
 
-        if (!RegisteredUser::userById(Yii::app()->user->getId())->canApprove()) {
+        if (!$approver) {
             throw new RevisionControllerException(403, Yii::t('revision', '0829'));
         }
         $moduleRev = null;
@@ -105,14 +105,10 @@ class ModuleRevisionController extends Controller {
             } else if(count($editableRevisions) == 1 && $editableRevisions[0]->canEdit()) {
                 $moduleRev = $editableRevisions[0];
             } else {
-//                $this->render('revisionsBranch', array(
-//                    'idModule' => $editableRevisions[0]->id_module,
-//                    'idRevision' => $editableRevisions[0]->id_revision,
-//                    'isApprover' => $this->isUserApprover(Yii::app()->user),
-//                    'userId' => Yii::app()->user->getId(),
-//                ));
-                $this->render("moduleView", array(
-                    "moduleRevision" => $moduleRev,
+                $this->render('moduleRevisions', array(
+                    'module' => $module,
+                    'isApprover' => $approver,
+                    'userId' => Yii::app()->user->getId(),
                 ));
                 return;
             }

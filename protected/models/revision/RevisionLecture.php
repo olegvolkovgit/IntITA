@@ -14,6 +14,7 @@
  * @property RevisionLectureProperties $properties
  * @property RevisionLecturePage[] $lecturePages
  * @property RevisionLecture $parent
+ * @property Module $module
  * @property RevisionModuleLecture moduleOrder
  */
 class RevisionLecture extends CRevisionUnitActiveRecord {
@@ -41,20 +42,22 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations() {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision' => 'id_parent']),
-            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id' => 'id_properties']),
-            'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
-                'order' => 'page_order ASC'),
-            'moduleOrder' => array(self::HAS_ONE, 'RevisionModuleLecture',  'id_lecture_revision')
-        );
-    }
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision'=>'id_parent']),
+            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
+			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
+                                                        'order' => 'page_order ASC'),
+            'moduleOrder' => array(self::HAS_ONE, 'RevisionModuleLecture',  'id_lecture_revision'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module')
+		);
+	}
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -300,7 +303,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $newRevision->saveCheck();
 
             foreach ($this->lecturePages as $page) {
-                $page->clonePage($newRevision->id_revision);
+                $page->clonePage($newRevision->id_revision, $newModule);
             }
 //            $transaction->commit();
             if ($transaction != null) {
@@ -626,7 +629,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * Creates new lecture in regular DB
      * @return Lecture
      */
-    private function saveLectureModelToRegularDB() {
+    private function saveLectureModelToRegularDB($order=null) {
         //todo maybe need to store idTeacher separately in vc_* DB?
 //        $teacher = Teacher::model()->findByAttributes(array('user_id' => $this->properties->id_user_created));
 
@@ -641,10 +644,14 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
 
         //todo order from module;
 //        $newLecture->order = $this->properties->order;
-        if ($this->id_lecture != null && Lecture::model()->findByPk($this->id_lecture)) {
-            $newLecture->order = Lecture::model()->findByPk($this->id_lecture)->order;
-        } else {
-            $newLecture->order = $newLecture->lastLectureOrder() + 1;
+        if($order){
+            $newLecture->order = $order;
+        }else{
+            if ($this->id_lecture != null && Lecture::model()->findByPk($this->id_lecture)) {
+                $newLecture->order = Lecture::model()->findByPk($this->id_lecture)->order;
+            } else {
+                $newLecture->order = $newLecture->lastLectureOrder() + 1;
+            }
         }
 
 
@@ -1041,10 +1048,10 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         return $authors;
     }
 
-    public function saveModuleLecturesToRegularDB($user) {
+    public function saveModuleLecturesToRegularDB($user, $order=null) {
 
         //write new data
-        $newLecture = $this->saveLectureModelToRegularDB();
+        $newLecture = $this->saveLectureModelToRegularDB($order);
         $idNewLecture = $newLecture->id;
 
         foreach ($this->lecturePages as $page) {

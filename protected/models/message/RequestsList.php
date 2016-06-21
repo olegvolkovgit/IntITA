@@ -13,7 +13,7 @@ class RequestsList
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if ($record->type() == Request::AUTHOR_REQUEST || $record->type() == Request::TEACHER_CONSULTANT_REQUEST) {
+            if($record->module()){
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";
@@ -38,7 +38,7 @@ class RequestsList
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if ($record->type() == Request::AUTHOR_REQUEST || $record->type() == Request::TEACHER_CONSULTANT_REQUEST) {
+            if($record->module()){
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";
@@ -63,7 +63,7 @@ class RequestsList
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if ($record->type() == Request::AUTHOR_REQUEST || $record->type() == Request::TEACHER_CONSULTANT_REQUEST) {
+            if($record->module()){
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";

@@ -10,17 +10,19 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         $scope.lectureInModule=$rootScope.moduleData.lectures;
         getModuleData.getApprovedLecture().then(function(response){
             $scope.approvedLecture=response;
-            $.each($scope.approvedLecture.current, function(index) {
-                $.each($scope.lectureInModule, function(indexInModule) {
-                    if($scope.lectureInModule[indexInModule]['id_lecture_revision']==$scope.approvedLecture.current[index]['id_lecture_revision']){
-                        $scope.tempId.push($scope.lectureInModule[indexInModule]['id_lecture_revision']);
-                        return false;
-                    }
+            if($scope.approvedLecture.current){
+                $.each($scope.approvedLecture.current, function(index) {
+                    $.each($scope.lectureInModule, function(indexInModule) {
+                        if($scope.lectureInModule[indexInModule]['id_lecture_revision']==$scope.approvedLecture.current[index]['id_lecture_revision']){
+                            $scope.tempId.push($scope.lectureInModule[indexInModule]['id_lecture_revision']);
+                            return false;
+                        }
+                    });
                 });
-            });
-            $scope.approvedLecture.current = $scope.approvedLecture.current.filter(function(value) {
-                return !find($scope.tempId,value.id_lecture_revision)
-            });
+                $scope.approvedLecture.current = $scope.approvedLecture.current.filter(function(value) {
+                    return !find($scope.tempId,value.id_lecture_revision)
+                });
+            }
         });
     });
 
@@ -54,7 +56,9 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         if(revision.list=='foreign'){
             $scope.approvedLecture.foreign.push(revision);
         }else{
-            $scope.approvedLecture.current.push(revision);
+            if($scope.approvedLecture.current){
+                $scope.approvedLecture.current.push(revision);
+            }
         }
     };
     //reorder pages
@@ -74,26 +78,31 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
     };
 
     $scope.editModuleRevision = function (lectureList) {
-        var object = {};
-        lectureList.forEach(function (item, index) {
-            object[item.id_lecture_revision] = {
-                id_lecture_revision: item.id_lecture_revision,
-                lecture_order: index+1
-            };
-        });
-        $http({
-            url: basePath+'/moduleRevision/editModuleRevision',
-            method: "POST",
-            data: $.param({moduleLectures:JSON.stringify(object), id_module_revision:idRevision}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            bootbox.alert("Зміни збережено", function () {
-                location.reload();
+        if($scope.enabled!=false){
+            $scope.enabled=false;
+            var object = {};
+            lectureList.forEach(function (item, index) {
+                object[item.id_lecture_revision] = {
+                    id_lecture_revision: item.id_lecture_revision,
+                    lecture_order: index + 1
+                };
             });
-        }, function errorCallback() {
-            bootbox.alert("Зберегти зміни в ревізію не вдалося. Зв'яжіться з адміністрацією");
-            return false;
-        });
+            $http({
+                url: basePath + '/moduleRevision/editModuleRevision',
+                method: "POST",
+                data: $.param({moduleLectures: JSON.stringify(object), id_module_revision: idRevision}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback() {
+                bootbox.alert("Зміни збережено", function () {
+                    location.reload();
+                });
+                $scope.enabled=true;
+            }, function errorCallback() {
+                bootbox.alert("Зберегти зміни в ревізію не вдалося. Зв'яжіться з адміністрацією");
+                $scope.enabled=true;
+                return false;
+            });
+        }
     };
     $scope.previewModuleRevision = function(url) {
         location.href=url;
@@ -158,11 +167,15 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
     };
 
     $scope.releaseModuleRevision = function(id) {
-        moduleRevisionsActions.releaseModuleRevision(id).then(function(){
-            getModuleData.getData(idRevision).then(function(response) {
-                $rootScope.moduleData = response;
+        if($scope.enabled!=false) {
+            $scope.enabled = false;
+            moduleRevisionsActions.releaseModuleRevision(id).then(function () {
+                $scope.enabled=true;
+                getModuleData.getData(idRevision).then(function (response) {
+                    $rootScope.moduleData = response;
+                });
             });
-        });
+        }
     };
 
     $scope.restoreModuleEditByEditor = function(id) {

@@ -10,32 +10,32 @@
 </div>
 <div id="checkboxFilter" class="form-group">
     <label ng-click="isFilterOpen = !isFilterOpen" id="filterSpoiler">Фільтр ревізій{{isFilterOpen | arrow}}</label><br>
-    <div ng-show="isFilterOpen">
+    <div ng-show="!isFilterOpen">
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.approved">Затверджені
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.editable">Доступні для редагування
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.sent">Відправлені на розгляд
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.reject">Відхилені
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.cancelled">Скасовані
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.cancelledEditor">Скасовані автором
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.release">В релізі
-        </label><br>
+        </label>
         <label>
             <input type="checkbox" name="allRevision" ng-model="allRevision">Всі ревізії
         </label><br>
-        <button class="btn btn-default" style="float: right" ng-click="revisionFilter()">Застосувати</button>
+        <button class="btn btn-default" style="float: right;" ng-click="revisionFilter()">Застосувати</button>
     </div>
 </div>
 <div id="tree">

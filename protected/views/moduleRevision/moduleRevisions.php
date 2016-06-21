@@ -1,5 +1,5 @@
 <?php
-if($idCourse != 0) {
+if(isset($idCourse) && $idCourse != 0) {
     $this->breadcrumbs = array(
         'Курс' => Yii::app()->createUrl('course/index', array('id' => $idCourse)),
         'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $module->module_ID, "idCourse" => $idCourse)),
@@ -20,7 +20,6 @@ if($idCourse != 0) {
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/services/getModuleData.js'); ?>"></script>
 <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
-<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/sendRevisionMessage.js'); ?><!--"></script>-->
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'bootstrap-treeview.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>

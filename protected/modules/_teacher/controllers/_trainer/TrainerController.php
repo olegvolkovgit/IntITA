@@ -3,7 +3,8 @@
 class TrainerController extends TeacherCabinetController
 {
 
-    public function hasRole(){
+    public function hasRole()
+    {
         return Yii::app()->user->model->isTrainer();
     }
 
@@ -25,7 +26,7 @@ class TrainerController extends TeacherCabinetController
         if ($id && $idModule) {
             $role = new TeacherConsultant();
             $isTeacherDefined = !$role->checkStudent($idModule, $id);
-            if($isTeacherDefined){
+            if ($isTeacherDefined) {
                 $role = new Student();
                 $teacher = $role->getTeacherForModuleDefined($id, $idModule);
             } else {
@@ -61,20 +62,24 @@ class TrainerController extends TeacherCabinetController
         $student = Yii::app()->request->getPost('student', 0);
 
         $user = RegisteredUser::userById($teacher);
-        $model =$user->registrationData;
+        $model = $user->registrationData;
 
         $role = new TeacherConsultant();
-        if(!$user->isTeacherConsultant()){
+        if (!$user->isTeacherConsultant()) {
             echo "Даному співробітнику не призначена роль викладача.";
         } else {
-            if ($role->checkStudent($module, $student)) {
-                if ($role->setStudentAttribute($model, $student, $module)) {
-                    echo "Операцію успішно виконано.";
+            if ($role->checkModule($teacher, $module)) {
+                if ($role->checkStudent($module, $student)) {
+                    if ($role->setStudentAttribute($model, $student, $module)) {
+                        echo "Операцію успішно виконано.";
+                    } else {
+                        echo "Операцію не вдалося виконати.";
+                    }
                 } else {
-                    echo "Операцію не вдалося виконати.";
+                    echo "Даного викладача-консультанта вже призначено для цього студента.";
                 }
             } else {
-                echo "Даного викладача-консультанта вже призначено для цього студента.";
+                echo "Даний викладач не має прав викладача для обраного модуля.";
             }
         }
     }
@@ -127,9 +132,10 @@ class TrainerController extends TeacherCabinetController
     }
 
 
-    public function actionSendResponseConsultantModule($idModule){
+    public function actionSendResponseConsultantModule($idModule)
+    {
         $module = Module::model()->findByPk($idModule);
-        if($module){
+        if ($module) {
             $this->renderPartial('/_trainer/_sendResponseAssignConsultant', array(
                 'module' => $module
             ));
@@ -138,7 +144,8 @@ class TrainerController extends TeacherCabinetController
         }
     }
 
-    public function actionSendRequest(){
+    public function actionSendRequest()
+    {
         $teacher = Yii::app()->request->getPost('teacher', 0);
         $user = Yii::app()->request->getPost('user', 0);
         $module = Yii::app()->request->getPost('module', 0);
@@ -147,9 +154,9 @@ class TrainerController extends TeacherCabinetController
         $moduleModel = Module::model()->findByPk($module);
         $userModel = StudentReg::model()->findByPk($user);
 
-        if($teacherModel && $moduleModel && $userModel){
+        if ($teacherModel && $moduleModel && $userModel) {
             $message = new MessagesTeacherConsultantRequest();
-            if($message->isRequestOpen(array($moduleModel->module_ID, $teacherModel->id))) {
+            if ($message->isRequestOpen(array($moduleModel->module_ID, $teacherModel->id))) {
                 echo "Такий запит вже надіслано. Ви не можете надіслати запит на призначення викладача-консультанта для модуля двічі.";
             } else {
                 $transaction = Yii::app()->db->beginTransaction();

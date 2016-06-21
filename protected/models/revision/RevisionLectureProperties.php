@@ -216,6 +216,8 @@ class RevisionLectureProperties extends CActiveRecord
 		if($newModule){
 			$newProperties->approve_date = $this->approve_date;
 			$newProperties->id_user_approved = $this->id_user_approved;
+			$newProperties->release_date = $this->release_date;
+			$newProperties->id_user_released = $this->id_user_released;
 		}
 
         $newProperties->saveCheck();

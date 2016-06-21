@@ -581,6 +581,10 @@ class RevisionModule extends CRevisionUnitActiveRecord
             
             foreach ($this->moduleLectures as $key=>$lecture){
                 $newLecture[$key] = $lecture->saveModuleLecturesToRegularDB($user);
+            $this->deleteModuleLecturesFromRegularDB();
+            foreach ($this->moduleLecturesModels as $key=>$lecture){
+                $lectureRev=RevisionLecture::model()->findByPk($lecture->id_lecture_revision);
+                $newLecture[$key] = $lectureRev->saveModuleLecturesToRegularDB($user);
             }
             $this->cancelModulesInTree($user);
             $transaction->commit();
@@ -588,9 +592,10 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $transaction->rollback();
             throw $e;
         }
-        foreach ($this->moduleLectures as $key=>$lecture){
-            $lecture->createDirectory($newLecture[$key]);
-            $lecture->createTemplates($newLecture[$key]);
+        foreach ($this->moduleLecturesModels as $key=>$lecture){
+            $lectureRev=RevisionLecture::model()->findByPk($lecture->id_lecture_revision);
+            $lectureRev->createDirectory($newLecture[$key]);
+            $lectureRev->createTemplates($newLecture[$key]);
         }
 
         return true;
