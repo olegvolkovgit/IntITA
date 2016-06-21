@@ -215,6 +215,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
 
     public function approve(StudentReg $userApprove)
     {
+        date_default_timezone_set(Config::getServerTimezone());
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
         if ($this->save()) {
@@ -336,7 +337,7 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
     public function approvedByToString()
     {
         if ($this->isApproved()) {
-            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:m", strtotime($this->date_approved));
+            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:i", strtotime($this->date_approved));
         } else {
             return '';
         }

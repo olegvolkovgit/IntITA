@@ -694,10 +694,16 @@ function changeUserStatus(url, user, message, header, target) {
                 data: {user: user},
                 success: function (result) {
                     bootbox.confirm(result, function () {
-                        if (target == 'coworkers') {
-                            load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
-                        } else {
-                            load(basePath + "/_teacher/user/index/id/" + user, header);
+                        switch(target){
+                            case 'showTeacher':
+                                load(basePath + "/_teacher/_content_manager/contentManager/showTeacher/id/" + user, header);
+                                break;
+                            case 'coworkers' :
+                                load(basePath + "/_teacher/_admin/teachers/showTeacher/id/" + user, header);
+                                break;
+                            default :
+                                load(basePath + "/_teacher/user/index/id/" + user, header);
+                                break;
                         }
                     });
                 },
@@ -1184,8 +1190,15 @@ function initTodayTeacherConsultationsTable() {
             {
                 "width": "10%",
                 "data": "start",
-                "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
+                "render": function (start) {
+                    switch(start["status"]){
+                        case 'ended':
+                            return 'закінчена';
+                        case 'started':
+                            return '<a type="button" class="btn btn-success btn-sm" href="' + start["link"] + '" target="_blank">почати</a>';
+                        case 'wait':
+                            return 'очікування';
+                    }
                 }
             }
         ],

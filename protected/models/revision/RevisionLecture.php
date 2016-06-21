@@ -14,6 +14,7 @@
  * @property RevisionLectureProperties $properties
  * @property RevisionLecturePage[] $lecturePages
  * @property RevisionLecture $parent
+ * @property Module $module
  * @property RevisionModuleLecture moduleOrder
  */
 class RevisionLecture extends CRevisionUnitActiveRecord {
@@ -41,20 +42,22 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations() {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision' => 'id_parent']),
-            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id' => 'id_properties']),
-            'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
-                'order' => 'page_order ASC'),
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+            'parent' => array(self::HAS_ONE, 'RevisionLecture', ['id_revision'=>'id_parent']),
+            'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
+			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
+                                                        'order' => 'page_order ASC'),
             'moduleOrder' => array(self::HAS_ONE, 'RevisionModuleLecture',  'id_lecture_revision')
-        );
-    }
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module'),
+		);
+	}
 
     /**
      * @return array customized attribute labels (name=>label)
