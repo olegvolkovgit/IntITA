@@ -215,6 +215,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $role = new Author();
         if ($role->checkModule($user->registrationData->id, $this->id_module)) {
             if ($user->setRoleAttribute(UserRoles::AUTHOR, 'module', $this->id_module)) {
+                date_default_timezone_set(Config::getServerTimezone());
                 //update current request, set approved status
                 $this->user_approved = $userApprove->id;
                 $this->date_approved = date("Y-m-d H:i:s");
@@ -334,7 +335,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     public function approvedByToString()
     {
         if ($this->isApproved()) {
-            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:m", strtotime($this->date_approved));
+            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:i", strtotime($this->date_approved));
         } else {
             return '';
         }

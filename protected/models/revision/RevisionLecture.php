@@ -14,6 +14,7 @@
  * @property RevisionLectureProperties $properties
  * @property RevisionLecturePage[] $lecturePages
  * @property RevisionLecture $parent
+ * @property Module $module
  */
 class RevisionLecture extends CActiveRecord
 {
@@ -54,6 +55,7 @@ class RevisionLecture extends CActiveRecord
             'properties' => array(self::HAS_ONE, 'RevisionLectureProperties', ['id'=>'id_properties']),
 			'lecturePages' => array(self::HAS_MANY, 'RevisionLecturePage', 'id_revision',
                                                         'order' => 'page_order ASC'),
+            'module' => array(self::BELONGS_TO, 'Module', 'id_module'),
 		);
 	}
 

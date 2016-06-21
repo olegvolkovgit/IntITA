@@ -6,6 +6,7 @@
  * @var $sender StudentReg
  * @var $teacher Teacher
  */
+date_default_timezone_set(Config::getServerTimezone());
 $user = Yii::app()->user->model;
 $module = $model->module();
 $sender = $model->sender();
@@ -18,7 +19,7 @@ $sender = $model->sender();
             </div>
             <div class="panel-body">
                 <h4>Статус: <em><?php echo $model->statusToString(); ?></em></h4>
-                <h4>Дата запиту: <?php echo date("d.m.Y", strtotime($model->message()->create_date));?></h4>
+                <h4>Дата запиту: <?php echo date("d.m.Y H:i", strtotime($model->message()->create_date));?></h4>
                 <?php if ($module) { ?>
                     <h4>
                         Модуль: <a

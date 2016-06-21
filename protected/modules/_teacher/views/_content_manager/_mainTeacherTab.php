@@ -17,7 +17,19 @@ $teacher = $user->getTeacher();
                 <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $user->id)) ?>">
                     <?php echo $model->userName(); ?></a></li>
             <li class="list-group-item">Електронна пошта: <?php echo $user->email; ?></li>
-            <li class="list-group-item">Статус: <em><?php echo $user->getTeacher()->getStatus(); ?></em></li>
+            <li class="list-group-item">Статус: <em><?php echo $user->getTeacher()->getStatus(); ?></em>
+                <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                    <button type="button" class="btn btn-outline btn-primary btn-xs"
+                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/changeTeacherStatus"); ?>',
+                                '<?= $teacher->user_id ?>',
+                                '<?= ($teacher->isShow()) ? "Приховати викладача?" : "Показати викладача?"; ?>',
+                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
+                                'showTeacher');
+                                return false;">
+                        змінити
+                    </button>
+                <?php } ?>
+            </li>
         </ul>
     </div>
 </div>

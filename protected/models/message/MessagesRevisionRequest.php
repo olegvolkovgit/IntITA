@@ -205,6 +205,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
 
     public function approve(StudentReg $userApprove)
     {
+        date_default_timezone_set(Config::getServerTimezone());
         $this->idRevision->approve(Yii::app()->user);
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
@@ -245,10 +246,9 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         return "Запит на затвердження ревізії лекції";
     }
 
-    // not supported
     public function module()
     {
-        return null;
+        return $this->idRevision->module;
     }
 
     public function type()
@@ -311,7 +311,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     public function approvedByToString()
     {
         if ($this->isApproved()) {
-            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:m", strtotime($this->date_approved));
+            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:i", strtotime($this->date_approved));
         } else {
             return '';
         }
