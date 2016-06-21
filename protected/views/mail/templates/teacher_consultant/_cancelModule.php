@@ -7,7 +7,7 @@ $model = $params[0];
 ?>
 <h4>Повідомлення</h4>
 <br>
-Вам скасовано права викладача для модуля <strong>
+Тобі скасовано права викладача для модуля <strong>
     <a href="<?= Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->module_ID)); ?>">
         <?= $model->getTitle(); ?>
     </a>

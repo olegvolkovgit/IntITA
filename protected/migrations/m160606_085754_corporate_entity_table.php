@@ -6,6 +6,7 @@ class m160606_085754_corporate_entity_table extends CDbMigration
 	{
 		$this->createTable('acc_corporate_entity', array(
             'id' => 'pk',
+			'title' => 'VARCHAR(255) NOT NULL',
             'EDPNOU' => 'VARCHAR(14) NOT NULL COMMENT \'National State Registry of Ukrainian Enterprises and Organizations\'',
             'edpnou_issue_date' => 'DATETIME NULL DEFAULT NULL COMMENT \'Дата видачі  ЄДРПОУ\'',
             'certificate_of_vat' => 'VARCHAR(14) NOT NULL COMMENT \'Свідоцтво платника ПДВ\'',

@@ -81,7 +81,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_trainer/trainer/teachersByQuery?query=%QUERY&module=' + module,
+            url: basePath + '/_teacher/_trainer/trainer/teacherConsultantsByQuery?query=%QUERY&module=' + module,
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
