@@ -56,6 +56,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
                 'order' => 'moduleOrder.lecture_order ASC',
                 'with' => 'moduleOrder'),
             'moduleLecturesModels' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
+                'with' => 'lecture',
                 'order' => 'lecture_order ASC'),
         );
     }
@@ -578,10 +579,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $this->deleteModuleLecturesFromRegularDB();
-            
-            foreach ($this->moduleLectures as $key=>$lecture){
-                $newLecture[$key] = $lecture->saveModuleLecturesToRegularDB($user);
-            $this->deleteModuleLecturesFromRegularDB();
             foreach ($this->moduleLecturesModels as $key=>$lecture){
                 $lectureRev=RevisionLecture::model()->findByPk($lecture->id_lecture_revision);
                 $newLecture[$key] = $lectureRev->saveModuleLecturesToRegularDB($user);
@@ -611,11 +608,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $transaction = $connection->beginTransaction();
         }
         try {
-            
             foreach ($module->lectures as $lecture){
                 $lecture->removeLectureRecords();
             }
-            
             if ($transaction != null) {
                 $transaction->commit();
                 return true;

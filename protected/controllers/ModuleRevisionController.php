@@ -495,15 +495,11 @@ class ModuleRevisionController extends Controller {
         $lectures = [];
         $module = [];
         $data = array('module' => array(),'lectures' => array());
-//        foreach ($moduleRevision->moduleLectures as $key=>$lecture) {
-//            $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
-//            $lectures[$key]["lecture_order"] = $lecture->moduleOrder->lecture_order;
-//            $lectures[$key]["title"] = $lecture->properties->title_ua;
-//        }
-        foreach ($moduleRevision->moduleLecturesModels as $key=>$lecture) {
-            $lectures[$key]["id_lecture_revision"] = $lecture->id_lecture_revision;
-            $lectures[$key]["lecture_order"] = $lecture->lecture_order;
-            $lectures[$key]["title"] = RevisionLecture::model()->findByPk($lecture->id_lecture_revision)->properties->title_ua;
+        foreach ($moduleRevision->moduleLecturesModels as $key=>$lecturesModel) {
+            $lecture = $lecturesModel->lecture;
+            $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
+            $lectures[$key]["lecture_order"] = $lecturesModel->lecture_order;
+            $lectures[$key]["title"] = $lecture->properties->title_ua;
         }
 
         $module['status']=$moduleRevision->getStatus();

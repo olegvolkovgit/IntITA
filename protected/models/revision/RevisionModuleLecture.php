@@ -8,6 +8,10 @@
  * @property integer $id_lecture_revision
  * @property integer $id_module_revision
  * @property integer $lecture_order
+ *
+ * The followings are the available model relations:
+ * @property RevisionModule revision
+ * @property RevisionLecture lecture
  */
 
 class RevisionModuleLecture extends CActiveRecord
@@ -46,6 +50,7 @@ class RevisionModuleLecture extends CActiveRecord
 		return array(
             //todo IN condition doesn't work!;
 			'revision' => array(self::BELONGS_TO, 'RevisionModule', 'id_module_revision'),
+            'lecture' => array(self::BELONGS_TO, 'RevisionLecture', 'id_lecture_revision')
 		);
 	}
 

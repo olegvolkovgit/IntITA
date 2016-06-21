@@ -382,7 +382,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
                 $video = LectureElement::model()->findByPk($page->video);
                 if ($video != null) {
                     $revVideo = new RevisionLectureElement();
-                    $revVideo->id_page = $revLecture->id_revision;
+                    $revVideo->id_page = $revNewPage->id;
                     $revVideo->id_type = $video->id_type;
                     $revVideo->block_order = $video->block_order;
                     $revVideo->html_block = $video->html_block;

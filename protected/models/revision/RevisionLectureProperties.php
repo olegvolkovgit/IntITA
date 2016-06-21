@@ -9,7 +9,7 @@
  * @property string $alias
  * @property integer $id_type
  * @property integer $is_free
- * @property string $title_uag
+ * @property string $title_ua
  * @property string $title_ru
  * @property string $title_en
  * @property string $start_date
