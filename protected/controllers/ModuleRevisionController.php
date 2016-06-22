@@ -397,7 +397,13 @@ class ModuleRevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
 
-        $moduleRev->sendForApproval(Yii::app()->user);
+        $result = $moduleRev->checkConflicts();
+
+        if (empty($result)) {
+            $moduleRev->sendForApproval(Yii::app()->user);
+        } else {
+            echo $result;
+        }
     }
 
     public function actionCancelSendForApproveModule() {
@@ -611,5 +617,19 @@ class ModuleRevisionController extends Controller {
         $json = $this->buildModuleTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
 
         echo $json;
+    }
+
+    public function actionCheckModuleRevision() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $revisionModule=RevisionModule::model()->findByPk($idRevision);
+        $result = $revisionModule->checkConflicts();
+       
+        if (empty($result)) {
+            echo "Конфліктів не виявлено!";
+            return;
+        } else {
+            echo $result;
+            return;
+        }
     }
 }

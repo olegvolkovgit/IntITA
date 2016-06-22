@@ -633,4 +633,26 @@ class RevisionModule extends CRevisionUnitActiveRecord
             }
         }
     }
+
+    public function checkConflicts() {
+        $result = array();
+        $revisionIdList=[];
+        $revisionIdListInBranch=[];
+        foreach($this->moduleLectures as $lectureRevision){
+            array_push($revisionIdList, $lectureRevision->id_revision);
+        }
+        foreach($this->moduleLectures as $lectureRevision){
+            $relatedLectureRev = $lectureRevision->getRelatedLectures();
+            foreach($relatedLectureRev as $revision){
+                array_push($revisionIdListInBranch, $revision->id_revision);
+            }
+            $arr=array_uintersect($revisionIdList,$revisionIdListInBranch, "strcasecmp");
+            if(count($arr)>1){
+                $result='Модуль не може містити ревізії лекцій які входять в одну гілку';
+            }
+            $revisionIdListInBranch=[];
+        }
+
+        return $result;
+    }
 }

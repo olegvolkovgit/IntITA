@@ -185,4 +185,19 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
             });
         });
     };
+
+    $scope.checkModuleRevision = function() {
+        $http({
+            url: basePath+'/moduleRevision/checkModuleRevision',
+            method: "POST",
+            data: $.param({idRevision:idRevision}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data);
+        }, function errorCallback(response) {
+            console.log('checkLecture error');
+            console.log(response);
+            return false;
+        });
+    };
 }

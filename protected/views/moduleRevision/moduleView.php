@@ -23,6 +23,7 @@ $this->breadcrumbs = array(
             <?php
                 $this->renderPartial('_moduleRevisionInfo', array('moduleRevision' => $moduleRevision));
             ?>
+            <button class="btn btn-primary" ng-click="checkModuleRevision();">Наявність конфліктів</button>
             <h3>Доступні ревізії занять:</h3>
             <div class="revisionTable">
                 <label>Доступні ревізії занять данного модуля(входять лише ревізії відправлені в реліз):</label>
