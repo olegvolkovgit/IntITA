@@ -34,8 +34,8 @@ class ModuleService extends AbstractIntITAService
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('service_id, module_id', 'required'),
-            array('module_id, education_form', 'numerical', 'integerOnly' => true),
+            array('service_id, module_id, education_form', 'required'),
+            array('service_id, module_id, education_form', 'numerical', 'integerOnly' => true),
             array('service_id', 'length', 'max' => 10),
             // The following rule is used by search().
             array('service_id, module_id, education_form', 'safe', 'on' => 'search'),
@@ -104,10 +104,13 @@ class ModuleService extends AbstractIntITAService
         return parent::model($className);
     }
 
+    public function primaryKey() {
+        return array('module_id', 'education_form');
+    }
 
     protected function primaryKeyValue()
     {
-        return array($this->module_id, $this->education_form);
+        return $this->module_id;
     }
 
     protected function descriptionFormatted()
@@ -120,7 +123,7 @@ class ModuleService extends AbstractIntITAService
         return Module::model();
     }
 
-    public static function getService($idModule, $educForm)
+    public static function getService($idModule, EducationForm $educForm)
     {
         return parent::getService(__CLASS__, "module_id", $idModule, $educForm);
     }
@@ -176,7 +179,6 @@ class ModuleService extends AbstractIntITAService
     }
 
     public function getEducationForm(){
-        return EducationForm::model()->findByPk($this->education_form);
-        //return $this->educForm;
+        return $this->educForm;
     }
 }

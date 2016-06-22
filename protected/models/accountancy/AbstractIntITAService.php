@@ -15,25 +15,25 @@ abstract class AbstractIntITAService extends CActiveRecord
     abstract public function getBillableObject();
     abstract public function getEducationForm();
 
-    protected static function createService($serviceClass,$service_param,$service_param_value, $educForm)
+    protected static function createService($serviceClass,$service_param,$service_param_value, EducationForm $educForm)
     {
         $service = new $serviceClass();
         $service->$service_param = $service_param_value;
-        $service->education_form = $educForm;
+        $service->education_form = $educForm->id;
         $service->save();
 
         return $service;
     }
 
-    protected static function getService($serviceClass,$service_param,$service_param_value, $educForm)
+    protected static function getService($serviceClass,$service_param,$service_param_value, EducationForm $educForm)
     {
-        if (!$serviceClass::model()->exists($service_param.'='.$service_param_value.' and education_form='.$educForm))
+        if (!$serviceClass::model()->exists($service_param.'='.$service_param_value.' and education_form='.$educForm->id))
         {
             return self::createService($serviceClass,$service_param,$service_param_value, $educForm);
         } else {
             return $serviceClass::model()->findByAttributes(array(
                 $service_param => $service_param_value,
-                'education_form' => $educForm
+                'education_form' => $educForm->id
             ));
         }
     }

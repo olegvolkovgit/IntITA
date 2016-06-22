@@ -183,19 +183,21 @@ class UserAgreements extends CActiveRecord
     
     public static function courseAgreement($user, $course, $schema, $educForm)
     {
-        $service = CourseService::getService($course, $educForm);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = CourseService::getService($course, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'CourseService', $course, $schema, $educForm);
+        return self::newAgreement($user, 'CourseService', $course, $schema, $educFormModel);
     }
 
     public static function courseAgreementExist($user, $course, $educForm)
     {
-        $service = CourseService::getService($course, $educForm);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = CourseService::getService($course, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -207,19 +209,21 @@ class UserAgreements extends CActiveRecord
 
     public static function moduleAgreement($user, $module, $schema, $educForm)
     {
-        $service = ModuleService::getService($module, $educForm);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = ModuleService::getService($module, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'ModuleService', $module, $schema, $educForm);
+        return self::newAgreement($user, 'ModuleService', $module, $schema, $educFormModel);
     }
 
     public static function moduleAgreementExist($user, $module, $educForm)
     {
-        $service = ModuleService::getService($module, $educForm);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = ModuleService::getService($module, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -229,9 +233,9 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, $educForm)
+    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, EducationForm $educForm)
     {
-        $schema = PaymentScheme::getSchema($schemaId, $educForm);
+        $schema = PaymentScheme::getSchema($schemaId, $educForm->id);
 
         $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
@@ -258,7 +262,7 @@ class UserAgreements extends CActiveRecord
                 )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
         } else {
-            throw new CException('Договір не заведено!');
+            throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
         return $model;
     }
@@ -415,7 +419,7 @@ class UserAgreements extends CActiveRecord
             $row["title"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
             $row["object"] = ($record->service)?CHtml::encode($record->service->description):"";
             $row["date"] = date("d.m.y", strtotime($record->create_date));
-            $row["summa"] = ($record->summa != 0)?number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;"): "безкоштовно";
+            $row["summa"] = ($record->summa != 0)?number_format($record->summa, 2, ",","&nbsp;"): "безкоштовно";
             $row["schema"] = CHtml::encode($record->paymentSchema->name);
             $row["invoices"]["name"] = "Договір ".$record->number;
             $row["invoices"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
