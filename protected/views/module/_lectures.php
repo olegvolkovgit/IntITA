@@ -15,7 +15,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 <!--                </a>-->
 <!---->
 <!--        --><?php //} ?>
-        <?php if ($canEdit || $isContentManager){?>
+        <?php if ($canEdit || RegisteredUser::userById(Yii::app()->user->getId())->canApprove()){?>
                 <label>Ревізії:
                 <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$module->module_ID, 'idCourse'=>$idCourse)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
@@ -29,7 +29,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
         <?php } ?>
     </div>
     <?php if (!Yii::app()->user->isGuest) {
-    if (1 || Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>
+    if (Yii::app()->user->model->canSendRequest($module->module_ID) && !$canEdit){ ?>
             <a href="#"
                onclick="sendRequest('<?php echo Yii::app()->createUrl("/module/sendRequest", array("user" => Yii::app()->user->getId(), "moduleId" => $module->module_ID)); ?>')">
 
