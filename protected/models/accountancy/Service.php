@@ -32,7 +32,7 @@ class Service extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, education_form', 'required'),
+			array('description', 'required'),
             array('cancel_date', 'safe'),
 			array('billable', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>512),

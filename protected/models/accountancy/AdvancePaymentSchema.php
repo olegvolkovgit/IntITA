@@ -43,8 +43,4 @@ class AdvancePaymentSchema implements IPaymentCalculator{
         }
         return $invoicesList;
     }
-
-    public function getSummaOffline(IBillableObject $payObject){
-        return $payObject->getBasePrice() * Config::getCoeffModuleOffline() * (1 - $this->discount/100);
-    }
 }
