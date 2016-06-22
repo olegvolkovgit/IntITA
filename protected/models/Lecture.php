@@ -974,4 +974,48 @@ class Lecture extends CActiveRecord
         }
     }
 
+    /**
+     * Clear regular DB from lecture (pages and elements)
+     * @throws CDbException
+     */
+    public function removeLectureRecords() {
+        //remove lecture pages
+
+        $lecturePages = LecturePage::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id));
+
+        $builder = Yii::app()->db->schema->getCommandBuilder();
+        foreach ($lecturePages as $lecturePage) {
+            $command = $builder->createDeleteCommand('lecture_element_lecture_page', new CDbCriteria(array(
+                "condition" => "page=" . $lecturePage->id
+            )));
+            $command->query();
+        }
+
+        foreach ($lecturePages as $lecturePage) {
+            $lecturePage->delete();
+        }
+
+        $lectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id));
+
+        $quizzes = [];
+
+        foreach ($lectureElements as $lectureElement) {
+
+            if ($lectureElement->isQuiz()) {
+                if (!array_key_exists($lectureElement->id_type, $quizzes)) {
+                    $quizzes[$lectureElement->id_type] = [];
+                }
+                array_push($quizzes[$lectureElement->id_type], $lectureElement->id_block);
+            }
+        }
+
+        RevisionQuizFactory::deleteFromRegularDB($quizzes);
+
+        $quizTypes = LectureElement::TEST . ', ' . LectureElement::TASK . ', ' . LectureElement::PLAIN_TASK . ', ' . LectureElement::SKIP_TASK;
+        LectureElement::model()->deleteAll("id_lecture=:id_lecture AND id_type NOT IN ($quizTypes)", array(':id_lecture' => $this->id));
+
+        $this->delete();
+        $this->removeOldTemplatesDirectory();
+    }
+
 }

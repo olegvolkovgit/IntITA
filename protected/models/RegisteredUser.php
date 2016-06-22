@@ -243,6 +243,11 @@ class RegisteredUser
         return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()), array(UserRoles::AUTHOR));
     }
 
+    public function noSetRoles()
+    {
+        return array_diff(AllRolesDataSource::roles(), array_intersect($this->getRoles(), AllRolesDataSource::roles()), array(UserRoles::AUTHOR));
+    }
+
     public function requests()
     {
         if (!$this->isAdmin() && !$this->isContentManager())
@@ -256,8 +261,10 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
+        $revisionRequests = MessagesRevisionRequest::notApprovedRequests();
 
-        $result = array_merge($authorRequests, $consultantRequests);
+        $result = array_merge($authorRequests, $consultantRequests, $revisionRequests)
+        ;
         if($this->isAdmin()){
             $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
             $result = array_merge($result, $assignCoworkerRequests);
@@ -322,7 +329,7 @@ class RegisteredUser
     }
 
     public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
-        if ($this->isAdmin() || $editMode || $this->isContentManager()) {
+        if ($this->isAdmin() || $editMode) {
             return true;
         }
         if ($this->isTeacherConsultant()) {

@@ -26,6 +26,8 @@
  * @property integer $id_user_cancelled
  * @property string $release_date
  * @property integer $id_user_released
+ * @property string $cancel_edit_date
+ * @property integer $id_user_cancelled_edit
  *
  * The followings are the available model relations:
  * @property Lecture[] $lectures
@@ -198,7 +200,7 @@ class RevisionLectureProperties extends CActiveRecord
      * @return RevisionLectureProperties
      * @throws RevisionLecturePropertiesException
      */
-    public function cloneProperties($user) {
+    public function cloneProperties($user, $newModule = false) {
         $newProperties = new RevisionLectureProperties();
 //        $newProperties->setAttributes($this->getAttributes());
         $newProperties->image = $this->image;
@@ -211,6 +213,12 @@ class RevisionLectureProperties extends CActiveRecord
 
         $newProperties->start_date = new CDbExpression('NOW()');
         $newProperties->id_user_created = $user->getId();
+		if($newModule){
+			$newProperties->approve_date = $this->approve_date;
+			$newProperties->id_user_approved = $this->id_user_approved;
+			$newProperties->release_date = $this->release_date;
+			$newProperties->id_user_released = $this->id_user_released;
+		}
 
         $newProperties->saveCheck();
 

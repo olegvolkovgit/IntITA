@@ -110,7 +110,8 @@ class MessagesPayment extends Messages implements IMessage
         return 'id_message';
     }
 
-    public function build($operation, StudentReg $user, IBillableObject $billableObject, $chained = null, $original = null)
+    public function build($operation, StudentReg $user, IBillableObject $billableObject, $educForm = EducationForm::ONLINE,
+						  $chained = null, $original = null)
     {
         //create and init parent model
         $this->message = new Messages();
@@ -121,8 +122,8 @@ class MessagesPayment extends Messages implements IMessage
         $this->template = $billableObject->paymentMailTemplate();
         $this->billableObject = $billableObject;
         $this->receiver = $user;
-        $this->service_id = ($billableObject->getType() == 'K')?CourseService::getService($billableObject->course_ID)->service_id:
-        ModuleService::getService($billableObject->module_ID)->service_id;
+        $this->service_id = ($billableObject->getType() == 'K')?CourseService::getService($billableObject->course_ID, $educForm)->service_id:
+        ModuleService::getService($billableObject->module_ID, $educForm)->service_id;
     }
 
 	public function create(){

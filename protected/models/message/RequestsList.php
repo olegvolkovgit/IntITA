@@ -7,12 +7,13 @@ class RequestsList
         $authorRequests = MessagesAuthorRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesAuthorRequest::ACTIVE);
         $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesTeacherConsultantRequest::ACTIVE);
         $coworkerRequests = MessagesCoworkerRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesCoworkerRequest::ACTIVE);
-        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests);
+        $revisionRequests = MessagesRevisionRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesRevisionRequest::ACTIVE);
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if ($record->type() != Request::COWORKER_REQUEST) {
+            if($record->module()){
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";
@@ -31,12 +32,13 @@ class RequestsList
         $authorRequests = MessagesAuthorRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesAuthorRequest::ACTIVE);
         $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesTeacherConsultantRequest::ACTIVE);
         $coworkerRequests = MessagesCoworkerRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesCoworkerRequest::ACTIVE);
-        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests);
+        $revisionRequests = MessagesRevisionRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesRevisionRequest::ACTIVE);
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if ($record->type() != Request::COWORKER_REQUEST) {
+            if($record->module()){
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";
@@ -55,12 +57,13 @@ class RequestsList
         $authorRequests = MessagesAuthorRequest::model()->findAll('cancelled = '.MessagesAuthorRequest::DELETED);
         $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll('cancelled = '.MessagesTeacherConsultantRequest::DELETED);
         $coworkerRequests = MessagesCoworkerRequest::model()->findAll('cancelled = '.MessagesCoworkerRequest::DELETED);
-        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests);
+        $revisionRequests = MessagesRevisionRequest::model()->findAll('cancelled = '.MessagesRevisionRequest::DELETED);
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
             $row["user"]["title"] = $record->sender()->userNameWithEmail();
-            if ($record->type() != Request::COWORKER_REQUEST) {
+            if($record->module()){
                 $row["module"]["title"] = $record->module()->getTitle();
             } else {
                 $row["module"]["title"] = "не вказано";

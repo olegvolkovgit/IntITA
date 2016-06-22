@@ -263,7 +263,7 @@ class Invoice extends CActiveRecord
 
             $row["title"]["name"] = "Рахунок №".($key + 1);
             $row["title"]["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id));
-            $row["summa"] = number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;");
+            $row["summa"] = number_format($record->summa, 2, ",","&nbsp;");
             $row["date"] = date("d.m.y", strtotime($record->payment_date));
             $row["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id, 'nolayout' => true));
 

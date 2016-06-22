@@ -203,6 +203,10 @@ class Config extends CActiveRecord
 	}
 
 	public static function offerScenario(){
-		return "noOffer";
+		return "default";
 	}
+
+	public static function getNotifyEmail(){
+        return Yii::app()->config->get('notifyMail');
+    }
 }

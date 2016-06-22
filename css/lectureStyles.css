@@ -931,3 +931,19 @@ a.cke_dialog_ui_fileButton{
 .videoLink input{
     display: inline-block;
 }
+#errorBox{
+    margin: 10px 22px 10px 10px;
+    border: 1px solid #335379;
+    border-radius: 5px;
+}
+#errorBox > label{
+    font-size: smaller;
+    color: #4b75a4;
+    cursor: pointer;
+}
+#errorBox > label:hover{
+    color: #4b75a4;
+}
+#errorBox > span{
+    font-size: smaller;
+}

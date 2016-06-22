@@ -53,9 +53,15 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
             data: $.param({idRevision: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            if(response.data!='')
-                bootbox.alert(response.data);
-            else
+            console.log(response);
+            if(response.data!=''){
+                bootbox.alert(response.data, function () {
+                    getLectureData.getData(idRevision).then(function(response){
+                        $rootScope.lectureData=response;
+                        location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
+                    });
+                });
+            } else
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
                 location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;

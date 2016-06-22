@@ -1173,7 +1173,7 @@ class StudentReg extends CActiveRecord
 
     public function addressString()
     {
-        $param = "title_" . Yii::app()->session["lg"];
+        $param = "title_" . ((isset(Yii::app()->session["lg"]))?Yii::app()->session["lg"]:"ua");
         $result = [];
         if (!is_null($this->country) && AddressCountry::model()->findByPk($this->country)->$param)
             array_push($result,AddressCountry::model()->findByPk($this->country)->$param);

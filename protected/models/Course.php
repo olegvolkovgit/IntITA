@@ -61,7 +61,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
-            array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
+            array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
             array('alias, course_price', 'length', 'max' => 20),
             array('alias, course_number', 'unique', 'message' => Yii::t('course', '0740')),
             array('language', 'length', 'max' => 6),
@@ -197,13 +197,18 @@ class Course extends CActiveRecord implements IBillableObject
         return $price;
     }
 
+//    public function getBasePriceUAH(){
+//        return $this->getBasePrice() * Config::getDollarRate();
+//    }
+
     public function getDuration()
     {
-        $modules = $this->getCourseModulesSchema($this->course_ID);
-        $tableCells = $this->getTableCells($modules, $this->course_ID);
-        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
-
-        return $courseDurationInMonths;
+        return $this->getApproximatelyDurationInMonths();
+//        $modules = $this->getCourseModulesSchema($this->course_ID);
+//        $tableCells = $this->getTableCells($modules, $this->course_ID);
+//        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
+//
+//        return $courseDurationInMonths;
 
     }
 
@@ -554,123 +559,6 @@ class Course extends CActiveRecord implements IBillableObject
         return $courses;
     }
 
-    public static function getSummaBySchemaNum($courseId, $summaNum, $isWhole = false)
-    {
-        switch ($summaNum) {
-            case '1':
-                $summa = Course::getSummaWholeCourse($courseId);
-                break;
-            case '2':
-                $summa = Course::getSummaCourseTwoPays($courseId, $isWhole);
-                break;
-            case '3':
-                $summa = Course::getSummaCourseFourPays($courseId, $isWhole);
-                break;
-            case '4':
-                $summa = Course::getSummaCourseMonthly($courseId, $isWhole);
-                break;
-            case '5':
-                $summa = Course::getSummaCourseCreditTwoYears($courseId, $isWhole);
-                break;
-            case '6':
-                $summa = Course::getSummaCourseCreditThreeYears($courseId, $isWhole);
-                break;
-            case '7':
-                $summa = Course::getSummaCourseCreditFourYears($courseId, $isWhole);
-                break;
-            case '8':
-                $summa = Course::getSummaCourseCreditFiveYears($courseId, $isWhole);
-                break;
-            default :
-                throw new CHttpException(400, 'Неправильно вибрана схема оплати!');
-                break;
-        }
-        return $summa;
-    }
-
-    //discount 30 percent - first pay schema
-    public static function getSummaWholeCourse($idCourse)
-    {
-        return round(Course::getPrice($idCourse) * 0.7);
-    }
-
-    //discount 10 percent - second pay schema
-    public static function getSummaCourseTwoPays($idCourse, $isWhole)
-    {
-        $discountedSumma = Course::getPrice($idCourse) * 0.9;
-        if ($isWhole) {
-            return $discountedSumma;
-        }
-        $toPay = round($discountedSumma / 2);
-        return $toPay;
-    }
-
-    //discount 8 percent - third pay schema
-    public static function getSummaCourseFourPays($idCourse, $isWhole)
-    {
-        $discountedSumma = Course::getPrice($idCourse) * 0.92;
-        if ($isWhole) {
-            return $discountedSumma;
-        }
-        $toPay = round($discountedSumma / 4);
-        return $toPay;
-    }
-
-    //monthly - forth pay schema
-    public static function getSummaCourseMonthly($idCourse, $isWhole)
-    {
-        $wholePrice = Course::getPrice($idCourse);
-        if ($isWhole) {
-            return $wholePrice;
-        }
-        $toPay = round($wholePrice / 12);
-        return $toPay;
-    }
-
-    //credit two years - fifth pay schema
-    public static function getSummaCourseCreditTwoYears($idCourse, $isWhole)
-    {
-        $wholePrice = Course::getCreditCoursePrice($idCourse, 2);
-        if ($isWhole) {
-            return $wholePrice;
-        }
-        $toPay = round($wholePrice / 24);
-        return $toPay;
-    }
-
-    //credit three years - sixth pay schema
-    public static function getSummaCourseCreditThreeYears($idCourse, $isWhole)
-    {
-        $wholePrice = Course::getCreditCoursePrice($idCourse, 3);
-        if ($isWhole) {
-            return $wholePrice;
-        }
-        $toPay = round($wholePrice / 36);
-        return $toPay;
-    }
-
-    //credit four years - seventh pay schema
-    public static function getSummaCourseCreditFourYears($idCourse, $isWhole)
-    {
-        $wholePrice = Course::getCreditCoursePrice($idCourse, 4);
-        if ($isWhole) {
-            return $wholePrice;
-        }
-        $toPay = round($wholePrice / 48);
-        return $toPay;
-    }
-
-    //credit five years - eight pay schema
-    public static function getSummaCourseCreditFiveYears($idCourse, $isWhole)
-    {
-        $wholePrice = Course::getCreditCoursePrice($idCourse, 5);
-        if ($isWhole) {
-            return $wholePrice;
-        }
-        $toPay = round($wholePrice / 60);
-        return $toPay;
-    }
-
     public static function juniorCoursesCount()
     {
         return count(Course::model()->findAllByAttributes(array(
@@ -812,6 +700,16 @@ class Course extends CActiveRecord implements IBillableObject
             ->order('order ASC')
             ->queryAll();
         return $modules;
+    }
+
+    public static function modulesIdInCourse($idCourse)
+    {
+        $moduleList=Course::model()->modulesInCourse($idCourse);
+        $list=array();
+        foreach ($moduleList as $item) {
+            array_push($list,$item["id_module"]);
+        }
+        return $list;
     }
 
     /**
@@ -1072,5 +970,13 @@ class Course extends CActiveRecord implements IBillableObject
             $sum=+$sum+$module->moduleInCourse->moduleDurationInDays();
         }
         return round($sum);
+    }
+
+    public function getApproximatelyDurationInMonths(){
+        return ceil($this->courseDurationInDays() / 30);
+    }
+
+    public function getModelUAH(){
+        return new CourseUAH($this);
     }
 }

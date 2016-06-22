@@ -9,7 +9,10 @@ $editMode = ($canEdit) ? 'true' : '';
     if ($canEdit) { ?>
         <img ng-cloak ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                     id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
-
+        <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
+            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
+                 id="viewIco" title="Переглянути ревізії модулів"/>
+        </a>
         <div ng-cloak ng-click="showForm()">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'ajaxaddmodule-form',
@@ -87,6 +90,9 @@ $editMode = ($canEdit) ? 'true' : '';
     </div>
     <div id="moduleForm">
         <?php $this->renderPartial('_addLessonForm', array('model' => $model)); ?>
+    </div>
+    <div id="moduleRevisionForm" style="display: none">
+        <?php $this->renderPartial('_addModuleRevisionForm', array('model' => $model)); ?>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>

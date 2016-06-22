@@ -7,9 +7,8 @@ class RevisionController extends Controller {
     {
         parent::init();
         $app = Yii::app();
-        if (isset($app->session['lg'])) {
-            $app->language = $app->session['lg'];
-        }
+        $app->language = isset($app->session['lg'])?$app->session['lg']:'ua';
+        
         if (Yii::app()->user->isGuest) {
             $this->render('/site/authorize');
             die();
@@ -30,7 +29,6 @@ class RevisionController extends Controller {
     public function actionCreateNewLecture() {
 
         $idModule = Yii::app()->request->getPost("idModule");
-//        $order = Yii::app()->request->getPost("order");
         $titleUa = trim(Yii::app()->request->getPost("titleUa"));
         $titleEn = trim(Yii::app()->request->getPost("titleEn"));
         $titleRu = trim(Yii::app()->request->getPost("titleRu"));
@@ -349,6 +347,7 @@ class RevisionController extends Controller {
 
         if (empty($result)) {
             $lectureRev->sendForApproval(Yii::app()->user);
+            $this->sendRevisionRequest($lectureRev);
         } else {
             echo implode(", ",$result);
         }
@@ -362,7 +361,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
-        $lectureRev->cancelSendForApproval();
+        $lectureRev->revoke();
     }
 
     public function actionRejectLectureRevision() {
@@ -387,7 +386,7 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->cancel(Yii::app()->user);
-        $lectureRev->deleteLectureFromRegularDB();
+//        $lectureRev->deleteLectureFromRegularDB();
     }
 
     /**
@@ -582,6 +581,7 @@ class RevisionController extends Controller {
             'idModule' => $idModule,
             'isApprover' => $this->isUserApprover(Yii::app()->user),
             'userId' => Yii::app()->user->getId(),
+            'author' => $this->isUserTeacher(Yii::app()->user, $idModule)
         ));
     }
 
@@ -898,11 +898,16 @@ class RevisionController extends Controller {
                 }
                 //building path from root to target node
                 array_push($path, $parentId);
+                $i=0;
+
                 while ($parents[$parentId] != $parentId) {
+                    $i=$i+1;
+
                     if (!in_array($parents[$parentId], $actualRevisionsList)) {
                         // find parent
                         $tempParent=$parents[$parentId];
                         $end=false;
+
                         while (!in_array($tempParent, $actualRevisionsList)) {
                             $oldParent=$tempParent;
                             $tempParent=$parents[$tempParent];
@@ -922,9 +927,7 @@ class RevisionController extends Controller {
                         $parentId=$tempParent;
                     }
                     if($parents[$parentId] != $parentId){
-                        if(in_array($parents[$parentId], $actualRevisionsList)){
-                            array_push($path, $parents[$parentId]);
-                        }
+                        array_push($path, $parents[$parentId]);
                         $parentId = $parents[$parentId];
                     }
                 }
@@ -963,8 +966,8 @@ class RevisionController extends Controller {
             $node['isCancellable'] = $lecture->isCancellable();
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
-            $node['isSendedCancellable'] = $lecture->isSendedCancellable();
-            $node['isReadable'] = $lecture->isReadable();
+            $node['isSendedCancellable'] = $lecture->isRevokeable();
+            $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
@@ -989,8 +992,8 @@ class RevisionController extends Controller {
             $node['isCancellable'] = $lecture->isCancellable();
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
-            $node['isSendedCancellable'] = $lecture->isSendedCancellable();
-            $node['isReadable'] = $lecture->isReadable();
+            $node['isSendedCancellable'] = $lecture->isRevokeable();
+            $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
@@ -1243,7 +1246,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
 
-        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module)) {
+        if (!$this->isUserTeacher(Yii::app()->user, $lectureRevision->id_module) && !$this->isUserApprover(Yii::app()->user)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
@@ -1259,9 +1262,10 @@ class RevisionController extends Controller {
     public function actionBuildTreeInBranch() {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $lectureRev = RevisionLecture::model()->findByPk(array("id_revision" => $idRevision));
         
-        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$lectureRev->id_module);
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$lectureRev->id_module,$idAuthor);
         
         $relatedRev = $lectureRev->getRelatedLectures();
         $relatedTree = RevisionLecture::getLecturesTree($lectureRev->id_module);
@@ -1273,8 +1277,9 @@ class RevisionController extends Controller {
     public function actionBuildTreeInModule() {
         $idModule = Yii::app()->request->getPost('idModule');
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $lectureRev = RevisionLecture::model()->findAllByAttributes(array("id_module" => $idModule));
-        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$idModule);
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,$idModule,$idAuthor);
         $relatedTree = RevisionLecture::getLecturesTree($idModule);
         $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $relatedTree, $actualIdList);
 
@@ -1283,13 +1288,52 @@ class RevisionController extends Controller {
 
     public function actionBuildAllFilteredRevisionsTree() {
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $lectureRev = RevisionLecture::model()->with("properties")->findAll();
-        $actualIdList=RevisionLecture::getFilteredIdRevisions($status);
+        $actualIdList=RevisionLecture::getFilteredIdRevisions($status,null,$idAuthor);
         $lecturesTree = RevisionLecture::getLecturesTree();
         $json = $this->buildLectureTreeJsonMultiselect($lectureRev, $lecturesTree, $actualIdList);
 
         echo $json;
     }
 
+    private function sendRevisionRequest(RevisionLecture $revision){
+        if($revision){
+            $message = new MessagesRevisionRequest();
+            if($message->isRequestOpen(array($revision))) {
+                echo "Такий запит вже надіслано. Ви не можете надіслати запит на затвердження ревізії лекції двічі.";
+            } else {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message->build($revision, Yii::app()->user->model->registrationData);
+                    $message->create();
+                    $sender = new MailTransport();
 
+                    $message->send($sender);
+                    $transaction->commit();
+                    echo "Запит на затвердження ревізії лекції успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження ревізії лекції не вдалося надіслати.");
+                }
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
+        }
+    }
+
+    public function actionRevisionsAuthors() {
+        if(Yii::app()->request->getPost('idModule')){
+            $idModule=Yii::app()->request->getPost('idModule');
+            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            die;
+        }else if(Yii::app()->request->getPost('idRevision')){
+            $idModule=RevisionLecture::model()->findByPk(Yii::app()->request->getPost('idRevision'))->id_module;
+            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            die;
+        }else{
+            echo json_encode(RevisionLecture::getRevisionsAuthors());
+            die;
+        }
+    }
 }

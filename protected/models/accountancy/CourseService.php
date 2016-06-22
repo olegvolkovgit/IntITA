@@ -6,10 +6,12 @@
  * The followings are the available columns in table 'acc_course_service':
  * @property string $service_id
  * @property integer $course_id
+ * @property integer $education_form
  *
  * The followings are the available model relations:
  * @property Service $service
  * @property Course $course
+ * @property EducationForm $educForm
  */
 class CourseService extends AbstractIntITAService
 {
@@ -32,12 +34,11 @@ class CourseService extends AbstractIntITAService
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('service_id, course_id', 'required'),
-			array('course_id', 'numerical', 'integerOnly'=>true),
+			array('service_id, course_id, education_form', 'required'),
+			array('service_id, course_id, education_form', 'numerical', 'integerOnly'=>true),
 			array('service_id', 'length', 'max'=>10),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('service_id, course_id', 'safe', 'on'=>'search'),
+			array('service_id, course_id, education_form', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,6 +52,7 @@ class CourseService extends AbstractIntITAService
 		return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
             'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
+            'educForm' => array(self::BELONGS_TO, 'EducationForm', 'education_form')
 		);
 	}
 
@@ -62,6 +64,7 @@ class CourseService extends AbstractIntITAService
 		return array(
 			'service_id' => 'Сервис',
 			'course_id' => 'Курс',
+            'education_form' => 'Форма навчання'
 		);
 	}
 
@@ -83,6 +86,7 @@ class CourseService extends AbstractIntITAService
 
 		$criteria->compare('service_id',$this->service_id,true);
 		$criteria->compare('course_id',$this->course_id);
+        $criteria->compare('education_form', $this->education_form);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,7 +105,7 @@ class CourseService extends AbstractIntITAService
 	}
 
     public function primaryKey() {
-        return 'course_id';
+        return array('course_id', 'education_form');
     }
 
     protected function primaryKeyValue()
@@ -111,7 +115,7 @@ class CourseService extends AbstractIntITAService
 
     protected function descriptionFormatted()
     {
-        return "Курс ".$this->course->title_ua." ";
+        return "Курс ".$this->course->title_ua." (".$this->educForm->title_ua.")";
     }
 
     protected function mainModel()
@@ -119,9 +123,9 @@ class CourseService extends AbstractIntITAService
         return Course::model();
     }
 
-    public static function getService($idCourse)
+    public static function getService($idCourse, EducationForm $educForm)
     {
-        return parent::getService(__CLASS__,"course_id",$idCourse);
+        return parent::getService(__CLASS__,"course_id",$idCourse, $educForm);
     }
 
     protected function setMainModel($course)
@@ -173,8 +177,9 @@ class CourseService extends AbstractIntITAService
                     return true;
         }
         return false;
-
     }
 
-
+    public function getEducationForm(){
+        return $this->educForm;
+    }
 }

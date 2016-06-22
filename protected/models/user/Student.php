@@ -129,10 +129,21 @@ class Student extends Role
             ->from('module m')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
             ->leftJoin('user u', 'u.id=tcs.id_teacher')
-            ->where('tcs.id_student = :id and tcs.end_date IS NULL and u.id IS NOT NULL',
+            ->leftJoin('user_teacher_consultant utc', 'utc.id_user=u.id')
+            ->where('tcs.id_student = :id and tcs.end_date IS NULL and u.id IS NOT NULL and utc.end_date IS NULL',
                 array(':id' => $student->id))
             ->queryAll();
 
         return array_column($records, 'teacherName', 'id');
+    }
+
+    //not supported for this role
+    public function notifyAssignRole(StudentReg $user){
+        return false;
+    }
+
+    //not supported for this role
+    public function notifyCancelRole(StudentReg $user){
+        return false;
     }
 }

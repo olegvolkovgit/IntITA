@@ -221,33 +221,6 @@ class Teacher extends CActiveRecord
         return $result;
     }
 
-    //todo
-    public static function getTeacherConsult(Lecture $lecture)
-    {
-        $teachersconsult = [];
-
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'consultant_modules';
-        $criteria->select = 'consultant';
-        $criteria->addCondition('module=' . $lecture->idModule);
-        $criteria->addCondition('end_time IS NULL');
-        $temp = ConsultantModules::model()->findAll($criteria);
-        for ($i = 0; $i < count($temp); $i++) {
-            array_push($teachersconsult, $temp[$i]->consultant);
-        }
-
-        $criteriaData = new CDbCriteria;
-        $criteriaData->alias = 'teacher';
-        $criteriaData->condition = 'isPrint = 1';
-        $criteriaData->addInCondition('user_id', $teachersconsult, 'AND');
-
-        $dataProvider = new CActiveDataProvider('Teacher', array(
-            'criteria' => $criteriaData,
-            'pagination' => false,
-        ));
-        return $dataProvider;
-    }
-
     public function addConsult($numcon, $date, $idlecture)
     {
         $calendar = new Consultationscalendar();
@@ -650,7 +623,8 @@ class Teacher extends CActiveRecord
         $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
         $criteria->join = 'LEFT JOIN user_teacher_consultant utc ON utc.id_user = s.id';
-        $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL and s.cancelled ='.StudentReg::ACTIVE);
+        $criteria->join .= ' LEFT JOIN teacher_consultant_module tcm ON tcm.id_teacher = utc.id_user';
+        $criteria->addCondition('utc.id_user IS NOT NULL and utc.end_date IS NULL and tcm.end_date IS NULL and s.cancelled ='.StudentReg::ACTIVE .' and tcm.id_module = '.$module);
         $data = StudentReg::model()->findAll($criteria);
 
         $result = array();

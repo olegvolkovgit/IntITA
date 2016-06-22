@@ -4,17 +4,20 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'fileValidation.js');?>"></script>
 <div class="moduleTitle">
     <h1>
-        <?php
-        $this->widget('editable.EditableField', array(
-            'type' => 'text',
-            'model' => $post,
-            'attribute' => $post->titleParam(),
-            'url' => $this->createUrl('module/updateModuleAttribute'),
-            'title' => Yii::t('module', '0369'),
-            'placement' => 'right',
-        ));
-        ?>
+        <?php echo $post->getTitle(); ?>
     </h1>
+<!--    <h1>-->
+<!--        --><?php
+//        $this->widget('editable.EditableField', array(
+//            'type' => 'text',
+//            'model' => $post,
+//            'attribute' => $post->titleParam(),
+//            'url' => $this->createUrl('module/updateModuleAttribute'),
+//            'title' => Yii::t('module', '0369'),
+//            'placement' => 'right',
+//        ));
+//        ?>
+<!--    </h1>-->
 </div>
 <table>
     <tr>
@@ -56,26 +59,31 @@
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0214'); ?></span>
                 <?php
-                $lg = Yii::app()->session['lg'];
                 $level = $post->level();
-                $rate = $post->level0->id;
-                $sources = Level::allTitlesByLang($lg);
-                $this->widget('editable.EditableField', array(
-                    'type' => 'select',
-                    'model' => $post,
-                    'attribute' => 'level',
-                    'url' => $this->createUrl('module/updateModuleAttribute'),
-                    'source' => Editable::source(array(
-                            '1' => $sources[1],
-                            '2' => $sources[2],
-                            '3' => $sources[3],
-                            '4' => $sources[4],
-                            '5' => $sources[5]
-                        )
-                    ),
-                    'placement' => 'right',
-                ));
+                $rate = $post->rate();
+                if (isset($level)) echo $level;
                 ?>
+<!--                --><?php
+//                $lg = Yii::app()->session['lg'];
+//                $level = $post->level();
+//                $rate = $post->level0->id;
+//                $sources = Level::allTitlesByLang($lg);
+//                $this->widget('editable.EditableField', array(
+//                    'type' => 'select',
+//                    'model' => $post,
+//                    'attribute' => 'level',
+//                    'url' => $this->createUrl('module/updateModuleAttribute'),
+//                    'source' => Editable::source(array(
+//                            '1' => $sources[1],
+//                            '2' => $sources[2],
+//                            '3' => $sources[3],
+//                            '4' => $sources[4],
+//                            '5' => $sources[5]
+//                        )
+//                    ),
+//                    'placement' => 'right',
+//                ));
+//                ?>
                 <div class="ratico">
                     <?php
                     for ($i = 0; $i < $rate; $i++) {
@@ -93,31 +101,41 @@
             </div>
             <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
-                <b> <?php echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?></b>
-                <?php
-                if ($post->lecturesCount() !== '0') {
-                    echo ", " . Yii::t('module', '0217') . " - <b>" . $post->monthsCount(). " " . Yii::t('module', '0218') . "</b> (";
-                    $this->widget('editable.EditableField', array(
-                        'type' => 'text',
-                        'model' => $post,
-                        'attribute' => 'hours_in_day',
-                        'url' => $this->createUrl('module/updateModuleAttribute'),
-                        'title' => Yii::t('module', '0370'),
-                        'placement' => 'right',
-                    ));
-                    echo " " . Yii::t('module', '0219') . ", ";
-                    $this->widget('editable.EditableField', array(
-                        'type' => 'text',
-                        'model' => $post,
-                        'attribute' => 'days_in_week',
-                        'url' => $this->createUrl('module/updateModuleAttribute'),
-                        'title' => Yii::t('module', '0371'),
-                        'placement' => 'right',
-                    ));
-                    echo " " . Yii::t('module', '0220') . ")";
+                <b> <?php echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?></b><?php
+                if ($post->lesson_count != 0) {?>
+                    <?=", " . Yii::t('module', '0217')?> - <b><?=$post->monthsCount() . " " . Yii::t('module', '0218');?></b> (
+                    <?=$post->hours_in_day . " " . Yii::t('module', '0219') . ", " . $post->days_in_week . " " .
+                    Yii::t('module', '0220') . ")";
                 }
                 ?>
             </div>
+<!--            <div>-->
+<!--                <span id="titleModule">--><?php //echo Yii::t('module', '0215'); ?><!--</span>-->
+<!--                <b> --><?php //echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?><!--</b>-->
+<!--                --><?php
+//                if ($post->lecturesCount() !== '0') {
+//                    echo ", " . Yii::t('module', '0217') . " - <b>" . $post->monthsCount(). " " . Yii::t('module', '0218') . "</b> (";
+//                    $this->widget('editable.EditableField', array(
+//                        'type' => 'text',
+//                        'model' => $post,
+//                        'attribute' => 'hours_in_day',
+//                        'url' => $this->createUrl('module/updateModuleAttribute'),
+//                        'title' => Yii::t('module', '0370'),
+//                        'placement' => 'right',
+//                    ));
+//                    echo " " . Yii::t('module', '0219') . ", ";
+//                    $this->widget('editable.EditableField', array(
+//                        'type' => 'text',
+//                        'model' => $post,
+//                        'attribute' => 'days_in_week',
+//                        'url' => $this->createUrl('module/updateModuleAttribute'),
+//                        'title' => Yii::t('module', '0371'),
+//                        'placement' => 'right',
+//                    ));
+//                    echo " " . Yii::t('module', '0220') . ")";
+//                }
+//                ?>
+<!--            </div>-->
             <div>
                 <div>
                     <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>

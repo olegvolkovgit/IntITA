@@ -57,10 +57,14 @@ abstract class Role
 
     public function setRole(StudentReg $user)
     {
-        return Yii::app()->db->createCommand()->
+        if(Yii::app()->db->createCommand()->
         insert($this->tableName(), array(
             'id_user' => $user->id
-        ));
+        ))){
+            $this->notifyAssignRole($user);
+            return true;
+        }
+        return false;
     }
 
     public function cancelRole(StudentReg $user)
@@ -68,10 +72,14 @@ abstract class Role
         if(!$this->checkBeforeDeleteRole($user)){
             return false;
         }
-        return Yii::app()->db->createCommand()->
+        if(Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),
-        ), 'id_user=:id', array(':id'=>$user->id));
+        ), 'id_user=:id', array(':id'=>$user->id))){
+            $this->notifyCancelRole($user);
+            return true;
+        }
+        return false;
     }
 
     public function setAttribute(StudentReg $user, $attribute, $value){
@@ -79,5 +87,13 @@ abstract class Role
         update($this->tableName(), array(
             $attribute=>$value,
         ), 'id_user=:id', array(':id'=>$user->id));
+    }
+
+    public function notifyAssignRole(StudentReg $user){
+        $user->notify('_assignRole', array($this->title()), 'Призначено роль');
+    }
+
+    public function notifyCancelRole(StudentReg $user){
+        $user->notify('_cancelRole', array($this->title()), 'Скасовано роль');
     }
 }

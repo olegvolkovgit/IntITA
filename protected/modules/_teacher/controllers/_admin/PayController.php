@@ -44,8 +44,8 @@ class PayController extends TeacherCabinetController
 
             $permission = new PayModules();
             $permission->setModuleRead($userId, $module->module_ID);
-            if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID)) {
-                UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, 'Online');
+            if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID, EducationForm::ONLINE)) {
+                UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, EducationForm::ONLINE);
             }
             $message = new MessagesPayment();
             $message->build(null, $user, $module);
@@ -82,8 +82,8 @@ class PayController extends TeacherCabinetController
             $permission = new PayCourses();
             $course = Course::model()->findByPk($courseId);
             $permission->setCourseRead($userId, $course->course_ID);
-            if (!UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course->course_ID)) {
-                UserAgreements::agreementByParams('Course', $user->id, 0, $course->course_ID, 1, 'Online');
+            if (!UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course->course_ID, EducationForm::ONLINE)) {
+                UserAgreements::agreementByParams('Course', $user->id, 0, $course->course_ID, 1, EducationForm::ONLINE);
             }
             $message = new MessagesPayment();
             $message->build(null, $user, $course);

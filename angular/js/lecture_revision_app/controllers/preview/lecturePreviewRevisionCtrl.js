@@ -27,9 +27,13 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData,rev
                 data: $.param({idRevision: id}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             }).then(function successCallback(response) {
-                if(response.data!='')
-                    bootbox.alert(response.data);
-                else
+                if(response.data!=''){
+                    bootbox.alert(response.data, function () {
+                        getLectureData.getData(idRevision).then(function(response){
+                            $rootScope.lectureData=response;
+                        });
+                    });
+                } else
                     getLectureData.getData(idRevision).then(function(response){
                         $rootScope.lectureData=response;
                     });
