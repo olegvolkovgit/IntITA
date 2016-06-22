@@ -635,11 +635,11 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $result = array();
         $revisionIdList=[];
         $revisionIdListInBranch=[];
-        foreach($this->moduleLectures as $lectureRevision){
-            array_push($revisionIdList, $lectureRevision->id_revision);
+        foreach($this->moduleLecturesModels as $lectureRevision){
+            array_push($revisionIdList, $lectureRevision->lecture->id_revision);
         }
-        foreach($this->moduleLectures as $lectureRevision){
-            $relatedLectureRev = $lectureRevision->getRelatedLectures();
+        foreach($this->moduleLecturesModels as $lectureRevision){
+            $relatedLectureRev = $lectureRevision->lecture->getRelatedLectures();
             foreach($relatedLectureRev as $revision){
                 array_push($revisionIdListInBranch, $revision->id_revision);
             }
