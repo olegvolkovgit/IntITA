@@ -52,9 +52,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return array(
             'parent' => array(self::HAS_ONE, 'RevisionModule', ['id_module_revision'=>'id_parent']),
             'properties' => array(self::HAS_ONE, 'RevisionModuleProperties', ['id'=>'id_properties']),
-            'moduleLectures' => array(self::MANY_MANY, 'RevisionLecture', 'vc_module_lecture(id_module_revision, id_lecture_revision)',
-                'order' => 'moduleOrder.lecture_order ASC',
-                'with' => 'moduleOrder'),
             'moduleLecturesModels' => array(self::HAS_MANY, 'RevisionModuleLecture', 'id_module_revision',
                 'with' => 'lecture',
                 'order' => 'lecture_order ASC'),
@@ -485,8 +482,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
         try {
             $currentLectures = [];
-            foreach ($this->moduleLectures as $lecture) {
-                array_push($currentLectures, $lecture->id_revision);
+            foreach ($this->moduleLecturesModels as $moduleLecture) {
+                array_push($currentLectures, $moduleLecture->lecture->id_revision);
             }
 
             /* Checking lectures order and collect id of lectures */
@@ -532,8 +529,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $removeCurrentLecturesSQL = "DELETE FROM `vc_module_lecture` WHERE `id_module_revision`=".$this->id_module_revision.";";
             $rowCount = $connection->createCommand($removeCurrentLecturesSQL)->execute();
 
-            if ($rowCount != count($this->moduleLectures)) {
-                throw new Exception('Error while delete lectures.');
+            if ($rowCount != count($this->moduleLecturesModels)) {
+                throw new Exception('Error while delete lectures #1.');
             }
 
             $values = [];
@@ -546,7 +543,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
                 $rowCount = $connection->createCommand($addLecturesSQL)->execute();
 
                 if ($rowCount != count($values)) {
-                    throw new Exception('Error while delete lectures.');
+                    throw new Exception('Error while delete lectures #2.');
                 }
             }
             $transaction->commit();
@@ -566,9 +563,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
      * @return null|RevisionLecture
      */
     private function getLectureById($id) {
-        foreach ($this->moduleLectures as $lecture) {
-            if ($lecture->id_revision == $id) {
-                return $lecture;
+        foreach ($this->moduleLecturesModels as $moduleLecture) {
+            if ($moduleLecture->lecture->id_revision == $id) {
+                return $moduleLecture->lecture;
             }
         }
         return null;
@@ -579,9 +576,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $this->deleteModuleLecturesFromRegularDB();
-            foreach ($this->moduleLecturesModels as $key=>$lecture){
-                $lectureRev=RevisionLecture::model()->findByPk($lecture->id_lecture_revision);
-                $newLecture[$key] = $lectureRev->saveModuleLecturesToRegularDB($user);
+            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
+//                $lectureRev = $moduleLecture->lecture;
+                $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
             }
             $this->cancelModulesInTree($user);
             $transaction->commit();
@@ -589,8 +586,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $transaction->rollback();
             throw $e;
         }
-        foreach ($this->moduleLecturesModels as $key=>$lecture){
-            $lectureRev=RevisionLecture::model()->findByPk($lecture->id_lecture_revision);
+        foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
+            $lectureRev=$moduleLecture->lecture;
             $lectureRev->createDirectory($newLecture[$key]);
             $lectureRev->createTemplates($newLecture[$key]);
         }
