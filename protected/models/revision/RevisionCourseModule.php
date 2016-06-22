@@ -10,8 +10,8 @@
  * @property integer $module_order
  *
  * The followings are the available model relations:
- * @property Course $idCourseRevision
- * @property Module $idModuleRevision
+ * @property RevisionCourse $course
+ * @property RevisionModule $module
  */
 class RevisionCourseModule extends CActiveRecord
 {
@@ -47,8 +47,8 @@ class RevisionCourseModule extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idCourseRevision' => array(self::BELONGS_TO, 'Course', 'id_course_revision'),
-			'idModuleRevision' => array(self::BELONGS_TO, 'Module', 'id_module_revision'),
+			'course' => array(self::BELONGS_TO, 'RevisionCourse', 'id_course_revision'),
+			'module' => array(self::BELONGS_TO, 'RevisionModule', 'id_module_revision'),
 		);
 	}
 

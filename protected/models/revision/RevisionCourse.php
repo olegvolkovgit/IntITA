@@ -10,11 +10,11 @@
  * @property integer $id_properties
  *
  * The followings are the available model relations:
- * @property Course $idCourse
- * @property CourseProperties $idProperties
- * @property CourseModule[] $courseModules
+ * @property Course $course
+ * @property RevisionCourseProperties $properties
+ * @property RevisionCourseModule[] $courseModules
  */
-class RevisionCourse extends CActiveRecord
+class RevisionCourse extends CRevisionUnitActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -48,9 +48,11 @@ class RevisionCourse extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'idCourse' => array(self::BELONGS_TO, 'Course', 'id_course'),
-			'idProperties' => array(self::BELONGS_TO, 'CourseProperties', 'id_properties'),
-			'courseModules' => array(self::HAS_MANY, 'CourseModule', 'id_course_revision'),
+			'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
+			'properties' => array(self::BELONGS_TO, 'RevisionCourseProperties', 'id_properties'),
+			'courseModules' => array(self::HAS_MANY, 'RevisionCourseModule', 'id_course_revision',
+                'order' => 'courseModules DESC'
+                ),
 		);
 	}
 
