@@ -15,7 +15,7 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
 <!--                </a>-->
 <!---->
 <!--        --><?php //} ?>
-        <?php if ($canEdit || RegisteredUser::userById(Yii::app()->user->getId())->canApprove()){?>
+        <?php if (!Yii::app()->user->isGuest && ($canEdit || RegisteredUser::userById(Yii::app()->user->getId())->canApprove())){?>
                 <label>Ревізії:
                 <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$module->module_ID, 'idCourse'=>$idCourse)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
