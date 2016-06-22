@@ -241,13 +241,17 @@ class UserAgreements extends CActiveRecord
         $model->payment_schema = $schemaId;
         $model->service_id = $serviceModel->service_id;
 
-        $model->summa = $schema->getSumma($billableObject);
+        //create fantom billableObject model for converting object's price to UAH
+        //used only in computing agreement and invoices price
+        $billableObjectUAH = clone $billableObject->getModelUAH();
+
+        $model->summa = $schema->getSumma($billableObjectUAH);
         $startDate = new DateTime();
         $model->close_date = $schema->getCloseDate($billableObject, $startDate);
         $model->status = 1;
 
         if ($model->save()) {
-            $invoicesList = $schema->getInvoicesList($billableObject, new DateTime());
+            $invoicesList = $schema->getInvoicesList($billableObjectUAH, new DateTime());
             $agreementId = $model->id;
             $model->updateByPk($agreementId, array(
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId

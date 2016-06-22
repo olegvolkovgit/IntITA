@@ -197,9 +197,9 @@ class Course extends CActiveRecord implements IBillableObject
         return $price;
     }
 
-    public function getBasePriceUAH(){
-        return $this->getBasePrice() * Config::getDollarRate();
-    }
+//    public function getBasePriceUAH(){
+//        return $this->getBasePrice() * Config::getDollarRate();
+//    }
 
     public function getDuration()
     {
@@ -964,5 +964,9 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getApproximatelyDurationInMonths(){
         return ceil($this->courseDurationInDays() / 30);
+    }
+
+    public function getModelUAH(){
+        return new CourseUAH($this);
     }
 }

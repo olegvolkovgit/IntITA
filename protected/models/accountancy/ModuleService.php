@@ -52,7 +52,7 @@ class ModuleService extends AbstractIntITAService
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
             'module' => array(self::BELONGS_TO, 'Module', 'module_id'),
-            'educForm' => array(self::HAS_ONE, 'EducationForm', 'education_form')
+            'educForm' => array(self::BELONGS_TO, 'EducationForm', 'education_form')
         );
     }
 
@@ -176,6 +176,7 @@ class ModuleService extends AbstractIntITAService
     }
 
     public function getEducationForm(){
-        return $this->educForm;
+        return EducationForm::model()->findByPk($this->education_form);
+        //return $this->educForm;
     }
 }

@@ -195,8 +195,8 @@ class StudentController extends TeacherCabinetController
     public function actionNewModuleAgreement(){
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
-        $module = $_POST["module"];
-        $educationForm = Yii::app()->request->getPost('educationForm', 'online');
+        $module = Yii::app()->request->getPost('module', 0);
+        $educationForm = Yii::app()->request->getPost('educationForm', EducationForm::ONLINE);
 
         $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
 

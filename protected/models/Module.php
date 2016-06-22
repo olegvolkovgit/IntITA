@@ -1016,4 +1016,8 @@ class Module extends CActiveRecord implements IBillableObject
         ));
         return $dataProvider;
     }
+
+    public function getModelUAH(){
+        return new ModuleUAH($this);
+    }
 }
