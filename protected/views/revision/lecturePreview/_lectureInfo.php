@@ -1,4 +1,4 @@
-<label xmlns="http://www.w3.org/1999/html">Властивоті лекції: </label>
+<label xmlns="http://www.w3.org/1999/html">Властивості лекції: </label>
 <table class="table">
     <tr>
         <td>Cтатус:</td>
@@ -32,11 +32,11 @@
                 <img ng-if=lectureData.lecture.canRestoreEdit ng-click=restoreEditByEditor('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restored.png'); ?>"
                      title="Відновити редагування"/>
-                <a ng-href="{{lectureData.lecture.link}}" >
-                    <img style="width: 48px" ng-if=lectureData.lecture.canCancelReadyRevision
-                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
-                         title="Переглянути заняття"/>
-                </a>
+<!--                <a ng-href="{{lectureData.lecture.link}}" >-->
+<!--                    <img style="width: 48px" ng-if=lectureData.lecture.canCancelReadyRevision-->
+<!--                         src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?><!--"-->
+<!--                         title="Переглянути заняття"/>-->
+<!--                </a>-->
             </div>
         </td>
     </tr>

@@ -61,7 +61,7 @@ class Course extends CActiveRecord implements IBillableObject
             array('language, title_ua, title_ru, title_en, alias', 'required', 'message' => Yii::t('coursemanage', '0387')),
             array('course_price, cancelled, course_number', 'numerical', 'integerOnly' => true,
                 'min' => 0, "tooSmall" => Yii::t('coursemanage', '0388'), 'message' => Yii::t('coursemanage', '0388')),
-            array('alias', 'match', 'pattern' => "/^[^\/]+$/u", 'message' => '/ - недопустимий символ'),
+            array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
             array('alias, course_price', 'length', 'max' => 20),
             array('alias, course_number', 'unique', 'message' => Yii::t('course', '0740')),
             array('language', 'length', 'max' => 6),
@@ -700,6 +700,16 @@ class Course extends CActiveRecord implements IBillableObject
             ->order('order ASC')
             ->queryAll();
         return $modules;
+    }
+
+    public static function modulesIdInCourse($idCourse)
+    {
+        $moduleList=Course::model()->modulesInCourse($idCourse);
+        $list=array();
+        foreach ($moduleList as $item) {
+            array_push($list,$item["id_module"]);
+        }
+        return $list;
     }
 
     /**

@@ -63,7 +63,8 @@ class Module extends CActiveRecord implements IBillableObject
             array('status', 'required'),
             array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
             array('alias', 'unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
-            array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d\/]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри та символ "/"'),
+            array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
+            array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
             array('lesson_count, hours_in_day, days_in_week,
             module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min' => 0, 'message' => Yii::t('module', '0413'), 'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
             array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
@@ -82,7 +83,7 @@ class Module extends CActiveRecord implements IBillableObject
             // The following rule is used by search().
             array('module_ID, title_ua, title_ru, title_en, alias, language, lesson_count, module_price, for_whom,
             what_you_learn, what_you_get, module_img,
-			days_in_week, hours_in_day, level, module_number, cancelled', 'safe', 'on' => 'search'),
+			days_in_week, hours_in_day, level, module_number, cancelled, id_module_revision', 'safe', 'on' => 'search'),
         );
     }
 
@@ -168,6 +169,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('rating', $this->rating, true);
         $criteria->compare('module_number', $this->module_number, true);
         $criteria->compare('cancelled', $this->cancelled, true);
+        $criteria->compare('id_module_revision', $this->id_module_revision, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
