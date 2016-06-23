@@ -1,6 +1,6 @@
 <?php
 /* @var $model Course */
-if ($model->status != Course::AVAILABLE) {
+if ($model->isReady()   ) {
     $schema = PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE);
     $price = round($schema->getSumma($model));
     if ($price == 0) {
@@ -24,7 +24,7 @@ if ($model->status != Course::AVAILABLE) {
                             <td>
                                 <div class="numbers" id="numbersFirstOnline">
                                             <span
-                                                class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price * 1.3, 2)); ?>
+                                                class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($model->getBasePrice(), 2)); ?>
                                             </span>
                                     &nbsp
                                             <span
@@ -71,7 +71,7 @@ if ($model->status != Course::AVAILABLE) {
                 echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
                     'onclick' => 'openSignIn();'));
             } else {
-                if ($model->status != 0) {
+                if ($model->isReady()) {
                     ?>
                     <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton"
                        onclick="redirectToProfile()"

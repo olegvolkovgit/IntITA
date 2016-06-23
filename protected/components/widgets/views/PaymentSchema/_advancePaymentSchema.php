@@ -4,8 +4,9 @@
  * @var $discount integer
  * @var $price integer
  * @var $schema AdvancePaymentSchema
- * @var $educForm string
+ * @var $educForm EducationForm
  */
+$basePrice = ($educForm == "online")?$model->getBasePrice():$model->getBasePrice() * Config::getCoeffModuleOffline();
 ?>
 <span>
 <?php
@@ -66,7 +67,8 @@ if ($discount == 0) {
                         <td>
                             <div class="numbers">
                                 <span class="coursePriceStatus1">
-                                    <?php echo Yii::t('courses', '0322') . sprintf("%01.2f", round($price * (100 + $discount) / 100, 2)); ?></span>
+                                    <?php echo Yii::t('courses', '0322') . sprintf("%01.2f", round($basePrice, 2)); ?>
+                                </span>
                                 &nbsp
                                 <span class="coursePriceStatus2">
                                 <?php echo Yii::t('courses', '0322') . sprintf("%01.2f", $price) . " "; ?>

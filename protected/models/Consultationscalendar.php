@@ -209,7 +209,7 @@ class Consultationscalendar extends CActiveRecord
             } else {
                 if(date('H:i') > date('H:i', strtotime($record["start_cons"]))) {
                     $row["start"]["status"] = 'started';
-                    $row["start"]["link"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['id'];
+                    $row["start"]["link"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['cons_id'];
                 } else {
                     $row["start"]["status"] = 'wait';
                 }
@@ -331,7 +331,7 @@ class Consultationscalendar extends CActiveRecord
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
             $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_student/student/consultation/', array('id' => $record["cons_id"]));
-            $row["start"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['id'];
+            $row["start"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['cons_id'];
             array_push($return['data'], $row);
         }
 
