@@ -71,7 +71,7 @@ class RevisionModuleProperties extends CActiveRecord
 			array('alias', 'length', 'max' => 30, 'message' => 'Довжина псевдоніма занадто велика.'),
 			array('language', 'length', 'max' => 6),
 			array('title_ua', 'match',
-				'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
+				'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'’?!~* ()+-]+$/u",
 				'message' => 'Тільки українські символи!','on' => 'insert'),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
 			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
