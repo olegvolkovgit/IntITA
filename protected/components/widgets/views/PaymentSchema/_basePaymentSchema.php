@@ -15,6 +15,7 @@ if($schema->payCount == 2){
     $image1 = StaticFilesHelper::createPath('image', 'course', 'moreCoins.png');
     $image2 = StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png');
 }
+$basePrice = ($educForm == "online")?$model->getBasePrice():$model->getBasePrice() * Config::getCoeffModuleOffline();
 ?>
 <span>
     <?php
@@ -44,7 +45,7 @@ if($schema->payCount == 2){
                         <tr>
                             <td>
                                 <div class="numbers">
-                                <span class="coursePriceStatus"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", $price) . " "; ?>
+                                <span class="coursePriceStatus"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($basePrice, 2)) . " "; ?>
                                 </span>&asymp; <?php echo sprintf ("%01.2f", round($price / $schema->payCount, 2)) . ' ' . Yii::t('courses', '0322'); ?>
                                 </div>
                             </td>
@@ -75,13 +76,12 @@ if($schema->payCount == 2){
                             <td>
                                 <div class="numbers">
                                 <span class="coursePriceStatus">
-                                    <?php echo Yii::t('courses', '0322').sprintf ("%01.2f", $price) . " "; ?>
+                                    <?php echo Yii::t('courses', '0322').sprintf ("%01.2f",  round($basePrice, 2)) . " "; ?>
                                 </span>&nbsp
                                 <span class="coursePriceStatus2">
                                     <?php
-                                    $discountedPrice = round($price / $schema->payCount,2);
-                                    echo  Yii::t('courses', '0322').sprintf ("%01.2f", $discountedPrice) . " "; ?>&asymp; </span>
-                                <span><?php echo sprintf ("%01.2f", round($discountedPrice / $schema->payCount, 2)) . ' ' .
+                                    echo  Yii::t('courses', '0322').sprintf ("%01.2f", $price) . " "; ?>&asymp; </span>
+                                <span><?php echo sprintf ("%01.2f", round($price / $schema->payCount, 2)) . ' ' .
                                         Yii::t('courses', '0322') . ' x ' . $schema->payCount . ' ' . Yii::t('course', '0323'); ?>
                                 </span>
                                 </div>

@@ -106,6 +106,9 @@ $header = new Header();
                             <li>
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
+                            <li>
+                                <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                            </li>
                         </ul>
                     </div>
                 </div>

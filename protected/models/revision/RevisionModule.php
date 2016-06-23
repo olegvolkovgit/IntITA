@@ -575,9 +575,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
         
         $transaction = Yii::app()->db->beginTransaction();
         try {
+            $this->saveModulePropertiesToRegularDB();
             $this->deleteModuleLecturesFromRegularDB();
             foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-//                $lectureRev = $moduleLecture->lecture;
                 $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
             }
             $this->cancelModulesInTree($user);
@@ -619,6 +619,23 @@ class RevisionModule extends CRevisionUnitActiveRecord
             throw $e;
         }
         return false;
+    }
+
+    public function saveModulePropertiesToRegularDB() {
+        $module=Module::model()->findByPk($this->id_module);
+        $module->module_img = $this->properties->module_img;
+        $module->alias = $this->properties->alias;
+        $module->title_ua = $this->properties->title_ua;
+        $module->title_ru = $this->properties->title_ru;
+        $module->title_en = $this->properties->title_en;
+        $module->for_whom = $this->properties->for_whom;
+        $module->what_you_learn = $this->properties->what_you_learn;
+        $module->what_you_get = $this->properties->what_you_get;
+        $module->level = $this->properties->level;
+        $module->hours_in_day = $this->properties->hours_in_day;
+        $module->days_in_week = $this->properties->days_in_week;
+        $module->status = 1;
+        $module->update();
     }
 
     private function cancelModulesInTree($user) {

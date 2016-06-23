@@ -7,7 +7,7 @@
 <div class="formMargin">
     <div class="form-group">
         <?php echo $form->labelEx($model, 'title_en'); ?>
-        <?php echo $form->textField($model, 'title_en', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled'=>true)); ?>
+        <?php echo $form->textField($model, 'title_en', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
         <?php echo $form->error($model, 'title_en'); ?>
     </div>
     <div class="form-group">

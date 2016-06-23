@@ -170,44 +170,45 @@
     </tr>
     <tr>
         <td>Доступність модуля:</td>
-        <td>
-            <?php
-            $this->widget('editable.EditableField', array(
-                'type' => 'select',
-                'model' => $moduleRevision->properties,
-                'attribute' => 'cancelled',
-                'url' => $this->createUrl('moduleRevision/XEditableEditProperties'),
-                'source' => Editable::source(array(
-                        '0' => 'Доступний',
-                        '1' => 'Відміненний',
-                    )
-                ),
-                'title' => 'Доступність модуля:',
-                'placement' => 'right',
-            ));
-            ?>
-        </td>
+        <td><?=$moduleRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
         <td>Готовність модуля:</td>
-        <td>
-            <?php
-            $this->widget('editable.EditableField', array(
-                'type' => 'select',
-                'model' => $moduleRevision->properties,
-                'attribute' => 'status',
-                'url' => $this->createUrl('moduleRevision/XEditableEditProperties'),
-                'source' => Editable::source(array(
-                        '0' => 'В розробці',
-                        '1' => 'Готовий',
-                    )
-                ),
-                'title' => 'Готовність модуля:',
-                'placement' => 'right',
-            ));
-            ?>
-        </td>
+        <td><?=$moduleRevision->properties->status?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>
         <td>Автор:</td>
         <td><?=StudentReg::getUserNamePayment($moduleRevision->properties->id_user_created).' (id='.$moduleRevision->properties->id_user_created.')'?></td>
+        <td>Логотип:</td>
+        <td>
+            <img class="moduleImg"
+                 src="<?php echo StaticFilesHelper::createPath('image', 'module', $moduleRevision->properties->module_img); ?>"/>
+            <div style="display: inline-block" class="imageUpdateForm">
+                <?php $form = $this->beginWidget('CActiveForm', array(
+                    'id' => 'moduleImage-form',
+                    'action' => Yii::app()->createUrl('moduleRevision/updateModuleRevisionImage', array('id' => $moduleRevision->properties->id)),
+                    'htmlOptions' => array(
+                        'class' => 'formatted-form',
+                        'enctype' => 'multipart/form-data',
+                    ),
+                    'enableAjaxValidation' => false,
+                )); ?>
+                <div class="fileform">
+                    <div class="hideInput">
+                        <?php echo $form->fileField($moduleRevision->properties, 'module_img', array('tabindex' => '-1', 'id' => 'logoModule', 'onChange' => 'js:getImgName(this.value);CheckFile(this)')); ?>
+                    </div>
+                    <div>
+                        <?php echo $form->error($moduleRevision->properties, 'module_img'); ?>
+                        <label id="logo" for="logoModule" >
+                            <?php echo 'Вибрати'; ?>
+                        </label>
+                    </div>
+                </div>
+                <div id="errorMessage"></div>
+                <div id="avatarInfo"><?php echo 'Не вибрано'; ?></div>
+                <div class="row buttons">
+                    <?php echo CHtml::submitButton(Yii::t('coursemanage', '0399'), array("class"=>"btn btn-primary")); ?>
+                </div>
+                <?php $this->endWidget(); ?>
+            </div>
+        </td>
     </tr>
 </table>

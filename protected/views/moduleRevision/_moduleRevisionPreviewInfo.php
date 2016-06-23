@@ -38,6 +38,12 @@
                          title="Переглянути заняття"/>
                 </a>
             </div>
+        </td>
+        <td>Логотип:</td>
+        <td>
+            <img class="moduleImg"
+                 src="<?php echo StaticFilesHelper::createPath('image', 'module', $moduleRevision->properties->module_img); ?>"/>
+        </td>
     </tr>
 </table>
 <table class="table" ng-show="isOpenMore">

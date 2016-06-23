@@ -61,5 +61,8 @@
     <tr>
         <td><label>Рівень:</label></td>
         <td><?=$module->level0->title_ua ?></td>
+
+        <td>Логотип:</td>
+        <td><img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'module', $module->module_img); ?>"/></td>
     </tr>
 </table>
