@@ -1,6 +1,6 @@
 <?php
 /* @var $model Course */
-if ($model->status != Course::AVAILABLE) {
+if ($model->isReady()   ) {
     $schema = PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE);
     $price = round($schema->getSumma($model));
     if ($price == 0) {
@@ -71,7 +71,7 @@ if ($model->status != Course::AVAILABLE) {
                 echo CHtml::button(Yii::t('course', '0328'), array('id' => "paymentButton",
                     'onclick' => 'openSignIn();'));
             } else {
-                if ($model->status != 0) {
+                if ($model->isReady()) {
                     ?>
                     <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton"
                        onclick="redirectToProfile()"
