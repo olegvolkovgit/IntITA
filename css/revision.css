@@ -181,3 +181,37 @@ div.revisionTable{
 div#loading-bar-spinner{
     left:49%;
 }
+img.moduleImg {
+    width: 90px;
+    height: 90px;
+    vertical-align: top;
+    margin-right: 10px;
+}
+.imageUpdateForm {
+    text-align: center;
+    font-size: 14px;
+    margin-right: 5px;
+}
+#logo:hover {
+    color: #454545;
+}
+#logo {
+    color: #4b75a4;
+    cursor: pointer;
+    background: #fff;
+}
+.fileform {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+.hideInput {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+#avatarInfo {
+    width: 90px;
+    word-wrap: break-word;
+    white-space: normal;
+}

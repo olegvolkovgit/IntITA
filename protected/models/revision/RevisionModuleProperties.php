@@ -74,7 +74,7 @@ class RevisionModuleProperties extends CActiveRecord
 				'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'?!~* ()+-]+$/u",
 				'message' => 'Тільки українські символи!','on' => 'insert'),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
-			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
+			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
 			array('id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released, id_user_cancelled_edit', 'numerical', 'integerOnly'=>true),
 			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, update_date, send_approval_date, reject_date, approve_date, end_date, release_date, cancel_edit_date', 'safe'),
 			array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
@@ -298,4 +298,15 @@ class RevisionModuleProperties extends CActiveRecord
 		return implode(", ", $errors);
 	}
 
+	public function updateRevisionModuleLogo($imageName,$tmpName,$id)
+	{
+		$this->setScenario('saveFile');
+		$ext = substr(strrchr($imageName, '.'), 1);
+		$imageName = uniqid() . '.' . $ext;
+		copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/module/" . $imageName);
+
+		RevisionModuleProperties::model()->updateByPk($id, array('module_img' => $imageName));
+
+		return true;
+	}
 }

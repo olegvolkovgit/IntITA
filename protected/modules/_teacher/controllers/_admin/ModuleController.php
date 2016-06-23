@@ -9,7 +9,7 @@
 class ModuleController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isAdmin() ||  Yii::app()->user->model->isContentManager();
     }
 
     public function actionIndex()
@@ -33,7 +33,7 @@ class ModuleController extends TeacherCabinetController
                     $imageName = array_shift($_FILES['Module']['name']);
                     $tmpName = array_shift($_FILES['Module']['tmp_name']);
                     if ($imageName && $tmpName) {
-                        if (!Avatar::updateModuleAvatar($imageName, $tmpName, $model->module_ID, $model->module_img))
+                        if (!Avatar::updateModuleAvatar($imageName, $tmpName, $model->module_ID))
                             throw new \application\components\Exceptions\IntItaException(400, 'Avatar not save');
                     }
                 } else {
