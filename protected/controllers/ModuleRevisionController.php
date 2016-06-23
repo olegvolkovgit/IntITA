@@ -632,4 +632,24 @@ class ModuleRevisionController extends Controller {
             return;
         }
     }
+
+    public function actionUpdateModuleRevisionImage($id)
+    {
+        $revisionProperties = RevisionModuleProperties::model()->findByPk($id);
+        if (isset($_POST['RevisionModuleProperties'])) {
+            $imageName = $_FILES['RevisionModuleProperties']['name']['module_img'];
+            $tmpName = $_FILES['RevisionModuleProperties']['tmp_name']['module_img'];
+            if (!empty($imageName)) {
+                if ($revisionProperties->validate()) {
+                    $revisionProperties->updateRevisionModuleLogo($imageName,$tmpName,$id);
+                    $this->redirect(Yii::app()->request->urlReferrer);
+                }else {
+                    $this->redirect(Yii::app()->request->urlReferrer);
+                }
+            } else {
+                $this->redirect(Yii::app()->request->urlReferrer);
+            }
+        }
+
+    }
 }

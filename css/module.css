@@ -361,6 +361,7 @@ td.button-column{
 .imageUpdateForm{
     text-align: center;
     font-size: 14px;
+    margin-right: 5px;
 }
 .imageUpdateForm a{
     cursor: pointer;

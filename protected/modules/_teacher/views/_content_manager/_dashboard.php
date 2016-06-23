@@ -38,9 +38,18 @@
             </div>
             <div class="panel-body">
                 <ul>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/verifyContent/index'); ?>',
+                               'Контент лекцій')">
+                            Контент лекцій</a>
+                    </li>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
+                               'Модулі')">
+                            Модулі</a></li>
                     <li>
                         <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
-                            Всі ревізії</a>
+                            Всі ревізії занять</a>
                     </li>
                 </ul>
                 <br>
