@@ -25,7 +25,7 @@ if ($price == 0 && $model->getBasePrice() != 0) {
                             <td>
                                 <div class="numbers" id="numbersFirstOffline">
                                     <span
-                                        class="coursePriceStatus1"><?php echo Yii::t('courses', '0322') . sprintf("%01.2f", round($price * 1.3, 2)); ?></span>
+                                        class="coursePriceStatus1"><?php echo Yii::t('courses', '0322') . sprintf("%01.2f", round($model->getBasePrice() * Config::getCoeffModuleOffline(), 2)); ?></span>
                                     &nbsp
                                 <span class="coursePriceStatus2">
                                     <?php echo Yii::t('courses', '0322') . sprintf("%01.2f", round($price, 2)) . " "; ?>

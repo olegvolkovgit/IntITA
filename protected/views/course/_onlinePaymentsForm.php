@@ -24,7 +24,7 @@ if ($model->isReady()   ) {
                             <td>
                                 <div class="numbers" id="numbersFirstOnline">
                                             <span
-                                                class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($price * 1.3, 2)); ?>
+                                                class="coursePriceStatus1"><?php echo Yii::t('courses', '0322').sprintf ("%01.2f", round($model->getBasePrice(), 2)); ?>
                                             </span>
                                     &nbsp
                                             <span
