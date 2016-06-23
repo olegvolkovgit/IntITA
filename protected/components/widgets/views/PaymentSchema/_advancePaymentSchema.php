@@ -4,7 +4,7 @@
  * @var $discount integer
  * @var $price integer
  * @var $schema AdvancePaymentSchema
- * @var $educForm string
+ * @var $educForm EducationForm
  */
 $basePrice = ($educForm == "online")?$model->getBasePrice():$model->getBasePrice() * Config::getCoeffModuleOffline();
 ?>
