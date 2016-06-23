@@ -413,19 +413,19 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
     }
 
     public function canApprove() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isApprovable());
+        return (Yii::app()->user->model->canApprove() && $this->isApprovable());
     }
 
     public function canCancelReadyRevision() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isCancellable());
+        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
     }
 
     public function canRejectRevision() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isRejectable());
+        return (Yii::app()->user->model->canApprove() && $this->isRejectable());
     }
 
     public function canReleaseRevision() {
-        return (RegisteredUser::userById(Yii::app()->user->getId())->canApprove() && $this->isReleaseable());
+        return (Yii::app()->user->model->canApprove() && $this->isReleaseable());
     }
 
     public function canCancelEdit() {
@@ -434,6 +434,10 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
 
     public function canRestoreEdit() {
         return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isCancelledEditor());
+    }
+
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
     }
 
 }

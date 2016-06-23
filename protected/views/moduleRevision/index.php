@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Усі ревізії занять',
+    'Усі ревізії модулів',
 );
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/app.js'); ?>"></script>

@@ -669,4 +669,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
         return $result;
     }
+
+    public static function canCreateModuleRevisions($idModule)
+    {
+        return Yii::app()->user->model->isContentManager() || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
+    }
 }
