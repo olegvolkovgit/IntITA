@@ -7,6 +7,11 @@ angular
 
 function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, moduleRevisionsActions) {
     $scope.formData = {};
+    modulesRevisionsTree.getModuleRevisionsAuthors().then(function(response){
+        $scope.authors=response;
+        $scope.authors.unshift({authorName:"Всі автори", id:"0"});
+        $scope.selectedAuthor = $scope.authors[0];
+    });
     //load current modules from main BD
     modulesRevisionsTree.getCurrentModules(idCourse).then(function (response) {
         $scope.currentModules = response;
@@ -245,13 +250,13 @@ function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, mod
     };
     //update module revisions tree
     $scope.updateModuleRevisionsTreeInCourse = function(nodeId){
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             modulesRevisionsTree.getModuleRevisionsInCourse(idCourse).then(function(response){
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }else{
-            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData).then(function (response) {
+            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
@@ -266,10 +271,10 @@ function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, mod
     };
 
     $scope.revisionFilter=function () {
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             $scope.updateTree();
         }else{
-            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData).then(function (response) {
+            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate();
             });

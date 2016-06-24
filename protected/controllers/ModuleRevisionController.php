@@ -567,9 +567,10 @@ class ModuleRevisionController extends Controller {
     public function actionBuildTreeInModule() {
         $idModule = Yii::app()->request->getPost('idModule');
         $status = Yii::app()->request->getPost('status');
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
         $moduleRev = RevisionModule::model()->findByAttributes(array("id_module" => $idModule));
 
-        $actualIdList=RevisionModule::getFilteredIdRevisions($status,$idModule);
+        $actualIdList=RevisionModule::getFilteredIdRevisions($status,$idModule,$idAuthor);
 
         $relatedRev = $moduleRev->getRelatedModules();
         $relatedTree = RevisionModule::getModulesTree($idModule);
@@ -581,8 +582,8 @@ class ModuleRevisionController extends Controller {
     public function actionBuildTreeInCourse() {
         $idCourse = Yii::app()->request->getPost('idCourse');
         $status = Yii::app()->request->getPost('status');
-
-        $actualIdList=RevisionModule::getFilteredIdRevisions($status);
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
+        $actualIdList=RevisionModule::getFilteredIdRevisions($status,null,$idAuthor);
 
         $list=Course::model()->modulesIdInCourse($idCourse);
         $relatedRev  = RevisionModule::modelsByList($list);
@@ -594,8 +595,8 @@ class ModuleRevisionController extends Controller {
 
     public function actionBuildAllModulesTree() {
         $status = Yii::app()->request->getPost('status');
-
-        $actualIdList=RevisionModule::getFilteredIdRevisions($status);
+        $idAuthor = Yii::app()->request->getPost('idAuthor');
+        $actualIdList=RevisionModule::getFilteredIdRevisions($status,null,$idAuthor);
 
         $relatedRev  = RevisionModule::model()->findAll();
         $relatedTree = RevisionModule::getModulesTree();
@@ -662,5 +663,19 @@ class ModuleRevisionController extends Controller {
         $data["link"]=Yii::app()->createUrl('/moduleRevision/previewModuleRevision',array('idRevision'=>$moduleRevision->id_module_revision));
 
         echo CJSON::encode($data);
+    }
+
+    public function actionModuleRevisionsAuthors() {
+        if(Yii::app()->request->getPost('idCourse')){
+            $idModule=Yii::app()->request->getPost('idCourse');
+            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            die;
+        }else if(Yii::app()->request->getPost('idModule')){
+            echo json_encode(RevisionModule::getModuleRevisionsAuthors(Yii::app()->request->getPost('idModule')));
+            die;
+        }else{
+            echo json_encode(RevisionModule::getModuleRevisionsAuthors());
+            die;
+        }
     }
 }

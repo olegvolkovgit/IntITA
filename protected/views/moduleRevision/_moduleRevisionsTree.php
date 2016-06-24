@@ -11,6 +11,10 @@
 <div id="checkboxFilter" class="form-group">
     <label ng-click="isFilterOpen = !isFilterOpen" id="filterSpoiler">Фільтр ревізій{{isFilterOpen | arrow}}</label><br>
     <div ng-show="!isFilterOpen">
+        <div class="form-group">
+            <label for="sel1">Автор:</label>
+            <select class="form-control" ng-options="author as author.authorName for author in authors track by author.id" ng-model="selectedAuthor"></select>
+        </div>
         <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.approved">Затверджені
         </label>

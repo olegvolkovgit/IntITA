@@ -356,7 +356,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
     /**
      * revisions id list after filtered
      */
-    public static function getFilteredIdRevisions($status, $idModule=null) {
+    public static function getFilteredIdRevisions($status, $idModule=null,$idAuthor=null) {
         $sqlCancelledEditor = ('vcp.id_user_cancelled_edit IS NOT NULL');
         $sqlCancelled = ('vcp.id_user_cancelled IS NOT NULL');
         $sqlReady = ('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
@@ -366,44 +366,56 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $sqlEditable = ('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
 
         $finalSql = '';
-        foreach ($status as $key => $sql) {
-            if ($sql == 'true') {
-                switch ($key) {
-                    case 'approved':
-                        $finalSql = $finalSql . ' or ' . $sqlApproved;
-                        break;
-                    case 'editable';
-                        $finalSql = $finalSql . ' or ' . $sqlEditable;
-                        break;
-                    case 'sent';
-                        $finalSql = $finalSql . ' or ' . $sqlSent;
-                        break;
-                    case 'reject';
-                        $finalSql = $finalSql . ' or ' . $sqlRejected;
-                        break;
-                    case 'cancelled';
-                        $finalSql = $finalSql . ' or ' . $sqlCancelled;
-                        break;
-                    case 'cancelledEditor';
-                        $finalSql = $finalSql . ' or ' . $sqlCancelledEditor;
-                        break;
-                    case 'release';
-                        $finalSql = $finalSql . ' or ' . $sqlReady;
-                        break;
-                    default:
-                        $finalSql = '';
-                        break;
-                };
+        $authorSql = '';
+        if($status) {
+            foreach ($status as $key => $sql) {
+                if ($sql == 'true') {
+                    switch ($key) {
+                        case 'approved':
+                            $finalSql = $finalSql . ' or ' . $sqlApproved;
+                            break;
+                        case 'editable';
+                            $finalSql = $finalSql . ' or ' . $sqlEditable;
+                            break;
+                        case 'sent';
+                            $finalSql = $finalSql . ' or ' . $sqlSent;
+                            break;
+                        case 'reject';
+                            $finalSql = $finalSql . ' or ' . $sqlRejected;
+                            break;
+                        case 'cancelled';
+                            $finalSql = $finalSql . ' or ' . $sqlCancelled;
+                            break;
+                        case 'cancelledEditor';
+                            $finalSql = $finalSql . ' or ' . $sqlCancelledEditor;
+                            break;
+                        case 'release';
+                            $finalSql = $finalSql . ' or ' . $sqlReady;
+                            break;
+                        default:
+                            $finalSql = '';
+                            break;
+                    };
+                }
             }
         }
-        $finalSql = substr($finalSql, 3);
+
+        if($idAuthor){
+            $authorSql=" and (vcp.id_user_created=".$idAuthor.")";
+        }
+        if($idAuthor && $finalSql==''){
+            $finalSql=true;
+        }else{
+            $finalSql = substr($finalSql, 3);
+        }
+        
         if($idModule==null){
             $sql="SELECT DISTINCT vcm.id_module_revision FROM vc_module vcm LEFT JOIN vc_module_properties vcp ON vcp.id=vcm.id_properties
-            WHERE ".$finalSql;
+            WHERE (".$finalSql.")".$authorSql;
         }else{
             $sql="SELECT DISTINCT vcm.id_module_revision FROM vc_module vcm LEFT JOIN vc_module_properties vcp ON vcp.id=vcm.id_properties
             WHERE vcm.id_module=".$idModule." 
-            and (".$finalSql.")";
+            and (".$finalSql.")".$authorSql;
         }
         $list = Yii::app()->db->createCommand($sql)->queryAll();
         $actualIdList = [];
@@ -673,5 +685,32 @@ class RevisionModule extends CRevisionUnitActiveRecord
     public static function canCreateModuleRevisions($idModule)
     {
         return Yii::app()->user->model->isContentManager() || Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $idModule);
+    }
+
+    public static function getModuleRevisionsAuthors($idModule=null) {
+        $authors=array();
+        if ($idModule != null) {
+            $criteria = new CDbCriteria;
+            $criteria->distinct = true;
+            $criteria->select = 'id_module_revision';
+            $criteria->group='id_user_created';
+            $criteria->with = array("properties"=>array("select"=>"id_user_created"));
+            $criteria->condition = 'id_module=' . $idModule;
+            $revisions = RevisionModule::model()->findAll($criteria);
+            foreach ($revisions as $key=>$author){
+                $authors[$key]['id']=$author["properties"]["id_user_created"];
+                $authors[$key]['authorName'] =StudentReg::getUserNamePayment($author["properties"]["id_user_created"]);
+            }
+        } else {
+            $criteria = new CDbCriteria;
+            $criteria->distinct = true;
+            $criteria->select = 'id_user_created';
+            $revisions = RevisionModuleProperties::model()->findAll($criteria);
+            foreach ($revisions as $key=>$author){
+                $authors[$key]['id']=$author["id_user_created"];
+                $authors[$key]['authorName'] =StudentReg::getUserNamePayment($author["id_user_created"]);
+            }
+        }
+        return $authors;
     }
 }
