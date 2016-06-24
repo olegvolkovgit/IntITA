@@ -193,15 +193,17 @@ class Consultationscalendar extends CActiveRecord
     }
 
     private function cancel(){
-        $this->user_cancelled = Yii::app()->user->getId();
-        $this->date_cancelled = date("Y-m-d H:i:s");
-        if($this->save()){
-            $this->user->notify('student/_cancelConsultation', array($this), 'Скасовано консультацію');
-            $this->user->notify('consultant/_cancelConsultation', array($this), 'Скасовано консультацію');
-            return true;
-        } else {
-            return false;
+        date_default_timezone_set(Config::getServerTimezone());
+        if(!$this->isCancelled()) {
+            $this->user_cancelled = Yii::app()->user->getId();
+            $this->date_cancelled = date("Y-m-d H:i:s");
+            if ($this->save()) {
+                $this->user->notify('student/_cancelConsultation', array($this), 'Скасовано консультацію');
+                $this->user->notify('consultant/_cancelConsultation', array($this), 'Скасовано консультацію');
+                return true;
+            }
         }
+        return false;
     }
 
     public static function todayConsultationsList($teacher)
