@@ -49,11 +49,12 @@ class RepresentativeController extends TeacherCabinetController
             $model = CorporateRepresentative::model()->findByPk($representative);
         }
         $company = CorporateEntity::model()->findByPk($companyId);
-        if(!$company->isOrderFree($order)){
-            echo "Даний номер посади вже зайнятий.";
-        } else {
+        //todo
+//        if(!$company->isOrderFree($order)){
+//            echo "Даний номер посади вже зайнятий.";
+//        } else {
             if ($model && $company) {
-                if ($model->addCompany($company, $order, $position)) {
+                if ($model->addCompany($company, $position, $order)) {
                     echo "Представника компанії успішно додано.";
                 } else {
                     echo "Операцію не вдалося виконати.";
@@ -61,7 +62,7 @@ class RepresentativeController extends TeacherCabinetController
             } else {
                 echo "Неправильно введені дані.";
             }
-        }
+       // }
     }
 
     public function actionRepresentativeByQuery($query){

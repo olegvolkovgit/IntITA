@@ -8,7 +8,7 @@ $model = $params[0];
 <h4>Повідомлення</h4>
 <br>
 Скасовано консультацію по лекції <strong>
-    <a href="<?= Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->lecture->id)); ?>">
+    <a href="<?= Yii::app()->createAbsoluteUrl('lesson/index', array('id' => $model->lecture->id, "idCourse" => 0)); ?>">
         <?= $model->lecture->title(); ?>
     </a>
 </strong>, яка була призначена на <?=date("d.m.Y", strtotime($model->date_cons));?>
