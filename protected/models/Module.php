@@ -65,8 +65,10 @@ class Module extends CActiveRecord implements IBillableObject
             array('alias', 'unique', 'message' => 'Псевдонім модуля повинен бути унікальним. Такий псевдонім модуля вже існує.'),
             array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
             array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
-            array('lesson_count, hours_in_day, days_in_week,
+            array('lesson_count
             module_number, cancelled, level, module_price', 'numerical', 'integerOnly' => true, 'min' => 0, 'message' => Yii::t('module', '0413'), 'tooSmall' => 'Значення має бути цілим, невід\'ємним'),
+            array('hours_in_day', 'numerical', 'integerOnly' => true, 'min'=>0,'max'=>24, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним', 'tooBig'=>'Занадто велике число'),
+            array('days_in_week', 'numerical', 'integerOnly' => true, 'min'=>0,'max'=>7, 'message' => Yii::t('module', '0413'),'tooSmall' => 'Значення має бути цілим, невід\'ємним', 'tooBig'=>'Занадто велике число'),
             array('module_price', 'length', 'max' => 10, 'message' => 'Ціна модуля занадто велика.'),
             array('module_number', 'unique', 'message' => 'Номер модуля повинен бути унікальним. Такий номер модуля вже існує.'),
             array('alias', 'length', 'max' => 30, 'message' => 'Довжина псевдоніма занадто велика.'),
