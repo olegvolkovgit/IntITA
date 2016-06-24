@@ -200,7 +200,7 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->alias = 'ans';
         $criteria->order = 'ans.id DESC';
         $criteria->join = ' LEFT JOIN teacher_consultant_student tcs ON ans.id_student = tcs.id_student';
-        $criteria->join .= ' LEFT JOIN teacher_consultant_module tcm ON tcs.id_module = tcm.id_module';
+        $criteria->join .= ' RIGHT JOIN teacher_consultant_module tcm ON tcs.id_module = tcm.id_module';
         $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL and tcm.end_date IS NULL and tcm.id_teacher=:id');
         $criteria->params = array(':id' => $id);
         $criteria->group = 'ans.id DESC';
