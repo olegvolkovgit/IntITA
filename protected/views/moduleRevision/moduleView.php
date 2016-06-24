@@ -33,7 +33,7 @@ $this->breadcrumbs = array(
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">&#10133;</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">+</span>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@ $this->breadcrumbs = array(
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">&#10133;</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">+</span>
                     </div>
                 </div>
             </div>

@@ -151,7 +151,10 @@ html, body{margin:0;padding:0;height:100%;font-family:"MyriadPro";box-sizing:bor
 /*module revisions*/
 .ico{
     cursor: pointer;
-    font-size: large;
+    font-size: x-large;
+}
+.ico:hover{
+    color:#4b75a4;
 }
 .showMore{
     color:#4b75a4;
