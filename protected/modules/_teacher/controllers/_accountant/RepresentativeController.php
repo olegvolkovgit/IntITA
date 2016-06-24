@@ -11,6 +11,11 @@ class RepresentativeController extends TeacherCabinetController
         $this->renderPartial('index', array(), false, true);
     }
 
+
+    public function actionGetCompanyRepresentativesList(){
+        echo CorporateRepresentative::companyRepresentativesList();
+    }
+
     public function actionGetRepresentativesList(){
         echo CorporateRepresentative::representativesList();
     }
@@ -34,18 +39,28 @@ class RepresentativeController extends TeacherCabinetController
         $name = Yii::app()->request->getPost('full_name', '');
         $position = Yii::app()->request->getPost('position', '');
         $order =  Yii::app()->request->getPost('order', 0);
+        $companyId =  Yii::app()->request->getPost('company', 0);
         $representative = Yii::app()->request->getPost('representative', '');
         if($representative == 0){
             $model = new CorporateRepresentative();
-            $model->full_name = $_POST;
+            $model->full_name = $name;
             $model->save();
         } else {
             $model = CorporateRepresentative::model()->findByPk($representative);
         }
-        if ($model){
-            $model->addCompany();
+        $company = CorporateEntity::model()->findByPk($companyId);
+        if(!$company->isOrderFree($order)){
+            echo "Даний номер посади вже зайнятий.";
         } else {
-            echo "Неправильно введені дані.";
+            if ($model && $company) {
+                if ($model->addCompany($company, $order, $position)) {
+                    echo "Представника компанії успішно додано.";
+                } else {
+                    echo "Операцію не вдалося виконати.";
+                }
+            } else {
+                echo "Неправильно введені дані.";
+            }
         }
     }
 

@@ -333,11 +333,11 @@ function createAgreement(url, schema, course, educationForm, module, scenario) {
     });
 }
 
-function initRepresentatives() {
-    $jq('#representativesTable').DataTable({
+function initCompanyRepresentatives() {
+    $jq('#companyRepresentativesTable').DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_accountant/representative/getRepresentativesList",
+            "url": basePath + "/_teacher/_accountant/representative/getCompanyRepresentativesList",
             "dataSrc": "data"
         },
         "columns": [
@@ -361,6 +361,31 @@ function initRepresentatives() {
             }
         ],
         "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initRepresentatives() {
+    $jq('#representativesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_accountant/representative/getRepresentativesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "width": "40%",
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(\'' + title["url"] + '\',\'Компанія\');" >' + title["name"] + '</a>';
+                }
+            },
+        ],
+        "createdRow": function (row) {
             $jq(row).addClass('gradeX');
         },
         language: {
@@ -422,7 +447,7 @@ function addRepresentative(url) {
                 full_name: fullName,
                 position: position,
                 representative: representative,
-                company: $jq('[name="company"]').val(),
+                company: $jq('#companyId').val(),
                 order: $jq('[name="order"]').val(),
             },
             async: true,
