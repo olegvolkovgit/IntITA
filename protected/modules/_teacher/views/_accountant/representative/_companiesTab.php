@@ -26,7 +26,7 @@
         <table class="table table-striped table-bordered table-hover" id="companiesListTable">
             <thead>
             <tr>
-                <th>Компанія</th>
+                <th width="45%">Компанія</th>
                 <th width="30%">Посада</th>
                 <th width="10%">Порядок</th>
                 <th width="15%">Скасувати</th>

@@ -50,7 +50,7 @@
                         <label>Компанія</label>
                         <input id="typeaheadCompany" type="text" class="typeahead form-control" name="company"
                                placeholder="виберіть компанію" size="90">
-                        <input type="number" hidden="hidden" id="company" value="0"/>
+                        <input type="number" hidden="hidden" id="companyId" value="0"/>
                     </div>
 
                     <div class="form-group">
@@ -152,7 +152,7 @@
     companies.initialize();
 
     $jq('#typeaheadCompany').on('typeahead:selected', function (e, item) {
-        $jq("#company").val(item.id);
+        $jq("#companyId").val(item.id);
     });
 
     $jq('#typeaheadCompany').typeahead(null, {

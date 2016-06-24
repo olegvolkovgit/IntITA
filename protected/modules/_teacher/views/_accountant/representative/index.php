@@ -16,23 +16,20 @@
         </li>
     </ul>
 
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover" id="representativesTable"
-                           style="width:100%">
-                        <thead>
-                        <tr>
-                            <th>Повне ім'я</th>
-                            <th>Посада</th>
-                            <th>Компанія</th>
-                            <th>Номер</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#withCompanies" data-toggle="tab">Представники компаній</a>
+                </li>
+                <li><a href="#representatives" data-toggle="tab">Всі представники</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="withCompanies">
+                    <?php $this->renderPartial('_companyRepresentativesTable', array(), false, true);?>
+                </div>
+                <div class="tab-pane fade" id="representatives">
+                    <?php $this->renderPartial('_representativesTable', array(), false, true);?>
                 </div>
             </div>
         </div>
@@ -40,6 +37,7 @@
 </div>
 <script>
     $jq(document).ready(function () {
+        initCompanyRepresentatives();
         initRepresentatives();
     });
 </script>
