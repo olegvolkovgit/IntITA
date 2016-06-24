@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-//    'Ревізії курса' => Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>0)),
+    'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module)),
     'Ревізії модуля' => Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$moduleRevision->id_module)),
     'Ревізія даного модуля',
 );

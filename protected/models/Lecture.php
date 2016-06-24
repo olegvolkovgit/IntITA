@@ -965,8 +965,11 @@ class Lecture extends CActiveRecord
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
+            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read'))){
                 return Yii::t('exception', '0869');
+            }
+            if ($this->order > $enabledOrder){
+                return Yii::t('exception', '0870');
             }
         } else {
             if ($this->order > $enabledOrder)
