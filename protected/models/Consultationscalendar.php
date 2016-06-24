@@ -131,7 +131,7 @@ class Consultationscalendar extends CActiveRecord
                 return $classTD;
             }
         }
-        $a = Consultationscalendar::model()->findAll("(date_cons=:date and teacher_id=:id) or (date_cons=:date and user_id=:idu)", array(':date' => $date, ':id' => $id, ':idu' => Yii::app()->user->getId()));
+        $a = Consultationscalendar::model()->findAll("(date_cons=:date and teacher_id=:id and date_cancelled IS NULL) or (date_cons=:date and user_id=:idu and date_cancelled IS NULL)", array(':date' => $date, ':id' => $id, ':idu' => Yii::app()->user->getId()));
         $classTD = '';
         foreach ($a as $td) {
             $startCons = intval(substr($td->start_cons, 0, 2)) * 60 + intval(substr($td->start_cons, 3, 2));
@@ -146,7 +146,7 @@ class Consultationscalendar extends CActiveRecord
     /*Визначаєм чи зайнятий час консультації перед збереженням*/
     public static function consultationFree($id, $times, $date)
     {
-        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id", array(':date' => $date, ':id' => $id));
+        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id and date_cancelled IS NULL", array(':date' => $date, ':id' => $id));
         $result = true;
         $startTime = intval(substr($times, 0, 2)) * 60 + intval(substr($times, 3, 2));
         $endTime = intval(substr($times, 6, 2)) * 60 + intval(substr($times, 9, 2));
@@ -199,7 +199,7 @@ class Consultationscalendar extends CActiveRecord
             $this->date_cancelled = date("Y-m-d H:i:s");
             if ($this->save()) {
                 $this->user->notify('student/_cancelConsultation', array($this), 'Скасовано консультацію');
-                $this->user->notify('consultant/_cancelConsultation', array($this), 'Скасовано консультацію');
+                $this->teacher->notify('consultant/_cancelConsultation', array($this), 'Скасовано консультацію');
                 return true;
             }
         }
