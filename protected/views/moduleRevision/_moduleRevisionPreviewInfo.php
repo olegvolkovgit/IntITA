@@ -64,42 +64,40 @@
         <td><label>Назва (укр):</label></td>
         <td><?=$moduleRevision->properties->title_ua ?></td>
 
+        <td><label>Для кого:</label></td>
+        <td><?=$moduleRevision->properties->for_whom ?></td>
+    </tr>
+    <tr>
         <td><label>Назва (рос):</label></td>
         <td><?=$moduleRevision->properties->title_ru ?></td>
+
+        <td><label>Чого ви навчитеся:</label></td>
+        <td><?=$moduleRevision->properties->what_you_learn ?></td>
     </tr>
     <tr>
         <td><label>Назва (англ):</label></td>
         <td><?=$moduleRevision->properties->title_en ?></td>
 
-        <td><label>Псевдонім:</label></td>
-        <td><?=$moduleRevision->properties->alias ?></td>
-    </tr>
-    <tr>
-        <td><label>Мова:</label></td>
-        <td><?=$moduleRevision->properties->language ?></td>
-
-        <td><label>Для кого:</label></td>
-        <td><?=$moduleRevision->properties->for_whom ?></td>
-    </tr>
-    <tr>
-        <td><label>Чого ви навчитеся:</label></td>
-        <td>
-            <?=$moduleRevision->properties->what_you_learn ?>
-        </td>
-
         <td><label>Що ви отримаєте:</label></td>
         <td><?=$moduleRevision->properties->what_you_get ?></td>
+    </tr>
+    <tr>
+        <td><label>Псевдонім:</label></td>
+        <td><?=$moduleRevision->properties->alias ?></td>
+
+        <td><label>Рівень:</label></td>
+        <td><?=$moduleRevision->properties->level0->title_ua ?></td>
     </tr>
     <tr>
         <td><label>Годин в день:</label></td>
         <td><?=$moduleRevision->properties->hours_in_day ?></td>
 
-        <td><label>Днів в тиждень:</label></td>
-        <td><?=$moduleRevision->properties->days_in_week ?></td>
-    </tr>
-    <tr>
         <td><label>Доступність модуля:</label></td>
         <td><?=$moduleRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
+    </tr>
+    <tr>
+        <td><label>Днів в тиждень:</label></td>
+        <td><?=$moduleRevision->properties->days_in_week ?></td>
 
         <td><label>Готовність модуля:</label></td>
         <td><?=$moduleRevision->properties->status?'Готовий':'В розробці' ?></td>
@@ -112,8 +110,8 @@
         <td><?=$moduleRevision->properties->price_offline ?></td>
     </tr>
     <tr>
-        <td><label>Рівень:</label></td>
-        <td><?=$moduleRevision->properties->level0->title_ua ?></td>
+        <td><label>Мова:</label></td>
+        <td><?=$moduleRevision->properties->language ?></td>
 
         <td><label>Автор ревізії:</label></td>
         <td><?=StudentReg::getUserNamePayment($moduleRevision->properties->id_user_created).' (id='.$moduleRevision->properties->id_user_created.')'?></td>
