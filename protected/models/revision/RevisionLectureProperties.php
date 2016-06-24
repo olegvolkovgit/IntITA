@@ -53,7 +53,7 @@ class RevisionLectureProperties extends CActiveRecord
 			array('id_type, is_free, start_date', 'required'),
 			array('id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=_а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=_а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'’?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
 			array('alias', 'length', 'max'=>10),
 			array('update_date, send_approval_date, reject_date, approve_date, end_date, release_date', 'safe'),
 			// The following rule is used by search().
