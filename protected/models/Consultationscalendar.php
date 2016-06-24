@@ -11,11 +11,14 @@
  * @property string $start_cons
  * @property string $end_cons
  * @property string $date_cons
+ * @property string $date_cancelled
+ * @property integer $user_cancelled
  *
  * The followings are the available model relations:
  * @property StudentReg $user
  * @property StudentReg $teacher
  * @property Lecture $lecture
+ * @property StudentReg $userCancelled
  */
 class Consultationscalendar extends CActiveRecord
 {
@@ -36,7 +39,8 @@ class Consultationscalendar extends CActiveRecord
         // will receive user inputs.
         return array(
 
-            array('id, teacher_id, user_id, lecture_id, start_cons, end_cons, date_cons', 'safe', 'on' => 'search'),
+            array('id, teacher_id, user_id, lecture_id, start_cons, end_cons, date_cons, date_cancelled, user_cancelled',
+                'safe', 'on' => 'search'),
         );
     }
 
@@ -51,6 +55,7 @@ class Consultationscalendar extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
             'teacher' => array(self::BELONGS_TO, 'StudentReg', 'teacher_id'),
             'lecture' => array(self::BELONGS_TO, 'Lecture', 'lecture_id'),
+            'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
         );
     }
 
@@ -67,6 +72,8 @@ class Consultationscalendar extends CActiveRecord
             'start_cons' => 'Start Cons',
             'end_cons' => 'End Cons',
             'date_cons' => 'Date Cons',
+            'date_cancelled' => 'Cancelled date',
+            'user_cancelled' => 'User cancelled',
         );
     }
 
@@ -93,6 +100,8 @@ class Consultationscalendar extends CActiveRecord
         $criteria->compare('start_cons', $this->start_cons, true);
         $criteria->compare('end_cons', $this->end_cons, true);
         $criteria->compare('date_cons', $this->date_cons, true);
+        $criteria->compare('date_cancelled', $this->date_cancelled, true);
+        $criteria->compare('user_cancelled', $this->user_cancelled, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -122,7 +131,7 @@ class Consultationscalendar extends CActiveRecord
                 return $classTD;
             }
         }
-        $a = Consultationscalendar::model()->findAll("(date_cons=:date and teacher_id=:id) or (date_cons=:date and user_id=:idu)", array(':date' => $date, ':id' => $id, ':idu' => Yii::app()->user->getId()));
+        $a = Consultationscalendar::model()->findAll("(date_cons=:date and teacher_id=:id and date_cancelled IS NULL) or (date_cons=:date and user_id=:idu and date_cancelled IS NULL)", array(':date' => $date, ':id' => $id, ':idu' => Yii::app()->user->getId()));
         $classTD = '';
         foreach ($a as $td) {
             $startCons = intval(substr($td->start_cons, 0, 2)) * 60 + intval(substr($td->start_cons, 3, 2));
@@ -137,7 +146,7 @@ class Consultationscalendar extends CActiveRecord
     /*Визначаєм чи зайнятий час консультації перед збереженням*/
     public static function consultationFree($id, $times, $date)
     {
-        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id", array(':date' => $date, ':id' => $id));
+        $a = Consultationscalendar::model()->findAll("date_cons=:date and teacher_id=:id and date_cancelled IS NULL", array(':date' => $date, ':id' => $id));
         $result = true;
         $startTime = intval(substr($times, 0, 2)) * 60 + intval(substr($times, 3, 2));
         $endTime = intval(substr($times, 6, 2)) * 60 + intval(substr($times, 9, 2));
@@ -174,12 +183,27 @@ class Consultationscalendar extends CActiveRecord
     public function deleteConsultation(RegisteredUser $user)
     {
         if ($this->user_id == $user->registrationData->id) {
-            if ($this->delete()) return true;
+            if ($this->cancel()) return true;
         } else {
             if ($user->isTeacher() && $user->id == $this->teacher_id) {
-                if ($this->delete()) return true;
+                if ($this->cancel()) return true;
             }
         }
+        return false;
+    }
+
+    private function cancel(){
+        date_default_timezone_set(Config::getServerTimezone());
+        if(!$this->isCancelled()) {
+            $this->user_cancelled = Yii::app()->user->getId();
+            $this->date_cancelled = date("Y-m-d H:i:s");
+            if ($this->save()) {
+                $this->user->notify('student/_cancelConsultation', array($this), 'Скасовано консультацію');
+                $this->teacher->notify('consultant/_cancelConsultation', array($this), 'Скасовано консультацію');
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function todayConsultationsList($teacher)
@@ -188,7 +212,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate = new DateTime();
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id=' . $teacher . ' and
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id=' . $teacher . ' and cs.date_cancelled IS NULL   and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
                     AND STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 23:59:59") . '\', \'%Y-%m-%d %H:%i:%s\')';
 
@@ -226,7 +250,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate->modify('+ 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id=' . $teacher . ' and
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id=' . $teacher . ' and cs.date_cancelled IS NULL   and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
                     AND STR_TO_DATE(\'3000-01-01 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
 
@@ -255,7 +279,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate->modify('- 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id=' . $teacher . ' and
+                 left join lectures l on l.id = cs.lecture_id where cs.teacher_id=' . $teacher . ' and cs.date_cancelled IS NULL  and
                  cs.date_cons BETWEEN STR_TO_DATE(\'0000-00-00 23:59:59\', \'%Y-%m-%d %H:%i:%s\') AND
                  STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d\')';
 
@@ -270,6 +294,34 @@ class Consultationscalendar extends CActiveRecord
             $row["date_cons"] = date("d.m.Y", strtotime($record["date_cons"]));
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
+            $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public static function cancelConsultationsList($teacher)
+    {
+
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.date_cancelled,
+                u2.firstName as cancel_first, u2.middleName as cancel_middle, u2.secondName as cancel_second from consultations_calendar cs
+                left join user u on u.id=cs.user_id
+                left join lectures l on l.id = cs.lecture_id
+                left join user u2 on u2.id=cs.user_cancelled
+                where cs.date_cancelled IS NOT NULL and cs.teacher_id='.$teacher;
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"]["name"] = ($record["title_ua"] != "") ? $record["title_ua"] : "лекція видалена";
+            $row["date_cons"] = date("d.m.Y", strtotime($record["date_cons"]));
+            $row["user_cancelled"] = $record["cancel_second"]." ".$record["cancel_first"]." ".$record["cancel_middle"];
+            $row["date_cancelled"] = date("d.m.Y", strtotime($record["date_cancelled"]));
             $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_consultant/consultant/consultation/', array('id' => $record["cons_id"]));
             array_push($return['data'], $row);
         }
@@ -315,7 +367,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate = new DateTime();
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and
+                 left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
                     AND STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 23:59:59") . '\', \'%Y-%m-%d %H:%i:%s\')';
 
@@ -344,7 +396,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate->modify('+ 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and
+                 left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
                     AND STR_TO_DATE(\'3000-01-01 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
 
@@ -373,7 +425,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate->modify('- 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
-                 left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and
+                 left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'0000-00-00 23:59:59\', \'%Y-%m-%d %H:%i:%s\') AND
                  STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d\')';
 
@@ -388,6 +440,38 @@ class Consultationscalendar extends CActiveRecord
             $row["date_cons"] = date("d.m.Y", strtotime($record["date_cons"]));
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
+            $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_student/student/consultation/', array('id' => $record["cons_id"]));
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public function isCancelled(){
+        return ($this->date_cancelled != null)?true:false;
+    }
+
+    public static function studentCancelConsultationsList($student)
+    {
+
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.date_cancelled,
+                u2.firstName as cancel_first, u2.middleName as cancel_middle, u2.secondName as cancel_second from consultations_calendar cs
+                left join user u on u.id=cs.teacher_id
+                left join lectures l on l.id = cs.lecture_id
+                left join user u2 on u2.id=cs.user_cancelled
+                where cs.date_cancelled IS NOT NULL and cs.user_id='.$student;
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $return = array('data' => array());
+
+        foreach ($result as $record) {
+            $row = array();
+
+            $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
+            $row["lecture"]["name"] = ($record["title_ua"] != "") ? $record["title_ua"] : "лекція видалена";
+            $row["date_cons"] = date("d.m.Y", strtotime($record["date_cons"]));
+            $row["user_cancelled"] = $record["cancel_second"]." ".$record["cancel_first"]." ".$record["cancel_middle"];
+            $row["date_cancelled"] = date("d.m.Y", strtotime($record["date_cancelled"]));
             $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_student/student/consultation/', array('id' => $record["cons_id"]));
             array_push($return['data'], $row);
         }

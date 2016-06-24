@@ -38,6 +38,10 @@ class StudentController extends TeacherCabinetController
         echo Consultationscalendar::studentPastConsultationsList(Yii::app()->user->getId());
     }
 
+    public function actionGetCancelConsultationsList(){
+        echo Consultationscalendar::studentCancelConsultationsList(Yii::app()->user->getId());
+    }
+
     public function actionGetPlannedConsultationsList(){
         echo Consultationscalendar::studentPlannedConsultationsList(Yii::app()->user->getId());
     }
