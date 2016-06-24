@@ -2,7 +2,7 @@ angular
     .module('moduleRevisionsApp')
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
-function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions) {
+function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions, moduleRevisionMessage) {
     $scope.tempId=[];
     //load from service lecture data for scope
     getModuleData.getData(idRevision).then(function(response){
@@ -199,6 +199,10 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
             console.log(response);
             return false;
         });
+    };
+
+    $scope.sendModuleRevisionMessage = function(idRevision) {
+        moduleRevisionMessage.sendMessage(idRevision);
     };
 }
 

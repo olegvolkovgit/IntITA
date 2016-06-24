@@ -44,6 +44,12 @@
             <img class="moduleImg"
                  src="<?php echo StaticFilesHelper::createPath('image', 'module', $moduleRevision->properties->module_img); ?>"/>
         </td>
+        <td>Відправити лист:</td>
+        <td>
+            <a class="btnSend" href="" ng-click="sendModuleRevisionMessage('<?=$moduleRevision->id_module_revision?>')" title="Приватне повідомлення">
+                <img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>">
+            </a>
+        </td>
     </tr>
 </table>
 <table class="table" ng-show="isOpenMore">
