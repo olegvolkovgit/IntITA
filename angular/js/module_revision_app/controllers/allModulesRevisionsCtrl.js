@@ -70,16 +70,16 @@ function allModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, module
         }
     ];
     var authorActions=[
-        // {
-        //     "type": "button",
-        //     "title": "Переглянути ревізії даного заняття",
-        //     "visible": true,
-        //     "userId":userId,
-        //     "action": function(event) {
-        //         var idRevision = $(event.data.el).attr('id');
-        //         $scope.$parent.openRevisionsBranch(idRevision);
-        //     }
-        // },
+        {
+            "type": "button",
+            "title": "Переглянути ревізії даного модуля",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.openModuleRevisionsBranch(idRevision);
+            }
+        },
         {
             "type": "button",
             "title": "Створити нову ревізію",
@@ -100,16 +100,16 @@ function allModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, module
                 $scope.previewModuleRev(idRevision);
             }
         },
-        // {
-        //     "type": "button",
-        //     "title": "Написати автору ревізії",
-        //     "visible": true,
-        //     "userId":userId,
-        //     "action": function(event) {
-        //         var idRevision = $(event.data.el).attr('id');
-        //         $scope.$parent.sendRevisionMessage(idRevision);
-        //     }
-        // }
+        {
+            "type": "button",
+            "title": "Написати автору ревізії модуля",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.sendModuleRevisionMessage(idRevision);
+            }
+        }
     ];
     var generalActions=[
         {

@@ -2,4 +2,4 @@
 
 /* App Module */
 angular
-    .module('moduleRevisionsApp', ['moduleRevisionServices','angular-loading-bar']);
+    .module('moduleRevisionsApp', ['moduleRevisionServices','angular-loading-bar','moduleRevisionSendMessage']);

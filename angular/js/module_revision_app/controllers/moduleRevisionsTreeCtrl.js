@@ -10,7 +10,7 @@ angular
         };
     });
 
-function moduleRevisionsTreeCtrl($compile, $rootScope, $scope) {
+function moduleRevisionsTreeCtrl($compile, $rootScope, $scope, $http, moduleRevisionMessage) {
     //init tree after load json
     $scope.revisionsTreeInit= function(){
         $('#tree').treeview({
@@ -66,12 +66,23 @@ function moduleRevisionsTreeCtrl($compile, $rootScope, $scope) {
     $scope.editModuleRev = function(idRevision) {
         location.href = basePath+'/moduleRevision/editModuleRevisionPage?idRevision=' + idRevision;
     };
-    // $scope.openRevisionsBranch = function(idRevision) {
-    //     location.href = basePath+'/moduleRevision/revisionsBranch?idRevision=' + idRevision;
-    // };
-    // $scope.sendRevisionMessage = function(idRevision) {
-        // revisionMessage.sendMessage(idRevision);
-    // };
+    $scope.openModuleRevisionsBranch = function(idRevision) {
+        $http({
+            url: basePath+'/moduleRevision/getModuleByRevision',
+            method: "POST",
+            data: $.param({idRevision: idRevision}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            location.href = basePath+'/moduleRevision/moduleRevisions?idModule=' + response.data;
+        }, function errorCallback() {
+            bootbox.alert("Помилка при тримані модуля ревізії. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
+            return false;
+        });
+
+    };
+    $scope.sendModuleRevisionMessage = function(idRevision) {
+        moduleRevisionMessage.sendMessage(idRevision);
+    };
 }
 
 

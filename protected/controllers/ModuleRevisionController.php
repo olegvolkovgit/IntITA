@@ -637,4 +637,30 @@ class ModuleRevisionController extends Controller {
         }
 
     }
+
+    // get module by revision
+    public function actionGetModuleByRevision() {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRev= RevisionModule::model()->findByPk($idRevision);
+        echo $moduleRev->id_module;
+    }
+
+    //get data for send letter to author of module revision
+    public function actionGetDataForModuleRevisionMail()
+    {
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
+
+        if (!RevisionModule::canCreateModuleRevisions($moduleRevision->id_module)) {
+            throw new RevisionControllerException(403, Yii::t('error', '0590'));
+        }
+
+        $data = [];
+        $data['authorName'] =StudentReg::getUserNamePayment($moduleRevision->properties->id_user_created);
+        $data['authorId'] =$moduleRevision->properties->id_user_created;
+        $data['theme'] = "Ревізія №" . $moduleRevision->id_module_revision . " " . $moduleRevision->properties->title_ua;
+        $data["link"]=Yii::app()->createUrl('/moduleRevision/previewModuleRevision',array('idRevision'=>$moduleRevision->id_module_revision));
+
+        echo CJSON::encode($data);
+    }
 }
