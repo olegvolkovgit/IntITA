@@ -545,29 +545,18 @@ class ModuleRevisionController extends Controller {
     public function actionGetApprovedLecture() {
         $idModule = Yii::app()->request->getPost('idModule');
 
-        // select only released lecture revision
-        $lecturesInCurrentModule = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL and vcl.id_module=".$idModule;
+        $rc = new RevisionCommon();
+        $lecturesData = $rc->getReleasedLectures();
+        $approvedLectureList = ['current' => [], 'foreign' => []];
 
-        $listFromCurrentModule = Yii::app()->db->createCommand($lecturesInCurrentModule)->queryAll();
-        $approvedLectureList = array();
-        foreach ($listFromCurrentModule as $key=>$item) {
-            $approvedLectureList['current'][$key]['id_lecture_revision']=$item['id_revision'];
-            $approvedLectureList['current'][$key]['title']=$item['title_ua'];
-            $approvedLectureList['current'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
+        foreach ($lecturesData as $lectureData) {
+            $section = $lectureData['id_module'] == $idModule ? 'current' : 'foreign';
+            array_push($approvedLectureList[$section], [
+                'id_lecture_revision' => $lectureData['id_revision'],
+                'title' => $lectureData['title_ua'],
+                'link' => Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$lectureData['id_revision']))
+            ]);
         }
-
-        // select only released lecture revision
-        $lecturesInOtherModules = "SELECT DISTINCT vcl.id_revision, vcp.title_ua FROM vc_lecture vcl LEFT JOIN vc_lecture_properties vcp ON vcp.id=vcl.id_properties
-            WHERE (vcp.id_user_released IS NOT NULL) and vcp.id_user_cancelled IS NULL and vcl.id_module!=".$idModule;
-
-        $listFromOtherModules= Yii::app()->db->createCommand($lecturesInOtherModules)->queryAll();
-        foreach ($listFromOtherModules as $key=>$item) {
-            $approvedLectureList['foreign'][$key]['id_lecture_revision']=$item['id_revision'];
-            $approvedLectureList['foreign'][$key]['title']=$item['title_ua'];
-            $approvedLectureList['foreign'][$key]['link']=Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$item['id_revision']));;
-        }
-
         echo CJSON::encode($approvedLectureList);
     }
 
