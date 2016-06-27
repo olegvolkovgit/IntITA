@@ -8,7 +8,7 @@
  */
 ?>
 <div class="col col-md-12">
-    <pre>
+    <pre class="offer">
     <?php
     $param = (isset(Yii::app()->session['lg'])) ? "offer_" . Yii::app()->session['lg'] . ".html" : "offer_ua.html";
     echo file_get_contents(Config::getBaseUrl() . '/files/offers/' . $param);

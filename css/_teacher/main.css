@@ -429,3 +429,8 @@ hr {
 div#page-wrapper {
     overflow: inherit;!important;
 }
+/*offer*/
+pre.offer{
+    white-space: pre-wrap;
+    word-break: normal;
+}
