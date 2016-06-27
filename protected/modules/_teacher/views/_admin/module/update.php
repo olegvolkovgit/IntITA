@@ -18,7 +18,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/view',
-                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getTitle(); ?>')">Переглянути
+                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getSlashesTitle(); ?>')">Переглянути
             модуль
         </button>
     </li>

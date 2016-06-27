@@ -406,6 +406,17 @@ class Module extends CActiveRecord implements IBillableObject
         return $moduleTitle;
     }
 
+    public function getSlashesTitle()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "title_" . $lang;
+        $moduleTitle = $this->$title;
+        if ($moduleTitle == "") {
+            $moduleTitle = $this->title_ua;
+        }
+        return addslashes($moduleTitle);
+    }
+
     public static function getModuleName($id)
     {
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
