@@ -73,7 +73,7 @@ class RevisionModuleProperties extends CActiveRecord
 			array('language', 'length', 'max' => 6),
 			array('title_ua', 'match',
 				'pattern' => "/^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,\/<>:;`'’?!~* ()+-]+$/u",
-				'message' => 'Тільки українські символи!','on' => 'insert'),
+				'message' => 'Тільки українські символи!'),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
 			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
 			array('id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released, id_user_cancelled_edit', 'numerical', 'integerOnly'=>true),

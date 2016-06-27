@@ -51,6 +51,10 @@
                         <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
                             Всі ревізії занять</a>
                     </li>
+                    <li>
+                        <a href="<?php echo Yii::app()->createUrl('moduleRevision/index'); ?>">
+                            Всі ревізії модулів</a>
+                    </li>
                 </ul>
                 <br>
                 <br>
