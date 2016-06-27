@@ -172,6 +172,8 @@ $post->secondName = addslashes($post->secondName);
                                     }',
                             ),
                             'htmlOptions'=>array(
+                                'class' => 'indicator',
+                                'data-source' => 'країну',
                                 'placeholder' => 'виберіть країну'
                             )
                         )); ?>
@@ -202,6 +204,8 @@ $post->secondName = addslashes($post->secondName);
                                     }',
                             ),
                             'htmlOptions' => array(
+                                'class' => 'indicator',
+                                'data-source' => 'місто',
                                 'maxlength' => 50,
                                 'placeholder' => 'виберіть місто',
                             ),
@@ -407,7 +411,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
                 $("#emptyFieldList").append("<tr><td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' data-target='" + $(this).attr('id') + "' onclick='focusEmptyField(" + $(this).attr('id') + ")'></td><td><?php echo Yii::t('edit', '0620');?> " + $(this).attr('data-source') + "</td></tr>");
             }
         });
-        var percent = Math.round(progress * (100 / 17)).toFixed(0);
+        var percent = Math.round(progress * (100 / ($('.indicator').length+1))).toFixed(0);
         var percentForGrid = percent - 1;
         var maskMargin = Math.round(percent / 10).toFixed(0) * 30;
         $('#percent').text(percent);

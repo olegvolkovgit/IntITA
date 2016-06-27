@@ -581,4 +581,39 @@ function loadTeacherConsultantList(id) {
     load(basePath + '/_teacher/_admin/teachers/editRole/id/' + id + '/role/teacher_consultant/', 'Редагувати роль');
 }
 
+function initAllPhrasesTable() {
+    $jq('#allPhrasesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_tenant/tenant/getAllPhrases",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                type: 'string', targets: 1,
+                "data": "text"
+            },
+            {
+
+                "data": "id",
+                "render": function (id) {
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_tenant/tenant/editPhrase?id=' + id + '\', \'Змінити фразу\');">Змінити</a>';
+                }
+            }, {
+
+                "data": "id",
+                "render": function (id) {
+                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_tenant/tenant/deletePhrase?id=' + id + '\', \'Видалити фразу\');">Видалити</a>';
+                }
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": basePath + "/scripts/cabinet/Ukranian.json",
+        },
+        processing: true,
+    });
+}
 
