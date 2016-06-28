@@ -22,8 +22,7 @@
             <div class="form-group">
                 <button type="button" class="btn btn-success"
                         onclick="addTeacherAttrCM('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleConsultantId', 'consultant')">Призначити
-                    консультанта для модуля
+                            'module', '#moduleConsultantId', 'consultant')">Призначити модуль для консультанта
                 </button>
             </div>
         </form>

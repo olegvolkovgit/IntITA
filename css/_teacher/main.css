@@ -170,6 +170,10 @@ td,th{
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
+td button{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 td li{
     white-space: normal;
 }
