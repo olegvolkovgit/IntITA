@@ -208,7 +208,7 @@
                 <div id="errorMessage"></div>
                 <div id="avatarInfo"><?php echo 'Не вибрано'; ?></div>
                 <div class="row buttons">
-                    <?php echo CHtml::submitButton(Yii::t('coursemanage', '0399'), array("class"=>"btn btn-primary")); ?>
+                    <?php echo CHtml::submitButton(Yii::t('coursemanage', '0399'), array("class"=>"btn btn-primary", "id"=>"imgButton")); ?>
                 </div>
                 <?php $this->endWidget(); ?>
             </div>

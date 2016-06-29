@@ -28,7 +28,7 @@
             <ul ng-show="isReplyFormOpen" class="list-group">
                 <li class="list-group-item node-tree" ng-repeat="lecture in currentLectures track by $index">
                     <strong>{{lecture.title}}</strong>
-                    <span ng-if="lecture.approvedFromRevision">(Ревізія №{{lecture.approvedFromRevision}})</span>
+<!--                    <span ng-if="lecture.approvedFromRevision">(Ревізія №{{lecture.approvedFromRevision}})</span>-->
                     <div class="dropdown treeview-dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                             Дії<span class="caret"></span>

@@ -218,3 +218,9 @@ img.moduleImg {
     word-wrap: break-word;
     white-space: normal;
 }
+#errorMessage {
+    width: 100px;
+    word-wrap: break-word;
+    white-space: normal;
+    color: red;
+}
