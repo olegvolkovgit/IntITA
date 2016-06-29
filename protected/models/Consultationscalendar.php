@@ -366,7 +366,7 @@ class Consultationscalendar extends CActiveRecord
     {
         $currentDate = new DateTime();
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
-                left join user u on u.id=cs.user_id
+                left join user u on u.id=cs.teacher_id
                  left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
                     AND STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 23:59:59") . '\', \'%Y-%m-%d %H:%i:%s\')';
@@ -395,7 +395,7 @@ class Consultationscalendar extends CActiveRecord
         $currentDate = new DateTime();
         $currentDate->modify('+ 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
-                left join user u on u.id=cs.user_id
+                left join user u on u.id=cs.teacher_id
                  left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
                     AND STR_TO_DATE(\'3000-01-01 23:59:59\', \'%Y-%m-%d %H:%i:%s\')';
@@ -424,12 +424,13 @@ class Consultationscalendar extends CActiveRecord
         $currentDate = new DateTime();
         $currentDate->modify('- 1 days');
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
-                left join user u on u.id=cs.user_id
+                left join user u on u.id=cs.teacher_id
                  left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'0000-00-00 23:59:59\', \'%Y-%m-%d %H:%i:%s\') AND
                  STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d\')';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
+
         $return = array('data' => array());
 
         foreach ($result as $record) {

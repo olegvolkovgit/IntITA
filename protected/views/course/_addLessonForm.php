@@ -9,14 +9,14 @@
     <input name="lang" value="<?php echo $model->language; ?>" type="hidden">
     <div>Назва (UA)*</div>
     <input class="form-control" type="text" name="titleUA" id="titleUA" required ng-model="titleUa"
-           pattern="^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇї.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60"
+           pattern="<?php echo Yii::app()->params['titleUAPattern'] ?>+$" maxlength="255" size="60"
            oninvalid="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')"
            oninput="validateComments(this,'<?php echo Yii::t('validation', '0684'); ?>')">
     <div>Назва (RU)</div>
-    <input class="form-control" type="text" name="titleRU" id="titleRU" pattern="^[=а-яА-ЯёЁa-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255"
+    <input class="form-control" type="text" name="titleRU" id="titleRU" pattern="<?php echo Yii::app()->params['titleRUPattern'] ?>+$" maxlength="255"
            size="60" oninput="validateComments(this,'<?php echo Yii::t('validation', '0685'); ?>')">
     <div>Назва (EN)</div>
-    <input class="form-control" type="text" name="titleEN" id="titleEN" pattern="^[=a-zA-Z0-9.,<>:;`'?!~* ()/+-]+$" maxlength="255" size="60"
+    <input class="form-control" type="text" name="titleEN" id="titleEN" pattern="<?php echo Yii::app()->params['titleENPattern'] ?>+$" maxlength="255" size="60"
            oninput="validateComments(this,'<?php echo Yii::t('validation', '0685'); ?>')">
     <br>
     <input type="checkbox" name="isAuthor" value="<?=Yii::app()->user->getId();?>"> редагувати модуль

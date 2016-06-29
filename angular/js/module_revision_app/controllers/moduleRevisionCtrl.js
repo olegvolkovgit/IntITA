@@ -245,11 +245,11 @@ function CheckFile(file)
                 msg='Файл перевищує 5 Мб. Неправильний формат файлу';
                 break;
         }
-        $(file).next('.errorMessage').text(msg);
-        $(file).next('.errorMessage').show();
-        $('#submitButton').attr('disabled','true');
+        $('#errorMessage').text(msg);
+        $('#errorMessage').show();
+        $('#imgButton').attr('disabled','true');
     }else{
-        $(file).next('.errorMessage').hide();
-        $('#submitButton').removeAttr('disabled');
+        $('#errorMessage').hide();
+        $('#imgButton').removeAttr('disabled');
     }
 }

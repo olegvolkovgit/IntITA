@@ -569,13 +569,15 @@ class ModuleRevisionController extends Controller {
         $status = Yii::app()->request->getPost('status');
         $idAuthor = Yii::app()->request->getPost('idAuthor');
         $moduleRev = RevisionModule::model()->findByAttributes(array("id_module" => $idModule));
+        if(!empty($moduleRev)){
+            $actualIdList=RevisionModule::getFilteredIdRevisions($status,$idModule,$idAuthor);
 
-        $actualIdList=RevisionModule::getFilteredIdRevisions($status,$idModule,$idAuthor);
-
-        $relatedRev = $moduleRev->getRelatedModules();
-        $relatedTree = RevisionModule::getModulesTree($idModule);
-        $json = $this->buildModuleTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
-
+            $relatedRev = $moduleRev->getRelatedModules();
+            $relatedTree = RevisionModule::getModulesTree($idModule);
+            $json = $this->buildModuleTreeJsonMultiselect($relatedRev, $relatedTree, $actualIdList);
+        }else{
+            $json=json_encode([]);
+        }
         echo $json;
     }
 

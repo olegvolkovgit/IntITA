@@ -53,7 +53,9 @@ class RevisionLectureProperties extends CActiveRecord
 			array('id_type, is_free, start_date', 'required'),
 			array('id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=_а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'’?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+			array('title_ua', 'match', 'pattern' => "/".Yii::app()->params['titleUAPattern']."+$/u", 'message' => Yii::t('error', '0416')),
+			array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
+			array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('alias', 'length', 'max'=>10),
 			array('update_date, send_approval_date, reject_date, approve_date, end_date, release_date', 'safe'),
 			// The following rule is used by search().
@@ -166,7 +168,7 @@ class RevisionLectureProperties extends CActiveRecord
      */
     public function saveCheck() {
         if(!$this->save()) {
-            throw new RevisionLecturePropertiesException('400',$this->getValidationErrors());
+            throw new RevisionLectureException('400',$this->getValidationErrors());
         }
     }
 
@@ -238,11 +240,11 @@ class RevisionLectureProperties extends CActiveRecord
 
 	public function getValidationErrors() {
 		$errors=[];
-		foreach($this->getErrors() as $attribute){
+		foreach($this->getErrors() as $key=>$attribute){
 			foreach($attribute as $error){
-				array_push($errors,$error);
+				array_push($errors,$key.': '.$error);
 			}
 		}
-		return $errors[0];
+		return implode(", ", $errors);
 	}
 }

@@ -21,7 +21,7 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="#"
+                            <a href="#" name="<?= trim($item["title"]." (".$item["email"].")"); ?>"
                                onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
                                    "<?= CHtml::encode($item['title']); ?>");'>
                                 <?= $item["title"]." (".$item["email"].")"; ?>

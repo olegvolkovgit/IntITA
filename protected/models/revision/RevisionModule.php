@@ -606,6 +606,10 @@ class RevisionModule extends CRevisionUnitActiveRecord
 
         return true;
     }
+    protected function afterRelease() {
+        Module::model()->updateByPk($this->id_module, array('id_module_revision'=>$this->id_module_revision));
+        return true;
+    }
 
     public function deleteModuleLecturesFromRegularDB() {
         $module=Module::model()->findByPk($this->id_module);

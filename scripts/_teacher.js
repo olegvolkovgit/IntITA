@@ -1682,7 +1682,9 @@ function initPayCoursesList() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                    if(title["url"]=='')
+                        return title["name"];
+                    else return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -1716,7 +1718,9 @@ function initPayModulesTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                    if(title["url"]=='')
+                        return title["name"];
+                    else return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{

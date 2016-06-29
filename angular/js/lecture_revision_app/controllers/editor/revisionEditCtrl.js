@@ -182,6 +182,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
 
     //add content block
     $scope.addTextBlock = function(type){
+        $scope.instructionStyle = false;
         document.getElementById('addBlock').style.display = 'block';
         document.getElementById('blockFormCode').style.display = 'none';
         document.getElementById('blockForm').style.display = 'block';

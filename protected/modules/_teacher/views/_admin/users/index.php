@@ -13,7 +13,7 @@
             </li>
             <li><a href="#teacher" data-toggle="tab">Співробітники (<?=$counters["teachers"];?>)</a>
             </li>
-            <li><a href="#withoutRoles" data-toggle="tab">Користувачі без ролі<?//=$counters["withoutRoles"];?></a>
+            <li><a href="#withoutRoles" data-toggle="tab">Користувачі без ролі (<?=$counters["withoutRoles"];?>)</a>
             </li>
             <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ролі користувачів

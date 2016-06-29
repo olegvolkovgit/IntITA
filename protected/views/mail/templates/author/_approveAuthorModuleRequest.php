@@ -7,7 +7,7 @@ $model = $params[0];
 ?>
 <h4>Вітаємо!</h4>
 <br>
-Тобі запит на редагування модуля <strong>
+Твій запит на редагування модуля <strong>
     <a href="<?= Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $model->module_ID)); ?>" target="_blank">
         <?= $model->title_ua . " (" . $model->language . ")"; ?>
     </a>
