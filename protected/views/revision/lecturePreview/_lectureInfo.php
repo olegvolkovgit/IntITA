@@ -24,9 +24,12 @@
                 <img ng-if=lectureData.lecture.canRejectRevision ng-click=rejectRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
                      title="Відхилити ревізію"/>
-                <img ng-if=lectureData.lecture.canReleaseRevision ng-click=releaseRevision('<?php echo $lectureRevision->id_revision; ?>')
-                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'release.png'); ?>"
-                     title="Реліз ревізії"/>
+                <img ng-if=lectureData.lecture.canProposedToRelease ng-click=proposedToReleaseRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'proposedToRelease.png'); ?>"
+                     title="Запропонувати до релізу"/>
+                <img ng-if=lectureData.lecture.canCancelProposedToRelease ng-click=cancelPreReleaseRevision('<?php echo $lectureRevision->id_revision; ?>')
+                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancelProposedToRelease.png'); ?>"
+                     title="Скасувати пререліз"/>
                 <img ng-if=lectureData.lecture.canCancelEdit ng-click=cancelEditByEditor('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancelled_author.png'); ?>"
                      title="Відміна автором"/>

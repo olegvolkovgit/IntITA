@@ -34,6 +34,9 @@
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.cancelledEditor">Скасовані автором
         </label>
         <label>
+            <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.proposedToRelease">Запропоновані до релізу
+        </label>
+        <label>
             <input type="checkbox" name="revisionFilter" ng-model="formData.revisionFilter.release">В релізі
         </label>
         <label>

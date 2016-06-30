@@ -417,6 +417,28 @@ class RevisionController extends Controller {
         $lectureRev->release(Yii::app()->user);
     }
 
+    public function actionProposedToReleaseRevision() {
+
+        if (!$this->isUserApprover(Yii::app()->user)) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0828'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+        $lectureRev->proposedToRelease(Yii::app()->user);
+    }
+
+    public function actionCancelProposedToReleaseRevision() {
+
+        if (!$this->isUserApprover(Yii::app()->user)) {
+            throw new RevisionControllerException(403, Yii::t('revision', '0828'));
+        }
+
+        $idRevision = Yii::app()->request->getPost('idRevision');
+        $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
+        $lectureRev->cancelProposedToRelease(Yii::app()->user);
+    }
+    
     public function actionCancelEditRevisionByEditor () {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with('lecturePages', 'properties')->findByPk($idRevision);
@@ -967,10 +989,11 @@ class RevisionController extends Controller {
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isRevokeable();
-            $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
+            $node['canProposedToRelease'] = $lecture->canProposedToRelease();
+            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -993,10 +1016,11 @@ class RevisionController extends Controller {
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
             $node['isSendedCancellable'] = $lecture->isRevokeable();
-            $node['isReadable'] = $lecture->isReleaseable();
             $node['isEditCancellable'] = $lecture->isEditable();
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
+            $node['canProposedToRelease'] = $lecture->canProposedToRelease();
+            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
 
             $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }
@@ -1125,9 +1149,10 @@ class RevisionController extends Controller {
         $lecture['canApprove']=$lectureRevision->canApprove();
         $lecture['canCancelReadyRevision']=$lectureRevision->canCancelReadyRevision();
         $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
-        $lecture['canReleaseRevision']=$lectureRevision->canReleaseRevision();
         $lecture['canCancelEdit']=$lectureRevision->canCancelEdit();
         $lecture['canRestoreEdit']=$lectureRevision->canRestoreEdit();
+        $lecture['canProposedToRelease'] = $lectureRevision->canProposedToRelease();
+        $lecture['canCancelProposedToRelease'] = $lectureRevision->canCancelProposedToRelease();
         $lecture['link']=
             $lecture['canCancelReadyRevision']?
                 Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;

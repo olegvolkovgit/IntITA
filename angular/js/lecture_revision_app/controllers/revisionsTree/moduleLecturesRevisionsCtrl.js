@@ -67,14 +67,26 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
         },
         {
             "type": "button",
-            "actionType": "release",
-            "title": "Реліз",
+            "actionType": "proposedToRelease",
+            "title": "Запропонувати до релізу",
             "visible": true,
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.releaseRev(idRevision, nodeId);
+                $scope.proposedToReleaseRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelProposedToRelease",
+            "title": "Відхилити пререліз",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelPreReleaseRev(idRevision, nodeId);
             }
         }
     ];
@@ -231,8 +243,16 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
             });
         });
     };
-    $scope.releaseRev = function(id,nodeId) {
-        revisionsActions.releaseRevision(id).then(function(){
+    $scope.cancelPreReleaseRev = function(id,nodeId) {
+        revisionsActions.cancelPreReleaseRevision(id).then(function(){
+            $scope.updateModuleLecturesRevisionsTree(nodeId);
+            revisionsTree.getCurrentLectures(idModule).then(function (response) {
+                $scope.currentLectures = response;
+            });
+        });
+    };
+    $scope.proposedToReleaseRev = function(id,nodeId) {
+        revisionsActions.proposedToReleaseRevision(id).then(function(){
             $scope.updateModuleLecturesRevisionsTree(nodeId);
             revisionsTree.getCurrentLectures(idModule).then(function (response) {
                 $scope.currentLectures = response;

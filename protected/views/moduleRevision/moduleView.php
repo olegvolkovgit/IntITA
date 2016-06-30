@@ -27,24 +27,70 @@ $this->breadcrumbs = array(
             <button class="btn btn-primary" ng-click="checkModuleRevision();">Наявність конфліктів</button>
             <h3>Доступні ревізії занять:</h3>
             <div class="revisionTable">
-                <label>Доступні ревізії занять данного модуля(входять лише ревізії відправлені в реліз):</label>
+                <label>Доступні ревізії занять данного модуля(запропоновані до релізу, в релізі, затверджені):</label>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ng-init="current.proposed_to_release=true" ng-model="current.proposed_to_release">Запропоновані до релізу
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="current.released">В релізі
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="current.approved">Затверджені
+                    </label>
+                </div>
                 <div class="revisionsList">
-                    <div ng-repeat="revision in approvedLecture.current track by $index">
+                    <div ng-if="current.proposed_to_release" ng-repeat="revision in approvedLecture.current.proposed_to_release track by $index">
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">+</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index, revisionProposedToRelease)">+</span>
+                    </div>
+                    <div ng-if="current.released" ng-repeat="revision in approvedLecture.current.released track by $index">
+                        <a ng-href="{{revision.link}}" target="_blank">
+                            Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
+                        </a>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index, revisionReleased)">+</span>
+                    </div>
+                    <div ng-if="current.approved" ng-repeat="revision in approvedLecture.current.approved track by $index">
+                        <a ng-href="{{revision.link}}" target="_blank">
+                            Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
+                        </a>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index, revisionApproved)">+</span>
                     </div>
                 </div>
             </div>
             <div class="revisionTable">
-                <label>Доступні ревізії занять інших модулів(входять лише ревізії відправлені в реліз):</label>
+                <label>Доступні ревізії занять інших модулів(запропоновані до релізу, в релізі, затверджені):</label>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" ng-init="foreign.proposed_to_release=true" ng-model="foreign.proposed_to_release">Запропоновані до релізу
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="foreign.released">В релізі
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="foreign.approved">Затверджені
+                    </label>
+                </div>
                 <div class="revisionsList">
-                    <div ng-repeat="revision in approvedLecture.foreign track by $index">
+                    <div ng-if="foreign.proposed_to_release" ng-repeat="revision in approvedLecture.foreign.proposed_to_release track by $index">
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">+</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index, revisionProposedToRelease)">+</span>
+                    </div>
+                    <div ng-if="foreign.released" ng-repeat="revision in approvedLecture.foreign.released track by $index">
+                        <a ng-href="{{revision.link}}" target="_blank">
+                            Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
+                        </a>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index, revisionReleased)">+</span>
+                    </div>
+                    <div ng-if="foreign.approved" ng-repeat="revision in approvedLecture.foreign.approved track by $index">
+                        <a ng-href="{{revision.link}}" target="_blank">
+                            Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
+                        </a>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index, revisionApproved)">+</span>
                     </div>
                 </div>
             </div>

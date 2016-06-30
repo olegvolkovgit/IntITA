@@ -28,6 +28,8 @@
  * @property integer $id_user_released
  * @property string $cancel_edit_date
  * @property integer $id_user_cancelled_edit
+ * @property string $proposed_to_release_date
+ * @property integer $id_user_proposed_to_release
  *
  * The followings are the available model relations:
  * @property Lecture[] $lectures
@@ -57,10 +59,13 @@ class RevisionLectureProperties extends CActiveRecord
 			array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('alias', 'length', 'max'=>10),
-			array('update_date, send_approval_date, reject_date, approve_date, end_date, release_date', 'safe'),
+			array('update_date, send_approval_date, reject_date, approve_date, end_date, release_date, proposed_to_release_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, image, alias, id_type, is_free, title_ua, title_ru, title_en, start_date, id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval, reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled, release_date, id_user_released', 'safe', 'on'=>'search'),
+			array('id, image, alias, id_type, is_free, title_ua, title_ru, title_en, start_date, 
+			id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval, 
+			reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled, 
+			release_date, id_user_released, proposed_to_release_date, id_user_proposed_to_release', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,6 +107,8 @@ class RevisionLectureProperties extends CActiveRecord
 			'id_user_cancelled' => 'Id User Cancelled',
 			'release_date' => 'Ready Date',
 			'id_user_released' => 'Id User Ready',
+			'proposed_to_release_date' => 'Proposed To Release Date',
+			'id_user_proposed_to_release' => 'Id User Proposed To Release',
 		);
 	}
 
@@ -145,6 +152,8 @@ class RevisionLectureProperties extends CActiveRecord
 		$criteria->compare('id_user_cancelled',$this->id_user_cancelled);
 		$criteria->compare('release_date',$this->release_date,true);
 		$criteria->compare('id_user_released',$this->id_user_released);
+		$criteria->compare('proposed_to_release_date',$this->proposed_to_release_date,true);
+		$criteria->compare('id_user_proposed_to_release',$this->id_user_proposed_to_release);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -532,16 +532,20 @@ class ModuleRevisionController extends Controller {
 
         $rc = new RevisionCommon();
         $lecturesData = $rc->getReleasedLectures();
-        $approvedLectureList = ['current' => [], 'foreign' => []];
+        $approvedLectureList = ['current' => ['proposed_to_release' => [],'approved' => [],'released' => []],
+            'foreign' => ['proposed_to_release' => [],'approved' => [],'released' => []]];
 
-        foreach ($lecturesData as $lectureData) {
-            $section = $lectureData['id_module'] == $idModule ? 'current' : 'foreign';
-            array_push($approvedLectureList[$section], [
-                'id_lecture_revision' => $lectureData['id_revision'],
-                'title' => $lectureData['title_ua'],
-                'link' => Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$lectureData['id_revision']))
-            ]);
+        foreach ($lecturesData as $key=>$status) {
+            foreach ($status as $lectureData) {
+                $section = $lectureData['id_module'] == $idModule ? 'current' : 'foreign';
+                array_push($approvedLectureList[$section][$key], [
+                    'id_lecture_revision' => $lectureData['id_revision'],
+                    'title' => $lectureData['title_ua'],
+                    'link' => Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$lectureData['id_revision']))
+                ]);
+            }
         }
+
         echo CJSON::encode($approvedLectureList);
     }
 
