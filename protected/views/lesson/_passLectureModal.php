@@ -68,7 +68,7 @@
             Share.popup(url);
         },
         vkontakte: function (purl, ptitle, pimg, text) {
-            url = 'http://vkontakte.ru/share.php?';
+            url = 'https://vkontakte.ru/share.php?';
             url += 'url=' + encodeURIComponent(purl);
             url += '&title=' + encodeURIComponent(ptitle);
             url += '&description=' + encodeURIComponent(text);
@@ -77,7 +77,7 @@
             Share.popup(url);
         },
         twitter: function (purl, ptitle) {
-            url = 'http://twitter.com/share?';
+            url = 'https://twitter.com/share?';
             url += 'text=' + encodeURIComponent(ptitle);
             url += '&url=' + encodeURIComponent(purl);
             url += '&counturl=' + encodeURIComponent(purl);

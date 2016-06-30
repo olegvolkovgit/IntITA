@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="mainApp" xmlns:og="http://ogp.me/ns#">
+<html ng-app="mainApp" xmlns:og="https://ogp.me/ns#">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
@@ -49,7 +49,7 @@
     <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
 </head>
 
-<body style="overflow-y: scroll" itemscope itemtype="http://schema.org/Product">
+<body style="overflow-y: scroll" itemscope itemtype="https://schema.org/Product">
 
 <div id="contentBoxMain">
     <?php echo $content; ?>

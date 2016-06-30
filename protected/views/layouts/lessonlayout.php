@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:og="http://ogp.me/ns#">
+<html xmlns:og="https://ogp.me/ns#">
 <head>
     <!--[if lte IE 8]>
     <body class="ie8">
@@ -54,7 +54,7 @@
     <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
 </head>
 
-<body style="overflow-y: scroll" itemscope itemtype="http://schema.org/Product">
+<body style="overflow-y: scroll" itemscope itemtype="https://schema.org/Product">
 
 <div id="contentBoxMain">
     <?php echo $content; ?>

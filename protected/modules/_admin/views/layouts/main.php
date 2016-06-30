@@ -2,7 +2,7 @@
 $header = new Header();
 ?>
 <!DOCTYPE html>
-<html ng-app xmlns:og="http://ogp.me/ns#">
+<html ng-app xmlns:og="https://ogp.me/ns#">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
@@ -143,7 +143,7 @@ $header = new Header();
                             </a>
                         </td>
                         <td>
-                            <a href="http://youtube.com" target="_blank" title="Youtube">
+                            <a href="https://youtube.com" target="_blank" title="Youtube">
                                 <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/youtube.png"/>
                             </a>
                         </td>
@@ -168,7 +168,7 @@ $header = new Header();
                             </a>
                         </td>
                         <td>
-                            <a href="http://vk.com/intita" target="_blank" title="Vkontakte">
+                            <a href="https://vk.com/intita" target="_blank" title="Vkontakte">
                                 <img
                                     src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'vkontakte.png'); ?>"/>
                             </a>
