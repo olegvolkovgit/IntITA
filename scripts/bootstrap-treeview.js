@@ -624,6 +624,12 @@
 						if(!node.canRestoreEdit && (action.actionType=='restoreEdit')){
 							return;
 						}
+						if((action.actionType=='proposedToRelease') && !node.canProposedToRelease){
+							return;
+						}
+						if((action.actionType=='cancelProposedToRelease') && !node.canCancelProposedToRelease){
+							return;
+						}
 						if(!node.isReadable && (action.actionType=='release')){
 							return;
 						}

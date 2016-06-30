@@ -961,6 +961,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $sqlRejected = '(vcp.id_user_rejected IS NOT NULL)';
         $sqlSent = '(vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL)';
         $sqlEditable = '(vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL)';
+        $sqlProposedToRelease = '(vcp.id_user_proposed_to_release IS NOT NULL)';
 
         $finalSql = '';
         $authorSql = '';
@@ -988,6 +989,9 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
                             break;
                         case 'release';
                             $finalSql = $finalSql . ' or ' . $sqlReady;
+                            break;
+                        case 'proposedToRelease';
+                            $finalSql = $finalSql . ' or ' . $sqlProposedToRelease;
                             break;
                         default:
                             $finalSql = '';
@@ -1072,5 +1076,157 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         return $newLecture;
     }
 
+    /**
+     * current revision proposed to release
+     */
+    protected function beforeProposedToRelease($user) {
+        return true;
+    }
 
+    public function proposedToRelease($user) {
+        if ($this->isPreReleasable()) {
+            if ($this->beforeProposedToRelease($user)) {
+                $this->properties->proposed_to_release_date = new CDbExpression('NOW()');
+                $this->properties->id_user_proposed_to_release = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterProposedToRelease();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterProposedToRelease() { }
+
+    /**
+     * cancel current revision proposed to release
+     */
+    protected function beforeСancelProposedToRelease($user) {
+        return true;
+    }
+
+    public function cancelProposedToRelease($user) {
+        if ($this->isCancellablePreReleased()) {
+            if ($this->beforeСancelProposedToRelease($user)) {
+                $this->properties->proposed_to_release_date = new CDbExpression('NULL');
+                $this->properties->id_user_proposed_to_release = null;
+                $this->properties->saveCheck();
+                $this->afterСancelProposedToRelease();
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    /**
+     * Cancels lecture revision
+     */
+
+    protected function beforeCancel($user) {
+        if($this->moduleOrder!=null)
+            return false;
+        else return true;
+    }
+
+    public function cancel($user) {
+        if ($this->isCancellable()) {
+            if ($this->beforeCancel($user)) {
+                $this->properties->end_date = new CDbExpression('NOW()');
+                $this->properties->id_user_cancelled = $user->getId();
+                $this->properties->saveCheck();
+                $this->afterCancel();
+            }else{
+                echo 'Скасувати ревізію не можна оскільки вона входить принаймні в одну з ревізій модулів';
+                die;
+            }
+        } else {
+            //todo inform user
+        }
+    }
+
+    protected function afterCancel() { }
+
+    protected function afterСancelProposedToRelease() { }
+    /**
+     * Return true if revision can be proposed to release
+     * @return bool
+     */
+    public function isPreReleasable() {
+        if ($this->isApproved() &&
+            !$this->isProposedToRelease() &&
+            !$this->isReleased() &&
+            !$this->isCancelled() &&
+            !$this->isCancelledEditor()
+        ) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Return true if revision can be cancel proposed to release
+     * @return bool
+     */
+    public function isCancellablePreReleased() {
+        if ($this->isProposedToRelease() && !$this->isReleased()) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Return true if revision can be cancel
+     * @return bool
+     */
+    public function isCancellable() {
+        if ($this->getStatus()=='Затверджена') {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Return true if revision was proposed_to_release
+     * @return bool
+     */
+    public function isProposedToRelease() {
+        return $this->properties->id_user_proposed_to_release != null;
+    }
+
+    /**
+     * Returns lecture revision status
+     * @return string
+     */
+    public function getStatus() {
+        if ($this->isCancelledEditor()) {
+            return "Скасована автором";
+        }
+        if ($this->isCancelled()) {
+            return "Скасована";
+        }
+        if ($this->isReleased()) {
+            return "Реліз";
+        }
+        if ($this->isProposedToRelease()) {
+            return "Запропонована до релізу";
+        }
+        if ($this->isApproved()) {
+            return "Затверджена";
+        }
+        if ($this->isRejected()) {
+            return "Відхилена";
+        }
+        if ($this->isSended()) {
+            return "Відправлена на розгляд";
+        }
+        return 'Доступна для редагування';
+    }
+
+
+    public function canCancel() {
+        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
+    }
+    public function canProposedToRelease() {
+        return (Yii::app()->user->model->canApprove() && $this->isPreReleasable());
+    }
+    public function canCancelProposedToRelease() {
+        return (Yii::app()->user->model->canApprove() && $this->isCancellablePreReleased());
+    }
 }

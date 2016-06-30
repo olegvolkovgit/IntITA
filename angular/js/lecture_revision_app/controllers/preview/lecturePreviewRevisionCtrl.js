@@ -105,18 +105,33 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData,rev
             return false;
         });
     };
-    $scope.releaseRevision = function(id) {
+    $scope.proposedToReleaseRevision = function(id) {
         $http({
-            url: basePath+'/revision/readyLectureRevision',
+            url: basePath+'/revision/proposedToReleaseRevision',
             method: "POST",
             data: $.param({idRevision: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        }).then(function successCallback(response) {
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
         }, function errorCallback() {
-            bootbox.alert("Відправити на реліз не вдалося. Зв'яжіться з адміністрацією");
+            bootbox.alert("Запропонувати ревізію до релізу не вдалося. Зв'яжіться з адміністрацією");
+            return false;
+        });
+    };
+    $scope.cancelPreReleaseRevision = function(id) {
+        $http({
+            url: basePath+'/revision/cancelProposedToReleaseRevision',
+            method: "POST",
+            data: $.param({idRevision: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            getLectureData.getData(idRevision).then(function(response){
+                $rootScope.lectureData=response;
+            });
+        }, function errorCallback() {
+            bootbox.alert("Відхилити пререлізний стан ревізії не вдалося. Зв'яжіться з адміністрацією");
             return false;
         });
     };

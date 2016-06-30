@@ -93,11 +93,22 @@ class RevisionCommon {
      */
     public function getReleasedLectures($idModule = null) {
 
-        $where = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
-        array_push($where, ['and' => 'vc_lecture_properties.id_user_released IS NOT NULL']);
-        array_push($where, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
+        $whereProposedToRelease = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
+        array_push($whereProposedToRelease, ['and' => 'vc_lecture_properties.id_user_proposed_to_release IS NOT NULL']);
+        array_push($whereProposedToRelease, ['and' => 'vc_lecture_properties.id_user_released IS NULL']);
+        array_push($whereProposedToRelease, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
 
-        $data = $this->getData([
+        $whereApproved = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
+        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_approved IS NOT NULL']);
+        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_released IS NULL']);
+        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_proposed_to_release IS NULL']);
+        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
+
+        $whereReleased = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
+        array_push($whereReleased, ['and' => 'vc_lecture_properties.id_user_released IS NOT NULL']);
+        array_push($whereReleased, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
+
+        $data['proposed_to_release'] = $this->getData([
             'vc_lecture' => [],
             'vc_lecture_properties' => [
                 'join' => [
@@ -107,7 +118,29 @@ class RevisionCommon {
             ]
 
         ],
-            $where);
+            $whereProposedToRelease);
+        $data['approved'] = $this->getData([
+            'vc_lecture' => [],
+            'vc_lecture_properties' => [
+                'join' => [
+                    'direction' => 'inner',
+                    'on' => 'vc_lecture_properties.id=vc_lecture.id_properties'
+                ]
+            ]
+
+        ],
+            $whereApproved);
+        $data['released'] = $this->getData([
+            'vc_lecture' => [],
+            'vc_lecture_properties' => [
+                'join' => [
+                    'direction' => 'inner',
+                    'on' => 'vc_lecture_properties.id=vc_lecture.id_properties'
+                ]
+            ]
+
+        ],
+            $whereReleased);
 
         return $data;
     }

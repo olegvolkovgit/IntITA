@@ -62,14 +62,26 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         },
         {
             "type": "button",
-            "actionType": "release",
-            "title": "Реліз",
+            "actionType": "proposedToRelease",
+            "title": "Запропонувати до релізу",
             "visible": true,
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.releaseRev(idRevision, nodeId);
+                $scope.proposedToReleaseRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelProposedToRelease",
+            "title": "Відхилити пререліз",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelPreReleaseRev(idRevision, nodeId);
             }
         }
     ];
@@ -221,6 +233,16 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
     $scope.releaseRev = function(id,nodeId) {
         revisionsActions.releaseRevision(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.cancelPreReleaseRev = function(id,nodeId) {
+        revisionsActions.cancelPreReleaseRevision(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.proposedToReleaseRev = function(id,nodeId) {
+        revisionsActions.proposedToReleaseRevision(id).then(function(){
             $scope.updateRevisionsBranch(nodeId);
         });
     };
