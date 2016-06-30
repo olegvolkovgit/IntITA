@@ -29,7 +29,6 @@ class CorporateRepresentative extends CActiveRecord
         return array(
             array('full_name', 'required'),
             array('full_name', 'length', 'max' => 255),
-            array('position', 'length', 'max' => 100),
             // The following rule is used by search().
             array('id, full_name', 'safe', 'on' => 'search'),
         );
@@ -92,7 +91,7 @@ class CorporateRepresentative extends CActiveRecord
         return parent::model($className);
     }
 
-    public static function representativesList()
+    public static function companyRepresentativesList()
     {
         $sql = 'select cr.id, cr.full_name, cer.position, cer.representative_order, ce.title, ce.EDPNOU from acc_corporate_representative cr
                 left join acc_corporate_entity_representatives cer on cer.corporate_representative = cr.id
@@ -110,6 +109,24 @@ class CorporateRepresentative extends CActiveRecord
             $row["position"] = $record["position"];
             $row["companies"] = $record["EDPNOU"] . ", " . $record["title"];
             $row["order"] = $record["representative_order"];
+
+            array_push($return['data'], $row);
+        }
+
+        return json_encode($return);
+    }
+
+    public static function representativesList()
+    {
+        $representatives = CorporateRepresentative::model()->findAll();
+        $return = array('data' => array());
+
+        foreach ($representatives as $record) {
+            $row = array();
+
+            $row["title"]["name"] = CHtml::encode($record->full_name);
+            $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/representative/viewRepresentative',
+                array('id' => $record->id));
 
             array_push($return['data'], $row);
         }
@@ -140,11 +157,11 @@ class CorporateRepresentative extends CActiveRecord
         return Yii::app()->db->createCommand($sql)->queryAll();
     }
 
-    public function addCompany($companyId, $position, $order)
+    public function addCompany(CorporateEntity $company, $position, $order)
     {
-        if ($companyId && $position && $order) {
+        if ($company && $position && $order) {
             return Yii::app()->db->createCommand()->insert('acc_corporate_entity_representatives', array(
-                'corporate_entity' => $companyId,
+                'corporate_entity' => $company->id,
                 'corporate_representative' => $this->id,
                 'representative_order' => $order,
                 'position' => $position

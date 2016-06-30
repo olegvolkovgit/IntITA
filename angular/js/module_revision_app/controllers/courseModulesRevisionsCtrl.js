@@ -7,6 +7,11 @@ angular
 
 function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, moduleRevisionsActions) {
     $scope.formData = {};
+    modulesRevisionsTree.getModuleRevisionsAuthors().then(function(response){
+        $scope.authors=response;
+        $scope.authors.unshift({authorName:"Всі автори", id:"0"});
+        $scope.selectedAuthor = $scope.authors[0];
+    });
     //load current modules from main BD
     modulesRevisionsTree.getCurrentModules(idCourse).then(function (response) {
         $scope.currentModules = response;
@@ -68,16 +73,16 @@ function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, mod
         }
     ];
     var authorActions=[
-        // {
-        //     "type": "button",
-        //     "title": "Переглянути ревізії даного заняття",
-        //     "visible": true,
-        //     "userId":userId,
-        //     "action": function(event) {
-        //         var idRevision = $(event.data.el).attr('id');
-        //         $scope.$parent.openRevisionsBranch(idRevision);
-        //     }
-        // },
+        {
+            "type": "button",
+            "title": "Переглянути ревізії даного модуля",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.openModuleRevisionsBranch(idRevision);
+            }
+        },
         {
             "type": "button",
             "title": "Створити нову ревізію",
@@ -98,16 +103,16 @@ function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, mod
                 $scope.previewModuleRev(idRevision);
             }
         },
-        // {
-        //     "type": "button",
-        //     "title": "Написати автору ревізії",
-        //     "visible": true,
-        //     "userId":userId,
-        //     "action": function(event) {
-        //         var idRevision = $(event.data.el).attr('id');
-        //         $scope.$parent.sendRevisionMessage(idRevision);
-        //     }
-        // }
+        {
+            "type": "button",
+            "title": "Написати автору ревізії модуля",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.sendModuleRevisionMessage(idRevision);
+            }
+        }
     ];
     var generalActions=[
         {
@@ -245,13 +250,13 @@ function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, mod
     };
     //update module revisions tree
     $scope.updateModuleRevisionsTreeInCourse = function(nodeId){
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             modulesRevisionsTree.getModuleRevisionsInCourse(idCourse).then(function(response){
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }else{
-            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData).then(function (response) {
+            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
@@ -266,10 +271,10 @@ function courseModulesRevisionsCtrl($rootScope,$scope, modulesRevisionsTree, mod
     };
 
     $scope.revisionFilter=function () {
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             $scope.updateTree();
         }else{
-            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData).then(function (response) {
+            modulesRevisionsTree.revisionTreeFilterInCourse(idCourse,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate();
             });

@@ -170,6 +170,13 @@ td,th{
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
+td button{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+td li{
+    white-space: normal;
+}
 #mainSliderTable td,#mainSliderTable th,#aboutusSliderTable td,#aboutusSliderTable th{
     white-space: normal;
 }
@@ -425,4 +432,9 @@ hr {
 /* consult */
 div#page-wrapper {
     overflow: inherit;!important;
+}
+/*offer*/
+pre.offer{
+    white-space: pre-wrap;
+    word-break: normal;
 }

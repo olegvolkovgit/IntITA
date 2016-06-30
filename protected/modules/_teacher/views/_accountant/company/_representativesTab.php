@@ -33,10 +33,10 @@ $representatives = $model->representativesList();
                             <table class="table table-striped table-bordered table-hover" id="representativesTable">
                             <thead>
                             <tr>
-                                <th>Номер</th>
-                                <th>ПІБ</th>
+                                <th width="65%">ПІБ</th>
+                                <th width="20%">Посада</th>
                                 <th width="10%">Порядок</th>
-                                <th width="15%">Посада</th>
+                                <th width="10%">Скасувати</th>
                             </tr>
                             </thead>
                             <tbody>

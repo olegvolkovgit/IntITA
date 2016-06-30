@@ -11,7 +11,7 @@
                         'Консультації')">Всі консультації
             </button>
         </li>
-        <?php if ($model->isAvailable()) { ?>
+        <?php if ($model->isAvailable() && !$model->isCancelled()) { ?>
             <li>
                 <a class="btn btn-success" role="button"
                    href="<?= Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $model->id ?>" target="_blank">
@@ -19,7 +19,7 @@
                 </a>
             </li>
         <?php }?>
-        <?php if ($model->isCanBeCancelled()) { ?>
+        <?php if ($model->isCanBeCancelled() && !$model->isCancelled()) { ?>
         <li>
             <button type="button" class="btn btn-outline btn-warning" onclick="cancelConsultation(
                 '<?= Yii::app()->createUrl('/_teacher/_student/student/cancelConsultation/', array('id' => $model->id)) ?>',
@@ -36,9 +36,9 @@
                     <tr>
                         <td width="30%">Викладач:</td>
                         <td>
-                            <a href="<?= Yii::app()->createUrl('profile/index', array('id' => $model->user_id)); ?>"
+                            <a href="<?= Yii::app()->createUrl('profile/index', array('id' => $model->teacher_id)); ?>"
                                target="_blank">
-                                <?= $model->user->userNameWithEmail(); ?>
+                                <?= $model->teacher->userNameWithEmail(); ?>
                             </a>
                         </td>
                     </tr>
@@ -80,6 +80,16 @@
                         <td>Закінчення:</td>
                         <td><?= $model->end_cons; ?></td>
                     </tr>
+                    <?php if($model->isCancelled()){?>
+                        <tr>
+                            <td>Скасував(ла):</td>
+                            <td><?= $model->userCancelled->userNameWithEmail(); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Дата скасування:</td>
+                            <td><?= $model->date_cancelled; ?></td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>

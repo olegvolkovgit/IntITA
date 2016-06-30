@@ -21,7 +21,7 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="#"
+                            <a href="#" name="<?= trim($item["title"]." (".$item["email"].")"); ?>"
                                onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
                                    "<?= CHtml::encode($item['title']); ?>");'>
                                 <?= $item["title"]." (".$item["email"].")"; ?>
@@ -46,7 +46,7 @@
 <script>
     $jq('#trainerStudentsTable').DataTable( {
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         },
         "columns": [
             null,

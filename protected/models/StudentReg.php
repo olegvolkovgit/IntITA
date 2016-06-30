@@ -1275,4 +1275,17 @@ class StudentReg extends CActiveRecord
 
         return json_encode($return);
     }
+
+    public static function countUsersWithoutRoles(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = 'left join user_student us on us.id_user=u.id';
+        $criteria->join .= ' left join teacher t on t.user_id=u.id';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
+        $criteria->addCondition('us.id_user IS NULL and t.user_id IS NULL');
+
+        $users = StudentReg::model()->findAll($criteria);
+
+        return count($users);
+    }
 }

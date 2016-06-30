@@ -86,13 +86,13 @@ $lecturesCount = $lecture->module->lecturesCount();
                     src="<?php echo Config::getBaseUrl(); ?>/mibew/js/compiled/chat_popup.js"></script>
             <script type="text/javascript">Mibew.ChatPopup.init({
                     "id": "55bf44d367c197db",
-                    "url": "http:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat?locale=<?php echo CommonHelper::getLanguage(); ?>&style=default<?php echo StudentReg::getNameEmail(); ?>",
+                    "url": "https:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat?locale=<?php echo CommonHelper::getLanguage(); ?>&style=default<?php echo StudentReg::getNameEmail(); ?>",
                     "preferIFrame": true,
                     "modSecurity": false,
                     "width": 640,
                     "height": 480,
                     "resizable": true,
-                    "styleLoader": "http:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat\/style\/popup"
+                    "styleLoader": "https:\/\/<?php echo Config::getBaseUrlWithoutSchema(); ?>\/mibew\/chat\/style\/popup"
                 });
             </script>
             <!-- / mibew button -->

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-//    'Ревізії курса' => Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>0)),
+    'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module)),
     'Ревізії модуля' => Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$moduleRevision->id_module)),
     'Ревізія даного модуля',
 );
@@ -9,6 +9,7 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/controllers/moduleRevisionCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/services/getModuleData.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/services/moduleRevisionsActions.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/services/sendModuleRevisionMessage.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
 <link rel='stylesheet' href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.css'); ?>" type='text/css' media='all' />
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/loading-bar.min.js'); ?>"></script>
@@ -32,7 +33,7 @@ $this->breadcrumbs = array(
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">&#10133;</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index)">+</span>
                     </div>
                 </div>
             </div>
@@ -43,7 +44,7 @@ $this->breadcrumbs = array(
                         <a ng-href="{{revision.link}}" target="_blank">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
-                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">&#10133;</span>
+                        <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index)">+</span>
                     </div>
                 </div>
             </div>

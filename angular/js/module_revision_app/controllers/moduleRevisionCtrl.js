@@ -2,7 +2,7 @@ angular
     .module('moduleRevisionsApp')
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
-function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions) {
+function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions, moduleRevisionMessage) {
     $scope.tempId=[];
     //load from service lecture data for scope
     getModuleData.getData(idRevision).then(function(response){
@@ -200,6 +200,10 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
             return false;
         });
     };
+
+    $scope.sendModuleRevisionMessage = function(idRevision) {
+        moduleRevisionMessage.sendMessage(idRevision);
+    };
 }
 
 function getImgName (str){
@@ -241,11 +245,11 @@ function CheckFile(file)
                 msg='Файл перевищує 5 Мб. Неправильний формат файлу';
                 break;
         }
-        $(file).next('.errorMessage').text(msg);
-        $(file).next('.errorMessage').show();
-        $('#submitButton').attr('disabled','true');
+        $('#errorMessage').text(msg);
+        $('#errorMessage').show();
+        $('#imgButton').attr('disabled','true');
     }else{
-        $(file).next('.errorMessage').hide();
-        $('#submitButton').removeAttr('disabled');
+        $('#errorMessage').hide();
+        $('#imgButton').removeAttr('disabled');
     }
 }

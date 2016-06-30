@@ -9,8 +9,8 @@ $this->breadcrumbs = array(
 ?>
 <!--highlight-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
-<script src='http://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
-<script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
+<script src='https://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script src="https://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
 <!--highlight-->
 <!--codemirror textarea hightlight-->
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/codemirror/lib/codemirror.css'); ?>">

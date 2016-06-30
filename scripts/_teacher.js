@@ -225,7 +225,7 @@ function initActiveRequestsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -265,7 +265,7 @@ function initApprovedRequestsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -305,7 +305,7 @@ function initDeletedRequestsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -333,11 +333,11 @@ function createAgreement(url, schema, course, educationForm, module, scenario) {
     });
 }
 
-function initRepresentatives() {
-    $jq('#representativesTable').DataTable({
+function initCompanyRepresentatives() {
+    $jq('#companyRepresentativesTable').DataTable({
         "autoWidth": false,
         "ajax": {
-            "url": basePath + "/_teacher/_accountant/representative/getRepresentativesList",
+            "url": basePath + "/_teacher/_accountant/representative/getCompanyRepresentativesList",
             "dataSrc": "data"
         },
         "columns": [
@@ -361,6 +361,31 @@ function initRepresentatives() {
             }
         ],
         "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initRepresentatives() {
+    $jq('#representativesTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_accountant/representative/getRepresentativesList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "width": "40%",
+                "data": "title",
+                "render": function (title) {
+                    return '<a href="#" onclick="load(\'' + title["url"] + '\',\'Компанія\');" >' + title["name"] + '</a>';
+                }
+            },
+        ],
+        "createdRow": function (row) {
             $jq(row).addClass('gradeX');
         },
         language: {
@@ -422,7 +447,7 @@ function addRepresentative(url) {
                 full_name: fullName,
                 position: position,
                 representative: representative,
-                company: $jq('[name="company"]').val(),
+                company: $jq('#companyId').val(),
                 order: $jq('[name="order"]').val(),
             },
             async: true,
@@ -1008,7 +1033,7 @@ function initPlannedConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1054,7 +1079,7 @@ function initPlannedTeacherConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1094,6 +1119,98 @@ function initPastTeacherConsultationsTable() {
             {
                 "width": "15%",
                 "data": "end_cons"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initCancelTeacherConsultationsTable() {
+    $jq('#cancelConsultationsTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "desc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_consultant/consultant/getCancelConsultationsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "user",
+                "width": "20%",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(\'' + user["url"] + '\',\'Консультація\');" >' + user["name"] + '</a>';
+                }
+            },
+            {
+                "data": "lecture",
+                "width": "20%",
+                "render": function (lecture) {
+                    return '<a href="#" onclick="load(\'' + lecture["url"] + '\',\'Консультація\');" >' + lecture["name"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date_cons"
+            },
+            {
+                "width": "15%",
+                "data": "user_cancelled"
+            },
+            {
+                "width": "15%",
+                "data": "date_cancelled"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
+function initCancelConsultationsTable() {
+    $jq('#studentCancelConsultationsTable').DataTable({
+        "autoWidth": false,
+        "order": [[2, "desc"]],
+        "ajax": {
+            "url": basePath + "/_teacher/_student/student/getCancelConsultationsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "user",
+                "width": "20%",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(\'' + user["url"] + '\',\'Консультація\');" >' + user["name"] + '</a>';
+                }
+            },
+            {
+                "data": "lecture",
+                "width": "20%",
+                "render": function (lecture) {
+                    return '<a href="#" onclick="load(\'' + lecture["url"] + '\',\'Консультація\');" >' + lecture["name"] + '</a>';
+                }
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "date_cons"
+            },
+            {
+                "width": "15%",
+                "data": "user_cancelled"
+            },
+            {
+                "width": "15%",
+                "data": "date_cancelled"
             }
         ],
         "createdRow": function (row, data, index) {
@@ -1146,7 +1263,7 @@ function initPastConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1206,7 +1323,7 @@ function initTodayTeacherConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1259,7 +1376,7 @@ function initTodayConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1480,7 +1597,7 @@ function initInvoicesTable(id) {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1521,7 +1638,7 @@ function initConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1565,7 +1682,9 @@ function initPayCoursesList() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                    if(title["url"]=='')
+                        return title["name"];
+                    else return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -1583,7 +1702,7 @@ function initPayCoursesList() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1599,7 +1718,9 @@ function initPayModulesTable() {
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
+                    if(title["url"]=='')
+                        return title["name"];
+                    else return '<a href="' + title["url"] + '">' + title["name"] + '</a>';
                 }
             },
             //{
@@ -1617,7 +1738,7 @@ function initPayModulesTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1666,7 +1787,7 @@ function initAgreementsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
