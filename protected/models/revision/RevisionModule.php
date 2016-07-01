@@ -591,8 +591,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $this->deleteModuleLecturesFromRegularDB();
             foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
                 $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
+                $moduleLecture->lecture->release($user);
             }
-            $this->cancelModulesInTree($user);
+            $this->cancelReleasedModuleInTree($user);
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
@@ -608,6 +609,21 @@ class RevisionModule extends CRevisionUnitActiveRecord
     }
     protected function afterRelease() {
         Module::model()->updateByPk($this->id_module, array('id_module_revision'=>$this->id_module_revision));
+        return true;
+    }
+
+    protected function beforeCancel($user) {
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
+                $moduleLecture->lecture->cancelReleasedInTree($user);
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+
         return true;
     }
 
@@ -654,12 +670,14 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $module->update();
     }
 
-    private function cancelModulesInTree($user) {
+    private function cancelReleasedModuleInTree($user){
         $idList = $this->getRelatedIdList();
         $moduleRevisions = RevisionModule::model()->findAllByPk($idList);
         foreach ($moduleRevisions as $moduleRevision) {
             if ($moduleRevision->isReleased()) {
-                $moduleRevision->cancel($user);
+                $moduleRevision->properties->release_date = new CDbExpression('NULL');
+                $moduleRevision->properties->id_user_released = null;
+                $moduleRevision->properties->saveCheck();
             }
         }
     }

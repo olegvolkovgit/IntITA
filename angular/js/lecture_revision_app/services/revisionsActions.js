@@ -1,5 +1,5 @@
 angular
-    .module('revisionTreesApp')
+    .module('service.revisionsActions',[])
     .service('revisionsActions', [
         '$http',
         function($http) {
