@@ -956,6 +956,7 @@ class RevisionController extends Controller {
                         $parentId = $parents[$parentId];
                     }
                 }
+                
                 //finding reference to target node
                 $targetNode = &$tree;
                 while (count($path) != 0) {
