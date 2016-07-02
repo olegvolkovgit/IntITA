@@ -675,8 +675,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $moduleRevisions = RevisionModule::model()->findAllByPk($idList);
         foreach ($moduleRevisions as $moduleRevision) {
             if ($moduleRevision->isReleased()) {
-                $moduleRevision->properties->release_date = new CDbExpression('NULL');
-                $moduleRevision->properties->id_user_released = null;
+                $moduleRevision->properties->end_date = new CDbExpression('NOW()');
+                $moduleRevision->properties->id_user_cancelled = $user->getId();
                 $moduleRevision->properties->saveCheck();
             }
         }
