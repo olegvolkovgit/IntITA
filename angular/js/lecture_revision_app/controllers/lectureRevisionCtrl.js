@@ -32,7 +32,7 @@ angular
     })
     .controller('lectureRevisionCtrl',lectureRevisionCtrl);
 
-function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
+function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData, revisionsActions) {
     //load from service lecture data for scope
     getLectureData.getData(idRevision).then(function(response){
         $rootScope.lectureData=response;
@@ -47,45 +47,20 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
     };
     //send revision for approve
     $scope.sendRevision = function(id) {
-        $http({
-            url: basePath+'/revision/sendForApproveLecture',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            console.log(response);
-            if(response.data!=''){
-                bootbox.alert(response.data, function () {
-                    getLectureData.getData(idRevision).then(function(response){
-                        $rootScope.lectureData=response;
-                        location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
-                    });
-                });
-            } else
+        revisionsActions.sendRevision(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
                 location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відправити заняття на затвердження не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     //canceled edit revision by the editor
     $scope.cancelEditByEditor = function(id) {
-        $http({
-            url: basePath+'/revision/cancelEditRevisionByEditor',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        revisionsActions.cancelEditByEditor(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
                 location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відмінити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     //add new page for lecture revision
@@ -166,22 +141,6 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData) {
         }, function errorCallback(response) {
             console.log('checkLecture error');
             console.log(response);
-            return false;
-        });
-    };
-    //approve lecture
-    $scope.approveLecture = function() {
-        $http({
-            url: basePath+'/revision/sendForApproveLecture',
-            method: "POST",
-            data: $.param({idLecture:idRevision}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            bootbox.alert('Запит на підтвердження відправлено', function () {
-                location.href = basePath+'/revision/previewLectureRevision?idRevision=' + idRevision;
-            });
-        }, function errorCallback(response) {
-            console.log('error '+response.status);
             return false;
         });
     };
