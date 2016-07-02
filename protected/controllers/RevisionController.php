@@ -947,13 +947,15 @@ class RevisionController extends Controller {
 
                         array_push($path, $tempParent);
                         $parentId=$tempParent;
+
                     }
                     if($parents[$parentId] != $parentId){
-                        array_push($path, $parents[$parentId]);
+                        if (in_array($parents[$parentId], $actualRevisionsList)) {
+                            array_push($path, $parents[$parentId]);
+                        }
                         $parentId = $parents[$parentId];
                     }
                 }
-                
                 //finding reference to target node
                 $targetNode = &$tree;
                 while (count($path) != 0) {
