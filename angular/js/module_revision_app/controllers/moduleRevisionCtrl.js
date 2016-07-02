@@ -66,8 +66,10 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
         if(revision.list=='foreign'){
             $scope.approvedLecture.foreign[revision.status].push(revision);
         }else{
-            if($scope.approvedLecture.current){
+            if($scope.approvedLecture.current[revision.status]){
                 $scope.approvedLecture.current[revision.status].push(revision);
+            }else{
+                $scope.approvedLecture.current['released'].push(revision);
             }
         }
     };

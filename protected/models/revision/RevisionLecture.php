@@ -250,7 +250,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         }
 
         if (empty($this->approveResultCashed)) {
-            $this->cancelLecturesInTree($user);
+            $this->cancelReleasedInTree($user);
             return true;
         } else {
             //todo inform user
@@ -261,19 +261,19 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
 
     protected function afterRelease() {
         //sending inform message to revision author
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            $message = new $this->messageClasses['approve']();
-            $message->build(Yii::app()->user->model->registrationData, $this);
-            $message->create();
-            $sender = new MailTransport();
-
-            $message->send($sender);
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
-        }
+//        $transaction = Yii::app()->db->beginTransaction();
+//        try {
+//            $message = new $this->messageClasses['approve']();
+//            $message->build(Yii::app()->user->model->registrationData, $this);
+//            $message->create();
+//            $sender = new MailTransport();
+//
+//            $message->send($sender);
+//            $transaction->commit();
+//        } catch (Exception $e) {
+//            $transaction->rollback();
+//            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+//        }
     }
 
     /**
@@ -872,8 +872,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $criteria->alias = 'vc_lecture';
         $criteria->condition = 'id_lecture=' . $idLecture;
         $criteria->with = array('properties');
-        $criteria->order = 'properties.approve_date DESC';
-        $criteria->addCondition('properties.id_user_approved IS NOT NULL');
+        $criteria->order = 'properties.release_date DESC';
+        $criteria->addCondition('properties.id_user_released IS NOT NULL');
         $criteria->limit = 1;
 
         $revisions = RevisionLecture::model()->find($criteria);
@@ -940,12 +940,31 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     /**
      * @param $user
      */
-    private function cancelLecturesInTree($user) {
+    public function cancelReleasedInTree($user) {
         $idList = $this->getRelatedIdList();
         $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
         foreach ($lectureRevisions as $lectureRevision) {
             if ($lectureRevision->isReleased()) {
-                $lectureRevision->cancel($user);
+                $lectureRevision->properties->release_date = new CDbExpression('NULL');
+                $lectureRevision->properties->id_user_released = null;
+                $lectureRevision->properties->proposed_to_release_date = new CDbExpression('NULL');
+                $lectureRevision->properties->id_user_proposed_to_release = null;
+                $lectureRevision->properties->saveCheck();
+            }
+        }
+    }
+
+    /**
+     * @param $user
+     */
+    private function cancelProposedToReleaseInTree($user) {
+        $idList = $this->getRelatedIdList();
+        $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
+        foreach ($lectureRevisions as $lectureRevision) {
+            if ($lectureRevision->isProposedToRelease()) {
+                $lectureRevision->properties->proposed_to_release_date = new CDbExpression('NULL');
+                $lectureRevision->properties->id_user_proposed_to_release = null;
+                $lectureRevision->properties->saveCheck();
             }
         }
     }
@@ -957,7 +976,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $sqlCancelledEditor = '(vcp.id_user_cancelled_edit IS NOT NULL)';
         $sqlCancelled = '(vcp.id_user_cancelled IS NOT NULL)';
         $sqlReady = '(vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL)';
-        $sqlApproved = '(vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL)';
+        $sqlApproved = '(vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL 
+        and vcp.id_user_proposed_to_release IS NULL)';
         $sqlRejected = '(vcp.id_user_rejected IS NOT NULL)';
         $sqlSent = '(vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL)';
         $sqlEditable = '(vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL)';
@@ -1080,7 +1100,18 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * current revision proposed to release
      */
     protected function beforeProposedToRelease($user) {
-        return true;
+        if ($this->approveResultCashed === null) {
+            $this->checkConflicts();
+        }
+
+        if (empty($this->approveResultCashed)) {
+            $this->cancelProposedToReleaseInTree($user);
+            return true;
+        } else {
+            //todo inform user
+        }
+
+        return false;
     }
 
     public function proposedToRelease($user) {
