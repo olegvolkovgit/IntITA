@@ -12,6 +12,8 @@ class RequestFactory
                 return MessagesCoworkerRequest::model()->findByPk($model->id);
             case MessagesType::REVISION_REQUEST:
                 return MessagesRevisionRequest::model()->findByPk($model->id);
+            case MessagesType::MODULE_REVISION_REQUEST:
+                return MessagesModuleRevisionRequest::model()->findByPk($model->id);
             default:
                 return null;
         }
