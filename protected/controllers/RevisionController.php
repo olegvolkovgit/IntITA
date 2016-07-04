@@ -347,6 +347,7 @@ class RevisionController extends Controller {
 
         if (empty($result)) {
             $lectureRev->state->changeTo('sendForApproval', Yii::app()->user);
+            $this->sendRevisionRequest($lectureRev);
         } else {
             echo implode(", ",$result);
         }
@@ -362,6 +363,10 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->state->changeTo('editable', Yii::app()->user);
+        $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0));
+        if($revisionRequest){
+            $revisionRequest->setDeleted();
+        }
     }
 
     public function actionRejectLectureRevision() {
@@ -374,6 +379,10 @@ class RevisionController extends Controller {
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         $lectureRev->state->changeTo('rejected', Yii::app()->user);
+        $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_rejected'=> null));
+        if($revisionRequest){
+            $revisionRequest->setRejected();
+        }
     }
 
     public function actionCancelLectureRevision () {
@@ -385,7 +394,6 @@ class RevisionController extends Controller {
         }
 
         $lectureRev->state->changeTo('cancel', Yii::app()->user);
-//        $lectureRev->deleteLectureFromRegularDB();
     }
 
     /**
@@ -402,6 +410,10 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('approved', Yii::app()->user);
+        $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_approved'=> null));
+        if($revisionRequest){
+            $revisionRequest->setApproved();
+        }
     }
 
     public function actionReadyLectureRevision() {

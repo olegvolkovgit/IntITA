@@ -3,6 +3,7 @@ angular
     .controller('moduleRevisionCtrl',moduleRevisionCtrl);
 
 function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions, moduleRevisionMessage) {
+    redirectFromEdit=true;
     //revisions status
     $scope.revisionProposedToRelease='proposed_to_release';
     $scope.revisionReleased='released';
@@ -133,12 +134,14 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
     };
     //send revision for approve
     $scope.sendModuleRevision = function(id, redirect) {
-        moduleRevisionsActions.sendModuleRevision(id).then(function(){
-            getModuleData.getData(idRevision).then(function(response) {
-                $rootScope.moduleData = response;
-                if(redirect){
-                    location.href=basePath+'/moduleRevision/previewModuleRevision?idRevision='+idRevision;
-                }
+        moduleRevisionsActions.sendModuleRevision(id).then(function(senResponse){
+            bootbox.alert(senResponse, function () {
+                getModuleData.getData(idRevision).then(function (response) {
+                    $rootScope.moduleData = response;
+                    if (redirect) {
+                        location.href = basePath + '/moduleRevision/previewModuleRevision?idRevision=' + idRevision;
+                    }
+                });
             });
         });
     };

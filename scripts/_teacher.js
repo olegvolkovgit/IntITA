@@ -310,6 +310,46 @@ function initDeletedRequestsTable() {
     });
 }
 
+function initRejectedRevisionRequestsTable() {
+    $jq('#rejectedRevisionRequestsTable').DataTable({
+        "autoWidth": false,
+        "ajax": {
+            "url": basePath + "/_teacher/_admin/request/getRejectedRevisionRequestsList",
+            "dataSrc": "data"
+        },
+        "columns": [
+            {
+                "data": "user",
+                "render": function (user) {
+                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                }
+            },
+            {
+                "width": "30%",
+                "data": "module",
+                "render": function (module) {
+                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
+                }
+            },
+            {
+                "width": "30%",
+                "data": "type"
+            },
+            {
+                type: 'de_date', targets: 1,
+                "width": "15%",
+                "data": "dateCreated"
+            }
+        ],
+        "createdRow": function (row, data, index) {
+            $jq(row).addClass('gradeX');
+        },
+        language: {
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+        }
+    });
+}
+
 function createAgreement(url, schema, course, educationForm, module, scenario) {
     data = {
         payment: schema,

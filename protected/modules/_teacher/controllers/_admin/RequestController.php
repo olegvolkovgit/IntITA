@@ -40,6 +40,11 @@ class RequestController extends TeacherCabinetController
         echo RequestsList::listAllDeletedRequests();
     }
 
+    public function actionGetRejectedRevisionRequestsList()
+    {
+        echo RequestsList::listAllRejectedRevisionRequests();
+    }
+    
     public function actionApprove($message, $user)
     {
         $messageModel = Messages::model()->findByPk($message);
@@ -66,7 +71,24 @@ class RequestController extends TeacherCabinetController
             if (!$model->isDeleted()) {
                 echo $model->setDeleted($user);
             } else {
-                echo "Запит вже підтверджено. Ви не можете підтвердити запит двічі.";
+                echo "Запит вже скасований.";
+            }
+        } else {
+            echo "Операцію не вдалося виконати.";
+        }
+    }
+
+    public function actionReject($message, $user)
+    {
+        $messageModel = Messages::model()->findByPk($message);
+        $model = RequestFactory::getInstance($messageModel);
+        $userModel = StudentReg::model()->findByPk($user);
+
+        if ($model && $userModel) {
+            if (!$model->isRejected()) {
+                echo $model->reject($userModel);
+            } else {
+                echo "Запит вже відхилений. Ви не можете відхилити запит двічі.";
             }
         } else {
             echo "Операцію не вдалося виконати.";

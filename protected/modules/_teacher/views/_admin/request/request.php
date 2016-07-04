@@ -36,7 +36,7 @@ $sender = $model->sender();
                         <?= $sender->userNameWithEmail(); ?></a>
                 </h4>
                 <br>
-                <?php if (!($model->isDeleted() || $model->isApproved())) { ?>
+                <?php if (!($model->isDeleted() || $model->isApproved() || $model->isRejected())) { ?>
                     <ul class="list-inline">
                         <li>
                             <button class="btn btn-outline btn-success"
@@ -51,6 +51,13 @@ $sender = $model->sender();
                             </button>
                         </li>
                         <li>
+                            <button class="btn btn-outline btn-danger"
+                                    onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
+                                        array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити ревізію?')">
+                                Відхилити
+                            </button>
+                        </li>
+                        <li>
                             <button class="btn btn-outline btn-default"
                                     onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/index"); ?>'
                                         , 'Запити')">Ігнорувати
@@ -59,7 +66,7 @@ $sender = $model->sender();
                         <li>
                             <button class="btn btn-outline btn-danger"
                                     onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/cancel",
-                                        array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити запит?')">
+                                        array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Видалити запит?')">
                                 Видалити
                             </button>
                         </li>
@@ -68,6 +75,10 @@ $sender = $model->sender();
                     if ($model->isApproved()) { ?>
                         <div class="alert alert-info">
                             <?= $model->approvedByToString() ?>
+                        </div>
+                    <?php } else if($model->isRejected()){ ?>
+                        <div class="alert alert-info">
+                            <?= $model->rejectedByToString() ?>
                         </div>
                     <?php }
                 } ?>
