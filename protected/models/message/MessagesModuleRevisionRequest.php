@@ -318,3 +318,4 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
         }
     }
 }
+
