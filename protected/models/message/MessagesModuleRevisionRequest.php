@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This is the model class for table "messages_revision_request".
+ * This is the model class for table "messages_module_revision_request".
  *
- * The followings are the available columns in table 'messages_revision_request':
+ * The followings are the available columns in table 'messages_module_revision_request':
  * @property integer $id_message
- * @property integer $id_revision
+ * @property integer $id_module_revision
  * @property string $date_approved
  * @property integer $user_approved
  * @property integer $cancelled
@@ -16,14 +16,14 @@
  * @property Messages $message0
  * @property StudentReg $userApproved
  * @property StudentReg $userRejected
- * @property RevisionLecture $idRevision
+ * @property RevisionModule $idRevision
  */
-class MessagesRevisionRequest extends Messages implements IMessage, IRequest
+class MessagesModuleRevisionRequest extends Messages implements IMessage, IRequest
 {
-    private $template = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequest';
-    private $approvedTemplate = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequestApproved';
-    private $cancelledTemplate = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequestCancelled';
-    const TYPE = MessagesType::REVISION_REQUEST;
+    private $template = 'revision'. DIRECTORY_SEPARATOR . '_moduleRevisionRequest';
+    private $approvedTemplate = 'revision'. DIRECTORY_SEPARATOR . '_moduleRevisionRequestApproved';
+    private $cancelledTemplate = 'revision'. DIRECTORY_SEPARATOR . '_moduleRevisionRequestCancelled';
+    const TYPE = MessagesType::MODULE_REVISION_REQUEST;
     private $receivers = array();
     private $revision;
     private $message;
@@ -36,7 +36,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
      */
     public function tableName()
     {
-        return 'messages_revision_request';
+        return 'messages_module_revision_request';
     }
 
     /**
@@ -47,11 +47,11 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_message, id_revision', 'required'),
-            array('id_message, id_revision, user_approved, cancelled, user_rejected', 'numerical', 'integerOnly' => true),
-            array('date_approved, date_rejected', 'safe'),
+            array('id_message, id_module_revision', 'required'),
+            array('id_message, id_module_revision, user_approved, cancelled, user_rejected', 'numerical', 'integerOnly' => true),
+            array('date_approved', 'safe'),
             // The following rule is used by search().
-            array('id_message, id_revision, date_approved, user_approved, cancelled, user_rejected, date_rejected', 'safe', 'on' => 'search'),
+            array('id_message, id_module_revision, date_approved, user_approved, cancelled, user_rejected, date_rejected', 'safe', 'on' => 'search'),
         );
     }
 
@@ -66,7 +66,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
             'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
             'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
             'userRejected' => array(self::BELONGS_TO, 'StudentReg', 'user_rejected'),
-            'idRevision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
+            'idRevision' => array(self::BELONGS_TO, 'RevisionModule', 'id_module_revision'),
         );
     }
 
@@ -77,7 +77,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     {
         return array(
             'id_message' => 'Id Message',
-            'id_revision' => 'Id Revision',
+            'id_module_revision' => 'Id Module Revision',
             'date_approved' => 'Date Approved',
             'user_approved' => 'User Approved',
             'cancelled' => '0 - actual, 1 - cancelled',
@@ -103,7 +103,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         $criteria = new CDbCriteria;
 
         $criteria->compare('id_message', $this->id_message);
-        $criteria->compare('id_revision', $this->id_revision);
+        $criteria->compare('id_module_revision', $this->id_module_revision);
         $criteria->compare('date_approved', $this->date_approved, true);
         $criteria->compare('user_approved', $this->user_approved);
         $criteria->compare('cancelled', $this->cancelled);
@@ -119,7 +119,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return MessagesRevisionRequest the static model class
+     * @return MessagesModuleRevisionRequest the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -131,14 +131,15 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         return 'id_message';
     }
 
-    public function build(RevisionLecture $revision, StudentReg $user, $chained = null, $original = null)
+    public function build(RevisionModule $revision, StudentReg $user, $chained = null, $original = null)
     {
         //create and init parent model
         $this->message = new Messages();
         $this->message->build($user->id, self::TYPE, $chained, $original);
 
         $this->revision = $revision;
-        $this->id_revision = $revision->id_revision;
+        $this->id_module_revision = $revision->id_module_revision;
+
         $this->receivers = MessageReceiver::requestsReceiversArray();
     }
 
@@ -158,7 +159,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
 
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
-                $sender->send($receiver->email, '', 'Запит на затвердження ревізії', '');
+                $sender->send($receiver->email, '', 'Запит на затвердження ревізії модуля', '');
             }
         }
 
@@ -193,10 +194,10 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     public static function notApprovedRequests()
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('date_approved IS NULL and date_rejected IS NULL');
-        $criteria->addCondition('cancelled=' . MessagesRevisionRequest::ACTIVE);
+        $criteria->addCondition('date_approved IS NULL  and date_rejected IS NULL');
+        $criteria->addCondition('cancelled=' . MessagesModuleRevisionRequest::ACTIVE);
 
-        return MessagesRevisionRequest::model()->findAll($criteria);
+        return MessagesModuleRevisionRequest::model()->findAll($criteria);
     }
 
     public function setDeleted()
@@ -216,7 +217,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         if($this->save()){
             $this->message()->sender0->notify($this->approvedTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії лекції успішно підтверджено');
+                'Запит на затвердження ревізії модуля успішно підтверджено');
         }
     }
 
@@ -227,7 +228,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         if($this->save()){
             $this->message()->sender0->notify($this->cancelledTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено');
+                'Запит на затвердження ревізії модуля відхилено');
         }
     }
 
@@ -240,7 +241,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         if ($this->save()) {
             $this->message()->sender0->notify($this->approvedTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії лекції успішно підтверджено');
+                'Запит на затвердження ревізії модуля успішно підтверджено');
             return "Запит успішно підтверджений.";
         }
 
@@ -255,7 +256,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         $this->date_rejected = date("Y-m-d H:i:s");
         if ($this->save()) {
             $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено');
+                'Запит на затвердження ревізії модуля відхилено');
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
@@ -267,10 +268,10 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         $revision = $params[0];
         return (Yii::app()->db->createCommand(array(
                 'select' => 'count(*)',
-                'from' => 'messages_revision_request mr',
+                'from' => 'messages_module_revision_request mr',
                 'join' => 'LEFT JOIN messages m ON m.id = mr.id_message',
-                'where' => 'mr.id_revision=' . $revision->id_revision . ' and cancelled=' . self::ACTIVE .
-                    ' and date_approved IS NULL and date_rejected IS NULL'
+                'where' => 'mr.id_module_revision=' . $revision->id_module_revision . ' and cancelled=' . self::ACTIVE .
+                    ' and date_approved IS NULL  and date_rejected IS NULL'
             ))->queryScalar() > 0) ? true : false;
     }
 
@@ -286,17 +287,17 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
 
     public function title()
     {
-        return "Запит на затвердження ревізії лекції";
+        return "Запит на затвердження ревізії модуля";
     }
 
     public function module()
     {
-        return $this->idRevision->module;
+        return Module::model()->findByPk($this->idRevision->id_module);
     }
 
     public function type()
     {
-        return Request::REVISION_REQUEST;
+        return Request::MODULE_REVISION_REQUEST;
     }
 
     public function subject()
@@ -380,3 +381,4 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         }
     }
 }
+

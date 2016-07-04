@@ -169,7 +169,7 @@ class ModuleRevisionController extends Controller {
         foreach ($modules as $module) {
             $node = array();
             $node['text'] = "Ревізія №" . $module->id_module_revision . " " .
-                $module->properties->title_ua . ". Статус: <strong>" . $module->getStatus().'</strong>'.
+                $module->properties->title_ua . ". Статус: <strong>" . $module->state->getName().'</strong>'.
                 ' Створена: '.$module->properties->start_date.' Модифікована: '.$module->properties->update_date;
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
@@ -194,7 +194,7 @@ class ModuleRevisionController extends Controller {
         foreach ($modules as $module) {
             $node = array();
             $node['text'] = "Ревізія №" . $module->id_module_revision . " " .
-                $module->properties->title_ua . ". Статус: <strong>" . $module->getStatus().'</strong>'.
+                $module->properties->title_ua . ". Статус: <strong>" . $module->state->getName() .'</strong>'.
                 ' Створена: '.$module->properties->start_date.' Модифікована: '.$module->properties->update_date;
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
@@ -374,7 +374,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canCancelEdit()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
-        $moduleRev->cancelEditRevisionByEditor(Yii::app()->user);
+        $moduleRev->state->changeTo('cancelledAuthor', Yii::app()->user);
     }
 
     public function actionRestoreEditModuleRevisionByEditor () {
@@ -383,7 +383,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canRestoreEdit()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
-        $moduleRev->restoreEditRevisionByEditor();
+        $moduleRev->state->changeTo('editable', Yii::app()->user);
     }
 
     public function actionSendForApproveModule() {
@@ -395,7 +395,8 @@ class ModuleRevisionController extends Controller {
         $result = $moduleRev->checkConflicts();
 
         if (empty($result)) {
-            $moduleRev->sendForApproval(Yii::app()->user);
+            $moduleRev->state->changeTo('sendForApproval', Yii::app()->user);
+            $this->sendModuleRevisionRequest($moduleRev);
         } else {
             echo $result;
         }
@@ -407,7 +408,11 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canCancelSendForApproval()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
-        $moduleRev->revoke();
+        $moduleRev->state->changeTo('editable', Yii::app()->user);
+        $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0));
+        if($revisionRequest){
+            $revisionRequest->setDeleted();
+        }
     }
 
     public function actionRejectModuleRevision() {
@@ -416,8 +421,11 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canRejectRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0827'));
         }
-        $moduleRev->reject(Yii::app()->user);
-
+        $moduleRev->state->changeTo('rejected', Yii::app()->user);
+        $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0, 'user_rejected'=> null));
+        if($revisionRequest){
+            $revisionRequest->setRejected();
+        }
     }
 
     public function actionApproveModuleRevision() {
@@ -426,7 +434,11 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->approve(Yii::app()->user);
+        $moduleRev->state->changeTo('approved', Yii::app()->user);
+        $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0, 'user_approved'=> null));
+        if($revisionRequest){
+            $revisionRequest->setApproved();
+        }
     }
 
     public function actionCancelModuleRevision () {
@@ -436,7 +448,7 @@ class ModuleRevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
         if($moduleRev->deleteModuleLecturesFromRegularDB()){
-            $moduleRev->cancel(Yii::app()->user);
+            $moduleRev->state->changeTo('cancel', Yii::app()->user);
         }
     }
 
@@ -446,7 +458,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->release(Yii::app()->user);
+        $moduleRev->state->changeTo('released', Yii::app()->user);
     }
 
     public function actionPreviewModuleRevision($idRevision) {
@@ -495,7 +507,7 @@ class ModuleRevisionController extends Controller {
             $lectures[$key]["title"] = $lecture->properties->title_ua;
         }
 
-        $module['status']=$moduleRevision->getStatus();
+        $module['status']=$moduleRevision->state->getName();
         $module['canEdit']=$moduleRevision->canEdit();
         $module['canSendForApproval']=$moduleRevision->canSendForApproval();
         $module['canCancelSendForApproval']=$moduleRevision->canCancelSendForApproval();
@@ -521,7 +533,7 @@ class ModuleRevisionController extends Controller {
 
         $moduleRevision = RevisionModule::model()->findByPk($idRevision);
 
-        if (!$moduleRevision->canEdit()) {
+        if (!$moduleRevision || !$moduleRevision->canEdit()) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
@@ -664,8 +676,7 @@ class ModuleRevisionController extends Controller {
 
     public function actionModuleRevisionsAuthors() {
         if(Yii::app()->request->getPost('idCourse')){
-            $idModule=Yii::app()->request->getPost('idCourse');
-            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            echo json_encode(RevisionModule::getModuleRevisionsAuthors());
             die;
         }else if(Yii::app()->request->getPost('idModule')){
             echo json_encode(RevisionModule::getModuleRevisionsAuthors(Yii::app()->request->getPost('idModule')));
@@ -673,6 +684,31 @@ class ModuleRevisionController extends Controller {
         }else{
             echo json_encode(RevisionModule::getModuleRevisionsAuthors());
             die;
+        }
+    }
+
+    private function sendModuleRevisionRequest(RevisionModule $revision){
+        if($revision){
+            $message = new MessagesModuleRevisionRequest();
+            if($message->isRequestOpen(array($revision))) {
+                echo "Такий запит вже надіслано. Ви не можете надіслати запит на затвердження ревізії модуля двічі.";
+            } else {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message->build($revision, Yii::app()->user->model->registrationData);
+                    $message->create();
+                    $sender = new MailTransport();
+
+                    $message->send($sender);
+                    $transaction->commit();
+                    echo "Запит на затвердження ревізії модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження ревізії модуля не вдалося надіслати.");
+                }
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
         }
     }
 }

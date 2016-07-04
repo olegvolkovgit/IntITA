@@ -17,7 +17,6 @@
 class RevisionModule extends CRevisionUnitActiveRecord
 {
 
-    private $approveResultCashed = null;
     /**
      * @return string the associated database table name
      */
@@ -513,14 +512,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $lecturesToAdd = array_diff($newLectures, $currentLectures);
 
             if (count($lecturesToAdd)) {
-//                $criteria = new CDbCriteria([
-//                    'condition' => 'id_revision in (:id_revision) and id_module <> :not_id_module',
-//                    'params' => [
-//                        'id_revision' => implode(',', $lecturesToAdd),
-//                        'not_id_module' => $this->id_module
-//                    ]
-//                ]);
-//                $revLectures = RevisionLecture::model()->findAll($criteria);
                 $revLectures = RevisionLecture::model()->findAllByPk($lecturesToAdd);
                 foreach ($revLectures as $lecture) {
                     /* If the lecture we should add, already attached to other module, we bud it to this module*/
@@ -583,49 +574,47 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return null;
     }
 
-    protected function beforeRelease($user) {
-        
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            $this->saveModulePropertiesToRegularDB();
-            $this->deleteModuleLecturesFromRegularDB();
-            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-                $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
-                $moduleLecture->lecture->release($user);
-            }
-            $this->cancelReleasedModuleInTree($user);
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
-        }
-        foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-            $lectureRev=$moduleLecture->lecture;
-            $lectureRev->createDirectory($newLecture[$key]);
-            $lectureRev->createTemplates($newLecture[$key]);
-        }
+//    protected function beforeRelease($user) {
+//        $transaction = Yii::app()->db->beginTransaction();
+//        try {
+//            $this->saveModulePropertiesToRegularDB();
+//            $this->deleteModuleLecturesFromRegularDB();
+//            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
+//                $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
+//                $moduleLecture->lecture->release($user);
+//            }
+//            $this->cancelReleasedModuleInTree($user);
+//            $transaction->commit();
+//        } catch (Exception $e) {
+//            $transaction->rollback();
+//            throw $e;
+//        }
+//        foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
+//            $lectureRev=$moduleLecture->lecture;
+//            $lectureRev->createDirectory($newLecture[$key]);
+//            $lectureRev->createTemplates($newLecture[$key]);
+//        }
+//        return true;
+//    }
+//    protected function afterRelease() {
+//        Module::model()->updateByPk($this->id_module, array('id_module_revision'=>$this->id_module_revision));
+//        return true;
+//    }
 
-        return true;
-    }
-    protected function afterRelease() {
-        Module::model()->updateByPk($this->id_module, array('id_module_revision'=>$this->id_module_revision));
-        return true;
-    }
-
-    protected function beforeCancel($user) {
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
-            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-                $moduleLecture->lecture->cancelReleasedInTree($user);
-            }
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
-        }
-
-        return true;
-    }
+//    protected function beforeCancel($user) {
+//        $transaction = Yii::app()->db->beginTransaction();
+//        try {
+//            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
+//                $moduleLecture->lecture->cancelReleasedInTree($user);
+//            }
+//            $transaction->commit();
+//        } catch (Exception $e) {
+//            $transaction->rollback();
+//            throw $e;
+//        }
+//
+//        return true;
+//    }
 
     public function deleteModuleLecturesFromRegularDB() {
         $module=Module::model()->findByPk($this->id_module);
@@ -670,7 +659,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $module->update();
     }
 
-    private function cancelReleasedModuleInTree($user){
+    public function cancelReleasedModuleInTree($user){
         $idList = $this->getRelatedIdList();
         $moduleRevisions = RevisionModule::model()->findAllByPk($idList);
         foreach ($moduleRevisions as $moduleRevision) {
@@ -712,16 +701,12 @@ class RevisionModule extends CRevisionUnitActiveRecord
     public static function getModuleRevisionsAuthors($idModule=null) {
         $authors=array();
         if ($idModule != null) {
-            $criteria = new CDbCriteria;
-            $criteria->distinct = true;
-            $criteria->select = 'id_module_revision';
-            $criteria->group='id_user_created';
-            $criteria->with = array("properties"=>array("select"=>"id_user_created"));
-            $criteria->condition = 'id_module=' . $idModule;
-            $revisions = RevisionModule::model()->findAll($criteria);
+            $qs = 'SELECT DISTINCT id_user_created FROM `vc_module` `t` LEFT OUTER JOIN `vc_module_properties` `properties` ON (`properties`.`id` = `t`.`id_properties`) WHERE id_module = '.$idModule;
+            $revisions = Yii::app()->db->createCommand($qs)->queryAll();
+
             foreach ($revisions as $key=>$author){
-                $authors[$key]['id']=$author["properties"]["id_user_created"];
-                $authors[$key]['authorName'] =StudentReg::getUserNamePayment($author["properties"]["id_user_created"]);
+                $authors[$key]['id']=$author;
+                $authors[$key]['authorName'] =StudentReg::getUserNamePayment($author);
             }
         } else {
             $criteria = new CDbCriteria;

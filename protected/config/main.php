@@ -31,6 +31,10 @@ return array(
         'application.models.quiz.*',
         'application.models.slider.*',
         'application.models.revision.*',
+        'application.models.revision.state.*',
+        'application.models.revision.state.lecture.*',
+        'application.models.revision.state.module.*',
+        'application.models.revision.state.course.*',
         'application.models.user.*',
         'application.components.*',
         'application.components.widgets.*',
@@ -185,8 +189,8 @@ return array(
         'adminEmail' => 'Wizlightdragon@gmail.com',
         'languages' => array('en' => 'English', 'ua' => 'Ukrainian', 'ru' => 'Russian'),
         'dbDateFormat'=>'Y-m-d H:i:s',
-        'titleUAPattern'=>'^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇїҐґ.,\/:;`\'’&@_()%#№|\\\\?! ~<>*+-]',
-        'titleRUPattern'=>'^[=а-яА-Яa-zA-Z0-9.,\/:;`\'’&@_()%#№|\\\\?! ~<>*+-]', 
-        'titleENPattern'=>'^[=a-zA-Z0-9.,\/:;`\'’&@_()%#№|\\\\?! ~<>*+-]'
+        'titleUAPattern'=>'^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇїҐґ.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]',
+        'titleRUPattern'=>'^[=а-яА-Яa-zA-Z0-9.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]',
+        'titleENPattern'=>'^[=a-zA-Z0-9.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]'
     ),
 );
