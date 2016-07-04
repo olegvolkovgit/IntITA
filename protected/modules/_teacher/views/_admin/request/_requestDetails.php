@@ -15,6 +15,9 @@ switch($model->type()){
     case Request::REVISION_REQUEST:
         $this->renderPartial('_revisionRequest', array('model' => $model));
         break;
+    case Request::MODULE_REVISION_REQUEST:
+        $this->renderPartial('_moduleRevisionRequest', array('model' => $model));
+        break;
     default:
         return null;
 }

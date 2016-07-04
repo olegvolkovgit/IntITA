@@ -8,7 +8,8 @@ class RequestsList
         $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesTeacherConsultantRequest::ACTIVE);
         $coworkerRequests = MessagesCoworkerRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesCoworkerRequest::ACTIVE);
         $revisionRequests = MessagesRevisionRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesRevisionRequest::ACTIVE);
-        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests);
+        $moduleRevisionRequests = MessagesModuleRevisionRequest::model()->findAll('date_approved IS NULL and cancelled = '.MessagesModuleRevisionRequest::ACTIVE);
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests, $moduleRevisionRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
@@ -33,7 +34,8 @@ class RequestsList
         $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesTeacherConsultantRequest::ACTIVE);
         $coworkerRequests = MessagesCoworkerRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesCoworkerRequest::ACTIVE);
         $revisionRequests = MessagesRevisionRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesRevisionRequest::ACTIVE);
-        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests);
+        $moduleRevisionRequests = MessagesModuleRevisionRequest::model()->findAll('date_approved IS NOT NULL and cancelled = '.MessagesModuleRevisionRequest::ACTIVE);
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests, $moduleRevisionRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();
@@ -58,7 +60,8 @@ class RequestsList
         $consultantRequests = MessagesTeacherConsultantRequest::model()->findAll('cancelled = '.MessagesTeacherConsultantRequest::DELETED);
         $coworkerRequests = MessagesCoworkerRequest::model()->findAll('cancelled = '.MessagesCoworkerRequest::DELETED);
         $revisionRequests = MessagesRevisionRequest::model()->findAll('cancelled = '.MessagesRevisionRequest::DELETED);
-        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests);
+        $moduleRevisionRequests = MessagesModuleRevisionRequest::model()->findAll('cancelled = '.MessagesModuleRevisionRequest::DELETED);
+        $requests = array_merge($authorRequests, $consultantRequests, $coworkerRequests, $revisionRequests, $moduleRevisionRequests);
         $return = array('data' => array());
         foreach ($requests as $record) {
             $row = array();

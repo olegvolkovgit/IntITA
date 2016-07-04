@@ -396,6 +396,7 @@ class ModuleRevisionController extends Controller {
 
         if (empty($result)) {
             $moduleRev->sendForApproval(Yii::app()->user);
+            $this->sendModuleRevisionRequest($moduleRev);
         } else {
             echo $result;
         }
@@ -673,6 +674,31 @@ class ModuleRevisionController extends Controller {
         }else{
             echo json_encode(RevisionModule::getModuleRevisionsAuthors());
             die;
+        }
+    }
+
+    private function sendModuleRevisionRequest(RevisionModule $revision){
+        if($revision){
+            $message = new MessagesModuleRevisionRequest();
+            if($message->isRequestOpen(array($revision))) {
+                echo "Такий запит вже надіслано. Ви не можете надіслати запит на затвердження ревізії модуля двічі.";
+            } else {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $message->build($revision, Yii::app()->user->model->registrationData);
+                    $message->create();
+                    $sender = new MailTransport();
+
+                    $message->send($sender);
+                    $transaction->commit();
+                    echo "Запит на затвердження ревізії модуля успішно відправлено. Зачекайте, поки адміністратор сайта підтвердить запит.";
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    throw new \application\components\Exceptions\IntItaException(500, "Запит на затвердження ревізії модуля не вдалося надіслати.");
+                }
+            }
+        } else {
+            throw new \application\components\Exceptions\IntItaException(400);
         }
     }
 }
