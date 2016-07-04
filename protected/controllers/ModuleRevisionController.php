@@ -169,7 +169,7 @@ class ModuleRevisionController extends Controller {
         foreach ($modules as $module) {
             $node = array();
             $node['text'] = "Ревізія №" . $module->id_module_revision . " " .
-                $module->properties->title_ua . ". Статус: <strong>" . $module->getStatus().'</strong>'.
+                $module->properties->title_ua . ". Статус: <strong>" . $module->state->getName().'</strong>'.
                 ' Створена: '.$module->properties->start_date.' Модифікована: '.$module->properties->update_date;
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
@@ -194,7 +194,7 @@ class ModuleRevisionController extends Controller {
         foreach ($modules as $module) {
             $node = array();
             $node['text'] = "Ревізія №" . $module->id_module_revision . " " .
-                $module->properties->title_ua . ". Статус: <strong>" . $module->getStatus().'</strong>'.
+                $module->properties->title_ua . ". Статус: <strong>" . $module->state->getName() .'</strong>'.
                 ' Створена: '.$module->properties->start_date.' Модифікована: '.$module->properties->update_date;
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
@@ -374,7 +374,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canCancelEdit()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
-        $moduleRev->cancelEditRevisionByEditor(Yii::app()->user);
+        $moduleRev->state->changeTo('cancelledAuthor', Yii::app()->user);
     }
 
     public function actionRestoreEditModuleRevisionByEditor () {
@@ -383,7 +383,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canRestoreEdit()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
-        $moduleRev->restoreEditRevisionByEditor();
+        $moduleRev->state->changeTo('editable', Yii::app()->user);
     }
 
     public function actionSendForApproveModule() {
@@ -395,7 +395,7 @@ class ModuleRevisionController extends Controller {
         $result = $moduleRev->checkConflicts();
 
         if (empty($result)) {
-            $moduleRev->sendForApproval(Yii::app()->user);
+            $moduleRev->state->changeTo('sendForApproval', Yii::app()->user);
             $this->sendModuleRevisionRequest($moduleRev);
         } else {
             echo $result;
@@ -408,7 +408,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canCancelSendForApproval()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
-        $moduleRev->revoke();
+        $moduleRev->state->changeTo('editable', Yii::app()->user);
     }
 
     public function actionRejectModuleRevision() {
@@ -417,7 +417,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canRejectRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0827'));
         }
-        $moduleRev->reject(Yii::app()->user);
+        $moduleRev->state->changeTo('rejected', Yii::app()->user);
 
     }
 
@@ -427,7 +427,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canApprove()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->approve(Yii::app()->user);
+        $moduleRev->state->changeTo('approved', Yii::app()->user);
     }
 
     public function actionCancelModuleRevision () {
@@ -437,7 +437,7 @@ class ModuleRevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
         if($moduleRev->deleteModuleLecturesFromRegularDB()){
-            $moduleRev->cancel(Yii::app()->user);
+            $moduleRev->state->changeTo('cancel', Yii::app()->user);
         }
     }
 
@@ -447,7 +447,7 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->release(Yii::app()->user);
+        $moduleRev->state->changeTo('released', Yii::app()->user);
     }
 
     public function actionPreviewModuleRevision($idRevision) {
@@ -496,7 +496,7 @@ class ModuleRevisionController extends Controller {
             $lectures[$key]["title"] = $lecture->properties->title_ua;
         }
 
-        $module['status']=$moduleRevision->getStatus();
+        $module['status']=$moduleRevision->state->getName();
         $module['canEdit']=$moduleRevision->canEdit();
         $module['canSendForApproval']=$moduleRevision->canSendForApproval();
         $module['canCancelSendForApproval']=$moduleRevision->canCancelSendForApproval();
@@ -522,7 +522,7 @@ class ModuleRevisionController extends Controller {
 
         $moduleRevision = RevisionModule::model()->findByPk($idRevision);
 
-        if (!$moduleRevision->canEdit()) {
+        if (!$moduleRevision || !$moduleRevision->canEdit()) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
