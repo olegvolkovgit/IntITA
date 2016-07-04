@@ -9,10 +9,13 @@
  * @property string $date_approved
  * @property integer $user_approved
  * @property integer $cancelled
+ * @property string $date_rejected
+ * @property integer $user_rejected
  *
  * The followings are the available model relations:
  * @property Messages $message0
  * @property StudentReg $userApproved
+ * @property StudentReg $userRejected
  * @property RevisionLecture $idRevision
  */
 class MessagesRevisionRequest extends Messages implements IMessage, IRequest
@@ -45,10 +48,10 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         // will receive user inputs.
         return array(
             array('id_message, id_revision', 'required'),
-            array('id_message, id_revision, user_approved, cancelled', 'numerical', 'integerOnly' => true),
-            array('date_approved', 'safe'),
+            array('id_message, id_revision, user_approved, cancelled, user_rejected', 'numerical', 'integerOnly' => true),
+            array('date_approved, date_rejected', 'safe'),
             // The following rule is used by search().
-            array('id_message, id_revision, date_approved, user_approved, cancelled', 'safe', 'on' => 'search'),
+            array('id_message, id_revision, date_approved, user_approved, cancelled, user_rejected, date_rejected', 'safe', 'on' => 'search'),
         );
     }
 
@@ -62,6 +65,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         return array(
             'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
             'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
+            'userRejected' => array(self::BELONGS_TO, 'StudentReg', 'user_rejected'),
             'idRevision' => array(self::BELONGS_TO, 'RevisionLecture', 'id_revision'),
         );
     }
@@ -77,6 +81,8 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
             'date_approved' => 'Date Approved',
             'user_approved' => 'User Approved',
             'cancelled' => '0 - actual, 1 - cancelled',
+            'date_rejected' => 'Date Rejected',
+            'user_rejected' => 'User Rejected',
         );
     }
 
@@ -101,6 +107,8 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         $criteria->compare('date_approved', $this->date_approved, true);
         $criteria->compare('user_approved', $this->user_approved);
         $criteria->compare('cancelled', $this->cancelled);
+        $criteria->compare('date_approved', $this->date_rejected, true);
+        $criteria->compare('user_approved', $this->user_rejected);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -185,7 +193,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     public static function notApprovedRequests()
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('date_approved IS NULL');
+        $criteria->addCondition('date_approved IS NULL and date_rejected IS NULL');
         $criteria->addCondition('cancelled=' . MessagesRevisionRequest::ACTIVE);
 
         return MessagesRevisionRequest::model()->findAll($criteria);
@@ -195,18 +203,38 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     {
         $this->cancelled = self::DELETED;
         if ($this->save()) {
-            $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено');
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
         }
     }
 
+    public function setApproved()
+    {
+        $this->user_approved = Yii::app()->user->getId();
+        $this->date_approved = date("Y-m-d H:i:s");
+        if($this->save()){
+            $this->message()->sender0->notify($this->approvedTemplate,
+                array($this->idRevision),
+                'Запит на затвердження ревізії лекції успішно підтверджено');
+        }
+    }
+
+    public function setRejected()
+    {
+        $this->user_rejected = Yii::app()->user->getId();
+        $this->date_rejected = date("Y-m-d H:i:s");
+        if($this->save()){
+            $this->message()->sender0->notify($this->cancelledTemplate,
+                array($this->idRevision),
+                'Запит на затвердження ревізії лекції відхилено');
+        }
+    }
+
     public function approve(StudentReg $userApprove)
     {
         date_default_timezone_set(Config::getServerTimezone());
-        $this->idRevision->approve(Yii::app()->user);
+        $this->idRevision->state->changeTo('approved', Yii::app()->user);
         $this->user_approved = $userApprove->id;
         $this->date_approved = date("Y-m-d H:i:s");
         if ($this->save()) {
@@ -219,6 +247,21 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         return "Операцію не вдалося виконати";
     }
 
+    public function reject(StudentReg $userRejected)
+    {
+        date_default_timezone_set(Config::getServerTimezone());
+        $this->idRevision->state->changeTo('rejected', Yii::app()->user);
+        $this->user_rejected = $userRejected->id;
+        $this->date_rejected = date("Y-m-d H:i:s");
+        if ($this->save()) {
+            $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
+                'Запит на затвердження ревізії лекції відхилено');
+            return "Операцію успішно виконано.";
+        } else {
+            return "Операцію не вдалося виконати.";
+        }
+    }
+
     public function isRequestOpen($params)
     {
         $revision = $params[0];
@@ -227,7 +270,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
                 'from' => 'messages_revision_request mr',
                 'join' => 'LEFT JOIN messages m ON m.id = mr.id_message',
                 'where' => 'mr.id_revision=' . $revision->id_revision . ' and cancelled=' . self::ACTIVE .
-                    ' and date_approved IS NULL'
+                    ' and date_approved IS NULL and date_rejected IS NULL'
             ))->queryScalar() > 0) ? true : false;
     }
 
@@ -290,6 +333,15 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         }
     }
 
+    public function isRejected()
+    {
+        if ($this->date_rejected != null && $this->user_rejected != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function isDeleted()
     {
         return $this->cancelled == self::DELETED;
@@ -302,6 +354,8 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         } else {
             if ($this->isApproved()) {
                 return 'підтверджений';
+            } else if($this->isRejected()){
+                return 'ревізія відхилена';
             } else {
                 return 'очікує затвердження';
             }
@@ -312,6 +366,15 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
     {
         if ($this->isApproved()) {
             return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:i", strtotime($this->date_approved));
+        } else {
+            return '';
+        }
+    }
+
+    public function rejectedByToString()
+    {
+        if ($this->isRejected()) {
+            return 'Відхилено: ' . $this->userRejected->userNameWithEmail() . ' ' . date("d.m.Y H:i", strtotime($this->date_rejected));
         } else {
             return '';
         }

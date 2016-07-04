@@ -10,8 +10,14 @@ angular
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
-                    if(response.data!='') bootbox.alert(response.data);
-                    return response.data;
+                    if(response.data!='') {
+                        if(typeof redirectFromEdit!='undefined'){
+                            return response.data;
+                        }else{
+                            bootbox.alert(response.data);
+                            return false;
+                        }
+                    }
                 }, function errorCallback() {
                     bootbox.alert("Відправити ревізію модуля на затвердження не вдалося. Зв'яжіться з адміністрацією");
                     return false;

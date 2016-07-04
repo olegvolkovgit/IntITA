@@ -33,6 +33,7 @@ angular
     .controller('lectureRevisionCtrl',lectureRevisionCtrl);
 
 function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData, revisionsActions) {
+    redirectFromEdit=true;
     //load from service lecture data for scope
     getLectureData.getData(idRevision).then(function(response){
         $rootScope.lectureData=response;
@@ -47,10 +48,12 @@ function lectureRevisionCtrl($rootScope,$scope, $http, getLectureData, revisions
     };
     //send revision for approve
     $scope.sendRevision = function(id) {
-        revisionsActions.sendRevision(id).then(function(){
-            getLectureData.getData(idRevision).then(function(response){
-                $rootScope.lectureData=response;
-                location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
+        revisionsActions.sendRevision(id).then(function(senResponse){
+            bootbox.alert(senResponse, function () {
+                getLectureData.getData(idRevision).then(function(response){
+                    $rootScope.lectureData=response;
+                    location.href=basePath+'/revision/previewLectureRevision?idRevision='+idRevision;
+                });
             });
         });
     };

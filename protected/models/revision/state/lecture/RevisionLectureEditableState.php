@@ -7,7 +7,7 @@ class RevisionLectureEditableState extends RevisionState {
     }
 
     public function sendForApproval($user) {
-        if ($this->revisionUnit->checkConflicts()) {
+        if (empty($this->revisionUnit->checkConflicts())) {
             $this->revisionUnit->properties->send_approval_date = new CDbExpression('NOW()');
             $this->revisionUnit->properties->id_user_sended_approval = $user->getId();
             $this->revisionUnit->properties->saveCheck();

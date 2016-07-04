@@ -8,6 +8,8 @@
             </li>
             <li><a href="#deleted" data-toggle="tab">Відхилені</a>
             </li>
+            <li><a href="#rejected" data-toggle="tab">Відхилені ревізії</a>
+            </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -20,6 +22,9 @@
             <div class="tab-pane fade" id="deleted">
                 <?php $this->renderPartial('_deletedRequests');?>
             </div>
+            <div class="tab-pane fade" id="rejected">
+                <?php $this->renderPartial('_rejectedRevisionRequests');?>
+            </div>
         </div>
     </div>
 </div>
@@ -29,5 +34,6 @@
         initActiveRequestsTable();
         initApprovedRequestsTable();
         initDeletedRequestsTable();
+        initRejectedRevisionRequestsTable();
     });
 </script>

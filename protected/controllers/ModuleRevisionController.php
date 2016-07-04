@@ -409,6 +409,10 @@ class ModuleRevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('revision', '0590'));
         }
         $moduleRev->state->changeTo('editable', Yii::app()->user);
+        $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0));
+        if($revisionRequest){
+            $revisionRequest->setDeleted();
+        }
     }
 
     public function actionRejectModuleRevision() {
@@ -418,7 +422,10 @@ class ModuleRevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('revision', '0827'));
         }
         $moduleRev->state->changeTo('rejected', Yii::app()->user);
-
+        $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0, 'user_rejected'=> null));
+        if($revisionRequest){
+            $revisionRequest->setRejected();
+        }
     }
 
     public function actionApproveModuleRevision() {
@@ -428,6 +435,10 @@ class ModuleRevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
         $moduleRev->state->changeTo('approved', Yii::app()->user);
+        $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0, 'user_approved'=> null));
+        if($revisionRequest){
+            $revisionRequest->setApproved();
+        }
     }
 
     public function actionCancelModuleRevision () {
@@ -665,8 +676,7 @@ class ModuleRevisionController extends Controller {
 
     public function actionModuleRevisionsAuthors() {
         if(Yii::app()->request->getPost('idCourse')){
-            $idModule=Yii::app()->request->getPost('idCourse');
-            echo json_encode(RevisionLecture::getRevisionsAuthors($idModule));
+            echo json_encode(RevisionModule::getModuleRevisionsAuthors());
             die;
         }else if(Yii::app()->request->getPost('idModule')){
             echo json_encode(RevisionModule::getModuleRevisionsAuthors(Yii::app()->request->getPost('idModule')));
