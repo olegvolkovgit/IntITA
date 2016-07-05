@@ -261,14 +261,17 @@ class RegisteredUser
     {
         $authorRequests = MessagesAuthorRequest::notApprovedRequests();
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
-        $revisionRequests = MessagesRevisionRequest::notApprovedRequests();
-        $moduleRevisionRequests = MessagesModuleRevisionRequest::notApprovedRequests();
 
-        $result = array_merge($authorRequests, $consultantRequests, $revisionRequests, $moduleRevisionRequests)
-        ;
+        $result = array_merge($authorRequests, $consultantRequests);
+
         if($this->isAdmin()){
             $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
             $result = array_merge($result, $assignCoworkerRequests);
+        }
+        if($this->isContentManager()){
+            $revisionRequests = MessagesRevisionRequest::notApprovedRequests();
+            $moduleRevisionRequests = MessagesModuleRevisionRequest::notApprovedRequests();
+            $result = array_merge($result, $revisionRequests, $moduleRevisionRequests);
         }
 
         return $result;
