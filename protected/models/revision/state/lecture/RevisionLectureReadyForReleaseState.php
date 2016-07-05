@@ -25,5 +25,4 @@ class RevisionLectureReadyForReleaseState extends RevisionState {
             //todo inform user
         }
     }
-
 }
