@@ -705,7 +705,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $revisions = Yii::app()->db->createCommand($qs)->queryAll();
 
             foreach ($revisions as $key=>$author){
-                $authors[$key]['id']=$author;
+                $authors[$key]['id']=$author["id_user_created"];
                 $authors[$key]['authorName'] =StudentReg::getUserNamePayment($author);
             }
         } else {

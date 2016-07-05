@@ -70,7 +70,17 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
             if($scope.approvedLecture.current[revision.status]){
                 $scope.approvedLecture.current[revision.status].push(revision);
             }else{
-                $scope.approvedLecture.current['released'].push(revision);
+                switch (revision.status) {
+                    case "Готова до релізу":
+                        $scope.approvedLecture.current['proposed_to_release'].push(revision);
+                        break;
+                    case "Реліз":
+                        $scope.approvedLecture.current['released'].push(revision);
+                        break;
+                    case "Затверджена":
+                        $scope.approvedLecture.current['approved'].push(revision);
+                        break;
+                }
             }
         }
     };

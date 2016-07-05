@@ -37,7 +37,7 @@ class RevisionStateFactory {
         }
         $currentState = null;
         foreach ($states as $state=>$date) {
-            if (!$currentState || date($date) > date($states[$currentState])) {
+            if (!$currentState || date($date) >= date($states[$currentState])) {
                 $currentState = $state;
             }
         }

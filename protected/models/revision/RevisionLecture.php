@@ -953,7 +953,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $qs = 'SELECT DISTINCT id_user_created FROM vc_lecture_properties INNER JOIN vc_lecture ON vc_lecture.id_properties = vc_lecture_properties.id WHERE vc_lecture.id_module = '.$idModule;
             $revisions = Yii::app()->db->createCommand($qs)->queryAll();
             foreach ($revisions as $key=>$author){
-                $authors[$key]['id']=$author;
+                $authors[$key]['id']=$author["id_user_created"];
                 $authors[$key]['authorName'] =StudentReg::getUserNamePayment($author);
             }
         } else {

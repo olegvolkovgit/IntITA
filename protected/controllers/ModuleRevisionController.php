@@ -505,6 +505,7 @@ class ModuleRevisionController extends Controller {
             $lectures[$key]["id_lecture_revision"] = $lecture->id_revision;
             $lectures[$key]["lecture_order"] = $lecturesModel->lecture_order;
             $lectures[$key]["title"] = $lecture->properties->title_ua;
+            $lectures[$key]["status"] = $lecture->state->getName();
         }
 
         $module['status']=$moduleRevision->state->getName();
