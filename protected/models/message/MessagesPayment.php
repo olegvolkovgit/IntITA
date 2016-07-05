@@ -114,6 +114,7 @@ class MessagesPayment extends Messages implements IMessage
 						  $chained = null, $original = null)
     {
         //create and init parent model
+		$educFormModel = EducationForm::model()->findByPk($educForm);
         $this->message = new Messages();
         $this->message->build(Config::getAdminId(), self::TYPE, $chained, $original);
 
@@ -122,8 +123,8 @@ class MessagesPayment extends Messages implements IMessage
         $this->template = $billableObject->paymentMailTemplate();
         $this->billableObject = $billableObject;
         $this->receiver = $user;
-        $this->service_id = ($billableObject->getType() == 'K')?CourseService::getService($billableObject->course_ID, $educForm)->service_id:
-        ModuleService::getService($billableObject->module_ID, $educForm)->service_id;
+        $this->service_id = ($billableObject->getType() == 'K')?CourseService::getService($billableObject->course_ID, $educFormModel)->service_id:
+        ModuleService::getService($billableObject->module_ID, $educFormModel)->service_id;
     }
 
 	public function create(){
