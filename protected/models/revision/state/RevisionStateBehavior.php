@@ -25,6 +25,7 @@ class RevisionStateBehavior extends CActiveRecordBehavior {
     
     public function changeTo($state, $user) {
         $this->state->changeTo($state, $user);
+        $this->owner->refresh();
         $revisionStateFactory = new RevisionStateFactory($this->owner);
         $this->state = $revisionStateFactory->getState();
     }
