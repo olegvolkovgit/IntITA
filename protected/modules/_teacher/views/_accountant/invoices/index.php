@@ -25,9 +25,13 @@
                     foreach ($invoices as $invoice) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><a href="#" onclick="load(
+                            <td>
+                                <?php if(isset($invoice->agreement)) { ?>
+                                <a href="#" onclick="load(
                                     '<?= Yii::app()->createUrl('/_teacher/_accountant/agreements/agreement', array('id' => $invoice->agreement_id)); ?>',
-                                    'Договір'); return false;">Договір <?=$invoice->agreement->number; ?></a></td>
+                                    'Договір'); return false;">Договір <?= $invoice->agreement->number; ?></a>
+                                <?php } else { echo 'Договір не знайдено'; } ?>
+                            </td>
                             <td><?= ($invoice->date_created)? date("d.m.y", strtotime($invoice->date_created)):"" ?></td>
                             <td><?= $invoice->summa; ?></td>
                             <td><?= $invoice->userCreated->userNameWithEmail();?></td>

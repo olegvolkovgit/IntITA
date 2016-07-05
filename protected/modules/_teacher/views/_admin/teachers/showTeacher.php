@@ -38,6 +38,14 @@ $model = $user->registrationData;
                     Додати модуль
                 </button>
             </li>
+            <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                <li>
+                    <button type="button" class="btn btn-primary"
+                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
+                                'Користувачі')">Користувачі
+                    </button>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 

@@ -36,7 +36,7 @@ $sender = $model->sender();
                         <?= $sender->userNameWithEmail(); ?></a>
                 </h4>
                 <br>
-                <?php if (!($model->isDeleted() || $model->isApproved() || $model->isRejected())) { ?>
+                <?php if (!($model->isDeleted() || $model->isApproved())) { ?>
                     <ul class="list-inline">
                         <li>
                             <button class="btn btn-outline btn-success"
@@ -50,6 +50,7 @@ $sender = $model->sender();
                                 Підтвердити
                             </button>
                         </li>
+                        <?php if(in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && !$model->isRejected()) { ?>
                         <li>
                             <button class="btn btn-outline btn-danger"
                                     onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
@@ -57,6 +58,7 @@ $sender = $model->sender();
                                 Відхилити
                             </button>
                         </li>
+                        <?php } ?>
                         <li>
                             <button class="btn btn-outline btn-default"
                                     onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/index"); ?>'
@@ -76,7 +78,7 @@ $sender = $model->sender();
                         <div class="alert alert-info">
                             <?= $model->approvedByToString() ?>
                         </div>
-                    <?php } else if($model->isRejected()){ ?>
+                    <?php } else if((in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && $model->isRejected())){ ?>
                         <div class="alert alert-info">
                             <?= $model->rejectedByToString() ?>
                         </div>
