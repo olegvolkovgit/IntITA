@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class CRevisionUnitActiveRecord
+ * @property RevisionStateBehavior $state
+ */
+
 abstract class CRevisionUnitActiveRecord extends CActiveRecord {
 
     public function behaviors(){
@@ -20,15 +25,16 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isEditable() {
-        if (!$this->isSended() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor() &&
-            !$this->isRejected()
-        ) {
-            return true;
-        }
-        return false;
+        return $this->state->getName() == 'Доступна до редагування';
+//        if (!$this->isSended() &&
+//            !$this->isApproved() &&
+//            !$this->isCancelled() &&
+//            !$this->isCancelledEditor() &&
+//            !$this->isRejected()
+//        ) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -36,15 +42,16 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isApprovable() {
-        if ($this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isCancelled() &&
-            !$this->isApproved() &&
-            $this->id_module != null
-        ) {
-            return true;
-        }
-        return false;
+        return $this->state->canChange('approved');
+//        if ($this->isSended() &&
+//            !$this->isRejected() &&
+//            !$this->isCancelled() &&
+//            !$this->isApproved() &&
+//            $this->id_module != null
+//        ) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -52,13 +59,14 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isRejectable() {
-        if ($this->isSended() &&
-            !$this->isApproved() &&
-            !$this->isRejected()
-        ) {
-            return true;
-        }
-        return false;
+        return $this->state->canChange('rejected');
+//        if ($this->isSended() &&
+//            !$this->isApproved() &&
+//            !$this->isRejected()
+//        ) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -66,10 +74,11 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isCancellable() {
-        if ($this->isReleased() && !$this->isCancelled()) {
-            return true;
-        }
-        return false;
+        return $this->state->canChange('canceled');
+//        if ($this->isReleased() && !$this->isCancelled()) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -77,15 +86,16 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isSendable() {
-        if (!$this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor()
-        ) {
-            return true;
-        }
-        return false;
+        return $this->state->canChange('sendForApprove');
+//        if (!$this->isSended() &&
+//            !$this->isRejected() &&
+//            !$this->isApproved() &&
+//            !$this->isCancelled() &&
+//            !$this->isCancelledEditor()
+//        ) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -93,15 +103,16 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isRevokeable() {
-        if ($this->isSended() &&
-            !$this->isRejected() &&
-            !$this->isApproved() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor()
-        ) {
-            return true;
-        }
-        return false;
+        return $this->state->canChange('editable') && $this->state->getName() == 'Відправлена на затвердження';
+//        if ($this->isSended() &&
+//            !$this->isRejected() &&
+//            !$this->isApproved() &&
+//            !$this->isCancelled() &&
+//            !$this->isCancelledEditor()
+//        ) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -109,14 +120,15 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isReleaseable() {
-        if ($this->isApproved() &&
-            !$this->isReleased() &&
-            !$this->isCancelled() &&
-            !$this->isCancelledEditor()
-        ) {
-            return true;
-        }
-        return false;
+        return $this->state->canChange('released');
+//        if ($this->isApproved() &&
+//            !$this->isReleased() &&
+//            !$this->isCancelled() &&
+//            !$this->isCancelledEditor()
+//        ) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
