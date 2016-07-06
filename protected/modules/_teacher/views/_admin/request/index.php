@@ -6,7 +6,7 @@
             </li>
             <li><a href="#approved" data-toggle="tab">Підтверджені</a>
             </li>
-            <li><a href="#deleted" data-toggle="tab">Відхилені</a>
+            <li><a href="#deleted" data-toggle="tab">Відхилені запити</a>
             </li>
             <li><a href="#rejected" data-toggle="tab">Відхилені ревізії</a>
             </li>

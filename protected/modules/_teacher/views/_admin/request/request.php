@@ -36,7 +36,8 @@ $sender = $model->sender();
                         <?= $sender->userNameWithEmail(); ?></a>
                 </h4>
                 <br>
-                <?php if (!($model->isDeleted() || $model->isApproved())) { ?>
+                <?php if (!($model->isDeleted() || $model->isApproved() ||
+                    (in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && $model->isRejected()))) { ?>
                     <ul class="list-inline">
                         <li>
                             <button class="btn btn-outline btn-success"
@@ -51,25 +52,26 @@ $sender = $model->sender();
                             </button>
                         </li>
                         <?php if(in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && !$model->isRejected()) { ?>
-                        <li>
-                            <button class="btn btn-outline btn-danger"
-                                    onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
-                                        array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити ревізію?')">
-                                Відхилити
-                            </button>
-                        </li>
+                            <li>
+                                <button class="btn btn-outline btn-danger"
+                                        onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
+                                            array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити ревізію?')">
+                                    Відхилити
+                                </button>
+                            </li>
+                        <?php } else {?>
+                            <li>
+                                <button class="btn btn-outline btn-danger"
+                                        onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/cancel",
+                                            array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити запит?')">
+                                    Відхилити
+                                </button>
+                            </li>
                         <?php } ?>
                         <li>
                             <button class="btn btn-outline btn-default"
                                     onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/index"); ?>'
                                         , 'Запити')">Ігнорувати
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-outline btn-danger"
-                                    onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/cancel",
-                                        array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Видалити запит?')">
-                                Видалити
                             </button>
                         </li>
                     </ul>
