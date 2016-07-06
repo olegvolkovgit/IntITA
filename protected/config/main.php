@@ -161,6 +161,12 @@ return array(
                     'categories'=>'system.db.*',
                     'logFile'=>'sql.log',
                 ),
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning, trace, info, profile',
+                    'categories'=>'application.revision.*',
+                    'logFile'=>'revision.log',
+                ),
             ),
         ),
 

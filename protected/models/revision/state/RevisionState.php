@@ -23,6 +23,7 @@ abstract class RevisionState {
         if (method_exists($this, $state)) {
             $this->$state($user);
         } else {
+            Yii::log('State ' . $state . ' missed in ' . get_class($this) . ' revision ' . var_export($this->revisionUnit->getAttributes(), true), CLogger::LEVEL_ERROR, 'application.revision');
             throw new Exception('State ' . $state . ' missed in ' . get_class($this));
         }
     }

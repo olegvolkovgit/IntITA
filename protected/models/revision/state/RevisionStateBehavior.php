@@ -30,4 +30,8 @@ class RevisionStateBehavior extends CActiveRecordBehavior {
         $this->state = $revisionStateFactory->getState();
     }
 
+    public function canChange($state) {
+        return method_exists($this->state, $state);
+    }
+
 }

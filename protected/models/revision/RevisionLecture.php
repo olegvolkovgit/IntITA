@@ -1037,12 +1037,12 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     }
 
     public function canCancel() {
-        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
+        return $this->state->canChange('canceled');
     }
     public function canProposedToRelease() {
-        return (Yii::app()->user->model->canApprove() && $this->isPreReleasable());
+        return $this->state->canChange('readyForRelease');
     }
     public function canCancelProposedToRelease() {
-        return (Yii::app()->user->model->canApprove() && $this->isCancellablePreReleased());
+        return $this->state->getName() == 'Готова до релізу' && $this->state->canChange('approved');
     }
 }
