@@ -361,6 +361,8 @@ function initCoursesListTable(filter_id) {
     }
     if (filter_id == 2) {
         var temp_name = '#statusOfCoursesTableWithoutTests';
+    }if (filter_id == 3) {
+        var temp_name = '#statusOfCoursesTableWithoutTestsAndVideos';
     }if (filter_id == 0) {
         var temp_name = '#statusOfCoursesTable';
     }
@@ -396,6 +398,10 @@ function initCoursesListTable(filter_id) {
             {
                 type: 'number', targets: 1,
                 "data": "part"
+            },
+            {
+                type: 'number', targets: 1,
+                "data": "revision"
             }
         ],
         "createdRow": function (row, data, index) {
@@ -450,6 +456,8 @@ function initModulesListTable(id,filter_id) {
     }
     if (filter_id == 2) {
         var temp_name = '#statusOfModulesTableWithoutTests';
+    }if (filter_id == 3) {
+        var temp_name = '#statusOfModulesTableWithoutTestsAndVideos';
     }if (filter_id == 0) {
         var temp_name = '#statusOfModulesTable';
     }
@@ -483,6 +491,10 @@ function initModulesListTable(id,filter_id) {
             {
                 type: 'de_date', targets: 1,
                 "data": "part"
+            },
+            {
+                type: 'de_date', targets: 1,
+                "data": "revision"
             }
         ],
         "createdRow": function (row, data, index) {
