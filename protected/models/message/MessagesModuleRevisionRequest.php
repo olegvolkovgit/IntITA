@@ -212,6 +212,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
 
     public function setApproved()
     {
+        date_default_timezone_set(Config::getServerTimezone());
         $this->user_approved = Yii::app()->user->getId();
         $this->date_approved = date("Y-m-d H:i:s");
         if($this->save()){
@@ -223,6 +224,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
 
     public function setRejected()
     {
+        date_default_timezone_set(Config::getServerTimezone());
         $this->user_rejected = Yii::app()->user->getId();
         $this->date_rejected = date("Y-m-d H:i:s");
         if($this->save()){

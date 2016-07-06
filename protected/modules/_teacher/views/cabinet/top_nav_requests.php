@@ -10,7 +10,7 @@ foreach ($requests as $key=>$request) {
             <div>
                 <div href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/request", array(
                     'message' => $request->getMessageId())) ?>', '<?=$request->title()?>')">
-                    <strong><?= $request->sender()->userName(); ?></strong>
+                    <strong><?= $request->sender()->userName()==""?$request->sender()->email:$request->sender()->userName(); ?></strong>
                     <span class="pull-right text-muted"><em><?=$request->title();?></em></span>
                     <?php if ($request->module()){?>
                     <div>Модуль: <em><?= $request->module()->getTitle(); ?></em></div>

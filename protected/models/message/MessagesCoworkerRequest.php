@@ -213,6 +213,14 @@ class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
         }
     }
 
+    public function setApproved()
+    {
+        date_default_timezone_set(Config::getServerTimezone());
+        $this->user_approved = Yii::app()->user->getId();
+        $this->date_approved = date("Y-m-d H:i:s");
+        $this->save();
+    }
+
     public function approve(StudentReg $userApprove)
     {
         date_default_timezone_set(Config::getServerTimezone());
