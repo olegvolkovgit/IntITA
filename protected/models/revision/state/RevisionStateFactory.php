@@ -43,8 +43,8 @@ class RevisionStateFactory {
         }
 
         /* Костыль */
-        if ($currentState == 'Cancelled' && array_key_exists('release_date', $states)) {
-            $currentState = 'Approved';
+        if ($currentState == 'end_date' && array_key_exists('release_date', $states)) {
+            $currentState = 'approve_date';
         }
 
         return $currentState ? $this->stateAttributes[$currentState] : 'Editable';
