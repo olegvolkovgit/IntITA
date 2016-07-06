@@ -13,7 +13,7 @@ class RevisionLectureReadyForReleaseState extends RevisionState {
     }
     
     public function released($user) {
-        if ($this->revisionUnit->checkConflicts()) {
+        if (empty($this->revisionUnit->checkConflicts())) {
             $this->revisionUnit->cancelReleasedInTree($user);
 
             $this->revisionUnit->properties->release_date = new CDbExpression('NOW()');
@@ -25,5 +25,5 @@ class RevisionLectureReadyForReleaseState extends RevisionState {
             //todo inform user
         }
     }
-
+    
 }

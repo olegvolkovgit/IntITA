@@ -6,7 +6,7 @@
 foreach ($requests as $key=>$request) {
     ?>
     <li>
-        <a href="#">
+        <a class='requestList' href="#">
             <div>
                 <div href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/request", array(
                     'message' => $request->getMessageId())) ?>', '<?=$request->title()?>')">

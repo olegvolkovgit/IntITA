@@ -7,12 +7,12 @@ class RevisionStateFactory {
     private $stateAttributes = [
 //        'start_date' => 'Editable',
         'send_approval_date' => 'SendForApproval',
+        'cancel_edit_date' => 'CancelledAuthor',
         'reject_date' => 'Rejected',
         'approve_date' => 'Approved',
-        'end_date' => 'Cancelled',
-        'release_date' => 'Released',
-        'cancel_edit_date' => 'CancelledAuthor',
         'proposed_to_release_date' => 'ReadyForRelease',
+        'release_date' => 'Released',
+        'end_date' => 'Cancelled',
     ];
 
     function __construct(CRevisionUnitActiveRecord $rU) {
@@ -37,7 +37,7 @@ class RevisionStateFactory {
         }
         $currentState = null;
         foreach ($states as $state=>$date) {
-            if (!$currentState || date($date) > date($states[$currentState])) {
+            if (!$currentState || date($date) >= date($states[$currentState])) {
                 $currentState = $state;
             }
         }

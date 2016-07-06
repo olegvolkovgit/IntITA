@@ -14,7 +14,12 @@ class RevisionModuleApprovedState extends RevisionState {
             $this->revisionUnit->deleteModuleLecturesFromRegularDB();
             foreach ($this->revisionUnit->moduleLecturesModels as $key=>$moduleLecture){
                 $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
-                $moduleLecture->lecture->state->changeTo('released', $user);
+                if ($moduleLecture->lecture->state->getName() == 'Затверджена') {
+                    $moduleLecture->lecture->state->changeTo('readyForRelease', $user);
+                }
+                if ($moduleLecture->lecture->state->getName() != 'Реліз') {
+                    $moduleLecture->lecture->state->changeTo('released', $user);
+                }
             }
             $this->revisionUnit->cancelReleasedModuleInTree($user);
 

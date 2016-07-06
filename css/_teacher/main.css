@@ -438,3 +438,6 @@ pre.offer{
     white-space: pre-wrap;
     word-break: normal;
 }
+a.requestList{
+    overflow: hidden;
+}
