@@ -33,14 +33,20 @@ class RevisionStateFactory {
         $states = [];
         if ($this->revisionUnit->properties) {
             $states = $this->revisionUnit->properties->getAttributes(array_keys($this->stateAttributes));
-            $states = array_filter($states);
+            $statesFiltered = array_filter($states);
         }
         $currentState = null;
-        foreach ($states as $state=>$date) {
+        foreach ($statesFiltered as $state=>$date) {
             if (!$currentState || date($date) >= date($states[$currentState])) {
                 $currentState = $state;
             }
         }
+
+        /* Костыль */
+        if ($currentState == 'end_date' && array_key_exists('release_date', $states)) {
+            $currentState = 'approve_date';
+        }
+
         return $currentState ? $this->stateAttributes[$currentState] : 'Editable';
     }
 }

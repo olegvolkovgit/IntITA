@@ -882,7 +882,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $sqlRejected = '(vcp.id_user_rejected IS NOT NULL)';
         $sqlSent = '(vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL)';
         $sqlEditable = '(vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL)';
-        $sqlProposedToRelease = '(vcp.id_user_proposed_to_release IS NOT NULL)';
+        $sqlProposedToRelease = '(vcp.id_user_proposed_to_release IS NOT NULL and (vcp.proposed_to_release_date>vcp.release_date or vcp.release_date IS NULL))';
 
         $finalSql = '';
         $authorSql = '';
@@ -1037,12 +1037,12 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     }
 
     public function canCancel() {
-        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
+        return $this->state->canChange('canceled');
     }
     public function canProposedToRelease() {
-        return (Yii::app()->user->model->canApprove() && $this->isPreReleasable());
+        return $this->state->canChange('readyForRelease');
     }
     public function canCancelProposedToRelease() {
-        return (Yii::app()->user->model->canApprove() && $this->isCancellablePreReleased());
+        return $this->state->getName() == 'Готова до релізу' && $this->state->canChange('approved');
     }
 }

@@ -155,6 +155,10 @@ class TeacherConsultant extends Role
                         'id_teacher' => $user->id,
                         'id_module' => $value
                     ))){
+                        $revisionRequest=MessagesTeacherConsultantRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
+                        if($revisionRequest){
+                            $revisionRequest->setApproved();
+                        }
                         $this->notify($user, $value);
                         return true;
                     }

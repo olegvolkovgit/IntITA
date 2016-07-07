@@ -214,6 +214,14 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         }
     }
 
+    public function setApproved()
+    {
+        date_default_timezone_set(Config::getServerTimezone());
+        $this->user_approved = Yii::app()->user->getId();
+        $this->date_approved = date("Y-m-d H:i:s");
+        $this->save();
+    }
+
     public function approve(StudentReg $userApprove)
     {
         $user = RegisteredUser::userById($this->id_teacher);
