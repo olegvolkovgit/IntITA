@@ -34,7 +34,7 @@ class CourseService extends AbstractIntITAService
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('service_id, course_id, education_form', 'required'),
+			array('course_id, education_form', 'required'),
 			array('service_id, course_id, education_form', 'numerical', 'integerOnly'=>true),
 			array('service_id', 'length', 'max'=>10),
 			// The following rule is used by search().
@@ -110,7 +110,7 @@ class CourseService extends AbstractIntITAService
 
     protected function primaryKeyValue()
     {
-        return $this->course_id;
+        return array($this->course_id, $this->education_form);
     }
 
     protected function descriptionFormatted()

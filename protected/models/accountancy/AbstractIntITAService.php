@@ -21,7 +21,6 @@ abstract class AbstractIntITAService extends CActiveRecord
         $service->$service_param = $service_param_value;
         $service->education_form = $educForm->id;
         $service->save();
-
         return $service;
     }
 
@@ -46,7 +45,7 @@ abstract class AbstractIntITAService extends CActiveRecord
 
     protected function setModelIfNeeded()
     {
-        $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()));
+        $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()[0]));
         if (!$this->service) {
             $service = new Service();
             $service->description = $this->descriptionFormatted();
