@@ -382,22 +382,17 @@ class StudentReg extends CActiveRecord
         else  echo Yii::t('profile', '0095');
     }
 
-    # Функция для проверки существования страницы
+    //url existence
     public static function getCorrectURl($url)
     {
-        # Устанавливаем данные для запроса
-        stream_context_set_default(array(
-            'http' => array(
-                'header' => 'User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:37.0) Gecko/20100101 Firefox/37.0'
-            )
-        ));
-
-        # Получаем заголовки
-        $headers = get_headers($url);
-
-        # Возвращаем результат
-        return
-            !substr_count($headers[0], '404');
+        $url_c=parse_url($url);
+        if (!empty($url_c['host']) and checkdnsrr($url_c['host']))
+        {
+            if ($headers=@get_headers($url)){
+                return !substr_count($headers[0], '404');
+            }
+        }
+        return false;
     }
 
     public static function isNetworkURL($value, $network)
