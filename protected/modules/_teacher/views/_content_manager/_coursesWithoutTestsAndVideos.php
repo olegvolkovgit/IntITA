@@ -6,7 +6,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="statusOfCoursesTableWithoutTests">
+                <table class="table table-striped table-bordered table-hover" id="statusOfCoursesTableWithoutTestsAndVideos">
                     <thead>
                     <tr>
                         <th style="width:28%;" >Назва курсу</th>
