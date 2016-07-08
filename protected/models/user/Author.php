@@ -75,6 +75,10 @@ class Author extends Role
                         'idTeacher' => $user->id,
                         'idModule' => $value
                     ))){
+                        $revisionRequest=MessagesAuthorRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
+                        if($revisionRequest){
+                            $revisionRequest->setApproved();
+                        }
                         $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
                             array(Module::model()->findByPk($value)),
                             'Призначено модуль для редагування');
