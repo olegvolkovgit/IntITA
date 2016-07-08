@@ -404,7 +404,7 @@ function initCompanyRepresentatives() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -429,7 +429,7 @@ function initRepresentatives() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -468,7 +468,7 @@ function initCompanies() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1211,7 +1211,7 @@ function initCancelTeacherConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
@@ -1257,7 +1257,7 @@ function initCancelConsultationsTable() {
             $jq(row).addClass('gradeX');
         },
         language: {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
 }
