@@ -9,6 +9,7 @@
  * @property string $date_approved
  * @property integer $user_approved
  * @property integer $cancelled
+ * @property integer $id_teacher
  *
  * The followings are the available model relations:
  * @property Module $idModule
@@ -25,6 +26,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     private $module;
     private $author;
     private $message;
+    private $teacher;
     const DELETED = 1;
     const ACTIVE = 0;
 
@@ -44,10 +46,10 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id_module', 'required'),
-            array('id_module, user_approved, cancelled', 'numerical', 'integerOnly' => true),
+            array('id_module, id_teacher', 'required'),
+            array('id_module, user_approved, cancelled, id_teacher', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id_module, date_approved, user_approved, cancelled', 'safe', 'on' => 'search'),
+            array('id_module, date_approved, user_approved, cancelled, id_teacher', 'safe', 'on' => 'search'),
         );
     }
 
@@ -61,6 +63,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         return array(
             'idModule' => array(self::BELONGS_TO, 'Module', 'id_module'),
             'message0' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+            'idTeacher' => array(self::BELONGS_TO, 'StudentReg', 'id_teacher'),
             'userApproved' => array(self::BELONGS_TO, 'StudentReg', 'user_approved'),
         );
     }
@@ -75,7 +78,8 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
             'id_module' => 'Id Module',
             'date_approved' => 'Date Approved',
             'user_approved' => 'User Approved',
-            'cancelled' => 'Cancelled'
+            'cancelled' => 'Cancelled',
+            'id_teacher' => 'Id Teacher',
         );
     }
 
@@ -99,6 +103,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $criteria->compare('date_approved', $this->date_approved, true);
         $criteria->compare('user_approved', $this->user_approved);
         $criteria->compare('cancelled', $this->cancelled);
+        $criteria->compare('id_teacher', $this->id_teacher);
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
@@ -127,7 +132,9 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
         $this->message->build($user->id, self::TYPE, $chained, $original);
         $this->module = $module;
         $this->id_module = $module->module_ID;
+        $this->id_teacher = $user->id;
         $this->author = $user;
+        $this->teacher = $user;
         $this->receivers = MessageReceiver::requestsReceiversArray();
     }
 
@@ -142,7 +149,7 @@ class MessagesAuthorRequest extends Messages implements IMessage, IRequest
     public function send(IMailSender $sender)
     {
         $sender = new MailTransport();
-        $sender->renderBodyTemplate($this->template, array($this->module, $this->author));
+        $sender->renderBodyTemplate($this->template, array($this->module, $this->author, $this->teacher));
         foreach ($this->receivers as $receiver) {
             if ($this->addReceiver($receiver)) {
                 $sender->send($receiver->email, '', 'Запит на редагування модуля', '');

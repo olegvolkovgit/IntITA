@@ -8,7 +8,7 @@
 <form>
     <input type="number" hidden="hidden" value="<?= $user; ?>" id="user">
     <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
-    <input type="number" class="form-control col col-md-4" name="attributeValue"
+    <input type="number" class="form-control col col-md-4" name="attributeValue" min="0" max="2147483647"
            id="<?= $role."-".$attribute["key"]; ?>"  value="<?= (int)$attribute["value"]; ?>">
     <br>
     <br>

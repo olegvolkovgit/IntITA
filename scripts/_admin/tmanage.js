@@ -45,7 +45,7 @@ function addTeacherAttr(url, attr, id, role,header,redirect) {
                 } else {
                     switch (role) {
                         case "trainer":
-                            showDialog("Для даного студента вже призначено тренера");
+                            showDialog(response);
                             break;
                         case "author":
                             showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
