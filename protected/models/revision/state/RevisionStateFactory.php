@@ -31,6 +31,7 @@ class RevisionStateFactory {
 
     private function getCurrentState() {
         $states = [];
+        $statesFiltered = [];
         if ($this->revisionUnit->properties) {
             $states = $this->revisionUnit->properties->getAttributes(array_keys($this->stateAttributes));
             $statesFiltered = array_filter($states);
@@ -43,8 +44,10 @@ class RevisionStateFactory {
         }
 
         /* Костыль */
-        if ($currentState == 'end_date' && array_key_exists('release_date', $states)) {
-            $currentState = 'approve_date';
+        if ($currentState == 'end_date' && $states["release_date"]!=null) {
+            if($states["release_date"]>=$states["approve_date"])
+            $currentState = 'release_date';
+            else  $currentState = 'approve_date';
         }
 
         return $currentState ? $this->stateAttributes[$currentState] : 'Editable';

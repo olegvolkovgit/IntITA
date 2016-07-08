@@ -93,11 +93,22 @@ class Trainer extends Role
         return $list;
     }
 
+    private function currentStudentsCount(StudentReg $user)
+    {
+        $records = Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('trainer_student')
+            ->where('trainer=:id and end_time IS NULL', array(':id' => $user->id))
+            ->queryAll();
+
+        return count($records);
+    }
+
     public function setAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'students-list':
-                if ($this->checkTrainer($value)) {
+                if ($this->checkTrainer($value) && $this->checkTrainerCapacity($user)) {
                     if (Yii::app()->db->createCommand()->
                     insert('trainer_student', array(
                         'trainer' => $user->id,
@@ -112,9 +123,13 @@ class Trainer extends Role
                     return false;
                     break;
                 }
-                return false;
+                if($this->errorMessage) 
+                    return $this->errorMessage;
+                else return false;
             default:
-                return parent::setAttribute($user, $attribute, $value);
+                $response=parent::setAttribute($user, $attribute, $value);
+                if($response==0 || $response==1) return true;
+                else return false;
         }
     }
 
@@ -124,6 +139,14 @@ class Trainer extends Role
             ' and end_time IS NULL')->queryScalar()
         ) {
             $this->errorMessage = "Для даного студента тренер вже призначений.";
+            return false;
+        } else return true;
+    }
+
+    public function checkTrainerCapacity($user)
+    {
+        if($this->currentStudentsCount($user)>$this->getCapacity($user)['capacity']) {
+            $this->errorMessage = "Даного студента додати не можна, оскільки максимальна кількість студентів для тренера обмежена";
             return false;
         } else return true;
     }

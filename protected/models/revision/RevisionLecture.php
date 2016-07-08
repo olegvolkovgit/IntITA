@@ -875,7 +875,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      */
     public static function getFilteredIdRevisions($status, $idModule,$idAuthor=null) {
         $sqlCancelledEditor = '(vcp.id_user_cancelled_edit IS NOT NULL)';
-        $sqlCancelled = '(vcp.id_user_cancelled IS NOT NULL)';
+        $sqlCancelled = '(vcp.id_user_cancelled IS NOT NULL and vcp.id_user_released IS NULL)';
         $sqlReady = '(vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL)';
         $sqlApproved = '(vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL 
         and vcp.id_user_proposed_to_release IS NULL)';
