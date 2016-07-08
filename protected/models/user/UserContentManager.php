@@ -222,6 +222,20 @@ class UserContentManager extends CActiveRecord
         return $result2;
     }
 
+    public function counterOfRevisionsInCourse($id)
+    {
+        $sql = 'SELECT id_module from course_modules where id_course=' . $id;
+        $result = Yii::app()->db->createCommand($sql)->queryColumn();
+        if (!$result) return 0;
+        $counter = 0;
+        foreach ($result as $value){
+            $result2 = UserContentManager::counterOfRevisionsInModule($value);
+            $counter += $result2;
+        }
+
+        return $counter;
+    }
+
     public function counterOfLessonsInModule($id)
     {
 
@@ -336,6 +350,14 @@ class UserContentManager extends CActiveRecord
      * @param $idLesson
      * @return bool
      */
+    public function counterOfRevisionsInModule($id)
+    {
+        $sql = 'SELECT count(*) FROM `vc_lecture` where  `vc_lecture`.`id_module`=' . $id;
+        $result = Yii::app()->db->createCommand($sql)->queryScalar();
+
+        return $result;
+    }
+
     public function existOfVideoInPart($idPart, $idLesson)
     {
 
@@ -435,7 +457,8 @@ class UserContentManager extends CActiveRecord
             $row["video"] = UserContentManager::counterOfVideosInModule($record["module_ID"]);
             $row["test"] = UserContentManager::counterOfTasksInModule($record["module_ID"]);
             $row["part"] = UserContentManager::counterOfPartsInModule($record["module_ID"]);
-            if (($filter_id == 1 && !$row['video']) || ($filter_id == 2 && !$row['test']) || ($filter_id == 0))
+            $row["revision"] = UserContentManager::counterOfRevisionsInModule($record["module_ID"]);
+            if (($filter_id == 1 && !$row['video']) || ($filter_id == 2 && !$row['test']) || ($filter_id == 3 && !$row['test'] && !$row['video'] ) || ($filter_id == 0))
                 array_push($return['data'], $row);
         }
 
@@ -463,7 +486,8 @@ class UserContentManager extends CActiveRecord
             $row["video"] = UserContentManager::counterOfVideosInCourse($record["course_ID"]);
             $row["test"] = UserContentManager::counterOfTasksInCourse($record["course_ID"]);
             $row["part"] = UserContentManager::counterOfPartsInCourse($record["course_ID"]);
-            if (($filter_id == 1 && !$row['video']) || ($filter_id == 2 && !$row['test']) || ($filter_id == 0))
+            $row["revision"] = UserContentManager::counterOfRevisionsInCourse($record["course_ID"]);
+            if (($filter_id == 1 && !$row['video']) || ($filter_id == 2 && !$row['test']) || ($filter_id == 3 && !$row['test'] && !$row['video'])|| ($filter_id == 0))
                 array_push($return['data'], $row);
         }
 
@@ -489,6 +513,7 @@ class UserContentManager extends CActiveRecord
             $row["parts"] = UserContentManager::counterOfPartsInLesson($record["id"], $idModule);
             $row["video"] = UserContentManager::counterOfVideosInLesson($record["id"], $idModule);
             $row["tests"] = UserContentManager::counterOfTasksInLesson($record["id"], $idModule);
+            $row["word"] = UserContentManager::counterOfWordsInLesson($record["id"]);
             $row["word"] = UserContentManager::counterOfWordsInLesson($record["id"]);
             array_push($return['data'], $row);
         }
