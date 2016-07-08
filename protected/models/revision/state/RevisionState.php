@@ -12,7 +12,12 @@ abstract class RevisionState {
         $this->revisionUnit = $revisionUnit;
         $this->_init();
     }
-    
+
+    /**
+     * Function to init state.
+     * For example setup $stateName.
+     * @return mixed
+     */
     abstract protected function _init();
 
     public function getName() {

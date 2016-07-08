@@ -26,15 +26,6 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isEditable() {
         return $this->state->getName() == 'Доступна до редагування';
-//        if (!$this->isSended() &&
-//            !$this->isApproved() &&
-//            !$this->isCancelled() &&
-//            !$this->isCancelledEditor() &&
-//            !$this->isRejected()
-//        ) {
-//            return true;
-//        }
-//        return false;
     }
 
     /**
@@ -43,15 +34,6 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isApprovable() {
         return $this->state->canChange('approved');
-//        if ($this->isSended() &&
-//            !$this->isRejected() &&
-//            !$this->isCancelled() &&
-//            !$this->isApproved() &&
-//            $this->id_module != null
-//        ) {
-//            return true;
-//        }
-//        return false;
     }
 
     /**
@@ -60,13 +42,6 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isRejectable() {
         return $this->state->canChange('rejected');
-//        if ($this->isSended() &&
-//            !$this->isApproved() &&
-//            !$this->isRejected()
-//        ) {
-//            return true;
-//        }
-//        return false;
     }
 
     /**
@@ -75,10 +50,6 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isCancellable() {
         return $this->state->canChange('canceled');
-//        if ($this->isReleased() && !$this->isCancelled()) {
-//            return true;
-//        }
-//        return false;
     }
 
     /**
@@ -86,16 +57,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isSendable() {
-        return $this->state->canChange('sendForApprove');
-//        if (!$this->isSended() &&
-//            !$this->isRejected() &&
-//            !$this->isApproved() &&
-//            !$this->isCancelled() &&
-//            !$this->isCancelledEditor()
-//        ) {
-//            return true;
-//        }
-//        return false;
+        return $this->state->canChange('sendForApproval');
     }
 
     /**
@@ -104,15 +66,6 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isRevokeable() {
         return $this->state->canChange('editable') && $this->state->getName() == 'Відправлена на затвердження';
-//        if ($this->isSended() &&
-//            !$this->isRejected() &&
-//            !$this->isApproved() &&
-//            !$this->isCancelled() &&
-//            !$this->isCancelledEditor()
-//        ) {
-//            return true;
-//        }
-//        return false;
     }
 
     /**
@@ -121,14 +74,6 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      */
     public function isReleaseable() {
         return $this->state->canChange('released');
-//        if ($this->isApproved() &&
-//            !$this->isReleased() &&
-//            !$this->isCancelled() &&
-//            !$this->isCancelledEditor()
-//        ) {
-//            return true;
-//        }
-//        return false;
     }
 
     /**
