@@ -31,7 +31,7 @@ class RevisionStateBehavior extends CActiveRecordBehavior {
     }
 
     public function canChange($state) {
-        return method_exists($this->state, $state);
+        return (method_exists($this->state, $state) && $this->state->getName()!='Реліз');
     }
 
 }

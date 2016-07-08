@@ -278,10 +278,13 @@ class TeachersController extends TeacherCabinetController{
         $user = RegisteredUser::userById($userId);
 
         if ($userId && $attribute && $value && $role) {
-            if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
+            $response=$user->setRoleAttribute(new UserRoles($role), $attribute, $value);
+            if($response===true){
                 echo "success";
-            } else {
+            } else if($response===false){
                 echo "error";
+            } else {
+                echo $response;
             }
         } else {
             echo "error";

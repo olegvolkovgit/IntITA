@@ -36,7 +36,7 @@
                     <tr>
                         <td width="30%">Викладач:</td>
                         <td>
-                            <a href="<?= Yii::app()->createUrl('profile/index', array('id' => $model->teacher_id)); ?>"
+                            <a href="<?= Yii::app()->createUrl('profile/index', array('idTeacher' => $model->teacher_id)); ?>"
                                target="_blank">
                                 <?= $model->teacher->userNameWithEmail(); ?>
                             </a>
