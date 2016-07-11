@@ -76,7 +76,7 @@ function editOffer(url, lang) {
     });
 }
 function loadTemplateIndex() {
-    load(basePath + '/_teacher/_admin/level/index', 'Рівні курсів, модулів, оферта')
+    load(basePath + '/_teacher/_accountant/template/index/', 'Шаблони, оферта')
 }
 
 function deleteMessage(url, receiver) {
