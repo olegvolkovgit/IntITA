@@ -474,12 +474,26 @@ function initCompanies() {
 }
 
 function addRepresentative(url) {
+    var error=false;
     representative = $jq('#representative').val();
     fullName = $jq('[name="full_name"]').val();
     position = $jq('[name="position"]').val();
-    if (representative == 0 && !(fullName && position)) {
+    company = $jq('#companyId').val();
+    order = $jq('[name="order"]').val();
+    if (representative == 0 && !(fullName)) {
         bootbox.alert('Виберіть існуючого представника або додайте нового.');
-    } else {
+        error=true;
+    } if(company==0){
+        $jq('#typeaheadCompany').addClass('errorValidation');
+        error=true;
+    }if(!position){
+        $jq('[name="position"]').addClass('errorValidation');
+        error=true;
+    } if(!order){
+        $jq('[name="order"]').addClass('errorValidation');
+        error=true;
+    }
+    if(!error) {
         $jq.ajax({
             type: "POST",
             url: url,
@@ -487,8 +501,8 @@ function addRepresentative(url) {
                 full_name: fullName,
                 position: position,
                 representative: representative,
-                company: $jq('#companyId').val(),
-                order: $jq('[name="order"]').val(),
+                company: company,
+                order: order,
             },
             async: true,
             success: function (response) {
