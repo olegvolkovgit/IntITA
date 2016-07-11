@@ -60,4 +60,4 @@ function initListOfChats(user1,user2){
         });
 
 }
-    </script>
+</script>
