@@ -14,7 +14,7 @@ $revision = $params[0];
     </a>
 </strong> відхилено.
 <br>
-Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
+Зв'язатися з контент менеджером: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
     'scenario' => 'message',
-    'receiver' => Config::getAdminId()
-)); ?>">написати адміністратору</a>.
+    'receiver' =>  $revision->properties->id_user_rejected
+)); ?>">написати контент менеджеру</a>.

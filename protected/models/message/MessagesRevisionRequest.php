@@ -217,7 +217,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         if($this->save()){
             $this->message()->sender0->notify($this->approvedTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії лекції успішно підтверджено');
+                'Запит на затвердження ревізії лекції успішно підтверджено',$this->user_approved);
         }
     }
 
@@ -229,7 +229,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         if($this->save()){
             $this->message()->sender0->notify($this->cancelledTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено');
+                'Запит на затвердження ревізії лекції відхилено',$this->user_rejected);
         }
     }
 
@@ -242,7 +242,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         if ($this->save()) {
             $this->message()->sender0->notify($this->approvedTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії лекції успішно підтверджено');
+                'Запит на затвердження ревізії лекції успішно підтверджено',$this->user_approved);
             return "Запит успішно підтверджений.";
         }
 
@@ -257,7 +257,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         $this->date_rejected = date("Y-m-d H:i:s");
         if ($this->save()) {
             $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено');
+                'Запит на затвердження ревізії лекції відхилено',$this->user_rejected);
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";

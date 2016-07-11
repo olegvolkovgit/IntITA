@@ -89,6 +89,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         {
             "type": "button",
             "title": "Створити нову ревізію",
+            "actionType": "create",
             "visible": true,
             "userId":userId,
             "action": function(event) {

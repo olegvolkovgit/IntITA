@@ -1212,14 +1212,16 @@ class StudentReg extends CActiveRecord
         return StudentReg::model()->findByPk(Config::getAdminId());
     }
 
-    public function notify($template, $params, $subject){
+    public function notify($template, $params, $subject, $senderId=null){
+        if($senderId) 
+            $senderModel=StudentReg::model()->findByPk($senderId);
+        else $senderModel=StudentReg::model()->findByPk(Config::getAdminId());
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($this),
-                StudentReg::model()->findByPk(Config::getAdminId()));
+            $message->build($subject, $sender->template(), array($this), $senderModel);
             $message->create();
 
             $message->send($sender);

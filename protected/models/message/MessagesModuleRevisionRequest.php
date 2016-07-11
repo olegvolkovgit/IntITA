@@ -218,7 +218,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
         if($this->save()){
             $this->message()->sender0->notify($this->approvedTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії модуля успішно підтверджено');
+                'Запит на затвердження ревізії модуля успішно підтверджено',$this->user_approved);
         }
     }
 
@@ -230,7 +230,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
         if($this->save()){
             $this->message()->sender0->notify($this->cancelledTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії модуля відхилено');
+                'Запит на затвердження ревізії модуля відхилено',$this->user_rejected);
         }
     }
 
@@ -243,7 +243,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
         if ($this->save()) {
             $this->message()->sender0->notify($this->approvedTemplate,
                 array($this->idRevision),
-                'Запит на затвердження ревізії модуля успішно підтверджено');
+                'Запит на затвердження ревізії модуля успішно підтверджено',$this->user_approved);
             return "Запит успішно підтверджений.";
         }
 
@@ -258,7 +258,7 @@ class MessagesModuleRevisionRequest extends Messages implements IMessage, IReque
         $this->date_rejected = date("Y-m-d H:i:s");
         if ($this->save()) {
             $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
-                'Запит на затвердження ревізії модуля відхилено');
+                'Запит на затвердження ревізії модуля відхилено',$this->user_rejected);
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
