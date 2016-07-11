@@ -386,7 +386,7 @@ class StudentReg extends CActiveRecord
     public static function getCorrectURl($url)
     {
         $url_c=parse_url($url);
-        if (!empty($url_c['host']) and checkdnsrr($url_c['host']))
+        if (!empty($url_c['host']))
         {
             if ($headers=@get_headers($url)){
                 return !substr_count($headers[0], '404');
@@ -418,10 +418,10 @@ class StudentReg extends CActiveRecord
                     $result = true;
                 break;
             case 'vkontakte':
-                $domainPartPos = strpos($value, 'http://vk.com/');
-                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'https://vk.com/');
-                if ($domainPartPos === 0)
-                    $result = true;
+                $domainPartPos = strpos($value, 'http://vk.com/')===0 ||
+                    strpos($value, 'https://vk.com/')===0 ||
+                    strpos($value, 'https://new.vk.com/')===0;
+                if ($domainPartPos) $result = true;
                 break;
             case 'twitter':
                 $domainPartPos = strpos($value, 'https://twitter.com/');
