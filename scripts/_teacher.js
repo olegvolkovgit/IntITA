@@ -530,8 +530,10 @@ function addCompany(url) {
             tax_certificate_issue_date: $jq('#tax_certificate_issue_date').val(),
             legal_address: $jq('[name="legal_address"]').val(),
             legal_address_city_code: $jq('#cityLegal').val(),
+            legal_address_city_value: $jq('[name="cityLegal"]').val(),
             actual_address: $jq('[name="actual_address"]').val(),
-            actual_address_city_code: $jq('#cityActual').val()
+            actual_address_city_code: $jq('#cityActual').val(),
+            actual_address_city_value: $jq('[name="cityActual"]').val()
         },
         async: true,
         success: function (response) {

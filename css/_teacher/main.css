@@ -441,7 +441,7 @@ pre.offer{
 a.requestList{
     overflow: hidden;
 }
-.errorValidation{
+.errorValidation,.errorValidation:focus{
     border:1px solid #c72929;
     box-shadow: 0 0 4px #c72929;
 }
