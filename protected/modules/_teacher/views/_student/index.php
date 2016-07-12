@@ -14,14 +14,19 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                 <?php if (!empty($courses)) { ?>
                     <ul>
                         <?php foreach ($courses as $course) {
-                            ?>
+                        if(!$course["cancelled"]){?>
                             <li>
                                 <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"
                                    target="_blank">
                                     <?=$course["title"]." (".$course["lang"].")";?>
                                 </a>
                             </li>
-                        <?php } ?>
+                        <?php } else {?>
+                            <li>
+                                <?=$course["title"]." (".$course["lang"].") - скасований";?>
+                            </li>
+                        <?php }
+                        } ?>
                     </ul>
                 <?php } else {
                     echo "Немає проплачених курсів.";
@@ -34,14 +39,19 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                 <?php if (!empty($modules)) { ?>
                     <ul>
                         <?php foreach ($modules as $module) {
-                            ?>
-                            <li>
-                                <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
-                                   target="_blank">
-                                    <?=$module["title"]." (".$module["lang"].")";?>
-                                </a>
-                            </li>
-                        <?php } ?>
+                            if(!$module["cancelled"]){?>
+                                <li>
+                                    <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
+                                       target="_blank">
+                                        <?=$module["title"]." (".$module["lang"].")";?>
+                                    </a>
+                                </li>
+                            <?php } else {?>
+                                <li>
+                                    <?=$module["title"]." (".$module["lang"].") - скасований";?>
+                                </li>
+                        <?php }
+                        } ?>
                     </ul>
                 <?php } else {
                     echo "Немає проплачених модулів.";
