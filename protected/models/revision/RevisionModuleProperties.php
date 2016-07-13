@@ -27,18 +27,11 @@
  * @property integer $id_user_created
  * @property string $update_date
  * @property integer $id_user_updated
- * @property string $send_approval_date
- * @property integer $id_user_sended_approval
- * @property string $reject_date
- * @property integer $id_user_rejected
- * @property string $approve_date
- * @property integer $id_user_approved
- * @property string $end_date
- * @property integer $id_user_cancelled
- * @property string $release_date
- * @property integer $id_user_released
- * @property string $cancel_edit_date
- * @property integer $id_user_cancelled_edit
+ *
+ * @property integer $id_state
+ * @property integer $id_user
+ * @property string $change_date
+ *
  *
  * The followings are the available model relations:
  * @property Module[] $modules
@@ -61,7 +54,7 @@ class RevisionModuleProperties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status', 'required'),
+			array('status, , start_date', 'required'),
 			array('language, title_ua, level', 'required', 'message' => 'Поле не може бути пустим'),
 			array('alias', 'match', 'pattern' => "/^((?:[\d]*[^\d]+[\d]*)+$)/u", 'message' => 'Псевдонім не може містити тільки цифри'),
 			array('alias', 'match', 'pattern' => "/^[a-zA-Z0-9_]+$/u", 'message' => 'Допустимі символи: латинські літери, цифри та знак "_"'),
@@ -76,15 +69,15 @@ class RevisionModuleProperties extends CActiveRecord
 			array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
 			array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
-			array('id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released, id_user_cancelled_edit', 'numerical', 'integerOnly'=>true),
-			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, update_date, send_approval_date, reject_date, approve_date, end_date, release_date, cancel_edit_date', 'safe'),
+			array('id_user_created, id_user_updated, id_state, id_user', 'numerical', 'integerOnly'=>true),
+			array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, start_date, update_date, change_date', 'safe'),
 			array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
 			array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
 			array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
 			// The following rule is used by search().
 			array('module_ID, title_ua, title_ru, title_en, alias, language, module_price, for_whom,
             what_you_learn, what_you_get, module_img,
-			days_in_week, hours_in_day, level, module_number, cancelled', 'safe', 'on' => 'search'),
+			days_in_week, hours_in_day, level, module_number, cancelled, id_state, id_user_created, id_user, start_date, update_date, id_user_updated, change_date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -128,17 +121,10 @@ class RevisionModuleProperties extends CActiveRecord
 			'id_user_created' => 'Id User Created',
             'update_date' => 'Update Date',
             'id_user_updated' => 'Id User Updated',
-			'reject_date' => 'Reject Date',
-			'id_user_rejected' => 'Id User Rejected',
-			'approve_date' => 'Approve Date',
-			'id_user_approved' => 'Id User Approved',
-			'end_date' => 'End Date',
-			'id_user_cancelled' => 'Id User Cancelled',
-			'release_date' => 'Ready Date',
-			'id_user_released' => 'Id User Ready',
-			'cancel_edit_date' => 'Cancel Edit Date',
-			'id_user_cancelled_edit' => 'Id User Cancelled Edit',
-		);
+            'id_state' => 'Id State',
+            'id_user' => 'Id User',
+            'change_date' => 'change_date'
+        );
 	}
 
 	/**
@@ -180,20 +166,12 @@ class RevisionModuleProperties extends CActiveRecord
 		$criteria->compare('id_user_created',$this->id_user_created);
 		$criteria->compare('update_date',$this->update_date,true);
 		$criteria->compare('id_user_updated',$this->id_user_updated);
-		$criteria->compare('send_approval_date',$this->send_approval_date,true);
-		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
-		$criteria->compare('reject_date',$this->reject_date,true);
-		$criteria->compare('id_user_rejected',$this->id_user_rejected);
-		$criteria->compare('approve_date',$this->approve_date,true);
-		$criteria->compare('id_user_approved',$this->id_user_approved);
-		$criteria->compare('end_date',$this->end_date,true);
-		$criteria->compare('id_user_cancelled',$this->id_user_cancelled);
-		$criteria->compare('release_date',$this->release_date,true);
-		$criteria->compare('id_user_released',$this->id_user_released);
-		$criteria->compare('cancel_edit_date',$this->cancel_edit_date,true);
-		$criteria->compare('id_user_cancelled_edit',$this->id_user_cancelled_edit);
+        $criteria->compare('id_user',$this->id_user);
+        $criteria->compare('id_state',$this->id_state);
+        $criteria->compare('change_date',$this->change_date);
 
-		return new CActiveDataProvider($this, array(
+
+        return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
@@ -233,7 +211,11 @@ class RevisionModuleProperties extends CActiveRecord
 		$this->start_date = new CDbExpression('NOW()');
 		$this->id_user_created = $user->getId();
 
-		$this->saveCheck();
+        $this->id_state = RevisionState::EditableState;
+        $this->id_user = $user->getId();
+        $this->change_date = new CDbExpression('NOW()');
+
+        $this->saveCheck();
 	}
 
 	/**
@@ -261,11 +243,17 @@ class RevisionModuleProperties extends CActiveRecord
 		$newProperties->cancelled = $this->cancelled;
 		$newProperties->status = $this->status;
 		$newProperties->price_offline = $this->price_offline;
+
 		$newProperties->start_date = new CDbExpression('NOW()');
 		$newProperties->id_user_created = $user->getId();
-		$newProperties->saveCheck();
 
-		return $newProperties;
+        $newProperties->id_state = RevisionState::EditableState;
+        $newProperties->id_user = $user->getId();
+        $newProperties->change_date = new CDbExpression('NOW()');
+
+        $newProperties->saveCheck();
+
+        return $newProperties;
 	}
 
 	/**

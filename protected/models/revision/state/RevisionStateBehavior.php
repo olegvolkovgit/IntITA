@@ -3,10 +3,11 @@
 class RevisionStateBehavior extends CActiveRecordBehavior {
 
     private $state = null;
+    private $revisionStateFactory = null;
 
     public function afterConstruct($event) {
         parent::afterConstruct($event);
-        $this->initState($event->sender);
+        $this->initState($event->sender, true);
     }
 
     public function afterFind($event) {
@@ -15,23 +16,29 @@ class RevisionStateBehavior extends CActiveRecordBehavior {
     }
 
     private function initState($sender) {
-        $revisionStateFactory = new RevisionStateFactory($sender);
-        $this->state = $revisionStateFactory->getState();
+        $this->revisionStateFactory = RevisionStateFactory::getInstance();
+        $this->state = $this->revisionStateFactory->getState($sender);
+
     }
 
     public function getName() {
         return $this->state->getName();
     }
+
+    public function getCode() {
+//        todo
+        return $this->owner->properties->id_state;
+    }
     
     public function changeTo($state, $user) {
         $this->state->changeTo($state, $user);
         $this->owner->refresh();
-        $revisionStateFactory = new RevisionStateFactory($this->owner);
-        $this->state = $revisionStateFactory->getState();
+        $this->state = $this->revisionStateFactory->getState($this->owner);
     }
 
     public function canChange($state) {
-        return (method_exists($this->state, $state) && $this->state->getName()!='Реліз');
+        // todo
+        return (method_exists($this->state, $state) && $this->owner->properties->id_state != RevisionState::ReleasedState);
     }
 
 }

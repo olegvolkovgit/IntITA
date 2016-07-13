@@ -117,7 +117,7 @@ class MessagesApproveRevision extends Messages implements IMessage
     	$this->revision = $revision;
 		$this->id_revision = $revision->id_revision;
         $this->subject = $this->subject();
-		$this->receiver = StudentReg::model()->findByPk($revision->properties->id_user_created);;
+		$this->receiver = StudentReg::model()->findByPk($revision->properties->id_user_created);
 	}
 
 	public function create(){
