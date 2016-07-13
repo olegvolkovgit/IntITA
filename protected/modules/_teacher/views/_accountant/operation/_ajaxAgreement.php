@@ -16,7 +16,7 @@ if (!empty($agreements)) {?>
                 foreach ($agreements as $agreement) {?>
                     <tr>
                         <td class="col-sm-1"><input type="radio" name="agreement"
-                                                    onchange="getInvoicesList('<?php echo Yii::app()->createUrl('/_accountant/operation/getInvoicesList'); ?>')"
+                                                    onchange="getInvoicesList('<?php echo Yii::app()->createUrl('/_teacher/_accountant/operation/getInvoicesList'); ?>')"
                                                     value="<?php echo $agreement->id ?>"></td>
                         <td class="col-sm-3"><?php echo $agreement->number; ?></td>
                         <td class="col-sm-3"><?php echo $agreement->create_date ?></td>

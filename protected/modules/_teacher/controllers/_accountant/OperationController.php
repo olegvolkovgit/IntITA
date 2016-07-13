@@ -128,10 +128,10 @@ class OperationController extends TeacherCabinetController
     public function actionCreateByInvoice()
     {
         $request = Yii::app()->request;
-        $invoice = $request->getPost('invoices', "");
+        $invoice = $request->getPost('invoices', []);
         $summa = $request->getPost('summa', 0);
         $user = $request->getPost('user', 0);
-        $typeId = $request->getPost('type', 0);
+        $typeId = $request->getPost('type', 2);
         $source = $request->getPost('source', 0);
 
         $type = OperationType::model()->findByPk($typeId);

@@ -55,12 +55,16 @@ function getAgreementsList(url) {
 
 function checkInvoices() {
     var list = document.getElementsByName('invoices[]');
+    var checkBoxes=[];
     for (var i = 0; i < list.length; i++) {
-        if (list[i].checked)
-            return true;
+        if (list[i].checked){
+            checkBoxes.push(list[i].value);
+        }
     }
-    showDialog("Виберіть хоча б один рахунок");
-    return false;
+    if(checkBoxes.length == 0){
+        showDialog("Виберіть хоча б один рахунок");
+        return false;
+    }else return checkBoxes;
 }
 
 function getInvoicesListByNumber(url) {
