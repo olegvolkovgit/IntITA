@@ -293,4 +293,15 @@ class StudentRegController extends Controller
         $data = array_merge($model->attributes, $role);
         echo json_encode($data);
     }
+
+    public function actionGetCountriesList()
+    {
+        echo AddressCountry::countriesListByLang();
+    }
+
+    public function actionGetCitiesList()
+    {
+        $idCountry=Yii::app()->request->getPost('id');
+        echo AddressCity::citiesListByCountry($idCountry);
+    }
 }

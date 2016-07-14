@@ -10,6 +10,7 @@ $user = RegisteredUser::userById(Yii::app()->user->id);
 $post = $user->registrationData;
 $post->firstName = addslashes($post->firstName);
 $post->secondName = addslashes($post->secondName);
+$param = "title_".Yii::app()->session["lg"];
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>
@@ -26,6 +27,10 @@ $post->secondName = addslashes($post->secondName);
 <link href="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.css'); ?>" rel="stylesheet"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/inputstyler.js'); ?>"></script>
+<link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.css'); ?>" rel="stylesheet"/>
+<script>
+    basePath = '<?php echo Config::getBaseUrl(); ?>';
+</script>
 <!--StyleForm Check and radio box-->
 <div class="formStudProfNav">
     <?php
@@ -149,69 +154,96 @@ $post->secondName = addslashes($post->secondName);
                 <div id="addreg">
                     <div class="row">
                         <?php echo $form->label($model, 'country'); ?>
-                        <?php
-                        $param = "title_".Yii::app()->session["lg"];
-                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name' => 'countryTypeahead',
-                            'source' => 'js: function(request, response) {
-                                        $.getJSON("' . $this->createUrl('studentreg/countryAutoComplete') . '", {
-                                        term: request.term.split(/,s*/).pop(),
-                                        lang: "' . Yii::app()->session["lg"] . '"
-                                    }, response);
-                            }',
-                            'value' =>  is_null($post->country) ? '':
-                                AddressCountry::model()->findByPk($post->country)->$param,
-                            'options' => array(
-                                'minLength' => '2',
-                                'showAnim' => 'fold',
-                                'select' => 'js: function(event, ui) {
-                                            this.value = ui.item.value;
-                                            $("#StudentReg_country").val(ui.item.id);
-                                            $("#cityTypeahead").autocomplete( "option", "disabled", false );
-                                           return false;
-                                    }',
-                            ),
-                            'htmlOptions'=>array(
-                                'class' => 'indicator',
-                                'data-source' => 'країну',
-                                'placeholder' => 'виберіть країну'
-                            )
-                        )); ?>
-                        <span><?php echo $form->error($model, 'country'); ?></span>
-                        <?php echo $form->hiddenField($model, 'country'); ?>
+                        <div class="selectBox">
+                            <oi-select
+                                oi-options="country.title for country in countriesList track by country.id"
+                                ng-model="selectedCountry"
+                                single
+                                oi-select-options="{cleanModel: true}"
+                                placeholder="виберіть країну"
+                            ></oi-select>
+                        </div>
                     </div>
-                    <div class="row">
+<!--                    <div class="row">-->
+<!--                        --><?php //echo $form->label($model, 'country'); ?>
+<!--                        --><?php
+//                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+//                            'name' => 'countryTypeahead',
+//                            'source' => 'js: function(request, response) {
+//                                        $.getJSON("' . $this->createUrl('studentreg/countryAutoComplete') . '", {
+//                                        term: request.term.split(/,s*/).pop(),
+//                                        lang: "' . Yii::app()->session["lg"] . '"
+//                                    }, response);
+//                            }',
+//                            'value' =>  is_null($post->country) ? '':
+//                                AddressCountry::model()->findByPk($post->country)->$param,
+//                            'options' => array(
+//                                'minLength' => '2',
+//                                'showAnim' => 'fold',
+//                                'select' => 'js: function(event, ui) {
+//                                            this.value = ui.item.value;
+//                                            $("#StudentReg_country").val(ui.item.id);
+//                                            $("#cityTypeahead").autocomplete( "option", "disabled", false );
+//                                           return false;
+//                                    }',
+//                            ),
+//                            'htmlOptions'=>array(
+//                                'class' => 'indicator',
+//                                'data-source' => 'країну',
+//                                'placeholder' => 'виберіть країну'
+//                            )
+//                        )); ?>
+<!--                        <span>--><?php //echo $form->error($model, 'country'); ?><!--</span>-->
+<!--                        --><?php //echo $form->hiddenField($model, 'country'); ?>
+<!--                    </div>-->
+                    <div ng-if="selectedCountry" class="row">
                         <?php echo $form->label($model, 'city'); ?>
-                        <?php
-                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name' => 'cityTypeahead',
-                            'source' => 'js: function(request, response) {
-                                        $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
-                                        term: request.term.split(/,s*/).pop(),
-                                        country: $("#StudentReg_country").val()
-                                    }, response);
-                            }',
-                            'value' => is_null($post->city) ? '':
-                                AddressCity::model()->findByPk($post->city)->$param,
-                            'options' => array(
-                                'minLength' => '2',
-                                'showAnim' => 'fold',
-                                'disabled' => true,
-                                'select' => 'js: function(event, ui) {
-                                            this.value = ui.item.value;
-                                            $("#StudentReg_city").val(ui.item.id);
-                                            return false;
-                                    }',
-                            ),
-                            'htmlOptions' => array(
-                                'class' => 'indicator',
-                                'data-source' => 'місто',
-                                'maxlength' => 50,
-                                'placeholder' => 'виберіть місто',
-                            ),
-                        )); ?>
+                        <div class="selectBox">
+                            <oi-select
+                                oi-options="city.title for city in citiesList track by city.id"
+                                ng-model="selectedCity"
+                                single
+                                oi-select-options="{
+                                cleanModel: true,
+                                newItem: 'prompt',
+                                newItemModel: {id: null, title: $query}
+                                }"
+                                placeholder="виберіть місто або введіть власне"
+                            ></oi-select>
+                        </div>
                         <span><?php echo $form->error($model, 'city'); ?></span>
                         <?php echo $form->hiddenField($model, 'city'); ?>
+
+<!--                        --><?php //echo $form->label($model, 'city'); ?>
+<!--                        --><?php
+//                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+//                            'name' => 'cityTypeahead',
+//                            'source' => 'js: function(request, response) {
+//                                        $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
+//                                        term: request.term.split(/,s*/).pop(),
+//                                        country: $("#StudentReg_country").val()
+//                                    }, response);
+//                            }',
+//                            'value' => is_null($post->city) ? '':
+//                                AddressCity::model()->findByPk($post->city)->$param,
+//                            'options' => array(
+//                                'minLength' => '2',
+//                                'showAnim' => 'fold',
+//                                'disabled' => true,
+//                                'select' => 'js: function(event, ui) {
+//                                            this.value = ui.item.value;
+//                                            $("#StudentReg_city").val(ui.item.id);
+//                                            return false;
+//                                    }',
+//                            ),
+//                            'htmlOptions' => array(
+//                                'class' => 'indicator',
+//                                'data-source' => 'місто',
+//                                'maxlength' => 50,
+//                                'placeholder' => 'виберіть місто',
+//                            ),
+//                        )); ?>
+
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'address'); ?>

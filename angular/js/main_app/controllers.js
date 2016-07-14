@@ -4,8 +4,49 @@ angular
     .controller('validationController',validationController);
 
 /* Controllers */
-function validationController($scope) {
+function validationController($scope, $http) {
+    $scope.getCountriesList=function () {
+        var promise = $http({
+            url: basePath + "/studentReg/getCountriesList",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            alert("Виникла помилка при завантажені списку країн. Зв'яжіться з адміністратором сайту.");
+        });
+        return promise;
+    };
 
+    $scope.getCitiesList=function (idCountry) {
+        var promise = $http({
+            url: basePath + "/studentReg/getCitiesList",
+            method: "POST",
+            data: $.param({id: idCountry}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            alert("Виникла помилка при завантажені списку міст. Зв'яжіться з адміністратором сайту.");
+        });
+        return promise;
+    };
+
+    $scope.getCountriesList().then(function (response) {
+        $scope.countriesList=response;
+        // $scope.countriesList.push({
+        //     id: 0,
+        //     title: 'не вибрано'
+        // });
+    });
+
+    $scope.$watch('selectedCountry', function() {
+        if(typeof $scope.selectedCountry!='undefined'){
+            $scope.getCitiesList($scope.selectedCountry.id).then(function (response) {
+                $scope.citiesList=response;
+            });
+        }
+    }, true);
 }
 
 angular.module('mainApp.directives', [])

@@ -179,4 +179,16 @@ class AddressCountry extends CActiveRecord
         }
         return json_encode($result);
     }
+
+	public static function countriesListByLang(){
+		$param = "title_".Yii::app()->session["lg"];
+		$countries = AddressCountry::model()->findAll();
+		$data = array();
+
+		foreach ($countries as $key=>$record) {
+			$data[$key]["id"] = $record->id;
+			$data[$key]["title"] = $record->$param;
+		}
+		return json_encode($data);
+	}
 }

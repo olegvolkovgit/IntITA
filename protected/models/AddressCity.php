@@ -187,6 +187,22 @@ class AddressCity extends CActiveRecord
             $result["results"][$key]["title"] = $model->title_ua;
             $result["results"][$key]["country"] = $model->country0->title_ua;
         }
-return json_encode($result);
-}
+		return json_encode($result);
+	}
+
+	public static function citiesListByCountry($idCountry){
+		$param = "title_".Yii::app()->session["lg"];
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, $param";
+		$criteria->condition = "country=:country";
+		$criteria->params = array(':country' => $idCountry);
+		$cities = AddressCity::model()->findAll($criteria);
+		$data = array();
+
+		foreach ($cities as $key=>$record) {
+			$data[$key]["id"] = $record->id;
+			$data[$key]["title"] = $record->$param;
+		}
+		return json_encode($data);
+	}
 }
