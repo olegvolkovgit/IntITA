@@ -113,27 +113,24 @@ class AddressCity extends CActiveRecord
         $param = "title_" . Yii::app()->session["lg"];
         $oldModel = AddressCity::model()->findByPk($oldId);
         if (!$oldModel) {
-            $model = new AddressCity();
-            $model->$param = $newTitle;
-			$model->country = $country;
-            if ($model->save()) {
-                return Yii::app()->db->lastInsertID;
-            }
+			$findModel=AddressCity::model()->findByAttributes(array($param=>strtolower($newTitle)));
+			if($findModel){
+				return $findModel->id;
+			}else{
+				$model = new AddressCity();
+				$model->title_ua = $newTitle;
+				$model->title_ru = $newTitle;
+				$model->title_en = $newTitle;
+				$model->country = $country;
+				if ($model->validate() && !empty($newTitle)) {
+					$model->save();
+					return Yii::app()->db->lastInsertID;
+				}else{
+					return null;
+				}
+			}
         } else {
-            if ($oldModel->$param == $newTitle) {
-                return $oldId;
-            } else {
-                if ($exist = AddressCity::model()->findByAttributes(array($param => $newTitle, 'country' => $country))) {
-                    return $exist->id;
-                } else {
-                    $model = new AddressCity();
-                    $model->$param = $newTitle;
-					$model->country = $country;
-                    if ($model->save()) {
-                        return Yii::app()->db->lastInsertID;
-                    }
-                }
-            }
+            return $oldId;
         }
         return null;
     }
@@ -195,6 +192,7 @@ class AddressCity extends CActiveRecord
 		$criteria = new CDbCriteria();
 		$criteria->select = "id, $param";
 		$criteria->condition = "country=:country";
+		$criteria->order=$param.' COLLATE utf8_unicode_ci ASC';
 		$criteria->params = array(':country' => $idCountry);
 		$cities = AddressCity::model()->findAll($criteria);
 		$data = array();

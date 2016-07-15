@@ -26,7 +26,12 @@ $this->breadcrumbs = array(
 <link href="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.css'); ?>" rel="stylesheet"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/jquery.formstyler.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/inputstyler.js'); ?>"></script>
+<link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.css'); ?>" rel="stylesheet"/>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/countryCityServices.js'); ?>"></script>
 <!--StyleForm Check and radio box-->
+<script>
+    basePath = '<?php echo Config::getBaseUrl(); ?>';
+</script>
 <div class="formStudProf">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'registration-form',
@@ -36,7 +41,7 @@ $this->breadcrumbs = array(
         'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
             'afterValidate' => 'js:function(){if($("div").is(".rowNetwork.error"))
              $(".tabs").lightTabs("1"); else if($("div").is(".error")){ $(".tabs").lightTabs("0");} return true;}',),
-        'htmlOptions' => array('enctype' => 'multipart/form-data', 'name'=>'StudentReg', 'ng-controller'=>"validationController", 'novalidate'=>true),
+        'htmlOptions' => array('enctype' => 'multipart/form-data', 'name'=>'StudentReg', 'ng-controller'=>"registrationFormController", 'novalidate'=>true),
     )); ?>
     <?php
     if (!isset($email)) $email = $_POST['StudentReg']['email'];
@@ -135,60 +140,41 @@ $this->breadcrumbs = array(
                 <div id="addreg">
                     <div class="row">
                         <?php echo $form->label($model, 'country'); ?>
-                        <?php
-                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name' => 'countryTypeahead',
-                            'source' => 'js: function(request, response) {
-                                        $.getJSON("' . $this->createUrl('studentreg/countryAutoComplete') . '", {
-                                        term: request.term.split(/,s*/).pop(),
-                                        lang: "' . Yii::app()->session["lg"] . '"
-                                    }, response);
-                            }',
-                            'value' => '',
-                            'options' => array(
-                                'minLength' => '2',
-                                'showAnim' => 'fold',
-                                'select' => 'js: function(event, ui) {
-                                            this.value = ui.item.value;
-                                            $("#StudentReg_country").val(ui.item.id);
-                                            $("#cityTypeahead").autocomplete( "option", "disabled", false );
-                                           return false;
-                                    }',
-                            ),
-                            'htmlOptions'=>array(
-                                'placeholder' => 'виберіть країну'
-                            )
-                        )); ?>
+                        <div class="selectBox">
+                            <oi-select
+                                oi-options="country.title for country in countriesList track by country.id"
+                                ng-model="selectedCountry"
+                                single
+                                oi-select-options="{cleanModel: true}"
+                                placeholder="виберіть країну"
+                                class="indicator"
+                                data-source='країну'
+                                id="countrySelect"
+                            ></oi-select>
+                        </div>
                         <span><?php echo $form->error($model, 'country'); ?></span>
                         <?php echo $form->hiddenField($model, 'country'); ?>
                     </div>
-                    <div class="row">
+                    <div ng-show="selectedCountry" class="row">
                         <?php echo $form->label($model, 'city'); ?>
-                        <?php
-                        $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name' => 'cityTypeahead',
-                            'source' => 'js: function(request, response) {
-                                        $.getJSON("' . $this->createUrl('studentreg/cityAutoComplete') . '", {
-                                        term: request.term.split(/,s*/).pop(),
-                                        country: $("#StudentReg_country").val()
-                                    }, response);
-                            }',
-                            'value' => '',
-                            'options' => array(
-                                'minLength' => '2',
-                                'showAnim' => 'fold',
-                                'disabled' => true,
-                                'select' => 'js: function(event, ui) {
-                                            this.value = ui.item.value;
-                                            $("#StudentReg_city").val(ui.item.id);
-                                            return false;
-                                    }',
-                            ),
-                            'htmlOptions' => array(
-                                'maxlength' => 50,
-                                'placeholder' => 'виберіть місто'
-                            ),
-                        )); ?>
+                        <div class="selectBox">
+                            <oi-select
+                                oi-options="city.title for city in citiesList track by city.id"
+                                ng-model="selectedCity"
+                                single
+                                oi-select-options="{
+                                cleanModel: true,
+                                newItem: 'prompt',
+                                newItemModel: {id: null, title: $query},
+                                maxlength:50
+                                }"
+                                placeholder="виберіть місто або введіть власне"
+                                class="indicator"
+                                data-source='місто'
+                                id="citySelect"
+                            ></oi-select>
+                        </div>
+                        <input type="hidden" name="cityTitle">
                         <span><?php echo $form->error($model, 'city'); ?></span>
                         <?php echo $form->hiddenField($model, 'city'); ?>
                     </div>

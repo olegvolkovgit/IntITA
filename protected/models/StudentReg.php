@@ -93,6 +93,7 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
+            array('city, country', 'numerical', 'integerOnly' => true),
             array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
             array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
@@ -183,8 +184,8 @@ class StudentReg extends CActiveRecord
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
-            'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
-            'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
+            'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
+            'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
             'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'condition' => 'rights = 1'),
             'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'condition' => 'rights = 1'),
         );
@@ -1284,5 +1285,23 @@ class StudentReg extends CActiveRecord
         $users = StudentReg::model()->findAll($criteria);
 
         return count($users);
+    }
+
+    public static function currentCountryCity(){
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $param = "title_".Yii::app()->session["lg"];
+        $data=array();
+        if($user->country){
+            $data["country"]["id"] = $user->country;
+            $data["country"]["title"] = $user->country0->$param;
+        }
+        if($user->city){
+            $data["city"]["id"] = $user->city;
+            if($user->city0)
+                $data["city"]["title"] = $user->city0->$param;
+            else $data["city"]["title"]='';
+        }
+
+        return json_encode($data);
     }
 }

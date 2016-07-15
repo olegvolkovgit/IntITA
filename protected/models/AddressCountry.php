@@ -104,33 +104,6 @@ class AddressCountry extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function newUserCountry($oldId, $newTitle){
-        $param = "title_". Yii::app()->session["lg"];
-        $oldModel = AddressCountry::model()->findByPk($oldId);
-        if(!$oldModel){
-            $model = new AddressCountry();
-            $model->$param = $newTitle;
-            if ($model->save()){
-                return Yii::app()->db->lastInsertID;
-            }
-        } else {
-            if(strtolower($oldModel->$param) == strtolower($newTitle)){
-                return $oldId;
-            } else {
-                if($exist = AddressCountry::model()->findByAttributes(array($param => $newTitle))){
-                    return $exist->id;
-                } else {
-                    $model = new AddressCountry();
-                    $model->$param = $newTitle;
-                    if ($model->save()){
-                        return Yii::app()->db->lastInsertID;
-                    }
-                }
-            }
-        }
-        return null;
-	}
-
 	public static function countriesList(){
         $countries = AddressCountry::model()->findAll();
         $return = array('data' => array());
@@ -182,7 +155,9 @@ class AddressCountry extends CActiveRecord
 
 	public static function countriesListByLang(){
 		$param = "title_".Yii::app()->session["lg"];
-		$countries = AddressCountry::model()->findAll();
+		$criteria = new CDbCriteria();
+		$criteria->order=$param.' COLLATE utf8_unicode_ci ASC';
+		$countries = AddressCountry::model()->findAll($criteria);
 		$data = array();
 
 		foreach ($countries as $key=>$record) {
