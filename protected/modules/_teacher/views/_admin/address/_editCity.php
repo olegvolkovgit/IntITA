@@ -1,10 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Ivanna
- * Date: 20.04.2016
- * Time: 19:24
- */?>
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
@@ -18,32 +11,31 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form role="form" name="addCityForm" onsubmit="addCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCity')?>');return false;">
+                <form role="form" name="addCityForm" onsubmit="editCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/updateCity')?>');return false;">
                     <div class="form-group">
                         <label>Країна</label>
-                        <input id="typeahead" type="text" class="typeahead form-control" name="country"
-                               placeholder="виберіть країну"
-                               size="90" required>
-                        <input type="number" hidden="hidden" id="country" value="0"/>
+                        <input id="typeahead" type="text" class="typeahead form-control" name="country" value="<?php echo $model->country0->title_ua ?>"
+                               size="90" required disabled>
+<!--                        <input type="number" hidden="hidden" id="country" value="0"/>-->
                     </div>
-
+                    <input type="hidden" name="id" value="<?php echo $model->id ?>">
                     <div class="form-group">
                         <label>Назва українською</label>
-                        <input name="titleUa" class="form-control" required maxlength="50" size="50">
+                        <input name="titleUa" class="form-control" value="<?php echo $model->title_ua ?>" required maxlength="50" size="50">
                     </div>
 
                     <div class="form-group">
                         <label>Назва російською</label>
-                        <input name="titleRu" class="form-control" required maxlength="50" size="50">
+                        <input name="titleRu" class="form-control" value="<?php echo $model->title_ru ?>" required maxlength="50" size="50">
                     </div>
 
                     <div class="form-group">
                         <label>Назва англійською</label>
-                        <input name="titleEn" class="form-control" required maxlength="50" size="50">
+                        <input name="titleEn" class="form-control" value="<?php echo $model->title_en ?>" required maxlength="50" size="50">
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Зберегти</button>
+                        <button type="submit" class="btn btn-primary">Відредагувати</button>
                         <button type="reset" class="btn btn-outline btn-default"
                                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
                                     'Країни, міста')">Скасувати

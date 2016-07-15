@@ -1852,13 +1852,16 @@ function addCountry(url) {
     titleUa = $jq('[name="titleUa"]').val();
     titleRu = $jq('[name="titleRu"]').val();
     titleEn = $jq('[name="titleEn"]').val();
+    geocode = $jq('[name="geocode"]').val();
+
     $jq.ajax({
         type: "POST",
         url: url,
         data: {
             titleUa: titleUa,
             titleRu: titleRu,
-            titleEn: titleEn
+            titleEn: titleEn,
+            geocode: geocode
         },
         async: true,
         success: function (response) {
@@ -1898,6 +1901,35 @@ function addCity(url) {
     }
 }
 
+function editCity(url) {
+    country = $jq('#country').val();
+    if (country == 0) {
+        bootbox.alert('Виберіть країну.');
+    } else {
+        id = $jq('[name="id"]').val();
+        titleUa = $jq('[name="titleUa"]').val();
+        titleRu = $jq('[name="titleRu"]').val();
+        titleEn = $jq('[name="titleEn"]').val();
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                id:id,
+                country: country,
+                titleUa: titleUa,
+                titleRu: titleRu,
+                titleEn: titleEn
+            },
+            async: true,
+            success: function (response) {
+                bootbox.alert(response, loadAddressIndex);
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
 function loadAddressIndex() {
     load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
 }

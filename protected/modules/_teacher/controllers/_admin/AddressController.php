@@ -26,14 +26,20 @@ class AddressController extends TeacherCabinetController
     public function actionAddCity(){
         $this->renderPartial('_addCity', array(), false, true);
     }
-
+    
+    public function actionEditCity($id){
+        $model=AddressCity::model()->findByPk($id);
+        $this->renderPartial('_editCity', array('model'=>$model), false, true);
+    }
+    
     public function actionNewCountry(){
         $titleUa = Yii::app()->request->getPost('titleUa', '');
         $titleRu = Yii::app()->request->getPost('titleRu', '');
         $titleEn = Yii::app()->request->getPost('titleEn', '');
+        $geocode = Yii::app()->request->getPost('geocode', '');
 
-        if($titleUa && $titleRu && $titleEn){
-            if (AddressCountry::newCountry($titleUa, $titleRu, $titleEn)){
+        if($titleUa && $titleRu && $titleEn && $geocode){
+            if (AddressCountry::newCountry($titleUa, $titleRu, $titleEn, $geocode)){
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати.";
@@ -53,6 +59,27 @@ class AddressController extends TeacherCabinetController
 
         if($country && $titleUa && $titleRu && $titleEn){
             if (AddressCity::newCity($country, $titleUa, $titleRu, $titleEn)){
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати.";
+            }
+        } else {
+            echo "Неправильно введені дані.";
+        }
+    }
+
+    public function actionUpdateCity(){
+        $modelId = Yii::app()->request->getPost('id', '');
+        $titleUa = Yii::app()->request->getPost('titleUa', '');
+        $titleRu = Yii::app()->request->getPost('titleRu', '');
+        $titleEn = Yii::app()->request->getPost('titleEn', '');
+        
+        if($titleUa && $titleRu && $titleEn){
+            $model=AddressCity::model()->findByPk($modelId);
+            $model->title_ua=$titleUa;
+            $model->title_ru=$titleRu;
+            $model->title_en=$titleEn;
+            if($model->save()){
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати.";

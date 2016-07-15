@@ -60,6 +60,9 @@ function initCountriesList(){
             },
             {
                 "data": "title_en"
+            },
+            {
+                "data": "geocode"
             }
         ],
         "createdRow": function (row, data, index) {
@@ -95,6 +98,13 @@ function initCitiesList(){
             },
             {
                 "data": "title_en"
+            },
+            {
+                "width": "12%",
+                "data": "link",
+                "render": function (link) {
+                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">редагувати</button>';
+                }
             }
         ],
         "createdRow": function (row, data, index) {

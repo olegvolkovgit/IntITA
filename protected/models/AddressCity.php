@@ -32,7 +32,7 @@ class AddressCity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country', 'required'),
+			array('country,title_ua, title_ru, title_en', 'required'),
 			array('country', 'numerical', 'integerOnly'=>true),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			// The following rule is used by search().
@@ -144,10 +144,11 @@ class AddressCity extends CActiveRecord
 
             $row["id"] = $record->id;
             $row["country"] = $record->country0->title_ua;
-            $row["title_ua"] = CHtml::encode($record->title_ua);
-            $row["title_ru"] = CHtml::encode($record->title_ru);
-            $row["title_en"] = CHtml::encode($record->title_en);
-
+            $row["title_ua"] = $record->title_ua;
+            $row["title_ru"] = $record->title_ru;
+            $row["title_en"] = $record->title_en;
+			$row["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/address/editCity", array("id" => $record->id)). "'";
+			
             array_push($return['data'], $row);
         }
 
