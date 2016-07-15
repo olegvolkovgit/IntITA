@@ -1297,9 +1297,7 @@ class StudentReg extends CActiveRecord
         }
         if($user->city){
             $data["city"]["id"] = $user->city;
-            if($user->city0)
-                $data["city"]["title"] = $user->city0->$param;
-            else $data["city"]["title"]='';
+            $data["city"]["title"] = $user->city0->$param;
         }
 
         return json_encode($data);
