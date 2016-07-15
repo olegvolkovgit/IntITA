@@ -30,7 +30,9 @@ function editProfileController($scope, $http, countryCity) {
         }else{
             $('.tabs').children("ul").children("li:first-child").trigger('click');
         }
-        element.focus();
+        if(element[0].tagName=='INPUT')
+            element.focus();
+        else element.click();
     };
     $scope.focusAvatar=function() {
        $('#avatar').trigger('click');
