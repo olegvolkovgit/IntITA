@@ -12,20 +12,22 @@ class RevisionModuleApprovedState extends RevisionState {
         try {
             $this->revisionUnit->saveModulePropertiesToRegularDB();
             $this->revisionUnit->deleteModuleLecturesFromRegularDB();
+
+            /*
+             * Костыль
+             */
             foreach ($this->revisionUnit->moduleLecturesModels as $key=>$moduleLecture){
                 $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
-                if ($moduleLecture->lecture->state->getName() == 'Затверджена') {
+                if ($moduleLecture->lecture->state->getCode() == RevisionState::ApprovedState) {
                     $moduleLecture->lecture->state->changeTo('readyForRelease', $user);
                 }
-                if ($moduleLecture->lecture->state->getName() != 'Реліз') {
+                if ($moduleLecture->lecture->state->getCode() != RevisionState::ReleasedState) {
                     $moduleLecture->lecture->state->changeTo('released', $user);
                 }
             }
             $this->revisionUnit->cancelReleasedModuleInTree($user);
 
-            $this->revisionUnit->properties->release_date = new CDbExpression('NOW()');
-            $this->revisionUnit->properties->id_user_released = $user->getId();
-            $this->revisionUnit->properties->saveCheck();
+            parent::_released($user);
 
             $transaction->commit();
         } catch (Exception $e) {

@@ -16,5 +16,5 @@ $revision = $params[0];
 <br>
 Зв'язатися з контент менеджером: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
     'scenario' => 'message',
-    'receiver' =>  $revision->properties->id_user_rejected
+    'receiver' =>  $revision->properties->id_user
 )); ?>">написати контент менеджеру</a>.

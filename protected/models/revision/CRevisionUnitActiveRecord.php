@@ -25,7 +25,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isEditable() {
-        return $this->state->getName() == 'Доступна до редагування';
+        return $this->state->getCode() == RevisionState::EditableState;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isRevokeable() {
-        return $this->state->canChange('editable') && $this->state->getName() == 'Відправлена на затвердження';
+        return $this->state->canChange('editable') && $this->state->getCode() == RevisionState::SendForApprovalState;
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isRejected() {
-        return $this->properties->id_user_rejected != null;
+        return $this->state->getCode() == RevisionState::RejectedState;
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isSended() {
-        return $this->properties->id_user_sended_approval != null;
+        return $this->state->getCode() == RevisionState::SendForApprovalState;
     }
 
     /**
@@ -105,7 +105,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isApproved() {
-        return $this->properties->id_user_approved != null;
+        return $this->state->getCode() == RevisionState::ApprovedState;
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isReleased() {
-        return $this->properties->id_user_released != null;
+        return $this->state->getCode() == RevisionState::ReleasedState;
     }
 
     /**
@@ -121,7 +121,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isCancelled() {
-        return $this->properties->id_user_cancelled != null;
+        return $this->state->getCode() == RevisionState::CancelledState;
     }
 
     /**
@@ -129,7 +129,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isCancelledEditor() {
-        return $this->properties->id_user_cancelled_edit != null;
+        return $this->state->getCode() == RevisionState::CancelledAuthorState;
     }
 
     public function canEdit() {
