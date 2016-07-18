@@ -21,46 +21,67 @@
 
     <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
-    <div class="form">
-        <?php $form=$this->beginWidget('CActiveForm', array(
-            'id'=>'response-form',
-            'htmlOptions'=>array(
-                'class'=>'formatted-form',
-                'enctype'=>'multipart/form-data',
-                'method'=>'POST',
-            ),
-            'action' => Config::getBaseUrl().'/_admin/response/updateResponseText/id/'.$model->id,
-            // Please note: When you enable ajax validation, make sure the corresponding
-            // controller action is handling ajax validation correctly.
-            // There is a call to performAjaxValidation() commented in generated controller code.
-            // See class documentation of CActiveForm for details on this.
-            'enableClientValidation'=>true,
-            'enableAjaxValidation' => true,
-            'clientOptions' => array('validateOnSubmit' => true, 'validateOnChange' => false,
-                'afterValidate'=>'js:function(form,data,hasError){
-                if(!hasError) bootbox.alert("Зміни до відгуку успішно оновлено");
-                else bootbox.alert("Оновити відгук не вдалося");
-                return false;
-                }',
-            ),
-        )); ?>
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'text'); ?>
-            <?php echo $form->textArea($model,'text',array('rows'=>6, 'cols'=>50,'class'=>"form-control")); ?>
-            <?php echo $form->error($model,'text'); ?>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-8">
+            <form id="response-form" name="responseForm" onsubmit="editResponse('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/updateResponseText', array('id'=>$model->id))?>');return false;">
+                <div class="form-group">
+                    <?php $model->text=Response::model()->html_to_bbcode($model->text); ?>
+                    <label>Відгук*</label>
+                    <textarea class="editor" id="response" name="responseText" ><?php echo $model->text ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Перевірено модератором</label>
+                    <select class="form-control" name="Response[is_checked]" id="Response_is_checked">
+                        <option value="1" <?php echo ($model->is_checked==1)?'selected':''?>>публікувати</option>
+                        <option value="0"<?php echo ($model->is_checked==0)?'selected':''?>>приховати</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </form>
         </div>
+    </div>
+</div>
 
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'is_checked'); ?>
-            <?php echo $form->dropDownList($model, 'is_checked',array('1' => 'публікувати', '0' => 'приховати'),
-                array('class'=>"form-control")); ?>
-            <?php echo $form->error($model,'is_checked'); ?>
-        </div>
 
-        <div class="row buttons">
-            <?php echo CHtml::submitButton('Зберегти',array('class' => 'btn btn-primary')); ?>
-        </div>
+<!--<!-- Підключення BBCode WysiBB -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/jquery.wysibb.min.js'); ?>"></script>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/theme/default/wbbtheme.css'); ?>"
+      type="text/css" />
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/lang/ua.js'); ?>"></script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('js',  'wysibb/BBCode.js'); ?><!--"></script>-->
+<script>
+    $jq(document).ready(function() {
+        var wbbOpt = {
+            lang: "ua",
+            buttons: "bold,italic,underline,|,code,bullist,numlist"
+        };
+        $jq("#response").wysibb(wbbOpt);
+    });
+    function editResponse(url) {
+        response = $jq("#response").bbcode();
+        if (response.trim() == '') {
+            bootbox.alert('Відгук не може бути пустий.');
+        } else {
+            publish = document.getElementById("Response_is_checked").value;
+            $jq.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    response: response,
+                    publish: publish,
+                },
+                async: true,
+                success: function (response) {
+                    bootbox.alert(response, load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/view', array('id' => $model->id)); ?>'));
+                },
+                error: function () {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                }
+            });
+        }
+    }
+</script>
 
-        <?php $this->endWidget(); ?>
-
-    </div><!-- form -->
+<!-- Підключення BBCode WysiBB -->
