@@ -19,16 +19,16 @@ function addTeacherAttrCM(url, attr, id, role) {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         switch (role) {
                             case "author":
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'author');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'author');
                                 break;
                             case "consultant":
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'consultant');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'consultant');
                                 break;
                             case "teacher_consultant":
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'teacher_consultant');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'teacher_consultant');
                                 break;
                             default:
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'main');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'main');
                                 break;
                         }
                     });
@@ -178,13 +178,13 @@ function initTeacherConsultantsTableCM() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">' + name["name"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["name"] + '</a>';
                 }
             },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Викладач-консультант\');">' + email["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
                 }
             },
             {
@@ -244,13 +244,13 @@ function initAuthorsTableCM() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["title"] + '</a>';
                 }
             },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load( \'' + email["url"] + '\', \'Автор модуля\');">' + email["title"] + '</a>';
+                    return '<a href="#" onclick="load( \'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
                 }
             }
         ],
@@ -275,13 +275,13 @@ function initConsultantsTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">' + name["name"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["name"] + '</a>';
                 }
             },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">' + email["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
                 }
             },
             {
