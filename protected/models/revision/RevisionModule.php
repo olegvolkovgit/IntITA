@@ -355,13 +355,14 @@ class RevisionModule extends CRevisionUnitActiveRecord
      * revisions id list after filtered
      */
     public static function getFilteredIdRevisions($status, $idModule=null,$idAuthor=null) {
-        $sqlCancelledEditor = ('vcp.id_user_cancelled_edit IS NOT NULL');
-        $sqlCancelled = ('vcp.id_user_cancelled IS NOT NULL');
-        $sqlReady = ('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
-        $sqlApproved = ('vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL');
-        $sqlRejected = ('vcp.id_user_rejected IS NOT NULL');
-        $sqlSent = ('vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL');
-        $sqlEditable = ('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
+        $sqlCancelledEditor = "(vcp.id_state = " . RevisionState::CancelledAuthorState . ")";
+        $sqlCancelled = "(vcp.id_state = " . RevisionState::CancelledState . ")";
+        $sqlReady = "(vcp.id_state = " . RevisionState::ReleasedState . ")";
+        $sqlApproved = "(vcp.id_state = " . RevisionState::ApprovedState . ")";
+        $sqlRejected = "(vcp.id_state = " . RevisionState::RejectedState . ")";
+        $sqlSent = "(vcp.id_state = " . RevisionState::SendForApprovalState . ")";
+        $sqlEditable = "(vcp.id_state = " . RevisionState::EditableState . ")";
+
 
         $finalSql = '';
         $authorSql = '';
