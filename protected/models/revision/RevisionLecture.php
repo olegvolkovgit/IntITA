@@ -851,7 +851,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     /**
      * @param $user
      */
-    private function cancelProposedToReleaseInTree($user) {
+    public function cancelProposedToReleaseInTree($user) {
         $idList = $this->getRelatedIdList();
         $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
         foreach ($lectureRevisions as $lectureRevision) {
@@ -1027,7 +1027,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     }
 
     public function canCancel() {
-        return $this->state->canChange('canceled');
+        return $this->state->canChange('cancel');
     }
     public function canProposedToRelease() {
         return $this->state->canChange('readyForRelease');

@@ -6,7 +6,10 @@ class RevisionLectureApprovedState extends RevisionState {
     }
 
     public function readyForRelease($user) {
+        $this->revisionUnit->cancelProposedToReleaseInTree($user);
         parent::_readyForRelease($user);
+        
+        return true;
     }
 
     public function cancel($user) {
