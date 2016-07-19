@@ -1035,4 +1035,26 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     public function canCancelProposedToRelease() {
         return $this->state->getCode() == RevisionState::ReadyForRelease;
     }
+
+    /**
+     * Return status accessibility foe lecture revision 
+     * @return array
+     */
+    public function statusList() {
+        $status=array();
+
+        $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
+        $isApprover=Yii::app()->user->model->canApprove();
+        
+        $status['canCreate'] = $this->canCreate();
+        $status['canEdit'] = $status['canCancelEdit'] = $status['canSend'] = $isRevisionCreator && $this->isEditable();
+        $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();
+        $status['canCancelSend'] = $isRevisionCreator && $this->isSended();
+        $status['canApprove'] = $status['canReject'] = $isApprover && $this->isSended();
+        $status['canCancel'] =  $isApprover && $this->isCancellable();
+        $status['canProposedToRelease'] =  $isApprover && $this->isApproved();
+        $status['canCancelProposedToRelease'] =  $isApprover && $this->isProposedToRelease();
+
+        return $status;
+    }
 }

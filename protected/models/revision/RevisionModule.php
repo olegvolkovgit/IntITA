@@ -676,4 +676,24 @@ class RevisionModule extends CRevisionUnitActiveRecord
         }
         return $authors;
     }
+
+    /**
+     * Return status accessibility foe module revision
+     * @return array
+     */
+    public function statusList() {
+        $status=array();
+
+        $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
+        $isApprover=Yii::app()->user->model->canApprove();
+
+        $status['canEdit'] =  $status['canCancelEdit'] = $status['canSend'] =$isRevisionCreator && $this->isEditable();
+        $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();
+        $status['canCancelSend'] = $isRevisionCreator && $this->isSended();
+        $status['canApprove'] = $status['canReject'] = $isApprover && $this->isSended();
+        $status['canCancel'] =  $isApprover && $this->isCancellable();
+        $status['canRelease'] = $isApprover && $this->isReleaseable();
+
+        return $status;
+    }
 }

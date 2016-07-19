@@ -174,15 +174,8 @@ class ModuleRevisionController extends Controller {
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
             $node['creatorId'] = $module->properties->id_user_created;
-            $node['isSendable'] = $module->isSendable();
-            $node['isApprovable'] = $module->isApprovable();
-            $node['isCancellable'] = $module->isCancellable();
-            $node['isEditable'] = $module->isEditable();
-            $node['isRejectable'] = $module->isRejectable();
-            $node['isSendedCancellable'] = $module->isRevokeable();
-            $node['isReadable'] = $module->isReleaseable();
-            $node['isEditCancellable'] = $module->isEditable();
-            $node['canRestoreEdit'] = $module->isCancelledEditor();
+            $statusList=$module->statusList();
+            $node=array_merge ($node, $statusList);
 
             $this->appendNode($jsonArray, $node, $moduleTree);
         }
@@ -199,15 +192,8 @@ class ModuleRevisionController extends Controller {
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
             $node['creatorId'] = $module->properties->id_user_created;
-            $node['isSendable'] = $module->isSendable();
-            $node['isApprovable'] = $module->isApprovable();
-            $node['isCancellable'] = $module->isCancellable();
-            $node['isEditable'] = $module->isEditable();
-            $node['isRejectable'] = $module->isRejectable();
-            $node['isSendedCancellable'] = $module->isRevokeable();
-            $node['isReadable'] = $module->isReleaseable();
-            $node['isEditCancellable'] = $module->isEditable();
-            $node['canRestoreEdit'] = $module->isCancelledEditor();
+            $statusList=$module->statusList();
+            $node=array_merge ($node, $statusList);
 
             $this->appendNodeMultiselect($jsonArray, $node, $moduleTree, $actualIdList);
         }
@@ -509,17 +495,9 @@ class ModuleRevisionController extends Controller {
         }
 
         $module['status']=$moduleRevision->state->getName();
-        $module['canEdit']=$moduleRevision->canEdit();
-        $module['canSendForApproval']=$moduleRevision->canSendForApproval();
-        $module['canCancelSendForApproval']=$moduleRevision->canCancelSendForApproval();
-        $module['canApprove']=$moduleRevision->canApprove();
-        $module['canCancelReadyRevision']=$moduleRevision->canCancelReadyRevision();
-        $module['canRejectRevision']=$moduleRevision->canRejectRevision();
-        $module['canReleaseRevision']=$moduleRevision->canReleaseRevision();
-        $module['canCancelEdit']=$moduleRevision->canCancelEdit();
-        $module['canRestoreEdit']=$moduleRevision->canRestoreEdit();
-        $module['link']=
-            $module['canCancelReadyRevision']?
+        $statusList=$moduleRevision->statusList();
+        $module=array_merge ($module, $statusList);
+        $module['view']= $moduleRevision->isReleased()?
                 Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module)):null;
         $data['module']=$module;
         $data['lectures']=$lectures;

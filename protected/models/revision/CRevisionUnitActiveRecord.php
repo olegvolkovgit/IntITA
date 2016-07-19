@@ -137,23 +137,19 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
     }
 
     public function canCancelSendForApproval() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isApprovable());
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isSended());
     }
 
     public function canSendForApproval() {
-        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isSendable());
+        return ($this->properties->id_user_created == Yii::app()->user->getId() && $this->isEditable());
     }
 
     public function canApprove() {
-        return (Yii::app()->user->model->canApprove() && $this->isApprovable());
-    }
-
-    public function canCancelReadyRevision() {
-        return (Yii::app()->user->model->canApprove() && $this->isCancellable());
+        return (Yii::app()->user->model->canApprove() && $this->isSended());
     }
 
     public function canRejectRevision() {
-        return (Yii::app()->user->model->canApprove() && $this->isRejectable());
+        return (Yii::app()->user->model->canApprove() && $this->isApproved());
     }
 
     public function canReleaseRevision() {
