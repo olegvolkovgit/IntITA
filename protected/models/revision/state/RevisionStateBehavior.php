@@ -37,8 +37,8 @@ class RevisionStateBehavior extends CActiveRecordBehavior {
     }
 
     public function canChange($state) {
-        // todo
-        return (method_exists($this->state, $state) && $this->owner->properties->id_state != RevisionState::ReleasedState);
+
+        return method_exists($this->state, $state);
     }
 
 }

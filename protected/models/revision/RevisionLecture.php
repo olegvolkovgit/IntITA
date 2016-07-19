@@ -1033,6 +1033,6 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         return $this->state->canChange('readyForRelease');
     }
     public function canCancelProposedToRelease() {
-        return $this->state->getCode() == RevisionState::ReadyForRelease && $this->state->canChange('approved');
+        return $this->state->getCode() == RevisionState::ReadyForRelease;
     }
 }

@@ -302,6 +302,9 @@ class m160713_190051_create_new_address_country extends CDbMigration
 		$this->update('user', array('country' => 1), 'country IS NOT NULL');
 		$this->update('user', array('city' => 1), 'city IS NOT NULL');
 
+		$this->update('acc_corporate_entity', array('legal_address_city_code' => 1));
+		$this->update('acc_corporate_entity', array('actual_address_city_code' => 1));
+
 		$this->addForeignKey('FK__address_country', 'address_city', 'country', 'address_country', 'id');
 		$this->addForeignKey('FK_user_address_country', 'user', 'country', 'address_country', 'id');
 		$this->addForeignKey('FK_user_address_city', 'user', 'city', 'address_city', 'id');

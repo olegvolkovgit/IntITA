@@ -49,7 +49,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
      * @return bool
      */
     public function isCancellable() {
-        return $this->state->canChange('canceled');
+        return $this->state->canChange('cancel');
     }
 
     /**

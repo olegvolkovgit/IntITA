@@ -996,7 +996,8 @@ class RevisionController extends Controller {
             $node['id'] = $lecture->id_revision;
             $node['creatorId'] = $lecture->properties->id_user_created;
             $node['isSendable'] = $lecture->isSendable();
-            $node['isApprovable'] = $lecture->isApprovable();
+            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
+            $node['isApprovable'] = $node['canCancelProposedToRelease']?false:$lecture->isApprovable();
             $node['isCancellable'] = $lecture->isCancellable();
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
@@ -1005,7 +1006,6 @@ class RevisionController extends Controller {
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
             $node['canProposedToRelease'] = $lecture->canProposedToRelease();
-            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
 
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
@@ -1023,7 +1023,8 @@ class RevisionController extends Controller {
             $node['id'] = $lecture->id_revision;
             $node['creatorId'] = $lecture->properties->id_user_created;
             $node['isSendable'] = $lecture->isSendable();
-            $node['isApprovable'] = $lecture->isApprovable();
+            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
+            $node['isApprovable'] = $node['canCancelProposedToRelease']?false:$lecture->isApprovable();
             $node['isCancellable'] = $lecture->isCancellable();
             $node['isEditable'] = $lecture->isEditable();
             $node['isRejectable'] = $lecture->isRejectable();
@@ -1032,7 +1033,6 @@ class RevisionController extends Controller {
             $node['canRestoreEdit'] = $lecture->isCancelledEditor();
             $node['canCreate'] = $lecture->canCreate();
             $node['canProposedToRelease'] = $lecture->canProposedToRelease();
-            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
 
             $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }
