@@ -832,9 +832,10 @@ class StudentReg extends CActiveRecord
         $paymentMessages = MessagesPayment::model()->findAll($criteria);
         $approveRevisionMessages = MessagesApproveRevision::model()->findAll($criteria);
         $rejectRevisionMessages = MessagesRejectRevision::model()->findAll($criteria);
+        $rejectModuleRevisionMessages = MessagesRejectModuleRevision::model()->findAll($criteria);
         $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
-        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages);
+        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages, $rejectModuleRevisionMessages);
         $user = Yii::app()->user->model;
 //        if($user->isAdmin() || $user->isContentManager()){
 //            $criteria1 = new CDbCriteria();
@@ -871,7 +872,8 @@ class StudentReg extends CActiveRecord
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
         $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . $this->id . ' and
         (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
-         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . ')');
+         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . '
+          or m.type=' . MessagesType::REJECT_MODULE_REVISION . ')');
 
         return Messages::model()->findAll($criteria);
     }

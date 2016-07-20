@@ -403,11 +403,16 @@ class ModuleRevisionController extends Controller {
 
     public function actionRejectModuleRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
+        $comment=Yii::app()->request->getPost('comment','');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
         if (!$moduleRev->canRejectRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0827'));
         }
         $moduleRev->state->changeTo('rejected', Yii::app()->user);
+
+        $message = new MessagesRejectModuleRevision();
+        $message->sendModuleRevisionRejectMessage($moduleRev, $comment);
+        
         $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0, 'user_rejected'=> null));
         if($revisionRequest){
             $revisionRequest->setRejected();

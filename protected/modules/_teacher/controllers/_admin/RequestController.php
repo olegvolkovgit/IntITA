@@ -84,6 +84,16 @@ class RequestController extends TeacherCabinetController
         $model = RequestFactory::getInstance($messageModel);
         $userModel = StudentReg::model()->findByPk($user);
 
+        $comment=Yii::app()->request->getPost('comment','');
+        if($messageModel->type==MessagesType::REVISION_REQUEST){
+            $message = new MessagesRejectRevision();
+            $message->sendRevisionRejectMessage(RevisionLecture::model()->findByPk($model->id_revision), $comment);
+        }
+        if($messageModel->type==MessagesType::MODULE_REVISION_REQUEST){
+            $message = new MessagesRejectModuleRevision();
+            $message->sendModuleRevisionRejectMessage(RevisionModule::model()->findByPk($model->id_module_revision), $comment);
+        }
+
         if ($model && $userModel) {
             if (!$model->isRejected()) {
                 echo $model->reject($userModel);

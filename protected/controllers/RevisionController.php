@@ -376,9 +376,14 @@ class RevisionController extends Controller {
         }
 
         $idRevision = Yii::app()->request->getPost('idRevision');
+        $comment=Yii::app()->request->getPost('comment','');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         $lectureRev->state->changeTo('rejected', Yii::app()->user);
+        
+        $message = new MessagesRejectRevision();
+        $message->sendRevisionRejectMessage($lectureRev, $comment);
+
         $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_rejected'=> null));
         if($revisionRequest){
             $revisionRequest->setRejected();
@@ -410,6 +415,10 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('approved', Yii::app()->user);
+
+        StudentReg::model()->findByPk($lectureRev->properties->id_user_created)->notify('revision/_revisionRequestApproved',
+            array($lectureRev),
+            'Запит на затвердження ревізії лекції успішно підтверджено',Yii::app()->user->getId());
         $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_approved'=> null));
         if($revisionRequest){
             $revisionRequest->setApproved();

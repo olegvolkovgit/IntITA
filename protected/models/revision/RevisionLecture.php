@@ -209,6 +209,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     protected function getMessageClasses() {
         return array_merge(parent::getMessageClasses(), [
             'reject' => 'MessagesRejectRevision',
+            'rejectModule' => 'MessagesRejectModuleRevision',
             'approve' => 'MessagesApproveRevision'
         ]);
     }

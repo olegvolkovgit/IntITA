@@ -226,11 +226,7 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         date_default_timezone_set(Config::getServerTimezone());
         $this->user_rejected = Yii::app()->user->getId();
         $this->date_rejected = date("Y-m-d H:i:s");
-        if($this->save()){
-            $this->message()->sender0->notify($this->cancelledTemplate,
-                array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено',$this->user_rejected);
-        }
+        $this->save();
     }
 
     public function approve(StudentReg $userApprove)
@@ -256,8 +252,6 @@ class MessagesRevisionRequest extends Messages implements IMessage, IRequest
         $this->user_rejected = $userRejected->id;
         $this->date_rejected = date("Y-m-d H:i:s");
         if ($this->save()) {
-            $this->message()->sender0->notify($this->cancelledTemplate, array($this->idRevision),
-                'Запит на затвердження ревізії лекції відхилено',$this->user_rejected);
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
