@@ -124,25 +124,37 @@ function selectTeacherModules(url, teacher) {
     }
 }
 
-function setRequestStatus(url, message) {
-    bootbox.confirm(message, function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                success: function (response) {
-                    bootbox.alert(response, function () {
-                        load(basePath + '/_teacher/_admin/request/index', 'Запити');
+function rejectRevisionRequest(url) {
+    bootbox.dialog({
+            title: "Причина відхилення ревізії",
+            message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+            '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+            '</div></form></div></div>',
+            buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                callback: function () {
+                    var comment = $jq('#rejectMessageText').val();
+                    $jq.ajax({
+                        url: url,
+                        data: {comment: comment},
+                        type: "POST",
+                        success: function (response) {
+                            bootbox.alert(response, function () {
+                                load(basePath + '/_teacher/_admin/request/index', 'Запити');
+                            });
+                        },
+                        error: function () {
+                            bootbox.alert("Операцію не вдалося виконати.");
+                        }
                     });
-                },
-                error: function () {
-                    bootbox.alert("Операцію не вдалося виконати.");
                 }
-            });
-        } else {
-            bootbox.alert("Операцію відмінено.");
+            },
+                cancel: {label: "Скасувати", className: "btn btn-default",
+                    callback: function () {
+                    }
+                }
+            }
         }
-    });
+    );
 }
 
 function loadTeacherModulesList(id) {

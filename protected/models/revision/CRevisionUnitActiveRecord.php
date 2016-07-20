@@ -149,7 +149,7 @@ abstract class CRevisionUnitActiveRecord extends CActiveRecord {
     }
 
     public function canRejectRevision() {
-        return (Yii::app()->user->model->canApprove() && $this->isApproved());
+        return (Yii::app()->user->model->canApprove() && $this->isSended());
     }
 
     public function canReleaseRevision() {

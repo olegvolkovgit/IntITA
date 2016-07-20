@@ -51,11 +51,28 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, getLectureData,revisionMe
         });
     };
     $scope.rejectRevision = function(id) {
-        revisionsActions.rejectRevision(id).then(function(){
-            getLectureData.getData(idRevision).then(function(response){
-                $rootScope.lectureData=response;
-            });
-        });
+        bootbox.dialog({
+                title: "Причина відхилення ревізії",
+                message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+                '</div></form></div></div>',
+                buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                    callback: function () {
+                        var comment = $('#rejectMessageText').val();
+                        revisionsActions.rejectRevision(id, comment).then(function(){
+                            getLectureData.getData(idRevision).then(function(response){
+                                $rootScope.lectureData=response;
+                            });
+                        });
+                    }
+                },
+                    cancel: {label: "Скасувати", className: "btn btn-default",
+                        callback: function () {
+                        }
+                    }
+                }
+            }
+        );
     };
     $scope.proposedToReleaseRevision = function(id) {
         revisionsActions.proposedToReleaseRevision(id).then(function(){
