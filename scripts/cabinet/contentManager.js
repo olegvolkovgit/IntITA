@@ -126,7 +126,7 @@ function selectTeacherModules(url, teacher) {
 
 function rejectRevisionRequest(url) {
     bootbox.dialog({
-            title: "Причина відхилення ревізії",
+        title: "Ти впевнений, що хочеш відхилити ревізію?",
             message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
             '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
             '</div></form></div></div>',
