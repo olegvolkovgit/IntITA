@@ -22,6 +22,7 @@
  * @property integer $rating
  * @property integer $module_number
  * @property integer $cancelled
+ * @property integer $status
  *
  * The followings are the available model relations:
  * @property Course $Course
@@ -78,14 +79,14 @@ class Module extends CActiveRecord implements IBillableObject
             array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             array('module_img, title_ua, title_ru, title_en', 'length', 'max' => 255),
             array('module_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
-            array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating', 'safe'),
+            array('for_whom, what_you_learn, what_you_get, days_in_week, hours_in_day, level,days_in_week, hours_in_day, level, rating, status', 'safe'),
             array('title_ua, title_ru, title_en, level,hours_in_day, days_in_week', 'required', 'message' => Yii::t('module', '0412'), 'on' => 'canedit'),
             array('hours_in_day, days_in_week', 'numerical', 'integerOnly' => true, 'min' => 1, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             array('module_price', 'numerical', 'integerOnly' => true, 'min' => 0, "tooSmall" => Yii::t('module', '0413'), 'message' => Yii::t('module', '0413'), 'on' => 'canedit'),
             // The following rule is used by search().
             array('module_ID, title_ua, title_ru, title_en, alias, language, lesson_count, module_price, for_whom,
             what_you_learn, what_you_get, module_img,
-			days_in_week, hours_in_day, level, module_number, cancelled, id_module_revision', 'safe', 'on' => 'search'),
+			days_in_week, hours_in_day, level, module_number, cancelled, id_module_revision, status', 'safe', 'on' => 'search'),
         );
     }
 
@@ -171,6 +172,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->compare('rating', $this->rating, true);
         $criteria->compare('module_number', $this->module_number, true);
         $criteria->compare('cancelled', $this->cancelled, true);
+        $criteria->compare('status', $this->status, true);
         $criteria->compare('id_module_revision', $this->id_module_revision, true);
 
         return new CActiveDataProvider($this, array(
