@@ -365,7 +365,7 @@ class Consultationscalendar extends CActiveRecord
     public static function studentTodayConsultationsList($user)
     {
         $currentDate = new DateTime();
-        $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
+        $sql = 'select cs.id cons_id, l.id, l.title_ua, l.idModule, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.teacher_id
                  left join lectures l on l.id = cs.lecture_id where cs.user_id=' . $user . ' and cs.date_cancelled IS NULL and
                  cs.date_cons BETWEEN STR_TO_DATE(\'' . date_format($currentDate, "Y-m-d 00:00:00") . '\', \'%Y-%m-%d %H:%i:%s\')
@@ -375,15 +375,18 @@ class Consultationscalendar extends CActiveRecord
         $return = array('data' => array());
 
         foreach ($result as $record) {
+            $access=PayModules::model()->checkModulePermission($user, $record["idModule"], array('read'));
             $row = array();
 
             $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));
-            $row["lecture"]["name"] = ($record["title_ua"] != "") ? $record["title_ua"] : "лекція видалена";
+            $title=($record["title_ua"] != "") ? $record["title_ua"] : "лекція видалена";
+            if(!$access) $row["lecture"]["name"] = $title.' (доступ до заняття обмежений)';
+            else $row["lecture"]["name"] = $title;
             $row["date_cons"] = date("d.m.Y", strtotime($record["date_cons"]));
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
-            $row["user"]["url"] = $row["lecture"]["url"] = Yii::app()->createUrl('/_teacher/_student/student/consultation/', array('id' => $record["cons_id"]));
-            $row["start"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['cons_id'];
+            $row["user"]["url"] = $row["lecture"]["url"] = $access?Yii::app()->createUrl('/_teacher/_student/student/consultation/', array('id' => $record["cons_id"])):false;
+            $row["start"] = $access?Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['cons_id']:false;
             array_push($return['data'], $row);
         }
 

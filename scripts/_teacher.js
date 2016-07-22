@@ -1397,14 +1397,16 @@ function initTodayConsultationsTable() {
                 "data": "user",
                 "width": "20%",
                 "render": function (user) {
-                    return '<a href="#" onclick="load(\'' + user["url"] + '\',\'Консультація\');" >' + user["name"] + '</a>';
+                    if(user["url"]) return '<a href="#" onclick="load(\'' + user["url"] + '\',\'Консультація\');" >' + user["name"] + '</a>';
+                    else return user["name"];
                 }
             },
             {
                 "data": "lecture",
                 "width": "20%",
                 "render": function (lecture) {
-                    return '<a href="#" onclick="load(\'' + lecture["url"] + '\',\'Консультація\');" >' + lecture["name"] + '</a>';
+                    if(lecture["url"]) return '<a href="#" onclick="load(\'' + lecture["url"] + '\',\'Консультація\');" >' + lecture["name"] + '</a>';
+                    else  return lecture["name"];
                 }
             },
             {
@@ -1424,7 +1426,8 @@ function initTodayConsultationsTable() {
                 "width": "10%",
                 "data": "start",
                 "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
+                    if(link) return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
+                    else return '';
                 }
             }
         ],

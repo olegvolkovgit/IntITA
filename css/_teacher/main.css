@@ -449,3 +449,6 @@ a.requestList{
     display: none;
     color:#c72929;
 }
+#studentTodayConsultationsTable td, #todayConsultationsTable td{
+    white-space: normal;
+}
