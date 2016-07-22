@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="responseCtrl">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -22,8 +22,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initTeacherResponsesTable();
-    });
-</script>

@@ -22,8 +22,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initWaitLectures();
-    });
-</script>

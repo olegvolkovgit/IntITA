@@ -13,11 +13,11 @@
     </li>
 </ul>
 
-    <div class="page-header">
+    <div class="page-header" >
         <h4>Слайдер на головній</h4>
     </div>
 
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="mainSliderCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -39,8 +39,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initMainSliderList();
-    });
-</script>

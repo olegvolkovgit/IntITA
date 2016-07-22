@@ -14,7 +14,7 @@
     </li>
 </ul>
 
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="aboutusSliderCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -37,8 +37,4 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initAboutusSliderList();
-    });
-</script>
+

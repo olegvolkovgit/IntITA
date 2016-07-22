@@ -12,17 +12,11 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/authors'); ?>',
-                               'Автори модулів')">Автори модулів</a>
+                    <li><a href="#/content_manager/authors">Автори модулів</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/consultants'); ?>',
-                               'Консультанти для модулів')">Консультанти для модулів</a>
+                    <li><a href="#/content_manager/consultants">Консультанти для модулів</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/teacherConsultants'); ?>',
-                               'Викладачі')">Викладачі</a>
+                    <li><a href="#/content_manager/teacherConsultants">Викладачі</a>
                     </li>
                 </ul>
             </div>
@@ -38,14 +32,10 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/verifyContent/index'); ?>',
-                               'Контент лекцій')">
+                    <li><a href="#admin/verifycontent">
                             Контент лекцій</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
-                               'Модулі')">
+                    <li><a href="#/admin/modulemanage">
                             Модулі</a></li>
                     <li>
                         <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
@@ -71,13 +61,9 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfModules', array('id' => 0)); ?>',
-                               'Стан модулів')">Стан модулів</a>
+                    <li><a href="#/content_manager/statusOfModules">Стан модулів</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfCourses'); ?>',
-                               'Стан курсів')">Стан курсів</a>
+                    <li><a href="#/content_manager/statusOfCourses">Стан курсів</a>
                     </li>
                 </ul>
                 <br>

@@ -22,6 +22,3 @@
         </div>
     </div>
 </div>
-<script>
-    initModulesListTable('<?=$id?>','<?=$filter_id?>');
-</script>

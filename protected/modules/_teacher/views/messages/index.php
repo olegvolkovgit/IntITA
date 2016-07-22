@@ -20,7 +20,7 @@
 <br>
 <br>
 
-<div id="mylettersSend">
+<div id="mylettersSend" ng-controller="messagesCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <!-- Nav tabs -->

@@ -4,7 +4,7 @@
             'Новий курс')"><?php echo Yii::t("coursemanage", "0511"); ?></button>
     </li>
 </ul>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="coursemanageCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -28,6 +28,6 @@
 </div>
 <script>
     $jq(document).ready(function () {
-        initCourses();
+
     });
 </script>

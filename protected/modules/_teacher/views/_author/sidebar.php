@@ -4,13 +4,11 @@
  */
 ?>
 <li>
-    <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-        array('page' => 'author'));?>','Автор')">
+    <a href="#/author">
         <i class="fa fa-bar-chart-o fa-fw"></i>Автор<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_author/author/modules',
-                array('id' => $model->id)) ?>', 'Модулі')">
+            <a href="#/author/modules">
                 Модулі
             </a>
         </li>

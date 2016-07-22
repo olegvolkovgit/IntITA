@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="statusOfModulesCtrl">
     <div class="panel-body">
 
         <ul id="accessTabs" class="nav nav-tabs">
@@ -13,7 +13,6 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="all">
-
                 <?php $this->renderPartial('/_content_manager/_allModules', array('filter_id' => '0','id'=>$id));?>
             </div>
             <div class="tab-pane fade" id="without_videos">

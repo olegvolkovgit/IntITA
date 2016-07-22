@@ -4,49 +4,38 @@
  */
 ?>
 <li>
-    <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-        array('page' => 'content_manager'));?>','Контент менеджер')">
+    <a href="#/content_manager"  ng-click="changeView('content_manager')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Контент менеджер
-        <span class="fa arrow"></span>
+        <span class="fa arrow"></span >
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/authors'); ?>',
-                   'Автори модулів')">
+            <a href="#/content_manager/authors">
                 Автори модулів
             </a>
         </li>
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/consultants'); ?>',
-                   'Консультанти для модулів')">
+            <a href="#/content_manager/consultants">
                 Консультанти
             </a>
         </li>
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/teacherConsultants'); ?>',
-                   'Викладачі')">
+            <a href="#/content_manager/teacherConsultants">
                 Викладачі
             </a>
         </li>
         <li>
-            <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>" class="active" target="_blank">
+            <a href="/revision/index/">
             Всі ревізії</a>
         </li>
         <li>
             <?php $p=45?>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_content_manager/contentManager/statusOfModules", array('id' => 0)); ?>',
-                   'Стан модулів')">
+            <a href="#/content_manager/statusOfModules">
                 Стан модулів
             </a>
         </li>
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/statusOfCourses'); ?>',
-                   'Стан курсів')">
+            <a href="#content_manager/statusOfCourses">
                 Стан курсів
             </a>
         </li>

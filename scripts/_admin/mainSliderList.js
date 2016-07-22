@@ -1,4 +1,6 @@
 function initMainSliderList(){
+    $jq('#mainSliderTable').DataTable({paging: false}).destroy();
+
     $jq('#mainSliderTable').DataTable({
         "ajax": {
             "url": basePath + "/_teacher/_admin/carousel/getItemsList",

@@ -25,6 +25,3 @@
         </div>
     </div>
 </div>
-<script>
-        initCoursesListTable(<?=$filter_id?>);
-</script>
