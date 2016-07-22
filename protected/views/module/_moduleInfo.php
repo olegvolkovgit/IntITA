@@ -48,7 +48,7 @@
                 ?>
             </div>
             <div>
-                <span id="titleModule">Стан модуля: </span>
+                <span id="titleModule"><?php echo Yii::t('module', '0893'); ?>: </span>
                 <?php if ($post->status == Module::DEVELOP) { ?>
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
                     <?php echo Yii::t('courses', '0230');

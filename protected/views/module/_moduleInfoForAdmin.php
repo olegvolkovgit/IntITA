@@ -137,7 +137,7 @@
 //                ?>
 <!--            </div>-->
             <div>
-                <span id="titleModule">Стан модуля: </span>
+                <span id="titleModule"><?php echo Yii::t('module', '0893'); ?>: </span>
                 <?php
                 $lg = Yii::app()->session['lg'];
                 $status = $post->status;
@@ -151,7 +151,7 @@
                             '1' => Yii::t('courses', '0231'),
                         )
                     ),
-                    'title' => 'Стан модуля:',
+                    'title' => Yii::t('module', '0893').':',
                     'placement' => 'right',
                 ));
                 ?>

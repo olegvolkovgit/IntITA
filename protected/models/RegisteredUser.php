@@ -320,7 +320,7 @@ class RegisteredUser
                 throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));
         }
         if ($lecture->module->status==Module::DEVELOP) {
-            throw new CHttpException(403, 'Доступ обмежений. Модуль знаходиться в розробці');
+            throw new CHttpException(403, Yii::t('lecture', '0894'));
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();

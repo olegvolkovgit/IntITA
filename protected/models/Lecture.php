@@ -969,7 +969,7 @@ class Lecture extends CActiveRecord
             return Yii::t('lecture', '0811');
         }
         if ($this->module->status==Module::DEVELOP) {
-            return 'Заняття недоступне. Модуль знаходиться в розробці';
+            return Yii::t('lecture', '0894');
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
