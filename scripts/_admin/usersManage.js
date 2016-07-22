@@ -716,22 +716,26 @@ function initStudentsList() {
                 }
             },
             {
-                "width": "20%",
+                "width": "14%",
                 data: "date",
                 type: 'de_datetime',
                 targets: 0
             },
             {
                 data: "educForm" ,
-                "width": "12%"
+                "width": "8%"
             },
             {
                 data: "country",
-                "width": "10%"
+                "width": "8%"
             },
             {
                 data: "city",
-                "width": "10%"
+                "width": "8%"
+            },
+            {
+                data: "trainer",
+                // "width": "4%"
             },
             {
                 "width": "15%",

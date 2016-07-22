@@ -933,6 +933,7 @@ class StudentReg extends CActiveRecord
             $row["educForm"] = $record->educform;
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
+            $row["trainer"] = $record->trainer?$record->trainer->getTrainerByStudent($record->id)->userNameWithEmail():'';
             $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
             if($record->hasPayedContent()){
                 $row["addAccessLink"]["color"] = "success";
