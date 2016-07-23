@@ -1,7 +1,7 @@
 /**
  * Created by adm on 19.07.2016.
  */
-var contentManagerUrl = "/_teacher/_accountant/";
+var contentManagerUrl = "/_teacher/_content_manager/contentManager";
 
 angular
     .module('contentManagerRouter',['ui.router']).
@@ -15,39 +15,43 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('content_manager/authors', {
             url: "/content_manager/authors",
             cache         : false,
-            templateUrl: "/_teacher/_content_manager/contentManager/authors",
+            templateUrl: contentManagerUrl+"/authors",
         })
         .state('content_manager/consultants', {
             url: "/content_manager/consultants",
             cache         : false,
-            templateUrl: "/_teacher/_content_manager/contentManager/consultants",
+            templateUrl: contentManagerUrl+"/consultants",
         })
         .state('content_manager/teacherConsultants', {
             url: "/content_manager/teacherConsultants",
             cache         : false,
-            templateUrl: "/_teacher/_content_manager/contentManager/teacherConsultants",
+            templateUrl: contentManagerUrl+"/teacherConsultants",
         })
         .state('content_manager/revisions', {
             url: "/content_manager/revisions",
             cache         : false,
             templateUrl: "/revision/index",
         })
-        .state('content_manager/statusOfModules', {
-            url: "/content_manager/statusOfModules",
+        .state('content_manager/statusOfModules/:idModule', {
+            url: "/content_manager/statusOfModules/:idModule",
             cache         : false,
-            templateUrl: "/_teacher/_content_manager/contentManager/statusOfModules/id/0",
+            templateUrl: function($stateParams){
+                if ($stateParams.idModule == "all")
+                    $stateParams.idModule =0;
+
+                    return contentManagerUrl+"/statusOfModules/id/"+$stateParams.idModule;}
         })
         .state('content_manager/statusOfCourses', {
             url: "/content_manager/statusOfCourses",
             cache         : false,
-            templateUrl: "/_teacher/_content_manager/contentManager/statusOfCourses",
+            templateUrl: contentManagerUrl+"/statusOfCourses",
         })
-        .state('content_manager/statusOfModules/detail', {
-            url: '/content_manager/statusOfModules/:id',
-            controller: function($scope, $stateParams) {
-                // get the id
-                $scope.id = $stateParams.id;
-
-            }
+        .state('/detail/module/:idModule', {
+            url: '/detail/module/:idModule',
+            templateUrl: function($stateParams){return "/_teacher/_content_manager/contentManager/showLessonsList?idModule="+$stateParams.idModule;},
+        })
+        .state('/detail/lesson/:idLesson', {
+            url: '/detail/lesson/:idLesson',
+            templateUrl: function($stateParams){return contentManagerUrl+"/showPartsList?idLesson="+$stateParams.idLesson;},
         })
 });

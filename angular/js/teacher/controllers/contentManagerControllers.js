@@ -13,15 +13,21 @@ angular
         initTeacherConsultantsTableCM();
     })
     .controller('statusOfModulesCtrl', function ($scope, $stateParams){
-        console.log($stateParams);
-        initModulesListTable('0','0');
-        initModulesListTable('0','1');
-        initModulesListTable('0','2');
-        initModulesListTable('0','3');
+
+        initModulesListTable($stateParams.idModule,'0');
+        initModulesListTable($stateParams.idModule,'1');
+        initModulesListTable($stateParams.idModule,'2');
+        initModulesListTable($stateParams.idModule,'3');
     })
     .controller('statusOfCoursesCtrl', function ($scope){
         initCoursesListTable(0);
         initCoursesListTable(1);
         initCoursesListTable(2);
         initCoursesListTable(3);
+    })
+    .controller('moduleDetailCtrl', function ($stateParams){
+        initLessonsListTable($stateParams.idModule);
+    })
+    .controller('lessonDetailCtrl', function ($stateParams){
+        initPartsListTable($stateParams.idLesson);
     });

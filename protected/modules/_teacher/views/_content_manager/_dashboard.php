@@ -61,7 +61,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/content_manager/statusOfModules">Стан модулів</a>
+                    <li><a href="#/content_manager/statusOfModules/all">Стан модулів</a>
                     </li>
                     <li><a href="#/content_manager/statusOfCourses">Стан курсів</a>
                     </li>

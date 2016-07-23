@@ -30,7 +30,7 @@
         </li>
         <li>
             <?php $p=45?>
-            <a href="#/content_manager/statusOfModules">
+            <a href="#/content_manager/statusOfModules/all">
                 Стан модулів
             </a>
         </li>
