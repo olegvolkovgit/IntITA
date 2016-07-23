@@ -678,7 +678,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
     }
 
     /**
-     * Return status accessibility foe module revision
+     * Return status accessibility for module revision
      * @return array
      */
     public function statusList() {

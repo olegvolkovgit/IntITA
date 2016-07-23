@@ -6,13 +6,24 @@ $editMode = ($canEdit) ? 'true' : '';
 </script>
 <div class="courseModules">
     <?php
+    if (!Yii::app()->user->isGuest && Yii::app()->user->model->canApprove()) { ?>
+        <div class="revisionIco">
+            <label>Ревізії:
+                <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$model->course_ID)); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'courseRevisions.png'); ?>"
+                         title="Ревізії курса"/>
+                </a>
+                <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
+                         title="Ревізії модулів курса"/>
+                </a>
+            </label>
+        </div>
+    <?php }?>
+    <?php
     if ($canEdit) { ?>
         <img ng-cloak ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
                     id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
-        <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
-                 id="viewIco" title="Переглянути ревізії модулів"/>
-        </a>
         <div ng-cloak ng-click="showForm()">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'ajaxaddmodule-form',

@@ -103,4 +103,20 @@ class RevisionCourseModule extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function saveCheck() {
+		if(!$this->save()) {
+			throw new RevisionException('400',$this->getValidationErrors());
+		}
+	}
+
+	public function getValidationErrors() {
+		$errors=[];
+		foreach($this->getErrors() as $key=>$attribute){
+			foreach($attribute as $error){
+				array_push($errors,$key.': '.$error);
+			}
+		}
+		return implode(", ", $errors);
+	}
 }

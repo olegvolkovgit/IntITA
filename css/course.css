@@ -569,3 +569,15 @@ input.paymentPlan_value{
     position: absolute;right: 5px;bottom: 5px
 }
 /*modulesList*/
+.revisionIco{
+    position: relative;
+    vertical-align: top;
+    text-align: right;
+}
+.revisionIco img{
+    margin: 20px 5px 0 5px;
+    vertical-align: bottom;
+}
+.revisionIco a:hover{
+    text-decoration: none;
+}
