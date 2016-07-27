@@ -399,7 +399,7 @@ class CourseRevisionController extends Controller {
             $modules[$key]["id"] = $module->module_ID;
             $modules[$key]["module_order"] = $modulesModel->module_order;
             $modules[$key]["title"] = $module->title_ua;
-            $modules[$key]["status"] = $module->status?'Готовий':'В релізі';
+            $modules[$key]["status"] = $module->status?'Готовий':'В розробці';
         }
 
         $course['status']=$courseRevision->state->getName();
