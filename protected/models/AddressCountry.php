@@ -163,7 +163,7 @@ class AddressCountry extends CActiveRecord
 	public static function countriesListByLang(){
 		$param = "title_".Yii::app()->session["lg"];
 		$criteria = new CDbCriteria();
-		$criteria->order=$param.' COLLATE utf8_unicode_ci ASC';
+		$criteria->order=$param.' ASC';
 		$countries = AddressCountry::model()->findAll($criteria);
 		$data = array();
 
