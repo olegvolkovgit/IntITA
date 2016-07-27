@@ -11,19 +11,19 @@
                 <img ng-if=moduleData.module.canEdit ng-click=editModuleRevisionPage('<?=Yii::app()->createUrl("moduleRevision/editModuleRevisionPage", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
                      title="Редагувати ревізію модуля"/>
-                <img ng-if=moduleData.module.canSendForApproval ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',false)
+                <img ng-if=moduleData.module.canSend ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',false)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
-                <img ng-if=moduleData.module.canCancelSendForApproval ng-click=cancelSendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canCancelSend ng-click=cancelSendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_send.png'); ?>"
                      title="Скасувати відправку на затвердження"/>
-                <img ng-if=moduleData.module.canCancelReadyRevision ng-click=cancelModuleRevision('<?php echo $moduleRevision->id_module_revision;  ?>')
+                <img ng-if=moduleData.module.canCancel ng-click=cancelModuleRevision('<?php echo $moduleRevision->id_module_revision;  ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'cancel_revision.png'); ?>"
                      title="Скасувати ревізію"/>
-                <img ng-if=moduleData.module.canRejectRevision ng-click=rejectModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canReject ng-click=rejectModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'reject_revision.png'); ?>"
                      title="Відхилити ревізію"/>
-                <img ng-if=moduleData.module.canReleaseRevision ng-click=releaseModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
+                <img ng-if=moduleData.module.canRelease ng-click=releaseModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'release.png'); ?>"
                      title="Реліз ревізії"/>
                 <img ng-if=moduleData.module.canCancelEdit ng-click=cancelModuleEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>',false)
@@ -32,9 +32,8 @@
                 <img ng-if=moduleData.module.canRestoreEdit ng-click=restoreModuleEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'restored.png'); ?>"
                      title="Відновити редагування"/>
-                <a ng-href="{{moduleData.module.link}}" >
-                    <img style="width: 48px" ng-if=moduleData.module.canCancelReadyRevision
-                         src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
+                <a ng-if=moduleData.module.view ng-href="{{moduleData.module.view}}" >
+                    <img style="width: 48px" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
                          title="Переглянути заняття"/>
                 </a>
             </div>

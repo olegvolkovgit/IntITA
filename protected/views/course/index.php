@@ -9,11 +9,6 @@
         idCourse = <?php echo $model->course_ID;?>;
         lang = '<?php if (CommonHelper::getLanguage() == 'ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     </script>
-<?php
-//$this->breadcrumbs = array(
-//    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", CHtml::decode($model->getTitle()),
-//);
-//?>
     <div class="main">
         <div class="courseTitle">
             <h1>
@@ -31,9 +26,10 @@
                 <?php $this->renderPartial('_courseInfo', array('model' => $model)); ?>
             </div>
             <?php echo $this->renderPartial('_modulesList', array(
-                'dataProvider' => $dataProvider,
                 'canEdit' => $canEdit,
-                'model' => $model)); ?>
+                'model' => $model,
+                'isAuthor' => $isAuthor
+            )); ?>
         </div>
     </div>
 <?php if ($canEdit) { ?>

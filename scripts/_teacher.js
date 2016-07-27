@@ -76,7 +76,7 @@ function editOffer(url, lang) {
     });
 }
 function loadTemplateIndex() {
-    load(basePath + '/_teacher/_admin/level/index', 'Рівні курсів, модулів, оферта')
+    load(basePath + '/_teacher/_accountant/template/index/', 'Шаблони, оферта')
 }
 
 function deleteMessage(url, receiver) {
@@ -474,12 +474,26 @@ function initCompanies() {
 }
 
 function addRepresentative(url) {
+    var error=false;
     representative = $jq('#representative').val();
     fullName = $jq('[name="full_name"]').val();
     position = $jq('[name="position"]').val();
-    if (representative == 0 && !(fullName && position)) {
+    company = $jq('#companyId').val();
+    order = $jq('[name="order"]').val();
+    if (representative == 0 && !(fullName)) {
         bootbox.alert('Виберіть існуючого представника або додайте нового.');
-    } else {
+        error=true;
+    } if(company==0){
+        $jq('#typeaheadCompany').addClass('errorValidation');
+        error=true;
+    }if(!position){
+        $jq('[name="position"]').addClass('errorValidation');
+        error=true;
+    } if(!order){
+        $jq('[name="order"]').addClass('errorValidation');
+        error=true;
+    }
+    if(!error) {
         $jq.ajax({
             type: "POST",
             url: url,
@@ -487,8 +501,8 @@ function addRepresentative(url) {
                 full_name: fullName,
                 position: position,
                 representative: representative,
-                company: $jq('#companyId').val(),
-                order: $jq('[name="order"]').val(),
+                company: company,
+                order: order,
             },
             async: true,
             success: function (response) {
@@ -516,8 +530,10 @@ function addCompany(url) {
             tax_certificate_issue_date: $jq('#tax_certificate_issue_date').val(),
             legal_address: $jq('[name="legal_address"]').val(),
             legal_address_city_code: $jq('#cityLegal').val(),
+            legal_address_city_value: $jq('[name="cityLegal"]').val(),
             actual_address: $jq('[name="actual_address"]').val(),
-            actual_address_city_code: $jq('#cityActual').val()
+            actual_address_city_code: $jq('#cityActual').val(),
+            actual_address_city_value: $jq('[name="cityActual"]').val()
         },
         async: true,
         success: function (response) {
@@ -1381,14 +1397,16 @@ function initTodayConsultationsTable() {
                 "data": "user",
                 "width": "20%",
                 "render": function (user) {
-                    return '<a href="#" onclick="load(\'' + user["url"] + '\',\'Консультація\');" >' + user["name"] + '</a>';
+                    if(user["url"]) return '<a href="#" onclick="load(\'' + user["url"] + '\',\'Консультація\');" >' + user["name"] + '</a>';
+                    else return user["name"];
                 }
             },
             {
                 "data": "lecture",
                 "width": "20%",
                 "render": function (lecture) {
-                    return '<a href="#" onclick="load(\'' + lecture["url"] + '\',\'Консультація\');" >' + lecture["name"] + '</a>';
+                    if(lecture["url"]) return '<a href="#" onclick="load(\'' + lecture["url"] + '\',\'Консультація\');" >' + lecture["name"] + '</a>';
+                    else  return lecture["name"];
                 }
             },
             {
@@ -1408,7 +1426,8 @@ function initTodayConsultationsTable() {
                 "width": "10%",
                 "data": "start",
                 "render": function (link) {
-                    return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
+                    if(link) return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
+                    else return '';
                 }
             }
         ],
@@ -1836,13 +1855,16 @@ function addCountry(url) {
     titleUa = $jq('[name="titleUa"]').val();
     titleRu = $jq('[name="titleRu"]').val();
     titleEn = $jq('[name="titleEn"]').val();
+    geocode = $jq('[name="geocode"]').val();
+
     $jq.ajax({
         type: "POST",
         url: url,
         data: {
             titleUa: titleUa,
             titleRu: titleRu,
-            titleEn: titleEn
+            titleEn: titleEn,
+            geocode: geocode
         },
         async: true,
         success: function (response) {
@@ -1882,6 +1904,35 @@ function addCity(url) {
     }
 }
 
+function editCity(url) {
+    country = $jq('#country').val();
+    if (country == 0) {
+        bootbox.alert('Виберіть країну.');
+    } else {
+        id = $jq('[name="id"]').val();
+        titleUa = $jq('[name="titleUa"]').val();
+        titleRu = $jq('[name="titleRu"]').val();
+        titleEn = $jq('[name="titleEn"]').val();
+        $jq.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                id:id,
+                country: country,
+                titleUa: titleUa,
+                titleRu: titleRu,
+                titleEn: titleEn
+            },
+            async: true,
+            success: function (response) {
+                bootbox.alert(response, loadAddressIndex);
+            },
+            error: function () {
+                bootbox.alert("Операцію не вдалося виконати.");
+            }
+        });
+    }
+}
 function loadAddressIndex() {
     load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
 }

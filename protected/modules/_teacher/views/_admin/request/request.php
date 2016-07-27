@@ -54,8 +54,8 @@ $sender = $model->sender();
                         <?php if(in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && !$model->isRejected()) { ?>
                             <li>
                                 <button class="btn btn-outline btn-danger"
-                                        onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
-                                            array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити ревізію?')">
+                                        onclick="rejectRevisionRequest('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
+                                            array("message" => $model->getMessageId(), "user" => $user->id)); ?>')">
                                     Відхилити
                                 </button>
                             </li>

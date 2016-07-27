@@ -89,6 +89,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         {
             "type": "button",
             "title": "Створити нову ревізію",
+            "actionType": "create",
             "visible": true,
             "userId":userId,
             "action": function(event) {
@@ -212,9 +213,26 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         });
     };
     $scope.rejectRev = function(id,nodeId) {
-        revisionsActions.rejectRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
-        });
+        bootbox.dialog({
+            title: "Ти впевнений, що хочеш відхилити ревізію?",
+                message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+                '</div></form></div></div>',
+                buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                    callback: function () {
+                        var comment = $('#rejectMessageText').val();
+                        revisionsActions.rejectRevision(id, comment).then(function(){
+                            $scope.updateRevisionsBranch(nodeId);
+                        });
+                    }
+                },
+                    cancel: {label: "Скасувати", className: "btn btn-default",
+                        callback: function () {
+                        }
+                    }
+                }
+            }
+        );
     };
     $scope.cancelRev = function(id,nodeId) {
         revisionsActions.cancelRevision(id).then(function(){

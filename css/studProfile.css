@@ -82,6 +82,58 @@ table.profileInfo {
     font-family: "MyriadPro";
     font-size: 16px;
 }
+.studProf .select-search ul,.studProf .select-search li
+{
+    padding: 0;
+    margin: 0;
+    line-height: 50px;
+    font-size: 16px;
+}
+.studProf .select-search li
+{
+    padding-left: 8px;
+}
+.studProf .select-search li:hover
+{
+    cursor: pointer;
+}
+.studProf .select-search:hover{
+    box-shadow: 0 0 3px #4b75a4;
+}
+.studProf oi-select.focused .select-search {
+    box-shadow: 0 0 3px #4b75a4;
+    border-color: #4b75a4;
+}
+.studProf oi-select .select-dropdown {
+    width: 453px;
+}
+.selectBox{
+    display: inline-block;
+    width: 455px;
+}
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
+    filter: alpha(opacity=20);
+    padding: 12px;
+}
+.studProf .select-search input, .studProf .select-search input:hover,.studProf .select-search input:focus
+{
+    border: inherit;
+    border-radius: inherit;
+    font-family: "MyriadPro";
+    font-size: 16px;
+    box-shadow: none;
+    cursor: text;
+}
+.studProf oi-select {
+    height: 50px;
+}
 #aboutUs{
     margin-left: 215px;
 }

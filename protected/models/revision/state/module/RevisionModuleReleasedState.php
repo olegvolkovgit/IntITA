@@ -8,18 +8,25 @@ class RevisionModuleReleasedState extends RevisionState {
 
     public function cancel($user) {
 
-        $transaction = Yii::app()->db->beginTransaction();
+        $transaction = null;
+        if (Yii::app()->db->getCurrentTransaction() == null) {
+            $transaction = Yii::app()->db->beginTransaction();
+        }
+
         try {
             foreach ($this->revisionUnit->moduleLecturesModels as $key=>$moduleLecture){
                 $moduleLecture->lecture->cancelReleasedInTree($user);
             }
-            $this->revisionUnit->properties->end_date = new CDbExpression('NOW()');
-            $this->revisionUnit->properties->id_user_cancelled = $user->getId();
-            $this->revisionUnit->properties->saveCheck();
 
-            $transaction->commit();
+            parent::_cancel($user);
+
+            if ($transaction) {
+                $transaction->commit();
+            }
         } catch (Exception $e) {
-            $transaction->rollback();
+            if ($transaction) {
+                $transaction->rollback();
+            }
             throw $e;
         }
 

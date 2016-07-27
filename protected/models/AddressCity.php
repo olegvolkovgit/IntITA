@@ -32,7 +32,7 @@ class AddressCity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country', 'required'),
+			array('country,title_ua, title_ru, title_en', 'required'),
 			array('country', 'numerical', 'integerOnly'=>true),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			// The following rule is used by search().
@@ -113,27 +113,24 @@ class AddressCity extends CActiveRecord
         $param = "title_" . Yii::app()->session["lg"];
         $oldModel = AddressCity::model()->findByPk($oldId);
         if (!$oldModel) {
-            $model = new AddressCity();
-            $model->$param = $newTitle;
-			$model->country = $country;
-            if ($model->save()) {
-                return Yii::app()->db->lastInsertID;
-            }
+			$findModel=AddressCity::model()->findByAttributes(array($param=>strtolower($newTitle)));
+			if($findModel){
+				return $findModel->id;
+			}else{
+				$model = new AddressCity();
+				$model->title_ua = $newTitle;
+				$model->title_ru = $newTitle;
+				$model->title_en = $newTitle;
+				$model->country = $country;
+				if ($model->validate() && !empty($newTitle)) {
+					$model->save();
+					return Yii::app()->db->lastInsertID;
+				}else{
+					return null;
+				}
+			}
         } else {
-            if ($oldModel->$param == $newTitle) {
-                return $oldId;
-            } else {
-                if ($exist = AddressCity::model()->findByAttributes(array($param => $newTitle, 'country' => $country))) {
-                    return $exist->id;
-                } else {
-                    $model = new AddressCity();
-                    $model->$param = $newTitle;
-					$model->country = $country;
-                    if ($model->save()) {
-                        return Yii::app()->db->lastInsertID;
-                    }
-                }
-            }
+            return $oldId;
         }
         return null;
     }
@@ -147,10 +144,11 @@ class AddressCity extends CActiveRecord
 
             $row["id"] = $record->id;
             $row["country"] = $record->country0->title_ua;
-            $row["title_ua"] = CHtml::encode($record->title_ua);
-            $row["title_ru"] = CHtml::encode($record->title_ru);
-            $row["title_en"] = CHtml::encode($record->title_en);
-
+            $row["title_ua"] = $record->title_ua;
+            $row["title_ru"] = $record->title_ru;
+            $row["title_en"] = $record->title_en;
+			$row["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/address/editCity", array("id" => $record->id)). "'";
+			
             array_push($return['data'], $row);
         }
 
@@ -187,6 +185,23 @@ class AddressCity extends CActiveRecord
             $result["results"][$key]["title"] = $model->title_ua;
             $result["results"][$key]["country"] = $model->country0->title_ua;
         }
-return json_encode($result);
-}
+		return json_encode($result);
+	}
+
+	public static function citiesListByCountry($idCountry){
+		$param = "title_".Yii::app()->session["lg"];
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, $param";
+		$criteria->condition = "country=:country";
+		$criteria->order=$param.' COLLATE utf8_unicode_ci ASC';
+		$criteria->params = array(':country' => $idCountry);
+		$cities = AddressCity::model()->findAll($criteria);
+		$data = array();
+
+		foreach ($cities as $key=>$record) {
+			$data[$key]["id"] = $record->id;
+			$data[$key]["title"] = $record->$param;
+		}
+		return json_encode($data);
+	}
 }

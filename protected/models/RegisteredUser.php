@@ -317,7 +317,11 @@ class RegisteredUser
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
-                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));}
+                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));
+        }
+        if ($lecture->module->status==Module::DEVELOP) {
+            throw new CHttpException(403, Yii::t('lecture', '0894'));
+        }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')))

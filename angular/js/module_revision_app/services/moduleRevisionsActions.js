@@ -52,11 +52,11 @@ angular
                 });
                 return promise;
             };
-            this.rejectModuleRevision = function(id) {
+            this.rejectModuleRevision = function(id,comment) {
                 var promise = $http({
                     url: basePath+'/moduleRevision/rejectModuleRevision',
                     method: "POST",
-                    data: $.param({idRevision: id}),
+                    data: $.param({idRevision: id, comment: comment}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;

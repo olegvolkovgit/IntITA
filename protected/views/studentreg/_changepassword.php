@@ -7,7 +7,7 @@ $changeForm = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation'=>true,
     'clientOptions'=>array('validateOnSubmit'=>true,'validateOnChange'=>false),
     'action' => array('studentreg/changepass'),
-    'htmlOptions' => array('name'=>'changePass', 'ng-controller'=>"validationController", 'novalidate'=>true),
+    'htmlOptions' => array('name'=>'changePass', 'novalidate'=>true),
 ));
 ?>
 <div class="signIn">

@@ -70,7 +70,7 @@ class Student extends Role
     {
 
         $this->courses = Yii::app()->db->createCommand()
-            ->select('id_course id, language lang, c.title_ua title')
+            ->select('c.cancelled, id_course id, language lang, c.title_ua title')
             ->from('pay_courses pm')
             ->join('course c', 'c.course_ID=pm.id_course')
             ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
@@ -81,7 +81,7 @@ class Student extends Role
     {
 
         $this->modules = Yii::app()->db->createCommand()
-            ->select('module_ID id, language lang, m.title_ua title,IF(tcs.end_date is null, u.id, 0) as teacherId,
+            ->select('m.cancelled, module_ID id, language lang, m.title_ua title, IF(tcs.end_date is null, u.id, 0) as teacherId,
             CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) as teacherName, tcs.end_date, tcs.start_date')
             ->from('pay_modules pm')
             ->join('module m', 'm.module_ID=pm.id_module')

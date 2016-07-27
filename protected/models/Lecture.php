@@ -415,6 +415,9 @@ class Lecture extends CActiveRecord
         if (!$idReadyCourse) {
             return false;
         }
+        if ($this->module->status==Module::DEVELOP) {
+            return false;
+        }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
@@ -964,6 +967,9 @@ class Lecture extends CActiveRecord
         }
         if (!$idReadyCourse) {
             return Yii::t('lecture', '0811');
+        }
+        if ($this->module->status==Module::DEVELOP) {
+            return Yii::t('lecture', '0894');
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();

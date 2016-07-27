@@ -11,7 +11,7 @@ class Author extends Role
      */
     public function tableName()
     {
-        return "";
+        return "teacher_module";
     }
 
     /**
@@ -25,7 +25,7 @@ class Author extends Role
      * @return string the role title (ua)
      */
     public function title(){
-        return 'Автор';
+        return 'Автор модуля';
     }
 
     public function getErrorMessage(){
@@ -158,8 +158,20 @@ class Author extends Role
         return false;
     }
 
-    //not supported for this role
-    public function notifyCancelRole(StudentReg $user){
+    //cancel authorship for all modules
+    public function cancelRole(StudentReg $user)
+    {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
+
+        if(Yii::app()->db->createCommand()->
+        update($this->tableName(), array(
+            'end_time'=>date("Y-m-d H:i:s"),
+        ), 'idTeacher=:id and end_time IS NULL', array(':id'=>$user->id))){
+            $this->notifyCancelRole($user);
+            return true;
+        }
         return false;
     }
 }

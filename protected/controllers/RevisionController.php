@@ -376,9 +376,14 @@ class RevisionController extends Controller {
         }
 
         $idRevision = Yii::app()->request->getPost('idRevision');
+        $comment=Yii::app()->request->getPost('comment','');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
         $lectureRev->state->changeTo('rejected', Yii::app()->user);
+        
+        $message = new MessagesRejectRevision();
+        $message->sendRevisionRejectMessage($lectureRev, $comment);
+
         $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_rejected'=> null));
         if($revisionRequest){
             $revisionRequest->setRejected();
@@ -410,6 +415,7 @@ class RevisionController extends Controller {
         $idRevision = Yii::app()->request->getPost('idRevision');
         $lectureRev = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
         $lectureRev->state->changeTo('approved', Yii::app()->user);
+        
         $revisionRequest=MessagesRevisionRequest::model()->findByAttributes(array('id_revision'=>$lectureRev->id_revision,'cancelled'=>0, 'user_approved'=> null));
         if($revisionRequest){
             $revisionRequest->setApproved();
@@ -536,7 +542,7 @@ class RevisionController extends Controller {
                 if ($lectureRevision->canEdit()) {
                     array_push($editableRevisions, $lectureRevision);
                 } 
-                if ($lectureRevision->isApproved()) {
+                if ($lectureRevision->isReleaseable() || $lectureRevision->isReleased()) {
                     $lastApproved = $lectureRevision;
                 }
             }
@@ -545,7 +551,7 @@ class RevisionController extends Controller {
              * If we have found only one revision of this user just show it
              * If we have found several editable revisions show revisions tree;
              */
-            if (count($editableRevisions) == 0 || (count($editableRevisions) == 1 && !$editableRevisions[0]->canEdit())) {
+            if ((count($editableRevisions) == 0 || (count($editableRevisions) == 1 && !$editableRevisions[0]->canEdit())) && $lastApproved) {
                 $lectureRev = $lastApproved->cloneLecture(Yii::app()->user);
             } else if(count($editableRevisions) == 1 && $editableRevisions[0]->canEdit()) {
                 $lectureRev = $editableRevisions[0];
@@ -995,18 +1001,8 @@ class RevisionController extends Controller {
             $node['selectable'] = false;
             $node['id'] = $lecture->id_revision;
             $node['creatorId'] = $lecture->properties->id_user_created;
-            $node['isSendable'] = $lecture->isSendable();
-            $node['isApprovable'] = $lecture->isApprovable();
-            $node['isCancellable'] = $lecture->isCancellable();
-            $node['isEditable'] = $lecture->isEditable();
-            $node['isRejectable'] = $lecture->isRejectable();
-            $node['isSendedCancellable'] = $lecture->isRevokeable();
-            $node['isEditCancellable'] = $lecture->isEditable();
-            $node['canRestoreEdit'] = $lecture->isCancelledEditor();
-            $node['canCreate'] = $lecture->canCreate();
-            $node['canProposedToRelease'] = $lecture->canProposedToRelease();
-            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
-
+            $statusList=$lecture->statusList();
+            $node=array_merge ($node, $statusList);
             $this->appendNode($jsonArray, $node, $lectureTree);
         }
         return json_encode(array_values($jsonArray));
@@ -1022,17 +1018,8 @@ class RevisionController extends Controller {
             $node['selectable'] = false;
             $node['id'] = $lecture->id_revision;
             $node['creatorId'] = $lecture->properties->id_user_created;
-            $node['isSendable'] = $lecture->isSendable();
-            $node['isApprovable'] = $lecture->isApprovable();
-            $node['isCancellable'] = $lecture->isCancellable();
-            $node['isEditable'] = $lecture->isEditable();
-            $node['isRejectable'] = $lecture->isRejectable();
-            $node['isSendedCancellable'] = $lecture->isRevokeable();
-            $node['isEditCancellable'] = $lecture->isEditable();
-            $node['canRestoreEdit'] = $lecture->isCancelledEditor();
-            $node['canCreate'] = $lecture->canCreate();
-            $node['canProposedToRelease'] = $lecture->canProposedToRelease();
-            $node['canCancelProposedToRelease'] = $lecture->canCancelProposedToRelease();
+            $statusList=$lecture->statusList();
+            $node=array_merge ($node, $statusList);
 
             $this->appendNodeMultiselect($jsonArray, $node, $lectureTree, $actualIdList);
         }
@@ -1085,19 +1072,10 @@ class RevisionController extends Controller {
             $pages[$key]["video"] = $page->video;
         }
         $lecture['status']=$lectureRevision->state->getName();
-        $lecture['canEdit']=$lectureRevision->canEdit();
-        $lecture['canSendForApproval']=$lectureRevision->canSendForApproval();
-        $lecture['canCancelSendForApproval']=$lectureRevision->canCancelSendForApproval();
-        $lecture['canApprove']=$lectureRevision->canApprove();
-        $lecture['canCancelReadyRevision']=$lectureRevision->canCancelReadyRevision();
-        $lecture['canRejectRevision']=$lectureRevision->canRejectRevision();
-        $lecture['canCancelEdit']=$lectureRevision->canCancelEdit();
-        $lecture['canRestoreEdit']=$lectureRevision->canRestoreEdit();
-        $lecture['canProposedToRelease'] = $lectureRevision->canProposedToRelease();
-        $lecture['canCancelProposedToRelease'] = $lectureRevision->canCancelProposedToRelease();
-        $lecture['link']=
-            $lecture['canCancelReadyRevision']?
-                Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;
+        $statusList=$lectureRevision->statusList();
+        $lecture=array_merge ($lecture, $statusList);
+        $lecture['view']= $lectureRevision->isReleased()?
+            Yii::app()->createUrl("lesson/index", array("id" => $lectureRevision->id_lecture, "idCourse" => 0)):null;
 
         $data['lecture']=$lecture;
         $data['pages']=$pages;
