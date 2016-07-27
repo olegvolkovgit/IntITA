@@ -288,7 +288,7 @@ class ModuleRevisionController extends Controller {
      * Function to build tree of lectures based on quickUnion data structure
      * @param $tree - tree to build, passed by reference
      * @param $node - node to add
-     * @param $parents - quik union structre
+     * @param $parents - quick union structure
      */
     private function appendNode(&$tree, $node, $parents) {
         if ($parents[$node['id']] == $node['id']) {
