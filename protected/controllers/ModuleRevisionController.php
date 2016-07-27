@@ -122,7 +122,6 @@ class ModuleRevisionController extends Controller {
 
     public function actionBuildCurrentModuleJson() {
         $idCourse = Yii::app()->request->getPost('idCourse');
-        Course::model()->findAllByPk($idCourse);
         $currentIdModules=Course::model()->modulesInCourse($idCourse);
         $data = [];
         foreach ($currentIdModules as $key=>$moduleId) {

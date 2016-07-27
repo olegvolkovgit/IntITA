@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @property RevisionLecture|RevisionModule $revisionUnit
+ * @property RevisionLecture|RevisionModule|RevisionCourse $revisionUnit
  */
 abstract class RevisionState {
 
@@ -36,6 +36,11 @@ abstract class RevisionState {
                 $this->historyTable = 'vc_module_state_history';
                 $this->propertyTable = 'vc_module_properties';
                 $this->idRevision = $this->revisionUnit->id_module_revision;
+                break;
+            case 'RevisionCourse' :
+                $this->historyTable = 'vc_course_state_history';
+                $this->propertyTable = 'vc_course_properties';
+                $this->idRevision = $this->revisionUnit->id_course_revision;
                 break;
             default;
                 break;

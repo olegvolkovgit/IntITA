@@ -15,14 +15,6 @@
                            class="btn btn-outline btn-primary">
                             Редагувати список модулів</a>
                     </li>
-                    <li>
-                        <button type="button" class="btn btn-outline btn-primary"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule', array(
-                                    'id' => $model->course_ID
-                                )); ?>', '<?= "Додати модуль до курса " . $model->getTitle() ?>')">
-                            Додати існуючий модуль до курса
-                        </button>
-                    </li>
                 </ul>
             <?php } ?>
 

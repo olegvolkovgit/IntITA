@@ -1,47 +1,28 @@
+/**
+ * Created by Wizlight on 03.11.2015.
+ */
 angular
-    .module('moduleRevisionsApp')
-    .controller('moduleRevisionsCtrl',moduleRevisionsCtrl)
+    .module('courseRevisionsApp')
+    .controller('allCoursesRevisionsCtrl',allCoursesRevisionsCtrl)
     .filter('arrow', function() {
         return function(input) {
             return input ? '\u21a7' : '\u21a5';
         };
     });
 
-function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, moduleRevisionsActions) {
+function allCoursesRevisionsCtrl($rootScope,$scope, courseRevisionsTree, courseRevisionsActions) {
     $scope.formData = {};
-    $scope.idModule=idModule;
-    modulesRevisionsTree.getModuleRevisionsAuthors(idModule).then(function(response){
+    courseRevisionsTree.getCourseRevisionsAuthors().then(function(response){
         $scope.authors=response;
         $scope.authors.unshift({authorName:"Всі автори", id:"0"});
         $scope.selectedAuthor = $scope.authors[0];
     });
-    //load current modules from main BD
-    modulesRevisionsTree.getModuleData(idModule).then(function (response) {
-        $scope.module = response;
-    });
-
     //init tree after load json
-    modulesRevisionsTree.getModuleRevisions(idModule).then(function(response){
+    courseRevisionsTree.getAllCoursesRevisionsJson().then(function(response){
         $rootScope.revisionsJson=response;
         $scope.revisionsTreeInit();
     });
-    //create revision from module
-    $scope.createModuleRevision= function (idModule) {
-        var promise = $http({
-            url: basePath + '/moduleRevision/createRevisionFromModule',
-            method: "POST",
-            data: $.param({idModule: idModule}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            if(response.data)
-            location.href=basePath+'/moduleRevision/editModuleRevisionPage?idRevision='+response.data;
-        }, function errorCallback() {
-            bootbox.alert("Виникла помилка при створені ревізії. Зв'яжіться з адміністрацією");
-            return false;
-        });
-        return promise;
-    };
-    
+
     //init actions for revision tree
     var approverActions=[{
         "type": "button",
@@ -52,7 +33,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
         "action": function(event) {
             var idRevision = $(event.data.el).attr('id');
             var nodeId = $(event.data.el).attr('data-nodeid');
-            $scope.approveModuleRev(idRevision, nodeId);
+            $scope.approveCourseRev(idRevision, nodeId);
         }
     },
         {
@@ -64,7 +45,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.rejectModuleRev(idRevision, nodeId);
+                $scope.rejectCourseRev(idRevision, nodeId);
             }
         },
         {
@@ -76,7 +57,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.cancelModuleRev(idRevision, nodeId);
+                $scope.cancelCourseRev(idRevision, nodeId);
             }
         },
         {
@@ -88,11 +69,21 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.releaseModuleRev(idRevision, nodeId);
+                $scope.releaseCourseRev(idRevision, nodeId);
             }
         }
     ];
     var authorActions=[
+        {
+            "type": "button",
+            "title": "Переглянути ревізії даного курса",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.openCourseRevisionsBranch(idRevision);
+            }
+        },
         {
             "type": "button",
             "title": "Створити нову ревізію",
@@ -100,7 +91,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.createModuleRev(idRevision);
+                $scope.createCourseRev(idRevision);
             }
         },
         {
@@ -110,17 +101,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.previewModuleRev(idRevision);
-            }
-        },
-        {
-            "type": "button",
-            "title": "Написати автору ревізії модуля",
-            "visible": true,
-            "userId":userId,
-            "action": function(event) {
-                var idRevision = $(event.data.el).attr('id');
-                $scope.sendModuleRevisionMessage(idRevision);
+                $scope.previewCourseRev(idRevision);
             }
         }
     ];
@@ -132,7 +113,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.editModuleRev(idRevision);
+                $scope.editCourseRev(idRevision);
             }
         },
         {
@@ -143,7 +124,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.sendModuleRev(idRevision, nodeId);
+                $scope.sendCourseRev(idRevision, nodeId);
             }
         },
         {
@@ -154,7 +135,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.cancelSendModuleRev(idRevision, nodeId);
+                $scope.cancelSendCourseRev(idRevision, nodeId);
             }
         },
         {
@@ -165,7 +146,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.cancelEditModuleRev(idRevision, nodeId);
+                $scope.cancelEditCourseRev(idRevision, nodeId);
             }
         },
         {
@@ -176,7 +157,7 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.restoreEditModuleRev(idRevision, nodeId);
+                $scope.restoreEditCourseRev(idRevision, nodeId);
             }
         },
     ];
@@ -203,111 +184,96 @@ function moduleRevisionsCtrl($rootScope,$scope, $http, modulesRevisionsTree, mod
     };
 
     //edit revision status
-    $scope.sendModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.sendModuleRevision(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
+    $scope.sendCourseRev = function(id,nodeId) {
+        courseRevisionsActions.sendCourseRevision(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    $scope.cancelSendModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.cancelSendModuleRevision(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
+    $scope.cancelSendCourseRev = function(id,nodeId) {
+        courseRevisionsActions.cancelSendCourseRevision(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    $scope.approveModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.approveModuleRevision(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
-            modulesRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
+    $scope.approveCourseRev = function(id,nodeId) {
+        courseRevisionsActions.approveCourseRevision(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    $scope.rejectModuleRev = function(id,nodeId) {
-        bootbox.dialog({
-            title: "Ти впевнений, що хочеш відхилити ревізію?",
-                message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
-                '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
-                '</div></form></div></div>',
-                buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
-                    callback: function () {
-                        var comment = $('#rejectMessageText').val();
-                        moduleRevisionsActions.rejectModuleRevision(id, comment).then(function(){
-                            $scope.updateModuleRevisionsTree(nodeId);
+    $scope.rejectCourseRev = function(id,nodeId) {
+        // bootbox.dialog({
+        //     title: "Ти впевнений, що хочеш відхилити ревізію?",
+        //         message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+        //         '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+        //         '</div></form></div></div>',
+        //         buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+        //             callback: function () {
+        //                 var comment = $('#rejectMessageText').val();
+                        courseRevisionsActions.rejectCourseRevision(id).then(function(){
+                            $scope.updateAllCourseRevisionsTree(nodeId);
                         });
-                    }
-                },
-                    cancel: {label: "Скасувати", className: "btn btn-default",
-                        callback: function () {
-                        }
-                    }
-                }
-            }
-        );
+                    // }
+                // },
+                //     cancel: {label: "Скасувати", className: "btn btn-default",
+                //         callback: function () {
+                //         }
+                //     }
+                // }
+            // }
+        // );
     };
-    $scope.cancelModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.cancelModuleRevision(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
-            modulesRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
+    $scope.cancelCourseRev = function(id,nodeId) {
+        courseRevisionsActions.cancelCourseRevision(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    $scope.releaseModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.releaseModuleRevision(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
-            modulesRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
+    $scope.releaseCourseRev = function(id,nodeId) {
+        courseRevisionsActions.releaseCourseRevision(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    $scope.cancelEditModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.cancelModuleEditByEditor(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
-            modulesRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
+    $scope.cancelEditCourseRev = function(id,nodeId) {
+        courseRevisionsActions.cancelCourseEditByEditor(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    $scope.restoreEditModuleRev = function(id,nodeId) {
-        moduleRevisionsActions.restoreModuleEditByEditor(id).then(function(){
-            $scope.updateModuleRevisionsTree(nodeId);
-            modulesRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
+    $scope.restoreEditCourseRev = function(id,nodeId) {
+        courseRevisionsActions.restoreCourseEditByEditor(id).then(function(){
+            $scope.updateAllCourseRevisionsTree(nodeId);
         });
     };
-    //update module revisions tree
-    $scope.updateModuleRevisionsTree = function(nodeId){
+    //update course revisions tree
+    $scope.updateAllCourseRevisionsTree = function(nodeId){
         if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
-            modulesRevisionsTree.getModuleRevisions(idModule).then(function(response){
+            courseRevisionsTree.getAllCoursesRevisionsJson().then(function(response){
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }else{
-            modulesRevisionsTree.revisionTreeFilterInModule(idModule,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
+            courseRevisionsTree.allCoursesRevisionsTreeFilter($scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }
     };
-    
+
     $scope.updateTree = function() {
-        modulesRevisionsTree.getModuleRevisions(idModule).then(function (response) {
+        courseRevisionsTree.getAllCoursesRevisionsJson().then(function (response) {
             $rootScope.revisionsJson = response;
             $scope.revisionsTreeInit();
         });
     };
-    
+
     $scope.revisionFilter=function () {
         if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             $scope.updateTree();
         }else{
-            modulesRevisionsTree.revisionTreeFilterInModule(idModule,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
-                $rootScope.revisionsJson = response;
+            courseRevisionsTree.allCoursesRevisionsTreeFilter($scope.formData, $scope.selectedAuthor.id).then(function (response) {
+                $rootScope.revisionsJson=response;
                 $scope.treeUpdate();
             });
         }
     };
-    
+
     function isEmptyFilter(obj) {
         for (var key in obj) {
             if(obj[key])

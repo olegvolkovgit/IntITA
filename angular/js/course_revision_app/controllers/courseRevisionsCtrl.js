@@ -16,10 +16,6 @@ function courseRevisionsCtrl($rootScope,$scope, $http, courseRevisionsTree, cour
         $scope.authors.unshift({authorName:"Всі автори", id:"0"});
         $scope.selectedAuthor = $scope.authors[0];
     });
-    //load current course from main BD
-    // courseRevisionsTree.getModuleData(idModule).then(function (response) {
-    //     $scope.module = response;
-    // });
 
     //init tree after load json
     courseRevisionsTree.getCourseRevisions(idCourse).then(function(response){
@@ -35,8 +31,8 @@ function courseRevisionsCtrl($rootScope,$scope, $http, courseRevisionsTree, cour
             data: $.param({idCourse: idCourse}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            // if(response.data)
-            //     location.href=basePath+'/courseRevision/editCourseRevisionPage?idRevision='+response.data;
+            if(response.data)
+                location.href=basePath+'/courseRevision/editCourseRevisionPage?idRevision='+response.data;
         }, function errorCallback() {
             bootbox.alert("Виникла помилка при створені ревізії. Зв'яжіться з адміністрацією");
             return false;
@@ -97,16 +93,6 @@ function courseRevisionsCtrl($rootScope,$scope, $http, courseRevisionsTree, cour
     var authorActions=[
         {
             "type": "button",
-            "title": "Переглянути ревізії даного курса",
-            "visible": true,
-            "userId":userId,
-            "action": function(event) {
-                var idRevision = $(event.data.el).attr('id');
-                $scope.openCourseRevisionsBranch(idRevision);
-            }
-        },
-        {
-            "type": "button",
             "title": "Створити нову ревізію",
             "visible": true,
             "userId":userId,
@@ -125,16 +111,6 @@ function courseRevisionsCtrl($rootScope,$scope, $http, courseRevisionsTree, cour
                 $scope.previewCourseRev(idRevision);
             }
         },
-        {
-            "type": "button",
-            "title": "Написати автору ревізії модуля",
-            "visible": true,
-            "userId":userId,
-            "action": function(event) {
-                var idRevision = $(event.data.el).attr('id');
-                $scope.sendCourseRevisionMessage(idRevision);
-            }
-        }
     ];
     var generalActions=[
         {
@@ -228,63 +204,48 @@ function courseRevisionsCtrl($rootScope,$scope, $http, courseRevisionsTree, cour
     $scope.approveCourseRev = function(id,nodeId) {
         courseRevisionsActions.approveCourseRevision(id).then(function(){
             $scope.updateCourseRevisionsTree(nodeId);
-            courseRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
         });
     };
     $scope.rejectCourseRev = function(id,nodeId) {
-        bootbox.dialog({
-            title: "Ти впевнений, що хочеш відхилити ревізію?",
-                message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
-                '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
-                '</div></form></div></div>',
-                buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
-                    callback: function () {
-                        var comment = $('#rejectMessageText').val();
-                        courseRevisionsActions.rejectCourseRevision(id, comment).then(function(){
+        // bootbox.dialog({
+        //     title: "Ти впевнений, що хочеш відхилити ревізію?",
+        //         message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+        //         '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+        //         '</div></form></div></div>',
+        //         buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+        //             callback: function () {
+        //                 var comment = $('#rejectMessageText').val();
+                        courseRevisionsActions.rejectCourseRevision(id).then(function(){
                             $scope.updateCourseRevisionsTree(nodeId);
                         });
-                    }
-                },
-                    cancel: {label: "Скасувати", className: "btn btn-default",
-                        callback: function () {
-                        }
-                    }
-                }
-            }
-        );
+            //         }
+            //     },
+            //         cancel: {label: "Скасувати", className: "btn btn-default",
+            //             callback: function () {
+            //             }
+            //         }
+            //     }
+            // }
+        // );
     };
     $scope.cancelCourseRev = function(id,nodeId) {
         courseRevisionsActions.cancelCourseRevision(id).then(function(){
             $scope.updateCourseRevisionsTree(nodeId);
-            courseRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
         });
     };
     $scope.releaseCourseRev = function(id,nodeId) {
         courseRevisionsActions.releaseCourseRevision(id).then(function(){
             $scope.updateCourseRevisionsTree(nodeId);
-            courseRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
         });
     };
     $scope.cancelEditCourseRev = function(id,nodeId) {
         courseRevisionsActions.cancelCourseEditByEditor(id).then(function(){
             $scope.updateCourseRevisionsTree(nodeId);
-            courseRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
         });
     };
     $scope.restoreEditCourseRev = function(id,nodeId) {
         courseRevisionsActions.restoreCourseEditByEditor(id).then(function(){
             $scope.updateCourseRevisionsTree(nodeId);
-            courseRevisionsTree.getCurrentModules(idModule).then(function (response) {
-                $scope.currentLectures = response;
-            });
         });
     };
     //update course revisions tree

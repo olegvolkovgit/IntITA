@@ -5,7 +5,7 @@ angular
         function($http) {
             this.sendCourseRevision = function(id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/sendForApproveModule',
+                    url: basePath+'/courseRevision/sendForApproveCourse',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -19,44 +19,44 @@ angular
                         }
                     }
                 }, function errorCallback() {
-                    bootbox.alert("Відправити ревізію модуля на затвердження не вдалося. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Відправити ревізію на затвердження не вдалося. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
             };
             this.cancelSendCourseRevision = function(id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/cancelSendForApproveModule',
+                    url: basePath+'/courseRevision/cancelSendForApproveCourse',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Відмінити відправлення ревізії модуля на затвердження не вдалося. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Відмінити відправлення ревізії на затвердження не вдалося. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
             };
             this.approveCourseRevision = function(id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/approveModuleRevision',
+                    url: basePath+'/courseRevision/approveCourseRevision',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Затвердити ревізію модуля не вдалося. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Затвердити ревізію не вдалося. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
             };
-            this.rejectCourseRevision = function(id,comment) {
+            this.rejectCourseRevision = function(id) {
                 var promise = $http({
-                    url: basePath+'courseRevision/rejectModuleRevision',
+                    url: basePath+'/courseRevision/rejectCourseRevision',
                     method: "POST",
-                    data: $.param({idRevision: id, comment: comment}),
+                    data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
@@ -68,35 +68,35 @@ angular
             };
             this.cancelCourseRevision = function(id) {
                 var promise = $http({
-                    url: basePath+'courseRevision/cancelModuleRevision',
+                    url: basePath+'/courseRevision/cancelCourseRevision',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Скасувати ревізію модуля не вдалося. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Скасувати ревізію не вдалося. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
             };
             this.cancelCourseEditByEditor = function(id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/cancelEditModuleRevisionByEditor',
+                    url: basePath+'/courseRevision/cancelEditCourseRevisionByEditor',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Відмінити ревізію модуля не вдалося. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Відмінити ревізію не вдалося. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
             };
             this.restoreCourseEditByEditor = function(id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/restoreEditModuleRevisionByEditor',
+                    url: basePath+'/courseRevision/restoreEditCourseRevisionByEditor',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -110,7 +110,7 @@ angular
             };
             this.releaseCourseRevision = function(id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/readyModuleRevision',
+                    url: basePath+'/courseRevision/readyCourseRevision',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

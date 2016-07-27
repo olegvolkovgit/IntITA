@@ -58,13 +58,14 @@ class RevisionCourseProperties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('alias, language, title_ua, level, status, start_date', 'required'),
+			array('alias, language, title_ua, level, status', 'required'),
 			array('level, status, modules_count, rating, cancelled, course_number, id_user_created, id_user_updated, id_user, id_state', 'numerical', 'integerOnly'=>true),
 			array('alias', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
 			array('course_price', 'length', 'max'=>10),
 			array('course_img', 'length', 'max'=>255),
+			array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
 			array('start, for_whom_ua, what_you_learn_ua, what_you_get_ua, for_whom_ru, what_you_learn_ru, what_you_get_ru, for_whom_en, what_you_learn_en, what_you_get_en, start_date, update_date, change_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -84,6 +85,8 @@ class RevisionCourseProperties extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'courses' => array(self::HAS_MANY, 'Course', 'id_properties'),
+			'revision' => array(self::HAS_ONE, 'RevisionCourse', ['id_properties'=>'id']),
+			'level0' => array(self::BELONGS_TO, 'Level', 'level'),
 		);
 	}
 
@@ -193,6 +196,69 @@ class RevisionCourseProperties extends CActiveRecord
 		return parent::model($className);
 	}
 
+	/**
+	 * Clone properties
+	 * @param $user
+	 * @return RevisionCourseProperties
+	 */
+	public function cloneProperties($user) {
+		$newProperties = new RevisionCourseProperties();
+		$newProperties->title_ua = $this->title_ua;
+		$newProperties->title_ru = $this->title_ru;
+		$newProperties->title_en = $this->title_en;
+		$newProperties->course_img = $this->course_img;
+		$newProperties->alias = $this->alias;
+		$newProperties->language = $this->language;
+		$newProperties->course_price = $this->course_price;
+		$newProperties->for_whom_ua = $this->for_whom_ua;
+		$newProperties->what_you_learn_ua = $this->what_you_learn_ua;
+		$newProperties->what_you_get_ua = $this->what_you_get_ua;
+		$newProperties->for_whom_ru = $this->for_whom_ru;
+		$newProperties->what_you_learn_ru = $this->what_you_learn_ru;
+		$newProperties->what_you_get_ru = $this->what_you_get_ru;
+		$newProperties->for_whom_en = $this->for_whom_en;
+		$newProperties->what_you_learn_en = $this->what_you_learn_en;
+		$newProperties->what_you_get_en = $this->what_you_get_en;
+		$newProperties->level = $this->level;
+		$newProperties->course_number = $this->course_number;
+		$newProperties->cancelled = $this->cancelled;
+		$newProperties->status = $this->status;
+
+		$newProperties->start_date = new CDbExpression('NOW()');
+		$newProperties->id_user_created = $user->getId();
+
+		$newProperties->id_state = RevisionState::EditableState;
+		$newProperties->id_user = $user->getId();
+		$newProperties->change_date = new CDbExpression('NOW()');
+
+		$newProperties->saveCheck();
+
+		return $newProperties;
+	}
+
+	/**
+	 * Sets update date and id user.
+	 * @param $user - current user model
+	 */
+	public function setUpdateDate($user) {
+		$this->update_date = new CDbExpression('NOW()');
+		$this->id_user_updated = $user->getId();
+		$this->saveCheck();
+	}
+
+	public function updateRevisionCourseLogo($imageName,$tmpName,$id)
+	{
+		$this->setScenario('saveFile');
+		$ext = substr(strrchr($imageName, '.'), 1);
+		$imageName = uniqid() . '.' . $ext;
+
+		copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/course/" . $imageName);
+
+		RevisionCourseProperties::model()->updateByPk($id, array('course_img' => $imageName));
+
+		return true;
+	}
+	
 	/**
 	 * Save properties model with error checking
 	 * @throws RevisionException

@@ -900,6 +900,7 @@ class Module extends CActiveRecord implements IBillableObject
             $row["alias"] = CHtml::encode($record->alias);
             $row["lang"] = $record->language;
             $row["title"]["name"] = CHtml::encode($record->title_ua);
+            $row["title"]["mainLink"] = Yii::app()->createUrl("/module/index", array("idModule" => $record->module_ID));
             $row["title"]["header"] = "'Модуль " . addslashes($record->title_ua) . "'";
             $row["status"] = $record->statusLabel();
             $row["level"] = $record->level0->title_ua;

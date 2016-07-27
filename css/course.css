@@ -375,7 +375,7 @@ padding-left: 0px;
 #editIco, #viewIco{
     float:right;
     margin-right: 30px;
-    margin-top: 40px;
+    margin-top: 10px;
     cursor: pointer;
 }
 

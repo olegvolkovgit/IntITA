@@ -8,7 +8,7 @@ angular
         function($http) {
             this.getData = function (id) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/getModuleRevisionPreviewData',
+                    url: basePath+'/courseRevision/getCourseRevisionPreviewData',
                     method: "POST",
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -21,11 +21,11 @@ angular
                 return promise;
             };
 
-            this.getApprovedModule = function () {
+            this.getModules = function () {
                 var promise = $http({
-                    url: basePath+'/courseRevision/getApprovedModule',
+                    url: basePath+'/courseRevision/getModules',
                     method: "POST",
-                    data: $.param({idModule: idModule}),
+                    data: $.param({idCourse: idCourse}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;

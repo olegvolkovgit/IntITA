@@ -49,9 +49,9 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
-			'properties' => array(self::BELONGS_TO, 'RevisionCourseProperties', 'id_properties'),
+			'properties' => array(self::HAS_ONE, 'RevisionCourseProperties', ['id'=>'id_properties']),
 			'courseModules' => array(self::HAS_MANY, 'RevisionCourseModule', 'id_course_revision',
-                'order' => 'courseModules DESC'
+                'order' => 'module_order DESC'
                 ),
 		);
 	}
@@ -317,7 +317,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 			// modules
 			foreach ($course->module as $key=>$module) {
 				$revNewCourseModule = new RevisionCourseModule();
-				$revNewCourseModule->id_module_revision = $module->module_ID;
+				$revNewCourseModule->id_module = $module->id_module;
 				$revNewCourseModule->id_course_revision = $revCourse->id_course_revision;
 				$revNewCourseModule->module_order =$key+1;
 				$revNewCourseModule->saveCheck();
@@ -332,6 +332,195 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		return $revCourse;
 	}
 
+	/**
+	 * Clones $this into new db instance.
+	 * Returns new course instance or current instance if the course is not cloneable
+	 * @param $user
+	 * @return RevisionCourse
+	 * @throws Exception
+	 */
+	public function cloneCourse($user) {
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			$newRevision = new RevisionCourse();
+			$newRevision->id_parent = $this->id_course_revision;
+			$newRevision->id_course = $this->id_course;
+			$newProperties = $this->properties->cloneProperties($user);
+			$newRevision->id_properties = $newProperties->id;
+
+			$newRevision->saveCheck();
+
+			foreach ($this->courseModules as $module) {
+				$module->cloneCourseModule($newRevision->id_course_revision);
+			}
+
+			$transaction->commit();
+		} catch (Exception $e) {
+			$transaction->rollback();
+			throw $e;
+		}
+
+		return $newRevision;
+	}
+
+	public function editProperties($params, $user) {
+
+		$filtered = [];
+		foreach (RevisionCourse::getEditableProperties() as $property) {
+			if (isset($params[$property])) {
+				$filtered[$property] = $params[$property];
+			}
+		}
+
+		$this->properties->setAttributes($filtered);
+		$this->properties->saveCheck();
+		$this->setUpdateDate($user);
+	}
+
+	/**
+	 * Returns list of properties which can be edited
+	 * @return array
+	 */
+	public static function getEditableProperties() {
+		return ['title_ua', 'title_ru', 'title_en','alias','for_whom_ua',
+			'what_you_learn_ua','what_you_get_ua','for_whom_ru',
+			'what_you_learn_ru','what_you_get_ru','for_whom_en',
+			'what_you_learn_en','what_you_get_en','level'];
+	}
+
+	private function setUpdateDate($user) {
+		$this->properties->setUpdateDate($user);
+	}
+
+	public function checkConflicts() {
+		$result = array();
+		$moduleIdList=[];
+
+		foreach($this->courseModules as $module){
+			array_push($moduleIdList, $module->id_module);
+		}
+		$uniqueArr=array_unique($moduleIdList);
+		if(count($moduleIdList)>count($uniqueArr)){
+			$result='Курс не може містити однакові модулі';
+		}
+
+		return $result;
+	}
+
+	public function editModulesList($courseModules, $user) {
+
+		$connection = Yii::app()->db;
+		$transaction = $connection->beginTransaction();
+
+		try {
+			$currentModules = [];
+			foreach ($this->courseModules as $courseModule) {
+				array_push($currentModules, $courseModule->id_module);
+			}
+
+			/* Remove current modules related to the course revision and insert new modules*/
+			$removeCurrentModulesSQL = "DELETE FROM `vc_course_module` WHERE `id_course_revision`=".$this->id_course_revision.";";
+			$rowCount = $connection->createCommand($removeCurrentModulesSQL)->execute();
+
+			if ($rowCount != count($this->courseModules)) {
+				throw new Exception('Error while delete modules #1.');
+			}
+
+			$values = [];
+			foreach ($courseModules as $addModule) {
+				$str = "(".$this->id_course_revision . ','. $addModule['id_module'] . ',' . $addModule['module_order'].")";
+				array_push($values, $str);
+			}
+			if (count($values)) {
+				$addLecturesSQL = "INSERT INTO `vc_course_module` (`id_course_revision`, `id_module`, `module_order`) VALUES ".implode(',', $values).";";
+				$rowCount = $connection->createCommand($addLecturesSQL)->execute();
+
+				if ($rowCount != count($values)) {
+					throw new Exception('Error while delete modules #2.');
+				}
+			}
+			$transaction->commit();
+		} catch (Exception $e) {
+			$transaction->rollback();
+			throw $e;
+		}
+
+		$this->refresh();
+	}
+
+	public function deleteCourseModulesFromRegularDB() {
+		$course=Course::model()->findByPk($this->id_course);
+		//remove all modules from course
+		$connection = Yii::app()->db;
+		$transaction = null;
+
+		if ($connection->getCurrentTransaction() == null) {
+			$transaction = $connection->beginTransaction();
+		}
+		try {
+			foreach ($course->module as $row){
+				$row->deleteModuleFromCourse();
+			}
+			if ($transaction != null) {
+				$transaction->commit();
+				return true;
+			}
+		} catch (Exception $e) {
+			if ($transaction != null) {
+				$transaction->rollback();
+			}
+			throw $e;
+		}
+		return false;
+	}
+	
+	public function saveCoursePropertiesToRegularDB() {
+		$module=Course::model()->findByPk($this->id_course);
+		$module->course_img = $this->properties->course_img;
+		$module->alias = $this->properties->alias;
+		$module->title_ua = $this->properties->title_ua;
+		$module->title_ru = $this->properties->title_ru;
+		$module->title_en = $this->properties->title_en;
+		$module->for_whom_ua = $this->properties->for_whom_ua;
+		$module->what_you_learn_ua = $this->properties->what_you_learn_ua;
+		$module->what_you_get_ua = $this->properties->what_you_get_ua;
+		$module->for_whom_ru = $this->properties->for_whom_ru;
+		$module->what_you_learn_ru = $this->properties->what_you_learn_ru;
+		$module->what_you_get_ru = $this->properties->what_you_get_ru;
+		$module->for_whom_en = $this->properties->for_whom_en;
+		$module->what_you_learn_en = $this->properties->what_you_learn_en;
+		$module->what_you_get_en = $this->properties->what_you_get_en;
+		$module->level = $this->properties->level;
+		$module->language = $this->properties->language;
+		$module->course_price = $this->properties->course_price;
+		$module->cancelled = $this->properties->cancelled;
+		$module->status = 1;
+		$module->update();
+	}
+
+	public function cancelReleasedCourseInTree($user){
+		$courseRevisions = RevisionCourse::model()->findAllByAttributes(array('id_course'=>$this->id_course));
+		foreach ($courseRevisions as $courseRevision) {
+			if ($courseRevision->isReleased()) {
+				$courseRevision->state->changeTo('cancel', $user);
+			}
+		}
+	}
+	
+	/**
+	 * Returns course QuickUnion structure.
+	 * If $idCourse specified - returns revisions of this course, else - all revisions
+	 * @return array
+	 */
+	public static function getCoursesTree() {
+		$allIdList = Yii::app()->db->createCommand()
+			->select('id_course_revision, id_parent')
+			->from('vc_course')
+			->queryAll();
+
+		return RevisionCourse::getQuickUnionStructure($allIdList);
+	}
+	
 	/**
 	 * Save properties model with error checking
 	 * @throws RevisionException
