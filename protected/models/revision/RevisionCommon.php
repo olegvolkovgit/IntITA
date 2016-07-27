@@ -51,7 +51,7 @@ class RevisionCommon {
             $command->andWhere('vc_lecture.id_module = ' . $idModule);
         }
 
-        $data['approved'] = $command->queryAll();
+        $data['released'] = $command->queryAll();
 
         return $data;
     }

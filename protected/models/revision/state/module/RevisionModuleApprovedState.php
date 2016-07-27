@@ -13,6 +13,7 @@ class RevisionModuleApprovedState extends RevisionState {
             $this->revisionUnit->saveModulePropertiesToRegularDB();
             $this->revisionUnit->deleteModuleLecturesFromRegularDB();
 
+            $this->revisionUnit->cancelReleasedModuleInTree($user);
             /*
              * Костыль
              */
@@ -25,7 +26,6 @@ class RevisionModuleApprovedState extends RevisionState {
                     $moduleLecture->lecture->state->changeTo('released', $user);
                 }
             }
-            $this->revisionUnit->cancelReleasedModuleInTree($user);
 
             parent::_released($user);
 

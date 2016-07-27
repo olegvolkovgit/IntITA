@@ -51,7 +51,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 			'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
 			'properties' => array(self::HAS_ONE, 'RevisionCourseProperties', ['id'=>'id_properties']),
 			'courseModules' => array(self::HAS_MANY, 'RevisionCourseModule', 'id_course_revision',
-                'order' => 'module_order DESC'
+                'order' => 'module_order ASC'
                 ),
 		);
 	}
