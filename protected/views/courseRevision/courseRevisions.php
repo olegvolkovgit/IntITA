@@ -32,7 +32,9 @@ $this->breadcrumbs = array(
             $this->renderPartial('_courseRevisionsTree');
             ?>
             <div>
-                <a ng-if='!module.revision' href="" ng-click="createCourseRevision(idCourse)">Створити ревізію даного курса</a>
+                <?php if(!$revisionExists){ ?>
+                    <a href="" ng-click="createCourseRevision(idCourse)">Створити ревізію даного курса</a>
+                <?php } ?>
             </div>
         </div>
     </div>

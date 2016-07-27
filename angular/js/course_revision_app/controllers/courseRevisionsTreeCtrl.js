@@ -63,19 +63,18 @@ function courseRevisionsTreeCtrl($compile, $rootScope, $scope, $http, courseRevi
     $scope.editCourseRev = function(idRevision) {
         location.href = basePath+'/courseRevision/editCourseRevisionPage?idRevision=' + idRevision;
     };
-    $scope.openModuleRevisionsBranch = function(idRevision) {
-        alert('1');
-        // $http({
-        //     url: basePath+'/moduleRevision/getModuleByRevision',
-        //     method: "POST",
-        //     data: $.param({idRevision: idRevision}),
-        //     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        // }).then(function successCallback(response) {
-        //     location.href = basePath+'/moduleRevision/moduleRevisions?idModule=' + response.data;
-        // }, function errorCallback() {
-        //     bootbox.alert("Помилка при тримані модуля ревізії. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
-        //     return false;
-        // });
+    $scope.openCourseRevisionsBranch = function(idRevision) {
+        $http({
+            url: basePath+'/courseRevision/getCourseByRevision',
+            method: "POST",
+            data: $.param({idRevision: idRevision}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            location.href = basePath+'/courseRevision/courseRevisions?idCourse=' + response.data;
+        }, function errorCallback() {
+            bootbox.alert("Помилка при тримані курса ревізії. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
+            return false;
+        });
 
     };
     $scope.sendCourseRevisionMessage = function(idRevision) {

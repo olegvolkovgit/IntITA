@@ -16,7 +16,7 @@ class RevisionLectureReadyForReleaseState extends RevisionState {
             parent::_released($user);
             return true;
         } else {
-            //todo inform user
+            throw new RevisionLectureException(500, $this->revisionUnit->checkConflicts()[0]);
         }
     }
     

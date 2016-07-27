@@ -3,20 +3,6 @@ angular
     .service('courseRevisionsTree', [
         '$http',
         function($http) {
-            this.getCurrentModules = function (idCourse) {
-                var promise = $http({
-                    url: basePath + '/courseRevision/buildCurrentModuleJson',
-                    method: "POST",
-                    data: $.param({idCourse: idCourse}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback(response) {
-                    return response.data;
-                }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені списку актуальних модулів курса. Зв'яжіться з адміністрацією");
-                    return false;
-                });
-                return promise;
-            };
             this.getCourseRevisions  = function(idCourse) {
                 var url=basePath+'/courseRevision/buildCourseRevisions';
                 var promise = $http({
@@ -49,25 +35,25 @@ angular
                 return promise;
             };
 
-            this.getModuleData  = function(idModule) {
-                var url=basePath+'/courseRevision/getModuleData';
+            this.getCourseData  = function(idCourse) {
+                var url=basePath+'/courseRevision/getCourseData';
                 var promise = $http({
                     url: url,
                     method: "POST",
-                    data: $.param({idModule: idModule}),
+                    data: $.param({idCourse: idCourse}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені даних модуля. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Виникла помилка при завантажені даних курса. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
             };
             
-            this.getAllModulesRevisionsJson = function() {
+            this.getAllCoursesRevisionsJson = function() {
                 var promise = $http({
-                    url: basePath+'/courseRevision/buildAllModulesRevisions',
+                    url: basePath+'/courseRevision/buildAllCoursesRevisions',
                     method: "POST",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
@@ -109,9 +95,9 @@ angular
                 return promise;
             };
 
-            this.allModulesRevisionsTreeFilter  = function(status, idAuthor) {
+            this.allCoursesRevisionsTreeFilter  = function(status, idAuthor) {
                 var promise = $http({
-                    url: basePath+'/courseRevision/buildAllModulesTree',
+                    url: basePath+'/courseRevision/buildAllCoursesTree',
                     method: "POST",
                     data: $.param({status:status.revisionFilter, idAuthor:idAuthor}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

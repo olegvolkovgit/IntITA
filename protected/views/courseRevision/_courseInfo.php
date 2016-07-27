@@ -4,8 +4,8 @@
         <td><label>Курс:</label></td>
         <td><?= Course::getCourseName($course->course_ID).' (id='.$course->course_ID.')'?></td>
 
-        <td><label>Актуальна ревізія:</label></td>
-        <td><a>Ревізія №<??></a></td>
+<!--        <td><label>Актуальна ревізія:</label></td>-->
+<!--        <td><a>Ревізія №--><?//?><!--</a></td>-->
     </tr>
     <tr>
         <td><label>Назва (укр):</label></td>

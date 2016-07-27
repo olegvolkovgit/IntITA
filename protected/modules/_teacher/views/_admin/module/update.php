@@ -47,9 +47,11 @@
             Призначити консультанта
         </button>
     </li>
+    <?php if(Yii::app()->user->model->isContentManager()) { ?>
     <li>
         <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule' => $model->module_ID)); ?>" class="btn btn-primary">Ревізії модуля</a>
     </li>
+    <?php } ?>
 </ul>
 <div class="panel panel-default">
     <div class="panel-body">

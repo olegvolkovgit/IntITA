@@ -1,6 +1,6 @@
 <?php
 
-class m160722_115523_add_translations_893_894 extends CDbMigration
+class m160722_115523_add_translations_893_895 extends CDbMigration
 {
 
 	private function addTranslate($id, $category, $message, $translates) {
@@ -33,6 +33,12 @@ class m160722_115523_add_translations_893_894 extends CDbMigration
 				'ua' => 'Заняття недоступне. Модуль знаходиться в розробці',
 				'ru' => 'Занятия недоступно. Модуль находится в разработке',
 				'en' => 'Lecture available. The module is in development'
+			]);
+		$this->addTranslate(895, 'revision', 'RevisionCourseCancelledAuthorState',
+			[
+				'ua' => 'Скасований автором',
+				'ru' => 'Отменен автором',
+				'en' => 'Canceled by the author'
 			]);
 		return true;
 	}

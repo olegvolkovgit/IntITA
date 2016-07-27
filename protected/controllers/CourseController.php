@@ -15,20 +15,21 @@ class CourseController extends Controller
     {
         if(Yii::app()->user->isGuest) {
             $canEdit = false;
+            $isAuthor = false;
         } else {
             $canEdit = Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
+            $isAuthor = Yii::app()->user->model->isAuthor();
         }
+
         $model = Course::model()->findByPk($id);
         if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
         }
 
-        $dataProvider = new CourseModules('search');
-
         $this->render('index', array(
             'model' => $model,
-            'dataProvider' => $dataProvider,
             'canEdit' => $canEdit,
+            'isAuthor' => $isAuthor,
         ));
 
     }

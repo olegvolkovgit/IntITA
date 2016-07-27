@@ -309,4 +309,44 @@ class CourseModules extends CActiveRecord
 
        return Yii::app()->db->createCommand($sql)->queryAll();
    }
+
+    /**
+     * Deletes specified module from course and update modules count in course.
+     * @throws Exception
+     */
+    public function deleteModuleFromCourse() {
+        $course=Course::model()->findByPk($this->id_course);
+        $order = $this->order;
+        if ($order == null) {
+            // Now this method is called from a course instance,
+            // so $order can be null only if specified module is absent in the course.
+            throw new \application\components\Exceptions\ModuleNotFoundException();
+        }
+        
+        $sqlUpdateOrder = "UPDATE `course_modules` SET `order`=`order`-1 WHERE `id_course` = $this->id_course AND `order` > $order";
+
+        $connection = Yii::app()->db;
+        $transaction = null;
+
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
+        try
+        {
+            $this->delete();
+            $connection->createCommand($sqlUpdateOrder)->execute();
+            if ($transaction != null) {
+                $transaction->commit();
+            }
+        }
+        catch(Exception $e)
+        {
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
+            throw $e;
+        }
+
+        $course->updateCount();
+    }
 }

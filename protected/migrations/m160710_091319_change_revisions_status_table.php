@@ -206,13 +206,13 @@ class m160710_091319_change_revisions_status_table extends CDbMigration {
             ]);
         $this->addTranslate(882, 'revision', 'RevisionModuleRejectedState',
             [
-                'ua' => 'Відхилен',
+                'ua' => 'Відхилений',
                 'ru' => 'Отклонен',
                 'en' => 'Rejected'
             ]);
         $this->addTranslate(883, 'revision', 'RevisionModuleApprovedState',
             [
-                'ua' => 'Затверджен',
+                'ua' => 'Затверджений',
                 'ru' => 'Утвержден',
                 'en' => 'Approved'
             ]);
@@ -224,7 +224,7 @@ class m160710_091319_change_revisions_status_table extends CDbMigration {
             ]);
         $this->addTranslate(885, 'revision', 'RevisionModuleCancelledState',
             [
-                'ua' => 'Скасован',
+                'ua' => 'Скасований',
                 'ru' => 'Отменен',
                 'en' => 'Cancelled'
             ]);
