@@ -53,15 +53,15 @@
     </tr>
     <tr>
         <td>Назва (укр):</td>
-        <td><?=$lectureRevision->properties->title_ua?></td>
+        <td><?=CHtml::encode($lectureRevision->properties->title_ua)?></td>
     </tr>
     <tr>
         <td>Назва (рос):</td>
-        <td><?=$lectureRevision->properties->title_ru?></td>
+        <td><?=CHtml::encode($lectureRevision->properties->title_ru)?></td>
     </tr>
     <tr>
         <td>Назва (англ):</td>
-        <td><?=$lectureRevision->properties->title_en?></td>
+        <td><?=CHtml::encode($lectureRevision->properties->title_en)?></td>
     </tr>
     <tr>
         <td>Автор:</td>
