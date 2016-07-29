@@ -197,6 +197,7 @@ function initActiveRequestsTable() {
             "url": basePath + "/_teacher/_admin/request/getActiveRequestsList",
             "dataSrc": "data"
         },
+        "order": [[3, "desc"]],
         "columns": [
             {
                 "data": "user",
@@ -237,6 +238,7 @@ function initApprovedRequestsTable() {
             "url": basePath + "/_teacher/_admin/request/getApprovedRequestsList",
             "dataSrc": "data"
         },
+        "order": [[3, "desc"]],
         "columns": [
             {
                 "data": "user",
@@ -277,6 +279,7 @@ function initDeletedRequestsTable() {
             "url": basePath + "/_teacher/_admin/request/getDeletedRequestsList",
             "dataSrc": "data"
         },
+        "order": [[3, "desc"]],
         "columns": [
             {
                 "data": "user",
@@ -317,6 +320,7 @@ function initRejectedRevisionRequestsTable() {
             "url": basePath + "/_teacher/_admin/request/getRejectedRevisionRequestsList",
             "dataSrc": "data"
         },
+        "order": [[3, "desc"]],
         "columns": [
             {
                 "data": "user",

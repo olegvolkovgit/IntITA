@@ -82,6 +82,17 @@ $sender = $model->sender();
                         </div>
                     <?php } else if((in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && $model->isRejected())){ ?>
                         <div class="alert alert-info">
+                            <?php if($model->message0->type==MessagesType::REVISION_REQUEST) {?>
+                                <h4>
+                                    <?php $resolution=MessagesRejectRevision::model()->findByAttributes(array('id_revision'=>$model->id_revision));
+                                    echo $resolution?'Резолюція: '.$resolution->comment:''?>
+                                </h4>
+                            <?php }else if($model->message0->type==MessagesType::MODULE_REVISION_REQUEST){ ?>
+                                <h4>
+                                    <?php $resolution=MessagesRejectModuleRevision::model()->findByAttributes(array('id_revision'=>$model->id_module_revision));
+                                    echo $resolution?'Резолюція: '.$resolution->comment:''?>
+                                </h4>
+                            <?php } ?>
                             <?= $model->rejectedByToString() ?>
                         </div>
                     <?php }
