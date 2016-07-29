@@ -88,7 +88,7 @@ $this->breadcrumbs = array(
                 </tr>
                 <tr ng-repeat="module in moduleInCourse track by $index">
                     <td><span>{{module.id}}</span></td>
-                    <td><a ng-href="<?php echo Yii::app()->createUrl("module/index", array("idModule" => ''))?>{{module.id}}" >{{module.title}}</a></td>
+                    <td><a ng-href="<?php echo Yii::app()->createUrl("module/index", array("idModule" => ''))?>{{module.id}}" >{{module.title}}<span ng-if="module.cancelled"  class="cancelled">(скасований)</span></a></td>
                     <td>{{$index+1}}</td>
                     <td>
                         <div style="display: inline-block" >

@@ -407,6 +407,17 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		return $result;
 	}
 
+	public function checkCourseRevision() {
+		$result = array();
+		foreach($this->courseModules as $module){
+			if($module->module->cancelled){
+				$result='У даній ревізії містяться видалені модулі, які не відображатимуться на сайті при релізі!';
+				return $result;
+			}
+		}
+		return $result;
+	}
+
 	public function editModulesList($courseModules, $user) {
 
 		$connection = Yii::app()->db;
