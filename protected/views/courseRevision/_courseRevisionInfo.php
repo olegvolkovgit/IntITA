@@ -196,16 +196,7 @@
     <tr>
         <td>Псевдонім:</td>
         <td>
-            <?php
-            $this->widget('editable.EditableField', array(
-                'type' => 'text',
-                'model' => $courseRevision->properties,
-                'attribute' => 'alias',
-                'url' => $this->createUrl('courseRevision/XEditableEditProperties'),
-                'title' => 'Псевдонім',
-                'placement' => 'right',
-            ));
-            ?>
+            <?=$courseRevision->properties->alias ?>
         </td>
         <td>Рівень:</td>
         <td>

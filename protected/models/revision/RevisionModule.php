@@ -323,8 +323,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
      * @return array
      */
     public static function getEditableProperties() {
-        return ['title_ua', 'title_ru', 'title_en','alias','for_whom',
-            'what_you_learn','what_you_get','level','hours_in_day','days_in_week','cancelled','status'];
+        return ['title_ua', 'title_ru', 'title_en','for_whom',
+            'what_you_learn','what_you_get','level','hours_in_day','days_in_week'];
     }
 
     private function setUpdateDate($user) {

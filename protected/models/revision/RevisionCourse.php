@@ -382,7 +382,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 	 * @return array
 	 */
 	public static function getEditableProperties() {
-		return ['title_ua', 'title_ru', 'title_en','alias','for_whom_ua',
+		return ['title_ua', 'title_ru', 'title_en','for_whom_ua',
 			'what_you_learn_ua','what_you_get_ua','for_whom_ru',
 			'what_you_learn_ru','what_you_get_ru','for_whom_en',
 			'what_you_learn_en','what_you_get_en','level'];

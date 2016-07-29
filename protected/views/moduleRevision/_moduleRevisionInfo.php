@@ -108,16 +108,7 @@
     <tr>
         <td>Псевдонім:</td>
         <td>
-            <?php
-            $this->widget('editable.EditableField', array(
-                'type' => 'text',
-                'model' => $moduleRevision->properties,
-                'attribute' => 'alias',
-                'url' => $this->createUrl('moduleRevision/XEditableEditProperties'),
-                'title' => 'Псевдонім',
-                'placement' => 'right',
-            ));
-            ?>
+            <?=$moduleRevision->properties->alias ?>
         </td>
         <td>Рівень:</td>
         <td>
