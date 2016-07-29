@@ -41,7 +41,7 @@
         <td>Логотип:</td>
         <td>
             <img class="moduleImg"
-                 src="<?php echo StaticFilesHelper::createPath('image', 'module', $courseRevision->properties->course_img); ?>"/>
+                 src="<?php echo StaticFilesHelper::createPath('image', 'course', $courseRevision->properties->course_img); ?>"/>
         </td>
     </tr>
 </table>

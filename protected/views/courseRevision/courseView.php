@@ -52,7 +52,7 @@ $this->breadcrumbs = array(
                 </div>
             </div>
             <div class="revisionTable">
-                <label>Доступні модулі інших модулів(готові та в розробці):</label>
+                <label>Доступні незалежні модулі та модулі інших курсів(готові та в розробці):</label>
                 <div class="form-group">
                     <label>
                         <input type="checkbox" ng-init="foreign.ready_module=true" ng-model="foreign.ready_module">Готові модулі
