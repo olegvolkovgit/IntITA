@@ -448,7 +448,9 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->state->changeTo('released', Yii::app()->user);
+        $result=$moduleRev->state->changeTo('released', Yii::app()->user);
+        
+        echo $result;
     }
 
     public function actionPreviewModuleRevision($idRevision) {
