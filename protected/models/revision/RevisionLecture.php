@@ -184,7 +184,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             if ($quiz != null && $quiz->id_type == LectureElement::TASK) {
                 $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
                 if (!$task->existenceInterpreterTask()) {
-                    array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
+                    array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі, які в неї входять не містять юніттестів. 
+                    Ревізія лекції №".$this->id_revision.' містить задачу без юніттеста');
                     break;
                 }
             }

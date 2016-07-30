@@ -823,11 +823,11 @@ class RevisionController extends Controller {
 
 //    action editProperties for editable.EditableField widget
     public function actionXEditableEditProperties() {
-        $idRevision = Yii::app()->request->getPost('pk');
+        $idProperties = Yii::app()->request->getPost('pk');
         $attr = Yii::app()->request->getPost('name');
         $input = Yii::app()->request->getPost('value');
 
-        $lectureRevision = RevisionLecture::model()->findByPk($idRevision);
+        $lectureRevision = RevisionLecture::model()->findByAttributes(array('id_properties'=>$idProperties));
 
         if (!$this->isUserEditor(Yii::app()->user, $lectureRevision)) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));

@@ -84,7 +84,7 @@ $this->breadcrumbs = array(
         </div>
         <div id="lecturePage">
             <h1 class="lessonPart lessonEditPart">
-                <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
+                <?php echo Yii::t('lecture', '0073') . " : ".CHtml::encode($page->revision->properties->title_ua); ?>
             </h1>
             <div class="lectureProgress">
                 <?php foreach($pages as $part){ ?>

@@ -7,7 +7,7 @@
  */
 abstract class AbstractIntITAService extends CActiveRecord
 {
-    abstract protected function setMainModel($model);
+    abstract protected function setMainModel($model, $educForm);
     abstract protected function mainModel();
     abstract protected function primaryKeyValue();
     abstract protected function descriptionFormatted();
@@ -46,7 +46,7 @@ abstract class AbstractIntITAService extends CActiveRecord
 
     protected function setModelIfNeeded()
     {
-        $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()));
+        $this->setMainModel($this->mainModel()->findByPk($this->primaryKeyValue()),  $this->education_form);
         if (!$this->service) {
             $service = new Service();
             $service->description = $this->descriptionFormatted();

@@ -89,7 +89,7 @@ class RevisionModuleProperties extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-//			'module' => array(self::BELONGS_TO, 'Module', 'id_properties'),
+			'revision' => array(self::HAS_ONE, 'RevisionModule', ['id_properties'=>'id']),
 			'level0' => array(self::BELONGS_TO, 'Level', 'level'),
 		);
 	}

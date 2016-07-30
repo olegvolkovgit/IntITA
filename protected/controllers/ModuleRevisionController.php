@@ -448,7 +448,9 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->state->changeTo('released', Yii::app()->user);
+        $result=$moduleRev->state->changeTo('released', Yii::app()->user);
+        
+        echo $result;
     }
 
     public function actionPreviewModuleRevision($idRevision) {
@@ -510,12 +512,11 @@ class ModuleRevisionController extends Controller {
 
     // action editProperties for editable.EditableField widget
     public function actionXEditableEditProperties() {
-        $idRevision = Yii::app()->request->getPost('pk');
+        $idProperties = Yii::app()->request->getPost('pk');
         $attr = Yii::app()->request->getPost('name');
         $input = Yii::app()->request->getPost('value');
 
-        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
-
+        $moduleRevision = RevisionModuleProperties::model()->findByPk($idProperties)->revision;
         if (!$moduleRevision || !$moduleRevision->canEdit()) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
