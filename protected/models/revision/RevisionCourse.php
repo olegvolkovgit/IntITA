@@ -487,7 +487,6 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 	
 	public function saveCoursePropertiesToRegularDB() {
 		$module=Course::model()->findByPk($this->id_course);
-		$module->course_img = $this->properties->course_img;
 		$module->alias = $this->properties->alias;
 		$module->title_ua = $this->properties->title_ua;
 		$module->title_ru = $this->properties->title_ru;
@@ -507,6 +506,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		$module->cancelled = $this->properties->cancelled;
 		$module->status = 1;
 		$module->update();
+		$module->updateByPk($this->id_course, array('course_img'=>$this->properties->course_img));
 	}
 
 	public function cancelReleasedCourseInTree($user){
