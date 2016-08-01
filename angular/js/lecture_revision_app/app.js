@@ -15,4 +15,4 @@ angular
     .module('revisionTreesApp', ['directive.loading','revisionSendMessage','service.revisionsActions']);
 
 angular
-    .module('revisionEdit', ['ngCkeditor','ngBootbox','hljs','directive.loading','service.taskJson']);
+    .module('revisionEdit', ['ngCkeditor','ngBootbox','hljs','directive.loading','service.taskJson','revisionServices']);
