@@ -269,10 +269,9 @@ class RevisionModule extends CRevisionUnitActiveRecord
             $revModuleProperties->price_offline = $module->price_offline;
             $revModuleProperties->start_date = new CDbExpression('NOW()');
             $revModuleProperties->id_user_created = $user->getId();
-            $revModuleProperties->approve_date = new CDbExpression('NOW()');
-            $revModuleProperties->id_user_approved = $user->getId();
-            $revModuleProperties->release_date = new CDbExpression('NOW()');
-            $revModuleProperties->id_user_released = $user->getId();
+            $revModuleProperties->id_user = $user->getId();
+            $revModuleProperties->change_date = new CDbExpression('NOW()');
+            $revModuleProperties->id_state = RevisionState::ReleasedState;
             $revModuleProperties->saveCheck();
 
             $revModule = new RevisionModule();
@@ -324,8 +323,8 @@ class RevisionModule extends CRevisionUnitActiveRecord
      * @return array
      */
     public static function getEditableProperties() {
-        return ['title_ua', 'title_ru', 'title_en','alias','for_whom',
-            'what_you_learn','what_you_get','level','hours_in_day','days_in_week','cancelled','status'];
+        return ['title_ua', 'title_ru', 'title_en','for_whom',
+            'what_you_learn','what_you_get','level','hours_in_day','days_in_week'];
     }
 
     private function setUpdateDate($user) {
@@ -356,13 +355,14 @@ class RevisionModule extends CRevisionUnitActiveRecord
      * revisions id list after filtered
      */
     public static function getFilteredIdRevisions($status, $idModule=null,$idAuthor=null) {
-        $sqlCancelledEditor = ('vcp.id_user_cancelled_edit IS NOT NULL');
-        $sqlCancelled = ('vcp.id_user_cancelled IS NOT NULL');
-        $sqlReady = ('vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL');
-        $sqlApproved = ('vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL');
-        $sqlRejected = ('vcp.id_user_rejected IS NOT NULL');
-        $sqlSent = ('vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL');
-        $sqlEditable = ('vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL');
+        $sqlCancelledEditor = "(vcp.id_state = " . RevisionState::CancelledAuthorState . ")";
+        $sqlCancelled = "(vcp.id_state = " . RevisionState::CancelledState . ")";
+        $sqlReady = "(vcp.id_state = " . RevisionState::ReleasedState . ")";
+        $sqlApproved = "(vcp.id_state = " . RevisionState::ApprovedState . ")";
+        $sqlRejected = "(vcp.id_state = " . RevisionState::RejectedState . ")";
+        $sqlSent = "(vcp.id_state = " . RevisionState::SendForApprovalState . ")";
+        $sqlEditable = "(vcp.id_state = " . RevisionState::EditableState . ")";
+
 
         $finalSql = '';
         $authorSql = '';
@@ -574,48 +574,6 @@ class RevisionModule extends CRevisionUnitActiveRecord
         return null;
     }
 
-//    protected function beforeRelease($user) {
-//        $transaction = Yii::app()->db->beginTransaction();
-//        try {
-//            $this->saveModulePropertiesToRegularDB();
-//            $this->deleteModuleLecturesFromRegularDB();
-//            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-//                $newLecture[$key] = $moduleLecture->lecture->saveModuleLecturesToRegularDB($user);
-//                $moduleLecture->lecture->release($user);
-//            }
-//            $this->cancelReleasedModuleInTree($user);
-//            $transaction->commit();
-//        } catch (Exception $e) {
-//            $transaction->rollback();
-//            throw $e;
-//        }
-//        foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-//            $lectureRev=$moduleLecture->lecture;
-//            $lectureRev->createDirectory($newLecture[$key]);
-//            $lectureRev->createTemplates($newLecture[$key]);
-//        }
-//        return true;
-//    }
-//    protected function afterRelease() {
-//        Module::model()->updateByPk($this->id_module, array('id_module_revision'=>$this->id_module_revision));
-//        return true;
-//    }
-
-//    protected function beforeCancel($user) {
-//        $transaction = Yii::app()->db->beginTransaction();
-//        try {
-//            foreach ($this->moduleLecturesModels as $key=>$moduleLecture){
-//                $moduleLecture->lecture->cancelReleasedInTree($user);
-//            }
-//            $transaction->commit();
-//        } catch (Exception $e) {
-//            $transaction->rollback();
-//            throw $e;
-//        }
-//
-//        return true;
-//    }
-
     public function deleteModuleLecturesFromRegularDB() {
         $module=Module::model()->findByPk($this->id_module);
         //remove all lectures in module from regular DB
@@ -664,9 +622,7 @@ class RevisionModule extends CRevisionUnitActiveRecord
         $moduleRevisions = RevisionModule::model()->findAllByPk($idList);
         foreach ($moduleRevisions as $moduleRevision) {
             if ($moduleRevision->isReleased()) {
-                $moduleRevision->properties->end_date = new CDbExpression('NOW()');
-                $moduleRevision->properties->id_user_cancelled = $user->getId();
-                $moduleRevision->properties->saveCheck();
+                $moduleRevision->state->changeTo('cancel', $user);
             }
         }
     }
@@ -719,5 +675,25 @@ class RevisionModule extends CRevisionUnitActiveRecord
             }
         }
         return $authors;
+    }
+
+    /**
+     * Return status accessibility for module revision
+     * @return array
+     */
+    public function statusList() {
+        $status=array();
+
+        $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
+        $isApprover=Yii::app()->user->model->canApprove();
+
+        $status['canEdit'] =  $status['canCancelEdit'] = $status['canSend'] =$isRevisionCreator && $this->isEditable();
+        $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();
+        $status['canCancelSend'] = $isRevisionCreator && $this->isSended();
+        $status['canApprove'] = $status['canReject'] = $isApprover && $this->isSended();
+        $status['canCancel'] =  $isApprover && $this->isCancellable();
+        $status['canRelease'] = $isApprover && $this->isReleaseable();
+
+        return $status;
     }
 }

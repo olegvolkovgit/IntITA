@@ -273,7 +273,7 @@ class PayModules extends CActiveRecord
         foreach ($modules as $record) {
             $row = array();
 
-            $row["title"]["name"] = $record->module->cancelled?$record->module->getTitle().'(видалений)':$record->module->getTitle();
+            $row["title"]["name"] = $record->module->cancelled?$record->module->getTitle().'(скасований)':$record->module->getTitle();
             $row["title"]["url"] = $record->module->cancelled?'':Yii::app()->createAbsoluteUrl("module/index", array("idModule" =>$record->module->module_ID));
             $row["summa"] = ($record->module->getBasePrice() != 0)?number_format(CommonHelper::getPriceUah($record->module->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
             //$row["schema"] = CHtml::encode($record->paymentSchema->name);

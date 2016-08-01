@@ -6,28 +6,26 @@ $editMode = ($canEdit) ? 'true' : '';
 </script>
 <div class="courseModules">
     <?php
-    if ($canEdit) { ?>
-        <img ng-cloak ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                    id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
-        <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
-            <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'view.png'); ?>"
-                 id="viewIco" title="Переглянути ревізії модулів"/>
-        </a>
-        <div ng-cloak ng-click="showForm()">
-            <?php $form = $this->beginWidget('CActiveForm', array(
-                'id' => 'ajaxaddmodule-form',
-            )); ?>
-            <a href="#moduleForm">
-                <?php echo CHtml::hiddenField('idcourse', $model->course_ID); ?>
-                <?php
-                echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'),
-                    array('update' => '#moduleForm'),
-                    array('id' => 'addModule', 'ng-show'=>'editVisible', 'title' => Yii::t('course', '0336')));
-                ?>
-            </a>
-            <?php $this->endWidget(); ?>
-            </br>
+    if (!Yii::app()->user->isGuest && Yii::app()->user->model->canApprove()) { ?>
+        <div class="revisionIco">
+            <label>Ревізії:
+                <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$model->course_ID)); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'courseRevisions.png'); ?>"
+                         title="Ревізії курса"/>
+                </a>
+                <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
+                         title="Ревізії модулів курса"/>
+                </a>
+            </label>
         </div>
+    <?php }?>
+    <?php
+    if ($canEdit || $isAuthor) { ?>
+        <a href="<?php echo Yii::app()->createUrl('/modules/list'); ?>">
+            <img ng-cloak ng-hide="editVisible" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
+                 id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
+        </a>
     <?php
     } ?>
 
@@ -87,12 +85,6 @@ $editMode = ($canEdit) ? 'true' : '';
         <br>
         <?php echo Yii::t('course', '0809') ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>
-    </div>
-    <div id="moduleForm">
-        <?php $this->renderPartial('_addLessonForm', array('model' => $model)); ?>
-    </div>
-    <div id="moduleRevisionForm" style="display: none">
-        <?php $this->renderPartial('_addModuleRevisionForm', array('model' => $model)); ?>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>

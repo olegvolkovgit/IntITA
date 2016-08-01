@@ -184,7 +184,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             if ($quiz != null && $quiz->id_type == LectureElement::TASK) {
                 $task = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $quiz->id));
                 if (!$task->existenceInterpreterTask()) {
-                    array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі не містять юніттестів");
+                    array_push($result, "Не можна відправити ревізію на затвердження, якщо задачі, які в неї входять не містять юніттестів. 
+                    Ревізія лекції №".$this->id_revision.' містить задачу без юніттеста');
                     break;
                 }
             }
@@ -209,6 +210,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     protected function getMessageClasses() {
         return array_merge(parent::getMessageClasses(), [
             'reject' => 'MessagesRejectRevision',
+            'rejectModule' => 'MessagesRejectModuleRevision',
             'approve' => 'MessagesApproveRevision'
         ]);
     }
@@ -292,10 +294,9 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $revLectureProperties->title_en = $lecture->title_en;
             $revLectureProperties->start_date = new CDbExpression('NOW()');
             $revLectureProperties->id_user_created = $user->getId();
-            $revLectureProperties->approve_date = new CDbExpression('NOW()');
-            $revLectureProperties->id_user_approved = $user->getId();
-            $revLectureProperties->release_date = new CDbExpression('NOW()');
-            $revLectureProperties->id_user_released = $user->getId();
+            $revLectureProperties->id_state = RevisionState::ReleasedState;
+            $revLectureProperties->id_user = $user->getId();
+            $revLectureProperties->change_date = new CDbExpression('NOW()');
             $revLectureProperties->saveCheck();
 
             $revLecture = new RevisionLecture();
@@ -773,8 +774,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $criteria->alias = 'vc_lecture';
         $criteria->condition = 'id_lecture=' . $idLecture;
         $criteria->with = array('properties');
-        $criteria->order = 'properties.release_date DESC';
-        $criteria->addCondition('properties.id_user_released IS NOT NULL');
+        $criteria->order = 'properties.change_date DESC';
+        $criteria->addCondition('properties.id_state = ' . RevisionState::ReleasedState);
         $criteria->limit = 1;
 
         $revisions = RevisionLecture::model()->find($criteria);
@@ -786,9 +787,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $criteria->alias = 'vc_lecture';
         $criteria->addInCondition('id_revision', $array, 'OR');
         $criteria->with = array('properties');
-        $criteria->order = 'properties.release_date DESC';
-        $criteria->addCondition('properties.id_user_released IS NOT NULL and
-         properties.id_user_cancelled IS NULL');
+        $criteria->order = 'properties.change_date DESC';
+        $criteria->addCondition('properties.id_state = ' . RevisionState::ReleasedState);
         $criteria->limit = 1;
         return RevisionLecture::model()->find($criteria);
     }
@@ -798,9 +798,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $criteria->alias = 'vc_lecture';
         $criteria->condition = 'id_module=' . $idModule;
         $criteria->with = array('properties');
-        $criteria->order = 'properties.release_date DESC';
-        $criteria->addCondition('properties.id_user_released IS NOT NULL and
-         properties.id_user_cancelled IS NULL');
+        $criteria->order = 'properties.change_date DESC';
+        $criteria->addCondition('properties.id_state = ' . RevisionState::ReleasedState);
         return RevisionLecture::model()->findAll($criteria);
     }
 
@@ -846,11 +845,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
         foreach ($lectureRevisions as $lectureRevision) {
             if ($lectureRevision->isReleased()) {
-                $lectureRevision->properties->release_date = new CDbExpression('NULL');
-                $lectureRevision->properties->id_user_released = null;
-                $lectureRevision->properties->proposed_to_release_date = new CDbExpression('NULL');
-                $lectureRevision->properties->id_user_proposed_to_release = null;
-                $lectureRevision->properties->saveCheck();
+                $lectureRevision->state->changeTo('approved', $user);
             }
         }
     }
@@ -858,14 +853,12 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     /**
      * @param $user
      */
-    private function cancelProposedToReleaseInTree($user) {
+    public function cancelProposedToReleaseInTree($user) {
         $idList = $this->getRelatedIdList();
         $lectureRevisions = RevisionLecture::model()->findAllByPk($idList);
         foreach ($lectureRevisions as $lectureRevision) {
             if ($lectureRevision->isProposedToRelease()) {
-                $lectureRevision->properties->proposed_to_release_date = new CDbExpression('NULL');
-                $lectureRevision->properties->id_user_proposed_to_release = null;
-                $lectureRevision->properties->saveCheck();
+                $lectureRevision->state->changeTo('approved', $user);
             }
         }
     }
@@ -873,16 +866,15 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
     /**
      * revisions id list after filtered
      */
-    public static function getFilteredIdRevisions($status, $idModule,$idAuthor=null) {
-        $sqlCancelledEditor = '(vcp.id_user_cancelled_edit IS NOT NULL)';
-        $sqlCancelled = '(vcp.id_user_cancelled IS NOT NULL and vcp.id_user_released IS NULL)';
-        $sqlReady = '(vcp.id_user_released IS NOT NULL and vcp.id_user_cancelled IS NULL)';
-        $sqlApproved = '(vcp.id_user_approved IS NOT NULL and vcp.id_user_released IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_cancelled_edit IS NULL 
-        and vcp.id_user_proposed_to_release IS NULL)';
-        $sqlRejected = '(vcp.id_user_rejected IS NOT NULL)';
-        $sqlSent = '(vcp.id_user_sended_approval IS NOT NULL and vcp.id_user_rejected IS NULL and vcp.id_user_approved IS NULL)';
-        $sqlEditable = '(vcp.id_user_sended_approval IS NULL and vcp.id_user_approved IS NULL and vcp.id_user_cancelled_edit IS NULL and vcp.id_user_cancelled IS NULL and vcp.id_user_released IS NULL)';
-        $sqlProposedToRelease = '(vcp.id_user_proposed_to_release IS NOT NULL and (vcp.proposed_to_release_date>vcp.release_date or vcp.release_date IS NULL))';
+    public static function getFilteredIdRevisions($status, $idModule, $idAuthor = null) {
+        $sqlCancelledEditor = "(vcp.id_state = " . RevisionState::CancelledAuthorState . ")";
+        $sqlCancelled = "(vcp.id_state = " . RevisionState::CancelledState . ")";
+        $sqlReady = "(vcp.id_state = " . RevisionState::ReleasedState . ")";
+        $sqlApproved = "(vcp.id_state = " . RevisionState::ApprovedState . ")";
+        $sqlRejected = "(vcp.id_state = " . RevisionState::RejectedState . ")";
+        $sqlSent = "(vcp.id_state = " . RevisionState::SendForApprovalState . ")";
+        $sqlEditable = "(vcp.id_state = " . RevisionState::EditableState . ")";
+        $sqlProposedToRelease = "(vcp.id_state = " . RevisionState::ReadyForRelease . ")";
 
         $finalSql = '';
         $authorSql = '';
@@ -1023,7 +1015,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * @return bool
      */
     public function isCancellable() {
-        if ($this->state->getName()=='Затверджена') {
+        if ($this->state->getCode() == RevisionState::ApprovedState) {
             return true;
         }
         return false;
@@ -1033,16 +1025,38 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * @return bool
      */
     public function isProposedToRelease() {
-        return $this->properties->id_user_proposed_to_release != null;
+        return $this->state->getCode() == RevisionState::ReadyForRelease;
     }
 
     public function canCancel() {
-        return $this->state->canChange('canceled');
+        return $this->state->canChange('cancel');
     }
     public function canProposedToRelease() {
         return $this->state->canChange('readyForRelease');
     }
     public function canCancelProposedToRelease() {
-        return $this->state->getName() == 'Готова до релізу' && $this->state->canChange('approved');
+        return $this->state->getCode() == RevisionState::ReadyForRelease;
+    }
+
+    /**
+     * Return status accessibility foe lecture revision 
+     * @return array
+     */
+    public function statusList() {
+        $status=array();
+
+        $isRevisionCreator=$this->properties->id_user_created == Yii::app()->user->getId();
+        $isApprover=Yii::app()->user->model->canApprove();
+        
+        $status['canCreate'] = $this->canCreate();
+        $status['canEdit'] = $status['canCancelEdit'] = $status['canSend'] = $isRevisionCreator && $this->isEditable();
+        $status['canRestoreEdit'] = $isRevisionCreator && $this->isCancelledEditor();
+        $status['canCancelSend'] = $isRevisionCreator && $this->isSended();
+        $status['canApprove'] = $status['canReject'] = $isApprover && $this->isSended();
+        $status['canCancel'] =  $isApprover && $this->isCancellable();
+        $status['canProposedToRelease'] =  $isApprover && $this->isApproved();
+        $status['canCancelProposedToRelease'] =  $isApprover && $this->isProposedToRelease();
+
+        return $status;
     }
 }

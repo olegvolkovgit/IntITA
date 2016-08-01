@@ -27,6 +27,29 @@
         <li>
             <a href="/revision/index/">
             Всі ревізії</a>
+            <a href="#/admin/verifycontent">
+                Контент лекцій</a>
+        </li>
+        <li>
+            <a href="#/admin/modulemanage">
+                Модулі</a>
+        </li>
+        <li>
+        <li>
+            <a href="#/admin/coursemanage">
+                Курси</a></li>
+        </li>
+        <li>
+            <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>" class="active" target="_blank">
+            Всі ревізії занять</a>
+        </li>
+        <li>
+            <a href="<?php echo Yii::app()->createUrl('moduleRevision/index'); ?>" class="active" target="_blank">
+                Всі ревізії модулів</a>
+        </li>
+        <li>
+            <a href="<?php echo Yii::app()->createUrl('courseRevision/index'); ?>" class="active" target="_blank">
+                Всі ревізії курсів</a>
         </li>
         <li>
             <?php $p=45?>

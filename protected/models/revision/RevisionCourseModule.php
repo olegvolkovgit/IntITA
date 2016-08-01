@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'vc_course_module':
  * @property integer $id
  * @property integer $id_course_revision
- * @property integer $id_module_revision
+ * @property integer $id_module
  * @property integer $module_order
  *
  * The followings are the available model relations:
@@ -31,11 +31,11 @@ class RevisionCourseModule extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_course_revision, id_module_revision, module_order', 'required'),
-			array('id_course_revision, id_module_revision, module_order', 'numerical', 'integerOnly'=>true),
+			array('id_course_revision, id_module, module_order', 'required'),
+			array('id_course_revision, id_module, module_order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_course_revision, id_module_revision, module_order', 'safe', 'on'=>'search'),
+			array('id, id_course_revision, id_module, module_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +48,7 @@ class RevisionCourseModule extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'course' => array(self::BELONGS_TO, 'RevisionCourse', 'id_course_revision'),
-			'module' => array(self::BELONGS_TO, 'RevisionModule', 'id_module_revision'),
+			'module' => array(self::HAS_ONE, 'Module', ['module_ID'=>'id_module']),
 		);
 	}
 
@@ -60,7 +60,7 @@ class RevisionCourseModule extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'id_course_revision' => 'Id Course Revision',
-			'id_module_revision' => 'Id Module Revision',
+			'id_module' => 'Id Module',
 			'module_order' => 'Module Order',
 		);
 	}
@@ -85,7 +85,7 @@ class RevisionCourseModule extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('id_course_revision',$this->id_course_revision);
-		$criteria->compare('id_module_revision',$this->id_module_revision);
+		$criteria->compare('id_module',$this->id_module);
 		$criteria->compare('module_order',$this->module_order);
 
 		return new CActiveDataProvider($this, array(
@@ -102,5 +102,69 @@ class RevisionCourseModule extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function cloneCourseModule($idNewRevision = null) {
+
+		if ($idNewRevision == null) {
+			$idNewRevision = $this->id_course_revision;
+		}
+
+		$connection = Yii::app()->db;
+		$transaction = null;
+
+		if ($connection->getCurrentTransaction() == null) {
+			$transaction = $connection->beginTransaction();
+		}
+
+		try {
+			$newRevision = new RevisionCourseModule();
+
+			$newRevision->id_module = $this->id_module;
+			$newRevision->id_course_revision = $idNewRevision;
+			$newRevision->module_order = $this->module_order;
+
+			$newRevision->saveCheck();
+
+			if ($transaction != null) {
+				$transaction->commit();
+			}
+		} catch (Exception $e) {
+			if ($transaction != null) {
+				$transaction->rollback();
+			}
+			throw $e;
+		}
+
+		return $newRevision;
+	}
+
+	public function saveCourseModuleToRegularDB()
+	{
+		$courseModule = new CourseModules();
+		$courseModule->id_course = $this->course->id_course;
+		$courseModule->id_module = $this->id_module;
+		$courseModule->order = $this->module_order;
+		if ($courseModule->save()) {
+			return $this;
+		}else{
+			throw new RevisionException('400','Помилка, при збережені модулів в курсі');
+		}
+	}
+
+	public function saveCheck() {
+		if(!$this->save()) {
+			throw new RevisionException('400',$this->getValidationErrors());
+		}
+	}
+
+	public function getValidationErrors() {
+		$errors=[];
+		foreach($this->getErrors() as $key=>$attribute){
+			foreach($attribute as $error){
+				array_push($errors,$key.': '.$error);
+			}
+		}
+		return implode(", ", $errors);
 	}
 }

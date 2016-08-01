@@ -122,7 +122,6 @@ class ModuleRevisionController extends Controller {
 
     public function actionBuildCurrentModuleJson() {
         $idCourse = Yii::app()->request->getPost('idCourse');
-        Course::model()->findAllByPk($idCourse);
         $currentIdModules=Course::model()->modulesInCourse($idCourse);
         $data = [];
         foreach ($currentIdModules as $key=>$moduleId) {
@@ -174,15 +173,8 @@ class ModuleRevisionController extends Controller {
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
             $node['creatorId'] = $module->properties->id_user_created;
-            $node['isSendable'] = $module->isSendable();
-            $node['isApprovable'] = $module->isApprovable();
-            $node['isCancellable'] = $module->isCancellable();
-            $node['isEditable'] = $module->isEditable();
-            $node['isRejectable'] = $module->isRejectable();
-            $node['isSendedCancellable'] = $module->isRevokeable();
-            $node['isReadable'] = $module->isReleaseable();
-            $node['isEditCancellable'] = $module->isEditable();
-            $node['canRestoreEdit'] = $module->isCancelledEditor();
+            $statusList=$module->statusList();
+            $node=array_merge ($node, $statusList);
 
             $this->appendNode($jsonArray, $node, $moduleTree);
         }
@@ -199,15 +191,8 @@ class ModuleRevisionController extends Controller {
             $node['selectable'] = false;
             $node['id'] = $module->id_module_revision;
             $node['creatorId'] = $module->properties->id_user_created;
-            $node['isSendable'] = $module->isSendable();
-            $node['isApprovable'] = $module->isApprovable();
-            $node['isCancellable'] = $module->isCancellable();
-            $node['isEditable'] = $module->isEditable();
-            $node['isRejectable'] = $module->isRejectable();
-            $node['isSendedCancellable'] = $module->isRevokeable();
-            $node['isReadable'] = $module->isReleaseable();
-            $node['isEditCancellable'] = $module->isEditable();
-            $node['canRestoreEdit'] = $module->isCancelledEditor();
+            $statusList=$module->statusList();
+            $node=array_merge ($node, $statusList);
 
             $this->appendNodeMultiselect($jsonArray, $node, $moduleTree, $actualIdList);
         }
@@ -417,11 +402,16 @@ class ModuleRevisionController extends Controller {
 
     public function actionRejectModuleRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
+        $comment=Yii::app()->request->getPost('comment','');
         $moduleRev = RevisionModule::model()->findByPk($idRevision);
         if (!$moduleRev->canRejectRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0827'));
         }
         $moduleRev->state->changeTo('rejected', Yii::app()->user);
+
+        $message = new MessagesRejectModuleRevision();
+        $message->sendModuleRevisionRejectMessage($moduleRev, $comment);
+        
         $revisionRequest=MessagesModuleRevisionRequest::model()->findByAttributes(array('id_module_revision'=>$moduleRev->id_module_revision,'cancelled'=>0, 'user_rejected'=> null));
         if($revisionRequest){
             $revisionRequest->setRejected();
@@ -458,7 +448,9 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRev->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $moduleRev->state->changeTo('released', Yii::app()->user);
+        $result=$moduleRev->state->changeTo('released', Yii::app()->user);
+        
+        echo $result;
     }
 
     public function actionPreviewModuleRevision($idRevision) {
@@ -509,17 +501,9 @@ class ModuleRevisionController extends Controller {
         }
 
         $module['status']=$moduleRevision->state->getName();
-        $module['canEdit']=$moduleRevision->canEdit();
-        $module['canSendForApproval']=$moduleRevision->canSendForApproval();
-        $module['canCancelSendForApproval']=$moduleRevision->canCancelSendForApproval();
-        $module['canApprove']=$moduleRevision->canApprove();
-        $module['canCancelReadyRevision']=$moduleRevision->canCancelReadyRevision();
-        $module['canRejectRevision']=$moduleRevision->canRejectRevision();
-        $module['canReleaseRevision']=$moduleRevision->canReleaseRevision();
-        $module['canCancelEdit']=$moduleRevision->canCancelEdit();
-        $module['canRestoreEdit']=$moduleRevision->canRestoreEdit();
-        $module['link']=
-            $module['canCancelReadyRevision']?
+        $statusList=$moduleRevision->statusList();
+        $module=array_merge ($module, $statusList);
+        $module['view']= $moduleRevision->isReleased()?
                 Yii::app()->createUrl("module/index", array("idModule" => $moduleRevision->id_module)):null;
         $data['module']=$module;
         $data['lectures']=$lectures;
@@ -528,12 +512,11 @@ class ModuleRevisionController extends Controller {
 
     // action editProperties for editable.EditableField widget
     public function actionXEditableEditProperties() {
-        $idRevision = Yii::app()->request->getPost('pk');
+        $idProperties = Yii::app()->request->getPost('pk');
         $attr = Yii::app()->request->getPost('name');
         $input = Yii::app()->request->getPost('value');
 
-        $moduleRevision = RevisionModule::model()->findByPk($idRevision);
-
+        $moduleRevision = RevisionModuleProperties::model()->findByPk($idProperties)->revision;
         if (!$moduleRevision || !$moduleRevision->canEdit()) {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }

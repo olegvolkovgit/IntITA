@@ -223,4 +223,19 @@ class MessagesRejectRevision extends Messages implements IMessage
     public function type(){
         return MessagesType::REJECT_REVISION;
     }
+
+    public function sendRevisionRejectMessage(RevisionLecture $revision, $comment){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $this->build(Yii::app()->user->model->registrationData, $revision, $comment);
+            $this->create();
+            $sender = new MailTransport();
+
+            $this->send($sender);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Лист з причиною відхилення ревізії надіслати не вдалося.");
+        }
+    }
 }

@@ -8,7 +8,7 @@
                 <img ng-if=moduleData ng-click=previewModuleRevision('<?=Yii::app()->createUrl("moduleRevision/previewModuleRevision", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
                      title="Попередній перегляд"/>
-                <img ng-if=moduleData.module.canSendForApproval ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',true)
+                <img ng-if=moduleData.module.canSend ng-click=sendModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>',true)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
                 <img ng-if=moduleData.module.canCancelEdit ng-click=cancelModuleEditByEditor('<?php echo $moduleRevision->id_module_revision; ?>',true)
@@ -108,16 +108,7 @@
     <tr>
         <td>Псевдонім:</td>
         <td>
-            <?php
-            $this->widget('editable.EditableField', array(
-                'type' => 'text',
-                'model' => $moduleRevision->properties,
-                'attribute' => 'alias',
-                'url' => $this->createUrl('moduleRevision/XEditableEditProperties'),
-                'title' => 'Псевдонім',
-                'placement' => 'right',
-            ));
-            ?>
+            <?=$moduleRevision->properties->alias ?>
         </td>
         <td>Рівень:</td>
         <td>

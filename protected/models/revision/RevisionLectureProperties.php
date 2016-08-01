@@ -16,20 +16,10 @@
  * @property integer $id_user_created
  * @property string $update_date
  * @property integer $id_user_updated
- * @property string $send_approval_date
- * @property integer $id_user_sended_approval
- * @property string $reject_date
- * @property integer $id_user_rejected
- * @property string $approve_date
- * @property integer $id_user_approved
- * @property string $end_date
- * @property integer $id_user_cancelled
- * @property string $release_date
- * @property integer $id_user_released
- * @property string $cancel_edit_date
- * @property integer $id_user_cancelled_edit
- * @property string $proposed_to_release_date
- * @property integer $id_user_proposed_to_release
+ *
+ * @property integer $id_state
+ * @property integer $id_user
+ * @property string $change_date
  *
  * The followings are the available model relations:
  * @property Lecture[] $lectures
@@ -53,19 +43,17 @@ class RevisionLectureProperties extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_type, is_free, start_date', 'required'),
-			array('id_type, is_free, id_user_created, id_user_updated, id_user_sended_approval, id_user_rejected, id_user_approved, id_user_cancelled, id_user_released', 'numerical', 'integerOnly'=>true),
+			array('id_type, is_free, id_user_created, id_user_updated, id_state, id_user', 'numerical', 'integerOnly'=>true),
 			array('image, title_ua, title_ru, title_en', 'length', 'max'=>255),
 			array('title_ua', 'match', 'pattern' => "/".Yii::app()->params['titleUAPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('alias', 'length', 'max'=>10),
-			array('update_date, send_approval_date, reject_date, approve_date, end_date, release_date, proposed_to_release_date', 'safe'),
+			array('start_date, update_date, change_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, image, alias, id_type, is_free, title_ua, title_ru, title_en, start_date, 
-			id_user_created, update_date, id_user_updated, send_approval_date, id_user_sended_approval, 
-			reject_date, id_user_rejected, approve_date, id_user_approved, end_date, id_user_cancelled, 
-			release_date, id_user_released, proposed_to_release_date, id_user_proposed_to_release', 'safe', 'on'=>'search'),
+			array('id, image, alias, id_type, is_free, title_ua, title_ru, title_en, 
+			id_user_created, id_state, id_user, start_date, id_user_created, id_user_updated, change_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,16 +87,9 @@ class RevisionLectureProperties extends CActiveRecord
 			'id_user_created' => 'Id User Created',
             'update_date' => 'Update Date',
             'id_user_updated' => 'Id User Updated',
-			'reject_date' => 'Reject Date',
-			'id_user_rejected' => 'Id User Rejected',
-			'approve_date' => 'Approve Date',
-			'id_user_approved' => 'Id User Approved',
-			'end_date' => 'End Date',
-			'id_user_cancelled' => 'Id User Cancelled',
-			'release_date' => 'Ready Date',
-			'id_user_released' => 'Id User Ready',
-			'proposed_to_release_date' => 'Proposed To Release Date',
-			'id_user_proposed_to_release' => 'Id User Proposed To Release',
+            'id_state' => 'Id State',
+            'id_user' => 'Id User',
+            'change_date' => 'change_date'
 		);
 	}
 
@@ -142,18 +123,9 @@ class RevisionLectureProperties extends CActiveRecord
 		$criteria->compare('id_user_created',$this->id_user_created);
 		$criteria->compare('update_date',$this->update_date,true);
 		$criteria->compare('id_user_updated',$this->id_user_updated);
-		$criteria->compare('send_approval_date',$this->send_approval_date,true);
-		$criteria->compare('id_user_sended_approval',$this->id_user_sended_approval);
-		$criteria->compare('reject_date',$this->reject_date,true);
-		$criteria->compare('id_user_rejected',$this->id_user_rejected);
-		$criteria->compare('approve_date',$this->approve_date,true);
-		$criteria->compare('id_user_approved',$this->id_user_approved);
-		$criteria->compare('end_date',$this->end_date,true);
-		$criteria->compare('id_user_cancelled',$this->id_user_cancelled);
-		$criteria->compare('release_date',$this->release_date,true);
-		$criteria->compare('id_user_released',$this->id_user_released);
-		$criteria->compare('proposed_to_release_date',$this->proposed_to_release_date,true);
-		$criteria->compare('id_user_proposed_to_release',$this->id_user_proposed_to_release);
+		$criteria->compare('id_user',$this->id_user);
+		$criteria->compare('id_state',$this->id_state);
+		$criteria->compare('change_date',$this->change_date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -199,8 +171,13 @@ class RevisionLectureProperties extends CActiveRecord
 		$this->title_ua = $titleUa;
 		$this->title_ru = $titleRu;
 		$this->title_en = $titleEn;
-		$this->start_date = new CDbExpression('NOW()');
-		$this->id_user_created = $user->getId();
+        
+        $this->start_date = new CDbExpression('NOW()');
+        $this->id_user_created = $user->getId();
+
+        $this->id_state = RevisionState::EditableState;
+        $this->id_user = $user->getId();
+        $this->change_date = new CDbExpression('NOW()');
 
         $this->saveCheck();
 	}
@@ -213,7 +190,6 @@ class RevisionLectureProperties extends CActiveRecord
      */
     public function cloneProperties($user, $newModule = false) {
         $newProperties = new RevisionLectureProperties();
-//        $newProperties->setAttributes($this->getAttributes());
         $newProperties->image = $this->image;
         $newProperties->alias = $this->alias;
         $newProperties->id_type = $this->id_type;
@@ -224,12 +200,11 @@ class RevisionLectureProperties extends CActiveRecord
 
         $newProperties->start_date = new CDbExpression('NOW()');
         $newProperties->id_user_created = $user->getId();
-		if($newModule){
-			$newProperties->approve_date = $this->approve_date;
-			$newProperties->id_user_approved = $this->id_user_approved;
-			$newProperties->release_date = $this->release_date;
-			$newProperties->id_user_released = $this->id_user_released;
-		}
+
+        /* if we clone lecture revision into new module we set "Approved" state, otherwise - "Editable" */
+        $newProperties->id_state = (!$newModule) ? RevisionState::EditableState : RevisionState::ApprovedState;
+        $newProperties->id_user = $user->getId();
+        $newProperties->change_date = new CDbExpression('NOW()');
 
         $newProperties->saveCheck();
 

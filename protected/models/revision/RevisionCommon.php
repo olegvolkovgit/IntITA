@@ -9,139 +9,74 @@
 class RevisionCommon {
 
     /**
-     * [
-     *   table name =>  [
-     *                      join => [direction : 'left', on =>'']
-     *                      fields => [field1, field2]
-     *                  ],
-     * ],
-     *
-     * [
-     *  ['and' => 'field1=1'],
-     *  ['or' => 'field1=1']
-     * ]
-     * @param $fieldsList
-     * @param $whereParams
-     * @param null $connection
-     * @return array
-     */
-
-    public function getData($fieldsList, $whereParams, $connection = null) {
-        if (!$connection) {
-            $connection = Yii::app()->db;
-        }
-
-        if (empty($fieldsList)) {
-            /*empty data*/
-            return [];
-        }
-
-        $fields = [];
-        $from = [];
-        $join = [];
-
-        foreach ($fieldsList as $table => $tableData) {
-
-            if (key_exists('join', $tableData) && !empty($from)) {
-                /* join */
-                $joinString = $tableData['join']['direction'] . ' JOIN ' . $table . ' ON ' . $tableData['join']['on'];
-                array_push($join, $joinString);
-            } else {
-                /* from */
-                array_push($from, $table);
-            }
-
-            /* fields */
-            if (key_exists('fields', $tableData) && count($tableData['fields'])) {
-                $fieldsString = implode(',', array_map(function ($item) use ($table) {
-                    return $table . '.' . $item . ' AS ' . $table . '_' . $item;
-                }, $tableData['fields']));
-            } else {
-                $fieldsString = $table . '.*';
-            }
-            array_push($fields, $fieldsString);
-        }
-
-        $where = [];
-        
-        foreach ($whereParams as $param) {
-            $operator = array_keys($param)[0];
-            $condition = array_values($param)[0];
-            if (!empty($where)) {
-                array_push($where, $operator);
-            }
-            array_push($where, $condition);
-        }
-
-        $query = "SELECT " . implode(',', $fields) . " ";
-        $query .= "FROM " . implode(',', $from) . " ";
-        $query .= implode(',', $join) . " ";
-        $query .= 'WHERE ' .implode(' ', $where);
-
-        try {
-            $result = $connection->createCommand($query)->queryAll();
-        } catch (Exception $e) {
-            $result = ['error' => $e];
-        }
-
-        return $result;
-    }
-
-    /**
      * @param null $idModule
      * @return array
      */
     public function getReleasedLectures($idModule = null) {
 
-        $whereProposedToRelease = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
-        array_push($whereProposedToRelease, ['and' => 'vc_lecture_properties.id_user_proposed_to_release IS NOT NULL']);
-        array_push($whereProposedToRelease, ['and' => 'vc_lecture_properties.id_user_released IS NULL']);
-        array_push($whereProposedToRelease, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
+        $command = Yii::app()->db->createCommand();
+        $command
+            ->select('vc_lecture.*, vc_lecture_properties.*')
+            ->from('vc_lecture')
+            ->join('vc_lecture_properties', 'vc_lecture_properties.id = vc_lecture.id_properties')
+            ->where('vc_lecture_properties.id_state = ' . RevisionState::ReadyForRelease);
 
-        $whereApproved = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
-        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_approved IS NOT NULL']);
-        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_released IS NULL']);
-        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_proposed_to_release IS NULL']);
-        array_push($whereApproved, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
+        if ($idModule) {
+            $command->andWhere('vc_lecture.id_module = ' . $idModule);
+        }
 
-        $whereReleased = $idModule ? [['and' => 'vc_lecture.id_module = ' . $idModule]] : [];
-        array_push($whereReleased, ['and' => 'vc_lecture_properties.id_user_released IS NOT NULL']);
-        array_push($whereReleased, ['and' => 'vc_lecture_properties.id_user_cancelled IS NULL']);
+        $data['proposed_to_release'] = $command->queryAll();
 
-        $data['proposed_to_release'] = $this->getData([
-            'vc_lecture' => [],
-            'vc_lecture_properties' => [
-                'join' => [
-                    'direction' => 'inner',
-                    'on' => 'vc_lecture_properties.id=vc_lecture.id_properties'
-                ]
-            ]
+        $command = Yii::app()->db->createCommand();
+        $command
+            ->select('vc_lecture.*, vc_lecture_properties.*')
+            ->from('vc_lecture')
+            ->join('vc_lecture_properties', 'vc_lecture_properties.id = vc_lecture.id_properties')
+            ->where('vc_lecture_properties.id_state = ' . RevisionState::ApprovedState);
 
-        ],
-            $whereProposedToRelease);
-        $data['approved'] = $this->getData([
-            'vc_lecture' => [],
-            'vc_lecture_properties' => [
-                'join' => [
-                    'direction' => 'inner',
-                    'on' => 'vc_lecture_properties.id=vc_lecture.id_properties'
-                ]
-            ]
+        if ($idModule) {
+            $command->andWhere('vc_lecture.id_module = ' . $idModule);
+        }
 
-        ],
-            $whereApproved);
-        $data['released'] = $this->getData([
-            'vc_lecture' => [],
-            'vc_lecture_properties' => [
-                'join' => [
-                    'direction' => 'inner',
-                    'on' => 'vc_lecture_properties.id=vc_lecture.id_properties'
-                ]
-            ]
+        $data['approved'] = $command->queryAll();
 
-        ],
-            $whereReleased);
+        $command = Yii::app()->db->createCommand();
+        $command
+            ->select('vc_lecture.*, vc_lecture_properties.*')
+            ->from('vc_lecture')
+            ->join('vc_lecture_properties', 'vc_lecture_properties.id = vc_lecture.id_properties')
+            ->where('vc_lecture_properties.id_state = ' . RevisionState::ReleasedState);
 
+        if ($idModule) {
+            $command->andWhere('vc_lecture.id_module = ' . $idModule);
+        }
+
+        $data['released'] = $command->queryAll();
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllModules() {
+
+        $command = Yii::app()->db->createCommand();
+        $command
+            ->select('module.*')
+            ->from('module')
+            ->where('module.status = ' . Module::READY.' and module.cancelled='.Module::ACTIVE);
+
+        $data['ready_module'] = $command->queryAll();
+
+        $command = Yii::app()->db->createCommand();
+        $command
+            ->select('module.*')
+            ->from('module')
+            ->where('module.status = ' . Module::DEVELOP.' and module.cancelled='.Module::ACTIVE);
+
+        $data['develop_module'] = $command->queryAll();
+        
         return $data;
     }
 }

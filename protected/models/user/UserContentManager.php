@@ -263,11 +263,15 @@ class UserContentManager extends CActiveRecord
      */
     public function counterOfTasksInModule($id)
     {
+        $sql1 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ', 
+ 		'. LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`=' . $id;
+        $sql2 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN ('. LectureElement::SKIP_TASK . ') and `lectures`.`idModule`=' . $id;
+        $result1 = Yii::app()->db->createCommand($sql1)->queryScalar();
+        $result2 = Yii::app()->db->createCommand($sql2)->queryScalar()/2;
+        $result=$result1+$result2;
 
-        $sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
- 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
- 		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`=' . $id;
-        $result = Yii::app()->db->createCommand($sql)->queryScalar();
         return $result;
     }
 
@@ -279,10 +283,15 @@ class UserContentManager extends CActiveRecord
     public function counterOfTasksInLesson($idLesson, $idModule)
     {
 
-        $sql = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+        $sql1 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
  		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN (' . LectureElement::TASK . ',' . LectureElement::PLAIN_TASK . ',
- 		' . LectureElement::SKIP_TASK . ',' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`=' . $idModule . ' AND `lectures`.`id`=' . $idLesson;
-        $result = Yii::app()->db->createCommand($sql)->queryScalar();
+ 		' . LectureElement::TEST . ',' . LectureElement::FINAL_TEST . ') and `lectures`.`idModule`=' . $idModule . ' AND `lectures`.`id`=' . $idLesson;
+        $sql2 = 'SELECT count(*) FROM `lecture_element` LEFT JOIN `lectures` on `lectures`.`id`
+ 		= `lecture_element`.`id_lecture` where `lecture_element`.`id_type` IN ('. LectureElement::SKIP_TASK . ') and `lectures`.`idModule`=' . $idModule . ' AND `lectures`.`id`=' . $idLesson;
+        $result1 = Yii::app()->db->createCommand($sql1)->queryScalar();
+        $result2 = Yii::app()->db->createCommand($sql2)->queryScalar()/2;
+        $result=$result1+$result2;
+
         return $result;
     }
 

@@ -1,55 +1,49 @@
 <?php
 
+/**
+ * Class RevisionStateFactory
+ * Singleton to keep data in memory to avoid extra database queries
+ *
+ * @property RevisionLecture|RevisionModule $revisionUnit
+ */
 class RevisionStateFactory {
 
-    private $revisionUnit = null;
+    private $states = [];
+    private static $_instance = null;
 
-    private $stateAttributes = [
-//        'start_date' => 'Editable',
-        'send_approval_date' => 'SendForApproval',
-        'cancel_edit_date' => 'CancelledAuthor',
-        'reject_date' => 'Rejected',
-        'approve_date' => 'Approved',
-        'proposed_to_release_date' => 'ReadyForRelease',
-        'release_date' => 'Released',
-        'end_date' => 'Cancelled',
-    ];
+    private function __construct() {
+        /*
+         * Load and cache table data in memory.
+         */
+        $query = 'SELECT * FROM vc_revision_status';
+        $states = Yii::app()->db->createCommand($query)->queryAll();
 
-    function __construct(CRevisionUnitActiveRecord $rU) {
-        $this->revisionUnit = $rU;
-    }
-    
-
-    public function getState() {
-        $currentState = $this->getCurrentState();
-        $className = get_class($this->revisionUnit) . $currentState . 'State';
-         if ($currentState && (class_exists($className, true))) {
-            return new $className($this->revisionUnit);
+        foreach ($states as $state) {
+            $this->states[$state['id_status']] = $state['name'];
         }
-        return new RevisionErrorState($this->revisionUnit);
     }
 
-    private function getCurrentState() {
-        $states = [];
-        $statesFiltered = [];
-        if ($this->revisionUnit->properties) {
-            $states = $this->revisionUnit->properties->getAttributes(array_keys($this->stateAttributes));
-            $statesFiltered = array_filter($states);
-        }
-        $currentState = null;
-        foreach ($statesFiltered as $state=>$date) {
-            if (!$currentState || date($date) >= date($states[$currentState])) {
-                $currentState = $state;
-            }
-        }
+    private function __clone() {
+    }
 
-        /* Костыль */
-        if ($currentState == 'end_date' && $states["release_date"]!=null) {
-            if($states["release_date"]>=$states["approve_date"])
-            $currentState = 'release_date';
-            else  $currentState = 'approve_date';
+    public static function getInstance() {
+        if (self::$_instance === null) {
+            self::$_instance = new RevisionStateFactory();
         }
+        return self::$_instance;
+    }
 
-        return $currentState ? $this->stateAttributes[$currentState] : 'Editable';
+    public function getState($revisionUnit) {
+        $currentState = $this->getCurrentState($revisionUnit);
+        $className = get_class($revisionUnit) . $currentState . 'State';
+        if ($currentState && (class_exists($className, true))) {
+            return new $className($revisionUnit, $currentState);
+        }
+        return new RevisionErrorState($revisionUnit);
+    }
+
+    private function getCurrentState($revisionUnit) {
+        $idState = $revisionUnit->properties ? $revisionUnit->properties->id_state : RevisionState::EditableState;
+        return ucwords($this->states[$idState]); /* ucword for compatible with camelCase :-) */
     }
 }

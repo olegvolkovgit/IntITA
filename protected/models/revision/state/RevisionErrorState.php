@@ -3,6 +3,6 @@
 class RevisionErrorState extends RevisionState {
 
     protected function _init() {
-        $this->stateName = "Помилка";
+        $this->stateName = "Error";
     }
 }

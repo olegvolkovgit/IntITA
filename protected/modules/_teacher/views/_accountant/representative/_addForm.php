@@ -23,7 +23,7 @@
                                 <div class="form-group">
                                     <label>Прізвище, ім'я, по-батькові</label>
                                     <input type="text" name="full_name" class="form-control" maxlength="255"
-                                           size="50">
+                                           size="50" id="newRepresentative" onkeyup="newRepresentativeValidate(this)">
                                 </div>
                             </div>
                         </div>
@@ -39,28 +39,30 @@
                                 <div class="form-group">
                                     <label>Представник</label>
                                     <input id="typeaheadRepresentative" type="text" class="typeahead form-control"
-                                           placeholder="виберіть представника" size="90">
+                                           placeholder="виберіть представника" onkeyup="oldRepresentativeValidate(this)" size="90">
                                     <input type="number" hidden="hidden" id="representative" value="0"/>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label>Компанія</label>
+                        <label>Компанія *</label>
                         <input id="typeaheadCompany" type="text" class="typeahead form-control" name="company"
-                               placeholder="виберіть компанію" size="90">
+                               placeholder="виберіть компанію" size="90" onkeyup="deleteErrorValidationClass(this)" required>
                         <input type="number" hidden="hidden" id="companyId" value="0"/>
+                        <span class="representativeErrorMessage">Поле обов'язкове для заповнення</span>
                     </div>
 
                     <div class="form-group">
-                        <label>Посада</label>
-                        <input type="text" name="position" class="form-control" maxlength="100">
+                        <label>Посада *</label>
+                        <input type="text" name="position" class="form-control" maxlength="100" onkeyup="deleteErrorValidationClass(this)" required>
+                        <span class="representativeErrorMessage">Поле обов'язкове для заповнення</span>
                     </div>
 
                     <div class="form-group">
-                        <label>Порядок</label>
-                        <input type="number" name="order" class="form-control" max="99" min="1">
+                        <label>Порядок *</label>
+                        <input type="number" name="order" class="form-control" max="99" min="1" onkeyup="deleteErrorValidationClass(this)" required>
+                        <span class="representativeErrorMessage">Поле обов'язкове для заповнення</span>
                     </div>
 
                     <input type="number" hidden="hidden" id="scenario" value="new"/>
@@ -169,5 +171,27 @@
             suggestion: Handlebars.compile("<div class='typeahead_wrapper'><div class='typeahead_labels'><div class='typeahead_primary'>{{title}}&nbsp;</div><div class='typeahead_secondary'>ЄДРПОУ: {{edpnou}}</div></div></div>")
         }
     });
+
+
+    function newRepresentativeValidate(input) {
+        if($jq(input).val().length !=0){
+            $jq('#typeaheadRepresentative').attr('disabled', true);
+            $jq('#typeaheadRepresentative').css('background-color', '#eee');
+        }
+        else{
+            $jq('#typeaheadRepresentative').attr('disabled',false);
+            $jq('#typeaheadRepresentative').css('background-color', 'inherit');
+        }
+
+    }
+    function oldRepresentativeValidate(input) {
+        if($jq(input).val().length !=0)
+            $jq('#newRepresentative').attr('disabled', true);
+        else
+            $jq('#newRepresentative').attr('disabled',false);
+    }
+    function deleteErrorValidationClass(el){
+        $jq(el).removeClass('errorValidation');
+    }
 </script>
 

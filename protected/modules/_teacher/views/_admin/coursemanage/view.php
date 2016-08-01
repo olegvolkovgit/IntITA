@@ -26,6 +26,12 @@
                     Згенерувати схему курса
                 </button>
             </li>
+            <?php if(Yii::app()->user->model->isContentManager()) { ?>
+            <li>
+                <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions/',
+                    array('idCourse' => $model->course_ID)); ?>" class="btn btn-primary" target="_blank">Ревізії курса</a>
+            </li>
+            <?php } ?>
         </ul>
         <div class="panel panel-default">
             <div class="panel-body">

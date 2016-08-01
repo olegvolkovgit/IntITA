@@ -13,7 +13,7 @@
                     <tr>
                         <th style="width:30%;" >Розмови</th>
 
-                        <th style="width:12%;">Інформація</th>
+<!--                        <th style="width:12%;">Інформація</th>-->
 
                     </tr>
                     </thead>
@@ -38,14 +38,17 @@ function initListOfChats(user1,user2){
                 {
                     "data": "name",
                     "render": function (name) {
-                        return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/FindChat?id=' +  name['id'] + '\');">'+name['title']+'</a>';
+                        return name['title'];
                     }
+//                    "render": function (name) {
+//                        return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/FindChat?id=' +  name['id'] + '\');">'+name['title']+'</a>';
+//                    }
                    },
-                {"data": "button",
-                    "render": function () {
-                        return '<a href="#" onclick="load();">Відправити на пошту</a>';
-                    }
-                }
+//                {"data": "button",
+//                    "render": function () {
+//                        return '<a href="#" onclick="load();">Відправити на пошту</a>';
+//                    }
+//                }
             ],
             "createdRow": function (row, data, index) {
                 $jq(row).addClass('gradeX');
@@ -57,4 +60,4 @@ function initListOfChats(user1,user2){
         });
 
 }
-    </script>
+</script>

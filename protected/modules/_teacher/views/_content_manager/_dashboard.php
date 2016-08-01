@@ -38,12 +38,20 @@
                     <li><a href="#/admin/modulemanage">
                             Модулі</a></li>
                     <li>
+                        <a href="#/admin/coursemanage">
+                            Курси</a></li>
+                    </li>
+                    <li>
                         <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
                             Всі ревізії занять</a>
                     </li>
                     <li>
                         <a href="<?php echo Yii::app()->createUrl('moduleRevision/index'); ?>">
                             Всі ревізії модулів</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Yii::app()->createUrl('courseRevision/index'); ?>">
+                            Всі ревізії курсів</a>
                     </li>
                 </ul>
                 <br>

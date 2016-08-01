@@ -11,9 +11,9 @@
             <?php echo Yii::t("coursemanage", "0512"); ?>
         </a>
     <br>
-        <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/addExistModule'); ?>">
-            Додати існуючий модуль до курса
-        </a>
+<!--        <a href="--><?php //echo Yii::app()->createUrl('/_admin/coursemanage/addExistModule'); ?><!--">-->
+<!--            Додати існуючий модуль до курса-->
+<!--        </a>-->
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $dataProvider,
     'summaryText' => Yii::t("coursemanage", "0516") . ' {start} - {end} / {count}',

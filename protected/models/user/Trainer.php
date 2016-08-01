@@ -108,7 +108,7 @@ class Trainer extends Role
     {
         switch ($attribute) {
             case 'students-list':
-                if ($this->checkTrainer($value) && $this->checkTrainerCapacity($user)) {
+                if ($this->checkTrainer($value) && $this->checkTrainerCapacity($user) && $this->checkUserStudent($value)) {
                     if (Yii::app()->db->createCommand()->
                     insert('trainer_student', array(
                         'trainer' => $user->id,
@@ -147,6 +147,14 @@ class Trainer extends Role
     {
         if($this->currentStudentsCount($user)>$this->getCapacity($user)['capacity']) {
             $this->errorMessage = "Даного студента додати не можна, оскільки максимальна кількість студентів для тренера обмежена";
+            return false;
+        } else return true;
+    }
+
+    public function checkUserStudent($student)
+    {
+        if(!UserStudent::model()->exists('id_user=:id and end_date IS NOT NULL', array(':id' => $student))) {
+            $this->errorMessage = "Користувача додати не вдалося, оскільки він не є студентом";
             return false;
         } else return true;
     }
