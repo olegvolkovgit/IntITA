@@ -10,18 +10,13 @@
  * @var $countNewMessages int
  */
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-</head>
 <script>
     basePath = '<?=Config::getBaseUrl()?>';
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';
     adminEmail = '<?=Config::getAdminEmail();?>';
 </script>
-<body ng-app="teacherApp">
+
 
 <div id="wrapper" ng-controller="teacherCtrl">
     <!-- Navigation -->
@@ -39,7 +34,6 @@
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
 </div>
-</body>
 <div style="display: none;text-align: center;" id="ajaxLoad" data-loading>
     <img style="position:relative;top:68px" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
 </div>
@@ -100,32 +94,5 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/modulesList.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/verifyContent.js'); ?>"></script>
 
-<script>
-    window.onload = function()
-    {
-        switch (scenario) {
-            case 'message':
-                load('<?=Yii::app()->createUrl("/_teacher/messages/write",
-                    array('id' => $model->id, 'receiver' => $receiver));?>', 'Нове повідомлення');
-                break;
-            case 'payCourse':
-                    window.history.pushState(null, null, basePath + "/cabinet/#");
-                    load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
-                        array('course' => $course));?>', 'Оплата курса');
-                break;
-            case 'payModule':
-                window.history.pushState(null, null, basePath + "/cabinet/#");
-                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payModule",
-                    array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
-                break;
-            default:
-                history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
-                    array('user' => $model->id)); ?>'},"");
-        }
-    };
-    window.onpopstate = function(event){
-        reloadPage(event);
-    };
-</script>
-</html>
+
 

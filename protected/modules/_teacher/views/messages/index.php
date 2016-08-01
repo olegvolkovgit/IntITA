@@ -24,35 +24,27 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" id="nav">
-                <li class="active"><a href="#received" data-toggle="tab"><?php echo Yii::t("letter", "0532") ?></a></li>
-                <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
-                <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
-            </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="received">
-                    <?php $this->renderPartial('_receivedMessages', array(
+            <uib-tabset active="0">
+                <uib-tab  index="0" heading="<?php echo Yii::t("letter", "0532") ?>"><?php $this->renderPartial('_receivedMessages', array(
                         'receivedMessages' => $receivedMessages,
                         'user' => $model
-                    )); ?>
-                </div>
-                <div class="tab-pane fade" id="sent">
-                    <?php $this->renderPartial('_sentMessages', array(
+                    )); ?></uib-tab>
+                <uib-tab index="1" heading="Надіслані"><?php $this->renderPartial('_sentMessages', array(
                         'sentMessages' => $sentMessages,
                         'user' => $model
-                    )); ?>
-                </div>
-                <div class="tab-pane fade" id="deleted">
-                    <?php $this->renderPartial('_deletedMessages', array(
+                    )); ?></uib-tab>
+                <uib-tab  index="2" heading="Видалені" ><?php $this->renderPartial('_deletedMessages', array(
                         'deletedMessages' => $deletedMessages,
                         'user' => $model
-                    )); ?>
-                </div>
-            </div>
+                    )); ?></uib-tab>
+
+            </uib-tabset>
+
         </div>
 
     </div>
+
+
 
 </div>

@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover" id="configTable">
+                    <table class="table table-striped table-bordered table-hover" id="configTable" >
                         <thead>
                         <tr>
                             <th>ID</th>

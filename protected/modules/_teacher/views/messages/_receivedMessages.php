@@ -5,8 +5,8 @@
  * @var $user StudentReg
  */
 ?>
-<div class="dataTable_wrapper" style="margin-top: 5px">
-    <table class="table table-striped table-bordered table-hover" id="receivedMessages">
+<div class="dataTable_wrapper" style="margin-top: 5px"  >
+    <table datatable="" dt-options="dtOptions" dt-instance="dtInstance"  dt-columns="dtColumns" class="table table-striped table-bordered table-hover" width="100%"  >
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all"></td>
@@ -19,16 +19,14 @@
         <?php
         foreach ($receivedMessages as $message) {
             ?>
-            <tr class="odd gradeX" style="cursor:pointer" <?php if(!$message->isRead($user)) {echo 'id="new"';}?>>
-                <td class="center">
+            <tr class="odd gradeX" style="cursor:pointer" <?php if(!$message->isRead($user)) {echo 'id="new"';}?> ng-click="changeView('dialog/<?= $message->message0->sender0->id ?>/<?=$user->id?>')">
+                <td class="center" style="width: 5%">
                     <input type="checkbox" name="<?= $message->id_message; ?>">
                 </td>
-                <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' => $message->message0->sender0->id, 'user2' => $user->id)) ?>')">
+                <td >
                     <?= $message->message0->sender0->userName() . ", " . $message->message0->sender0->email; ?>
                 </td>
-                <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' => $message->message0->sender0->id, 'user2' => $user->id)) ?>')">
+                <td>
                     <em><?= CHtml::encode($message->subject()); ?></em>
                 </td>
                 <td class="center">

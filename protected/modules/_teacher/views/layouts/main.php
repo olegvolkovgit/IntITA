@@ -17,11 +17,10 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/jquery/dist/jquery.min.js'); ?>"></script>
     <!-- Angular  -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ui-bootstrap-tpls-2.0.0.min.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-datatables.min.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/datatables.bootstrap.min.css'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cabinet/authForm.js'); ?>"></script>
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
@@ -63,6 +62,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/trainerRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/studentRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/tenantRouter.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/messagesRouter.js'); ?>"></script>
+
     <!--Angular controllers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/ajaxLoad.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/app.js'); ?>"></script>
