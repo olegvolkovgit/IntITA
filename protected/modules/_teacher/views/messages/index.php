@@ -52,16 +52,7 @@
                 </div>
             </div>
         </div>
+
     </div>
+
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                },
-            "autoWidth": false
-            }
-        );
-    });
-</script>

@@ -118,19 +118,7 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl,tab,header) {
 }
 
 function saveSchema(url, id) {
-    $jq.ajax({
-        url: url,
-        success: function (response) {
-            if (response == "success")
-                bootbox.alert("Схема курсу збережена.", function () {
-                    load(basePath + '/_teacher/_admin/coursemanage/view/id/' + id);
-                });
-            else bootbox.alert("Схему курса не вдалося зберегти.");
-        },
-        error: function () {
-            bootbox.alert("Схему курса не вдалося зберегти.");
-        }
-    });
+
 }
 
 function addCoursePrice(url,header) {

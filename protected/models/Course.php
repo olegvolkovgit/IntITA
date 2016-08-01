@@ -678,7 +678,7 @@ class Course extends CActiveRecord implements IBillableObject
             $row["status"] = $record->statusLabel();
             $row["cancelled"] = $record->cancelledLabel();
             $row["level"] = $record->level0->title_ua;
-            $row["title"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/coursemanage/view", array("id"=>$record->course_ID))."'";
+            $row["title"]["id"] = $record->course_ID;;
             array_push($return['data'], $row);
         }
 

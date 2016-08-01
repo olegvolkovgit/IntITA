@@ -38,7 +38,6 @@ config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: function($stateParams){
                 if ($stateParams.idModule == "all")
                     $stateParams.idModule =0;
-
                     return contentManagerUrl+"/statusOfModules/id/"+$stateParams.idModule;}
         })
         .state('content_manager/statusOfCourses', {

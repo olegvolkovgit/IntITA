@@ -1,7 +1,6 @@
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/create"); ?>',
-            'Новий курс')"><?php echo Yii::t("coursemanage", "0511"); ?></button>
+        <button type="button" class="btn btn-primary" ng-click="changeView('admin/addcourse')"><?php echo Yii::t("coursemanage", "0511"); ?></button>
     </li>
 </ul>
 <div class="col-lg-12" ng-controller="coursemanageCtrl">
@@ -26,8 +25,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-
-    });
-</script>

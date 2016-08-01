@@ -20,30 +20,30 @@ function initMainSliderList(){
             },
             {
                 "width": "10%",
-                "data": "linkUp",
-                "render": function (linkUp) {
-                    return '<a href="#" onclick="load('  + linkUp + ')">вверх</a>';
+                "data": "order",
+                "render": function (order) {
+                    return '<a href="#/carousel/up/'+order+ '">вверх</a>';
                 }
             },
             {
                 "width": "10%",
-                "data": "linkDown",
-                "render": function (linkDown) {
-                    return '<a href="#" onclick="load('  + linkDown + ')">вниз</a>';
+                "data": "order",
+                "render": function (order) {
+                    return '<a href="#/carousel/down/'+order+ '">вниз</a>';
                 }
             },
             {
                 "width": "10%",
-                "data": "textUp",
-                "render": function (textUp) {
-                    return '<a href="#" onclick="load('  + textUp + ')">вверх</a>';
+                "data": "order",
+                "render": function (order) {
+                    return '<a href="#/carousel/textUp/'+order+ '">вверх</a>';
                 }
             },
             {
                 "width": "10%",
-                "data": "textDown",
-                "render": function (textDown) {
-                    return '<a href="#" onclick="load('  + textDown + ')">вниз</a>';
+                "data": "order",
+                "render": function (order) {
+                    return '<a href="#/carousel/textDown/'+order+ '">вниз</a>';
                 }
             }
         ],

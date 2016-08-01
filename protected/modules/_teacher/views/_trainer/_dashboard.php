@@ -25,12 +25,7 @@ $newModulesCount = count(UserTrainer::modulesWithoutConsult($user));
                     </div>
                 </div>
             </div>
-            <a href="#" <?php if ($newModulesCount > 0){?>
-               onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_trainer/trainer/students", array(
-                   "id"=>$user->id,
-                   "filter" => "new"
-               )); ?>', 'Нові студенти')"
-            <?php }?>>
+            <a href="#/trainer/newstudents" <?php if ($newModulesCount > 0)?> >
                 <div class="panel-footer">
                     <span class="pull-left">Детальніше</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="studentModulesCtrl">
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="userTabs" class="nav nav-tabs">
@@ -28,12 +28,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $jq(document).ready(function () {
-        initTodayConsultationsTable();
-        initPlannedConsultationsTable();
-        initPastConsultationsTable();
-        initCancelConsultationsTable();
-    });
-</script>

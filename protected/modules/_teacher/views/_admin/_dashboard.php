@@ -9,10 +9,10 @@
                     <li><a href="#/messages">
                            Інтерфейсні повідомлення</a>
                     </li>
-                    <li><a href="#/admin/mainslider">
+                    <li><a href="#/admin/carousel">
                             Слайдер на головній сторінці</a>
                     </li>
-                    <li><a href="#admin/aboutusslider">
+                    <li><a href="#admin/aboutusSlider">
                             Слайдер на сторінці <i>Про нас</i></a>
                     </li>
                     <li><a href="#admin/address">

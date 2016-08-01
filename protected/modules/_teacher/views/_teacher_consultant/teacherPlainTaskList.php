@@ -5,7 +5,7 @@
  * @var $mark boolean
  */
 if (!empty($teacherPlainTasks)) { ?>
-    <div class="col-lg-12">
+    <div class="col-lg-12" ng-controller="teacherConsultantTasksCtrl">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -49,25 +49,3 @@ if (!empty($teacherPlainTasks)) { ?>
 <?php } else {
     echo "Задач до перевірки немає.";
 } ?>
-<script>
-    $jq(document).ready(function () {
-        $jq('#tasksTable').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                },
-                "columns": [
-                    null,
-                    null,
-                    null,
-                    null,
-                    {
-                        "type": "de_date", targets: 1,
-                    },
-                    null,
-                ],
-                "order": [[ 5, "asc" ], [ 4, "desc" ]]
-            }
-        );
-    });
-</script>
