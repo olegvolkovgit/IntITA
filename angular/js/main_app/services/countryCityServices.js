@@ -8,7 +8,7 @@ angular
         function($http) {
             this.getCountriesList = function () {
                 var promise = $http({
-                    url: basePath + "/studentReg/getCountriesList",
+                    url: basePath + "/studentReg/getcountrieslist",
                     method: "POST",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
