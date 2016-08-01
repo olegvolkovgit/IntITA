@@ -7,9 +7,7 @@
  */?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                    'Країни, міста')">
+        <button type="button" class="btn btn-primary"ng-click="changeView('admin/address')">
             Країни, міста
         </button>
     </li>
@@ -37,8 +35,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" onclick="addCountry('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCountry')?>');
                             return false;">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                            'Країни, міста')">Скасувати
+                        <button type="reset" class="btn btn-outline btn-default" ng-click="changeView('admin/address')" >Скасувати
                         </button>
                     </div>
                 </form>

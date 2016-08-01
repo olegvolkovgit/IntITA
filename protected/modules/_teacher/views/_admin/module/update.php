@@ -9,9 +9,7 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
-                    'Модулі')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('admin/modulemanage')">
             Список модулів
         </button>
     </li>
@@ -55,9 +53,9 @@
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="editModuleTabs" class="nav nav-tabs moduleTabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
+            <li class="active"><a href="#/admin/modulemanage" data-toggle="tab">Головне</a>
             </li>
-            <li><a href="#ua" data-toggle="tab">Українською</a>
+            <li><a href="#tttua" data-toggle="tab">Українською</a>
             </li>
             <li><a href="#ru" data-toggle="tab">Російською</a>
             </li>

@@ -4,7 +4,7 @@
  * @var $item array
  */
 ?>
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="authorCtrl">
     <div class="dataTable_wrapper">
         <table class="table table-striped table-bordered table-hover" id="authorModulesTable">
             <thead>
@@ -33,14 +33,3 @@
         </table>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq('#authorModulesTable').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-    });
-</script>

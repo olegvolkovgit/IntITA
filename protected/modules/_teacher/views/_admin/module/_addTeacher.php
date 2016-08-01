@@ -3,8 +3,8 @@
  * @var $module Module
  */
 ?>
-<div class="col col-md-9">
-    <div class="panel panel-primary">
+<div class="col col-md-9" ng-controller="moduleAddTeacherCtrl">
+    <div class="panel panel-primary" >
         <div class="panel-body">
             <form role="form">
                 <div class="form-group">
@@ -22,7 +22,7 @@
                            size="135" required autofocus>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-success"
+                    <button type="button" class="btn btn-success" ng-click="setRole()"
                             onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
                                 'module', '#module','','<?php echo $module->getTitle() ?>')">
                         Призначити автора
@@ -39,47 +39,6 @@
             </div>
         </div>
     </div>
+
+
 </div>
-
-<script>
-    var teachers = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/module/teachersByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (users) {
-                return $jq.map(users.results, function (user) {
-                    return {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        url: user.url
-                    };
-                });
-            }
-        }
-    });
-
-    teachers.initialize();
-
-    $jq('#typeahead').typeahead(null, {
-            name: 'teachers',
-            display: 'email',
-            limit: 10,
-            source: teachers,
-            templates: {
-                empty: [
-                    '<div class="empty-message">',
-                    'немає користувачів з таким іменем або email\`ом',
-                    '</div>'
-                ].join('\n'),
-                suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
-            }
-        }
-    );
-
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#user").val(item.id);
-    });
-</script>

@@ -4,7 +4,7 @@
  */
  ?>
 <li>
-    <a href="#/trainer">
+    <a href="#/trainer" ng-click="changeView('trainer')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Тренер<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>

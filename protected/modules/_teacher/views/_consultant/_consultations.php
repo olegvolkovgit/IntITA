@@ -1,4 +1,4 @@
-<div class="panel panel-default" ng-controller="consultantCtrl data-ng-init="init()">
+<div class="panel panel-default" ng-controller="consultantCtrl">
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="userTabs" class="nav nav-tabs">

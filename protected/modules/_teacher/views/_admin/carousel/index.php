@@ -8,7 +8,7 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/create');?>','Додати фото')">
+                ng-click="changeView('admin/addmainsliderphoto')">
             Додати фото</button>
     </li>
 </ul>

@@ -4,7 +4,7 @@
  */
 ?>
 <li>
-    <a href="#/consultant">
+    <a href="#/consultant" ng-click="changeView('consultant')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Консультант<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>

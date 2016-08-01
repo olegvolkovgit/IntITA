@@ -1,3 +1,5 @@
+<div ng-controller="moduleemanageCtrl">
+
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
@@ -7,7 +9,7 @@
     </li>
 </ul>
 
-<div class="col-lg-12" ng-controller="moduleemanageCtrl">
+<div class="col-lg-12" >
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -30,4 +32,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

@@ -1,5 +1,5 @@
 
-<div class="panel panel-primary">
+<div class="panel panel-primary" ng-controller="searchChatCtrl">
     <div class="panel-body">
         <form >
             <div class="form-group" id="receiver">
@@ -24,26 +24,17 @@
 
             </div>
 
-            <button class="btn btn-primary"
-                    onclick="searchUsers();return false;">
+            <button class="btn btn-primary" ng-click="searchUsers()">
                 Знайти чат
             </button>
 
             <button type="reset" class="btn btn-default"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/searchChats'); ?>')">
+                    ng-click="changeView('tenant/chats')">
                 Скасувати
             </button>
         </form>
         <br>
 
     </div>
+
 </div>
-<script>
-    function searchUsers(){
-        var user_name1 = document.getElementById('chat_user1').value;
-        var user_name2 = document.getElementById('chat_user2').value;
-
-                load('/_teacher/_tenant/tenant/ShowChats?user1='+user_name1+'&user2='+user_name2);
-         }
-
-</script>

@@ -6,8 +6,7 @@
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/addCity');?>',
-                'Додати місто')">
+            ng-click="changeView('admin/addcity')">
         Додати місто
     </button>
     <br>

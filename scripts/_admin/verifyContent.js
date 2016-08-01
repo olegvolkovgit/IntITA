@@ -1,17 +1,4 @@
-function initDirectory(url) {
-    $jq.ajax({
-        url: url,
-        type: "POST",
-        success: function () {
-            bootbox.confirm("Операцію успішно виконано.", function () {
-                load(basePath + "/_teacher/_admin/verifyContent/index");
-            });
-        },
-        error: function () {
-            showDialog();
-        }
-    });
-}
+
 
 function initWaitLectures() {
     $jq('#waitLecturesTable').DataTable({
@@ -30,9 +17,9 @@ function initWaitLectures() {
                 "data": "type" },
             {
                 "width": "15%",
-                "data": "url",
-                "render": function (url) {
-                    return '<a href="#" onclick="setVerifyStatus(' + url + ')">Затвердити</a>';
+                "data": "id",
+                "render": function (id) {
+                    return '<a href="#/lecture/confirm/'+id+'">Затвердити</a>';
                 }
             }],
 
@@ -64,9 +51,9 @@ function initVerifiedLectures() {
             },
             {
                 "width": "15%",
-                "data": "url",
-                "render": function (url) {
-                    return '<a href="#" onclick="setVerifyStatus(' + url + ')">Скасувати</a>';
+                "data": "id",
+                "render": function (id) {
+                    return '<a href="#/lecture/cancel/'+id+'">Скасувати</a>';
                 }
             }],
         "createdRow": function (row, data, index) {
@@ -79,22 +66,5 @@ function initVerifiedLectures() {
 }
 
 function setVerifyStatus(url) {
-    bootbox.confirm('Змінити статус лекції?', function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                success: function () {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                        load(basePath + "/_teacher/_admin/verifyContent/index");
-                    });
-                },
-                error:function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        } else {
-            showDialog("Операцію відмінено.");
-        }
-    });
+
 }

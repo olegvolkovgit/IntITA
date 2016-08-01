@@ -9,10 +9,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('consultantCtrl',consultantCtrl);
-
-angular
-    .module('teacherApp')
     .controller('mainSliderCtrl',mainSliderCtrl);
 
 angular
@@ -85,6 +81,10 @@ angular
     .module('teacherApp')
     .controller('oldCtrl',oldCtrl)
 
+angular
+    .module('teacherApp')
+    .controller('moduleAddTeacherCtrl',moduleAddTeacherCtrl);
+
 
 function teacherCtrl($http, $scope,$compile, $ngBootbox, $location) {
 
@@ -155,6 +155,7 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location) {
         $location.path(view);
     }
 
+
 }
 
 function messagesCtrl ($scope){
@@ -169,14 +170,7 @@ function messagesCtrl ($scope){
     });
 }
 
-function consultantCtrl ($scope, $http) {
-        initTodayTeacherConsultationsTable();
-        initPlannedTeacherConsultationsTable();
-        initPastTeacherConsultationsTable();
-        initCancelTeacherConsultationsTable();
-}
-
-function mainSliderCtrl ($scope){
+function mainSliderCtrl ($scope, $http, $stateParams){
         initMainSliderList();
 }
 
@@ -195,22 +189,111 @@ function studentCtrl ($scope,$location){
 
 function contentManagerCtrl ($scope,$location){
 
-    $scope.changeView = function(view){
-        console.log("test");
-    }
 }
 
 function verifyContentCtrl ($scope){
+
+
     initVerifiedLectures();
     initWaitLectures();
+    $scope.reindexContent = function(url){
+            $jq.ajax({
+                url: url,
+                type: "POST",
+                success: function () {
+                    bootbox.confirm("Операцію успішно виконано.", function () {
+                        $scope.changeView('admin/verifycontent');//
+                    });
+                },
+                error: function () {
+                    showDialog();
+                }
+            });
+    }
 }
 
-function coursemanageCtrl ($scope){
+function coursemanageCtrl ($http, $scope, $location ){
+    $scope.saveSchema = function(idCourse){
+        var url = '/_teacher/_admin/coursemanage/savecchema/idcourse/'+idCourse+'/';
+
+                $http.post(url).success(function(data) {
+                    bootbox.confirm("Схема курсу збережена.", function () {
+                    })
+                }).error(function(data){
+                    showDialog("Схему курса не вдалося зберегти.");
+                })
+                $location.path(url).replace();
+                $scope.changeView('course/edit/'+idCourse);
+            };
+
+    $scope.changeCourse = function(courseId) {
+        var url = '/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
+        bootbox.confirm("Видалити курс?", function (result) {
+            if (result) {
+                $http.post(url).success(function (data) {
+                    bootbox.confirm("Операцію успішно виконано.", function () {
+                    })
+                }).error(function (data) {
+                    showDialog("Операцію не вдалося виконати.");
+                });
+                $location.path(url).replace();
+                $scope.changeView('admin/coursemanage');
+            }
+            else {
+                showDialog("Операцію відмінено.");
+            }
+        });
+    };
+
     initCourses();
 }
 
 function moduleemanageCtrl ($scope){
+
+
     initModules();
+}
+
+function moduleAddTeacherCtrl ($scope){
+    var teachers = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: basePath + '/_teacher/_admin/module/teachersByQuery?query=%QUERY',
+            wildcard: '%QUERY',
+            filter: function (users) {
+                return $jq.map(users.results, function (user) {
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        url: user.url
+                    };
+                });
+            }
+        }
+    });
+    teachers.initialize();
+
+    $jq('#typeahead').typeahead(null, {
+
+            name: 'teachers',
+            display: 'email',
+            limit: 10,
+            source: teachers,
+            templates: {
+                empty: [
+                    '<div class="empty-message">',
+                    'немає користувачів з таким іменем або email\`ом',
+                    '</div>'
+                ].join('\n'),
+                suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
+            }
+        }
+    );
+    $jq('#typeahead').on('typeahead:selected', function (e, item) {
+        $jq("#user").val(item.id);
+    });
 }
 
 function teachersCtrl ($scope){
@@ -271,3 +354,4 @@ function configCtrl ($scope){
 function oldCtrl ($scope){
     initConfigTable();
 }
+

@@ -4,7 +4,7 @@
  * @var $item array
  */
 ?>
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="trainerStudentsCtrl">
     <div class="dataTable_wrapper">
         <table class="table table-striped table-bordered table-hover" id="trainerStudentsTable">
             <thead>
@@ -44,18 +44,5 @@
     </div>
 </div>
 <script>
-    $jq('#trainerStudentsTable').DataTable( {
-        language: {
-            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        },
-        "columns": [
-            null,
-            {
-                "type": "de_date", targets: 1
-            },
-            {
-                "width": "15%"
-            }
-        ]
-    } );
+
 </script>
