@@ -1,6 +1,8 @@
 <? $css_version = 1; ?>
 <?php
-/* @var $model Course */
+/* @var $model Course
+ * @var $isEditor
+ */
 ?>
     <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
     <script
@@ -26,15 +28,13 @@
                 <?php $this->renderPartial('_courseInfo', array('model' => $model)); ?>
             </div>
             <?php echo $this->renderPartial('_modulesList', array(
-                'canEdit' => $canEdit,
                 'model' => $model,
-                'isAuthor' => $isAuthor
+                'isEditor'=>$isEditor
             )); ?>
         </div>
     </div>
-<?php if ($canEdit) { ?>
-    <script
-        src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<?php if ($isEditor) { ?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
     <link
         href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>"

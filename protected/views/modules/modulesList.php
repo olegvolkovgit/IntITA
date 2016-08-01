@@ -2,10 +2,9 @@
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050') => Yii::app()->createUrl('courses'),
 );
-//?>
+?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'dist/css/sb-admin-2.css');?>" rel="stylesheet">
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/newModuleListCtrl.js'); ?>"></script>
 <script type="text/javascript">
     basePath = '<?php echo Config::getBaseUrl();?>';
 </script>

@@ -1,12 +1,9 @@
-<?php
-$editMode = ($canEdit) ? 'true' : '';
-?>
 <script type="text/javascript">
     basePath = '<?php echo Config::getBaseUrl();?>';
 </script>
 <div class="courseModules">
     <?php
-    if (!Yii::app()->user->isGuest && Yii::app()->user->model->canApprove()) { ?>
+    if ($isEditor) { ?>
         <div class="revisionIco">
             <label>Ревізії:
                 <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$model->course_ID)); ?>">
@@ -24,13 +21,6 @@ $editMode = ($canEdit) ? 'true' : '';
     <img style="display:inline-block" id="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
     <div ng-cloak id="modulesList">
         <div ng-repeat="module in modulesProgress.modules track by $index">
-            <?php if ($editMode) { ?>
-            <div ng-if="editVisible" class="moduleButtons">
-                <img ng-click="upModule(module.id, modulesProgress.courseId)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png')?>" title="<?php echo Yii::t('course', '0334')?>">
-                <img ng-click="downModule(module.id, modulesProgress.courseId)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png')?>" title="<?php echo Yii::t('course', '0335')?>">
-                <img ng-click="deleteModule(module.id, modulesProgress.courseId)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png')?>" title="<?php echo Yii::t('course', '0333')?>">
-            </div>
-            <?php } ?>
             <div class="modulesTitle"
                  ng-class="{disableModuleStyle: (!module.access || !modulesProgress.courseStatus) && !module.isAuthor && !modulesProgress.isAdmin,
                  availableModuleStyle: (module.access && modulesProgress.courseStatus) || module.isAuthor || modulesProgress.isAdmin,
