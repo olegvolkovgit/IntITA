@@ -9,32 +9,6 @@ $this->breadcrumbs = array(
 <script type="text/javascript">
     basePath = '<?php echo Config::getBaseUrl();?>';
 </script>
-<div ng-controller="newModuleListCtrl">
-    <?php if ($canEdit) { ?>
-    <ul class="list-inline">
-        <li>
-            <div ng-click="showForm()">
-                <?php $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'ajaxaddmodule-form',
-                )); ?>
-                <a href="#moduleForm">
-                    <?php echo CHtml::hiddenField('idcourse', 0); ?>
-                    <?php
-                    echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'),
-                        array('update' => '#moduleForm'),
-                        array('id' => 'addModule', 'style'=>'margin-left:20px','title' => Yii::t('course', '0336')));
-                    ?>
-                </a>
-                <?php $this->endWidget(); ?>
-                </br>
-            </div>
-        </li>
-    </ul>
-    <?php } ?>
-    <div id="moduleForm" style="margin: 0 0 60px 20px;width: 50%">
-        <?php $this->renderPartial('_addModuleForm'); ?>
-    </div>
-
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -58,14 +32,12 @@ $this->breadcrumbs = array(
             </div>
         </div>
     </div>
-</div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/morrisjs/morris.css');?>" rel="stylesheet">
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>
 <script>
     $(document).ready(function () {
         initModules();

@@ -108,13 +108,7 @@ class CourseController extends Controller
         if (!isset($_GET['ajax']))
             $this->redirect(Yii::app()->request->urlReferrer);
     }
-
-    public function actionModulesUpdate()
-    {
-        $model = Course::model()->findByPk($_POST['idcourse']);
-        $this->renderPartial('_addLessonForm', array('model' => $model), false, true);
-    }
-
+    
     public function actionCourseUpdate()
     {
         if (Yii::app()->request->isPostRequest) {

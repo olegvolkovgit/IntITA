@@ -242,6 +242,20 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
     $scope.sendCourseRevisionMessage = function(idRevision) {
         courseRevisionMessage.sendMessage(idRevision);
     };
+
+    $scope.enableEdit=function () {
+        $scope.editVisible=true;
+    };
+    $scope.showForm=function () {
+        document.getElementById('moduleForm').style.display = 'block';
+    };
+    $scope.hideForm=function (id, title1, title2, title3) {
+        $form = document.getElementById(id);
+        $form.style.display = 'none';
+        document.getElementById(title1).innerHTML = '';
+        document.getElementById(title2).innerHTML = '';
+        document.getElementById(title3).innerHTML = '';
+    }
 }
 
 function getImgName (str){

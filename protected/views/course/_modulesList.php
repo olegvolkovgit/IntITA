@@ -20,15 +20,6 @@ $editMode = ($canEdit) ? 'true' : '';
             </label>
         </div>
     <?php }?>
-    <?php
-    if ($canEdit || $isAuthor) { ?>
-        <a href="<?php echo Yii::app()->createUrl('/modules/list'); ?>">
-            <img ng-cloak ng-hide="editVisible" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                 id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
-        </a>
-    <?php
-    } ?>
-
     <h2><?php echo Yii::t('course', '0330'); ?></h2>
     <img style="display:inline-block" id="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
     <div ng-cloak id="modulesList">
@@ -87,4 +78,3 @@ $editMode = ($canEdit) ? 'true' : '';
         <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>

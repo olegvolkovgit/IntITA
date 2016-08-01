@@ -25,6 +25,11 @@ $this->breadcrumbs = array(
             $this->renderPartial('_courseRevisionInfo', array('courseRevision' => $courseRevision));
             ?>
             <button class="btn btn-primary" ng-click="checkCourseRevision();">Наявність конфліктів</button>
+            <button ng-click="showForm()" style="display:block;margin-top: 10px" class="btn btn-primary">Створити новий модуль</button>
+            <div id="moduleForm" style="display: none;">
+                <?php $this->renderPartial('_addModuleForm'); ?>
+            </div>
+            
             <h3>Доступні ревізії занять:</h3>
             <div class="revisionTable">
                 <label>Доступні модулі, які входять у даний курс(готові та в розробці):</label>
@@ -112,3 +117,4 @@ $this->breadcrumbs = array(
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" >
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrap-treeview.css'); ?>" />
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
