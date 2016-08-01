@@ -72,7 +72,7 @@ function editProfileController($scope, $http, countryCity) {
 
     $scope.getCurrentCountryCity=function () {
         var promise = $http({
-            url: basePath + "/studentReg/getCurrentCountryCity",
+            url: basePath + "/studentreg/getcurrentcountrycity",
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
