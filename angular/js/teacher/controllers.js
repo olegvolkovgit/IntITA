@@ -87,7 +87,7 @@ angular
     .controller('moduleAddTeacherCtrl',moduleAddTeacherCtrl);
 
 
-function teacherCtrl($http, $scope,$compile, $ngBootbox, $location) {
+function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
     $scope.fillContainer = function(data)
     {
@@ -153,22 +153,15 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location) {
         });
     }
     $scope.changeView = function(view){
-        $location.path(view);
-    }
+     $location.path(view);
+  };
+
 
 
 }
 
-function messagesCtrl ($scope){
-$jq(document).ready(function () {
-        $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                },
-                "autoWidth": false
-            }
-        );
-    });
+function messagesCtrl ($scope, $state){
+
 }
 
 
