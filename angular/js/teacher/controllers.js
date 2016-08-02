@@ -159,27 +159,16 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location) {
 
 }
 
-function messagesCtrl ($scope, DTOptionsBuilder, DTColumnBuilder){
-
-    $scope.init = function (){
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource('//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Ukranian.json')
-        .withOption('responsive', true);
-    }
-    $scope.init();
-
-
-
-    //$jq(document).ready(function () {
-    //    $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
-    //            language: {
-    //                "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-    //            },
-    //            "autoWidth": false
-    //        }
-    //    );
-    //});
+function messagesCtrl ($scope){
+$jq(document).ready(function () {
+        $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
+                language: {
+                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
+                },
+                "autoWidth": false
+            }
+        );
+    });
 }
 
 
@@ -360,17 +349,8 @@ function levelsCtrl ($scope){
     );
 }
 
-function configCtrl ($scope, DTOptionsBuilder, DTColumnDefBuilder){
-
-        $scope.init = function (){
-            $scope.dtOptions = DTOptionsBuilder.newOptions()
-                .withPaginationType('simple_numbers')
-                .withLanguageSource('//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Ukranian.json')
-                .withOption('responsive', true);
-
-        };
-
-//        initConfigTable();
+function configCtrl ($scope){
+        initConfigTable();
 }
 
 function oldCtrl ($scope){

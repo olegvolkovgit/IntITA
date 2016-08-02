@@ -5,8 +5,8 @@
  * @var $user StudentReg
  */
 ?>
-<div class="dataTable_wrapper" style="margin-top: 5px" ng-controller="messagesCtrl">
-    <table class="table table-striped table-bordered table-hover" dt-instance="dtInstance" datatable="" dt-columns="dtColumns"  dt-column-defs="dtColumnDefs" width="100%" ">
+<div class="dataTable_wrapper" style="margin-top: 5px" >
+    <table class="table table-striped table-bordered table-hover" width="100%" messaged-table="">
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>

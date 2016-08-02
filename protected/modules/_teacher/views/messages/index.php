@@ -25,7 +25,7 @@
         <div class="panel-body">
             <!-- Nav tabs -->
 
-            <uib-tabset active="0">
+            <uib-tabset active="0" >
                 <uib-tab  index="0" heading="<?php echo Yii::t("letter", "0532") ?>"><?php $this->renderPartial('_receivedMessages', array(
                         'receivedMessages' => $receivedMessages,
                         'user' => $model
@@ -44,7 +44,4 @@
         </div>
 
     </div>
-
-
-
 </div>
