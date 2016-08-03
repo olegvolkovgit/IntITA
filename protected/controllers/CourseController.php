@@ -14,11 +14,9 @@ class CourseController extends Controller
     public function actionIndex($id)
     {
         if(Yii::app()->user->isGuest) {
-            $canEdit = false;
-            $isAuthor = false;
+            $isEditor = false;
         } else {
-            $canEdit = Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager();
-            $isAuthor = Yii::app()->user->model->isAuthor();
+            $isEditor = Yii::app()->user->model->isContentManager();
         }
 
         $model = Course::model()->findByPk($id);
@@ -28,8 +26,7 @@ class CourseController extends Controller
 
         $this->render('index', array(
             'model' => $model,
-            'canEdit' => $canEdit,
-            'isAuthor' => $isAuthor,
+            'isEditor' => $isEditor,
         ));
 
     }
@@ -60,61 +57,7 @@ class CourseController extends Controller
             Yii::app()->end();
         }
     }
-
-    public function actionUnableModule()
-    {
-        $idCourse = Yii::app()->request->getParam('idCourse');
-        $idModule = Yii::app()->request->getParam('idModule');
-
-        $course = Course::model()->with('module')->findByPk($idCourse);
-
-        $this->checkInstance($course);
-
-        $course->disableModule($idModule);
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionUpModule()
-    {
-        $idCourse = Yii::app()->request->getParam('idCourse');
-        $idModule = Yii::app()->request->getParam('idModule');
-
-        $course = Course::model()->with("module")->findByPk($idCourse);
-
-        $this->checkInstance($course);
-
-        $course->upModule($idModule);
-
-//        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionDownModule()
-    {
-        $idCourse = Yii::app()->request->getParam('idCourse');
-        $idModule = Yii::app()->request->getParam('idModule');
-
-        $course = Course::model()->with("module")->findByPk($idCourse);
-
-        $this->checkInstance($course);
-
-        $course->downModule($idModule);
-
-        // if AJAX request, we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
-    public function actionModulesUpdate()
-    {
-        $model = Course::model()->findByPk($_POST['idcourse']);
-        $this->renderPartial('_addLessonForm', array('model' => $model), false, true);
-    }
-
+    
     public function actionCourseUpdate()
     {
         if (Yii::app()->request->isPostRequest) {

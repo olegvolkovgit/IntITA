@@ -36,7 +36,7 @@ angular
 
             this.getCitiesList = function (idCountry) {
                 var promise = $http({
-                    url: basePath + "/studentReg/getCitiesList",
+                    url: basePath + "/studentreg/getcitieslist",
                     method: "POST",
                     data: $.param({id: idCountry}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

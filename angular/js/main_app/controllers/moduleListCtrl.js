@@ -41,12 +41,14 @@ function moduleListCtrl($http,$scope) {
                 else if($scope.modulesProgress.modules[i].startTime && !$scope.modulesProgress.modules[i].finishTime){
                     $scope.modulesProgress.modules[i].progress='inProgress';
                     var days=Math.round((currentTime-$scope.modulesProgress.modules[i].startTime)/86400)+1;
+                    if(days<=0) days=1;
                     $scope.modulesProgress.modules[i].spentTime=days;
                     $scope.modulesProgress.modules[i].ico='inProgress.png';
                 }
                 else if($scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
                     $scope.modulesProgress.modules[i].progress='finished';
                     var days=Math.round(($scope.modulesProgress.modules[i].finishTime-$scope.modulesProgress.modules[i].startTime)/86400)+1;
+                    if(days<=0) days=1;
                     $scope.modulesProgress.modules[i].spentTime=days;
                     $scope.modulesProgress.modules[i].ico='finished.png';
                 }else if(!$scope.modulesProgress.modules[i].startTime && $scope.modulesProgress.modules[i].finishTime){
@@ -105,87 +107,4 @@ function moduleListCtrl($http,$scope) {
         }
         return term;
     };
-    $scope.upModule=function (idModule,idCourse) {
-        $('#moduleForm').hide();
-        $http({
-            url: basePath+'/course/upModule',
-            method: "POST",
-            data: $.param({idModule: idModule,idCourse: idCourse}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            $scope.getModuleProgressForUser(idCourse).then(function (response) {
-                $scope.modulesProgress = response;
-                $('#modulesLoading').hide();
-            });
-        }, function errorCallback() {
-            bootbox.alert('Не вдалось перемістити модуль');
-        });
-    }
-    $scope.downModule=function (idModule,idCourse) {
-        $('#moduleForm').hide();
-        $http({
-            url: basePath+'/course/downModule',
-            method: "POST",
-            data: $.param({idModule: idModule,idCourse: idCourse}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
-            $scope.getModuleProgressForUser(idCourse).then(function (response) {
-                $scope.modulesProgress = response;
-                $('#modulesLoading').hide();
-            });
-        }, function errorCallback() {
-            bootbox.alert('Не вдалось перемістити модуль');
-        });
-    }
-    $scope.deleteModule=function (idModule,idCourse) {
-        $('#moduleForm').hide();
-        var msg;
-        switch (lang) {
-            case 'uk':
-                msg='Ти впевнений, що хочеш видалити даний модуль?';
-                break;
-            case 'ru':
-                msg='Ты уверен, что хочешь удалить данный модуль?';
-                break;
-            case 'en':
-                msg='Are you sure you want to remove this module?';
-                break;
-            default:
-                msg='Ти впевнений, що хочеш видалити даний модуль?';
-                break;
-        }
-
-        bootbox.confirm(msg, function(result){
-            if(result){
-                $http({
-                    url: basePath+'/course/unableModule',
-                    method: "POST",
-                    data: $.param({idModule: idModule,idCourse: idCourse}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-                }).then(function successCallback() {
-                    $scope.getModuleProgressForUser(idCourse).then(function (response) {
-                        $scope.modulesProgress = response;
-                        $('#modulesLoading').hide();
-                    });
-                }, function errorCallback() {
-                    bootbox.alert('Не вдалось дезактивувати модуль');
-                });
-            };
-        })
-    }
-    $scope.enableEdit=function () {
-        $scope.editVisible=true;
-    };
-    $scope.showForm=function () {
-        document.getElementById('moduleForm').style.display = 'block';
-        $('html, body').animate({
-            scrollTop: $("#titleUA").offset().top
-        }, 1000);
-    }
-    $scope.showRevisionForm=function () {
-        document.getElementById('moduleRevisionForm').style.display = 'block';
-        $('html, body').animate({
-            scrollTop: $("#revTitleUA").offset().top
-        }, 1000);
-    }
 }

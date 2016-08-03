@@ -177,7 +177,8 @@ td button{
 td li{
     white-space: normal;
 }
-#mainSliderTable td,#mainSliderTable th,#aboutusSliderTable td,#aboutusSliderTable th{
+#mainSliderTable td,#mainSliderTable th,#aboutusSliderTable td,#aboutusSliderTable th,
+#waitLecturesTable th, #verifiedLecturesTable th{
     white-space: normal;
 }
 .grid-view table{
