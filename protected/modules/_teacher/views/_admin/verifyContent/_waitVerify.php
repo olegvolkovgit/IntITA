@@ -12,7 +12,7 @@
                         <th>Порядок у модулі</th>
                         <th>Назва</th>
                         <th>Тип заняття</th>
-                        <th>Змінити статус</th>
+                        <th>HTML Шаблонізація</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,8 +22,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initWaitLectures();
-    });
-</script>

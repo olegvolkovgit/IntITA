@@ -2,7 +2,7 @@
 /* @var $sources array */
 /* @var $model ExternalSources */
 ?>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="externalSourcesCtrl">
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountant/externalSources/create"); ?>',
@@ -49,16 +49,6 @@
     </div>
 </div>
 <script>
-    $jq(document).ready(function () {
-        $jq('#externalSources').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-    });
-
     function deleteExternalSources(url, id){
         bootbox.confirm('Ви впевнені що хочете видалити зовнішнє джерело коштів ' + id + '?', function(result) {
             if (result != null) {

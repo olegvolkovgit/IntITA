@@ -3,7 +3,7 @@
  * @var $model Operation
  */
 ?>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="operationCtrl">
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/operation/create'); ?>',
@@ -42,15 +42,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq('#operationsTable').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-    });
-</script>
-

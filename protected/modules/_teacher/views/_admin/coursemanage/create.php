@@ -5,8 +5,7 @@
 <ul class="list-inline">
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_admin/coursemanage/index"); ?>',
-                    'Курси')">
+                ng-click="changeView('admin/coursemanage')">
             <?php echo Yii::t("coursemanage", "0392"); ?></button>
     </li>
 </ul>

@@ -732,7 +732,7 @@ class Lecture extends CActiveRecord
             $row["order"] = $record->order;
             $row["title"] = "<a href=\"" . Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0)) . "\">" . CHtml::encode($record->title_ua) . "</a>";
             $row["type"] = $record->type->title_ua;
-
+            $row["id"] = $record->id;
             if (!$isVerified) {
                 $row['url'] = "'" . Yii::app()->createUrl("/_teacher/_admin/verifyContent/confirm", array("id" => $record->id)) . "'";
             } else {

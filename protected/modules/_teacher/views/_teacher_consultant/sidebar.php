@@ -5,30 +5,21 @@
 $user =Yii::app()->user->model;
 ?>
 <li>
-    <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-        array('page' => 'teacher_consultant'));?>','Викладач')">
+    <a href="#/teacherConsultant" ng-click="changeView('teacherConsultant')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Викладач<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_teacher_consultant/teacherConsultant/modules',
-                   array("id" => $user->id)); ?>',
-                   'Модулі')">
+            <a href="#/teacherConsultant/modules">
                 Модулі
             </a>
         </li>
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_teacher_consultant/teacherConsultant/students',
-                   array("id" => $user->id)); ?>',
-                   'Студенти')">
+            <a href="#/teacherConsultant/students">
                 Студенти
             </a>
         </li>
         <li>
-            <a href="#"
-               onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList",
-                   array("idTeacher" => $model->id)); ?>', 'Задачі до перевірки')">
+            <a href="#/teacherConsultant/tasks">
                 Всі задачі
             </a>
         </li>

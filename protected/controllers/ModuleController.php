@@ -269,21 +269,6 @@ class ModuleController extends Controller
             $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    /**
-     * @throws CException
-     * @throws \application\components\Exceptions\ModuleNotFoundException
-     */
-    public function actionLecturesUpdate()
-    {
-        $idModule = Yii::app()->request->getParam('idmodule');
-
-        $model = Module::model()->findByPk($idModule);
-
-        $this->checkModelInstance($model);
-
-        $this->renderPartial('_addLessonForm', array('model' => $model), false, true);
-    }
-
     public function actionUpdateModuleAttribute()
     {
         $up = new EditableSaver('Module');

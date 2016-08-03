@@ -3,8 +3,6 @@
 ?>
 <form id="addLessonForm" onsubmit="$('#submitButton').attr('disabled','true');" name="addModule" action="<?php echo Yii::app()->createUrl('modules/create'); ?>" method="post">
     <br>
-    <span id="formLabel"><?php echo Yii::t('course', '0365') ?></span>
-    <br>
     <div>Назва (UA)*</div>
     <input class="form-control" type="text" name="titleUA" id="titleUA" required ng-model="titleUa"
            pattern="<?php echo Yii::app()->params['titleUAPattern'] ?>+$" maxlength="255" size="60"
@@ -28,7 +26,6 @@
     <input type="checkbox" name="isAuthor" value="<?=Yii::app()->user->getId();?>"> редагувати модуль
     <br>
     <br>
-    <input type="submit" value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()" ng-disabled=addModule.$invalid>
+    <input  class="btn btn-info" type="submit" value="<?php echo Yii::t('course', '0367') ?>" id="submitButton" onclick="trimModuleName()" ng-disabled=addModule.$invalid>
+    <button type='button' class="btn btn-default" id="cancelButton" ng-click="hideForm('moduleForm', 'titleUA', 'titleRU', 'titleEN')"><?php echo Yii::t('course', '0368') ?></button>
 </form>
-<button id="cancelButton"
-        onclick="hideForm('moduleForm', 'titleUA', 'titleRU', 'titleEN')"><?php echo Yii::t('course', '0368') ?></button>

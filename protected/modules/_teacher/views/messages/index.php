@@ -20,48 +20,28 @@
 <br>
 <br>
 
-<div id="mylettersSend">
+<div id="mylettersSend" >
     <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-body" ng-controller="messagesCtrl">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" id="nav">
-                <li class="active"><a href="#received" data-toggle="tab"><?php echo Yii::t("letter", "0532") ?></a></li>
-                <li><a href="#sent" data-toggle="tab">Надіслані</a></li>
-                <li><a href="#deleted" data-toggle="tab">Видалені</a></li>
-            </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="received">
-                    <?php $this->renderPartial('_receivedMessages', array(
+            <uib-tabset active="0" >
+                <uib-tab  index="0" heading="<?php echo Yii::t("letter", "0532") ?>" select="reload()"><?php $this->renderPartial('_receivedMessages', array(
                         'receivedMessages' => $receivedMessages,
                         'user' => $model
-                    )); ?>
-                </div>
-                <div class="tab-pane fade" id="sent">
-                    <?php $this->renderPartial('_sentMessages', array(
+                    )); ?></uib-tab>
+                <uib-tab index="1" heading="Надіслані" select="reload()"><?php $this->renderPartial('_sentMessages', array(
                         'sentMessages' => $sentMessages,
                         'user' => $model
-                    )); ?>
-                </div>
-                <div class="tab-pane fade" id="deleted">
-                    <?php $this->renderPartial('_deletedMessages', array(
+                    )); ?></uib-tab>
+                <uib-tab  index="2" heading="Видалені" select="reload()" ><?php $this->renderPartial('_deletedMessages', array(
                         'deletedMessages' => $deletedMessages,
                         'user' => $model
-                    )); ?>
-                </div>
-            </div>
+                    )); ?></uib-tab>
+
+            </uib-tabset>
+
         </div>
+
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq('#sentMessages, #receivedMessages, #deletedMessages').DataTable({
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                },
-            "autoWidth": false
-            }
-        );
-    });
-</script>
