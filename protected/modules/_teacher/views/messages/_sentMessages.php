@@ -6,7 +6,7 @@
  */
 ?>
 <div class="dataTable_wrapper" style="margin-top: 5px" >
-    <table class="table table-striped table-bordered table-hover" width="100%" messaged-table="">
+    <table class="table table-striped table-bordered table-hover" width="100%" cabinet-table="">
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>

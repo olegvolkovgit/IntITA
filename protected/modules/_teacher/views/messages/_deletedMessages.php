@@ -6,7 +6,7 @@
  */
 ?>
 <div class="dataTable_wrapper" style="margin-top: 5px" ng-controller="messagesCtrl">
-    <table  width="100%" class="table table-striped table-bordered table-hover" messaged-table="">
+    <table  width="100%" class="table table-striped table-bordered table-hover" cabinet-table="deletedMessages">
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>

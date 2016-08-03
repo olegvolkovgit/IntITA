@@ -203,6 +203,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: function ($stateParams) {
                 return "/_teacher/_admin/module/addTeacher/id/"+$stateParams.id;
             }
+        })
+        .state('config/view/:id', {
+            url: "/config/view/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                console.log($stateParams.id);
+                return "/_teacher/_admin/config/view/id/"+$stateParams.id;
+            }
         });
 });
 

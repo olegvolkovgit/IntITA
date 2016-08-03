@@ -342,8 +342,18 @@ function levelsCtrl ($scope){
     );
 }
 
-function configCtrl ($scope){
-        initConfigTable();
+function configCtrl ($scope, $http, DTOptionsBuilder){
+    $scope.configsite  =  null;
+    $http.get('/_teacher/_admin/config/getConfigList').then(function(data){
+            $scope.configsite = data.data["data"];
+
+    });
+     $scope.dtOptions = DTOptionsBuilder.newOptions()
+                                        .withPaginationType('simple_numbers')
+                                        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json');;
+
+    //initConfigTable();
+
 }
 
 function oldCtrl ($scope){
