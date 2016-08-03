@@ -115,16 +115,17 @@ class PaymentScheme extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function getSchema($id){
+    public static function getSchema($id, $educFormId){
         $schema = null;
+        $educForm = EducationForm::model()->findByPk($educFormId);
         $model = PaymentScheme::model()->findByPk($id);
         if ($model->loan > 0){
-            $schema = new LoanPaymentSchema($model->loan, $model->pay_count);
+            $schema = new LoanPaymentSchema($model->loan, $model->pay_count, $educForm);
         }else{
             if ($model->monthpay > 0){
-                $schema = new BasePaymentSchema($model->pay_count);
+                $schema = new BasePaymentSchema($model->pay_count, $educForm);
             } else {
-                $schema = new AdvancePaymentSchema($model->discount, $model->pay_count);
+                $schema = new AdvancePaymentSchema($model->discount, $model->pay_count, $educForm);
             }
         }
 

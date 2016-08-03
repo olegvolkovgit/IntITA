@@ -4,4 +4,4 @@
 angular
     .module('lessonApp', ['ui.bootstrap', 'ngRoute','ipCookie']);
 angular
-    .module('mainApp', ['mainApp.directives','ui.bootstrap']);
+    .module('mainApp', ['mainApp.directives','ui.bootstrap','oi.select']);

@@ -136,12 +136,17 @@ class RevisionTask extends RevisionQuiz
         return $newTask;
     }
 
-    public function cloneTest($idLectureElement) {
+    public function cloneTest($idLectureElement, $newModule) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'id_test']));
         $newTask->updated = $this->updated == 1 ? 1 : 0;
-        $newTask->uid = $this->uid;
+		if($newModule){
+			$newTask->uid = RevisionQuizFactory::getQuizId($newModule);
+			$this->cloneInterpreterJson($this->uid,$newTask->uid);
+		}else{
+			$newTask->uid = $this->uid;
+		}
         $newTask->saveCheck();
         return $newTask;
     }
@@ -175,7 +180,10 @@ class RevisionTask extends RevisionQuiz
         return false;
     }
 
-	public function cloneInterpreterJson($oldId) {
+	public function cloneInterpreterJson($oldId, $newId=null) {
+		if(!$newId){
+			$newId=$this->uid;
+		}
 		$url = Config::getInterpreterServer();
 //		$json= array(
 //			"operation"=> "copyTask",
@@ -205,10 +213,10 @@ class RevisionTask extends RevisionQuiz
 		//todo
 		$result=json_decode($result)->json;
 		$pos = strpos($result,'"task":"'.$oldId.'"');
-		$newJson= $pos!==false ? substr_replace($result, '"task":'.$this->uid, $pos, strlen('"task":"'.$oldId.'"')) : $result;
+		$newJson= $pos!==false ? substr_replace($result, '"task":'.$newId, $pos, strlen('"task":"'.$oldId.'"')) : $result;
 		if(!$pos){
 			$pos = strpos($result,'"task":'.$oldId);
-			$newJson= $pos!==false ? substr_replace($result, '"task":'.$this->uid, $pos, strlen('"task":'.$oldId)) : $result;
+			$newJson= $pos!==false ? substr_replace($result, '"task":'.$newId, $pos, strlen('"task":'.$oldId)) : $result;
 		}
 		file_get_contents($url, false, stream_context_create(array(
 			'http' => array(

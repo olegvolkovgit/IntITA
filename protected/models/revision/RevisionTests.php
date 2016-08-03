@@ -131,11 +131,11 @@ class RevisionTests extends RevisionQuiz
         return $newTest;
     }
 
-    public function cloneTest($idLectureElement) {
+    public function cloneTest($idLectureElement, $newModule) {
         $newTest = new RevisionTests();
         $newTest->id_lecture_element = $idLectureElement;
         $newTest->title = $this->title;
-        $newTest->uid = $this->uid;
+        $newTest->uid = $newModule ? RevisionQuizFactory::getQuizId($newModule):$this->uid;
         $newTest->updated = $this->updated == 1 ? 1 : 0;
         $newTest->id_test = $this->id_test;
         $newTest->saveCheck();

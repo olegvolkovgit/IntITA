@@ -19,16 +19,16 @@ function addTeacherAttrCM(url, attr, id, role) {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         switch (role) {
                             case "author":
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'author');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'author');
                                 break;
                             case "consultant":
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'consultant');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'consultant');
                                 break;
                             case "teacher_consultant":
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'teacher_consultant');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'teacher_consultant');
                                 break;
                             default:
-                                loadAuthorModuleListCM(user, 'Автор модуля', 'main');
+                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'main');
                                 break;
                         }
                     });
@@ -124,25 +124,37 @@ function selectTeacherModules(url, teacher) {
     }
 }
 
-function setRequestStatus(url, message) {
-    bootbox.confirm(message, function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                success: function (response) {
-                    bootbox.alert(response, function () {
-                        load(basePath + '/_teacher/_admin/request/index', 'Запити');
+function rejectRevisionRequest(url) {
+    bootbox.dialog({
+        title: "Ти впевнений, що хочеш відхилити ревізію?",
+            message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+            '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+            '</div></form></div></div>',
+            buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                callback: function () {
+                    var comment = $jq('#rejectMessageText').val();
+                    $jq.ajax({
+                        url: url,
+                        data: {comment: comment},
+                        type: "POST",
+                        success: function (response) {
+                            bootbox.alert(response, function () {
+                                load(basePath + '/_teacher/_admin/request/index', 'Запити');
+                            });
+                        },
+                        error: function () {
+                            bootbox.alert("Операцію не вдалося виконати.");
+                        }
                     });
-                },
-                error: function () {
-                    bootbox.alert("Операцію не вдалося виконати.");
                 }
-            });
-        } else {
-            bootbox.alert("Операцію відмінено.");
+            },
+                cancel: {label: "Скасувати", className: "btn btn-default",
+                    callback: function () {
+                    }
+                }
+            }
         }
-    });
+    );
 }
 
 function loadTeacherModulesList(id) {
@@ -178,13 +190,13 @@ function initTeacherConsultantsTableCM() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Викладач-консультант\');">' + name["name"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["name"] + '</a>';
                 }
             },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Викладач-консультант\');">' + email["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
                 }
             },
             {
@@ -244,13 +256,13 @@ function initAuthorsTableCM() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Автор модуля\');">' + name["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["title"] + '</a>';
                 }
             },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load( \'' + email["url"] + '\', \'Автор модуля\');">' + email["title"] + '</a>';
+                    return '<a href="#" onclick="load( \'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
                 }
             }
         ],
@@ -275,13 +287,13 @@ function initConsultantsTable() {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Консультант\');">' + name["name"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["name"] + '</a>';
                 }
             },
             {
                 "data": "email",
                 "render": function (email) {
-                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Консультант\');">' + email["title"] + '</a>';
+                    return '<a href="#" onclick="load(\'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
                 }
             },
             {
@@ -361,6 +373,8 @@ function initCoursesListTable(filter_id) {
     }
     if (filter_id == 2) {
         var temp_name = '#statusOfCoursesTableWithoutTests';
+    }if (filter_id == 3) {
+        var temp_name = '#statusOfCoursesTableWithoutTestsAndVideos';
     }if (filter_id == 0) {
         var temp_name = '#statusOfCoursesTable';
     }
@@ -396,6 +410,10 @@ function initCoursesListTable(filter_id) {
             {
                 type: 'number', targets: 1,
                 "data": "part"
+            },
+            {
+                type: 'number', targets: 1,
+                "data": "revision"
             }
         ],
         "createdRow": function (row, data, index) {
@@ -450,6 +468,8 @@ function initModulesListTable(id,filter_id) {
     }
     if (filter_id == 2) {
         var temp_name = '#statusOfModulesTableWithoutTests';
+    }if (filter_id == 3) {
+        var temp_name = '#statusOfModulesTableWithoutTestsAndVideos';
     }if (filter_id == 0) {
         var temp_name = '#statusOfModulesTable';
     }
@@ -483,6 +503,10 @@ function initModulesListTable(id,filter_id) {
             {
                 type: 'de_date', targets: 1,
                 "data": "part"
+            },
+            {
+                type: 'de_date', targets: 1,
+                "data": "revision"
             }
         ],
         "createdRow": function (row, data, index) {

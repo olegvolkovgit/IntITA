@@ -106,6 +106,9 @@ $header = new Header();
                             <li>
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
+                            <li>
+                                <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -250,6 +253,8 @@ $header = new Header();
     </div>
 </div>
 <!-- footer -->
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select-tpls.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
 <!-- Humburger script -->
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'hamburgermenu.js'); ?>"></script>

@@ -57,7 +57,9 @@ class Lecture extends CActiveRecord
             array('alias', 'length', 'max' => 10),
             array('image', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true),
             array('title_ua, title_ru, title_en', 'length', 'max' => 255),
-            array('title_ua, title_ru, title_en', 'match', 'pattern' => "/^[=а-яА-ЯёЁa-zA-Z0-9ЄєІіЇї.,\/<>:;`&'?!~* ()+-]+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ua', 'match', 'pattern' => "/".Yii::app()->params['titleUAPattern']."+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
+            array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
             // The following rule is used by search().
             array('id, image, alias, idModule, order, title_ua, title_ru, title_en, idType, verified, durationInMinutes, isFree, ModuleTitle, rate', 'safe', 'on' => 'search'),
         );
@@ -411,6 +413,9 @@ class Lecture extends CActiveRecord
                 return true;
         }
         if (!$idReadyCourse) {
+            return false;
+        }
+        if ($this->module->status==Module::DEVELOP) {
             return false;
         }
         if (!($this->isFree)) {
@@ -963,15 +968,65 @@ class Lecture extends CActiveRecord
         if (!$idReadyCourse) {
             return Yii::t('lecture', '0811');
         }
+        if ($this->module->status==Module::DEVELOP) {
+            return Yii::t('lecture', '0894');
+        }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
+            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read'))){
                 return Yii::t('exception', '0869');
+            }
+            if ($this->order > $enabledOrder){
+                return Yii::t('exception', '0870');
             }
         } else {
             if ($this->order > $enabledOrder)
                 return Yii::t('exception', '0870');
         }
+    }
+
+    /**
+     * Clear regular DB from lecture (pages and elements)
+     * @throws CDbException
+     */
+    public function removeLectureRecords() {
+        //remove lecture pages
+
+        $lecturePages = LecturePage::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id));
+
+        $builder = Yii::app()->db->schema->getCommandBuilder();
+        foreach ($lecturePages as $lecturePage) {
+            $command = $builder->createDeleteCommand('lecture_element_lecture_page', new CDbCriteria(array(
+                "condition" => "page=" . $lecturePage->id
+            )));
+            $command->query();
+        }
+
+        foreach ($lecturePages as $lecturePage) {
+            $lecturePage->delete();
+        }
+
+        $lectureElements = LectureElement::model()->findAll('id_lecture=:id_lecture', array(':id_lecture' => $this->id));
+
+        $quizzes = [];
+
+        foreach ($lectureElements as $lectureElement) {
+
+            if ($lectureElement->isQuiz()) {
+                if (!array_key_exists($lectureElement->id_type, $quizzes)) {
+                    $quizzes[$lectureElement->id_type] = [];
+                }
+                array_push($quizzes[$lectureElement->id_type], $lectureElement->id_block);
+            }
+        }
+
+        RevisionQuizFactory::deleteFromRegularDB($quizzes);
+
+        $quizTypes = LectureElement::TEST . ', ' . LectureElement::TASK . ', ' . LectureElement::PLAIN_TASK . ', ' . LectureElement::SKIP_TASK;
+        LectureElement::model()->deleteAll("id_lecture=:id_lecture AND id_type NOT IN ($quizTypes)", array(':id_lecture' => $this->id));
+
+        $this->delete();
+        $this->removeOldTemplatesDirectory();
     }
 
 }

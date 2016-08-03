@@ -126,8 +126,3 @@ function moduleEditCtrl($http,$scope) {
         angular.element(document.querySelectorAll(".editTitle")).hide();
     }
 }
-
-function hideForm(id){
-    $form = document.getElementById(id);
-    $form.style.display = 'none';
-}

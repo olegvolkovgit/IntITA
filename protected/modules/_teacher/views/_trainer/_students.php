@@ -11,7 +11,7 @@
             <tr>
                 <th>Студент</th>
                 <th width="20%">Призначено</th>
-                <th>Доступ</th>
+                <th>Переглянути</th>
             </tr>
             </thead>
             <tbody>
@@ -21,9 +21,8 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="#"
-                               onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
-                                   "<?= CHtml::encode($item['title']); ?>");'>
+                            <a href="#" name="<?= trim($item["title"]." (".$item["email"].")"); ?>"
+                               onclick="load('<?=Yii::app()->createUrl("/_teacher/user/index", array("id" => $item["id"]));?>')">
                                 <?= $item["title"]." (".$item["email"].")"; ?>
                             </a>
                         </td>
@@ -32,8 +31,9 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-outline btn-success btn-sm"
-                                    onclick="load('<?=Yii::app()->createUrl("/_teacher/user/index", array("id" => $item["id"]));?>')">
-                                доступ
+                                    onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
+                                        "<?= CHtml::encode($item['title']); ?>");'>
+                                Курси/модулі
                             </button>
                         </td>
                     </tr>

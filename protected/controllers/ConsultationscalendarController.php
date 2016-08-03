@@ -81,7 +81,7 @@ class ConsultationscalendarController extends Controller
 		$this->initialize($lectureId,$idCourse);
 
         $lecture = Lecture::model()->findByPk($lectureId);
-        $dataProvider = Teacher::getTeacherConsult($lecture);
+        $dataProvider = $lecture->module->getConsultants();
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

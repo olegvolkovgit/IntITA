@@ -93,6 +93,7 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
+            array('city, country', 'numerical', 'integerOnly' => true),
             array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
             array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
@@ -183,8 +184,8 @@ class StudentReg extends CActiveRecord
         return array(
             'teacher' => array(self::HAS_ONE, 'Teacher', 'user_id'),
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
-            'country0' => array(self::HAS_ONE, 'AddressCountry', 'id'),
-            'city0' => array(self::HAS_ONE, 'AddressCity', 'id'),
+            'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
+            'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
             'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'condition' => 'rights = 1'),
             'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'condition' => 'rights = 1'),
         );
@@ -382,22 +383,17 @@ class StudentReg extends CActiveRecord
         else  echo Yii::t('profile', '0095');
     }
 
-    # Функция для проверки существования страницы
+    //url existence
     public static function getCorrectURl($url)
     {
-        # Устанавливаем данные для запроса
-        stream_context_set_default(array(
-            'http' => array(
-                'header' => 'User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:37.0) Gecko/20100101 Firefox/37.0'
-            )
-        ));
-
-        # Получаем заголовки
-        $headers = get_headers($url);
-
-        # Возвращаем результат
-        return
-            !substr_count($headers[0], '404');
+        $url_c=parse_url($url);
+        if (!empty($url_c['host']))
+        {
+            if ($headers=@get_headers($url)){
+                return !substr_count($headers[0], '404');
+            }
+        }
+        return false;
     }
 
     public static function isNetworkURL($value, $network)
@@ -423,10 +419,10 @@ class StudentReg extends CActiveRecord
                     $result = true;
                 break;
             case 'vkontakte':
-                $domainPartPos = strpos($value, 'http://vk.com/');
-                if ($domainPartPos !== 0) $domainPartPos = strpos($value, 'https://vk.com/');
-                if ($domainPartPos === 0)
-                    $result = true;
+                $domainPartPos = strpos($value, 'http://vk.com/')===0 ||
+                    strpos($value, 'https://vk.com/')===0 ||
+                    strpos($value, 'https://new.vk.com/')===0;
+                if ($domainPartPos) $result = true;
                 break;
             case 'twitter':
                 $domainPartPos = strpos($value, 'https://twitter.com/');
@@ -836,9 +832,10 @@ class StudentReg extends CActiveRecord
         $paymentMessages = MessagesPayment::model()->findAll($criteria);
         $approveRevisionMessages = MessagesApproveRevision::model()->findAll($criteria);
         $rejectRevisionMessages = MessagesRejectRevision::model()->findAll($criteria);
+        $rejectModuleRevisionMessages = MessagesRejectModuleRevision::model()->findAll($criteria);
         $notificationsMessages = MessagesNotifications::model()->findAll($criteria);
 
-        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages);
+        $all = array_merge($userMessages, $paymentMessages, $approveRevisionMessages, $rejectRevisionMessages, $notificationsMessages, $rejectModuleRevisionMessages);
         $user = Yii::app()->user->model;
 //        if($user->isAdmin() || $user->isContentManager()){
 //            $criteria1 = new CDbCriteria();
@@ -875,7 +872,8 @@ class StudentReg extends CActiveRecord
         $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
         $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . $this->id . ' and
         (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
-         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . ')');
+         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . '
+          or m.type=' . MessagesType::REJECT_MODULE_REVISION . ')');
 
         return Messages::model()->findAll($criteria);
     }
@@ -935,6 +933,7 @@ class StudentReg extends CActiveRecord
             $row["educForm"] = $record->educform;
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
+            $row["trainer"] = $record->trainer?$record->trainer->getTrainerByStudent($record->id)->userNameWithEmail():'';
             $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
             if($record->hasPayedContent()){
                 $row["addAccessLink"]["color"] = "success";
@@ -1173,7 +1172,7 @@ class StudentReg extends CActiveRecord
 
     public function addressString()
     {
-        $param = "title_" . Yii::app()->session["lg"];
+        $param = "title_" . ((isset(Yii::app()->session["lg"]))?Yii::app()->session["lg"]:"ua");
         $result = [];
         if (!is_null($this->country) && AddressCountry::model()->findByPk($this->country)->$param)
             array_push($result,AddressCountry::model()->findByPk($this->country)->$param);
@@ -1217,14 +1216,16 @@ class StudentReg extends CActiveRecord
         return StudentReg::model()->findByPk(Config::getAdminId());
     }
 
-    public function notify($template, $params, $subject){
+    public function notify($template, $params, $subject, $senderId=null){
+        if($senderId) 
+            $senderModel=StudentReg::model()->findByPk($senderId);
+        else $senderModel=StudentReg::model()->findByPk(Config::getAdminId());
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $message = new MessagesNotifications();
             $sender = new MailTransport();
             $sender->renderBodyTemplate($template, $params);
-            $message->build($subject, $sender->template(), array($this),
-                StudentReg::model()->findByPk(Config::getAdminId()));
+            $message->build($subject, $sender->template(), array($this), $senderModel);
             $message->create();
 
             $message->send($sender);
@@ -1274,5 +1275,34 @@ class StudentReg extends CActiveRecord
         }
 
         return json_encode($return);
+    }
+
+    public static function countUsersWithoutRoles(){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'u';
+        $criteria->join = 'left join user_student us on us.id_user=u.id';
+        $criteria->join .= ' left join teacher t on t.user_id=u.id';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
+        $criteria->addCondition('us.id_user IS NULL and t.user_id IS NULL');
+
+        $users = StudentReg::model()->findAll($criteria);
+
+        return count($users);
+    }
+
+    public static function currentCountryCity(){
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $param = "title_".Yii::app()->session["lg"];
+        $data=array();
+        if($user->country){
+            $data["country"]["id"] = $user->country;
+            $data["country"]["title"] = $user->country0->$param;
+        }
+        if($user->city){
+            $data["city"]["id"] = $user->city;
+            $data["city"]["title"] = $user->city0->$param;
+        }
+
+        return json_encode($data);
     }
 }

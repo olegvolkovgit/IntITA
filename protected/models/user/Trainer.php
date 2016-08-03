@@ -3,48 +3,50 @@
 class Trainer extends Role
 {
     private $capacity;
-	private $dbModel;
+    private $dbModel;
     private $studentsList;
     private $errorMessage = "";
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'user_trainer';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'user_trainer';
+    }
 
     /**
      * @return string sql for check role trainer.
      */
-    public function checkRoleSql(){
+    public function checkRoleSql()
+    {
         return 'select "trainer" from user_trainer at where at.id_user = :id and end_date IS NULL';
     }
 
-	/**
-	 * @return string the role title (ua)
-	 */
-	public function title()
+    /**
+     * @return string the role title (ua)
+     */
+    public function title()
     {
-		return 'Тренер';
-	}
+        return 'Тренер';
+    }
 
-    public function getErrorMessage(){
+    public function getErrorMessage()
+    {
         return $this->errorMessage;
     }
 
     /**
      * @return array attributes trainer role
      */
-	public function attributes(StudentReg $user)
-	{
+    public function attributes(StudentReg $user)
+    {
         $capacity = $this->getCapacity($user);
-        if($this->studentsList == null) {
+        if ($this->studentsList == null) {
             $this->studentsList = $this->studentsList($user);
         }
 
-		return array(
+        return array(
             array(
                 'key' => 'students-list',
                 'title' => 'Список студентів',
@@ -58,26 +60,28 @@ class Trainer extends Role
                 'value' => $capacity["capacity"]
             )
         );
-	}
+    }
 
-    private function getCapacity(StudentReg $user){
+    private function getCapacity(StudentReg $user)
+    {
         return Yii::app()->db->createCommand()
             ->select('capacity')
             ->from($this->tableName())
-            ->where('id_user=:id', array(':id'=>$user->id))
+            ->where('id_user=:id', array(':id' => $user->id))
             ->queryRow();
     }
 
-    private function studentsList(StudentReg $user){
+    private function studentsList(StudentReg $user)
+    {
         $students = Yii::app()->db->createCommand()
             ->select('id, firstName, secondName, middleName, email, tr.start_time, tr.end_time')
             ->from('user u')
             ->join('trainer_student tr', 'tr.student=u.id')
-            ->where('trainer=:id', array(':id'=>$user->id))
+            ->where('trainer=:id', array(':id' => $user->id))
             ->queryAll();
 
         $list = [];
-        foreach($students as $key=>$value){
+        foreach ($students as $key => $value) {
             $list[$key]['id'] = $value["id"];
             $list[$key]['title'] = implode(" ", array($value["secondName"], $value["firstName"], $value["middleName"]));
             $list[$key]['email'] = $value["email"];
@@ -89,48 +93,95 @@ class Trainer extends Role
         return $list;
     }
 
+    private function currentStudentsCount(StudentReg $user)
+    {
+        $records = Yii::app()->db->createCommand()
+            ->select('*')
+            ->from('trainer_student')
+            ->where('trainer=:id and end_time IS NULL', array(':id' => $user->id))
+            ->queryAll();
+
+        return count($records);
+    }
+
     public function setAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'students-list':
-                if($this->checkTrainer($value)) {
-                    return Yii::app()->db->createCommand()->
+                if ($this->checkTrainer($value) && $this->checkTrainerCapacity($user) && $this->checkUserStudent($value)) {
+                    if (Yii::app()->db->createCommand()->
                     insert('trainer_student', array(
                         'trainer' => $user->id,
                         'student' => $value
-                    ));
+                    ))
+                    ) {
+                        $user->notify('trainer' . DIRECTORY_SEPARATOR . '_assignNewStudent',
+                            array(StudentReg::model()->findByPk($value)),
+                            'Призначено нового студента');
+                        return true;
+                    }
+                    return false;
                     break;
                 }
-            return false;
+                if($this->errorMessage) 
+                    return $this->errorMessage;
+                else return false;
             default:
-                return parent::setAttribute($user, $attribute, $value);
+                $response=parent::setAttribute($user, $attribute, $value);
+                if($response==0 || $response==1) return true;
+                else return false;
         }
     }
 
-    public function checkTrainer($student){
-        if(Yii::app()->db->createCommand('select trainer from trainer_student where student='.$student.
-            ' and end_time IS NULL')->queryScalar()){
+    public function checkTrainer($student)
+    {
+        if (Yii::app()->db->createCommand('select trainer from trainer_student where student=' . $student .
+            ' and end_time IS NULL')->queryScalar()
+        ) {
             $this->errorMessage = "Для даного студента тренер вже призначений.";
             return false;
-        }
-        else return true;
+        } else return true;
+    }
+
+    public function checkTrainerCapacity($user)
+    {
+        if($this->currentStudentsCount($user)>$this->getCapacity($user)['capacity']) {
+            $this->errorMessage = "Даного студента додати не можна, оскільки максимальна кількість студентів для тренера обмежена";
+            return false;
+        } else return true;
+    }
+
+    public function checkUserStudent($student)
+    {
+        if(!UserStudent::model()->exists('id_user=:id and end_date IS NOT NULL', array(':id' => $student))) {
+            $this->errorMessage = "Користувача додати не вдалося, оскільки він не є студентом";
+            return false;
+        } else return true;
     }
 
     public function cancelAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'students-list':
-                return Yii::app()->db->createCommand()->
+                if (Yii::app()->db->createCommand()->
                 update('trainer_student', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'trainer=:user and student=:student', array(':user' => $user->id, 'student' => $value));
+                ), 'trainer=:user and student=:student', array(':user' => $user->id, 'student' => $value))
+                ) {
+                    $user->notify('trainer' . DIRECTORY_SEPARATOR . '_cancelStudent',
+                        array(StudentReg::model()->findByPk($value)),
+                        'Скасовано студента');
+                    return true;
+                }
+                return false;
                 break;
             default:
                 return false;
         }
     }
 
-    public static function trainersByQuery($query){
+    public static function trainersByQuery($query)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "distinct id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
@@ -144,7 +195,7 @@ class Trainer extends Role
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $key=>$model) {
+        foreach ($data as $key => $model) {
             $result["results"][$key]["id"] = $model->id;
             $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
             $result["results"][$key]["email"] = $model->email;
@@ -153,16 +204,18 @@ class Trainer extends Role
         return json_encode($result);
     }
 
-    public function checkBeforeDeleteRole(StudentReg $user){
-        if(Yii::app()->db->createCommand('select count(student) from trainer_student where trainer='.$user->id.
-            ' and end_time IS NULL')->queryScalar() > 0) {
+    public function checkBeforeDeleteRole(StudentReg $user)
+    {
+        if (Yii::app()->db->createCommand('select count(student) from trainer_student where trainer=' . $user->id .
+                ' and end_time IS NULL')->queryScalar() > 0
+        ) {
             $this->errorMessage = "Тренеру призначені студенти. Щоб видалити роль тренера, потрібно скасувати права тренера для всіх студентів";
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
-    public function addRoleFormList($query){
+    public function addRoleFormList($query)
+    {
         $criteria = new CDbCriteria();
         $criteria->select = "id, secondName, firstName, middleName, email, avatar";
         $criteria->alias = "s";
@@ -178,7 +231,7 @@ class Trainer extends Role
         $data = StudentReg::model()->findAll($criteria);
 
         $result = [];
-        foreach ($data as $key=>$model) {
+        foreach ($data as $key => $model) {
             $result["results"][$key]["id"] = $model->id;
             $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
             $result["results"][$key]["email"] = $model->email;

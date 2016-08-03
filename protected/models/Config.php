@@ -186,7 +186,7 @@ class Config extends CActiveRecord
             $row["param"]["name"] = $record->param;
             $row["id"] = $record->id;
             $row["param"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/config/view", array("id"=>$record->id))."'";
-            $row["value"] = $record->value;
+            $row["value"] = $record["param"]=='adminId'?'id='.$record->value.' ('.StudentReg::model()->findByPk($record->value)->email.')':$record->value;
             $row["label"] = $record->label;
             array_push($return['data'], $row);
         }
@@ -203,6 +203,10 @@ class Config extends CActiveRecord
 	}
 
 	public static function offerScenario(){
-		return "noOffer";
+		return "default";
 	}
+
+	public static function getNotifyEmail(){
+        return Yii::app()->config->get('notifyMail');
+    }
 }

@@ -5,7 +5,7 @@ angular
     .module('lecturePreviewRevisionApp')
     .controller('lecturePreviewRevisionCtrl',lecturePreviewRevisionCtrl);
 
-function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData,revisionMessage) {
+function lecturePreviewRevisionCtrl($rootScope,$scope, getLectureData,revisionMessage, revisionsActions) {
     //load from service lecture data for scope
     getLectureData.getData(idRevision).then(function(response){
         $rootScope.lectureData=response;
@@ -21,131 +21,87 @@ function lecturePreviewRevisionCtrl($rootScope,$scope, $http, getLectureData,rev
     $scope.sendRevision = function(id) {
         if($scope.disabled!=false){
             $scope.disabled=false;
-            $http({
-                url: basePath+'/revision/sendForApproveLecture',
-                method: "POST",
-                data: $.param({idRevision: id}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            }).then(function successCallback(response) {
-                if(response.data!='')
-                    bootbox.alert(response.data);
-                else
-                    getLectureData.getData(idRevision).then(function(response){
-                        $rootScope.lectureData=response;
-                    });
+            revisionsActions.sendRevision(id).then(function(){
+                getLectureData.getData(idRevision).then(function(response){
+                    $rootScope.lectureData=response;
+                });
                 $scope.disabled=true;
-            }, function errorCallback() {
-                bootbox.alert("Відправити заняття на затвердження не вдалося. Зв'яжіться з адміністрацією");
-                $scope.disabled=true;
-                return false;
             });
         }
     };
     $scope.cancelSendRevision = function(id) {
-        $http({
-            url: basePath+'/revision/cancelSendForApproveLecture',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        revisionsActions.cancelSendRevision(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відмінити відправку заняття на затвердження не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     $scope.approveRevision = function(id) {
-        $http({
-            url: basePath+'/revision/approveLectureRevision',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        revisionsActions.approveRevision(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Затвердити заняття не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     $scope.cancelRevision = function(id) {
-        $http({
-            url: basePath+'/revision/cancelLectureRevision',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        revisionsActions.cancelRevision(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Скасувати заняття не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     $scope.rejectRevision = function(id) {
-        $http({
-            url: basePath+'/revision/rejectLectureRevision',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        bootbox.dialog({
+            title: "Ти впевнений, що хочеш відхилити ревізію?",
+                message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+                '</div></form></div></div>',
+                buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                    callback: function () {
+                        var comment = $('#rejectMessageText').val();
+                        revisionsActions.rejectRevision(id, comment).then(function(){
+                            getLectureData.getData(idRevision).then(function(response){
+                                $rootScope.lectureData=response;
+                            });
+                        });
+                    }
+                },
+                    cancel: {label: "Скасувати", className: "btn btn-default",
+                        callback: function () {
+                        }
+                    }
+                }
+            }
+        );
+    };
+    $scope.proposedToReleaseRevision = function(id) {
+        revisionsActions.proposedToReleaseRevision(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відхилити ревізію не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
-    $scope.releaseRevision = function(id) {
-        $http({
-            url: basePath+'/revision/readyLectureRevision',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+    $scope.cancelPreReleaseRevision = function(id) {
+        revisionsActions.cancelPreReleaseRevision(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відправити на реліз не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     //canceled edit revision by the editor
     $scope.cancelEditByEditor = function(id) {
-        $http({
-            url: basePath+'/revision/cancelEditRevisionByEditor',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        revisionsActions.cancelEditByEditor(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відмінити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     //canceled edit revision by the editor
     $scope.restoreEditByEditor = function(id) {
-        $http({
-            url: basePath+'/revision/restoreEditRevisionByEditor',
-            method: "POST",
-            data: $.param({idRevision: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback() {
+        revisionsActions.restoreEditByEditor(id).then(function(){
             getLectureData.getData(idRevision).then(function(response){
                 $rootScope.lectureData=response;
             });
-        }, function errorCallback() {
-            bootbox.alert("Відновити ревізію автором не вдалося. Зв'яжіться з адміністрацією");
-            return false;
         });
     };
     //send message to author of revision

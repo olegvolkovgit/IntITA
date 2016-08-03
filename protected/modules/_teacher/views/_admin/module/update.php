@@ -18,7 +18,7 @@
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/view',
-                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getTitle(); ?>')">Переглянути
+                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getSlashesTitle(); ?>')">Переглянути
             модуль
         </button>
     </li>
@@ -47,6 +47,11 @@
             Призначити консультанта
         </button>
     </li>
+    <?php if(Yii::app()->user->model->isContentManager()) { ?>
+    <li>
+        <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule' => $model->module_ID)); ?>" class="btn btn-primary">Ревізії модуля</a>
+    </li>
+    <?php } ?>
 </ul>
 <div class="panel panel-default">
     <div class="panel-body">

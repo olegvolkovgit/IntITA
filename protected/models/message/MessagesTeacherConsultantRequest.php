@@ -19,7 +19,7 @@
  */
 class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRequest
 {
-    private $template = '_teacherConsultantModuleRequest';
+    private $template = 'teacher_consultant'. DIRECTORY_SEPARATOR . '_teacherConsultantModuleRequest';
     const TYPE = MessagesType::TEACHER_CONSULTANT_REQUEST;
     private $receivers = array();
     private $module;
@@ -206,12 +206,20 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
 
         $this->cancelled = MessagesTeacherConsultantRequest::DELETED;
         if($this->save()){
-            $this->message()->sender0->notify('_teacherConsultantRequestCancelled', array($user->registrationData),
+            $this->message()->sender0->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_teacherConsultantRequestCancelled', array($user->registrationData),
                 'Запит на призначення викладача відхилено');
             return "Операцію успішно виконано.";
         } else {
             return "Операцію не вдалося виконати.";
         }
+    }
+
+    public function setApproved()
+    {
+        date_default_timezone_set(Config::getServerTimezone());
+        $this->user_approved = Yii::app()->user->getId();
+        $this->date_approved = date("Y-m-d H:i:s");
+        $this->save();
     }
 
     public function approve(StudentReg $userApprove)
@@ -221,11 +229,12 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
         $role = new TeacherConsultant();
         if (!$role->checkModule($this->id_teacher, $this->id_module)) {
             if ($user->setRoleAttribute(UserRoles::TEACHER_CONSULTANT, 'module', $this->id_module)) {
+                date_default_timezone_set(Config::getServerTimezone());
                 //update current request, set approved status
                 $this->user_approved = $userApprove->id;
                 $this->date_approved = date("Y-m-d H:i:s");
                 if ($this->save()) {
-                    $this->message()->sender0->notify('_teacherConsultantApproved', array($user->registrationData),
+                    $this->message()->sender0->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_teacherConsultantApproved', array($user->registrationData),
                         'Запит на призначення викладача успішно підтверджено');
                     return "Запит успішно підтверджений.";
                 }
@@ -323,7 +332,7 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
     public function approvedByToString()
     {
         if ($this->isApproved()) {
-            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:m", strtotime($this->date_approved));
+            return 'Підтверджено: ' . $this->userApproved->userNameWithEmail() . ' ' . date("d.m.Y H:i", strtotime($this->date_approved));
         } else {
             return '';
         }

@@ -149,6 +149,7 @@ class MessagesController extends TeacherCabinetController
             $message->create();
 
             $sender = new MailTransport();
+            $sender->renderBodyTemplate('_newMessage', array($user));
             $message->reply($receiver);
             $message->send($sender);
             $transaction->commit();

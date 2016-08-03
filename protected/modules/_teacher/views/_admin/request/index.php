@@ -6,8 +6,12 @@
             </li>
             <li><a href="#approved" data-toggle="tab">Підтверджені</a>
             </li>
-            <li><a href="#deleted" data-toggle="tab">Відхилені</a>
+            <li><a href="#deleted" data-toggle="tab">Відхилені запити</a>
             </li>
+            <?php if(Yii::app()->user->model->isContentManager()){ ?>
+            <li><a href="#rejected" data-toggle="tab">Відхилені ревізії</a>
+            </li>
+            <?php } ?>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -20,6 +24,11 @@
             <div class="tab-pane fade" id="deleted">
                 <?php $this->renderPartial('_deletedRequests');?>
             </div>
+            <?php if(Yii::app()->user->model->isContentManager()){ ?>
+            <div class="tab-pane fade" id="rejected">
+                <?php $this->renderPartial('_rejectedRevisionRequests');?>
+            </div>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -29,5 +38,6 @@
         initActiveRequestsTable();
         initApprovedRequestsTable();
         initDeletedRequestsTable();
+        initRejectedRevisionRequestsTable();
     });
 </script>

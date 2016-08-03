@@ -78,6 +78,11 @@ class TeachersController extends TeacherCabinetController{
                     $message = MessagesCoworkerRequest::model()->findByPk($messageId);
                     $user = StudentReg::model()->findByPk($userApproved);
                     $message->approve($user);
+                }else{
+                    $revisionRequest=MessagesCoworkerRequest::model()->findByAttributes(array('id_teacher'=>$model->user_id,'cancelled'=>0));
+                    if($revisionRequest){
+                        $revisionRequest->setApproved();
+                    }
                 }
                 $this->redirect($this->pathToCabinet());
             } else {
@@ -152,7 +157,7 @@ class TeachersController extends TeacherCabinetController{
     {
         $user = RegisteredUser::userById($id);
         $teacher = $user->getTeacher();
-        $roles = $user->noSetTeacherRoles();
+        $roles = $user->noSetRoles();
 
         $this->renderPartial('addTeacherRole', array(
             'teacher' => $teacher,
@@ -273,10 +278,13 @@ class TeachersController extends TeacherCabinetController{
         $user = RegisteredUser::userById($userId);
 
         if ($userId && $attribute && $value && $role) {
-            if($user->setRoleAttribute(new UserRoles($role), $attribute, $value)){
+            $response=$user->setRoleAttribute(new UserRoles($role), $attribute, $value);
+            if($response===true){
                 echo "success";
-            } else {
+            } else if($response===false){
                 echo "error";
+            } else {
+                echo $response;
             }
         } else {
             echo "error";

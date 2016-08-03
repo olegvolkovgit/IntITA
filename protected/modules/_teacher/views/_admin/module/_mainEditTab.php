@@ -8,7 +8,7 @@
 <div class="formMargin">
     <div class="form-group">
         <?php echo $form->labelEx($model, 'module_number'); ?>
-        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled'=>Yii::app()->user->model->isAdmin()?false:true)); ?>
         <?php echo $form->error($model, 'module_number'); ?>
     </div>
 
@@ -21,7 +21,7 @@
     <div class="form-group">
         <?php echo $form->labelEx($model, 'language'); ?>
         <?php echo $form->dropDownList($model, 'language', array('ua' => 'українською', 'ru' => 'російською',
-            'en' => 'англійською'), array('class' => 'form-control')); ?>
+            'en' => 'англійською'), array('class' => 'form-control', 'disabled'=>$model->isNewRecord?false:true)); ?>
         <?php echo $form->error($model, 'language'); ?>
     </div>
 

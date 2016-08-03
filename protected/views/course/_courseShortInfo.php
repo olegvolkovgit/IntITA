@@ -13,20 +13,20 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
                 <span class="colorP"><b><?php echo Yii::t('course', '0193'); ?></b></span>&nbsp;
                 <span class="courseLevel">
                     <a href="#" data-toggle="tooltip" title="<?php echo $model->level(); ?>" id="tooltip">
-                     <?php
-                     $rate = $model->getRate();
-                     for ($i = 0; $i < $rate; $i++) {
-                         ?>
-                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>">
-                         <?php
-                     }
-                     for ($j = $rate; $j < 5; $j++) {
-                         ?>
-                         <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>">
-                         <?php
-                     }
-                     ?>
-                        </a>
+                        <?php
+                        $rate = $model->getRate();
+                        for ($i = 0; $i < $rate; $i++) {
+                            ?>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco1.png'); ?>">
+                            <?php
+                        }
+                        for ($j = $rate; $j < 5; $j++) {
+                            ?>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'ratIco0.png'); ?>">
+                            <?php
+                        }
+                        ?>
+                    </a>
                 </span>
             </td>
             <td class="courseLevel">
@@ -50,57 +50,16 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
             <?php if ($lessonsCount != 0) {
                 echo ', ' . Yii::t('course', '0209'); ?>
                 -<b>
-                    <?php echo ceil($model->courseDurationInDays() /30); ?><?php echo Yii::t('course', '0664'); ?>
+                    <?php echo $model->getApproximatelyDurationInMonths(); ?><?php echo Yii::t('course', '0664'); ?>
                 </b>
                 <?php
             } ?>
         </div>
-        <?php
-        if($model->status != Course::AVAILABLE) {
-            $price = $model->getBasePrice();
-            if ($price == 0) {
-                echo Yii::t('courses', '0147') . ' '; ?>
-                <span class="colorGreen"><?= Yii::t('module', '0421'); ?></span>
-                <?php
-            } else {
-                ?>
-                <span class="spoilerLinks"
-                      onclick="paymentSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>', 'Online')">
-        <span id="spoilerClickOnline"><?php echo Yii::t('course', '0414'); ?></span>
-        <span id="spoilerTriangleOnline"> &#9660;</span></span>
-            <?php }
-            if ($price != 0) {
-                ?>
-                <table class="mainPay">
-                    <tr>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="numbers" id="numbersFirstOnline">
-                                            <span class="coursePriceStatus1"><?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round($price, 2)); ?>
-                                            </span>
-                                            &nbsp
-                                            <span class="coursePriceStatus2"><?php echo Yii::t('courses', '0322') . sprintf ("%01.2f", round(PaymentHelper::discountedPrice($price, 30), 2)); ?>
-                                            </span>
-                                            <span id="discount">
-                                                <img style="text-align:right" src="<?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>
-                                                (<?php echo Yii::t('courses', '0144') . ' - 30%)'; ?>
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            <?php }
-            $this->renderPartial('_onlinePaymentsForm', array('model' => $model));
-        }?>
+        <?php $this->renderPartial('_onlinePaymentsForm', array('model' => $model)); ?>
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
 </script>

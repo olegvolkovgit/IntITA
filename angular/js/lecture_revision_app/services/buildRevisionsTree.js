@@ -17,13 +17,9 @@ angular
                 });
                 return promise;
             };
-            this.getLectureRevisionsInModuleJson  = function(idModule,approved) {
-                var url;
-                if(approved=='true') {
-                    url=basePath+'/revision/buildApprovedBranchPartInModule';
-                } else url=basePath+'/revision/buildRevisionsInModule';
+            this.getLectureRevisionsInModuleJson  = function(idModule) {
                 var promise = $http({
-                    url: url,
+                    url: basePath+'/revision/buildRevisionsInModule',
                     method: "POST",
                     data: $.param({idModule: idModule}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -36,13 +32,9 @@ angular
                 return promise;
             };
 
-            this.getRevisionsBranch  = function(idRevision,approved) {
-                var url;
-                if(approved=='true') {
-                    url=basePath+'/revision/buildApprovedLectureRevisions';
-                } else url=basePath+'/revision/buildRevisionsBranch';
+            this.getRevisionsBranch  = function(idRevision) {
                 var promise = $http({
-                    url: url,
+                    url: basePath+'/revision/buildRevisionsBranch',
                     method: "POST",
                     data: $.param({idRevision: idRevision}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -69,11 +61,11 @@ angular
                 return promise;
             };
 
-            this.revisionTreeFilterInBranch  = function(idRevision,status) {
+            this.revisionTreeFilterInBranch  = function(idRevision,status, idAuthor) {
                 var promise = $http({
                     url: basePath+'/revision/buildTreeInBranch',
                     method: "POST",
-                    data: $.param({idRevision: idRevision,status:status.revisionFilter}),
+                    data: $.param({idRevision: idRevision,status:status.revisionFilter, idAuthor:idAuthor}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
@@ -84,11 +76,11 @@ angular
                 return promise;
             };
 
-            this.revisionTreeFilterInModule  = function(idModule,status) {
+            this.revisionTreeFilterInModule  = function(idModule,status, idAuthor) {
                 var promise = $http({
                     url: basePath+'/revision/buildTreeInModule',
                     method: "POST",
-                    data: $.param({idModule: idModule,status:status.revisionFilter}),
+                    data: $.param({idModule: idModule,status:status.revisionFilter, idAuthor:idAuthor}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
@@ -99,16 +91,39 @@ angular
                 return promise;
             };
 
-            this.allRevisionsTreeFilter  = function(status) {
+            this.allRevisionsTreeFilter  = function(status, idAuthor) {
                 var promise = $http({
                     url: basePath+'/revision/buildAllFilteredRevisionsTree',
                     method: "POST",
-                    data: $.param({status:status.revisionFilter}),
+                    data: $.param({status:status.revisionFilter, idAuthor:idAuthor}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
                     bootbox.alert("Виникла помилка при завантажені списку ревізій. Зв'яжіться з адміністрацією");
+                    return false;
+                });
+                return promise;
+            };
+
+            this.getRevisionsAuthors  = function(idModule,idRevision) {
+                var params;
+                if(idModule){
+                    params={idModule:idModule};
+                }else if(idRevision){
+                    params={idRevision:idRevision};
+                }else{
+                    params={};
+                }
+                var promise = $http({
+                    url: basePath+'/revision/revisionsAuthors',
+                    method: "POST",
+                    data: $.param(params),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка при завантажені списку авторів. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;

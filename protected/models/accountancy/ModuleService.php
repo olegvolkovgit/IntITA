@@ -6,10 +6,12 @@
  * The followings are the available columns in table 'acc_module_service':
  * @property string $service_id
  * @property integer $module_id
+ * @property integer $education_form
  *
  * The followings are the available model relations:
  * @property Service $service
  * @property Module $module
+ * @property EducationForm $educForm
  */
 class ModuleService extends AbstractIntITAService
 {
@@ -32,12 +34,11 @@ class ModuleService extends AbstractIntITAService
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('service_id, module_id', 'required'),
-            array('module_id', 'numerical', 'integerOnly' => true),
+            array('service_id, module_id, education_form', 'required'),
+            array('service_id, module_id, education_form', 'numerical', 'integerOnly' => true),
             array('service_id', 'length', 'max' => 10),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('service_id, module_id', 'safe', 'on' => 'search'),
+            array('service_id, module_id, education_form', 'safe', 'on' => 'search'),
         );
     }
 
@@ -51,6 +52,7 @@ class ModuleService extends AbstractIntITAService
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
             'module' => array(self::BELONGS_TO, 'Module', 'module_id'),
+            'educForm' => array(self::BELONGS_TO, 'EducationForm', 'education_form')
         );
     }
 
@@ -62,6 +64,7 @@ class ModuleService extends AbstractIntITAService
         return array(
             'service_id' => 'Service',
             'module_id' => 'Module',
+            'education_form' => 'Education form',
         );
     }
 
@@ -79,12 +82,11 @@ class ModuleService extends AbstractIntITAService
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('service_id', $this->service_id, true);
         $criteria->compare('module_id', $this->module_id);
+        $criteria->compare('education_form', $this->education_form);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -102,6 +104,9 @@ class ModuleService extends AbstractIntITAService
         return parent::model($className);
     }
 
+    public function primaryKey() {
+        return array('module_id', 'education_form');
+    }
 
     protected function primaryKeyValue()
     {
@@ -110,7 +115,7 @@ class ModuleService extends AbstractIntITAService
 
     protected function descriptionFormatted()
     {
-        return "Модуль " . $this->module->title_ua . " ";
+        return "Модуль " . $this->module->title_ua . " (".$this->educForm->title_ua.")";
     }
 
     protected function mainModel()
@@ -118,14 +123,14 @@ class ModuleService extends AbstractIntITAService
         return Module::model();
     }
 
-    public static function getService($idModule)
+    public static function getService($idModule, EducationForm $educForm)
     {
-        return parent::getService(__CLASS__, "module_id", $idModule);
+        return parent::getService(__CLASS__, "module_id", $idModule, $educForm);
     }
 
-    protected function setMainModel($module)
+    protected function setMainModel($module, $educForm)
     {
-        if ($moduleService = ModuleService::model()->findByAttributes(array('module_id' => $module->module_ID))) {
+        if ($moduleService = ModuleService::model()->findByAttributes(array('module_id' => $module->module_ID,'education_form'=>$educForm))) {
             $this->service = Service::model()->findByPk($moduleService->service_id);
         }
         $this->module = $module;
@@ -171,5 +176,9 @@ class ModuleService extends AbstractIntITAService
                 return true;
         }
         return false;
+    }
+
+    public function getEducationForm(){
+        return $this->educForm;
     }
 }

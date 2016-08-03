@@ -615,36 +615,18 @@
 
                 $.each(node.ddbutton.actions, function addElement (id, action){
                     if (action.type == 'button') {
-						if(!node.canCreate && (action.actionType=='create')){
-							return;
-						}
-						if(!node.isEditCancellable && (action.actionType=='cancelEdit')){
-							return;
-						}
-						if(!node.canRestoreEdit && (action.actionType=='restoreEdit')){
-							return;
-						}
-						if(!node.isReadable && (action.actionType=='release')){
-							return;
-						}
-						if(!node.isSendable && (action.actionType=='send')){
-							return;
-						}
-						if(!node.isApprovable && (action.actionType=='approve')){
-							return;
-						}
-						if(!node.isCancellable && (action.actionType=='cancel')){
-							return;
-						}
-						if(!node.isEditable && (action.actionType=='edit')){
-							return;
-						}
-						if(!node.isRejectable && (action.actionType=='reject')){
-							return;
-						}
-						if(!node.isSendedCancellable && (action.actionType=='cancelSend')){
-							return;
-						}
+						if(action.actionType=='create' && !node['canCreate']) return;
+						if(action.actionType=='edit' && !node['canEdit']) return;
+						if(action.actionType=='cancelEdit' && !node['canCancelEdit']) return;
+						if(action.actionType=='restoreEdit' && !node['canRestoreEdit']) return;
+						if(action.actionType=='send' && !node['canSend']) return;
+						if(action.actionType=='cancelSend' && !node['canCancelSend']) return;
+						if(action.actionType=='approve' && !node['canApprove']) return;
+						if(action.actionType=='reject' && !node['canReject']) return;
+						if(action.actionType=='cancel' && !node['canCancel']) return;
+						if((action.actionType=='proposedToRelease') && !node['canProposedToRelease']) return;
+						if((action.actionType=='cancelProposedToRelease') && !node['canCancelProposedToRelease']) return;
+						if(action.actionType=='release' && !node['canRelease']) return;
 						if(node.creatorId==action.userId || action.visible){
 							var $action = $(_this.template.dditem);
 							$action.children('a').click({el: treeItem}, action.action);

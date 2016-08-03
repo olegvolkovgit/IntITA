@@ -451,7 +451,7 @@ div.lastAccessPage {
 
 .lessonPart {
     border-bottom: 1px solid #335379;
-    height: 50px;
+    height: 65px;
     line-height: 50px;
     margin-bottom: 10px;
 }
@@ -479,7 +479,7 @@ div.lastAccessPage {
 }
 
 #labelBlock p, #tooltip p {
-    display: inline-block;
+    /*display: inline-block;*/
     font-size: 22px;
     color: #4b75a4;
     margin: 0;
@@ -614,6 +614,8 @@ a.lectureDisabled{
     pointer-events: none;
     cursor: default;
     color: #666666;
+    display: block;
+    word-wrap: break-word;
 }
 #counter a{
     display: inline-block;
@@ -930,4 +932,20 @@ a.cke_dialog_ui_fileButton{
 }
 .videoLink input{
     display: inline-block;
+}
+#errorBox{
+    margin: 10px 22px 10px 10px;
+    border: 1px solid #335379;
+    border-radius: 5px;
+}
+#errorBox > label{
+    font-size: smaller;
+    color: #4b75a4;
+    cursor: pointer;
+}
+#errorBox > label:hover{
+    color: #4b75a4;
+}
+#errorBox > span{
+    font-size: smaller;
 }

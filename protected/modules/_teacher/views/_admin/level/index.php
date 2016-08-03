@@ -4,15 +4,6 @@
  */
 ?>
 <div class="col-lg-12">
-    <ul class="list-inline">
-        <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/offer/index'); ?>',
-                        'Публічна оферта')">
-                Публічна оферта
-            </button>
-        </li>
-    </ul>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

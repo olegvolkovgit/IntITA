@@ -15,6 +15,7 @@
                         <th style="width:10%;">К-ть відео</th>
                         <th style="width:11%;">К-ть тестів</th>
                         <th style="width:12%;">К-ть частин</th>
+                        <th style="width:12%;">К-ть ревізій</th>
 
 
 

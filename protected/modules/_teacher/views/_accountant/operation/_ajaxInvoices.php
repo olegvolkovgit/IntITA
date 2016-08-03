@@ -11,6 +11,7 @@ if (!empty($invoices)) {
             <thead>
             <tr class="info">
                 <th class="glyphicon glyphicon-ok"></th>
+                <th>Сума</th>
                 <th>Користувач</th>
                 <th>Сервіс</th>
                 <th>Дата</th>
@@ -22,6 +23,7 @@ if (!empty($invoices)) {
                 ?>
                 <tr>
                     <td><input type="checkbox" name="invoices[]" value="<?php echo $invoice->id ?>"></td>
+                    <td> <?php echo $invoice->summa ; ?></td>
                     <td> <?php echo StudentReg::getUserNamePayment($invoice->user_created); ?></td>
                     <td> <?php echo $invoice->getServiceDescription() ?></td>
                     <td><?php echo date("d.m.y", strtotime($invoice->date_created)) ?></td>

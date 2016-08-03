@@ -8,17 +8,22 @@
             </li>
             <li><a href="#past" data-toggle="tab">Минулі консультації</a>
             </li>
+            <li><a href="#cancel" data-toggle="tab">Скасовані консультації</a>
+            </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade" id="planned">
-                <?php $this->renderPartial('/_consultant/_plannedConsultations');?>
+                <?php $this->renderPartial('/_student/consultations/_plannedConsultations');?>
             </div>
             <div class="tab-pane fade in active" id="today">
-                <?php $this->renderPartial('/_consultant/_todayConsultations');?>
+                <?php $this->renderPartial('/_student/consultations/_todayConsultations');?>
             </div>
             <div class="tab-pane fade" id="past">
-                <?php $this->renderPartial('/_consultant/_pastConsultations');?>
+                <?php $this->renderPartial('/_student/consultations/_pastConsultations');?>
+            </div>
+            <div class="tab-pane fade" id="cancel">
+                <?php $this->renderPartial('/_student/consultations/_cancelledConsultations');?>
             </div>
         </div>
     </div>
@@ -29,5 +34,6 @@
         initTodayConsultationsTable();
         initPlannedConsultationsTable();
         initPastConsultationsTable();
+        initCancelConsultationsTable();
     });
 </script>

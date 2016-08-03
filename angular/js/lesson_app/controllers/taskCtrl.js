@@ -3,9 +3,14 @@
  */
 angular
     .module('lessonApp')
-    .controller('taskCtrl',taskCtrl);
+    .controller('taskCtrl',taskCtrl)
+    .filter('arrow', function() {
+        return function(input) {
+            return input ? '\u21a5' : '\u21a7';
+        };
+    });
 
-function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, accessLectureService, ipCookie, getTaskJson) {
+function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsService, pagesUpdateService, userAnswerTaskService, accessLectureService, ipCookie, getTaskJson) {
     $scope.init = function(taskLang)
     {
         $scope.taskLang=taskLang;
@@ -53,6 +58,7 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
     };
 
     $scope.sendTaskAnswer=function(idTask, taskLang, url,e){
+        $('#errorBox').remove();
         var jobid=JsUniqid(idTask+'_', false);
         $scope.taskId=idTask;
         var button=angular.element(document.querySelector(".taskSubmit"));
@@ -111,12 +117,20 @@ function taskCtrl($rootScope, $http, $timeout, $scope, openDialogsService, pages
                                     openDialogsService.openFalseDialog();
                                 });
                             } else {
-                                bootbox.alert("Твій код не скомпілювався. Виправ помилки та спробуй ще раз.<br>Помилка: <br>"+serverResponse.result);
+                                $scope.errors=true;
+                                var errorBox="<div ng-if=errors id='errorBox'>" +
+                                    "<label ng-click='isErrorVisible = !isErrorVisible'>Твій код не скомпілювався. Виправ помилки та спробуй ще раз {{isFilterOpen | arrow}}</label>" +
+                                    "<span ng-show='isErrorVisible'><br>Помилка: <br>"+serverResponse.result+"</span></div>";
+                                ($compile(errorBox)($scope)).insertAfter($('#sendAnswer'));
                             }
                             break;
                         case 'failed':
                             $('#ajaxLoad').hide();
-                            bootbox.alert("Твій код не скомпілювався. Виправ помилки та спробуй ще раз.<br>Помилка: <br>"+serverResponse.warning);
+                            $scope.errors=true;
+                            var errorBox="<div ng-if=errors id='errorBox'>" +
+                                "<label ng-click='isErrorVisible = !isErrorVisible'>Твій код не скомпілювався. Виправ помилки та спробуй ще раз {{isFilterOpen | arrow}}</label>" +
+                                "<span ng-show='isErrorVisible'><br>Помилка: <br>"+serverResponse.warning+"</span></div>";
+                            ($compile(errorBox)($scope)).insertAfter($('#sendAnswer'));
                             break;
                         case 'error':
                             $('#ajaxLoad').hide();

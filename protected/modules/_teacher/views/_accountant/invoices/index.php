@@ -10,6 +10,7 @@
                 <table class="table table-striped table-bordered table-hover" cellspacing="0" id="invoices">
                     <thead>
                     <tr>
+                        <th>id рахунку</th>
                         <th>Договір</th>
                         <th>Дата заведення</th>
                         <th>До сплати</th>
@@ -25,9 +26,14 @@
                     foreach ($invoices as $invoice) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><a href="#" onclick="load(
+                            <td><?= $invoice->id; ?></td>
+                            <td>
+                                <?php if(isset($invoice->agreement)) { ?>
+                                <a href="#" onclick="load(
                                     '<?= Yii::app()->createUrl('/_teacher/_accountant/agreements/agreement', array('id' => $invoice->agreement_id)); ?>',
-                                    'Договір'); return false;">Договір <?=$invoice->agreement->number; ?></a></td>
+                                    'Договір'); return false;"><?= $invoice->agreement->number; ?></a>
+                                <?php } else { echo 'Договір не знайдено'; } ?>
+                            </td>
                             <td><?= ($invoice->date_created)? date("d.m.y", strtotime($invoice->date_created)):"" ?></td>
                             <td><?= $invoice->summa; ?></td>
                             <td><?= $invoice->userCreated->userNameWithEmail();?></td>

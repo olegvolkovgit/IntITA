@@ -38,9 +38,32 @@
             </div>
             <div class="panel-body">
                 <ul>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/verifyContent/index'); ?>',
+                               'Контент лекцій')">
+                            Контент лекцій</a>
+                    </li>
+                    <li><a href="#"
+                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
+                               'Модулі')">
+                            Модулі</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>',
+                            'Курси')">
+                            Курси</a></li>
+                    </li>
                     <li>
                         <a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
-                            Всі ревізії</a>
+                            Всі ревізії занять</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Yii::app()->createUrl('moduleRevision/index'); ?>">
+                            Всі ревізії модулів</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Yii::app()->createUrl('courseRevision/index'); ?>">
+                            Всі ревізії курсів</a>
                     </li>
                 </ul>
                 <br>

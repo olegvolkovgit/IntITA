@@ -226,12 +226,13 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('skype' => $_POST['StudentReg']['skype']));
 
             if (isset($_POST['StudentReg']['country'])) {
-                $newCountryId = AddressCountry::newUserCountry($_POST['StudentReg']['country'], $_POST['countryTypeahead']);
-                $model->updateByPk($id, array('country' => $newCountryId));
+                $model->updateByPk($id, array('country' => $_POST['StudentReg']['country']));
 
-                if (isset($_POST['StudentReg']['city'])) {
-                    $newCityId = AddressCity::newUserCity($_POST['StudentReg']['city'], $_POST['cityTypeahead'], $newCountryId);
-                    $model->updateByPk($id, array('city' => $newCityId));
+                if(!empty($_POST['StudentReg']['country'])){
+                    $cityId = AddressCity::newUserCity($_POST['StudentReg']['city'], $_POST['cityTitle'], $_POST['StudentReg']['country']);
+                    $model->updateByPk($id, array('city' => $cityId));   
+                }else{
+                    $model->updateByPk($id, array('city' => null));
                 }
             }
 
@@ -293,4 +294,21 @@ class StudentRegController extends Controller
         $data = array_merge($model->attributes, $role);
         echo json_encode($data);
     }
+
+    public function actionGetCountriesList()
+    {
+        echo AddressCountry::countriesListByLang();
+    }
+
+    public function actionGetCitiesList()
+    {
+        $idCountry=Yii::app()->request->getPost('id');
+        echo AddressCity::citiesListByCountry($idCountry);
+    }
+
+    public function actionGetCurrentCountryCity()
+    {
+        echo StudentReg::currentCountryCity();
+    }
+
 }

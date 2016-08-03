@@ -124,12 +124,16 @@ class ResponseController extends TeacherCabinetController{
 
 
     public function actionUpdateResponseText($id){
-        Response::model()->updateByPk($id, array(
-            'text' => $_POST['Response']['text'],
-            'is_checked' => $_POST['Response']['is_checked']
-        ));
-
-        $this->redirect(Yii::app()->createUrl('/_teacher/_admin/response/index'));
+        $response = Yii::app()->request->getPost('response', 'Пустий відгук');
+        $publish = Yii::app()->request->getPost('publish', 0);
+        if(Response::model()->updateByPk($id, array(
+            'text' =>  trim(Response::model()->bbcode_to_html($response), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B"),
+            'is_checked' => $publish
+        ))){
+            echo 'Відгук успішно відредаговано';
+        }else{
+            echo 'Відгук відредагувати не вдалося';
+        }
     }
 
     public function actionGetTeacherResponsesList(){

@@ -361,6 +361,7 @@ td.button-column{
 .imageUpdateForm{
     text-align: center;
     font-size: 14px;
+    margin-right: 5px;
 }
 .imageUpdateForm a{
     cursor: pointer;
@@ -441,4 +442,16 @@ td.button-column{
 }
 .disablesLink{
     cursor: pointer;
+}
+.revisionIco{
+    position: relative;
+    vertical-align: top;
+    text-align: right;
+}
+.revisionIco img{
+    margin: 20px 5px 0 5px;
+    vertical-align: bottom;
+}
+.revisionIco a:hover{
+    text-decoration: none;
 }
