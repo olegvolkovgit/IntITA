@@ -52,7 +52,7 @@ $this->breadcrumbs = array(
                 </div>
             </div>
             <div class="revisionTable">
-                <label>Доступні модулі інших модулів(готові та в розробці):</label>
+                <label>Доступні незалежні модулі та модулі інших курсів(готові та в розробці):</label>
                 <div class="form-group">
                     <label>
                         <input type="checkbox" ng-init="foreign.ready_module=true" ng-model="foreign.ready_module">Готові модулі
@@ -88,7 +88,7 @@ $this->breadcrumbs = array(
                 </tr>
                 <tr ng-repeat="module in moduleInCourse track by $index">
                     <td><span>{{module.id}}</span></td>
-                    <td><a ng-href="<?php echo Yii::app()->createUrl("module/index", array("idModule" => ''))?>{{module.id}}" >{{module.title}}</a></td>
+                    <td><a ng-href="<?php echo Yii::app()->createUrl("module/index", array("idModule" => ''))?>{{module.id}}" >{{module.title}}<span ng-if="module.cancelled"  class="cancelled">(скасований)</span></a></td>
                     <td>{{$index+1}}</td>
                     <td>
                         <div style="display: inline-block" >

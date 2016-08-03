@@ -63,6 +63,9 @@ class RevisionCourseProperties extends CActiveRecord
 			array('alias', 'length', 'max'=>20),
 			array('language', 'length', 'max'=>6),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>100),
+			array('title_ua', 'match', 'pattern' => "/".Yii::app()->params['titleUAPattern']."+$/u", 'message' => Yii::t('error', '0416')),
+			array('title_ru', 'match', 'pattern' => "/".Yii::app()->params['titleRUPattern']."+$/u", 'message' => Yii::t('error', '0416')),
+			array('title_en', 'match', 'pattern' => "/".Yii::app()->params['titleENPattern']."+$/u", 'message' => Yii::t('error', '0416')),
 			array('course_price', 'length', 'max'=>10),
 			array('course_img', 'length', 'max'=>255),
 			array('course_img', 'file', 'types' => 'jpg, gif, png, jpeg', 'allowEmpty' => true, 'on'=>'saveFile'),
@@ -265,7 +268,7 @@ class RevisionCourseProperties extends CActiveRecord
 	 */
 	public function saveCheck() {
 		if(!$this->save()) {
-			throw new RevisionException('400',$this->getValidationErrors());
+			throw new RevisionException($this->getValidationErrors(), '400');
 		}
 	}
 

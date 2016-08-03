@@ -41,7 +41,7 @@
         <td>Логотип:</td>
         <td>
             <img class="moduleImg"
-                 src="<?php echo StaticFilesHelper::createPath('image', 'module', $courseRevision->properties->course_img); ?>"/>
+                 src="<?php echo StaticFilesHelper::createPath('image', 'course', $courseRevision->properties->course_img); ?>"/>
         </td>
     </tr>
 </table>
@@ -55,24 +55,24 @@
     </tr>
     <tr>
         <td><label>Назва (укр):</label></td>
-        <td><?=$courseRevision->properties->title_ua ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->title_ua) ?></td>
 
         <td><label>Для кого(UA):</label></td>
-        <td><?=$courseRevision->properties->for_whom_ua ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->for_whom_ua) ?></td>
     </tr>
     <tr>
         <td><label>Назва (рос):</label></td>
-        <td><?=$courseRevision->properties->title_ru ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->title_ru) ?></td>
 
         <td><label>Чого ви навчитеся(UA):</label></td>
-        <td><?=$courseRevision->properties->what_you_learn_ua ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->what_you_learn_ua) ?></td>
     </tr>
     <tr>
         <td><label>Назва (англ):</label></td>
-        <td><?=$courseRevision->properties->title_en ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->title_en) ?></td>
 
         <td><label>Що ви отримаєте(UA):</label></td>
-        <td><?=$courseRevision->properties->what_you_get_ua ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->what_you_get_ua) ?></td>
     </tr>
     <tr>
         <td><label>Псевдонім:</label></td>
@@ -83,24 +83,24 @@
     </tr>
     <tr>
         <td><label>Для кого(RU):</label></td>
-        <td><?=$courseRevision->properties->for_whom_ru ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->for_whom_ru) ?></td>
 
         <td><label>Для кого(EN):</label></td>
-        <td><?=$courseRevision->properties->for_whom_en ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->for_whom_en) ?></td>
     </tr>
     <tr>
         <td><label>Чого ви навчитеся(RU):</label></td>
-        <td><?=$courseRevision->properties->what_you_learn_ua ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->what_you_learn_ua) ?></td>
 
         <td><label>Чого ви навчитеся(EN):</label></td>
-        <td><?=$courseRevision->properties->what_you_learn_en ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->what_you_learn_en) ?></td>
     </tr>
     <tr>
         <td><label>Що ви отримаєте(RU):</label></td>
-        <td><?=$courseRevision->properties->what_you_get_ru ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->what_you_get_ru) ?></td>
 
         <td><label>Що ви отримаєте(EN):</label></td>
-        <td><?=$courseRevision->properties->what_you_get_en ?></td>
+        <td><?=CHtml::encode($courseRevision->properties->what_you_get_en) ?></td>
     </tr>
     <tr>
         <td><label>Доступність модуля:</label></td>

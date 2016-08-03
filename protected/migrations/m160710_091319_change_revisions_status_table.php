@@ -247,13 +247,13 @@ class m160710_091319_change_revisions_status_table extends CDbMigration {
             ]);
         $this->addTranslate(888, 'revision', 'RevisionCourseRejectedState',
             [
-                'ua' => 'Відхилен',
+                'ua' => 'Відхилений',
                 'ru' => 'Отклонен',
                 'en' => 'Rejected'
             ]);
         $this->addTranslate(889, 'revision', 'RevisionCourseApprovedState',
             [
-                'ua' => 'Затверджен',
+                'ua' => 'Затверджений',
                 'ru' => 'Утвержден',
                 'en' => 'Approved'
             ]);
@@ -265,7 +265,7 @@ class m160710_091319_change_revisions_status_table extends CDbMigration {
             ]);
         $this->addTranslate(891, 'revision', 'RevisionCourseCancelledState',
             [
-                'ua' => 'Скасован',
+                'ua' => 'Скасований',
                 'ru' => 'Отменен',
                 'en' => 'Cancelled'
             ]);

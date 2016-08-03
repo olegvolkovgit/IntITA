@@ -61,24 +61,24 @@
     </tr>
     <tr>
         <td><label>Назва (укр):</label></td>
-        <td><?=$moduleRevision->properties->title_ua ?></td>
+        <td><?=CHtml::encode($moduleRevision->properties->title_ua) ?></td>
 
         <td><label>Для кого:</label></td>
-        <td><?=$moduleRevision->properties->for_whom ?></td>
+        <td><?=CHtml::encode($moduleRevision->properties->for_whom) ?></td>
     </tr>
     <tr>
         <td><label>Назва (рос):</label></td>
-        <td><?=$moduleRevision->properties->title_ru ?></td>
+        <td><?=CHtml::encode($moduleRevision->properties->title_ru) ?></td>
 
         <td><label>Чого ви навчитеся:</label></td>
-        <td><?=$moduleRevision->properties->what_you_learn ?></td>
+        <td><?=CHtml::encode($moduleRevision->properties->what_you_learn) ?></td>
     </tr>
     <tr>
         <td><label>Назва (англ):</label></td>
-        <td><?=$moduleRevision->properties->title_en ?></td>
+        <td><?=CHtml::encode($moduleRevision->properties->title_en) ?></td>
 
         <td><label>Що ви отримаєте:</label></td>
-        <td><?=$moduleRevision->properties->what_you_get ?></td>
+        <td><?=CHtml::encode($moduleRevision->properties->what_you_get) ?></td>
     </tr>
     <tr>
         <td><label>Псевдонім:</label></td>

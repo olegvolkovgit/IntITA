@@ -115,6 +115,8 @@ angular
                     data: $.param({idRevision: id}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
+                    if(response.data!='')
+                        bootbox.alert(response.data);
                     return response.data;
                 }, function errorCallback() {
                     bootbox.alert("Відправити на реліз ревізію не вдалося. Зв'яжіться з адміністрацією");

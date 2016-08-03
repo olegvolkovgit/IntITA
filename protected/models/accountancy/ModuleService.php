@@ -128,9 +128,9 @@ class ModuleService extends AbstractIntITAService
         return parent::getService(__CLASS__, "module_id", $idModule, $educForm);
     }
 
-    protected function setMainModel($module)
+    protected function setMainModel($module, $educForm)
     {
-        if ($moduleService = ModuleService::model()->findByAttributes(array('module_id' => $module->module_ID))) {
+        if ($moduleService = ModuleService::model()->findByAttributes(array('module_id' => $module->module_ID,'education_form'=>$educForm))) {
             $this->service = Service::model()->findByPk($moduleService->service_id);
         }
         $this->module = $module;

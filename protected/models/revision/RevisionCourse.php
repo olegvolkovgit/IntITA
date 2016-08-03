@@ -382,7 +382,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 	 * @return array
 	 */
 	public static function getEditableProperties() {
-		return ['title_ua', 'title_ru', 'title_en','alias','for_whom_ua',
+		return ['title_ua', 'title_ru', 'title_en','for_whom_ua',
 			'what_you_learn_ua','what_you_get_ua','for_whom_ru',
 			'what_you_learn_ru','what_you_get_ru','for_whom_en',
 			'what_you_learn_en','what_you_get_en','level'];
@@ -404,6 +404,17 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 			$result='Курс не може містити однакові модулі';
 		}
 
+		return $result;
+	}
+
+	public function checkCourseRevision() {
+		$result = array();
+		foreach($this->courseModules as $module){
+			if($module->module->cancelled){
+				$result='У даній ревізії містяться видалені модулі, які не відображатимуться на сайті при релізі!';
+				return $result;
+			}
+		}
 		return $result;
 	}
 
@@ -476,7 +487,6 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 	
 	public function saveCoursePropertiesToRegularDB() {
 		$module=Course::model()->findByPk($this->id_course);
-		$module->course_img = $this->properties->course_img;
 		$module->alias = $this->properties->alias;
 		$module->title_ua = $this->properties->title_ua;
 		$module->title_ru = $this->properties->title_ru;
@@ -496,6 +506,7 @@ class RevisionCourse extends CRevisionUnitActiveRecord
 		$module->cancelled = $this->properties->cancelled;
 		$module->status = 1;
 		$module->update();
+		$module->updateByPk($this->id_course, array('course_img'=>$this->properties->course_img));
 	}
 
 	public function cancelReleasedCourseInTree($user){

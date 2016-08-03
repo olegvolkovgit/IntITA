@@ -348,11 +348,23 @@ class CourseRevisionController extends Controller {
 
     public function actionReadyCourseRevision() {
         $idRevision = Yii::app()->request->getPost('idRevision');
+        // confirmation to release (if revision has removed modules) 
+        $confirm = Yii::app()->request->getPost('confirmRevision');
         $revision = RevisionCourse::model()->findByPk($idRevision);
         if (!$revision->canReleaseRevision()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0828'));
         }
-        $revision->state->changeTo('released', Yii::app()->user);
+        if($confirm=='false'){
+            $result = $revision->checkCourseRevision();
+        }else{
+            $result= array();
+        }
+
+        if (empty($result)) {
+            $revision->state->changeTo('released', Yii::app()->user);
+        } else {
+            echo $result;
+        }
     }
 
     public function actionPreviewCourseRevision($idRevision) {
@@ -400,6 +412,7 @@ class CourseRevisionController extends Controller {
             $modules[$key]["module_order"] = $modulesModel->module_order;
             $modules[$key]["title"] = $module->title_ua;
             $modules[$key]["status"] = $module->status?'Готовий':'В розробці';
+            $modules[$key]["cancelled"] = $module->cancelled?true:false;
         }
 
         $course['status']=$courseRevision->state->getName();

@@ -3,6 +3,7 @@ angular
     .service('courseRevisionsActions', [
         '$http',
         function($http) {
+            var self = this;
             this.sendCourseRevision = function(id) {
                 var promise = $http({
                     url: basePath+'/courseRevision/sendForApproveCourse',
@@ -108,13 +109,22 @@ angular
                 });
                 return promise;
             };
-            this.releaseCourseRevision = function(id) {
+            this.releaseCourseRevision = function(id, confirmRevision) {
+                if(typeof confirmRevision=='undefined') confirmRevision=false;
                 var promise = $http({
                     url: basePath+'/courseRevision/readyCourseRevision',
                     method: "POST",
-                    data: $.param({idRevision: id}),
+                    data: $.param({idRevision: id, confirmRevision: confirmRevision}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
+                    if(response.data!='') {
+                        bootbox.confirm(response.data, function(result) {
+                            if(result)
+                                self.releaseCourseRevision(id, true).then(function(){
+                                    location.reload();
+                            });
+                        });
+                    }
                     return response.data;
                 }, function errorCallback() {
                     bootbox.alert("Відправити на реліз ревізію не вдалося. Зв'яжіться з адміністрацією");
