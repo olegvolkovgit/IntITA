@@ -441,9 +441,10 @@ class CourseRevisionController extends Controller {
 
     public function actionGetModules() {
         $idCourse = Yii::app()->request->getPost('idCourse');
+        $categories = Yii::app()->request->getPost('categories');
 
         $rc = new RevisionCommon();
-        $modulesData = $rc->getAllModules();
+        $modulesData = $rc->getAllModules($categories);
         $modulesList = ['current' => ['ready_module' => [],'develop_module' => []],
             'foreign' => ['ready_module' => [],'develop_module' => []]];
 

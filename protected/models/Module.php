@@ -107,6 +107,7 @@ class Module extends CActiveRecord implements IBillableObject
                 'on' => 'teacher.isPrint=1', 'condition' => 'end_time IS NULL'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
+            'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
         );
     }
 
@@ -1037,5 +1038,17 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getModelUAH(){
         return new ModuleUAH($this);
+    }
+
+    public function moduleTags(){
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $param = "tag_" . $lang;
+        $data=array();
+        foreach ($this->moduleTags as $key=>$tag) {
+            $data[$key]['id']=$tag->tag['id'];
+            $data[$key]['tag']=$tag->tag[$param];
+        }
+
+        return json_encode($data);
     }
 }

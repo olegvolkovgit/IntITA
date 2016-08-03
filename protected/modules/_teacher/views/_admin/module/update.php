@@ -97,7 +97,7 @@
             )); ?>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="main">
-                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form,'tagsUpdate'=>true)); ?>
                 </div>
                 <div class="tab-pane fade" id="ua">
                     <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'form' => $form)); ?>
