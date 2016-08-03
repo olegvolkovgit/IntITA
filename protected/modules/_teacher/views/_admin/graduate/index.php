@@ -8,7 +8,7 @@
             </button>
         </li>
     </ul>
-    <div class="col-lg-12">
+    <div class="col-lg-12" ng-controller="graduateCtrl">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -32,6 +32,6 @@
 </div>
 <script>
     $jq(document).ready(function () {
-        initGraduatesTable();
+
     });
 </script>

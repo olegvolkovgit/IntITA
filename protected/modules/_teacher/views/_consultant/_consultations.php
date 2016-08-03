@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="consultantCtrl">
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="userTabs" class="nav nav-tabs">
@@ -30,10 +30,5 @@
 </div>
 
 <script>
-    $jq(document).ready(function () {
-        initTodayTeacherConsultationsTable();
-        initPlannedTeacherConsultationsTable();
-        initPastTeacherConsultationsTable();
-        initCancelTeacherConsultationsTable();
-    });
+
 </script>

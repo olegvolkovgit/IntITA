@@ -36,9 +36,9 @@ function initModules(){
             },
             {
                 "width": "10%",
-                "data": "addAuthorLink",
-                "render": function (link) {
-                    return '<button type="button" class="btn btn-outline btn-success btn-sm" onclick="load(' +  link + ')">автора</button>';
+                "data": "id",
+                "render": function (id) {
+                    return '<button type="button" class="btn btn-outline btn-success btn-sm" href=" yryryryr" onclick="window.location.hash=\'/module/addTeacher/id/'+id+'\'">автора</button>';
                 }
             }
         ],

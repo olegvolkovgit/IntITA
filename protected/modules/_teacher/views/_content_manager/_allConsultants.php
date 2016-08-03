@@ -1,4 +1,4 @@
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="allConsultantsCtrl">
     <br>
     <ul class="list-inline">
         <li>
@@ -36,6 +36,3 @@
         </div>
     </div>
 </div>
-<script>
-    initConsultantsTable();
-</script>

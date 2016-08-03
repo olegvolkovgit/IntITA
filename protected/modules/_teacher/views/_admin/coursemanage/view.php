@@ -9,20 +9,19 @@
     <div class="row">
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_admin/coursemanage/index"); ?>', 'Новий курс')">
+                <button type="button" class="btn btn-primary" ng-click="changeView('admin/coursemanage')">
                     <?php echo Yii::t("coursemanage", "0510"); ?></button>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/update',
-                            array('id' => $model->course_ID)); ?>', '<?="Курс ".$model->getTitle()?>')">
+
+                <button type="button" class="btn btn-primary" ng-click="changeView('course/edit/<?php echo $model->course_ID; ?>')"
+                        >
                     Редагувати курс
                 </button>
             </li>
             <li>
-                <button type="button" class="btn btn-success"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
-                            array('idCourse' => $model->course_ID)); ?>', 'Згенерувати схему курса')">
+                <button type="button" class="btn btn-success" ng-click="changeView('course/schema/<?php echo $model->course_ID; ?>')"
+>
                     Згенерувати схему курса
                 </button>
             </li>
@@ -82,7 +81,3 @@
         </div>
     </div>
 </div>
-<script>
-    if(history.state!=null)
-        openTab('#courseView', history.state.tab);
-</script>

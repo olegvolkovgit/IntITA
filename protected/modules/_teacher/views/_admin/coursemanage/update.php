@@ -5,29 +5,23 @@
  * @var $linkedCourses array
  */
 ?>
-<ul class="list-inline">
+<ul class="list-inline" ng-controller="coursemanageCtrl">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>', 'Курси')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('admin/coursemanage')">
             <?php echo Yii::t("coursemanage", "0510"); ?></button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/view',
-                    array('id' => $model->course_ID)); ?>', '<?="Курс ".$model->getTitle()?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('course/detail/<?= $model->course_ID ?>')">
             Переглянути курс
         </button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="setCourseStatus('<?php echo Yii::app()->createUrl("/_teacher/_admin/coursemanage/changeStatus",
-                    array("id" => $model->course_ID)); ?>', '<?= ($model->isActive()) ? 'Видалити курс?' : 'Відновити курс?'; ?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeCourse('<?php echo $model->course_ID ?>')">
             <?= ($model->isActive()) ? 'Видалити' : 'Відновити'; ?></button>
     </li>
     <li>
-        <button type="button" class="btn btn-success"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
-                    array('idCourse' => $model->course_ID)); ?>', 'Згенерувати схему курса')">
+        <button type="button" class="btn btn-success" ng-click="changeView('course/schema/<?php echo $model->course_ID ?>')"
+                >
             Згенерувати схему курса
         </button>
     </li>

@@ -3,7 +3,7 @@
  * @var $agreement UserAgreements
  */
 ?>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="agreementsCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -46,28 +46,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $jq(document).ready(function () {
-        $jq('#agreements').DataTable({
-            "autoWidth": false,
-            language: {
-                "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-            },
-            "columns": [
-                null,
-                null,
-                {
-                    "type": "de_date", targets: 1,
-                },
-                {
-                    "type": "de_date", targets: 1,
-                },
-                null,
-                null,
-                null
-            ]
-            }
-        );
-    });
-</script>

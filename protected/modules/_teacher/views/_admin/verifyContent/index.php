@@ -3,9 +3,9 @@
  * @var $record Lecture
  */
 ?>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="verifyContentCtrl">
     <button class="btn btn-primary"
-            onclick="initDirectory('<?php echo Yii::app()->createUrl("/_teacher/_admin/verifyContent/initializeDir") ?>')">
+            ng-click="reindexContent('<?php echo Yii::app()->createUrl("/_teacher/_admin/verifyContent/initializeDir") ?>')">
         Переіндексація контенту
     </button>
     <br>
@@ -31,8 +31,9 @@
             </div>
         </div>
     </div>
-</div>
 
+</div>
+</div>
 
 
 

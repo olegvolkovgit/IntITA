@@ -3,7 +3,7 @@
  * @var $counters array
  */
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="addressCtrl">
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
@@ -23,14 +23,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $jq(document).ready(function () {
-        initCountriesList();
-        initCitiesList();
-    });
-</script>
-
 
 
 

@@ -10,7 +10,7 @@ $teacher = $user->getTeacher();
             <li class="active"><a href="#main" data-toggle="tab">Головне</a>
             </li>
             <?php if ($user->isAuthor()) { ?>
-                <li><a href="#author" data-toggle="tab">Автор</a>
+                <li><a href="#moduleauthor" data-toggle="tab">Автор</a>
                 </li>
             <?php } ?>
             <?php if ($user->isConsultant()) { ?>

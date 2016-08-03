@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="statusOfCoursesCtrl">
     <div class="panel-body">
 
         <ul id="accessTabs" class="nav nav-tabs">

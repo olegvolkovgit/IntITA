@@ -9,18 +9,13 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/agreements/index'); ?>',
-                               'Список договорів')">
+                    <li><a href="#/accoundant/agreements">
                             Список договорів</a>
                     </li>
-                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/invoices/index'); ?>',
-                            'Список рахунків')">
+                    <li><a href="#/accoundant/invoices">
                             Список рахунків</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/operation/index'); ?>',
-                               'Проплати')">
+                    <li><a href="#/accoundant/operation">
                             Проплати</a>
                     </li>
                 </ul>
@@ -40,17 +35,10 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
-                               'Компанії')">Компанії
-                        </a>
+                        <a href="#/accoundant/company">Компанії</a>
                     </li>
                     <li>
-                        <a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/representative/index'); ?>',
-                               'Представники')">
-                            Представники
-                        </a>
+                        <a href="#/accoundant/representative">Представники</a>
                     </li>
                 </ul>
                 <br>
@@ -69,23 +57,14 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/template/index'); ?>',
-                               'Шаблони, оферта')">Шаблони, оферта
-                        </a>
+                    <li><a href="#/accoundant/template">Шаблони, оферта</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/operationType/index'); ?>',
-                               'Типи проплат')">
+                    <li><a href="#/accoundant/operationtype">
                             Типи проплат</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/externalSources/index'); ?>',
-                               'Зовнішні джерела коштів')">
+                    <li><a href="#/accoundant/externalsources">
                             Зовнішні джерела коштів</a></li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/cancelReasonType/index'); ?>',
-                               'Причини відміни проплат')">
+                    <li><a href="#/accoundant/cancelreasontype">
                             Причини відміни проплат</a></li>
                 </ul>
             </div>

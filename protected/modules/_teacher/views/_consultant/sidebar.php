@@ -4,21 +4,16 @@
  */
 ?>
 <li>
-    <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/cabinet/loadPage',
-        array('page' => 'consultant'));?>','Консультант')">
+    <a href="#/consultant" ng-click="changeView('consultant')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Консультант<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/modules',
-                array('id' => $model->id)) ?>',
-                'Модулі')">
+            <a href="#/consultant/modules">
                 Модулі
             </a>
         </li>
         <li>
-            <a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_consultant/consultant/consultations',
-                array('id' => $model->id)) ?>',
-                'Консультації')">
+            <a href="#/consultant/consultations">
                 Консультації
             </a>
         </li>

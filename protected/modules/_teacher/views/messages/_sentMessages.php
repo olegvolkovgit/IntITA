@@ -5,8 +5,8 @@
  * @var $user StudentReg
  */
 ?>
-<div class="dataTable_wrapper" style="margin-top: 5px">
-    <table class="table table-striped table-bordered table-hover" id="sentMessages">
+<div class="dataTable_wrapper" style="margin-top: 5px" >
+    <table class="table table-striped table-bordered table-hover" width="100%" cabinet-table="">
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>
@@ -20,7 +20,7 @@
         foreach ($sentMessages as $userMessage) {
             ?>
             <tr class="odd gradeX" style="cursor:pointer">
-                <td class="center">
+                <td class="center" style="width: 5%">
                     <input type="checkbox" id="<?= $userMessage->id_message; ?>">
                 </td>
                 <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(

@@ -17,7 +17,7 @@
     $fieldsetCourse = Yii::t('payments', '0600');
 }
 ?>
-
+<div ng-controller="payCtrl">
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <div id="addAccessModule">
@@ -81,7 +81,8 @@
         </div>
     </div>
 </div>
+</div>
 <br>
 <script>
-    initPayTypeaheads();
+
 </script>
