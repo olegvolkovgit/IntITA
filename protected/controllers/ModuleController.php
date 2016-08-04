@@ -333,8 +333,8 @@ class ModuleController extends Controller
             } else {
                 $permission = new PayModules();
                 $permission->setModuleRead($user->id, $module->module_ID);
-                if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID)) {
-                    UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, 'Online');
+                if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID, EducationForm::ONLINE)) {
+                    UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, EducationForm::ONLINE);
                 }
                 $message = new MessagesPayment();
                 $message->build(null, $user, $module);
