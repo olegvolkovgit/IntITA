@@ -2,7 +2,18 @@ angular
     .module('revisionEdit')
     .controller('CKEditorCtrl', CKEditorCtrl)
 
-function CKEditorCtrl($compile, $scope, $http, $ngBootbox) {
+function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
+    //load from service lecture data for scope
+    getLectureData.getData(idRevision).then(function(response){
+        $.each(response.pages, function(index) {
+            if(response.pages[index]['id']==idPage){
+                $scope.page=index+1;
+                return false;
+            }
+            $scope.page=1;
+        });
+    });
+
     $scope.lectureLocation=window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
     $scope.locationToPreview =$scope.lectureLocation+'#/page'+window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
     $scope.previewRevision = function(url) {
