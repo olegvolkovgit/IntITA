@@ -38,6 +38,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
         $scope.editedJson=response;
         //load json for edit if it is
         if ($scope.editedJson != undefined){
+            
             //replace space symbols for json
             var oldSymbol = ['\n','\t'];
             var newSymbol = ['\\n','\\t'];
