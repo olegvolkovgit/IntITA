@@ -1,6 +1,8 @@
 <? $css_version = 1; ?>
 <?php
-/* @var $model Course */
+/* @var $model Course
+ * @var $isEditor
+ */
 ?>
     <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
     <script
@@ -9,11 +11,6 @@
         idCourse = <?php echo $model->course_ID;?>;
         lang = '<?php if (CommonHelper::getLanguage() == 'ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     </script>
-<?php
-//$this->breadcrumbs = array(
-//    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", CHtml::decode($model->getTitle()),
-//);
-//?>
     <div class="main">
         <div class="courseTitle">
             <h1>
@@ -31,15 +28,13 @@
                 <?php $this->renderPartial('_courseInfo', array('model' => $model)); ?>
             </div>
             <?php echo $this->renderPartial('_modulesList', array(
-                'dataProvider' => $dataProvider,
-                'canEdit' => $canEdit,
-                'model' => $model)); ?>
+                'model' => $model,
+                'isEditor'=>$isEditor
+            )); ?>
         </div>
     </div>
-<?php if ($canEdit) { ?>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
-    <script
-        src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<?php if ($isEditor) { ?>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
     <link
         href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>"

@@ -21,8 +21,7 @@
     <div name="selectAgreement" id="resultAgreement">
         <?php $this->renderPartial('_ajaxAgreement', array('agreements' => '')); ?>
     </div>
-    <form action="<?php echo Yii::app()->createUrl('/_teacher/_accountant/operation/createByInvoice'); ?>"
-          method="POST" onsubmit="return checkInvoices();">
+    <form name="invoicesForm">
         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>" hidden="hidden">
         <input type="number" name="type" value="1" hidden="hidden">
         <input type="number" name="source" value="1" hidden="hidden">
@@ -35,7 +34,7 @@
                 <div class="form-inline">
                     <div class="input-group col-sm-6">
                         <div class="input-group-addon" id="icon">uah</div>
-                        <input type="number" class="form-control" name="summa" id="summa" value="" required
+                        <input type="number" class="form-control" name="summa" min="0" id="summa" value="" required
                                placeholder="Введіть суму операції"/>
                         <input type="number" name="user" value="<?php echo Yii::app()->user->getId(); ?>"
                                hidden="hidden">
@@ -44,39 +43,42 @@
                     </div>
                 </div>
                 <br/>
-                <button class="btn btn-primary"
-                        onclick="newOperation('<?php echo Yii::app()->createUrl("/_teacher/_accountant/operation/createByInvoice"); ?>'); return false;">Додати</button>
+                <input type="submit" class="btn btn-primary"
+                        onclick="newPayment('<?php echo Yii::app()->createUrl("/_teacher/_accountant/operation/createByInvoice"); ?>');" value="Додати">
             </div>
         </fieldset>
     </form>
 </div>
 <script>
-    function newOperation(url){
-        summa = $jq("#summa").val();
-        alert(summa);
-        if (summa ) {
-            bootbox.alert('Введіть суму операції.');
-        } else {
-            var posting = $jq.post(url, {user: user});
-            posting.done(function (response) {
+    function newPayment(url){
+        var invoices =checkInvoices();
+        if(!invoices){
+            showDialog("Виберіть хоча б один рахунок");
+            return false;
+        }else{
+            summa = $jq("#summa").val();
+            if (summa==0) {
+                bootbox.alert('Введіть суму операції.');
+            } else {
+                var posting = $jq.post(url, {invoices:invoices,summa:summa,user: user,type:2,source:''});
+                posting.done(function (response) {
                     if (response == 1) {
-                        bootbox.alert("Користувач " + user + " призначений адміністратором.", function () {
-                            location.href = window.location.pathname;
+                        bootbox.alert("Оплата пройшла успішно", function () {
+//                            location.href = window.location.pathname;
                         });
                     }
                     else {
-                        bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                            "операцію пізніше або напишіть на адресу " + adminEmail, function () {
-                            location.href = window.location.pathname;
+                        bootbox.alert("Оплату здійснити не вдалося", function () {
+//                            location.href = window.location.pathname;
                         });
                     }
                 })
-                .fail(function () {
-                    bootbox.alert("Користувача " + user + " не вдалося призначити адміністратором. Спробуйте повторити " +
-                        "операцію пізніше або напишіть на адресу " + adminEmail, function () {
-                        location.href = window.location.pathname;
+                    .fail(function () {
+                        bootbox.alert("Помилка сервера. Оплату здійснити не вдалося", function () {
+//                            location.href = window.location.pathname;
+                        });
                     });
-                });
+            }
         }
     }
 </script>

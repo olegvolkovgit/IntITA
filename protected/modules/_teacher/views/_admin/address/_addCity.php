@@ -7,9 +7,7 @@
  */?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                    'Країни, міста')">
+        <button type="button" class="btn btn-primary"ng-click="changeView('admin/address')">
             Країни, міста
         </button>
     </li>
@@ -18,14 +16,13 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form role="form">
+                <form role="form" name="addCityForm" onsubmit="addCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCity')?>');return false;">
                     <div class="form-group">
                         <label>Країна</label>
                         <input id="typeahead" type="text" class="typeahead form-control" name="country"
                                placeholder="виберіть країну"
                                size="90" required>
                         <input type="number" hidden="hidden" id="country" value="0"/>
-                        <p class="help-block"><em>* якщо немає потрібної країни, спочатку потрібно додати її у формі "Додати країну"</em></p>
                     </div>
 
                     <div class="form-group">
@@ -44,11 +41,9 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary" onclick="addCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCity')?>');
-                            return false;">Зберегти</button>
+                        <button type="submit" class="btn btn-primary">Зберегти</button>
                         <button type="reset" class="btn btn-outline btn-default"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                                    'Країни, міста')">Скасувати
+                                ng-click="changeView('admin/address')">Скасувати
                         </button>
                     </div>
                 </form>

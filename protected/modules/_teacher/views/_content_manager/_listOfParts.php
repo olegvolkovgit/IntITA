@@ -1,4 +1,4 @@
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="lessonDetailCtrl">
     <br>
 
     <div class="panel panel-default">
@@ -21,6 +21,3 @@
         </div>
     </div>
 </div>
-<script>
-    initPartsListTable(<?=$idLesson?>);
-</script>

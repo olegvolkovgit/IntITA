@@ -8,7 +8,7 @@
                 <img ng-if=lectureData ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $lectureRevision->id_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
                      title="Попередній перегляд"/>
-                <img ng-if=lectureData.lecture.canSendForApproval ng-click=sendRevision('<?php echo $lectureRevision->id_revision; ?>')
+                <img ng-if=lectureData.lecture.canSend ng-click=sendRevision('<?php echo $lectureRevision->id_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
                 <img ng-if=lectureData.lecture.canCancelEdit ng-click=cancelEditByEditor('<?php echo $lectureRevision->id_revision; ?>')

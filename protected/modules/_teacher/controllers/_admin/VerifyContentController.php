@@ -3,7 +3,7 @@
 class VerifyContentController extends TeacherCabinetController
 {
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        return Yii::app()->user->model->isAdmin() ||  Yii::app()->user->model->isContentManager();
     }
 
     public function actionIndex()

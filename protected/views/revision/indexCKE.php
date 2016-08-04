@@ -45,6 +45,7 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/directives/lectureBlocks.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/directives/styleDirectives.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/taskJson.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/services/getLectureData.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lecture_revision_app/directives/ajaxLoader.js'); ?>"></script>
@@ -84,7 +85,7 @@ $this->breadcrumbs = array(
         </div>
         <div id="lecturePage">
             <h1 class="lessonPart lessonEditPart">
-                <?php echo Yii::t('lecture', '0073') . " : ".$page->revision->properties->title_ua; ?>
+                <?php echo Yii::t('lecture', '0073') . " : ".CHtml::encode($page->revision->properties->title_ua); ?>
             </h1>
             <div class="lectureProgress">
                 <?php foreach($pages as $part){ ?>
@@ -98,9 +99,9 @@ $this->breadcrumbs = array(
                 <?php } ?>
             </div>
             <div class='icons'>
-                <img ng-click=previewRevision('<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)); ?>')
-                     src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
-                     title="Попередній перегляд"/>
+                <a ng-href='<?=Yii::app()->createUrl("revision/previewLectureRevision", array("idRevision" => $page->id_revision)); ?>#/page{{page}}'>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>" title="Попередній перегляд"/>
+                </a>
             </div>
             <table class="table" id="pageView">
                 <tr>

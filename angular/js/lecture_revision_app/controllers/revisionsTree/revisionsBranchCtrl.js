@@ -6,15 +6,20 @@ angular
     .controller('revisionsBranchCtrl',revisionsBranchCtrl)
     .filter('arrow', function() {
         return function(input) {
-            return input ? '\u21a5' : '\u21a7';
+            return input ? '\u21a7' : '\u21a5';
         };
     });
 
 function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
     $scope.formData = {};
-    $scope.approvedTree=true;
+    //load list of module authors. First params - id module, second - id lecture revision. If two params are null - load all authors of revisions 
+    revisionsTree.getRevisionsAuthors(null,idRevision).then(function(response){
+        $scope.authors=response;
+        $scope.authors.unshift({authorName:"Всі автори", id:"0"});
+        $scope.selectedAuthor = $scope.authors[0];
+    });
     //init tree after load json
-    revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
+    revisionsTree.getRevisionsBranch(idRevision).then(function(response){
         $rootScope.revisionsJson=response;
         $scope.revisionsTreeInit();
     });
@@ -57,14 +62,26 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         },
         {
             "type": "button",
-            "actionType": "release",
-            "title": "Реліз",
+            "actionType": "proposedToRelease",
+            "title": "Запропонувати до релізу",
             "visible": true,
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
                 var nodeId = $(event.data.el).attr('data-nodeid');
-                $scope.releaseRev(idRevision, nodeId);
+                $scope.proposedToReleaseRev(idRevision, nodeId);
+            }
+        },
+        {
+            "type": "button",
+            "actionType": "cancelProposedToRelease",
+            "title": "Відхилити пререліз",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                var nodeId = $(event.data.el).attr('data-nodeid');
+                $scope.cancelPreReleaseRev(idRevision, nodeId);
             }
         }
     ];
@@ -72,11 +89,12 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         {
             "type": "button",
             "title": "Створити нову ревізію",
+            "actionType": "create",
             "visible": true,
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.createRev(idRevision);
+                $scope.createRev(idRevision);
             }
         },
         {
@@ -86,7 +104,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.previewRev(idRevision);
+                $scope.previewRev(idRevision);
             }
         },
         {
@@ -96,7 +114,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.sendRevisionMessage(idRevision);
+                $scope.sendRevisionMessage(idRevision);
             }
         }
     ];
@@ -108,7 +126,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             "userId":userId,
             "action": function(event) {
                 var idRevision = $(event.data.el).attr('id');
-                $scope.$parent.editRev(idRevision);
+                $scope.editRev(idRevision);
             }
         },
         {
@@ -195,9 +213,26 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         });
     };
     $scope.rejectRev = function(id,nodeId) {
-        revisionsActions.rejectRevision(id).then(function(){
-            $scope.updateRevisionsBranch(nodeId);
-        });
+        bootbox.dialog({
+            title: "Ти впевнений, що хочеш відхилити ревізію?",
+                message: '<div class="panel-body"><div class="row"><form role="form" name="rejectMessage"><div class="form-group col-md-12">'+
+                '<textarea class="form-control" style="resize: none" rows="6" id="rejectMessageText" placeholder="тут можна залишити коментар при відхилені ревізії"></textarea>'+
+                '</div></form></div></div>',
+                buttons: {success: {label: "Підтвердити", className: "btn btn-primary",
+                    callback: function () {
+                        var comment = $('#rejectMessageText').val();
+                        revisionsActions.rejectRevision(id, comment).then(function(){
+                            $scope.updateRevisionsBranch(nodeId);
+                        });
+                    }
+                },
+                    cancel: {label: "Скасувати", className: "btn btn-default",
+                        callback: function () {
+                        }
+                    }
+                }
+            }
+        );
     };
     $scope.cancelRev = function(id,nodeId) {
         revisionsActions.cancelRevision(id).then(function(){
@@ -219,15 +254,25 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
             $scope.updateRevisionsBranch(nodeId);
         });
     };
+    $scope.cancelPreReleaseRev = function(id,nodeId) {
+        revisionsActions.cancelPreReleaseRevision(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
+    $scope.proposedToReleaseRev = function(id,nodeId) {
+        revisionsActions.proposedToReleaseRevision(id).then(function(){
+            $scope.updateRevisionsBranch(nodeId);
+        });
+    };
     //update revisions tree in module
     $scope.updateRevisionsBranch = function(nodeId){
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
-            revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function (response) {
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
+            revisionsTree.getRevisionsBranch(idRevision).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
         }else{
-            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
+            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson=response;
                 $scope.treeUpdate(nodeId);
             });
@@ -235,24 +280,24 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
     };
 
     $scope.loadTreeMode = function () {
-        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function (response) {
+        revisionsTree.getRevisionsBranch(idRevision).then(function (response) {
             $rootScope.revisionsJson = response;
             $scope.treeUpdate();
         });
     };
 
     $scope.updateTree = function() {
-        revisionsTree.getRevisionsBranch(idRevision,$scope.approvedRevisions).then(function(response){
+        revisionsTree.getRevisionsBranch(idRevision).then(function(response){
             $rootScope.revisionsJson=response;
             $scope.revisionsTreeInit();
         });
     };
 
     $scope.revisionFilter=function () {
-        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter)){
+        if($scope.allRevision || $scope.formData.revisionFilter=='undefined' || isEmptyFilter($scope.formData.revisionFilter) && $scope.selectedAuthor.id==0){
             $scope.updateTree();
         }else{
-            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData).then(function (response) {
+            revisionsTree.revisionTreeFilterInBranch(idRevision,$scope.formData, $scope.selectedAuthor.id).then(function (response) {
                 $rootScope.revisionsJson = response;
                 $scope.treeUpdate();
             });

@@ -1,8 +1,5 @@
-
-
 <div class="col-lg-12">
     <br>
-
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -15,9 +12,7 @@
                         <th style="width:10%;">К-ть відео</th>
                         <th style="width:11%;">К-ть тестів</th>
                         <th style="width:12%;">К-ть частин</th>
-
-
-
+                        <th style="width:12%;">К-ть ревізій</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -27,6 +22,3 @@
         </div>
     </div>
 </div>
-<script>
-    initCoursesListTable(<?=$filter_id?>);
-</script>

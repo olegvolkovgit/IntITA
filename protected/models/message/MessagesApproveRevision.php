@@ -14,7 +14,7 @@
 class MessagesApproveRevision extends Messages implements IMessage
 {
 	private $message;
-	private $template = '_approveRevisionNotification';
+	private $template = 'revision'. DIRECTORY_SEPARATOR . '_approveRevisionNotification';
 	private $subject;
 	private $receiver;
 	private $revision;
@@ -117,7 +117,7 @@ class MessagesApproveRevision extends Messages implements IMessage
     	$this->revision = $revision;
 		$this->id_revision = $revision->id_revision;
         $this->subject = $this->subject();
-		$this->receiver = StudentReg::model()->findByPk($revision->properties->id_user_created);;
+		$this->receiver = StudentReg::model()->findByPk($revision->properties->id_user_created);
 	}
 
 	public function create(){

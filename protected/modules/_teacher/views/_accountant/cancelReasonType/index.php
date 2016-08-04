@@ -2,7 +2,7 @@
 /* @var $types array */
 /* @var $model CancelReasonType */
 ?>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="cancelReasonTypeCtrl">
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountant/cancelReasonType/create"); ?>',
@@ -47,15 +47,7 @@
     </div>
 </div>
 <script>
-    $jq(document).ready(function () {
-        $jq('#cancelReasonTypes').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-    });
+
 </script>
 
 

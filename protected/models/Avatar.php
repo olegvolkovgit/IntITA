@@ -58,15 +58,11 @@ class Avatar {
         }
     }
 
-    public static function updateModuleAvatar($imageName,$tmpName,$id,$oldLogo)
+    public static function updateModuleAvatar($imageName,$tmpName,$id)
     {
         $ext = substr(strrchr($imageName, '.'), 1);
         $imageName = uniqid() . '.' . $ext;
-        if (copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/module/" . $imageName)) {
-            $src = Yii::getPathOfAlias('webroot') . "/images/module/" . $oldLogo;
-            if (is_file($src) && $oldLogo!='module.png')
-                unlink($src);
-        }
+        copy($tmpName, Yii::getpathOfAlias('webroot') . "/images/module/" . $imageName);
 
         Module::model()->updateByPk($id, array('module_img' => $imageName));
         ImageHelper::uploadAndResizeImg(

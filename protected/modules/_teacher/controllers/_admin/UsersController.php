@@ -20,8 +20,7 @@ class UsersController extends TeacherCabinetController
         $counters["consultants"] = UserConsultant::model()->count("end_date IS NULL");
         $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
         $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
-        //todo
-        $counters["withoutRoles"] = "_";
+        $counters["withoutRoles"] = StudentReg::countUsersWithoutRoles();
 
         $this->renderPartial('index', array(
             'counters' => $counters

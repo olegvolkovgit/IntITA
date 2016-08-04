@@ -8,6 +8,7 @@
  * @property string $title_ua
  * @property string $title_ru
  * @property string $title_en
+ * @property string $geocode
  *
  * The followings are the available model relations:
  * @property AddressCity[] $addressCities
@@ -15,6 +16,7 @@
  */
 class AddressCountry extends CActiveRecord
 {
+	const UKRAINE = 1;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -31,10 +33,12 @@ class AddressCountry extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('title_ua, title_ru, title_en, geocode', 'required'),
+			array('geocode', 'length', 'max'=>2),
 			array('title_ua, title_ru, title_en', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title_ua, title_ru, title_en', 'safe', 'on'=>'search'),
+			array('id, title_ua, title_ru, title_en, geocode', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +65,7 @@ class AddressCountry extends CActiveRecord
 			'title_ua' => 'Title Ua',
 			'title_ru' => 'Title Ru',
 			'title_en' => 'Title En',
+			'geocode' => 'Geocode',
 		);
 	}
 
@@ -86,6 +91,7 @@ class AddressCountry extends CActiveRecord
 		$criteria->compare('title_ua',$this->title_ua,true);
 		$criteria->compare('title_ru',$this->title_ru,true);
 		$criteria->compare('title_en',$this->title_en,true);
+		$criteria->compare('geocode',$this->geocode,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,33 +109,6 @@ class AddressCountry extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function newUserCountry($oldId, $newTitle){
-        $param = "title_". Yii::app()->session["lg"];
-        $oldModel = AddressCountry::model()->findByPk($oldId);
-        if(!$oldModel){
-            $model = new AddressCountry();
-            $model->$param = $newTitle;
-            if ($model->save()){
-                return Yii::app()->db->lastInsertID;
-            }
-        } else {
-            if(strtolower($oldModel->$param) == strtolower($newTitle)){
-                return $oldId;
-            } else {
-                if($exist = AddressCountry::model()->findByAttributes(array($param => $newTitle))){
-                    return $exist->id;
-                } else {
-                    $model = new AddressCountry();
-                    $model->$param = $newTitle;
-                    if ($model->save()){
-                        return Yii::app()->db->lastInsertID;
-                    }
-                }
-            }
-        }
-        return null;
-	}
-
 	public static function countriesList(){
         $countries = AddressCountry::model()->findAll();
         $return = array('data' => array());
@@ -138,21 +117,23 @@ class AddressCountry extends CActiveRecord
             $row = array();
 
             $row["id"] = $record->id;
-            $row["title_ua"] = CHtml::encode($record->title_ua);
-            $row["title_ru"] = CHtml::encode($record->title_ru);
-            $row["title_en"] = CHtml::encode($record->title_en);
+            $row["title_ua"] = $record->title_ua;
+            $row["title_ru"] = $record->title_ru;
+            $row["title_en"] = $record->title_en;
+			$row["geocode"] = $record->geocode;
 
             array_push($return['data'], $row);
         }
         return json_encode($return);
 	}
 
-	public static function newCountry($titleUa, $titleRu, $titleEn){
+	public static function newCountry($titleUa, $titleRu, $titleEn, $geocode){
         $model = new AddressCountry();
 
         $model->title_ua = $titleUa;
         $model->title_ru = $titleRu;
         $model->title_en = $titleEn;
+		$model->geocode = $geocode;
 
         return $model->save();
 	}
@@ -178,4 +159,18 @@ class AddressCountry extends CActiveRecord
         }
         return json_encode($result);
     }
+
+	public static function countriesListByLang(){
+		$param = "title_".Yii::app()->session["lg"];
+		$criteria = new CDbCriteria();
+		$criteria->order=$param.' ASC';
+		$countries = AddressCountry::model()->findAll($criteria);
+		$data = array();
+
+		foreach ($countries as $key=>$record) {
+			$data[$key]["id"] = $record->id;
+			$data[$key]["title"] = $record->$param;
+		}
+		return json_encode($data);
+	}
 }

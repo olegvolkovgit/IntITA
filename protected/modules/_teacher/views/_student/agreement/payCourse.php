@@ -22,7 +22,8 @@ $price = $model->getBasePrice();
                     'model' => $model,
                     'isSelected' => ($type == 'Online')?true:false,
                     'price' => $model->getBasePrice(),
-                    'offerScenario' => $offerScenario
+                    'offerScenario' => $offerScenario,
+                    'educForm' => EducationForm::ONLINE
                 )); ?>
             </div>
             <div class="tab-pane fade <?php if($type == 'Offline') echo 'in active'; ?>" id="offline">
@@ -31,7 +32,8 @@ $price = $model->getBasePrice();
                     'model' => $model,
                     'isSelected' => ($type == 'Offline')?true:false,
                     'price' => $model->priceOffline(),
-                    'offerScenario' => $offerScenario
+                    'offerScenario' => $offerScenario,
+                    'educForm' => EducationForm::OFFLINE
                 )); ?>
             </div>
         </div>

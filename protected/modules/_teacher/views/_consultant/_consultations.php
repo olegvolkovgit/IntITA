@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="consultantCtrl">
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="userTabs" class="nav nav-tabs">
@@ -7,6 +7,8 @@
             <li class="active"><a href="#today" data-toggle="tab">Сьогодні</a>
             </li>
             <li><a href="#past" data-toggle="tab">Минулі консультації</a>
+            </li>
+            <li><a href="#cancel" data-toggle="tab">Скасовані консультації</a>
             </li>
         </ul>
         <!-- Tab panes -->
@@ -20,14 +22,13 @@
             <div class="tab-pane fade" id="past">
                 <?php $this->renderPartial('/_consultant/_pastConsultations');?>
             </div>
+            <div class="tab-pane fade" id="cancel">
+                <?php $this->renderPartial('/_consultant/_cancelledConsultations');?>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    $jq(document).ready(function () {
-        initTodayTeacherConsultationsTable();
-        initPlannedTeacherConsultationsTable();
-        initPastTeacherConsultationsTable();
-    });
+
 </script>

@@ -188,14 +188,14 @@ class RegisteredUser
 
     public function canApprove()
     {
-        return $this->isAdmin() || $this->isContentManager();
+        return $this->isContentManager();
     }
 
     //todo author role check
     public function hasRole($role)
     {
         if ($role == "author") {
-            return true;
+            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
         }
         return in_array($role, $this->getRoles());
     }
@@ -243,6 +243,11 @@ class RegisteredUser
         return array_diff(TeacherRolesDataSource::roles(), array_intersect($this->getRoles(), TeacherRolesDataSource::roles()), array(UserRoles::AUTHOR));
     }
 
+    public function noSetRoles()
+    {
+        return array_diff(AllRolesDataSource::roles(), array_intersect($this->getRoles(), AllRolesDataSource::roles()), array(UserRoles::AUTHOR));
+    }
+
     public function requests()
     {
         if (!$this->isAdmin() && !$this->isContentManager())
@@ -258,9 +263,15 @@ class RegisteredUser
         $consultantRequests = MessagesTeacherConsultantRequest::notApprovedRequests();
 
         $result = array_merge($authorRequests, $consultantRequests);
+
         if($this->isAdmin()){
             $assignCoworkerRequests = MessagesCoworkerRequest::notApprovedRequests();
             $result = array_merge($result, $assignCoworkerRequests);
+        }
+        if($this->isContentManager()){
+            $revisionRequests = MessagesRevisionRequest::notApprovedRequests();
+            $moduleRevisionRequests = MessagesModuleRevisionRequest::notApprovedRequests();
+            $result = array_merge($result, $revisionRequests, $moduleRevisionRequests);
         }
 
         return $result;
@@ -306,7 +317,11 @@ class RegisteredUser
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
-                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));}
+                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));
+        }
+        if ($lecture->module->status==Module::DEVELOP) {
+            throw new CHttpException(403, Yii::t('lecture', '0894'));
+        }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
             if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')))
@@ -322,7 +337,7 @@ class RegisteredUser
     }
 
     public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
-        if ($this->isAdmin() || $editMode || $this->isContentManager()) {
+        if ($this->isAdmin() || $editMode) {
             return true;
         }
         if ($this->isTeacherConsultant()) {

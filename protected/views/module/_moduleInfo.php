@@ -48,6 +48,17 @@
                 ?>
             </div>
             <div>
+                <span id="titleModule"><?php echo Yii::t('module', '0893'); ?>: </span>
+                <?php if ($post->status == Module::DEVELOP) { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'disabled.png'); ?>">
+                    <?php echo Yii::t('courses', '0230');
+                } else { ?>
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'enable.png'); ?>">
+                    <?php echo Yii::t('courses', '0231');
+                }
+                ?>
+            </div>
+            <div>
                 <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
                 <?php
                 $course = (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0)) ? 0 : $_GET['idCourse'];

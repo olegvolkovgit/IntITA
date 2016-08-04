@@ -85,7 +85,6 @@ class LessonController extends Controller
             'lecture' => $lecture,
             'editMode' => $editMode,
             'passedPages' => $passedPages,
-          //  'teacher' => $teacher,
             'idCourse' => $idCourse,
             'user' => $user,
             'page' => $pageModel,

@@ -129,13 +129,13 @@ class RevisionSkipTask extends RevisionQuiz {
         return $newTest;
     }
 
-    public function cloneTest($lectureElementId) {
+    public function cloneTest($lectureElementId, $newModule) {
         $newTest = new RevisionSkipTask();
         $newTest->condition = $lectureElementId;
         $newTest->question = $this->question;
         $newTest->source = $this->source;
         $newTest->id_test = $this->id_test;
-        $newTest->uid = $this->uid;
+        $newTest->uid = $newModule ? RevisionQuizFactory::getQuizId($newModule):$this->uid;
         $newTest->updated = $this->updated == 1 ? 1 : 0;
         $newTest->id_test = $this->id_test;
         $newTest->saveCheck();

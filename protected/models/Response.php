@@ -154,12 +154,12 @@ class Response extends CActiveRecord
             '[center]' => '<p style="text-align:center;">', '[/center]' => '</p>',
             '[justify]' => '<p style="text-align:justify;">', '[/justify]' => '</p>',
 
-            '[bold]' => '<span style="font-weight:bold;">', '[/bold]' => '</span>',
-            '[italic]' => '<span style="font-weight:bold;">', '[/italic]' => '</span>',
-            '[underline]' => '<span style="text-decoration:underline;">', '[/underline]' => '</span>',
-            '[b]' => '<span style="font-weight:bold;">', '[/b]' => '</span>',
-            '[i]' => '<span style="font-weight:bold;">', '[/i]' => '</span>',
-            '[u]' => '<span style="text-decoration:underline;">', '[/u]' => '</span>',
+            '[bold]' => '<b>', '[/bold]' => '</b>',
+            '[italic]' => '<i>', '[/italic]' => '</i>',
+            '[underline]' => '<u>', '[/underline]' => '</u>',
+            '[b]' => '<b>', '[/b]' => '</b>',
+            '[i]' => '<i>', '[/i]' => '</i>',
+            '[u]' => '<u>', '[/u]' => '</u>',
             '[break]' => '<br>',
             '[br]' => '<br>',
             '[newline]' => '<br>',
@@ -178,7 +178,7 @@ class Response extends CActiveRecord
             '[code]' => '<code>', '[/code]' => '</code>',
             '[preformatted]' => '<pre>', '[/preformatted]' => '</pre>',
             '[pre]' => '<pre>', '[/pre]' => '</pre>',
-            '[list=1]' => '<ul>'
+            '[list=1]' => '<ol>'
         );
 
         $bbtext = str_ireplace(array_keys($bbtags), array_values($bbtags), $bbtext);
@@ -197,7 +197,27 @@ class Response extends CActiveRecord
         foreach ($bbextended as $match => $replacement) {
             $bbtext = preg_replace($match, $replacement, $bbtext);
         }
+
         return $bbtext;
+    }
+
+    public function html_to_bbcode($text)
+    {
+        $bbtags = array(
+            '<b>' => '[b]', '</b>' => '[/b]',
+            '<i>' => '[i]', '</i>' => '[/i]',
+            '<u>' => '[u]', '</u>' => '[/u]',
+            
+            '<ul>' => '[list]', '</ul>' => '[/list]',
+
+            '<li>' => '[*]', '</li>' => '[/*]',
+            '<code>' => '[code]', '</code>' => '[/code]',
+            '<ol>' => '[list=1]'
+        );
+
+        $text = str_ireplace(array_keys($bbtags), array_values($bbtags), $text);
+        
+        return $text;
     }
 
     public function publishLabel()
@@ -274,7 +294,7 @@ class Response extends CActiveRecord
             $row["author"] = $record->getResponseAuthorName();
             $row["about"] = $record->getResponseAboutTeacherName();
             $row["date"] = $record->timeDesc();
-            $row["response"]["text"] = CHtml::encode($record->text);
+            $row["response"]["text"] = strip_tags ($record->text);
             $row["rate"] = $record->rate;
             $row["response"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/response/view", array("id" => $record->id)) . "'";
             $row["publish"] = $record->publishLabel();

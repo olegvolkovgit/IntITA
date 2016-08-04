@@ -6,7 +6,7 @@
 
 <form
     onsubmit="addCoursePrice('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addCoursePrice'); ?>',
-        'Модуль <?php echo $model->moduleInCourse->getTitle() ?>');return false;"
+        'Модуль <?php echo $model->moduleInCourse->getSlashesTitle() ?>');return false;"
     name="add-accessModule">
     <div class="col-md-8">
         <div class="form-group">

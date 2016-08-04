@@ -11,7 +11,7 @@ class Author extends Role
      */
     public function tableName()
     {
-        return "";
+        return "teacher_module";
     }
 
     /**
@@ -25,7 +25,7 @@ class Author extends Role
      * @return string the role title (ua)
      */
     public function title(){
-        return 'Автор';
+        return 'Автор модуля';
     }
 
     public function getErrorMessage(){
@@ -70,11 +70,21 @@ class Author extends Role
         switch ($attribute) {
             case 'module':
                 if($this->checkModule($user->id, $value)) {
-                    return Yii::app()->db->createCommand()->
+                    if (Yii::app()->db->createCommand()->
                     insert('teacher_module', array(
                         'idTeacher' => $user->id,
                         'idModule' => $value
-                    ));
+                    ))){
+                        $revisionRequest=MessagesAuthorRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
+                        if($revisionRequest){
+                            $revisionRequest->setApproved();
+                        }
+                        $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
+                            array(Module::model()->findByPk($value)),
+                            'Призначено модуль для редагування');
+                        return true;
+                    }
+                    return false;
                 } else {
                     return false;
                 }
@@ -102,10 +112,16 @@ class Author extends Role
     {
         switch ($attribute) {
             case 'module':
-                return Yii::app()->db->createCommand()->
+                if (Yii::app()->db->createCommand()->
                 update('teacher_module', array(
                     'end_time' => date("Y-m-d H:i:s"),
-                ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value));
+                ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
+                    $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
+                        array(Module::model()->findByPk($value)),
+                        'Скасовано модуль для редагування');
+                    return true;
+                }
+                return false;
                 break;
             default:
                 return false;
@@ -135,5 +151,27 @@ class Author extends Role
             ->queryAll();
 
         return $records;
+    }
+
+    //not supported for this role
+    public function notifyAssignRole(StudentReg $user){
+        return false;
+    }
+
+    //cancel authorship for all modules
+    public function cancelRole(StudentReg $user)
+    {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
+
+        if(Yii::app()->db->createCommand()->
+        update($this->tableName(), array(
+            'end_time'=>date("Y-m-d H:i:s"),
+        ), 'idTeacher=:id and end_time IS NULL', array(':id'=>$user->id))){
+            $this->notifyCancelRole($user);
+            return true;
+        }
+        return false;
     }
 }

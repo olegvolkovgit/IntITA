@@ -15,14 +15,6 @@
                            class="btn btn-outline btn-primary">
                             Редагувати список модулів</a>
                     </li>
-                    <li>
-                        <button type="button" class="btn btn-outline btn-primary"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/addExistModule', array(
-                                    'id' => $model->course_ID
-                                )); ?>', '<?= "Додати модуль до курса " . $model->getTitle() ?>')">
-                            Додати існуючий модуль до курса
-                        </button>
-                    </li>
                 </ul>
             <?php } ?>
 
@@ -59,7 +51,7 @@
                                                    'id' => $item->moduleInCourse->module_ID, 'course' => $item->id_course)); ?>',
                                                    'Додати/змінити ціну модуля у курсі')">
                                                 <?php if ($item->price_in_course != null) {
-                                                    echo $item->price_in_course . " (ред.)";
+                                                    echo ($item->price_in_course == 0)?"безкоштовно (ред.)":$item->price_in_course . " (ред.)";
                                                 } else {
                                                     if ($item->moduleInCourse->module_price) {
                                                         echo $item->moduleInCourse->module_price . " (ред.)";
@@ -70,7 +62,7 @@
                                             </a>
                                         <?php } else {
                                             if ($item->price_in_course != null) {
-                                                echo $item->price_in_course;
+                                                echo ($item->price_in_course == 0)?"безкоштовно":$item->price_in_course;
                                             } else {
                                                 if ($item->moduleInCourse->module_price) {
                                                     echo $item->moduleInCourse->module_price;

@@ -31,6 +31,11 @@ class ConsultantController extends TeacherCabinetController
         echo Consultationscalendar::pastConsultationsList(Yii::app()->user->getId());
     }
 
+
+    public function actionGetCancelConsultationsList(){
+        echo Consultationscalendar::cancelConsultationsList(Yii::app()->user->getId());
+    }
+
     public function actionGetPlannedConsultationsList(){
         echo Consultationscalendar::plannedConsultationsList(Yii::app()->user->getId());
     }

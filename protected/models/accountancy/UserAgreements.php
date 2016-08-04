@@ -22,12 +22,14 @@
  * @property string $document_issued_date
  * @property string $inn
  * @property string $passport_issued
+ * @property integer $status
  *
  * @property Service $service
  * @property StudentReg $user
  * @property PaymentScheme $paymentSchema
  * @property StudentReg $approvalUser
  * @property StudentReg $cancelUser
+ * @property UserAgreementStatus $status0
  */
 class UserAgreements extends CActiveRecord
 {
@@ -48,7 +50,7 @@ class UserAgreements extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id, service_id, payment_schema', 'required'),
-            array('user_id, approval_user, cancel_user', 'numerical', 'integerOnly' => true),
+            array('user_id, approval_user, cancel_user, status', 'numerical', 'integerOnly' => true),
             array('service_id, payment_schema', 'length', 'max' => 10),
             array('number', 'length', 'max' => 50),
             array('passport, document_type, inn', 'length', 'max' => 30),
@@ -56,7 +58,7 @@ class UserAgreements extends CActiveRecord
             // The following rule is used by search().
             array('id, user_id, summa, service_id, number, create_date, approval_user, approval_date, cancel_user,
 			cancel_date, close_date, payment_schema, cancel_reason_type, passport, document_type, inn,
-			document_issued_date, passport_issued', 'safe', 'on' => 'search'),
+			document_issued_date, passport_issued, status', 'safe', 'on' => 'search'),
         );
     }
 
@@ -74,6 +76,7 @@ class UserAgreements extends CActiveRecord
             'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
             'paymentSchema' => array(self::BELONGS_TO, 'PaymentScheme', 'payment_schema'),
+            'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status')
         );
     }
 
@@ -180,19 +183,21 @@ class UserAgreements extends CActiveRecord
     
     public static function courseAgreement($user, $course, $schema, $educForm)
     {
-        $service = CourseService::getService($course);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = CourseService::getService($course, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'CourseService', $course, $schema);
+        return self::newAgreement($user, 'CourseService', $course, $schema, $educFormModel);
     }
 
-    public static function courseAgreementExist($user, $course)
+    public static function courseAgreementExist($user, $course, $educForm)
     {
-        $service = CourseService::getService($course);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = CourseService::getService($course, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -204,19 +209,21 @@ class UserAgreements extends CActiveRecord
 
     public static function moduleAgreement($user, $module, $schema, $educForm)
     {
-        $service = ModuleService::getService($module);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = ModuleService::getService($module, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
                 return $model;
             }
         }
-        return self::newAgreement($user, 'ModuleService', $module, $schema);
+        return self::newAgreement($user, 'ModuleService', $module, $schema, $educFormModel);
     }
 
-    public static function moduleAgreementExist($user, $module)
+    public static function moduleAgreementExist($user, $module, $educForm)
     {
-        $service = ModuleService::getService($module);
+        $educFormModel = EducationForm::model()->findByPk($educForm);
+        $service = ModuleService::getService($module, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -226,10 +233,11 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id, $schemaId)
+    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, EducationForm $educForm)
     {
-        $schema = PaymentScheme::getSchema($schemaId);
-        $serviceModel = $modelFactory::getService($param_id);
+        $schema = PaymentScheme::getSchema($schemaId, $educForm->id);
+
+        $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
 
         $model = new UserAgreements();
@@ -237,19 +245,24 @@ class UserAgreements extends CActiveRecord
         $model->payment_schema = $schemaId;
         $model->service_id = $serviceModel->service_id;
 
-        $model->summa = $schema->getSumma($billableObject);
+        //create fantom billableObject model for converting object's price to UAH
+        //used only in computing agreement and invoices price
+        $billableObjectUAH = clone $billableObject->getModelUAH();
+
+        $model->summa = $schema->getSumma($billableObjectUAH);
         $startDate = new DateTime();
         $model->close_date = $schema->getCloseDate($billableObject, $startDate);
+        $model->status = 1;
 
         if ($model->save()) {
-            $invoicesList = $schema->getInvoicesList($billableObject, new DateTime());
+            $invoicesList = $schema->getInvoicesList($billableObjectUAH, new DateTime());
             $agreementId = $model->id;
             $model->updateByPk($agreementId, array(
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
                 )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
         } else {
-            throw new CException('Договір не заведено!');
+            throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
         return $model;
     }
@@ -404,9 +417,9 @@ class UserAgreements extends CActiveRecord
             $row = array();
             $row["title"]["name"] = "Договір ".$record->number;
             $row["title"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
-            $row["object"] = CHtml::encode($record->service->description);
+            $row["object"] = ($record->service)?CHtml::encode($record->service->description):"";
             $row["date"] = date("d.m.y", strtotime($record->create_date));
-            $row["summa"] = ($record->summa != 0)?number_format(CommonHelper::getPriceUah($record->summa), 2, ",","&nbsp;"): "безкоштовно";
+            $row["summa"] = ($record->summa != 0)?number_format($record->summa, 2, ",","&nbsp;"): "безкоштовно";
             $row["schema"] = CHtml::encode($record->paymentSchema->name);
             $row["invoices"]["name"] = "Договір ".$record->number;
             $row["invoices"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";

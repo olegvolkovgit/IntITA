@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="statusOfCoursesCtrl">
     <div class="panel-body">
 
         <ul id="accessTabs" class="nav nav-tabs">
@@ -7,6 +7,8 @@
             <li><a href="#without_videos" data-toggle="tab">Курси без відео</a>
             </li>
             <li><a href="#without_tests" data-toggle="tab">Курси без тестів</a>
+            </li>
+            <li><a href="#without_tests_and_videos" data-toggle="tab">Курси без тестів і відео</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -18,6 +20,9 @@
             </div>
             <div class="tab-pane fade" id="without_tests">
                 <?php $this->renderPartial('/_content_manager/_coursesWithoutTests',array('filter_id'=>'2')); ?>
+            </div>
+            <div class="tab-pane fade" id="without_tests_and_videos">
+                <?php $this->renderPartial('/_content_manager/_coursesWithoutTestsAndVideos',array('filter_id'=>'3')); ?>
             </div>
 
         </div>

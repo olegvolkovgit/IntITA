@@ -5,8 +5,8 @@
  * @var $user StudentReg
  */
 ?>
-<div class="dataTable_wrapper" style="margin-top: 5px">
-    <table class="table table-striped table-bordered table-hover" id="deletedMessages">
+<div class="dataTable_wrapper" style="margin-top: 5px" ng-controller="messagesCtrl">
+    <table  width="100%" class="table table-striped table-bordered table-hover" cabinet-table="deletedMessages">
         <thead>
         <tr>
             <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>
@@ -20,7 +20,7 @@
             foreach($deletedMessages as $userMessage){
                 ?>
                 <tr class="odd gradeX"  style="cursor:pointer">
-                    <td class="center">
+                    <td class="center" style="width: 5%">
                         <input type="checkbox" id="<?=$userMessage->id_message;?>">
                     </td>
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/message", array(

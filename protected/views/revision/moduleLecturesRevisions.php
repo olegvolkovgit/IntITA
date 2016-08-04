@@ -50,6 +50,14 @@
                         </div>
                     </li>
             </ul>
+            <?php if($author) { ?>
+            <div>
+                <a href="" ng-click="isOpenLecture = !isOpenLecture">Створити ревізію нового заняття</a>
+            </div>
+            <div ng-show="isOpenLecture">
+                <?php $this->renderPartial('_addLessonForm', array('idModule'=>$idModule)); ?>
+            </div>
+            <?php } ?>
             <?php
             $this->renderPartial('_revisionsTree');
             ?>
@@ -63,4 +71,5 @@
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'revision.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" >
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrap-treeview.css'); ?>" />
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>
 

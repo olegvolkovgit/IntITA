@@ -42,7 +42,7 @@ class RevisionQuizUidUpdateBehavior extends CActiveRecordBehavior{
      * If model not new and wasn't update before set update flag in model.
      * @return bool
      */
-    public function beforeSave() {
+    public function beforeSave($event) {
         if (!$this->owner->isNewRecord && !$this->isUpdated() && $this->owner->updated != self::QUIZ_APPROVED) {
             $this->setUpdated();
         }

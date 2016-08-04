@@ -9,16 +9,14 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
-                    'Модулі')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('admin/modulemanage')">
             Список модулів
         </button>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
                 onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/view',
-                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getTitle(); ?>')">Переглянути
+                    array('id' => $model->module_ID)); ?>', '<?= "Модуль " . $model->getSlashesTitle(); ?>')">Переглянути
             модуль
         </button>
     </li>
@@ -47,14 +45,19 @@
             Призначити консультанта
         </button>
     </li>
+    <?php if(Yii::app()->user->model->isContentManager()) { ?>
+    <li>
+        <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule' => $model->module_ID)); ?>" class="btn btn-primary">Ревізії модуля</a>
+    </li>
+    <?php } ?>
 </ul>
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Nav tabs -->
         <ul id="editModuleTabs" class="nav nav-tabs moduleTabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
+            <li class="active"><a href="#/admin/modulemanage" data-toggle="tab">Головне</a>
             </li>
-            <li><a href="#ua" data-toggle="tab">Українською</a>
+            <li><a href="#tttua" data-toggle="tab">Українською</a>
             </li>
             <li><a href="#ru" data-toggle="tab">Російською</a>
             </li>

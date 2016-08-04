@@ -10,7 +10,7 @@ $teacher = $user->getTeacher();
             <li class="active"><a href="#main" data-toggle="tab">Головне</a>
             </li>
             <?php if ($user->isAuthor()) { ?>
-                <li><a href="#author" data-toggle="tab">Автор</a>
+                <li><a href="#moduleauthor" data-toggle="tab">Автор</a>
                 </li>
             <?php } ?>
             <?php if ($user->isConsultant()) { ?>
@@ -22,6 +22,18 @@ $teacher = $user->getTeacher();
                 </li>
             <?php } ?>
         </ul>
+        <div class="panel-body">
+            <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                <ul class="list-inline">
+                    <li>
+                        <button type="button" class="btn btn-primary"
+                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
+                                    'Користувачі')">Користувачі
+                        </button>
+                    </li>
+                </ul>
+            <?php } ?>
+        </div>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="main">
                 <?php $this->renderPartial('/_content_manager/_mainTeacherTab', array('user' =>$user));?>

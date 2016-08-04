@@ -1,44 +1,26 @@
-<?php
-$editMode = ($canEdit) ? 'true' : '';
-?>
 <script type="text/javascript">
     basePath = '<?php echo Config::getBaseUrl();?>';
 </script>
 <div class="courseModules">
     <?php
-    if ($canEdit) { ?>
-        <img ng-cloak ng-hide="editVisible" ng-click="enableEdit()" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                    id="editIco" title="<?php echo Yii::t('course', '0329') ?>"/>
-
-        <div ng-cloak ng-click="showForm()">
-            <?php $form = $this->beginWidget('CActiveForm', array(
-                'id' => 'ajaxaddmodule-form',
-            )); ?>
-            <a href="#moduleForm">
-                <?php echo CHtml::hiddenField('idcourse', $model->course_ID); ?>
-                <?php
-                echo CHtml::ajaxSubmitButton('', CController::createUrl('course/modulesupdate'),
-                    array('update' => '#moduleForm'),
-                    array('id' => 'addModule', 'ng-show'=>'editVisible', 'title' => Yii::t('course', '0336')));
-                ?>
-            </a>
-            <?php $this->endWidget(); ?>
-            </br>
+    if ($isEditor) { ?>
+        <div class="revisionIco">
+            <label>Ревізії:
+                <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$model->course_ID)); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'courseRevisions.png'); ?>"
+                         title="Ревізії курса"/>
+                </a>
+                <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
+                    <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
+                         title="Ревізії модулів курса"/>
+                </a>
+            </label>
         </div>
-    <?php
-    } ?>
-
+    <?php }?>
     <h2><?php echo Yii::t('course', '0330'); ?></h2>
     <img style="display:inline-block" id="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
     <div ng-cloak id="modulesList">
         <div ng-repeat="module in modulesProgress.modules track by $index">
-            <?php if ($editMode) { ?>
-            <div ng-if="editVisible" class="moduleButtons">
-                <img ng-click="upModule(module.id, modulesProgress.courseId)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'up.png')?>" title="<?php echo Yii::t('course', '0334')?>">
-                <img ng-click="downModule(module.id, modulesProgress.courseId)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'down.png')?>" title="<?php echo Yii::t('course', '0335')?>">
-                <img ng-click="deleteModule(module.id, modulesProgress.courseId)" src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'delete.png')?>" title="<?php echo Yii::t('course', '0333')?>">
-            </div>
-            <?php } ?>
             <div class="modulesTitle"
                  ng-class="{disableModuleStyle: (!module.access || !modulesProgress.courseStatus) && !module.isAuthor && !modulesProgress.isAdmin,
                  availableModuleStyle: (module.access && modulesProgress.courseStatus) || module.isAuthor || modulesProgress.isAdmin,
@@ -85,8 +67,4 @@ $editMode = ($canEdit) ? 'true' : '';
         <?php echo Yii::t('course', '0809') ?>
         <img src="<?php echo StaticFilesHelper::createPath('image', 'course', 'finished.png'); ?>"/>
     </div>
-    <div id="moduleForm">
-        <?php $this->renderPartial('_addLessonForm', array('model' => $model)); ?>
-    </div>
 </div>
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'modulesList.js'); ?>"></script>
