@@ -44,7 +44,7 @@ $this->breadcrumbs = array(
                 <div class="revisionsList">
                     <div ng-if="current.ready_module" ng-repeat="module in readyModules.current.ready_module track by $index">
                         <a ng-href="{{module.link}}" target="_blank">
-                            ID модуля:{module.id}} {{module.title}}
+                            ID модуля:{{module.id}} {{module.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToCourseFromCurrentList(module.id, $index, readyModule)">+</span>
                     </div>
