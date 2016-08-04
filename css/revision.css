@@ -233,3 +233,8 @@ img.moduleImg {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+.notActive{
+    pointer-events: none;
+    cursor: default;
+    color:inherit;
+}

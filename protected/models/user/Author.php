@@ -101,7 +101,7 @@ class Author extends Role
         else return true;
     }
 
-    public function isTeacherAuthorModule($teacher, $module){
+    public static function isTeacherAuthorModule($teacher, $module){
         if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
             ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar())
             return true;

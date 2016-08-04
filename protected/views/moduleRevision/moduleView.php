@@ -49,19 +49,19 @@ $this->breadcrumbs = array(
                 </div>
                 <div class="revisionsList">
                     <div ng-if="current.proposed_to_release" ng-repeat="revision in approvedLecture.current.proposed_to_release track by $index">
-                        <a ng-href="{{revision.link}}" target="_blank">
+                        <a ng-href="{{revision.link}}" target="_blank" ng-class="{notActive: !revision.author}">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index, revisionProposedToRelease)">+</span>
                     </div>
                     <div ng-if="current.released" ng-repeat="revision in approvedLecture.current.released track by $index">
-                        <a ng-href="{{revision.link}}" target="_blank">
+                        <a ng-href="{{revision.link}}" target="_blank" ng-class="{notActive: !revision.author}">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index, revisionReleased)">+</span>
                     </div>
                     <div ng-if="current.approved" ng-repeat="revision in approvedLecture.current.approved track by $index">
-                        <a ng-href="{{revision.link}}" target="_blank">
+                        <a ng-href="{{revision.link}}" target="_blank" ng-class="{notActive: !revision.author}">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToModuleFromCurrentList(revision.id_revision, $index, revisionApproved)">+</span>
@@ -83,19 +83,19 @@ $this->breadcrumbs = array(
                 </div>
                 <div class="revisionsList">
                     <div ng-if="foreign.proposed_to_release" ng-repeat="revision in approvedLecture.foreign.proposed_to_release track by $index">
-                        <a ng-href="{{revision.link}}" target="_blank">
+                        <a ng-href="{{revision.link}}" target="_blank" ng-class="{notActive: !revision.author}">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index, revisionProposedToRelease)">+</span>
                     </div>
                     <div ng-if="foreign.released" ng-repeat="revision in approvedLecture.foreign.released track by $index">
-                        <a ng-href="{{revision.link}}" target="_blank">
+                        <a ng-href="{{revision.link}}" target="_blank" ng-class="{notActive: !revision.author}">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index, revisionReleased)">+</span>
                     </div>
                     <div ng-if="foreign.approved" ng-repeat="revision in approvedLecture.foreign.approved track by $index">
-                        <a ng-href="{{revision.link}}" target="_blank">
+                        <a ng-href="{{revision.link}}" target="_blank" ng-class="{notActive: !revision.author}">
                             Ревізія №{{revision.id_lecture_revision}} {{revision.title}}
                         </a>
                         <span class='ico' ng-click="addRevisionToModuleFromForeignList(revision.id_revision, $index, revisionApproved)">+</span>
