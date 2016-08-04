@@ -10,7 +10,7 @@
                 <table class="table table-striped table-bordered table-hover" cellspacing="0" id="invoices">
                     <thead>
                     <tr>
-                        <th>id рахунку</th>
+                        <th>Номер рахунку</th>
                         <th>Договір</th>
                         <th>Дата заведення</th>
                         <th>До сплати</th>
@@ -26,7 +26,7 @@
                     foreach ($invoices as $invoice) {
                         ?>
                         <tr class="odd gradeX">
-                            <td><?= $invoice->id; ?></td>
+                            <td><?= $invoice->number; ?></td>
                             <td>
                                 <?php if(isset($invoice->agreement)) { ?>
                                 <a href="#" onclick="load(
