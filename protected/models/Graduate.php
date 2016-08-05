@@ -192,7 +192,7 @@ class Graduate extends CActiveRecord
             $row["avatar"] = StaticFilesHelper::createPath('image', 'graduates', $record->avatar);
             $row["position"] = CHtml::encode($record->position);
             $row["workPlace"] = CHtml::encode($record->work_place);
-            $row["recall"] = substr(CHtml::encode($record->recall),0,500)."...";
+            $row["recall"] = mb_substr(CHtml::encode($record->recall),0,500,'UTF-8')."...";
             $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/graduate/view", array("id"=>$record->id))."'";
             $row["linkEdit"] = "'".Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id'=>$record->id))."'";
             array_push($return['data'], $row);
