@@ -21,13 +21,17 @@
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation' => false,
+        'enableAjaxValidation' => true,
         'enableClientValidation' => true,
         'clientOptions' => array(
             'validateOnSubmit' => true,
             'afterValidate' => 'js:function(form,data,hasError){
-                sendError(form,data,hasError);return true;
-                }',
+                if(data["Teacher_user_id"]){
+                    bootbox.alert(data["Teacher_user_id"][0]); return false;
+                 } else {
+                    sendError(form,data,hasError);return true;
+                 }
+          }',
         )
     )); ?>
 
