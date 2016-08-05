@@ -7,17 +7,16 @@
                 <label>Пошук розмов</label>
                 <br>
                 <br>
-                    <div>Перший користувач</div>
+                    <div>Перший користувач(автор кімнати)</div>
                     <br>
-                    <input id="chat_user1" type="text" class="form-control"  placeholder="Введіть ім'я першого користувача"
-                           required >
+                    <input id="author" type="text" class="form-control"  placeholder="Введіть ім'я автора кімнати">
 
                     <br><br>
                 <div>Другий користувач</div>
                     <br>
 
-                <input  id="chat_user2" type="text" class="form-control" placeholder="Введіть ім'я другого користувача"
-                                                                    size="90" required >
+                <input  id="chat_user" type="text" class="form-control" placeholder="Введіть ім'я користувача"
+                                                                    size="90">
 
                 <br>
                 <br>
@@ -40,10 +39,10 @@
 </div>
 <script>
     function searchUsers(){
-        var user_name1 = document.getElementById('chat_user1').value;
-        var user_name2 = document.getElementById('chat_user2').value;
+        var author_name = document.getElementById('author').value;
+        var user_name = document.getElementById('chat_user').value;
 
-                load(basePath+'/_teacher/_tenant/tenant/ShowChats?user1='+user_name1+'&user2='+user_name2);
+                load(basePath+'/_teacher/_tenant/tenant/ShowChats?author='+author_name+'&user='+user_name);
          }
 
 </script>
