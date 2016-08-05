@@ -55,7 +55,9 @@ $lessonsCount = Course::getLessonsCount($model->course_ID); ?>
                 <?php
             } ?>
         </div>
-        <?php $this->renderPartial('_onlinePaymentsForm', array('model' => $model)); ?>
+        <div ng-controller="courseSchemaCtrl">
+          <?php $this->renderPartial('_onlinePaymentsForm', array('model' => $model)); ?>
+        </div>
     </div>
 </div>
 <script>

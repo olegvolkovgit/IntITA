@@ -4,6 +4,7 @@
 angular
     .module('mainApp')
     .controller('moduleListCtrl',moduleListCtrl)
+    .controller('courseSchemaCtrl',courseSchemaCtrl);
 
 function moduleListCtrl($http,$scope) {
     var date = new Date();
@@ -106,5 +107,14 @@ function moduleListCtrl($http,$scope) {
             }
         }
         return term;
+    };
+}
+
+function courseSchemaCtrl($scope) {
+    $scope.setSchema = function (event,changeEl) {
+        var schemaHtml=$(event.currentTarget).next().find('.numbers').html();
+        if($(event.currentTarget).next().find('.numbers').next().is('#discount'))
+            schemaHtml=schemaHtml+$(event.currentTarget).next().find('.numbers').next('#discount').html();
+        $('#'+changeEl).html(schemaHtml);
     };
 }

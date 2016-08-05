@@ -72,14 +72,13 @@ if ($discount == 0) {
                                 &nbsp
                                 <span class="coursePriceStatus2">
                                 <?php echo Yii::t('courses', '0322') . sprintf("%01.2f", $price) . " "; ?>
-                            </span>
-                                <br>
+                                </span>
+                            </div>
                             <span id="discount">
                                 <img style="text-align:right" src="
                                 <?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png') ?>"/>
                                 (<?php echo Yii::t('courses', '0144') . ' - ' . $discount . '%)'; ?>
-                                </span>
-                            </div>
+                            </span>
                         </td>
                     </tr>
                 </table>
