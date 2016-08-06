@@ -11,7 +11,7 @@ if ($price == 0) {
 } else {
     if ($idCourse > 0) { ?>
         <span id="oldPrice">
-            <?= $model->getIndepedentModulePrice() . Yii::t('module', '0222') ?></span>
+            <?= $model->module_price . Yii::t('module', '0222') ?></span>
         <?= $price . Yii::t('module', '0222') ?>(<?= Yii::t('module', '0223') ?>)
         <?php
     } else { ?>

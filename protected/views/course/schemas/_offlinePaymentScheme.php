@@ -5,7 +5,7 @@
 ?>
 <div class="spoilerBodyOffline">
     <div class="paymentsListOdd">
-        <input id='firstRadioOffline' type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::ADVANCE?>">
+        <input id='firstRadioOffline' type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::ADVANCE?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -18,7 +18,7 @@
     </div>
 
     <div class="paymentsListEven">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::BASE_TWO_PAYS?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::BASE_TWO_PAYS?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -31,7 +31,7 @@
     </div>
 
     <div class="paymentsListOdd">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::BASE_FOUR_PAYS?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::BASE_FOUR_PAYS?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -44,7 +44,7 @@
     </div>
 
     <div class="paymentsListEven">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::MONTHLY?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::MONTHLY?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -57,7 +57,7 @@
     </div>
 
     <div class="paymentsListOdd">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::CREDIT_TWO_YEARS?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($even,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::CREDIT_TWO_YEARS?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -69,7 +69,7 @@
     </div>
 
     <div class="paymentsListEven">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::CREDIT_THREE_YEARS?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::CREDIT_THREE_YEARS?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -81,7 +81,7 @@
     </div>
 
     <div class="paymentsListOdd">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::CREDIT_FOUR_YEARS?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::CREDIT_FOUR_YEARS?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,
@@ -93,7 +93,7 @@
     </div>
 
     <div class="paymentsListEven">
-        <input type="radio" class="paymentPlan_value" name="payment" value="<?=PaymentScheme::CREDIT_FIVE_YEARS?>">
+        <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline')" name="payment" value="<?=PaymentScheme::CREDIT_FIVE_YEARS?>">
         <?php
         $this->widget('PaymentSchemaWidget',array(
             'billableObject' => $model,

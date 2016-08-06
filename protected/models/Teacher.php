@@ -48,6 +48,7 @@ class Teacher extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('user_id', 'unique', 'message' => 'Такий користувач уже призначений співробітником'),
             array('first_name_en, middle_name_en, last_name_en,first_name_ru,
              middle_name_ru,last_name_ru, user_id', 'required', 'message' => 'Поле не може бути пустим'),
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
