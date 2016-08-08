@@ -126,7 +126,7 @@ class SkipTaskMarks extends CActiveRecord
 
         usort($skipTaskAnswers, function($a, $b)
         {
-            return strcmp($a->answer_order, $b->answer_order);
+			return $a->answer_order-$b->answer_order;
         });
 
         for($i = 0;$i < count($skipTaskAnswers);$i++)
