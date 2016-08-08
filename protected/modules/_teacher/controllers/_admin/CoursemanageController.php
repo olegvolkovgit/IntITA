@@ -118,7 +118,7 @@ class CoursemanageController extends TeacherCabinetController
                     );
                 }
                 echo 'Курс успішно оновлено!';
-                Yii::app()->end();
+               Yii::app()->end();
             } else {
                 echo 'Інформацію про курс не вдалося оновити. Перевірте вхідні дані або зверніться до адміністратора.';
                 Yii::app()->end();
@@ -312,6 +312,7 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionChangeLinkedCourses()
     {
+
         $linkedId = Yii::app()->request->getPost("linkedCourse", 0);
         $modelId = Yii::app()->request->getPost("modelId", 0);
         $courseId = Yii::app()->request->getPost("course", 0);

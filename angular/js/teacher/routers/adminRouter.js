@@ -211,6 +211,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 console.log($stateParams.id);
                 return "/_teacher/_admin/config/view/id/"+$stateParams.id;
             }
+        })
+        .state('addLinkedCourse/:model/:course/:lang', {
+            url: "/addLinkedCourse/:model/:course/:lang",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                console.log($stateParams.id);
+                return "/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
+            }
         });
 });
 
