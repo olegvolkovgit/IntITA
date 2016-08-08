@@ -23,16 +23,7 @@
     <?php endif; ?>
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul id="createCourseTabs" class="nav nav-tabs courseTabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
-            </li>
-            <li><a href="#ua" data-toggle="tab">Українською</a>
-            </li>
-            <li><a href="#ru" data-toggle="tab">Російською</a>
-            </li>
-            <li><a href="#en" data-toggle="tab">Англійською</a>
-            </li>
-        </ul>
+
         <!-- Tab panes -->
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
@@ -48,30 +39,36 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        if(courseValidation(data,hasError)){
-                            courseCreate(form[0].action);
-                        };
+                    if(!hasError){
+                         courseActions(form[0].action);
+                    }
+                    else{
+                    bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+                    }
                         return false;
                 }'),
             )); ?>
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="main">
-                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form,
-                        'scenario' => 'create')); ?>
-                </div>
-                <div class="tab-pane fade" id="ua">
+            <uib-tabset active="0" >
+                <uib-tab  index="0" heading="Головне">
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model,
+                        'scenario' => 'create', 'form' => $form)); ?>
+                </uib-tab>
+                <uib-tab index="1" heading="Українською">
                     <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'create',
                         'form' => $form)); ?>
-                </div>
-                <div class="tab-pane fade" id="ru">
-                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'create',
-                        'form' => $form)); ?>
-                </div>
-                <div class="tab-pane fade" id="en">
-                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create',
-                        'form' => $form)); ?>
-                </div>
-            </div>
+                </uib-tab>
+                <uib-tab  index="2" heading="Російською">
+                    <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'create'
+                    , 'form' => $form)); ?>
+                </uib-tab>
+                <uib-tab  index="3" heading="Англійською">
+                    <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create'
+                    , 'form' => $form)); ?>
+                </uib-tab>
+            </uib-tabset>
+
+
+
             <?php $this->endWidget(); ?>
         </div>
     </div>

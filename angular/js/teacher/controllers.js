@@ -1,4 +1,5 @@
 /* Directives */
+
 angular
     .module('teacherApp')
     .controller('teacherCtrl',teacherCtrl);
@@ -28,17 +29,7 @@ angular
     .module('teacherApp')
     .controller('contentManagerCtrl',contentManagerCtrl);
 
-angular
-    .module('teacherApp')
-    .controller('verifyContentCtrl',verifyContentCtrl);
 
-angular
-    .module('teacherApp')
-    .controller('coursemanageCtrl',coursemanageCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('moduleemanageCtrl',moduleemanageCtrl);
 
 angular
     .module('teacherApp')
@@ -186,68 +177,6 @@ function contentManagerCtrl ($scope,$location){
 
 }
 
-function verifyContentCtrl ($scope){
-
-
-    initVerifiedLectures();
-    initWaitLectures();
-    $scope.reindexContent = function(url){
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                success: function () {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                        $scope.changeView('admin/verifycontent');//
-                    });
-                },
-                error: function () {
-                    showDialog();
-                }
-            });
-    }
-}
-
-function coursemanageCtrl ($http, $scope, $location ){
-    $scope.saveSchema = function(idCourse){
-        var url = '/_teacher/_admin/coursemanage/savecchema/idcourse/'+idCourse+'/';
-
-                $http.post(url).success(function(data) {
-                    bootbox.confirm("Схема курсу збережена.", function () {
-                    })
-                }).error(function(data){
-                    showDialog("Схему курса не вдалося зберегти.");
-                })
-                $location.path(url).replace();
-                $scope.changeView('course/edit/'+idCourse);
-            };
-
-    $scope.changeCourse = function(courseId) {
-        var url = '/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
-        bootbox.confirm("Видалити курс?", function (result) {
-            if (result) {
-                $http.post(url).success(function (data) {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
-                    })
-                }).error(function (data) {
-                    showDialog("Операцію не вдалося виконати.");
-                });
-                $location.path(url).replace();
-                $scope.changeView('admin/coursemanage');
-            }
-            else {
-                showDialog("Операцію відмінено.");
-            }
-        });
-    };
-
-    initCourses();
-}
-
-function moduleemanageCtrl ($scope){
-
-
-    initModules();
-}
 
 function moduleAddTeacherCtrl ($scope){
     var teachers = new Bloodhound({
