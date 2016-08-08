@@ -7,7 +7,6 @@ angular
     .module('teacherApp')
     .controller('messagesCtrl',messagesCtrl);
 
-
 angular
     .module('teacherApp')
     .controller('mainSliderCtrl',mainSliderCtrl);

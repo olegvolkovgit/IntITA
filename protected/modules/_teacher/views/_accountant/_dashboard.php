@@ -9,13 +9,13 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/accoundant/agreements">
+                    <li><a href="#/accountant/agreements">
                             Список договорів</a>
                     </li>
-                    <li><a href="#/accoundant/invoices">
+                    <li><a href="#/accountant/invoices">
                             Список рахунків</a>
                     </li>
-                    <li><a href="#/accoundant/operation">
+                    <li><a href="#/accountant/operation">
                             Проплати</a>
                     </li>
                 </ul>
@@ -35,10 +35,10 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accoundant/company">Компанії</a>
+                        <a href="#/accountant/company">Компанії</a>
                     </li>
                     <li>
-                        <a href="#/accoundant/representative">Представники</a>
+                        <a href="#/accountant/representative">Представники</a>
                     </li>
                 </ul>
                 <br>
@@ -57,14 +57,14 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/accoundant/template">Шаблони, оферта</a>
+                    <li><a href="#/accountant/template">Шаблони, оферта</a>
                     </li>
-                    <li><a href="#/accoundant/operationtype">
+                    <li><a href="#/accountant/operationtype">
                             Типи проплат</a>
                     </li>
-                    <li><a href="#/accoundant/externalsources">
+                    <li><a href="#/accountant/externalsources">
                             Зовнішні джерела коштів</a></li>
-                    <li><a href="#/accoundant/cancelreasontype">
+                    <li><a href="#/accountant/cancelreasontype">
                             Причини відміни проплат</a></li>
                 </ul>
             </div>

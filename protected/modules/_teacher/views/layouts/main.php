@@ -34,7 +34,6 @@
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
 
-
     <script>
         var $jq = jQuery.noConflict();
     </script>
@@ -53,6 +52,10 @@
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'jquery-ui.min.css') ?>"/>
+
+    <!-- Angular datatable css -->
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'css/angular-datatables.css') ?>">
+
     <!--Angular-->
     <!--    <script src="--><?php //echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?><!--"></script>-->
     <!--Angular directives-->

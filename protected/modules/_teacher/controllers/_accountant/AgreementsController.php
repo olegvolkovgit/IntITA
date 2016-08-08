@@ -7,18 +7,6 @@ class AgreementsController extends TeacherCabinetController
     }
 
     /**
-     * Lists all models.
-     */
-    public function actionIndex()
-    {
-        $agreements = UserAgreements::model()->findAll();
-
-        $this->renderPartial('index', array(
-            'agreements' => $agreements
-        ));
-    }
-
-    /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
@@ -43,6 +31,24 @@ class AgreementsController extends TeacherCabinetController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
+        $agreements = UserAgreements::model()->findAll();
+        $this->renderPartial('index', array(
+            'agreements' => $agreements
+        ));
+    }
+
+    public function actionGetAgreementsList($offset = 0, $limit=10) {
+        $agreements = new Agreements();
+        $json = $agreements->getUserAgreements($offset, $limit);
+//        echo json_encode($json);
+        echo '{"draw":1,"recordsTotal":2,"recordsFiltered":2,"data":[{"DT_RowId":"row_1","DT_RowData":{"pkey":3},"id":860,"firstName":"Superman","lastName":"Yoda"'.'},{"DT_RowId":"row_17","DT_RowData":{"pkey":17},"id":870,"firstName":"Foo","lastName":"Whateveryournameis"}]}';
     }
 
     public function actionConfirm()
