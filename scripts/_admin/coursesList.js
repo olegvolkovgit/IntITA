@@ -15,7 +15,8 @@ function initCourses(){
             {
                 "data": "title",
                 "render": function (title) {
-                    return '<a href="#" onclick="load('  + title["link"] + ',' + title["header"] + ')">'  + title["name"] + '</a>';
+                    return '<a href="#/course/detail/'+title["id"]+'">'  + title["name"]+ '</a>';
+                    //return '<a href="#" onclick="load('  + title["link"] + ',' + title["header"] + ')">'  + title["name"] + '</a>';
                 }
             },
             {
@@ -97,7 +98,6 @@ function initCoursesTypeahead(lang){
         $jq("#course").val(item.id);
     });
 }
-
 function addLinkedCourses(url, modelId, id, lang, header){
     bootbox.confirm("Додати курс?", function(result) {
         if (result) {
@@ -125,7 +125,7 @@ function addLinkedCourses(url, modelId, id, lang, header){
     });
 }
 
-function deleteLinkedCourse(url, id, lang, header, course){
+function deleteLinkedCourse1(url, id, lang, header, course){
     bootbox.confirm("Видалити пов\'язаний курс?", function(result) {
         if (result) {
             $jq.ajax({

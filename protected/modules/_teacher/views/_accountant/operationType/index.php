@@ -2,7 +2,7 @@
 /* @var $types array */
 /* @var $model OperationType */
 ?>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="operationTypeCtrl">
     <br>
     <button class="btn btn-primary"
             onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_accountant/operationType/create"); ?>',
@@ -48,14 +48,4 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        $jq('#operationTypes').DataTable({
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
-            }
-        );
-    });
-</script>
 

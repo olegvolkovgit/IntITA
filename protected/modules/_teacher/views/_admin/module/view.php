@@ -7,10 +7,11 @@
  */
 ?>
     <div class="row">
+
+
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>', 'Модулі')">
+                <button type="button" class="btn btn-primary" ng-click="changeView('modulemanage')">
                     Список модулів
                 </button>
             </li>
@@ -58,6 +59,8 @@
             <li><a href="#inCourses" data-toggle="tab">У курсах</a>
             </li>
          </ul>
+
+
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane fade in active" id="main">
@@ -92,5 +95,9 @@
             </div>
         </div>
     </div>
+
+
+
+
 </div>
 

@@ -6,23 +6,16 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>',
-                               'Інтерфейсні повідомлення')">
-                            Інтерфейсні повідомлення</a>
+                    <li><a href="#/messages">
+                           Інтерфейсні повідомлення</a>
                     </li>
-                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index'); ?>',
-                            'Слайдер на головній сторінці')">
+                    <li><a href="#/admin/carousel">
                             Слайдер на головній сторінці</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index'); ?>',
-                               'Слайдер на сторінці \'Про нас\'')">
+                    <li><a href="#admin/aboutusSlider">
                             Слайдер на сторінці <i>Про нас</i></a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                               'Країни, міста')">
+                    <li><a href="#admin/address">
                             Адреса (країни, міста)</a>
                     </li>
                 </ul>
@@ -40,18 +33,12 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/verifyContent/index'); ?>',
-                               'Контент лекцій')">
+                    <li><a href="#/admin/verifycontent">
                             Контент лекцій</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/index'); ?>',
-                               'Курси')">
+                    <li><a href="#/admin/coursemanage">
                             Курси</a></li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
-                               'Модулі')">
+                    <li><a href="#/modulemanage">
                             Модулі</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
                             Всі ревізії занять</a></li>
@@ -70,22 +57,13 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                               'Співробітники')">Співробітники</a>
+                    <li><a href="#/admin/teachers">Співробітники</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/shareLink/index'); ?>',
-                               'Ресурси для викладачів')">Ресурси для викладачів</a>
+                    <li><a href="#/admin/sharedlinks">Ресурси для викладачів</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>',
-                               'Відгуки про викладачів')">Відгуки про викладачів</a>
+                    <li><a href="#/admin/response">Відгуки про викладачів</a>
                     </li>
-                    <li><a href="#"
-                             onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
-                                 'Випускники')">
-                            Випускники</a></li>
+                    <li><a href="#/admin/graduate">Випускники</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -103,20 +81,13 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/freeLectures/index'); ?>',
-                               'Безкоштовні заняття')">Безкоштовні заняття</a>
+                    <li><a href="#/admin/freelectures">Безкоштовні заняття</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/permissions/index'); ?>',
-                               'Права доступа')">Права доступа</a>
+                    <li><a href="#/admin/permissions">Права доступа</a>
                     </li>
-                    <li><a href="#" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/index'); ?>',
-                            'Сплатити курс/модуль')">Сплатити курс/модуль</a>
+                    <li><a href="#admin/pay">Сплатити курс/модуль</a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelCourseModule'); ?>',
-                               'Скасувати курс/модуль')">Скасувати курс/модуль</a>
+                    <li><a href="#/admin/cancel">Скасувати курс/модуль</a>
                     </li>
                 </ul>
             </div>
@@ -133,8 +104,8 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
+                    <li><a href="#/admin/users"
+                           onclick="load('<?php echo Yii::app()->createUrl(''); ?>',
                                'Користувачі')">Користувачі
                         </a>
                     </li>
@@ -156,24 +127,15 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#"
-                           onclick="refreshCache('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/refresh'); ?>')">
-                            Оновити кеш
+                    <li><a href="#/admin/refreshcache">Оновити кеш </a>
+                    </li>
+                    <li><a href="#/admin/levels">Рівні курсів, модулів
                         </a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/index'); ?>',
-                               'Рівні курсів, модулів')">Рівні курсів, модулів
+                    <li><a href="#/admin/config">Налаштування
                         </a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/index'); ?>',
-                               'Налаштування')">Налаштування
-                        </a>
-                    </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/index'); ?>',
-                               'Попередня версія #deprecated')">Функціонал попередньої версії</a>
+                    <li><a href="#/admin/old">Функціонал попередньої версії</a>
                     </li>
                 </ul>
             </div>
@@ -184,14 +146,5 @@
     </div>
 </div>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/graduatesList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/configList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/responsesList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/translatesList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/aboutUsSliderList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/mainSliderList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/teachersList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/shareLinks.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/usersManage.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/freeLectures.js'); ?>"></script>
+
 

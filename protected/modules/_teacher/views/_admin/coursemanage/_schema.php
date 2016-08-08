@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?=Config::getBaseUrl()?>/css/courseSchema.css"/>
 </head>
 
-<div id="courseSchema">
+<div id="courseSchema" ng-controller="coursemanageCtrl">
     <br>
     <?php if (isset($messages) ? $message = $messages : $message = null) ; ?>
     <h3><?php echo Course::printTitle($idCourse, $message); ?></h3>
@@ -69,8 +69,7 @@
     <?php if (!$save) { ?>
         <br>
         <br>
-        <button id="saveButton" onclick = "saveSchema('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/saveSchema',
-            array('idCourse' => $idCourse)); ?>', '<?=$idCourse;?>')"><?php echo Course::getMessage($message, 'save'); ?></button>
+        <button id="saveButton" ng-click="saveSchema('<?php echo $idCourse ?>')"><?php echo Course::getMessage($message, 'save'); ?></button>
         <br>
         <br>
         <br>

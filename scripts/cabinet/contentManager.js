@@ -388,7 +388,7 @@ function initCoursesListTable(filter_id) {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_content_manager/contentManager/StatusOfModules?id=' + name["url"] + '\', \'Модуль\');">' + name["title"] + '</a>';
+                    return '<a href="#/content_manager/statusOfModules/'+name["url"]+'">' + name["title"] + '</a>';
                 }
             },
             {
@@ -483,7 +483,7 @@ function initModulesListTable(id,filter_id) {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_content_manager/contentManager/showLessonsList?idModule=' + name["url"] + '\', \'Модуль\');">' + name["title"] + '</a>';
+                    return '<a href="#/detail/module/'+name["url"]+'">' + name["title"] + '</a>';
                 }
             },
             {
@@ -531,7 +531,7 @@ function initLessonsListTable(idModule) {
             {
                 "data": "name",
                 "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + basePath + '/_teacher/_content_manager/contentManager/showPartsList?idLesson=' + name["url"] + '\', \'Заняття\');">' + name["title"] + '</a>';
+                    return '<a href="#/detail/lesson/'+name["url"]+'">' + name["title"] + '</a>';
                 }
             },
             {

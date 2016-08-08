@@ -9,20 +9,19 @@
     <div class="row">
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_admin/coursemanage/index"); ?>', 'Новий курс')">
+                <button type="button" class="btn btn-primary" ng-click="changeView('admin/coursemanage')">
                     <?php echo Yii::t("coursemanage", "0510"); ?></button>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/update',
-                            array('id' => $model->course_ID)); ?>', '<?="Курс ".$model->getTitle()?>')">
+
+                <button type="button" class="btn btn-primary" ng-click="changeView('course/edit/<?php echo $model->course_ID; ?>')"
+                        >
                     Редагувати курс
                 </button>
             </li>
             <li>
-                <button type="button" class="btn btn-success"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/schema',
-                            array('idCourse' => $model->course_ID)); ?>', 'Згенерувати схему курса')">
+
+                <button type="button" class="btn btn-success" ng-click="changeView('course/schema/<?php echo $model->course_ID; ?>')">
                     Згенерувати схему курса
                 </button>
             </li>
@@ -33,56 +32,37 @@
             </li>
             <?php } ?>
         </ul>
+
         <div class="panel panel-default">
             <div class="panel-body">
-                <!-- Nav tabs -->
-                <ul id="courseView" class="nav nav-tabs">
-                    <li class="active"><a href="#main" data-toggle="tab">Головне</a>
-                    </li>
-                    <li><a href="#ua" data-toggle="tab">Українською</a>
-                    </li>
-                    <li><a href="#ru" data-toggle="tab">Російською</a>
-                    </li>
-                    <li><a href="#en" data-toggle="tab">Англійською</a>
-                    </li>
-                    <li><a href="#modules" data-toggle="tab">Модулі</a>
-                    </li>
-                    <li><a href="#other" data-toggle="tab">На інших мовах</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade in active" id="main">
+                <uib-tabset active="0" >
+                    <uib-tab  index="0" heading="Головне">
                         <?php $this->renderPartial('_mainTab', array('model' => $model)); ?>
-                    </div>
-                    <div class="tab-pane fade" id="ua">
+                    </uib-tab>
+                    <uib-tab index="1" heading="Українською">
                         <?php $this->renderPartial('_uaTab', array('model' => $model)); ?>
-                    </div>
-                    <div class="tab-pane fade" id="ru">
+                    </uib-tab>
+                    <uib-tab  index="2" heading="Російською">
                         <?php $this->renderPartial('_ruTab', array('model' => $model)); ?>
-                    </div>
-                    <div class="tab-pane fade" id="en">
+                    </uib-tab>
+                    <uib-tab  index="3" heading="Англійською">
                         <?php $this->renderPartial('_enTab', array('model' => $model)); ?>
-                    </div>
-                    <div class="tab-pane fade" id="modules">
+                    </uib-tab>
+                    <uib-tab  index="4" heading="Модулі">
                         <?php $this->renderPartial('_modulesTab', array(
                             'model' => $model,
                             'modules' => $modules,
                             'scenario' => 'view'
                         )); ?>
-                    </div>
-                    <div class="tab-pane fade" id="other">
+                    </uib-tab>
+                    <uib-tab  index="5" heading="На інших мовах">
                         <?php $this->renderPartial('_otherTab', array(
                             'model' => $model,
                             'linkedCourses' => $linkedCourses,
                             'scenario' => 'view'
                         )); ?>
-                    </div>
-                </div>
-            </div>
+                    </uib-tab>
+                </uib-tabset>
         </div>
     </div>
 </div>
-<script>
-    if(history.state!=null)
-        openTab('#courseView', history.state.tab);
-</script>

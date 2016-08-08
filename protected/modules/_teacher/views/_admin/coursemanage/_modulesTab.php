@@ -46,10 +46,7 @@
                                     </td>
                                     <td>
                                         <?php if ($scenario == "update") { ?>
-                                            <a href="#"
-                                               onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/coursePrice', array(
-                                                   'id' => $item->moduleInCourse->module_ID, 'course' => $item->id_course)); ?>',
-                                                   'Додати/змінити ціну модуля у курсі')">
+                                            <a href="#/module/coursePrice/id/<?= $item->moduleInCourse->module_ID ?>/course/<?= $item->id_course ?>">
                                                 <?php if ($item->price_in_course != null) {
                                                     echo ($item->price_in_course == 0)?"безкоштовно (ред.)":$item->price_in_course . " (ред.)";
                                                 } else {
@@ -75,10 +72,7 @@
                                     </td>
                                     <td>
                                         <?php if ($scenario == "update") { ?>
-                                            <a href="#"
-                                               onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array(
-                                                   'id' => $item->moduleInCourse->module_ID, 'course' => $item->id_course)); ?>',
-                                                   'Задати попередній модуль у курсі')">
+                                            <a href="#/module/mandatory/id/<?= $item->moduleInCourse->module_ID ?>/course/<?= $item->id_course ?>">
                                                 <?= ($item->mandatory_modules != null) ? $item->mandatory->getTitle() . " (ред.)" : "редагувати"; ?>
                                             </a>
                                         <?php } else {

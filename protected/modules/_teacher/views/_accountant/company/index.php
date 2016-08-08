@@ -1,3 +1,4 @@
+<div ng-controller="companyCtrl" >
 <div class="row">
     <ul class="list-inline">
         <li>
@@ -38,8 +39,4 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initCompanies();
-    });
-</script>
+</div>

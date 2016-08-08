@@ -19,13 +19,12 @@
                 </div>
             </li>
             <li id="nav">
-                <a href="#"
-                   ng-click='ngLoadDashboard("<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
-                       array('user' => $model->id)); ?>")'>
+                <a href="#/index"
+                   >
                     <i class="fa fa-dashboard fa-fw"></i> Дошка</a>
             </li>
             <li>
-                <a href="#"  onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/index');?>','Повідомлення')">
+                <a href="#/messages">
                     <i class="fa fa-envelope fa-fw"></i> Повідомлення
                 <?php if($countNewMessages > 0){?>
                     <span class="label label-success"><?=$countNewMessages?></span>

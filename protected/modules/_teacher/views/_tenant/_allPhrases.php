@@ -1,6 +1,6 @@
 
 
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="phrasesCtrl">
     <br>
     <ul class="list-inline">
         <li>
@@ -31,6 +31,3 @@
         </div>
     </div>
 </div>
-<script>
-    initAllPhrasesTable();
-</script>

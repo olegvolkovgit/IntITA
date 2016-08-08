@@ -729,15 +729,20 @@ class Lecture extends CActiveRecord
         foreach ($lectures as $record) {
             $row = array();
             $row["module"] = CHtml::encode(($record->idModule) ? $record->ModuleTitle->title_ua : "");
+            $row["lesson_url"] = Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0));
             $row["order"] = $record->order;
+            /* Deprecated after QA
             $row["title"] = "<a href=\"" . Yii::app()->createUrl('lesson/index', array('id' => $record->id, 'idCourse' => 0)) . "\">" . CHtml::encode($record->title_ua) . "</a>";
-            $row["type"] = $record->type->title_ua;
-
             if (!$isVerified) {
                 $row['url'] = "'" . Yii::app()->createUrl("/_teacher/_admin/verifyContent/confirm", array("id" => $record->id)) . "'";
             } else {
                 $row['url'] = "'" . Yii::app()->createUrl("/_teacher/_admin/verifyContent/cancel", array("id" => $record->id)) . "'";
             }
+            */
+            $row["title"] = $record->title_ua;
+            $row["type"] = $record->type->title_ua;
+            $row["id"] = $record->id;
+
             array_push($return['data'], $row);
         }
 

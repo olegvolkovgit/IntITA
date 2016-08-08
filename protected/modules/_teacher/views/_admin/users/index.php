@@ -37,7 +37,7 @@
             </li>
         </ul>
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="tab-content" ng-controller="usersCtrl">
             <div class="tab-pane fade" id="admin">
                 <?php $this->renderPartial('tables/_adminsTable');?>
             </div>
@@ -75,34 +75,6 @@
     </div>
 </div>
 
-<script>
-    $jq(document).ready(function () {
-        initUsersTable();
-        initStudentsList();
-        initWithoutRolesUsersTable();
-        initAdminsTable();
-        initAccountantsTable();
-        initTeachersTable();
-        initContentManagersTable();
-        initTeacherConsultantsTable();
-        initTenantsTable();
-        initTrainersTable();
-        initConsultantsRolesTable();
-
-        $jq("#startDate").datepicker(lang);
-        $jq("#endDate").datepicker(lang);
-
-        //$jq('.nav-tabs a[href="#accountant"]').tab('show');
-       if(history.state!=null)
-        openTab('#userTabs', history.state.tab);
-
-        $jq('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-            var currentTab = $jq(e.target).text(); // get current tab
-            $jq("#pageTitle").html(currentTab);
-        });
-    });
-
-</script>
 
 
 

@@ -118,19 +118,7 @@ function cancelModuleAttr(url, id, attr, role, user, successUrl,tab,header) {
 }
 
 function saveSchema(url, id) {
-    $jq.ajax({
-        url: url,
-        success: function (response) {
-            if (response == "success")
-                bootbox.alert("Схема курсу збережена.", function () {
-                    load(basePath + '/_teacher/_admin/coursemanage/view/id/' + id);
-                });
-            else bootbox.alert("Схему курса не вдалося зберегти.");
-        },
-        error: function () {
-            bootbox.alert("Схему курса не вдалося зберегти.");
-        }
-    });
+
 }
 
 function addCoursePrice(url,header) {
@@ -170,7 +158,7 @@ function addMandatory(url) {
             data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
             success: function (response) {
                 bootbox.confirm(response, function () {
-                    load(basePath + '/_teacher/_admin/module/view/id/' + moduleId);
+                    location.hash = '/module/view/'+ moduleId;
                 });
             },
             error: function () {
@@ -511,11 +499,11 @@ function courseCreate(url) {
         datatype:'json',
         success: function () {
             bootbox.alert("Курс успішно додано", function () {
-                loadCourseList();
+                location.hash = "/admin/coursemanage";
             });
         },
         error: function () {
-            bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+                bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
         },
         cache: false,
         contentType: false,
@@ -524,20 +512,20 @@ function courseCreate(url) {
 
     return false;
 }
-function courseUpdate(url) {
+function courseActions(url) {
     var formData = new FormData($("#course-form")[0]);
     $.ajax({
         url: url,
         type: 'POST',
         data: formData,
         datatype:'json',
-        success: function () {
-            bootbox.alert("Курс успішно відредаговано", function () {
-                loadCourseList();
+        success: function (message) {
+            bootbox.alert(message, function () {
+                location.hash = "/admin/coursemanage";
             });
         },
-        error: function () {
-            bootbox.alert("Курс не вдалося відредагувати. Перевірте вхідні дані або зверніться до адміністратора.");
+        error: function (message) {
+            bootbox.alert(message);
         },
         cache: false,
         contentType: false,
