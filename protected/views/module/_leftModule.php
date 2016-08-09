@@ -13,11 +13,11 @@ if (!Yii::app()->user->isGuest) {
         <?php
         if (!Yii::app()->user->isGuest) {
             if (Yii::app()->user->model->isAdmin())
-                $this->renderPartial('_moduleInfoForAdmin', array('post' => $post));
+                $this->renderPartial('_moduleInfoForAdmin', array('post' => $post,'price'=>$price));
             else
-                $this->renderPartial('_moduleInfo', array('post' => $post));
+                $this->renderPartial('_moduleInfo', array('post' => $post,'price'=>$price));
         } else {
-            $this->renderPartial('_moduleInfo', array('post' => $post));
+            $this->renderPartial('_moduleInfo', array('post' => $post,'price'=>$price));
         }
         ?>
         <table>
@@ -76,6 +76,6 @@ if (!Yii::app()->user->isGuest) {
             </tr>
         </table>
         <?php
-        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager)); ?>
+        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager,'price'=>$price)); ?>
     </div>
 </div>

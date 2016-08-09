@@ -161,7 +161,7 @@
                     <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
                     <?php
                     $course = (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0)) ? 0 : $_GET['idCourse'];
-                    $this->renderPartial('_price', array('idCourse' => $course, 'model' => $post)); ?>
+                    $this->renderPartial('_price', array('idCourse' => $course, 'model' => $post,'price'=>$price)); ?>
                 </div>
             </div>
             <br>
