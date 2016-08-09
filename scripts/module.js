@@ -29,7 +29,9 @@ function signFreeModule(url, user, module) {
     $.post(url, data, function () {
         })
         .done(function (response) {
-            bootbox.alert(response);
+            bootbox.alert(response, function() {
+                location.reload();
+            });
         })
         .fail(function () {
             bootbox.alert("На сайті виникла помилка.\n" +

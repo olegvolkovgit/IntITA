@@ -70,7 +70,8 @@ class TeachersController extends TeacherCabinetController{
         $userApproved = Yii::app()->request->getPost('user', 0);
 
         $model = new Teacher;
-
+        $this->performAjaxValidation($model);
+        
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
              if ($model->save()) {

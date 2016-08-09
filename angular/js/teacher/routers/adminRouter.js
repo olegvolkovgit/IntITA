@@ -35,11 +35,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: "/_teacher/_admin/coursemanage/index",
         })
-        .state('admin/modulemanage', {
-            url: "/admin/modulemanage",
-            cache: false,
-            templateUrl: "/_teacher/_admin/module/index",
-        })
         .state('admin/teachers', {
             url: "/admin/teachers",
             cache: false,
@@ -197,19 +192,20 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return "/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
             }
         })
-        .state('module/addTeacher/id/:id', {
-            url: "/module/addTeacher/id/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return "/_teacher/_admin/module/addTeacher/id/"+$stateParams.id;
-            }
-        })
         .state('config/view/:id', {
             url: "/config/view/:id",
             cache: false,
             templateUrl: function ($stateParams) {
                 console.log($stateParams.id);
                 return "/_teacher/_admin/config/view/id/"+$stateParams.id;
+            }
+        })
+        .state('addLinkedCourse/:model/:course/:lang', {
+            url: "/addLinkedCourse/:model/:course/:lang",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                console.log($stateParams.id);
+                return "/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         });
 });

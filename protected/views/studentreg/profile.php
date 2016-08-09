@@ -120,7 +120,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             <hr class="lineUnderTab">
             <div class="tabsContent">
                 <div id="myCourse">
-                    <?php $this->renderPartial('_mycourse', array('paymentsCourses' => $paymentsCourses,'owner'=>$owner)); ?>
+                    <?php $this->renderPartial('_mycourse', array('paymentsCourses' => $paymentsCourses,'paymentsModules' => $paymentsModules,'owner'=>$owner)); ?>
                 </div>
                 <div id="myRatting">
                     <?php $this->renderPartial('_myRatting', array('user' => $user,'owner'=>$owner)); ?>

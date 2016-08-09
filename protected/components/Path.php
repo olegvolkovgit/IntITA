@@ -11,6 +11,9 @@ abstract class Path
     public $pathArray;
 
     function __construct($pathArray) {
+        $app = Yii::app();
+        isset($app->session['lg'])?$app->language = $app->session['lg']:$app->language = 'ua';
+        
         $this->pathArray = $pathArray;
         $this->type = $this->getType();
     }

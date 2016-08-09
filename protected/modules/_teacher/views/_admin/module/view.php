@@ -11,7 +11,7 @@
 
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary" ng-click="changeView('admin/modulemanage')">
+                <button type="button" class="btn btn-primary" ng-click="changeView('modulemanage')">
                     Список модулів
                 </button>
             </li>

@@ -31,10 +31,10 @@ class CompanyController extends TeacherCabinetController
         $cityLegalVal = Yii::app()->request->getPost('legal_address_city_value', '');
         $cityActualVal = Yii::app()->request->getPost('actual_address_city_value', '');
         if(!AddressCity::model()->findByPk($cityLegal)){
-            $model->legal_address_city_code = AddressCity::newCity(AddressCountry::model()->findByPk(AddressCountry::UKRAINE), $cityLegalVal, '', '')->id;
+            $model->legal_address_city_code = AddressCity::newCity(AddressCountry::model()->findByPk(AddressCountry::UKRAINE), $cityLegalVal, $cityLegalVal, $cityLegalVal)->id;
         }
         if(!AddressCity::model()->findByPk($cityActual)){
-            $model->actual_address_city_code = AddressCity::newCity(AddressCountry::model()->findByPk(AddressCountry::UKRAINE), $cityActualVal, '', '')->id;
+            $model->actual_address_city_code = AddressCity::newCity(AddressCountry::model()->findByPk(AddressCountry::UKRAINE), $cityActualVal, $cityLegalVal, $cityLegalVal)->id;
         }
         if($model->validate()){
             $model->save();

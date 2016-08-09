@@ -126,6 +126,15 @@ class Trainer extends Role
                 if($this->errorMessage) 
                     return $this->errorMessage;
                 else return false;
+            case 'capacity':
+                if ($this->checkCapacity($value,$user)) {
+                    $response=parent::setAttribute($user, $attribute, $value);
+                    if($response==0 || $response==1) return true;
+                    else return false;
+                }
+                if($this->errorMessage)
+                    return $this->errorMessage;
+                else return false;
             default:
                 $response=parent::setAttribute($user, $attribute, $value);
                 if($response==0 || $response==1) return true;
@@ -142,7 +151,13 @@ class Trainer extends Role
             return false;
         } else return true;
     }
-
+    public function checkCapacity($count,$user)
+    {
+        if($count<$this->currentStudentsCount($user)) {
+            $this->errorMessage = "Не можна виставити максимальну кількість студентів меншу ніж уже є в тренера";
+            return false;
+        } else return true;
+    }
     public function checkTrainerCapacity($user)
     {
         if($this->currentStudentsCount($user)>$this->getCapacity($user)['capacity']) {

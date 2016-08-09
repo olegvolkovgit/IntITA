@@ -62,9 +62,9 @@ class TenantController extends TeacherCabinetController
 
         $this->renderPartial('/_tenant/searchChats', array(), false, true);
     }
-    public function actionFindChats($user1,$user2)
+    public function actionFindChats($author,$user)
     {
-            echo Tenant::getListOfChatsBetweenUsers($user1,$user2);
+            echo Tenant::getListOfChatsBetweenUsers($author,$user);
 
 
     }
@@ -75,11 +75,11 @@ class TenantController extends TeacherCabinetController
 
     }
 
-    public function actionShowChats($user1,$user2)
+    public function actionShowChats($author,$user)
     {
 
 
-        $this->renderPartial('/_tenant/showChats', array('user1'=>$user1,'user2'=>$user2), false, true);
+        $this->renderPartial('/_tenant/showChats', array('author'=>$author,'user'=>$user), false, true);
     }
     public function actionBots()
     {

@@ -31,15 +31,6 @@
                 <td><?=($model->module_price == 0)?"безкоштовно":$model->module_price;?></td>
             </tr>
             <tr>
-                <td><div data-toggle="tooltip" data-placement="top" title="Базова ціна модуля помножена на коефіцієнт
-                самостійного модуля (див. сторінку <Налаштування>). Дійсна для самостійного модуля, який оплачується
-                окремо, не в курсі.">
-                    Ціна самостійного модуля, USD:
-                </div>
-                </td>
-                <td><?=($model->module_price == 0)?"безкоштовно":$model->getIndepedentModulePrice();?></td>
-            </tr>
-            <tr>
                 <td>
                     <div data-toggle="tooltip" data-placement="top" title="Унікальний ідентифікатор, використовується
                     при генерації номера договора про оплату модуля.">

@@ -98,7 +98,6 @@ function initCoursesTypeahead(lang){
         $jq("#course").val(item.id);
     });
 }
-
 function addLinkedCourses(url, modelId, id, lang, header){
     bootbox.confirm("Додати курс?", function(result) {
         if (result) {
@@ -126,7 +125,7 @@ function addLinkedCourses(url, modelId, id, lang, header){
     });
 }
 
-function deleteLinkedCourse(url, id, lang, header, course){
+function deleteLinkedCourse1(url, id, lang, header, course){
     bootbox.confirm("Видалити пов\'язаний курс?", function(result) {
         if (result) {
             $jq.ajax({

@@ -212,34 +212,59 @@ class Tenant extends Role
         return true;
     }
 
-    public static function getListOfChatsBetweenUsers($user1_name, $user2_name)
+    public static function getListOfChatsBetweenUsers($author, $user)
     {
         $return = array('data' => array());
-        $sql = "SELECT `id` FROM `chat_user` WHERE `nick_name`=" . "'" . $user1_name . "'";
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-        if (!$result)
-            return json_encode($return);
-        $arr1 = $result[0];
+        if($author && $user){
+            $sql = "SELECT `id` FROM `chat_user` WHERE `nick_name`=" . "'" . $author . "'";
+            $result = Yii::app()->db->createCommand($sql)->queryAll();
+            if (!$result)
+                return json_encode($return);
+            $arr1 = $result[0];
 
-        $sql2 = "SELECT `id` FROM `chat_user` WHERE `nick_name`=" . "'" . $user2_name . "'";
-        $result2 = Yii::app()->db->createCommand($sql2)->queryAll();
-        if (!$result2)
-            return json_encode($return);
+            $sql2 = "SELECT `id` FROM `chat_user` WHERE `nick_name`=" . "'" . $user . "'";
+            $result2 = Yii::app()->db->createCommand($sql2)->queryAll();
+            if (!$result2)
+                return json_encode($return);
+            $arr2 = $result2[0];
 
-        $arr2 = $result2[0];
-        $sql5 = "SELECT u.rooms_from_users_id,df.name FROM `chat_room_users` as r inner join chat_room_users
-        as u on u.rooms_from_users_id=r.rooms_from_users_id left join `chat_room` as df on df.id=u.rooms_from_users_id
-        where `r`.`users_id`=" . "'" . $arr1['id'] . "'" . " and `u`.`users_id`=" . "'" . $arr2['id'] . "'";
-        $result3 = Yii::app()->db->createCommand($sql5)->queryAll();
-        if (!$result3)
-            return json_encode($return);
+            $sql5 = "SELECT ch_r.id,ch_r.name FROM `chat_room_users` as u inner join chat_room
+            as ch_r on ch_r.id=u.rooms_from_users_id 
+            where `ch_r`.`author_id`=" . "'" . $arr1['id'] . "'" . " and `u`.`users_id`=" . "'" . $arr2['id'] . "'";
+            $result3 = Yii::app()->db->createCommand($sql5)->queryAll();
+            if (!$result3)
+                return json_encode($return);
+        }else if($author){
+            $sql = "SELECT `id` FROM `chat_user` WHERE `nick_name`=" . "'" . $author . "'";
+            $result = Yii::app()->db->createCommand($sql)->queryAll();
+            if (!$result)
+                return json_encode($return);
+            $arr1 = $result[0];
+
+            $sql5 = "SELECT ch_r.id,ch_r.name FROM `chat_room` as ch_r where `ch_r`.`author_id`=" . "'" . $arr1['id']. "'";
+            $result3 = Yii::app()->db->createCommand($sql5)->queryAll();
+            if (!$result3)
+                return json_encode($return);
+        }else if($user){
+            $sql2 = "SELECT `id` FROM `chat_user` WHERE `nick_name`=" . "'" . $user . "'";
+            $result2 = Yii::app()->db->createCommand($sql2)->queryAll();
+            if (!$result2)
+                return json_encode($return);
+            $arr2 = $result2[0];
+
+            $sql5 = "SELECT ch_r.id,ch_r.name FROM `chat_room_users` as u inner join chat_room as ch_r
+            on ch_r.id=u.rooms_from_users_id where `u`.`users_id`=" . "'" . $arr2['id'] . "'";
+            $result3 = Yii::app()->db->createCommand($sql5)->queryAll();
+            if (!$result3)
+                return json_encode($return);
+        }
+
 
         foreach ($result3 as $record) {
             $row = array();
             $row["name"]["title"] = $record['name'];
-            $row["name"]["url"] = $record['rooms_from_users_id'];
-
-            $row["name"]["id"] = $record['rooms_from_users_id'];
+//            $row["name"]["url"] = Yii::app()->createUrl("crmChat").'#/dialog_view/'.$record['id'].'/';
+            $row["name"]["id"] = $record['id'];
 
             array_push($return['data'], $row);
 

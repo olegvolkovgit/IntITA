@@ -11,7 +11,8 @@
                 <table class="table table-striped table-bordered table-hover" id="allChatsTable">
                     <thead>
                     <tr>
-                        <th style="width:30%;" >Розмови</th>
+                        <th style="width:5%;" >ID кімнати</th>
+                        <th style="width:30%;" >Назва кімнати</th>
 
 <!--                        <th style="width:12%;">Інформація</th>-->
 
@@ -24,4 +25,3 @@
         </div>
     </div>
 </div>
-<script>

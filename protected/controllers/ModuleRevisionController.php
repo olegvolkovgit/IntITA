@@ -539,6 +539,7 @@ class ModuleRevisionController extends Controller {
                 array_push($approvedLectureList[$section][$key], [
                     'id_lecture_revision' => $lectureData['id_revision'],
                     'title' => $lectureData['title_ua'],
+                    'author'=> Author::isTeacherAuthorModule(Yii::app()->user->getID(), $lectureData['id_module']),
                     'link' => Yii::app()->createUrl('/revision/previewLectureRevision',array('idRevision'=>$lectureData['id_revision']))
                 ]);
             }
