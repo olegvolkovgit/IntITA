@@ -38,4 +38,31 @@ config(function ($stateProvider) {
                 return "/_teacher/_admin/module/view/id/"+$stateParams.moduleId;
             }
         })
+        .state('module/edit/:moduleId', {
+            url: "/module/edit/:moduleId",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return "/_teacher/_admin/module/update?id="+$stateParams.moduleId;
+            }
+        })
+        .state('module/addAuchtor/:moduleId', {
+            url: "/module/addAuchtor/:moduleId",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return "/_teacher/_admin/module/addTeacher/id/"+$stateParams.moduleId;
+            }
+        })
+        .state('module/addConsultant/:moduleId', {
+            url: "/module/addConsultant/:moduleId",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return "/_teacher/_admin/module/addConsultant/id/"+$stateParams.moduleId;
+            }
+        })
+        .state('module/create', {
+            url: "/module/create",
+            cache: false,
+            templateUrl:'/_teacher/_admin/module/create'
+        })
 });
+
