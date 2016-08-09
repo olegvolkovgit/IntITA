@@ -15,6 +15,7 @@
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';
     adminEmail = '<?=Config::getAdminEmail();?>';
+    location.hash = '/index';
 </script>
 
 
