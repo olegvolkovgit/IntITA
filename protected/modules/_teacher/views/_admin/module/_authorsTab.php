@@ -6,14 +6,12 @@
  * @var $scenario string
  */
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="modulemanageCtrl">
     <div class="panel-body">
         <?php if ($scenario == "update") { ?>
             <ul class="list-inline">
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addTeacher', array('id' => $model->module_ID)); ?>',
-                                'Призначити автора модуля')">
+                    <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('module/addAuchtor/<?= $model->module_ID ?>')">
                         Призначити автора
                     </button>
                 </li>

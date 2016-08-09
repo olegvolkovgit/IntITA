@@ -3,7 +3,7 @@
  * @var $module Module
  */
 ?>
-<div class="col col-md-9">
+<div class="col col-md-9" ng-controller="modulemanageCtrl">
     <div class="panel panel-primary">
         <div class="panel-body">
             <form role="form">
@@ -16,15 +16,14 @@
                     <input type="text" hidden="hidden" value="<?= UserRoles::CONSULTANT; ?>" id="role">
                 </div>
                 <div class="form-group">
-                    <input type="number" hidden="hidden" id="user" value="0"/>
-                    <label>Виберіть викладача:</label>
-                    <input id="typeaheadConsultant" type="text" class="form-control" placeholder="Викладач"
-                           size="135" required autofocus>
+                    <input type="text" size="135" ng-model="teacherSelected" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue)" typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
+                    </div>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-success"
-                            onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                                'module', '#module','','Модуль <?php echo $module->getTitle() ?>','editModule')">
+                    <button type="button" class="btn btn-success" ng-click="addTeacher('<?= $module->module_ID; ?>','<?= UserRoles::CONSULTANT; ?>',selectedTeacher.id)">
                         Призначити консультанта
                     </button>
                 </div>
@@ -40,47 +39,18 @@
             </div>
         </div>
     </div>
+    <script type="text/ng-template" id="customTemplate.html">
+        <a>
+
+            <div class="typeahead_wrapper  tt-selectable">
+                <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
+                <div class="typeahead_labels">
+                    <div ng-bind="match.model.name" class="typeahead_primary"></div>
+                    <div ng-bind="match.model.email" class="typeahead_secondary"></div>
+                </div>
+            </div>
+
+
+        </a>
+    </script>
 </div>
-
-<script>
-    var teachers = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/module/teachersByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (users) {
-                return $jq.map(users.results, function (user) {
-                    return {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        url: user.url
-                    };
-                });
-            }
-        }
-    });
-
-    teachers.initialize();
-
-    $jq('#typeaheadConsultant').typeahead(null, {
-            name: 'teachers',
-            display: 'email',
-            limit: 10,
-            source: teachers,
-            templates: {
-                empty: [
-                    '<div class="empty-message">',
-                    'немає користувачів з таким іменем або email\`ом',
-                    '</div>'
-                ].join('\n'),
-                suggestion: Handlebars.compile("<div class='typeahead_wrapper'><img class='typeahead_photo' src='{{url}}'/> <div class='typeahead_labels'><div class='typeahead_primary'>{{name}}&nbsp;</div><div class='typeahead_secondary'>{{email}}</div></div></div>")
-            }
-        }
-    );
-
-    $jq('#typeaheadConsultant').on('typeahead:selected', function (e, item) {
-        $jq("#user").val(item.id);
-    });
-</script>

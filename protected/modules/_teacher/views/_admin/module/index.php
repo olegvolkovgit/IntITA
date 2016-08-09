@@ -2,10 +2,7 @@
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/create'); ?>',
-                    'Створити модуль')">
-            Створити модуль</button>
+        <button type="button" class="btn btn-primary" ng-click="changeView('module/create')">Створити модуль</button>
     </li>
 </ul>
 
@@ -35,7 +32,7 @@
                         <td>{{module.status}}</td>
                         <td>{{module.level}}</td>
                         <td>{{module.cancelled}}</td>
-                        <td><button type="button" class="btn btn-outline btn-success btn-sm" ng-click="">автора</></td>
+                        <td><button type="button" class="btn btn-outline btn-success btn-sm" ng-click="changeView('module/addAuchtor/'+module.id)">автора</></td>
                     </tr>
                     </tbody>
                 </table>

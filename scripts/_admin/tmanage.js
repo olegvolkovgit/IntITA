@@ -443,7 +443,7 @@ function moduleCreate(url) {
         datatype:'json',
         success: function () {
             bootbox.alert("Модуль успішно додано", function () {
-                loadModulesList();
+               location.hash = "/modulemanage";
             });
         },
         error: function () {
@@ -465,7 +465,7 @@ function moduleUpdate(url) {
         datatype:'json',
         success: function () {
             bootbox.alert("Модуль успішно відредаговано", function () {
-                loadModulesList();
+                location.hash = "/modulemanage";
             });
         },
         error: function () {

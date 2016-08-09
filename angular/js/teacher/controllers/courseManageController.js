@@ -7,7 +7,6 @@ angular
 
 function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $document){
     $scope.formData = {};
-
     $scope.courseId= null;
     $scope.coursesList =null;
     /* Init course table  */
