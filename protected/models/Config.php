@@ -143,8 +143,8 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('maintenanceMode');
     }
 
-	public static function getCoeffIndependentModule(){
-		return Yii::app()->config->get('coeffIndependentModule');
+	public static function getCoeffDependentModule(){
+		return Yii::app()->config->get('coeffDependentModule');
 	}
 
     public static function getExpirationTimeInterval(){
