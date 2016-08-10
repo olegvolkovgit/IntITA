@@ -31,7 +31,7 @@
                 Контент лекцій</a>
         </li>
         <li>
-            <a href="#/admin/modulemanage">
+            <a href="#/modulemanage">
                 Модулі</a>
         </li>
         <li>

@@ -429,6 +429,7 @@ class Teacher extends CActiveRecord
 
         foreach ($users as $record) {
             $row = array();
+            $row["name"]["id"] = $record->user_id;
             $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["name"]["title"] = addslashes($record->user->secondName." ".$record->user->firstName." ".$record->user->middleName);
             $row["email"]["title"] = $record->user->email;
@@ -437,11 +438,11 @@ class Teacher extends CActiveRecord
             if($record->isShow()){
                 $row["status"] = "видимий";
                 $row["changeStatus"]["title"] = "приховати";
-                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->user_id))."'";
+                $row["changeStatus"]["link"] = Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->user_id));
             } else {
                 $row["status"] = 'невидимий';
                 $row["changeStatus"]["title"] = "показати";
-                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->user_id))."'";
+                $row["changeStatus"]["link"] = Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->user_id));
             }
             $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
                 'scenario' => 'message',

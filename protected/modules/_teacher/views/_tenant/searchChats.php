@@ -1,5 +1,5 @@
 
-<div class="panel panel-primary">
+<div class="panel panel-primary" ng-controller="searchChatCtrl">
     <div class="panel-body">
         <form >
             <div class="form-group" id="receiver">
@@ -46,3 +46,5 @@
          }
 
 </script>
+
+</div>

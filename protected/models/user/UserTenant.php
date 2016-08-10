@@ -112,6 +112,7 @@ class UserTenant extends CActiveRecord
 
         foreach ($tenants as $record) {
             $row = array();
+			$row["id"]=$record["user"];
             $row["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
             $row["email"] = $record["email"];
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
@@ -121,7 +122,7 @@ class UserTenant extends CActiveRecord
                 'scenario' => 'message',
                 'receiver' => $record["user"]
             ));
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."', 'tenant', '".$record["user"]."', '11'";
+            $row["cancel"] = Yii::app()->createUrl('/_teacher/_admin/users/cancelRole');
             array_push($return['data'], $row);
         }
 

@@ -107,6 +107,7 @@ class UserAccountant extends CActiveRecord
 
 		foreach ($admins as $record) {
 			$row = array();
+			$row["id"] = $record["id"];
 			$row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
 			$row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
 			$row["email"]["title"] = $record["email"];
@@ -119,7 +120,7 @@ class UserAccountant extends CActiveRecord
 				'scenario' => 'message',
 				'receiver' => $record["id"]
 			));
-			$row["cancel"] = "'" . Yii::app()->createUrl('/_teacher/_admin/users/cancelRole') . "'" . ", 'accountant', '" . $record["id"] . "', '6'";
+			$row["cancel"] = Yii::app()->createUrl('/_teacher/_admin/users/cancelRole');
 			array_push($return['data'], $row);
 		}
 

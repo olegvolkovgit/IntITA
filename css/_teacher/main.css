@@ -166,7 +166,7 @@ table{
     table-layout: fixed;
 }
 td,th{
-    white-space: nowrap; /* Запрещаем перенос строк */
+    /*white-space: nowrap; !* Запрещаем перенос строк *!*/
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
@@ -456,4 +456,7 @@ a.requestList{
 
 div#loading-bar-spinner{
     display:none;
+}
+.dataTable_wrapper td a{
+    cursor: pointer;
 }

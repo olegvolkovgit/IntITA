@@ -35,30 +35,10 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: "/_teacher/_admin/coursemanage/index",
         })
-        .state('admin/modulemanage', {
-            url: "/admin/modulemanage",
-            cache: false,
-            templateUrl: "/_teacher/_admin/module/index",
-        })
         .state('admin/teachers', {
             url: "/admin/teachers",
             cache: false,
             templateUrl: "/_teacher/_admin/teachers/index",
-        })
-        .state('admin/sharedlinks', {
-            url: "/admin/sharedlinks",
-            cache: false,
-            templateUrl: "/_teacher/_admin/shareLink/index",
-        })
-        .state('admin/response', {
-            url: "/admin/response",
-            cache: false,
-            templateUrl: "/_teacher/_admin/response/index",
-        })
-        .state('admin/graduate', {
-            url: "/admin/graduate",
-            cache: false,
-            templateUrl: "/_teacher/_admin/graduate/index",
         })
         .state('admin/freelectures', {
             url: "/admin/freelectures",
@@ -83,7 +63,28 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users', {
             url: "/admin/users",
             cache: false,
-            templateUrl: "/_teacher/_admin/users/index",
+            templateUrl: basePath+"/_teacher/_admin/users/index",
+        })
+        .state('admin/users/user/:id', {
+            url: "/admin/users/user/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/user/index?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/teacher/:id', {
+            url: "/admin/users/teacher/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/consultant/:id', {
+            url: "/admin/users/consultant/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
+            }
         })
         .state('admin/refreshcache', {
             url: "/admin/refreshcache",
@@ -197,19 +198,20 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return "/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
             }
         })
-        .state('module/addTeacher/id/:id', {
-            url: "/module/addTeacher/id/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return "/_teacher/_admin/module/addTeacher/id/"+$stateParams.id;
-            }
-        })
         .state('config/view/:id', {
             url: "/config/view/:id",
             cache: false,
             templateUrl: function ($stateParams) {
                 console.log($stateParams.id);
                 return "/_teacher/_admin/config/view/id/"+$stateParams.id;
+            }
+        })
+        .state('addLinkedCourse/:model/:course/:lang', {
+            url: "/addLinkedCourse/:model/:course/:lang",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                console.log($stateParams.id);
+                return "/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         });
 });

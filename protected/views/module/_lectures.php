@@ -4,17 +4,11 @@
  * @var $data Lecture
  */
 $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
+$freeModule=($price==0)?true:false;
 ?>
 
 <div class="lessonModule" id="lectures">
     <div class="revisionIco">
-<!--        --><?php //if ($canEdit){?>
-<!--                <a href="--><?php //echo Yii::app()->createUrl("module/edit", array("idModule" => $module->module_ID)); ?><!--">-->
-<!--                    <img src="--><?php //echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?><!--"-->
-<!--                         title="Створити ревізію заняття в модулі"/>-->
-<!--                </a>-->
-<!---->
-<!--        --><?php //} ?>
         <?php if (!Yii::app()->user->isGuest && ($canEdit || RegisteredUser::userById(Yii::app()->user->getId())->canApprove())){?>
                 <label>Ревізії:
                 <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$module->module_ID, 'idCourse'=>$idCourse)); ?>">
@@ -49,8 +43,8 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             'class'=>'DataColumn',
             'name' => 'alias',
             'type' => 'raw',
-            'value' =>function(Lecture $data,$row) use ($enabledLessonOrder,$idCourse,$isReadyCourse) {
-                if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse))
+            'value' =>function(Lecture $data,$row) use ($enabledLessonOrder,$idCourse,$isReadyCourse,$freeModule) {
+                if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse,$freeModule))
                     $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'enabled.png'));
                 else $img=CHtml::image(StaticFilesHelper::createPath('image', 'module', 'disabled.png'));
                 $data->order == 0 ? $value="Виключено":$value=$img.Yii::t('module', '0381').' '.($row+1).'.';
@@ -66,16 +60,16 @@ $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($module->module_ID);
             'header'=>false,
             'htmlOptions'=>array('class'=>'titleColumn'),
             'headerHtmlOptions'=>array('style'=>'width:0%; display:none'),
-            'value' => function(Lecture $data) use ($idCourse,$enabledLessonOrder, $isReadyCourse) {
+            'value' => function(Lecture $data) use ($idCourse,$enabledLessonOrder, $isReadyCourse,$freeModule) {
                 $titleParam = 'title_'.CommonHelper::getLanguage();
                 if($data->$titleParam == ''){
                     $titleParam = 'title_ua';
                 }
-                if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse)) {
+                if ($data->hasAccessLecture($enabledLessonOrder,$isReadyCourse,$freeModule)) {
                     return CHtml::link(CHtml::encode($data->$titleParam), Yii::app()->createUrl("lesson/index",
                         array("id" => $data->id, "idCourse" => $idCourse)));
                 } else{
-                    $tooltip=$data->exceptionsForTooltips($enabledLessonOrder,$isReadyCourse);
+                    $tooltip=$data->exceptionsForTooltips($enabledLessonOrder,$isReadyCourse,$freeModule);
                     return '<span class="disablesLink" uib-tooltip="'.$tooltip.'">'.CHtml::encode($data->$titleParam).'</span>';
                 }
             }

@@ -5,9 +5,7 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/index'); ?>',
-                    'Модулі')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('modulemanage')">
             Всі модулі
         </button>
     </li>
@@ -15,18 +13,6 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <!-- Nav tabs -->
-        <ul  id="createModuleTabs" class="nav nav-tabs moduleTabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
-            </li>
-            <li><a href="#ua" data-toggle="tab">Українською</a>
-            </li>
-            <li><a href="#ru" data-toggle="tab">Російською</a>
-            </li>
-            <li><a href="#en" data-toggle="tab">Англійською</a>
-            </li>
-        </ul>
-        <!-- Tab panes -->
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'module-form',
@@ -41,26 +27,30 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        if(moduleValidation(data,hasError)){
+                        if(!hasError){
                             moduleCreate(form[0].action);
-                        };
+                        }
+                        else{
+                        bootbox.alert("Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
+                        }
                         return false;
                 }'),
             )); ?>
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="main">
+            <uib-tabset active="0" >
+                <uib-tab  index="0" heading="Головне" id="main">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
-                </div>
-                <div class="tab-pane fade" id="ua">
+                </uib-tab>
+                <uib-tab index="1" heading="Українською">
                     <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'form' => $form)); ?>
-                </div>
-                <div class="tab-pane fade" id="ru">
+                </uib-tab>
+                <uib-tab  index="2" heading="Російською">
                     <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'form' => $form)); ?>
-                </div>
-                <div class="tab-pane fade" id="en">
+                </uib-tab>
+                <uib-tab  index="3" heading="Англійською">
                     <?php $this->renderPartial('_enEditTab', array('model' => $model, 'form' => $form)); ?>
-                </div>
-            </div>
+                </uib-tab>
+            </uib-tabset>
+
             <?php $this->endWidget(); ?>
         </div>
     </div>

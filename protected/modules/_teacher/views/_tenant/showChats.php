@@ -1,6 +1,6 @@
 
 
-<div class="col-lg-12">
+<div class="col-lg-12" ng-controller="showChatCtrl">
     <br>
     <ul class="list-inline">
 
@@ -25,46 +25,3 @@
         </div>
     </div>
 </div>
-<script>
-initListOfChats('<?=$author?>','<?=$user?>');
-function initListOfChats(author,user){
-
-        $jq('#allChatsTable').DataTable({
-            "autoWidth": false,
-            "ajax": {
-                "url": basePath + "/_teacher/_tenant/tenant/FindChats?author="+author+"&user="+user,
-                "dataSrc": "data"
-            },
-            "columns": [
-                {
-                    "data": "name",
-                    "render": function (name) {
-                        return name['id'];
-                    }
-                },
-                {
-                    "data": "name",
-                    "render": function (name) {
-                        return name['title'];
-                    }
-//                    "render": function (name) {
-//                        return '<a href="#" onclick="load(\''+basePath+'/_teacher/_tenant/tenant/FindChat?id=' +  name['id'] + '\');">'+name['title']+'</a>';
-//                    }
-                   },
-//                {"data": "button",
-//                    "render": function () {
-//                        return '<a href="#" onclick="load();">Відправити на пошту</a>';
-//                    }
-//                }
-            ],
-            "createdRow": function (row, data, index) {
-                $jq(row).addClass('gradeX');
-            },
-            language: {
-                "url": basePath+"/scripts/cabinet/Ukranian.json",
-            },
-            processing : true,
-        });
-
-}
-</script>

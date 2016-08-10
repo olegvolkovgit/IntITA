@@ -19,8 +19,7 @@ $lectures = $model->lectures;
                         Редагувати список лекцій</a>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-outline btn-primary"
-                            onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/freeLectures/index") ?>', 'Безкоштовні лекції');">
+                    <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('admin/freelectures')">
                         Змінити статус лекції
                     </button>
                 </li>

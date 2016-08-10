@@ -4,9 +4,7 @@
 ?>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>',
-                        'Посилання на ресурси')">
+            <button type="button" class="btn btn-primary" ng-click="changeView('sharedlinks')">
                 Перегляд посилань на ресурси</button>
         </li>
     </ul>

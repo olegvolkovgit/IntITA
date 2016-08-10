@@ -38,7 +38,7 @@
                     </li>
                     <li><a href="#/admin/coursemanage">
                             Курси</a></li>
-                    <li><a href="#/admin/modulemanage">
+                    <li><a href="#/modulemanage">
                             Модулі</a></li>
                     <li><a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
                             Всі ревізії занять</a></li>
@@ -59,11 +59,11 @@
                 <ul>
                     <li><a href="#/admin/teachers">Співробітники</a>
                     </li>
-                    <li><a href="#/admin/sharedlinks">Ресурси для викладачів</a>
+                    <li><a href="#/sharedlinks">Ресурси для викладачів</a>
                     </li>
-                    <li><a href="#/admin/response">Відгуки про викладачів</a>
+                    <li><a href="#/response">Відгуки про викладачів</a>
                     </li>
-                    <li><a href="#/admin/graduate">Випускники</a></li>
+                    <li><a href="#/graduate">Випускники</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -104,9 +104,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/admin/users"
-                           onclick="load('<?php echo Yii::app()->createUrl(''); ?>',
-                               'Користувачі')">Користувачі
+                    <li><a ng-href="#/admin/users">Користувачі
                         </a>
                     </li>
                     <br>
@@ -146,14 +144,5 @@
     </div>
 </div>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/graduatesList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/configList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/responsesList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/translatesList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/aboutUsSliderList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/mainSliderList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/teachersList.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/shareLinks.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/usersManage.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/freeLectures.js'); ?>"></script>
+
 

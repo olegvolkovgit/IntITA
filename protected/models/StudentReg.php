@@ -931,7 +931,8 @@ class StudentReg extends CActiveRecord
 
         foreach ($result as $record) {
             $row = array();
-
+            
+            $row["student"]["id"] = $record["id"];
             $row["student"]["name"] = $record["studentName"];
             $row["email"]["title"] = $record["email"];
             $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
@@ -1057,6 +1058,7 @@ class StudentReg extends CActiveRecord
         foreach ($users as $record) {
             $row = array();
             $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
+            $row["user"]["id"] = $record["id"];
             $row["user"]["name"] = $name;
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
@@ -1064,7 +1066,7 @@ class StudentReg extends CActiveRecord
             $row["educForm"] = $record->educform;
             $row["country"] = ($record->country0)?$record->country0->title_ua:"";
             $row["city"] = ($record->city0)?$record->city0->title_ua:"";
-            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : '<em>невідомо</em>';
+            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : 'невідомо';
             $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
             if($record->hasPayedContent()){
                 $row["addAccessLink"]["color"] = "success";
@@ -1270,6 +1272,7 @@ class StudentReg extends CActiveRecord
         foreach ($users as $record) {
             $row = array();
             $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
+            $row["user"]["id"] = $record["id"];
             $row["user"]["name"] = $name;
             $row["email"]["title"] = $record["email"];
             $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";

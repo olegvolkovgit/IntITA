@@ -17,12 +17,8 @@ $langs = array_diff(array('ua', 'ru', 'en'), array($model->language));
                 if ($linkedCourses->$param == null) {
                     ?>
                     <li>
-                        <button type="button" class="btn btn-outline btn-primary"
-                                onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/addLinkedCourse", array(
-                                    "model" => $linkedCourses->id,
-                                    "course" => $model->course_ID,
-                                    "lang" => $item
-                                ));?>', '<?="Додати курс (".$item.")"?>')">
+
+                        <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('addLinkedCourse/<?= $linkedCourses->id ?>/<?= $model->course_ID ?>/<?= $item ?>')">
                             Додати курс (<?= $item ?>)
                         </button>
                     </li>
@@ -63,12 +59,8 @@ $langs = array_diff(array('ua', 'ru', 'en'), array($model->language));
                                         </td>
                                         <?php if ($scenario == "update") { ?>
                                             <td>
-                                                <a href="#" onclick="deleteLinkedCourse(
-                                                    '<?=Yii::app()->createUrl("/_teacher/_admin/coursemanage/deleteLinkedCourse");?>',
-                                                    '<?=$linkedCourses->id?>', '<?=$item?>',
-                                                    '<?="Курс ".CHtml::encode($model->title_ua)?>',
-                                                    '<?=$model->course_ID?>')">
-                                                    видалити</a>
+                                                <a href="javascript:void(0)"  ng-click="deleteMod('<?=$linkedCourses->id?>', '<?=$item?>' )"
+                                                  >видалити</a>
                                             </td>
                                         <?php } ?>
                                     </tr>

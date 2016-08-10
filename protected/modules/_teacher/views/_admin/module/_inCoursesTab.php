@@ -65,10 +65,7 @@
                             </td>
                             <td>
                                 <?php if ($scenario == "update") { ?>
-                                    <a href="#"
-                                       onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/module/mandatory', array(
-                                           'id' => $model->module_ID, 'course' => $item->id_course)); ?>',
-                                           'Задати попередній модуль у курсі')">
+                                    <a href="#/module/mandatory/id/<?= $item->moduleInCourse->module_ID ?>/course/<?= $item->id_course ?>">
                                         <?= ($item->mandatory_modules != null) ? $item->mandatory->getTitle() . " (ред.)" : "редагувати"; ?>
                                     </a>
                                 <?php } else {

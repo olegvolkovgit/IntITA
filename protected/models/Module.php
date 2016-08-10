@@ -434,13 +434,9 @@ class Module extends CActiveRecord implements IBillableObject
     public static function getModulePrice($moduleId, $idCourse = 0)
     {
         if ($idCourse > 0) {
-            $price = CourseModules::model()->findByAttributes(array('id_module' => $moduleId,
-                'id_course' => $idCourse))->price_in_course;
-            if ($price <= 0) {
-                $price = Module::model()->findByPk($moduleId)->module_price;
-            }
+            $price = round(Module::model()->findByPk($moduleId)->module_price * Config::getCoeffDependentModule());
         } else {
-            $price = Module::model()->findByPk($moduleId)->module_price * Config::getCoeffIndependentModule();
+            $price = round(Module::model()->findByPk($moduleId)->module_price);
         }
         if ($price == 0) {
             return '<span class="colorGreen">' . Yii::t('module', '0421') . '</span>';
@@ -498,13 +494,7 @@ class Module extends CActiveRecord implements IBillableObject
     public function modulePrice($idCourse = 0)
     {
         if ($idCourse > 0) {
-            $price = CourseModules::model()->findByAttributes(array('id_module' => $this->module_ID,
-                'id_course' => $idCourse))->price_in_course;
-            if ($price <= 0) {
-                return round($this->module_price);
-            } else {
-                return $price;
-            }
+            return round($this->module_price*Config::getCoeffDependentModule());
         } else {
             return round($this->module_price);
         }
@@ -1011,9 +1001,9 @@ class Module extends CActiveRecord implements IBillableObject
         return Yii::app()->db->createCommand($sql)->queryAll();
     }
 
-    public function getIndepedentModulePrice()
+    public function getDepedentModulePrice()
     {
-        return round($this->module_price * Config::getCoeffIndependentModule());
+        return round($this->module_price * Config::getCoeffDependentModule());
     }
 
     public function priceOffline()

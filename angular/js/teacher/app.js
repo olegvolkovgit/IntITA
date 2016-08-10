@@ -6,6 +6,11 @@ angular
         'datatables',
         'ui.bootstrap',
         'ngBootbox',
+        'directive.loading',
+        'ngResource',
+        'ngTable',
+        'angular-loading-bar',
+        
         'messagesRouter',
         'cabinetRouter', 
         'adminRouter',
@@ -17,9 +22,8 @@ angular
         'tenantRouter',
         'accountantRouter',
         'contentManagerRouter',
-        'directive.loading',
-        'ngResource',
-        'ngTable',
-        'angular-loading-bar'
-    ])
-    ;
+        'modulesRouter',
+        'graduatesRouter',
+        'sharedLinksRouter',
+        'responseRouter'
+    ]);

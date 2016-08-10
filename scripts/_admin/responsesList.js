@@ -60,7 +60,7 @@ function setResponseStatus(url) {
     });
 }
 
-function deleteResponse(url) {
+function _deleteResponse(url) {
     bootbox.confirm("Видалити відгук?", function (result) {
         if (result) {
             $jq.ajax({
