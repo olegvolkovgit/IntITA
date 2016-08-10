@@ -63,27 +63,27 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users', {
             url: "/admin/users",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/users/index",
+            templateUrl: "/_teacher/_admin/users/index",
         })
         .state('admin/users/user/:id', {
             url: "/admin/users/user/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/user/index?id="+$stateParams.id;
+                return "/_teacher/user/index?id="+$stateParams.id;
             }
         })
         .state('admin/users/teacher/:id', {
             url: "/admin/users/teacher/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
+                return "/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
             }
         })
         .state('admin/users/consultant/:id', {
             url: "/admin/users/consultant/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
+                return "/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
             }
         })
         .state('admin/refreshcache', {
