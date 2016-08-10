@@ -4,16 +4,12 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>',
-                    'Посилання на ресурси')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('sharedlinks')">
             Всі посилання
         </button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/update', array('id' => $model->id)); ?>',
-                    'Посилання на ресурси')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('sharedlinks/edit/<?=$model->id?>')">
             Редагувати посилання
         </button>
     </li>

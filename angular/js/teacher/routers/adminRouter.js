@@ -40,21 +40,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: "/_teacher/_admin/teachers/index",
         })
-        .state('admin/sharedlinks', {
-            url: "/admin/sharedlinks",
-            cache: false,
-            templateUrl: "/_teacher/_admin/shareLink/index",
-        })
-        .state('admin/response', {
-            url: "/admin/response",
-            cache: false,
-            templateUrl: "/_teacher/_admin/response/index",
-        })
-        .state('admin/graduate', {
-            url: "/admin/graduate",
-            cache: false,
-            templateUrl: "/_teacher/_admin/graduate/index",
-        })
         .state('admin/freelectures', {
             url: "/admin/freelectures",
             cache: false,

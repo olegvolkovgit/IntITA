@@ -2,29 +2,25 @@
 /* @var $this ShareLinkController */
 /* @var $model ShareLink */
 ?>
+<div ng-controller="sharedlinksCtrl">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/index'); ?>',
-                        'Посилання на ресурси')">
+            <button type="button" class="btn btn-primary" ng-click="changeView('sharedlinks')">
                 Всі посилання
             </button>
         </li>
 
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('_teacher/_admin/shareLink/view', array('id' => $model->id)); ?>',
-                        'Переглянути посилання')">
+            <button type="button" class="btn btn-primary" ng-click="changeView('sharedlinks/detail/<?= $model->id ?>')">
                 Переглянути посилання
             </button>
         </li>
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="deleteLink('<?php echo Yii::app()->createUrl("/_teacher/_admin/shareLink/delete"); ?>',
-                        '<?= $model->id; ?>')">
+            <button type="button" class="btn btn-primary" ng-click="deleteSharedLink('<?=$model->id?>')">
                 Видалити посилання
             </button>
         </li>
     </ul>
 
 <?php $this->renderPartial('_form', array('model' => $model)); ?>
+</div>

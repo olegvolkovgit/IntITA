@@ -29,22 +29,9 @@ angular
     .module('teacherApp')
     .controller('contentManagerCtrl',contentManagerCtrl);
 
-
-
 angular
     .module('teacherApp')
     .controller('teachersCtrl',teachersCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('sharedlinksCtrl',sharedlinksCtrl);
-angular
-    .module('teacherApp')
-    .controller('responseCtrl',responseCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('graduateCtrl',graduateCtrl);
 
 angular
     .module('teacherApp')
@@ -219,18 +206,6 @@ function moduleAddTeacherCtrl ($scope){
 
 function teachersCtrl ($scope){
     initTeachersAdminTable();
-}
-
-function sharedlinksCtrl ($scope){
-    initShareLinks();
-}
-
-function responseCtrl ($scope){
-    initTeacherResponsesTable();
-}
-
-function graduateCtrl ($scope){
-    initGraduatesTable();
 }
 
 function freelecturesCtrl ($scope){
