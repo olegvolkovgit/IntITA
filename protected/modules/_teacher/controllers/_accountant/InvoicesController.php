@@ -18,6 +18,14 @@ class InvoicesController extends TeacherCabinetController
         ), false, true);
     }
 
+    public function actionGetInvoices($page = 0, $pageCount=10) {
+        $agreements = new Invoices();
+        $limit = $pageCount;
+        $offset = $page * $pageCount - $pageCount;
+        $json = $agreements->getInvoices($offset, $limit);
+        echo json_encode($json);
+    }
+    
     public function actionAgreementList(){
         $model= new Invoice('search');
         $model->unsetAttributes();

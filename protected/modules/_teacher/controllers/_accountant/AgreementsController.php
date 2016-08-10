@@ -38,10 +38,7 @@ class AgreementsController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $agreements = UserAgreements::model()->findAll();
-        $this->renderPartial('index', array(
-            'agreements' => $agreements
-        ));
+        $this->renderPartial('index');
     }
 
     public function actionGetAgreementsList($page = 0, $pageCount=10) {

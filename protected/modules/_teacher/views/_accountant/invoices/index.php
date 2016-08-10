@@ -6,46 +6,18 @@
 <div class="col-lg-12" ng-controller="invoicesCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" cellspacing="0" id="invoices">
-                    <thead>
-                    <tr>
-                        <th>Номер рахунку</th>
-                        <th>Договір</th>
-                        <th>Дата заведення</th>
-                        <th>До сплати</th>
-                        <th>Користувач</th>
-                        <th>Оплатити до</th>
-                        <th>Сплачено</th>
-                        <th>Дійсний до</th>
-                        <th>Відмінив</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    foreach ($invoices as $invoice) {
-                        ?>
-                        <tr class="odd gradeX">
-                            <td><?= $invoice->number; ?></td>
-                            <td>
-                                <?php if(isset($invoice->agreement)) { ?>
-                                <a href="#" onclick="load(
-                                    '<?= Yii::app()->createUrl('/_teacher/_accountant/agreements/agreement', array('id' => $invoice->agreement_id)); ?>',
-                                    'Договір'); return false;"><?= $invoice->agreement->number; ?></a>
-                                <?php } else { echo 'Договір не знайдено'; } ?>
-                            </td>
-                            <td><?= ($invoice->date_created)? date("d.m.y", strtotime($invoice->date_created)):"" ?></td>
-                            <td><?= $invoice->summa; ?></td>
-                            <td><?= $invoice->userCreated->userNameWithEmail();?></td>
-                            <td><?= ($invoice->payment_date)? date("d.m.y", strtotime($invoice->payment_date)):""; ?></td>
-                            <td><?= ($invoice->pay_date)? date("d.m.y", strtotime($invoice->pay_date)):""; ?></td>
-                            <td><?= ($invoice->expiration_date)? date("d.m.y", strtotime($invoice->expiration_date)):"" ?></td>
-                            <td><?= ($invoice->user_cancelled)?$invoice->userCancelled->userNameWithEmail():"";?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
+            <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+                <tr ng-repeat="row in $data track by row.id">
+                    <td data-title="'Номер рахунку'">{{row.number}}</td>
+                    <td data-title="'Договір'">{{row.agreement_id}}</td>
+                    <td data-title="'Дата заведення'">{{row.date_created}}</td>
+                    <td data-title="'Дата сплати'">{{row.payment_date}}</td>
+                    <td data-title="'Користувач'">{{row.user_created}}</td>
+                    <td data-title="'Оплатити до'">{{row.payment_date}}</td>
+                    <td data-title="'Дійсний до'">{{row.pay_date}}</td>
+                    <td data-title="'Відмінив'">{{row.user_cancelled}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

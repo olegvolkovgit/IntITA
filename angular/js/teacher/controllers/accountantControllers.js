@@ -22,7 +22,23 @@ angular
 
     }])
 
-    .controller('invoicesCtrl',function($scope){
+    .controller('invoicesCtrl', ['$scope', 'invoices', 'NgTableParams', function($scope, invoices, NgTableParams){
+
+        $scope.tableParams = new NgTableParams({}, {
+            getData: function(params) {
+                return invoices.list({
+                    page: params.page(),
+                    pageCount: params.count()
+                })
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count); // recal. page nav controls
+                        return data.rows;
+                    });
+            }
+        });
+
+
         $jq('#invoices').DataTable({
                 "autoWidth": false,
                 language: {
@@ -30,7 +46,7 @@ angular
                 }
             }
         );
-    })
+    }])
 
     .controller('operationCtrl',function($scope){
         $jq('#operationsTable').DataTable({
