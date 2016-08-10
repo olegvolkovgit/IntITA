@@ -195,7 +195,8 @@ class RegisteredUser
     public function hasRole($role)
     {
         if ($role == "author") {
-            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
+//            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
+            return true;
         }
         return in_array($role, $this->getRoles());
     }
@@ -297,7 +298,7 @@ class RegisteredUser
         return $this->isStudent() && $this->id!=$id;
     }
 
-    public function hasLectureAccess(Lecture $lecture, $editMode = false, $idCourse = 0){
+    public function hasLectureAccess(Lecture $lecture, $editMode = false, $idCourse = 0,$freeModule=false){
         $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
         if ($this->isAdmin() || $editMode||$this->isContentManager()) {
             return true;
@@ -321,6 +322,11 @@ class RegisteredUser
         }
         if ($lecture->module->status==Module::DEVELOP) {
             throw new CHttpException(403, Yii::t('lecture', '0894'));
+        }
+        if ($freeModule) {
+            if ($lecture->order > $enabledLessonOrder)
+                throw new CHttpException(403, Yii::t('errors', '0646'));
+            else return true;
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();

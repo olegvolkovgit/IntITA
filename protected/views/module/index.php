@@ -17,10 +17,11 @@ if($idCourse != 0) {
         $post->getTitleForBreadcrumbs(),
     );
 }
+$price = $post->modulePrice($idCourse);
 ?>
 
 <div class="ModuleBlock">
-    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse,"isPaidCourse"=>$isPaidCourse,"isPaidModule"=>$isPaidModule,'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager));?>
+    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse,"isPaidCourse"=>$isPaidCourse,"isPaidModule"=>$isPaidModule,'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager,'price'=>$price));?>
 
     <div class="rightModule">
          <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>

@@ -190,14 +190,10 @@ class Course extends CActiveRecord implements IBillableObject
         $modules = $this->module;
 
         foreach ($modules as $module) {
-            if($module->price_in_course){
-                $price += $module->price_in_course;
-            } else {
-                $price += $module->moduleInCourse->module_price;
-            }
+            $price += $module->moduleInCourse->module_price;
         }
 
-        return $price;
+        return $price*Config::getCoeffDependentModule();
     }
 
 //    public function getBasePriceUAH(){

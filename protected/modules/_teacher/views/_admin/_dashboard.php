@@ -59,11 +59,11 @@
                 <ul>
                     <li><a href="#/admin/teachers">Співробітники</a>
                     </li>
-                    <li><a href="#/admin/sharedlinks">Ресурси для викладачів</a>
+                    <li><a href="#/sharedlinks">Ресурси для викладачів</a>
                     </li>
-                    <li><a href="#/admin/response">Відгуки про викладачів</a>
+                    <li><a href="#/response">Відгуки про викладачів</a>
                     </li>
-                    <li><a href="#/admin/graduate">Випускники</a></li>
+                    <li><a href="#/graduate">Випускники</a></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -104,9 +104,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/admin/users"
-                           onclick="load('<?php echo Yii::app()->createUrl(''); ?>',
-                               'Користувачі')">Користувачі
+                    <li><a ng-href="#/admin/users">Користувачі
                         </a>
                     </li>
                     <br>

@@ -168,7 +168,7 @@ class Trainer extends Role
 
     public function checkUserStudent($student)
     {
-        if(!UserStudent::model()->exists('id_user=:id and end_date IS NOT NULL', array(':id' => $student))) {
+        if(!UserStudent::model()->exists('id_user=:id and end_date IS NULL', array(':id' => $student))) {
             $this->errorMessage = "Користувача додати не вдалося, оскільки він не є студентом";
             return false;
         } else return true;

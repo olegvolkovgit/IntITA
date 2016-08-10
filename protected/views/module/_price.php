@@ -3,7 +3,6 @@
  * @var $model Module
  * @var $idCourse int
  */
-$price = $model->modulePrice($idCourse);
 if ($price == 0) {
     ?>
     <span class="colorGreen"><?= Yii::t('module', '0421') ?></span>

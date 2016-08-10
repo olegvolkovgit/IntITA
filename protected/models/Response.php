@@ -291,6 +291,7 @@ class Response extends CActiveRecord
         $return = array('data' => array());
         foreach ($users as $record) {
             $row = array();
+            $row["id"] = $record->id;
             $row["author"] = $record->getResponseAuthorName();
             $row["about"] = $record->getResponseAboutTeacherName();
             $row["date"] = $record->timeDesc();

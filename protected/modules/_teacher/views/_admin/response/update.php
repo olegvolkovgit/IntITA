@@ -2,15 +2,18 @@
 /* @var $this ResponseController */
 /* @var $model Response */
 ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/jquery.wysibb.min.js'); ?>"></script>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/theme/default/wbbtheme.css'); ?>"
+      type="text/css" />
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/lang/ua.js'); ?>"></script>
+<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('js',  'wysibb/BBCode.js'); ?><!--"></script>-->
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('response')">
             Відгуки про викладачів</button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/view', array('id' => $model->id)); ?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('/response/detail/<?= $model->id ?>')">
             Переглянути відгук</button>
     </li>
 </ul>
@@ -21,10 +24,10 @@
 
     <link rel="stylesheet" type="text/css" href="<?=Yii::app()->baseUrl?>/css/formattedForm.css"/>
 
-<div class="panel-body">
+<div class="panel-body" ng-controller="responseCtrl">
     <div class="row">
         <div class="col-lg-8">
-            <form id="response-form" name="responseForm" onsubmit="editResponse('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/updateResponseText', array('id'=>$model->id))?>');return false;">
+            <form id="response-form" name="responseForm" ng-submit="updateResponse('<?php echo $model->id; ?>')" >
                 <div class="form-group">
                     <?php $model->text=Response::model()->html_to_bbcode($model->text); ?>
                     <label>Відгук*</label>
@@ -37,7 +40,6 @@
                         <option value="0"<?php echo ($model->is_checked==0)?'selected':''?>>приховати</option>
                     </select>
                 </div>
-
                 <button type="submit" class="btn btn-primary">Зберегти</button>
             </form>
         </div>
@@ -46,11 +48,7 @@
 
 
 <!--<!-- Підключення BBCode WysiBB -->
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/jquery.wysibb.min.js'); ?>"></script>
-<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/theme/default/wbbtheme.css'); ?>"
-      type="text/css" />
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'wysibb/lang/ua.js'); ?>"></script>
-<!--<script src="--><?php //echo StaticFilesHelper::fullPathTo('js',  'wysibb/BBCode.js'); ?><!--"></script>-->
+
 <script>
     $jq(document).ready(function() {
         var wbbOpt = {

@@ -39,7 +39,7 @@ $teacher = $user->getTeacher();
                 <?php $this->renderPartial('/_content_manager/_mainTeacherTab', array('user' =>$user));?>
             </div>
             <?php if ($user->isAuthor()) { ?>
-                <div class="tab-pane fade" id="author">
+                <div class="tab-pane fade" id="moduleauthor">
                     <?php $this->renderPartial('/_content_manager/_authorTab', array('user' =>$user));?>
                 </div>
             <?php } ?>

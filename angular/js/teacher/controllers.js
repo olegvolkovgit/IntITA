@@ -29,22 +29,9 @@ angular
     .module('teacherApp')
     .controller('contentManagerCtrl',contentManagerCtrl);
 
-
-
 angular
     .module('teacherApp')
     .controller('teachersCtrl',teachersCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('sharedlinksCtrl',sharedlinksCtrl);
-angular
-    .module('teacherApp')
-    .controller('responseCtrl',responseCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('graduateCtrl',graduateCtrl);
 
 angular
     .module('teacherApp')
@@ -58,9 +45,6 @@ angular
     .module('teacherApp')
     .controller('payCtrl',payCtrl);
 
-angular
-    .module('teacherApp')
-    .controller('usersCtrl',usersCtrl);
 angular
     .module('teacherApp')
     .controller('levelsCtrl',levelsCtrl)
@@ -224,18 +208,6 @@ function teachersCtrl ($scope){
     initTeachersAdminTable();
 }
 
-function sharedlinksCtrl ($scope){
-    initShareLinks();
-}
-
-function responseCtrl ($scope){
-    initTeacherResponsesTable();
-}
-
-function graduateCtrl ($scope){
-    initGraduatesTable();
-}
-
 function freelecturesCtrl ($scope){
     initFreeLectures();
 }
@@ -246,20 +218,6 @@ function permissionsCtrl ($scope){
 
 function payCtrl ($scope){
     initPayTypeaheads();
-}
-
-function usersCtrl ($scope){
-        initUsersTable();
-        initStudentsList();
-        initWithoutRolesUsersTable();
-        initAdminsTable();
-        initAccountantsTable();
-        initTeachersTable();
-        initContentManagersTable();
-        initTeacherConsultantsTable();
-        initTenantsTable();
-        initTrainersTable();
-        initConsultantsRolesTable();
 }
 
 function levelsCtrl ($scope){

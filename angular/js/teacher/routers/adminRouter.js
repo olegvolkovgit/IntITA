@@ -40,21 +40,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: "/_teacher/_admin/teachers/index",
         })
-        .state('admin/sharedlinks', {
-            url: "/admin/sharedlinks",
-            cache: false,
-            templateUrl: "/_teacher/_admin/shareLink/index",
-        })
-        .state('admin/response', {
-            url: "/admin/response",
-            cache: false,
-            templateUrl: "/_teacher/_admin/response/index",
-        })
-        .state('admin/graduate', {
-            url: "/admin/graduate",
-            cache: false,
-            templateUrl: "/_teacher/_admin/graduate/index",
-        })
         .state('admin/freelectures', {
             url: "/admin/freelectures",
             cache: false,
@@ -78,7 +63,28 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users', {
             url: "/admin/users",
             cache: false,
-            templateUrl: "/_teacher/_admin/users/index",
+            templateUrl: basePath+"/_teacher/_admin/users/index",
+        })
+        .state('admin/users/user/:id', {
+            url: "/admin/users/user/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/user/index?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/teacher/:id', {
+            url: "/admin/users/teacher/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/consultant/:id', {
+            url: "/admin/users/consultant/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
+            }
         })
         .state('admin/refreshcache', {
             url: "/admin/refreshcache",
