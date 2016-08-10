@@ -60,9 +60,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('usersCtrl',usersCtrl);
-angular
-    .module('teacherApp')
     .controller('levelsCtrl',levelsCtrl)
 
 angular
@@ -246,20 +243,6 @@ function permissionsCtrl ($scope){
 
 function payCtrl ($scope){
     initPayTypeaheads();
-}
-
-function usersCtrl ($scope){
-        initUsersTable();
-        initStudentsList();
-        initWithoutRolesUsersTable();
-        initAdminsTable();
-        initAccountantsTable();
-        initTeachersTable();
-        initContentManagersTable();
-        initTeacherConsultantsTable();
-        initTenantsTable();
-        initTrainersTable();
-        initConsultantsRolesTable();
 }
 
 function levelsCtrl ($scope){

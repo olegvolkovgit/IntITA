@@ -142,6 +142,7 @@ class UserTrainer extends CActiveRecord
 
         foreach ($consultants as $record) {
             $row = array();
+			$row["id"]= $record["id"];
 			$row["name"]["name"] = trim($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
             $row["name"]["title"] = addslashes($record["secondName"]." ".$record["firstName"]." ".$record["middleName"]);
             $row["email"]["title"] = $record["email"];
@@ -149,7 +150,7 @@ class UserTrainer extends CActiveRecord
                 array('id' => $record['id']));
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
             $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
-            $row["cancel"] = "'".Yii::app()->createUrl('/_teacher/_admin/users/cancelRole')."'".", 'trainer', '".$record["id"]."', '9'";
+            $row["cancel"] = Yii::app()->createUrl('/_teacher/_admin/users/cancelRole');
 			$row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
 				'scenario' => 'message',
 				'receiver' => $record["id"]

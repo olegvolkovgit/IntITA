@@ -104,9 +104,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/admin/users"
-                           onclick="load('<?php echo Yii::app()->createUrl(''); ?>',
-                               'Користувачі')">Користувачі
+                    <li><a ng-href="#/admin/users">Користувачі
                         </a>
                     </li>
                     <br>
