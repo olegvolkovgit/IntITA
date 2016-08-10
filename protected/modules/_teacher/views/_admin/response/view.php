@@ -2,29 +2,25 @@
 /* @var $this ResponseController */
 /* @var $model Response */
 ?>
+
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/graduate.css'); ?>" rel="stylesheet">
 
-<div class="col-md-9">
+<div class="col-md-9" ng-controller="responseCtrl" id="responseView">
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/index'); ?>', 'Відгуки про викладачів')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('response')">
             Відгуки про викладачів</button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/response/update", array("id"=>$model->id))?>', 'Редагувати')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('response/edit/<?= $model->id?>')">
             Редагувати</button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="deleteResponse('<?php echo Yii::app()->createUrl('/_teacher/_admin/response/delete', array('id'=>$model->id)) ?>')">
+        <button type="button" class="btn btn-primary" ng-click="deleteResponse('<?= $model->id ?>')">
             Видалити</button>
     </li>
     <li>
-        <button type="button" class="btn btn-success"
-                onclick="setResponseStatus('<?php echo ($model->isChecked())?Yii::app()->createUrl('/_teacher/_admin/response/unsetPublish', array('id'=>$model->id)):
-                    Yii::app()->createUrl('/_teacher/_admin/response/setPublish', array('id'=>$model->id));?>', 'Видалити')">
+        <button type="button" class="btn btn-success" ng-click="changeResponseStatus('<?= $model->id ?>','<?=($model->isChecked())?"hide":"publish";?>')">
             <?=($model->isChecked())?"Приховати":"Опублікувати";?></button>
     </li>
 </ul>

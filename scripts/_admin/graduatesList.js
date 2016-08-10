@@ -1,4 +1,4 @@
-function initGraduatesTable() {
+function    initGraduatesTable() {
     $jq('#graduatesTable').DataTable({
         "autoWidth": false,
         "ajax": {
