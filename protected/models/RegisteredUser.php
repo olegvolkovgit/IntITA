@@ -195,7 +195,8 @@ class RegisteredUser
     public function hasRole($role)
     {
         if ($role == "author") {
-            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
+//            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
+            return true;
         }
         return in_array($role, $this->getRoles());
     }
