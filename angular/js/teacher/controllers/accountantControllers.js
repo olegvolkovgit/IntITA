@@ -4,46 +4,23 @@
 
 angular
     .module('teacherApp')
-    .controller('agreementsCtrl', function ($scope, agreementsService) {
-        $scope.test ='1234';
+    .controller('agreementsCtrl', ['$scope', 'agreements', 'NgTableParams', function ($scope, agreements, NgTableParams) {
 
-        console.log(agreementsService);
-
-        // $http({
-        //     method: 'GET',
-        //     url: '/_teacher/_accountant/agreements/getAgreementsList',
-        //     params: $scope.show
-        // })
-        //     .then(function (response) {
-        //         $scope.data = response.data;
-        //     })
-        //     .catch(function (err) {
-        //         $scope.data = [];
-        //         console.log(err);
-        //     });
-
-
-        $jq('#agreements').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                },
-                "columns": [
-                    null,
-                    null,
-                    {
-                        "type": "de_date", targets: 1,
-                    },
-                    {
-                        "type": "de_date", targets: 1,
-                    },
-                    null,
-                    null,
-                    null
-                ]
+        $scope.tableParams = new NgTableParams({}, {
+            getData: function(params) {
+                return agreements.list({
+                    page: params.page(),
+                    pageCount: params.count()
+                })
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count); // recal. page nav controls
+                        return data.rows;
+                    });
             }
-        );
-    })
+        });
+
+    }])
 
     .controller('invoicesCtrl',function($scope){
         $jq('#invoices').DataTable({
@@ -93,7 +70,7 @@ angular
             }
         );
     })
-    
+
     .controller('cancelReasonTypeCtrl',function($scope){
             $jq('#cancelReasonTypes').DataTable({
                     "autoWidth": false,

@@ -44,11 +44,12 @@ class AgreementsController extends TeacherCabinetController
         ));
     }
 
-    public function actionGetAgreementsList($offset = 0, $limit=10) {
+    public function actionGetAgreementsList($page = 0, $pageCount=10) {
         $agreements = new Agreements();
+        $limit = $pageCount;
+        $offset = $page * $pageCount - $pageCount;
         $json = $agreements->getUserAgreements($offset, $limit);
-//        echo json_encode($json);
-        echo '{"draw":1,"recordsTotal":2,"recordsFiltered":2,"data":[{"DT_RowId":"row_1","DT_RowData":{"pkey":3},"id":860,"firstName":"Superman","lastName":"Yoda"'.'},{"DT_RowId":"row_17","DT_RowData":{"pkey":17},"id":870,"firstName":"Foo","lastName":"Whateveryournameis"}]}';
+        echo json_encode($json);
     }
 
     public function actionConfirm()

@@ -2,9 +2,9 @@
 
 /* Services */
 
-var agreementsService = angular.module('agreementsService', ['ngResource']);
-
-agreementsService.factory('agreementsService', ['$resource',
+angular
+    .module('teacherApp')
+    .factory('agreements', ['$resource',
     function ($resource) {
         var url = '/_teacher/_accountant/agreements/getAgreementsList';
 
@@ -15,13 +15,12 @@ agreementsService.factory('agreementsService', ['$resource',
                 limit: 'limit'
             },
             {
-                agreementsList: {
+                list: {
                     method: 'GET',
                     params: {
                         page: 'page',
                         limit: 'limit'
-                    },
-                    isArray: true
+                    }
                 }
             });
     }]);

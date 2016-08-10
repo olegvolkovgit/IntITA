@@ -453,3 +453,7 @@ a.requestList{
 #studentTodayConsultationsTable td, #todayConsultationsTable td, #studentsTable td{
     white-space: normal;
 }
+
+div#loading-bar-spinner{
+    display:none;
+}

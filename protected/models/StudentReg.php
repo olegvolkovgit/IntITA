@@ -70,6 +70,8 @@ class StudentReg extends CActiveRecord
     public $studentName;
 
     private $_identity;
+    
+    public $fullName = '';
 
     public function getDbConnection()
     {
@@ -338,6 +340,11 @@ class StudentReg extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+    
+    public function afterFind() {
+        /* setup full name field after find */
+        $this->fullName = trim($this->firstName . " " . $this->secondName);
     }
 
     public static function getAdressYears($birthday, $adress = '')

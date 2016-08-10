@@ -17,6 +17,9 @@ angular
         'tenantRouter',
         'accountantRouter',
         'contentManagerRouter',
-        'directive.loading'
+        'directive.loading',
+        'ngResource',
+        'ngTable',
+        'angular-loading-bar'
     ])
     ;

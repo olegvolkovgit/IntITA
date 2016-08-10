@@ -8,23 +8,39 @@
  */
 class Agreements {
 
-    private function toAssocArray($dataArray) {
+    private function toAssocArray($dataArray, $mapRelated) {
         $result = [];
         if (is_array($dataArray)) {
-            foreach ($dataArray as $item) {
-                array_push($result, $item->getAttributes());
+            foreach ($dataArray as $userAgreement) {
+                $mappedAssoc = $userAgreement->getAttributes();
+                if ($mapRelated) {
+                    foreach ($mapRelated as $key=>$item) {
+                        $path = preg_split('/\./', $item);
+                        $mappedAssoc[$key] = $userAgreement[$path[0]][$path[1]];
+                    }
+                }
+                array_push($result, $mappedAssoc);
             }
         }
         return $result;
     }
 
-    public function getUserAgreements($offset = 0, $limit=10) {
+    public function getUserAgreements($offset = 0, $limit = 10) {
         $criteria = new CDbCriteria([
             'offset' => $offset,
             'limit' => $limit
         ]);
-        $agreements = UserAgreements::model()->findAll($criteria);
-        
-        return $this->toAssocArray($agreements);
+        $agreements = UserAgreements::model()->with('user', 'approvalUser', 'paymentSchema')->findAll($criteria);
+        $totalCount = UserAgreements::model()->count();
+
+        return [
+            'count' => $totalCount,
+
+            'rows' => $this->toAssocArray($agreements, [
+                'user_id' => 'user.fullName',
+                'approval_user' => 'approvalUser.fullName',
+                'payment_schema' => 'paymentSchema.name'
+            ])
+        ];
     }
 }
