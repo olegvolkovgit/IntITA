@@ -10,12 +10,12 @@ config(function ($stateProvider) {
             .state('messages', {
                 url: "/messages",
                 cache         : false,
-                templateUrl: basePath+"/_teacher/messages/index"
+                templateUrl: "/_teacher/messages/index"
             })
             .state('index', {
                 url: "/index",
                 cache         : false,
-                templateUrl: basePath+"/_teacher/cabinet/loadDashboard/?user="+user,
+                templateUrl: "/_teacher/cabinet/loadDashboard/?user="+user,
             })
 }
 );
