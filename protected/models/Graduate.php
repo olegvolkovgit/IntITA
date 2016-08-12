@@ -200,4 +200,6 @@ class Graduate extends CActiveRecord
 
         return json_encode($return);
 	}
+
+
 }

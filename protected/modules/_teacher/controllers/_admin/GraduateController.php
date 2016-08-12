@@ -142,4 +142,12 @@ class GraduateController extends TeacherCabinetController {
     public function actionGetGraduatesList(){
         echo Graduate::graduatesList();
     }
+
+    public function actionGetGraduatesJson($page = 0, $pageCount=10){
+        $criteria = new CDbCriteria([
+            'offset' => $page*$pageCount -$pageCount,
+            'limit' => $pageCount
+        ]);
+        echo JsonForNgDatatablesHelper::returnJson(Graduate::model()->findAll($criteria),null,Graduate::model()->count());
+    }
 }
