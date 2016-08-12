@@ -2,32 +2,26 @@
 /* @var $this GraduateController */
 /* @var $model Graduate */
 ?>
-<div class="row">
+<div class="row" ng-controller="graduateCtrl">
     <div class="col col-lg-9">
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
-                            'Список випускників')">
-                    Список випускників
-                </button>
+            <li>
+                <button type="button" class="btn btn-primary" ng-click="changeView('graduate')">
+                    Список випускників</button>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="deletePhoto('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/deletePhoto'); ?>',
-                            '<?php echo $model->id; ?>', '<?php echo addslashes($model->first_name) . " " . addslashes($model->last_name); ?>');">
+                <button type="button" class="btn btn-primary" ng-click="deleteGraduatePhoto('<?= $model->id?>')">
                     Видалити фото випускника
                 </button>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/view', array('id' => $model->id)); ?>',
-                            '<?="Випускник ".addslashes($model->first_name." ".$model->last_name);?>')">
+            <li>
+                <button type="button" class="btn btn-primary" ng-click="changeView('graduate/view/<?= $model->id ?>')">
                     Переглянути інформацію про випускника
                 </button>
             </li>
         </ul>
-
         <?php $this->renderPartial('_form', array('model' => $model)); ?>
     </div>
 </div>

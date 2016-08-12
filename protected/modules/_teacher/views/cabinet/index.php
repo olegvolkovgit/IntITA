@@ -16,9 +16,6 @@
     scenario = '<?=$scenario?>';
     adminEmail = '<?=Config::getAdminEmail();?>';
     <!-- kludge -->
-    if (location.hash === ''){
-        location.hash='/index';
-    }
 
 </script>
 
