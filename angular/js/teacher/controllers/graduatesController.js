@@ -6,6 +6,7 @@ angular
     .controller('graduateCtrl',graduateCtrl);
 
 function graduateCtrl ($scope, $http, graduates, NgTableParams ){
+
     $scope.tableParams = new NgTableParams({}, {
         getData: function(params) {
             return graduates.list({

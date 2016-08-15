@@ -21,8 +21,9 @@ class JsonForNgDatatablesHelper extends CActiveRecord
         $result = [];
         ($modelRecordsCount)?$data = ['count'=>$modelRecordsCount]:$data = ['count'=>count($records)];
         foreach ($records as $record) {
-            $result["rows"][] = $record->getAttributes($attributes);
+           ($record instanceof CActiveRecord)?$result["rows"][] = $record->getAttributes($attributes):$result["rows"][] =$record;
         }
+        $t = $result;
         return json_encode(array_merge($data, $result));
     }
 
