@@ -6,19 +6,17 @@ angular
     .module('teacherApp')
     .factory('invoices', ['$resource',
     function ($resource) {
-        var url = '/_teacher/_accountant/invoices/getInvoices';
+        var url = '/_teacher/_accountant/invoices';
         return $resource(
             url,
-            {
-                page: 'page',
-                limit: 'limit'
-            },
+            {},
             {
                 list: {
+                    url : url + '/getInvoices',
                     method: 'GET',
                     params: {
                         page: 'page',
-                        limit: 'limit'
+                        pageCount: 'pageCount'
                     }
                 }
             });

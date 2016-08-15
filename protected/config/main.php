@@ -101,7 +101,7 @@ return array(
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
-            'caseSensitive' => true,
+            'caseSensitive' => false,
             'rules' => array(
                 '' => array('site/index', 'urlSuffix' => ''),
                 '<action:login|logout|error|rapidReg>' => 'site/<action>',

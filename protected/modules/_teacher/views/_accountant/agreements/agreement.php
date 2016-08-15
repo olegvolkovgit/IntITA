@@ -1,29 +1,62 @@
-<?php
-/**
- * @var $model UserAgreements
- */
-?>
-    <br>
-    <button class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/invoices/invoicesList', array('id'=> $model->id));?>',
-                'Список рахунків по договору №<?=$model->number;?>')">Рахунки по договору
-    </button>
-    <br>
-    <br>
-    <table class="detail-view">
+<div ng-controller="agreementDetailCtrl">
+    <h3>Детальна інформація про договір №{{agreementData.number}}</h3>
+    <table class="table table-hover table-bordered" style="width:50%">
         <tbody>
-            <tr class="odd"><th>ID договору:</th><td><?php echo $model->id ?></td></tr>
-            <tr class="even"><th>Номер:</th><td><?php echo $model->number ?></td></tr>
-            <tr class="odd"><th>Service:</th><td><?php echo $model->service->description." (id=".$model->service_id.')' ?></td></tr>
-            <tr class="even"><th>Дата створення:</th><td><?php echo $model->create_date ?></td></tr>
-            <tr class="odd"><th>Користувач:</th><td><?php echo trim($model->user->firstName.' '.$model->user->secondName.' ('.$model->user->email.')') ?></td></tr>
-            <tr class="even"><th>Сума:</th><td><?php echo $model->summa ?></td></tr>
-            <tr class="odd"><th>Підтверджено користувачем:</th><td><?php echo $model->approvalUser?trim($model->approvalUser->firstName.' '.$model->approvalUser->secondName.' ('.$model->approvalUser->email.')'):'' ?></td></tr>
-            <tr class="even"><th>Дата підтвердження:</th><td><?php echo $model->approval_date ?></td></tr>
-            <tr class="odd"><th>Закрив договір:</th><td><?php echo $model->cancelUser?trim($model->cancelUser->firstName.' '.$model->cancelUser->secondName.' ('.$model->cancelUser->email.')'):'' ?></td></tr>
-            <tr class="even"><th>Дата відміни:</th><td><?php echo $model->cancel_date ?></td></tr>
-            <tr class="odd"><th>Дата закриття:</th><td><?php echo ($model->close_date=='0000-00-00 00:00:00')?'':$model->close_date ?></td></tr>
-            <tr class="even"><th>Схема оплати:</th><td><?php echo $model->paymentSchema->name ?></td></tr>
-            <tr class="odd"><th>Причина закриття:</th><td><?php echo $model->cancel_reason_type ?></td></tr>
+        <tr>
+            <th>ID договору:</th>
+            <td>{{agreementData.id}}</td>
+        </tr>
+        <tr>
+            <th>Номер:</th>
+            <td>{{agreementData.number}}</td>
+        </tr>
+        <tr>
+            <th>Service:</th>
+            <td>{{agreementData.service_id.description}}</td>
+        </tr>
+        <tr>
+            <th>Дата створення:</th>
+            <td>{{agreementData.create_date}}</td>
+        </tr>
+        <tr>
+            <th>Користувач:</th>
+            <td>{{agreementData.user.fullName}}</td>
+        </tr>
+        <tr>
+            <th>Сума:</th>
+            <td>{{agreementData.summa}}</td>
+        </tr>
+        <tr>
+            <th>Підтверджено користувачем:</th>
+            <td>{{agreementData.approval_user.fullName}}</td>
+        </tr>
+        <tr>
+            <th>Дата підтвердження:</th>
+            <td>{{agreementData.approval_date}}</td>
+        </tr>
+        <tr>
+            <th>Закрив договір:</th>
+            <td>{{agreementData.cancel_user.fullName}}</td>
+        </tr>
+        <tr>
+            <th>Дата відміни:</th>
+            <td>{{agreementData.cancel_date}}</td>
+        </tr>
+        <tr>
+            <th>Дата закриття:</th>
+            <td>{{agreementData.close_date}}</td>
+        </tr>
+        <tr>
+            <th>Схема оплати:</th>
+            <td>{{agreementData.payment_schema.name}}</td>
+        </tr>
+        <tr>
+            <th>Причина закриття:</th>
+            <td>{{agreementData.cancel_reason_type}}</td>
+        </tr>
         </tbody>
     </table>
+
+    <div ng-include="tableTemplate"></div>
+    
+</div>

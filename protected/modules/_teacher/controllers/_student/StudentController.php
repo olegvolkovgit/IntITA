@@ -134,9 +134,8 @@ class StudentController extends TeacherCabinetController
         if(!Yii::app()->user->model->isStudent()){
             Yii::app()->user->model->setRole(UserRoles::STUDENT);
         }
-        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
-            : 'Online';
-        $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;
+        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value : 'Online';
+        $educForm = ($type == 'Offline') ? EducationForm::OFFLINE : EducationForm::ONLINE;
         if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module, $educForm)) {
             $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $educForm);
             $this->renderPartial('/_student/_agreement', array(

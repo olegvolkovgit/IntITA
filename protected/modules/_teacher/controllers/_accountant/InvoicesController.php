@@ -19,10 +19,17 @@ class InvoicesController extends TeacherCabinetController
     }
 
     public function actionGetInvoices($page = 0, $pageCount=10) {
+        $agreementId = Yii::app()->request->getParam('agreementId', null);
         $agreements = new Invoices();
         $limit = $pageCount;
         $offset = $page * $pageCount - $pageCount;
-        $json = $agreements->getInvoices($offset, $limit);
+
+        $params = [];
+        if ($agreementId) {
+            $params['agreement_id'] = $agreementId;
+        }
+
+        $json = $agreements->getInvoices($offset, $limit, $params);
         echo json_encode($json);
     }
     
