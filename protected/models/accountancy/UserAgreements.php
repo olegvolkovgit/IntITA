@@ -186,7 +186,7 @@ class UserAgreements extends CActiveRecord
     public function cancel($user) {
         if ($this->approval_date != null) {
             $this->cancel_date = new CDbExpression('NOW()');
-            $this->cancel_user = $user-getId();
+            $this->cancel_user = $user->getId();
             if ($this->save()) {
                 return true;
             } else {

@@ -1,4 +1,4 @@
-<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+<table ng-table="invoiceTableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="row in $data track by row.id">
         <td data-title="'Номер рахунку'">{{row.number}}</td>
         <td data-title="'Договір'">{{row.agreement_id.number}}</td>

@@ -48,8 +48,7 @@ class AgreementsController extends TeacherCabinetController {
     public function actionConfirm($id = 0) {
         $model = UserAgreements::model()->findByPk($id);
         $response = [];
-        if ($model) {
-            $model->confirm(Yii::app()->user);
+        if ($model && $model->confirm(Yii::app()->user)) {
             $response['result'] = 'success';
         } else {
             $response['result'] = 'fail';
@@ -61,8 +60,7 @@ class AgreementsController extends TeacherCabinetController {
     public function actionCancel($id = 0) {
         $model = UserAgreements::model()->findByPk($id);
         $response = [];
-        if ($model) {
-            $model->cancel(Yii::app()->user);
+        if ($model && $model->cancel(Yii::app()->user)) {
             $response['result'] = 'success';
         } else {
             $response['result'] = 'fail';
