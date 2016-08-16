@@ -37,7 +37,7 @@ class AgreementsController extends TeacherCabinetController {
         $this->renderPartial('index');
     }
 
-    public function actionGetAgreementsList($page = 0, $pageCount = 10) {
+    public function actionGetAgreementsList($page = 1, $pageCount = 10) {
         $agreements = new Agreements();
         $limit = $pageCount;
         $offset = $page * $pageCount - $pageCount;

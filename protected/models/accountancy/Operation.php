@@ -52,6 +52,7 @@ class Operation extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'type' => array(self::BELONGS_TO, 'OperationType', 'type_id'),
+			'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_create'),
 		);
 	}
 

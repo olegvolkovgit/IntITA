@@ -74,11 +74,14 @@ class OperationController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $operations = Operation::model()->findAll();
+        $this->renderPartial('index');
+    }
 
-        $this->renderPartial('index', array(
-            'operations' => $operations,
-        ));
+    public function actionGetOperations($page = 1, $pageCount=10) {
+        $limit = $pageCount;
+        $offset = $page * $pageCount - $pageCount;
+        $operations = new Operations();
+        echo json_encode($operations->getOperations($offset, $limit));
     }
 
     /**

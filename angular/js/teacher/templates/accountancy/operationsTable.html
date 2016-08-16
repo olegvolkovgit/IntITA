@@ -1,0 +1,9 @@
+<table ng-table="operationsTableParams" class="table table-striped table-bordered table-hover">
+    <tr ng-repeat="row in $data track by row.id">
+        <td data-title="'ID'">{{row.id}}</td>
+        <td data-title="'Дата'">{{row.date_create}}</td>
+        <td data-title="'Користувач'">{{row.user_create.fullName}}</td>
+        <td data-title="'Тип'">{{row.type_id.description}}</td>
+        <td data-title="'Сума'">{{row.summa}}</td>
+    </tr>
+</table>
