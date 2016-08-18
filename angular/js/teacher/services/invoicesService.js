@@ -4,7 +4,7 @@
 
 angular
     .module('teacherApp')
-    .factory('invoices', ['$resource',
+    .factory('invoicesService', ['$resource',
     function ($resource) {
         var url = '/_teacher/_accountant/invoices';
         return $resource(
@@ -18,6 +18,13 @@ angular
                         page: 'page',
                         pageCount: 'pageCount'
                     }
+                },
+                typeahead: {
+                    url: url + '/getTypeahead',
+                    params: {
+                        query : 'query'
+                    },
+                    isArray:true
                 }
             });
     }]);

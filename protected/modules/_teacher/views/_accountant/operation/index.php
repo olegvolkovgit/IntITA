@@ -5,7 +5,7 @@
 ?>
 <div class="col-lg-12" ng-controller="operationCtrl">
     <br>
-        <button class="btn btn-primary">Нова проплата</button>
+        <button class="btn btn-primary" ng-click="createOperation()">Нова проплата</button>
     <br>
     <br>
     <div class="panel panel-default">

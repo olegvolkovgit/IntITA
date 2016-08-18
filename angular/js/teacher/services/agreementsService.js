@@ -4,7 +4,7 @@
 
 angular
     .module('teacherApp')
-    .factory('agreements', ['$resource',
+    .factory('agreementsService', ['$resource',
         function ($resource) {
             var url = '/_teacher/_accountant/agreements';
             return $resource(
@@ -36,8 +36,15 @@ angular
                     getById: {
                         url: url + '/getAgreement',
                         params: {
-                            id:'id'
+                            id: 'id'
                         }
+                    },
+                    typeahead: {
+                        url: url + '/getTypeahead',
+                        params: {
+                            query : 'query'
+                        },
+                        isArray:true
                     }
                 });
         }]);

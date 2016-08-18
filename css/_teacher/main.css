@@ -340,6 +340,10 @@ td li{
 .findOffer{
     display: block;
 }
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
 .findOperation{
     display: none;
 }

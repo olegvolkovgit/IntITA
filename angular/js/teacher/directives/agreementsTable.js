@@ -2,7 +2,7 @@
 
 angular
     .module('teacherApp')
-    .directive('agreementsTable', ['agreements', '$location', 'NgTableParams', agreementsTable]);
+    .directive('agreementsTable', ['agreementsService', '$location', 'NgTableParams', agreementsTable]);
 
 function agreementsTable(agreements, $location, NgTableParams) {
 

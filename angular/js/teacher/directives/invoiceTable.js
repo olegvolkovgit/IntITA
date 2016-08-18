@@ -2,11 +2,15 @@
 
 angular
     .module('teacherApp')
-    .directive('invoiceTable', ['invoices', 'NgTableParams', invoiceTable]);
+    .directive('invoiceTable', ['invoicesService', 'NgTableParams', invoiceTable]);
 
 function invoiceTable(invoices, NgTableParams) {
 
     function link($scope, element, attrs) {
+
+        attrs.$observe('agreementId', function(value) {
+            $scope.invoiceTableParams.reload();
+        });
 
         $scope.invoiceTableParams = new NgTableParams({}, {
             getData: function (params) {
@@ -14,7 +18,7 @@ function invoiceTable(invoices, NgTableParams) {
                     .list({
                         page: params.page(),
                         pageCount: params.count(),
-                        agreementId: $scope.agreementId
+                        agreementId: attrs.agreementId || $scope.agreementId
                     })
                     .$promise
                     .then(function (data) {

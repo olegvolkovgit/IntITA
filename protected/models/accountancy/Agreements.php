@@ -16,7 +16,7 @@ class Agreements {
             'limit' => $limit
         ]);
         $agreements = UserAgreements::model()->with('user', 'approvalUser', 'paymentSchema')->findAll($criteria);
-        $totalCount = UserAgreements::model()->count();
+        $totalCount = UserAgreements::model()->count($criteria);
 
         return [
             'count' => $totalCount,
@@ -27,5 +27,10 @@ class Agreements {
     public function getUserAgreement($agreementId) {
         $agreement = UserAgreements::model()->with('user', 'approvalUser', 'cancelUser', 'paymentSchema')->findByPk($agreementId);
         return AccountancyHelper::toAssocArray($agreement, $this->agreementRelationMapping);
+    }
+    
+    public function getTypeahead($agreementNumber) {
+        $models = AccountancyHelper::getTypeahead($agreementNumber, 'UserAgreements', ['number']);
+        return AccountancyHelper::toAssocArray($models, $this->agreementRelationMapping);
     }
 }

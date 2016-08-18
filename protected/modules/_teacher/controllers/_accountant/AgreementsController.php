@@ -45,6 +45,12 @@ class AgreementsController extends TeacherCabinetController {
         echo json_encode($json);
     }
 
+    public function actionGetTypeahead($query) {
+        $agreements = new Agreements();
+        $models = $agreements->getTypeahead($query);
+        echo json_encode($models);
+    }
+
     public function actionConfirm($id = 0) {
         $model = UserAgreements::model()->findByPk($id);
         $response = [];
@@ -75,6 +81,6 @@ class AgreementsController extends TeacherCabinetController {
     public function actionGetAgreement($id) {
         $agreements = new Agreements();
         $agreements->getUserAgreement($id);
-        echo json_encode($agreements->getUserAgreement($id));
+        echo json_encode($agreements->getUserAgreement($id), JSON_FORCE_OBJECT);
     }
 }

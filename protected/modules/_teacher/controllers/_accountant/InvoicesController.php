@@ -32,7 +32,13 @@ class InvoicesController extends TeacherCabinetController
         $json = $agreements->getInvoices($offset, $limit, $params);
         echo json_encode($json);
     }
-    
+
+    public function actionGetTypeahead($query) {
+        $invoices = new Invoices();
+        $models = $invoices->getTypeahead($query);
+        echo json_encode($models);
+    }
+
     public function actionAgreementList(){
         $model= new Invoice('search');
         $model->unsetAttributes();

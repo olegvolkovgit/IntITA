@@ -35,6 +35,11 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: accountantUrl+"operation/index/"
         })
+        .state('accountant/operation/create', {
+            url: "/accountant/operation/create",
+            cache         : false,
+            templateUrl: accountantUrl+"operation/create/"
+        })
         .state('accountant/company', {
             url: "/accountant/company",
             cache         : false,

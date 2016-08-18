@@ -28,5 +28,17 @@ class AccountancyHelper {
         }
         return $result;
     }
+
+    public static function getTypeahead($value, $className, $fields, $limit=10) {
+        if (class_exists($className) && is_subclass_of($className, 'CActiveRecord')) {
+            $criteria = new CDbCriteria(['limit' => $limit]);
+            foreach ($fields as $field) {
+                $criteria->addSearchCondition($field, $value);
+            }
+            $models = $className::model()->findAll($criteria);
+            return $models;
+        }
+        return [];
+    }
     
 }

@@ -23,13 +23,10 @@ class OperationController extends TeacherCabinetController
      */
     public function actionCreate()
     {
-        $agreements = UserAgreements::getAllAgreements();
-        $invoices = Invoice::getAllInvoices();
+//        $agreements = UserAgreements::getAllAgreements();
+//        $invoices = Invoice::getAllInvoices();
 
-        $this->renderPartial('create', array(
-            'agreementsList' => $agreements,
-            'invoicesList' => $invoices,
-        ), false, true);
+        $this->renderPartial('create', null, false, true);
     }
 
     /**

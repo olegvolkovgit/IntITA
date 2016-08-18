@@ -2,13 +2,13 @@
 
 angular
     .module('teacherApp')
-    .directive('agreementDetailed', ['agreements', agreementDetailed]);
+    .directive('agreementDetailed', ['agreementsService', agreementDetailed]);
 
 function agreementDetailed(agreements) {
 
     function link($scope, element, attrs) {
         agreements
-            .getById({id: $scope.agreementId})
+            .getById({id: attrs.agreementId || 0})
             .$promise
             .then(function (data) {
                 $scope.agreementData = data;
