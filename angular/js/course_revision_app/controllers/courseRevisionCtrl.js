@@ -284,6 +284,7 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
 };
 
 function moduleCreateCtrl($scope, $http) {
+    $scope.moduleTags=[];
     $scope.languages = [
         {name: 'українською', value: 'ua'},
         {name: 'російською', value: 'ru'},
@@ -298,7 +299,7 @@ function moduleCreateCtrl($scope, $http) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.allTags=response.data;
-            $scope.allTags.push({id: 0, tag: 'Усі категорії'});
+            // $scope.allTags.push({id: 0, tag: 'Усі категорії'});
             $scope.tags=response.data;
         }, function errorCallback() {
             bootbox.alert('Виникла помилка при завантажені хмарини тегів');

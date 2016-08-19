@@ -60,12 +60,27 @@
         <?php echo $form->textField($model, 'days_in_week', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'days_in_week'); ?>
     </div>
-    <div class="form-group">
-        <label>Додайте до модуля теги, котрі відповідають його категорії</label>
-        <div id='allTags' class="tagCloud">
-        </div>
-        <label>Категорії модуля:</label>
-        <div id='moduleTags' class="tagCloud">
+    <div <?php if($model->isNewRecord) echo "ng-controller=createModuleCtrl"; else echo "ng-controller=updateModuleCtrl"; ?>>
+        <div ng-show="tagsLoaded">
+            <?php if(!$model->isNewRecord){ ?>
+                <input type="hidden" ng-init="moduleId='<?php echo $model->module_ID; ?>'" ng-model="moduleId">
+            <?php } ?>
+            <label>Додайте до модуля теги, котрі відповідають його категорії</label>
+            <div class="tagCloud">
+                <ul class="select-search-list">
+                    <li ng-repeat="tag in tags track by $index">
+                        <span ng-click="addTag(tag,$index)">{{tag.tag}}<span class="close select-search-list-item_selection-remove">+</span></span>
+                    </li>
+                </ul>
+            </div>
+            <label>Категорії модуля:</label>
+            <div class="tagCloud">
+                <ul class="select-search-list">
+                    <li ng-repeat="moduleTag in moduleTags track by $index">
+                <span ng-click="removeTag(moduleTag,$index)">{{moduleTag.tag}}<span class="close select-search-list-item_selection-remove">×</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -81,100 +96,3 @@
             )); ?>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        <?php if(isset($tagsUpdate)) { ?>
-        tagsLists();
-        <?php } else{ ?>
-        newTagsList();
-        <?php } ?>
-    });
-    function newTagsList()
-    {
-        $jq.ajax({
-            url: basePath+'/module/getTagsList',
-            type: "POST",
-            cache: false,
-            dataType: 'json',
-            success: function(response){
-                moduleTags=[];
-                allTags=response;
-                drawList(response,'all');
-            }
-        });
-    }
-
-    function tagsLists() {
-        $.ajax({
-            url: basePath + '/module/getTagsList',
-            type: "POST",
-            cache: false,
-            dataType: 'json',
-            success: function (response) {
-                allTags = response;
-            }
-        })
-            .then(function () {
-                $.ajax({
-                    url: basePath+'/module/getModuleTags',
-                    type: "POST",
-                    cache: false,
-                    data: {idModule:'<?php echo $model->module_ID ?>'},
-                    dataType: 'json',
-                    success: function (response) {}
-                })
-                    .then(function (result) {
-                        moduleTags = result;
-                        $.each(moduleTags, function(indexModuleTag) {
-                            $.each(allTags, function(indexTag) {
-                                if(allTags[indexTag]['id']==moduleTags[indexModuleTag]['id']){
-                                    allTags.splice(indexTag, 1);
-                                    return false;
-                                }
-                            });
-                        });
-                        drawList(allTags,'all');
-                        drawList(moduleTags,'module');
-                    });
-            });
-    };
-
-    function drawList(data,listName) {
-        for (var i = 0; i < data.length; i++) {
-            drawLi(data[i],i,listName);
-        }
-    }
-    function drawLi(liData,index,listName) {
-        if(listName=='all'){
-            var functionName='addTag';
-            var ico = '+';
-        }else{
-            var functionName='removeTag';
-            var ico = '×';
-        }
-        $jq("#"+listName+"Tags").append(
-            $jq('<li>' +
-                '<span onclick="'+functionName+'('+liData["id"]+',\''+liData["tag"]+'\','+index+')">' +
-                liData.tag +
-                '<span class="close select-search-list-item_selection-remove">'+ico+'</span>' +
-                '</span>' +
-                '</li>')
-        );
-    }
-    function addTag(id,tag,index) {
-        $jq("#allTags").html('');
-        $jq("#moduleTags").html('');
-        moduleTags.push({id: id, tag: tag});
-        allTags.splice(index, 1);
-        drawList(allTags,'all');
-        drawList(moduleTags,'module');
-    }
-    function removeTag(id,tag,index) {
-        $jq("#allTags").html('');
-        $jq("#moduleTags").html('');
-        allTags.push({id: id, tag: tag});
-        moduleTags.splice(index, 1);
-        drawList(allTags,'all');
-        drawList(moduleTags,'module');
-    }
-</script>

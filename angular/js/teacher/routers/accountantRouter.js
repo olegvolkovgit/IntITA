@@ -2,7 +2,7 @@
  * Created by adm on 19.07.2016.
  */
 
-var accountantUrl = "/_teacher/_accountant/";
+var accountantUrl = basePath+"/_teacher/_accountant/";
 
 angular
     .module('accountantRouter', ['ui.router']).

@@ -11,7 +11,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
     $scope.coursesList =null;
     /* Init course table  */
 
-    $http.get('/_teacher/_admin/coursemanage/getCoursesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_admin/coursemanage/getCoursesList').then(function (data) {
         $scope.coursesList = data.data["data"];
     });
     $scope.dtOptions = DTOptionsBuilder.newOptions()
@@ -19,7 +19,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json');
     /* Save course schema  */
     $scope.saveSchema = function(idCourse){
-        var url = '/_teacher/_admin/coursemanage/saveschema?idCourse='+idCourse;
+        var url = basePath+'/_teacher/_admin/coursemanage/saveschema?idCourse='+idCourse;
         $http({
             method: "POST",
             url:  url,
@@ -37,7 +37,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
     };
     /* Change course status  */
     $scope.changeCourse = function(courseId) {
-        var url = '/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
+        var url = basePath+'/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
         bootbox.confirm("Видалити курс?", function (result) {
             if (result) {
                 $http.post(url).success(function (data) {
@@ -56,7 +56,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
     };
     /* Get modules List   */
     $scope.getCourses = function(value) {
-        return $http.get('/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
+        return $http.get(basePath+'/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
             params: {
                 query: value,
                 lang: $stateParams.lang
@@ -78,7 +78,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
 
         $http({
             method: "POST",
-            url:  "/_teacher/_admin/coursemanage/changeLinkedCourses/",
+            url:  basePath+"/_teacher/_admin/coursemanage/changeLinkedCourses/",
             data: $jq.param({"course":courseId, "lang":language, "linkedCourse":linkedCourseId, "modelId":modelId }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
@@ -99,7 +99,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
             if (result) {
                 $http({
                     method: "POST",
-                    url:  "/_teacher/_admin/coursemanage/deleteLinkedCourse/",
+                    url:  basePath+"/_teacher/_admin/coursemanage/deleteLinkedCourse/",
                     data: $jq.param({"id":courseId, "lang":language}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                     cache: false

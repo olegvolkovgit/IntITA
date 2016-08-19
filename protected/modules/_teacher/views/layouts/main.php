@@ -40,6 +40,7 @@
     <!-- Bootstrap Core CSS -->
 
     <script>
+        basePath = '<?=Config::getBaseUrl()?>';
         var $jq = jQuery.noConflict();
     </script>
 

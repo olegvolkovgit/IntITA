@@ -3,13 +3,14 @@
  */
 angular
     .module('teacherApp')
-    .controller('modulemanageCtrl',modulemanageCtrl);
+    .controller('modulemanageCtrl',modulemanageCtrl)
+    .controller('createModuleCtrl',createModuleCtrl)
+    .controller('updateModuleCtrl',updateModuleCtrl);
 
-function modulemanageCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder){
-
+function modulemanageCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $rootScope){
     $scope.selectedTeacher=null;
 
-    $http.get('/_teacher/_admin/module/getModulesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_admin/module/getModulesList').then(function (data) {
         $scope.modulesList = data.data["data"];
     });
 
@@ -30,7 +31,7 @@ function modulemanageCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder){
     $scope.addTeacher = function(moduleId, role, userId){
         $http({
             method: "POST",
-            url:  "/_teacher/_admin/teachers/setTeacherRoleAttribute",
+            url:  basePath+"/_teacher/_admin/teachers/setTeacherRoleAttribute",
             data: $jq.param({"user":userId, "role":role, "attribute":"module", "attributeValue":moduleId }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
         }).success(function(response){
@@ -119,5 +120,79 @@ function modulemanageCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder){
                 bootbox.alert("Операцію відмінено");
             }
         })
+    };
+    
+    //add module tags
+    $scope.checkTags = function() {
+        moduleTags=$rootScope.moduleTags;
+    };
+    
+    $scope.languages = [
+        {name: 'українською', value: 'ua'},
+        {name: 'російською', value: 'ru'},
+        {name: 'англійською', value: 'en'}
+    ];
+
+    //manipulations with module tags
+    $scope.tagsList = function() {
+        var promise = $http({
+            url: basePath+'/module/getTagsList',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.allTags=response.data;
+            $scope.tags=response.data;
+        }, function errorCallback() {
+            bootbox.alert('Виникла помилка при завантажені хмарини тегів');
+            return false;
+        });
+        return promise;
+    };
+}
+function createModuleCtrl ($scope, $rootScope){
+    $rootScope.moduleTags=[];
+    $scope.tagsList();
+    $scope.tagsLoaded=true;
+
+    $scope.addTag = function(tag,index) {
+        $rootScope.moduleTags.push({id: tag.id, tag: tag.tag});
+        $scope.tags.splice(index, 1);
+    };
+    $scope.removeTag = function(tag,index) {
+        $scope.tags.push({id: tag.id, tag: tag.tag});
+        $rootScope.moduleTags.splice(index, 1);
+    };
+}
+function updateModuleCtrl ($scope,$http, $rootScope){
+    $scope.tagsList().then(function successCallback() {
+        $http({
+            url: basePath+'/module/getModuleTags',
+            method: "POST",
+            data: $jq.param({"idModule":$scope.moduleId }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $rootScope.moduleTags = response.data;
+            $.each($rootScope.moduleTags, function(indexModuleTag) {
+                $.each($scope.allTags, function(indexTag) {
+                    if($scope.allTags[indexTag]['id']==$rootScope.moduleTags[indexModuleTag]['id']){
+                        $scope.allTags.splice(indexTag, 1);
+                        return false;
+                    }
+                });
+            });
+            $scope.tagsLoaded=true;
+        }, function errorCallback() {
+            bootbox.alert('Виникла помилка при завантажені хмарини тегів');
+            return false;
+        });
+    });
+
+    $scope.addTag = function(tag,index) {
+        $rootScope.moduleTags.push({id: tag.id, tag: tag.tag});
+        $scope.tags.splice(index, 1);
+    };
+    $scope.removeTag = function(tag,index) {
+        $scope.tags.push({id: tag.id, tag: tag.tag});
+        $rootScope.moduleTags.splice(index, 1);
     };
 }

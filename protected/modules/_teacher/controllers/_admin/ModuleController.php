@@ -23,7 +23,9 @@ class ModuleController extends TeacherCabinetController
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
-            $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
+            if (isset($_POST['moduleTags'])) {
+                $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
+            }else $moduleTags=null;
 
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -112,7 +114,10 @@ class ModuleController extends TeacherCabinetController
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
-            $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
+            if (isset($_POST['moduleTags'])) {
+                $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
+            }else $moduleTags=null;
+
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);

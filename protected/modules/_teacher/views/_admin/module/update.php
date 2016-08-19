@@ -51,7 +51,8 @@
                 'action' => Yii::app()->createUrl('/_teacher/_admin/module/update', array('id' => $model->module_ID)),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
-                    'enctype' => 'multipart/form-data'
+                    'enctype' => 'multipart/form-data',
+                    'ng-submit'=>"checkTags()"
                 ),
                 'enableAjaxValidation' => true,
                 'enableClientValidation' => false,
@@ -70,7 +71,7 @@
             )); ?>
             <uib-tabset active="0" >
                 <uib-tab  index="0" heading="Головне">
-                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form,'tagsUpdate'=>true)); ?>
+                    <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
                 </uib-tab>
                 <uib-tab index="1" heading="Українською">
                     <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'form' => $form)); ?>
