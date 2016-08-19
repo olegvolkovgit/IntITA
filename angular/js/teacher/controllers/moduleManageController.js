@@ -163,6 +163,7 @@ function createModuleCtrl ($scope, $rootScope){
         $rootScope.moduleTags.splice(index, 1);
     };
 }
+
 function updateModuleCtrl ($scope,$http, $rootScope){
     $scope.tagsList().then(function successCallback() {
         $http({
