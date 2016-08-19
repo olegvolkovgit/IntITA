@@ -25,60 +25,62 @@ $this->breadcrumbs = array(
             $this->renderPartial('_courseRevisionInfo', array('courseRevision' => $courseRevision));
             ?>
             <button class="btn btn-primary" ng-click="checkCourseRevision();">Наявність конфліктів</button>
-            <h3>Доступні модулі:</h3>
-            <button ng-click="showForm()" style="display:block;margin-top: 10px" class="btn btn-primary">Створити новий модуль</button>
-            <div id="moduleForm" style="display: none;">
-                <?php $this->renderPartial('_addModuleForm'); ?>
-            </div>
-            
-            <h3>Доступні модулі:</h3>
-            <div class="revisionTable">
-                <label>Доступні модулі, які входять у даний курс(готові та в розробці):</label>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" ng-init="current.ready_module=true" ng-model="current.ready_module">Готові модулі
-                    </label>
-                    <label>
-                        <input type="checkbox" ng-model="current.develop_module">В розробці
-                    </label>
+            <div ng-controller="moduleCreateCtrl">
+                <h3>Доступні модулі:</h3>
+                <button ng-click="showForm()" style="display:block;margin-top: 10px" class="btn btn-primary">Створити новий модуль</button>
+                <div id="moduleForm" style="display: none;">
+                    <?php $this->renderPartial('_addModuleForm'); ?>
                 </div>
-                <div class="revisionsList">
-                    <div ng-if="current.ready_module" ng-repeat="module in readyModules.current.ready_module track by $index">
-                        <a ng-href="{{module.link}}" target="_blank">
-                            ID модуля:{{module.id}} {{module.title}}
-                        </a>
-                        <span class='ico' ng-click="addRevisionToCourseFromCurrentList(module.id, $index, readyModule)">+</span>
+                
+                <h3>Доступні модулі:</h3>
+                <div class="revisionTable">
+                    <label>Доступні модулі, які входять у даний курс(готові та в розробці):</label>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" ng-init="current.ready_module=true" ng-model="current.ready_module">Готові модулі
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="current.develop_module">В розробці
+                        </label>
                     </div>
-                    <div ng-if="current.develop_module" ng-repeat="module in readyModules.current.develop_module track by $index">
-                        <a ng-href="{{module.link}}" target="_blank">
-                            Модуль ID{{module.id}} {{module.title}}
-                        </a>
-                        <span class='ico' ng-click="addRevisionToCourseFromCurrentList(module.id, $index, developModule)">+</span>
+                    <div class="revisionsList">
+                        <div ng-if="current.ready_module" ng-repeat="module in readyModules.current.ready_module track by $index">
+                            <a ng-href="{{module.link}}" target="_blank">
+                                ID модуля:{{module.id}} {{module.title}}
+                            </a>
+                            <span class='ico' ng-click="addRevisionToCourseFromCurrentList(module.id, $index, readyModule)">+</span>
+                        </div>
+                        <div ng-if="current.develop_module" ng-repeat="module in readyModules.current.develop_module track by $index">
+                            <a ng-href="{{module.link}}" target="_blank">
+                                Модуль ID{{module.id}} {{module.title}}
+                            </a>
+                            <span class='ico' ng-click="addRevisionToCourseFromCurrentList(module.id, $index, developModule)">+</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="revisionTable">
-                <label>Доступні незалежні модулі та модулі інших курсів(готові та в розробці):</label>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" ng-init="foreign.ready_module=true" ng-model="foreign.ready_module">Готові модулі
-                    </label>
-                    <label>
-                        <input type="checkbox" ng-model="foreign.develop_module">В розробці
-                    </label>
-                </div>
-                <div class="revisionsList">
-                    <div ng-if="foreign.ready_module" ng-repeat="module in readyModules.foreign.ready_module track by $index">
-                        <a ng-href="{{module.link}}" target="_blank">
-                            Модуль ID{{module.id}} {{module.title}}
-                        </a>
-                        <span class='ico' ng-click="addRevisionToCourseFromForeignList(module.id, $index, readyModule)">+</span>
+                <div class="revisionTable">
+                    <label>Доступні незалежні модулі та модулі інших курсів(готові та в розробці):</label>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" ng-init="foreign.ready_module=true" ng-model="foreign.ready_module">Готові модулі
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="foreign.develop_module">В розробці
+                        </label>
                     </div>
-                    <div ng-if="foreign.develop_module" ng-repeat="module in readyModules.foreign.develop_module track by $index">
-                        <a ng-href="{{module.link}}" target="_blank">
-                            Модуль ID{{module.id}} {{module.title}}
-                        </a>
-                        <span class='ico' ng-click="addRevisionToCourseFromForeignList(module.id, $index, developModule)">+</span>
+                    <div class="revisionsList">
+                        <div ng-if="foreign.ready_module" ng-repeat="module in readyModules.foreign.ready_module track by $index">
+                            <a ng-href="{{module.link}}" target="_blank">
+                                Модуль ID{{module.id}} {{module.title}}
+                            </a>
+                            <span class='ico' ng-click="addRevisionToCourseFromForeignList(module.id, $index, readyModule)">+</span>
+                        </div>
+                        <div ng-if="foreign.develop_module" ng-repeat="module in readyModules.foreign.develop_module track by $index">
+                            <a ng-href="{{module.link}}" target="_blank">
+                                Модуль ID{{module.id}} {{module.title}}
+                            </a>
+                            <span class='ico' ng-click="addRevisionToCourseFromForeignList(module.id, $index, developModule)">+</span>
+                        </div>
                     </div>
                 </div>
             </div>

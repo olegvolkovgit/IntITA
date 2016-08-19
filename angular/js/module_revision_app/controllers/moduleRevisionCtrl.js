@@ -1,6 +1,7 @@
 angular
     .module('moduleRevisionsApp')
-    .controller('moduleRevisionCtrl',moduleRevisionCtrl);
+    .controller('moduleRevisionCtrl',moduleRevisionCtrl)
+    .controller('moduleEditTagsCtrl',moduleEditTagsCtrl);
 
 function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevisionsActions, moduleRevisionMessage) {
     redirectFromEdit=true;
@@ -245,6 +246,76 @@ function moduleRevisionCtrl($rootScope,$scope, $http, getModuleData, moduleRevis
 
     $scope.sendModuleRevisionMessage = function(idRevision) {
         moduleRevisionMessage.sendMessage(idRevision);
+    };
+}
+
+function moduleEditTagsCtrl($scope, $http) {
+    $scope.moduleTags=[];
+    //manipulations with module tags
+    $scope.tagsList = function() {
+        var promise=$http({
+            url: basePath+'/module/getTagsList',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.tags=response.data;
+        }, function errorCallback() {
+            bootbox.alert('Виникла помилка при завантажені хмарини тегів');
+            return false;
+        });
+        return promise;
+    };
+    $scope.tagsList().then(function(response) {
+        $http({
+            url: basePath+'/module/getModuleTags',
+            method: "POST",
+            data: $.param({idModule:idModule}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.moduleTags=response.data;
+            $.each($scope.moduleTags, function(indexModuleTag) {
+                $.each($scope.tags, function(indexTag) {
+                    if($scope.tags[indexTag]['id']==$scope.moduleTags[indexModuleTag]['id']){
+                        $scope.tags.splice(indexTag, 1);
+                        return false;
+                    }
+                });
+            });
+        }, function errorCallback() {
+            bootbox.alert('Виникла помилка при завантажені хмарини тегів модуля');
+            return false;
+        });
+    });
+
+    $scope.addTag = function(tag,index) {
+        $scope.moduleTags.push({id: tag.id, tag: tag.tag});
+        $scope.tags.splice(index, 1);
+    };
+    $scope.removeTag = function(tag,index) {
+        $scope.tags.push({id: tag.id, tag: tag.tag});
+        $scope.moduleTags.splice(index, 1);
+    };
+    //manipulations with module tags
+    
+    $scope.editModuleTags = function() {
+        $http({
+            url: basePath+'/module/editModuleTags',
+            method: "POST",
+            data: $.param({moduleTags:$scope.moduleTags,idModule:idModule}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            if(response.data!='')
+                bootbox.alert(response.data, function (){
+                    location.reload();
+                });
+            else{
+                location.reload();
+            }
+        }, function errorCallback() {
+
+            bootbox.alert('Виникла помилка при створені модуля. Зв\'яжіться з адміністрацією.');
+            return false;
+        });
     };
 }
 

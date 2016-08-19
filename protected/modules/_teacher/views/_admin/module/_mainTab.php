@@ -51,6 +51,21 @@
                 <td>Видалений: </td>
                 <td><?=$model->cancelledLabel();?></td>
             </tr>
+            <tr>
+                <td>Категорії:</td>
+                <td>
+                    <div class="tags">
+                        <ul>
+                            <?php foreach($model->moduleTags as $tag){ ?>
+                                <li><span class="select-search-list-item_selection-remove">
+                                        <?php echo $tag->tag['tag_ua'] ?>
+                                    </span>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

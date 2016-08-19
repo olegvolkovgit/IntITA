@@ -436,6 +436,8 @@ function moduleValidation(data,hasError) {
 }
 function moduleCreate(url) {
     var formData = new FormData($("#module-form")[0]);
+    formData.append('moduleTags', JSON.stringify(moduleTags));
+
     $.ajax({
         url: url,
         type: 'POST',
@@ -458,6 +460,8 @@ function moduleCreate(url) {
 }
 function moduleUpdate(url) {
     var formData = new FormData($("#module-form")[0]);
+    formData.append('moduleTags', JSON.stringify(moduleTags));
+    
     $.ajax({
         url: url,
         type: 'POST',

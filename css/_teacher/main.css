@@ -464,3 +464,41 @@ div#loading-bar-spinner{
 .dataTable_wrapper td a{
     cursor: pointer;
 }
+/*css for cloud tags*/
+.tagCloud {
+    cursor: text;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    overflow: hidden !important;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 4px;
+    min-height: 30px;
+}
+.tagCloud ul{
+    padding: 2px;
+    margin: 2px;
+    min-height: 30px;
+}
+.tagCloud li{
+    display: inline-block;
+    cursor: pointer;
+    background: #efefef;
+    border-color: #ebebeb;
+    margin: 2px 4px 2px 0;
+    padding: 2px;
+    vertical-align: middle;
+    white-space: normal;
+    border-radius: 2px;
+}
+.tagCloud li:hover{
+    background: #ccc;
+}
+.tags li{
+    display: inline-block;
+}
+.tags ul{
+    padding-left: 0;
+}
+/*css for cloud tags*/

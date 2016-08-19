@@ -21,11 +21,11 @@ angular
                 return promise;
             };
 
-            this.getModules = function () {
+            this.getModules = function (categories) {
                 var promise = $http({
                     url: basePath+'/courseRevision/getModules',
                     method: "POST",
-                    data: $.param({idCourse: idCourse}),
+                    data: $.param({idCourse: idCourse,categories:categories}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     return response.data;
