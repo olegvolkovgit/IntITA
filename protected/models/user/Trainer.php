@@ -123,22 +123,20 @@ class Trainer extends Role
                     return false;
                     break;
                 }
-                if($this->errorMessage) 
+                if($this->errorMessage)
                     return $this->errorMessage;
-                else return false;
+                else return true;
             case 'capacity':
                 if ($this->checkCapacity($value,$user)) {
-                    $response=parent::setAttribute($user, $attribute, $value);
-                    if($response==0 || $response==1) return true;
-                    else return false;
+                    parent::setAttribute($user, $attribute, $value);
+                    return true;
                 }
                 if($this->errorMessage)
                     return $this->errorMessage;
-                else return false;
+                else return true;
             default:
-                $response=parent::setAttribute($user, $attribute, $value);
-                if($response==0 || $response==1) return true;
-                else return false;
+                parent::setAttribute($user, $attribute, $value);
+                return true;
         }
     }
 
@@ -160,8 +158,8 @@ class Trainer extends Role
     }
     public function checkTrainerCapacity($user)
     {
-        if($this->currentStudentsCount($user)>$this->getCapacity($user)['capacity']) {
-            $this->errorMessage = "Даного студента додати не можна, оскільки максимальна кількість студентів для тренера обмежена";
+        if($this->currentStudentsCount($user)+1>$this->getCapacity($user)['capacity']) {
+            $this->errorMessage = "Даного студента додати не можна даному тренеру, оскільки максимальна кількість студентів для тренера обмежена";
             return false;
         } else return true;
     }

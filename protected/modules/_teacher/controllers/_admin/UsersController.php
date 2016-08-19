@@ -171,8 +171,8 @@ class UsersController extends TeacherCabinetController
         $trainerId = Yii::app()->request->getPost('trainerId');
         $trainer = RegisteredUser::userById($trainerId);
 
-        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
+        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)===true) echo "success";
+        else echo $trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
     }
 
     public function actionChangeTrainer($id)
