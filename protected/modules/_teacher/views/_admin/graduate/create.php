@@ -4,8 +4,7 @@
 ?>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>')">
+            <button type="button" class="btn btn-primary" ng-click="changeView('graduate')">
                 Список випускників</button>
         </li>
     </ul>

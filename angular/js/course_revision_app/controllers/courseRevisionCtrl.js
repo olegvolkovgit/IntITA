@@ -1,6 +1,7 @@
 angular
     .module('courseRevisionsApp')
-    .controller('courseRevisionCtrl',courseRevisionCtrl);
+    .controller('courseRevisionCtrl',courseRevisionCtrl)
+    .controller('moduleCreateCtrl',moduleCreateCtrl);
 
 function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevisionsActions, courseRevisionMessage) {
     redirectFromEdit=true;
@@ -255,7 +256,96 @@ function courseRevisionCtrl($rootScope,$scope, $http, getCourseData, courseRevis
         document.getElementById(title1).innerHTML = '';
         document.getElementById(title2).innerHTML = '';
         document.getElementById(title3).innerHTML = '';
-    }
+    };
+
+    $scope.selection = {
+        ids: {"0": true}
+    };
+    $scope.setCategories = function() {
+        getCourseData.getModules($scope.selection.ids).then(function(response){
+            $scope.readyModules=response;
+            if($scope.readyModules.current){
+                $.each($scope.readyModules.current, function(status) {
+                    $.each($scope.readyModules.current[status], function(index) {
+                        $.each($scope.moduleInCourse, function(indexInCourse) {
+                            if($scope.moduleInCourse[indexInCourse]['id']==$scope.readyModules.current[status][index]['id']){
+                                $scope.tempId.push($scope.moduleInCourse[indexInCourse]['id']);
+                                return false;
+                            }
+                        });
+                    });
+                    $scope.readyModules.current[status] = $scope.readyModules.current[status].filter(function(value) {
+                        return !find($scope.tempId,value.id)
+                    });
+                });
+            }
+        });
+    };
+};
+
+function moduleCreateCtrl($scope, $http) {
+    $scope.moduleTags=[];
+    $scope.languages = [
+        {name: 'українською', value: 'ua'},
+        {name: 'російською', value: 'ru'},
+        {name: 'англійською', value: 'en'}
+    ];
+    
+    //manipulations with module tags
+    $scope.tagsList = function() {
+        $http({
+            url: basePath+'/module/getTagsList',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.allTags=response.data;
+            // $scope.allTags.push({id: 0, tag: 'Усі категорії'});
+            $scope.tags=response.data;
+        }, function errorCallback() {
+            bootbox.alert('Виникла помилка при завантажені хмарини тегів');
+            return false;
+        });
+    };
+    $scope.tagsList();
+
+    $scope.addTag = function(tag,index) {
+        $scope.moduleTags.push({id: tag.id, tag: tag.tag});
+        $scope.tags.splice(index, 1);
+    };
+    $scope.removeTag = function(tag,index) {
+        $scope.tags.push({id: tag.id, tag: tag.tag});
+        $scope.moduleTags.splice(index, 1);
+    };
+    //manipulations with module tags
+    //create module
+    $scope.createModule = function() {
+        $http({
+            url: basePath+'/module/create',
+            method: "POST",
+            data: $.param({
+                titleUA:$scope.titleUa,
+                titleRU:$scope.titleRu,
+                titleEN:$scope.titleEn,
+                language:$scope.language.value,
+                isAuthor:$scope.isAuthor,
+                moduleTags:$scope.moduleTags
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            if(response.data!='')
+                bootbox.alert(response.data, function (){
+                    location.reload();
+                });
+            else{
+                location.reload();
+            }
+        }, function errorCallback() {
+            
+            bootbox.alert('Виникла помилка при створені модуля. Зв\'яжіться з адміністрацією.');
+            return false;
+        });
+    };
+    //create module
 }
 
 function getImgName (str){

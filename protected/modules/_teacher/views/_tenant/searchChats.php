@@ -23,16 +23,28 @@
 
             </div>
 
-            <button class="btn btn-primary" ng-click="searchUsers()">
+            <button class="btn btn-primary"
+                    onclick="searchUsers();return false;">
                 Знайти чат
             </button>
 
             <button type="reset" class="btn btn-default"
-                    ng-click="changeView('tenant/chats')">
+                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/searchChats'); ?>')">
                 Скасувати
             </button>
         </form>
         <br>
 
     </div>
+</div>
+<script>
+    function searchUsers(){
+        var author_name = document.getElementById('author').value;
+        var user_name = document.getElementById('chat_user').value;
+
+                load(basePath+'/_teacher/_tenant/tenant/ShowChats?author='+author_name+'&user='+user_name);
+         }
+
+</script>
+
 </div>

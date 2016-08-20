@@ -39,7 +39,7 @@ class RevisionStateFactory {
         if ($currentState && (class_exists($className, true))) {
             return new $className($revisionUnit, $currentState);
         }
-        return new RevisionErrorState($revisionUnit);
+        return new RevisionErrorState($revisionUnit, 'Error');
     }
 
     private function getCurrentState($revisionUnit) {

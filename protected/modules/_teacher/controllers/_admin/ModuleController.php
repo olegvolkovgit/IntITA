@@ -23,6 +23,10 @@ class ModuleController extends TeacherCabinetController
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
+            if (isset($_POST['moduleTags'])) {
+                $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
+            }else $moduleTags=null;
+
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
             if ($model->save()) {
@@ -39,6 +43,7 @@ class ModuleController extends TeacherCabinetController
                 } else {
                     Module::model()->updateByPk($model->module_ID, array('module_img' => 'module.png'));
                 }
+                ModuleTags::model()->editModuleTags($moduleTags,$model->module_ID);
                 Yii::app()->end();
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.');
@@ -48,6 +53,14 @@ class ModuleController extends TeacherCabinetController
         $this->renderPartial('create', array(
             'model' => $model
         ), false, true);
+    }
+
+    private function stdToArray($obj){
+        $rc = (array)$obj;
+        foreach($rc as $key => &$field){
+            if(is_object($field))$field = $this->stdToArray($field);
+        }
+        return $rc;
     }
 
     public function actionDelete($id)
@@ -101,6 +114,10 @@ class ModuleController extends TeacherCabinetController
         $this->performAjaxValidation($model);
 
         if (isset($_POST['Module'])) {
+            if (isset($_POST['moduleTags'])) {
+                $moduleTags = $this->stdToArray(json_decode($_POST['moduleTags']));
+            }else $moduleTags=null;
+
             $model->oldLogo = $model->module_img;
             $model->attributes = $_POST['Module'];
             if ($model->alias) $model->alias = str_replace(" ", "_", $model->alias);
@@ -125,9 +142,10 @@ class ModuleController extends TeacherCabinetController
                     if (!Module::model()->updateByPk($id, array('module_img' => $model->oldLogo))) {
                         Module::model()->updateByPk($id, array('module_img' => 'module.png'));
                     }
-                    Yii::app()->end();
                 }
             }
+            ModuleTags::model()->editModuleTags($moduleTags,$model->module_ID);
+            Yii::app()->end();
         }
         $teachers = TeacherModule::listByModule($model->module_ID);
         $consultants = $model->consultants();

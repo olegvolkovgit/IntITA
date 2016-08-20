@@ -60,6 +60,7 @@ $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
 <script>
+    interpreterServer='<?php echo Config::getInterpreterServer();?>';
     idCourse = <?php echo $idCourse;?>;
     idLecture = <?php echo $lecture->id;?>;
     idModule = <?php echo $lecture->idModule;?>;

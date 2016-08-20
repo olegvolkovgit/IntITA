@@ -60,6 +60,22 @@
         <td><label>Мова:</label></td>
         <td><?=$module->language ?></td>
 
+        <td><label>Категорії:</label></td>
+        <td>
+            <div class="tags tagCloud">
+                <ul class="select-search-list">
+                    <?php foreach($module->moduleTags as $tag){ ?>
+                        <li>
+                <span class="select-search-list-item_selection-remove">
+                <?php echo $tag->tag['tag_ua'] ?>
+                </span>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
         <td><label>Логотип:</label></td>
         <td><img class="moduleImg" src="<?php echo StaticFilesHelper::createPath('image', 'module', $module->module_img); ?>"/></td>
     </tr>

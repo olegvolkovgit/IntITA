@@ -51,7 +51,8 @@
                 'action' => Yii::app()->createUrl('/_teacher/_admin/module/update', array('id' => $model->module_ID)),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
-                    'enctype' => 'multipart/form-data'
+                    'enctype' => 'multipart/form-data',
+                    'ng-submit'=>"checkTags()"
                 ),
                 'enableAjaxValidation' => true,
                 'enableClientValidation' => false,

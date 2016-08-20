@@ -61,6 +61,7 @@ $passedLecture = Lecture::isPassedLecture($passedPages);
 $finishedLecture = $lecture->isFinished($user);
 ?>
 <script type="text/javascript">
+    interpreterServer='<?php echo Config::getInterpreterServer();?>';
     idCourse = <?php echo $idCourse;?>;
     lang = '<?php echo CommonHelper::getLanguage();?>';
     idLecture = <?php echo $lecture->id;?>;

@@ -355,6 +355,10 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             }, 1000);
             $("#params").addClass('invalidParams');
         }else{
+            //todo equated id interpreter task to json task id
+            if($scope.res_finalResult.task!=window.location.search.substring(1).split("&")[0].split("=")[1]){
+                $scope.res_finalResult.task=window.location.search.substring(1).split("&")[0].split("=")[1];
+            }
             sendTaskJsonService.sendJson(url,$scope.res_finalResult);
         }
 

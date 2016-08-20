@@ -23,13 +23,10 @@ class OperationController extends TeacherCabinetController
      */
     public function actionCreate()
     {
-        $agreements = UserAgreements::getAllAgreements();
-        $invoices = Invoice::getAllInvoices();
+//        $agreements = UserAgreements::getAllAgreements();
+//        $invoices = Invoice::getAllInvoices();
 
-        $this->renderPartial('create', array(
-            'agreementsList' => $agreements,
-            'invoicesList' => $invoices,
-        ), false, true);
+        $this->renderPartial('create', null, false, true);
     }
 
     /**
@@ -74,11 +71,14 @@ class OperationController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $operations = Operation::model()->findAll();
+        $this->renderPartial('index');
+    }
 
-        $this->renderPartial('index', array(
-            'operations' => $operations,
-        ));
+    public function actionGetOperations($page = 1, $pageCount=10) {
+        $limit = $pageCount;
+        $offset = $page * $pageCount - $pageCount;
+        $operations = new Operations();
+        echo json_encode($operations->getOperations($offset, $limit));
     }
 
     /**

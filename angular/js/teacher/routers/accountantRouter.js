@@ -2,62 +2,73 @@
  * Created by adm on 19.07.2016.
  */
 
-var accountantUrl = "/_teacher/_accountant/";
+var accountantUrl = basePath+"/_teacher/_accountant/";
 
 angular
-    .module('accountantRouter',['ui.router']).
+    .module('accountantRouter', ['ui.router']).
+
 config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        .state('accoundant', {
-            url: "/accoundant",
+        .state('accountant', {
+            url: "/accountant",
             cache         : false,
-            templateUrl: accountantUrl+"accountant/index",
+            templateUrl: accountantUrl+"accountant/index"
         })
-        .state('accoundant/agreements', {
-        url: "/accoundant/agreements",
-        cache         : false,
-        templateUrl: accountantUrl+"agreements/index",
-        })
-        .state('accoundant/invoices', {
-            url: "/accoundant/invoices",
+        .state('accountant/agreements', {
+            url: "/accountant/agreements",
             cache         : false,
-            templateUrl: accountantUrl+"invoices/index/",
+            templateUrl: accountantUrl+"agreements/index"
         })
-        .state('accoundant/operation', {
-            url: "/accoundant/operation",
+        .state('accountant/agreement/{agreementId:[0-9]*}', {
+            url: "/accountant/agreement/{agreementId:[0-9]*}",
             cache         : false,
-            templateUrl: accountantUrl+"operation/index/",
+            templateUrl: accountantUrl+"agreements/agreement"
         })
-        .state('accoundant/company', {
-            url: "/accoundant/company",
+        .state('accountant/invoices', {
+            url: "/accountant/invoices",
             cache         : false,
-            templateUrl: accountantUrl+"company/index",
+            templateUrl: accountantUrl+"invoices/index/"
         })
-        .state('accoundant/representative', {
-            url: "/accoundant/representative",
+        .state('accountant/operation', {
+            url: "/accountant/operation",
             cache         : false,
-            templateUrl: accountantUrl+"representative/index",
+            templateUrl: accountantUrl+"operation/index/"
         })
-        .state('accoundant/template', {
-            url: "/accoundant/template",
+        .state('accountant/operation/create', {
+            url: "/accountant/operation/create",
             cache         : false,
-            templateUrl: accountantUrl+"template/index",
+            templateUrl: accountantUrl+"operation/create/"
         })
-        .state('accoundant/operationtype', {
-            url: "/accoundant/operationtype",
+        .state('accountant/company', {
+            url: "/accountant/company",
             cache         : false,
-            templateUrl: accountantUrl+"operationType/index",
+            templateUrl: accountantUrl+"company/index"
         })
-        .state('accoundant/externalsources', {
-            url: "/accoundant/externalsources",
+        .state('accountant/representative', {
+            url: "/accountant/representative",
             cache         : false,
-            templateUrl: accountantUrl+"externalSources/index",
+            templateUrl: accountantUrl+"representative/index"
         })
-        .state('accoundant/cancelreasontype', {
-            url: "/accoundant/cancelreasontype",
+        .state('accountant/template', {
+            url: "/accountant/template",
             cache         : false,
-            templateUrl: accountantUrl+"cancelReasonType/index",
+            templateUrl: accountantUrl+"template/index"
+        })
+        .state('accountant/operationtype', {
+            url: "/accountant/operationtype",
+            cache         : false,
+            templateUrl: accountantUrl+"operationType/index"
+        })
+        .state('accountant/externalsources', {
+            url: "/accountant/externalsources",
+            cache         : false,
+            templateUrl: accountantUrl+"externalSources/index"
+        })
+        .state('accountant/cancelreasontype', {
+            url: "/accountant/cancelreasontype",
+            cache         : false,
+            templateUrl: accountantUrl+"cancelReasonType/index"
         });
     }
 );

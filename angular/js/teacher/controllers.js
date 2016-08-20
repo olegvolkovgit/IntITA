@@ -8,7 +8,6 @@ angular
     .module('teacherApp')
     .controller('messagesCtrl',messagesCtrl);
 
-
 angular
     .module('teacherApp')
     .controller('mainSliderCtrl',mainSliderCtrl);
@@ -231,7 +230,7 @@ function levelsCtrl ($scope){
 
 function configCtrl ($scope, $http, DTOptionsBuilder){
     $scope.configsite  =  null;
-    $http.get('/_teacher/_admin/config/getConfigList').then(function(data){
+    $http.get(basePath+'/_teacher/_admin/config/getConfigList').then(function(data){
             $scope.configsite = data.data["data"];
 
     });

@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/messages">
+                    <li><a href="#/interfacemessages">
                            Інтерфейсні повідомлення</a>
                     </li>
                     <li><a href="#/admin/carousel">

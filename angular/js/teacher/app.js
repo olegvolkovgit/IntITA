@@ -2,6 +2,29 @@
  * Created by Quicks on 15.12.2015.
  */
 angular
-    .module('teacherApp',['datatables','ui.bootstrap','ngBootbox','messagesRouter','cabinetRouter', 'adminRouter','modulesRouter','authorRouter','consultantRouter','teacherConsultantRouter','trainerRouter','studentRouter','tenantRouter',
-        'accountantRouter','contentManagerRouter','directive.loading','graduatesRouter', 'sharedLinksRouter', 'responseRouter'])
-    ;
+    .module('teacherApp', [
+        'datatables',
+        'ui.bootstrap',
+        'ngBootbox',
+        'directive.loading',
+        'ngResource',
+        'ngTable',
+        'angular-loading-bar',
+        
+        'messagesRouter',
+        'cabinetRouter', 
+        'adminRouter',
+        'authorRouter',
+        'consultantRouter',
+        'teacherConsultantRouter',
+        'trainerRouter',
+        'studentRouter',
+        'tenantRouter',
+        'accountantRouter',
+        'contentManagerRouter',
+        'modulesRouter',
+        'graduatesRouter',
+        'sharedLinksRouter',
+        'responseRouter',
+        'interfaceMessagesRouter'
+    ]);

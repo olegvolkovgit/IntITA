@@ -2,24 +2,20 @@
 /* @var $this GraduateController */
 /* @var $model Graduate */
 ?>
+<div ng-controller="graduateCtrl">
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'adminGraduate.css'); ?>"/>
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/index'); ?>',
-                    'Список випускників')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('graduate')">
             Список випускників</button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/update', array('id' => $model->id)); ?>',
-                    '<?="Випускник ".addslashes($model->first_name." ".$model->last_name) ?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('graduate/edit/<?= $model->id ?>')">
             Редагувати</button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="deleteGraduate('<?php echo Yii::app()->createUrl('/_teacher/_admin/graduate/delete')?>','<?=$model->id?>');">
+        <button type="button" class="btn btn-primary" ng-click="deleteGraduate('<?= $model->id ?>')">
             Видалити</button>
     </li>
 </ul>
@@ -27,30 +23,22 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Nav tabs -->
-        <ul id="courseView" class="nav nav-tabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
-            </li>
-            <li><a href="#ua" data-toggle="tab">Українською</a>
-            </li>
-            <li><a href="#ru" data-toggle="tab">Російською</a>
-            </li>
-            <li><a href="#en" data-toggle="tab">Англійською</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="main">
+        <uib-tabset active="0" >
+            <uib-tab  index="0" heading="Головне">
                 <?php $this->renderPartial('_mainTab', array('model' => $model)); ?>
-            </div>
-            <div class="tab-pane fade" id="ua">
+            </uib-tab>
+            <uib-tab index="1" heading="Українською">
                 <?php $this->renderPartial('_uaTab', array('model' => $model)); ?>
-            </div>
-            <div class="tab-pane fade" id="ru">
+            </uib-tab>
+            <uib-tab  index="2" heading="Російською">
                 <?php $this->renderPartial('_ruTab', array('model' => $model)); ?>
-            </div>
-            <div class="tab-pane fade" id="en">
+            </uib-tab>
+            <uib-tab  index="3" heading="Англійською">
                 <?php $this->renderPartial('_enTab', array('model' => $model)); ?>
-            </div>
-        </div>
+            </uib-tab>
+        </uib-tabset>
+
     </div>
 </div>
 
+</div>

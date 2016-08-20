@@ -50,7 +50,7 @@ class Translate extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'source' => array(self::BELONGS_TO, 'Sourcemessages', 'id'),
-            'comment' => array(self::HAS_ONE, 'MessageComment', 'id'),
+            'comment' => array(self::HAS_ONE, 'MessageComment', 'message_code'),
         );
     }
 
@@ -157,25 +157,30 @@ class Translate extends CActiveRecord
         return $arr;
     }
 
-    public static function getTranslatesList() {
-        $sql = 'select tr.id, tr.language, s.category, tr.translation, c.comment, tr.id_record from translate tr left join sourcemessages s on s.id = tr.id
-            left join message_comment c on c.message_code = tr.id
-        ';
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
+    public static function getTranslatesList($page = 0, $pageCount=10) {
+        $command = Yii::app()->db->createCommand();
+        $command->select('tr.id, tr.language, s.category, tr.translation, c.comment, tr.id_record')->from('translate tr')->
+                leftJoin('sourcemessages s', 's.id = tr.id')->leftJoin('message_comment c', 'c.message_code = tr.id')->
+                limit($pageCount)->offset($page*$pageCount -$pageCount);
+        return $command->queryAll();
 
-        $return = array('data' => array());
+//        $return = array('data' => array());
+//
+//        foreach ($result as $record) {
+//            $row = array();
+//            $row["id"] = $record["id"];
+//            $row["language"] = $record["language"];
+//            $row["category"] = CHtml::encode($record["category"]);
+//            $row["comment"] = CHtml::encode($record["comment"]);
+//            $row["translation"]["text"]=CHtml::encode($record['translation']);
+//            $row["translation"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$record["id_record"]))."'";
+//            array_push($return['data'], $row);
+//        }
+//
+//        return json_encode($return);
+    }
 
-        foreach ($result as $record) {
-            $row = array();
-            $row["id"] = $record["id"];
-            $row["language"] = $record["language"];
-            $row["category"] = CHtml::encode($record["category"]);
-            $row["comment"] = CHtml::encode($record["comment"]);
-            $row["translation"]["text"]=CHtml::encode($record['translation']);
-            $row["translation"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/translate/view", array("id"=>$record["id_record"]))."'";
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
+    public function getData(){
+        return $this->with('source', 'comment')->findAll();
     }
 }

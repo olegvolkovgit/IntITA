@@ -30,7 +30,7 @@ class TranslateController extends TeacherCabinetController{
         $translateEn = Yii::app()->request->getPost('translateEn', '');
         $comment = Yii::app()->request->getPost('comment', '');
 
-        if(isset($_POST['category']))
+            if(isset($_POST['category']))
         {
             if(Sourcemessages::model()->exists('id=:id', array(':id' => $idMessage))){
                 throw new CHttpException(403,
@@ -57,6 +57,7 @@ class TranslateController extends TeacherCabinetController{
 
     protected function performAjaxValidation($model)
     {
+
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'translate-grid') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -83,7 +84,7 @@ class TranslateController extends TeacherCabinetController{
             if($model->save()) {
                 MessageComment::updateMessageCodeComment($_POST['Translate']['id'], $_POST['Translate']['comment']);
                 Yii::app()->cache->flush();
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/').'#/interfacemessages');
             }
         }
 
@@ -100,7 +101,8 @@ class TranslateController extends TeacherCabinetController{
         return $model;
     }
 
-    public function actionGetTranslatesList() {
-        echo Translate::getTranslatesList();
+    public function actionGetTranslatesList($page = 0, $pageCount=10) {
+        echo JsonForNgDatatablesHelper::returnJson(Translate::getTranslatesList($page, $pageCount),null,count(Translate::model()->findAll()));
     }
+
 }

@@ -10,8 +10,7 @@
         </button>
     </li>
 </ul>
-
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="modulemanageCtrl">
     <div class="panel-body">
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
@@ -19,7 +18,8 @@
                 'action' => Yii::app()->createUrl('/_teacher/_admin/module/create'),
                 'htmlOptions' => array(
                     'class' => 'formatted-form',
-                    'enctype' => 'multipart/form-data'
+                    'enctype' => 'multipart/form-data',
+                    'ng-submit'=>"checkTags()"
                 ),
                 'enableAjaxValidation' => false,
                 'enableClientValidation' => true,

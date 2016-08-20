@@ -4,14 +4,11 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/index'); ?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('interfacemessages')">
             Інтерфейсні повідомлення</button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/view', array('id' => $model->id_record)); ?>',
-                    '<?="Переглянути повідомлення #".$model->id_record?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('interfacemessages/view/<?=$model->id_record?>')">
             Переглянути</button>
     </li>
 </ul>

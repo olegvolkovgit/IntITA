@@ -161,7 +161,42 @@ class UserAgreements extends CActiveRecord
         return parent::model($className);
     }
 
-    
+    /**
+     * @param IntITAUser $user
+     * @return bool
+     */
+    public function confirm($user) {
+        if ($this->approval_date == null) {
+            $this->approval_user = $user->getId();
+            $this->approval_date = new CDbExpression('NOW()');
+            if ($this->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param IntITAUser $user
+     * @return bool
+     */
+    public function cancel($user) {
+        if ($this->approval_date != null) {
+            $this->cancel_date = new CDbExpression('NOW()');
+            $this->cancel_user = $user->getId();
+            if ($this->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static function agreementByParams($type, $user, $module, $course, $schemaNum, $educForm)
     {
         $agreement = null;

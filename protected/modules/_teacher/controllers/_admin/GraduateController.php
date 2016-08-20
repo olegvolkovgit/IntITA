@@ -42,7 +42,7 @@ class GraduateController extends TeacherCabinetController {
                 } else {
                     $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                 }
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/').'#/graduate');
             }
         }
         $this->renderPartial('create', array(
@@ -75,7 +75,7 @@ class GraduateController extends TeacherCabinetController {
                         $model->updateByPk($model->id, array('avatar' => 'noname2.png'));
                     }
                 }
-                $this->redirect($this->pathToCabinet());
+                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/').'#/graduate');
             }
         }
         $this->renderPartial('update', array(
@@ -141,5 +141,13 @@ class GraduateController extends TeacherCabinetController {
 
     public function actionGetGraduatesList(){
         echo Graduate::graduatesList();
+    }
+
+    public function actionGetGraduatesJson($page = 0, $pageCount=10){
+        $criteria = new CDbCriteria([
+            'offset' => $page*$pageCount -$pageCount,
+            'limit' => $pageCount
+        ]);
+        echo JsonForNgDatatablesHelper::returnJson(Graduate::model()->findAll($criteria),null,Graduate::model()->count());
     }
 }

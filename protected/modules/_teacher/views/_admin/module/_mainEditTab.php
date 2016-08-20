@@ -60,6 +60,29 @@
         <?php echo $form->textField($model, 'days_in_week', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'days_in_week'); ?>
     </div>
+    <div <?php if($model->isNewRecord) echo "ng-controller=createModuleCtrl"; else echo "ng-controller=updateModuleCtrl"; ?>>
+        <div ng-show="tagsLoaded">
+            <?php if(!$model->isNewRecord){ ?>
+                <input type="hidden" ng-init="moduleId='<?php echo $model->module_ID; ?>'" ng-model="moduleId">
+            <?php } ?>
+            <label>Додайте до модуля теги, котрі відповідають його категорії</label>
+            <div class="tagCloud">
+                <ul class="select-search-list">
+                    <li ng-repeat="tag in tags track by $index">
+                        <span ng-click="addTag(tag,$index)">{{tag.tag}}<span class="close select-search-list-item_selection-remove">+</span></span>
+                    </li>
+                </ul>
+            </div>
+            <label>Категорії модуля:</label>
+            <div class="tagCloud">
+                <ul class="select-search-list">
+                    <li ng-repeat="moduleTag in moduleTags track by $index">
+                <span ng-click="removeTag(moduleTag,$index)">{{moduleTag.tag}}<span class="close select-search-list-item_selection-remove">×</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <?php echo $form->labelEx($model, 'module_img'); ?>
         <?php echo $form->fileField($model, 'module_img', array('onchange' => "CheckFile(this)")); ?>
@@ -73,4 +96,3 @@
             )); ?>
     </div>
 </div>
-
