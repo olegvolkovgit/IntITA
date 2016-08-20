@@ -25,27 +25,44 @@
                 aria-describedby="gl_icon"
                 type="text"
                 ng-model="selected"
-                uib-typeahead="typeahead[currentProvider.searchField] for typeahead in getTypeahead($viewValue)"
+                uib-typeahead="typeahead as currentProvider.label(typeahead) for typeahead in getTypeahead($viewValue)"
                 typeahead-loading="loadingLocations"
                 typeahead-no-results="noResults"
-                typeahead-on-select="currentProvider.onSelect($item, $model, $label, $event)"
                 class="form-control">
+            <!--                typeahead-on-select="currentProvider.onSelect($item, $model, $label, $event)"-->
+
         </div>
 
-        <div ng-show="agreementData.id">
-            <h3>Інформація по обраному договору</h3>
-            <div class="m-b-10"><span>Договір №{{agreementData.number}} від {{agreementData.create_date}}</span></div>
-            <div class="m-b-10"><span>Користувач {{agreementData.user_id.fullName}} </span></div>
-            <div class="m-b-10">
-                <button class="btn btn-default">Перегдянути детальну інформацію по договору</button>
+        <div>
+            <div class="form-horizontal">
+                <h3>Дані платежу</h3>
+                <div class="form-group">
+                    <label for="userName" class="control-label col-sm-2">Користувач</label>
+                    <div class="col-sm-10">
+                        <select class="form-control form-inline" id="userName">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="agreement" class="control-label col-sm-2">Договір</label>
+                    <div class="col-sm-10">
+                        <select class="form-control form-inline" id="agreement">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="invoice" class="control-label col-sm-2">Рахунок</label>
+                    <div class="col-sm-10">
+                        <select class="form-control form-inline" id="invoice">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <h3>Рахунки до договору: </h3>
-            <select class="form-control m-b-10">
-                <option ng-repeat="invoice in invoices.rows" value="{{invoice.id}}" ng-selected="invoice.id === invoiceData.id">
-                    {{invoice.number}} від {{invoice.date_created}}
-                </option>
-            </select>
         </div>
-
     </div>
+
+</div>
 </div>

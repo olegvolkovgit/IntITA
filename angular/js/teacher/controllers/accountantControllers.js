@@ -14,7 +14,7 @@ angular
     .controller('invoicesCtrl', ['$scope', 'invoicesService', 'NgTableParams', function ($scope, invoicesService, NgTableParams) {
     }])
 
-    .controller('operationCtrl', ['$scope', 'agreementsService', 'invoicesService', '$state', function ($scope, agreements, invoices, $state) {
+    .controller('operationCtrl', ['$scope', '$state', 'agreementsService', 'invoicesService', 'userService', function ($scope, $state, agreements, invoices, user) {
         $scope.$watch('providerId', function (newValue, oldValue) {
             $scope.currentProvider = $scope.typeaheadProviders[newValue];
             $scope.selected = '';
@@ -25,47 +25,27 @@ angular
                 name: 'номеру договору',
                 searchField: 'number',
                 provider: agreements,
-                onSelect: function ($item, $model, $label, $event) {
-                    $scope.agreementData = $item;
-                    invoices.list({
-                        pageCount: 0,
-                        agreementId: $scope.agreementData.id
-                    })
-                        .$promise
-                        .then(function (data) {
-                            $scope.invoices = data;
-                        });
+                label: function (agreements) {
+                    return agreements ? ((agreements.number || '')+ ' від ' + (agreements.create_date || '')) : '';
                 }
             },
             {
                 name: 'номеру рахунку',
                 searchField: 'number',
                 provider: invoices,
-                onSelect: function ($item, $model, $label, $event) {
-                    $scope.invoiceData = $item;
-                    agreements.getById({
-                        id: $item.agreement_id.agreement_id
-                    })
-                        .$promise
-                        .then(function (data) {
-                            $scope.agreementData = data;
-                            return invoices.list({
-                                pageCount: 0,
-                                agreementId: $scope.agreementData.id
-                            })
-                                .$promise
-                                .then(function (data) {
-                                    $scope.invoices = data;
-                                })
-                        })
+                label: function (invoice) {
+                    return invoice ? ((invoice.number || '')+ ' від ' + (invoice.date_created || '')+ ' (договір №' + (invoice.agreement_id.number || '')+ ')') : '';
                 }
             },
             {
-                name: 'користувачу'
+                name: 'користувачу',
+                searchField: 'email',
+                provider: user,
+                label: function (user) {
+                    return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
+                }
             }];
         $scope.providerId = 0;
-        $scope.agreementData = null;
-        $scope.invoiceData = null;
 
         $scope.getTypeahead = function (value) {
             return $scope.currentProvider.provider

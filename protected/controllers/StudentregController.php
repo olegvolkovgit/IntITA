@@ -313,4 +313,12 @@ class StudentRegController extends Controller
         echo StudentReg::currentCountryCity();
     }
 
+    public function actionGetTypeahead($query) {
+
+        $models = AccountancyHelper::getTypeahead($query, 'StudentReg', ['firstName', 'middleName', 'secondName', 'email']);
+        $array = AccountancyHelper::toAssocArray($models);
+        echo json_encode($array);
+
+    }
+
 }
