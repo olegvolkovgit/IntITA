@@ -30,9 +30,20 @@ function taskCtrl($scope, $http,taskJson) {
                             taskJson.getJson(uid,$scope.interpreterServer).then(function(response){
                                 if (response != undefined){
                                     $scope.editedJson=response;
-                                    $scope.editedJson=JSON.parse($scope.editedJson.replace(/\n/g, "\\n"));
+                                    //replace space symbols for json
+                                    var oldSymbol = ['\n','\t'];
+                                    var newSymbol = ['\\n','\\t'];
+                                    for (var i in oldSymbol) {
+                                        $scope.editedJson=$scope.editedJson.replace( RegExp( oldSymbol[i], "g" ), newSymbol[i]);
+                                    }
+                                    $scope.editedJson=JSON.parse($scope.editedJson);
+                
                                     var tempLang=originLang;
                                     $scope.editedJson.lang=selectedLang;
+                                    //todo equated id interpreter task to json task id
+                                    if($scope.editedJson.task!=uid){
+                                        $scope.editedJson.task=uid;
+                                    }
                                     taskJson.sendJson($scope.interpreterServer,$scope.editedJson).then(function(response){
                                         if(!response){
                                             editTaskCondition(blockId, pageId, revisionId,quizType, tempLang).then(function() {

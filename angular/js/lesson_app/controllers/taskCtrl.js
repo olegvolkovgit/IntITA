@@ -47,7 +47,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
 
     $scope.getVariables=function(id,url){
         if($scope.variables==undefined){
-            getTaskJson.getJson(id,url)
+            getTaskJson.getJson(id,interpreterServer)
                 .then(function(variable) {
                     $scope.variables=variable;
                     angular.element('#taskVariables').toggle();
@@ -70,7 +70,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
             bootbox.alert('Відповідь не може бути пустою');
             button.removeAttr('disabled');
         } else {
-            userAnswerTaskService.sendAnswerJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
+            userAnswerTaskService.sendAnswerJson(interpreterServer, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid).then(function (response) {
                 if(response=='Added to compile'){
                     getTaskResult(idTask);
                 }else if(response=='error'){
@@ -85,7 +85,7 @@ function taskCtrl($rootScope,$compile, $http, $timeout, $scope, openDialogsServi
         }
 
         function getTaskResult(task) {
-            return userAnswerTaskService.getResultJson(url, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
+            return userAnswerTaskService.getResultJson(interpreterServer, taskLang, idTask, $scope.userCode, ipCookie("PHPSESSID"), jobid)
                 .then(function(serverResponse) {
                     switch (serverResponse.status) {
                         case 'in proccess':

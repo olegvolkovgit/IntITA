@@ -516,7 +516,7 @@ function addTrainer(url, scenario,header) {
                     load(basePath + "/_teacher/user/index/id/" + id, header);
                 });
             } else {
-                showDialog("Операцію не вдалося виконати.");
+                bootbox.alert(response);
             }
         },
         error: function () {
