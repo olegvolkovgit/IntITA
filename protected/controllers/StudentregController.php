@@ -288,10 +288,17 @@ class StudentRegController extends Controller
     {
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
+        if($model->trainer){
+            $trainer=array('name'=>$model->trainer->getTrainerByStudent($id)->userNameWithEmail(),
+                'link'=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => $model->trainer->trainer)));
+        } else{
+            $trainer=false;
+        }
+
         if ($model->isTeacher()) {
-            $role = array('teacher' => true);
+            $role = array('teacher' => true,'trainer'=>$trainer);
         } else {
-            $role = array('teacher' => false);
+            $role = array('teacher' => false,'trainer'=>$trainer);
         }
         $data = array_merge($model->attributes, $role);
         echo json_encode($data);
