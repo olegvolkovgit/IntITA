@@ -32,7 +32,7 @@ angular
             function ($rootScope, $templateCache, $state) {
                     $rootScope.$on('$stateChangeStart', function() {
                             if (typeof($state.current) !== 'undefined'){
-                                    $templateCache.removeAll();
+                                    // $templateCache.removeAll();
                             }
                     });
             }]);
