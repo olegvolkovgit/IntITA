@@ -502,3 +502,7 @@ div#loading-bar-spinner{
     padding-left: 0;
 }
 /*css for cloud tags*/
+#graduatesTable td img{
+    width: 120px;
+    height: 120px;
+}
