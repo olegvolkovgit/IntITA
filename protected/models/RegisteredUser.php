@@ -343,7 +343,7 @@ class RegisteredUser
     }
 
     public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
-        if ($this->isAdmin() || $editMode) {
+        if ($this->isAdmin() || $editMode || $this->isContentManager()) {
             return true;
         }
         if ($this->isTeacherConsultant()) {
