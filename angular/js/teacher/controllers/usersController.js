@@ -24,6 +24,9 @@ function usersTableCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams)
 
 }
 function studentsTableCtrl ($http, $scope, DTOptionsBuilder){
+    $jq("#startDate").datepicker(lang);
+    $jq("#endDate").datepicker(lang);
+
     $http.get(basePath + "/_teacher/_admin/users/getStudentsList").then(function (data) {
         $scope.studentsList = data.data["data"];
     });
@@ -31,6 +34,19 @@ function studentsTableCtrl ($http, $scope, DTOptionsBuilder){
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
         .withOption('order', [[2, 'desc']]);
+
+    $scope.updateStudentList=function(startDate, endDate){
+        var request = basePath + "/_teacher/_admin/users/getStudentsList";
+        if (startDate != null && startDate !== "") {
+            request += '?startDate=' + startDate;
+            if (endDate != null && endDate !== "") {
+                request += '&endDate=' + endDate;
+            }
+        }
+        $http.get(request).then(function (data) {
+            $scope.studentsList = data.data["data"];
+        });
+    }
 }
 function teachersTableCtrl ($http, $scope, DTOptionsBuilder){
     $scope.loadTeachersList=function(){

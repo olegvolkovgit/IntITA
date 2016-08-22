@@ -7,27 +7,27 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
 <div class="col-lg-12">
     <br>
     <button class="btn btn-primary"
-            onclick="updateStudentList()">
+            ng-click="updateStudentList()">
         Всі студенти
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList('<?=$startOfDay?>', '<?=$currentTime?>')">
+            ng-click="updateStudentList('<?=$startOfDay?>', '<?=$currentTime?>')">
         За сьогодні
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList('<?=$last_24h?>', '<?=$currentTime?>')">
+            ng-click="updateStudentList('<?=$last_24h?>', '<?=$currentTime?>')">
         За добу
     </button>
 
     <button class="btn btn-primary"
-            onclick="updateStudentList($jq('#startDate').val()+ ' 00:00:00', $jq('#endDate').val()+' 23:59:59')">
+            ng-click="updateStudentList(startDate+ ' 00:00:00', endDate+' 23:59:59')">
         За період:
     </button>
 
-    <span> з </span><input type="text" class="form-inline" id="startDate"/>
-    <span> по </span><input type="text" class="form-inline" id="endDate"/>
+    <span> з </span><input type="text" class="form-inline" ng-model=startDate id="startDate"/>
+    <span> по </span><input type="text" class="form-inline" ng-model=endDate id="endDate"/>
 
     <br>
     <br>
