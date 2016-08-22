@@ -27,4 +27,12 @@ angular
         'sharedLinksRouter',
         'responseRouter',
         'interfaceMessagesRouter'
-    ]);
+    ])
+    .run(['$rootScope', '$templateCache','$state',
+            function ($rootScope, $templateCache, $state) {
+                    $rootScope.$on('$stateChangeStart', function() {
+                            if (typeof($state.current) !== 'undefined'){
+                                    $templateCache.removeAll();
+                            }
+                    });
+            }]);
