@@ -10,14 +10,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('mainSliderCtrl',mainSliderCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('aboutusSliderCtrl',aboutusSliderCtrl);
-
-angular
-    .module('teacherApp')
     .controller('addressCtrl',addressCtrl);
 
 angular
@@ -136,15 +128,6 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
 function messagesCtrl ($scope, $state){
 
-}
-
-
-function mainSliderCtrl ($scope, $http, $stateParams){
-        initMainSliderList();
-}
-
-function aboutusSliderCtrl ($scope){
-       initAboutusSliderList();
 }
 
 function addressCtrl ($scope){

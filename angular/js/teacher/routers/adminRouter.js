@@ -15,10 +15,40 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/carousel/index",
         })
+        .state('admin/carousel/view/id/:id', {
+            url: "/admin/carousel/view/id/:id",
+            cache: false,
+            controller:"mainSliderTableCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/carousel/view/?id="+$stateParams.id;
+            }
+        })
+        .state('admin/carousel/update/id/:id', {
+            url: "/admin/carousel/update/id/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/carousel/update/?id="+$stateParams.id;
+            }
+        })
         .state('admin/aboutusSlider', {
             url: "/admin/aboutusSlider",
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/aboutusSlider/index",
+        })
+        .state('admin/aboutusSlider/view/id/:id', {
+            url: "/admin/aboutusSlider/view/id/:id",
+            cache: false,
+            controller:"aboutUsSliderTableCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/aboutusSlider/view/?id="+$stateParams.id;
+            }
+        })
+        .state('admin/aboutusSlider/update/id/:id', {
+            url: "/admin/aboutusSlider/update/id/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/aboutusSlider/update/?id="+$stateParams.id;
+            }
         })
         .state('admin/address', {
             url: "/admin/address",

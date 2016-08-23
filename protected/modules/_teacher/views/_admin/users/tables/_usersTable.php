@@ -18,7 +18,7 @@
                     <tr ng-repeat="row in usersList">
                         <td><a ng-href="#/admin/users/user/{{row.user.id}}">{{row.user.name}}</a></td>
                         <td><a ng-href="#/admin/users/user/{{row.user.id}}">{{row.email.title}}</a></td>
-                        <td>{{row.register}}</a> </td>
+                        <td>{{row.register}}</td>
                         <td>{{row.register}}</td>
                         <td>{{row.country}}</td>
                         <td>{{row.city}}</td>

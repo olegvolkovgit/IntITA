@@ -344,25 +344,6 @@ function refreshCache(url) {
         }
     });
 }
-function deleteSlideAboutUs(url) {
-    bootbox.confirm('Видалити слайд?', function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                async: true,
-                success: function (response) {
-                    bootbox.alert("Слайд видалено.", function () {
-                        loadSliderAboutUsList();
-                    });
-                },
-                error: function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        }
-    });
-}
 function saveSliderTextPosition(url,id) {
     bootbox.confirm('Зберегти позицію тексту?', function (result) {
         if (result) {
@@ -406,25 +387,6 @@ function sliderColorPreview(){
         text.style.color=color;
         return color;
     }
-}
-function deleteMainSlide(url) {
-    bootbox.confirm('Видалити слайд?', function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                async: true,
-                success: function (response) {
-                    bootbox.alert("Слайд видалено.", function () {
-                        loadMainSliderList();
-                    });
-                },
-                error: function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        }
-    });
 }
 function moduleValidation(data,hasError) {
     if(hasError) {

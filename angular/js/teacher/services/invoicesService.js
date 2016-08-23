@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('invoicesService', ['$resource',
     function ($resource) {
-        var url = '/_teacher/_accountant/invoices';
+        var url = basePath+'/_teacher/_accountant/invoices';
         return $resource(
             url,
             {},

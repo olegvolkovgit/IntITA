@@ -6,18 +6,14 @@
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/index');?>')">
-            Список фото</button>
+        <a ng-href="#/admin/aboutusSlider" type="button" class="btn btn-primary">Список фото</a>
+    </li>
+    <li>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/aboutusSlider/update/id/<?php echo $model->image_order ?>">Редагувати</a>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/update', array('id' => $model->image_order));?>')">
-            Редагувати</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="deleteSlideAboutUs('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/delete', array('id' => $model->image_order));?>')">
+                ng-click="deleteSlideAboutUs('<?php echo Yii::app()->createUrl('/_teacher/_admin/aboutusSlider/delete', array('id' => $model->image_order));?>')">
             Видалити</button>
     </li>
 </ul>
