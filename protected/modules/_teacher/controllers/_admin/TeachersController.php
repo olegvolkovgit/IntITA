@@ -85,7 +85,7 @@ class TeachersController extends TeacherCabinetController{
                         $revisionRequest->setApproved();
                     }
                 }
-                $this->redirect($this->pathToCabinet());
+                $this->redirect('/cabinet/#/admin/users/teacher/'.$model->user_id);
             } else {
                 throw new \application\components\Exceptions\IntItaException(400, 'Не вдалося додати викладача.');
             }
@@ -111,7 +111,7 @@ class TeachersController extends TeacherCabinetController{
         if (isset($_POST['Teacher'])) {
             $model->attributes = $_POST['Teacher'];
             if ($model->save())
-            $this->redirect($this->pathToCabinet());
+            $this->redirect('/cabinet/#/admin/users/teacher/update/'.$id);
         }
         $this->renderPartial('update', array(
             'model' => $model,

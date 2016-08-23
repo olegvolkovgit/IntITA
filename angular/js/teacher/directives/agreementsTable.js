@@ -51,7 +51,7 @@ function agreementsTable(agreements, $location, NgTableParams) {
 
     return {
         link: link,
-        templateUrl: '/angular/js/teacher/templates/accountancy/agreementsTable.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/agreementsTable.html'
     }
 }
 

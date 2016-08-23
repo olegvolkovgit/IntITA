@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('userService', ['$resource',
         function ($resource) {
-            var url = '/studentreg';
+            var url = basePath+'/studentreg';
             return $resource(
                 '',
                 {},

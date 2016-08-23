@@ -1,10 +1,8 @@
 <div class="col-lg-12">
     <br>
-    <button class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
-                'Додати співробітника')">
-        Додати співробітника
-    </button>
+    <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
+        Додати спвіробітника
+    </a>
     <br>
     <br>
     <div class="panel panel-default">

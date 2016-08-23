@@ -13,37 +13,20 @@ $model = $user->registrationData;
 
         <ul class="list-inline">
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>','Співробітники')">
-                    Співробітники
-                </button>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addTeacherRole', array(
-                            'id' => $teacher->user_id)); ?>','Призначити роль')">Призначити роль
-                </button>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/addTeacherRole/<?php echo $teacher->user_id ?>">Призначити роль</a>
             </li>
             <li>
-                <button type="button" class="btn btn-primary"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/update', array('id' => $teacher->user_id)); ?>',
-                            'Редагувати')">
-                    Редагувати
-                </button>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/update/<?php echo $teacher->user_id ?>">Редагувати</a>
             </li>
             <li>
-                <button type="button" class="btn btn-success"
-                        onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $teacher->user_id)); ?>',
-                            'Додати модуль')">
-                    Додати модуль
-                </button>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/addModule/<?php echo $teacher->user_id ?>">Додати модуль</a>
             </li>
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 <li>
-                    <button type="button" class="btn btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
-                                'Користувачі')">Користувачі
-                    </button>
+                    <a type="button" class="btn btn-primary" ng-href="#/admin/users">Користувачі</a>
                 </li>
             <?php } ?>
         </ul>
