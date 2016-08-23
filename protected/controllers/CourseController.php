@@ -191,7 +191,7 @@ class CourseController extends Controller
                     $data["modules"][$i]['finishTime'] = (Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))): (false);
                 else $data["modules"][$i]['finishTime'] = false;
             }else{
-                if(PayModules::model()->checkModulePermission($data["userId"], $modules[$i]['id_module'], array('read'))) {
+                if(PayModules::model()->checkModulePermission($data["userId"], $modules[$i]['id_module'], array('read')) || !$module->modulePrice($data["courseId"])) {
                     $data["modules"][$i]['access']=true;
                     $firstQuiz = $module->getFirstQuizId();
                     if(Lecture::getLastEnabledLessonOrder($modules[$i]['id_module'])<$module->lesson_count)
