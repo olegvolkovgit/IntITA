@@ -63,9 +63,6 @@
                     , 'form' => $form)); ?>
                 </uib-tab>
             </uib-tabset>
-
-
-
             <?php $this->endWidget(); ?>
         </div>
     </div>
