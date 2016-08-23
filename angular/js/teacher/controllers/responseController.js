@@ -17,11 +17,7 @@ function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $sta
         .withLanguageSource(basePath + '/scripts/cabinet/Ukranian.json');
 
     $scope.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).withOption('width', '20%'),
-        DTColumnDefBuilder.newColumnDef(1).withOption('width', '20%'),
-        DTColumnDefBuilder.newColumnDef(3).withOption('width', '10%'),
-        DTColumnDefBuilder.newColumnDef(4).withOption('width', '8%'),
-        DTColumnDefBuilder.newColumnDef(5).withOption('width', '15%'),
+        DTColumnDefBuilder.newColumnDef(4).withOption('width', '10%'),
     ];
 
 
