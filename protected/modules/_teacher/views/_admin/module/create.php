@@ -27,12 +27,9 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                        if(!hasError){
+                       if(moduleValidation(data,hasError)){
                             moduleCreate(form[0].action);
-                        }
-                        else{
-                        bootbox.alert("Модуль не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
-                        }
+                        };
                         return false;
                 }'),
             )); ?>
@@ -40,7 +37,7 @@
                 <uib-tab  index="0" heading="Головне" id="main">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
                 </uib-tab>
-                <uib-tab index="1" heading="Українською">
+                <uib-tab index="1" heading="Українською" id="uaTab">
                     <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'form' => $form)); ?>
                 </uib-tab>
                 <uib-tab  index="2" heading="Російською">

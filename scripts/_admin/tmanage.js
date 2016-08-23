@@ -356,8 +356,8 @@ function sliderColorPreview(){
 function moduleValidation(data,hasError) {
     if(hasError) {
         if(data['Module_title_ua'] !== undefined)
-            $jq('.moduleTabs li:eq(1) a').tab('show');
-        else $jq('.moduleTabs li:eq(0) a').tab('show');
+            $jq('#uaTab a').click();
+        else $jq('#mainTab a').click();
         return false;
     }else return true;
 }
@@ -417,12 +417,12 @@ function moduleUpdate(url) {
 function courseValidation(data,hasError) {
     if(hasError) {
         if(data['Course_title_ua'] !== undefined)
-            $jq('.courseTabs li:eq(1) a').tab('show');
+            $jq('#uaTab a').click();
         else if(data['Course_title_ru'] !== undefined)
-            $jq('.courseTabs li:eq(2) a').tab('show');
+            $jq('#ruTab a').click();
         else if(data['Course_title_en'] !== undefined)
-            $jq('.courseTabs li:eq(3) a').tab('show');
-        else $jq('.courseTabs li:eq(0) a').tab('show');
+            $jq('#enTab a').click();
+        else $jq('#mainTab a').click();
         return false;
     }else return true;
 }
