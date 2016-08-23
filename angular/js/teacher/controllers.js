@@ -126,8 +126,43 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
 }
 
-function messagesCtrl ($scope, $state){
+function messagesCtrl ($http, $scope, $state){
+    $scope.sendMessage=function(url){
+        receiver = $jq("#receiverId").val();
+        if (receiver == "0") {
+            bootbox.alert('Виберіть отримувача повідомлення.');
+        } else {
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    receiver: receiver,
+                    subject: $jq("input[name=subject]").val(),
+                    text: $jq("#text").val(),
+                    scenario: "new"
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                        $state.go("messages", {}, {reload: true})
+                    });
+                } else {
+                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                        "напишіть на адресу " + adminEmail, function() {
+                        $state.go("messages", {}, {reload: true})
+                    });
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
 
+    $scope.loadMessagesIndex=function(){
+        $state.go("messages", {}, {reload: true});
+    }
 }
 
 function addressCtrl ($scope){
@@ -279,8 +314,6 @@ function teachersCtrl ($scope,$http, $state){
             });
         }
     };
-    
-    initTeachersAdminTable();
 }
 
 function freelecturesCtrl ($scope){

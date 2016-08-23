@@ -34,10 +34,7 @@ $user = $model->registrationData;
                        target="_blank">
                         <?php echo $user->userNameWithEmail() ?></a></li>
                 <li class="list-group-item">Електронна пошта:
-                    <a href="<?= Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                        'scenario' => 'message',
-                        'receiver' => $user->id
-                    )) ?>" target="_blank">
+                    <a href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$user->id; ?>" target="_blank">
                         <?php echo $user->email . " "; ?>
                         <i class="fa fa-envelope fa-fw"></i>
                     </a>

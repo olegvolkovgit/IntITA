@@ -53,10 +53,7 @@ $model = $user->registrationData;
                     <?= $teacher->last_name_en . " " . $teacher->first_name_en . " " . $teacher->middle_name_en; ?>
                 </li>
                 <li class="list-group-item">Електронна пошта: <a
-                        href="<?= Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                            'scenario' => 'message',
-                            'receiver' => $teacher->user_id
-                        )) ?>">
+                        href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$teacher->user_id; ?>">
                         <?php echo $teacher->user->email; ?></a>
                 </li>
                 <li class="list-group-item">Приватний чат:

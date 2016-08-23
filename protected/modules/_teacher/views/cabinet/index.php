@@ -111,3 +111,30 @@
 -->
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/requestsList.js'); ?>"></script>
+<script>
+    window.onload = function()
+    {
+        switch (scenario) {
+            case 'message':
+                load('<?=Yii::app()->createUrl("/_teacher/messages/write",
+                    array('id' => $model->id, 'receiver' => $receiver));?>', 'Нове повідомлення');
+                break;
+            case 'payCourse':
+                window.history.pushState(null, null, basePath + "/cabinet/#");
+                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
+                    array('course' => $course));?>', 'Оплата курса');
+                break;
+            case 'payModule':
+                window.history.pushState(null, null, basePath + "/cabinet/#");
+                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payModule",
+                    array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
+                break;
+            default:
+                history.pushState({url : '<?php echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
+                    array('user' => $model->id)); ?>'},"");
+        }
+    };
+    window.onpopstate = function(event){
+        reloadPage(event);
+    };
+</script>

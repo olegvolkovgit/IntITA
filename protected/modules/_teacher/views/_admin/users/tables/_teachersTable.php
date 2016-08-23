@@ -15,7 +15,7 @@
                         <th>Email</th>
                         <th>Статус</th>
                         <th>Змінити</th>
-                        <th></th>
+                        <th>Відправити листа</th>
                     </tr>
                     </thead>
                     <tbody>
