@@ -4,8 +4,7 @@
 ?>
 <div class="formMargin" ng-controller="interfaceMessagesCtrl">
     <div class="col-md-8">
-        <form id="translateForm" method="post" name="translateForm"
-              onsubmit="addTranslate('<?php echo Yii::app()->createUrl('/_teacher/_admin/translate/create'); ?>');return false;">
+        <form id="translateForm" method="post" name="translateForm">
             <div class="form-group">
                 <div class="form-group">
                     <label for="id" >ID повідомлення *</label>
