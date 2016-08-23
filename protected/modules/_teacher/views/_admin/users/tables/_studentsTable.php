@@ -49,14 +49,14 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                     </thead>
                     <tbody>
                     <tr ng-repeat="row in studentsList">
-                        <td><a ng-href="#/admin/users/teacher/{{row.name.id}}">{{row.name.name}}</a></td>
-                        <td><a ng-href="#/admin/users/teacher/{{row.name.id}}">{{row.email.title}}</a></td>
+                        <td><a ng-href="#/admin/users/user/{{row.student.id}}">{{row.student.name}}</a></td>
+                        <td><a ng-href="#/admin/users/user/{{row.student.id}}">{{row.email.title}}</a></td>
                         <td>{{row.date}}</a> </td>
                         <td>{{row.educForm}}</td>
                         <td>{{row.country}}</td>
                         <td>{{row.city}}</td>
                         <td>{{row.trainer}}</td>
-                        <td><button type="button" class="btn btn-outline btn-{{row.addAccessLink.color}} btn-block" >{{row.addAccessLink.text}}</button></td>
+                        <td><a type="button" class="btn btn-outline btn-{{row.addAccessLink.color}} btn-block" ng-href="#/admin/users/user/{{row.student.id}}">{{row.addAccessLink.text}}</a></td>
                     </tr>
                     </tbody>
                 </table>

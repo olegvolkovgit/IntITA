@@ -22,7 +22,7 @@
                         <td>{{row.register}}</td>
                         <td>{{row.country}}</td>
                         <td>{{row.city}}</td>
-                        <td><button type="button" class="btn btn-outline btn-{{row.addAccessLink.color}} btn-block" >{{row.addAccessLink.text}}</button></td>
+                        <td><a type="button" class="btn btn-outline btn-{{row.addAccessLink.color}} btn-block" ng-href="#/admin/users/user/{{row.user.id}}">{{row.addAccessLink.text}}</a></td>
                     </tr>
                     </tbody>
                 </table>
