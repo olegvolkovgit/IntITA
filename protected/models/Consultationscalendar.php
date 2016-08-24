@@ -348,6 +348,7 @@ class Consultationscalendar extends CActiveRecord
 
     public function isCanBeCancelled()
     {
+        date_default_timezone_set('Europe/Kiev');
         if ($this->lecture) {
             $today = new DateTime();
             $match_date = DateTime::createFromFormat("Y-m-d", $this->date_cons);
@@ -355,7 +356,9 @@ class Consultationscalendar extends CActiveRecord
             if ($diff->invert == 1) {
                 return false;
             } else {
-                return true;
+                if(date('H:i')>=date('H:i',strtotime($this->start_cons)))
+                    return false;
+                else return true;
             }
         }
         return false;
