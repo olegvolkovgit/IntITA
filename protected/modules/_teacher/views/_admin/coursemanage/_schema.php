@@ -75,6 +75,3 @@
         <br>
     <?php } ?>
 </div>
-
-<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
-
