@@ -16,7 +16,7 @@
             </div>
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
+                        ng-click="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
                             '<?= $attribute["key"] ?>', '#value')">
                     Додати модуль
                 </button>
@@ -54,9 +54,8 @@
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
-                        <a href="#"
-                           onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>'); return false;">
+                        <a ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
+                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>');">
                             скасувати
                         </a>
                     <?php } ?>

@@ -31,9 +31,9 @@
             <div class="alert alert-info">
                 Автором модуля можна призначити лише зареєтрованого співробітника.
                 Якщо потрібного користувача немає в списку співробітників, то додати співробітника можна на сторінці
-                <a href="#" class="alert-link"
-                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>', 'Додати співробітника')">
-                    Додати співробітника</a>.
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
+                    Додати спвіробітника
+                </a>.
             </div>
         </div>
     </div>

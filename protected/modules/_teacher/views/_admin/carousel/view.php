@@ -7,25 +7,21 @@
 <br>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index');?>')">
-            Список фото</button>
+        <a ng-href="#/admin/carousel" type="button" class="btn btn-primary">Список фото</a>
+    </li>
+    <li>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/carousel/update/id/<?php echo $model->id ?>">Редагувати</a>
     </li>
     <li>
         <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/update', array('id' => $model->id));?>')">
-            Редагувати</button>
-    </li>
-    <li>
-        <button type="button" class="btn btn-primary"
-                onclick="deleteMainSlide('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/delete', array('id' => $model->id));?>')">
+                ng-click="deleteSlide('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/delete', array('id' => $model->id));?>')">
             Видалити</button>
     </li>
 </ul>
 
-    <div class="page-header">
-        <h4>Зображення #<?php echo $model->order; ?></h4>
-    </div>
+<div class="page-header">
+    <h4>Зображення #<?php echo $model->order; ?></h4>
+</div>
 <img src="<?php echo StaticFilesHelper::createPath("image", "mainpage", $model->pictureURL);?>" id="pictureLarge" />
 
 <br>

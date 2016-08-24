@@ -757,22 +757,5 @@ function initStudentsList() {
 }
 
 
-/**
- * Updates table data
- * @param startDate
- * @param endDate
- */
-function updateStudentList(startDate, endDate) {
-    var request = basePath + "/_teacher/_admin/users/getStudentsList";
-    if (startDate != null && startDate !== "") {
-        request += '?startDate=' + startDate;
-        if (endDate != null && endDate !== "") {
-            request += '&endDate=' + endDate;
-        }
-    }
-    $jq('#studentsTable').DataTable().ajax.url(request).load();
-}
-
-
 
 

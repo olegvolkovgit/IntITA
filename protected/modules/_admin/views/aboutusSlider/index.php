@@ -25,7 +25,7 @@
         ),
             array(
                 'template'=>'{view}{delete}{up}{down}',
-                'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей модуль?',
+                'deleteConfirmation'=>'Ви впевнені, що хочете видалити цей слайд?',
                 'class'=>'CButtonColumn',
                 'headerHtmlOptions'=>array('style'=>'width:120px'),
                 'buttons'=>array(

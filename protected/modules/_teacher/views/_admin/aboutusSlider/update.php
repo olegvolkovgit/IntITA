@@ -6,9 +6,7 @@
     <br>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    ng-click="changeView('admin/addaboutussliderphoto')">
-                Список фото</button>
+            <a type="button" class="btn btn-primary" ng-href="#/admin/aboutusSlider" >Список фото</a>
         </li>
     </ul>
 

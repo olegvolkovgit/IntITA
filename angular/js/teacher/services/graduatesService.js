@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('graduates', ['$resource',
     function ($resource) {
-        var url = '/_teacher/_admin/graduate/getgraduatesjson';
+        var url = basePath+'/_teacher/_admin/graduate/getgraduatesjson';
         return $resource(
             url,
             {

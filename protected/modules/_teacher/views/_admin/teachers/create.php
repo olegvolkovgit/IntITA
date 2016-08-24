@@ -8,9 +8,9 @@
     <div class="col-md-8">
         <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                        'Співробітники')">Співробітники</button>
+            <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">
+                Співробітники
+            </a>
         </li>
         </ul>
     </div>

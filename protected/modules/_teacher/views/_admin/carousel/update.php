@@ -6,9 +6,7 @@
     <br>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/carousel/index');?>')">
-                Список фото</button>
+            <a type="button" class="btn btn-primary" ng-href="#/admin/carousel" >Список фото</a>
         </li>
     </ul>
 

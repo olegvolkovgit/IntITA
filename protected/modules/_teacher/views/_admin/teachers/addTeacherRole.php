@@ -7,15 +7,12 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                    'Співробітники')">Співробітники</button>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $teacher->user_id)); ?>',
-                    'Переглянути інформацію про співробітника')">
-            Переглянути інформацію про співробітника</button>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/<?php echo $teacher->user_id ?>">
+            Переглянути інформацію про співробітника
+        </a>
     </li>
 </ul>
 <div class="col-md-8">
@@ -39,7 +36,7 @@
             </select>
             </div>
             <br>
-            <input class="btn btn-default" type="submit" onclick="setTeacherRole('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRole');?>'); return false" value="Призначити роль">
+            <input class="btn btn-default" type="submit" ng-click="setTeacherRole('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRole');?>')" value="Призначити роль">
         </fieldset>
     </form>
 </div>

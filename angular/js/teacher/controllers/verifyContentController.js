@@ -10,11 +10,11 @@ function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
     $scope.waitLectures = null;
     $scope.verifiedlectures = null;
     
-    $http.get('/_teacher/_admin/verifyContent/waitLecturesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_admin/verifyContent/waitLecturesList').then(function (data) {
         $scope.waitLectures = data.data["data"];
 
     });
-    $http.get('/_teacher/_admin/verifyContent/verifiedLecturesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_admin/verifyContent/verifiedLecturesList').then(function (data) {
         $scope.verifiedlectures = data.data["data"];
 
 
@@ -26,9 +26,9 @@ function verifyContentCtrl($scope, $http, DTOptionsBuilder) {
 
     $scope.actionLecture = function (action, index, lectureId) {
         if (action === "confirmLecture")
-            url = '/_teacher/_admin/verifyContent/confirm/id/' + lectureId;
+            url = basePath+'/_teacher/_admin/verifyContent/confirm/id/' + lectureId;
         else
-            url = '/_teacher/_admin/verifyContent/cancel/id/' + lectureId;
+            url = basePath+'/_teacher/_admin/verifyContent/cancel/id/' + lectureId;
 
         bootbox.confirm('Змінити статус лекції?', function (result) {
             if (result) {

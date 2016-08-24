@@ -32,10 +32,7 @@ foreach ($teachers as $teacher) {
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png'); ?>"></a>
                     <a class="btnChat" href="<?php
                     if (!Yii::app()->user->isGuest) {
-                        echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                            'scenario' => 'message',
-                            'receiver' => $teacher->user_id
-                        ));
+                        echo Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$teacher->user_id;
                     } else {
                         echo '" ' . 'onclick="openSignIn();';
                     }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img

@@ -168,41 +168,6 @@ function addMandatory(url) {
     }
 }
 
-function addTranslate(url) {
-    var form = document.forms["translate"];
-    var id = form['id'].value;
-    var category = form['category'].value;
-    var comment = form['comment'].value;
-    var translateUa = form['translateUa'].value;
-    var translateRu = form['translateRu'].value;
-    var translateEn = form['translateEn'].value;
-    var reg = '^[a-zA-Z ]+$';
-
-    if (category.match(reg)) {
-        $jq.ajax({
-            url: url,
-            type: 'post',
-            data: {
-                'id': id,
-                'category': category,
-                'comment': comment,
-                'translateUa': translateUa,
-                'translateRu': translateRu,
-                'translateEn': translateEn
-            },
-            success: function (data) {
-                fillContainer(data);
-            },
-            error: function (data) {
-                showDialog(data.responseText);
-            }
-        });
-    }
-    else {
-        showDialog('Категорія має бути вказана латинськими літерами');
-    }
-
-}
 function sendError(form, data, hasError) {
     if (hasError) {
         for (var prop in data) {
@@ -344,25 +309,6 @@ function refreshCache(url) {
         }
     });
 }
-function deleteSlideAboutUs(url) {
-    bootbox.confirm('Видалити слайд?', function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                async: true,
-                success: function (response) {
-                    bootbox.alert("Слайд видалено.", function () {
-                        loadSliderAboutUsList();
-                    });
-                },
-                error: function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        }
-    });
-}
 function saveSliderTextPosition(url,id) {
     bootbox.confirm('Зберегти позицію тексту?', function (result) {
         if (result) {
@@ -407,30 +353,11 @@ function sliderColorPreview(){
         return color;
     }
 }
-function deleteMainSlide(url) {
-    bootbox.confirm('Видалити слайд?', function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                async: true,
-                success: function (response) {
-                    bootbox.alert("Слайд видалено.", function () {
-                        loadMainSliderList();
-                    });
-                },
-                error: function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        }
-    });
-}
 function moduleValidation(data,hasError) {
     if(hasError) {
         if(data['Module_title_ua'] !== undefined)
-            $jq('.moduleTabs li:eq(1) a').tab('show');
-        else $jq('.moduleTabs li:eq(0) a').tab('show');
+            $jq('#uaTab a').click();
+        else $jq('#mainTab a').click();
         return false;
     }else return true;
 }
@@ -490,12 +417,12 @@ function moduleUpdate(url) {
 function courseValidation(data,hasError) {
     if(hasError) {
         if(data['Course_title_ua'] !== undefined)
-            $jq('.courseTabs li:eq(1) a').tab('show');
+            $jq('#uaTab a').click();
         else if(data['Course_title_ru'] !== undefined)
-            $jq('.courseTabs li:eq(2) a').tab('show');
+            $jq('#ruTab a').click();
         else if(data['Course_title_en'] !== undefined)
-            $jq('.courseTabs li:eq(3) a').tab('show');
-        else $jq('.courseTabs li:eq(0) a').tab('show');
+            $jq('#enTab a').click();
+        else $jq('#mainTab a').click();
         return false;
     }else return true;
 }

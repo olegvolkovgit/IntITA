@@ -8,25 +8,25 @@ config(function ($stateProvider) {
         .state('graduate', {
             url: "/graduate",
             cache: false,
-            templateUrl: "/_teacher/_admin/graduate/index",
+            templateUrl: basePath+"/_teacher/_admin/graduate/index",
         })
         .state('graduate/create', {
             url: "/graduate/create",
             cache: false,
-            templateUrl: "/_teacher/_admin/graduate/create",
+            templateUrl: basePath+"/_teacher/_admin/graduate/create",
         })
         .state('graduate/view/:graduateId', {
             url: "/graduate/view/:graduateId",
             cache: false,
             templateUrl: function ($stateParams) {
-                return '/_teacher/_admin/graduate/view/id/'+$stateParams.graduateId
+                return basePath+'/_teacher/_admin/graduate/view/id/'+$stateParams.graduateId
             }
         })
         .state('graduate/edit/:graduateId', {
             url: "/graduate/edit/:graduateId",
             cache: false,
             templateUrl: function ($stateParams) {
-                return '/_teacher/_admin/graduate/update/id/'+$stateParams.graduateId
+                return basePath+'/_teacher/_admin/graduate/update/id/'+$stateParams.graduateId
             }
         })
 });

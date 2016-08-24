@@ -444,10 +444,8 @@ class Teacher extends CActiveRecord
                 $row["changeStatus"]["title"] = "показати";
                 $row["changeStatus"]["link"] = Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->user_id));
             }
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record->user_id
-            ));
+            $row["mailto"] = Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$record->user_id;
+
             array_push($return['data'], $row);
         }
 
@@ -479,10 +477,7 @@ class Teacher extends CActiveRecord
             $name=$record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["name"]["name"] = $name!='  '?$name:$record->user->email;
             $row["email"] = $record->user->email;
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record->user_id
-            ));
+            $row["mailto"] = Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$record->user_id;
             $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
             $row["addModuleLink"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $record->user_id))."'";
             if($record->isShow()){
