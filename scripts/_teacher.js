@@ -1438,7 +1438,7 @@ function initTodayConsultationsTable() {
                         case 'started':
                             return '<a type="button" class="btn btn-success btn-sm" href="' + start["link"] + '" target="_blank">почати</a>';
                         case 'wait':
-                            return 'очікування';
+                            return 'очікування'; 
                     }
                 }
             }
