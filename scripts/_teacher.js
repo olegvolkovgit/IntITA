@@ -1429,9 +1429,17 @@ function initTodayConsultationsTable() {
             {
                 "width": "10%",
                 "data": "start",
-                "render": function (link) {
-                    if(link) return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
-                    else return '';
+                "render": function (start) {
+                    switch(start["status"]){
+                        case 'false':
+                            return '';
+                        case 'ended':
+                            return 'закінчена';
+                        case 'started':
+                            return '<a type="button" class="btn btn-success btn-sm" href="' + start["link"] + '" target="_blank">почати</a>';
+                        case 'wait':
+                            return 'очікування';
+                    }
                 }
             }
         ],

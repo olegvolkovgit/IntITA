@@ -8,16 +8,16 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('consultant', {
             url: "/consultant",
             cache         : false,
-            templateUrl: "/_teacher/cabinet/loadPage/?page=consultant",
+            templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=consultant",
         })
         .state('consultant/modules', {
             url: "/consultant/modules",
             cache         : false,
-            templateUrl: "/_teacher/_consultant/consultant/modules/id/"+user,
+            templateUrl: basePath+"/_teacher/_consultant/consultant/modules/id/"+user,
         })
         .state('consultant/consultations', {
             url: "/consultant/consultations",
             cache         : false,
-            templateUrl: "/_teacher/_consultant/consultant/consultations/id/"+user,
+            templateUrl: basePath+"/_teacher/_consultant/consultant/consultations/id/"+user,
         })
 });
