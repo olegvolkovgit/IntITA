@@ -59,12 +59,9 @@ class ConsultationscalendarController extends Controller
 //            if(!$module->status)
 //                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
 		}
-		if (!($lecture->isFree)) {
-			$modulePermission = new PayModules();
-			if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
-				|| $lecture->order > $enabledLessonOrder) {
-				throw new CHttpException(403, 'Спочатку оплати доступ до матеріалу');
-			}
+		$modulePermission = new PayModules();
+		if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
+			throw new CHttpException(403, 'Консультацію можна замовити тільки якщо заняття проплачене або укладений договір');
 		} else {
 			if ($lecture->order > $enabledLessonOrder)
 				throw new CHttpException(403, 'Ти не можеш запланувати консультацію. Спочатку пройди попередній матеріал.');
