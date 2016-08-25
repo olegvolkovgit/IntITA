@@ -147,7 +147,6 @@ class AddressCity extends CActiveRecord
             $row["title_ua"] = $record->title_ua;
             $row["title_ru"] = $record->title_ru;
             $row["title_en"] = $record->title_en;
-			$row["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/address/editCity", array("id" => $record->id)). "'";
 			
             array_push($return['data'], $row);
         }

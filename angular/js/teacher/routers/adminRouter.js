@@ -27,7 +27,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/admin/carousel/update/id/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/aboutusSlider/update/?id="+$stateParams.id;
+                return basePath+"/_teacher/_admin/carousel/update/?id="+$stateParams.id;
             }
         })
         .state('admin/aboutusSlider', {
@@ -167,30 +167,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/old/index",
         })
-        .state('carousel/:action/:order', {
-            url: "/carousel/:action/:order",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/carousel/' + $stateParams.action + '/order/' + $stateParams.order;
-                $http.get(url).success(function (data) {
-                    $location.hash(url).replace();
-                    $state.go('admin/carousel');
-                });
-
-            }
-        })
-        .state('aboutusSlider/:action/:order', {
-            url: "/aboutusSlider/:action/:order",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/aboutusSlider/' + $stateParams.action + '/order/' + $stateParams.order;
-                $http.get(url).success(function (data) {
-                    $location.hash(url).replace();
-                    $state.go('admin/aboutusSlider');
-                });
-
-            }
-        })
         .state('admin/addmainsliderphoto', {
             url: "/admin/addmainsliderphoto",
             cache: false,
@@ -204,7 +180,16 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/addcity', {
             url: "/admin/addcity",
             cache: false,
+            controller:"addressCtrl",
             templateUrl: basePath+"/_teacher/_admin/address/addCity",
+        })
+        .state('admin/editcity/:id', {
+            url: "/admin/editcity/:id",
+            cache: false,
+            controller:"addressCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_admin/address/editCity/id/"+$stateParams.id;
+            }
         })
         .state('admin/addcountry', {
             url: "/admin/addcountry",

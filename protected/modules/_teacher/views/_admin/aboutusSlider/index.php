@@ -37,10 +37,10 @@
                             </a>
                             <div>{{row.photo.text}}</div>
                         </td>
-                        <td><a ng-href="#/aboutusSlider/up/{{row.order}}">вверх</a></td>
-                        <td><a ng-href="#/aboutusSlider/down/{{row.order}}">вниз</a></td>
-                        <td><a ng-href="#/aboutusSlider/textUp/{{row.order}}">вверх</a></td>
-                        <td><a ng-href="#/aboutusSlider/textDown/{{row.order}}">вниз</a></td>
+                        <td><a ng-click="aboutUsSlideAction('up',row.order)">вверх</a></td>
+                        <td><a ng-click="aboutUsSlideAction('down',row.order)">вниз</a></td>
+                        <td><a ng-click="aboutUsSlideAction('textUp',row.order)">вверх</a></td>
+                        <td><a ng-click="aboutUsSlideAction('textDown',row.order)">вниз</a></td>
                     </tr>
                     </tbody>
                 </table>

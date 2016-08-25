@@ -5,22 +5,14 @@
 ?>
 <div class="panel panel-default" ng-controller="addressCtrl">
     <div class="panel-body">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#countries" data-toggle="tab">Країни</a>
-            </li>
-            <li><a href="#cities" data-toggle="tab">Міста</a>
-            </li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="countries">
+        <uib-tabset active="0" >
+            <uib-tab  index="0" heading="Країни">
                 <?php $this->renderPartial('_countriesTable');?>
-            </div>
-            <div class="tab-pane fade" id="cities">
+            </uib-tab>
+            <uib-tab  index="1" heading="Міста">
                 <?php $this->renderPartial('_citiesTable');?>
-            </div>
-        </div>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>
 

@@ -208,7 +208,7 @@ class Consultationscalendar extends CActiveRecord
 
     public static function todayConsultationsList($teacher)
     {
-        date_default_timezone_set(Config::getServerTimezone());
+        date_default_timezone_set('Europe/Kiev');
         $currentDate = new DateTime();
         $sql = 'select cs.id cons_id, l.id, l.title_ua, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.user_id
@@ -332,7 +332,8 @@ class Consultationscalendar extends CActiveRecord
     // todo Add datetime filter for appearance of button start consultation (10 minutes interval for start/end consultation)
     public function isAvailable()
     {
-        date_default_timezone_set(Config::getServerTimezone());
+//        date_default_timezone_set(Config::getServerTimezone());
+        date_default_timezone_set('Europe/Kiev');
         //if lecture isn't cancelled
         if ($this->lecture) {
             //check if today
@@ -348,6 +349,7 @@ class Consultationscalendar extends CActiveRecord
 
     public function isCanBeCancelled()
     {
+        date_default_timezone_set('Europe/Kiev');
         if ($this->lecture) {
             $today = new DateTime();
             $match_date = DateTime::createFromFormat("Y-m-d", $this->date_cons);
@@ -355,7 +357,9 @@ class Consultationscalendar extends CActiveRecord
             if ($diff->invert == 1) {
                 return false;
             } else {
-                return true;
+                if(date('H:i')>=date('H:i',strtotime($this->start_cons)))
+                    return false;
+                else return true;
             }
         }
         return false;
@@ -364,6 +368,7 @@ class Consultationscalendar extends CActiveRecord
 
     public static function studentTodayConsultationsList($user)
     {
+        date_default_timezone_set('Europe/Kiev');
         $currentDate = new DateTime();
         $sql = 'select cs.id cons_id, l.id, l.title_ua, l.idModule, u.secondName, u.firstName, u.middleName, u.email, cs.date_cons, cs.start_cons, cs.end_cons from consultations_calendar cs
                 left join user u on u.id=cs.teacher_id
@@ -386,7 +391,18 @@ class Consultationscalendar extends CActiveRecord
             $row["start_cons"] = $record["start_cons"];
             $row["end_cons"] = $record["end_cons"];
             $row["user"]["url"] = $row["lecture"]["url"] = $access?Yii::app()->createUrl('/_teacher/_student/student/consultation/', array('id' => $record["cons_id"])):false;
-            $row["start"] = $access?Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['cons_id']:false;
+            if(!$access){
+                $row["start"]["status"] = 'false';
+            }else if(date('H:i') > date('H:i',strtotime($record["end_cons"]))){
+                $row["start"]["status"] = 'ended';
+            } else {
+                if(date('H:i') > date('H:i', strtotime($record["start_cons"]))) {
+                    $row["start"]["status"] = 'started';
+                    $row["start"]["link"] = Config::getBaseUrl() . '/crmChat/#/consultation_view/' . $record['cons_id'];
+                } else {
+                    $row["start"]["status"] = 'wait';
+                }
+            }
             array_push($return['data'], $row);
         }
 

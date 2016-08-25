@@ -23,12 +23,12 @@
                 <td class="center" style="width: 5%">
                     <input type="checkbox" id="<?= $userMessage->id_message; ?>">
                 </td>
-                <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' => $userMessage->receivers()[0]->id, 'user2' => $user->id)) ?>')">
+                <td>
+                    <a ng-href="#/dialog/<?php echo $userMessage->receivers()[0]->id ?>/<?php echo $user->id ?>">
                     <?= $userMessage->receiversString(); ?>
                 </td>
-                <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-                    'user1' => $userMessage->receivers()[0]->id, 'user2' => $user->id)) ?>')">
+                <td>
+                    <a ng-href="#/dialog/<?php echo $userMessage->receivers()[0]->id ?>/<?php echo $user->id ?>">
                     <em><?= CHtml::encode($userMessage->subject); ?></em>
                 </td>
                 <td class="center">

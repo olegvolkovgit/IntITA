@@ -7,7 +7,7 @@
  */?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"ng-click="changeView('admin/address')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('admin/address')">
             Країни, міста
         </button>
     </li>
@@ -33,7 +33,6 @@
                     </div>
 
                     <div class="form-group">
-<<<<<<< HEAD
                         <label>Геокод(двосимвольний)*</label>
                         <input name="geocode" class="form-control" pattern="[A-Z]{2}"
                                oninput="validateComments(this,'Геокод країни - дві великі латинські літери')" required maxlength="2" size="50">
@@ -41,13 +40,7 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                            'Країни, міста')">Скасувати
-=======
-                        <button type="submit" class="btn btn-primary" onclick="addCountry('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCountry')?>');
-                            return false;">Зберегти</button>
                         <button type="reset" class="btn btn-outline btn-default" ng-click="changeView('admin/address')" >Скасувати
->>>>>>> 53a712b38297c9a67d081df79ca3cf1cae0fd0b3
                         </button>
                     </div>
                 </form>

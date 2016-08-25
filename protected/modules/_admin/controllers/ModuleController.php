@@ -148,22 +148,6 @@ class ModuleController extends AdminController
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
-    public function actionCoursePrice($id){
-        $this->render('coursePrice', array(
-            'id' => $id
-        ));
-    }
-
-    public function actionAddCoursePrice(){
-        $idModule = Yii::app()->request->getPost('module', 0);
-        $idCourse = Yii::app()->request->getPost('course', 0);
-        $price = Yii::app()->request->getPost('price', 0);
-
-        Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course='.$price.' WHERE id_module='.
-            $idModule.' and id_course='.$idCourse)->query();
-        $this->redirect(Yii::app()->request->urlReferrer);
-    }
-
     public function actionGetModuleByCourse()
     {
         if(Yii::app()->request->isAjaxRequest)

@@ -4,9 +4,13 @@ angular
     .controller('aboutUsSliderTableCtrl',aboutUsSliderTableCtrl)
 
 function mainSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
-    $http.get(basePath + "/_teacher/_admin/carousel/getItemsList").then(function (data) {
-        $scope.sliderList = data.data["data"];
-    });
+    $scope.loadMainSliderList=function(){
+        $http.get(basePath + "/_teacher/_admin/carousel/getItemsList").then(function (data) {
+            $scope.sliderList = data.data["data"];
+        });
+    };
+    $scope.loadMainSliderList();
+    
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
@@ -30,12 +34,25 @@ function mainSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
                 bootbox.alert("Операцію відмінено.");
             }
         });
+    };
+
+    $scope.mainSlideAction=function(action,order) {
+        var url = basePath+'/_teacher/_admin/carousel/'+action+'/order/' + order;
+        $http.get(url).then(function successCallback() {
+            $scope.loadMainSliderList();
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати.");
+        });
     }
 }
 function aboutUsSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
-    $http.get(basePath + "/_teacher/_admin/aboutusSlider/getItemsList").then(function (data) {
-        $scope.sliderList = data.data["data"];
-    });
+    $scope.loadAboutUsSliderList=function(){
+        $http.get(basePath + "/_teacher/_admin/aboutusSlider/getItemsList").then(function (data) {
+            $scope.sliderList = data.data["data"];
+        });
+    };
+    $scope.loadAboutUsSliderList();
+    
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
@@ -58,6 +75,15 @@ function aboutUsSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
             } else {
                 bootbox.alert("Операцію відмінено.");
             }
+        });
+    }
+
+    $scope.aboutUsSlideAction=function(action,order) {
+        var url = basePath+'/_teacher/_admin/aboutusSlider/'+action+'/order/' + order;
+        $http.get(url).then(function successCallback() {
+            $scope.loadAboutUsSliderList();
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати.");
         });
     }
 }
