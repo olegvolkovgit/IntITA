@@ -27,7 +27,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/admin/carousel/update/id/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/aboutusSlider/update/?id="+$stateParams.id;
+                return basePath+"/_teacher/_admin/carousel/update/?id="+$stateParams.id;
             }
         })
         .state('admin/aboutusSlider', {
