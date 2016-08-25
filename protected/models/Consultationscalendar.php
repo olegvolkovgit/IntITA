@@ -332,7 +332,8 @@ class Consultationscalendar extends CActiveRecord
     // todo Add datetime filter for appearance of button start consultation (10 minutes interval for start/end consultation)
     public function isAvailable()
     {
-        date_default_timezone_set(Config::getServerTimezone());
+//        date_default_timezone_set(Config::getServerTimezone());
+        date_default_timezone_set('Europe/Kiev');
         //if lecture isn't cancelled
         if ($this->lecture) {
             //check if today
