@@ -10,11 +10,18 @@ class Agreements {
         'service_id' => 'service.description'
     ];
 
-    public function getUserAgreements($offset = 0, $limit = 10) {
+    public function getUserAgreements($offset = 0, $limit = 10, $params = null) {
         $criteria = new CDbCriteria([
             'offset' => $offset,
             'limit' => $limit
         ]);
+
+        foreach ($params as $field=>$value) {
+            if ($value !== null) {
+                $criteria->addCondition("t.$field = $value", 'AND');
+            }
+        }
+
         $agreements = UserAgreements::model()->with('user', 'approvalUser', 'paymentSchema')->findAll($criteria);
         $totalCount = UserAgreements::model()->count($criteria);
 

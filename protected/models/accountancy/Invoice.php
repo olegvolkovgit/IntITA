@@ -58,6 +58,7 @@ class Invoice extends CActiveRecord
 			'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
 			'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
 			'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
+            'internalPayment' => [self::HAS_ONE, 'InternalPays', '', 'on' => 't.id = internalPayment.invoice_id']
 		);
 	}
 

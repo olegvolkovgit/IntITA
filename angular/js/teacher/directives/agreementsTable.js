@@ -2,9 +2,9 @@
 
 angular
     .module('teacherApp')
-    .directive('agreementsTable', ['agreementsService', '$location', 'NgTableParams', agreementsTable]);
+    .directive('agreementsTable', ['agreementsService', '$state', 'NgTableParams', agreementsTable]);
 
-function agreementsTable(agreements, $location, NgTableParams) {
+function agreementsTable(agreements, $state, NgTableParams) {
 
     function link($scope, element, attrs) {
 
@@ -44,7 +44,7 @@ function agreementsTable(agreements, $location, NgTableParams) {
         };
 
         $scope.showAgreement = function (id) {
-            $location.path('accountant/agreement/' + id);
+            $state.go('accountant/agreement/', {agreementId:id});
         }
 
     }

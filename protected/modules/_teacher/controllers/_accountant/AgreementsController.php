@@ -41,7 +41,19 @@ class AgreementsController extends TeacherCabinetController {
         $agreements = new Agreements();
         $limit = $pageCount;
         $offset = $page * $pageCount - $pageCount;
-        $json = $agreements->getUserAgreements($offset, $limit);
+
+        $params = [];
+        /* getting all model fields */
+        $searchFields = array_keys(UserAgreements::model()->getAttributes());
+        /* preparing criteria */
+        foreach ($searchFields as $searchField) {
+            $value = Yii::app()->request->getParam($searchField, null);
+            if ($value !== null) {
+                $params[$searchField] = $value;
+            }
+        }
+
+        $json = $agreements->getUserAgreements($offset, $limit, $params);
         echo json_encode($json);
     }
 

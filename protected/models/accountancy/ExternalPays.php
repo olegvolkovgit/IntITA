@@ -5,18 +5,18 @@
  *
  * The followings are the available columns in table 'acc_external_pays':
  * @property string $id
- * @property string $create_date
- * @property integer $create_user
- * @property string $source_id
- * @property integer $user_id
- * @property string $pay_date
- * @property string $summa
- * @property string $description
+ * @property string $createDate
+ * @property integer $createUser
+ * @property string $sourceId
+ * @property integer $userId
+ * @property string $documentDate
+ * @property string $amount
+ * @property string $documentPurpose
+ * @property string $documentNumber
+ * @property string $comment
  *
  * The followings are the available model relations:
- * @property StudentReg $createUser
  * @property ExternalSources $source
- * @property StudentReg $user
  */
 class ExternalPays extends CActiveRecord
 {
@@ -36,12 +36,14 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_user, source_id, user_id, pay_date, summa', 'required'),
-			array('create_user, user_id', 'numerical', 'integerOnly'=>true),
-			array('source_id, summa', 'length', 'max'=>10),
-			array('description', 'length', 'max'=>512),
+			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose', 'required'),
+			array('createUser, userId', 'numerical', 'integerOnly'=>true),
+			array('sourceId, amount', 'length', 'max'=>10),
+			array('documentPurpose', 'length', 'max'=>512),
+			array('documentNumber', 'length', 'max'=>100),
+			array('comment', 'length', 'max'=>255),
 			// The following rule is used by search().
-			array('id, create_date, create_user, source_id, user_id, pay_date, summa, description', 'safe', 'on'=>'search'),
+			array('id, createDate, createUser, sourceId, userId, documentDate, amount, documentPurpose, documentNumber, comment', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +55,7 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'source' => array(self::BELONGS_TO, 'ExternalSources', 'source_id'),
+            'source' => array(self::BELONGS_TO, 'ExternalSources', 'sourceId'),
 		);
 	}
 
@@ -64,13 +66,13 @@ class ExternalPays extends CActiveRecord
 	{
 		return array(
             'id' => 'Pay code',
-            'create_date' => 'Дата створення ',
-            'create_user' => 'Хто створив',
-            'source_id' => 'Зовнішні джерела',
-            'user_id' => 'Хто платить',
-            'pay_date' => 'Дата створення платежу',
-            'summa' => 'Сумма до сплати',
-            'description' => 'Пояснення платежу',
+            'createDate' => 'Дата створення ',
+            'createUser' => 'Хто створив',
+            'sourceId' => 'Зовнішні джерела',
+            'userId' => 'Хто платить',
+            'documentDate' => 'Дата створення платежу',
+            'amount' => 'Сумма до сплати',
+            'documentPurpose' => 'Пояснення платежу',
 		);
 	}
 
@@ -93,13 +95,15 @@ class ExternalPays extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('create_user',$this->create_user);
-		$criteria->compare('source_id',$this->source_id,true);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('pay_date',$this->pay_date,true);
-		$criteria->compare('summa',$this->summa,true);
-		$criteria->compare('description',$this->description,true);
+		$criteria->compare('createDate',$this->createDate,true);
+		$criteria->compare('createUser',$this->createUser);
+		$criteria->compare('sourceId',$this->sourceId,true);
+		$criteria->compare('userId',$this->userId);
+		$criteria->compare('documentDate',$this->documentDate,true);
+		$criteria->compare('amount',$this->amount,true);
+		$criteria->compare('documentPurpose',$this->documentPurpose,true);
+		$criteria->compare('documentNumber',$this->documentNumber,true);
+		$criteria->compare('comment',$this->comment,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -118,26 +122,26 @@ class ExternalPays extends CActiveRecord
 	}
 
     public static function addNewExternalPay(Operation $operation){
-        $invoicesDescription = '';
-        foreach($operation->invoicesList as $invoice){
-            $invoicesDescription .= $invoice->description();
-        }
-
-        $model = new ExternalPays();
-        $model->create_user = $operation->user_create;
-        $model->source_id = $operation->externalSource;
-        $model->user_id = $operation->user_create;
-        $model->pay_date = $operation->date_create;
-        $model->summa = $operation->summa;
-
-         $model->description = $operation->type->description.". ".
-            $invoicesDescription.". Сплачено ".date("d.m.y", strtotime($model->pay_date));
-
-        if ($model->validate()){
-            $model->save();
-            return true;
-        }
-
-        return false;
+//        $invoicesDescription = '';
+//        foreach($operation->invoicesList as $invoice){
+//            $invoicesDescription .= $invoice->description();
+//        }
+//
+//        $model = new ExternalPays();
+//        $model->createUser = $operation->user_create;
+//        $model->sourceId = $operation->externalSource;
+//        $model->userId = $operation->user_create;
+//        $model->pay_date = $operation->date_create;
+//        $model->summa = $operation->summa;
+//
+//         $model->description = $operation->type->description.". ".
+//            $invoicesDescription.". Сплачено ".date("d.m.y", strtotime($model->pay_date));
+//
+//        if ($model->validate()){
+//            $model->save();
+//            return true;
+//        }
+//
+//        return false;
     }
 }

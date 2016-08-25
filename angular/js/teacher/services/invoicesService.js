@@ -15,8 +15,8 @@ angular
                     url : url + '/getInvoices',
                     method: 'GET',
                     params: {
-                        page: 'page',
-                        pageCount: 'pageCount'
+                        page: 1,
+                        pageCount: 10
                     }
                 },
                 typeahead: {
