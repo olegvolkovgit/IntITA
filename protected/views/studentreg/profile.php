@@ -100,6 +100,12 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <div class="aboutInfo" ng-repeat="network in networks track by $index">
                         <span class='networkLink'><a href="{{networks[$index][0]}}" target='_blank'>{{networks[$index][1]}}</a></span>
                     </div>
+                    <br>
+                    <div class="aboutInfo">
+                        <p ng-if="profileData.trainer"><span
+                                class="colorP"><?php echo 'Тренер' ?>:</span><a ng-href={{profileData.trainer.link}} target="_blank">{{profileData.trainer.name}}</a>
+                        </p>
+                    </div>
                 </td>
             </tr>
         </table>

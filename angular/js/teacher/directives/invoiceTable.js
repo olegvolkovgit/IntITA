@@ -31,7 +31,7 @@ function invoiceTable(invoices, NgTableParams) {
 
     return {
         link: link,
-        templateUrl: '/angular/js/teacher/templates/accountancy/invoicesTable.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/invoicesTable.html'
     }
 }
 

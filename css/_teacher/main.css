@@ -170,7 +170,7 @@ td,th{
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
-td button{
+td button, td a{
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -515,3 +515,10 @@ div#loading-bar-spinner{
     padding-left: 0;
 }
 /*css for cloud tags*/
+#graduatesTable td img{
+    width: 120px;
+    height: 120px;
+}
+table a{
+    box-sizing: inherit;
+}

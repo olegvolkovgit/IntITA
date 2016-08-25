@@ -26,7 +26,7 @@ function graduateCtrl ($scope, $http, graduates, NgTableParams ){
             if(result){
                 $http({
                     method: 'POST',
-                    url: '/_teacher/_admin/graduate/deletePhoto/',
+                    url: basePath+'/_teacher/_admin/graduate/deletePhoto/',
                     data: $jq.param({'id': graduateId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).success(function(){
@@ -46,7 +46,7 @@ function graduateCtrl ($scope, $http, graduates, NgTableParams ){
             if(result){
                 $http({
                     method: 'POST',
-                    url: '/_teacher/_admin/graduate/delete/',
+                    url: basePath+'/_teacher/_admin/graduate/delete/',
                     data: $jq.param({'id': graduateId}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).success(function(response){

@@ -26,10 +26,10 @@
                                         <thead>
                                         <tr>
                                             <th>Модуль</th>
-                                            <th style="width:10%">Порядок у модулі</th>
+                                            <th>Порядок у модулі</th>
                                             <th>Назва</th>
-                                            <th style="width:15%">Тип заняття</th>
-                                            <th style="width:15%">HTML Шаблонізація</th>
+                                            <th>Тип заняття</th>
+                                            <th>HTML Шаблонізація</th>
                                         </tr>
                                         </thead>
                                         <tbody>

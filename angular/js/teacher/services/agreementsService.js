@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('agreementsService', ['$resource',
         function ($resource) {
-            var url = '/_teacher/_accountant/agreements';
+            var url = basePath+'/_teacher/_accountant/agreements';
             return $resource(
                 '',
                 {},

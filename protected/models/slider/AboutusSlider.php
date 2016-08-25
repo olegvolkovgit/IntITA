@@ -118,7 +118,8 @@ class AboutusSlider extends Slider
             $row = array();
             $row["photo"]["image"] = StaticFilesHelper::createPath("image", "aboutus", $record->pictureUrl);
             $row["order"] = $record->order;
-			$row["photo"]["text"] = CHtml::encode($record->text_ua);
+			$row["id"] = $record->image_order;
+			$row["photo"]["text"] = $record->text_ua;
             $row["linkUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/up", array("order"=>$record->order))."'";
             $row["linkDown"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/down", array("order"=>$record->order))."'";
 			$row["textUp"] = "'".Yii::app()->createUrl("/_teacher/_admin/aboutusSlider/textUp", array("order"=>$record->order))."'";

@@ -3,9 +3,9 @@
  */
 angular
     .module('teacherApp')
-    .controller('interfaceMessagesCtrl',graduateCtrl);
+    .controller('interfaceMessagesCtrl',interfaceMessagesCtrl);
 
-function graduateCtrl ($scope, $http, interfaceMessages, NgTableParams ){
+function interfaceMessagesCtrl ($scope, $http, interfaceMessages, NgTableParams,$state){
     $scope.cols = [
         { title: "ID", headerTitle: "ID", show: true },
         { title: "language", headerTitle: "Мова", show: true },
@@ -38,7 +38,7 @@ function graduateCtrl ($scope, $http, interfaceMessages, NgTableParams ){
         {
          $http({
              method: 'POST',
-             url: '/_teacher/_admin/translate/create',
+             url: basePath+'/_teacher/_admin/translate/create',
              data: $jq.param({'id': $scope.message.id,
                             'category': $scope.message.category,
                             'translateUa': $scope.message.translateUa,
@@ -46,12 +46,16 @@ function graduateCtrl ($scope, $http, interfaceMessages, NgTableParams ){
                             'translateEn': $scope.message.translateEn,
                             'comment': $scope.message.comment}),
              headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-         }).success(function(){
-             bootbox.alert('Операцію успішно виконано',function(){
-                 location.hash = '/interfacemessages';
-             })
-         }).error(function(data){
-             bootbox.alert(data.responseText);
+         }).success(function(response){
+             if(response!=''){
+                 bootbox.alert(response);
+             }else{
+                 bootbox.alert('Операцію успішно виконано',function(){
+                     $state.go("interfacemessages", {}, {reload: true});
+                 })
+             }
+         }).error(function(){
+             bootbox.alert('Операцію виконати не вдалося.');
          })
         }
     };

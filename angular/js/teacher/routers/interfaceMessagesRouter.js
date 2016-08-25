@@ -8,25 +8,25 @@ config(function ($stateProvider) {
         .state('interfacemessages', {
             url: "/interfacemessages",
             cache: false,
-            templateUrl: "/_teacher/_admin/translate/index",
+            templateUrl: basePath+"/_teacher/_admin/translate/index",
         })
         .state('interfacemessages/view/:id', {
             url: "/interfacemessages/view/:id",
             cache: false,
             templateUrl: function($stateParams){
-                return '/_teacher/_admin/translate/view/id/'+$stateParams.id
+                return basePath+'/_teacher/_admin/translate/view/id/'+$stateParams.id
             },
         })
         .state('interfacemessages/create', {
             url: "/interfacemessages/create",
             cache: false,
-            templateUrl: "/_teacher/_admin/translate/create",
+            templateUrl: basePath+"/_teacher/_admin/translate/create",
         })
         .state('interfacemessages/edit/:id', {
             url: "/interfacemessages/edit/:id",
             cache: false,
             templateUrl: function($stateParams){
-                return '/_teacher/_admin/translate/update/id/'+$stateParams.id
+                return basePath+'/_teacher/_admin/translate/update/id/'+$stateParams.id
             },
         })
 });

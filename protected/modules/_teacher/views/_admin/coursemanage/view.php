@@ -36,16 +36,16 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <uib-tabset active="0" >
-                    <uib-tab  index="0" heading="Головне">
+                    <uib-tab  index="0" heading="Головне" id="mainTab">
                         <?php $this->renderPartial('_mainTab', array('model' => $model)); ?>
                     </uib-tab>
-                    <uib-tab index="1" heading="Українською">
+                    <uib-tab index="1" heading="Українською" id="uaTab">
                         <?php $this->renderPartial('_uaTab', array('model' => $model)); ?>
                     </uib-tab>
-                    <uib-tab  index="2" heading="Російською">
+                    <uib-tab  index="2" heading="Російською" id="ruTab">
                         <?php $this->renderPartial('_ruTab', array('model' => $model)); ?>
                     </uib-tab>
-                    <uib-tab  index="3" heading="Англійською">
+                    <uib-tab  index="3" heading="Англійською" id="enTab">
                         <?php $this->renderPartial('_enTab', array('model' => $model)); ?>
                     </uib-tab>
                     <uib-tab  index="4" heading="Модулі">

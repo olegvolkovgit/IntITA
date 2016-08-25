@@ -45,7 +45,7 @@ class AboutusSliderController extends TeacherCabinetController
 				Avatar::saveAbuotusSlider($model, $tmpName, $filename);
 
 			if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect('/cabinet/#/admin/aboutusSlider');
             }
 		}
 
@@ -88,7 +88,7 @@ class AboutusSliderController extends TeacherCabinetController
 				Avatar::saveAbuotusSlider($model, $tmpName, $filename, $oldSlide);
 
 				if ($model->update())
-					$this->redirect($this->pathToCabinet());
+					$this->redirect('/cabinet/#/admin/aboutusSlider');
 			}
 		}
 

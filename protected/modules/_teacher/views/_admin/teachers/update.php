@@ -3,20 +3,19 @@
 ?>
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                'Співробітники')">Співробітники</button>
+            <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">
+                Співробітники
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create'); ?>',
-                'Додати співробітника')">Додати спвіробітника</button>
+            <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
+                Додати спвіробітника
+            </a>
         </li>
         <li>
-            <button type="button" class="btn btn-primary"
-            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->user_id)); ?>',
-                'Переглянути інформацію про співробітника')">
-                Переглянути інформацію про співробітника</button>
+            <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/<?php echo $model->user_id ?>">
+                Переглянути інформацію про співробітника
+            </a>
         </li>
     </ul>
 <?php $this->renderPartial('_form', array('model' => $model, 'scenario' => 'update')); ?>

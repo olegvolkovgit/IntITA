@@ -8,7 +8,7 @@ angular
 
 function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $state){
 
-    $http.get('/_teacher/_admin/response/getTeacherResponsesList').then(function (data) {
+    $http.get(basePath+'/_teacher/_admin/response/getTeacherResponsesList').then(function (data) {
         $scope.responsesList = data.data["data"];
     });
 
@@ -17,16 +17,12 @@ function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $sta
         .withLanguageSource(basePath + '/scripts/cabinet/Ukranian.json');
 
     $scope.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).withOption('width', '20%'),
-        DTColumnDefBuilder.newColumnDef(1).withOption('width', '20%'),
-        DTColumnDefBuilder.newColumnDef(3).withOption('width', '10%'),
-        DTColumnDefBuilder.newColumnDef(4).withOption('width', '8%'),
-        DTColumnDefBuilder.newColumnDef(5).withOption('width', '15%'),
+        DTColumnDefBuilder.newColumnDef(4).withOption('width', '10%'),
     ];
 
 
     $scope.updateResponse = function(responseId){
-        var text = angular.element('#response').fadeIn('fast').bbcode();
+        var text = angular.element('#response').bbcode();
         var publish = document.getElementById('Response_is_checked').value;
         $http({
             method: 'POST',
@@ -35,7 +31,7 @@ function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $sta
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
         }).success(function(data){
             bootbox.alert(data, function(){
-                location.hash = '#/response/detail/'+responseId;
+                $state.go("response/detail/:responseId", {responseId:responseId}, {reload: true});
             });
         }).error(function(data){
             bootbox.alert(data);

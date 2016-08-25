@@ -15,7 +15,7 @@
     </div>
     <div class="panel-body">
         <div class="row">
-        <form role="form" name="message">
+        <form role="form" name="message" ng-controller="messagesCtrl">
             <input type="number" hidden="hidden" id="receiverId" value="0"/>
 
             <div class="form-group col-md-8" id="receiver">
@@ -35,11 +35,11 @@
             </div>
             <div class="col-md-8">
             <button type="submit" class="btn btn-primary"
-                    onclick="sendMessage('<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>'); return false;">
+                    ng-click="sendMessage('<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>');">
                 Написати
             </button>
                 <button type="reset" class="btn btn-default"
-                        onclick="loadMessagesIndex()">
+                        ng-click="loadMessagesIndex()">
                     Скасувати
                 </button>
             </div>

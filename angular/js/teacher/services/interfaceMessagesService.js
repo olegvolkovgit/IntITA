@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('interfaceMessages', ['$resource',
     function ($resource) {
-        var url = '/_teacher/_admin/translate/gettranslateslist';
+        var url = basePath+'/_teacher/_admin/translate/gettranslateslist';
         return $resource(
             url,
             {

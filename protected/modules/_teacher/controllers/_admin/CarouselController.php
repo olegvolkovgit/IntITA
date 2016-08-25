@@ -44,7 +44,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $tmpName, $filename);
 
                 $model->save();
-                $this->redirect($this->pathToCabinet());
+                $this->redirect('/cabinet/#/admin/carousel');
             }
         }
 
@@ -87,7 +87,7 @@ class CarouselController extends TeacherCabinetController
                 Avatar::saveMainSliderPicture($model, $tmpName, $filename, $oldSlide);
 
                 if ($model->update())
-                    $this->redirect($this->pathToCabinet());
+                    $this->redirect('/cabinet/#/admin/carousel');
             }
 		}
 

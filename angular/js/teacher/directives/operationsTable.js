@@ -27,7 +27,7 @@ function operationsTable(operations, NgTableParams) {
 
     return {
         link: link,
-        templateUrl: '/angular/js/teacher/templates/accountancy/operationsTable.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/operationsTable.html'
     }
 }
 

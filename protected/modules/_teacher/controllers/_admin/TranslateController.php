@@ -33,8 +33,8 @@ class TranslateController extends TeacherCabinetController{
             if(isset($_POST['category']))
         {
             if(Sourcemessages::model()->exists('id=:id', array(':id' => $idMessage))){
-                throw new CHttpException(403,
-                    'Запис з таким id вже є в базі даних. Id повідомлення не може повторюватися.');
+                echo 'Запис з таким id вже є в базі даних. Id повідомлення не може повторюватися.';
+                Yii::app()->end();
             }
             //add source message
             $result = Sourcemessages::addSourceMessage($idMessage, $category, str_pad("".$idMessage, 4, 0, STR_PAD_LEFT));
@@ -46,7 +46,6 @@ class TranslateController extends TeacherCabinetController{
 
                 MessageComment::addMessageCodeComment($idMessage, $comment);
             }
-            $this->redirect(Yii::app()->createUrl('/_teacher/_admin/translate/index'));
         } else {
 
             $this->renderPartial('create', array(

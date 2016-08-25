@@ -39,36 +39,30 @@
                     'validateOnSubmit' => true,
                     'validateOnChange' => true,
                     'afterValidate' => 'js:function(form,data,hasError){
-                    if(!hasError){
+                    if(courseValidation(data,hasError)){
                          courseActions(form[0].action);
                     }
-                    else{
-                    bootbox.alert("Курс не вдалося створити. Перевірте вхідні дані або зверніться до адміністратора.");
-                    }
-                        return false;
+                    return false;
                 }'),
             )); ?>
             <uib-tabset active="0" >
-                <uib-tab  index="0" heading="Головне">
+                <uib-tab  index="0" heading="Головне" id="mainTab">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model,
                         'scenario' => 'create', 'form' => $form)); ?>
                 </uib-tab>
-                <uib-tab index="1" heading="Українською">
+                <uib-tab index="1" heading="Українською" id="uaTab">
                     <?php $this->renderPartial('_uaEditTab', array('model' => $model, 'scenario' => 'create',
                         'form' => $form)); ?>
                 </uib-tab>
-                <uib-tab  index="2" heading="Російською">
+                <uib-tab  index="2" heading="Російською" id="ruTab">
                     <?php $this->renderPartial('_ruEditTab', array('model' => $model, 'scenario' => 'create'
                     , 'form' => $form)); ?>
                 </uib-tab>
-                <uib-tab  index="3" heading="Англійською">
+                <uib-tab  index="3" heading="Англійською" id="enTab">
                     <?php $this->renderPartial('_enEditTab', array('model' => $model, 'scenario' => 'create'
                     , 'form' => $form)); ?>
                 </uib-tab>
             </uib-tabset>
-
-
-
             <?php $this->endWidget(); ?>
         </div>
     </div>

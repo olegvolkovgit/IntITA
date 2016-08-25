@@ -10,14 +10,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('mainSliderCtrl',mainSliderCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('aboutusSliderCtrl',aboutusSliderCtrl);
-
-angular
-    .module('teacherApp')
     .controller('addressCtrl',addressCtrl);
 
 angular
@@ -134,17 +126,43 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
 }
 
-function messagesCtrl ($scope, $state){
+function messagesCtrl ($http, $scope, $state){
+    $scope.sendMessage=function(url){
+        receiver = $jq("#receiverId").val();
+        if (receiver == "0") {
+            bootbox.alert('Виберіть отримувача повідомлення.');
+        } else {
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    receiver: receiver,
+                    subject: $jq("input[name=subject]").val(),
+                    text: $jq("#text").val(),
+                    scenario: "new"
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                        $state.go("messages", {}, {reload: true})
+                    });
+                } else {
+                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                        "напишіть на адресу " + adminEmail, function() {
+                        $state.go("messages", {}, {reload: true})
+                    });
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
 
-}
-
-
-function mainSliderCtrl ($scope, $http, $stateParams){
-        initMainSliderList();
-}
-
-function aboutusSliderCtrl ($scope){
-       initAboutusSliderList();
+    $scope.loadMessagesIndex=function(){
+        $state.go("messages", {}, {reload: true});
+    }
 }
 
 function addressCtrl ($scope){
@@ -203,8 +221,99 @@ function moduleAddTeacherCtrl ($scope){
     });
 }
 
-function teachersCtrl ($scope){
-    initTeachersAdminTable();
+function teachersCtrl ($scope,$http, $state){
+    $scope.setTeacherRole=function(url){
+        var role = $jq("select[name=role] option:selected").val();
+        var teacher = $jq("#teacher").val();
+        $http({
+            method: "POST",
+            url:  url,
+            data: $jq.param({role: role, teacher: teacher}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function successCallback(response) {
+            bootbox.confirm(response.data, function () {
+                $state.go("admin/users/teacher/:id", {id:teacher}, {reload: true});
+            });
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати.");
+        });
+    };
+
+    $scope.addTeacherAttr=function(url, attr, id, role,header,redirect) {
+        user = $jq('#user').val();
+        if (!role) {
+            role = $jq('#role').val();
+        }
+        var value = $jq(id).val();
+
+        if (value == 0) {
+            bootbox.alert('Введіть дані форми.');
+        }
+        if (parseInt(user && value)) {
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: value}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        location.reload();
+                    });
+                } else {
+                    switch (role) {
+                        case "trainer":
+                            bootbox.alert(response.data);
+                            break;
+                        case "author":
+                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        case "consultant":
+                            bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
+                            break;
+                        case "teacher_consultant":
+                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        default:
+                            bootbox.alert("Операцію не вдалося виконати");
+                            break;
+                    }
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
+
+    $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
+        if (!user) {
+            user = $jq('#user').val();
+        }
+        if (!role) {
+            role = $jq('#role').val();
+        }
+        if (user && role) {
+            $http({
+                method: "POST",
+                url: url,
+                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        location.reload();
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
 }
 
 function freelecturesCtrl ($scope){
