@@ -167,6 +167,8 @@ class MessagesController extends TeacherCabinetController
         $subject = Yii::app()->request->getPost('subject', '');
         $text = Yii::app()->request->getPost('text', '');
 
+        $user = Yii::app()->user->model->registrationData;
+        
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $sender = Yii::app()->user->model->registrationData;
@@ -178,6 +180,7 @@ class MessagesController extends TeacherCabinetController
             $forwardedMessage = $message->forward($receiver);
 
             $sender = new MailTransport();
+            $sender->renderBodyTemplate('_newMessage', array($user));
             $forwardedMessage->send($sender);
             $transaction->commit();
         } catch (Exception $e) {

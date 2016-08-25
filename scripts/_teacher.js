@@ -890,97 +890,11 @@ function sendMessage(url) {
     }
 }
 
-function reply(url) {
-    var data = {
-        "receiver": $jq("input[name=receiver]").val(),
-        "parent": $jq("input[name=parent]").val(),
-        "subject": $jq("input[name=subject]").val(),
-        "text": $jq("#text").val()
-    };
-    showAjaxLoader();
-    var posting = $jq.post(url, data);
-
-    posting.done(function (response) {
-            if (response == "success") {
-                bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
-            } else {
-                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
-            }
-        })
-        .fail(function () {
-            bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                "напишіть на адресу " + adminEmail, loadMessagesIndex);
-        });
-    posting.always(function () {
-        hideAjaxLoader();
-    });
-}
-
-function forward(url) {
-    forwardTo = $jq("input[name=forwardToId]").val();
-    if (forwardTo == "0") {
-        bootbox.alert('Виберіть отримувача повідомлення.');
-    } else {
-        showAjaxLoader();
-        var posting = $jq.post(url,
-            {
-                "subject": $jq("input[name=subject]").val(),
-                "parent": $jq("input[name=parent]").val(),
-                "forwardToId": forwardTo,
-                "text": $jq("#text").val()
-            }
-        );
-
-        posting.done(function (response) {
-                if (response == "success") {
-                    bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
-                } else {
-                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу " + adminEmail, loadMessagesIndex);
-                }
-            })
-            .fail(function () {
-                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
-            });
-        posting.always(function () {
-            hideAjaxLoader();
-        });
-    }
-}
-
 function loadMessagesIndex() {
     window.history.pushState(null, null, basePath + "/cabinet/#");
     load(basePath + "/_teacher/messages/index", 'Листування');
 }
 
-function loadForm(url, receiver, scenario, message, subject) {
-    idBlock = "#collapse" + message;
-    $jq(idBlock).collapse('show');
-    id = "#form" + message;
-    var command = {
-        "user": user,
-        "message": message,
-        "receiver": receiver,
-        "scenario": scenario,
-        "subject": subject
-    };
-
-    $jq.post(url, {form: JSON.stringify(command)}, function () {
-        })
-        .done(function (data) {
-            $jq(id).empty();
-            $jq(id).append(data);
-        })
-        .fail(function () {
-            showDialog();
-        })
-        .always(function () {
-            },
-            "json"
-        );
-}
 function showAjaxLoader() {
     var el = document.getElementById('ajaxLoad');
     el.style.top = window.pageYOffset;
