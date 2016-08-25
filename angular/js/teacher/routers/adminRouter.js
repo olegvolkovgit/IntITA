@@ -167,30 +167,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/old/index",
         })
-        .state('carousel/:action/:order', {
-            url: "/carousel/:action/:order",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/carousel/' + $stateParams.action + '/order/' + $stateParams.order;
-                $http.get(url).success(function (data) {
-                    $location.hash(url).replace();
-                    $state.go('admin/carousel');
-                });
-
-            }
-        })
-        .state('aboutusSlider/:action/:order', {
-            url: "/aboutusSlider/:action/:order",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/aboutusSlider/' + $stateParams.action + '/order/' + $stateParams.order;
-                $http.get(url).success(function (data) {
-                    $location.hash(url).replace();
-                    $state.go('admin/aboutusSlider');
-                });
-
-            }
-        })
         .state('admin/addmainsliderphoto', {
             url: "/admin/addmainsliderphoto",
             cache: false,
