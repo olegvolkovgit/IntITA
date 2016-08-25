@@ -27,8 +27,11 @@ foreach ($newMessages as $key=>$record) {
 ?>
 <li>
     <a class="text-center" href="#">
-        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>', 'Листування')">
-                Всі повідомлення</a></strong>
+        <strong>
+            <a ng-href="#/messages">
+                Всі повідомлення
+            </a>
+        </strong>
         <i class="fa fa-angle-right"></i>
     </a>
 </li>
