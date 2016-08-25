@@ -55,10 +55,10 @@ class ConsultationscalendarController extends Controller
 			$course = Course::model()->findByPk($idCourse);
 			if(!$course->status)
 				throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
-//            $module = Module::model()->findByPk($lecture->idModule);
-//            if(!$module->status)
-//                throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
 		}
+		$module = Module::model()->findByPk($lecture->idModule);
+		if(!$module->status)
+			throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
 		$modulePermission = new PayModules();
 		if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
 			throw new CHttpException(403, 'Консультацію можна замовити тільки якщо заняття проплачене або укладений договір');
