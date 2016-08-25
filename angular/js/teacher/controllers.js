@@ -165,9 +165,84 @@ function messagesCtrl ($http, $scope, $state){
     }
 }
 
-function addressCtrl ($scope){
-    initCountriesList();
-    initCitiesList();
+function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
+    $http.get(basePath + "/_teacher/_admin/address/getCitiesList").then(function (data) {
+        $scope.citiesList = data.data["data"];
+    });
+    $scope.dtOptionsCity = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+        .withOption('order', [[ 0, "asc" ]]);
+
+    $http.get(basePath + "/_teacher/_admin/address/getCountriesList").then(function (data) {
+        $scope.countriesList = data.data["data"];
+    });
+    $scope.dtOptionsCountry = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+        .withOption('order', [[ 0, "asc" ]]);
+
+    $scope.editCity= function(url){
+        country = $jq('#country').val();
+        if (country == 0) {
+            bootbox.alert('Виберіть країну.');
+        } else {
+            id = $jq('[name="id"]').val();
+            titleUa = $jq('[name="titleUa"]').val();
+            titleRu = $jq('[name="titleRu"]').val();
+            titleEn = $jq('[name="titleEn"]').val();
+
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    id:id,
+                    country: country,
+                    titleUa: titleUa,
+                    titleRu: titleRu,
+                    titleEn: titleEn
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function (){
+                    $state.go("admin/address", {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
+    
+    $scope.addCity= function(url){
+        country = $jq('#country').val();
+        if (country == 0) {
+            bootbox.alert('Виберіть країну.');
+        } else {
+            titleUa = $jq('[name="titleUa"]').val();
+            titleRu = $jq('[name="titleRu"]').val();
+            titleEn = $jq('[name="titleEn"]').val();
+
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    country: country,
+                    titleUa: titleUa,
+                    titleRu: titleRu,
+                    titleEn: titleEn
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function (){
+                    $state.go("admin/address", {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    }
 }
 
 function studentCtrl ($scope,$location){

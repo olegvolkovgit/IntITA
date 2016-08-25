@@ -1880,71 +1880,10 @@ function addCountry(url) {
         },
         async: true,
         success: function (response) {
-            bootbox.alert(response, loadAddressIndex);
+            bootbox.alert(response, load(basePath + '/_teacher/_admin/address/index', 'Країни, міста'));
         },
         error: function () {
             bootbox.alert("Операцію не вдалося виконати.");
         }
     });
-}
-
-function addCity(url) {
-    country = $jq('#country').val();
-    if (country == 0) {
-        bootbox.alert('Виберіть країну.');
-    } else {
-        titleUa = $jq('[name="titleUa"]').val();
-        titleRu = $jq('[name="titleRu"]').val();
-        titleEn = $jq('[name="titleEn"]').val();
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                country: country,
-                titleUa: titleUa,
-                titleRu: titleRu,
-                titleEn: titleEn
-            },
-            async: true,
-            success: function (response) {
-                bootbox.alert(response, loadAddressIndex);
-            },
-            error: function () {
-                bootbox.alert("Операцію не вдалося виконати.");
-            }
-        });
-    }
-}
-
-function editCity(url) {
-    country = $jq('#country').val();
-    if (country == 0) {
-        bootbox.alert('Виберіть країну.');
-    } else {
-        id = $jq('[name="id"]').val();
-        titleUa = $jq('[name="titleUa"]').val();
-        titleRu = $jq('[name="titleRu"]').val();
-        titleEn = $jq('[name="titleEn"]').val();
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                id:id,
-                country: country,
-                titleUa: titleUa,
-                titleRu: titleRu,
-                titleEn: titleEn
-            },
-            async: true,
-            success: function (response) {
-                bootbox.alert(response, loadAddressIndex);
-            },
-            error: function () {
-                bootbox.alert("Операцію не вдалося виконати.");
-            }
-        });
-    }
-}
-function loadAddressIndex() {
-    load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
 }

@@ -204,7 +204,16 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/addcity', {
             url: "/admin/addcity",
             cache: false,
+            controller:"addressCtrl",
             templateUrl: basePath+"/_teacher/_admin/address/addCity",
+        })
+        .state('admin/editcity/:id', {
+            url: "/admin/editcity/:id",
+            cache: false,
+            controller:"addressCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_admin/address/editCity/id/"+$stateParams.id;
+            }
         })
         .state('admin/addcountry', {
             url: "/admin/addcountry",

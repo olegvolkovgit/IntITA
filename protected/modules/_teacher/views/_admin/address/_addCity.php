@@ -7,16 +7,16 @@
  */?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"ng-click="changeView('admin/address')">
+        <a type="button" class="btn btn-primary" ng-href="#/admin/address">
             Країни, міста
-        </button>
+        </a>
     </li>
 </ul>
 <div class="panel-body">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form role="form" name="addCityForm" onsubmit="addCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCity')?>');return false;">
+                <form role="form" name="addCityForm" ng-submit="addCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/newCity')?>');">
                     <div class="form-group">
                         <label>Країна</label>
                         <input id="typeahead" type="text" class="typeahead form-control" name="country"
