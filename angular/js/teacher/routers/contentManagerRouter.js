@@ -1,7 +1,7 @@
 /**
  * Created by adm on 19.07.2016.
  */
-var contentManagerUrl = "/_teacher/_content_manager/contentManager";
+var contentManagerUrl = basePath+"/_teacher/_content_manager/contentManager";
 
 angular
     .module('contentManagerRouter',['ui.router']).
@@ -10,7 +10,7 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('content_manager', {
         url: "/content_manager",
         cache         : false,
-        templateUrl: "/_teacher/cabinet/loadPage/?page=content_manager",
+        templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=content_manager",
         })
         .state('content_manager/authors', {
             url: "/content_manager/authors",
@@ -30,7 +30,7 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('content_manager/revisions', {
             url: "/content_manager/revisions",
             cache         : false,
-            templateUrl: "/revision/index",
+            templateUrl: basePath+"/revision/index",
         })
         .state('content_manager/statusOfModules/:idModule', {
             url: "/content_manager/statusOfModules/:idModule",
@@ -47,7 +47,7 @@ config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('/detail/module/:idModule', {
             url: '/detail/module/:idModule',
-            templateUrl: function($stateParams){return "/_teacher/_content_manager/contentManager/showLessonsList?idModule="+$stateParams.idModule;},
+            templateUrl: function($stateParams){return basePath+"/_teacher/_content_manager/contentManager/showLessonsList?idModule="+$stateParams.idModule;},
         })
         .state('/detail/lesson/:idLesson', {
             url: '/detail/lesson/:idLesson',

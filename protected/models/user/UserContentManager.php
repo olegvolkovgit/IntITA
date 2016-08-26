@@ -548,23 +548,14 @@ class UserContentManager extends CActiveRecord
         if(!$result){
             return json_encode($return);
         }
-        $sql3 = 'SELECT c.alias as course_alias,m.alias as module_alias FROM course as c
-        left join course_modules as cm on c.course_ID=cm.id_course
-        left join module as m on m.module_ID=cm.id_module
-         where c.course_ID=' . $result[0]['id_course'] . ' and m.module_ID=' . $result[0]['idModule'];
-        $result2 = Yii::app()->db->createCommand($sql3)->queryAll();
-        if(!$result2){
-            return json_encode($return);
-        }
 
         foreach ($parts as $record) {
             $row = array();
             $row["name"]["title"] = $record['page_title'];
-            $row["name"]["alias_module"] = $result2[0]['module_alias'];
-            $row["name"]["alias_course"] = $result2[0]['course_alias'];
             $row["name"]["lecture_order"] = $result[0]['order'];
             $row["name"]["page_order"] = $record['page_order'];
             $row["name"]["id_module"] = $result[0]['idModule'];
+            $row["name"]["link"] = Yii::app()->createUrl("lesson/index", array("id" => $record["id_lecture"], "idCourse" => 0));
             if (UserContentManager::existOfVideoInPart($record["id"], $idLesson)) {
                 $row["video"] = '<div style="padding-left: 40%"><img src="/images/icons/right.png"></div>';
             } else {
