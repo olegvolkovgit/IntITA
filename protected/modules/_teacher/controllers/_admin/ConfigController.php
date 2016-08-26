@@ -49,7 +49,7 @@ class ConfigController extends TeacherCabinetController {
             $model->attributes=$_POST['Config'];
             if($model->save()) {
                 Yii::app()->cache->flush();
-                $this->redirect(Yii::app()->createUrl('/_teacher/cabinet/index'));
+                $this->redirect(Yii::app()->createUrl('cabinet/').'#/configuration/siteconfig');
             }
         }
 
@@ -104,7 +104,11 @@ class ConfigController extends TeacherCabinetController {
         echo 'success';
     }
 
-    public function actionGetConfigList(){
-        echo Config::getItemsList();
+    public function actionGetConfigList($page = 0, $pageCount=10){
+        $criteria = new CDbCriteria([
+            'offset' => $page*$pageCount -$pageCount,
+            'limit' => $pageCount
+        ]);
+        echo JsonForNgDatatablesHelper::returnJson(Config::model()->findAll($criteria),null,Config::model()->count());
     }
 }

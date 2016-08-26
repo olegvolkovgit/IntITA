@@ -92,6 +92,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/responseRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/graduatesRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/interfaceMessagesRouter.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/siteConfigRouter.js'); ?>"></script>
 
     <!--Angular controllers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers.js'); ?>"></script>
@@ -110,8 +111,9 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/graduatesController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/responseController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/interfaceMessagesController.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/usersController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/sliderControllers.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/levelsController.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/siteConfigController.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'CheckFile.js');?>"></script>
@@ -122,6 +124,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/graduatesService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/interfaceMessagesService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/userService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/levelsService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/siteConfigService.js'); ?>"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
