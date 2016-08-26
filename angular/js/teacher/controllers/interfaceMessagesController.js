@@ -6,6 +6,8 @@ angular
     .controller('interfaceMessagesCtrl',graduateCtrl);
 
 function graduateCtrl ($scope, $http, interfaceMessages, NgTableParams ){
+    angular.element(document.querySelector("#pageTitle")).text("Інтерфейсні повідомлення");
+
     $scope.cols = [
         { title: "ID", headerTitle: "ID", show: true },
         { title: "language", headerTitle: "Мова", show: true },

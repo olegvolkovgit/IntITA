@@ -46,14 +46,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('levelsCtrl',levelsCtrl)
-
-angular
-    .module('teacherApp')
-    .controller('configCtrl',configCtrl)
-
-angular
-    .module('teacherApp')
     .controller('oldCtrl',oldCtrl)
 
 angular
@@ -127,8 +119,9 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
         });
     }
     $scope.changeView = function(view){
-     $location.path(view);
-  };
+        $location.path(view);
+
+    };
 
 
 
@@ -219,28 +212,6 @@ function payCtrl ($scope){
     initPayTypeaheads();
 }
 
-function levelsCtrl ($scope){
-    $jq('#levelsTable').DataTable({
-            language: {
-                "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-            }
-        }
-    );
-}
-
-function configCtrl ($scope, $http, DTOptionsBuilder){
-    $scope.configsite  =  null;
-    $http.get(basePath+'/_teacher/_admin/config/getConfigList').then(function(data){
-            $scope.configsite = data.data["data"];
-
-    });
-     $scope.dtOptions = DTOptionsBuilder.newOptions()
-                                        .withPaginationType('simple_numbers')
-                                        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json');;
-
-    //initConfigTable();
-
-}
 
 function oldCtrl ($scope){
     initConfigTable();

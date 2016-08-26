@@ -3,13 +3,11 @@
 
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/index'); ?>')">
+            <button type="button" class="btn btn-primary" ng-click="changeView('configuration/old')">
                 Права доступу</button>
         </li>
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/old/showAddAccessForm'); ?>')">
+            <button type="button" class="btn btn-primary" ng-click="changeView('configuration/old/addaccess')"">
                 Додати запис</button>
         </li>
     </ul>

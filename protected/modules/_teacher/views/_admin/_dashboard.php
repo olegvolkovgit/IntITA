@@ -125,15 +125,15 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/admin/refreshcache">Оновити кеш </a>
+                    <li><a href="#/configuration/refreshcache">Оновити кеш </a>
                     </li>
-                    <li><a href="#/admin/levels">Рівні курсів, модулів
+                    <li><a href="#/configuration/levels">Рівні курсів, модулів
                         </a>
                     </li>
-                    <li><a href="#/admin/config">Налаштування
+                    <li><a href="#/configuration/siteconfig">Налаштування
                         </a>
                     </li>
-                    <li><a href="#/admin/old">Функціонал попередньої версії</a>
+                    <li><a href="#/configuration/old">Функціонал попередньої версії</a>
                     </li>
                 </ul>
             </div>

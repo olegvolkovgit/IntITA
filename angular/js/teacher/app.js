@@ -26,5 +26,6 @@ angular
         'graduatesRouter',
         'sharedLinksRouter',
         'responseRouter',
-        'interfaceMessagesRouter'
+        'interfaceMessagesRouter',
+        'siteConfigRouter'
     ]);
