@@ -99,8 +99,23 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id', {
             url: "/admin/users/user/:id",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/user/index?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/addtrainer', {
+            url: "/admin/users/user/:id/addtrainer",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/changetrainer', {
+            url: "/admin/users/user/:id/changetrainer",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/changeTrainer/id/"+$stateParams.id;
             }
         })
         

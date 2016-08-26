@@ -302,8 +302,6 @@ function trainersTableCtrl ($http, $scope, DTOptionsBuilder){
                     bootbox.alert("Користувачу не вдалося відмінити обрану роль. Спробуйте повторити " +
                         "операцію пізніше або напишіть на адресу " + adminEmail);
                 });
-            } else {
-                showDialog("Операцію відмінено.");
             }
         });
     }
@@ -311,6 +309,23 @@ function trainersTableCtrl ($http, $scope, DTOptionsBuilder){
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
 }
-function usersCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams){
-    
+function usersCtrl ($http, $scope, $state){
+    $scope.changeUserStatus=function (url, user, message, header, target) {
+        bootbox.confirm(message, function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.confirm(response.data, function () {
+                        location.reload();
+            });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    }
 }
