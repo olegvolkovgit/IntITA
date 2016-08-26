@@ -23,46 +23,46 @@
 
     <div class="form-group">
         <div class="col-md-4">
-            <label class="control-label">Номер документу</label>
+            <label for="docNumber" class="control-label">Номер документу</label>
         </div>
         <div class="col-md-8">
-            <p class="form-control-static">{{document.documentNumber}}</p>
+            <input type="text" id="docNumber" class="form-control" ng-model="document.documentNumber" readonly>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-4">
-            <label class="control-label">Дата документу</label>
+            <label for="docDate" class="control-label">Дата документу</label>
         </div>
         <div class="col-md-8">
-            <p class="form-control-static">{{document.documentDate}}</p>
+            <input type="text" id="docDate" class="form-control" ng-model="document.documentDate" readonly>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-4">
-            <label class="control-label">Сума</label>
+            <label for="amount" class="control-label">Сума</label>
         </div>
         <div class="col-md-8">
-            <p class="form-control-static" >{{document.amount}}</p>
+            <input id="amount" class="form-control" rows="3" ng-model="document.amount" readonly>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-4">
-            <label class="control-label">Призначення платежу</label>
+            <label for="docPurpose" class="control-label">Призначення платежу</label>
         </div>
         <div class="col-md-8">
-            <p class="form-control-static">{{document.documentPurpose}}</p>
+            <textarea id="docPurpose" class="form-control" rows="3" ng-model="document.documentPurpose" readonly></textarea>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-4">
-            <label >Коментар</label>
+            <label for="docComment">Коментар</label>
         </div>
         <div class="col-md-8">
-            <p class="form-control-static">{{document.comment}}</p>
+            <textarea id="docComment" class="form-control" rows="3" ng-model="document.comment" readonly></textarea>
         </div>
     </div>
 

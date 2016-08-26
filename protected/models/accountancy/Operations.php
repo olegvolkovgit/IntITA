@@ -13,12 +13,30 @@ class Operations {
     }
 
     /**
-     * @param Invoice[] $agreementInvoices
+     * @param $agreementId
      * @param array $invoices
+     * @param $amount
      * @return bool
+     * @throws Exception
      */
-    private function getUnpaidInvoices($agreementInvoices, $invoices) {
-//        $invoices =
+    private function getUnpaidInvoices($agreementId, $invoices, $amount) {
+        if (!is_empty($invoices) && is_array($invoices)) {
+            /* if we have is in invoices we should check if this invoices unpaid */
+            $agreementInvoices = Invoice::model()->findAllByPk($invoices, 'agreement_id=:agreementId', [':agreementId' => $agreementId]);
+            if (count($agreementInvoices) !== count($invoices)) {
+                throw new Exception("Invoices count don't match");
+            }
+
+            foreach ($agreementInvoices as $invoice) {
+                if ($invoice->internalPayment !== null) {
+//                    throw 
+                }
+            }
+
+        } else {
+            /* otherwise we should select invoices to cover the sum */
+        }
+
         return false;
     }
 
@@ -46,22 +64,14 @@ class Operations {
                 'params' => [':agreementId' => $operation['agreementId']],
                 'order' => 'expiration_date ASC'
             ]);
-            $agreementInvoices = Invoice::model()->with('internalPayment')->findAll($invoicesCriteria);
-            $operationInvoices = null;
-
-            if (!is_empty($operation['invoices'])) {
-                $operationInvoices = $this->getUnpaidInvoices($agreementInvoices, $operation['invoices']);
-            } else {
-
-            }
+            $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $operation['amount']);
 
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
             $result = ['status' => 'error', 'message' => $e];
         }
-
-        echo json_encode($result);
+        return $result;
     }
 
 }

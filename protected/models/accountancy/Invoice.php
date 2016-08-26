@@ -19,6 +19,7 @@
  * @property UserAgreements $agreement
  * @property StudentReg $userCreated
  * @property StudentReg $userCancelled
+ * @property InternalPays $internalPayment
  */
 class Invoice extends CActiveRecord
 {

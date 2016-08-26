@@ -2,8 +2,12 @@
 
 /* Services */
 
-angular
-    .module('teacherApp')
-    .factory('lodash', [function () {
-        return _
-    }]);
+(function () {
+    var lodash = _.noConflict();
+    angular
+        .module('teacherApp')
+        .factory('lodash', [function () {
+            return lodash;
+        }]);
+})();
+

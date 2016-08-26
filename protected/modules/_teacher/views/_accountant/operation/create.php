@@ -12,15 +12,16 @@
     <div class="col-md-6">
         <h3>Оберіть зовнішнє джерело коштів </h3>
         <uib-tabset type="pills" justified="true">
-            <uib-tab index="0" heading="Існуюче надходження">
+            <uib-tab index="0" heading="Існуюче надходження" deselect="clearDocument($event, $selectedIndex)">
                 <find-external-payment data-document="externalPayment"></find-external-payment>
             </uib-tab>
-            <uib-tab index="1" heading="Нове надходження">
+            <uib-tab index="1" heading="Нове надходження" deselect="clearDocument($event, $selectedIndex)">
                 <add-external-payment data-document="externalPayment" data-show-save-button="false"></add-external-payment>
             </uib-tab>
         </uib-tabset>
 
         <pre>{{externalPayment}}</pre>
+        <pre>{{operation}}</pre>
 
     </div>
 
@@ -125,13 +126,16 @@
                     </div>
                 </div>
 
-                <div ng-repeat="invoice in operation.invoicesId" class="form-group">
+                <div ng-repeat="invoice in operation.invoices" class="form-group">
                     <label class="control-label col-md-2">Рахунок</label>
-                    <div class="col-md-9">
-                        <label class="control-label" data-value="{{invoice}}">{{typeaheadProviders.invoice.label(invoiceById(invoice))}}</label>
+                    <div class="col-md-7">
+                        <label class="control-label" data-value="{{invoice}}">{{typeaheadProviders.invoice.label(invoice)}}</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" ng-model="invoice.amount" class="form-control form-inline" max="{{invoice.summa}}">
                     </div>
                     <div class="col-md-1">
-                        <button class="btn btn-default" ng-click="operation.removeInvoice(invoice)"><i
+                        <button class="btn btn-default" ng-click="operation.removeInvoice(invoice.id)"><i
                                 class="glyphicon glyphicon-minus"></i></button>
                     </div>
                 </div>
@@ -140,8 +144,8 @@
                     <label for="sum" class="control-label col-md-2">Сума</label>
                     <div class="col-md-9" id="sum">
                         <input id="sum" type="number" class="form-control form-inline text-right"
-                               ng-model="operation.sum" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"
-                               required/>
+                               ng-value="invoicesSum()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"
+                               readonly/>
                     </div>
                     <label for="sum" class="control-label col-md-1"> грн.</label>
                 </div>

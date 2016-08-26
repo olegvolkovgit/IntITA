@@ -24,12 +24,13 @@ angular
         '$scope',
         '$state',
         '$q',
+        'lodash',
         'agreementsService',
         'invoicesService',
         'userService',
         'operationsService',
         'externalPaymentsService',
-        function ($scope, $state, $q, agreements, invoices, user, operations, externalPayments) {
+        function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments) {
             $scope.initData = function initData() {
                 $scope.externalPayment = {};
                 $scope.typeaheadProviders = {
@@ -92,17 +93,17 @@ angular
                     userId: null,
                     agreementId: null,
                     invoiceId: null,
-                    invoicesId: [],
+                    invoices: [],
                     sum: 0,
                     addInvoice: function addInvoice(id) {
-                        if ($scope.operation.invoicesId.indexOf(id) === -1) {
-                            $scope.operation.invoicesId.push(id);
+                        if (_.find($scope.operation.invoices, ['id', id]) === undefined) {
+                            $scope.operation.invoices.push(_.find($scope.invoicesList, ['id', id]));
                         }
                     },
                     removeInvoice: function removeInvoice(id) {
-                        $scope.operation.invoicesId = $scope.operation.invoicesId.filter(function (item) {
-                            return item != id
-                        })
+                        _.remove($scope.operation.invoices, function (item) {
+                            return item.id == id
+                        });
                     }
                 };
                 $scope.usersList = [];
@@ -113,6 +114,14 @@ angular
 
             $scope.initData();
 
+            $scope.clearDocument = function clearDocument($event, $selectedIndex) {
+              $scope.externalPayment = {};
+            };
+
+            $scope.invoicesSum = function () {
+                return $scope.operation.invoices.reduce(function (sum, item) {return sum += Number(item.amount)}, 0);
+            };
+            
             $scope.cleanUp = function cleanUp() {
                 $scope.initData();
             };
@@ -173,22 +182,24 @@ angular
 
             $scope.createOperation = function createOperation() {
                 var sendData = {};
-                for (var name in $scope.operation) {
-                    if (typeof $scope.operation[name] !== 'function') {
-                        sendData[name] = $scope.operation[name];
-                    }
-                }
+                sendData.userId = $scope.operation.userId;
+                sendData.agreementId = $scope.operation.agreementId;
+                sendData.invoices = $scope.operation.invoices.map(function (item) {
+                    return {id: item.id, amount: item.summa}
+                });
+                sendData.amount = $scope.operation.sum;
 
-                $scope.getExternalPayment()
-                    .then(
-                        function success(data) {
-                            sendData.sourceId = data.id;
-                            operations.create(null, sendData);
-                        }
-                    )
-                    .catch(function (data) {
-                        console.log(data);
-                    });
+                console.log(sendData);
+                // $scope.getExternalPayment()
+                //     .then(
+                //         function success(data) {
+                //             sendData.sourceId = data.id;
+                //             operations.create(null, sendData);
+                //         }
+                //     )
+                //     .catch(function (data) {
+                //         console.log(data);
+                //     });
             };
 
             $scope.updateUserData = function updateUserSelect(params) {
@@ -224,7 +235,11 @@ angular
                     .list(params)
                     .$promise
                     .then(function (data) {
-                        $scope.invoicesList = data.rows;
+                        $scope.invoicesList = data.rows.map(function (item) {
+                            item.summa = Number(item.summa);
+                            item.amount = Number(item.summa);
+                            return item;
+                        });
                         defer.resolve(data.rows);
                     });
 
