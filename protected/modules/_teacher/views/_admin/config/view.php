@@ -5,15 +5,12 @@
 
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/index'); ?>', 'Налаштування')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('configuration/siteconfig')">
             Список налаштувань
         </button>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/config/update',
-                    array('id' => $model->id)); ?>', '<?="Редагувати налаштування ".$model->param; ?>')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('configuration/siteconfig/edit/<?=$model->id?>')">
             Редагувати налаштування
         </button>
     </li>

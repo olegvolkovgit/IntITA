@@ -96,6 +96,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/responseRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/graduatesRouter.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/interfaceMessagesRouter.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/routers/siteConfigRouter.js'); ?>"></script>
 
     <!--Angular controllers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers.js'); ?>"></script>
@@ -116,6 +117,8 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/interfaceMessagesController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/usersController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/sliderControllers.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/levelsController.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/siteConfigController.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'CheckFile.js');?>"></script>
@@ -128,7 +131,9 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/userService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/externalSourcesService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/externalPaymentsService.js'); ?>"></script>
-
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/levelsService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/siteConfigService.js'); ?>"></script>
+    
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/transformRequest.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/lodash.js'); ?>"></script>
 

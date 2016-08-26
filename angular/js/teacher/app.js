@@ -26,7 +26,8 @@ angular
         'graduatesRouter',
         'sharedLinksRouter',
         'responseRouter',
-        'interfaceMessagesRouter'
+        'interfaceMessagesRouter',
+        'siteConfigRouter'
     ])
     .run(['$rootScope', '$templateCache','$state',
             function ($rootScope, $templateCache, $state) {
