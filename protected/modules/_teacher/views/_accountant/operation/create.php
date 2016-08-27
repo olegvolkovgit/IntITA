@@ -16,7 +16,8 @@
                 <find-external-payment data-document="externalPayment"></find-external-payment>
             </uib-tab>
             <uib-tab index="1" heading="Нове надходження" deselect="clearDocument($event, $selectedIndex)">
-                <add-external-payment data-document="externalPayment" data-show-save-button="false"></add-external-payment>
+                <add-external-payment data-document="externalPayment"
+                                      data-show-save-button="false"></add-external-payment>
             </uib-tab>
         </uib-tabset>
 
@@ -60,109 +61,109 @@
         </div>
 
         <div>
-            <div class="form-horizontal">
-                <h3>Дані платежу</h3>
+            <h3>Дані платежу</h3>
 
-                <div class="form-group">
-                    <label for="userName" class="control-label col-md-2">Користувач</label>
-                    <div class="col-md-9">
-                        <select class="form-control form-inline" ng-model="operation.userId">
-                            <option value="" ng-show="!operation.userId"></option>
-                            <option ng-repeat="user in usersList" value="{{user.id}}"
-                                    ng-selected="user.id == operation.userId">
-                                {{typeaheadProviders.user.label(user);}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-default disabled"><i class="glyphicon glyphicon-eye-open"></i>
-                        </button>
-                    </div>
+            <div class="form-group row">
+                <label for="userName" class="control-label col-md-2">Користувач</label>
+                <div class="col-md-9">
+                    <select class="form-control form-inline" ng-model="operation.userId">
+                        <option value="" ng-show="!operation.userId"></option>
+                        <option ng-repeat="user in usersList" value="{{user.id}}"
+                                ng-selected="user.id == operation.userId">
+                            {{typeaheadProviders.user.label(user);}}
+                        </option>
+                    </select>
                 </div>
+                <div class="col-md-1">
+                    <button class="btn btn-default disabled"><i class="glyphicon glyphicon-eye-open"></i>
+                    </button>
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="agreement" class="control-label col-md-2">Договір</label>
-                    <div class="col-md-9">
-                        <select class="form-control form-inline" id="agreement" ng-model="operation.agreementId">
-                            <option value="" ng-show="!operation.agreementId"></option>
-                            <option ng-repeat="agreement in agreementsList" value="{{agreement.id}}"
-                                    ng-selected="agreement.id == operation.agreementId">
-                                {{typeaheadProviders.agreement.label(agreement);}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        <button ng-click="showAgreement(operation.agreementId)"
-                                ng-class="{disabled:!operation.agreementId}"
-                                class="btn btn-default no-blur">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </button>
-                    </div>
+            <div class="form-group row">
+                <label for="agreement" class="control-label col-md-2">Договір</label>
+                <div class="col-md-9">
+                    <select class="form-control form-inline" id="agreement" ng-model="operation.agreementId">
+                        <option value="" ng-show="!operation.agreementId"></option>
+                        <option ng-repeat="agreement in agreementsList" value="{{agreement.id}}"
+                                ng-selected="agreement.id == operation.agreementId">
+                            {{typeaheadProviders.agreement.label(agreement);}}
+                        </option>
+                    </select>
                 </div>
+                <div class="col-md-1">
+                    <button ng-click="showAgreement(operation.agreementId)"
+                            ng-class="{disabled:!operation.agreementId}"
+                            class="btn btn-default no-blur">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </button>
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="invoice" class="control-label col-md-2">Рахунок</label>
-                    <div class="col-md-9">
-                        <select class="form-control form-inline" id="invoice" ng-model="operation.invoiceId">
-                            <option value="" ng-show="!operation.invoiceId"></option>
-                            <option ng-repeat="invoice in invoicesList" value="{{invoice.id}}"
-                                    ng-selected="invoice.id == operation.invoiceId">
-                                {{typeaheadProviders.invoice.label(invoice);}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-default disabled"><i class="glyphicon glyphicon-eye-open"></i>
-                        </button>
-                    </div>
+            <div class="form-group row">
+                <label for="invoice" class="control-label col-md-2">Рахунок</label>
+                <div class="col-md-9">
+                    <select class="form-control form-inline" id="invoice" ng-model="operation.invoiceId">
+                        <option value="" ng-show="!operation.invoiceId"></option>
+                        <option ng-repeat="invoice in invoicesList" value="{{invoice.id}}"
+                                ng-selected="invoice.id == operation.invoiceId">
+                            {{typeaheadProviders.invoice.label(invoice);}}
+                        </option>
+                    </select>
                 </div>
+                <div class="col-md-1">
+                    <button class="btn btn-default disabled"><i class="glyphicon glyphicon-eye-open"></i>
+                    </button>
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <button class="btn btn-default form-control no-blur"
-                                ng-click="operation.addInvoice(operation.invoiceId)">Додати рахунок
-                        </button>
-                    </div>
+            <div class="form-group row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <button class="btn btn-default form-control no-blur"
+                            ng-click="operation.addInvoice(operation.invoiceId)">Додати рахунок
+                    </button>
                 </div>
+            </div>
 
-                <div ng-repeat="invoice in operation.invoices" class="form-group">
-                    <label class="control-label col-md-2">Рахунок</label>
-                    <div class="col-md-7">
-                        <label class="control-label" data-value="{{invoice}}">{{typeaheadProviders.invoice.label(invoice)}}</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="number" ng-model="invoice.amount" class="form-control form-inline" max="{{invoice.summa}}">
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-default" ng-click="operation.removeInvoice(invoice.id)"><i
-                                class="glyphicon glyphicon-minus"></i></button>
-                    </div>
+            <div ng-repeat="invoice in operation.invoices" class="form-group row">
+                <label class="control-label col-md-2">Рахунок</label>
+                <div class="col-md-7">
+                    <label class="control-label"
+                           data-value="{{invoice}}">{{typeaheadProviders.invoice.label(invoice)}}</label>
                 </div>
+                <div class="col-md-2">
+                    <input type="number" ng-model="invoice.amount" class="form-control form-inline"
+                           max="{{invoice.summa}}">
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-default" ng-click="operation.removeInvoice(invoice.id)"><i
+                            class="glyphicon glyphicon-minus"></i></button>
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="sum" class="control-label col-md-2">Сума</label>
-                    <div class="col-md-9" id="sum">
-                        <input id="sum" type="number" class="form-control form-inline text-right"
-                               ng-value="invoicesSum()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"
-                               readonly/>
-                    </div>
-                    <label for="sum" class="control-label col-md-1"> грн.</label>
+            <div class="form-group row">
+                <label for="sum" class="control-label col-md-2">Сума</label>
+                <div class="col-md-9" id="sum">
+                    <input id="sum" type="number" class="form-control form-inline text-right"
+                           ng-value="invoicesSum()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"
+                           readonly/>
                 </div>
+                <label for="sum" class="control-label col-md-1"> грн.</label>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <button class="btn btn-default form-control no-blur" ng-click="createOperation()">Створити
-                            платіж
-                        </button>
-                    </div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-4">
-                        <button class="btn btn-default form-control no-blur" ng-click="cleanUp()">Очистити</button>
-                    </div>
-                    <div class="col-md-1"></div>
+            <div class="form-group row">
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <button class="btn btn-default form-control no-blur" ng-click="createOperation()">Створити
+                        платіж
+                    </button>
                 </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <button class="btn btn-default form-control no-blur" ng-click="cleanUp()">Очистити</button>
+                </div>
+                <div class="col-md-1"></div>
             </div>
         </div>
     </div>

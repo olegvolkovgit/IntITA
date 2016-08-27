@@ -37,10 +37,10 @@ class AgreementsController extends TeacherCabinetController {
         $this->renderPartial('index');
     }
 
-    public function actionGetAgreementsList($page = 1, $pageCount = 10) {
+    public function actionGetAgreementsList($page = 1, $count = 10) {
         $agreements = new Agreements();
-        $limit = $pageCount;
-        $offset = $page * $pageCount - $pageCount;
+        $limit = $count;
+        $offset = $page * $count - $count;
 
         $params = [];
         /* getting all model fields */
@@ -52,8 +52,11 @@ class AgreementsController extends TeacherCabinetController {
                 $params[$searchField] = $value;
             }
         }
+        
+        $filters = array_map(function ($value) {return urldecode($value);}, Yii::app()->request->getParam('filter', []));
+        $sorting = Yii::app()->request->getParam('sorting', []);
 
-        $json = $agreements->getUserAgreements($offset, $limit, $params);
+        $json = $agreements->getUserAgreements($offset, $limit, $params, $filters, $sorting);
         echo json_encode($json);
     }
 

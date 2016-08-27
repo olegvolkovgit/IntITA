@@ -4,8 +4,49 @@
 
 angular
     .module('teacherApp')
-    .controller('agreementsCtrl', ['$scope', function ($scope) {
-    }])
+    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams',
+        function ($scope, agreements, paymentSchema, NgTableParams) {
+            $scope.agreementsTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return agreements
+                        .list(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+
+            $scope.confirm = function (id) {
+                return agreements
+                    .confirm({id: id})
+                    .$promise
+                    .then(function (data) {
+                        $scope.agreementsTableParams.reload();
+                        return data;
+                    });
+            };
+
+            $scope.cancel = function (id) {
+                return agreements
+                    .cancel({id: id})
+                    .$promise
+                    .then(function (data) {
+                        $scope.agreementsTableParams.reload();
+                        return data;
+                    });
+            };
+
+            $scope.getSchemas = paymentSchema
+                .query()
+                .$promise
+                .then(function (data) {
+                    return data.map(function (item) {
+                        return {id: item.id, title: item.name}
+                    })
+                });
+        }])
 
     .controller('agreementDetailCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
         $scope.agreementId = $stateParams.agreementId;
@@ -96,7 +137,7 @@ angular
                     invoices: [],
                     sum: 0,
                     addInvoice: function addInvoice(id) {
-                        if (_.find($scope.operation.invoices, ['id', id]) === undefined) {
+                        if (id && _.find($scope.operation.invoices, ['id', id]) === undefined) {
                             $scope.operation.invoices.push(_.find($scope.invoicesList, ['id', id]));
                         }
                     },
@@ -115,13 +156,15 @@ angular
             $scope.initData();
 
             $scope.clearDocument = function clearDocument($event, $selectedIndex) {
-              $scope.externalPayment = {};
+                $scope.externalPayment = {};
             };
 
             $scope.invoicesSum = function () {
-                return $scope.operation.invoices.reduce(function (sum, item) {return sum += Number(item.amount)}, 0);
+                return $scope.operation.invoices.reduce(function (sum, item) {
+                    return sum += Number(item.amount)
+                }, 0);
             };
-            
+
             $scope.cleanUp = function cleanUp() {
                 $scope.initData();
             };
