@@ -31,6 +31,19 @@
                 <td><?=($model->module_price == 0)?"безкоштовно":$model->module_price;?></td>
             </tr>
             <tr>
+                <td><div data-toggle="tooltip" data-placement="top" title="Ціна модуля в курсі однакова в будь-якому курсі.
+                Визначається за допомогою коефіцієнта ціни модуля в курсі.">
+                        Ціна модуля в курсі:
+                    </div>
+                </td>
+                <td>
+                    <?php
+                    $priceInCourse=$model->module_price*Config::getCoeffDependentModule();
+                    echo ($priceInCourse == 0) ? "безкоштовно" : $priceInCourse;
+                    ?>
+                </td>
+            </tr>
+            <tr>
                 <td>
                     <div data-toggle="tooltip" data-placement="top" title="Унікальний ідентифікатор, використовується
                     при генерації номера договора про оплату модуля.">

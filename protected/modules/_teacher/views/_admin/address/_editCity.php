@@ -1,22 +1,19 @@
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                    'Країни, міста')">
+        <a type="button" class="btn btn-primary" ng-href="#/admin/address">
             Країни, міста
-        </button>
+        </a>
     </li>
 </ul>
 <div class="panel-body">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form role="form" name="addCityForm" onsubmit="editCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/updateCity')?>');return false;">
+                <form role="form" name="addCityForm" ng-submit="editCity('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/updateCity')?>');">
                     <div class="form-group">
                         <label>Країна</label>
                         <input id="typeahead" type="text" class="typeahead form-control" name="country" value="<?php echo $model->country0->title_ua ?>"
                                size="90" required disabled>
-<!--                        <input type="number" hidden="hidden" id="country" value="0"/>-->
                     </div>
                     <input type="hidden" name="id" value="<?php echo $model->id ?>">
                     <div class="form-group">
@@ -36,10 +33,9 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Відредагувати</button>
-                        <button type="reset" class="btn btn-outline btn-default"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/address/index'); ?>',
-                                    'Країни, міста')">Скасувати
-                        </button>
+                        <a type="button" class="btn btn-outline btn-default" ng-href="#/admin/address">
+                            Скасувати
+                        </a>
                     </div>
                 </form>
             </div>

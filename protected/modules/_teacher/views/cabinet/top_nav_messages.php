@@ -11,8 +11,7 @@ foreach ($newMessages as $key=>$record) {
     if(!$record->isRead($model->registrationData))
     ?>
     <li>
-        <a class="newMessages" href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/dialog", array(
-            'user1' => $message->sender0->id, 'user2' => $model->id)) ?>', 'Діалог')">
+        <a class="newMessages" ng-href="#/dialog/<?php echo $message->sender0->id ?>/<?php echo $model->id ?>">
             <div>
                 <strong><?=($message->sender0->userName() == "")?$message->sender0->email:$message->sender0->userName(); ?></strong>
                 <span class="pull-right text-muted">
@@ -27,8 +26,11 @@ foreach ($newMessages as $key=>$record) {
 ?>
 <li>
     <a class="text-center" href="#">
-        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>', 'Листування')">
-                Всі повідомлення</a></strong>
+        <strong>
+            <a ng-href="#/messages">
+                Всі повідомлення
+            </a>
+        </strong>
         <i class="fa fa-angle-right"></i>
     </a>
 </li>

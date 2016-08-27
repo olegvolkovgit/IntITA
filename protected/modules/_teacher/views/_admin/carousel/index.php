@@ -40,10 +40,10 @@
                             </a>
                             <div>{{row.photo.text}}</div>
                         </td>
-                        <td><a ng-href="#/carousel/up/{{row.order}}">вверх</a></td>
-                        <td><a ng-href="#/carousel/down/{{row.order}}">вниз</a></td>
-                        <td><a ng-href="#/carousel/textUp/{{row.order}}">вверх</a></td>
-                        <td><a ng-href="#/carousel/textDown/{{row.order}}">вниз</a></td>
+                        <td><a ng-click="mainSlideAction('up',row.order)">вверх</a></td>
+                        <td><a ng-click="mainSlideAction('down',row.order)">вниз</a></td>
+                        <td><a ng-click="mainSlideAction('textUp',row.order)">вверх</a></td>
+                        <td><a ng-click="mainSlideAction('textDown',row.order)">вниз</a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -76,7 +76,7 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
             cache: false
         }).then(function(data){
             $scope.fillContainer(data.data);
-            location.reload();
+            $state.go($state.current, {}, {reload: true});
         });
     }
 
@@ -126,7 +126,7 @@ function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
 }
 
-function messagesCtrl ($http, $scope, $state){
+function messagesCtrl ($http, $scope, $state, $compile){
     $scope.sendMessage=function(url){
         receiver = $jq("#receiverId").val();
         if (receiver == "0") {
@@ -159,15 +159,196 @@ function messagesCtrl ($http, $scope, $state){
             });
         }
     };
-
+    $scope.deleteMessage=function(idMessage,url, receiver){
+        bootbox.confirm('Ти дійсно хочеш видалити повідомлення?', function(result) {
+            if(result)
+                $http({
+                    method: "POST",
+                    url:  url,
+                    data: $jq.param({data:JSON.stringify({
+                        message: idMessage,
+                        receiver: receiver
+                    })}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                    cache: false
+                }).then(function successCallback() {
+                    $state.go($state.current, {}, {reload: true});
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                });
+        });
+    };
+    
     $scope.loadMessagesIndex=function(){
         $state.go("messages", {}, {reload: true});
+    };
+
+    $scope.reply=function(url){
+        var data = {
+            receiver: $jq("input[name=receiver]").val(),
+            parent: $jq("input[name=parent]").val(),
+            subject: $jq("input[name=subject]").val(),
+            text: $jq("#text").val()
+        };
+        $http({
+            method: "POST",
+            url:  url,
+            data: $jq.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function successCallback(response) {
+            if (response.data == "success") {
+                bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                    $state.go($state.current, {}, {reload: true});
+                });
+            } else {
+                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                    "напишіть на адресу " + adminEmail);
+            }
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати.");
+        });
+    };
+
+    $scope.forward=function(url){
+        forwardTo = $jq("input[name=forwardToId]").val();
+        if (forwardTo == "0") {
+            bootbox.alert('Виберіть отримувача повідомлення.');
+        } else {
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    subject: $jq("input[name=subject]").val(),
+                    parent: $jq("input[name=parent]").val(),
+                    forwardToId: forwardTo,
+                    text: $jq("#text").val()
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                        $state.go($state.current, {}, {reload: true});
+                    });
+                } else {
+                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
+                        "напишіть на адресу " + adminEmail);
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
+    
+    $scope.loadForm=function(url, receiver, scenario, message, subject){
+        idBlock = "#collapse" + message;
+        $jq(idBlock).show();
+        id = "#form" + message;
+        var command = {
+            user: user,
+            message: message,
+            receiver: receiver,
+            scenario: scenario,
+            subject: subject
+        };
+        $http({
+            method: "POST",
+            url:  url,
+            data: $jq.param({form: JSON.stringify(command)}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function successCallback(response) {
+            $jq(id).empty();
+            ($compile($jq(id).append(response.data))($scope));
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати.");
+        });
+    };
+
+    $scope.collapse=function (el) {
+        $jq(el).toggle("medium");
     }
 }
 
-function addressCtrl ($scope){
-    initCountriesList();
-    initCitiesList();
+function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
+    $http.get(basePath + "/_teacher/_admin/address/getCitiesList").then(function (data) {
+        $scope.citiesList = data.data["data"];
+    });
+    $scope.dtOptionsCity = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+        .withOption('order', [[ 0, "asc" ]]);
+
+    $http.get(basePath + "/_teacher/_admin/address/getCountriesList").then(function (data) {
+        $scope.countriesList = data.data["data"];
+    });
+    $scope.dtOptionsCountry = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+        .withOption('order', [[ 0, "asc" ]]);
+
+    $scope.editCity= function(url){
+        country = $jq('#country').val();
+        if (country == 0) {
+            bootbox.alert('Виберіть країну.');
+        } else {
+            id = $jq('[name="id"]').val();
+            titleUa = $jq('[name="titleUa"]').val();
+            titleRu = $jq('[name="titleRu"]').val();
+            titleEn = $jq('[name="titleEn"]').val();
+
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    id:id,
+                    country: country,
+                    titleUa: titleUa,
+                    titleRu: titleRu,
+                    titleEn: titleEn
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function (){
+                    $state.go("admin/address", {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
+    
+    $scope.addCity= function(url){
+        country = $jq('#country').val();
+        if (country == 0) {
+            bootbox.alert('Виберіть країну.');
+        } else {
+            titleUa = $jq('[name="titleUa"]').val();
+            titleRu = $jq('[name="titleRu"]').val();
+            titleEn = $jq('[name="titleEn"]').val();
+
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({
+                    country: country,
+                    titleUa: titleUa,
+                    titleRu: titleRu,
+                    titleEn: titleEn
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function (){
+                    $state.go("admin/address", {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    }
 }
 
 function studentCtrl ($scope,$location){
@@ -260,7 +441,7 @@ function teachersCtrl ($scope,$http, $state){
             }).then(function successCallback(response) {
                 if (response.data == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        location.reload();
+                        $state.go($state.current, {}, {reload: true});
                     });
                 } else {
                     switch (role) {
@@ -304,7 +485,7 @@ function teachersCtrl ($scope,$http, $state){
             }).then(function successCallback(response) {
                 if (response.data == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        location.reload();
+                        $state.go($state.current, {}, {reload: true});
                     });
                 } else {
                     showDialog("Операцію не вдалося виконати.");

@@ -134,7 +134,7 @@ class MessagesRejectModuleRevision extends Messages implements IMessage
 
     public function send(IMailSender $sender){
         $sender->renderBodyTemplate($this->template, array($this->message0->sender0, $this->revision,
-            substr($this->comment, 0, 50)));
+            $this->comment));
 
         if ($this->addReceiver($this->receiver)) {
             $sender->send($this->receiver->email, '', $this->subject, '');
@@ -216,7 +216,7 @@ class MessagesRejectModuleRevision extends Messages implements IMessage
     public function text(){
         $sender = new MailTransport();
         $sender->renderBodyTemplate($this->template, array($this->message0->sender0, $this->idRevision,
-            substr($this->comment, 0, 50)));
+            $this->comment));
         return $sender->template();
     }
 

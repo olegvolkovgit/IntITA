@@ -11,12 +11,9 @@
 <script>
     user = '<?=$model->id?>';
 </script>
-
-<button class="btn btn-primary" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/messages/write', array(
-    'id' => $model->id
-)); ?>')">
+<a type="button" class="btn btn-primary" ng-href="#/newmessages/receiver/">
     Написати
-</button>
+</a>
 <br>
 <br>
 

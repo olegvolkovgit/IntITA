@@ -45,29 +45,9 @@
                                         <?= $item["order"]; ?>
                                     </td>
                                     <td>
-                                        <?php if ($scenario == "update") { ?>
-                                            <a href="#/module/coursePrice/id/<?= $item->moduleInCourse->module_ID ?>/course/<?= $item->id_course ?>">
-                                                <?php if ($item->price_in_course != null) {
-                                                    echo ($item->price_in_course == 0)?"безкоштовно (ред.)":$item->price_in_course . " (ред.)";
-                                                } else {
-                                                    if ($item->moduleInCourse->module_price) {
-                                                        echo $item->moduleInCourse->module_price . " (ред.)";
-                                                    } else {
-                                                        echo "безкоштовно (ред.)";
-                                                    }
-                                                } ?>
-                                            </a>
-                                        <?php } else {
-                                            if ($item->price_in_course != null) {
-                                                echo ($item->price_in_course == 0)?"безкоштовно":$item->price_in_course;
-                                            } else {
-                                                if ($item->moduleInCourse->module_price) {
-                                                    echo $item->moduleInCourse->module_price;
-                                                } else {
-                                                    echo "безкоштовно";
-                                                }
-                                            }
-                                        }
+                                        <?php
+                                            $priceInCourse=$item->moduleInCourse->module_price*Config::getCoeffDependentModule();
+                                            echo ($priceInCourse == 0) ? "безкоштовно" : $priceInCourse;
                                         ?>
                                     </td>
                                     <td>

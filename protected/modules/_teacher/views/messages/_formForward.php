@@ -21,7 +21,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary"
-                onclick="forward('<?php echo Yii::app()->createUrl('/_teacher/messages/forward'); ?>'); return false;">
+                ng-click="forward('<?php echo Yii::app()->createUrl('/_teacher/messages/forward'); ?>');">
             Написати
         </button>
     </form>

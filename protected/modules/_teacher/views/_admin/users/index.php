@@ -49,8 +49,8 @@
                     </div>
                 </uib-tab>
                 <uib-tab  index="8" heading="Тренери (<?=$counters["trainers"];?>)">
-                    <div ng-controller="tenantsTableCtrl">
-                        <?php $this->renderPartial('tables/_tenantsTable');?>
+                    <div ng-controller="trainersTableCtrl">
+                        <?php $this->renderPartial('tables/_trainersTable');?>
                     </div>
                 </uib-tab>
                 <uib-tab  index="9" heading="Консультанти (<?=$counters["consultants"];?>)">
@@ -59,8 +59,8 @@
                     </div>
                 </uib-tab>
                 <uib-tab  index="10" heading="Tenants (<?=$counters["tenants"];?>)">
-                    <div ng-controller="trainersTableCtrl">
-                        <?php $this->renderPartial('tables/_trainersTable');?>
+                    <div ng-controller="tenantsTableCtrl">
+                        <?php $this->renderPartial('tables//_tenantsTable');?>
                     </div>
                 </uib-tab>
             </uib-tabset>

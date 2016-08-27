@@ -210,37 +210,6 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
-    public function actionCoursePrice($id, $course)
-    {
-        if($id && $course) {
-            $model = CourseModules::model()->findByAttributes(array(
-                'id_course' => $course,
-                'id_module' => $id
-            ));
-
-            $this->renderPartial('coursePrice', array(
-                'model' => $model,
-            ), false, true);
-        } else {
-            throw new \application\components\Exceptions\IntItaException(400);
-        }
-    }
-
-    public function actionAddCoursePrice()
-    {
-        $idModule = Yii::app()->request->getPost('module', 0);
-        $idCourse = Yii::app()->request->getPost('course', 0);
-        $price = Yii::app()->request->getPost('price', 0);
-
-        if (Yii::app()->db->createCommand('UPDATE course_modules SET price_in_course=' . $price . ' WHERE id_module=' .
-            $idModule . ' and id_course=' . $idCourse)->query()
-        ) {
-            echo "success";
-        } else {
-            echo "error";
-        }
-    }
-
     public function actionGetModulesList()
     {
         echo Module::modulesList();
