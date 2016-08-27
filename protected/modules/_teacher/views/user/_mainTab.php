@@ -13,10 +13,9 @@ $user = $model->registrationData;
         <?php if (Yii::app()->user->model->isAdmin()) { ?>
             <ul class="list-inline">
                 <li>
-                    <button type="button" class="btn btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
-                                'Користувачі')">Користувачі
-                    </button>
+                    <a type="button" class="btn btn-primary" ng-href="#/admin/users">
+                        Користувачі
+                    </a>
                 </li>
             </ul>
         <?php } ?>
@@ -61,19 +60,15 @@ $user = $model->registrationData;
                                target="_blank">
                                 <?php echo $trainer->userNameWithEmail(); ?></a>
                             <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                                <button type="button" class="btn  btn-outline btn-primary btn-xs"
-                                        onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/users/changeTrainer', array('id' => $user->id)) ?>',
-                                            '<?= addslashes($user->userName() . " <" . $user->email . ">"); ?>'); return false;">
+                                <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/<?php echo $user->id ?>/changetrainer">
                                     змінити
-                                </button>
+                                </a>
                             <?php }
                         } else { ?>
                             <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                                <button type="button" class="btn  btn-outline btn-primary btn-xs"
-                                        onclick="load('<?= Yii::app()->createUrl('/_teacher/_admin/users/addTrainer', array('id' => $user->id)) ?>',
-                                            '<?= addslashes($user->userName() . " <" . $user->email . ">"); ?>'); return false;">
+                                <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/<?php echo $user->id ?>/addtrainer">
                                     додати
-                                </button>
+                                </a>
                             <?php }
                         } ?>
                     </li>
@@ -82,11 +77,10 @@ $user = $model->registrationData;
                 <li class="list-group-item">Акаунт: <em><?php echo $user->accountStatus(); ?></em>
                     <?php if (Yii::app()->user->model->isAdmin()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"
-                                onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
+                                ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
                                     '<?= $user->id ?>',
                                     '<?= ($user->isAccountActivated()) ? "Заблокувати акаунт користувача?" : "Активувати акаунт користувача?"; ?>',
-                                    '<?= addslashes($user->userName()) . " <" . $user->email . ">"; ?>');
-                                    return false;">
+                                    '<?= addslashes($user->userName()) . " <" . $user->email . ">"; ?>');">
                             змінити
                         </button>
                     <?php } ?>
@@ -94,11 +88,10 @@ $user = $model->registrationData;
                 <li class="list-group-item">Статус: <em><?php echo $user->status(); ?></em>
                     <?php if (Yii::app()->user->model->isAdmin()) { ?>
                         <button type="button" class="btn  btn-outline btn-primary btn-xs"
-                                onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
+                                ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
                                     '<?= $user->id ?>',
                                     '<?= ($user->isActive()) ? "Видалити користувача?" : "Відновити користувача?"; ?>',
-                                    '<?= addslashes($user->userName()) . " <" . $user->email . ">"; ?>');
-                                    return false;">
+                                    '<?= addslashes($user->userName()) . " <" . $user->email . ">"; ?>')">
                             змінити
                         </button>
                     <?php } ?>

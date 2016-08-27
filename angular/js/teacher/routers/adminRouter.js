@@ -99,8 +99,23 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id', {
             url: "/admin/users/user/:id",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/user/index?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/addtrainer', {
+            url: "/admin/users/user/:id/addtrainer",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/changetrainer', {
+            url: "/admin/users/user/:id/changetrainer",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/changeTrainer/id/"+$stateParams.id;
             }
         })
         
@@ -146,27 +161,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
             }
-        })
-        .state('admin/refreshcache', {
-            url: "/admin/refreshcache",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/config/refresh",
-        })
-        .state('admin/levels', {
-            url: "/admin/levels",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/level/index",
-        })
-        .state('admin/config', {
-            url: "/admin/config",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/config/index",
-        })
-        .state('admin/old', {
-            url: "/admin/old",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/old/index",
-        })
         .state('admin/addmainsliderphoto', {
             url: "/admin/addmainsliderphoto",
             cache: false,

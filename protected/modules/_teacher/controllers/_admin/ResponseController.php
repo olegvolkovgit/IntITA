@@ -139,5 +139,10 @@ class ResponseController extends TeacherCabinetController{
     public function actionGetTeacherResponsesList(){
         echo Response::getTeacherResponsesData();
     }
+    
+    public function actionLoadJsonModel($id)
+    {
+        echo Response::getResponseData($id);
+    }
 
 }
