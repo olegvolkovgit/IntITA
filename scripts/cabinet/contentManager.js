@@ -573,23 +573,11 @@ function initPartsListTable(idLesson) {
             {
                 "data": "name",
                 "render": function (name) {
-
-                    if(name["alias_module"]===''){
-                        if(name["title"]===''){
-                            return '<a href="'+basePath+'/module/ua/'+name["id_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >Переглянути</a>';
-                        }else{
-                            return '<a href="'+basePath+'/module/ua/'+name["id_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
-                        }
-
+                    if(name["title"]===''){
+                        return '<a href="'+name["link"]+'#/page'+name["page_order"]+'" target="_blank">Переглянути</a>';
                     }else{
-                        if(name["title"]===''){
-                            return '<a href="'+basePath+'/course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >Переглянути</a>';
-                        }else{
-                            return '<a href="'+basePath+'/course/ua/'+name["alias_course"]+'/'+name["alias_module"]+'/'+name["lecture_order"]+'/#/page'+name["page_order"]+'" >' + name["title"] + '</a>';
-                        }
-
+                        return '<a href="'+name["link"]+'#/page'+name["page_order"]+'" target="_blank">' + name["title"] + '</a>';
                     }
-
                 }
             },
             {

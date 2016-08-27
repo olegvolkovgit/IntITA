@@ -146,9 +146,9 @@ $this->breadcrumbs = array(
                                 ng-model="selectedCountry"
                                 single
                                 oi-select-options="{cleanModel: true}"
-                                placeholder="виберіть країну"
+                                placeholder="<?php echo Yii::t('regexp', '0896'); ?>"
                                 class="indicator"
-                                data-source='країну'
+                                data-source='<?php echo Yii::t('regexp', '0897'); ?>'
                                 id="countrySelect"
                             ></oi-select>
                         </div>
@@ -168,9 +168,9 @@ $this->breadcrumbs = array(
                                 newItemModel: {id: null, title: $query},
                                 maxlength:50
                                 }"
-                                placeholder="виберіть місто або введіть власне"
+                                placeholder="<?php echo Yii::t('regexp', '0898'); ?>"
                                 class="indicator"
-                                data-source='місто'
+                                data-source='<?php echo Yii::t('regexp', '0899'); ?>'
                                 id="citySelect"
                             ></oi-select>
                         </div>

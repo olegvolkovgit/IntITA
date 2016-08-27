@@ -222,10 +222,10 @@
         </td>
     </tr>
     <tr>
-        <td>Доступність модуля:</td>
+        <td>Доступність курса:</td>
         <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
         
-        <td>Готовність модуля:</td>
+        <td>Готовність курса:</td>
         <td><?=$courseRevision->properties->status?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>

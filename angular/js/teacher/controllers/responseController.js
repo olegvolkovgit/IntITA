@@ -3,10 +3,11 @@
  */
 angular
     .module('teacherApp')
-    .controller('responseCtrl',responseCtrl);
+    .controller('responseCtrl',responseCtrl)
+    .controller('responseModelCtrl',responseModelCtrl);
 
 
-function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $state){
+function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder){
 
     $http.get(basePath+'/_teacher/_admin/response/getTeacherResponsesList').then(function (data) {
         $scope.responsesList = data.data["data"];
@@ -19,8 +20,16 @@ function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $sta
     $scope.dtColumnDefs = [
         DTColumnDefBuilder.newColumnDef(4).withOption('width', '10%'),
     ];
+}
 
-
+function responseModelCtrl ($scope, $http, $state,$stateParams){
+    $scope.loadResponse=function(id){
+        $http.get(basePath+'/_teacher/_admin/response/loadJsonModel/id/'+id).then(function (response) {
+            $scope.response = response.data;
+        });
+    };
+    $scope.loadResponse($stateParams.responseId);
+    
     $scope.updateResponse = function(responseId){
         var text = angular.element('#response').bbcode();
         var publish = document.getElementById('Response_is_checked').value;
@@ -38,26 +47,27 @@ function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $sta
         })
     };
 
-       $scope.deleteResponse = function(responseId){
-           bootbox.confirm("Видалити відгук?", function (result) {
-                if(result){
-                    $http({
-                        method: 'POST',
-                        url: basePath+'/_teacher/_admin/response/delete/id/'+responseId,
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                    }).success(function(data){
-                        bootbox.alert('Операцію виконано');
-                        location.hash = '#/response';
-                    }).error(function (data) {
-                        bootbox.alert('Операцію не вдалося виконати.');
-                    })
-                }
-               else {
-                    bootbox.alert('Операцію відмінено.')
-                }
-           })
+    $scope.deleteResponse = function(responseId){
+        bootbox.confirm("Видалити відгук?", function (result) {
+            if(result){
+                $http({
+                    method: 'POST',
+                    url: basePath+'/_teacher/_admin/response/delete/id/'+responseId,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                }).success(function(){
+                    bootbox.alert('Операцію виконано', function () {
+                        $state.go('response', {}, {reload: true});
+                    });
+                }).error(function () {
+                    bootbox.alert('Операцію не вдалося виконати.');
+                })
+            }
+            else {
+                bootbox.alert('Операцію відмінено.')
+            }
+        })
 
-       };
+    };
 
     $scope.changeResponseStatus = function(responseId,status){
         var url;
@@ -75,20 +85,15 @@ function responseCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $sta
                     method: 'POST',
                     url: url,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                }).success(function(data){
+                }).success(function(){
                     bootbox.alert("Операцію успішно виконано.",function() {
-                        location.reload();
+                        $scope.loadResponse($stateParams.responseId);
                     })
-                }).error(function (data) {
+                }).error(function () {
                     bootbox.alert('Операцію не вдалося виконати.');
                 })
-            }
-            else {
-                bootbox.alert('Операцію відмінено.')
             }
         })
 
     };
-
-
 }

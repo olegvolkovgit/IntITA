@@ -121,32 +121,6 @@ function saveSchema(url, id) {
 
 }
 
-function addCoursePrice(url,header) {
-    var moduleId = $jq('#module').val();
-    var price = $jq('#price').val();
-    var courseId = $jq("#course").val();
-    if (moduleId && price && courseId) {
-        $jq.ajax({
-            url: url,
-            type: 'post',
-            data: {'module': moduleId, 'course': courseId, 'price': price},
-            success: function (response) {
-                if (response == "success")
-                    bootbox.alert("Нова ціна збережена.", function () {
-                        loadModuleEdit(moduleId,header,'7');
-                    });
-                else bootbox.alert("Операцію не вдалося виконати.");
-            },
-            error: function () {
-                bootbox.alert("Операцію не вдалося виконати.");
-            }
-        });
-    }
-    else {
-        bootbox.alert('Неправильно введені дані.');
-    }
-}
-
 function addMandatory(url) {
     var mandatory = $jq("select[name=mandatory] option:selected").val();
     var courseId = $jq("input[name=course]").val();

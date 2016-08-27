@@ -6,42 +6,25 @@
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <!-- Nav tabs -->
-        <ul id="userTabs" class="nav nav-tabs">
-            <li class="active">
-                <a href="#mainTab" data-toggle="tab">Головне</a>
-            </li>
-            <li>
-                <a href="#rolesTab" data-toggle="tab">Ролі користувача</a>
-            </li>
-            <?php if ($model->isStudent()){?>
-            <li>
-                <a href="#coursesTab" data-toggle="tab">Курси</a>
-            </li>
-            <li>
-                <a href="#modulesTab" data-toggle="tab">Модулі</a>
-            </li>
-            <?php }?>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="mainTab">
+        <uib-tabset>
+            <uib-tab index="0" heading="Головне">
                 <?php $this->renderPartial('_mainTab', array('model' =>$model, 'trainer' => $trainer));?>
-            </div>
-            <div class="tab-pane fade" id="rolesTab">
+            </uib-tab>
+            <uib-tab index="1" heading="Ролі користувача">
                 <?php $this->renderPartial('_rolesTab', array('model' =>$model));?>
-            </div>
+            </uib-tab>
             <?php if ($model->isStudent()){?>
-            <div class="tab-pane fade" id="coursesTab">
+            <uib-tab index="2" heading="Курси">
                 <?php $this->renderPartial('_coursesTab', array('model' =>$model));?>
-            </div>
-            <div class="tab-pane fade" id="modulesTab">
+            </uib-tab>
+            <uib-tab index="3" heading="Модулі">
                 <?php $this->renderPartial('_modulesTab', array('model' =>$model));?>
-            </div>
+            </uib-tab>
             <?php }?>
-        </div>
+        </uib-tabset>
     </div>
 </div>
+
 
 
 

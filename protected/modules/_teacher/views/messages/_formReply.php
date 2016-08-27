@@ -17,7 +17,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary"
-                onclick="reply('<?php echo Yii::app()->createUrl('/_teacher/messages/reply'); ?>'); return false;">
+                ng-click="reply('<?php echo Yii::app()->createUrl('/_teacher/messages/reply'); ?>');">
             Написати
         </button>
     </form>

@@ -25,7 +25,7 @@
 
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="">
             <?php if($countNewMessages > 0){?>
                 <span class="label label-success"><?=$countNewMessages;?></span>
             <?php }?>
@@ -39,7 +39,7 @@
 
     <?php if($model->isAdmin() || $model->isContentManager()){?>
     <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="">
             <?php if(!empty($requests)){?>
                 <span class="label label-success"><?=count($requests)?></span>
             <?php }?>
@@ -52,7 +52,7 @@
     <?php }?>
 
     <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="">
             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">

@@ -27,7 +27,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/admin/carousel/update/id/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/aboutusSlider/update/?id="+$stateParams.id;
+                return basePath+"/_teacher/_admin/carousel/update/?id="+$stateParams.id;
             }
         })
         .state('admin/aboutusSlider', {
@@ -99,8 +99,23 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id', {
             url: "/admin/users/user/:id",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/user/index?id="+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/addtrainer', {
+            url: "/admin/users/user/:id/addtrainer",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/changetrainer', {
+            url: "/admin/users/user/:id/changetrainer",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/changeTrainer/id/"+$stateParams.id;
             }
         })
         
@@ -147,30 +162,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
             }
         })
-        .state('carousel/:action/:order', {
-            url: "/carousel/:action/:order",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/carousel/' + $stateParams.action + '/order/' + $stateParams.order;
-                $http.get(url).success(function (data) {
-                    $location.hash(url).replace();
-                    $state.go('admin/carousel');
-                });
-
-            }
-        })
-        .state('aboutusSlider/:action/:order', {
-            url: "/aboutusSlider/:action/:order",
-            cache: false,
-            controller: function ($stateParams, $http, $state, $location) {
-                var url = basePath+'/_teacher/_admin/aboutusSlider/' + $stateParams.action + '/order/' + $stateParams.order;
-                $http.get(url).success(function (data) {
-                    $location.hash(url).replace();
-                    $state.go('admin/aboutusSlider');
-                });
-
-            }
-        })
         .state('admin/addmainsliderphoto', {
             url: "/admin/addmainsliderphoto",
             cache: false,
@@ -184,7 +175,16 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/addcity', {
             url: "/admin/addcity",
             cache: false,
+            controller:"addressCtrl",
             templateUrl: basePath+"/_teacher/_admin/address/addCity",
+        })
+        .state('admin/editcity/:id', {
+            url: "/admin/editcity/:id",
+            cache: false,
+            controller:"addressCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_admin/address/editCity/id/"+$stateParams.id;
+            }
         })
         .state('admin/addcountry', {
             url: "/admin/addcountry",

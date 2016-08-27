@@ -890,97 +890,11 @@ function sendMessage(url) {
     }
 }
 
-function reply(url) {
-    var data = {
-        "receiver": $jq("input[name=receiver]").val(),
-        "parent": $jq("input[name=parent]").val(),
-        "subject": $jq("input[name=subject]").val(),
-        "text": $jq("#text").val()
-    };
-    showAjaxLoader();
-    var posting = $jq.post(url, data);
-
-    posting.done(function (response) {
-            if (response == "success") {
-                bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
-            } else {
-                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
-            }
-        })
-        .fail(function () {
-            bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                "напишіть на адресу " + adminEmail, loadMessagesIndex);
-        });
-    posting.always(function () {
-        hideAjaxLoader();
-    });
-}
-
-function forward(url) {
-    forwardTo = $jq("input[name=forwardToId]").val();
-    if (forwardTo == "0") {
-        bootbox.alert('Виберіть отримувача повідомлення.');
-    } else {
-        showAjaxLoader();
-        var posting = $jq.post(url,
-            {
-                "subject": $jq("input[name=subject]").val(),
-                "parent": $jq("input[name=parent]").val(),
-                "forwardToId": forwardTo,
-                "text": $jq("#text").val()
-            }
-        );
-
-        posting.done(function (response) {
-                if (response == "success") {
-                    bootbox.alert("Ваше повідомлення успішно відправлено.", loadMessagesIndex);
-                } else {
-                    bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу " + adminEmail, loadMessagesIndex);
-                }
-            })
-            .fail(function () {
-                bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                    "напишіть на адресу " + adminEmail, loadMessagesIndex);
-            });
-        posting.always(function () {
-            hideAjaxLoader();
-        });
-    }
-}
-
 function loadMessagesIndex() {
     window.history.pushState(null, null, basePath + "/cabinet/#");
     load(basePath + "/_teacher/messages/index", 'Листування');
 }
 
-function loadForm(url, receiver, scenario, message, subject) {
-    idBlock = "#collapse" + message;
-    $jq(idBlock).collapse('show');
-    id = "#form" + message;
-    var command = {
-        "user": user,
-        "message": message,
-        "receiver": receiver,
-        "scenario": scenario,
-        "subject": subject
-    };
-
-    $jq.post(url, {form: JSON.stringify(command)}, function () {
-        })
-        .done(function (data) {
-            $jq(id).empty();
-            $jq(id).append(data);
-        })
-        .fail(function () {
-            showDialog();
-        })
-        .always(function () {
-            },
-            "json"
-        );
-}
 function showAjaxLoader() {
     var el = document.getElementById('ajaxLoad');
     el.style.top = window.pageYOffset;
@@ -1429,9 +1343,17 @@ function initTodayConsultationsTable() {
             {
                 "width": "10%",
                 "data": "start",
-                "render": function (link) {
-                    if(link) return '<a type="button" class="btn btn-outline btn-success btn-sm" href="' + link + '" target="_blank">почати</a>';
-                    else return '';
+                "render": function (start) {
+                    switch(start["status"]){
+                        case 'false':
+                            return '';
+                        case 'ended':
+                            return 'закінчена';
+                        case 'started':
+                            return '<a type="button" class="btn btn-success btn-sm" href="' + start["link"] + '" target="_blank">почати</a>';
+                        case 'wait':
+                            return 'очікування'; 
+                    }
                 }
             }
         ],
@@ -1872,71 +1794,10 @@ function addCountry(url) {
         },
         async: true,
         success: function (response) {
-            bootbox.alert(response, loadAddressIndex);
+            bootbox.alert(response, load(basePath + '/_teacher/_admin/address/index', 'Країни, міста'));
         },
         error: function () {
             bootbox.alert("Операцію не вдалося виконати.");
         }
     });
-}
-
-function addCity(url) {
-    country = $jq('#country').val();
-    if (country == 0) {
-        bootbox.alert('Виберіть країну.');
-    } else {
-        titleUa = $jq('[name="titleUa"]').val();
-        titleRu = $jq('[name="titleRu"]').val();
-        titleEn = $jq('[name="titleEn"]').val();
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                country: country,
-                titleUa: titleUa,
-                titleRu: titleRu,
-                titleEn: titleEn
-            },
-            async: true,
-            success: function (response) {
-                bootbox.alert(response, loadAddressIndex);
-            },
-            error: function () {
-                bootbox.alert("Операцію не вдалося виконати.");
-            }
-        });
-    }
-}
-
-function editCity(url) {
-    country = $jq('#country').val();
-    if (country == 0) {
-        bootbox.alert('Виберіть країну.');
-    } else {
-        id = $jq('[name="id"]').val();
-        titleUa = $jq('[name="titleUa"]').val();
-        titleRu = $jq('[name="titleRu"]').val();
-        titleEn = $jq('[name="titleEn"]').val();
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                id:id,
-                country: country,
-                titleUa: titleUa,
-                titleRu: titleRu,
-                titleEn: titleEn
-            },
-            async: true,
-            success: function (response) {
-                bootbox.alert(response, loadAddressIndex);
-            },
-            error: function () {
-                bootbox.alert("Операцію не вдалося виконати.");
-            }
-        });
-    }
-}
-function loadAddressIndex() {
-    load(basePath + '/_teacher/_admin/address/index', 'Країни, міста');
 }

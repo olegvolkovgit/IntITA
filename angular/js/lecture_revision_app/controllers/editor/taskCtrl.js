@@ -31,8 +31,8 @@ function taskCtrl($scope, $http,taskJson) {
                                 if (response != undefined){
                                     $scope.editedJson=response;
                                     //replace space symbols for json
-                                    var oldSymbol = ['\n','\t'];
-                                    var newSymbol = ['\\n','\\t'];
+                                    var oldSymbol = ['\n','\t','\r'];
+                                    var newSymbol = ['\\n','\\t','\\r'];
                                     for (var i in oldSymbol) {
                                         $scope.editedJson=$scope.editedJson.replace( RegExp( oldSymbol[i], "g" ), newSymbol[i]);
                                     }

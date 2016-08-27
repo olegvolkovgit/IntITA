@@ -7,7 +7,7 @@
             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                  style="height:24px"/>
             <strong><?= $message->message0->sender0->userName(); ?></strong>
-            <em><?= substr(CHtml::encode($message->subject), 0, 50) . "..."; ?></em>
+            <em><?= CHtml::encode($message->subject) . "..."; ?></em>
         </a>
         <div class="pull-right">
             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
