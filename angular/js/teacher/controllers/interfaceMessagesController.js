@@ -5,7 +5,10 @@ angular
     .module('teacherApp')
     .controller('interfaceMessagesCtrl',interfaceMessagesCtrl);
 
+
 function interfaceMessagesCtrl ($scope, $http, interfaceMessages, NgTableParams,$state){
+    angular.element(document.querySelector("#pageTitle")).text("Інтерфейсні повідомлення");
+
     $scope.cols = [
         { title: "ID", headerTitle: "ID", show: true },
         { title: "language", headerTitle: "Мова", show: true },

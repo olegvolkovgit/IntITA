@@ -9,10 +9,17 @@ class LevelController extends TeacherCabinetController
     public function actionIndex()
     {
         $levels = Level::model()->findAll();
-
         $this->renderPartial('index',array(
             'levels' => $levels,
         ),false,true);
+    }
+
+    public function actionGetLevelsList($page =0, $pageCount=10){
+        $criteria = new CDbCriteria([
+            'offset' => $page*$pageCount -$pageCount,
+            'limit' => $pageCount
+        ]);
+        echo JsonForNgDatatablesHelper::returnJson(Level::model()->findAll($criteria),null,Level::model()->count());
     }
 
     public function actionEdit($id)
@@ -38,6 +45,6 @@ class LevelController extends TeacherCabinetController
         $model = Level::model()->findByPk((int)$id);
         $model->edit($titleUa, $titleRu, $titleEn);
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect(Yii::app()->createUrl('cabinet/').'#/configuration/levels');
     }
 }

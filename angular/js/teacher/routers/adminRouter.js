@@ -162,26 +162,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_content_manager/contentManager/showTeacher?id="+$stateParams.id;
             }
         })
-        .state('admin/refreshcache', {
-            url: "/admin/refreshcache",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/config/refresh",
-        })
-        .state('admin/levels', {
-            url: "/admin/levels",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/level/index",
-        })
-        .state('admin/config', {
-            url: "/admin/config",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/config/index",
-        })
-        .state('admin/old', {
-            url: "/admin/old",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/old/index",
-        })
         .state('admin/addmainsliderphoto', {
             url: "/admin/addmainsliderphoto",
             cache: false,
@@ -257,14 +237,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
-            }
-        })
-        .state('config/view/:id', {
-            url: "/config/view/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                console.log($stateParams.id);
-                return basePath+"/_teacher/_admin/config/view/id/"+$stateParams.id;
             }
         })
         .state('addLinkedCourse/:model/:course/:lang', {

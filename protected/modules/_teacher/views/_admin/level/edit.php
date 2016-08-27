@@ -3,9 +3,7 @@
 ?>
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/index'); ?>',
-                    'Рівні курсів, модулів, оферта')">
+        <button type="button" class="btn btn-primary" ng-click="changeView('configuration/levels')">
             Всі рівні курсів
         </button>
     </li>
@@ -38,9 +36,7 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Зберегти</button>
-                        <button type="reset" class="btn btn-outline btn-default"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/level/index'); ?>',
-                                    'Рівні курсів, модулів')">Скасувати
+                        <button type="reset" class="btn btn-outline btn-default" ng-click="changeView('configuration/levels')">Скасувати
                         </button>
                     </div>
                 </form>

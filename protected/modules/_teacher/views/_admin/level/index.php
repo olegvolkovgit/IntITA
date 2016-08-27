@@ -7,42 +7,13 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="levelsTable">
-                    <thead>
-                    <tr>
-                        <th>Рівень (рейтинг)</th>
-                        <th>Назва українською</th>
-                        <th>Назва англійською</th>
-                        <th>Назва російською</th>
+                <table ng-table="tableParams" class="table table-striped table-bordered table-hover" style="table-layout: fixed">
+                    <tr ng-repeat="row in $data">
+                        <td data-title="'Рівень (рейтинг)'" style="width: ">{{row.id}}</td>
+                        <td data-title="'Назва українською'" ><a href="#/configuration/levels/edit/{{row.id}}">{{row.title_ua}}</a></td>
+                        <td data-title="'Назва англійською'"><a href="#/configuration/levels/edit/{{row.id}}">{{row.title_en}}</a></td>
+                        <td data-title="'Назва російською'"><a href="#/configuration/levels/edit/{{row.id}}">{{row.title_ru}}</a></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    foreach ($levels as $level) {
-                        ?>
-                        <tr class="odd gradeX">
-                            <td class="center"><?= $level->id; ?></td>
-                            <td class="center">
-                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/level/edit",
-                                    array("id" => $level->id)) ?>', 'Редагувати рівень <?= $level->title_ua; ?>')">
-                                    <?= $level->title_ua ?>
-                                </a>
-                            </td>
-                            <td class="center">
-                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/level/edit",
-                                    array("id" => $level->id)) ?>', 'Редагувати рівень <?= $level->title_en; ?>')">
-                                    <?= $level->title_en ?>
-                                </a>
-                            </td>
-                            <td class="center">
-                                <a href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/level/edit",
-                                    array("id" => $level->id)) ?>', 'Редагувати рівень <?= $level->title_ru; ?>')">
-                                    <?= $level->title_ru; ?>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
                 </table>
             </div>
         </div>
