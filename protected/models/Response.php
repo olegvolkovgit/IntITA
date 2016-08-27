@@ -309,4 +309,16 @@ class Response extends CActiveRecord
     {
         return $this->is_checked == Response::PUBLISHED;
     }
+
+    public static function getResponseData($id)
+    {
+        $model=Response::model()->findByPk($id);
+        if($model===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+        $data=$model->getAttributes();
+        $data += ['user_name'=>$model->user->getNameOrEmail()];
+        $data += ['bbcode'=>Response::model()->html_to_bbcode($model->text)];
+        return CJSON::encode($data);
+    }
+
 }

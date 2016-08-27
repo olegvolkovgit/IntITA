@@ -41,7 +41,7 @@
         'dataProvider'=>$paymentsModules,
         'itemView'=>'_currentModules',
         'template'=>'{items}{pager}',
-        'emptyText'=>Yii::t('profile', '0831'),
+        'emptyText'=>Yii::t('profile', '0900'),
         'pager' => array(
             'firstPageLabel'=>'<<',
             'lastPageLabel'=>'>>',

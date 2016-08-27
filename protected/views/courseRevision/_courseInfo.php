@@ -39,14 +39,14 @@
         <td><label>Ціна:</label></td>
         <td><?=$course->course_price ?></td>
 
-        <td><label>Доступність модуля:</label></td>
+        <td><label>Доступність курса:</label></td>
         <td><?=$course->cancelled?'Скасований':'Доступний' ?></td>
     </tr>
     <tr>
         <td><label>Номер курса:</label></td>
         <td><?=$course->course_number ?></td>
 
-        <td><label>Готовність модуля:</label></td>
+        <td><label>Готовність курса:</label></td>
         <td><?=$course->status?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>

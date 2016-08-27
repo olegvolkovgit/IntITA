@@ -103,7 +103,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                     <br>
                     <div class="aboutInfo">
                         <p ng-if="profileData.trainer"><span
-                                class="colorP"><?php echo 'Тренер' ?>:</span><a ng-href={{profileData.trainer.link}} target="_blank">{{profileData.trainer.name}}</a>
+                                class="colorP"><?php echo Yii::t('profile', '0901') ?>:</span><a ng-href={{profileData.trainer.link}} target="_blank">{{profileData.trainer.name}}</a>
                         </p>
                     </div>
                 </td>

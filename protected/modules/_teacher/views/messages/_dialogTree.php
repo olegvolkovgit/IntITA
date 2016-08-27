@@ -16,7 +16,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                 ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a data-toggle="collapse" href="#collapse<?= $message->id_message; ?>" id="messageBlock">
+                        <a href="" data-toggle="collapse" ng-click="collapse('#collapse<?= $message->id_message; ?>')" id="messageBlock">
                             <?php if ($message->type() != MessagesType::PAYMENT) { ?>
                                 <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                                      style="height:24px"/>
@@ -46,22 +46,24 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#"
-                                               onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
+                                        <li><a href=""
+                                               ng-click="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
                                                    'Reply', '<?= $message->id_message ?>',
-                                                   '<?=CHtml::encode($message->subject())?>')">
+                                                   '<?=addslashes($message->subject())?>')">
                                                 Відповісти</a>
                                         </li>
-                                        <li><a href="#"
-                                               onclick="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
+                                        <li><a href=""
+                                               ng-click="loadForm('<?= $url; ?>', '<?= $dialog->partner1->id; ?>',
                                                    'Forward', '<?= $message->id_message ?>',
-                                                   '<?=CHtml::encode($message->subject())?>')">
+                                                   '<?=addslashes($message->subject())?>')">
                                                 Переслати</a>
                                         </li>
                                         <?php if ($message->message0->sender0->id != $dialog->partner2->id) { ?>
-                                            <li><a href="#" data-toggle="modal" data-target="#deleteModal"
-                                                   data-message-id="<?= $message->id_message; ?>">Видалити це
-                                                    повідомлення</a>
+                                            <li>
+                                                <a href="" ng-click="deleteMessage('<?= $message->id_message; ?>', 
+                                            '<?=Yii::app()->createUrl("/_teacher/messages/delete");?>','<?=$dialog->partner2->id;?>')">
+                                                    Видалити це повідомлення
+                                                </a>
                                             </li>
                                         <?php } ?>
                                         <!--                                    <li class="divider"></li>-->

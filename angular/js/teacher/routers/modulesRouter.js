@@ -17,13 +17,6 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/module/addTeacher/id/"+$stateParams.id;
             }
         })
-        .state('module/coursePrice/id/:moduleId/course/:courseId', {
-            url: "/module/coursePrice/id/:moduleId/course/:courseId",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/module/coursePrice/id/"+$stateParams.moduleId+"/course/"+$stateParams.courseId;
-            }
-        })
         .state('module/mandatory/id/:moduleId/course/:courseId', {
             url: "/module/mandatory/id/:moduleId/course/:courseId",
             cache: false,

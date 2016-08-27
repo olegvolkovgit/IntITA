@@ -147,7 +147,7 @@ class CommonHelper
         $datetime1 = new DateTime("now");
         $datetime2 = new DateTime($date);
         if ($datetime1->format('y') == $datetime2->format('y')) {
-                return date("H:i, d F", strtotime($date));
+            return CLocale::getInstance('uk')->dateFormatter->formatDateTime($date,'medium','medium');
         } else {
             return date("d.m.Y", strtotime($date));
         }
