@@ -26,11 +26,17 @@
                         sortable="'payment_schema'">{{row.payment_schema.name}}
                     </td>
                     <td data-title="'Управління'">
-                        <button type="button" ng-if="!row.approval_date" class="btn btn-success"
-                                ng-click="confirm(row.id)">Підтвердити
+                        <button ng-if="!row.approval_date" class="btn btn-success"
+                                ng-click="confirm(row.id)">
+                            Підтвердити
                         </button>
-                        <button type="button" ng-if="row.approval_date" class="btn btn-danger"
-                                ng-click="cancel(row.id)">Скасувати
+                        <button ng-if="row.approval_date" class="btn btn-danger"
+                                ng-click="cancel(row.id)">
+                            Скасувати
+                        </button>
+                        <button ng-if="row.approval_date" class="btn btn-danger"
+                                ng-click="close(row.id)">
+                                Закрити
                         </button>
                     </td>
                 </tr>
