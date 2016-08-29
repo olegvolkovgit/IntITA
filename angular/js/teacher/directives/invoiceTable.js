@@ -15,11 +15,7 @@ function invoiceTable(invoices, NgTableParams) {
         $scope.invoiceTableParams = new NgTableParams({}, {
             getData: function (params) {
                 return invoices
-                    .list({
-                        page: params.page(),
-                        pageCount: params.count(),
-                        agreement_id: attrs.agreementId || $scope.agreementId
-                    })
+                    .list(params.url())
                     .$promise
                     .then(function (data) {
                         params.total(data.count);

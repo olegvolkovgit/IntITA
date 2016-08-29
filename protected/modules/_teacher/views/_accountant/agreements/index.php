@@ -11,7 +11,7 @@
                     <td data-title="'Номер'" filter="{number: 'text'}" sortable="'number'"><a
                             href="#/accountant/agreement/{{row.id}}">{{row.number}}</a></td>
                     <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                        {{row.user_id.fullName}}
+                        {{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}} {{row.user.email}}
                     </td>
                     <td data-title="'Дата створення'" filter="{create_date: 'text'}" sortable="'create_date'">
                         {{row.create_date}}
@@ -20,10 +20,10 @@
                         {{row.approval_date}}
                     </td>
                     <td data-title="'Підтверджено користувачем'" filter="{'approvalUser.fullName': 'text'}"
-                        sortable="'approvalUser.fullName'">{{row.approval_user.fullName}}
+                        sortable="'approvalUser.fullName'">{{row.approvalUser.firstName}} {{row.approvalUser.middleName}} {{row.approvalUser.secondName}} {{row.approvalUser.email}}
                     </td>
                     <td data-title="'Схема оплати'" filter="{payment_schema: 'select'}" filter-data="getSchemas"
-                        sortable="'payment_schema'">{{row.payment_schema.name}}
+                        sortable="'payment_schema'">{{row.paymentSchema.name}}
                     </td>
                     <td data-title="'Управління'">
                         <button ng-if="!row.approval_date" class="btn btn-success"

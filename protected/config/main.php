@@ -41,6 +41,7 @@ return array(
         'ext.imperavi-redactor-widget.*',
        // 'ext.yii2-debug.*',
         'application.helpers.*',
+        'application.helpers.ngtable.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
         'application.components.Exceptions.*',

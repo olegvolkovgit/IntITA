@@ -37,27 +37,11 @@ class AgreementsController extends TeacherCabinetController {
         $this->renderPartial('index');
     }
 
-    public function actionGetAgreementsList($page = 1, $count = 10) {
-        $agreements = new Agreements();
-        $limit = $count;
-        $offset = $page * $count - $count;
-
-        $params = [];
-        /* getting all model fields */
-        $searchFields = array_keys(UserAgreements::model()->getAttributes());
-        /* preparing criteria */
-        foreach ($searchFields as $searchField) {
-            $value = Yii::app()->request->getParam($searchField, null);
-            if ($value !== null) {
-                $params[$searchField] = $value;
-            }
-        }
-        
-        $filters = array_map(function ($value) {return urldecode($value);}, Yii::app()->request->getParam('filter', []));
-        $sorting = Yii::app()->request->getParam('sorting', []);
-
-        $json = $agreements->getUserAgreements($offset, $limit, $params, $filters, $sorting);
-        echo json_encode($json);
+    public function actionGetAgreementsList() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAgreements', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTypeahead($query) {
