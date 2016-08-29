@@ -4,28 +4,26 @@
 
 angular
     .module('teacherApp')
-    .factory('operationsService', ['$resource', 'transformRequest',
+    .factory('externalSourcesService', ['$resource', 'transformRequest',
         function ($resource, transformRequest) {
-            var url = '/_teacher/_accountant/operation';
+            var url = basePath + '/_teacher/_accountant/externalSources';
             return $resource(
                 '',
                 {},
                 {
                     list: {
-                        url: url + '/getOperations',
+                        url: url + '/getSources',
                         method: 'GET',
-                        params: {
-                            page: 'page',
-                            pageCount: 'pageCount'
-                        }
+                        isArray: true
                     },
-                        create: {
-                        method:'POST',
-                        url:url + '/createByInvoice',
+                    create: {
+                        url: url + '/create',
+                        method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         transformRequest : function (data, headersGetter) {
                             return transformRequest(data);
                         }
                     }
-                });
+                }
+            );
         }]);

@@ -18,7 +18,7 @@ function invoiceTable(invoices, NgTableParams) {
                     .list({
                         page: params.page(),
                         pageCount: params.count(),
-                        agreementId: attrs.agreementId || $scope.agreementId
+                        agreement_id: attrs.agreementId || $scope.agreementId
                     })
                     .$promise
                     .then(function (data) {

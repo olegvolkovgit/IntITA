@@ -344,6 +344,19 @@ td li{
 .m-b-10 {
     margin-bottom: 10px;
 }
+
+.m-t-10 {
+    margin-top: 10px;
+}
+
+.m-t-20 {
+    margin-top: 10px;
+}
+
+.no-blur:focus {
+    outline: none;
+}
+
 .findOperation{
     display: none;
 }

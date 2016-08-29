@@ -125,24 +125,39 @@ class OperationController extends TeacherCabinetController
         return $this->renderPartial('_ajaxInvoices', array('invoices' => $result));
     }
 
+    /*
+
+     curl 'http://intita.project/_teacher/_accountant/operation/createByInvoice'  \
+    -H 'Referer: http://intita.project/cabinet/' \
+    -H 'Cookie: cookie_key=0a33cfa08c193c2db5f0bdc107038592; phpbb3_6vpfb_sid=cd24ee3f2e713ff8eaacf1b7d39d4e9f; PHPSESSID=5hfqqoc2ihoo4eavcg5ot0okv1; XDEBUG_SESSION=PHPSTORM' \
+    --data 'userId=354&agreementId=32&invoiceId=321&invoices[0]=318&invoices[1]=319&invoices[2]=320&invoices[3]=321&sum=1021&sourceId=9'
+
+     */
+
     public function actionCreateByInvoice()
     {
+        $operation = [];
         $request = Yii::app()->request;
-        $invoice = $request->getPost('invoices', []);
-        $summa = $request->getPost('summa', 0);
-        $user = $request->getPost('user', 0);
-        $typeId = $request->getPost('type', 2);
-        $source = $request->getPost('source', 0);
 
-        $type = OperationType::model()->findByPk($typeId);
-        if (Operation::performOperation($summa, $user, $type, $invoice, $source))
-        {
-            $this->redirect($this->pathToCabinet());
-        }
-        else
-        {
-            throw new \application\components\Exceptions\IntItaException(500, 'Помилка сервера. Проплата не проведена.');
-        }
+        $operation['userId'] = $request->getPost('userId', 0);
+        $operation['agreementId'] = $request->getPost('agreementId', 0);
+        $operation['invoices'] = $request->getPost('invoices', []);
+        $operation['amount'] = $request->getPost('sum', 0);
+        $operation['sourceId'] = $request->getPost('sourceId', 0);
+        $operation['accountantId'] = Yii::app()->user->getId();
+
+        $operations =  new Operations();
+        echo json_encode($operations->performOperation($operation));
+
+//        $type = OperationType::model()->findByPk($typeId);
+//        if (Operation::performOperation($summa, $user, $type, $invoice, $source))
+//        {
+//            $this->redirect($this->pathToCabinet());
+//        }
+//        else
+//        {
+//            throw new \application\components\Exceptions\IntItaException(500, 'Помилка сервера. Проплата не проведена.');
+//        }
     }
 
     public function actionGetInvoicesByNumber()
