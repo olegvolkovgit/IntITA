@@ -26,19 +26,11 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('freelecturesCtrl',freelecturesCtrl);
-
-angular
-    .module('teacherApp')
     .controller('permissionsCtrl',permissionsCtrl);
 
 angular
     .module('teacherApp')
     .controller('payCtrl',payCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('oldCtrl',oldCtrl)
 
 angular
     .module('teacherApp')
@@ -490,9 +482,6 @@ function teachersCtrl ($scope,$http, $state){
     };
 }
 
-function freelecturesCtrl ($scope){
-    initFreeLectures();
-}
 
 function permissionsCtrl ($scope){
     initFreeLectures();
@@ -500,10 +489,5 @@ function permissionsCtrl ($scope){
 
 function payCtrl ($scope){
     initPayTypeaheads();
-}
-
-
-function oldCtrl ($scope){
-    initConfigTable();
 }
 

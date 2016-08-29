@@ -107,7 +107,8 @@ class ConfigController extends TeacherCabinetController {
     public function actionGetConfigList($page = 0, $pageCount=10){
         $criteria = new CDbCriteria([
             'offset' => $page*$pageCount -$pageCount,
-            'limit' => $pageCount
+            'limit' => $pageCount,
+
         ]);
         echo JsonForNgDatatablesHelper::returnJson(Config::model()->findAll($criteria),null,Config::model()->count());
     }

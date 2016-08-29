@@ -17,13 +17,28 @@
 
 class JsonForNgDatatablesHelper extends CActiveRecord
 {
-    public static function returnJson($records, $attributes=null, $modelRecordsCount=0){
+    public static function returnJson($records, $attributes=null, $modelRecordsCount=0 , $relations=null){
         $result = [];
         ($modelRecordsCount)?$data = ['count'=>$modelRecordsCount]:$data = ['count'=>count($records)];
         foreach ($records as $record) {
-           ($record instanceof CActiveRecord)?$result["rows"][] = $record->getAttributes($attributes):$result["rows"][] =$record;
+           if($record instanceof CActiveRecord){
+
+                if ($relations){
+                    $relationRows = [];
+                    foreach ($relations as $relation){
+                        $relationRows =array_merge($relationRows,array($relation => $record->getRelated($relation)->getAttributes()));
+                    }
+                    $result["rows"][] =array_merge($record->getAttributes($attributes),$relationRows);
+                }
+               else{
+                   $result["rows"][] = $record->getAttributes($attributes);
+               }
+
+           }
+            else{
+                $result["rows"][] =$record;
+            };
         }
-        $t = $result;
         return json_encode(array_merge($data, $result));
     }
 

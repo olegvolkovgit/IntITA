@@ -10,8 +10,12 @@ class FreeLecturesController extends TeacherCabinetController
         $this->renderPartial('index', array(),false,true);
     }
 
-    public function actionGetFreeLecturesList(){
-        echo Lecture::getLecturesList();
+    public function actionGetFreeLecturesList($count=10, $page=1, $searchCondition=null){
+        $list = new Lecture();
+        $sorting = [];
+        if (isset($_GET['sorting']))
+            $sorting = $_GET['sorting'];
+        echo  $list->getLecturesList($count, $page, $searchCondition, $sorting );
     }
 
     public function actionSetFreeLessons($id)

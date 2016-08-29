@@ -70,11 +70,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/teachers/index",
         })
-        .state('admin/freelectures', {
-            url: "/admin/freelectures",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/freeLectures/index",
-        })
         .state('admin/permissions', {
             url: "/admin/permissions",
             cache: false,

@@ -10,7 +10,7 @@ angular
         'ngResource',
         'ngTable',
         'angular-loading-bar',
-        
+        'freeLecturesRouter',
         'messagesRouter',
         'cabinetRouter', 
         'adminRouter',

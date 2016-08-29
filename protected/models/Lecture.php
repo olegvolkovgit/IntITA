@@ -33,7 +33,7 @@ class Lecture extends CActiveRecord
     const VERIFIED = 1;
     public $logo = array();
     public $oldLogo;
-
+    public $module_title;
     /**
      * @return string the associated database table name
      */
@@ -689,34 +689,24 @@ class Lecture extends CActiveRecord
         $this->update(array('order'));
     }
 
-    public static function getLecturesList()
+    public  function getLecturesList($count, $page, $searchCondition, $sorting=null)
     {
         $criteria = new CDbCriteria();
-
         $criteria->addCondition('idModule > 0 and `order` > 0');
         $criteria->order = 'isFree DESC';
-        $lectures = Lecture::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($lectures as $record) {
-            $row = array();
-            $row["module"]["name"] = CHtml::encode(($record->idModule) ? $record->ModuleTitle->title_ua : "");
-            $row["module"]["link"] = Yii::app()->createUrl('module/index', array('idModule' => $record->idModule));
-            $row["order"] = $record->order;
-            $row["title"]["name"] = CHtml::encode($record->title_ua);
-            $row["title"]["link"] = Yii::app()->createUrl("lesson/index", array("id" => $record->id, "idCourse" => 0));
-            $row["type"] = $record->type->title_ua;
-            $row["status"] = ($record->isFree) ? 'безкоштовне' : 'платне';
-
-            if ($record->isFree) {
-                $row["url"] = "'" . Yii::app()->createUrl("/_teacher/_admin/freeLectures/setPaidLessons", array("id" => $record->id)) . "'";
-            } else {
-                $row["url"] = "'" . Yii::app()->createUrl("/_teacher/_admin/freeLectures/setFreeLessons", array("id" => $record->id)) . "'";
-            }
-            array_push($return['data'], $row);
+        $criteria->compare('t.title_ua', urldecode($searchCondition), true);
+        $criteria->with = array('module','type');
+        $criteria->compare('module.title_ua', urldecode($searchCondition), true,'OR');
+        $countOfLectures = count(Lecture::model()->findAll($criteria));
+        $criteria->offset = $page*$count -$count;
+        $criteria->limit = $count;
+        if ($sorting) {
+            $order = '';
+            foreach (array_keys($sorting) as $key)
+                $order = $order . $key . ' ' . $sorting[$key];
+            $criteria->order = $order;
         }
-
-        return json_encode($return);
+        return JsonForNgDatatablesHelper::returnJson($this->model()->findAll($criteria),null,$countOfLectures,['type','module']);
     }
 
     /*
