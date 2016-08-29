@@ -8,17 +8,17 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('trainer', {
             url: "/trainer",
             cache         : false,
-            templateUrl: "/_teacher/cabinet/loadPage/?page=trainer",
+            templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=trainer",
         })
         .state('trainer/students', {
             url: "/trainer/students",
             cache         : false,
-            templateUrl: "/_teacher/_trainer/trainer/students/id/"+user,
+            templateUrl: basePath+"/_teacher/_trainer/trainer/students/id/"+user,
         })
         .state('trainer/newstudents', {
             url: "/trainer/newstudents",
             cache         : false,
-            templateUrl: "/_teacher/_trainer/trainer/students/id/"+user+"/filter/new/"
+            templateUrl: basePath+"/_teacher/_trainer/trainer/students/id/"+user+"/filter/new/"
         })
 
 });

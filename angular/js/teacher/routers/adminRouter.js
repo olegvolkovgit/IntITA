@@ -107,6 +107,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id/addtrainer', {
             url: "/admin/users/user/:id/addtrainer",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
             }
@@ -114,8 +115,25 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id/changetrainer', {
             url: "/admin/users/user/:id/changetrainer",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/users/changeTrainer/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/addrole', {
+            url: "/admin/users/user/:id/addrole",
+            cache: false,
+            controller:"usersCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/user/addRole/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/agreement/:type/:idCourse', {
+            url: "/admin/users/user/:id/agreement/:type/:idCourse",
+            cache: false,
+            controller:"usersCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
             }
         })
         
@@ -144,6 +162,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: "teachersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/teachers/addTeacherRole/?id="+$stateParams.id;
+            }
+        })
+        .state('admin/teacher/:id/editRole/role/:role', {
+            url: "/admin/teacher/:id/editRole/role/:role",
+            cache: false,
+            controller: "usersCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/teachers/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
             }
         })
         .state('admin/teacher/addModule/:id', {

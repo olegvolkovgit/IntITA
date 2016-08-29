@@ -3,8 +3,6 @@
  * @var $model RegisteredUser
  * @var $user StudentReg
  */
-$user = $model->registrationData;
-$modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -18,9 +16,8 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
                 </div>
                 <div class="col col-md-2">
                     <button type="button" class="btn btn-success"
-                            onclick="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payModule'); ?>',
-                                '<?= $user->id; ?>',
-                                '<?=addslashes($user->userName())." <".$user->email.">";?>',
+                            ng-click="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payModule'); ?>',
+                                data.user.id,
                                 'module')">
                         Сплатити модуль
                     </button>
@@ -32,34 +29,24 @@ $modules = $model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>Проплачені модулі:</h4>
-                <?php if (!empty($modules)) { ?>
-                    <ul class="list-group">
-                        <?php foreach ($modules as $module) {
-                            ?>
-                            <li class="list-group-item">
-                                <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
-                                   target="_blank">
-                                    <?= $module["title"] . " (" . $module["lang"] . ")  "; ?>
-                                </a>
-                                <input type="number" hidden="hidden" id="moduleId" value="<?=$module["id"];?>"/>
-                                <?php if(Yii::app()->user->model->isAdmin()){?>
-                                <button type="button" class="btn btn-outline btn-success btn-xs"
-                                        onclick="load('<?= Yii::app()->createUrl("/_teacher/user/agreement",
-                                            array("user" => $user->id, "param" => $module["id"], "type" => "module")) ?>')">
-                                    <em>договір</em>
-                                </button>
-                                <a href="#" onclick="cancelModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelModule'); ?>',
-                                    '<?=$module["id"];?>',
-                                    '<?=$user->id?>'); return false;">
-                                    <span class="warningMessage"><em> скасувати доступ</em></span>
-                                </a>
-                                <?php } ?>
-                            </li>
+                <ul ng-if="data.modules.length" class="list-group">
+                    <li ng-repeat="module in data.modules track by $index" class="list-group-item">
+                        <a ng-href="{{module.link}}" target="_blank">
+                            {{module.title}} ({{module.lang}})
+                        </a>
+                        <input type="number" hidden="hidden" id="moduleId" ng-value="{{module.id}}"/>
+                        <?php if(Yii::app()->user->model->isAdmin()){?>
+                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/agreement/module/{{module.id}}">
+                                <em>договір</em>
+                            </a>
+                            <a href=""
+                               ng-click="cancelModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelModule'); ?>',module.id,data.user.id)">
+                                <span class="warningMessage"><em> скасувати доступ</em></span>
+                            </a>
                         <?php } ?>
-                    </ul>
-                <?php } else { ?>
-                    <em>Модулів немає.</em>
-                <?php } ?>
+                    </li>
+                </ul>
+                <em ng-if="!data.modules.length">Модулів немає.</em>
             </div>
         </div>
     </div>

@@ -309,8 +309,16 @@ function trainersTableCtrl ($http, $scope, DTOptionsBuilder){
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
 }
-function usersCtrl ($http, $scope, $state){
-    $scope.changeUserStatus=function (url, user, message, header, target) {
+function usersCtrl ($http, $scope, $state, $stateParams){
+    $scope.loadUserData=function(){
+        $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+$stateParams.id).then(function (response) {
+            $scope.data = response.data;
+            console.log($scope.data);
+        });
+    };
+    $scope.loadUserData();
+    
+    $scope.changeUserStatus=function (url, user, message) {
         bootbox.confirm(message, function (response) {
             if (response) {
                 $http({
@@ -320,12 +328,132 @@ function usersCtrl ($http, $scope, $state){
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
                     bootbox.confirm(response.data, function () {
-                        location.reload();
-            });
+                        $scope.loadUserData();
+                    });
                 }, function errorCallback() {
                     bootbox.alert("Операцію не вдалося виконати");
                 });
             }
         });
+    };
+
+    $scope.setUserRole=function (url) {
+        var role = $jq("select[name=role] option:selected").val();
+        var user = $jq("#user").val();
+        $http({
+            method: 'POST',
+            url: url,
+            data: $jq.param({role: role, user: user}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function () {
+                $state.go('admin/users/user/:id', {id:user}, {reload: true});
+            });
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+    $scope.cancelUserRole=function (url, role, user) {
+        bootbox.confirm("Скасувати роль?", function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({role: role, user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.alert(response.data, function () {
+                        $scope.loadUserData();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    };
+
+    $scope.addStudentAttr=function (url, user, type) {
+        value = $jq('#value').val();
+        if (type == 'module') {
+            module = value;
+            course = 0;
+        } else if (type == 'course') {
+            module = 0;
+            course = value;
+        }
+        if (value != 0) {
+            $http({
+                method: 'POST',
+                url: url,
+                data: $jq.param({user: user, module: module, course: course}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function () {
+                    $scope.loadUserData();
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        } else {
+            bootbox.alert('Виберіть курс чи модуль!');
+        }
+    };
+
+    $scope.cancelCourse=function (url, course, user) {
+        $http({
+            method: 'POST',
+            url: url,
+            data: $jq.param({course: course, user : user}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function () {
+                $scope.loadUserData();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+    $scope.cancelModule=function (url, module, user) {
+        $http({
+            method: 'POST',
+            url: url,
+            data: $jq.param({module: module, user : user}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function () {
+                $scope.loadUserData();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+    $scope.addTrainer=function (url, scenario) {
+        var id = document.getElementById('user').value;
+        var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
+        var oldTrainerId = 0;//(scenario != "new") ? $jq("#oldTrainerId").val() : 0;
+        if (trainerId == 0 && scenario != "remove") {
+            bootbox.alert("Виберіть тренера.");
+        }
+        $http({
+            method: 'POST',
+            url: url,
+            data: $jq.param({userId: id, trainerId: trainerId, oldTrainerId: oldTrainerId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            if (response.data == "success") {
+                bootbox.alert('Операцію успішно виконано.', function () {
+                    if(scenario == "new") $state.go('admin/users/user/:id/changetrainer', {id:id}, {reload: true});
+                    else $scope.loadUserData();
+                });
+            }else{
+                bootbox.alert(response.data)
+            }
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+
+    $scope.collapse=function (el) {
+        $jq(el).toggle("medium");
     }
 }

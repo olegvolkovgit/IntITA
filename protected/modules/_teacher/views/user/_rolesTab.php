@@ -9,10 +9,9 @@ $user = $model->registrationData;
         <?php if (Yii::app()->user->model->isAdmin()) { ?>
             <ul class="list-inline">
                 <li>
-                    <button type="button" class="btn btn-primary"
-                            onclick="load('<?php echo Yii::app()->createUrl('/_teacher/user/addRole', array(
-                                'id' => $user->id)); ?>','Призначити роль')">Призначити роль
-                    </button>
+                    <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}/addrole">
+                        Призначити роль
+                    </a>
                 </li>
                 <li>
                     <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
@@ -21,30 +20,21 @@ $user = $model->registrationData;
                 </li>
             </ul>
         <?php } ?>
-
-        <?php if (!empty($roles = $model->getRoles())) { ?>
-            <ul class="list-group">
-                <?php foreach ($roles as $role) { ?>
-                    <li class="list-group-item"><?= $role; ?>
-                        <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                            <?php if ($role != UserRoles::STUDENT) { ?>
-                                <a href="#"
-                                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                       array('id' => $user->id, 'role' => $role)); ?>','<?= addslashes($user->userName()) . ", роль " . $role; ?>')"><em>редагувати</em>
-                                </a>
-                            <?php } ?>
-                            <a href="#"
-                               onclick="cancelUserRole('<?= Yii::app()->createUrl("/_teacher/user/unsetUserRole"); ?>',
-                                   '<?= $role ?>',
-                                   '<?= $user->id; ?>',
-                                   '<?= addslashes($user->userName()) . " <" . $user->email . ">"; ?>');"><em>скасувати</em>
-                            </a>
-                        <?php } ?>
-                    </li>
-                <?php } ?>
+            <ul ng-if="data.user.roles.length" ng-repeat="role in data.user.roles track by $index" class="list-group">
+                <li class="list-group-item">
+                    {{role}}
+                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                        <a ng-if="role!='<?php echo UserRoles::STUDENT ?>'" ng-href="#/admin/teacher/{{data.user.id}}/editRole/role/{{role}}">
+                        <em>редагувати</em>
+                        </a>
+                        <a href=""
+                           ng-click="cancelUserRole('<?= Yii::app()->createUrl("/_teacher/user/unsetUserRole"); ?>',
+                               role,data.user.id);">
+                            <em>скасувати</em>
+                        </a>
+                    <?php } ?>
+                </li>
             </ul>
-        <?php } ?>
-
         <?php if($model->isAdmin()){?>
         <div class="alert alert-info">
             Деякі ролі (<?=implode(', ', TeacherRolesDataSource::roles());?>) можуть бути призначені лише співробітникам. Додати нового співробітника можна
@@ -54,8 +44,7 @@ $user = $model->registrationData;
             </a>.
             <br>
             Список усіх співробітників:
-            <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/index'); ?>',
-                'Співробітники')">Список</a>.
+            <a ng-href="#/admin/teachers" class="alert-link">Список</a>.
         </div>
         <?php } ?>
     </div>

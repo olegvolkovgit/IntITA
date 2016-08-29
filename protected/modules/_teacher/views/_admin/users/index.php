@@ -6,7 +6,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Tab panes -->
-        <div class="tab-content" ng-controller="usersCtrl">
+        <div class="tab-content">
             <uib-tabset active="0" >
                 <uib-tab  index="0" heading="Зареєстровані користувачі (<?=$counters["users"];?>)">
                     <div ng-controller="usersTableCtrl">
@@ -60,7 +60,7 @@
                 </uib-tab>
                 <uib-tab  index="10" heading="Tenants (<?=$counters["tenants"];?>)">
                     <div ng-controller="tenantsTableCtrl">
-                        <?php $this->renderPartial('tables//_tenantsTable');?>
+                        <?php $this->renderPartial('tables/_tenantsTable');?>
                     </div>
                 </uib-tab>
             </uib-tabset>
