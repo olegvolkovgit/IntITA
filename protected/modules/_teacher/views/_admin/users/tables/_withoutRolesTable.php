@@ -2,25 +2,18 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="withoutRolesTable" datatable="ng" dt-options="dtOptions">
-                    <thead>
-                    <tr>
-                        <th>ПІБ</th>
-                        <th>Email</th>
-                        <th>Зареєстровано</th>
-                        <th>Країна</th>
-                        <th>Місто</th>
+                <table ng-table="withoutRolesTableParams" class="table table-bordered table-striped table-condensed">
+                    <tr ng-repeat="row in $data track by row.id">
+                        <td data-title="'ПІБ'" filter="{'fullName': 'text'}" sortable="'fullName'">
+                            <a ng-href="#/admin/users/user/{{row.id}}">{{row.firstName}} {{row.middleName}} {{row.secondName}}</a>
+                        </td>
+                        <td data-title="'Email'" filter="{'email': 'text'}" sortable="'email'">
+                            <a ng-href="#/admin/users/user/{{row.id}}">{{row.email}}</a>
+                        </td>
+                        <td data-title="'Зареєстровано'" filter="{'reg_time': 'text'}" sortable="'reg_time'">{{row.reg_time=='0000-00-00 00:00:00'  ? "невідомо" : row.reg_time}}</td>
+                        <td data-title="'Країна'" filter="{'country0.title_ua': 'text'}" sortable="'country0.title_ua'">{{row.country0.title_ua}}</td>
+                        <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city0.title_ua}}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="row in withoutRolesList">
-                        <td><a ng-href="#/admin/users/user/{{row.user.id}}">{{row.user.name}}</a></td>
-                        <td><a ng-href="#/admin/users/user/{{row.user.id}}">{{row.email.title}}</a></td>
-                        <td>{{row.register}}</td>
-                        <td>{{row.country}}</td>
-                        <td>{{row.city}}</td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>

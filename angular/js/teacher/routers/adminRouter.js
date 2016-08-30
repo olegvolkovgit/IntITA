@@ -96,6 +96,14 @@ angular
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/users/index",
         })
+        .state('admin/users/addrole/:role', {
+            url: "/admin/users/addrole/:role",
+            cache: false,
+            controller:"usersCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
+            }
+        })
         .state('admin/users/user/:id', {
             url: "/admin/users/user/:id",
             cache: false,

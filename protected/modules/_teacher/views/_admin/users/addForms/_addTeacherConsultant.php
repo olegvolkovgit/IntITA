@@ -15,15 +15,13 @@
             </div>
 
             <button class="btn btn-primary"
-                    onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
-                        'teacher_consultant', '7'); return false;">
+                    ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','teacher_consultant');">
                 Призначити викладача
             </button>
 
-            <button type="reset" class="btn btn-default"
-                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/users/index") ?>')">
+            <a type="button" class="btn btn-default" ng-href="#/admin/users">
                 Скасувати
-            </button>
+            </a>
         </form>
         <br>
         <div class="alert alert-info">

@@ -95,60 +95,91 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetStudentsList()
     {
-        $startDate = Yii::app()->request->getParam('startDate');
-        $endDate = Yii::app()->request->getParam('endDate');
-        echo StudentReg::getStudentsList($startDate, $endDate);
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetUsersList()
     {
-        echo StudentReg::usersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetWithoutRolesUsersList()
     {
-        echo StudentReg::withoutRolesUsersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
 
     public function actionGetTenantsList()
     {
-        echo UserTenant::tenantsList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserTenant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetContentManagersList()
     {
-        echo UserContentManager::contentManagersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserContentManager', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTeacherConsultantsList()
     {
-        echo UserTeacherConsultant::teacherConsultantsList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserTeacherConsultant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTeachersList()
     {
-        echo Teacher::teachersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('Teacher', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetAdminsList()
     {
-        echo UserAdmin::adminsData();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAdmin', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetAccountantsList()
     {
-        echo UserAccountant::accountantsData();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAccountant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTrainersList()
     {
-        echo UserTrainer::trainersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserTrainer', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetConsultantsList()
     {
-        echo UserConsultant::consultantsList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserConsultant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionAddTrainer($id)
