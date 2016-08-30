@@ -239,6 +239,14 @@ class StudentReg extends CActiveRecord
         );
     }
 
+    public function behaviors() {
+        return [
+            'ngTable' => [
+                'class' => 'NgTableProviderStudentReg'
+            ]
+        ];
+    }
+
     public function login()
     {
         if ($this->_identity === null) {

@@ -18,25 +18,11 @@ class InvoicesController extends TeacherCabinetController
         ), false, true);
     }
 
-    public function actionGetInvoices($page = 1, $pageCount=10) {
-        $agreementId = Yii::app()->request->getParam('agreementId', null);
-        $agreements = new Invoices();
-        $limit = $pageCount;
-        $offset = $page * $pageCount - $pageCount;
-
-        $params = [];
-        /* getting all model fields */
-        $searchFields = array_keys(Invoice::model()->getAttributes());
-        /* preparing criteria */
-        foreach ($searchFields as $searchField) {
-            $value = Yii::app()->request->getParam($searchField, null);
-            if ($value !== null) {
-                $params[$searchField] = $value;
-            }
-        }
-
-        $json = $agreements->getInvoices($offset, $limit, $params);
-        echo json_encode($json);
+    public function actionGetInvoices() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('Invoice', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTypeahead($query) {
