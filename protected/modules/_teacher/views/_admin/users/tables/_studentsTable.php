@@ -46,7 +46,9 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Форма'" filter="{'educform': 'text'}" sortable="'educform'">{{row.educform}}</td>
                         <td data-title="'Країна'" filter="{'country0.title_ua': 'text'}" sortable="'country0.title_ua'">{{row.country0.title_ua}}</td>
                         <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city.title_ua}}</td>
-<!--                        <td data-title="'Тренер'" filter="{'trainer.trainer': 'text'}" sortable="'trainer.trainer'">{{row.trainer.trainer}}</td>-->
+                        <td data-title="'Тренер'" filter="{'trainer.trainer': 'text'}" sortable="'trainer.trainer'">
+                            {{row.trainer.trainer ? 'присутній':''}}
+                        </td>
 <!--                        <td data-title="'Доступ'">-->
 <!--                            <a type="button" class="btn btn-outline btn-{{row.addAccessLink.color}} btn-block" ng-href="#/admin/users/user/{{row.id}}">є проплати{{row.addAccessLink.text}}</a>-->
 <!--                        </td>-->

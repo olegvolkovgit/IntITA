@@ -325,4 +325,24 @@ class TeachersController extends TeacherCabinetController{
             'attributes' => $attributes
         ), false, true);
     }
+
+    public function actionGetTeacherDataList($id, $currentRole)
+    {
+        $result = array();
+        $user=RegisteredUser::userById($id);
+        $userAttr = $user->registrationData->getAttributes();
+
+        $result['user']=$userAttr;
+        $result['user']['role']=$currentRole;
+        foreach($user->getRoles() as $key=>$role){
+            $result['user']['roles'][$role->__toString()]= $user->getAttributesByRole($role);
+        }
+
+        echo CJSON::encode($result);
+    }
+
+    public function actionGetModuleLink()
+    {
+        echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
+    }
 }

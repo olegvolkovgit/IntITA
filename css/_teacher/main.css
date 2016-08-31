@@ -522,3 +522,9 @@ div#loading-bar-spinner{
 table a{
     box-sizing: inherit;
 }
+#addTeacherRole option:disabled{
+    color:inherit;
+}
+#addTeacherRole option{
+    color:#000;
+}

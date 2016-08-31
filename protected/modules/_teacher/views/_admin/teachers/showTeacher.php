@@ -22,7 +22,7 @@ $model = $user->registrationData;
                 <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/update/<?php echo $teacher->user_id ?>">Редагувати</a>
             </li>
             <li>
-                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/addModule/<?php echo $teacher->user_id ?>">Додати модуль</a>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/<?php echo $teacher->user_id ?>/editRole/role/author">Додати модуль</a>
             </li>
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 <li>

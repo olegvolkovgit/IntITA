@@ -1,12 +1,3 @@
-<?php
-/**
- * @var $model RegisteredUser
- * @var $user StudentReg
- * @var $roles array
- * @var $role UserRoles
- */
-$user = $model->registrationData;
-?>
 <ul class="list-inline">
     <li>
         <a type="button" class="btn btn-primary" ng-href="#/admin/users">
@@ -29,15 +20,8 @@ $user = $model->registrationData;
                 <input type="number" hidden="hidden" ng-value="data.user.id" id="user">
                 Роль:<br>
                 <div class="form-group">
-                    <select name="role" class="form-control" placeholder="(Виберіть роль)">
-                        <optgroup label="Виберіть роль">
-                            <?php
-                            foreach ($roles as $role) {
-                                ?>
-                                <option value="<?php echo $role; ?>"><?php echo $role; ?></option>
-                                <?php
-                            }
-                            ?>
+                    <select class="form-control" ng-options="role as role disable when role=='author' for (choice, role) in data.user.noroles " ng-model="selectedRole">
+                        <option value="" disabled selected>(Виберіть роль)</option>
                     </select>
                 </div>
                 <br>

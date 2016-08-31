@@ -2,7 +2,6 @@
 /**
  * @var $model RegisteredUser
  */
-$user = $model->registrationData;
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -39,8 +38,8 @@ $user = $model->registrationData;
         <div class="alert alert-info">
             Деякі ролі (<?=implode(', ', TeacherRolesDataSource::roles());?>) можуть бути призначені лише співробітникам. Додати нового співробітника можна
             за посиланням:
-            <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
-                Додати спвіробітника
+            <a type="button" class="alert-link" ng-href="#/admin/teacher/create">
+                Додати співробітника
             </a>.
             <br>
             Список усіх співробітників:

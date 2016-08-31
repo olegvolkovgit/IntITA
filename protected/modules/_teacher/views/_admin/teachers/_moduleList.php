@@ -7,8 +7,6 @@
 <div class="col-md-12">
     <div class="row">
         <form>
-            <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
-            <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
                 <input type="number" hidden="hidden" id="value" value="0"/>
                 <input id="typeahead" type="text" class="form-control" name="module" placeholder="Назва модуля"
@@ -17,7 +15,7 @@
             <div class="col col-md-2">
                 <button type="button" class="btn btn-success"
                         ng-click="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            '<?= $attribute["key"] ?>', '#value')">
+                            attribute.key, '#value')">
                     Додати модуль
                 </button>
             </div>
@@ -25,43 +23,37 @@
     </div>
     <br>
     <div>
-        <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
+        <b>Викладач: {{data.user.firstName}} {{data.user.secondName}} ({{data.user.email}})</b>
     </div>
     <div class="dataTable_wrapper">
-        <table class="table table-striped table-bordered table-hover" id="modulesListTable">
+        <table class="table table-striped table-bordered table-hover" id="studentsListTable" datatable="ng" dt-options="dtModulesOptions" dt-column-defs="dtColumnDefs">
             <thead>
             <tr>
                 <th>Модуль</th>
-                <th width="20%">Призначено</th>
-                <th width="20%">Відмінено</th>
-                <th width="15%">Видалити</th>
+                <th>Призначено</th>
+                <th>Відмінено</th>
+                <th>Видалити</th>
             </tr>
             </thead>
             <tbody>
-            <?php
-            foreach ($attribute["value"] as $item) { ?>
-            <tr>
+            <tr ng-repeat="module in attribute.value">
                 <td>
-                    <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
-                        <?= CHtml::encode($item["title"]) . " (" . $item["lang"] . ")"; ?>
+                    <a ng-href="" ng-click="moduleLink(module.id)">
+                        {{module.title}} ({{module.lang}})
                     </a>
                 </td>
                 <td>
-                    <?= date("d.m.Y",strtotime($item["start_date"])); ?>
+                    {{module.start_date}}
                 </td>
                 <td>
-                    <?= ($item["end_date"] != "")?date("d.m.Y",strtotime($item["end_date"])):""; ?>
+                    {{module.end_date}}
                 </td>
                 <td>
-                    <?php if ($item["end_date"] == '') { ?>
-                        <a ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>');">
-                            скасувати
-                        </a>
-                    <?php } ?>
+                    <a ng-if="!module.end_date" href=""
+                       ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
+                           module.id, attribute.key);">скасувати
+                    </a>
                 </td>
-                <?php
-                } ?>
             </tr>
             </tbody>
         </table>
@@ -105,21 +97,4 @@
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq("#value").val(item.id);
     });
-
-    $jq('#modulesListTable').DataTable( {
-        "order": [[ 2, "desc" ]],
-        language: {
-            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        },
-        "columns": [
-            null,
-            {
-                "type": "de_date", targets: 1,
-            },
-            {
-                "type": "de_date", targets: 1,
-            },
-            null
-        ]
-    } );
 </script>

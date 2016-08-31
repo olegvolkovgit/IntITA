@@ -326,7 +326,6 @@ function usersCtrl ($http, $scope, $state, $stateParams){
     $scope.loadUserData=function(){
         $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+$stateParams.id).then(function (response) {
             $scope.data = response.data;
-            console.log($scope.data);
         });
     };
     $scope.loadUserData();
@@ -351,20 +350,24 @@ function usersCtrl ($http, $scope, $state, $stateParams){
     };
 
     $scope.setUserRole=function (url) {
-        var role = $jq("select[name=role] option:selected").val();
+        var role = $scope.selectedRole;
         var user = $jq("#user").val();
-        $http({
-            method: 'POST',
-            url: url,
-            data: $jq.param({role: role, user: user}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            bootbox.alert(response.data, function () {
-                $state.go('admin/users/user/:id', {id:user}, {reload: true});
+        if (typeof role=='undefined') {
+            bootbox.alert('Роль не вибрана');
+        } else{
+            $http({
+                method: 'POST',
+                url: url,
+                data: $jq.param({role: role, user: user}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function () {
+                    $state.go('admin/users/user/:id', {id:user}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
             });
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
+        }
     };
     $scope.cancelUserRole=function (url, role, user) {
         bootbox.confirm("Скасувати роль?", function (response) {
@@ -489,4 +492,32 @@ function usersCtrl ($http, $scope, $state, $stateParams){
             });
         }
     }
+
+    $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
+        if (!user) {
+            user = $jq('#user').val();
+        }
+        if (!role) {
+            role = $jq('#role').val();
+        }
+        if (user && role) {
+            $http({
+                method: "POST",
+                url: url,
+                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        $state.go($state.current, {}, {reload: true});
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
 }

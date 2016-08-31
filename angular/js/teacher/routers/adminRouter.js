@@ -175,17 +175,9 @@ angular
         .state('admin/teacher/:id/editRole/role/:role', {
             url: "/admin/teacher/:id/editRole/role/:role",
             cache: false,
-            controller: "usersCtrl",
+            controller: "editTeacherRoleCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/teachers/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
-            }
-        })
-        .state('admin/teacher/addModule/:id', {
-            url: "/admin/teacher/addModule/:id",
-            cache: false,
-            controller: "teachersCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/addModule/?id="+$stateParams.id;
             }
         })
         

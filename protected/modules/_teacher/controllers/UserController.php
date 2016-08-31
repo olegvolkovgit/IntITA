@@ -126,21 +126,24 @@ class UserController extends TeacherCabinetController {
     public function actionLoadJsonUserModel($id)
     {
         $result = array();
-
-        $user = RegisteredUser::userById($id)->registrationData->getAttributes();
+        $model=RegisteredUser::userById($id);
+        
+        $user = $model->registrationData->getAttributes();
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
         $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $result['user']=$user;
-        $result['user']['roles']=RegisteredUser::userById($id)->getRoles();
-        foreach(RegisteredUser::userById($id)->getRoles() as $key=>$role){
+        $result['user']['roles']=$model->getRoles();
+        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        foreach($model->getRoles() as $key=>$role){
             $result['user']['roles'][$key]= $role->__toString();
         }
         $result['trainer']=$trainer;
-        if(RegisteredUser::userById($id)->isStudent()){
-            $result['courses']=RegisteredUser::userById($id)->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
-            $result['modules']=RegisteredUser::userById($id)->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+        if($model->isStudent()){
+            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
             foreach($result['courses'] as $key=>$course){
                 $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
                 foreach($result['courses'][$key]['modules'] as $index=>$module){
