@@ -6,17 +6,28 @@
                 <input type="text" hidden="hidden" value="author" id="role">
                 <label>Викладач:</label>
                 <br>
-                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"
-                       size="135" required autofocus>
-                <input type="number" hidden="hidden" id="user" value="0"/>
+
+                <div class="form-group">
+                    <input type="text" size="135" ng-model="teacherSelected" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue) | limitTo : 10" typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
+                    </div>
+                </div>
+<!--                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"-->
+<!--                       size="135" required autofocus>-->
+<!--                <input type="number" hidden="hidden" id="user" value="0"/>-->
             </div>
             <div class="form-group">
                 <label>
                     <strong>Модуль:</strong>
                 </label>
-                <input type="number" hidden="hidden" id="moduleId" value="0"/>
-                <input id="typeaheadModule" type="text" class="form-control" placeholder="Назва модуля"
-                       size="135">
+                <input type="text" size="135" ng-model="moduleSelected" placeholder="Модуль" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectModule($item)" class="form-control" />
+                <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="moduleNoResults">
+                    <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
+                </div>
+
             </div>
             <br>
             <div class="form-group">
@@ -26,6 +37,19 @@
             </div>
         </form>
     </div>
+    <script type="text/ng-template" id="customTemplate.html">
+        <a>
+            <div class="typeahead_wrapper  tt-selectable">
+                <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
+                <div class="typeahead_labels">
+                    <div ng-bind="match.model.name" class="typeahead_primary"></div>
+                    <div ng-bind="match.model.email" class="typeahead_secondary"></div>
+                </div>
+            </div>
+
+
+        </a>
+    </script>
 </div>
 
 <script>

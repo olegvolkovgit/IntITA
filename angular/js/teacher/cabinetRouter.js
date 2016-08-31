@@ -10,12 +10,18 @@ angular
                 .state('messages', {
                     url: "/messages",
                     cache         : false,
+                    controller: function(){
+                        angular.element(document.querySelector("#pageTitle")).text("Повідомлення");
+                    },
                     templateUrl: basePath+"/_teacher/messages/index"
                 })
                 .state('index', {
                     url: "/index",
                     cache         : false,
-                    templateUrl: basePath+"/_teacher/cabinet/loadDashboard/?user="+user,
+                    controller: function(){
+                        angular.element(document.querySelector("#pageTitle")).text("Особистий кабінет");
+                    },
+                    templateUrl: basePath+"/_teacher/cabinet/loadDashboard/?user="+user
                 })
                 .state('newmessages/receiver/:id', {
                     url: "/newmessages/receiver/:id",

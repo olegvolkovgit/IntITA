@@ -24,9 +24,6 @@ angular
     .module('teacherApp')
     .controller('teachersCtrl',teachersCtrl);
 
-angular
-    .module('teacherApp')
-    .controller('permissionsCtrl',permissionsCtrl);
 
 angular
     .module('teacherApp')
@@ -480,11 +477,6 @@ function teachersCtrl ($scope,$http, $state){
             });
         }
     };
-}
-
-
-function permissionsCtrl ($scope){
-    initFreeLectures();
 }
 
 function payCtrl ($scope){

@@ -8,6 +8,9 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin', {
             url: "/admin",
             cache: false,
+            controller: function(){
+                angular.element(document.querySelector("#pageTitle")).text("Адміністратор");
+            },
             templateUrl: basePath+"/_teacher/_admin/admin/index",
         })
         .state('admin/carousel', {

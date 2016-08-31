@@ -74,7 +74,7 @@ function modulemanageCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, 
     };
 
     $scope.getTeachers = function(value) {
-        return $http.get(basePath+'/_teacher/_admin/module/teachersByQuery', {
+            return $http.get(basePath+'/_teacher/_admin/module/teachersByQuery', {
             params: {
                 query: value
             }

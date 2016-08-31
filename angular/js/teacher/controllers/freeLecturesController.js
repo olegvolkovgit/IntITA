@@ -6,6 +6,8 @@ angular
     .controller('freelecturesCtrl',freelecturesCtrl);
 
 function freelecturesCtrl ($scope, $resource, NgTableParams,$state, $http){
+    angular.element(document.querySelector("#pageTitle")).text("Безкоштовні заняття");
+
     $scope.search= null;
     $scope.cols = [
         { title: "module", headerTitle: "Модуль", show: true},
