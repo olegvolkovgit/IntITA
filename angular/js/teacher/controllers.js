@@ -27,21 +27,21 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('payCtrl',payCtrl);
-
-angular
-    .module('teacherApp')
     .controller('moduleAddTeacherCtrl',moduleAddTeacherCtrl);
 
 
 function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
+
+    $scope.changePageHeader = function(headerText){
+        $scope.pageHeader = headerText;
+    };
 
     $scope.fillContainer = function(data)
     {
         container = angular.element(document.querySelector("#pageContainer"));
         container.html('');
         $compile(container.html(data))($scope);
-    }
+    };
 
     $scope.ediConsult = function(url)
     {
@@ -479,7 +479,5 @@ function teachersCtrl ($scope,$http, $state){
     };
 }
 
-function payCtrl ($scope){
-    initPayTypeaheads();
-}
+
 

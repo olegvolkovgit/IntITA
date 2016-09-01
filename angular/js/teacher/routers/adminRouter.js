@@ -76,16 +76,25 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/permissions', {
             url: "/admin/permissions",
             cache: false,
+            controller: function(){
+                angular.element(document.querySelector("#pageTitle")).text("Права доступа");
+            },
             templateUrl: basePath+"/_teacher/_admin/permissions/index",
         })
         .state('admin/pay', {
             url: "/admin/pay",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/pay/index",
+            controller: function(){
+                angular.element(document.querySelector("#pageTitle")).text("Сплатити курс/модуль");
+            },
+            templateUrl: basePath+"/_teacher/_admin/pay/index"
         })
         .state('admin/cancel', {
             url: "/admin/cancel",
             cache: false,
+            controller: function(){
+                angular.element(document.querySelector("#pageTitle")).text("Скасувати курс/модуль");
+            },
             templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
         })
 
