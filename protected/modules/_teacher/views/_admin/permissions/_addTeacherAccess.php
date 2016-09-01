@@ -8,21 +8,18 @@
                 <br>
 
                 <div class="form-group">
-                    <input type="text" size="135" ng-model="teacherSelected" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue) | limitTo : 10" typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <input type="text" size="135" ng-model="teacherSelected"  ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue) | limitTo : 10" typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
                     <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResults">
                         <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
                     </div>
                 </div>
-<!--                <input id="typeahead" type="text" class="form-control" placeholder="Викладач"-->
-<!--                       size="135" required autofocus>-->
-<!--                <input type="number" hidden="hidden" id="user" value="0"/>-->
             </div>
             <div class="form-group">
                 <label>
                     <strong>Модуль:</strong>
                 </label>
-                <input type="text" size="135" ng-model="moduleSelected" placeholder="Модуль" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectModule($item)" class="form-control" />
+                <input type="text" size="135" ng-model="moduleSelected" ng-model-options="{ debounce: 1000 }" placeholder="Модуль" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectModule($item)" class="form-control" />
                 <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
                 <div ng-show="moduleNoResults">
                     <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
@@ -31,9 +28,7 @@
             </div>
             <br>
             <div class="form-group">
-                <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            'module', '#moduleId','','Права доступа','teacherAccess')">Призначити автора модуля</button>
+                <button type="button" class="btn btn-success" ng-click="addPermission('moduleAuchtor')">Призначити автора модуля</button>
             </div>
         </form>
     </div>
