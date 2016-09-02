@@ -108,7 +108,7 @@ class UserTenant extends CActiveRecord
                 right join chat_user as cu on u.id = cu.intita_user_id
                 right join user_tenant ut on ut.chat_user_id=cu.id';
         $tenants = Yii::app()->db->createCommand($sql)->queryAll();
-        $return = array('data' => array());
+        $return = array('rows' => array());
 
         foreach ($tenants as $record) {
             $row = array();
@@ -118,12 +118,8 @@ class UserTenant extends CActiveRecord
             $row["register"] = ($record["start_date"] > 0) ? date("d.m.Y",  strtotime($record["start_date"])):"невідомо";
             $row["cancelDate"] = ($record["end_date"]) ? date("d.m.Y", strtotime($record["end_date"])) : "";
             $row["profile"] = Config::getBaseUrl()."/profile/".$record["user"];
-            $row["mailto"] = Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                'scenario' => 'message',
-                'receiver' => $record["user"]
-            ));
             $row["cancel"] = Yii::app()->createUrl('/_teacher/_admin/users/cancelRole');
-            array_push($return['data'], $row);
+            array_push($return['rows'], $row);
         }
 
         return json_encode($return);

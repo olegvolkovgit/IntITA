@@ -66,9 +66,10 @@ class NgTableAdapter {
      * NgTableAdapter constructor.
      * @param CActiveRecord $activeRecord
      * @param array $requestParams
+     * @param array $relations
      */
-    public function __construct($activeRecord = null, $requestParams = null) {
-        $this->setActiveRecord($activeRecord);
+    public function __construct($activeRecord = null, $requestParams = null, $relations= null) {
+        $this->setActiveRecord($activeRecord, $relations);
         $this->setRequestParams($requestParams);
     }
 
@@ -76,17 +77,17 @@ class NgTableAdapter {
      * @param null|string|CActiveRecord $activeRecord
      * @throws Exception
      */
-    public function setActiveRecord($activeRecord) {
+    public function setActiveRecord($activeRecord, $relations) {
         if (isset($activeRecord)) {
             if (gettype($activeRecord) === 'string' &&
                 class_exists($activeRecord) &&
                 is_subclass_of($activeRecord, 'CActiveRecord')
             ) {
-                $this->prepareActiveRecord($activeRecord::model());
+                $this->prepareActiveRecord($activeRecord::model(), $relations);
             } else if (is_object($activeRecord) &&
                 $activeRecord instanceof CActiveRecord
             ) {
-                $this->prepareActiveRecord($activeRecord);
+                $this->prepareActiveRecord($activeRecord, $relations);
             } else {
                 throw new Exception('Type error: $activeRecord argument should be either an CActiveRecord object (or inherit CActiveRecord) or string with CActiveRecord (or it inherited) class name ');
             }
@@ -174,11 +175,17 @@ class NgTableAdapter {
 
     /**
      * @param CActiveRecord $ar
+     * @param array $relations
      */
-    private function prepareActiveRecord($ar) {
+    private function prepareActiveRecord($ar, $relations) {
         $this->activeRecord = $ar;
         $this->relations = [];
-        foreach ($ar->relations() as $relationName => $relationProperties) {
+
+        if($relations)
+            $activeRecordRelations=array_intersect_key($ar->relations(), $relations);
+        else $activeRecordRelations=$ar->relations();
+
+        foreach ($activeRecordRelations as $relationName => $relationProperties) {
             $this->relations[$relationName] = $relationProperties[1];
         }
     }

@@ -96,7 +96,26 @@ class UsersController extends TeacherCabinetController
     public function actionGetStudentsList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
+            'country0'=>true,
+            'city0'=>true,
+            'payModules'=>true,
+            'payCourses'=>true,
+            'studentTrainer'=>true));
+
+        $criteria =  new CDbCriteria();
+
+        $criteria->alias = 't';
+        $criteria->join = 'inner join user_student us on t.id = us.id_user';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
+        $criteria->group = 't.id';
+        if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+            $startDate=$_GET['startDate'];
+            $endDate=$_GET['endDate'];
+            $criteria->condition = "TIMESTAMP(us.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
+        }
+
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -104,7 +123,18 @@ class UsersController extends TeacherCabinetController
     public function actionGetUsersList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
+            'country0'=>true,
+            'city0'=>true,
+            'payModules'=>true,
+            'payCourses'=>true
+            )
+        );
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'cancelled='.StudentReg::ACTIVE;
+
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -112,7 +142,18 @@ class UsersController extends TeacherCabinetController
     public function actionGetWithoutRolesUsersList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
+            'country0'=>true,
+            'city0'=>true
+        ));
+        
+        $criteria = new CDbCriteria();
+        $criteria->alias = 't';
+        $criteria->join = 'left join user_student us on us.id_user=t.id';
+        $criteria->join .= ' left join teacher tt on tt.user_id=t.id';
+        $criteria->addCondition('t.cancelled='.StudentReg::ACTIVE);
+        $criteria->addCondition('us.id_user IS NULL and tt.user_id IS NULL');
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -120,10 +161,7 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTenantsList()
     {
-        $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('UserTenant', $requestParams);
-        $result = $ngTable->getData();
-        echo json_encode($result);
+        echo UserTenant::tenantsList();
     }
 
     public function actionGetContentManagersList()
@@ -145,7 +183,7 @@ class UsersController extends TeacherCabinetController
     public function actionGetTeachersList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('Teacher', $requestParams);
+        $ngTable = new NgTableAdapter('Teacher', $requestParams,array('user'=>true));
         $result = $ngTable->getData();
         echo json_encode($result);
     }

@@ -32,8 +32,11 @@ function studentsTableCtrl ($http, $scope, usersService, NgTableParams){
 
     $scope.studentsTableParams = new NgTableParams({}, {
         getData: function (params) {
+            $scope.params=params.url();
+            $scope.params.startDate=$scope.startDate;
+            $scope.params.endDate=$scope.endDate;
             return usersService
-                .studentsList(params.url())
+                .studentsList($scope.params)
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
@@ -43,15 +46,19 @@ function studentsTableCtrl ($http, $scope, usersService, NgTableParams){
     });
 
     $scope.updateStudentList=function(startDate, endDate){
-        var request = basePath + "/_teacher/_admin/users/getStudentsList";
-        if (startDate != null && startDate !== "") {
-            request += '?startDate=' + startDate;
-            if (endDate != null && endDate !== "") {
-                request += '&endDate=' + endDate;
+        $scope.studentsTableParams = new NgTableParams({}, {
+            getData: function (params) {
+                $scope.params=params.url();
+                $scope.params.startDate=startDate;
+                $scope.params.endDate=endDate;
+                return usersService
+                    .studentsList($scope.params)
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
             }
-        }
-        $http.get(request).then(function (data) {
-            $scope.studentsList = data.data["data"];
         });
     }
 }
@@ -472,26 +479,6 @@ function usersCtrl ($http, $scope, $state, $stateParams){
     $scope.collapse=function (el) {
         $jq(el).toggle("medium");
     };
-
-    $scope.assignRole=function(url, role) {
-        user = $jq("#userId").val();
-        if (user == 0) {
-            bootbox.alert('Виберіть користувача.');
-        } else {
-            $http({
-                method: 'POST',
-                url: url,
-                data: $jq.param({userId: user, role: role}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go('admin/users', {}, {reload: true});
-                });
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати");
-            });
-        }
-    }
 
     $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
         if (!user) {
