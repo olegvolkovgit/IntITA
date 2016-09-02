@@ -34,7 +34,7 @@
                 }'),
             )); ?>
             <uib-tabset active="0" >
-                <uib-tab  index="0" heading="Головне" id="main">
+                <uib-tab  index="0" heading="Головне" id="mainTab">
                     <?php $this->renderPartial('_mainEditTab', array('model' => $model, 'form' => $form)); ?>
                 </uib-tab>
                 <uib-tab index="1" heading="Українською" id="uaTab">
