@@ -9,7 +9,7 @@
         <div class="panel-body">
             <div class="dataTable_wrapper">
                 <table ng-table="adminsTableParams" class="table table-bordered table-striped table-condensed">
-                    <tr ng-repeat="row in $data track by row.id_user">
+                    <tr ng-repeat="row in $data track by $index">
                         <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
                             <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
                         </td>

@@ -48,7 +48,10 @@ class UserContentManager extends CActiveRecord
             'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
         );
     }
-
+    public function primaryKey()
+    {
+        return array('id_user', 'start_date');
+    }
     /**
      * @return array customized attribute labels (name=>label)
      */

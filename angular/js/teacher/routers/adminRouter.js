@@ -99,7 +99,7 @@ angular
         .state('admin/users/addrole/:role', {
             url: "/admin/users/addrole/:role",
             cache: false,
-            controller:"usersCtrl",
+            controller:"addRoleCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
             }
@@ -148,6 +148,7 @@ angular
         .state('admin/users/teacher/:id', {
             url: "/admin/users/teacher/:id",
             cache: false,
+            controller:"teachersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
             }

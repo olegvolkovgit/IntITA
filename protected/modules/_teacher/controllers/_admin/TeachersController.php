@@ -345,4 +345,28 @@ class TeachersController extends TeacherCabinetController{
     {
         echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
     }
+
+    public function actionLoadJsonTeacherModel($id)
+    {
+        $result = array();
+        $model=RegisteredUser::userById($id);
+
+        $user = $model->registrationData->getAttributes();
+        $teacher = Teacher::model()->findByPk($id);
+        
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+
+        $result['user']=$user;
+        $result['user']['roles']=$model->getRoles();
+        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        foreach($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]= $role->__toString();
+        }
+        $result['teacher']=(array)$teacher->getAttributes();
+        $result['teacher']['modules']=$teacher->modulesActive;
+
+        echo CJSON::encode($result);
+    }
 }

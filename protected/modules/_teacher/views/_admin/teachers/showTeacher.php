@@ -1,13 +1,3 @@
-<?php
-/**
- * @var $module Module
- * @var $user RegisteredUser
- * @var $role UserRoles
- * @var $model StudentReg
- * @var $teacher Teacher
- */
-$model = $user->registrationData;
-?>
 <div class="col-md-12">
     <div class="row">
 
@@ -16,13 +6,13 @@ $model = $user->registrationData;
                 <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
             </li>
             <li>
-                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/addTeacherRole/<?php echo $teacher->user_id ?>">Призначити роль</a>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/addTeacherRole/{{data.user.id}}">Призначити роль</a>
             </li>
             <li>
-                <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/update/<?php echo $teacher->user_id ?>">Редагувати</a>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/update/{{data.user.id}}">Редагувати</a>
             </li>
             <li>
-                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/<?php echo $teacher->user_id ?>/editRole/role/author">Додати модуль</a>
+                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/{{data.user.id}}/editRole/role/author">Додати модуль</a>
             </li>
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 <li>
@@ -45,96 +35,73 @@ $model = $user->registrationData;
                 <li class="list-group-item">Ім'я:
                     <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $teacher->user_id)) ?>"
                        target="_blank">
-                        <?php echo $teacher->getName() ?></a></li>
+                        {{data.user.secondName}} {{data.user.firstName}} {{data.user.middleName}}
+                    </a>
+                </li>
                 <li class="list-group-item">Ім'я російською:
-                    <?= $teacher->last_name_ru . " " . $teacher->first_name_ru . " " . $teacher->middle_name_ru; ?>
+                    {{data.teacher.last_name_ru}} {{data.teacher.first_name_ru}} {{data.teacher.middle_name_ru}}
                 </li>
                 <li class="list-group-item">Ім'я англійською:
-                    <?= $teacher->last_name_en . " " . $teacher->first_name_en . " " . $teacher->middle_name_en; ?>
+                    {{data.teacher.last_name_en}} {{data.teacher.first_name_en}} {{data.teacher.middle_name_en}}
                 </li>
-                <li class="list-group-item">Електронна пошта: <a
-                        href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$teacher->user_id; ?>">
-                        <?php echo $teacher->user->email; ?></a>
+                <li class="list-group-item">Електронна пошта:
+                    <a ng-href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/'); ?>{{data.user.id}}">
+                        {{data.user.email}}
                 </li>
-                <li class="list-group-item">Приватний чат:
-                    <a href="<?= Config::getChatPath() . $teacher->user_id; ?>"
-                       target="_blank">почати чат</a></li>
-                <li class="list-group-item">Статус співробітника: <em><?php echo $teacher->getStatus(); ?></em>
+                <li class="list-group-item">
+                    Приватний чат:
+                    <a href="<?= Config::getChatPath()?>{{data.user.id}}" target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i></a>
+                </li>
+                <li class="list-group-item">Статус співробітника: <em>{{data.teacher.isPrint==1 ? "видимий" : "невидимий"}}</em>
                     <button type="button" class="btn btn-outline btn-primary btn-xs"
-                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/changeTeacherStatus"); ?>',
-                                '<?= $teacher->user_id ?>',
-                                '<?= ($teacher->isShow()) ? "Приховати викладача?" : "Показати викладача?"; ?>',
-                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
-                                'coworkers');
-                                return false;">
+                            ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/changeTeacherStatus"); ?>',
+                                data.user.id,
+                                data.teacher.isPrint==1?'Приховати викладача?':'Показати викладача?')";>
                         змінити
                     </button>
                 </li>
-                <li class="list-group-item">Акаунт: <em><?php echo $model->accountStatus(); ?></em>
+                <li class="list-group-item">Акаунт: <em>{{data.user.status==1 ? "активований" : "не активований"}}</em>
                     <button type="button" class="btn btn-outline btn-primary btn-xs"
-                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
-                                '<?= $model->id ?>',
-                                '<?= ($model->isAccountActivated()) ? "Заблокувати акаунт користувача?" : "Активувати акаунт користувача?"; ?>',
-                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
-                                'coworkers');
-                                return false;">
+                            ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
+                                data.user.id,
+                                data.user.status==1?'Заблокувати акаунт користувача?':'Активувати акаунт користувача?')";>
                         змінити
                     </button>
                 </li>
-                <li class="list-group-item">Статус користувача: <em><?php echo $model->status(); ?></em>
+                <li class="list-group-item">Статус користувача: <em>{{data.user.cancelled==0 ? "активний" : "видалений"}}</em>
                     <button type="button" class="btn  btn-outline btn-primary btn-xs"
-                            onclick="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
-                                '<?= $model->id ?>',
-                                '<?= ($model->isActive()) ? "Видалити користувача?" : "Відновити користувача?"; ?>',
-                                '<?= addslashes($model->userName()) . " <" . $model->email . ">"; ?>',
-                                'coworkers');
-                                return false;">
+                            ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
+                                 data.user.id,
+                                 data.user.cancelled==0?'Видалити користувача?':'Відновити користувача?');">
                         змінити
                     </button>
                 </li>
+                
+                <li ng-if="data.user.roles.length" class="list-group-item">Ролі користувача:
+                    <ul>
+                        <li ng-repeat="role in data.user.roles track by $index">
+                            {{role}}
+                            <a ng-if="role!='student'" ng-href="#/admin/teacher/{{data.user.id}}/editRole/role/{{role}}">
+                                <em>редагувати</em>
+                            </a>
+                            <a href=""
+                               ng-click="cancelUserRole('<?= Yii::app()->createUrl("/_teacher/user/unsetUserRole"); ?>',
+                               role,data.user.id);">
+                                <em>скасувати</em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-                <?php if (!empty($user->getRoles())) { ?>
-                    <li class="list-group-item">Ролі користувача:
-                        <ul>
-                            <?php foreach ($user->getRoles() as $role) { ?>
-                                <li><?= $role; ?>
-                                    <?php if($role != "student") {?>
-                                    <a href="#"
-                                       onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/editRole/',
-                                           array('id' => $teacher->user_id, 'role' => $role)); ?>','<?= addslashes($teacher->user->userName()) . ", роль " . $role; ?>')"><em>редагувати</em>
-                                    </a>
-                                    <?php } ?>
-                                    <a href="#"
-                                       onclick="cancelTeacherRole('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRole"); ?>',
-                                           '<?= $role ?>',
-                                           '<?= $teacher->user_id; ?>');"><em>скасувати</em>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                <?php } ?>
-
-                <?php if (!empty($teacher->modulesActive)) { ?>
-                    <li class="list-group-item"> Веде модулі:<br>
-                        <ul>
-                            <?php
-                            foreach ($teacher->modulesActive as $module) {
-                                if (!$module->cancelled) {
-                                    ?>
-                                    <li>
-                                        <a href="<?php echo Yii::app()->createUrl('module/index',
-                                            array('idModule' => $module->module_ID)); ?>">
-                                            <?php echo $module->getTitle() . ', ' . $module->language; ?>
-                                        </a>
-                                    </li>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </ul>
-                    </li>
-                <?php } ?>
+                <li ng-if="data.teacher.modules.length" class="list-group-item"> Веде модулі:<br>
+                    <ul>
+                        <li ng-if="module.cancelled==0" ng-repeat="module in data.teacher.modules track by $index">
+                            <a href="" ng-click="moduleLink(module.module_ID)">
+                                {{module.title_ua}} ({{module.language}})
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

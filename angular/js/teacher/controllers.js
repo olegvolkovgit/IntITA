@@ -46,7 +46,9 @@ angular
 angular
     .module('teacherApp')
     .controller('editTeacherRoleCtrl',editTeacherRoleCtrl);
-
+angular
+    .module('teacherApp')
+    .controller('addRoleCtrl',addRoleCtrl);
 
 function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
@@ -398,10 +400,41 @@ function moduleAddTeacherCtrl ($scope){
     });
 }
 
-function teachersCtrl ($scope,$http, $state, DTOptionsBuilder, teacherService, $stateParams){
+function teachersCtrl ($scope,$http, $state, $stateParams){
+    $scope.loadTeacherData=function(){
+        $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id="+$stateParams.id).then(function (response) {
+            $scope.data = response.data;
+            console.log($scope.data);
+        });
+    };
+    $scope.loadTeacherData();
+
+    $scope.changeUserStatus=function (url, user, message) {
+        bootbox.confirm(message, function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.confirm(response.data, function () {
+                        $scope.loadTeacherData();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    };
+    
     $scope.setTeacherRole=function(url){
-        var role = $jq("select[name=role] option:selected").val();
+        var role = $scope.selectedRole;
         var teacher = $jq("#teacher").val();
+        if (typeof role=='undefined') {
+            bootbox.alert('Роль не вибрана');
+            return;
+        }
         $http({
             method: "POST",
             url:  url,
@@ -410,7 +443,7 @@ function teachersCtrl ($scope,$http, $state, DTOptionsBuilder, teacherService, $
             cache: false
         }).then(function successCallback(response) {
             bootbox.confirm(response.data, function () {
-                $state.go("admin/users/teacher/:id", {id:teacher}, {reload: true});
+                $scope.loadTeacherData();
             });
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати.");
@@ -490,6 +523,19 @@ function teachersCtrl ($scope,$http, $state, DTOptionsBuilder, teacherService, $
                 bootbox.alert("Операцію не вдалося виконати.");
             });
         }
+    };
+
+    $scope.moduleLink=function(id) {
+        $http({
+            url: basePath+'/_teacher/_admin/teachers/getModuleLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
     };
 }
 
@@ -616,6 +662,28 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
             });
         }
     };
+}
+
+function addRoleCtrl ($scope, $http, $state){
+    $scope.assignRole=function(url, role) {
+        user = $jq("#userId").val();
+        if (user == 0) {
+            bootbox.alert('Виберіть користувача.');
+        } else {
+            $http({
+                method: 'POST',
+                url: url,
+                data: $jq.param({userId: user, role: role}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function () {
+                    $state.go($state.current, {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+    }
 }
 
 function freelecturesCtrl ($scope){

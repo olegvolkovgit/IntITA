@@ -27,12 +27,12 @@
         <div class="alert alert-info">
             Призначити тренером можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
             за посиланням:
-            <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
+            <a type="button" class="alert-link" ng-href="#/admin/teacher/create">
                 Додати спвіробітника
             </a>.
             <br>
             Список усіх співробітників:
-            <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>.
+            <a type="button" class="alert-link" ng-href="#/admin/teachers">Співробітники</a>.
         </div>
     </div>
 </div>

@@ -9,22 +9,22 @@
         <div class="panel-body">
             <div class="dataTable_wrapper">
                 <table ng-table="tenantsTableParams" class="table table-bordered table-striped table-condensed">
-                    <tr ng-repeat="row in $data track by row.id_user">
-                        <td data-title="'ПІБ'" filter="{'idUser.fullName': 'text'}" sortable="'idUser.fullName'">
-                            <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.firstName}} {{row.idUser.middleName}} {{row.idUser.secondName}}</a>
+                    <tr ng-repeat="row in $data track by $index">
+                        <td data-title="'ПІБ'">
+                            <a ng-href="#/admin/users/user/{{row.id}}">{{row.name}}</a>
                         </td>
-                        <td data-title="'Email'" filter="{'idUser.email': 'text'}" sortable="'idUser.email'">
-                            <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.email}}</a>
+                        <td data-title="'Email'">
+                            <a ng-href="#/admin/users/user/{{row.id}}">{{row.email}}</a>
                         </td>
-                        <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
-                        <td data-title="'Відмінено'" filter="{'end_date': 'text'}" sortable="'end_date'">{{row.end_date}}</td>
-                        <td data-title="'Профіль'"><a ng-href="/profile/{{row.id_user}}" target="_blank">Профіль</a></td>
+                        <td data-title="'Призначено'">{{row.register}}</td>
+                        <td data-title="'Відмінено'">{{row.cancelDate}}</td>
+                        <td data-title="'Профіль'"><a ng-href="{{row.profile}}" target="_blank">Профіль</a></td>
                         <td data-title="'Відправити листа'">
-                            <a class="btnChat"  ng-href="#/newmessages/receiver/{{row.id_user}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                            <a class="btnChat"  ng-href="#/newmessages/receiver/{{row.id}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
                                 <i class="fa fa-envelope fa-fw"></i>
                             </a>
                         </td>
-                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','tenant',row.id_user)"><i class="fa fa-trash fa-fw"></i></a></td>
+                        <td data-title="'Скасувати роль'"><a ng-if="!row.cancelDate" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','tenant',row.id)"><i class="fa fa-trash fa-fw"></i></a></td>
                     </tr>
                 </table>
             </div>
