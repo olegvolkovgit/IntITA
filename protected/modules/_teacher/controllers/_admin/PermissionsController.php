@@ -21,8 +21,8 @@ class PermissionsController extends TeacherCabinetController
         $user = RegisteredUser::userById($id);
 
         $modules = $user->getAttributesByRole(UserRoles::AUTHOR)["module"];
-
-        echo $this->renderPartial('_modules', array('modules' => $modules));
+        echo json_encode($modules);
+        //echo $this->renderPartial('_modules', array('modules' => $modules));
     }
 
     public function actionShowConsultantModules()
@@ -35,7 +35,7 @@ class PermissionsController extends TeacherCabinetController
 
         $modules = $user->getAttributesByRole(UserRoles::CONSULTANT)["module"];
 
-        echo $this->renderPartial('_modules', array('modules' => $modules));
+        echo json_encode($modules);
     }
 
     public function actionCancelTeacherPermission()

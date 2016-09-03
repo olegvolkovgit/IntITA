@@ -38,19 +38,5 @@
         </div>
     </div>
 
-    <script type="text/ng-template" id="customTemplate.html">
-        <a>
-
-            <div class="typeahead_wrapper  tt-selectable">
-                <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
-                <div class="typeahead_labels">
-                    <div ng-bind="match.model.name" class="typeahead_primary"></div>
-                    <div ng-bind="match.model.email" class="typeahead_secondary"></div>
-                </div>
-            </div>
-
-
-        </a>
-    </script>
 
 </div>

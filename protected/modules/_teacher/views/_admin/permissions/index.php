@@ -1,34 +1,31 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="permissionsCtrl">
     <div class="panel-body">
-        <ul id="accessTabs" class="nav nav-tabs">
-            <li class="active"><a href="#addTeacherModule" data-toggle="tab">Призначити автора модуля</a>
-            </li>
-            <li><a href="#cancelTeacherModule" data-toggle="tab">Скасувати права автора модуля</a>
-            </li>
-            <li><a href="#addConsultantModule" data-toggle="tab">Призначити консультанта</a>
-            </li>
-            <li><a href="#cancelConsultantModule" data-toggle="tab">Скасувати права консультанта</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="addTeacherModule">
+        <uib-tabset active="0" >
+            <uib-tab  index="0" heading="Призначити автора модуля" select="reload()">
                 <?php $this->renderPartial('_addTeacherAccess');?>
-            </div>
-            <div class="tab-pane fade" id="cancelTeacherModule">
+            </uib-tab>
+            <uib-tab index="1" heading="Скасувати права автора модуля" select="reload()">
                 <?php $this->renderPartial('_cancelTeacherAccess');?>
-            </div>
-            <div class="tab-pane fade" id="addConsultantModule">
+            </uib-tab>
+            <uib-tab  index="2" heading="Призначити консультанта" select="reload()" >
                 <?php $this->renderPartial('_addConsultantModule');?>
-            </div>
-            <div class="tab-pane fade" id="cancelConsultantModule">
+            </uib-tab>
+            <uib-tab  index="3" heading="Скасувати права консультанта" select="reload()" >
                 <?php $this->renderPartial('_cancelConsultantModule');?>
-            </div>
-        </div>
+            </uib-tab>
+        </uib-tabset>
     </div>
+    <script type="text/ng-template" id="customTemplate.html">
+        <a>
+            <div class="typeahead_wrapper  tt-selectable">
+                <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
+                <div class="typeahead_labels">
+                    <div ng-bind="match.model.name" class="typeahead_primary"></div>
+                    <div ng-bind="match.model.email" class="typeahead_secondary"></div>
+                </div>
+            </div>
+
+
+        </a>
+    </script>
 </div>
-<script>
-    $jq(document).ready(function () {
-        if(history.state!=null)
-            openTab('#accessTabs', history.state.tab);
-    });
-</script>

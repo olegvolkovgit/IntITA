@@ -22,67 +22,68 @@
     <div class="panel-body">
         <div id="addAccessModule">
             <div id="findModule" class="form-group">
-                <form name='findUsers' method="POST">
                     <div>
                         <label>Користувач:</label>
                         <br>
-                        <input id="typeahead" type="text" class="form-control" name="receiver" placeholder="Користувач"
-                               size="135" required autofocus>
-                        <input type="number" hidden="hidden" id="user" value="0"/>
+                        <input type="text" size="135" ng-model="user" ng-model-options="{ debounce: 1000 }" placeholder="Користувач" uib-typeahead="item.email for item in getUsers($viewValue) | limitTo : 10" typeahead-no-results="noResultsUser"  typeahead-template-url="typeaheadUser" typeahead-on-select="selectUser($item)" class="form-control" />
+                        <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResultsUser">
+                            <i class="glyphicon glyphicon-remove"></i> Користувача не знайдено
+                        </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>
 </div>
-
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
-        <form role="form" name="add-accessModule">
-            <fieldset>
                 <label>
                     <strong><?php echo $fieldsetModule; ?>:</strong>
                 </label>
 
                 <div class="form-group">
-                    <input type="number" hidden="hidden" id="moduleId" value="0"/>
-                    <input id="typeaheadModule" type="text" class="form-control" placeholder="Назва модуля"
-                           size="135">
+                    <input type="text" size="135" ng-model="module" ng-model-options="{ debounce: 1000 }" placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo : 10" typeahead-no-results="noResultsModule"  typeahead-on-select="selectModule($item)" class="form-control" />
+                    <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResultsModule">
+                        <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
+                    </div>
                 </div>
-
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonModuleName; ?>"
-                           onclick="checkModuleField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/' . $moduleAction); ?>'); return false;">
+                    <button type="submit" class="btn btn-primary" ng-click="actionModule('<?=$moduleAction?>')"><?php echo $buttonModuleName; ?></button>
                 </div>
-            </fieldset>
-        </form>
     </div>
 </div>
 
 <div class="panel panel-default col-md-7">
     <div class="panel-body">
         <div id="addAccessModule">
-            <a name="form"></a>
-            <form method="POST" name="add-accessCourse"
-                  onsubmit="checkCourseField('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/' . $courseAction); ?>'); return false;">
-                <fieldset>
                     <label>
                         <strong><?php echo $fieldsetCourse ?>:</strong>
                     </label>
-
                     <div class="form-group">
-                        <input type="number" hidden="hidden" id="courseId" value="0"/>
-                        <input id="typeaheadCourse" type="text" class="form-control" placeholder="Назва курса"
-                               size="135">
+                        <input type="text" size="135" ng-model="course" ng-model-options="{ debounce: 1000 }" placeholder="Назва кусру" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10" typeahead-no-results="noResultsCourse"  typeahead-on-select="selectCourse($item)" class="form-control" />
+                        <i ng-show="loadingCourses" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResultsCourse">
+                            <i class="glyphicon glyphicon-remove"></i> Курс не знайдено
+                        </div>
                     </div>
-                    <input type="submit" class="btn btn-primary" value="<?php echo $buttonCourseName; ?>">
-                </fieldset>
-            </form>
+                    <button type="submit" class="btn btn-primary" ng-click="actionCourse('<?=$courseAction?>')"><?php echo $buttonCourseName; ?></button>
         </div>
     </div>
 </div>
+
 </div>
 <br>
-<script>
-
+<script type="text/ng-template" id="typeaheadUser">
+    <a>
+        <div class="typeahead_wrapper  tt-selectable">
+            <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
+            <div class="typeahead_labels">
+                <div ng-bind="match.model.name" class="typeahead_primary"></div>
+                <div ng-bind="match.model.email" class="typeahead_secondary"></div>
+            </div>
+        </div>
+    </a>
 </script>
+
+

@@ -24,21 +24,6 @@ angular
     .module('teacherApp')
     .controller('teachersCtrl',teachersCtrl);
 
-angular
-    .module('teacherApp')
-    .controller('freelecturesCtrl',freelecturesCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('permissionsCtrl',permissionsCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('payCtrl',payCtrl);
-
-angular
-    .module('teacherApp')
-    .controller('oldCtrl',oldCtrl)
 
 angular
     .module('teacherApp')
@@ -52,12 +37,16 @@ angular
 
 function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
+    $scope.changePageHeader = function(headerText){
+        $scope.pageHeader = headerText;
+    };
+
     $scope.fillContainer = function(data)
     {
         container = angular.element(document.querySelector("#pageContainer"));
         container.html('');
         $compile(container.html(data))($scope);
-    }
+    };
 
     $scope.ediConsult = function(url)
     {
@@ -684,22 +673,5 @@ function addRoleCtrl ($scope, $http, $state){
             });
         }
     }
-}
-
-function freelecturesCtrl ($scope){
-    initFreeLectures();
-}
-
-function permissionsCtrl ($scope){
-    initFreeLectures();
-}
-
-function payCtrl ($scope){
-    initPayTypeaheads();
-}
-
-
-function oldCtrl ($scope){
-    initConfigTable();
 }
 
