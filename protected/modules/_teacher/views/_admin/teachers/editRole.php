@@ -11,69 +11,37 @@
         <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
     </li>
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher', array('id' => $model->id)); ?>',
-                    'Переглянути інформацію про співробітника')">
-            Переглянути інформацію про співробітника
-        </button>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/{{data.user.id}}">Переглянути інформацію даного співробітника</a>
+    </li>
+    <li>
+        <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">Переглянути інформацію даного користувача</a>
     </li>
 </ul>
-<div class="panel panel-default">
+<div ng-cloak class="panel panel-default">
     <div class="panel-body">
-        <ul class="nav nav-tabs">
-            <?php
-            foreach ($attributes as $key => $attribute) {
-                if ($attribute["type"] != 'hidden') {
-                    ?>
-                    <li <?php if ($key == 0) echo 'class="active"'; ?>><a href="#<?= $attribute["key"]; ?>"
-                                                                          data-toggle="tab"><?= $attribute["title"]; ?></a>
-                    </li>
-                <?php }
-            } ?>
-        </ul>
-        <div class="tab-content col col-md-12">
-            <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
-            <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
-            <?php if (!empty($attributes)) {
-                foreach ($attributes as $key => $attribute) {
-                    ?>
-                    <div class="tab-pane fade  <?php if ($key == 0) echo 'in active'; ?>"
-                         id="<?= $attribute["key"]; ?>">
-                        <div class="form-group">
-                            <input type="text" hidden="hidden" value="<?= $attribute["key"]; ?>" id="attr">
-                            <?php
-                            switch ($attribute["type"]) {
-                                case "module-list":
-                                    $this->renderPartial('_moduleList', array(
-                                        'attribute' => $attribute,
-                                        'model' => $model,
-                                        'role' => $role
-                                    ));
-                                    break;
-                                case "students-list":
-                                    $this->renderPartial('_studentsList', array(
-                                        'attribute' => $attribute,
-                                        'model' => $model,
-                                        'role' => $role
-                                    ));
-                                    break;
-                                case "hidden":
-                                    break;
-                                default:
-                                    $this->renderPartial('_numberAttribute', array(
-                                        'attribute' => $attribute,
-                                        'user' => $model->id,
-                                        'role' => $role
-                                    ));
-                                    break;
-                            } ?>
-                        </div>
+        <input type="hidden" ng-value="data.user.id" id="user">
+        <input type="hidden" ng-value="data.user.role" id="role">
+        <uib-tabset active="0" >
+            <uib-tab  ng-if="(data.user.roles[data.user.role].length && attribute.type!='hidden') || data.user.role=='author'"
+                      ng-repeat="attribute in data.user.roles[data.user.role] track by $index" index="$index" heading="{{attribute.title}}">
+                <div class="form-group">
+                    <input type="hidden" ng-value="attribute.key" id="attr">
+                    <div ng-if="attribute.type=='module-list'">
+                        <?php $this->renderPartial('_moduleList', array()); ?>
                     </div>
-                <?php }
-            } else { ?>
+                    <div ng-if="attribute.type=='students-list'">
+                        <?php $this->renderPartial('_studentsList', array()); ?>
+                    </div>
+                    <div ng-if="attribute.type=='hidden'"></div>
+                    <div ng-if="attribute.type=='number'">
+                        <?php $this->renderPartial('_numberAttribute', array()); ?>
+                    </div>
+                </div>
+            </uib-tab>
+            <div ng-if="!data.user.roles[data.user.role].length && data.user.role!='author'">
                 Атрибутів для даної ролі не задано.
-            <?php } ?>
-        </div>
+            </div>
+        </uib-tabset>
     </div>
 </div>
 

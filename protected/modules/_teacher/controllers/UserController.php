@@ -9,7 +9,7 @@ class UserController extends TeacherCabinetController {
     public function actionIndex($id)
     {
         $model = RegisteredUser::userById($id);
-          $trainer = TrainerStudent::getTrainerByStudent($id);
+        $trainer = TrainerStudent::getTrainerByStudent($id);
 
         $this->renderPartial('index', array(
             'model' => $model,
@@ -121,5 +121,40 @@ class UserController extends TeacherCabinetController {
         } else {
             throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
         }
+    }
+
+    public function actionLoadJsonUserModel($id)
+    {
+        $result = array();
+        $model=RegisteredUser::userById($id);
+        
+        $user = $model->registrationData->getAttributes();
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+
+        $result['user']=$user;
+        $result['user']['roles']=$model->getRoles();
+        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        foreach($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]= $role->__toString();
+        }
+        $result['trainer']=$trainer;
+        if($model->isStudent()){
+            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+            foreach($result['courses'] as $key=>$course){
+                $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
+                foreach($result['courses'][$key]['modules'] as $index=>$module){
+                    $result['courses'][$key]['modules'][$index]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
+                }
+            }
+            foreach($result['modules'] as $key=>$module){
+                $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
+            }
+        }
+
+        echo CJSON::encode($result);
     }
 }

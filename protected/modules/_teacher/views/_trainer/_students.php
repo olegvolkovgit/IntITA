@@ -21,8 +21,7 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="#" name="<?= trim($item["title"]." (".$item["email"].")"); ?>"
-                               onclick="load('<?=Yii::app()->createUrl("/_teacher/user/index", array("id" => $item["id"]));?>')">
+                            <a ng-href="#/admin/users/user/<?php echo $item["id"] ?>" >
                                 <?= $item["title"]." (".$item["email"].")"; ?>
                             </a>
                         </td>

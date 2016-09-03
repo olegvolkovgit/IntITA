@@ -188,8 +188,11 @@ class StudentReg extends CActiveRecord
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'condition' => 'end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
             'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
-            'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'condition' => 'rights = 1'),
-            'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'condition' => 'rights = 1'),
+//            'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'condition' => 'payModules.rights = 1'),
+//            'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'condition' => 'payCourses.rights = 1'),
+            'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user'),
+            'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user'),
+            'studentTrainer' => array(self::HAS_ONE, 'TrainerStudent', 'student'),
         );
     }
 
@@ -237,6 +240,14 @@ class StudentReg extends CActiveRecord
             'document_issued_date' => 'Дата видачі паспорта',
             'passport_issued' => 'Ким виданий (паспорт)',
         );
+    }
+
+    public function behaviors() {
+        return [
+            'ngTable' => [
+                'class' => 'NgTableProviderStudentReg'
+            ]
+        ];
     }
 
     public function login()

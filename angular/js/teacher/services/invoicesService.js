@@ -13,11 +13,7 @@ angular
             {
                 list: {
                     url : url + '/getInvoices',
-                    method: 'GET',
-                    params: {
-                        page: 'page',
-                        pageCount: 'pageCount'
-                    }
+                    method: 'GET'
                 },
                 typeahead: {
                     url: url + '/getTypeahead',

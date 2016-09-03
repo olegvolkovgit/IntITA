@@ -14,12 +14,12 @@
                 <?php $this->renderPartial('_rolesTab', array('model' =>$model));?>
             </uib-tab>
             <?php if ($model->isStudent()){?>
-            <uib-tab index="2" heading="Курси">
-                <?php $this->renderPartial('_coursesTab', array('model' =>$model));?>
-            </uib-tab>
-            <uib-tab index="3" heading="Модулі">
-                <?php $this->renderPartial('_modulesTab', array('model' =>$model));?>
-            </uib-tab>
+                <uib-tab index="2" heading="Курси">
+                    <?php $this->renderPartial('_coursesTab');?>
+                </uib-tab>
+                <uib-tab index="3" heading="Модулі">
+                    <?php $this->renderPartial('_modulesTab');?>
+                </uib-tab>
             <?php }?>
         </uib-tabset>
     </div>

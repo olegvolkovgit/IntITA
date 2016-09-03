@@ -171,10 +171,10 @@ class Graduate extends CActiveRecord
 
     public function name(){
         if(isset(Yii::app()->session['lg'])){
-            if(Yii::app()->session['lg'] == 'en'  && $this->last_name_en != '' && $this->last_name_en != ''){
+            if(Yii::app()->session['lg'] == 'en'  && $this->last_name_en != 'не указано' && $this->last_name_en != ''){
                 return $this->last_name_en."&nbsp;".$this->first_name_en;
             }
-            if(Yii::app()->session['lg'] == 'ru'  && $this->last_name_ru != 'не указано' && $this->last_name_ru != 'не указано'){
+            if(Yii::app()->session['lg'] == 'ru'  && $this->last_name_ru != 'не указано' && $this->last_name_ru != ''){
                 return $this->last_name_ru."&nbsp;".$this->first_name_ru;
             }
         }

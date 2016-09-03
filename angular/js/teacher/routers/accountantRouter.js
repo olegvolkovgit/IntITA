@@ -20,7 +20,7 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: accountantUrl+"agreements/index"
         })
-        .state('accountant/agreement/{agreementId:[0-9]*}', {
+        .state('accountant/agreement/', {
             url: "/accountant/agreement/{agreementId:[0-9]*}",
             cache         : false,
             templateUrl: accountantUrl+"agreements/agreement"

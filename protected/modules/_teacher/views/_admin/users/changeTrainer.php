@@ -7,29 +7,32 @@
  */
 ?>
 <div class="col-md-8">
+    <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">
+        Переглянути інформацію про користувача
+    </a>
     <h4><em>Користувач:</em></h4>
     <div id="userInfo">
-        <?php echo $user->firstName . " " . $user->secondName . " &lt;" . $user->email . "&gt;"; ?>
+        {{data.user.firstName}} {{data.user.secondName}} &lt;{{data.user.email}}&gt;
     </div>
     <br>
-    <?php if ($oldTrainer) { ?>
+    <div ng-if="data.trainer">
         <h4><em>Тренер:</em></h4>
         <form method="post"
-              onsubmit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/removeTrainer"); ?>', 'remove');return false;">
-            <input class="form-control" id="user" type="hidden" value="<?php echo $user->id ?>">
-            <input class="form-control" id="oldTrainerId" type="hidden" value="<?php echo $oldTrainer->user_id ?>">
+              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/removeTrainer"); ?>', 'remove');">
+            <input class="form-control" id="user" type="hidden" ng-value="data.user.id">
+            <input class="form-control" id="oldTrainerId" type="hidden" ng-value="data.trainer.user_id">
             <div id="userInfo">
-                <?php echo $oldTrainer->getName() . " &lt;" . $oldTrainer->email() . "&gt;"; ?>
+                {{data.trainer.firstName}} {{data.trainer.secondName}} {{data.trainer.middleName}} &lt;{{data.trainer.email}}&gt;
             </div>
             <input type="submit" class="btn btn-success" value="Скасувати">
         </form>
-    <?php } ?>
+    </div>
     <br>
     <h4><em>Новий тренер:</em></h4>
     <div class="form-group">
         <form method="post"
-              onsubmit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/editTrainer"); ?>', 'edit');return false;">
-            <input class="form-control" id="user" type="hidden" value="<?php echo $user->id ?>">
+              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/editTrainer"); ?>', 'edit');">
+            <input class="form-control" id="user" type="hidden" ng-value="data.user.id">
             <?php $this->renderPartial('_selectTrainer'); ?>
             <br>
             <br>

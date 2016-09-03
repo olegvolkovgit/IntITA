@@ -55,6 +55,10 @@ class Operation extends CActiveRecord
 			'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_create'),
 		);
 	}
+    
+    public function performAjaxValidation($model) {
+        
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)

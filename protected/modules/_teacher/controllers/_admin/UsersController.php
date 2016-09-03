@@ -95,19 +95,67 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetStudentsList()
     {
-        $startDate = Yii::app()->request->getParam('startDate');
-        $endDate = Yii::app()->request->getParam('endDate');
-        echo StudentReg::getStudentsList($startDate, $endDate);
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
+            'country0'=>true,
+            'city0'=>true,
+            'payModules'=>true,
+            'payCourses'=>true,
+            'studentTrainer'=>true));
+
+        $criteria =  new CDbCriteria();
+
+        $criteria->alias = 't';
+        $criteria->join = 'inner join user_student us on t.id = us.id_user';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
+        $criteria->group = 't.id';
+        if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+            $startDate=$_GET['startDate'];
+            $endDate=$_GET['endDate'];
+            $criteria->condition = "TIMESTAMP(us.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
+        }
+
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetUsersList()
     {
-        echo StudentReg::usersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
+            'country0'=>true,
+            'city0'=>true,
+            'payModules'=>true,
+            'payCourses'=>true
+            )
+        );
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'cancelled='.StudentReg::ACTIVE;
+
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetWithoutRolesUsersList()
     {
-        echo StudentReg::withoutRolesUsersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
+            'country0'=>true,
+            'city0'=>true
+        ));
+        
+        $criteria = new CDbCriteria();
+        $criteria->alias = 't';
+        $criteria->join = 'left join user_student us on us.id_user=t.id';
+        $criteria->join .= ' left join teacher tt on tt.user_id=t.id';
+        $criteria->addCondition('t.cancelled='.StudentReg::ACTIVE);
+        $criteria->addCondition('us.id_user IS NULL and tt.user_id IS NULL');
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
 
@@ -118,37 +166,58 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetContentManagersList()
     {
-        echo UserContentManager::contentManagersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserContentManager', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTeacherConsultantsList()
     {
-        echo UserTeacherConsultant::teacherConsultantsList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserTeacherConsultant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTeachersList()
     {
-        echo Teacher::teachersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('Teacher', $requestParams,array('user'=>true));
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetAdminsList()
     {
-        echo UserAdmin::adminsData();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAdmin', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetAccountantsList()
     {
-        echo UserAccountant::accountantsData();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAccountant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTrainersList()
     {
-        echo UserTrainer::trainersList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserTrainer', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetConsultantsList()
     {
-        echo UserConsultant::consultantsList();
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserConsultant', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionAddTrainer($id)

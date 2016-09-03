@@ -11,16 +11,19 @@
  */
 ?>
 <div class="col-md-9">
+    <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">
+        Переглянути інформацію про користувача
+    </a>
     <h4><em>Користувач:</em></h4>
     <div id="userInfo">
-        <?php echo $user->firstName . " " . $user->secondName . " &lt;" . $user->email . "&gt;"; ?>
+        {{data.user.firstName}} {{data.user.secondName}} &lt;{{data.user.email}}&gt;
     </div>
     <br>
     <h4><em>Тренер:</em></h4>
     <div class="form-group">
         <form method="post"
-              onsubmit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/setTrainer"); ?>', 'new','<?php echo addslashes($user->firstName . " " . $user->secondName . " &lt;" . $user->email . "&gt;"); ?>');return false;">
-            <input class="form-control" id="user" type="hidden" value="<?php echo $user->id ?>">
+              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/setTrainer"); ?>', 'new');">
+            <input class="form-control" id="user" type="hidden" ng-value="data.user.id">
             <?php $this->renderPartial('_selectTrainer');?>
             <br>
             <br>

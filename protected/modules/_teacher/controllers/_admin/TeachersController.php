@@ -325,4 +325,48 @@ class TeachersController extends TeacherCabinetController{
             'attributes' => $attributes
         ), false, true);
     }
+
+    public function actionGetTeacherDataList($id, $currentRole)
+    {
+        $result = array();
+        $user=RegisteredUser::userById($id);
+        $userAttr = $user->registrationData->getAttributes();
+
+        $result['user']=$userAttr;
+        $result['user']['role']=$currentRole;
+        foreach($user->getRoles() as $key=>$role){
+            $result['user']['roles'][$role->__toString()]= $user->getAttributesByRole($role);
+        }
+
+        echo CJSON::encode($result);
+    }
+
+    public function actionGetModuleLink()
+    {
+        echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
+    }
+
+    public function actionLoadJsonTeacherModel($id)
+    {
+        $result = array();
+        $model=RegisteredUser::userById($id);
+
+        $user = $model->registrationData->getAttributes();
+        $teacher = Teacher::model()->findByPk($id);
+        
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+
+        $result['user']=$user;
+        $result['user']['roles']=$model->getRoles();
+        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        foreach($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]= $role->__toString();
+        }
+        $result['teacher']=(array)$teacher->getAttributes();
+        $result['teacher']['modules']=$teacher->modulesActive;
+
+        echo CJSON::encode($result);
+    }
 }

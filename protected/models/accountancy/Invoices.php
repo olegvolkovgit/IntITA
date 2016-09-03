@@ -20,7 +20,7 @@ class Invoices {
             if (is_array($value)) {
                 $criteria->addInCondition($field, $value);
             } else {
-                $criteria->addCondition("$field = $value");
+                $criteria->addCondition("t.$field = $value");
             }
         }
 

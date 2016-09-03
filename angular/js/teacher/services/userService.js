@@ -17,6 +17,10 @@ angular
                             query : 'query'
                         },
                         isArray:true
+                    },
+                    query: {
+                        url : url + '/getUser',
+                        isArray:true
                     }
                 });
         }]);

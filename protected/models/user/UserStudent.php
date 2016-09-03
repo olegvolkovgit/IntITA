@@ -49,6 +49,11 @@ class UserStudent extends CActiveRecord
 		);
 	}
 
+	public function primaryKey()
+	{
+		return array('id_user', 'start_date');
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
