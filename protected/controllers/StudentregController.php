@@ -321,11 +321,32 @@ class StudentRegController extends Controller
     }
 
     public function actionGetTypeahead($query) {
-
         $models = AccountancyHelper::getTypeahead($query, 'StudentReg', ['firstName', 'middleName', 'secondName', 'email']);
         $array = AccountancyHelper::toAssocArray($models);
         echo json_encode($array);
+    }
 
+    /**
+     * Method search user models by parameters
+     * @param string $concatOperator - condition to concat different params in search query
+     * @return array JSON
+     */
+    public function actionGetUser($concatOperator = 'AND') {
+        $criteria = new CDbCriteria();
+
+        /* getting all model fields */
+        $searchFields = array_keys(StudentReg::model()->getAttributes());
+        /* preparing criteria */
+        foreach ($searchFields as $searchField) {
+            $value = Yii::app()->request->getParam($searchField, null);
+            if ($value !== null) {
+                $criteria->addCondition("$searchField = $value", $concatOperator);
+            }
+        }
+
+        $models = StudentReg::model()->findAll($criteria);
+
+        echo json_encode(AccountancyHelper::toAssocArray($models));
     }
 
 }

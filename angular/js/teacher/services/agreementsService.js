@@ -13,11 +13,7 @@ angular
                 {
                     list: {
                         url: url + '/getAgreementsList',
-                        method: 'GET',
-                        params: {
-                            page: 'page',
-                            pageCount: 'pageCount'
-                        }
+                        method: 'GET'
                     },
                     confirm: {
                         url: url + '/confirm',

@@ -3,15 +3,13 @@
  * @var $model RegisteredUser
  * @var $user StudentReg
  */
-$user = $model->registrationData;
-$courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
         <?php if(Yii::app()->user->model->isAdmin()){?>
         <div class="row">
             <form>
-                <input type="number" hidden="hidden" value="<?= $user->id; ?>" id="user">
+                <input type="number" hidden="hidden" ng-value=data.user.id id="user">
                 <input type="text" hidden="hidden" value="student" id="role">
                 <div class="col col-md-6">
                     <input type="number" hidden="hidden" id="value" value="0"/>
@@ -20,9 +18,8 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                 </div>
                 <div class="col col-md-2">
                     <button type="button" class="btn btn-success"
-                            onclick="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payCourse'); ?>',
-                                '<?= $user->id; ?>',
-                                '<?=addslashes($user->userName())." <".$user->email.">";?>',
+                            ng-click="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payCourse'); ?>',
+                                data.user.id,
                                 'course')">
                         Сплатити курс
                     </button>
@@ -34,53 +31,40 @@ $courses = $model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>Проплачені курси:</h4>
-                <?php if (!empty($courses)) { ?>
-                    <ul class="list-group">
-                        <?php foreach ($courses as $course) {
-                            ?>
-                            <div class="panel-group">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#collapse<?= $course["id"] ?>">
-                                                <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
-                                            </a>
-                                            <?php if(Yii::app()->user->model->isAdmin()){?>
-                                            <button type="button" class="btn btn-outline btn-success btn-xs"
-                                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/user/agreement",
-                                                        array("user" => $user->id, "param" => $course["id"], "type" => "course")) ?>')">
+                <ul ng-if="data.courses.length" class="list-group">
+                    <li ng-repeat="course in data.courses track by $index" class="list-group-item">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a href="" data-toggle="collapse" ng-click="collapse('#collapse'+course.id)">
+                                            {{course.title}} ({{course.lang}})
+                                        </a>
+                                        <?php if(Yii::app()->user->model->isAdmin()){?>
+                                            <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/agreement/course/{{course.id}}">
                                                 <em>договір</em>
-                                            </button>
-                                            <a href="#" onclick="cancelCourse('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelCourse'); ?>',
-                                                '<?=$course["id"]?>',
-                                                '<?=$user->id?>'); return false;">
+                                            </a>
+                                            <a href=""
+                                               ng-click="cancelCourse('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelCourse'); ?>',course.id,data.user.id)">
                                                 <span class="warningMessage"><em> скасувати доступ</em></span>
                                             </a>
-                                            <?php } ?>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
-                                        <ul>
-                                            <?php
-                                            $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
-                                            foreach ($courseModules as $record) { ?>
-                                                <li class="list-group-item">
-                                                    <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"
-                                                       target="_blank">
-                                                        <?= $record["title"] . " (" . $record["lang"] . ")  "; ?>
-                                                    </a>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
+                                        <?php } ?>
+                                    </h4>
+                                </div>
+                                <div id="collapse{{course.id}}" class="panel-collapse collapse">
+                                    <ul>
+                                        <li ng-repeat="module in course.modules track by $index">
+                                            <a href={{module.link}} target="_blank">
+                                                {{module.title}} ({{module.lang}})
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-
-                        <?php } ?>
-                    </ul>
-                <?php } else { ?>
-                    <em>Курсів немає.</em>
-                <?php } ?>
+                        </div>
+                    </li>
+                </ul>
+                <em ng-if="!data.courses.length">Курсів немає.</em>
             </div>
         </div>
     </div>

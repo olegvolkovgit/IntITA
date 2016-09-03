@@ -13,28 +13,26 @@
                     яких вже є права tenant'а.</em>
                 <br>
             </div>
-
+            
             <button class="btn btn-primary"
-                    onclick="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>',
-                        'tenant', '10'); return false;">
+                    ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','tenant');">
                 Призначити tenant'а
             </button>
 
-            <button type="reset" class="btn btn-default"
-                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/users/index") ?>')">
+            <a type="button" class="btn btn-default" ng-href="#/admin/users">
                 Скасувати
-            </button>
+            </a>
         </form>
         <br>
         <div class="alert alert-info">
             Призначити tenant'ом можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
             за посиланням:
-            <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
+            <a type="button" class="alert-link" ng-href="#/admin/teacher/create">
                 Додати спвіробітника
             </a>.
             <br>
             Список усіх співробітників:
-            <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>.
+            <a type="button" class="alert-link" ng-href="#/admin/teachers">Співробітники</a>.
         </div>
     </div>
 </div>

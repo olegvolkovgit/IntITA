@@ -37,12 +37,11 @@ class AgreementsController extends TeacherCabinetController {
         $this->renderPartial('index');
     }
 
-    public function actionGetAgreementsList($page = 1, $pageCount = 10) {
-        $agreements = new Agreements();
-        $limit = $pageCount;
-        $offset = $page * $pageCount - $pageCount;
-        $json = $agreements->getUserAgreements($offset, $limit);
-        echo json_encode($json);
+    public function actionGetAgreementsList() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserAgreements', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionGetTypeahead($query) {

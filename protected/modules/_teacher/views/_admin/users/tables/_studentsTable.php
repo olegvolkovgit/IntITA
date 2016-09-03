@@ -34,31 +34,29 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="studentsTable" datatable="ng" dt-options="dtOptions">
-                    <thead>
-                    <tr>
-                        <th>ПІБ</th>
-                        <th>Email</th>
-                        <th>Зареєстровано</th>
-                        <th>Форма</th>
-                        <th>Країна</th>
-                        <th>Місто</th>
-                        <th>Тренер</th>
-                        <th>Доступ</th>
+                <table ng-table="studentsTableParams" class="table table-bordered table-striped table-condensed">
+                    <tr ng-repeat="row in $data track by $index">
+                        <td data-title="'ПІБ'" filter="{'fullName': 'text'}">
+                            <a ng-href="#/admin/users/user/{{row.id}}">{{row.firstName}} {{row.middleName}} {{row.secondName}}</a>
+                        </td>
+                        <td data-title="'Email'" filter="{'email': 'text'}" sortable="'email'">
+                            <a ng-href="#/admin/users/user/{{row.id}}">{{row.email}}</a>
+                        </td>
+                        <td data-title="'Зареєстровано'" filter="{'reg_time': 'text'}" sortable="'reg_time'">{{row.reg_time=='0000-00-00 00:00:00'  ? "невідомо" : row.reg_time}}</td>
+                        <td data-title="'Форма'" filter="{'educform': 'text'}" sortable="'educform'">{{row.educform}}</td>
+                        <td data-title="'Країна'" >{{row.country0.title_ua}}</td>
+                        <td data-title="'Місто'" >{{row.city.title_ua}}</td>
+                        <td data-title="'Тренер'" sortable="'studentTrainer.trainer'">
+                            {{row.studentTrainer.trainer ? 'присутній':''}}
+                        </td>
+                        <td data-title="'Доступ до контента'" >
+                            <a type="button"
+                               ng-class="{'btn btn-outline btn-success btn-block': (row.payCourses.length || row.payModules.length),
+                               'btn btn-outline btn-danger btn-block': (!row.payCourses.length && !row.payModules.length) }" ng-href="#/admin/users/user/{{row.id}}">
+                                {{(row.payCourses.length || row.payModules.length)? "є доступ":"немає доступу"}}
+                            </a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="row in studentsList">
-                        <td><a ng-href="#/admin/users/user/{{row.student.id}}">{{row.student.name}}</a></td>
-                        <td><a ng-href="#/admin/users/user/{{row.student.id}}">{{row.email.title}}</a></td>
-                        <td>{{row.date}}</a> </td>
-                        <td>{{row.educForm}}</td>
-                        <td>{{row.country}}</td>
-                        <td>{{row.city}}</td>
-                        <td>{{row.trainer}}</td>
-                        <td><a type="button" class="btn btn-outline btn-{{row.addAccessLink.color}} btn-block" ng-href="#/admin/users/user/{{row.student.id}}">{{row.addAccessLink.text}}</a></td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
