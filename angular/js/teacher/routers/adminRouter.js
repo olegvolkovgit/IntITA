@@ -97,11 +97,18 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
         })
-
         .state('admin/users', {
             url: "/admin/users",
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/users/index",
+        })
+        .state('admin/users/addrole/:role', {
+            url: "/admin/users/addrole/:role",
+            cache: false,
+            controller:"addRoleCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/renderAddRoleForm/role/"+$stateParams.role;
+            }
         })
         .state('admin/users/user/:id', {
             url: "/admin/users/user/:id",
@@ -114,6 +121,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id/addtrainer', {
             url: "/admin/users/user/:id/addtrainer",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
             }
@@ -121,14 +129,32 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/users/user/:id/changetrainer', {
             url: "/admin/users/user/:id/changetrainer",
             cache: false,
+            controller:"usersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/users/changeTrainer/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/addrole', {
+            url: "/admin/users/user/:id/addrole",
+            cache: false,
+            controller:"usersCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/user/addRole/id/"+$stateParams.id;
+            }
+        })
+        .state('admin/users/user/:id/agreement/:type/:idCourse', {
+            url: "/admin/users/user/:id/agreement/:type/:idCourse",
+            cache: false,
+            controller:"usersCtrl",
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
             }
         })
         
         .state('admin/users/teacher/:id', {
             url: "/admin/users/teacher/:id",
             cache: false,
+            controller:"teachersCtrl",
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
             }
@@ -153,12 +179,12 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_admin/teachers/addTeacherRole/?id="+$stateParams.id;
             }
         })
-        .state('admin/teacher/addModule/:id', {
-            url: "/admin/teacher/addModule/:id",
+        .state('admin/teacher/:id/editRole/role/:role', {
+            url: "/admin/teacher/:id/editRole/role/:role",
             cache: false,
-            controller: "teachersCtrl",
+            controller: "editTeacherRoleCtrl",
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/addModule/?id="+$stateParams.id;
+                return basePath+"/_teacher/_admin/teachers/editRole/id/"+$stateParams.id+'/role/'+$stateParams.role;
             }
         })
         
@@ -244,6 +270,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             cache: false,
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/coursemanage/schema/idCourse/"+$stateParams.id;
+            }
+        })
+        .state('config/view/:id', {
+            url: "/config/view/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                console.log($stateParams.id);
+                return basePath + "/_teacher/_admin/config/view/id/" + $stateParams.id;
             }
         })
         .state('addLinkedCourse/:model/:course/:lang', {

@@ -28,7 +28,12 @@ angular
 angular
     .module('teacherApp')
     .controller('moduleAddTeacherCtrl',moduleAddTeacherCtrl);
-
+angular
+    .module('teacherApp')
+    .controller('editTeacherRoleCtrl',editTeacherRoleCtrl);
+angular
+    .module('teacherApp')
+    .controller('addRoleCtrl',addRoleCtrl);
 
 function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
@@ -384,10 +389,41 @@ function moduleAddTeacherCtrl ($scope){
     });
 }
 
-function teachersCtrl ($scope,$http, $state){
+function teachersCtrl ($scope,$http, $state, $stateParams){
+    $scope.loadTeacherData=function(){
+        $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id="+$stateParams.id).then(function (response) {
+            $scope.data = response.data;
+            console.log($scope.data);
+        });
+    };
+    $scope.loadTeacherData();
+
+    $scope.changeUserStatus=function (url, user, message) {
+        bootbox.confirm(message, function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.confirm(response.data, function () {
+                        $scope.loadTeacherData();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    };
+    
     $scope.setTeacherRole=function(url){
-        var role = $jq("select[name=role] option:selected").val();
+        var role = $scope.selectedRole;
         var teacher = $jq("#teacher").val();
+        if (typeof role=='undefined') {
+            bootbox.alert('Роль не вибрана');
+            return;
+        }
         $http({
             method: "POST",
             url:  url,
@@ -396,14 +432,14 @@ function teachersCtrl ($scope,$http, $state){
             cache: false
         }).then(function successCallback(response) {
             bootbox.confirm(response.data, function () {
-                $state.go("admin/users/teacher/:id", {id:teacher}, {reload: true});
+                $scope.loadTeacherData();
             });
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати.");
         });
     };
 
-    $scope.addTeacherAttr=function(url, attr, id, role,header,redirect) {
+    $scope.addTeacherAttr=function(url, attr, id, role) {
         user = $jq('#user').val();
         if (!role) {
             role = $jq('#role').val();
@@ -423,7 +459,7 @@ function teachersCtrl ($scope,$http, $state){
             }).then(function successCallback(response) {
                 if (response.data == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        $state.go($state.current, {}, {reload: true});
+                        $scope.loadTeacherData();
                     });
                 } else {
                     switch (role) {
@@ -467,7 +503,145 @@ function teachersCtrl ($scope,$http, $state){
             }).then(function successCallback(response) {
                 if (response.data == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
-                        $state.go($state.current, {}, {reload: true});
+                        $scope.loadTeacherData();
+                    });
+                } else {
+                    showDialog("Операцію не вдалося виконати.");
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
+
+    $scope.moduleLink=function(id) {
+        $http({
+            url: basePath+'/_teacher/_admin/teachers/getModuleLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
+}
+
+function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherService, $stateParams) {
+    $scope.loadTeacherData=function(){
+        teacherService.dataList({id: $stateParams.id, currentRole:$stateParams.role}).$promise.then(function (response) {
+            $scope.data = response;
+            console.log(response);
+        });
+    };
+    $scope.loadTeacherData();
+
+    $scope.dtModulesOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+        .withOption('order', [[2, 'desc']]);
+    $scope.dtStudentsOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+        .withOption('order', [[2, 'desc']]);
+
+    $scope.moduleLink=function(id) {
+        $http({
+            url: basePath+'/_teacher/_admin/teachers/getModuleLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
+
+    $scope.setTeacherRole=function(url){
+        var role = $jq("select[name=role] option:selected").val();
+        var teacher = $jq("#teacher").val();
+        $http({
+            method: "POST",
+            url:  url,
+            data: $jq.param({role: role, teacher: teacher}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function successCallback(response) {
+            bootbox.confirm(response.data, function () {
+                $state.go("admin/users/teacher/:id", {id:teacher}, {reload: true});
+            });
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати.");
+        });
+    };
+
+    $scope.addTeacherAttr=function(url, attr, id, role) {
+        user = $jq('#user').val();
+        if (!role) {
+            role = $jq('#role').val();
+        }
+        var value = $jq(id).val();
+
+        if (value == 0) {
+            bootbox.alert('Введіть дані форми.');
+        }
+        if (parseInt(user && value)) {
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: value}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        $scope.loadTeacherData();
+                    });
+                } else {
+                    switch (role) {
+                        case "trainer":
+                            bootbox.alert(response.data);
+                            break;
+                        case "author":
+                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        case "consultant":
+                            bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
+                            break;
+                        case "teacher_consultant":
+                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        default:
+                            bootbox.alert("Операцію не вдалося виконати");
+                            break;
+                    }
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    };
+
+    $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
+        if (!user) {
+            user = $jq('#user').val();
+        }
+        if (!role) {
+            role = $jq('#role').val();
+        }
+        if (user && role) {
+            $http({
+                method: "POST",
+                url: url,
+                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        $scope.loadTeacherData();
                     });
                 } else {
                     showDialog("Операцію не вдалося виконати.");
@@ -479,5 +653,25 @@ function teachersCtrl ($scope,$http, $state){
     };
 }
 
-
+function addRoleCtrl ($scope, $http, $state){
+    $scope.assignRole=function(url, role) {
+        user = $jq("#userId").val();
+        if (user == 0) {
+            bootbox.alert('Виберіть користувача.');
+        } else {
+            $http({
+                method: 'POST',
+                url: url,
+                data: $jq.param({userId: user, role: role}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function () {
+                    $state.go($state.current, {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+    }
+}
 
