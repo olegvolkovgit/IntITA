@@ -16,8 +16,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initApprovedRequestsTable();
-    });
-</script>

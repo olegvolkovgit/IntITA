@@ -17,6 +17,6 @@ $teacher = $params[2];
         <strong><?= $model->title_ua; ?></strong>
     </a>.</span>
 <br>
-Підтвердити або скасувати запит: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/admin/requests">
-    <em>запити</em>
+Підтвердити або скасувати запит: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
+    <em>Кабінет</em>
 </a>

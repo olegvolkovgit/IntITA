@@ -25,7 +25,7 @@ foreach ($requests as $key=>$request) {
 } ?>
 <li>
     <a class="text-center" href="#">
-        <strong><a ng-href="#/admin/requests">
+        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/index")?>', 'Запити')">
                 Всі запити</a></strong>
         <i class="fa fa-angle-right"></i>
     </a>

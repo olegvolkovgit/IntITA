@@ -1,23 +1,43 @@
 <div class="panel panel-default">
     <div class="panel-body">
+        <!-- Nav tabs -->
+        <ul id="userTabs" class="nav nav-tabs">
+            <li class="active"><a href="#active" data-toggle="tab">Очікують підтвердження</a>
+            </li>
+            <li><a href="#approved" data-toggle="tab">Підтверджені</a>
+            </li>
+            <li><a href="#deleted" data-toggle="tab">Відхилені запити</a>
+            </li>
+            <?php if(Yii::app()->user->model->isContentManager()){ ?>
+                <li><a href="#rejected" data-toggle="tab">Відхилені ревізії</a>
+                </li>
+            <?php } ?>
+        </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            <uib-tabset active="0" >
-                <uib-tab index="0" heading="Очікують підтвердження">
-                    <?php $this->renderPartial('_activeRequests');?>
-                </uib-tab>
-                <uib-tab index="1" heading="Підтверджені">
-                    <?php $this->renderPartial('_approvedRequests');?>
-                </uib-tab>
-                <uib-tab index="2" heading="Відхилені запити">
-                    <?php $this->renderPartial('_deletedRequests');?>
-                </uib-tab>
-                <?php if(Yii::app()->user->model->isContentManager()){ ?>
-                    <uib-tab index="3" heading="Відхилені ревізії">
-                        <?php $this->renderPartial('_rejectedRevisionRequests');?>
-                    </uib-tab>
-                <?php } ?>
-            </uib-tabset>
+            <div class="tab-pane fade in active" id="active">
+                <?php $this->renderPartial('_activeRequests');?>
+            </div>
+            <div class="tab-pane fade" id="approved">
+                <?php $this->renderPartial('_approvedRequests');?>
+            </div>
+            <div class="tab-pane fade" id="deleted">
+                <?php $this->renderPartial('_deletedRequests');?>
+            </div>
+            <?php if(Yii::app()->user->model->isContentManager()){ ?>
+                <div class="tab-pane fade" id="rejected">
+                    <?php $this->renderPartial('_rejectedRevisionRequests');?>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
+
+<script>
+    $jq(document).ready(function () {
+        initActiveRequestsTable();
+        initApprovedRequestsTable();
+        initDeletedRequestsTable();
+        initRejectedRevisionRequestsTable();
+    });
+</script>

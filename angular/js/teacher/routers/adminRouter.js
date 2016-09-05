@@ -288,11 +288,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         })
-        .state('admin/requests', {
-            url: "/admin/requests",
-            cache: false,
-            templateUrl: basePath+"/_teacher/_admin/request/index",
-        })
     
 });
 
