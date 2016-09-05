@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('coursemanageCtrl',coursemanageCtrl);
 
-function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $state ,$document){
+function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $state ,$templateCache){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
@@ -42,6 +42,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
             if (result) {
                 $http.post(url).success(function (data) {
                     bootbox.alert("Операцію успішно виконано.", function () {
+                        $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+courseId);
                         $state.go('admin/coursemanage',{reload:true});
                     })
                 }).error(function (data) {
@@ -71,6 +72,11 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
 
     $scope.onSelect = function ($item) {
         $scope.courseId = $item.id;
+    };
+
+    $scope.editCourse = function(courseId){
+      $state.go('course/edit/:id',{'id':courseId},{reload: true});
+        $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/view?id="+courseId);
     };
 
     $scope.addLinkedCourse = function(modelId, courseId, language, linkedCourseId) {

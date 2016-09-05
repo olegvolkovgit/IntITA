@@ -276,7 +276,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/config/view/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                console.log($stateParams.id);
+
                 return basePath + "/_teacher/_admin/config/view/id/" + $stateParams.id;
             }
         })
