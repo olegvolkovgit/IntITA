@@ -88,12 +88,19 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList($id,$filter_id)
     {
-        echo UserContentManager::listOfModules($id,$filter_id);
+
+
+        $requestParams = ['page' => 2];
+        $ngTable = new NgTableAdapter('Module', $requestParams, 'lectures');
+        $result = $ngTable->getData();
+        echo json_encode($result);
+//        echo UserContentManager::listOfModules($id,$filter_id);
     }
 
     public function actionGetCoursesList($filter_id)
     {
-        echo UserContentManager::listOfCourses($filter_id);
+
+      echo UserContentManager::listOfCourses($filter_id);
     }
 
     public function actionGetAuthorsList()
