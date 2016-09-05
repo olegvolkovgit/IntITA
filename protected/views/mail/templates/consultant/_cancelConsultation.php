@@ -16,11 +16,8 @@ $model = $params[0];
 закінчення - <?=date("H:i", strtotime($model->end_cons));?>).
 <br>
 Кабінет консультанта (вкладка "Консультант"): <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/consultant/consultations">
+    <em>консультації</em>
 </a>
 <br>
-Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
-    'scenario' => 'message',
-    'receiver' => Config::getAdminId()
-)); ?>">написати адміністратору</a>.
+Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo Config::getAdminId(); ?>">написати адміністратору</a>.

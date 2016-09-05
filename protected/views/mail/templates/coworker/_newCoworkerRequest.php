@@ -12,6 +12,6 @@ $user = $params[1];
        надіслав запит на призначення користувача <a href="<?= Yii::app()->createAbsoluteUrl('studentreg/profile', array('idUser' => $user->id)) ?>">
         <?= $user->userNameWithEmail() ?></a> співробітником.</span>
 <br>
-Підтвердити або скасувати запит: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+Підтвердити або скасувати запит: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/admin/requests">
+    <em>запити</em>
 </a>

@@ -16,3 +16,8 @@
         </div>
     </div>
 </div>
+<script>
+    $jq(document).ready(function () {
+        initDeletedRequestsTable();
+    });
+</script>

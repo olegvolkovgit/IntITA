@@ -16,3 +16,8 @@
         </div>
     </div>
 </div>
+<script>
+    $jq(document).ready(function () {
+        initActiveRequestsTable();
+    });
+</script>

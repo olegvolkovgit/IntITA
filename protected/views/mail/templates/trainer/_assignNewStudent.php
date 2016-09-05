@@ -13,4 +13,4 @@ $student = $params[0];
     .</span>
 <br>
 <span>Перейти у кабінет (вкладка Тренер -> Студенти):</span>
-<a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index');?>">Кабінет</a>
+<a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index');?>#/trainer/students">студенти</a>

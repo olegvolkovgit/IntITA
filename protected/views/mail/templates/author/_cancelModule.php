@@ -13,12 +13,9 @@ $model = $params[0];
     </a>
 </strong>.
 <br>
-Кабінет автора модулів (вкладка "Автор"): <a
+<a
     href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
     <em>Кабінет</em>
 </a>
 <br>
-Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
-    'scenario' => 'message',
-    'receiver' => Config::getAdminId()
-)); ?>">написати адміністратору</a>.
+Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo Config::getAdminId(); ?>">написати адміністратору</a>.

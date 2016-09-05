@@ -14,11 +14,9 @@ $model = $params[0];
 </strong>.
 <br>
 Кабінет викладача (вкладка "Викладач"): <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/teacherConsultant/modules">
+    <em>модулі</em>
 </a>
 <br>
-Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
-    'scenario' => 'message',
-    'receiver' => Config::getAdminId()
-)); ?>">написати адміністратору</a>.
+Зв'язатися з адміністрацією:<a 
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo Config::getAdminId(); ?>">написати адміністратору</a>.

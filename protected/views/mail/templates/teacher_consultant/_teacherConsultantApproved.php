@@ -12,8 +12,3 @@ $model = $params[0];
         <?= $model->userNameWithEmail(); ?>
     </a>
 </strong> підтверджено.
-<br>
-Редагувати права співробітника можна у кабінеті: <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
-</a>

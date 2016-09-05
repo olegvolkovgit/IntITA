@@ -18,6 +18,6 @@ $revision = $params[1];
 </span>
 <br>
 Підтвердити або скасувати запит:
-<a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+<a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/admin/requests">
+    <em>запити</em>
 </a>
