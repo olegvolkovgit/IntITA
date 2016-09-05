@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('coursemanageCtrl',coursemanageCtrl);
 
-function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $document){
+function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $state ,$document){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
@@ -41,13 +41,12 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
         bootbox.confirm("Видалити курс?", function (result) {
             if (result) {
                 $http.post(url).success(function (data) {
-                    bootbox.confirm("Операцію успішно виконано.", function () {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        $state.go('admin/coursemanage',{reload:true});
                     })
                 }).error(function (data) {
                     showDialog("Операцію не вдалося виконати.");
                 });
-                $location.path(url).replace();
-                $scope.changeView('admin/coursemanage');
             }
             else {
                 showDialog("Операцію відмінено.");
