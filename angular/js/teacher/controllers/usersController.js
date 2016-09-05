@@ -469,6 +469,7 @@ function usersCtrl ($http, $scope, $state, $stateParams){
                     else $scope.loadUserData();
                 });
             }else{
+                $scope.loadUserData();
                 bootbox.alert(response.data)
             }
         }, function errorCallback() {
