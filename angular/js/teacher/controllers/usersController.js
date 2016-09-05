@@ -369,7 +369,7 @@ function usersCtrl ($http, $scope, $state, $stateParams){
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
                 bootbox.alert(response.data, function () {
-                    $state.go('admin/users/user/:id', {id:user}, {reload: true});
+                    $state.go('admin/users/user/:id/addrole', {id:user}, {reload: true});
                 });
             }, function errorCallback() {
                 bootbox.alert("Операцію не вдалося виконати");
