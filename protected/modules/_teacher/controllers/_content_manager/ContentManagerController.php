@@ -88,13 +88,19 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList($id,$filter_id)
     {
+        $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->with = array('lectures','lectures.lectureEl','revisions');
+        //$criteria->compare('lectureEl.id_type', "1", false);
+        //$criteria->addInCondition('lectureEl.id_type',array('12','2'));
+        $rows= Module::model()->findAll($criteria);
 
 
-        $requestParams = ['page' => 2];
-        $ngTable = new NgTableAdapter('Module', $requestParams, 'lectures');
+        $ngTable = new NgTableAdapter('Module', $requestParams,['lectures','lectures.lectureEl','revisions']);
         $result = $ngTable->getData();
-        echo json_encode($result);
-//        echo UserContentManager::listOfModules($id,$filter_id);
+        //echo json_encode($result);
+
+        echo UserContentManager::listOfModules($id,$filter_id);
     }
 
     public function actionGetCoursesList($filter_id)

@@ -108,6 +108,7 @@ class Module extends CActiveRecord implements IBillableObject
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
+            'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
         );
     }
 
