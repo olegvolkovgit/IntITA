@@ -49,7 +49,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Тренер'" sortable="'studentTrainer.trainer'">
                             {{row.studentTrainer.trainer ? 'присутній':''}}
                         </td>
-                        <td data-title="'Доступ до контента'" >
+                        <td data-title="'Доступ до контенту'" >
                             <a type="button"
                                ng-class="{'btn btn-outline btn-success btn-block': (row.payCourses.length || row.payModules.length),
                                'btn btn-outline btn-danger btn-block': (!row.payCourses.length && !row.payModules.length) }" ng-href="#/admin/users/user/{{row.id}}">

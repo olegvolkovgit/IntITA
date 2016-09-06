@@ -9,7 +9,7 @@
         <td data-title="'Зареєстровано'" filter="{'reg_time': 'text'}" sortable="'reg_time'">{{row.reg_time=='0000-00-00 00:00:00'  ? "невідомо" : row.reg_time}}</td>
         <td data-title="'Країна'">{{row.country0.title_ua}}</td>
         <td data-title="'Місто'">{{row.city.title_ua}}</td>
-        <td data-title="'Доступ до контента'" >
+        <td data-title="'Доступ до контенту'" >
             <a type="button"
                ng-class="{'btn btn-outline btn-success btn-block': (row.payCourses.length || row.payModules.length),
               'btn btn-outline btn-danger btn-block': (!row.payCourses.length && !row.payModules.length) }" ng-href="#/admin/users/user/{{row.id}}">
