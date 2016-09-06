@@ -51,7 +51,9 @@
                     <tr>
                         <td width="30%"><strong>Категорія:</strong></td>
                         <td>
-                            <?= CHtml::encode($model->source->category); ?>
+                            <?php if($model->source){
+                                CHtml::encode($model->source->category);
+                            } ?>
                         </td>
                     </tr>
                     </tbody>
