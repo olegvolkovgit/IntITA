@@ -10,21 +10,33 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('content_manager', {
         url: "/content_manager",
         cache         : false,
+        controller: function($scope){
+            $scope.changePageHeader('Контент менеджер');
+        },
         templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=content_manager",
         })
         .state('content_manager/authors', {
             url: "/content_manager/authors",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Автори модулів');
+            },
             templateUrl: contentManagerUrl+"/authors",
         })
         .state('content_manager/consultants', {
             url: "/content_manager/consultants",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Консультанти');
+            },
             templateUrl: contentManagerUrl+"/consultants",
         })
         .state('content_manager/teacherConsultants', {
             url: "/content_manager/teacherConsultants",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Викладачі');
+            },
             templateUrl: contentManagerUrl+"/teacherConsultants",
         })
         .state('content_manager/revisions', {
@@ -33,6 +45,9 @@ config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: basePath+"/revision/index",
         })
         .state('content_manager/statusOfModules/:idModule', {
+            controller: function($scope){
+                $scope.changePageHeader('Стан модулів');
+            },
             url: "/content_manager/statusOfModules/:idModule",
             cache         : false,
             templateUrl: function($stateParams){
@@ -43,6 +58,9 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('content_manager/statusOfCourses', {
             url: "/content_manager/statusOfCourses",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Стан курсів');
+            },
             templateUrl: contentManagerUrl+"/statusOfCourses",
         })
         .state('/detail/module/:idModule', {

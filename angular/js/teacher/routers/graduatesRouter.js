@@ -8,6 +8,9 @@ config(function ($stateProvider) {
         .state('graduate', {
             url: "/graduate",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Випускники');
+            },
             templateUrl: basePath+"/_teacher/_admin/graduate/index",
         })
         .state('graduate/create', {
