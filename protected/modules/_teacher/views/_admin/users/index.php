@@ -7,7 +7,7 @@
     <div class="panel-body">
         <!-- Tab panes -->
         <div class="tab-content">
-            <uib-tabset active="0" >
+            <uib-tabset>
                 <uib-tab  index="0" heading="Зареєстровані користувачі (<?=$counters["users"];?>)">
                     <div ng-controller="usersTableCtrl">
                         <?php $this->renderPartial('tables/_usersTable');?>
