@@ -2,20 +2,20 @@
 
 angular
     .module('teacherApp')
-    .directive('invoiceTable', ['invoicesService', 'NgTableParams', invoiceTable]);
+    .directive('invoiceTable', ['invoicesService', 'NgTableParams', 'lodash', invoiceTable]);
 
-function invoiceTable(invoices, NgTableParams) {
+function invoiceTable(invoices, NgTableParams, _) {
 
     function link($scope, element, attrs) {
 
-        attrs.$observe('agreementId', function(value) {
-            $scope.invoiceTableParams.reload();
-        });
-
         $scope.invoiceTableParams = new NgTableParams({}, {
             getData: function (params) {
+                console.log(params.url());
                 return invoices
-                    .list(params.url())
+                    .list(_.assign(
+                        {
+                            'extraParams[agreement_id]' : attrs.agreementId
+                        }, params.url()))
                     .$promise
                     .then(function (data) {
                         params.total(data.count);
@@ -27,7 +27,7 @@ function invoiceTable(invoices, NgTableParams) {
 
     return {
         link: link,
-        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/invoicesTable.html'
+        templateUrl: basePath + '/angular/js/teacher/templates/accountancy/invoicesTable.html'
     }
 }
 

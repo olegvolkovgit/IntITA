@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: anton
- * Date: 28.08.16
- * Time: 22:53
- */
 class NgTableProviderDefault extends CActiveRecordBehavior implements INgTableProvider{
 
     public function getAttributes() {
@@ -35,5 +29,9 @@ class NgTableProviderDefault extends CActiveRecordBehavior implements INgTablePr
             $alias = 't';
         }
         return ["$alias.$fieldName $direction"];
+    }
+    
+    public function getAdditionalFields() {
+        return [];
     }
 }
