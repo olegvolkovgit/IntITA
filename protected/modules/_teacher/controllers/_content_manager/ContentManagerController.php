@@ -88,17 +88,53 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList($id,$filter_id)
     {
-        $requestParams = $_GET;
-        $criteria = new CDbCriteria();
-        $criteria->with = array('lectures','lectures.lectureEl','revisions');
-        //$criteria->compare('lectureEl.id_type', "1", false);
-        //$criteria->addInCondition('lectureEl.id_type',array('12','2'));
-        $rows= Module::model()->findAll($criteria);
+        //PREPARE TO NGTABLES
 
-
-        $ngTable = new NgTableAdapter('Module', $requestParams,['lectures','lectures.lectureEl','revisions']);
-        $result = $ngTable->getData();
-        //echo json_encode($result);
+//        $criteria = new CDbCriteria();
+//        $criteria->with = array('lectures','lectures.lectureEl','revisions');
+//        $criteria->addCondition('lectures.id IS NULL');
+//        $criteria->addNotInCondition('lectureEl.id_type',array('2'),'OR');
+//        $rows= Module::model()->findAll($criteria);
+//        $command = null;
+//        if ($filter_id==0) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+//        if ($filter_id==1) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->where('lectures.id IS NULL OR lecture_element.id_type NOT IN (2)')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+//        if ($filter_id==2) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->where('lectures.id IS NULL OR lecture_element.id_type NOT IN (5,6,9,12,13)')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+//        if ($filter_id==3) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->where('lectures.id IS NULL OR lecture_element.id_type NOT IN (2,5,6,9,12,13)')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
 
         echo UserContentManager::listOfModules($id,$filter_id);
     }
