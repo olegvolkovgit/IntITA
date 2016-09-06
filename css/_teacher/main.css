@@ -243,6 +243,9 @@ td li{
 .dataTables_wrapper .pagination{
      width: 100%;
  }
+ul.pagination {
+    display: block;
+}
 .warningMessage{
     color: red;
 }
