@@ -12,6 +12,7 @@ angular
     .controller('tenantsTableCtrl',tenantsTableCtrl)
     .controller('consultantsTableCtrl',consultantsTableCtrl)
     .controller('trainersTableCtrl',trainersTableCtrl)
+    .controller('moduleAuthorsCtrl',moduleAuthorsCtrl);
 
 function usersTableCtrl ($scope, usersService, NgTableParams){
         $scope.usersTableParams = new NgTableParams({}, {
@@ -329,14 +330,16 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
         });
     };
 }
-function usersCtrl ($http, $scope, $state, $stateParams){
+function usersCtrl ($http, $scope, $state, $stateParams, $templateCache){
+
     $scope.loadUserData=function(){
         $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+$stateParams.id).then(function (response) {
             $scope.data = response.data;
         });
     };
+
     $scope.loadUserData();
-    
+
     $scope.changeUserStatus=function (url, user, message) {
         bootbox.confirm(message, function (response) {
             if (response) {
@@ -347,7 +350,10 @@ function usersCtrl ($http, $scope, $state, $stateParams){
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
                     bootbox.confirm(response.data, function () {
+                        $templateCache.remove(basePath+'/_teacher/_content_manager/contentManager/showTeacher/id/'+user);
+                        $state.go($state.current, {}, {reload: true});
                         $scope.loadUserData();
+
                     });
                 }, function errorCallback() {
                     bootbox.alert("Операцію не вдалося виконати");
@@ -497,6 +503,7 @@ function usersCtrl ($http, $scope, $state, $stateParams){
             }).then(function successCallback(response) {
                 if (response.data == "success") {
                     bootbox.alert("Операцію успішно виконано.", function () {
+                        $templateCache.remove(basePath+'/_teacher/_content_manager/contentManager/showTeacher/id/'+user);
                         $state.go($state.current, {}, {reload: true});
                     });
                 } else {
@@ -507,4 +514,22 @@ function usersCtrl ($http, $scope, $state, $stateParams){
             });
         }
     };
+}
+
+function moduleAuthorsCtrl($scope, usersService, $http, NgTableParams){
+
+    $scope.authorsTable = new NgTableParams({}, {
+        getData: function (params) {
+            $scope.params=params.url();
+            $scope.params.startDate=$scope.startDate;
+            $scope.params.endDate=$scope.endDate;
+            return usersService
+                .authorsList($scope.params)
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
 }

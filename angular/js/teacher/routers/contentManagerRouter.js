@@ -71,4 +71,37 @@ config(function ($stateProvider, $urlRouterProvider) {
             url: '/detail/lesson/:idLesson',
             templateUrl: function($stateParams){return contentManagerUrl+"/showPartsList?idLesson="+$stateParams.idLesson;},
         })
+        .state('content_manager/showUser/:id', {
+            url: "/content_manager/showUser/:id",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Викладач');
+            },
+            templateUrl: function($stateParams){
+                return contentManagerUrl+"/showTeacher/id/"+$stateParams.id},
+        })
+        .state('content_manager/addConsultantModule', {
+            url: "/content_manager/addConsultantModule",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Призначити модуль для консультанта');
+            },
+            templateUrl: contentManagerUrl+"/addConsultantModuleForm",
+        })
+        .state('content_manager/addTeacherConsultantModule', {
+            url: "/content_manager/addTeacherConsultantModule",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Призначити модуль для викладача');
+            },
+            templateUrl: contentManagerUrl+"/addTeacherConsultantForm",
+        })
+        .state('content_manager/addModuleAuthor', {
+            url: "/content_manager/addModuleAuthor",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Призначити автора модуля');
+            },
+            templateUrl: contentManagerUrl+"/addTeacherModuleForm",
+        })
 });

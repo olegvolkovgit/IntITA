@@ -4,20 +4,18 @@
  * @var $model StudentReg
  */
 ?>
-<div class="col-md-12">
-    <div class="row">
+<div class="col-md-12" ng-controller="usersCtrl">
+    <div class="row" ng-controller="permissionsCtrl">
         <form>
-            <input type="number" hidden="hidden" value="<?= $model->id; ?>" id="user">
-            <input type="text" hidden="hidden" value="<?= (string)$role; ?>" id="role">
             <div class="col col-md-6">
-                <input type="number" hidden="hidden" id="value" value="0"/>
-                <input id="typeahead_<?= $role; ?>" type="text" class="form-control" name="module" placeholder="Назва модуля"
-                       size="65" required autofocus>
+                <input type="text" size="135" ng-model="moduleSelected" ng-model-options="{ debounce: 1000 }" placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectModule($item)" class="form-control" />
+                <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="moduleNoResults">
+                    <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
+                </div>
             </div>
             <div class="col col-md-2">
-                <button type="button" class="btn btn-success"
-                        onclick="addTeacherAttrCM('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/setTeacherRoleAttribute'); ?>',
-                            '<?= $attribute["key"] ?>', '#value','<?= (string)$role; ?>')">
+                <button type="button" class="btn btn-success" ng-click="addCMPermission('<?= (string)$role; ?>',data.user.id)">
                     Додати модуль
                 </button>
             </div>
@@ -56,9 +54,8 @@
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
-                        <a href="#"
-                           onclick="cancelModuleAttrCM('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>',
-                               '<?= $item["id"] ?>', '<?= $attribute["key"] ?>','<?= (string)$role; ?>'); return false;">
+                        <a href="javascript:void(0)" ng-click="cancelModuleAttr('/_teacher/_admin/permissions/unsetTeacherRoleAttribute','<?=$item["id"]?>','<?= $attribute["key"] ?>','<?= (string)$role; ?>',data.user.id)"
+                           >
                             скасувати
                         </a>
                     <?php } ?>
@@ -71,49 +68,3 @@
         </table>
     </div>
 </div>
-<script>
-    var modules = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/permissions/modulesByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (modules) {
-                return $jq.map(modules.results, function (module) {
-                    return {
-                        id: module.id,
-                        title: module.title
-                    };
-                });
-            }
-        }
-    });
-
-    modules.initialize();
-
-    $jq('#typeahead_'+'<?= $role; ?>').typeahead(null, {
-        name: 'modules',
-        display: 'title',
-        limit: 10,
-        source: modules,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'модулів з такою назвою немає',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-        }
-    });
-
-    $jq('#typeahead_'+'<?= $role; ?>').on('typeahead:selected', function (e, item) {
-        $jq("#value").val(item.id);
-    });
-
-    $jq('#modulesTable_'+'<?= $role; ?>').DataTable({
-        language: {
-            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        },
-        order: [[ 2, "asc" ]]
-    } );
-</script>

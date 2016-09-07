@@ -4,60 +4,27 @@
  */
 $teacher = $user->getTeacher();
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="usersCtrl">
     <div class="panel-body">
-        <ul id="accessTabs" class="nav nav-tabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
-            </li>
-            <?php if ($user->isAuthor()) { ?>
-                <li><a href="#moduleauthor" data-toggle="tab">Автор</a>
-                </li>
-            <?php } ?>
-            <?php if ($user->isConsultant()) { ?>
-                <li><a href="#consultant" data-toggle="tab">Консультант</a>
-                </li>
-            <?php } ?>
-            <?php if ($user->isTeacherConsultant()) { ?>
-                <li><a href="#teacher_consultant" data-toggle="tab">Викладач</a>
-                </li>
-            <?php } ?>
-        </ul>
-        <div class="panel-body">
-            <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                <ul class="list-inline">
-                    <li>
-                        <button type="button" class="btn btn-primary"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/index'); ?>',
-                                    'Користувачі')">Користувачі
-                        </button>
-                    </li>
-                </ul>
-            <?php } ?>
-        </div>
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="main">
+        <uib-tabset >
+            <uib-tab index="0" heading="Головне">
                 <?php $this->renderPartial('/_content_manager/_mainTeacherTab', array('user' =>$user));?>
-            </div>
+            </uib-tab>
             <?php if ($user->isAuthor()) { ?>
-                <div class="tab-pane fade" id="moduleauthor">
+                <uib-tab index="1" heading="Автор">
                     <?php $this->renderPartial('/_content_manager/_authorTab', array('user' =>$user));?>
-                </div>
+                </uib-tab>
             <?php } ?>
             <?php if ($user->isConsultant()) { ?>
-                <div class="tab-pane fade" id="consultant">
+                <uib-tab index="2" heading="Консультант">
                     <?php $this->renderPartial('/_content_manager/_consultantTab', array('user' =>$user));?>
-                </div>
+                </uib-tab>
             <?php } ?>
             <?php if ($user->isTeacherConsultant()) { ?>
-                <div class="tab-pane fade" id="teacher_consultant">
+                <uib-tab index="3" heading="Викладач">
                     <?php $this->renderPartial('/_content_manager/_teacherConsultantTab', array('user' =>$user));?>
-                </div>
+                </uib-tab>
             <?php } ?>
-        </div>
+        </uib-tabset>
     </div>
 </div>
-<script>
-    if(history.state!=null){
-        openTabByHref('#accessTabs', history.state.tab);
-    }
-</script>

@@ -6,8 +6,8 @@ angular.module('teacherApp').controller('permissionsCtrl',permissionsCtrl);
 
 function permissionsCtrl ($scope, typeAhead, $http, $state){
 
-        $scope.teacherModule = null;
-
+    $scope.teacherModule = null;
+    console.log($scope.selectedTeacher);
     $scope.onSelect = function ($item) {
         $scope.selectedTeacher = $item;
         console.log($item);
@@ -53,6 +53,11 @@ function permissionsCtrl ($scope, typeAhead, $http, $state){
                 role = "consultant";
                 attribute = "module";
                 break;
+            case "teacher_consultant":
+                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
+                role = "teacher_consultant";
+                attribute = "module";
+                break;
         }
         if ($scope.selectedModule && $scope.selectedTeacher)
         $http({
@@ -74,6 +79,9 @@ function permissionsCtrl ($scope, typeAhead, $http, $state){
                         break;
                     case "consultant":
                         bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
+                        break;
+                    case "teacher_consultant":
+                        bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
                         break;
                 }
             }
@@ -151,4 +159,59 @@ function permissionsCtrl ($scope, typeAhead, $http, $state){
                 bootbox.alert("Операцію не вдалося виконати");
             });
     }
+
+    $scope.addCMPermission = function(permission,user){
+        var url;
+        var attribute;
+        var role;
+        switch (permission){
+            case "author":
+                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
+                role = "author";
+                attribute = "module";
+                break;
+            case "consultant":
+                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
+                role = "consultant";
+                attribute = "module";
+                break;
+            case "teacher_consultant":
+                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
+                role = "teacher_consultant";
+                attribute = "module";
+                break;
+        }
+        if ($scope.selectedModule && user)
+        console.log(user);
+            $http({
+                method:'POST',
+                url: url,
+                data: $jq.param({'attribute': attribute, 'attributeValue':$scope.selectedModule.id, 'role': role, 'user' : user  }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            }).success(function(data){
+                if (data === 'success')
+                {
+                    bootbox.alert("Операцію успішно виконано",function(){
+                        $templateCache.remove(basePath+'/_teacher/_content_manager/contentManager/showTeacher/id/'+user);
+                        $state.go($state.current, {}, {reload: true});
+                    });
+                }
+                else {
+                    switch (permission){
+                        case "moduleAuchtor":
+                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                        case "consultant":
+                            bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
+                            break;
+                        case "teacher_consultant":
+                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            break;
+                    }
+                }
+            }).error(function(){
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+
+    };
 }

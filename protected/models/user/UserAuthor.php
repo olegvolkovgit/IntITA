@@ -104,4 +104,15 @@ class UserAuthor extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function findAll($condition='',$params=array())
+	{
+		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
+		$criteria->mergeWith(array(
+				'group'=>'idTeacher',
+		));
+		//return parent::findAll();
+		return parent::findAll($criteria);
+	}
 }

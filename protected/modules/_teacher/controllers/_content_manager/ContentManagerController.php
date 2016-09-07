@@ -148,10 +148,16 @@ class ContentManagerController extends TeacherCabinetController
     public function actionGetAuthorsList()
 
     {
-        $ngTable = new NgTableAdapter('UserAuthor',['page'=>'1','count'=>'10','filter[authorActive.firstName]'=>'ta']);
-        $test = $ngTable->getData();
+        $params = $_GET;
+        $page = $_GET['page'];
+        $count = $_GET['count'];
         $criteria = new CDbCriteria();
-        $test['count'] =  count(UserAuthor::model()->with('authorActive')->findAll($criteria));
+        $criteria->addCondition('end_time IS NULL');
+        $countOfRows = count(UserAuthor::model()->with('user')->findAll($criteria));
+        $criteria->offset = $page*$count -$count;
+        $criteria->limit = $count;
+
+        $test = JsonForNgDatatablesHelper::returnJson(UserAuthor::model()->with('user')->findAll($criteria),null,$countOfRows,['user']);
         echo $test;
         //echo TeacherModule::authorsList();
     }
