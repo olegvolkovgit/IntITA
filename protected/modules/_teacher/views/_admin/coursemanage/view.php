@@ -5,7 +5,7 @@
  * @var $linkedCourses array
  */
 ?>
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="coursemanageCtrl">
     <div class="row">
         <ul class="list-inline">
             <li>
@@ -14,7 +14,7 @@
             </li>
             <li>
 
-                <button type="button" class="btn btn-primary" ng-click="changeView('course/edit/<?php echo $model->course_ID; ?>')"
+                <button type="button" class="btn btn-primary" ng-click="editCourse('<?php echo $model->course_ID; ?>')"
                         >
                     Редагувати курс
                 </button>

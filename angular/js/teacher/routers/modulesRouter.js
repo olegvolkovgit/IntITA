@@ -8,6 +8,9 @@ config(function ($stateProvider) {
         .state('modulemanage', {
             url: "/modulemanage",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Модулі');
+            },
             templateUrl: basePath+"/_teacher/_admin/module/index",
         })
         .state('module/addTeacher/id/:id', {

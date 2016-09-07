@@ -75,7 +75,6 @@ class Lecture extends CActiveRecord
         return array(
             'lectureEl' => array(self::HAS_MANY, 'LectureElement', 'id_lecture'),
             'ModuleTitle' => array(self::BELONGS_TO, 'Module', 'idModule'),
-
             'module' => array(self::BELONGS_TO, 'Module', 'idModule'),
             'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
             'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture', 'order' => 'pages.page_order ASC'),

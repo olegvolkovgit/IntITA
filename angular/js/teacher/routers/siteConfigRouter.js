@@ -30,11 +30,17 @@ config(function ($stateProvider) {
         .state('configuration/levels', {
             url: "/configuration/levels",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Рівні курсів, модулів');
+            },
             templateUrl: basePath + "/_teacher/_admin/level/index",
         })
         .state('configuration/siteconfig', {
             url: "/configuration/siteconfig",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Налаштування ');
+            },
             templateUrl: basePath + "/_teacher/_admin/config/index",
         })
         .state('configuration/siteconfig/view/:id', {
@@ -55,6 +61,9 @@ config(function ($stateProvider) {
         .state('configuration/old', {
             url: "/configuration/old",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Функціонал попередньої версії ');
+            },
             templateUrl: basePath + "/_teacher/_admin/old/index"
         })
         .state('configuration/old/changestatus', {

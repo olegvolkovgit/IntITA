@@ -38,7 +38,7 @@ class Consultant extends Role
             ->select('module id, language lang, m.title_ua title, cm.start_time start_date, cm.end_time end_date, m.cancelled')
             ->from('consultant_modules cm')
             ->join('module m', 'm.module_ID=cm.module')
-            ->where('consultant=:id', array(':id' => $user->id))
+            ->where('consultant=:id AND cm.end_time IS NULL', array(':id' => $user->id))
             ->queryAll();
 
         $attribute = array(
