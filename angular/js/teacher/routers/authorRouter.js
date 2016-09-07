@@ -9,10 +9,17 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/author",
             cache         : false,
             templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=author",
+            controller: function($scope){
+                $scope.changePageHeader('Автор');
+            },
+            templateUrl: "/_teacher/cabinet/loadPage/?page=author",
         })
         .state('author/modules', {
             url: "/author/modules",
             cache         : false,
             templateUrl: basePath+"/_teacher/_author/author/modules/id/"+user,
+            controller: function($scope){
+                $scope.changePageHeader('Модулі автора');
+            },
         })
 });

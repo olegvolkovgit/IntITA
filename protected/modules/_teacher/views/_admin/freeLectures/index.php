@@ -22,7 +22,7 @@
                         <td sortable="'t.order'" data-title="'Порядок у модулі'" style="width: ">{{row.order}}</td>
                         <td sortable="'t.title_ua'" data-title="'Назва'" ><a href="/module/ua/{{row.module.module_ID}}/{{row.order}}" target="_blank">{{row.title_ua}}</a></td>
                         <td sortable="'type.title_ua'" data-title="'Тип заняття'">{{row.type.title_ua}}</td>
-                        <td sortable="'t.isFree'" data-title="'Статус'"><span ng-show="row.isFree==1">бескоштовна</span><span ng-show="row.isFree==0">платна</span></td>
+                        <td sortable="'t.isFree'" data-title="'Статус'"><span ng-show="row.isFree==1">безкоштовна</span><span ng-show="row.isFree==0">платна</span></td>
                         <td data-title="'Змінити'"><a href="javascript:void(0)" ng-click="changeStatus(row)">Змінити</a> </td>
                     </tr>
                 </table>

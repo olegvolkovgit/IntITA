@@ -10,16 +10,16 @@ angular
                 .state('messages', {
                     url: "/messages",
                     cache         : false,
-                    controller: function(){
-                        angular.element(document.querySelector("#pageTitle")).text("Повідомлення");
+                    controller: function($scope){
+                        $scope.changePageHeader('Повідомлення');
                     },
                     templateUrl: basePath+"/_teacher/messages/index"
                 })
                 .state('index', {
                     url: "/index",
                     cache         : false,
-                    controller: function(){
-                        angular.element(document.querySelector("#pageTitle")).text("Особистий кабінет");
+                    controller: function($scope){
+                        $scope.changePageHeader('Особистий кабінет');
                     },
                     templateUrl: basePath+"/_teacher/cabinet/loadDashboard/?user="+user
                 })

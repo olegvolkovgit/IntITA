@@ -88,17 +88,78 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList($id,$filter_id)
     {
+        //PREPARE TO NGTABLES
+
+//        $criteria = new CDbCriteria();
+//        $criteria->with = array('lectures','lectures.lectureEl','revisions');
+//        $criteria->addCondition('lectures.id IS NULL');
+//        $criteria->addNotInCondition('lectureEl.id_type',array('2'),'OR');
+//        $rows= Module::model()->findAll($criteria);
+//        $command = null;
+//        if ($filter_id==0) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+//        if ($filter_id==1) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->where('lectures.id IS NULL OR lecture_element.id_type NOT IN (2)')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+//        if ($filter_id==2) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->where('lectures.id IS NULL OR lecture_element.id_type NOT IN (5,6,9,12,13)')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+//        if ($filter_id==3) {
+//            $command = Yii::app()->db->createCommand()
+//                ->select('module_ID, module.title_ru AS title , lectures.id AS lecture')
+//                ->from('module')
+//                ->leftJoin('lectures', 'lectures.idModule=module.module_ID')
+//                ->leftJoin('lecture_element', 'lectures.id=lecture_element.id_lecture')
+//                ->where('lectures.id IS NULL OR lecture_element.id_type NOT IN (2,5,6,9,12,13)')
+//                ->group('module_ID')
+//                ->queryAll();
+//        }
+
         echo UserContentManager::listOfModules($id,$filter_id);
     }
 
     public function actionGetCoursesList($filter_id)
     {
-        echo UserContentManager::listOfCourses($filter_id);
+
+      echo UserContentManager::listOfCourses($filter_id);
     }
 
     public function actionGetAuthorsList()
+
     {
-        echo TeacherModule::authorsList();
+        $params = $_GET;
+        $page = $_GET['page'];
+        $count = $_GET['count'];
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_time IS NULL');
+        $countOfRows = count(UserAuthor::model()->with('user')->findAll($criteria));
+        $criteria->offset = $page*$count -$count;
+        $criteria->limit = $count;
+
+        $test = JsonForNgDatatablesHelper::returnJson(UserAuthor::model()->with('user')->findAll($criteria),null,$countOfRows,['user']);
+        echo $test;
+        //echo TeacherModule::authorsList();
     }
 
     public function actionGetConsultantsList()

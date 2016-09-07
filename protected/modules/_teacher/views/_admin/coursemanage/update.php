@@ -6,7 +6,7 @@
  */
 ?>
 
-<ul class="list-inline">
+<ul class="list-inline" ng-controller="coursemanageCtrl">
     <li>
         <button type="button" class="btn btn-primary" ng-click="changeView('admin/coursemanage')">
             <?php echo Yii::t("coursemanage", "0510"); ?></button>

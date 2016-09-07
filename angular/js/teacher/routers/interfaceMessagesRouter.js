@@ -8,6 +8,9 @@ config(function ($stateProvider) {
         .state('interfacemessages', {
             url: "/interfacemessages",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Інтерфейсні повідомлення');
+            },
             templateUrl: basePath+"/_teacher/_admin/translate/index",
         })
         .state('interfacemessages/view/:id', {

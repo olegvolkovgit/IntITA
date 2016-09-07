@@ -8,6 +8,9 @@ config(function ($stateProvider) {
         .state('response', {
             url: "/response",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Відгуки про викладачів');
+            },
             templateUrl: basePath+"/_teacher/_admin/response/index",
         })
         .state('response/detail/:responseId', {
