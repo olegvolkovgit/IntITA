@@ -12,7 +12,4 @@ $model = $params[0];
     </a>
 </strong> відхилено.
 <br>
-Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
-    'scenario' => 'message',
-    'receiver' => Config::getAdminId()
-)); ?>">написати адміністратору</a>.
+Зв'язатися з адміністрацією: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo Config::getAdminId(); ?>">написати адміністратору</a>.

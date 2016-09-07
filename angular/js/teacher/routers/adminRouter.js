@@ -287,7 +287,8 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 console.log($stateParams.id);
                 return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
-        });
+        })
+    
 });
 
 

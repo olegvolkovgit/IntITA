@@ -8,11 +8,11 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('author', {
             url: "/author",
             cache         : false,
-            templateUrl: "/_teacher/cabinet/loadPage/?page=author",
+            templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=author",
         })
         .state('author/modules', {
             url: "/author/modules",
             cache         : false,
-            templateUrl: "/_teacher/_author/author/modules/id/"+user,
+            templateUrl: basePath+"/_teacher/_author/author/modules/id/"+user,
         })
 });

@@ -13,7 +13,7 @@
                         <td data-title="'ПІБ'" filter="{'idUser.fullName': 'text'}" sortable="'idUser.fullName'">
                             <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.firstName}} {{row.idUser.secondName}}</a>
                         </td>
-                        <td data-title="'Email'" sortable="'idUser.email'">
+                        <td data-title="'Email'" sortable="'idUser.email'" filter="{'idUser.email': 'text'}" >
                             <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.email}}</a>
                         </td>
                         <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>

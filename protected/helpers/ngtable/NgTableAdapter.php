@@ -77,17 +77,17 @@ class NgTableAdapter {
      * @param null|string|CActiveRecord $activeRecord
      * @throws Exception
      */
-    public function setActiveRecord($activeRecord, $relations) {
+    public function setActiveRecord($activeRecord) {
         if (isset($activeRecord)) {
             if (gettype($activeRecord) === 'string' &&
                 class_exists($activeRecord) &&
                 is_subclass_of($activeRecord, 'CActiveRecord')
             ) {
-                $this->prepareActiveRecord($activeRecord::model(), $relations);
+                $this->prepareActiveRecord($activeRecord::model());
             } else if (is_object($activeRecord) &&
                 $activeRecord instanceof CActiveRecord
             ) {
-                $this->prepareActiveRecord($activeRecord, $relations);
+                $this->prepareActiveRecord($activeRecord);
             } else {
                 throw new Exception('Type error: $activeRecord argument should be either an CActiveRecord object (or inherit CActiveRecord) or string with CActiveRecord (or it inherited) class name ');
             }
@@ -175,17 +175,12 @@ class NgTableAdapter {
 
     /**
      * @param CActiveRecord $ar
-     * @param array $relations
      */
-    private function prepareActiveRecord($ar, $relations) {
+    private function prepareActiveRecord($ar) {
         $this->activeRecord = $ar;
         $this->relations = [];
 
-        if($relations)
-            $activeRecordRelations=array_intersect_key($ar->relations(), $relations);
-        else $activeRecordRelations=$ar->relations();
-
-        foreach ($activeRecordRelations as $relationName => $relationProperties) {
+        foreach ($ar->relations() as $relationName => $relationProperties) {
             $this->relations[$relationName] = $relationProperties[1];
         }
     }
@@ -224,7 +219,7 @@ class NgTableAdapter {
             foreach ($provider->getRelationAttributes() as $attribute) {
                 $select[] = "`$relationName`.`$attribute`";
             }
-            $with[$relationName] = ['select' => implode(',', $select)];
+            $with[$relationName] = ['select' => implode(',', $select), 'joinType' => 'LEFT JOIN'];
         }
         $this->getCriteriaInstance()->with = $with;
 

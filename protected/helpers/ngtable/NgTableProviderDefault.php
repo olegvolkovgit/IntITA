@@ -21,10 +21,8 @@ class NgTableProviderDefault extends CActiveRecordBehavior implements INgTablePr
             $alias = 't';
         }
         $criteria = new CDbCriteria();
-        if ($alias) {
-            $criteria->alias = $alias;
-        }
-        $criteria->addSearchCondition($fieldName, $value);
+
+        $criteria->addSearchCondition("$alias.$fieldName", $value);
         return $criteria;
     }
 

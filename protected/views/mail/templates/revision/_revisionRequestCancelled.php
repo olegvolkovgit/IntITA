@@ -14,7 +14,4 @@ $revision = $params[0];
     </a>
 </strong> відхилено.
 <br>
-Зв'язатися з контент менеджером: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
-    'scenario' => 'message',
-    'receiver' =>  $revision->properties->id_user
-)); ?>">написати контент менеджеру</a>.
+Зв'язатися з контент менеджером: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo $revision->properties->id_user; ?>">написати контент менеджеру</a>.

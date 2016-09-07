@@ -14,7 +14,7 @@ $teacher = $user->getTeacher();
                 </li>
             <?php } ?>
             <?php if ($user->isConsultant()) { ?>
-                <li><a href="#consultant" data-toggle="tab">Консультант</a>
+                <li><a href="#consultanttab" data-toggle="tab">Консультант</a>
                 </li>
             <?php } ?>
             <?php if ($user->isTeacherConsultant()) { ?>
@@ -44,7 +44,7 @@ $teacher = $user->getTeacher();
                 </div>
             <?php } ?>
             <?php if ($user->isConsultant()) { ?>
-                <div class="tab-pane fade" id="consultant">
+                <div class="tab-pane fade" id="consultanttab">
                     <?php $this->renderPartial('/_content_manager/_consultantTab', array('user' =>$user));?>
                 </div>
             <?php } ?>
