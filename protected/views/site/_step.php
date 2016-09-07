@@ -3,7 +3,7 @@
 if ($data->stepNumber % 2 <> 0)
 {
     ?>
-    <div class="stepLeft" 	style="width:958px" >
+    <div class="stepLeft">
         <div class="stepUrl">
             <img class="grid" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'grid.png'); ?>">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $data->stepImage); ?>">
@@ -12,11 +12,12 @@ if ($data->stepNumber % 2 <> 0)
         </div>
 
         <img class="hexagon" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon.png'); ?>">
+        <img class="hexagon800" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon800.png'); ?>">
         <div class="stepArticle">
             <p class="stepNumber"><?php echo $data->stepNumber; ?></p>
             <p class="stepName"><?php echo Yii::t('step','0043'); ?></p>
         </div>
-        <div class="stepInfo" style="min-height:<?php echo 958*0.23 . 'px';?> ">
+        <div class="stepInfo" style="min-height:220px">
             <h2><?php echo  Yii::t('step', $data->stepTitle); ?></h2>
             <p><?php echo Yii::t('step', $data->stepText); ?></p>
         </div>
@@ -26,7 +27,7 @@ if ($data->stepNumber % 2 <> 0)
 else
 {
     ?>
-    <div class="stepRight" style="width:958px" >
+    <div class="stepRight">
         <div class="stepUrl">
             <img class="grid" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'grid.png'); ?>">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', $data->stepImage); ?>">
@@ -34,6 +35,7 @@ else
         <div class="line">
         </div>
         <img class="hexagon" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon.png'); ?>">
+        <img class="hexagon800" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'hexagon800.png'); ?>">
         <div class="stepArticle">
             <p class="stepNumber"><?php echo $data->stepNumber; ?></p>
             <p class="stepName"><?php echo Yii::t('step','0043'); ?></p>

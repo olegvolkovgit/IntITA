@@ -1,7 +1,8 @@
 <? $css_version = 1; ?>
 
-<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'aboutusstyles.css'); ?>"/>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'step.css'); ?>"/>
+<!--<link rel="stylesheet" type="text/css" href="--><?php //echo StaticFilesHelper::fullPathTo('css', 'aboutusstyles.css'); ?><!--"/>-->
+<!--<link type="text/css" rel="stylesheet" href="--><?php //echo StaticFilesHelper::fullPathTo('css', 'step.css'); ?><!--"/>-->
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'index.css') ?>"/>
 
 <!-- carousel-plugins -->
 <link type="text/css" rel="stylesheet"
@@ -15,7 +16,7 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'slider.js'); ?>"></script>
 <!-- carousel -->
 
-<?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
+<?php //$this->renderPartial('_slider', array('slider' => $slider));  ?>
 
 <?php
 $mainpage = new Mainpage();
