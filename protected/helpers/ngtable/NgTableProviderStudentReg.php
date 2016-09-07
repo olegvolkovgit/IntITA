@@ -45,4 +45,8 @@ class NgTableProviderStudentReg extends NgTableProviderDefault implements INgTab
             return parent::getOrderStatement($fieldName, $direction, $alias);
         }
     }
+
+    public function getAdditionalFields() {
+        return ['fullName'];
+    }
 }
