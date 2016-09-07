@@ -11,7 +11,7 @@
                     <td data-title="'Номер'" filter="{number: 'text'}" sortable="'number'"><a
                             href="#/accountant/agreement/{{row.id}}">{{row.number}}</a></td>
                     <td data-title="'Користувач'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                        {{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}} {{row.user.email}}
+                        {{row.user.fullName}}, {{row.user.email}}
                     </td>
                     <td data-title="'Дата створення'" filter="{create_date: 'text'}" sortable="'create_date'">
                         {{row.create_date}}
@@ -20,7 +20,7 @@
                         {{row.approval_date}}
                     </td>
                     <td data-title="'Підтверджено користувачем'" filter="{'approvalUser.fullName': 'text'}"
-                        sortable="'approvalUser.fullName'">{{row.approvalUser.firstName}} {{row.approvalUser.middleName}} {{row.approvalUser.secondName}} {{row.approvalUser.email}}
+                        sortable="'approvalUser.fullName'">{{row.approvalUser.fullName}}, {{row.approvalUser.email}}
                     </td>
                     <td data-title="'Схема оплати'" filter="{payment_schema: 'select'}" filter-data="getSchemas"
                         sortable="'payment_schema'">{{row.paymentSchema.name}}

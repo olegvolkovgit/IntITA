@@ -56,6 +56,8 @@ class NgTableAdapter {
      */
     private $sorting = null;
 
+    private $extraParams = null;
+
     /**
      * TODO WeekMap ?
      * @var array
@@ -68,7 +70,7 @@ class NgTableAdapter {
      * @param array $requestParams
      * @param array $relations
      */
-    public function __construct($activeRecord = null, $requestParams = null, $relations= null) {
+    public function __construct($activeRecord = null, $requestParams = null, $relations = null) {
         $this->setActiveRecord($activeRecord, $relations);
         $this->setRequestParams($requestParams);
     }
@@ -108,18 +110,19 @@ class NgTableAdapter {
         $this->limit = $this->count;
         $this->filter = key_exists('filter', $this->requestParams) ? $this->requestParams['filter'] : [];
         $this->sorting = key_exists('sorting', $this->requestParams) ? $this->requestParams['sorting'] : [];
+        $this->extraParams = key_exists('extraParams', $this->requestParams) ? $this->requestParams['extraParams'] : [];
 
-        foreach ($this->filter as $key=>$item) {
+        foreach ($this->filter as $key => $item) {
             $this->filter[$key] = urldecode($item);
         }
+
+        $this->prepareCriteria();
     }
 
     /**
      * @return array
      */
     public function getData() {
-        $this->prepareCriteria();
-
         $models = $this->activeRecord->findAll($this->getCriteriaInstance());
         $totalCount = $this->activeRecord->count($this->getCriteriaInstance());
 
@@ -136,21 +139,31 @@ class NgTableAdapter {
         $this->getCriteriaInstance()->mergeWith($criteria);
     }
 
+    private function getModelAssoc($model) {
+        $provider = $this->getBehavior($model);
+
+        $result = array_filter($model->getAttributes());
+        foreach ($provider->getAdditionalFields() as $property) {
+            $result[$property] = $model->$property;
+        }
+        return $result;
+    }
+
     /**
      * @param CActiveRecord $model
      * @return array
      */
     private function modelToAssoc($model) {
-        $result = [];
-        $result = array_merge($result, array_filter($model->getAttributes()));
+        $result = $this->getModelAssoc($model);
+
         foreach (array_keys($this->relations) as $relationName) {
             $relation = $model->$relationName;
             if ($relation instanceof CActiveRecord) {
-                $result[$relationName] = array_filter($relation->getAttributes());
+                $result[$relationName] = $this->getModelAssoc($relation);
             } else if (is_array($relation)) {
                 $result[$relationName] = [];
                 foreach ($relation as $item) {
-                    array_push($result[$relationName], array_filter($item->getAttributes()));
+                    array_push($result[$relationName], $this->getModelAssoc($item));
                 }
             }
         }
@@ -193,7 +206,9 @@ class NgTableAdapter {
             ->buildSelectQuery()
             ->buildLimitQuery($this->offset, $this->limit)
             ->buildFilterQuery($this->filter)
-            ->buildSortingQuery($this->sorting);
+            ->buildSortingQuery($this->sorting)
+            ->buildExtraParamsQuery($this->extraParams)
+        ;
     }
 
     /**
@@ -283,6 +298,14 @@ class NgTableAdapter {
         }
         $this->getCriteriaInstance()->order = implode(',', $orderStatement);
         return $this;
+    }
+
+    private function buildExtraParamsQuery($extraParams) {
+        foreach ($extraParams as $field => $value) {
+            $this->getCriteriaInstance()->mergeWith(new CDbCriteria([
+                'condition' => "$field = $value"
+            ]));
+        }
     }
 
     /**

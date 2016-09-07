@@ -20,7 +20,7 @@ class InvoicesController extends TeacherCabinetController
 
     public function actionGetInvoices() {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $ngTable = new NgTableAdapter('Invoice', $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

@@ -1,12 +1,12 @@
 <table ng-table="invoiceTableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="row in $data track by row.id">
-        <td data-title="'Номер рахунку'">{{row.number}}</td>
-        <td data-title="'Договір'">{{row.agreement.number}}</td>
-        <td data-title="'Дата заведення'">{{row.date_created}}</td>
-        <td data-title="'Дата сплати'">{{row.payment_date}}</td>
-        <td data-title="'Користувач'">{{row.userCreated.email}}</td>
-        <td data-title="'Оплатити до'">{{row.payment_date}}</td>
-        <td data-title="'Дійсний до'">{{row.pay_date}}</td>
-        <td data-title="'Відмінив'">{{row.user_cancelled.email}}</td>
+        <td data-title="'Номер рахунку'" filter="{'number': 'text'}" sortable="'number'">{{row.number}}</td>
+        <td data-title="'Договір'" filter="{'agreement.number': 'text'}" sortable="'agreement.number'">{{row.agreement.number}}</td>
+        <td data-title="'Дата заведення'" filter="{'date_created': 'text'}" sortable="'date_created'">{{row.date_created}}</td>
+        <td data-title="'Дата сплати'" filter="{'payment_date': 'text'}" sortable="'payment_date'">{{row.payment_date}}</td>
+        <td data-title="'Користувач'" filter="{'userCreated.fullName': 'text'}" sortable="'userCreated.fullName'">{{row.userCreated.fullName}}</td>
+        <td data-title="'Оплатити до'" filter="{'payment_date': 'text'}" sortable="'payment_date'">{{row.payment_date}}</td>
+        <td data-title="'Дійсний до'" filter="{'pay_date': 'text'}" sortable="'pay_date'">{{row.pay_date}}</td>
+        <td data-title="'Відмінив'" filter="{'userCancelled.fullName': 'text'}" sortable="'number'">{{row.userCancelled.fullName}}</td>
     </tr>
 </table>
