@@ -8,11 +8,11 @@ class NgTableAdapter {
     /**
      *  Default records per page number
      */
-    const DEFAULT_COUNT = 10;
+    const DEFAULT_COUNT = -1;
     /**
      *  Default page number
      */
-    const DEFAULT_PAGE = 1;
+    const DEFAULT_PAGE = -1;
 
     /**
      * @var CActiveRecord
@@ -250,7 +250,7 @@ class NgTableAdapter {
      * @return $this
      */
     private function buildLimitQuery($offset, $limit) {
-        if ($limit) {
+        if ($limit > 0) {
             $this->getCriteriaInstance()->offset = $offset;
             $this->getCriteriaInstance()->limit = $limit;
         };
@@ -303,7 +303,7 @@ class NgTableAdapter {
     private function buildExtraParamsQuery($extraParams) {
         foreach ($extraParams as $field => $value) {
             $this->getCriteriaInstance()->mergeWith(new CDbCriteria([
-                'condition' => "$field = $value"
+                'condition' => "t.$field = $value"
             ]));
         }
     }

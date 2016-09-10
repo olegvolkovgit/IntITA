@@ -1,13 +1,9 @@
 <h2 class="m-b-10">Додати нову проплату</h2>
 <div class="row" ng-controller="createOperationCtrl">
-    <div class="form-group">
-        <div class="col-md-2">
 
-        </div>
-        <div class="col-md-10">
+    <block-window-loader data-control="loaderControl"></block-window-loader>
 
-        </div>
-    </div>
+    <div uib-alert ng-repeat="message in messages" ng-class="'alert-' + (message.type || 'warning')" close="closeMessage($index)">{{message.message}}</div>
 
     <div class="col-md-6">
         <h3>Оберіть зовнішнє джерело коштів </h3>
@@ -20,10 +16,6 @@
                                       data-show-save-button="false"></add-external-payment>
             </uib-tab>
         </uib-tabset>
-
-        <pre>{{externalPayment}}</pre>
-        <pre>{{operation}}</pre>
-
     </div>
 
 
@@ -147,6 +139,7 @@
                 <div class="col-md-9" id="sum">
                     <input id="sum" type="number" class="form-control form-inline text-right"
                            ng-value="invoicesSum()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"
+                           ng-model="amount"
                            readonly/>
                 </div>
                 <label for="sum" class="control-label col-md-1"> грн.</label>

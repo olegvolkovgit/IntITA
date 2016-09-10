@@ -60,4 +60,11 @@ class CompanyController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
+    
+    public function actionList() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter(CorporateEntity::model(), $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
 }

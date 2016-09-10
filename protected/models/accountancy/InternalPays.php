@@ -8,8 +8,8 @@
  * @property string $create_date
  * @property integer $create_user
  * @property integer $invoice_id
- * @property string $description
  * @property string $summa
+ * @property integer $externalPaymentId
  *
  * The followings are the available model relations:
  * @property StudentReg $createUser
@@ -32,12 +32,11 @@ class InternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_user, invoice_id, summa', 'required'),
-			array('create_user, invoice_id', 'numerical', 'integerOnly'=>true),
-			array('description', 'length', 'max'=>512),
+			array('create_user, invoice_id, summa, externalPaymentId', 'required'),
+			array('create_user, invoice_id, externalPaymentId', 'numerical', 'integerOnly'=>true),
 			array('summa', 'length', 'max'=>10),
 			// The following rule is used by search().
-			array('id, create_date, create_user, invoice_id, description, summa', 'safe', 'on'=>'search'),
+			array('id, create_date, create_user, invoice_id, summa, externalPaymentId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,6 +49,8 @@ class InternalPays extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'createUser' => array(self::BELONGS_TO, 'User', 'create_user'),
+            'externalPayment' => [self::BELONGS_TO, 'ExternalPays', 'externalPaymentId'],
+            'invoice' => [self::BELONGS_TO, 'Invoice', 'invoice_id']
 		);
 	}
 
@@ -63,9 +64,7 @@ class InternalPays extends CActiveRecord
             'create_date' => 'Дата створення',
             'create_user' => 'Хто створив',
             'agreement_id' => 'Номер договору',
-            'description' => 'Пояснення',
             'summa' => 'Сумма до сплати',
-
 		);
 	}
 
@@ -89,8 +88,8 @@ class InternalPays extends CActiveRecord
 		$criteria->compare('create_date',$this->create_date,true);
 		$criteria->compare('create_user',$this->create_user);
 		$criteria->compare('invoice_id',$this->invoice_id);
-		$criteria->compare('description',$this->description,true);
 		$criteria->compare('summa',$this->summa,true);
+		$criteria->compare('externalPaymentId',$this->summa);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,17 +107,14 @@ class InternalPays extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewInternalPay(Invoice $invoice, Operation $operation){
-
+    public function create($params){
         $model = new InternalPays();
-
-        $model->invoice_id = $invoice->id;
-        $model->create_user = $operation->user_create;
-        $model->summa = $invoice->summa;
-
-        $model->description = $operation->type->description.". ".$invoice->description()."Сплачено ".
-            date("d.m.y", strtotime($operation->date_create));
-
-        return $model->save();
+        $model->setAttributes($params);
+        if ($model->validate()) {
+            $model->save(false);
+            return $model;
+        } else {
+            return $model->getErrors();
+        }
     }
 }

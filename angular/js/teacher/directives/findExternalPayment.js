@@ -20,7 +20,12 @@ function addExternalPayment(externalPayments, _) {
         };
 
         $scope.onSelect = function onSelect($item, $model, $label, $event) {
-            _.assignIn($scope.document, $model);
+            externalPayments
+                .getById({id:$model.id})
+                .$promise
+                .then(function (data) {
+                    _.assignIn($scope.document, data);
+                })
         };
     }
 
