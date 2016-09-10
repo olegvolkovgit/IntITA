@@ -17,8 +17,8 @@
                         <td data-title="'Email'" filter="{'user.email': 'text'}" sortable="'user.email'">
                             <a ng-href="#/admin/users/teacher/{{row.user.id}}">{{row.user.email}}</a>
                         </td>
-                        <td data-title="'Статус'" filter="{'isPrint': 'text'}" sortable="'isPrint'">{{row.isPrint==1  ? "видимий" : "невидимий"}}</td>
-                        <td data-title="'Змінити статус'" filter="{'isPrint': 'text'}" sortable="'isPrint'">
+                        <td data-title="'Статус'" sortable="'isPrint'">{{row.isPrint==1  ? "видимий" : "невидимий"}}</td>
+                        <td data-title="'Змінити статус'" sortable="'isPrint'">
                             <a ng-click="setTeacherStatus(row.isPrint, row.user.id)">{{row.isPrint==1  ? "приховати" : "показати"}}</a>
                         </td>
                         <td data-title="'Відправити листа'">

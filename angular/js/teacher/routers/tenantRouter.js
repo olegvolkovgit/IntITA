@@ -8,21 +8,33 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('tenant', {
             url: "/tenant",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Tenant');
+            },
             templateUrl: "/_teacher/cabinet/loadPage/?page=tenant",
         })
         .state('tenant/bots', {
             url: "/tenant/bots",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Боти');
+            },
             templateUrl: "/_teacher/_tenant/tenant/Bots",
         })
         .state('tenant/chats', {
             url: "/tenant/chats",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Розмови');
+            },
             templateUrl: "/_teacher/_tenant/tenant/SearchChats",
         })
         .state('tenant/phrases', {
             url: "/tenant/phrases",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Типові фрази');
+            },
             templateUrl: "/_teacher/_tenant/tenant/showPhrases",
         })
         .state('tenant/searchchat/:user1/:user2', {

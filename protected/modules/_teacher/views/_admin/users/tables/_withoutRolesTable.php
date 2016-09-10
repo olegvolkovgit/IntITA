@@ -4,7 +4,7 @@
             <div class="dataTable_wrapper">
                 <table ng-table="withoutRolesTableParams" class="table table-bordered table-striped table-condensed">
                     <tr ng-repeat="row in $data track by row.id">
-                        <td data-title="'ПІБ'" filter="{'fullName': 'text'}">
+                        <td data-title="'ПІБ'" filter="{'fullName': 'text'}" sortable="'fullName'">
                             <a ng-href="#/admin/users/user/{{row.id}}">{{row.firstName}} {{row.middleName}} {{row.secondName}}</a>
                         </td>
                         <td data-title="'Email'" filter="{'email': 'text'}" sortable="'email'">

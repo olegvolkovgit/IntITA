@@ -52,18 +52,16 @@ $user = $model->registrationData;
 
                 <?php if ($model->isStudent()) { ?>
                     <li class="list-group-item">Тренер:
-                        <?php if ($trainer) { ?>
-                            <div ng-if="data.trainer">
-                                <a href="<?php echo Yii::app()->createUrl('profile/index', array('idTeacher' => $trainer->id)) ?>" target="_blank">
-                                    <?php echo $trainer->userNameWithEmail(); ?>
-                                </a>
-                                <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                                <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/changetrainer">
-                                    змінити
-                                </a>
-                                <?php } ?>
-                            </div>
-                        <?php }?>
+                        <div ng-if="data.trainer">
+                            <a ng-href="/teacher/{{data.trainer.id}}" target="_blank">
+                                {{data.trainer.firstName}} {{data.trainer.secondName}}({{data.trainer.firstName}})
+                            </a>
+                            <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/changetrainer">
+                                змінити
+                            </a>
+                            <?php } ?>
+                        </div>
                         <div ng-if="!data.trainer">
                             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                                 <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/addtrainer">

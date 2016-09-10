@@ -36,7 +36,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
             <div class="dataTable_wrapper">
                 <table ng-table="studentsTableParams" class="table table-bordered table-striped table-condensed">
                     <tr ng-repeat="row in $data track by $index">
-                        <td data-title="'ПІБ'" filter="{'fullName': 'text'}">
+                        <td data-title="'ПІБ'" filter="{'fullName': 'text'}" sortable="'fullName'">
                             <a ng-href="#/admin/users/user/{{row.id}}">{{row.firstName}} {{row.middleName}} {{row.secondName}}</a>
                         </td>
                         <td data-title="'Email'" filter="{'email': 'text'}" sortable="'email'">
@@ -46,10 +46,10 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Форма'" filter="{'educform': 'text'}" sortable="'educform'">{{row.educform}}</td>
                         <td data-title="'Країна'" filter="{'country0.title_ua': 'text'}" sortable="'country0.title_ua'">{{row.country0.title_ua}}</td>
                         <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city.title_ua}}</td>
-                        <td data-title="'Тренер'" sortable="'studentTrainer.trainer'">
-                            {{row.studentTrainer.trainer ? 'присутній':''}}
+                        <td data-title="'Тренер'" sortable="'trainer.trainer'">
+                            {{row.trainer.trainer ? 'присутній':''}}
                         </td>
-                        <td data-title="'Доступ до контента'" >
+                        <td data-title="'Доступ до контенту'" >
                             <a type="button"
                                ng-class="{'btn btn-outline btn-success btn-block': (row.payCourses.length || row.payModules.length),
                                'btn btn-outline btn-danger btn-block': (!row.payCourses.length && !row.payModules.length) }" ng-href="#/admin/users/user/{{row.id}}">

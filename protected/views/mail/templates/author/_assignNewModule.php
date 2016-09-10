@@ -13,7 +13,7 @@ $model = $params[0];
     </a>
 </strong>.
 <br>
-Кабінет автора модулів (вкладка "Автор"): <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+Посилання на список модулів у кабінеті (Автор/модулі): <a
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/author/modules">
+    <em>модулі</em>
 </a>

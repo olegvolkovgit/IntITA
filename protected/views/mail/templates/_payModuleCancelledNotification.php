@@ -15,8 +15,6 @@ $trainer = $params[1];
     <em><?= $model->title_ua . ", (" . $model->language . ")"; ?></em>
 </a>
 <br>
-<?=Yii::t('mail', '0852')?> <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index', array(
-    'scenario' => 'message',
-    'receiver' => $trainer->user_id
-)); ?>"><?=Yii::t('mail', '0853')?></a>.
+<?=Yii::t('mail', '0852')?> <a
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index')?>#/newmessages/receiver/<?php echo $trainer->user_id; ?>"><?=Yii::t('mail', '0853')?></a>.
 <br>

@@ -11,6 +11,7 @@
                 'class' => 'formatted-form',
                 'enctype' => 'multipart/form-data',
                 'method' => 'POST',
+                'name'=>'Graduate'
             ),
             // Please note: When you enable ajax validation, make sure the corresponding
             // controller action is handling ajax validation correctly.
@@ -43,13 +44,14 @@
             <?php echo CHtml::activeFileField($model, 'avatar', array('onchange' => "CheckFile(this)")); ?>
             <div class="errorMessage" style="display: none"></div>
         </div>
-
         <div class="form-group">
             <?php echo $form->labelEx($model, 'graduate_date'); ?>
-            <?php echo $form->dateField($model, 'graduate_date', array('class' => "form-control")); ?>
+            <?php echo $form->textField($model, 'graduate_date', array('class' => "form-control", 'ng-init'=>'graduateDate="'.$model->graduate_date.'"', 'ng-model'=>"graduateDate", 'ng-pattern'=>'/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/')); ?>
             <?php echo $form->error($model, 'graduate_date'); ?>
+            <div ng-cloak  class="errorMessage" ng-show="Graduate['Graduate[graduate_date]'].$invalid">
+                <span ng-show="Graduate['Graduate[graduate_date]'].$error.pattern"><?php echo Yii::t('graduate','0749') ?></span>
+            </div>
         </div>
-
         <div class="form-group">
             <?php echo $form->labelEx($model, 'position'); ?>
             <?php echo $form->textField($model, 'position', array('size' => 60, 'maxlength' => 255, 'class' => "form-control")); ?>
@@ -130,9 +132,14 @@
         </div>
 
         <div class="form-group">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array('class' => 'btn btn-primary', 'id' => 'submitButton')); ?>
+            <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array('class' => 'btn btn-primary', 'id' => 'submitButton', 'ng-disabled'=>'Graduate.$invalid')); ?>
         </div>
 
         <?php $this->endWidget(); ?>
     </div><!-- form -->
 </div>
+<script>
+    $jq(document).ready(function () {
+        $jq("#Graduate_graduate_date").datepicker(lang);
+    });
+</script>

@@ -8,6 +8,9 @@ config(function ($stateProvider) {
         .state('admin/freelectures', {
             url: "/admin/freelectures",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Безкоштовні заняття');
+            },
             templateUrl: basePath + "/_teacher/_admin/freeLectures/index"
         })
 });

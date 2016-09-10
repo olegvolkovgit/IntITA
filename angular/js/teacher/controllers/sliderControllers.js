@@ -4,6 +4,7 @@ angular
     .controller('aboutUsSliderTableCtrl',aboutUsSliderTableCtrl)
 
 function mainSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
+    $scope.changePageHeader('Слайдер на головній сторінці');
     $scope.loadMainSliderList=function(){
         $http.get(basePath + "/_teacher/_admin/carousel/getItemsList").then(function (data) {
             $scope.sliderList = data.data["data"];
@@ -46,6 +47,7 @@ function mainSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
     }
 }
 function aboutUsSliderTableCtrl ($http, $scope, DTOptionsBuilder,$state){
+    $scope.changePageHeader('Слайдер на сторінці Про нас');
     $scope.loadAboutUsSliderList=function(){
         $http.get(basePath + "/_teacher/_admin/aboutusSlider/getItemsList").then(function (data) {
             $scope.sliderList = data.data["data"];

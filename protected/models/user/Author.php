@@ -38,7 +38,7 @@ class Author extends Role
             ->select('idModule, language, m.title_ua, tm.start_time, tm.end_time, m.cancelled')
             ->from('teacher_module tm')
             ->leftJoin('module m', 'm.module_ID=tm.idModule')
-            ->where('idTeacher=:id', array(':id' => $user->id))
+            ->where('idTeacher=:id AND tm.end_time IS NULL', array(':id' => $user->id),'')
             ->queryAll();
 
         $list = [];

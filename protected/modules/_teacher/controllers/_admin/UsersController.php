@@ -280,13 +280,20 @@ class UsersController extends TeacherCabinetController
         $trainerId = Yii::app()->request->getPost('trainerId');
 
         $trainer = RegisteredUser::userById($trainerId);
+        $cancelResult='';
         $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
         if($oldTrainerId) {
             $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
             $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+            $cancelResult="Попереднього тренера скасовано.";
         }
-        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
+        $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        if ($result===true){
+            $setResult="Нового тренера призначено.";
+        } else{
+            $setResult=$result;
+        }
+        echo $cancelResult.' '.$setResult;
     }
 
     public function actionRemoveTrainer()

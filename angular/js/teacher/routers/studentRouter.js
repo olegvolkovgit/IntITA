@@ -8,22 +8,34 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('students', {
             url: "/students",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Студент');
+            },
             templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=student",
         })
         .state('students/courses', {
             url: "/students/courses",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Курси/модулі');
+            },
             templateUrl: basePath+"/_teacher/_student/student/index/id/"+user,
         })
         .state('students/consultations', {
             url: "/students/consultations",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Консультації');
+            },
             templateUrl: basePath+"/_teacher/_student/student/consultations/id/"+user,
         })
 
         .state('student/finances', {
             url: "/students/finances",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Фінанси');
+            },
             templateUrl: basePath+"/_teacher/_student/student/finances/id/"+user,
         })
 });

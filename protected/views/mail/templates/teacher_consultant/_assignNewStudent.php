@@ -17,4 +17,4 @@ $module = $params[1];
     </strong>.</span>
 <br>
 <span>Перейти у кабінет (вкладка Викладач -> Студенти):</span>
-<a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index');?>">Кабінет</a>
+<a href="<?=Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index');?>#/teacherConsultant/students">студенти</a>
