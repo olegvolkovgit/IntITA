@@ -1,32 +1,19 @@
-<div class="panel panel-default" ng-controller="statusOfCoursesCtrl">
+<div class="panel panel-default" ng-controller="statusOfModulesCtrl">
     <div class="panel-body">
 
-        <ul id="accessTabs" class="nav nav-tabs">
-            <li class="active"><a href="#all" data-toggle="tab">Всі курси</a>
-            </li>
-            <li><a href="#without_videos" data-toggle="tab">Курси без відео</a>
-            </li>
-            <li><a href="#without_tests" data-toggle="tab">Курси без тестів</a>
-            </li>
-            <li><a href="#without_tests_and_videos" data-toggle="tab">Курси без тестів і відео</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="all">
+        <uib-tabset active="0">
+            <uib-tab index="0" heading="Всі курси" select="initCoursesList()">
                 <?php $this->renderPartial('/_content_manager/_allCourses',array('filter_id'=>'0')); ?>
-            </div>
-            <div class="tab-pane fade" id="without_videos">
+            </uib-tab>
+            <uib-tab index="1" heading="Курси без відео" select="initModuleWithoutVideos()">
                 <?php $this->renderPartial('/_content_manager/_coursesWithoutVideos',array('filter_id'=>'1')); ?>
-            </div>
-            <div class="tab-pane fade" id="without_tests">
+            </uib-tab>
+            <uib-tab index="2" heading="Курси без тестів" select="initModuleWithoutTests()">
                 <?php $this->renderPartial('/_content_manager/_coursesWithoutTests',array('filter_id'=>'2')); ?>
-            </div>
-            <div class="tab-pane fade" id="without_tests_and_videos">
+            </uib-tab>
+            <uib-tab index="3" heading="Курси без тестів і відео" select="initModuleWithoutVideosAndTests()">
                 <?php $this->renderPartial('/_content_manager/_coursesWithoutTestsAndVideos',array('filter_id'=>'3')); ?>
-            </div>
-
-        </div>
-
-
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>
