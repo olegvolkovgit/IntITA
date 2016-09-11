@@ -61,36 +61,15 @@ $header = new Header();
     <div id="mainheader">
         <?php $this->renderPartial('/site/_hamburgermenu'); ?>
         <div id='headerUnderline'>
-            <div id="navigation" class="down">
-                <div class="main">
-                    <div id="logo_img" class="down">
+            <table id="navigation" class="down">
+                <tr class="main">
+                    <td id="logo_img" class="down">
                         <a href="<?php echo Yii::app()->createUrl('site/index'); ?>">
                             <img id="logo"
                                  src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png'); ?>"/>
                         </a>
-                    </div>
-                    <div id="lang" class="down">
-                        <?php
-                        if (Yii::app()->session['lg'] == NULL) Yii::app()->session['lg'] = 'ua';
-                        foreach (array("ua", "en", "ru") as $val) {
-                            ?>
-                            <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg' => $val)); ?>" <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>><?php echo $val; ?></a>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                    <div id="enterButton">
-                        <div id="button_border" class="down">
-                        </div>
-                        <?php if (Yii::app()->user->isGuest) {
-                            echo CHtml::link($header->getEnterButton(), '', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
-                        } else {
-                            ?>
-                            <a id="enter_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout"
-                               class="down"><?php echo $header->getLogoutButton(); ?></a>
-                        <?php } ?>
-                    </div>
-                    <div id="menulist">
+                    </td>
+                    <td id="menulist">
                         <ul>
                             <li>
                                 <a href="<?php echo Config::getBaseUrl() . '/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a>
@@ -101,7 +80,7 @@ $header = new Header();
                             <li>
                                 <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                             </li>
-                            <li><a href="<?php echo Config::getBaseUrl() . '/forum'; ?>"
+                            <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
                                    target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
                             <li>
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
@@ -109,10 +88,37 @@ $header = new Header();
                             <li>
                                 <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                             </li>
+                            <li>
+                                <a href="http://www.robotamolodi.org/"><?php echo 'Вакансії' ?></a>
+                            </li>
                         </ul>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                    <td class="emptyTd"></td>
+                    <td id="enterButton">
+                        <div id="button_border" class="down">
+                        </div>
+                        <?php if (Yii::app()->user->isGuest) {
+                            echo CHtml::link($header->getEnterButton(), '', array('id' => 'enter_button', 'class' => 'down', 'onclick' => 'openSignIn();',));
+                        } else {
+                            ?>
+                            <a id="enter_button" href="<?php echo Config::getBaseUrl(); ?>/site/logout"
+                               class="down"><?php echo $header->getLogoutButton(); ?></a>
+                        <?php } ?>
+                    </td>
+                    <td id="lang" class="down">
+                        <div class="languageRow">
+                            <?php
+                            if (Yii::app()->session['lg'] == NULL) Yii::app()->session['lg'] = 'ua';
+                            foreach (array("ua", "en", "ru") as $val) {
+                                ?>
+                                <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg' => $val)); ?>" <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>><?php echo $val; ?></a>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="main">
@@ -161,7 +167,7 @@ $header = new Header();
         <!--forgot pass modal-->
     </div>
 </div>
-<div id="mainfooter" style="display: block;border-bottom: 1px solid #44bdf6;">
+<div id="mainfooter">
     <div class="footercontent">
         <div class="leftfooter">
             <table>
@@ -236,10 +242,13 @@ $header = new Header();
                     <li>
                         <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                     </li>
-                    <li><a href="<?php echo Config::getBaseUrl() . '/forum'; ?>"
+                    <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
                            target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
                     <li>
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
+                    </li>
+                    <li>
+                        <a href="http://www.robotamolodi.org/"><?php echo 'Вакансії' ?></a>
                     </li>
                 </ul>
             </div>

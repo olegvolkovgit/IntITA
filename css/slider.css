@@ -5,19 +5,18 @@
 #slider{z-index:0;}
 .slide{height:100%;}
 .slide div{height:100%;}
-.slide p{position:absolute;font-size:32px;font-family:"MyriadPro";font-weight:200;color:white;text-shadow: 2px 2px 1px #000000;text-align:center;z-index:1;min-width:1200px;top:0;}
-.slide img{width:100%;height:100%;z-index:0;min-height:550px;}
-#sliderCenterBox{position:absolute;color:#383838;width:100%;z-index:1;min-width:1200px;margin:0 auto;}
-.sliderCenterBoxText p{position:relative;line-height:5%;text-align:center;color:#ffffff;font-size:66px;font-family:"MyriadPro";text-shadow:0.05em 0.05em 0.05em #000;margin-bottom:50px;}
-.sliderCenterBoxLine hr{border:1px solid white;width:100px;}
+.slide p{position:absolute;font-size:28px;font-family:"MyriadPro";font-weight:200;color:white;text-shadow: 2px 2px 1px #000000;text-align:center;z-index:1;top:44%;}
+.slide img{width:100%;height:100%;z-index:0;}
+#sliderCenterBox{position:absolute;color:#383838;width:100%;z-index:1;margin:0 auto;margin-top:10%}
+.sliderCenterBoxText p{position:relative;line-height:5%;text-align:center;color:#ffffff;font-size:66px;font-family:"MyriadPro";text-shadow:0.05em 0.05em 0.05em #000;margin-bottom:5vw;}
+.sliderCenterBoxLine hr{border:1px solid white;width:10%;}
 .sliderCenterBoxLine{height:2px;}
-.sliderSnake{height:160px;position:relative;margin-top:65px;}
-.sliderSnake .snake{height:160px;position:relative;width:100%;min-width:1200px;}
-.sliderSnake .snake img{display:block;width:960px;height:160px;margin:0 auto;}
-.sliderSnake .button{position:absolute;top:10px;left:50%;}
-.sliderSnake .button a{width:160px;height:50px;position:absolute;text-shadow:0.1em 0.1em 0.1em black;color:white;font:normal 400 0.54em/2.16em "MyriadPro2";line-height:300% vertical-align:middle;text-align:center;text-decoration:none;font-weight:300;border-top:0.05em solid #007cbf;background:#4b70a3;border-radius:0.3em;box-shadow:0em 0.1em 0em black;z-index:4;font-size:20px;margin-left:-80px;margin-top:45px;padding-top:4px;}
+.sliderSnake{position:relative;margin-top:8%}
+.sliderSnake .snake{position:relative;width:100%;}
+.sliderSnake .snake img{display:block;width:70%;margin:0 auto;}
+.sliderSnake .button{position:absolute;top:0;left:50%;}
+.sliderSnake .button a{width:160px;position:absolute;text-shadow:0.1em 0.1em 0.1em black;color:white;font:normal 400 0.54em/2.16em "MyriadPro2";vertical-align:middle;text-align:center;text-decoration:none;font-weight:300;border-top:0.05em solid #007cbf;background:#4b70a3;border-radius:0.3em;box-shadow:0em 0.1em 0em black;z-index:4;font-size:20px;margin-left:-80px;margin-top:45px;padding-top:4px;}
 .sliderSnake .button a:hover{border-top-color:#454545;background:#454545;color:#fcfcfc;cursor:pointer;}
 .sliderSnake .button a:active{border-top-color:#363636;background:#363636;}
-.mouseLine{position:relative;margin-top:-2.55%;z-index:2;min-width:1200px;min-height:78px;}
-#mouseLine{min-width:1200px;min-height:78px;}
-#mouseLine img{min-width:1200px;min-height:78px;}
+.mouseLine{position:relative;margin-top:-2.55%;z-index:2;min-height:78px;}
+#mouseLine{min-height:78px;}

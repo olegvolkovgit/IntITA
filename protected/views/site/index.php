@@ -16,7 +16,7 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'slider.js'); ?>"></script>
 <!-- carousel -->
 
-<?php //$this->renderPartial('_slider', array('slider' => $slider));  ?>
+<?php $this->renderPartial('_slider', array('slider' => $slider));  ?>
 
 <?php
 $mainpage = new Mainpage();
@@ -39,3 +39,41 @@ $this->renderPartial('/site/_shareMetaTag', array(
 ));
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+<script>
+    var width = 0;
+    if (self.screen) {
+        width = screen.width
+    }
+    var key = document.getElementById('enter_button');
+    var nav = document.getElementById('navigation');
+    var logo = document.getElementById('logo_img');
+    var border = document.getElementById('button_border');
+    var lang = document.getElementById('lang');
+    var underline = document.getElementById('headerUnderline');
+    var but = document.getElementById('enterButton');
+    var logolang = "<?php
+        $app = Yii::app();
+        switch ($app->session['lg']){
+            case 'ua':
+                echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigUA.png');
+                break;
+            case 'en':
+                echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigEN.png');
+                break;
+            case 'ru':
+                echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigRU.png');
+                break;
+            default:
+                echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_bigUA.png');
+                break;
+        }
+        ?>";
+    key.className = "";
+    nav.className = "";
+    logo.className = "";
+    border.className = "";
+    lang.className = "";
+    underline.className = "downmain";
+    but.className = "";
+    document.getElementById('logo').src = logolang;
+</script>
