@@ -9,7 +9,7 @@
 <script>
     module = <?=$module->module_ID?>;
 </script>
-<div class="panel panel-default col-md-7">
+<div class="panel panel-default col-md-7" ng-controller="teacherConsultantCtrl">
     <div class="panel-body">
         <form role="form">
             <div class="form-group">
@@ -49,12 +49,19 @@
                     <input id="typeaheadTeacher" type="text" class="form-control" placeholder="виберіть викладача"
                            size="135" required autofocus>
                 </div>
+                <div class="form-group">
+                    <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue,'<?= $module->module_ID; ?>') | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResultsConsultant">
+                        <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
+                    </div>
+
+
                 <br>
                 <div class="form-group">
-                    <button type="button" class="btn btn-success"
-                            onclick="assignTeacherConsultantForStudent('<?php echo Yii::app()->createUrl('/_teacher/_trainer/trainer/assignTeacherForStudent'); ?>',
-                                '<?= $student->id ?>', '<?= $module->module_ID; ?>')">Призначити викладача
+                    <button type="button" class="btn btn-success" ng-click="assignTeacher('<?= $student->id ?>','<?= $module->module_ID?>')">Призначити викладача
                     </button>
+                </div>
                 </div>
             <?php } ?>
         </form>
@@ -75,6 +82,20 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <div class="typeahead_wrapper  tt-selectable">
+            <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
+            <div class="typeahead_labels">
+                <div ng-bind="match.model.name" class="typeahead_primary"></div>
+                <div ng-bind="match.model.email" class="typeahead_secondary"></div>
+            </div>
+        </div>
+
+
+    </a>
+</script>
 
 <script>
     var teachers = new Bloodhound({

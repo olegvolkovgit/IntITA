@@ -10,12 +10,10 @@ function permissionsCtrl ($scope, typeAhead, $http, $state){
     console.log($scope.selectedTeacher);
     $scope.onSelect = function ($item) {
         $scope.selectedTeacher = $item;
-        console.log($item);
     };
 
     $scope.selectModule = function ($item) {
         $scope.selectedModule = $item;
-        console.log($item);
     };
 
     $scope.reload = function(){
@@ -28,14 +26,14 @@ function permissionsCtrl ($scope, typeAhead, $http, $state){
     var consultantTypeaheadUrl = basePath + '/_teacher/_admin/permissions/consultantsByQuery';
 
     $scope.getTeachers = function(value){
-        return typeAhead.getData(teachersTypeaheadUrl,value)
+        return typeAhead.getData(teachersTypeaheadUrl,{query : value})
     };
     $scope.getModules = function(value){
-            return typeAhead.getData(moduleTypeaheadUrl,value);
+            return typeAhead.getData(moduleTypeaheadUrl,{query : value});
     };
 
     $scope.getConsultants = function(value){
-        return typeAhead.getData(consultantTypeaheadUrl,value);
+        return typeAhead.getData(consultantTypeaheadUrl,{query : value});
     };
 
     $scope.addPermission = function(permission){

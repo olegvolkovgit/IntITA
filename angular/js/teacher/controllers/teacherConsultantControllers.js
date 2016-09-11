@@ -3,7 +3,7 @@
  */
 angular
     .module('teacherApp')
-    .controller('teacherConsultantModulesCtrl', function ($scope){
+    .controller('teacherConsultantModulesCtrl', function ($scope) {
         $jq(document).ready(function () {
             $jq('#teacherModulesTable').DataTable({
                     "autoWidth": false,
@@ -14,7 +14,7 @@ angular
             );
         });
     })
-    .controller('teacherConsultantTasksCtrl',function(){
+    .controller('teacherConsultantTasksCtrl', function ($scope, $http, $templateCache, $state) {
         $jq(document).ready(function () {
             $jq('#tasksTable').DataTable({
                     "autoWidth": false,
@@ -31,8 +31,61 @@ angular
                         },
                         null,
                     ],
-                    "order": [[ 5, "asc" ], [ 4, "desc" ]]
+                    "order": [[5, "asc"], [4, "desc"]]
                 }
             );
         });
+
+        $scope.markTask = function () {
+            console.log('ddd');
+            var id = $jq('#plainTaskId').val();
+            var mark = $jq('#mark').val();
+            var comment = $jq('[name = comment]').val();
+            var userId = $jq('#userId').val();
+            $http({
+                method: 'POST',
+                url: basePath + '/_teacher/_teacher_consultant/teacherConsultant/markPlainTask',
+                data: $jq.param({'idPlainTask': id, 'mark': mark, 'comment': comment, 'userId': userId}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function () {
+                bootbox.alert('Ваша оцінка записана в базу', function () {
+                    $templateCache.remove(basePath + "/_teacher/_teacher_consultant/teacherConsultant/showPlainTask/idPlainTask/" + id);
+                    $state.go('teacherConsultant/tasks');
+                });
+            }).error(function () {
+                bootbox.alert('Помилка, зверніться до адміністратора');
+            })
+
+        }
+
     })
+    .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache) {
+        var teachersTypeaheadUrl = basePath+ '/_teacher/_trainer/trainer/teacherConsultantsByQuery';
+        $scope.selectedTeacher = null;
+        $scope.getTeachers = function(value,module){
+            return typeAhead.getData(teachersTypeaheadUrl,{query:value, module:module})
+        };
+        $scope.onSelect = function ($item) {
+            $scope.selectedTeacher = $item;
+            console.log($item);
+        };
+
+        $scope.assignTeacher = function (studentId,moduleId) {
+
+            $http({
+                method:'POST',
+                url:basePath + '/_teacher/_trainer/trainer/assignTeacherForStudent',
+                data: $jq.param({teacher: $scope.selectedTeacher.id, module: moduleId, student: studentId}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function(response){
+                bootbox.alert(response,function(){
+                    $templateCache.remove(basePath + "/_teacher/_trainer/trainer/viewStudent/id/" + studentId);
+                    $state.go('trainer/viewStudent/:studentId',{studentId:studentId},{reload:true})
+                });
+            }).error(function(){
+                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
+                "операцію пізніше або напишіть на адресу " + adminEmail)
+            })
+
+        }
+    });
