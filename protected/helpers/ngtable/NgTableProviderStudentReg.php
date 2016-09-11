@@ -13,6 +13,10 @@ class NgTableProviderStudentReg extends NgTableProviderDefault implements INgTab
     }
 
     public function getSearchCriteria($fieldName, $value, $alias='t') {
+        if (!$alias) {
+            $alias = 't';
+        }
+
         $criteria = new CDbCriteria();
 
         if ($fieldName == 'fullName') {
@@ -28,14 +32,21 @@ class NgTableProviderStudentReg extends NgTableProviderDefault implements INgTab
     }
 
     public function getOrderStatement($fieldName, $direction, $alias = 't') {
+        if (!$alias) {
+            $alias = 't';
+        }
         if ($fieldName == 'fullName') {
             return [
                 "$alias.firstName $direction",
-                "$alias .middleName $direction",
-                "$alias .secondName $direction"
+                "$alias.middleName $direction",
+                "$alias.secondName $direction"
             ];
         } else {
             return parent::getOrderStatement($fieldName, $direction, $alias);
         }
+    }
+
+    public function getAdditionalFields() {
+        return ['fullName'];
     }
 }

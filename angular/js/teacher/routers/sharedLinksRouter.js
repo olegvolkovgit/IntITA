@@ -8,6 +8,9 @@ config(function ($stateProvider) {
         .state('sharedlinks', {
             url: '/sharedlinks',
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Ресурси для викладачів');
+            },
             templateUrl: "/_teacher/_admin/shareLink/index"
         })
         .state('sharedlinks/detail/:linkId', {

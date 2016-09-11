@@ -47,6 +47,7 @@
                 <li class="list-group-item">Електронна пошта:
                     <a ng-href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/'); ?>{{data.user.id}}">
                         {{data.user.email}}
+                        <i class="fa fa-envelope fa-fw"></i>
                 </li>
                 <li class="list-group-item">
                     Приватний чат:

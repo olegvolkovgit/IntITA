@@ -546,7 +546,7 @@ class UserContentManager extends CActiveRecord
         if(!$parts){
             return json_encode($return);
         }
-        $sql2 = 'select lectures.idModule,lectures.order,course_modules.id_course  from lectures left JOIN course_modules on course_modules.id_module=lectures.idModule where id=' . $idLesson . ' group by `idModule`';
+        $sql2 = 'select lectures.idModule,lectures.order,course_modules.id_course  from lectures left JOIN course_modules on course_modules.id_module=lectures.idModule where lectures.id=' . $idLesson . ' group by `idModule`';
         $result = Yii::app()->db->createCommand($sql2)->queryAll();
         if(!$result){
             return json_encode($return);

@@ -8,21 +8,33 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('teacherConsultant', {
             url: "/teacherConsultant",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Викладач');
+            },
             templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=teacher_consultant",
         })
         .state('teacherConsultant/modules', {
             url: "/teacherConsultant/modules",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Модулі');
+            },
             templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/modules/id/"+user,
         })
         .state('teacherConsultant/students', {
             url: "/teacherConsultant/students",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Студенти');
+            },
             templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/students/id/"+user,
         })
         .state('teacherConsultant/tasks', {
             url: "/teacherConsultant/tasks",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Всі задачі');
+            },
             templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList/idTeacher/"+user,
         })
 });

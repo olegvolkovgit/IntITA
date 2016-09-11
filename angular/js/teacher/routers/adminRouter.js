@@ -8,8 +8,8 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin', {
             url: "/admin",
             cache: false,
-            controller: function(){
-                angular.element(document.querySelector("#pageTitle")).text("Адміністратор");
+            controller: function($scope){
+                $scope.changePageHeader('Адміністратор');
             },
             templateUrl: basePath+"/_teacher/_admin/admin/index",
         })
@@ -56,50 +56,65 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin/address', {
             url: "/admin/address",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Адреса (країни, міста)');
+            },
             templateUrl: basePath+"/_teacher/_admin/address/index",
         })
         .state('admin/verifycontent', {
             url: "/admin/verifycontent",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Контент лекцій');
+            },
             templateUrl: basePath+"/_teacher/_admin/verifyContent/index",
         })
         .state('admin/coursemanage', {
             url: "/admin/coursemanage",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Курси');
+            },
             templateUrl: basePath+"/_teacher/_admin/coursemanage/index",
         })
         .state('admin/teachers', {
             url: "/admin/teachers",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Співробітники');
+            },
             templateUrl: basePath+"/_teacher/_admin/teachers/index",
         })
         .state('admin/permissions', {
             url: "/admin/permissions",
             cache: false,
-            controller: function(){
-                angular.element(document.querySelector("#pageTitle")).text("Права доступа");
+            controller: function($scope){
+                $scope.changePageHeader('Права доступа');
             },
             templateUrl: basePath+"/_teacher/_admin/permissions/index",
         })
         .state('admin/pay', {
             url: "/admin/pay",
             cache: false,
-            controller: function(){
-                angular.element(document.querySelector("#pageTitle")).text("Сплатити курс/модуль");
+            controller: function($scope){
+                $scope.changePageHeader('Сплатити курс/модуль');
             },
             templateUrl: basePath+"/_teacher/_admin/pay/index"
         })
         .state('admin/cancel', {
             url: "/admin/cancel",
             cache: false,
-            controller: function(){
-                angular.element(document.querySelector("#pageTitle")).text("Скасувати курс/модуль");
+            controller: function($scope){
+                $scope.changePageHeader('Скасувати курс/модуль');
             },
             templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
         })
         .state('admin/users', {
             url: "/admin/users",
             cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Користувачі');
+            },
             templateUrl: basePath+"/_teacher/_admin/users/index",
         })
         .state('admin/users/addrole/:role', {
@@ -276,7 +291,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/config/view/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                console.log($stateParams.id);
+
                 return basePath + "/_teacher/_admin/config/view/id/" + $stateParams.id;
             }
         })
@@ -284,10 +299,10 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/addLinkedCourse/:model/:course/:lang",
             cache: false,
             templateUrl: function ($stateParams) {
-                console.log($stateParams.id);
                 return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
-        });
+        })
+    
 });
 
 

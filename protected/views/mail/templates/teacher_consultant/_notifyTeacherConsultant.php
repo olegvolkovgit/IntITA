@@ -14,6 +14,6 @@ $model = $params[0];
 </strong>.
 <br>
 Кабінет викладача: <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/teacherConsultant/modules">
+    <em>модулі</em>
 </a>

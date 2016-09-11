@@ -123,18 +123,12 @@ class UsersController extends TeacherCabinetController
     public function actionGetUsersList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
-            'country0'=>true,
-            'city0'=>true,
-            'payModules'=>true,
-            'payCourses'=>true
-            )
-        );
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
 
         $criteria =  new CDbCriteria();
-        $criteria->condition = 'cancelled='.StudentReg::ACTIVE;
-
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE;
         $ngTable->mergeCriteriaWith($criteria);
+
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -161,6 +155,12 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTenantsList()
     {
+
+//        $requestParams = $_GET;
+//        $ngTable = new NgTableAdapter('UserTenant', $requestParams);
+//        $result = $ngTable->getData();
+//        echo json_encode($result);
+
         echo UserTenant::tenantsList();
     }
 
@@ -183,7 +183,7 @@ class UsersController extends TeacherCabinetController
     public function actionGetTeachersList()
     {
         $requestParams = $_GET;
-        $ngTable = new NgTableAdapter('Teacher', $requestParams,array('user'=>true));
+        $ngTable = new NgTableAdapter('Teacher', $requestParams);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -280,13 +280,20 @@ class UsersController extends TeacherCabinetController
         $trainerId = Yii::app()->request->getPost('trainerId');
 
         $trainer = RegisteredUser::userById($trainerId);
+        $cancelResult='';
         $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
         if($oldTrainerId) {
             $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
             $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+            $cancelResult="Попереднього тренера скасовано.";
         }
-        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
+        $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
+        if ($result===true){
+            $setResult="Нового тренера призначено.";
+        } else{
+            $setResult=$result;
+        }
+        echo $cancelResult.' '.$setResult;
     }
 
     public function actionRemoveTrainer()

@@ -31,7 +31,9 @@ angular
     ])
     .run(['$rootScope', '$templateCache','$state',
             function ($rootScope, $templateCache, $state) {
-                    $rootScope.$on('$stateChangeStart', function() {
+
+                    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                            $templateCache.remove(fromState.templateUrl);
                             if (typeof($state.current) !== 'undefined'){
                                     // $templateCache.removeAll();
                             }

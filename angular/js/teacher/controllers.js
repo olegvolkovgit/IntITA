@@ -38,7 +38,8 @@ angular
 function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
 
     $scope.changePageHeader = function(headerText){
-        $scope.pageHeader = headerText;
+        angular.element(document.querySelector("#pageTitle")).text(headerText);
+
     };
 
     $scope.fillContainer = function(data)
@@ -339,11 +340,11 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
 }
 
 function studentCtrl ($scope,$location){
-
+    $scope.changePageHeader('Студент');
 }
 
 function contentManagerCtrl ($scope,$location){
-
+    $scope.changePageHeader('Контент менеджер');
 }
 
 
@@ -654,6 +655,7 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
 }
 
 function addRoleCtrl ($scope, $http, $state){
+
     $scope.assignRole=function(url, role) {
         user = $jq("#userId").val();
         if (user == 0) {

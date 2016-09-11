@@ -55,5 +55,9 @@ angular
                         url: url + '/getTenantsList',
                         method: 'GET'
                     },
+                    authorsList: {
+                        url: basePath + '/_teacher/_content_manager/contentManager/getAuthorsList',
+                        method: 'GET'
+                    },
                 });
         }]);

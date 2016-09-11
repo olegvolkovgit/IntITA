@@ -14,6 +14,6 @@ $author = $params[1];
         <strong><?= $model->title_ua; ?></strong>
     </a>.</span>
 <br>
-Призначити автора модуля: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>">
-    <em>Кабінет</em>
+Призначити автору модуль: <a href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/admin/teacher/<?php echo $author->id ?>/editRole/role/author">
+    <em>призначити модуль</em>
 </a>

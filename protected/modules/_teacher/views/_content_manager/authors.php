@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="moduleAuthorsCtrl">
     <div class="panel-body">
         <ul id="accessTabs" class="nav nav-tabs">
             <li class="active"><a href="#all" data-toggle="tab">Автори модулів</a>
