@@ -19,9 +19,9 @@ angular
         var countOfModulesWithoutTests = null;
         var countOfModulesWithoutVideosAndTests = null;
         var modules = $resource(basePath + '/_teacher/_content_manager/contentManager/getCounts?type=modules');
-        var courses = $resource(basePath + '/_teacher/_content_manager/contentManager/getCounts?type=modules');
+        var courses = $resource(basePath + '/_teacher/_content_manager/contentManager/getCounts?type=courses');
         var modulesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getModulesList');
-        var coursesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getCoursesist');
+        var coursesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getCourseslist');
 
         function initCounts(resource){
             resource.get().$promise.then(function(data){
@@ -116,7 +116,7 @@ angular
                 type:'withoutVideos',
             }, {
                 getData: function(params) {
-                    return modulesTable.get(params.url()).$promise.then(function(data) {
+                    return coursesTable.get(params.url()).$promise.then(function(data) {
                         params.total(countOfModulesWithoutVideos);
                         return data.rows[0];
                     });
@@ -130,7 +130,7 @@ angular
                 type:'withoutTests',
             }, {
                 getData: function(params) {
-                    return modulesTable.get(params.url()).$promise.then(function(data) {
+                    return coursesTable.get(params.url()).$promise.then(function(data) {
                         params.total(countOfModulesWithoutTests);
                         return data.rows[0];
                     });
@@ -144,7 +144,7 @@ angular
                 type:'withoutVideosAndTests',
             }, {
                 getData: function(params) {
-                    return modulesTable.get(params.url()).$promise.then(function(data) {
+                    return coursesTable.get(params.url()).$promise.then(function(data) {
                         params.total(countOfModulesWithoutVideosAndTests);
                         return data.rows[0];
                     });

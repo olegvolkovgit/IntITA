@@ -34,6 +34,7 @@ class TeacherConsultantController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
         }
 
+
         $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
 
         return $this->renderPartial('/_teacher_consultant/teacherPlainTaskList', array(

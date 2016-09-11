@@ -67,6 +67,10 @@ config(function ($stateProvider, $urlRouterProvider) {
             url: '/detail/module/:idModule',
             templateUrl: function($stateParams){return basePath+"/_teacher/_content_manager/contentManager/showLessonsList?idModule="+$stateParams.idModule;},
         })
+        .state('/detail/course/:idCourse', {
+            url: '/detail/course/:idCourse',
+            templateUrl: function($stateParams){return basePath+"/_teacher/_content_manager/contentManager/getModulesList?idCourse="+$stateParams.idCourse;},
+        })
         .state('/detail/lesson/:idLesson', {
             url: '/detail/lesson/:idLesson',
             templateUrl: function($stateParams){return contentManagerUrl+"/showPartsList?idLesson="+$stateParams.idLesson;},
