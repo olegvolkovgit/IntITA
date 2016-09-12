@@ -76,81 +76,84 @@ angular
         'operationsService',
         'externalPaymentsService',
         function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments) {
+
+            $scope.typeaheadProviders = {
+                user: {
+                    name: 'користувачу',
+                    searchField: 'email',
+                    provider: user,
+                    label: function (user) {
+                        return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
+                    },
+                    onSelect: function ($model) {
+                        $scope.operation.userId = $model.id;
+                        $scope.updateUserData({id: $scope.operation.userId});
+                        $scope.updateAgreementData({'extraParams[user_id]': $scope.operation.userId})
+                            .then(function (data) {
+                                if (data && data.length) {
+                                    $scope.operation.agreementId = data[0].id;
+                                }
+                            });
+                    }
+                },
+                agreement: {
+                    name: 'номеру договору',
+                    searchField: 'number',
+                    provider: agreements,
+                    label: function (agreements) {
+                        return agreements ? ((agreements.number || '') + ' від ' + (agreements.create_date || '')) : '';
+                    },
+                    onSelect: function ($model) {
+                        $scope.operation.agreementId = $model.id;
+                        $scope.operation.userId = $model.user_id.user_id;
+                        $scope.updateUserData({id: $model.user_id.user_id});
+                        $scope.updateAgreementData({'extraParams[id]': $model.id});
+                        $scope.updateInvoiceData({'extraParams[agreement_id]': $scope.operation.agreementId});
+
+                    }
+                },
+                invoice: {
+                    name: 'номеру рахунку',
+                    searchField: 'number',
+                    provider: invoices,
+                    label: function (invoice) {
+                        return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '')) : '';
+                    },
+                    onSelect: function ($model) {
+                        $scope.operation.invoiceId = $model.id;
+                        $scope.operation.agreementId = $model.agreement_id.agreement_id;
+                        $scope.updateInvoiceData({'extraParams[id]': $model.id});
+                        $scope.updateAgreementData({'extraParams[id]': $model.agreement_id.agreement_id})
+                            .then(function () {
+                                $scope.operation.userId = $scope.agreementsList[0].user_id.user_id;
+                                $scope.updateUserData({id: $scope.operation.userId})
+                            });
+                    }
+                }
+            };
+
+            $scope.operation = {
+                addInvoice: function addInvoice(id) {
+                    if (id && _.find($scope.operation.invoices, ['id', id]) === undefined) {
+                        $scope.operation.invoices.push(_.find($scope.invoicesList, ['id', id]));
+                    }
+                },
+                removeInvoice: function removeInvoice(id) {
+                    _.remove($scope.operation.invoices, function (item) {
+                        return item.id == id
+                    });
+                }
+            };
+
             $scope.initData = function initData() {
                 $scope.externalPayment = {};
-                $scope.typeaheadProviders = {
-                    user: {
-                        name: 'користувачу',
-                        searchField: 'email',
-                        provider: user,
-                        label: function (user) {
-                            return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
-                        },
-                        onSelect: function ($model) {
-                            $scope.operation.userId = $model.id;
-                            $scope.updateUserData({id: $scope.operation.userId});
-                            $scope.updateAgreementData({'extraParams[user_id]': $scope.operation.userId})
-                                .then(function (data) {
-                                    if (data && data.length) {
-                                        $scope.operation.agreementId = data[0].id;
-                                    }
-                                });
-                        }
-                    },
-                    agreement: {
-                        name: 'номеру договору',
-                        searchField: 'number',
-                        provider: agreements,
-                        label: function (agreements) {
-                            return agreements ? ((agreements.number || '') + ' від ' + (agreements.create_date || '')) : '';
-                        },
-                        onSelect: function ($model) {
-                            $scope.operation.agreementId = $model.id;
-                            $scope.operation.userId = $model.user_id.user_id;
-                            $scope.updateUserData({id: $model.user_id.user_id});
-                            $scope.updateAgreementData({'extraParams[id]': $model.id});
-                            $scope.updateInvoiceData({'extraParams[agreement_id]': $scope.operation.agreementId});
-
-                        }
-                    },
-                    invoice: {
-                        name: 'номеру рахунку',
-                        searchField: 'number',
-                        provider: invoices,
-                        label: function (invoice) {
-                            return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '')) : '';
-                        },
-                        onSelect: function ($model) {
-                            $scope.operation.invoiceId = $model.id;
-                            $scope.operation.agreementId = $model.agreement_id.agreement_id;
-                            $scope.updateInvoiceData({'extraParams[id]': $model.id});
-                            $scope.updateAgreementData({'extraParams[id]': $model.agreement_id.agreement_id})
-                                .then(function () {
-                                    $scope.operation.userId = $scope.agreementsList[0].user_id.user_id;
-                                    $scope.updateUserData({id: $scope.operation.userId})
-                                });
-                        }
-                    }
-                };
                 $scope.providerId = 'user';
                 $scope.currentProvider = $scope.typeaheadProviders[$scope.providerId];
-                $scope.operation = {
-                    userId: null,
-                    agreementId: null,
-                    invoiceId: null,
-                    invoices: [],
-                    sum: 0,
-                    addInvoice: function addInvoice(id) {
-                        if (id && _.find($scope.operation.invoices, ['id', id]) === undefined) {
-                            $scope.operation.invoices.push(_.find($scope.invoicesList, ['id', id]));
-                        }
-                    },
-                    removeInvoice: function removeInvoice(id) {
-                        _.remove($scope.operation.invoices, function (item) {
-                            return item.id == id
-                        });
-                    }
-                };
+                $scope.operation.userId = null;
+                $scope.operation.agreementId = null;
+                $scope.operation.invoiceId = null;
+                $scope.operation.invoices = [];
+                $scope.operation.sum = 0;
                 $scope.usersList = [];
                 $scope.agreementsList = [];
                 $scope.invoicesList = [];
@@ -187,13 +190,13 @@ angular
             });
 
             $scope.$watch('operation.agreementId', function (newValue, oldValue) {
-                if (newValue != oldValue) {
+                if (newValue != oldValue && newValue != null) {
                     $scope.updateInvoiceData({'extraParams[agreement_id]': newValue});
                 }
             });
 
             $scope.$watch('operation.userId', function (newValue, oldValue) {
-                if (newValue != oldValue) {
+                if (newValue != oldValue && newValue != null) {
                     $scope.updateAgreementData({'extraParams[user_id]': newValue});
                 }
             });
@@ -228,6 +231,7 @@ angular
             };
 
             $scope.createOperation = function createOperation() {
+                $scope.messages = [];
                 $scope.loaderControl.show();
                 var sendData = {};
                 sendData.userId = $scope.operation.userId;
@@ -257,8 +261,17 @@ angular
                         })
                     .catch(
                         function (response) {
-                            console.log('DEADBEEF accountantControllers.js:247', response);
-                            $scope.messages.push({type: 'danger', message: 'Невдачка'});
+                            if (response.messages) {
+                                if (_.isArray(response.messages)) {
+                                    response.messages.forEach(function(item) {
+                                        $scope.messages.push({type: 'danger', message: item});
+                                    });
+                                } else {
+                                    $scope.messages.push({type: 'danger', message: response.message});
+                                }
+                            } else {
+                                $scope.messages.push({type: 'danger', message: 'Невдачка'});
+                            }
                             $scope.loaderControl.hide();
                         });
             };
@@ -313,10 +326,15 @@ angular
                 }
             };
 
+            $scope.showInvoice = function showInvoice(id) {
+                if (id) {
+                    $state.go('accountant/invoice/', {invoiceId: id});
+                }
+            };
+
             $scope.closeMessage = function closeMessage(index) {
                 $scope.messages.splice(index, 1);
-            }
-
+            };
         }])
 
     .controller('companyCtrl', function ($scope) {

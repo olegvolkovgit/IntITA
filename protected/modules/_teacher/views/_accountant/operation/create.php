@@ -84,9 +84,9 @@
                     </select>
                 </div>
                 <div class="col-md-1">
-                    <button ng-click="showAgreement(operation.agreementId)"
-                            ng-class="{disabled:!operation.agreementId}"
-                            class="btn btn-default no-blur">
+                    <button class="btn btn-default no-blur"
+                            ng-click="showAgreement(operation.agreementId)"
+                            ng-class="{disabled:!operation.agreementId}">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </button>
                 </div>
@@ -104,7 +104,10 @@
                     </select>
                 </div>
                 <div class="col-md-1">
-                    <button class="btn btn-default disabled"><i class="glyphicon glyphicon-eye-open"></i>
+                    <button class="btn btn-default no-blur"
+                            ng-click="showInvoice(operation.invoiceId)"
+                            ng-class="{disabled:!operation.invoiceId}">
+                        <i class="glyphicon glyphicon-eye-open"></i>
                     </button>
                 </div>
             </div>

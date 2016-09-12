@@ -78,6 +78,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/addExternalPayment.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/findExternalPayment.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/invoiceDetailed.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/blockWindowLoader.js'); ?>"></script>
 
     <!--Angular routers-->
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/cabinetRouter.js'); ?>"></script>

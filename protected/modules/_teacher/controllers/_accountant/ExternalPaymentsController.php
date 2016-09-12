@@ -23,7 +23,7 @@ class ExternalPaymentsController extends TeacherCabinetController
         if ($payment->save()) {
             echo json_encode(AccountancyHelper::toAssocArray($payment));
         } else {
-            echo json_encode(array_merge($payment->getErrors(), ['status' => 'error']));
+            echo json_encode(['status' => 'error', 'messages' => array_values($payment->getErrors())]);
         }
     }
 
