@@ -48,4 +48,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
 
         })
+
 });
+
+

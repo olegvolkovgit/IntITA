@@ -50,5 +50,15 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath + "/_teacher/_trainer/trainer/editTeacherModule/id/"+$stateParams.studentId+"/idModule/" + $stateParams.idModule;
             }
         })
+        .state('trainer/addConsultantModule/:idModule', {
+            url: "/trainer/addConsultantModule/:idModule",
+            cache: false,
+            controller: function ($scope) {
+                $scope.changePageHeader('Призначити модуль консультанту');
+            },
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_admin/module/addConsultantModule/idModule/" + $stateParams.idModule;
+            }
+        })
 
 });

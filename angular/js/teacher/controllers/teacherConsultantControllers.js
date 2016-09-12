@@ -62,6 +62,7 @@ angular
     .controller('teacherConsultantCtrl', function ($scope, typeAhead, $http, $state,$templateCache) {
         var teachersTypeaheadUrl = basePath+ '/_teacher/_trainer/trainer/teacherConsultantsByQuery';
         $scope.selectedTeacher = null;
+        $scope.consultantSelected = null;
         $scope.getTeachers = function(value,module){
             return typeAhead.getData(teachersTypeaheadUrl,{query:value, module:module})
         };
@@ -70,8 +71,13 @@ angular
             console.log($item);
         };
 
-        $scope.assignTeacher = function (studentId,moduleId) {
+        $scope.onConsultantSelect = function ($item) {
+            $scope.consultantSelected = $item;
+            console.log($item);
+        };
 
+        $scope.assignTeacher = function (studentId,moduleId) {
+            if ($scope.selectedTeacher)
             $http({
                 method:'POST',
                 url:basePath + '/_teacher/_trainer/trainer/assignTeacherForStudent',
@@ -87,5 +93,40 @@ angular
                 "операцію пізніше або напишіть на адресу " + adminEmail)
             })
 
+        };
+        $scope.cancelTeacher = function(teacherId, moduleId, studentId){
+            $http({
+                method:'POST',
+                url: basePath+'/_teacher/_trainer/trainer/cancelTeacherForStudent',
+                data: $jq.param({teacher: teacherId, module: moduleId, student: studentId}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response){
+                bootbox.alert(response,function(){
+                    $templateCache.remove(basePath + "/_teacher/_trainer/trainer/viewStudent/id/" + studentId);
+                    $state.go('trainer/viewStudent/:studentId',{studentId:studentId},{reload:true})
+                });
+            }).error(function(){
+                bootbox.alert("Операцію не вдалося виконати. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу " + adminEmail);
+            });
+        };
+
+        $scope.assignConsultantModule = function(idModule){
+            console.log($scope.consultantSelected);
+            if ($scope.consultantSelected)
+            $http({
+                method: 'POST',
+                url: basePath + '/_teacher/_teacher_consultant/teacherConsultant/assignModule',
+                data: $jq.param({userId: $scope.consultantSelected.id, module: idModule}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function(response){
+                bootbox.alert(response,function(){
+                    $templateCache.remove(basePath + "/_teacher/_trainer/trainer/viewStudent/id/" + studentId);
+                    $state.go('trainer/students',{studentId:studentId},{reload:true})
+                });
+            }).error(function(){
+                bootbox.alert("Викладачу не вдалося призначити обраний модуль. Спробуйте повторити " +
+                    "операцію пізніше або напишіть на адресу "+adminEmail);
+            });
         }
     });
