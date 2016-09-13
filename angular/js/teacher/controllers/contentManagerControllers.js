@@ -24,7 +24,7 @@ angular
         var coursesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getCourseslist');
 
         function initCounts(resource){
-            resource.get().$promise.then(function(data){
+            resource.get({courseId:$stateParams.courseId}).$promise.then(function(data){
                 countOfModules = data.countOfModules;
                 countOfModulesWithoutVideos = data.countOfModulesWithoutVideos;
                 countOfModulesWithoutTests = data.countOfModulesWithoutTests;
