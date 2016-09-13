@@ -26,6 +26,7 @@
             <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
             <li><a href="<?php echo Config::getBaseUrl().'/crmForum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
             <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+            <li><a href="http://www.robotamolodi.org/" target="_blank"><?php echo 'Вакансії' ?></a></li>
             <li><a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a></li>
         </ul>
         <div class="humundline"></div>
