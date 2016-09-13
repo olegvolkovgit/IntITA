@@ -1,16 +1,22 @@
 <?php
 
 
-function attributesToAssoc($userAgreement, $mapRelated) {
-    $mapped = $userAgreement->getAttributes();
+function attributesToAssoc($model, $mapRelated) {
+    $mapped = $model->getAttributes();
     if ($mapRelated) {
         foreach ($mapRelated as $key=>$item) {
             $path = preg_split('/\./', $item);
             $id = $mapped[$key];
-            $mapped[$key] = [$path[1] => $userAgreement[$path[0]][$path[1]], $key => $id];
+            $mapped[$key] = [$path[1] => $model[$path[0]][$path[1]], $key => $id];
         }
     }
-    return $mapped;
+    foreach ($model->relations() as $relation=>$relationProperties) {
+        if ($model->hasRelated($relation)) {
+            /* ternary operator for old records which is't connected with any company */
+            $mapped[$relation] = $model->$relation ? $model->$relation->getAttributes() : null;
+        }
+    }
+    return array_filter($mapped);
 
 }
 

@@ -10,7 +10,6 @@ function invoiceTable(invoices, NgTableParams, _) {
 
         $scope.invoiceTableParams = new NgTableParams({}, {
             getData: function (params) {
-                console.log(params.url());
                 return invoices
                     .list(_.assign(
                         {

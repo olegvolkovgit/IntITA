@@ -28,7 +28,12 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('accountant/invoices', {
             url: "/accountant/invoices",
             cache         : false,
-            templateUrl: accountantUrl+"invoices/index/"
+            templateUrl: accountantUrl+"invoices/index"
+        })
+        .state('accountant/invoice/', {
+            url: "/accountant/invoice/{invoiceId:[0-9]*}",
+            cache         : false,
+            templateUrl: accountantUrl+"invoices/invoice"
         })
         .state('accountant/operation', {
             url: "/accountant/operation",

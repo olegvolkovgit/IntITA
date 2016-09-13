@@ -13,16 +13,16 @@ angular
                 {
                     create: {
                         url: url + '/createPayment',
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                        transformRequest : function (data, headersGetter) {
-                            return transformRequest(data);
-                        }
+                        method: 'POST'
                     },
                     typeahead : {
                         url: url + '/getTypeahead',
                         method: 'GET',
                         isArray:true
+                    },
+                    getById : {
+                        url : url + '/getPayment',
+                        method: 'GET'
                     }
                 }
             );

@@ -12,19 +12,24 @@ class ExternalPaymentsController extends TeacherCabinetController
     }
 
     public function actionCreatePayment() {
-        $payment = new ExternalPays();
-        foreach ($payment->getAttributes() as $attribute=>$value) {
-            $payment->setAttribute($attribute, Yii::app()->request->getParam($attribute, null));
-        }
 
+        $params = json_decode(Yii::app()->request->rawBody, true);
+
+        $payment = new ExternalPays();
+        $payment->setAttributes($params);
         $payment->createUser = Yii::app()->user->getId();
         $payment->userId = Yii::app()->user->getId();
 
         if ($payment->save()) {
             echo json_encode(AccountancyHelper::toAssocArray($payment));
         } else {
-            echo json_encode(array_merge($payment->getErrors(), ['status' => 'error']));
+            echo json_encode(['status' => 'error', 'messages' => array_values($payment->getErrors())]);
         }
+    }
+
+    public function actionGetPayment($id) {
+        $model = ExternalPays::model()->with(ExternalPays::model()->relations())->findByPk($id);
+        echo json_encode(AccountancyHelper::toAssocArray($model));
     }
 
 }

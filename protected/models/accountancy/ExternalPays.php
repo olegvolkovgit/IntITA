@@ -14,6 +14,7 @@
  * @property string $documentPurpose
  * @property string $documentNumber
  * @property string $comment
+ * @property integer $companyId
  *
  * The followings are the available model relations:
  * @property ExternalSources $source
@@ -36,14 +37,14 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose', 'required'),
-			array('createUser, userId', 'numerical', 'integerOnly'=>true),
+			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose, companyId', 'required'),
+			array('createUser, userId, companyId', 'numerical', 'integerOnly'=>true),
 			array('sourceId, amount', 'length', 'max'=>10),
 			array('documentPurpose', 'length', 'max'=>512),
 			array('documentNumber', 'length', 'max'=>100),
 			array('comment', 'length', 'max'=>255),
 			// The following rule is used by search().
-			array('id, createDate, createUser, sourceId, userId, documentDate, amount, documentPurpose, documentNumber, comment', 'safe', 'on'=>'search'),
+			array('id, createDate, createUser, sourceId, userId, documentDate, amount, documentPurpose, documentNumber, comment, companyId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +57,7 @@ class ExternalPays extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'source' => array(self::BELONGS_TO, 'ExternalSources', 'sourceId'),
+            'company' => [self::BELONGS_TO, 'CorporateEntity', 'companyId']
 		);
 	}
 
@@ -104,6 +106,7 @@ class ExternalPays extends CActiveRecord
 		$criteria->compare('documentPurpose',$this->documentPurpose,true);
 		$criteria->compare('documentNumber',$this->documentNumber,true);
 		$criteria->compare('comment',$this->comment,true);
+		$criteria->compare('companyId',$this->comment);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

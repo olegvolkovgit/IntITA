@@ -22,10 +22,11 @@ angular
                         create: {
                         method:'POST',
                         url:url + '/createByInvoice',
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                        transformRequest : function (data, headersGetter) {
-                            return transformRequest(data);
-                        }
+                        headers: {'Content-Type': 'application/json;charset=utf-8;'},
+                        // headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        // transformRequest : function (data, headersGetter) {
+                        //     return transformRequest(data);
+                        // }
                     }
                 });
         }]);

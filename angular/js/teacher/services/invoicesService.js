@@ -21,6 +21,9 @@ angular
                         query : 'query'
                     },
                     isArray:true
+                },
+                getByParams: {
+                    url: url + '/getInvoicesByParams'
                 }
             });
     }]);

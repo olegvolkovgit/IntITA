@@ -136,18 +136,14 @@ class OperationController extends TeacherCabinetController
 
     public function actionCreateByInvoice()
     {
-        $operation = [];
-        $request = Yii::app()->request;
+        try {
+            $operationData = json_decode(Yii::app()->request->rawBody, true);
+            $operations =  new Operations();
+            echo json_encode($operations->performOperation($operationData, Yii::app()->user));
+        } catch (Exception $exception) {
+            echo json_encode(['status' => 'error', 'message' => $exception->getMessage()]);
+        }
 
-        $operation['userId'] = $request->getPost('userId', 0);
-        $operation['agreementId'] = $request->getPost('agreementId', 0);
-        $operation['invoices'] = $request->getPost('invoices', []);
-        $operation['amount'] = $request->getPost('sum', 0);
-        $operation['sourceId'] = $request->getPost('sourceId', 0);
-        $operation['accountantId'] = Yii::app()->user->getId();
-
-        $operations =  new Operations();
-        echo json_encode($operations->performOperation($operation));
 
 //        $type = OperationType::model()->findByPk($typeId);
 //        if (Operation::performOperation($summa, $user, $type, $invoice, $source))
