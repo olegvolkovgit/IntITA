@@ -12,8 +12,7 @@ function attributesToAssoc($model, $mapRelated) {
     }
     foreach ($model->relations() as $relation=>$relationProperties) {
         if ($model->hasRelated($relation)) {
-            /* ternary operator for old records which is't connected with any company */
-            $mapped[$relation] = $model->$relation ? $model->$relation->getAttributes() : null;
+            $mapped[$relation] = AccountancyHelper::toAssocArray($model->$relation);
         }
     }
     return array_filter($mapped);

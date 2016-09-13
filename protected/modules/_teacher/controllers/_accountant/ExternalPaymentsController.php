@@ -23,13 +23,20 @@ class ExternalPaymentsController extends TeacherCabinetController
         if ($payment->save()) {
             echo json_encode(AccountancyHelper::toAssocArray($payment));
         } else {
-            echo json_encode(['status' => 'error', 'messages' => array_values($payment->getErrors())]);
+            echo json_encode(['status' => 'error', 'message' => array_values($payment->getErrors())]);
         }
     }
 
     public function actionGetPayment($id) {
         $model = ExternalPays::model()->with(ExternalPays::model()->relations())->findByPk($id);
         echo json_encode(AccountancyHelper::toAssocArray($model));
+    }
+
+    public function actionGetNgTable() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter(ExternalPays::model(), $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
 }

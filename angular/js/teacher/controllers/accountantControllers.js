@@ -253,7 +253,15 @@ angular
                     .then(
                         function (response) {
                             if (response.status !== 'error') {
-                                $scope.messages.push({type: 'success', message: 'Операція пройшла успішно'});
+                                if (response.message) {
+                                    if (_.isArray(response.message)) {
+                                        response.message.forEach(function(item) {
+                                            $scope.messages.push({type: 'success', message: item});
+                                        });
+                                    } else {
+                                        $scope.messages.push({type: 'success', message: 'Операція пройшла успішно'});
+                                    }
+                                }
                             } else {
                                 $scope.messages.push({type: 'danger', message: response.message});
                             }
@@ -261,9 +269,9 @@ angular
                         })
                     .catch(
                         function (response) {
-                            if (response.messages) {
-                                if (_.isArray(response.messages)) {
-                                    response.messages.forEach(function(item) {
+                            if (response.message) {
+                                if (_.isArray(response.message)) {
+                                    response.message.forEach(function(item) {
                                         $scope.messages.push({type: 'danger', message: item});
                                     });
                                 } else {

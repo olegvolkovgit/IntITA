@@ -48,7 +48,7 @@ class InternalPays extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'createUser' => array(self::BELONGS_TO, 'User', 'create_user'),
+            'createUser' => array(self::BELONGS_TO, 'StudentReg', 'create_user'),
             'externalPayment' => [self::BELONGS_TO, 'ExternalPays', 'externalPaymentId'],
             'invoice' => [self::BELONGS_TO, 'Invoice', 'invoice_id']
 		);
