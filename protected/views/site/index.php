@@ -1,7 +1,5 @@
 <? $css_version = 1; ?>
 
-<!--<link rel="stylesheet" type="text/css" href="--><?php //echo StaticFilesHelper::fullPathTo('css', 'aboutusstyles.css'); ?><!--"/>-->
-<!--<link type="text/css" rel="stylesheet" href="--><?php //echo StaticFilesHelper::fullPathTo('css', 'step.css'); ?><!--"/>-->
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'index.css') ?>"/>
 
 <!-- carousel-plugins -->

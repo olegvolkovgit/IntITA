@@ -2,7 +2,7 @@
 /* @var $slider Carousel*/
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'sliderMainpage.js'); ?>"></script>
-<div id="sliderBlock">
+<div ng-cloak id="sliderBlock">
     <div id="sliderCenterBox">
         <div class="sliderCenterBoxText">
             <p><?php echo Yii::t('slider', '0005'); ?></p>

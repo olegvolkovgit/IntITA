@@ -2,7 +2,8 @@
 angular
     .module('mainApp')
     .controller('editProfileController',editProfileController)
-    .controller('registrationFormController',registrationFormController);
+    .controller('registrationFormController',registrationFormController)
+    .controller('aboutUsCtrl',aboutUsCtrl);
 
 /* Controllers */
 function editProfileController($scope, $http, countryCity) {
@@ -144,6 +145,40 @@ function registrationFormController($scope, countryCity) {
             $('input[name=cityTitle]').val(null);
         }
     }, true);
+}
+
+function aboutUsCtrl($scope, $http) {
+    $scope.getAboutUsData=function () {
+        var promise = $http({
+            url: basePath+"/aboutus/getaboutusdata",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.aboutUs=response.data;
+        }, function errorCallback() {
+            alert("Виникла помилка при завантажені даних сторінки 'Про нас'. Зв'яжіться з адміністратором сайту.");
+        });
+        return promise;
+    };
+    $scope.getAboutUsData();
+    
+    $scope.windowShow=function (buttonNumber, anchor) {
+        if (anchor == 1) {
+            $("body").animate({"scrollTop": 440}, "fast");
+        }
+        $scope.openPage=buttonNumber;
+    }
+
+    $scope.showAboutUs=function (buttonNumber) {
+        if(($('#nextRow').is(':hidden') && $('#prevRow').is(':hidden'))){
+            $scope.openPage=buttonNumber;
+            $('body,html').animate({scrollTop: $("#anchorAboutUs").offset().top}, 400);
+        }
+    };
+    
+    $scope.nextPage=function (buttonNumber) {
+        $scope.openPage=buttonNumber;
+    }
 }
 
 angular.module('mainApp.directives', [])

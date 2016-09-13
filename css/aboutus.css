@@ -1,0 +1,290 @@
+/*slider*/
+.slideAbout img{width:100%;height:100%;z-index:0;}
+.slideAbout .textabout{font-size:16px;text-align:center;margin-top:10px;}
+.aboutUsText{position:absolute;z-index:1;text-align:center;font-size:32px;text-shadow:none;font-weight:400;margin:0 auto;top:10%;color:#ffffff;line-height:1.1;}
+.headerAbout{font-size:32px;}
+/*slider*/
+/*main*/
+.mainAboutBlock{margin:0 auto;max-width:1200px;text-align:center;width:100%}
+.mainAbout{box-sizing:border-box;-moz-box-sizing:border-box;border:solid 0px;width:960px;height:100%;overflow:hidden;display:inline-block;position:relative;font-family:MyriadPro;}
+.header{text-align:center;position:relative;color:#666666;font-family:MyriadPro;font-size:34px;list-style:none;border-bottom: 2px solid #4b75a4;display: inline-block;margin: 0 auto; margin-bottom: 30px;margin-left:5px;margin-right:5px}
+.header p{color:#4682B4;font-size:19px;font-family:MyriadPro;margin-top:0px;margin-bottom:0}
+.line1{margin-top:-25px;}
+.block{border:solid 0px #DCDCDC;display:inline-block;position:relative;margin-left:50px;margin-top:35px;}
+.block ul{display:inline-block;padding:0px;top:0px;list-style:none;margin-left:210px;}
+.block ul li{margin-left:-50px;padding:0;}
+.icon{position:absolute;top:0px;margin-top:-5px;left:10%;}
+.title{position:absolute;top:30%;left:12%;color:#4682B4;font-size:22px;text-align:left;}
+.aboutTitleLink{cursor:pointer;padding:2px}
+.title p{width:240px;text-align:left;margin-top:5px;color:#696969;font-size:16px;font-family:MyriadPro;line-height:18px;}
+.block a{position:absolute;top:92%;left:12%;color:#4682B4;font-size:16px;}
+.block a:hover{color:#000000;}
+#aboutDetailMain{max-width:1200px;width:99%;margin:0 auto;position:relative;margin-top:20px;}
+.textBox{position:relative;font-size:14px;margin-bottom:0px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+.fullpageaboutus .block{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;width:33.3%;height:200px;margin:0;padding:0;background:#f2f2f2;border-radius:15px 15px 0 0;border-bottom:none;cursor:pointer;border-left:1px solid #d9d9d9;border-right:1px solid #d9d9d9;}
+.fullpageaboutus .selectedTab{-webkit-transform:translateY(-3px) scaleY(1.1);-moz-transform:translateY(-3px) scaleY(1.1);-o-transform:translateY(-3px) scaleY(1.1);-ms-transform:translateY(-3px) scaleY(1.1);transform:translateY(-3px) scaleY(1.1);background:#ebebeb;}
+.fullpageaboutus + #aboutDetailMain{margin-top:-10px;}
+.fullpageaboutus .title{color:#4682B4;font-size:30px;margin-top:20px;text-align:left;line-height: 1}
+.fullpageaboutus .mainAbout{max-width:1200px;width:100%;overflow:inherit;}
+.fullpageaboutus .line1{margin-bottom:20px;}
+.fullpageaboutus .icon{margin-top:10px;}
+.blueword{color:#4b75a4;}
+.redword{color:#ad2b2b;}
+.pinkword{color:#fa8394;}
+.sunword{color:#ff8a00;}
+.blackword{color:#000000;}
+#secondblock, #threeblock{margin-left: -4px}
+/*main*/
+#question,#firstHum, #minTabs, #cararrow{display:none}
+/*about1*/
+.aboutStepBlock{margin:0 auto;width:100%;border:2px solid #d9d9d9;border-top:none;box-sizing:border-box;position:relative;-moz-box-sizing:border-box;display:inline-block;padding:20px;margin-bottom:20px;border-radius:0 0 10px 10px;background-color:#ebebeb;box-shadow:0 6px 4px -4px #5f5f5f;}
+#dropTextLayer1{position:relative;width:100%;margin:0 auto;}
+.oned{display:inline-block;width:35%;vertical-align:top;}
+.imgone > img{position:absolute;width:35%;}
+.detailavt{position:relative;left:55%;width:30%}
+.detailavt img{max-width:100%}
+.detailTitle1{color:#5c5c5c;font-size:1.5vw;}
+.detailTitle12{color:#5c5c5c;font-size:2.5vw;}
+.detailTitle13{color:#566d87;font-size:2vw;}
+.detailTitle14{color:#5c5c5c;font-size:2vw;}
+.detailTitle15{color:#566d87;font-size:16px;}
+.detailTitle16{color:#000000;font-size:16px;}
+.detailTitle17{color:#de3d21;font-size:48px;}
+.detailTitle18{color:#4b75a4;font-size:48px;}
+.detailTitle19{color:#5c5c5c;font-size:48px;}
+.detailTitle2{font-weight:bold;font-size:16px;}
+.detailTitle3{font-weight:bold;font-style:italic;font-size:16px;}
+.ellipse{display:inline-block;position:relative;left:25px;top:160px;width:20%}
+.ellipse img:first-child{width:100%}
+.twod{display:inline-block;position:relative;left:35px;width:35%;}
+#imtwo{width:100%}
+.detailkop{position:relative;left:7%;display:inline-block;width:35%;vertical-align:top;margin-top:20px}
+#pig{width:30%;position:relative;left:35px;}
+#money{width:40%;position:relative;left:55px;vertical-align:top;}
+#koppstr{position:relative;right:40px;bottom:40px;}
+#four{display:inline-block;position:relative;left:22%;bottom:15px;width:40%}
+td.freelife{width:75%;}
+#fst1{position:absolute;left:20%}
+.five{position:relative;text-align:center;margin-top:25px}
+#fimouns{margin-left:25%;}
+.six{position:relative;width:40%;left:45%}
+.six img{position:relative;bottom:50px;}
+.how{font-size:200px;font-family:Segoe UI;color:rgb(232, 71, 18);font-style:italic;position:relative;text-align:center;}
+.jobfu{position:relative;left:30%;width:60%;}
+#mashinn, .mashinn{color:#ae282b;}
+.marginLeft{margin-left:15%}
+#spone{margin-left:20px;}
+#imtwooo{position:relative;bottom:45px;right:35px;}
+#kopp{position:relative;bottom:30px;}
+#fst2{position:relative;margin-right:10px;}
+#theyy{padding-left:20px;}
+#beginn{position:relative;text-align:center;margin-top:40px;}
+.buutt{position:relative;margin:0 auto;width:195px;margin-bottom:50px;padding:10px;overflow:hidden;}
+.buutt a.butstart{display:inline-block;width:195px;height:52px;letter-spacing:1px;text-shadow:0.1em 0.1em 0.1em black;color:white;font:normal 400 0.54em/2.16em "MyriadPro2";vertical-align:middle;text-align:center;text-decoration:none;font-size:25px;border-top:0.05em solid #007cbf;background:#4b70a3;border-radius:0.3em;box-shadow:0em 0.1em 0em black;z-index:4;}
+.buutt a:hover{border-top-color:#454545;background:#454545;color:#fcfcfc;cursor:pointer;}
+.buutt a:active{border-top-color:#363636;background:#363636;}
+/*about1*/
+/*about2*/
+#dropTextLayer2{position:relative;width:100%;margin:0 auto;color:#5c5c5c;}
+#dropTextLayer2 .textBox{font-size:18px;background:#ebebeb;border-radius:0 0 10px 10px;border:2px solid #d9d9d9;border-top:none;box-shadow:0 6px 4px -4px #5f5f5f;padding-bottom:40px;}
+.tabcolumn{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;width:33%;padding-left:30px;padding-right:20px;display:inline-block;vertical-align:top;}
+.imgtableft{margin:10px 10px 0 10px;float:left;}
+.imgtabright{float:right;margin:10px 10px 0 10px;}
+.img1{display:inline-block;margin:0 10px 0 10px;}
+.img2{display:inline-block;margin-left:5px;}
+.header1{font-size:24px;color:#4b75a4;margin-bottom:10px;}
+.subheader1{font-size:20px;color:#3d4d60;display:inline-block;width:40%;}
+.subheader2{font-size:18px;font-weight:bold;color:#4b75a4;padding-top:10px;}
+.subheader3{font-size:18px;font-weight:bold;color:#4b75a4;padding-top:10px;}
+.benefittitle h1{font-size:36px;color:#5b5b5b;margin:0 auto;display:table;font-weight:normal;padding-left:20px;}
+.benefittitle{margin:50px 0 50px 0;line-height:0.9;}
+.benefittitle table{border-bottom:3px solid #4b75a4;margin:0 auto;}
+.benefit{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;margin:0 auto;max-width:1200px;width:100%;border:2px solid #d9d9d9;position:relative;display:inline-block;margin-bottom:20px;border-radius:10px;background-color:#ebebeb;line-height:1.2;box-shadow:0 6px 4px -4px #5f5f5f;}
+.benefitcolumn{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;width:33%;padding-left:30px;padding-right:20px;display:inline-block;vertical-align:top;font-size:18px;color:#5c5c5c}
+h3.benefitheader{color:#4b75a4;font-size:20px;}
+.imgleft{float:left;margin:0 10px 0 10px;}
+.imgright{float:right;margin:0 10px 0 10px;}
+/*about2*/
+/*about3*/
+#dropTextLayer3{position:relative;width:100%;margin:0 auto;}
+.faqBox{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;margin:0 auto;max-width:1200px;width:100%;border:2px solid #d9d9d9;border-top:none;position:relative;padding:20px 60px 60px 130px;margin-bottom:20px;border-radius:0 0 10px 10px;background-color:#ebebeb;box-shadow:0 6px 4px -4px #5f5f5f;font-size:18px;}
+.faqimg{float:left;margin-right:20px;margin-top:5px;}
+.faqBox table td{vertical-align:top;}
+.faqBox table{border-spacing:0 15px;}
+/*about3*/
+@media only screen and (max-width: 800px) {
+    /*slider*/
+    .mouseLine{
+        display:none;
+    }
+    div#sliderCenterBox{
+        margin-top: 5%;
+    }
+    div.sliderCenterBoxText p{
+        font-size: 36px;
+    }
+    div.slide p {
+        top: 35%;
+        font-size: 22px;
+    }
+    /*slider*/
+    /*first page*/
+    .fullpageaboutus .icon img{width:90%}
+    .fullpageaboutus .title{font-size:16px}
+    .oned{width:55%}
+    .imgone > img {width:50%}
+    .ellipse{display:none}
+    .twod {display:block;width:40%;left:55%;margin-top:-20px;}
+    .detailTitle1{font-size:18px;}
+    .detailTitle12{font-size:3.5vw;}
+    .detailTitle13{font-size:3vw;}
+    .detailTitle14{font-size:3vw;}
+    #koppstr, #fst2{display:none}
+    .detailkop{width: 100%;margin-top:-40px;}
+    #pig{width:inherit}
+    #four {
+        left: inherit;
+        margin: 0 auto;
+        margin-top:20px;
+        width: 100%;
+    }
+    #question{display:block;float:right}
+    .five span{font-size:30px}
+    .detailTitle18{display:block}
+    .detailTitle17{display:block}
+    .br{display:none}
+    .five{display:inline-block;text-align:left}
+    .five span.detailTitle19{font-size:18px}
+    #fimouns{margin-left:inherit;font-size:18px}
+    #firstHum{display:inline-block}
+    #secondHum{display:none}
+    .six {
+        margin-top: 10px;
+        width:inherit;
+        left:inherit;
+    }
+    .how{font-size:12vw;display:inline-block;vertical-align: top}
+    .jobfu {
+        display: inline-block;
+        left:inherit;
+        width: 70%;
+    }
+    .jobTitle.marginLeft{font-size:24px;margin-left: 5px}
+    .marginLeft td{vertical-align: top}
+    .marginLeft {margin-left:0}
+    #rocketImg, #rocketText{display: inline}
+    #rocketImg{width:60px}
+    #beginn{font-size:36px}
+    #imtwo {
+        min-width: 50px;
+    }
+    .freelife{font-size:18px}
+    #imtwooo {max-width: 100%;margin-top: 15px}
+    /*first page*/
+    /*second page*/
+    .tabcolumn{width: 49%}
+    .tabcolumn:last-child{width: 99%}
+    .benefitcolumn{width: 49%}
+    .benefitcolumn:last-child{width: 99%}
+    .imgtableft{max-width: 150px;margin: 0}
+    /*second page*/
+    /*third page*/
+    .faqBox {
+        padding: 10px;
+    }
+    .faqBox table{
+        width: 90%;
+    }
+    /*third page*/
+}
+@media only screen and (max-width: 320px) {
+    /*first page*/
+    #tab1, #tab2, #tab3{display:block;margin-left: 0}
+    .aboutTitleLink {margin: 0 auto;width: 70%;line-height: 1}
+    .aboutStepBlock, #dropTextLayer2 .textBox, .benefit, .faqBox {
+        border: none;
+        border-radius: inherit;
+        background-color: #fff;
+        box-shadow:none;
+    }
+    .fullpageaboutus .selectedTab {
+        -webkit-transform: none;
+        -moz-transform: none;
+        -o-transform: none;
+        -ms-transform: none;
+        transform: none;
+        background: #fff;
+    }
+    .fullpageaboutus .block {
+        width: 100%;
+        background: #fff;
+        border-radius: inherit;
+        border: none;
+        text-align: center;
+    }
+    .fullpageaboutus .icon img{width:inherit}
+    .icon, .fullpageaboutus .title {
+        position: relative;
+        top:inherit;
+        left:inherit;
+        text-align: center;
+        font-size: 36px;
+    }
+    #minTabs{display: block}
+    #maxTabs{display: none}
+    #nextRow {
+        position: absolute;
+        display: inline-block;
+        top: 40%;
+        right: 0;
+        margin-right: 5%;
+        padding: 10px;
+    }
+    #prevRow {
+        position: absolute;
+        display: inline-block;
+        top: 40%;
+        left: 0;
+        margin-left: 5%;
+        padding: 10px;
+    }
+    .fullpageaboutus .title {margin-top: 0}
+    .oned {
+        width: 90%;
+    }
+    .imgone > img {
+        width: 40%;
+    }
+    .detailavt {
+        left: 50%;
+        width: 40%;
+    }
+    .twod {
+        width: 90%;
+        left: 0;
+    }
+    #imtwooo {
+        left: 20%;
+    }
+    #cararrow{display: inline-block;margin-top: 60px;}
+    .how {
+        display: block;
+        font-size: 40vw;
+        margin: 0 auto;
+    }
+    .jobfu {
+        width: 100%;
+    }
+    /*first page*/
+    /*second page*/
+    .tabcolumn{width: 99%}
+    .benefitcolumn{width: 99%}
+    /*second page*/
+    /*third page*/
+    .faqimg {margin-right: 2px}
+    .faqBox table{width: 99%;}
+    /*third page*/
+}
+@media only screen and (max-width: 600px) {
+    .aboutusslider{display:none}
+}
