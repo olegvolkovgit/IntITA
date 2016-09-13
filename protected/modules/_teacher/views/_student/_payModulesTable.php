@@ -2,18 +2,11 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="payModulesTable">
-                    <thead>
-                    <tr>
-                        <th>Назва</th>
-<!--                        <th>Схема оплати</th>-->
-                        <th>Сума, грн</th>
-<!--                        <th>Дата підписання</th>-->
-<!--                        <th>Договір</th>-->
+                <table ng-table="paidModuesTable" class="table table-striped table-bordered table-hover" id="agreementsTable">
+                    <tr ng-repeat="row in $data">
+                        <td data-title="'Назва'"><a href="javascript:void(0)" ng-click="showStudentAgreement(row.id,row.number)">Договір {{row.number}} </a></td>
+                        <td data-title="'Сума, грн'">{{row.summa}}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
                 </table>
             </div>
         </div>

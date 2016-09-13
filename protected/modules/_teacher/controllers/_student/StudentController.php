@@ -104,17 +104,31 @@ class StudentController extends TeacherCabinetController
 
     public function actionGetPayCoursesList()
     {
-        echo PayCourses::getPayCoursesListByUser();
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        echo JsonForNgDatatablesHelper::returnJson(PayCourses::getPayCoursesListByUser());
     }
 
     public function actionGetPayModulesList()
     {
-        echo PayModules::getPayModulesListByUser();
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('PayModules',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        $modules = $adapter->getData();
+        echo json_encode($modules);
+
+        //echo JsonForNgDatatablesHelper::returnJson(PayModules::getPayModulesListByUser());
     }
 
     public function actionGetAgreementsList()
     {
-        echo UserAgreements::agreementsListByUser();
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('user_id=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('UserAgreements',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+        //echo UserAgreements::agreementsListByUser();
     }
 
     public function actionAgreement($id)

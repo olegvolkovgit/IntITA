@@ -3,16 +3,20 @@
  */
 angular
     .module('teacherApp').
-    controller('studentCtrl', studentCtrl)
+    controller('studentCtrl', studentCtrl).filter('cmdate', [
+    '$filter', function($filter) {
+        return function(input, format) {
+            return $filter('date')(new Date(input), format);
+        };
+    }
+])
     .controller('studentFinancesCtrl', function ($scope) {
         initPayCoursesList();
         initPayModulesTable();
         initAgreementsTable();
     });
 
-function studentCtrl($scope, $http, NgTableParams,$resource) {
-
-
+function studentCtrl($scope, $http, NgTableParams,$resource, $state) {
 
     $scope.getTodayConsultations = function() {
         initTodayConsultationsTable();
@@ -42,7 +46,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource) {
                 });
             }
         });
-    }
+    };
 
     $scope.getCanceledConsultations = function(){
         $scope.canceledConsultationsTable = new NgTableParams({
@@ -56,7 +60,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource) {
                 });
             }
         });
-    }
+    };
 
     $scope.getPlannedConsultations = function(){
         $scope.plannedConsultationsTable = new NgTableParams({
@@ -70,5 +74,52 @@ function studentCtrl($scope, $http, NgTableParams,$resource) {
                 });
             }
         });
-    }
+    };
+
+    $scope.getStudentAreements = function(){
+        $scope.agreementsTable = new NgTableParams({
+            page: 1,
+            count: 10
+        }, {
+            getData: function (params) {
+                return $resource(basePath+'/_teacher/_student/student/getAgreementsList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+    };
+
+    $scope.getStudentPaidCourses = function(){
+        $scope.paidCoursesTable = new NgTableParams({
+            page: 1,
+            count: 10
+        }, {
+            getData: function (params) {
+                return $resource(basePath+'/_teacher/_student/student/getPayCoursesList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+    };
+
+    $scope.getStudentPaidModues = function(){
+        $scope.paidModuesTable = new NgTableParams({
+            page: 1,
+            count: 10
+        }, {
+            getData: function (params) {
+                return $resource(basePath+'/_teacher/_student/student/getPayModulesList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+    };
+
+    $scope.showStudentAgreement = function(agreementId, agreementName){
+        $scope.changePageHeader('Договір'+ agreementName);
+        $state.go('students/agreement/:agreementId',{agreementId:agreementId},{reload:true});
+    };
 }
