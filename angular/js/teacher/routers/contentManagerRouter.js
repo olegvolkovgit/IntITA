@@ -48,12 +48,12 @@ config(function ($stateProvider, $urlRouterProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Стан модулів');
             },
-            url: "/content_manager/statusOfModules/:idModule",
+            url: "/content_manager/statusOfModules/:courseId",
             cache         : false,
             templateUrl: function($stateParams){
-                if ($stateParams.idModule == "all")
-                    $stateParams.idModule =0;
-                    return contentManagerUrl+"/statusOfModules/id/"+$stateParams.idModule;}
+                if ($stateParams.courseId == "all")
+                    $stateParams.courseId =0;
+                    return contentManagerUrl+"/statusOfModules/id/"+$stateParams.courseId;}
         })
         .state('content_manager/statusOfCourses', {
             url: "/content_manager/statusOfCourses",

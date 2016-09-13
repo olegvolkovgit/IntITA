@@ -12,7 +12,7 @@ angular
     .controller('allTeachersConsultantsCtrl', function ($scope){
         initTeacherConsultantsTableCM();
     })
-    .controller('statusOfModulesCtrl', function ($scope, $resource, NgTableParams){
+    .controller('statusOfModulesCtrl', function ($scope, $resource, NgTableParams, $stateParams){
 
         var countOfModules = null;
         var countOfModulesWithoutVideos = null;
@@ -32,13 +32,14 @@ angular
 
             });
         }
-
+        console.log($stateParams.idModule)
         $scope.initModulesList = function (){
             initCounts(modules);
             $scope.AllModulesTable = new NgTableParams({
                 page: 1,
                 count: 10,
                 type:'all',
+                courseId:$stateParams.courseId
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
@@ -53,6 +54,7 @@ angular
                 page: 1,
                 count: 10,
                 type:'withoutVideos',
+                courseId:$stateParams.courseId
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
@@ -67,6 +69,7 @@ angular
                 page: 1,
                 count: 10,
                 type:'withoutTests',
+                courseId:$stateParams.courseId
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
@@ -81,6 +84,7 @@ angular
                 page: 1,
                 count: 10,
                 type:'withoutVideosAndTests',
+                courseId:$stateParams.courseId
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {

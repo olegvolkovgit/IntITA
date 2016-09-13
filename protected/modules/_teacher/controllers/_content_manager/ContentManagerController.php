@@ -88,37 +88,51 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList()
     {
+
         $params = $_GET;
+        $sql = ' `module_ID` as id, module.`title_ua` as title, module.language  as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions';
+        $command = Yii::app()->db->createCommand();
+        $command->select($sql)
+            ->from('module');
+        if ($params['courseId']) {
+            $command->where('module_ID IN (SELECT course_modules.id_module FROM course_modules WHERE course_modules.id_course = :courseId)',array(':courseId'=>$params['courseId']));
+            $command->params = [':courseId',$params['courseId']];
+        };
+        $tt =$command->prepare();
         switch ($params['type']){
             case 'all':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select(' `module_ID` as id, module.`title_ua` as title, module.language  as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions')
-                    ->from('module')
-                    ->order('title')
+                $command->order('title')
                     ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                    ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$command->queryAll()]]);
                 break;
             case 'withoutVideos':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select('* FROM (SELECT `module_ID` as id, module.`title_ua` as title, module.language as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions FROM `module`) AS stat WHERE videos = 0 ORDER BY title')
+                $alias = Yii::app()->db->createCommand();
+                $alias->from('('.$command->text.') stat ');
+                $alias->where('videos = 0')
+                    ->order('title')
                     ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                    ->offset($params['page']*$params['count'] -$params['count']);
+
+                echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
             case 'withoutTests':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select('* FROM (SELECT `module_ID` as id, module.`title_ua` as title, module.language as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions FROM `module`)as stat WHERE tests=0 ORDER BY title')
+                $alias = Yii::app()->db->createCommand();
+                $alias->from('('.$command->text.') stat ');
+                $alias->where('tests = 0')
+                    ->order('title')
                     ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                    ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
             case 'withoutVideosAndTests':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select('* FROM (SELECT `module_ID` as id, module.`title_ua` as title, module.language as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions FROM `module`) as stat WHERE videos = 0 AND tests = 0 ORDER BY title')
+                $alias = Yii::app()->db->createCommand();
+                $alias->from('('.$command->text.') stat ');
+                $alias->where('tests = 0 AND videos =0')
+                    ->order('title')
                     ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                    ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
         }
 //
@@ -191,39 +205,46 @@ class ContentManagerController extends TeacherCabinetController
     {
 
         $params = $_GET;
+        $sql = 'course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions ';
+        $command = Yii::app()->db->createCommand();
+        $command->select($sql)
+                ->from('course');
         switch ($params['type']){
             case 'all':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select(' course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions FROM course ORDER BY title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                $command->order('title')
+                        ->limit($params['count'])
+                        ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$command->queryAll()]]);
                 break;
             case 'withoutVideos':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select('* FROM (SELECT course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions FROM course ORDER BY title) AS stat WHERE videos = 0 ORDER BY title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                $alias = Yii::app()->db->createCommand();
+                $alias->from('('.$command->text.') stat ');
+                $alias->where('videos = 0')
+                      ->order('title')
+                      ->limit($params['count'])
+                      ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
             case 'withoutTests':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select('* FROM (SELECT course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions FROM course ORDER BY title)as stat WHERE tests=0 ORDER BY title')
+                $alias = Yii::app()->db->createCommand();
+                $alias->from('('.$command->text.') stat ');
+                $alias->where('tests = 0')
+                    ->order('title')
                     ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                    ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
             case 'withoutVideosAndTests':
-                echo json_encode(['rows' => [Yii::app()->db->createCommand()
-                    ->select('* FROM (SELECT course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions FROM course ORDER BY title) as stat WHERE videos = 0 AND tests = 0 ORDER BY title')
+
+                $alias = Yii::app()->db->createCommand();
+                $alias->from('('.$command->text.') stat ');
+                $alias->where('tests = 0 AND videos =0')
+                    ->order('title')
                     ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count'])
-                    ->queryAll()]]);
+                    ->offset($params['page']*$params['count'] -$params['count']);
+                echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
         }
-
-
-     // echo UserContentManager::listOfCourses($filter_id);
     }
 
     public function actionGetAuthorsList()
