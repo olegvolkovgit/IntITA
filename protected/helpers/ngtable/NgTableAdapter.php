@@ -66,12 +66,12 @@ class NgTableAdapter {
 
     /**
      * NgTableAdapter constructor.
-     * @param CActiveRecord $activeRecord
+     * @param CActiveRecord|string $activeRecord
      * @param array $requestParams
-     * @param array $relations
+     * @throws Exception
      */
-    public function __construct($activeRecord = null, $requestParams = null, $relations = null) {
-        $this->setActiveRecord($activeRecord, $relations);
+    public function __construct($activeRecord = null, $requestParams = null) {
+        $this->setActiveRecord($activeRecord);
         $this->setRequestParams($requestParams);
     }
 
@@ -193,7 +193,8 @@ class NgTableAdapter {
         $this->activeRecord = $ar;
         $this->relations = [];
 
-        foreach ($ar->relations() as $relationName => $relationProperties) {
+        $provider = $this->getBehavior($this->activeRecord);
+        foreach ($provider->getRelations() as $relationName => $relationProperties) {
             $this->relations[$relationName] = $relationProperties[1];
         }
     }
@@ -328,7 +329,7 @@ class NgTableAdapter {
 
     /**
      * @param $model
-     * @return null
+     * @return INgTableProvider
      */
     private function getBehavior($model) {
         $ngTableProvider = null;
