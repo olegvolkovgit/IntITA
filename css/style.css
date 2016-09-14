@@ -94,6 +94,7 @@ input[type="submit"]::-moz-focus-inner{padding:0;border:0;}
 .lineForm{width:440px;height:161px;margin-left:50px;margin-top:15px;}
 .social{width:400px;height:16px;margin-left:70px;margin-top:-150px;font:16px Arial, Helvetica, sans-serif;color:#959595;}
 .image{width:410px;margin-left:70px;margin-top:20px;}
+.breadcrumbs{position: relative;max-width: 1200px;margin: 0 auto}
 .my-cool-breadcrumbs{padding-bottom:24px;display:inline-block;margin-top:40px;color:#264b73;width:70%;word-wrap:break-word;}
 .my-cool-breadcrumbs a{color:#4b75a4;text-decoration:underline;}
 .my-cool-breadcrumbs a:hover{color:#264b73;}

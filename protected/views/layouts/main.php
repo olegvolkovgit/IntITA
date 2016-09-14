@@ -123,24 +123,25 @@ $header = new Header();
     </div>
     <div class="main">
         <div style="height: 5px; width: auto"></div>
-        <?php if (isset($this->breadcrumbs)): ?>
-            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                'links' => $this->breadcrumbs,
-                'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
-                'htmlOptions' => array(
-                    'class' => 'my-cool-breadcrumbs'
-                )
-            )); ?><!-- breadcrumbs -->
-        <?php endif ?>
-
-        <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'index')
-            && !(Yii::app()->controller->id == 'aboutus') && !(Yii::app()->controller->id == 'lesson')
-        ) {
-            $post = Yii::app()->user->model;
-            $statusInfo = $this->beginWidget('UserStatusWidget', ['bigView' => true ,'registeredUser'=>$post]);
-            $this->endWidget();
-        }
-        ?>
+        <div class="breadcrumbs">
+            <?php if (isset($this->breadcrumbs)): ?>
+                <?php $this->widget('zii.widgets.CBreadcrumbs', array(
+                    'links' => $this->breadcrumbs,
+                    'homeLink' => CHtml::link(Yii::t('breadcrumbs', '0049'), Config::getBaseUrl()),
+                    'htmlOptions' => array(
+                        'class' => 'my-cool-breadcrumbs'
+                    )
+                )); ?><!-- breadcrumbs -->
+            <?php endif ?>
+            <?php if (!Yii::app()->user->isGuest && !(Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'index')
+                && !(Yii::app()->controller->id == 'aboutus') && !(Yii::app()->controller->id == 'lesson')
+            ) {
+                $post = Yii::app()->user->model;
+                $statusInfo = $this->beginWidget('UserStatusWidget', ['bigView' => true ,'registeredUser'=>$post]);
+                $this->endWidget();
+            }
+            ?>
+        </div>
     </div>
     <div id="contentBoxMain">
         <?php echo $content; ?>

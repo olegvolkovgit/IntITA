@@ -1,39 +1,55 @@
 #coursesMainBox
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
     overflow: hidden;
+    width: 100%;
+}
+#miniConcept{display: none}
+.courseInfo{
+    display: table-cell;
+    vertical-align: top;
+}
+.courseLogo{
+    display: table-cell;
+    vertical-align: top;
+}
+#coursesTable{
+    display: table;
+    width: 100%;
+}
+#coursesTable td{
 }
 #coursesHeader
 {
-    white-space: nowrap;
     color: #ffffff;
     font-size:24px;
     text-align: center;
     margin-right: 35px;
 }
+.leftColumn, .rightColumn{
+    vertical-align: top;
+    display: table-cell;
+    width:48%;
+}
 #coursesPart1
 {
-    display:inline-block;
     position:relative;
-    width:570px;
+    width:98%;
 }
 #coursesPart2
 {
-    width:570px;
     position:relative;
-    margin-left:50px;
+    width:98%;
 }
 .courseBox
 {
-    display:inline-block;
-    height:158px;
-    width: 565px;
+    display:table;
+    width: 100%;
     position:relative;
     font-family:MyriadPro;
     margin-left:5px;
     margin-bottom:20px;
-    margin-top:20px;
     font-size: 14px;
 }
 .courseBox2
@@ -41,27 +57,17 @@
     display:inline-block;
     position:relative;
     font-family:MyriadPro;
-    width: 500px;
     font-size: 14px;
-}
-.courseBox img
-{
-    position:absolute;
 }
 .courseBox > img
 {
-    position:absolute;
-    width: 108px;
-    height: 108px;
     border-radius: 50%;
-    /*border: 1px solid #4b70a4;*/
 }
 .courseName
 {
     position:relative;
     color:#4682B4;
     font-size:20px;
-    margin-left:150px;
 }
 .courseName a
 {
@@ -71,7 +77,7 @@
 }
 .courseStatusBox
 {
-    margin-left:150px;
+    clear: both;
 }
 .courseStatusBox img
 {
@@ -79,10 +85,6 @@
     display: inline-block;
     vertical-align: middle;
     margin: 0 5px;
-}
-.coursePriceBox
-{
-    margin-left: 150px;
 }
 #coursePriceStatus1 {
     color: #cc0000;
@@ -92,22 +94,13 @@
     color: #333333;
     font-weight: bold;
 }
-.courseLevelBox
-{
-    margin-left:150px;
-}
 .courseLevelBox2
 {
-    margin-left:150px;
     color:#696969;
 }
 .courseLevelImage
 {
     margin-right:20px;
-}
-.starLevelIndex
-{
-    padding-left: 150px;
 }
 .courseLevelIndex
 {
@@ -144,7 +137,6 @@
     display:inline-block;
     position:relative;
     font-size:14px;
-    margin-left:150px;
     color: #000000;
 }
 .courseText2
@@ -153,12 +145,11 @@
     position:relative;
     color:#696969;
     font-size:14px;
-    margin-left:150px;
 }
 .courseText p
 {
-    margin-top:-0px;
-    margin-bottom:-0px;
+    margin-top:0;
+    margin-bottom:0;
 }
 .coursesTextFooterBlock1
 {
@@ -177,7 +168,6 @@
 .courseLang
 {
     height: 20px;
-    margin-left:150px;
     color: #333333;
 }
 #coursesLang{
@@ -241,20 +231,16 @@ a#coursesLangs {
 }
 #courseText2 {
     position: relative;
-    left: 40px;
-    right: 20px;
+    padding-left: 40px;
     color: #ffffff;
     display:inline-block;
-    width: 500px;
     font-size: 14px;
 }
 .courseStatus p{
-    margin-left: 150px;
     position: relative;
     color: #000000;
 }
 .courseStatus0 p{
-    margin-left: 150px;
     position: relative;
     color: #696969;
 }
@@ -297,9 +283,9 @@ a#coursesLangs {
     color: #ffffff;
     position: relative;
     margin-bottom: 20px;
-    margin-top: 20px;
     display:inline-block;
-    width: 570px;
+    padding: 5px 10px 5px 10px;
+    width: 100%;
 }
 .bgBlue img{
     padding-top: 10px;
@@ -312,7 +298,7 @@ a#coursesLangs {
     width: 200px;
 }
 #razv {
-    margin-left: 40px;
+    padding-left: 40px;
     cursor: pointer;
 }
 #disabled {
@@ -351,6 +337,43 @@ span.courseNum{
 .coursesType{
     float: right;
 }
+.coursesType > div{
+    display: inline-block;
+    vertical-align: top;
+}
 .coursesHeader{
     margin-top: 20px;
+}
+#coursesFilter, #typeList{display: none}
+@media only screen and (max-width: 800px) {
+    #coursesTable{
+        display: inline-block;
+        width:100%;
+    }
+    .leftColumn, .rightColumn{
+        display: block;
+        width:100%;
+    }
+    #miniConcept{display: block}
+    #largeConcept{display: none}
+}
+@media only screen and (max-width: 320px) {
+    .spoilerTriangle {
+        display: inline-block;
+        color: #4b75a4;
+        cursor: pointer;
+    }
+    .spoilerTriangle img{
+        vertical-align: middle;
+    }
+    .spoilerTriangle:hover {
+        color: #666666;
+    }
+    #trg{
+        font-size: 8px;
+    }
+    #typeList .sourse{text-align:left}
+    .coursesType .selectType,.coursesType .selectLine{display:none}
+    .coursesType{float: none}
+    #coursesFilter{display:inline-block}
 }
