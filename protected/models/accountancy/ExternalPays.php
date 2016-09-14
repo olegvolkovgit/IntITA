@@ -18,6 +18,8 @@
  *
  * The followings are the available model relations:
  * @property ExternalSources $source
+ * @property CorporateEntity $company
+ * @property InternalPays[] $internalPays
  */
 class ExternalPays extends CActiveRecord
 {
@@ -57,7 +59,8 @@ class ExternalPays extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
             'source' => array(self::BELONGS_TO, 'ExternalSources', 'sourceId'),
-            'company' => [self::BELONGS_TO, 'CorporateEntity', 'companyId']
+            'company' => [self::BELONGS_TO, 'CorporateEntity', 'companyId'],
+            'internalPays' => [self::HAS_MANY, 'InternalPays', 'externalPaymentId']
 		);
 	}
 
@@ -124,7 +127,12 @@ class ExternalPays extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function addNewExternalPay(Operation $operation){
+    public function getUnallocatedAmount() {
+        $this->getRelated('internalPays');
+        return array_reduce($this->internalPays, function($prev, $curr) {return $prev -= $curr->summa;}, $this->amount);
+    }
+
+//    public static function addNewExternalPay(Operation $operation){
 //        $invoicesDescription = '';
 //        foreach($operation->invoicesList as $invoice){
 //            $invoicesDescription .= $invoice->description();
@@ -146,5 +154,5 @@ class ExternalPays extends CActiveRecord
 //        }
 //
 //        return false;
-    }
+//    }
 }

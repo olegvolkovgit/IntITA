@@ -22,7 +22,7 @@ class Operations {
     private function getUnpaidInvoices($agreementId, $invoices, $amount) {
         $unpaidInvoices = [];
         if (!empty($invoices) && is_array($invoices)) {
-            /* if we have is in invoices we should check if this invoices unpaid */
+            /* if we have invoices we should check if this invoices unpaid */
 
             $_invoices = [];
             foreach ($invoices as $invoice) {
@@ -83,12 +83,12 @@ class Operations {
      */
     public function performOperation($operation, $user) {
         $transaction = Yii::app()->db->beginTransaction();
-        $result = ['status'=>'ok'];
+        $result = ['status'=>'ok', 'message'=>[]];
         try {
-            $amount = $operation['amount'];
+            $externalPayment = ExternalPays::model()->with('internalPays')->findByPk($operation['sourceId']);
+            $amount = min($operation['amount'], $externalPayment->getUnallocatedAmount());
             $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $amount);
-            $externalPayment = ExternalPays::model()->findByPk($operation['sourceId']);
-            
+
             foreach ($operationInvoices as $invoice){
                 $paymentAmount = min($invoice->summa, $amount, $externalPayment->amount);
                 $resultMakePayment = $invoice->makePayment($externalPayment, $paymentAmount, $user);
@@ -96,8 +96,9 @@ class Operations {
                     throw new Exception('Internal payment error ' . json_encode($resultMakePayment));
                 }
                 $amount -= $paymentAmount;
-            }
+                $result['message'][] = "По рахунку № $invoice->number зараховано $paymentAmount";
 
+            }
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();

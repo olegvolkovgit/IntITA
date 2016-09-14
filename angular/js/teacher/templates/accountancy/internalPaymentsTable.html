@@ -1,0 +1,9 @@
+<table ng-table="internalPaymentsTableParams" class="table table-striped table-bordered table-hover">
+    <tr ng-repeat="row in $data track by row.id">
+        <td data-title="'ID'">{{row.id}}</td>
+        <td data-title="'Дата створення'">{{row.create_date}}</td>
+        <td data-title="'Користувач'">{{row.createUser.fullName}}</td>
+        <td data-title="'Сума'">{{row.summa}}</td>
+        <td data-title="'Рахунок'"><a href="#/accountant/invoice/{{row.invoice.id}}">{{row.invoice.number}} від {{row.invoice.date_created}}</a></td>
+    </tr>
+</table>

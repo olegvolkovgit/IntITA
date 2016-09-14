@@ -4,13 +4,16 @@
 
 angular
     .module('teacherApp')
-    .factory('externalPaymentsService', ['$resource', 'transformRequest',
-        function ($resource, transformRequest) {
+    .factory('externalPaymentsService', ['$resource',
+        function ($resource) {
             var url = basePath + '/_teacher/_accountant/externalPayments';
             return $resource(
                 '',
                 {},
                 {
+                    list: {
+                        url: url + '/getNgTable'
+                    },
                     create: {
                         url: url + '/createPayment',
                         method: 'POST'
