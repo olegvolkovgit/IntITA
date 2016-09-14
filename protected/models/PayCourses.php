@@ -55,8 +55,8 @@ class PayCourses extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
-			'idUser' => array(self::BELONGS_TO, 'User', 'id_user'),
+            'course' => array(self::BELONGS_TO, 'Course', 'id_course'),
+            'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 		);
 	}
 

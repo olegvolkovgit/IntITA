@@ -4,8 +4,10 @@
             <div class="dataTable_wrapper">
                 <table ng-table="paidCoursesTable" class="table table-striped table-bordered table-hover" id="agreementsTable">
                     <tr ng-repeat="row in $data">
-                        <td data-title="'Назва'"><a href="javascript:void(0)" ng-click="showStudentAgreement(row.id,row.number)">Договір {{row.number}} </a></td>
-                        <td data-title="'Сума, грн'">{{row.summa}}</td>
+                        <td data-title="'Назва'"><div ng-if="!row.course.cancelled"><a href="course/{{row.course.language}}/{{row.course.alias}}">{{row.course.title_ua}}</a></div>
+                            <div ng-if="row.course.cancelled">{{row.course.title_ua}} (скасований)</div>
+                        </td>
+                        <td data-title="'Сума, грн'"><div ng-if="row.course.course_price">{{row.course.course_price *usd}}</div><div ng-if="!row.course.course_price">бескоштовно</div></td>
                     </tr>
                 </table>
             </div>
