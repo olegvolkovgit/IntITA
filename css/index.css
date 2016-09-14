@@ -1,0 +1,238 @@
+/*about block*/
+.mainAboutBlock{margin:0 auto;max-width:1200px;text-align:center;width:100%}
+.mainAbout{box-sizing:border-box;-moz-box-sizing:border-box;border:solid 0px;height:100%;overflow:hidden;display:inline-block;position:relative;font-family:MyriadPro;}
+.header{text-align:center;position:relative;color:#666666;font-family:MyriadPro;font-size:34px;list-style:none;margin-top:0px;margin-left:0px;}
+.header p{color:#4682B4;font-size:19px;font-family:MyriadPro;margin-top:0px;}
+.line1{margin-top:-25px;}
+.block{border:solid 0px #DCDCDC;height:280px;display:inline-block;position:relative;margin-left:50px;margin-top:35px;}
+.block ul{display:inline-block;padding:0px;top:0px;list-style:none;margin-left:210px;}
+.block ul li{margin-left:-50px;padding:0;}
+.icon{position:absolute;top:0px;margin-top:-5px;left:10%;}
+.title{position:absolute;top:30%;left:12%;color:#4682B4;font-size:22px;text-align:left;}
+.title p{width:240px;text-align:left;margin-top:5px;color:#696969;font-size:16px;font-family:MyriadPro;line-height:18px;}
+.block a{position:absolute;top:92%;left:12%;color:#4682B4;font-size:16px;}
+.block a:hover{color:#000000;}
+.hexagon800{display:none}
+/*about block*/
+/*steps block*/
+html{font-family:"MyriadPro";}
+.stepHeader h1{color:#5b5b5b;margin:0px;font-weight:normal;}
+.stepHeader h3{color:#4b75a4;margin-top:-6px;margin-bottom:0px;font-weight:normal;}
+.stepHeaderCont{margin:0px auto;margin-bottom:60px;max-width:1020px}
+.stepHeader{text-align:center;margin:0px auto;border-bottom:2px solid #4b75a4;padding:0 30px 5px 30px;display:table;}
+.steps{font-size:100%;margin-top:0px;}
+.steps h4{margin-bottom:10px;}
+.steps h2{margin-bottom:10px;}
+.steps{background-color:#f3f3f3;padding-top:60px;margin-top:20px;padding-bottom:20px;}
+.stepLeft{max-width:1020px; box-sizing:border-box;-moz-box-sizing:border-box;overflow:hidden;position:relative;margin:0px auto;background-color:#ffffff;box-shadow:0 0 5px #ACACAC;border-radius:3px;margin-top:40px;margin-bottom:40px;}
+.stepRight{max-width:1020px; box-sizing:border-box;-moz-box-sizing:border-box;overflow:hidden;position:relative;margin:0px auto;background-color:#ffffff;box-shadow:0 0 5px #ACACAC;border-radius:3px;margin-top:40px;margin-bottom:40px;}
+.stepInfo{box-sizing:border-box;position:relative;-moz-box-sizing:border-box;display:inline-block;width:55%;text-align:left;height:100%;}
+.stepUrl{box-sizing:border-box;-moz-box-sizing:border-box;position:relative;display:inline-block;width:317px;border:2px solid #4b75a4;}
+.stepInfo p{margin-bottom:0;}
+.stepUrl img.grid{display:block;width:100%;}
+.stepUrl img.stepImg{display:block;width:100%;}
+img.grid{position:absolute;bottom:0;right:0;z-index:1;}
+.hexagon{z-index:1;}
+.stepArticle{position:absolute;width:102px;top:15px;text-align:center;z-index:3;}
+.stepLeft .stepArticle{left:270px;}
+.stepRight .stepArticle{right:270px;}
+p.stepNumber{color:#3d4d60;font-size:300%;font-weight:normal;margin:0px;margin-top:0px;margin-bottom:-15px;}
+p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
+.stepLeft .hexagon{position:absolute;left:270px;top:-2px}
+.stepRight .hexagon{position:absolute;right:270px;top:-2px}
+.stepLeft .stepUrl{float:left;border-right:none;}
+.stepRight .stepUrl{float:right;border-left:none;}
+.stepLeft .stepInfo{padding:0px 5px 0px 7%;}
+.stepRight .stepInfo{float:right;text-align:right;padding:0px 7% 0px 5px;}
+/*steps block*/
+#sliderMini{display:none}
+@media only screen and (max-width: 800px) {
+    /*slider*/
+    .mouseLine{
+        display:none;
+    }
+    div#sliderCenterBox{
+        margin-top: 5%;
+    }
+    div.sliderCenterBoxText p{
+        font-size: 36px;
+    }
+    div.slide p {
+        top: 35%;
+        font-size: 22px;
+    }
+    /*slider*/
+    /*about block*/
+    .mainAboutBlock, .mainAbout, .header{
+        max-width: 800px;
+        width: 100%;
+    }
+    .block {
+        max-width: 240px;
+        width: 100%;
+        margin-left: 10px;
+        margin-top: 35px;
+    }
+    .title p {
+        max-width: 220px;
+    }
+    /*about block*/
+
+    /*steps block*/
+    .steps{
+        max-width: 800px;
+    }
+    .stepHeaderCont{
+        max-width: 800px;
+    }
+    .stepHeader{
+        border-bottom: none;
+    }
+    .stepLeft .stepUrl, .stepRight .stepUrl{
+        border:2px solid #4b75a4;
+        float: left;
+    }
+    .stepLeft, .stepRight{
+        max-width: 596px;
+        background-color: inherit;
+        box-shadow: none;
+        overflow: inherit;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+    .stepUrl{
+        width: 262px;
+        display: table-cell;
+    }
+    .stepInfo {
+        display: table-cell;
+        width: 334px;
+    }
+    .hexagon800{
+        position: absolute;
+        top: -34px;
+        left: 204px;
+        display: block;
+        z-index: 2;
+    }
+    .stepRight .hexagon, .stepLeft .hexagon, .stepUrl img.grid{
+        display: none;
+    }
+    .stepArticle {
+        position: absolute;
+        width: 77px;
+        top: -40px;
+        text-align: center;
+        z-index: 3;
+    }
+    .stepLeft .stepArticle,.stepRight .stepArticle {
+        left: 204px;
+        right: inherit;
+    }
+    p.stepNumber {
+        font-size: 40px;
+    }
+    p.stepName {
+        font-size: 20px;
+    }
+    .stepLeft .stepInfo,.stepRight .stepInfo {
+        padding: 0 5px 0 20px;
+        text-align: left;
+        float: inherit;
+    }
+    .steps h2 {
+        margin-top: 4px;
+        margin-bottom: 2px;
+    }
+    .stepInfo p {
+        margin-top: 2px;
+    }
+    /*steps block*/
+
+    /*form block*/
+    .regFormBG, .regFormBox {
+        max-width: 800px;
+        background: none;
+    }
+    .zagolovok, .zagolovok2{
+        color: #4b75a4;
+        margin-bottom: 0;
+    }
+    .signInForm {
+        background: none;
+        box-shadow: none;
+    }
+    .regFormBG .signInEmail {
+        margin-top: 40px;
+    }
+    .rowemail, .rowpass, .authLinks{
+        max-width: 444px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .rowemail input, .rowpass input{
+        width: 100%;
+    }
+    /*form block*/
+}
+@media only screen and (max-width: 320px) {
+    /*steps block*/
+    .stepLeft .stepInfo,.stepRight .stepInfo {
+        max-width: 260px;
+        padding: 0;
+        display: block;
+        margin: 0 auto;
+    }
+    .stepLeft .stepUrl, .stepRight .stepUrl{
+        float: none;
+        display: block;
+        margin: 0 auto;
+    }
+    .stepLeft, .stepRight{
+        max-width: 400px;
+    }
+
+    .stepRight .hexagon800, .stepRight .stepArticle{
+        left: -18px;
+    }
+    .line1{
+        display: none;
+    }
+    .block a {
+        left:55%;
+    }
+    /*steps block*/
+}
+@media only screen and (max-width: 600px) {
+    #sliderMini{display:block}
+    #sliderBlock{display:none}
+    .sliderMiniTitle{
+        text-align: center;
+        font-size: 30px;
+        color:#4b75a4;
+        margin-bottom: 10px;
+    }
+    .sliderMiniTitleLine hr{border:1px solid #4b75a4;width:90px;}
+    .sliderMiniTitleLine{height:2px;}
+    .sliderMiniText{text-align: center}
+    a.sliderButton {
+        display: block;
+        width: 160px;
+        text-shadow: 0.1em 0.1em 0.1em black;
+        color: white;
+        font: normal 400 0.54em/2.16em "MyriadPro2";
+        vertical-align: middle;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 300;
+        border-top: 0.05em solid #007cbf;
+        background: #4b70a3;
+        border-radius: 0.3em;
+        box-shadow: 0em 0.1em 0em black;
+        z-index: 4;
+        font-size: 20px;
+        padding-top: 4px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+    }
+}

@@ -80,10 +80,11 @@
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0021'); ?></a></li>
             <li><a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0137'); ?></a></li>
-            <li><a href="<?php echo Config::getBaseUrl() . '/forum'; ?>" target="_blank"><i
+            <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>" target="_blank"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0017'); ?></a></li>
             <li><a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0018'); ?></a></li>
+            <li><a href="http://www.robotamolodi.org/" target="_blank"><?php echo 'Вакансії' ?></a></li>
             <li class="divider"></li>
             <li><a href="<?php echo Yii::app()->createUrl('site/logout'); ?>">
                     <i class="fa fa-sign-out fa-fw"></i> Вихід</a>

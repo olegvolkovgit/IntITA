@@ -10,7 +10,9 @@ $(function(){
 function textSliderCentr(count) { /* Центрування тексту картинки слайдеру*/
     for(var i=1;i<=count;i++){
         var elHalfWidth=$('.about'+i).css('width').slice(0, -2)/2;
-        $('.about'+i).css('margin-left', (document.body.clientWidth*$('.about'+i).attr('left')/100-elHalfWidth)+'px');
+        var textLeft=document.body.clientWidth*$('.about'+i).attr('left')/100-elHalfWidth;
+        if(textLeft<0) textLeft=0;
+        $('.about'+i).css('margin-left', (textLeft+'px'));
     }
 }
 

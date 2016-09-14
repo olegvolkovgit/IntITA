@@ -2,7 +2,7 @@
  * Created by Wizlight on 17.07.2015.
  */
 $(document).ready(function(){
-    if ($(window).scrollTop() > 80) {
+    if ($(window).scrollTop() > 80 || $(window).width() <= '800') {
         if($(window).height()<$("#hambMenu").height()){
             $("#hambMenu").css("overflow-y", "scroll");
             $("#hambMenu").css({height: 100+'%'});
@@ -15,7 +15,7 @@ $(document).ready(function(){
 });
 
 $(window).scroll(function() {
-    if ($(window).scrollTop() > 80 ) {
+    if ($(window).scrollTop() > 80 || $(window).width() <= '800') {
         if($(window).height()<$("#hambMenu").height()){
             $("#hambMenu").css("overflow-y", "scroll");
             $("#hambMenu").css({height: 100+'%'});
@@ -48,3 +48,12 @@ $('#hambButton').click(function (e) {
             $("#hambMenu").css({display: "none"});
         }, 200);
 });
+
+// function windowSize(){
+//     if ($(window).width() <= '800'){
+//         $('#shelf').show(10);
+//     } else {
+//         $('#shelf').hide(10);
+//     }
+// }
+// $(window).on('load resize',windowSize);

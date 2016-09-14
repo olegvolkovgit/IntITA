@@ -4,18 +4,19 @@
  * @var $blocks array
  */
 ?>
-<td>
-    <div id='coursesPart2'>
-        <?php
-        $j = 0;
-        $this->renderPartial('_conceptBlock');
-        foreach ($blocks as $val) {
-            $j++;
-            if ($j % 2 == 0) {
-                ?>
-                <div class='courseBox'>
-                    <img src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
-
+<div id='coursesPart2'>
+    <div id="largeConcept">
+        <?php $this->renderPartial('_conceptBlock'); ?>
+    </div>
+    <?php
+    $j = 0;
+    foreach ($blocks as $val) {
+        $j++;
+        if ($j % 2 == 0) {
+            ?>
+            <div class='courseBox'>
+                <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
+                <div class="courseInfo">
                     <div class='courseName'><a
                             href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val[0]->course_ID)); ?>"><?php
                             echo $val[0]->getTitle(); ?></a>
@@ -25,8 +26,7 @@
                         <?php echo Yii::t('courses', '0068'); ?>
                         <span class="courseLevel">
                         <?php echo $val[0]->level(); ?>
-			        </span>
-
+                        </span>
                         <div class='courseLevelIndex'>
                             <?php
                             $rate = $val[0]->getRate();
@@ -61,7 +61,7 @@
                                         echo Yii::t('courses', '0231');
                                     }
                                     ?>
-                    </span>
+                        </span>
                     </div>
                     <div class="courseLang">
                         <?php echo Yii::t('courses', '0069'); ?>
@@ -83,7 +83,6 @@
                             </a>
                         <?php } ?>
                     </div>
-
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147');
                         $schema = PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE);
@@ -106,9 +105,9 @@
                         <?php echo Yii::t('courses', '0145'); ?>
                         <?php echo CommonHelper::getRating($val[0]->rating); ?>
                     </div>
-                </div> <?php
-            }
-        }
-        ?>
-    </div>
-</td>
+                </div>
+            </div>
+            <?php }
+    }
+    ?>
+</div>
