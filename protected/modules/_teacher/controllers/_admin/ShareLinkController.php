@@ -36,7 +36,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet()."#/sharedlinks");
         }
 
         $this->renderPartial('create',array(
@@ -60,7 +60,7 @@ class ShareLinkController extends TeacherCabinetController {
         {
             $model->attributes=$_POST['ShareLink'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet()."#/sharedlinks");
         }
         $this->renderPartial('update',array(
             'model'=>$model,
