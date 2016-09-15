@@ -153,6 +153,15 @@ class Teacher extends CActiveRecord
         return parent::model($className);
     }
 
+    public function behaviors() {
+        return [
+            'ngTable' => [
+                'class' => 'NgTableProviderTeacher'
+            ]
+        ];
+    }
+
+
     public function primaryKey(){
         return 'user_id';
     }
