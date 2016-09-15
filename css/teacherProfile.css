@@ -277,7 +277,7 @@ img.lessonBut  {
         width:99%;
     }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 320px) {
     .teacherTable>div {display: inline-block}
     .teacherName,.teacherLogo{display: table-cell}
     .teacherTable{display: inherit}
