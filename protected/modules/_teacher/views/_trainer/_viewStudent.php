@@ -29,22 +29,20 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#collapse<?= $course["id"] ?>">
+                                        <a  ng-click="isCollapsed = !isCollapsed">
                                             <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="collapse<?= $course["id"] ?>" class="panel-collapse collapse">
+                                <div uib-collapse="!isCollapsed" class="panel-collapse collapse">
                                     <ul>
                                         <?php
                                         $courseModules = CourseModules::modulesInfoByCourse($course["id"]);
                                         if(count($courseModules) > 0) {
                                             foreach ($courseModules as $record) { ?>
                                                 <li>
-                                                    <a href="#"
-                                                       onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
-                                                           array("id" => $student->id, "idModule" => $record["id"])); ?>',
-                                                           '<?= addslashes($student->registrationData->userName()); ?>');">
+                                                    <a href="javascript:void(0)" ng-click="changeView('trainer/changeTeacher/modude/<?=$record["id"]?>/student/<?=$student->id?>')"
+                                                       >
                                                         <?= $record["title"] . " (" . $record["lang"] . ")";
                                                         if (isset($teachersByModule[$record["id"]])) {
                                                             ?>

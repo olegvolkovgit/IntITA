@@ -17,29 +17,17 @@ angular
                     },
                     confirm: {
                         url: url + '/confirm',
-                        method: 'GET',
-                        params: {
-                            id: 'id'
-                        }
+                        method: 'GET'
                     },
                     cancel: {
                         url: url + '/cancel',
-                        method: 'GET',
-                        params: {
-                            id: 'id'
-                        }
+                        method: 'GET'
                     },
                     getById: {
-                        url: url + '/getAgreement',
-                        params: {
-                            id: 'id'
-                        }
+                        url: url + '/getAgreement'
                     },
                     typeahead: {
                         url: url + '/getTypeahead',
-                        params: {
-                            query : 'query'
-                        },
                         isArray:true
                     }
                 });

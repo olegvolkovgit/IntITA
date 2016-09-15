@@ -54,7 +54,7 @@ class Consultationscalendar extends CActiveRecord
         return array(
             'user' => array(self::BELONGS_TO, 'StudentReg', 'user_id'),
             'teacher' => array(self::BELONGS_TO, 'StudentReg', 'teacher_id'),
-            'lecture' => array(self::BELONGS_TO, 'Lecture', 'lecture_id'),
+            'lecture' => array(self::BELONGS_TO, 'Lecture', ['lecture_id' => 'id']),
             'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
         );
     }

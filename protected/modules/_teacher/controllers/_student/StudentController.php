@@ -31,19 +31,62 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionGetTodayConsultationsList(){
+//      NEXT ITERATION
+//        date_default_timezone_set('Europe/Kiev');
+//        $params = $_GET;
+//        $currentDate = new DateTime();
+//        $criteria = new CDbCriteria();
+//        $criteria->with = ['user','teacher','lecture'];
+//        $criteria->addCondition('date_cancelled IS NULL');
+//        $criteria->addBetweenCondition('date_cons',date_format($currentDate, "Y-m-d"),date_format($currentDate, "Y-m-d"));
+//        $criteria->compare('t.user_id',Yii::app()->user->getId());
+//        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+//        $adapter->mergeCriteriaWith($criteria);
+//        echo json_encode($adapter->getData());
         echo Consultationscalendar::studentTodayConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetPastConsultationsList(){
-        echo Consultationscalendar::studentPastConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addCondition('date_cons < "'.date_format($currentDate, "Y-m-d").'" ');
+        $criteria->compare('t.user_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+      //  echo Consultationscalendar::studentPastConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetCancelConsultationsList(){
-        echo Consultationscalendar::studentCancelConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NOT NULL');
+        $criteria->compare('t.user_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+     // echo Consultationscalendar::studentCancelConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetPlannedConsultationsList(){
-        echo Consultationscalendar::studentPlannedConsultationsList(Yii::app()->user->getId());
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addCondition('date_cons > "'.date_format($currentDate, "Y-m-d").'" ');
+        $criteria->compare('t.user_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+        //echo Consultationscalendar::studentPlannedConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionConsultation($id){
@@ -61,17 +104,32 @@ class StudentController extends TeacherCabinetController
 
     public function actionGetPayCoursesList()
     {
-        echo PayCourses::getPayCoursesListByUser();
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('PayCourses',$_GET);
+        echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
+        //echo PayCourses::getPayCoursesListByUser();
     }
 
     public function actionGetPayModulesList()
     {
-        echo PayModules::getPayModulesListByUser();
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('PayModules',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
+
+        //echo PayModules::getPayModulesListByUser();
     }
 
     public function actionGetAgreementsList()
     {
-        echo UserAgreements::agreementsListByUser();
+        $criteria = new CDbCriteria;
+        $criteria->addCondition('user_id=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('UserAgreements',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+        //echo UserAgreements::agreementsListByUser();
     }
 
     public function actionAgreement($id)

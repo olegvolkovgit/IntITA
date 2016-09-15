@@ -15,7 +15,7 @@ angular
                     continue;
                 } else if (Array.isArray(data[name])) {
                     for (var index in data[name]) {
-                        result.push(name + '[' + index + ']=' + data[name][index]);
+                        result.push(name + '[' + index + ']=' + transformRequest(data[name][index]));
                     }
                 } else if (typeof data[name] === 'object') {
                     result.push(transformRequest(data[name]));

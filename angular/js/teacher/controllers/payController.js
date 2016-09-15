@@ -11,15 +11,15 @@ function payCtrl ($scope, $http, typeAhead, $state){
     $scope.module = null;
     $scope.course = null;
     $scope.getUsers = function(value){
-        return typeAhead.getData(basePath+'/_teacher/cabinet/usersByQuery',value);
+        return typeAhead.getData(basePath+'/_teacher/cabinet/usersByQuery',{query : value});
     };
 
     $scope.getModules = function(value){
-        return typeAhead.getData(basePath+'/_teacher/_admin/teachers/modulesByQuery',value);
+        return typeAhead.getData(basePath+'/_teacher/_admin/teachers/modulesByQuery',{query : value});
     };
 
     $scope.getCourses = function(value){
-        return typeAhead.getData(basePath+'/_teacher/_admin/pay/coursesByQuery',value);
+        return typeAhead.getData(basePath+'/_teacher/_admin/pay/coursesByQuery',{query : value});
     };
 
     $scope.selectModule = function(item){

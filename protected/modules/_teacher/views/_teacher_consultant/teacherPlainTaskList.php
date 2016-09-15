@@ -24,8 +24,8 @@ if (!empty($teacherPlainTasks)) { ?>
                         <?php
                         foreach ($teacherPlainTasks as $plainTaskAnswer) {
                             $mark = $plainTaskAnswer->mark();?>
-                            <tr onclick="load('<?php echo Yii::app()->createUrl("/_teacher/_teacher_consultant/teacherConsultant/showPlainTask",
-                                array("idPlainTask" => $plainTaskAnswer->id)) ?>', 'Відповідь на задачу'); return false;"
+                            <tr ng-click="changeView('teacherConsultant/task/<?=$plainTaskAnswer->id ?>')"
+
                                 <?php if (!$mark) echo 'class="success"'; ?>
                                 style="cursor: pointer">
                                 <td class="center"><?=$plainTaskAnswer->getLectureTitle()?$plainTaskAnswer->getLectureTitle():'Лекція видалена';?></td>

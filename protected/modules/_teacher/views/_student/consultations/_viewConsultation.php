@@ -3,12 +3,10 @@
  * @var $model Consultationscalendar
  */
 ?>
-<div class="row">
+<div class="row" >
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_student/student/consultations"); ?>',
-                        'Консультації')">Всі консультації
+            <button type="button" class="btn btn-primary" ng-click="changeView('students/consultations')">Всі консультації
             </button>
         </li>
         <?php if ($model->isAvailable() && !$model->isCancelled()) { ?>

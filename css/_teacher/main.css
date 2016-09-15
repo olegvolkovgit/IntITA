@@ -348,12 +348,32 @@ ul.pagination {
     margin-bottom: 10px;
 }
 
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
 .m-t-10 {
     margin-top: 10px;
 }
 
 .m-t-20 {
-    margin-top: 10px;
+    margin-top: 20px;
+}
+
+.p-b-10 {
+    padding-bottom: 10px;
+}
+
+.p-b-20 {
+    padding-bottom: 20px;
+}
+
+.p-t-10 {
+    padding-top: 10px;
+}
+
+.p-t-20 {
+    padding-top: 20px;
 }
 
 .no-blur:focus {
@@ -530,4 +550,41 @@ table a{
 }
 #addTeacherRole option{
     color:#000;
+}
+
+div.loader {
+    position: fixed;
+    background-color: white;
+    z-index: 1000;
+    opacity: .75;
+    width: 100%;
+    display: block;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+div.loader > div {
+    position: inherit;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

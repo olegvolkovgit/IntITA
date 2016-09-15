@@ -115,69 +115,69 @@ class Operation extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function perform(){
+//    public function perform(){
+//
+//        $transaction = Yii::app()->db->beginTransaction();
+//        try
+//        {
+//            if ($this->save()){
+//                $this->addInvoices();
+//                $this->date_create = Operation::model()->findByPk($this->id)->date_create;
+//
+//                if(!$this->addExternalPay()){
+//                    throw new \application\components\Exceptions\FinanceException('External pay is failed!');
+//                }
+//
+//                if (!$this->addInternalPays()){
+//                    throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
+//                }
+//
+//                if(!empty($this->invoicesList)){
+//                    foreach($this->invoicesList as $invoice){
+//                        $invoice->pay_date = $this->date_create;
+//                        $invoice->save();
+//                    }
+//                }
+//
+//                if(!Invoice::saveService($this->invoicesList))
+//                    throw new \application\components\Exceptions\IntItaException(500,"Service was not save");
+//                $transaction->commit();
+//            } else {
+//                throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
+//            }
+//        }
+//        catch(Exception $e)
+//        {
+//            $transaction->rollback();
+//            throw new \application\components\Exceptions\FinanceException('Операцію не додано! '.$e->getMessage());
+//        }
+//    }
 
-        $transaction = Yii::app()->db->beginTransaction();
-        try
-        {
-            if ($this->save()){
-                $this->addInvoices();
-                $this->date_create = Operation::model()->findByPk($this->id)->date_create;
-
-                if(!$this->addExternalPay()){
-                    throw new \application\components\Exceptions\FinanceException('External pay is failed!');
-                }
-
-                if (!$this->addInternalPays()){
-                    throw new \application\components\Exceptions\FinanceException('Internal pay is failed!');
-                }
-
-                if(!empty($this->invoicesList)){
-                    foreach($this->invoicesList as $invoice){
-                        $invoice->pay_date = $this->date_create;
-                        $invoice->save();
-                    }
-                }
-
-                if(!Invoice::saveService($this->invoicesList))
-                    throw new \application\components\Exceptions\IntItaException(500,"Service was not save");
-                $transaction->commit();
-            } else {
-                throw new \application\components\Exceptions\FinanceException('Adding operation is failed!');
-            }
-        }
-        catch(Exception $e)
-        {
-            $transaction->rollback();
-            throw new \application\components\Exceptions\FinanceException('Операцію не додано! '.$e->getMessage());
-        }
-    }
-
-    public static function performOperation($summa, $user,OperationType $type, $invoicesListId, $externalSource){
-        switch ($type->id){
-            case '1' :
-                $class = 'AgreementOperation';
-                break;
-            case '2' :
-                $class = 'InvoiceOperation';
-                break;
-            default:
-                throw new \application\components\Exceptions\FinanceException('Unknown type of operation!');
-                break;
-        }
-        $model = new $class();
-
-        $model->summa = $summa;
-        $model->user_create = $user;
-        $model->type_id = $type->id;
-        $model->operationType = $type;
-        $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
-        $model->externalSource = $externalSource;
-
-        $model->perform();
-        //if we not receive an exception, so we have good transaction
-        return true;
-    }
+//    public static function performOperation($summa, $user,OperationType $type, $invoicesListId, $externalSource){
+//        switch ($type->id){
+//            case '1' :
+//                $class = 'AgreementOperation';
+//                break;
+//            case '2' :
+//                $class = 'InvoiceOperation';
+//                break;
+//            default:
+//                throw new \application\components\Exceptions\FinanceException('Unknown type of operation!');
+//                break;
+//        }
+//        $model = new $class();
+//
+//        $model->summa = $summa;
+//        $model->user_create = $user;
+//        $model->type_id = $type->id;
+//        $model->operationType = $type;
+//        $model->invoicesList = Invoice::getInvoiceListById($invoicesListId);
+//        $model->externalSource = $externalSource;
+//
+//        $model->perform();
+//        //if we not receive an exception, so we have good transaction
+//        return true;
+//    }
 
     public function addInvoices(){
         if(!empty($this->invoicesList)){
@@ -206,9 +206,9 @@ class Operation extends CActiveRecord
         return true;
     }
 
-    public function addExternalPay(){
-        return ExternalPays::addNewExternalPay($this);
-    }
+//    public function addExternalPay(){
+//        return ExternalPays::addNewExternalPay($this);
+//    }
 
     public function findUser()
     {

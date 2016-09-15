@@ -3,7 +3,7 @@
  */
 angular
     .module('teacherApp')
-    .controller('trainerStudentsCtrl', function ($scope){
+    .controller('trainerStudentsCtrl', function ($scope, $state, $http){
         $jq('#trainerStudentsTable').DataTable( {
             language: {
                 "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
@@ -18,4 +18,9 @@ angular
                 }
             ]
         } );
+
+        $scope.viewStudent = function(idStudent){
+            $state.go('trainer/viewStudent/:studentId',{studentId : idStudent});
+        }
+
     });

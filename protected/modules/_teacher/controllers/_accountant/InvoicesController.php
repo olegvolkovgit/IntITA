@@ -11,16 +11,28 @@ class InvoicesController extends TeacherCabinetController
      */
     public function actionIndex()
     {
-        $invoices = Invoice::model()->findAll();
+        $this->renderPartial('index');
+    }
 
-        $this->renderPartial('index',array(
-            'invoices'=>$invoices,
-        ), false, true);
+    public function actionInvoice()
+    {
+        $this->renderPartial('invoice');
     }
 
     public function actionGetInvoices() {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('Invoice', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+    
+    public function actionGetInvoicesByParams() {
+        $extraParams = [];
+        foreach (array_keys(Invoice::model()->getAttributes()) as $attribute) {
+            $extraParams[$attribute] = Yii::app()->request->getParam($attribute, null);
+        }
+        $extraParams = array_filter($extraParams);
+        $ngTable = new NgTableAdapter('Invoice', ['extraParams' => $extraParams]);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
