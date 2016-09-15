@@ -47,4 +47,12 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_student/student/consultation/id/"+$stateParams.consultationId;
             }
         })
+        .state('students/agreement/:agreementId', {
+            url: "/students/agreement/:agreementId",
+            cache         : false,
+            templateUrl: function($stateParams){
+                return basePath+"/_teacher/_student/student/agreement/id/"+$stateParams.agreementId;
+            }
+        })
 });
+

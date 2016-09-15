@@ -25,10 +25,6 @@ $header = new Header();
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
-    <!-- aboutUs style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/aboutusstyles.css"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/step.css"/>
-    <!-- steps style -->
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico"
           type="image/x-icon"/>
     <!-- jQuery -->
@@ -95,8 +91,9 @@ $header = new Header();
                             <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
                             <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
                             <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                            <li><a href="<?php echo Config::getBaseUrl().'/forum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+                            <li><a href="<?php echo Config::getBaseUrl().'/crmForum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
                             <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                            <li><a href="http://www.robotamolodi.org/" target="_blank"><?php echo 'Вакансії' ?></a></li>
                         </ul>
                     </div>
                 </div>
@@ -250,8 +247,9 @@ $header = new Header();
                         <li><a href="<?php echo Config::getBaseUrl().'/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a></li>
                         <li><a href="<?php echo Config::getBaseUrl().'/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a></li>
                         <li><a href="<?php echo Config::getBaseUrl().'/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a></li>
-                        <li><a href="<?php echo Config::getBaseUrl().'/forum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
+                        <li><a href="<?php echo Config::getBaseUrl().'/crmForum'; ?>" target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
                         <li><a href="<?php echo Config::getBaseUrl().'/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a></li>
+                        <li><a href="http://www.robotamolodi.org/" target="_blank"><?php echo 'Вакансії' ?></a></li>
                     </ul>
                 </div>
             </div>

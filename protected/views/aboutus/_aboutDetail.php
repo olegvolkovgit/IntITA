@@ -7,11 +7,11 @@
  */
 $imagesPath = StaticFilesHelper::createPath('image', 'aboutus', '');
 if (Yii::app()->user->isGuest)
-    $buttonStart = '<div class="buutt" style=""><a class="butstart" href="' . Config::getBaseUrl() . '/#form">' . Yii::t('slider', '0008') . '</a></div>';
+    $buttonStart = '<div class="buutt"><a class="butstart" href="' . Config::getBaseUrl() . '/#form">' . Yii::t('slider', '0008') . '</a></div>';
 else $buttonStart = '';
-$block1->drop1Text = '<div  class="aboutStepBlock">
-<div style=" " class="oned">
-    <span id="spone" style="" class="detailTitle1">' . Yii::t("aboutus", "0337") . '</span>
+$drop1Text = '<div  class="aboutStepBlock">
+<div class="oned">
+    <span id="spone" class="detailTitle1">' . Yii::t("aboutus", "0337") . '</span>
     <table>
     <tr>
     <td>
@@ -26,28 +26,35 @@ $block1->drop1Text = '<div  class="aboutStepBlock">
     </td>
     </tr>
     </table>
-    <div class="imgone"  style="">
+    <div class="imgone">
        <img src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas2.png') . '">
-    </div>
-  <div class="detailavt">
-    <table>
-    <tr>
-    <td>
-    <span class="detailTitle1">' . Yii::t("aboutus", "0340") . '</span>
-    <br>
-    <span class="detailTitle12">' . Yii::t("aboutus", "0341") . '</span>
-    </td>
-    </tr>
-    <tr>
+       <div class="detailavt">
+        <table>
+        <tr>
         <td>
-            <img src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas3.png') . '">
+        <span class="detailTitle1">' . Yii::t("aboutus", "0340") . '</span>
+        <br>
+        <span class="detailTitle12">' . Yii::t("aboutus", "0341") . '</span>
         </td>
-    </tr>
-    </table>
-  </div>
+        </tr>
+        <tr>
+            <td>
+                <img src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas3.png') . '">
+            </td>
+            <td>
+                <img id="cararrow" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'cararrow.png') . '">
+            </td>
+        </tr>
+        </table>
+       </div>
+    </div>
 </div>
-   <img class="ellipse" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas10.png') . '">
-<div class="twod" style=" ">
+<div class="ellipse">
+   <img src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas10.png') . '">
+   <img id="fst1" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas12.png') . '">
+</div>
+
+<div class="twod" >
     <table>
         <tr>
             <td>
@@ -60,16 +67,16 @@ $block1->drop1Text = '<div  class="aboutStepBlock">
                 <span class="detailTitle14"> ' . Yii::t("aboutus", "0345") . '</span>
             </td>
             <td>
-                <img id="imtwo" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas8.png') . '">
+            <div><img id="imtwo" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas8.png') . '"></div>
             </td>
         </tr>
     </table>
     <div>
-        <img id="imtwooo" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas9.png') . '">
+        <img id="imtwooo" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas9.png') . '">
     </div>
 </div>
-<div>
-<div style="" class="detailkop">
+
+<div class="detailkop">
     <table>
         <tr>
             <td>
@@ -82,12 +89,11 @@ $block1->drop1Text = '<div  class="aboutStepBlock">
                 <br>
                 <span class="detailTitle15">' . Yii::t("aboutus", "0350") . '</span>
                 <br>
-                <img id="pig" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas5.png') . '">
-                <img id="money" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas4.png') . '">
+                <img id="pig" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas5.png') . '">
+                <img id="money" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas4.png') . '">
             </td>
             <td>
-                <img id="kopp" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas6.png') . '">
-                <img id="koppstr" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas7.png') . '">
+              <img id="koppstr" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas7.png') . '">
             </td>
         </tr>
     </table>
@@ -96,85 +102,89 @@ $block1->drop1Text = '<div  class="aboutStepBlock">
     <table>
         <tr>
             <td>
-                <img id="fst1" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas12.png') . '">
-                <img id="fst2" style="" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas11.png') . '">
+                <img id="question" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'question.png') . '">
+                <img id="fst2" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas11.png') . '">
             </td>
             <td class="freelife">
-<span>' . Yii::t("aboutus", "0351") . '</span>
-            </td></tr></table>
+                <span>' . Yii::t("aboutus", "0351") . '</span>
+            </td>
+        </tr>
+    </table>
 </div>
+<div class="five">
+    <span class="detailTitle18">' . Yii::t("aboutus", "0352") . ' </span> <span class="detailTitle17">40 000 - 60 000 </span><span class="detailTitle19">' . Yii::t("profile", "0259") . ' </span><br class="br">
+    <span id="fimouns" class="detailTitle12">' . Yii::t("aboutus", "0353") . '</span>
 </div>
-<div class="five" style="">
-                <span class="detailTitle18">' . Yii::t("aboutus", "0352") . ' </span> <span class="detailTitle17">40 000 - 60 000 </span><span class="detailTitle19">' . Yii::t("profile", "0259") . ' </span><br>
-                <span id="fimouns" style="" class="detailTitle12">' . Yii::t("aboutus", "0353") . '</span>
-</div>
-<div class="six" style="">
+<img id="firstHum" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas13.png') . '">
+<div class="six">
     <table>
         <tr>
             <td>
-                <img src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas13.png') . '">
+                <img id="secondHum" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas13.png') . '">
             </td>
             <td>
-<span class="detailTitle1">
-      ' . Yii::t("aboutus", "0354") . '</span>
-<span class="detailTitle16">' . Yii::t("aboutus", "0355") . '</span>
+                <span class="detailTitle1">' . Yii::t("aboutus", "0354") . '</span>
+                <span class="detailTitle16">' . Yii::t("aboutus", "0355") . '</span>
             </td>
         </tr>
     </table>
 </div>
 <div class="how">
     ' . Yii::t("aboutus", "0360") . '
-    </div>
-<div class="jobfu" style="">
-    <h1>' . Yii::t("aboutus", "0356") . '</h1>
-    <table><tr><td>
-                <img src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas14.png') . '">
-            </td> <td>
-<span class="detailTitle1">   ' . Yii::t("aboutus", "0357") . '</span>
-            </td></tr></table>
-    <span class="detailTitle1">' . Yii::t("aboutus", "0358") . '</span>
-    <h1 id="mashinn" style="">' . Yii::t("aboutus", "0359") . '    </h1>
-    <ul id="theyy" style="" class="detailTitle1">
+</div>
+<div class="jobfu">
+    <h1 class="jobTitle marginLeft">' . Yii::t("aboutus", "0356") . '</h1>
+    <table class="marginLeft">
+        <tr>
+            <td>
+                <img id="rocketImg" src="' . StaticFilesHelper::createPath('image', 'aboutus', '000pronas14.png') . '">
+                <span id="rocketText" class="detailTitle1">   ' . Yii::t("aboutus", "0357") . '</span>
+            </td>
+        </tr>
+    </table>
+    <span class="detailTitle1 marginLeft">' . Yii::t("aboutus", "0358") . '</span>
+    <h1 id="mashinn" class="marginLeft">' . Yii::t("aboutus", "0359") . '    </h1>
+    <ul id="theyy" class="marginLeft" class="detailTitle1">
         ' . Yii::t("aboutus", "0361") . '
     </ul>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1"> ' . Yii::t("aboutus", "0362") . '</span>
     </div>
-    <h1 class="mashinn" style="">' . Yii::t("aboutus", "0580") . '    </h1>
-    <div class="sevenn" style="">
+    <h1 class="mashinn marginLeft" >' . Yii::t("aboutus", "0580") . '    </h1>
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0581") . '</span>
     </div>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0582") . '</span>
     </div>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0583") . '</span>
     </div>
     <br>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0584") . '</span>
     </div>
-    <h1>' . Yii::t("aboutus", "0585") . '</h1>
-    <div class="sevenn" style="">
+    <h1 class="marginLeft">' . Yii::t("aboutus", "0585") . '</h1>
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0586") . '</span>
     </div>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0587") . '</span>
     </div>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0588") . '</span>
     </div>
-    <div class="sevenn" style="">
+    <div>
     <span class="detailTitle1">' . Yii::t("aboutus", "0589") . '</span>
     </div>
 </div>
 <div>
-    <div id="beginn" style="" class="detailTitle12">
+    <div id="beginn" class="detailTitle12">
         ' . Yii::t("aboutus", "0363") . '
     </div>' . $buttonStart . '</div>
 </div>';
 
-$block1->drop2Text = '
+$drop2Text = '
 <div class="textBox">
     <div class="tabcolumn">
         <p>
@@ -251,7 +261,7 @@ $block1->drop2Text = '
 ';
 
 
-$block1->drop3Text = '
+$drop3Text = '
 <div class="faqBox">
     <table>
         <tr><td><img class="faqimg" src="' . StaticFilesHelper::createPath('image', 'aboutus', 'weigh.png') . '"></td><td><span class="blueword">' . Yii::t("aboutus", "0470") . '</span><br>' . Yii::t("aboutus", "0481") . '</td></tr>
@@ -271,17 +281,17 @@ $block1->drop3Text = '
 ?>
 
 <div id='aboutDetailMain'>
-    <div id="dropTextLayer1">
+    <div ng-show='openPage==1' id="dropTextLayer1">
         <div class="textBox">
-            <?php echo $block1->drop1Text; ?>
+            <?php echo $drop1Text; ?>
         </div>
     </div>
-    <div id="dropTextLayer2">
-        <?php echo $block1->drop2Text; ?>
+    <div ng-show='openPage==2' id="dropTextLayer2">
+        <?php echo $drop2Text; ?>
     </div>
-    <div id="dropTextLayer3">
+    <div ng-show='openPage==3' id="dropTextLayer3">
         <div class="textBox">
-            <?php echo $block1->drop3Text; ?>
+            <?php echo $drop3Text; ?>
         </div>
     </div>
 </div>

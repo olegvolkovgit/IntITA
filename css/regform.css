@@ -1,6 +1,6 @@
-.regFormBG{padding-bottom:100px;min-width:1200px;background:url('images/formfon.jpg') repeat-x;background-position:top center;margin-top:0;height:100%;padding-top:40px;}
-.regFormBox{margin:0 auto;width:1200px;text-align:center;}
-.signInForm{background:#ffffff;margin:0 auto;width:540px;min-height:420px;border-radius:10px;box-shadow:0 2px 4px rgba(24, 37, 51, .5);text-align:center;overflow:hidden;}
+.regFormBG{padding-bottom:100px;background:url('images/formfon.jpg') repeat-x;background-position:top center;margin-top:0;height:100%;padding-top:40px;}
+.regFormBox{margin:0 auto;text-align:center;}
+.signInForm{background:#ffffff;margin:0 auto;max-width:540px;width:100%;min-height:420px;border-radius:10px;box-shadow:0 2px 4px rgba(24, 37, 51, .5);text-align:center;overflow:hidden;}
 .rowemail input,.rowpass input{padding-left:8px;width:444px;height:50px;border-radius:5px;border:1px solid #d8d8d8;font-size:1em;font-weight:400;}
 .rowPass input{padding-left:8px;width:444px;height:50px;border-radius:5px;border:1px solid #d8d8d8;font-weight:400;}
 .rowChPass input{margin-bottom:28px;}
@@ -10,9 +10,9 @@
 input[type="submit"]#signInButton{width:195px;height:52px;border-radius:10px;border:none;border-top:1px solid #9fb5ce;color:#ffffff;background:#4b75a4;margin-top:25px;box-shadow:0px 2px 0px #7f7f7f;font:normal 400 28px/50px "MyriadPro2";font-size:25px;letter-spacing:1px;text-shadow:1px 1px 1px black;text-shadow:1px 2px 1px rgba(0,0,0,.5);}
 input#signInButton:hover{background:#454545;box-shadow:0px 2px 0px #7f7f7f;cursor:pointer;}
 input#signInButton::-moz-focus-inner{padding:0;border:0;}
-div.linesignInForm{margin:0 auto;width:444px;font-size:18px;border-top:1px solid #4b75a4;padding:10px 0 10px 0;color:#b0b0b0;}
+div.linesignInForm{margin:0 auto;max-width:444px;width:100%;font-size:18px;border-top:1px solid #4b75a4;padding:10px 0 10px 0;color:#b0b0b0;}
 .rowButtons{margin-bottom:25px;position:relative;}
-div.image{margin:0 auto;width:444px;}
+div.image{margin:0 auto;max-width:444px;width:100%}
 #regCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
 #regCheckbox + label{cursor:pointer;font-weight:normal;margin-bottom:0px;display: inline-block;margin-bottom: 5px;}
 #regCheckbox:not(checked){position:absolute;opacity:0;}
@@ -58,7 +58,7 @@ select.error{box-shadow:0 0 4px #c72929;}
 .signIn .image,.signUp .image{margin-bottom:20px;}
 .forminfo{margin:0 auto;width:448px;overflow:hidden;text-align:left;margin:0 0 5px 45px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
 #uLogin, #uReg{margin:0 auto;width:100%;}
-#uLogin ul,#uReg ul{margin:0 auto;width:390px;padding:0;list-style:none;}
+#uLogin ul,#uReg ul{margin:0 auto;max-width:390px;width:100%;padding:0;list-style:none;}
 #uLogin ul li,#uReg ul li{float:left;margin-left:1.5px;margin-right:1.5px;}
 #uLogin img,#uReg img{width:75px;height:75px;filter:Alpha(Opacity=40);opacity:0.4;}
 #uLogin img:hover,#uReg img:hover{filter:Alpha(Opacity=100);opacity:1.0;cursor:pointer;}

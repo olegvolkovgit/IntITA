@@ -9,7 +9,7 @@
     <table  width="100%" class="table table-striped table-bordered table-hover" cabinet-table="deletedMessages">
         <thead>
         <tr>
-            <td style="width: 5%"><input type="checkbox" name="all" onclick="checkAll();"></td>
+
             <td style="width: 25%"><em>Від кого</em></td>
             <td style="width: 55%"><em>Тема</em></td>
             <td style="width: 15%"><em>Дата</em></td>
@@ -20,9 +20,7 @@
             foreach($deletedMessages as $userMessage){
                 ?>
                 <tr class="odd gradeX"  style="cursor:pointer">
-                    <td class="center" style="width: 5%">
-                        <input type="checkbox" id="<?=$userMessage->id_message;?>">
-                    </td>
+                    
                     <td onclick="load('<?= Yii::app()->createUrl("/_teacher/messages/message", array(
                         'id' => $userMessage->id_message)) ?>', 'Видалене повідомлення')">
                         <?=$userMessage->message0->sender0->userName().", ".$userMessage->message0->sender0->email; ?>

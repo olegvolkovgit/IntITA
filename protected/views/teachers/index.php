@@ -15,7 +15,7 @@
     <div class="titleTeachers">
         <h1><?php echo Yii::t('teachers', '0058'); ?></h1>
     </div>
-    <?php $this->renderPartial('_leftTeacher', array('post' => $post));  ?>
+    <?php $this->renderPartial('_leftTeacher', array('post' => $post,'teacherletter'=>$teacherletter));  ?>
     <?php $this->renderPartial('_rightTeacher', array('post' => $post,'teacherletter'=>$teacherletter)); ?>
 </div>
 

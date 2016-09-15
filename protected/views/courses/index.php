@@ -14,14 +14,14 @@ $this->breadcrumbs = array(
 
 <div id='coursesMainBox'>
     <?php $this->renderPartial('_menuLine', array('counters'=>$counters));?>
-    <table>
-        <tr>
-            <td>
-            <?php $this->renderPartial('_coursesPart1', array('blocks' => $blocks));?>
-            <?php $this->renderPartial('_coursesPart2', array('blocks' => $blocks));?>
-            </td>
-        </tr>
-    </table>
+    <div id="coursesTable">
+        <div class="leftColumn">
+        <?php $this->renderPartial('_coursesPart1', array('blocks' => $blocks));?>
+        </div>
+        <div class="rightColumn">
+        <?php $this->renderPartial('_coursesPart2', array('blocks' => $blocks));?>
+        </div>
+    </div>
 </div>
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'spoilerBlock.js'); ?>"></script>

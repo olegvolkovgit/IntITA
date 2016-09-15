@@ -3,5 +3,5 @@
  */
 function xexx()
 {
-    document.getElementById('xex').style.display='none'
+    $('.teacherForm').hide();
 }

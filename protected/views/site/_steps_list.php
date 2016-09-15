@@ -4,7 +4,7 @@
  */
 ?>
 <div class="steps" >
-    <div class="stepHeaderCont" style="width:958px">
+    <div class="stepHeaderCont">
         <div class="stepHeader">
             <h1><?php echo $mainpage->getHeader2(); ?></h1>
             <h3><?php echo $mainpage->getSubheader2(); ?></h3>

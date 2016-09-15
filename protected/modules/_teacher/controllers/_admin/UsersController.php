@@ -12,7 +12,7 @@ class UsersController extends TeacherCabinetController
 
         $counters["admins"] = UserAdmin::model()->count("end_date IS NULL");
         $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
-        $counters["teachers"] = Teacher::model()->count('cancelled='.Teacher::ACTIVE);
+        $counters["teachers"] = Teacher::model()->count('t.cancelled='.Teacher::ACTIVE);
         $counters["students"] = UserStudent::model()->count("end_date IS NULL");
         $counters["users"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);
         $counters["tenants"] = UserTenant::model()->count("end_date IS NULL");
@@ -166,22 +166,29 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetContentManagersList()
     {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserContentManager', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
 
     public function actionGetTeacherConsultantsList()
     {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserTeacherConsultant', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
 
     public function actionGetTeachersList()
     {
+
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('Teacher', $requestParams);
         $result = $ngTable->getData();
@@ -190,24 +197,34 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAdminsList()
     {
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserAdmin', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
 
     public function actionGetAccountantsList()
     {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserAccountant', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
 
     public function actionGetTrainersList()
     {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserTrainer', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -215,7 +232,10 @@ class UsersController extends TeacherCabinetController
     public function actionGetConsultantsList()
     {
         $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
         $ngTable = new NgTableAdapter('UserConsultant', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

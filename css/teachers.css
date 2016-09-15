@@ -2,7 +2,8 @@
 .subNavBlockTeachers {
     position: relative;
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     clear: both;
 }
 div.subLinksTeachers{
@@ -15,12 +16,12 @@ div.subLinksTeachers{
 }
 div.ifYouTeachers{
     float:right;
-    width:584px;
+    width:100%;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     display:inline-block;
-    margin-bottom: 90px;
+    margin-bottom: 20px;
     padding:20px;
     padding-right:32px;
     background:#4B75A4;
@@ -29,7 +30,7 @@ div.ifYouTeachers{
 div.ifYouTeachers label{
     display: inline-block;
     text-align: right;
-    width: 100px;
+    width: 17%;
     height: 40px;
     font-size: 18px;
     line-height: 40px;
@@ -37,7 +38,7 @@ div.ifYouTeachers label{
 }
 div.ifYouTeachers input {
     float: right;
-    width: 400px;
+    width: 68%;
     height: 40px;
     border-radius: 5px;
     box-shadow: none;
@@ -45,7 +46,7 @@ div.ifYouTeachers input {
 }
 div.ifYouTeachers textarea {
     float: right;
-    width: 400px;
+    width: 68%;
     height: 160px;
     border:none;
     border-radius: 5px;
@@ -68,7 +69,7 @@ div.ifYouTeachers label.courseslabel{
 .ifYouTeachers .errorMessage{
     display: inline-block;
     color: darkred;
-    margin-left: 130px;
+    margin-left: 30%;
 }
 .ifYouTeachers div.error input, .ifYouTeachers div.error textarea{
     border: 1px solid darkred;
@@ -81,7 +82,8 @@ div.ifYouTeachers label.courseslabel{
 .teachersList
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     overflow: hidden;
 }
 /*Title*/
@@ -90,6 +92,7 @@ div.titleTeachers {
     margin-bottom: 30px;
 }
 .titleTeachers h1,h2 {
+    display: inline-block;
     font-weight: inherit;
     color: #4B75A4;
     margin: 0 0 10px 0;
@@ -98,38 +101,33 @@ div.titleTeachers {
 /*teacher Column*/
 .leftTeacher{
     float:left;
-    width:583px;
+    width:49%;
 }
 .rightTeacher{
     float:right;
-    width:584px;
+    width:49%;
 }
 /*teacher Profile Block*/
 .teacherBlock {
-    width:inherit;
     margin-bottom: 40px;
-    overflow: hidden;
 }
+.teacherTable{
+    display: table;
+    vertical-align: top;
+    border-collapse: collapse;
+    padding: 0;
+}
+.teacherTable>div{display: table-cell;vertical-align: top}
 .teacherBlock p, .teacherBlock ul{
     margin-top: 10px;
     margin-bottom: 10px;
 }
 div.avatarsize{
     width: 112px;
-    /*height: 132px;*/
     overflow: hidden;
 }
 .avatarsize img.teacherAvatar{
     width: 112px;
-    /*min-height: 136px;*/
-}
-.teacherBlock table,.teacherBlock td{
-    vertical-align: top;
-    border-collapse: collapse;
-    padding: 0;
-}
-.teacherBlock td{
-    width: 100%;
 }
 .teacherBlock span{
     font-weight: bold;
@@ -157,12 +155,12 @@ div.aboutMore{
 .aboutMore img{
     margin-left: 2px;
 }
-td.profileTeacher{
+.profileTeacher{
     text-align: center;
     padding: 0 20px 0 0;
     width: 112px;
 }
-td.profileTeacher a{
+.profileTeacher a{
     display: inline-block;
     font-size: small;
     line-height: 100%;
@@ -170,32 +168,7 @@ td.profileTeacher a{
 .teacherBlock a:hover {
     color: #666666;
 }
-#formTeacher {
-    color: white;
-    text-align: left;
-    position: relative;
-    left: 20px;
-    width: 100px;
-}
-.formTeacher1 {
-    border-radius: 5px;
-    height: 30px;
-    width: 380px;
-    text-align: left;
-    text-indent: 5px;
-    float: right;
-}
-#formTeacher2 {
-    border-radius: 5px;
-    height: 90px;
-    width: 398px;
-    text-align: left;
-    text-indent: 5px;
-    float:right;
-    resize: none;
-}
 #formTeacher3 {
-    height: 110px;
     color: #ffffff;
 }
 #send_btn {
@@ -231,4 +204,20 @@ td.profileTeacher a{
 }
 .btnChatHidden{
     visibility: hidden;
+}
+.teacherTable .teacherName{display: none}
+#minTeacherForm{display:none}
+@media only screen and (max-width: 800px) {
+    .leftTeacher,.rightTeacher{width: 98%}
+    #minTeacherForm{display:block}
+    #maxTeacherForm{display:none}
+}
+@media only screen and (max-width: 600px) {
+    .teacherTable>div {display: inline-block}
+    .teacherTable .teacherName,.teacherTable .profileTeacher{display: table-cell}
+    .teacherTable{display: inherit}
+    .adaptiveTeacherName, div.ifYouTeachers{display:none}
+    div.aboutMore{
+        float:inherit;
+    }
 }
