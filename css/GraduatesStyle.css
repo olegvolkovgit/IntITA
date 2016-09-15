@@ -111,7 +111,7 @@ span.spoilerTriangle {
     margin-bottom: 5px;
 }
 .spoiler-body img{
-    margin-left: 450px;
+    float: right;
     padding-top: 5px;
     display: block;
 }

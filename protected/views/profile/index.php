@@ -1,4 +1,6 @@
 <? $css_version = 1; ?>
+    <!-- teacherProfile style -->
+    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'teacherProfile.css'); ?>" />
 <?php
 /* @var $this ProfileController */
 /* @var $model Teacher */
@@ -31,9 +33,6 @@ if (isset($_GET['div'])){
     <!-- Spoiler -->
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'SpoilerContent.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'teacherProfile.js'); ?>"></script>
-    <!-- teacherProfile style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'teacherProfile.css'); ?>" />
-    <!-- steps style -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'loadRedactorProfile.js'); ?>"></script>
     <!-- Підключення Bootsrtap-tooltip -->

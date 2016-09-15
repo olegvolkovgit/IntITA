@@ -5,7 +5,6 @@
     font-size:16px;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 410px;
 }
 .TeacherProfiletitles img
 {
@@ -14,13 +13,20 @@
 .TeacherProfilemainBlock
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     overflow: hidden;
 }
 .TeacherProfileblock1
 {
     float:left;
-    width:583px;
+    width:48%;
+}
+.teacherTable{
+    display: table;
+}
+.teacherTable>div{
+    display: table-cell;
 }
 .TeacherProfileblock1 .redactor-editor {
     padding: 5px;
@@ -42,14 +48,13 @@ td img.icons {
 .TeacherProfileblock2
 {
     float:right;
-    width:584px;
+    width:48%;
 }
 .TeacherProfilename
 {
     color:#4B75A4;
     font-size:26px;
     margin-bottom:0px;
-    width: 410px;
 }
 
 .TeacherProfilename a
@@ -184,12 +189,6 @@ img.lessonBut  {
     color: red;
     text-align: center;
 }
-.editableText{
-    width: 410px;
-}
-.editableText img{
-    max-width: 410px;
-}
 .editableText p{
     margin: 2px 0;
 }
@@ -270,4 +269,23 @@ img.lessonBut  {
 }
 .btnChatHidden{
     visibility: hidden;
+}
+.teacherName{display: none}
+@media only screen and (max-width: 800px) {
+    .TeacherProfileblock1,.TeacherProfileblock2 {
+        float:none;
+        width:99%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .teacherTable>div {display: inline-block}
+    .teacherName,.teacherLogo{display: table-cell}
+    .teacherTable{display: inherit}
+    .teacherName
+    {
+        color:#4B75A4;
+        font-size:26px;
+        margin-bottom:0px;
+    }
+    .TeacherProfilename{display:none}
 }
