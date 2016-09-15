@@ -8,11 +8,11 @@ class NgTableAdapter {
     /**
      *  Default records per page number
      */
-    const DEFAULT_COUNT = 10;
+    const DEFAULT_COUNT = -1;
     /**
      *  Default page number
      */
-    const DEFAULT_PAGE = 1;
+    const DEFAULT_PAGE = -1;
 
     /**
      * @var CActiveRecord
@@ -66,12 +66,12 @@ class NgTableAdapter {
 
     /**
      * NgTableAdapter constructor.
-     * @param CActiveRecord $activeRecord
+     * @param CActiveRecord|string $activeRecord
      * @param array $requestParams
-     * @param array $relations
+     * @throws Exception
      */
-    public function __construct($activeRecord = null, $requestParams = null, $relations = null) {
-        $this->setActiveRecord($activeRecord, $relations);
+    public function __construct($activeRecord = null, $requestParams = null) {
+        $this->setActiveRecord($activeRecord);
         $this->setRequestParams($requestParams);
     }
 
@@ -193,7 +193,8 @@ class NgTableAdapter {
         $this->activeRecord = $ar;
         $this->relations = [];
 
-        foreach ($ar->relations() as $relationName => $relationProperties) {
+        $provider = $this->getBehavior($this->activeRecord);
+        foreach ($provider->getRelations() as $relationName => $relationProperties) {
             $this->relations[$relationName] = $relationProperties[1];
         }
     }
@@ -250,7 +251,7 @@ class NgTableAdapter {
      * @return $this
      */
     private function buildLimitQuery($offset, $limit) {
-        if ($limit) {
+        if ($limit > 0) {
             $this->getCriteriaInstance()->offset = $offset;
             $this->getCriteriaInstance()->limit = $limit;
         };
@@ -303,7 +304,7 @@ class NgTableAdapter {
     private function buildExtraParamsQuery($extraParams) {
         foreach ($extraParams as $field => $value) {
             $this->getCriteriaInstance()->mergeWith(new CDbCriteria([
-                'condition' => "$field = $value"
+                'condition' => "t.$field = $value"
             ]));
         }
     }
@@ -328,7 +329,7 @@ class NgTableAdapter {
 
     /**
      * @param $model
-     * @return null
+     * @return INgTableProvider
      */
     private function getBehavior($model) {
         $ngTableProvider = null;

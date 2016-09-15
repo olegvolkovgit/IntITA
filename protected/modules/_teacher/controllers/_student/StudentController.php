@@ -31,19 +31,62 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionGetTodayConsultationsList(){
+//      NEXT ITERATION
+//        date_default_timezone_set('Europe/Kiev');
+//        $params = $_GET;
+//        $currentDate = new DateTime();
+//        $criteria = new CDbCriteria();
+//        $criteria->with = ['user','teacher','lecture'];
+//        $criteria->addCondition('date_cancelled IS NULL');
+//        $criteria->addBetweenCondition('date_cons',date_format($currentDate, "Y-m-d"),date_format($currentDate, "Y-m-d"));
+//        $criteria->compare('t.user_id',Yii::app()->user->getId());
+//        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+//        $adapter->mergeCriteriaWith($criteria);
+//        echo json_encode($adapter->getData());
         echo Consultationscalendar::studentTodayConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetPastConsultationsList(){
-        echo Consultationscalendar::studentPastConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addCondition('date_cons < "'.date_format($currentDate, "Y-m-d").'" ');
+        $criteria->compare('t.user_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+      //  echo Consultationscalendar::studentPastConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetCancelConsultationsList(){
-        echo Consultationscalendar::studentCancelConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NOT NULL');
+        $criteria->compare('t.user_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+     // echo Consultationscalendar::studentCancelConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetPlannedConsultationsList(){
-        echo Consultationscalendar::studentPlannedConsultationsList(Yii::app()->user->getId());
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addCondition('date_cons > "'.date_format($currentDate, "Y-m-d").'" ');
+        $criteria->compare('t.user_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+        //echo Consultationscalendar::studentPlannedConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionConsultation($id){

@@ -1,7 +1,11 @@
 <table ng-table="invoiceTableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="row in $data track by row.id">
-        <td data-title="'Номер рахунку'" filter="{'number': 'text'}" sortable="'number'">{{row.number}}</td>
-        <td data-title="'Договір'" filter="{'agreement.number': 'text'}" sortable="'agreement.number'">{{row.agreement.number}}</td>
+        <td data-title="'Номер рахунку'" filter="{'number': 'text'}" sortable="'number'">
+            <a href="#/accountant/invoice/{{row.id}}">{{row.number}}</a>
+        </td>
+        <td data-title="'Договір'" filter="{'agreement.number': 'text'}" sortable="'agreement.number'">
+            <a href="#/accountant/agreement/{{row.agreement.id}}">{{row.agreement.number}}</a>
+        </td>
         <td data-title="'Дата заведення'" filter="{'date_created': 'text'}" sortable="'date_created'">{{row.date_created}}</td>
         <td data-title="'Дата сплати'" filter="{'payment_date': 'text'}" sortable="'payment_date'">{{row.payment_date}}</td>
         <td data-title="'Користувач'" filter="{'userCreated.fullName': 'text'}" sortable="'userCreated.fullName'">{{row.userCreated.fullName}}</td>

@@ -29,7 +29,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: basePath+"/_teacher/_student/student/consultations/id/"+user,
         })
-
         .state('student/finances', {
             url: "/students/finances",
             cache         : false,
@@ -37,5 +36,15 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Фінанси');
             },
             templateUrl: basePath+"/_teacher/_student/student/finances/id/"+user,
+        })
+        .state('students/viewConsultation/:consultationId', {
+            url: "/students/viewConsultation/:consultationId",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Консультація');
+            },
+            templateUrl: function($stateParams){
+                return basePath+"/_teacher/_student/student/consultation/id/"+$stateParams.consultationId;
+            }
         })
 });

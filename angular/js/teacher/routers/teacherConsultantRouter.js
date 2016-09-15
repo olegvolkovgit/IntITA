@@ -37,4 +37,18 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList/idTeacher/"+user,
         })
+        .state('teacherConsultant/task/:taskId', {
+            url: "/teacherConsultant/task/:taskId",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Відповідь на задачу');
+            },
+            templateUrl: function($stateParams){
+                return basePath+"/_teacher/_teacher_consultant/teacherConsultant/showPlainTask/idPlainTask/"+$stateParams.taskId
+            }
+
+        })
+
 });
+
+

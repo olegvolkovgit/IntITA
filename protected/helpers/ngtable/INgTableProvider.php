@@ -36,4 +36,10 @@ interface INgTableProvider {
      * @return mixed
      */
     public function getAdditionalFields();
+
+    /**
+     * Returns array of relations name to be loaded
+     * @return array
+     */
+    public function getRelations();
 }

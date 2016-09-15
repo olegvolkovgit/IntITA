@@ -29,9 +29,8 @@
                             <?= date("d.m.Y", strtotime($item["start_date"])); ?>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-outline btn-success btn-sm"
-                                    onclick='load("<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/viewStudent", array("id" => $item["id"])); ?>",
-                                        "<?= CHtml::encode($item['title']); ?>");'>
+                            <button type="button" class="btn btn-outline btn-success btn-sm" ng-click="viewStudent('<?=$item["id"]?>')"
+                                    >
                                 Курси/модулі
                             </button>
                         </td>

@@ -2,18 +2,26 @@
 
 angular
     .module('teacherApp')
-    .directive('addExternalPayment', ['externalSourcesService', 'externalPaymentsService', addExternalPayment]);
+    .directive('addExternalPayment', ['externalSourcesService', 'externalPaymentsService', 'companiesService', addExternalPayment]);
 
-function addExternalPayment(externalSources, externalPayments) {
+function addExternalPayment(externalSources, externalPayments, companies) {
 
     function link($scope, element, attrs) {
         $scope.sourcesList = [];
+        $scope.companiesList = [];
 
         externalSources
             .list()
             .$promise
             .then(function (data) {
                 $scope.sourcesList = data;
+            });
+
+        companies
+            .list()
+            .$promise
+            .then(function (data) {
+                $scope.companiesList = data.rows;
             });
 
         $scope.saveExternalPayment = function saveExternalPayment() {

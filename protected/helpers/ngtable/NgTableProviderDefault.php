@@ -34,4 +34,12 @@ class NgTableProviderDefault extends CActiveRecordBehavior implements INgTablePr
     public function getAdditionalFields() {
         return [];
     }
+
+    /**
+     * Returns array of relations name to be loaded
+     * @return array
+     */
+    public function getRelations() {
+        return $this->owner->relations();
+    }
 }

@@ -78,6 +78,7 @@ class Lecture extends CActiveRecord
             'module' => array(self::BELONGS_TO, 'Module', 'idModule'),
             'type' => array(self::BELONGS_TO, 'LectureType', 'idType'),
             'pages' => array(self::HAS_MANY, 'LecturePage', 'id_lecture', 'order' => 'pages.page_order ASC'),
+            'consultations'=>array(self::HAS_MANY,'Consultationscalendar', ['id'=>'id_lecture']),
         );
     }
 

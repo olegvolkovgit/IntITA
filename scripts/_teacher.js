@@ -1304,6 +1304,7 @@ function initTodayTeacherConsultationsTable() {
 
 function initTodayConsultationsTable() {
     $jq('#studentTodayConsultationsTable').DataTable({
+        destroy: true,
         "autoWidth": false,
         "order": [[2, "asc"], [3, "asc"]],
         "ajax": {

@@ -48,12 +48,12 @@ config(function ($stateProvider, $urlRouterProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Стан модулів');
             },
-            url: "/content_manager/statusOfModules/:idModule",
+            url: "/content_manager/statusOfModules/:courseId",
             cache         : false,
             templateUrl: function($stateParams){
-                if ($stateParams.idModule == "all")
-                    $stateParams.idModule =0;
-                    return contentManagerUrl+"/statusOfModules/id/"+$stateParams.idModule;}
+                if ($stateParams.courseId == "all")
+                    $stateParams.courseId =0;
+                    return contentManagerUrl+"/statusOfModules/id/"+$stateParams.courseId;}
         })
         .state('content_manager/statusOfCourses', {
             url: "/content_manager/statusOfCourses",
@@ -66,6 +66,10 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('/detail/module/:idModule', {
             url: '/detail/module/:idModule',
             templateUrl: function($stateParams){return basePath+"/_teacher/_content_manager/contentManager/showLessonsList?idModule="+$stateParams.idModule;},
+        })
+        .state('/detail/course/:idCourse', {
+            url: '/detail/course/:idCourse',
+            templateUrl: function($stateParams){return basePath+"/_teacher/_content_manager/contentManager/getModulesList?idCourse="+$stateParams.idCourse;},
         })
         .state('/detail/lesson/:idLesson', {
             url: '/detail/lesson/:idLesson',
