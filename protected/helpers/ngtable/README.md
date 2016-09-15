@@ -22,7 +22,7 @@ e.g. 'User' or User::model();
 An array matched with ngTable param.url() object, typical - $_GET.
 
 Current support:
-```
+```php
 [
     page => '0'
     count => '10'
@@ -67,7 +67,7 @@ Multiply conditions concat with `AND`
 #### public function getData() ####
 
 Returns associative array with models according to params.
-```
+```php
 [
     'count' => 100
     'rows' => []
@@ -96,9 +96,9 @@ Default implementation - class NgTableProviderDefault;
 This interface extends IBehavior and its implementation should implements all IBehavior methods directly or extends CActiveRecordBehavior, CModelBehavior or CBehavior
 
 Example:
-```
+```php
 class NgTableProviderDefault extends CActiveRecordBehavior implements INgTableProvider {
-    ...
+    //...
 }
 ```
 
@@ -164,10 +164,10 @@ To use specific INgTableProvider in model you should attach it as behavior to a 
 Behavior's name should be 'ngTable'.
 
 You can attach behavior in class:
-```
+```php
 class StudentReg extends CActiveRecord {
 
-    ...
+    //...
     
     public function behaviors() {
         return [
@@ -177,18 +177,18 @@ class StudentReg extends CActiveRecord {
         ];
     }
     
-    ...
+    //...
     
 }
 ```
 
 Or immediately before creating NgTableInstance:
-```
-    ...
+```php
+    //...
     $model = SomeModel::model();
     $model->attachBehavior(['class' => 'NgTableProviderSomeClass'])
     $ngTable = new NgTableAdapter($model, $requestParams);
-    ...
+    //...
 ```
 
 If 'ngTable' behavior is missed in model, the 'NgTableProviderDefault' class will be attached to the model in 'NgTableAdapter' instance.
