@@ -2,11 +2,8 @@
 
 class NgTableProviderTeacher extends NgTableProviderDefault {
     
-    private $excludeRelations = ['modulesActive'];
-    
+    private $allowedRelations = ['user'];
     public function getRelations() {
-        return array_filter($this->owner->relations(), function ($value, $key) {
-           return array_search($key, $this->excludeRelations);
-        }, ARRAY_FILTER_USE_BOTH);
+        return array_intersect_key($this->owner->relations(), array_flip($this->allowedRelations));
     }
 }
