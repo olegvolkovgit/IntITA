@@ -532,9 +532,6 @@ li.active a, li.active a:hover {
     width:100%;
     display:inline-block;
 }
-ul.box_tab-links{
-
-}
 .box_tab-links:after {
     display:block;
     clear:both;

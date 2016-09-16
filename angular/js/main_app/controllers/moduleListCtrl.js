@@ -10,7 +10,7 @@ function moduleListCtrl($http,$scope) {
     var date = new Date();
     var currentTime=Math.round(date.getTime()/1000);
     $scope.getModuleProgressForUser=function (idCourse) {
-        $('#modulesLoading').show();
+        $('.modulesLoading').show();
         var promise = $http({
             url: basePath+'/course/modulesData',
             method: "POST",
@@ -77,7 +77,7 @@ function moduleListCtrl($http,$scope) {
             $scope.modulesProgress.recommendedTime=recommendedTime;
         }
 
-        $('#modulesLoading').hide();
+        $('.modulesLoading').hide();
         if($scope.modulesProgress.isAdmin){
             bootbox.addLocale('uk', { OK: 'Добре', CANCEL: 'Ні', CONFIRM: 'Так' });
             bootbox.addLocale('ru', { OK: 'Хорошо', CANCEL: 'Нет', CONFIRM: 'Да' });
