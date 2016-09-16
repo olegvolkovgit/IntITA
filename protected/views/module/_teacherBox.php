@@ -41,7 +41,7 @@ foreach ($teachers as $teacher) {
                 <td class="teacherBoxRight">
                     <h2><?php echo Yii::t('module', '0227'); ?></h2>
 
-                    <div style="line-height: 1.2;">
+                    <div style="line-height: 1.2;word-break: break-word;">
                         <?php echo $teacher->getLastFirstName(); ?>
                         <br>
                         <?php echo $teacher->user->email; ?>
