@@ -1,7 +1,8 @@
 .formStudProf
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width:100%;
     margin-bottom: 20px;
     clear: both;
     overflow: hidden;
@@ -48,9 +49,18 @@ div.regLinks{
 table.profileInfo {
     margin: 10px 10px 80px 22px;
 }
-.row,.rowDate,.rowPhone,.rowNetwork {
-    margin-bottom: 7px;
+.row,.rowDate,.rowPhone,.rowNetwork,.rowRadioButton {
+    margin-bottom: 10px;
 }
+.radiolabel{
+    display: inline-block;
+    width: 62%;
+    height: 50px;
+}
+.row.rowAbout,.row.rowAbout>label{
+    height: inherit;
+}
+#aboutUs{vertical-align: top}
 .rowPass {
     margin-top: 28px;
     margin-bottom: 7px;
@@ -62,21 +72,31 @@ table.profileInfo {
 .studProf label
  {
      display: inline-block;
-     width: 185px;
-     height: 50px;
-     float:left;
+     width: 25%;
      text-align: right;
      margin-right: 20px;
      margin-left: 10px;
-     line-height: 50px;
      color: #828282;
-     white-space: nowrap;
  }
-.studProf input, .studProf .rowPass input
+.studProf input, .studProf .rowPass > input
 {
     padding-left: 8px;
-    width: 445px;
+    width: 62%;
     height: 50px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    font-family: "MyriadPro";
+    font-size: 16px;
+}
+.rowPass .passEye,.row .passEye
+{
+    width: 62%;
+    height: 50px;
+}
+.rowPass .passEye input,.row .passEye input
+{
+    padding-left: 8px;
+    width: 100%;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     font-family: "MyriadPro";
@@ -104,12 +124,15 @@ table.profileInfo {
     box-shadow: 0 0 3px #4b75a4;
     border-color: #4b75a4;
 }
-.studProf oi-select .select-dropdown {
-    width: 453px;
+.selectRow{height: 50px}
+.selectRow label{
+    height: 50px;
+    vertical-align: middle;
+    line-height: 100%;
 }
 .selectBox{
     display: inline-block;
-    width: 455px;
+    width: 63.1%;
 }
 .close {
     float: right;
@@ -134,15 +157,13 @@ table.profileInfo {
 .studProf oi-select {
     height: 50px;
 }
-#aboutUs{
-    margin-left: 215px;
-}
+
 .studProf textarea
 {
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     display: inline-block;
-    width: 443px;
+    width: 62%;
     height: 120px;
     padding-left: 8px;
     margin-bottom: -4px;
@@ -163,9 +184,10 @@ table.profileInfo {
     line-height: 50px;
     border:none;
 }
+#rowEducForm{margin-top:20px;margin-bottom: 0 }
 .radiolabel label, .radiolabelRole label
 {
-    width: 180px;
+    width: 25%;
     text-align: left;
     margin-bottom: 8px;
 }
@@ -298,11 +320,11 @@ table.titleProfileAv{
 #avatar:hover {
     background: #454545;
 }
-/*������ ��� �����*/
+
 .studProf input[type="submit"] {
-    margin:16px 0px 32px 435px;
+    margin:16px 0px 32px 0;
 }
-/*������ ����� �����*/
+
 .studPhoto input[type="submit"], .profileActivity input[type="submit"] {
     margin:10px 0px 0px 22px;
 }
@@ -555,9 +577,8 @@ p.courseLevLang{
 }
 /* PassEye */
 #changepassword{
-    float: right;
     clear: both;
-    margin-right: 40px;
+    display: block;
     color: #4b75a4;
 }
 #changepassword:hover{
@@ -623,4 +644,59 @@ table#emptyFieldList td{
     width: 25px;
     height: 21px;
     overflow: hidden;
+}
+.rowbuttons{text-align: right;padding-right: 6%}
+.studProf .clientValidationError{
+    margin-left: 31%;
+}
+@media only screen and (max-width: 800px) {
+   #gridProgress,#crowns,table.titleProfile{display: none}
+    .rightProfileColumn {
+        float: left;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 20px;
+        border:none;
+    }
+    .studProf {
+        float: right;
+        width: 100%;
+        border:none;
+    }
+    .studPhoto {
+        border:none;
+    }
+    .selectBox {
+        width: 63.5%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .tabsContent,.rowbuttons{text-align: center}
+    .tabsContent label{display: none}
+    .radiolabel label{display: inline-block}
+    .tabs > ul li {
+        background:#fff;
+        width: inherit;
+        padding: 2px;
+        height: 35px;
+        float: none;
+    }
+    .tabs > ul {
+        margin:0;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+    .lineUnderTab{margin: 0 auto;margin-bottom: 10px}
+    .studProf input, .studProf .rowPass > input,.studProf textarea {width: 90%;}
+    .rowPass .passEye,.row .passEye
+    {
+        width: 90%;
+    }
+    .rowPass, .rowPass+.row {
+        margin-right: 8px;
+    }
+    .selectBox {width: 93%;}
+    .studProf .clientValidationError {
+        margin-left: 0;
+    }
 }

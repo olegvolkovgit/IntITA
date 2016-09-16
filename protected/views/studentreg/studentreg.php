@@ -46,6 +46,36 @@ $this->breadcrumbs = array(
     <?php
     if (!isset($email)) $email = $_POST['StudentReg']['email'];
     ?>
+    <div class="rightProfileColumn">
+        <div class="studPhoto">
+            <table class="titleProfileAv">
+                <tr>
+                    <td>
+                        <h2><?php echo Yii::t('regexp', '0156'); ?></h2>
+                    </td>
+                </tr>
+            </table>
+            <img class='avatarimg'
+                 src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
+
+            <div class="fileform">
+                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+                <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
+            </div>
+            <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
+            <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
+            <div class="clientValidationError"
+                 ng-show="StudentReg['StudentReg[avatar]'].$error.size || StudentReg['StudentReg[avatar]'].$error.fileType">
+                <div ng-cloak
+                     ng-show="StudentReg['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
+                <div ng-cloak
+                     ng-show="StudentReg['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
+            </div>
+            <div class="avatarError">
+                <?php echo $form->error($model, 'avatar'); ?>
+            </div>
+        </div>
+    </div>
     <div class="studProf">
         <table class="titleProfile">
             <tr>
@@ -68,7 +98,7 @@ $this->breadcrumbs = array(
                 <div id="mainreg">
                     <div class="row">
                         <?php echo $form->labelEx($model, 'firstName'); ?>
-                        <?php echo $form->textField($model, 'firstName', array('ng-model'=>"firstName", 'maxlength' => 20, 'autofocus' => 'true', 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
+                        <?php echo $form->textField($model, 'firstName', array('ng-model'=>"firstName", 'maxlength' => 20, 'autofocus' => 'true', 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/', 'placeholder' => Yii::t('regexp', '0160'))); ?>
                         <span><?php echo $form->error($model, 'firstName'); ?></span>
                         <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[firstName]'].$invalid">
                             <span ng-cloak ng-show="StudentReg['StudentReg[firstName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
@@ -76,7 +106,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'secondName'); ?>
-                        <?php echo $form->textField($model, 'secondName', array('maxlength' => 20,'ng-model'=>"secondName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/')); ?>
+                        <?php echo $form->textField($model, 'secondName', array('maxlength' => 20,'ng-model'=>"secondName", 'ng-pattern'=>'/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/', 'placeholder' => Yii::t('regexp', '0162'))); ?>
                         <span><?php echo $form->error($model, 'secondName'); ?></span>
                         <div ng-cloak  class="clientValidationError" ng-show="StudentReg['StudentReg[secondName]'].$invalid">
                             <span ng-show="StudentReg['StudentReg[secondName]'].$error.pattern"><?php echo Yii::t('error','0416') ?></span>
@@ -84,7 +114,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'nickname'); ?>
-                        <?php echo $form->textField($model, 'nickname', array('maxlength' => 20)); ?>
+                        <?php echo $form->textField($model, 'nickname', array('maxlength' => 20, 'placeholder' => Yii::t('regexp', '0163'))); ?>
                         <span><?php echo $form->error($model, 'nickname'); ?></span>
                     </div>
                     <div class="rowDate">
@@ -94,9 +124,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="rowPhone">
                         <?php echo $form->labelEx($model, 'phone'); ?>
-                        <div class="user_phone">
-                            <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15)); ?>
-                        </div>
+                        <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15, 'placeholder' => Yii::t('regexp', '0165'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
                     <div class="rowRadioButton" id="rowEducForm">
@@ -109,7 +137,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'email'); ?>
-                        <?php echo $form->emailField($model, 'email', array('ng-init'=>"email='$email'",'ng-model'=>"email",'maxlength' => 40, "required"=>true, 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->emailField($model, 'email', array('ng-init'=>"email='$email'",'ng-model'=>"email",'maxlength' => 40, "required"=>true, 'onKeyUp'=>"hideServerValidationMes(this)", 'placeholder' => Yii::t('regexp', '0242'))); ?>
                         <?php echo $form->error($model, 'email'); ?>
                         <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[email]'].$dirty && StudentReg['StudentReg[email]'].$invalid">
                             <span ng-show="StudentReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
@@ -119,7 +147,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="rowPass">
                         <?php echo $form->labelEx($model, 'password'); ?>
-                        <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw1")); ?></span>
+                        <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw1", 'placeholder' => Yii::t('regexp', '0171'))); ?></span>
                         <?php echo $form->error($model, 'password'); ?>
                         <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password]'].$dirty && StudentReg['StudentReg[password]'].$invalid">
                             <span ng-show="StudentReg['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
@@ -127,7 +155,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="row">
                         <?php echo $form->labelEx($model, 'password_repeat'); ?>
-                        <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw2", 'pw-check'=>"pw1")); ?></span>
+                        <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw2", 'pw-check'=>"pw1", 'placeholder' => Yii::t('regexp', '0172'))); ?></span>
                         <?php echo $form->error($model, 'password_repeat'); ?>
                         <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password_repeat]'].$dirty && StudentReg['StudentReg[password_repeat]'].$invalid">
                             <span ng-show="StudentReg['StudentReg[password_repeat]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
@@ -138,7 +166,7 @@ $this->breadcrumbs = array(
 
 
                 <div id="addreg">
-                    <div class="row">
+                    <div class="row selectRow">
                         <?php echo $form->label($model, 'country'); ?>
                         <div class="selectBox">
                             <oi-select
@@ -155,7 +183,7 @@ $this->breadcrumbs = array(
                         <span><?php echo $form->error($model, 'country'); ?></span>
                         <?php echo $form->hiddenField($model, 'country'); ?>
                     </div>
-                    <div ng-show="selectedCountry" class="row">
+                    <div ng-show="selectedCountry" class="row selectRow">
                         <?php echo $form->label($model, 'city'); ?>
                         <div class="selectBox">
                             <oi-select
@@ -180,17 +208,17 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'address'); ?>
-                        <?php echo $form->textField($model, 'address', array('maxlength' => 100)); ?>
+                        <?php echo $form->textField($model, 'address', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0166'))); ?>
                         <span><?php echo $form->error($model, 'address'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'education'); ?>
-                        <?php echo $form->textField($model, 'education', array('maxlength' => 100)); ?>
+                        <?php echo $form->textField($model, 'education', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0167'))); ?>
                         <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
-                    <div class="row">
+                    <div class="row rowAbout">
                         <?php echo $form->label($model, 'aboutMy'); ?>
-                        <?php echo $form->textArea($model, 'aboutMy', array('maxlength' => 500)); ?>
+                        <?php echo $form->textArea($model, 'aboutMy', array('maxlength' => 500, 'placeholder' => Yii::t('regexp', '0170'))); ?>
                         <?php echo $form->error($model, 'aboutMy'); ?>
                     </div>
                     <div class="row">
@@ -199,12 +227,13 @@ $this->breadcrumbs = array(
                         <span><?php echo $form->error($model, 'interests'); ?></span>
                     </div>
                     <div class="row">
+                        <label></label>
                         <?php echo $form->textField($model, 'aboutUs', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs')); ?>
                         <span><?php echo $form->error($model, 'aboutUs'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'skype'); ?>
-                        <?php echo $form->textField($model, 'skype', array('maxlength' => 50, 'id' => 'skype')); ?>
+                        <?php echo $form->textField($model, 'skype', array('maxlength' => 50, 'id' => 'skype', 'placeholder' => 'Skype')); ?>
                         <span><?php echo $form->error($model, 'skype'); ?></span>
                     </div>
                     <div class="rowNetwork">
@@ -240,36 +269,6 @@ $this->breadcrumbs = array(
             <?php if (Yii::app()->user->hasFlash('message')):
                 echo Yii::app()->user->getFlash('message');
             endif; ?>
-        </div>
-    </div>
-    <div class="rightProfileColumn">
-        <div class="studPhoto">
-            <table class="titleProfileAv">
-                <tr>
-                    <td>
-                        <h2><?php echo Yii::t('regexp', '0156'); ?></h2>
-                    </td>
-                </tr>
-            </table>
-            <img class='avatarimg'
-                 src="<?php echo StaticFilesHelper::createPath('image', 'avatars', 'noname.png'); ?>"/>
-
-            <div class="fileform">
-                <?php echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', "id" => "chooseAvatar", 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
-                <label id="avatar" for="chooseAvatar"><?php echo Yii::t('regexp', '0157'); ?></label>
-            </div>
-            <div id="avatarHelp"><?php echo Yii::t('regexp', '0158'); ?></div>
-            <div id="avatarInfo"><?php echo Yii::t('regexp', '0159'); ?></div>
-            <div class="clientValidationError"
-                 ng-show="StudentReg['StudentReg[avatar]'].$error.size || StudentReg['StudentReg[avatar]'].$error.fileType">
-                <div ng-cloak
-                     ng-show="StudentReg['StudentReg[avatar]'].$error.size"><?php echo Yii::t('error','0302'); ?></div>
-                <div ng-cloak
-                     ng-show="StudentReg['StudentReg[avatar]'].$error.fileType"><?php echo Yii::t('error','0672'); ?></div>
-            </div>
-            <div class="avatarError">
-                <?php echo $form->error($model, 'avatar'); ?>
-            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>
