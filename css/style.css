@@ -10,6 +10,7 @@ a:hover{color:#666666;}
 h1, h2, h3, h4, html{font-family:"MyriadPro";color:#333333;font-weight:normal;}
 p{font-family:"MyriadPro";color:#666666;}
 #content{width:95%;margin:0 auto}
+#content.sliderPage{width:100%;}
 #mainheader{border-bottom:2px solid #4b75a4;width: 100%;margin:0 auto;}
 #navigation{border-collapse: collapse;display:table;max-width:1200px;width:100%;height:100px;margin:0 auto;background-color:white;box-sizing:content-box;}
 #navigation.down{height:60px;}
