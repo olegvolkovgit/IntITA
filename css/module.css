@@ -1,18 +1,15 @@
 .ModuleBlock
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     color: #666666;
     font-size:18px;
     overflow: hidden;
 }
 img.moduleImg{
-    /*padding-right: 20px;*/
-    /*border-right: 1px solid #cccccc;*/
     width: 90px;
     height: 90px;
-    /*border-radius: 50%;*/
-    /*border:1px solid #4B75A4;*/
 }
 img.time{
     padding-left: 5px;
@@ -30,7 +27,7 @@ img.time{
 }
 .leftModule{
     float:left;
-    width:740px;
+    width:59%;
 }
 .lessonModule{
     border-top: 1px solid #cccccc;
@@ -56,7 +53,7 @@ img.time{
 
 .rightModule{
     float:right;
-    width:440px;
+    width:39%;
 }
 .teacherBox table{
     border-bottom: 1px solid #cccccc;
@@ -64,8 +61,7 @@ img.time{
     margin-top: 20px;
 }
 .teacherBox td{
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 5px;
 }
 .teacherBox h2{
     margin: 0 auto;
@@ -106,8 +102,7 @@ img.mask{
 }
 .teacherBoxRight{
     border-left: 1px solid #cccccc;
-    padding-left: 15px;
-    width: 250px;
+    padding-left: 5px;
     height: 105px;
 }
 #enter_button_2 {
@@ -243,7 +238,6 @@ body .grid-view table.items td.titleColumn{
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 0;!important;
-    width:500px;
     word-wrap: break-word;
 }
 .grid-view table.items tr.odd,.grid-view table.items tr.even{
@@ -454,4 +448,28 @@ td.button-column{
 }
 .revisionIco a:hover{
     text-decoration: none;
+}
+.paymentsButtons{overflow: hidden;min-height: 40px;}
+@media only screen and (max-width: 800px) {
+    .leftModule,.rightModule{width: 100%;float: none;margin: 0 auto}
+    .teacherBox table {width: 100%}
+    .teacherBox table td:first-child{width: 30%;text-align:center}
+    .teacherBox table td:last-child{width: 70%}
+    .teacherBoxLeft div.photobg {
+        margin: 0 auto;
+    }
+    .lessonModule {
+        padding-left: 0;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .headerLeftModule div.startModule, .headerLeftModule div.startCourse{
+        display: block;
+        float: none;
+        margin-left: 110px;
+        margin-bottom: 5px;
+    }
+}
+@media only screen and (max-width: 320px) {
+
 }

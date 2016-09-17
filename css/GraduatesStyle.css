@@ -1,10 +1,10 @@
 .graduateBlock{
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
 }
 .graduates {
     position: relative;
-    width: 1200px;
     margin: 0 auto;
     border-bottom: 1px solid #d8d8d8;
 }
@@ -111,7 +111,7 @@ span.spoilerTriangle {
     margin-bottom: 5px;
 }
 .spoiler-body img{
-    margin-left: 450px;
+    float: right;
     padding-top: 5px;
     display: block;
 }
@@ -165,4 +165,14 @@ span.spoilerTriangle {
 .graduatesFilter td a.selectedFilter{
     color:#999999;
     text-decoration: none;
+}
+.GraduatesBlock table{width: 100%}
+@media only screen and (max-width: 800px) {
+    .one,.two{  width:99%;
+        float:none;
+        margin: 0 auto;
+    }
+}
+@media only screen and (max-width: 320px) {
+
 }
