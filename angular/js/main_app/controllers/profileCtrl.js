@@ -36,4 +36,29 @@ function profileCtrl($http,$scope) {
             }
         }
     });
+    
+    $scope.spoilerTitle='Розгорнути';
+    $scope.spoilerTitleMini='Розгорнути';
+    $scope.spoiler=function (el,spoiler) {
+        if ($('#'+el).css('display')=='none') {
+            if(spoiler=='mini'){
+                $scope.spoilerTitleMini='Згорнути';
+                $('#trg1').text("\u25B2");
+            } else {
+                $scope.spoilerTitle='Згорнути';
+                $('#trg2').text("\u25B2");
+            }
+        }
+        if($('#'+el).css('display')=='block'){
+            if(spoiler=='mini'){
+                $scope.spoilerTitleMini='Розгорнути';
+                $('#trg1').text("\u25BC");
+            } else {
+                $scope.spoilerTitle='Розгорнути';
+                $('#trg2').text("\u25BC");
+            }
+        }
+        $('#'+el).toggle('normal');
+        return false;
+    }
 }

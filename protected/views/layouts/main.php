@@ -5,6 +5,7 @@ $header = new Header();
 <!DOCTYPE html>
 <html id="ng-app" ng-app="mainApp" xmlns:ng="https://angularjs.org">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lte IE 8]>
     <body class="ie8">
     <![endif]-->

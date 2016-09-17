@@ -21,7 +21,8 @@ div.subLinksCourse{
 .courseBlock
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width:100%;
     border-top: 1px solid #d8d8d8;
     color: #666666;
     overflow: hidden;
@@ -64,12 +65,11 @@ span#spoilerClickOnline, span#spoilerClickOffline {
     display: none;
 }
 img.courseImg{
-    margin: 20px 30px 0 0;
+    margin: 10px 30px 0 0;
     vertical-align: top;
     width: 115px;
     height: 115px;
-    /*border-radius: 150px;*/
-    /*border: 1px solid #4B75A4;*/
+    float: left;
 }
 div.courseShortInfo{
     display: block;
@@ -83,8 +83,11 @@ div.courseShortInf table {
     vertical-align: middle;
 }
 div.courseShortInfoTable{
-    display: inline-block;
-    width: 600px;
+    vertical-align: top;
+    margin-top: 10px;
+    float: left;
+    width: 70%;
+    max-width: 500px;
 }
 .courseShortInfoTable table.courseLevelInfo{
     width: 100%;
@@ -124,7 +127,6 @@ div.courseShortInfoTable{
 .courseInfo ul {
     vertical-align: top;
     margin-right: 35px;
-    width: 270px;
     font-size: 16px;
 }
 .courseInfo p {
@@ -134,7 +136,7 @@ div.courseShortInfoTable{
 
 /*courseTeachers*/
 .courseTeachers{
-    width: 310px;
+    width: 25%;
     display: inline-block;
     vertical-align: top;
     margin-right: 55px;
@@ -230,7 +232,7 @@ p.subCourseInfo, p.courseAboutTeacher{
 
 /*modules*/
 .courseModules {
-    width: 700px;
+    width: 65%;
     display: inline-block;
     vertical-align: top;
 }
@@ -276,7 +278,6 @@ padding-left: 0px;
 .markCourse{
     display: inline-block;
     position: relative;
-    width: 200px;
     vertical-align: middle;
     line-height: 40px;
     float: left;
@@ -317,7 +318,7 @@ padding-left: 0px;
     vertical-align: middle;
     height: 40px;
     margin-top: 10px;
-    width: 450px;
+    margin-bottom: 40px;
 }
 .italic{
     font-style: italic;
@@ -453,15 +454,11 @@ input.paymentPlan_value{
     cursor: pointer;
 }
 .paymentsListEven{
-    width: 450px;
     height: 75px;
     background: #ececec;
-    white-space: nowrap;
 }
 .paymentsListOdd{
-    width: 450px;
     height: 75px;
-    white-space: nowrap;
 }
 #firstRadioOnline, #firstRadioOffline{
     display: none;
@@ -486,6 +483,7 @@ input.paymentPlan_value{
     font-size: 14px;
     letter-spacing: 1px;
     line-height: 32px;
+    text-decoration: none;
 }
 #paymentButton:hover {
     background: #454545;
@@ -557,7 +555,7 @@ input.paymentPlan_value{
 #modulesList .inlineModuleStyle .moduleProgress {
     color: #666666;
 }
-#modulesLoading{
+.modulesLoading{
     display: none;
 }
 .finishedCourse{
@@ -580,4 +578,34 @@ input.paymentPlan_value{
 }
 .revisionIco a:hover{
     text-decoration: none;
+}
+#courseTabs,.hideBlock{display: none}
+.hideBlockLink{display:inline-block}
+.courseShortInfoTable,.courseImg{display: table-cell}
+@media only screen and (max-width: 800px) {
+    #modules,.hideBlockLink,.courseModules>h2{display:none}
+    .courseModules{margin-top: 10px}
+    #courseTabs{display:block}
+    .courseTeachers,.courseModules {
+        width: 100%;
+        margin-right:0;
+    }
+    .hideBlock{display:block}
+    img.courseImg {
+        margin: 5px 10px 0 0;
+    }
+    div.courseShortInfoTable {
+        width:inherit;
+    }
+    .courseLevelInfo{white-space: nowrap}
+    .courseDetail span {
+         white-space: inherit;
+    }
+    .paymentsListEven,.paymentsListOdd{
+        height:inherit;
+    }
+    .courseShortInfoTable{display:inline-block}
+}
+@media only screen and (max-width: 320px) {
+
 }

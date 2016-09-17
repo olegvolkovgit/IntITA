@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:og="https://ogp.me/ns#">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lte IE 8]>
     <body class="ie8">
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>

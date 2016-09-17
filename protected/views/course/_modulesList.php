@@ -18,7 +18,7 @@
         </div>
     <?php }?>
     <h2><?php echo Yii::t('course', '0330'); ?></h2>
-    <img style="display:inline-block" id="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
+    <img style="display:inline-block" class="modulesLoading" src="<?php echo StaticFilesHelper::createPath('image', 'common', 'loading.gif'); ?>"/>
     <div ng-cloak id="modulesList">
         <div ng-repeat="module in modulesProgress.modules track by $index">
             <div class="modulesTitle"

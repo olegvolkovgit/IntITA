@@ -212,12 +212,13 @@ div.aboutMore{
     #minTeacherForm{display:block}
     #maxTeacherForm{display:none}
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 320px) {
     .teacherTable>div {display: inline-block}
     .teacherTable .teacherName,.teacherTable .profileTeacher{display: table-cell}
     .teacherTable{display: inherit}
     .adaptiveTeacherName, div.ifYouTeachers{display:none}
     div.aboutMore{
         float:inherit;
+        border-bottom: 1px solid #d8d8d8;
     }
 }

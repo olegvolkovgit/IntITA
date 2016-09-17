@@ -1,7 +1,8 @@
 .formStudProf
 {
     margin: 0 auto;
-    width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     margin-bottom: 20px;
     clear: both;
     overflow: hidden;
@@ -47,12 +48,12 @@ div.regLinks{
 .profileActivity{
     display:inline-block;
     float: right;
-    width: 710px;
+    width: 60%;
 }
 .studProfInf{
     display:inline-block;
     float:left;
-    width: 457px;
+    width: 38%;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
 }
@@ -85,19 +86,17 @@ table.titleProfile td:last-child{
 
 .studProfInf img.avatarimg{
     width:220px;
-    margin-left: 24px;
+    margin-left: 5%;
     display: block;
 }
 table.profileInfo {
-    margin: 10px 10px 100px 24px;
+    margin: 10px 10px 100px 5%;
 }
 table.profileInfo div {
     word-wrap: break-word;
-    width: 420px;
 }
 table.profileInfo div span.interestBG{
     word-wrap: break-word;
-    max-width: 420px;
 }
 .profileInfo span{
     display: block;
@@ -139,6 +138,7 @@ span.interestBG{
     float:left;
     padding:0;
     border-radius: 5px 5px 0 0;
+    background:#fff;
 }
 .tabs > ul li.active{
     color:#cccccc;
@@ -532,9 +532,6 @@ li.active a, li.active a:hover {
     width:100%;
     display:inline-block;
 }
-ul.box_tab-links{
-
-}
 .box_tab-links:after {
     display:block;
     clear:both;
@@ -842,7 +839,109 @@ div.stars{
     padding-bottom: 10px;
     font-weight: 600;
 }
+.spoiler,.spoilerMini,.userNameMini{display: none}
 body .grid-view table.items td{
     font-size: 16px;
     background-color: white;
+}
+@media only screen and (max-width: 800px) {
+    table.titleProfile {
+        margin-top: 0;
+    }
+    .spoiler{display: inline-block}
+    .spoiler {
+        display: inline-block;
+        color: #4b75a4;
+        cursor: pointer;
+    }
+    .spoiler:hover {
+        color: #666666;
+    }
+    #trg1,#trg2{
+        font-size: 8px;
+        display: inline-block;
+    }
+    #spoilerContent{display: none}
+    .studProfInf, .profileActivity{
+        display: block;
+        float: none;
+        width: 100%;
+    }
+    .studProfInf{border:none}
+    .studProfInf img.avatarimg, .profileInfo{display: inline-block;vertical-align: top}
+    table.profileInfo {
+        margin-top:0;
+        margin-bottom:0;
+        width: 60%;
+    }
+    .studProfInf{
+        margin-bottom: 20px;
+    }
+    .studProfInf img.avatarimg {
+        width: 25%;
+    }
+    .tabs > ul li{
+        width: inherit;
+        padding: 4px;
+    }
+}
+@media only screen and (max-width: 320px) {
+    .studProfInf img.avatarimg {
+        width: 65px;
+        display: inline-block;
+    }
+    .editLink{display:none}
+    .formStudProf div.studProfInf table,.formStudProf div.studProfInf img{margin-left:0}
+    .userNameMini{display: inline-block;}
+    .userNameMini h1{font-size: 20px}
+    .userName,.spoiler{display: none}
+    #spoilerContent{display: block}
+    #spoilerContentMini{display: none}
+    .spoilerMini {
+        display: block;
+        color: #4b75a4;
+        cursor: pointer;
+    }
+    .spoilerMini:hover {
+        color: #666666;
+    }
+    .profileInfo{display:table;}
+    .studProfInf{border-bottom: 1px solid #d8d8d8;border-radius: inherit}
+    .lineUnderTab{display: none}
+    .tabs > ul{
+        margin:0;
+        padding:0;
+    }
+    .tabs > ul:after{
+        content:"";
+        display:block;
+        clear:both;
+        height:5px;
+    }
+    .tabs > ul li{
+        white-space: nowrap;
+        height: 35px;
+        border-bottom:1px solid #d8d8d8;
+        border-radius:inherit;
+    }
+    .tabs > ul li.active{
+        color:#cccccc;
+        -webkit-transform:none;
+        -moz-transform:none;
+        -o-transform:none;
+        -ms-transform:none;
+        transform:none;
+    }
+    .profileActivity .tabsContent > div {
+        border:none;
+        border-radius: inherit;
+        margin-top: 0;
+    }
+}
+@media only screen and (min-width: 320px) {
+    #spoilerContentMini{display: block!important;}
+}
+@media only screen and (min-width: 801px) {
+    #spoilerContent{display: block!important;}
+    #spoilerContentMini{display: block!important;}
 }

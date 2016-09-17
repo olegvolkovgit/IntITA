@@ -10,18 +10,18 @@ if ($editMode){
 <?php }?>
 
 <div class="TeacherProfileblock1">
-    <table>
-        <tr>
-            <td valign="top">
+    <div class="teacherTable">
+        <div>
+            <div class="teacherLogo">
                 <img id="teacherImg" src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $model->avatar());?>"/>
                 <br>
                 <div align="center" style="width:85%">
                     <a class="btnChat" href="<?php
-                       if (!Yii::app()->user->isGuest){
-                           echo Config::getBaseUrl(); echo Config::getChatPath(); echo $model->user_id; echo '" target="_blank';
-                       } else {
-                           echo '" onclick="openSignIn();';
-                       }
+                    if (!Yii::app()->user->isGuest){
+                        echo Config::getBaseUrl(); echo Config::getChatPath(); echo $model->user_id; echo '" target="_blank';
+                    } else {
+                        echo '" onclick="openSignIn();';
+                    }
                     ?>" data-toggle="tooltip" data-placement="left" title="<?=Yii::t('teacher', '0794');?>"><img src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'chat.png');?>"></a>
                     <a class="btnChat" href="<?php
                     if (!Yii::app()->user->isGuest) {
@@ -33,48 +33,51 @@ if ($editMode){
                         echo '"onclick="openSignIn();';
                     }?>" data-toggle="tooltip" data-placement="top" title="<?= Yii::t('teacher', '0795'); ?>"><img
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
+                </div>
             </div>
-            </td>
-            <td>
-                <div class="TeacherProfilename">
-                    <?php echo $model->firstName()." ".$model->lastName();?>
-                </div>
-                <div class="TeacherProfiletitles">
-                    <?php echo Yii::t('teacher', '0065') ?>
-                </div>
-                <div class="editableText" id="t1" onclick="function(){order = 't1'; block='t1';}">
-                    <p>
-                    <?php if($model->profile_text_first != '') {
-                        echo $model->profile_text_first;
+            <div class="teacherName">
+                <?php echo $model->firstName()." ".$model->lastName();?>
+            </div>
+        </div>
+        <div>
+            <div class="TeacherProfilename">
+                <?php echo $model->firstName()." ".$model->lastName();?>
+            </div>
+            <div class="TeacherProfiletitles">
+                <?php echo Yii::t('teacher', '0065') ?>
+            </div>
+            <div class="editableText" id="t1" onclick="function(){order = 't1'; block='t1';}">
+                <p>
+                <?php if($model->profile_text_first != '') {
+                    echo $model->profile_text_first;
+                } else {
+                    if ($editMode){
+                        echo "Натисніть для редагування профілю.";
+                    }
+                }?>
+                </p>
+            </div>
+            <?php $this->renderPartial('_courses', array('model' => $model));?>
+
+            <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}">
+                <p>
+                    <?php if($model->profile_text_last != '') {
+                        echo $model->profile_text_last;
                     } else {
                         if ($editMode){
                             echo "Натисніть для редагування профілю.";
                         }
                     }?>
-                    </p>
+                </p>
+            </div>
+            <br>
+            <?php if(Yii::app()->user->hasFlash('success')):?>
+                <div class="info">
+                    <?php echo Yii::app()->user->getFlash('success'); ?>
                 </div>
-                <?php $this->renderPartial('_courses', array('model' => $model));?>
-
-                <div  class="editableText" id="t2" onclick="function(){order = 't2'; block='t2';}">
-                    <p>
-                        <?php if($model->profile_text_last != '') {
-                            echo $model->profile_text_last;
-                        } else {
-                            if ($editMode){
-                                echo "Натисніть для редагування профілю.";
-                            }
-                        }?>
-                    </p>
-                </div>
-                <br>
-                <?php if(Yii::app()->user->hasFlash('success')):?>
-                    <div class="info">
-                        <?php echo Yii::app()->user->getFlash('success'); ?>
-                    </div>
-                <?php endif; ?>
-            </td>
-        </tr>
-    </table>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
 
 <?php
