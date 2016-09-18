@@ -41,12 +41,23 @@ class MessageReceiver extends CActiveRecord
 	 */
 	public function relations()
 	{
+
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+				'receiver' => array(self::BELONGS_TO, 'StudentReg', 'id_receiver'),
+				'message' => array(self::BELONGS_TO, 'Messages', 'id_message'),
+				'sender' => array(self::BELONGS_TO, 'StudentReg', array('sender'=>'id'), 'through' => 'message'),
+				'userMessages' => array(self::BELONGS_TO, 'UserMessages', 'id_message'),
+				'paymentMessage'=>array(self::BELONGS_TO, 'MessagesPayment', 'id_message'),
+				'approveRevisionMessages'=>array(self::BELONGS_TO, 'MessagesApproveRevision', 'id_message'),
+				'rejectRevisionMessages'=>array(self::BELONGS_TO, 'MessagesRejectRevision', 'id_message'),
+				'notificationMessages'=>array(self::BELONGS_TO, 'MessagesNotifications', 'id_message'),
+				'rejectModuleRevisionMessages'=>array(self::BELONGS_TO, 'MessagesRejectModuleRevision', 'id_message'),
+				'payCourse' => array(self::BELONGS_TO, 'CourseService', array('service_id'=>'service_id'), 'through' => 'paymentMessage'),
+				'payModule' => array(self::BELONGS_TO, 'ModuleService', array('service_id'=>'service_id'), 'through' => 'paymentMessage'),
 		);
 	}
-
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

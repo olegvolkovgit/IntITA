@@ -6,23 +6,57 @@ class MessagesController extends TeacherCabinetController
         return !Yii::app()->user->isGuest;
     }
 
+    public function actionGetUserSentMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->compare('sender.id',Yii::app()->user->getId(),'AND',false);
+        $criteria->addCondition('message.type =1 AND deleted IS NULL');
+        $criteria->with = ['message','sender','userMessages','paymentMessage','approveRevisionMessages','rejectRevisionMessages','notificationMessages','rejectModuleRevisionMessages','payCourse','payModule'];
+        $adapter = new NgTableAdapter('MessageReceiver',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo  json_encode($adapter->getData());
+    }
+
+    public function actionGetUserReceiverMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->compare('id_receiver',Yii::app()->user->getId(),'AND',false);
+        $criteria->addInCondition('message.type',[1,2,6,7,9,12],'AND');
+        $criteria->addCondition('deleted IS NULL');
+        $criteria->with = ['message','sender','userMessages','paymentMessage','approveRevisionMessages','rejectRevisionMessages','notificationMessages','rejectModuleRevisionMessages','payCourse','payModule'];
+        $adapter = new NgTableAdapter('MessageReceiver',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo  json_encode($adapter->getData());
+    }
+
+    public function actionGetUserDeletedMessages(){
+        $criteria = new CDbCriteria();
+        $criteria->compare('id_receiver',Yii::app()->user->getId(),'AND',false);
+        $criteria->addInCondition('message.type',[1,2,6,7,9,12],'AND');
+        $criteria->addCondition('deleted IS NOT NULL');
+        $criteria->with = ['message','sender','userMessages','paymentMessage','approveRevisionMessages','rejectRevisionMessages','notificationMessages','rejectModuleRevisionMessages','payCourse','payModule'];
+        $adapter = new NgTableAdapter('MessageReceiver',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo  json_encode($adapter->getData());
+    }
+
     public function actionIndex()
     {
-        $id = Yii::app()->user->getId();
-        $model = StudentReg::model()->findByPk($id);
-        $message = new UserMessages();
+//        $id = Yii::app()->user->getId();
+//        $model = StudentReg::model()->findByPk($id);
+//        $message = new UserMessages();
+//        $sentMessages = $model->sentMessages();
+//        $receivedMessages = $model->receivedMessages();
+//        $deletedMessages = $model->deletedMessages();
+//
+//        $this->renderPartial('index', array(
+//            'model' => $model,
+//            'message' => $message,
+//            'sentMessages' => $sentMessages,
+//            'receivedMessages' => $receivedMessages,
+//            'deletedMessages' => $deletedMessages,
+//        ));
 
-        $sentMessages = $model->sentMessages();
-        $receivedMessages = $model->receivedMessages();
-        $deletedMessages = $model->deletedMessages();
+       $this->renderPartial('indexNg');
 
-        $this->renderPartial('index', array(
-            'model' => $model,
-            'message' => $message,
-            'sentMessages' => $sentMessages,
-            'receivedMessages' => $receivedMessages,
-            'deletedMessages' => $deletedMessages,
-        ));
     }
 
     public function actionWrite($id, $receiver = 0)
