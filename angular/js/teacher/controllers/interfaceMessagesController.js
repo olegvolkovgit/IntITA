@@ -10,7 +10,7 @@ function interfaceMessagesCtrl ($scope, $http, interfaceMessages, NgTableParams,
     $scope.changePageHeader('Інтерфейсні повідомлення');
     $scope.cols = [
         { title: "ID", headerTitle: "ID", show: true },
-        { title: "language", headerTitle: "Мова", show: true },
+        { title: "language", headerTitle: "Мова", filter: { language: "text" }, show: true },
         { title: "category", headerTitle: "Категорія", show: true },
         { title: "translation", headerTitle: "Переклад", show: true },
         { title: "comment", headerTitle: "Коментар", show: true },
@@ -18,10 +18,7 @@ function interfaceMessagesCtrl ($scope, $http, interfaceMessages, NgTableParams,
 
     $scope.tableParams = new NgTableParams({}, {
         getData: function(params) {
-            return interfaceMessages.list({
-                    page: params.page(),
-                    pageCount: params.count()
-                })
+            return interfaceMessages.list(params.url())
                 .$promise
                 .then(function (data) {
                     params.total(data.count); // recal. page nav controls
