@@ -212,7 +212,9 @@ class ModuleController extends TeacherCabinetController
 
     public function actionGetModulesList()
     {
-        echo Module::modulesList();
+
+        $adapter = new NgTableAdapter('Module',$_GET);
+        echo json_encode($adapter->getData());
     }
 
     public function actionTeachersByQuery($query)

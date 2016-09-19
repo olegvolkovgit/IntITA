@@ -7,27 +7,33 @@ angular
     .controller('createModuleCtrl',createModuleCtrl)
     .controller('updateModuleCtrl',updateModuleCtrl);
 
-function modulemanageCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder, $rootScope){
+function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
     $scope.selectedTeacher=null;
 
-    $http.get(basePath+'/_teacher/_admin/module/getModulesList').then(function (data) {
-        $scope.modulesList = data.data["data"];
+    var dataFromServer = $resource(basePath+'/_teacher/_admin/module/getModulesList');
+    $scope.modulesTable = new NgTableParams({
+        sorting:{'module_ID':"asc"}}, {
+        getData: function(params) {
+            return dataFromServer.get(params.url()).$promise.then(function(data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
     });
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json');
-
-    $scope.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0).withOption('width', '8%'),
-        DTColumnDefBuilder.newColumnDef(1).withOption('width', '15%'),
-        DTColumnDefBuilder.newColumnDef(2).withOption('width', '8%'),
-        DTColumnDefBuilder.newColumnDef(4).withOption('width', '10%'),
-        DTColumnDefBuilder.newColumnDef(5).withOption('width', '17%'),
-        DTColumnDefBuilder.newColumnDef(6).withOption('width', '10%'),
-        DTColumnDefBuilder.newColumnDef(7).withOption('width', '10%'),
-    ];
-
+    $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
+    $scope.cancelled = [{id:'0', title:'доступний'},{id:'1', title:'видалений'}];
+    $scope.levels = $resource(basePath+'/_teacher/_admin/level/getlevelslist').get()
+                   .$promise.then(function(data){
+                    var levels = [];
+                    data.rows.forEach(function(element){
+                        levels.push({
+                            'id': element.id,
+                            'title': element.title_ua
+                       })
+                    });
+                    return levels;
+        });
     $scope.addTeacher = function(moduleId, role, userId){
         $http({
             method: "POST",
