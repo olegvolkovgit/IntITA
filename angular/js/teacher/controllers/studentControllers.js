@@ -3,13 +3,7 @@
  */
 angular
     .module('teacherApp').
-    controller('studentCtrl', studentCtrl).filter('cmdate', [
-    '$filter', function($filter) {
-        return function(input, format) {
-            return $filter('date')(new Date(input), format);
-        };
-    }
-])
+    controller('studentCtrl', studentCtrl)
     .controller('studentFinancesCtrl', function ($scope) {
         initPayCoursesList();
         initPayModulesTable();

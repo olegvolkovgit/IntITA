@@ -13,4 +13,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return   basePath+'/_teacher/messages/dialog/?user1='+$stateParams.user1+'&user2='+$stateParams.user2
             },
         })
+        .state('deletedmessage/:idMessage', {
+            url: "/deletedmessage/:idMessage",
+            cache         : false,
+            controller:function($scope){
+                $scope.changePageHeader('Видалене повідомлення')
+            },
+            templateUrl: function($stateParams){
+                return   basePath+'/_teacher/messages/message/?id='+$stateParams.idMessage
+            }
+        })
 });

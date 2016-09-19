@@ -2,127 +2,155 @@
 
 angular
     .module('teacherApp')
-    .controller('teacherCtrl',teacherCtrl);
+    .controller('teacherCtrl', teacherCtrl);
 
 angular
     .module('teacherApp')
-    .controller('messagesCtrl',messagesCtrl);
+    .controller('messagesCtrl', messagesCtrl);
 
 angular
     .module('teacherApp')
-    .controller('addressCtrl',addressCtrl);
+    .controller('addressCtrl', addressCtrl);
 
 angular
     .module('teacherApp')
-    .controller('studentCtrl',studentCtrl);
+    .controller('studentCtrl', studentCtrl);
 
 angular
     .module('teacherApp')
-    .controller('contentManagerCtrl',contentManagerCtrl);
+    .controller('contentManagerCtrl', contentManagerCtrl);
 
 angular
     .module('teacherApp')
-    .controller('teachersCtrl',teachersCtrl);
+    .controller('teachersCtrl', teachersCtrl);
 
 
 angular
     .module('teacherApp')
-    .controller('moduleAddTeacherCtrl',moduleAddTeacherCtrl);
+    .controller('moduleAddTeacherCtrl', moduleAddTeacherCtrl);
 angular
     .module('teacherApp')
-    .controller('editTeacherRoleCtrl',editTeacherRoleCtrl);
+    .controller('editTeacherRoleCtrl', editTeacherRoleCtrl);
 angular
     .module('teacherApp')
-    .controller('addRoleCtrl',addRoleCtrl);
+    .controller('addRoleCtrl', addRoleCtrl);
 
-function teacherCtrl($http, $scope,$compile, $ngBootbox, $location, $state) {
+function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state) {
 
-    $scope.changePageHeader = function(headerText){
+    $scope.changePageHeader = function (headerText) {
         angular.element(document.querySelector("#pageTitle")).text(headerText);
 
     };
 
-    $scope.fillContainer = function(data)
-    {
+    $scope.fillContainer = function (data) {
         container = angular.element(document.querySelector("#pageContainer"));
         container.html('');
         $compile(container.html(data))($scope);
     };
 
-    $scope.ediConsult = function(url)
-    {
+    $scope.ediConsult = function (url) {
         var elemId = document.getElementsByName('id');
         var id = elemId[0].value;
         var consult = document.getElementById('consult').value;
 
         $http({
             method: "POST",
-            url:  url,
-            data: $jq.param({id:id, consult:consult}),
+            url: url,
+            data: $jq.param({id: id, consult: consult}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
-        }).then(function(data){
+        }).then(function (data) {
             $scope.fillContainer(data.data);
             $state.go($state.current, {}, {reload: true});
         });
     }
 
-    $scope.ngLoad = function(url)
-    {
+    $scope.ngLoad = function (url) {
         $http({
             method: "POST",
-            url:  url,
+            url: url,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
-        }).then(function(data){
+        }).then(function (data) {
             $scope.fillContainer(data.data);
 
         });
     }
 
-    $scope.ngLoadDashboard = function(url)
-    {
+    $scope.ngLoadDashboard = function (url) {
         $http({
             method: "POST",
-            url:  url,
+            url: url,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
-        }).then(function(data){
+        }).then(function (data) {
             console.log(url);
             $scope.fillContainer(data.data);
         });
     }
 
-    $scope.loadTeacherPage = function(url,page)
-    {
+    $scope.loadTeacherPage = function (url, page) {
         $http({
             method: "POST",
-            url:  url,
-            data: $jq.param({page:page}),
+            url: url,
+            data: $jq.param({page: page}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
-        }).then(function(data){
+        }).then(function (data) {
             $scope.fillContainer(data.data);
         });
     }
-    $scope.changeView = function(view){
+    $scope.changeView = function (view) {
         $location.path(view);
 
     };
 
 
-
 }
 
-function messagesCtrl ($http, $scope, $state, $compile){
-    $scope.sendMessage=function(url){
+function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource) {
+
+
+    $scope.receivedMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"}
+    }, {
+        getData: function (params) {
+            return $resource(basePath + '/_teacher/messages/getUserReceiverMessages').get(params.url()).$promise.then(function (data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
+    });
+
+    $scope.sentMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"}
+    }, {
+        getData: function (params) {
+            return $resource(basePath + '/_teacher/messages/getUserSentMessages').get(params.url()).$promise.then(function (data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
+    });
+    $scope.deletedMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"}
+    }, {
+        getData: function (params) {
+            return $resource(basePath + '/_teacher/messages/getUserDeletedMessages').get(params.url()).$promise.then(function (data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
+    });
+
+    $scope.sendMessage = function (url) {
         receiver = $jq("#receiverId").val();
         if (receiver == "0") {
             bootbox.alert('Виберіть отримувача повідомлення.');
         } else {
             $http({
                 method: "POST",
-                url:  url,
+                url: url,
                 data: $jq.param({
                     receiver: receiver,
                     subject: $jq("input[name=subject]").val(),
@@ -133,12 +161,12 @@ function messagesCtrl ($http, $scope, $state, $compile){
                 cache: false
             }).then(function successCallback(response) {
                 if (response.data == "success") {
-                    bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", function () {
                         $state.go("messages", {}, {reload: true})
                     });
                 } else {
                     bootbox.alert("Повідомлення не вдалося відправити. Спробуйте надіслати пізніше або " +
-                        "напишіть на адресу " + adminEmail, function() {
+                        "напишіть на адресу " + adminEmail, function () {
                         $state.go("messages", {}, {reload: true})
                     });
                 }
@@ -147,16 +175,18 @@ function messagesCtrl ($http, $scope, $state, $compile){
             });
         }
     };
-    $scope.deleteMessage=function(idMessage,url, receiver){
-        bootbox.confirm('Ти дійсно хочеш видалити повідомлення?', function(result) {
-            if(result)
+    $scope.deleteMessage = function (idMessage, url, receiver) {
+        bootbox.confirm('Ти дійсно хочеш видалити повідомлення?', function (result) {
+            if (result)
                 $http({
                     method: "POST",
-                    url:  url,
-                    data: $jq.param({data:JSON.stringify({
-                        message: idMessage,
-                        receiver: receiver
-                    })}),
+                    url: url,
+                    data: $jq.param({
+                        data: JSON.stringify({
+                            message: idMessage,
+                            receiver: receiver
+                        })
+                    }),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                     cache: false
                 }).then(function successCallback() {
@@ -166,12 +196,12 @@ function messagesCtrl ($http, $scope, $state, $compile){
                 });
         });
     };
-    
-    $scope.loadMessagesIndex=function(){
+
+    $scope.loadMessagesIndex = function () {
         $state.go("messages", {}, {reload: true});
     };
 
-    $scope.reply=function(url){
+    $scope.reply = function (url) {
         var data = {
             receiver: $jq("input[name=receiver]").val(),
             parent: $jq("input[name=parent]").val(),
@@ -180,13 +210,13 @@ function messagesCtrl ($http, $scope, $state, $compile){
         };
         $http({
             method: "POST",
-            url:  url,
+            url: url,
             data: $jq.param(data),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         }).then(function successCallback(response) {
             if (response.data == "success") {
-                bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                bootbox.alert("Ваше повідомлення успішно відправлено.", function () {
                     $state.go($state.current, {}, {reload: true});
                 });
             } else {
@@ -198,14 +228,14 @@ function messagesCtrl ($http, $scope, $state, $compile){
         });
     };
 
-    $scope.forward=function(url){
+    $scope.forward = function (url) {
         forwardTo = $jq("input[name=forwardToId]").val();
         if (forwardTo == "0") {
             bootbox.alert('Виберіть отримувача повідомлення.');
         } else {
             $http({
                 method: "POST",
-                url:  url,
+                url: url,
                 data: $jq.param({
                     subject: $jq("input[name=subject]").val(),
                     parent: $jq("input[name=parent]").val(),
@@ -216,7 +246,7 @@ function messagesCtrl ($http, $scope, $state, $compile){
                 cache: false
             }).then(function successCallback(response) {
                 if (response.data == "success") {
-                    bootbox.alert("Ваше повідомлення успішно відправлено.", function() {
+                    bootbox.alert("Ваше повідомлення успішно відправлено.", function () {
                         $state.go($state.current, {}, {reload: true});
                     });
                 } else {
@@ -228,8 +258,8 @@ function messagesCtrl ($http, $scope, $state, $compile){
             });
         }
     };
-    
-    $scope.loadForm=function(url, receiver, scenario, message, subject){
+
+    $scope.loadForm = function (url, receiver, scenario, message, subject) {
         idBlock = "#collapse" + message;
         $jq(idBlock).show();
         id = "#form" + message;
@@ -242,7 +272,7 @@ function messagesCtrl ($http, $scope, $state, $compile){
         };
         $http({
             method: "POST",
-            url:  url,
+            url: url,
             data: $jq.param({form: JSON.stringify(command)}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
@@ -254,19 +284,19 @@ function messagesCtrl ($http, $scope, $state, $compile){
         });
     };
 
-    $scope.collapse=function (el) {
+    $scope.collapse = function (el) {
         $jq(el).toggle("medium");
     }
 }
 
-function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
+function addressCtrl($scope, $http, DTOptionsBuilder, $state) {
     $http.get(basePath + "/_teacher/_admin/address/getCitiesList").then(function (data) {
         $scope.citiesList = data.data["data"];
     });
     $scope.dtOptionsCity = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
-        .withOption('order', [[ 0, "asc" ]]);
+        .withOption('order', [[0, "asc"]]);
 
     $http.get(basePath + "/_teacher/_admin/address/getCountriesList").then(function (data) {
         $scope.countriesList = data.data["data"];
@@ -274,9 +304,9 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
     $scope.dtOptionsCountry = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
-        .withOption('order', [[ 0, "asc" ]]);
+        .withOption('order', [[0, "asc"]]);
 
-    $scope.editCity= function(url){
+    $scope.editCity = function (url) {
         country = $jq('#country').val();
         if (country == 0) {
             bootbox.alert('Виберіть країну.');
@@ -288,9 +318,9 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
 
             $http({
                 method: "POST",
-                url:  url,
+                url: url,
                 data: $jq.param({
-                    id:id,
+                    id: id,
                     country: country,
                     titleUa: titleUa,
                     titleRu: titleRu,
@@ -299,7 +329,7 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
             }).then(function successCallback(response) {
-                bootbox.alert(response.data, function (){
+                bootbox.alert(response.data, function () {
                     $state.go("admin/address", {}, {reload: true});
                 });
             }, function errorCallback() {
@@ -307,8 +337,8 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
             });
         }
     };
-    
-    $scope.addCity= function(url){
+
+    $scope.addCity = function (url) {
         country = $jq('#country').val();
         if (country == 0) {
             bootbox.alert('Виберіть країну.');
@@ -319,7 +349,7 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
 
             $http({
                 method: "POST",
-                url:  url,
+                url: url,
                 data: $jq.param({
                     country: country,
                     titleUa: titleUa,
@@ -329,7 +359,7 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
             }).then(function successCallback(response) {
-                bootbox.alert(response.data, function (){
+                bootbox.alert(response.data, function () {
                     $state.go("admin/address", {}, {reload: true});
                 });
             }, function errorCallback() {
@@ -339,16 +369,16 @@ function addressCtrl ($scope, $http, DTOptionsBuilder, $state){
     }
 }
 
-function studentCtrl ($scope,$location){
+function studentCtrl($scope, $location) {
     $scope.changePageHeader('Студент');
 }
 
-function contentManagerCtrl ($scope,$location){
+function contentManagerCtrl($scope, $location) {
     $scope.changePageHeader('Контент менеджер');
 }
 
 
-function moduleAddTeacherCtrl ($scope){
+function moduleAddTeacherCtrl($scope) {
     var teachers = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -390,16 +420,16 @@ function moduleAddTeacherCtrl ($scope){
     });
 }
 
-function teachersCtrl ($scope,$http, $state, $stateParams){
-    $scope.loadTeacherData=function(){
-        $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id="+$stateParams.id).then(function (response) {
+function teachersCtrl($scope, $http, $state, $stateParams) {
+    $scope.loadTeacherData = function () {
+        $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id=" + $stateParams.id).then(function (response) {
             $scope.data = response.data;
             console.log($scope.data);
         });
     };
     $scope.loadTeacherData();
 
-    $scope.changeUserStatus=function (url, user, message) {
+    $scope.changeUserStatus = function (url, user, message) {
         bootbox.confirm(message, function (response) {
             if (response) {
                 $http({
@@ -417,17 +447,17 @@ function teachersCtrl ($scope,$http, $state, $stateParams){
             }
         });
     };
-    
-    $scope.setTeacherRole=function(url){
+
+    $scope.setTeacherRole = function (url) {
         var role = $scope.selectedRole;
         var teacher = $jq("#teacher").val();
-        if (typeof role=='undefined') {
+        if (typeof role == 'undefined') {
             bootbox.alert('Роль не вибрана');
             return;
         }
         $http({
             method: "POST",
-            url:  url,
+            url: url,
             data: $jq.param({role: role, teacher: teacher}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
@@ -440,7 +470,7 @@ function teachersCtrl ($scope,$http, $state, $stateParams){
         });
     };
 
-    $scope.addTeacherAttr=function(url, attr, id, role) {
+    $scope.addTeacherAttr = function (url, attr, id, role) {
         user = $jq('#user').val();
         if (!role) {
             role = $jq('#role').val();
@@ -453,7 +483,7 @@ function teachersCtrl ($scope,$http, $state, $stateParams){
         if (parseInt(user && value)) {
             $http({
                 method: "POST",
-                url:  url,
+                url: url,
                 data: $jq.param({user: user, role: role, attribute: attr, attributeValue: value}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
@@ -487,7 +517,7 @@ function teachersCtrl ($scope,$http, $state, $stateParams){
         }
     };
 
-    $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
+    $scope.cancelModuleAttr = function (url, id, attr, role, user, successUrl, tab, header) {
         if (!user) {
             user = $jq('#user').val();
         }
@@ -515,9 +545,9 @@ function teachersCtrl ($scope,$http, $state, $stateParams){
         }
     };
 
-    $scope.moduleLink=function(id) {
+    $scope.moduleLink = function (id) {
         $http({
-            url: basePath+'/_teacher/_admin/teachers/getModuleLink',
+            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
             method: "POST",
             data: $jq.param({id: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -529,9 +559,12 @@ function teachersCtrl ($scope,$http, $state, $stateParams){
     };
 }
 
-function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherService, $stateParams) {
-    $scope.loadTeacherData=function(){
-        teacherService.dataList({id: $stateParams.id, currentRole:$stateParams.role}).$promise.then(function (response) {
+function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherService, $stateParams) {
+    $scope.loadTeacherData = function () {
+        teacherService.dataList({
+            id: $stateParams.id,
+            currentRole: $stateParams.role
+        }).$promise.then(function (response) {
             $scope.data = response;
             console.log(response);
         });
@@ -547,9 +580,9 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
         .withOption('order', [[2, 'desc']]);
 
-    $scope.moduleLink=function(id) {
+    $scope.moduleLink = function (id) {
         $http({
-            url: basePath+'/_teacher/_admin/teachers/getModuleLink',
+            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
             method: "POST",
             data: $jq.param({id: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -560,25 +593,25 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
         });
     };
 
-    $scope.setTeacherRole=function(url){
+    $scope.setTeacherRole = function (url) {
         var role = $jq("select[name=role] option:selected").val();
         var teacher = $jq("#teacher").val();
         $http({
             method: "POST",
-            url:  url,
+            url: url,
             data: $jq.param({role: role, teacher: teacher}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         }).then(function successCallback(response) {
             bootbox.confirm(response.data, function () {
-                $state.go("admin/users/teacher/:id", {id:teacher}, {reload: true});
+                $state.go("admin/users/teacher/:id", {id: teacher}, {reload: true});
             });
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати.");
         });
     };
 
-    $scope.addTeacherAttr=function(url, attr, id, role) {
+    $scope.addTeacherAttr = function (url, attr, id, role) {
         user = $jq('#user').val();
         if (!role) {
             role = $jq('#role').val();
@@ -591,7 +624,7 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
         if (parseInt(user && value)) {
             $http({
                 method: "POST",
-                url:  url,
+                url: url,
                 data: $jq.param({user: user, role: role, attribute: attr, attributeValue: value}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 cache: false
@@ -625,7 +658,7 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
         }
     };
 
-    $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
+    $scope.cancelModuleAttr = function (url, id, attr, role, user, successUrl, tab, header) {
         if (!user) {
             user = $jq('#user').val();
         }
@@ -654,9 +687,9 @@ function editTeacherRoleCtrl($scope,$http, $state, DTOptionsBuilder, teacherServ
     };
 }
 
-function addRoleCtrl ($scope, $http, $state){
+function addRoleCtrl($scope, $http, $state) {
 
-    $scope.assignRole=function(url, role) {
+    $scope.assignRole = function (url, role) {
         user = $jq("#userId").val();
         if (user == 0) {
             bootbox.alert('Виберіть користувача.');
