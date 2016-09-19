@@ -111,7 +111,9 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state) {
 function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource) {
 
 
-    $scope.receivedMessagesTable = new NgTableParams({}, {
+    $scope.receivedMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"}
+    }, {
         getData: function (params) {
             return $resource(basePath + '/_teacher/messages/getUserReceiverMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
@@ -120,7 +122,9 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource)
         }
     });
 
-    $scope.sentMessagesTable = new NgTableParams({}, {
+    $scope.sentMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"}
+    }, {
         getData: function (params) {
             return $resource(basePath + '/_teacher/messages/getUserSentMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
@@ -128,7 +132,9 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource)
             });
         }
     });
-    $scope.deletedMessagesTable = new NgTableParams({}, {
+    $scope.deletedMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"}
+    }, {
         getData: function (params) {
             return $resource(basePath + '/_teacher/messages/getUserDeletedMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
