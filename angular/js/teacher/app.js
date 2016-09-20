@@ -29,6 +29,13 @@ angular
         'interfaceMessagesRouter',
         'siteConfigRouter'
     ])
+    .filter('shortDate', [
+            '$filter', function($filter) {
+                    return function(input, format) {
+                            return $filter('date')(new Date(input), format);
+                    };
+            }
+    ])
     .run(['$rootScope', '$templateCache','$state',
             function ($rootScope, $templateCache, $state) {
 
