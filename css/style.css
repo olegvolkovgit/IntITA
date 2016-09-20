@@ -7,36 +7,38 @@ a, button, input[type="submit"]{outline:none;}
 a:hover{color:#666666;}
 #main-wrapper{box-sizing:border-box;min-height:100%;}
 .main{position:relative;width:95%;margin:0 auto;}
+/*#content.mainPage{width:100%}*/
+/*#content{width:95%;margin:0 auto}*/
 h1, h2, h3, h4, html{font-family:"MyriadPro";color:#333333;font-weight:normal;}
 p{font-family:"MyriadPro";color:#666666;}
-/*#content{width:100%;margin:0 auto}*/
 #mainheader{border-bottom:2px solid #4b75a4;width: 100%;margin:0 auto;}
 #navigation{border-collapse: collapse;display:table;max-width:1200px;width:100%;height:100px;margin:0 auto;background-color:white;box-sizing:content-box;}
 #navigation.down{height:60px;}
 #navigation.downmain{height:60px;}
 #navigation #menulist{padding-left:5%}
+#menulist ul{float:right}
 #navigation.downmain div#menulist{width:940px;margin:0 auto;text-align:center;}
 #navigation ul{display:inline-block;margin-bottom:0;padding:0;}
-#navigation.down ul{display:inline-block;margin-top:0;float:right;margin-right:75px;margin-bottom:0;}
+#navigation.down ul{display:inline-block;margin-top:0;float:right;margin-bottom:0;}
 #navigation.downmain ul{float:none;display:inline-block;margin:0 auto;margin-top:16px;}
 #navigation li{display:inline;padding:10px;}
 #navigation li a{white-space:nowrap}
 #navigation ul a{text-decoration:none;font-family:"MyriadPro";font-size:18px;font-weight:normal;color:black;}
 #navigation ul a:hover{color:#003399;}
-#logo_img{margin-top:13px;}
+#logo_img{margin-top:13px;padding-left:10px;padding-right: 10px}
 #logo_img img{max-width:232px;max-height:75px;}
 #logo_img.down{margin-top:7px;}
 #logo_img.downmain{margin-top:7px;max-height:46px;max-width:142px;}
 #logo_img.down img{max-height:46px;max-width:142px;margin-left:40px;}
 #logo_img.downmain img{max-height:46px;max-width:142px;margin-left:40px;}
 #logo_img.downmain a{display:block;height:0;}
-#enterButton, .enterButton{display:inline-block;position:relative;height:33px;width:70px;margin-right:35px;}
+#enterButton, .enterButton{display:inline-block;position:relative;height:33px;width:70px;}
 #enterButton.downmain, .enterButton.downmain{margin-right:23px;}
 #navigation.down #enterButton{width:100px;text-align:center;margin-right:0}
-#button_border, .button_border{position:absolute;border:2px solid #4b70a3;border-radius:10px 10px 0 0;margin-left:128px;margin-top:74px;z-index:6;height:20px;width:74px;}
+#button_border, .button_border{position:absolute;border:2px solid #4b70a3;border-radius:10px 10px 0 0;margin-left:93px;margin-top:74px;z-index:6;height:20px;width:74px;}
 #button_border.down, .button_border.down{display:none;}
 #button_border.downmain, .button_border.downmain{display:none;}
-#enter_button, .enter_button{position:absolute;margin-left:130px;margin-top:76px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:7;cursor:pointer}
+#enter_button, .enter_button{position:absolute;margin-left:95px;margin-top:76px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:7;cursor:pointer}
 #navigation.down #enter_button{position:inherit;}
 #enter_button:hover, .enter_button:hover{background:#454545;}
 #enter_button:active, .enter_button:active{background:#363636;}
@@ -113,8 +115,8 @@ div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidd
 .forumLink{cursor:pointer;}
 div#rocket{display:none;position:absolute;z-index:2000;}
 div#exhaust{display:none;position:absolute;z-index:2000;}
-#sharing .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
-#sharing .share42-counter:before{background:none;}
+#sharing .share42-counter,#sharingMain .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
+#sharing .share42-counter:before,#sharingMain .share42-counter:before{background:none;}
 #module-grid .grid-view table.items td{width:100px;}
 .languageRow{white-space:nowrap;margin-bottom:40px}
 .emptyTd{display: none}
@@ -192,10 +194,11 @@ div.modal-dialog {
     max-width: 50%\0/;
     margin: 10px auto\0/;
 }
-
-
+#sharing{display:none}
+#share42{top:110px}
 /*adaptive*/
 @media only screen and (max-width: 800px) {
+    #share42{top:60px}
     /*breadcrumbs and status*/
     .my-cool-breadcrumbs {
         padding-bottom: 2px;
@@ -206,6 +209,7 @@ div.modal-dialog {
     }
     /*breadcrumbs and status*/
     /*main header*/
+    #logo_img{padding-left:inherit;padding-right:inherit}
     #navigation {
         max-width: 800px;
         background-color: #f3f3f3;
@@ -235,7 +239,6 @@ div.modal-dialog {
     }
     #hamburgerMini{display:block}
     #hamburger{display:none}
-    #sharing{display:none}
     #enter_button.down{
          border: none;
     }
@@ -250,7 +253,7 @@ div.modal-dialog {
         border: none;
     }
     .leftfooter{
-        display: none;
+        border-right: none;
     }
     .centerfooter{
         border-left: none;
@@ -278,13 +281,12 @@ div.modal-dialog {
     }
     /*main footer*/
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 320px) {
     /*header*/
     .emptyTd,#enterButton,#lang,#lang.down{display:none}
     #logo_img{text-align:center;}
     #hamburgerMini{display:block}
     #hamburger{display:none}
-    #sharing{display:none}
     /*header*/
     /*footer*/
     .rightfooter {

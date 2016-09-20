@@ -42,18 +42,11 @@ $('#hambButton').click(function (e) {
     if ($("#hambMenu").css('display') == "none")
         setTimeout(function () {
             $("#hambMenu").css({display: "block"});
+            $("#sharing").css({display: "block"});
         }, 200);
     else
         setTimeout(function () {
             $("#hambMenu").css({display: "none"});
+            $("#sharing").css({display: "none"});
         }, 200);
 });
-
-// function windowSize(){
-//     if ($(window).width() <= '800'){
-//         $('#shelf').show(10);
-//     } else {
-//         $('#shelf').hide(10);
-//     }
-// }
-// $(window).on('load resize',windowSize);

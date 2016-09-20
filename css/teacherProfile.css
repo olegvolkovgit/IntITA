@@ -27,6 +27,7 @@
 }
 .teacherTable>div{
     display: table-cell;
+    vertical-align: top;
 }
 .TeacherProfileblock1 .redactor-editor {
     padding: 5px;
