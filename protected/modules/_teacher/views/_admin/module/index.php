@@ -33,7 +33,7 @@
                         <td data-title="'Видалений'" filter="{cancelled: 'select'}" filter-data="cancelled"><span ng-if="row.cancelled">видалений</span>
                                                                                                             <span ng-if="!row.cancelled">доступний</span>
                         </td>
-                        <td data-title="'Призначити'"><button type="button" class="btn btn-outline btn-success btn-sm" ng-click="changeView('row/addAuchtor/'+row.id)">автора</></td>
+                        <td data-title="'Призначити'"><button type="button" class="btn btn-outline btn-success btn-sm" ng-click="changeView('module/addAuchtor/'+row.module_ID)">автора</></td>
                     </tr>
                 </table>
             </div>

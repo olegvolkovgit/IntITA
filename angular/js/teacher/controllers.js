@@ -108,13 +108,20 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state) {
 
 }
 
-function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource) {
+function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter) {
+
+    ;
+    $scope.$watch('dt',function(){
+        if ($scope.dt)
+            $scope.params.filter()['message.create_date'] = $filter("shortDate")($scope.dt,'yyyy-MM-dd')
+    });
 
 
-    $scope.receivedMessagesTable = new NgTableParams({
-        sorting: { 'message.create_date': "desc"}
+        $scope.receivedMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"},
     }, {
         getData: function (params) {
+
             return $resource(basePath + '/_teacher/messages/getUserReceiverMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
                 return data.rows;
@@ -124,6 +131,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource)
 
     $scope.sentMessagesTable = new NgTableParams({
         sorting: { 'message.create_date': "desc"}
+
     }, {
         getData: function (params) {
             return $resource(basePath + '/_teacher/messages/getUserSentMessages').get(params.url()).$promise.then(function (data) {
@@ -132,6 +140,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource)
             });
         }
     });
+
     $scope.deletedMessagesTable = new NgTableParams({
         sorting: { 'message.create_date': "desc"}
     }, {

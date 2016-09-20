@@ -266,17 +266,14 @@ class ContentManagerController extends TeacherCabinetController
     public function actionGetAuthorsList()
 
     {
+
         $params = $_GET;
-        $page = $_GET['page'];
-        $count = $_GET['count'];
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_time IS NULL');
-        $countOfRows = count(UserAuthor::model()->with('user')->findAll($criteria));
-        $criteria->offset = $page*$count -$count;
-        $criteria->limit = $count;
+        $adapter = new NgTableAdapter('UserAuthor',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
 
-        $test = JsonForNgDatatablesHelper::returnJson(UserAuthor::model()->with('user')->findAll($criteria),null,$countOfRows,['user']);
-        echo $test;
         //echo TeacherModule::authorsList();
     }
 

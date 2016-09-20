@@ -49,8 +49,6 @@
                     <div ng-bind="match.model.email" class="typeahead_secondary"></div>
                 </div>
             </div>
-
-
         </a>
     </script>
 </div>
