@@ -11,7 +11,7 @@ $user = Yii::app()->user->model;
 $module = $model->module();
 $sender = $model->sender();
 ?>
-<div class="row">
+<div class="row" ng-controller="requestsCtrl">
     <div class="col col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">

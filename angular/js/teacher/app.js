@@ -27,7 +27,8 @@ angular
         'sharedLinksRouter',
         'responseRouter',
         'interfaceMessagesRouter',
-        'siteConfigRouter'
+        'siteConfigRouter',
+        'requestsRouter'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {
