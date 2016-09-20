@@ -156,12 +156,15 @@ class UsersController extends TeacherCabinetController
     public function actionGetTenantsList()
     {
 
-//        $requestParams = $_GET;
-//        $ngTable = new NgTableAdapter('UserTenant', $requestParams);
-//        $result = $ngTable->getData();
-//        echo json_encode($result);
+        $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
+        $ngTable = new NgTableAdapter('UserTenant', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
 
-        echo UserTenant::tenantsList();
+        //echo UserTenant::tenantsList();
     }
 
     public function actionGetContentManagersList()
