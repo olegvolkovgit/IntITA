@@ -36,6 +36,12 @@
                         }
                     )
                 </script>
+            <?php }else if (isset($_GET['nolayout'])){ ?>
+            <div class="col-sm-2 col-sm-offset-3">
+                <button onclick="sendData()" id="printAccount">
+                    <?php echo Yii::t('payment', '0658'); ?>
+                </button>
+            </div>
             <?php } ?>
         </div>
     </div>
