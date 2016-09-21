@@ -5,7 +5,9 @@ angular
     .module('teacherApp')
     .controller('requestsCtrl',requestsCtrl);
 
-function  requestsCtrl($scope){
+function  requestsCtrl($scope, $http, $ngBootbox, $state){
+
+    $scope.comment ="";
 
     $scope.initActiveRequests = function(){
         initActiveRequestsTable();
@@ -19,4 +21,68 @@ function  requestsCtrl($scope){
     $scope.initRejectedRevisionRequests = function(){
         initRejectedRevisionRequestsTable();
     }
+
+    $scope.setRequestStatus = function(message, user) {
+        $http({
+            url:basePath+'/_teacher/_admin/request/approve/message/'+message+'/user/'+user,
+            type:'POST'
+        }).success(function(response){
+                $ngBootbox.alert(response).then(
+                    function(){
+                        $state.go('requests');
+                    }
+                )
+        }
+
+        )
+          .error(function(){
+              $ngBootbox.alert('Операцію не вдалося виконати.')
+          });
+    };
+
+    $scope.setCoworkerRequest = function(message, user) {
+        $http({
+            url:basePath+'/_teacher/_admin/teachers/create/',
+            type:'POST',
+            data: {message: message, user: user},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+        }).success(function(response){
+                $ngBootbox.alert(response).then(
+                    function(){
+                        $state.go('requests');
+                    }
+                )
+            }
+
+            )
+            .error(function(){
+                $ngBootbox.alert('Операцію не вдалося виконати.')
+            });
+    };
+
+    $scope.cancelMessage = function(){
+        $ngBootbox.alert('Операцію відмінено.');
+    }
+
+    $scope.cancelRequest = function(message,user){
+        $http({
+            url:basePath+'/_teacher/_admin/request/reject/message/'+message+'/user/'+user,
+            type:'POST',
+            data: {comment: $scope.comment},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+        }).success(function(response){
+                $ngBootbox.alert(response).then(
+                    function(){
+                        $scope.comment = "";
+                        $state.go('requests');
+                    }
+                )
+            }
+
+            )
+            .error(function(){
+                $ngBootbox.alert('Операцію не вдалося виконати.')
+            });
+    }
+
 }
