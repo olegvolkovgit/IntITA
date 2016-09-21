@@ -687,7 +687,7 @@ a.postlink {
 }
 
 img {
-    max-width: 730px;
+    max-width: 100%;
 }
 
 .redactor-editor img {
