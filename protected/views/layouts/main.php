@@ -90,7 +90,7 @@ $header = new Header();
                                 <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                             </li>
                             <li>
-                                <a href="http://www.robotamolodi.org/" target="_blank"><?php echo 'Вакансії' ?></a>
+                                <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
                             </li>
                         </ul>
                     </td>
@@ -250,7 +250,7 @@ $header = new Header();
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                     </li>
                     <li>
-                        <a href="http://www.robotamolodi.org/" target="_blank"><?php echo 'Вакансії' ?></a>
+                        <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
                     </li>
                 </ul>
             </div>
