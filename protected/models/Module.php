@@ -112,6 +112,14 @@ class Module extends CActiveRecord implements IBillableObject
         );
     }
 
+    public function behaviors() {
+        return [
+            'ngTable' => [
+                'class' => 'NgTableProviderModule'
+            ]
+        ];
+    }
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -879,7 +887,7 @@ class Module extends CActiveRecord implements IBillableObject
     {
         return 'Доступ до модуля';
     }
-
+//Deprecated
     public static function modulesList()
     {
         $courses = Module::model()->findAll();

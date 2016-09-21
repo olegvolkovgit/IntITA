@@ -11,7 +11,7 @@ $user = Yii::app()->user->model;
 $module = $model->module();
 $sender = $model->sender();
 ?>
-<div class="row">
+<div class="row" ng-controller="requestsCtrl">
     <div class="col col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -40,38 +40,35 @@ $sender = $model->sender();
                     (in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && $model->isRejected()))) { ?>
                     <ul class="list-inline">
                         <li>
+
+
                             <button class="btn btn-outline btn-success"
                                 <?php if ($model->message0->type != MessagesType::COWORKER_REQUEST) { ?>
-                                    onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/approve",
-                                        array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Підтвердити запит?')"
+                                    ng-bootbox-confirm="Підтвердити запит?" ng-bootbox-confirm-action="setRequestStatus('<?=$model->getMessageId()?>','<?=$user->id?>')" ng-bootbox-confirm-action-cancel="cancelMessage()"
                                 <?php } else { ?>
-                                    onclick="approveCoworkerRequest('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/create"); ?>',
-                                        '<?= $model->getMessageId() ?>', '<?= $model->id_teacher; ?>')"
+                                    ng-bootbox-confirm="Підтвердити запит?" ng-bootbox-confirm-action="setCoworkerRequest('<?=$model->getMessageId()?>','<?=$user->id?>')" ng-bootbox-confirm-action-cancel="cancelMessage()"
                                 <?php } ?>>
                                 Підтвердити
                             </button>
+
                         </li>
                         <?php if(in_array($model->message0->type, array(MessagesType::REVISION_REQUEST,MessagesType::MODULE_REVISION_REQUEST)) && !$model->isRejected()) { ?>
                             <li>
-                                <button class="btn btn-outline btn-danger"
-                                        onclick="rejectRevisionRequest('<?= Yii::app()->createUrl("/_teacher/_admin/request/reject",
-                                            array("message" => $model->getMessageId(), "user" => $user->id)); ?>')">
-                                    Відхилити
+                                <button class="btn btn-outline btn-danger" ng-bootbox-confirm-action="cancelRequest('<?=$model->getMessageId()?>','<?=$user->id?>')" ng-bootbox-confirm-action-cancel="cancelMessage()" ng-bootbox-confirm="<h3>Ти впевнений, що хочеш відхилити ревізію?</h3><br/><textarea ng-model='comment' class='form-control' style='resize: none' rows='6' id='rejectMessageText'
+                                placeholder='тут можна залишити коментар при відхилені ревізії'></textarea>">
+                                Відхилити
                                 </button>
                             </li>
                         <?php } else {?>
                             <li>
-                                <button class="btn btn-outline btn-danger"
-                                        onclick="setRequestStatus('<?= Yii::app()->createUrl("/_teacher/_admin/request/cancel",
-                                            array("message" => $model->getMessageId(), "user" => $user->id)); ?>', 'Відхилити запит?')">
+                                <button class="btn btn-outline btn-danger" ng-bootbox-confirm-action="cancelRequest('<?=$model->getMessageId()?>','<?=$user->id?>')" ng-bootbox-confirm-action-cancel="cancelMessage()" ng-bootbox-confirm="Відхилити запит?">
                                     Відхилити
                                 </button>
                             </li>
                         <?php } ?>
                         <li>
-                            <button class="btn btn-outline btn-default"
-                                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/index"); ?>'
-                                        , 'Запити')">Ігнорувати
+                            <button class="btn btn-outline btn-default" ng-click="changeView('requests')">
+                                    Ігнорувати
                             </button>
                         </li>
                     </ul>

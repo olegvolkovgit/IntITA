@@ -192,6 +192,7 @@ function createAccount(url, course, module, scenario, offerScenario, schema, edu
 
 function initActiveRequestsTable() {
     $jq('#activeRequestsTable').DataTable({
+        "bDestroy": true,
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/request/getActiveRequestsList",
@@ -202,14 +203,14 @@ function initActiveRequestsTable() {
             {
                 "data": "user",
                 "render": function (user) {
-                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                    return '<a href="'+ user["link"]+'" >' + user["title"] + '</a>';
                 }
             },
             {
                 "width": "30%",
                 "data": "module",
                 "render": function (module) {
-                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
+                    return '<a href="'+ module["link"]+'" >' + module["title"] + '</a>';
                 }
             },
             {
@@ -233,6 +234,7 @@ function initActiveRequestsTable() {
 
 function initApprovedRequestsTable() {
     $jq('#approvedRequestsTable').DataTable({
+        "bDestroy": true,
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/request/getApprovedRequestsList",
@@ -243,14 +245,14 @@ function initApprovedRequestsTable() {
             {
                 "data": "user",
                 "render": function (user) {
-                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                    return '<a href="'+ user["link"]+'" >' + user["title"] + '</a>';
                 }
             },
             {
                 "width": "30%",
                 "data": "module",
                 "render": function (module) {
-                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
+                    return '<a href="'+ module["link"]+'" >' + module["title"] + '</a>';
                 }
             },
             {
@@ -274,6 +276,7 @@ function initApprovedRequestsTable() {
 
 function initDeletedRequestsTable() {
     $jq('#deletedRequestsTable').DataTable({
+        "bDestroy": true,
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/request/getDeletedRequestsList",
@@ -284,14 +287,14 @@ function initDeletedRequestsTable() {
             {
                 "data": "user",
                 "render": function (user) {
-                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                    return '<a href="'+ user["link"]+'" >' + user["title"] + '</a>';
                 }
             },
             {
                 "width": "30%",
                 "data": "module",
                 "render": function (module) {
-                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
+                    return '<a href="'+ module["link"]+'" >' + module["title"] + '</a>';
                 }
             },
             {
@@ -315,6 +318,7 @@ function initDeletedRequestsTable() {
 
 function initRejectedRevisionRequestsTable() {
     $jq('#rejectedRevisionRequestsTable').DataTable({
+        "bDestroy": true,
         "autoWidth": false,
         "ajax": {
             "url": basePath + "/_teacher/_admin/request/getRejectedRevisionRequestsList",
@@ -325,14 +329,14 @@ function initRejectedRevisionRequestsTable() {
             {
                 "data": "user",
                 "render": function (user) {
-                    return '<a href="#" onclick="load(' + user["link"] + ')">' + user["title"] + '</a>';
+                    return '<a href="'+ user["link"]+'" >' + user["title"] + '</a>';
                 }
             },
             {
                 "width": "30%",
                 "data": "module",
                 "render": function (module) {
-                    return '<a href="#" onclick="load(' + module["link"] + ')">' + module["title"] + '</a>';
+                    return '<a href="'+ module["link"]+'" >' + module["title"] + '</a>';
                 }
             },
             {

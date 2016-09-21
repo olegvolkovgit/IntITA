@@ -48,7 +48,8 @@ class UserTenant extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'chatUser' => array(self::BELONGS_TO, 'ChatUser', 'chat_user_id'),
-//            'user' => [self::BELONGS_TO, 'StudentReg', 'chat_user(id, intita_user_id)']
+			'user' => array(self::BELONGS_TO, 'StudentReg', array('intita_user_id'=>'id'), 'through' => 'chatUser'),
+
 		);
 	}
 

@@ -330,7 +330,7 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
         });
     };
 }
-function usersCtrl ($http, $scope, $state, $stateParams, $templateCache){
+    function usersCtrl ($http, $scope, $state, $stateParams, $templateCache){
 
     $scope.loadUserData=function(){
         $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+$stateParams.id).then(function (response) {

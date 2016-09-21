@@ -74,10 +74,8 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                         <?php foreach ($modules as $module) {
                             ?>
                             <li>
-                                <a href="#"
-                                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_trainer/trainer/editTeacherModule",
-                                       array("id" => $student->id, "idModule" => $module["id"])); ?>',
-                                       '<?= addslashes($student->registrationData->userName()); ?>');">
+                                <a href="javascript:void(0)" ng-click="changeView('trainer/changeTeacher/modude/<?=$module["id"]?>/student/<?=$student->id?>')"
+                                   >
                                     <?= $module["title"] . " (" . $module["lang"] . ")";
                                     if (isset($teachersByModule[$module["id"]])) {
                                         ?>

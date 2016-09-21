@@ -426,6 +426,10 @@ div.col-sm-8{
 #new{
     font-weight: bold;
 }
+
+.new{
+    font-weight: bold;
+}
 img#avatar {
     height: 24px;
 }
