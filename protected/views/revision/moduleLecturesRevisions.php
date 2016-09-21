@@ -24,7 +24,7 @@
 <div id="revisionMainBox" ng-app="revisionTreesApp">
     <div class="form-group" ng-controller="revisionTreesCtrl" ng-cloak>
         <div ng-controller="moduleLecturesRevisionsCtrl">
-            <a href="" ng-click="isReplyFormOpen = !isReplyFormOpen">Актуальні версії занять(натисніть, для відображення)</a>
+            <a href="" ng-click="isReplyFormOpen = !isReplyFormOpen">Актуальні версії занять (натисніть для відображення)</a>
             <ul ng-show="isReplyFormOpen" class="list-group">
                 <li class="list-group-item node-tree" ng-repeat="lecture in currentLectures track by $index">
                     <strong>{{lecture.title}}</strong>

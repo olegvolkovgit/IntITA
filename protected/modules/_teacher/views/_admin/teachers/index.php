@@ -10,7 +10,7 @@
     <ul class="list-inline">
         <li>
             <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
-                Додати спвіробітника
+                Додати співробітника
             </a>
         </li>
     </ul>
