@@ -19,7 +19,7 @@
                         <col width="15%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data">
-                        <td data-title="'ID'" filter="{'id  ': 'text'}" style="width: ">{{row.id}}</td>
+                        <td data-title="'ID'" filter="{'id': 'text'}" style="width: ">{{row.id}}</td>
                         <td data-title="'Мова'" filter="{'language': 'text'}">{{row.language}}</td>
                         <td data-title="'Категорія'"filter="{'source.category': 'text'}" >{{row.source.category}}</td>
                         <td data-title="'Переклад'" filter="{'translation': 'text'}" ><a href="#/interfacemessages/view/{{row.id_record}}">{{row.translation}}</a></td>
