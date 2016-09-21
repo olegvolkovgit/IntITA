@@ -17,6 +17,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
 <script>
     basePath = '<?=Config::getBaseUrl();?>';
     userId = '<?=$post->id;?>';
+    lang = '<?php echo CommonHelper::getLanguage();?>';
 </script>
 <div class="formStudProf" ng-cloak ng-controller="profileCtrl">
     <div class="studProfInf">

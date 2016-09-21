@@ -108,13 +108,20 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state) {
 
 }
 
-function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource) {
+function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter) {
+
+    ;
+    $scope.$watch('dt',function(){
+        if ($scope.dt)
+            $scope.params.filter()['message.create_date'] = $filter("shortDate")($scope.dt,'yyyy-MM-dd')
+    });
 
 
-    $scope.receivedMessagesTable = new NgTableParams({
-        sorting: { 'message.create_date': "desc"}
+        $scope.receivedMessagesTable = new NgTableParams({
+        sorting: { 'message.create_date': "desc"},
     }, {
         getData: function (params) {
+
             return $resource(basePath + '/_teacher/messages/getUserReceiverMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
                 return data.rows;
@@ -124,6 +131,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource)
 
     $scope.sentMessagesTable = new NgTableParams({
         sorting: { 'message.create_date': "desc"}
+
     }, {
         getData: function (params) {
             return $resource(basePath + '/_teacher/messages/getUserSentMessages').get(params.url()).$promise.then(function (data) {
@@ -132,6 +140,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource)
             });
         }
     });
+
     $scope.deletedMessagesTable = new NgTableParams({
         sorting: { 'message.create_date': "desc"}
     }, {
@@ -424,7 +433,6 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
     $scope.loadTeacherData = function () {
         $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id=" + $stateParams.id).then(function (response) {
             $scope.data = response.data;
-            console.log($scope.data);
         });
     };
     $scope.loadTeacherData();
@@ -557,6 +565,25 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
             return false;
         });
     };
+
+    $scope.cancelUserRole=function (url, role, user) {
+        bootbox.confirm("Скасувати роль?", function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({role: role, user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.alert(response.data, function () {
+                        $scope.loadTeacherData();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    };
 }
 
 function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherService, $stateParams) {
@@ -566,7 +593,18 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
             currentRole: $stateParams.role
         }).$promise.then(function (response) {
             $scope.data = response;
-            console.log(response);
+            //todo
+            if($stateParams.role=='author' && typeof $scope.data.user.roles=='undefined'){
+                $scope.data.user.roles= new Object();
+            }
+            if($stateParams.role=='author' && typeof $scope.data.user.roles.author=='undefined'){
+                $scope.data.user.roles.author=new Object();
+                $scope.data.user.roles.author.module=new Object();
+                $scope.data.user.roles.author.module.key="module";
+                $scope.data.user.roles.author.module.title="Модулі";
+                $scope.data.user.roles.author.module.type="module-list";
+                $scope.data.user.roles.author.module.value=[];
+            }
         });
     };
     $scope.loadTeacherData();

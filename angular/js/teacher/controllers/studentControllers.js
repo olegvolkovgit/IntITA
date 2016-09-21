@@ -99,7 +99,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state) {
         });
     };
     $scope.usd = null;
-    $scope.getStudentPaidModues = function(){
+    $scope.getStudentPaidModules = function(){
         $scope.paidModuesTable = new NgTableParams({
             page: 1,
             count: 10

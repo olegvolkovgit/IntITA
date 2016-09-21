@@ -30,6 +30,9 @@ config(function ($stateProvider) {
         .state('module/view/:moduleId', {
             url: "/module/view/:moduleId",
             cache: false,
+            controller: function($templateCache, $stateParams){
+                $templateCache.remove(basePath+"/_teacher/_admin/module/update?id="+$stateParams.moduleId);
+            },
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/module/view/id/"+$stateParams.moduleId;
             }
@@ -37,6 +40,9 @@ config(function ($stateProvider) {
         .state('module/edit/:moduleId', {
             url: "/module/edit/:moduleId",
             cache: false,
+            controller: function($templateCache, $stateParams){
+              $templateCache.remove(basePath+"/_teacher/_admin/module/view/id/"+$stateParams.moduleId);
+            },
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/module/update?id="+$stateParams.moduleId;
             }

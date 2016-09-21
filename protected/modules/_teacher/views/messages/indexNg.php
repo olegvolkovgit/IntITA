@@ -8,9 +8,7 @@
  * @var $deletedMessages array
  */
 ?>
-<script>
 
-</script>
 <a type="button" class="btn btn-primary" ng-href="#/newmessages/receiver/">
     Написати
 </a>
@@ -21,6 +19,20 @@
     <div class="panel panel-default">
         <div class="panel-body" ng-controller="messagesCtrl">
             <!-- Nav tabs -->
+            <script type="text/ng-template" id="path/to/your/filters/age.html">
+                <div ng-controller="messagesCtrl">
+                    <p class="input-group">
+                        <input type="text" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="input-filter form-control"/ >
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="show = !show"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                    </p>
+                    <div ng-show="show" style="display:block; z-index: 400; position: absolute; min-height:290px;">
+                        <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
+                    </div>
+                </div>
+            </script>
+
 
             <uib-tabset active="0">
                 <uib-tab index="0" heading="<?php echo Yii::t("letter", "0532") ?>" select="reload()">
@@ -44,7 +56,7 @@
                                 <div ng-if="row.payCourse"><em>Доступ до курсу</em></div>
                                 <div ng-if="row.paymentMessage && !row.paymentMessage.service_id"><em>Доступ до лекцій</em></div>
                             </td>
-                            <td data-title="'Дата'"  sortable="'message.create_date'">
+                            <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }">
                                 <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
                             </td>
                         </tr>

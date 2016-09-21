@@ -28,8 +28,7 @@ class RequestsList
             } else {
                 $row["module"]["title"] = "не вказано";
             }
-            $row["module"]["link"] = $row["user"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    "message" => $record->getMessageId())) . "'";
+            $row["module"]["link"] = $row["user"]["link"] = "#/requests/message/".$record->getMessageId();
             $row["dateCreated"] = date("d.m.Y", strtotime($record->message0->create_date));
             $row["type"] = $record->title();
             array_push($return['data'], $row);
@@ -63,8 +62,7 @@ class RequestsList
             } else {
                 $row["module"]["title"] = "не вказано";
             }
-            $row["module"]["link"] = $row["user"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    "message" => $record->getMessageId())) . "'";
+            $row["module"]["link"] = $row["user"]["link"] = "#/requests/message/".$record->getMessageId();
             $row["dateCreated"] = date("d.m.Y", strtotime($record->message0->create_date));
             $row["type"] = $record->title();
             array_push($return['data'], $row);
@@ -98,8 +96,7 @@ class RequestsList
             } else {
                 $row["module"]["title"] = "не вказано";
             }
-            $row["module"]["link"] = $row["user"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    "message" => $record->getMessageId())) . "'";
+            $row["module"]["link"] = $row["user"]["link"] = "#/requests/message/".$record->getMessageId();
             $row["dateCreated"] = date("d.m.Y", strtotime($record->message0->create_date));
             $row["type"] = $record->title();
             array_push($return['data'], $row);
@@ -122,8 +119,7 @@ class RequestsList
                 } else {
                     $row["module"]["title"] = "не вказано";
                 }
-                $row["module"]["link"] = $row["user"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                        "message" => $record->getMessageId())) . "'";
+                $row["module"]["link"] = $row["user"]["link"] = "#/requests/message/".$record->getMessageId();
                 $row["dateCreated"] = date("d.m.Y", strtotime($record->message0->create_date));
                 $row["type"] = $record->title();
                 array_push($return['data'], $row);

@@ -36,25 +36,44 @@ function profileCtrl($http,$scope) {
             }
         }
     });
-    
-    $scope.spoilerTitle='Розгорнути';
-    $scope.spoilerTitleMini='Розгорнути';
+
+    var msgShow, msgHide;
+    switch (lang) {
+        case 'ua':
+            msgShow='Розгорнути';
+            msgHide='Згорнути';
+            break;
+        case 'ru':
+            msgShow='Развернуть';
+            msgHide='Свернуть';
+            break;
+        case 'en':
+            msgShow='Show more';
+            msgHide='Hide';
+            break;
+        default:
+            msgShow='Розгорнути';
+            msgHide='Згорнути';
+            break;
+    }
+    $scope.spoilerTitle=msgShow;
+    $scope.spoilerTitleMini=msgShow;
     $scope.spoiler=function (el,spoiler) {
         if ($('#'+el).css('display')=='none') {
             if(spoiler=='mini'){
-                $scope.spoilerTitleMini='Згорнути';
+                $scope.spoilerTitleMini=msgHide;
                 $('#trg1').text("\u25B2");
             } else {
-                $scope.spoilerTitle='Згорнути';
+                $scope.spoilerTitle=msgHide;
                 $('#trg2').text("\u25B2");
             }
         }
         if($('#'+el).css('display')=='block'){
             if(spoiler=='mini'){
-                $scope.spoilerTitleMini='Розгорнути';
+                $scope.spoilerTitleMini=msgShow;
                 $('#trg1').text("\u25BC");
             } else {
-                $scope.spoilerTitle='Розгорнути';
+                $scope.spoilerTitle=msgShow;
                 $('#trg2').text("\u25BC");
             }
         }

@@ -70,7 +70,7 @@ class NgTableAdapter {
      * @param array $requestParams
      * @throws Exception
      */
-    public function __construct($activeRecord = null, $requestParams = null) {
+    public function     __construct($activeRecord = null, $requestParams = null) {
         $this->setActiveRecord($activeRecord);
         $this->setRequestParams($requestParams);
     }

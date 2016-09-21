@@ -37,9 +37,9 @@
 
     <div class="form-group">
         <?php if ($scenario == "create") { ?>
-            <label class="required">Користувач *</label>
+            <label class="required" style="display:block">Користувач *</label>
             <input id="typeahead" type="text" class="form-control" placeholder="Користувач"
-                   size="135" autofocus required>
+                   size="50" autofocus required>
         <?php } ?>
     </div>
 
