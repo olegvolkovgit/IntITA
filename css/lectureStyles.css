@@ -1684,7 +1684,7 @@ a.cke_dialog_ui_fileButton{
     .lectureFooterMini{margin-bottom: 15px}
     #discussion{border-radius: 0}
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     .lectureHeaderMini{overflow:hidden}
     .sidebarMini{
         display: block;

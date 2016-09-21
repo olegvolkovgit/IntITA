@@ -43,10 +43,12 @@ $('#hambButton').click(function (e) {
         setTimeout(function () {
             $("#hambMenu").css({display: "block"});
             $("#sharing").css({display: "block"});
+            $("#sharingMain").css({display: "block"});
         }, 200);
     else
         setTimeout(function () {
             $("#hambMenu").css({display: "none"});
             $("#sharing").css({display: "none"});
+            $("#sharingMain").css({display: "none"});
         }, 200);
 });

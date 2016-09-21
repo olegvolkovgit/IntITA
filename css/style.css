@@ -281,7 +281,7 @@ div.modal-dialog {
     }
     /*main footer*/
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     /*header*/
     .emptyTd,#enterButton,#lang,#lang.down{display:none}
     #logo_img{text-align:center;}
