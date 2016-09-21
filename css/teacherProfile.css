@@ -27,6 +27,7 @@
 }
 .teacherTable>div{
     display: table-cell;
+    vertical-align: top;
 }
 .TeacherProfileblock1 .redactor-editor {
     padding: 5px;
@@ -277,7 +278,7 @@ img.lessonBut  {
         width:99%;
     }
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     .teacherTable>div {display: inline-block}
     .teacherName,.teacherLogo{display: table-cell}
     .teacherTable{display: inherit}

@@ -212,7 +212,7 @@ div.aboutMore{
     #minTeacherForm{display:block}
     #maxTeacherForm{display:none}
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     .teacherTable>div {display: inline-block}
     .teacherTable .teacherName,.teacherTable .profileTeacher{display: table-cell}
     .teacherTable{display: inherit}

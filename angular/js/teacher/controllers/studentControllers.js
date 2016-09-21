@@ -3,13 +3,7 @@
  */
 angular
     .module('teacherApp').
-    controller('studentCtrl', studentCtrl).filter('cmdate', [
-    '$filter', function($filter) {
-        return function(input, format) {
-            return $filter('date')(new Date(input), format);
-        };
-    }
-])
+    controller('studentCtrl', studentCtrl)
     .controller('studentFinancesCtrl', function ($scope) {
         initPayCoursesList();
         initPayModulesTable();
@@ -105,7 +99,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state) {
         });
     };
     $scope.usd = null;
-    $scope.getStudentPaidModues = function(){
+    $scope.getStudentPaidModules = function(){
         $scope.paidModuesTable = new NgTableParams({
             page: 1,
             count: 10

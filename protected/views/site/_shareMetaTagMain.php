@@ -12,8 +12,8 @@ Yii::app()->clientScript->registerMetaTag($title, null, null, array('property' =
 Yii::app()->clientScript->registerMetaTag($title, null, null, array('name' => "title"));
 Yii::app()->clientScript->registerMetaTag($description, null, null, array('name' => "description"));
 ?>
-<div id="sharing">
-    <div class="share42init" data-top1="70" data-top2="70" data-margin="15"
+<div id="sharingMain">
+    <div class="share42init" data-top1="110" data-top2="70" data-margin="15"
          data-url="<?php echo $url ?>"
          data-title="<?php echo $title ?>"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg') ?>"

@@ -7,7 +7,7 @@
             <uib-tab heading="Проплачені курси" index="1" select="getStudentPaidCourses()">
                 <?php $this->renderPartial('/_student/_payCoursesTable');?>
             </uib-tab>
-            <uib-tab heading="Проплачені модулі" index="2" select="getStudentPaidModues()">
+            <uib-tab heading="Проплачені модулі" index="2" select="getStudentPaidModules()">
                 <?php $this->renderPartial('/_student/_payModulesTable');?>
             </uib-tab>
         </uib-tabset>

@@ -885,7 +885,7 @@ body .grid-view table.items td{
         padding: 4px;
     }
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     .studProfInf img.avatarimg {
         width: 65px;
         display: inline-block;
@@ -938,7 +938,7 @@ body .grid-view table.items td{
         margin-top: 0;
     }
 }
-@media only screen and (min-width: 320px) {
+@media only screen and (min-width: 360px) {
     #spoilerContentMini{display: block!important;}
 }
 @media only screen and (min-width: 801px) {

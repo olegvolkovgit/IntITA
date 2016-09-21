@@ -34,7 +34,7 @@
                 )); ?>
             </div>
             <uib-tabset id="courseTabs" active="1" >
-                <uib-tab  index="0" heading="Про курс">
+                <uib-tab  index="0" heading="<?php echo Yii::t('course', '0904')?>">
                     <div class="courseTeachers">
                         <?php $this->renderPartial('_courseInfo', array('model' => $model)); ?>
                     </div>

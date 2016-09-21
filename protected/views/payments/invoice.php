@@ -3,8 +3,7 @@
 ?>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery-1.8.3.js"></script>
 <!-- Bootstrap Core CSS -->
-<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>"
-      rel="stylesheet">
+<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet">
 <link rel="stylesheet"
     href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap-theme.css'); ?>">
 
@@ -36,6 +35,12 @@
                         }
                     )
                 </script>
+            <?php }else if (isset($_GET['nolayout'])){ ?>
+            <div class="col-sm-2 col-sm-offset-3">
+                <button onclick="sendData()" id="printAccount">
+                    <?php echo Yii::t('payment', '0658'); ?>
+                </button>
+            </div>
             <?php } ?>
         </div>
     </div>

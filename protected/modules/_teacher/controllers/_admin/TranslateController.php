@@ -101,7 +101,11 @@ class TranslateController extends TeacherCabinetController{
     }
 
     public function actionGetTranslatesList($page = 0, $pageCount=10) {
-        echo JsonForNgDatatablesHelper::returnJson(Translate::getTranslatesList($page, $pageCount),null,count(Translate::model()->findAll()));
+        $params= $_GET;
+        $adapter = new NgTableAdapter('Translate',$params);
+        $adapter->getData();
+        echo json_encode($adapter->getData());
+        //echo JsonForNgDatatablesHelper::returnJson(Translate::getTranslatesList($page, $pageCount),null,count(Translate::model()->findAll()));
     }
 
 }

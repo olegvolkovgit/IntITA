@@ -365,7 +365,7 @@ span.courseNum{
     #miniConcept{display: block}
     #largeConcept{display: none}
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     .spoilerTriangle {
         display: inline-block;
         color: #4b75a4;

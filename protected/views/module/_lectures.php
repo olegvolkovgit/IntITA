@@ -10,14 +10,14 @@ $freeModule=($price==0)?true:false;
 <div class="lessonModule" id="lectures">
     <div class="revisionIco">
         <?php if (!Yii::app()->user->isGuest && ($canEdit || RegisteredUser::userById(Yii::app()->user->getId())->canApprove())){?>
-                <label>Ревізії:
+                <label><?php echo Yii::t('revision', '0905') ?>:
                 <a href="<?php echo Yii::app()->createUrl('/moduleRevision/moduleRevisions', array('idModule'=>$module->module_ID, 'idCourse'=>$idCourse)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
-                         title="Ревізії модуля"/>
+                         title="<?php echo Yii::t('revision', '0906') ?>"/>
                 </a>
                 <a href="<?php echo Yii::app()->createUrl('/revision/moduleLecturesRevisions', array('idModule'=>$module->module_ID)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'lectureRevisions.png'); ?>"
-                         title="Ревізії занять модуля"/>
+                         title="<?php echo Yii::t('revision', '0907') ?>"/>
                 </a>
                 </label>
         <?php } ?>
@@ -27,7 +27,7 @@ $freeModule=($price==0)?true:false;
             <a href="#"
                onclick="sendRequest('<?php echo Yii::app()->createUrl("/module/sendRequest", array("user" => Yii::app()->user->getId(), "moduleId" => $module->module_ID)); ?>')">
 
-                <button id="requestBth" title="Запит на редагування модуля">Запит</button>
+                <button id="requestBth" title="<?php echo Yii::t('module', '0911') ?>"><?php echo Yii::t('module', '0910') ?></button>
             </a>
         <?php }
     }?>
