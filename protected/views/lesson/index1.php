@@ -52,7 +52,6 @@
 if (!isset($idCourse)) $idCourse = 0;
 ?>
 <!-- lesson style -->
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lessonsStyle.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'lectureStyles.css'); ?>"/>
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'modalTask.css'); ?>"/>
 <?php
@@ -81,24 +80,29 @@ $finishedLecture = $lecture->isFinished($user);
 </div>
 <div ng-cloak class="lessonBlock" id="lessonBlock" ng-app="lessonApp">
     <div ng-controller="lessonPageCtrl">
-    <?php $this->renderPartial('_sidebar', array('lecture' => $lecture, 'editMode' => $editMode, 'idCourse' => $idCourse, 'finishedLecture' => $finishedLecture, 'passedPages' => $passedPages)); ?>
-    <div class="lessonText">
-        <div class="lessonTheme">
-            <?php echo $lecture->title(); ?>
-            <div style="display: inline-block; float: right; margin-top: 10px">
-                <?php if ($editMode) { ?>
-                    <a href="<?=Yii::app()->createUrl("revision/editlecture", array("idLecture" => $lecture->id)); ?>">
-                        <img style="margin-left: 5px"
-                             src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edt_30px.png'); ?>"
-                             id="editIco1" class="editButton" title="<?php echo Yii::t('lecture', '0686') ?>"/>
-                    </a>
-                <?php } ?>
+        <div class="lectureHeaderMini">
+            <div class="themeMini">
+                <?php $this->renderPartial('_lectureTheme', array('lecture' => $lecture, 'editMode' => $editMode)); ?>
+            </div>
+            <div class="sidebarMini">
+                <?php $this->renderPartial('_sidebarMain', array('lecture' => $lecture, 'editMode' => $editMode, 'idCourse' => $idCourse, 'finishedLecture' => $finishedLecture, 'passedPages' => $passedPages)); ?>
             </div>
         </div>
-        <?php
-        $this->renderPartial('_jsLecturePageTabs', array('lectureId' => $lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
-        ?>
-    </div>
+        <div id="sidebarLesson">
+            <?php $this->renderPartial('_sidebarMain', array('lecture' => $lecture, 'editMode' => $editMode, 'idCourse' => $idCourse, 'finishedLecture' => $finishedLecture, 'passedPages' => $passedPages)); ?>
+            <?php $this->renderPartial('_sidebarHelp', array('lecture' => $lecture, 'idCourse' => $idCourse)); ?>
+        </div>
+        <div class="lessonText">
+            <div class="lessonTheme">
+                <?php $this->renderPartial('_lectureTheme', array('lecture' => $lecture, 'editMode' => $editMode)); ?>
+            </div>
+            <?php
+            $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
+            ?>
+            <div class="lectureFooterMini">
+                <?php $this->renderPartial('_sidebarHelp', array('lecture' => $lecture, 'idCourse' => $idCourse)); ?>
+            </div>
+        </div>
 
         <!--modal task error1-->
         <?php
@@ -108,7 +112,6 @@ $finishedLecture = $lecture->isFinished($user);
             'cssFile' => 'jquery-ui.css',
             'theme' => 'my',
             'options' => array(
-                'width' => 540,
                 'autoOpen' => false,
                 'modal' => true,
                 'resizable' => false
@@ -125,7 +128,6 @@ $finishedLecture = $lecture->isFinished($user);
             'cssFile' => 'jquery-ui.css',
             'theme' => 'my',
             'options' => array(
-                'width' => 540,
                 'autoOpen' => false,
                 'modal' => true,
                 'resizable' => false

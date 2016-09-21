@@ -48,7 +48,7 @@
         <div id="coursesFilter">
             <div class="spoilerTriangle" onclick="courseTypeSpoiler(this);">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>
-                <?php echo 'фільтр' ?>
+                <?php echo Yii::t('courses', '0903'); ?>
                 <span id='trg'>&#9660;</span>
             </div>
             <div id="typeList">

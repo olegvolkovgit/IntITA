@@ -413,6 +413,9 @@ td.button-column{
     cursor: pointer;
     background: #fff;
 }
+#logo_img #logo {
+    background: inherit;
+}
 #logo:hover {
     color: #454545;
 }
@@ -470,6 +473,6 @@ td.button-column{
         margin-bottom: 5px;
     }
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
 
 }

@@ -433,7 +433,6 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
     $scope.loadTeacherData = function () {
         $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id=" + $stateParams.id).then(function (response) {
             $scope.data = response.data;
-            console.log($scope.data);
         });
     };
     $scope.loadTeacherData();
@@ -566,6 +565,25 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
             return false;
         });
     };
+
+    $scope.cancelUserRole=function (url, role, user) {
+        bootbox.confirm("Скасувати роль?", function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({role: role, user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.alert(response.data, function () {
+                        $scope.loadTeacherData();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    };
 }
 
 function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherService, $stateParams) {
@@ -575,7 +593,18 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
             currentRole: $stateParams.role
         }).$promise.then(function (response) {
             $scope.data = response;
-            console.log(response);
+            //todo
+            if($stateParams.role=='author' && typeof $scope.data.user.roles=='undefined'){
+                $scope.data.user.roles= new Object();
+            }
+            if($stateParams.role=='author' && typeof $scope.data.user.roles.author=='undefined'){
+                $scope.data.user.roles.author=new Object();
+                $scope.data.user.roles.author.module=new Object();
+                $scope.data.user.roles.author.module.key="module";
+                $scope.data.user.roles.author.module.title="Модулі";
+                $scope.data.user.roles.author.module.type="module-list";
+                $scope.data.user.roles.author.module.value=[];
+            }
         });
     };
     $scope.loadTeacherData();

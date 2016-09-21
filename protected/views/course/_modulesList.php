@@ -5,14 +5,14 @@
     <?php
     if ($isEditor) { ?>
         <div class="revisionIco">
-            <label>Ревізії:
+            <label><?php echo Yii::t('revision', '0905') ?>:
                 <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$model->course_ID)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'courseRevisions.png'); ?>"
-                         title="Ревізії курса"/>
+                         title="<?php echo Yii::t('revision', '0908') ?>"/>
                 </a>
                 <a href="<?php echo Yii::app()->createUrl('/moduleRevision/courseModulesRevisions', array('idCourse'=>$model->course_ID)); ?>">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'moduleRevisions.png'); ?>"
-                         title="Ревізії модулів курса"/>
+                         title="<?php echo Yii::t('revision', '0909') ?>"/>
                 </a>
             </label>
         </div>

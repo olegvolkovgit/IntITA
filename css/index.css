@@ -47,6 +47,7 @@ p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
 /*steps block*/
 #sliderMini{display:none}
 @media only screen and (max-width: 800px) {
+    #sharingMain{display:none}
     /*slider*/
     .mouseLine{
         display:none;
@@ -175,10 +176,10 @@ p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
     }
     /*form block*/
 }
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
     /*steps block*/
     .stepLeft .stepInfo,.stepRight .stepInfo {
-        max-width: 260px;
+        max-width: 300px;
         padding: 0;
         display: block;
         margin: 0 auto;
@@ -189,7 +190,7 @@ p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
         margin: 0 auto;
     }
     .stepLeft, .stepRight{
-        max-width: 400px;
+        max-width: 360px;
     }
 
     .stepRight .hexagon800, .stepRight .stepArticle{
