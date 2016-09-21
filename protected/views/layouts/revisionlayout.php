@@ -42,7 +42,7 @@ $header = new Header();
     <body style="overflow-y: scroll">
     <?php $this->renderPartial('/site/_hamburgermenu'); ?>
     <div class="main">
-        <div style="height: 5px; width: auto"></div>
+        <div style="height: 15px; width: auto"></div>
         <?php if (isset($this->breadcrumbs)): ?>
             <?php $this->widget('zii.widgets.CBreadcrumbs', array(
                 'links' => $this->breadcrumbs,

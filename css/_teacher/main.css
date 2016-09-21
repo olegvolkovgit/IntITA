@@ -426,6 +426,10 @@ div.col-sm-8{
 #new{
     font-weight: bold;
 }
+
+.new{
+    font-weight: bold;
+}
 img#avatar {
     height: 24px;
 }
@@ -588,3 +592,4 @@ div.loader > div {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+#text{resize: none}

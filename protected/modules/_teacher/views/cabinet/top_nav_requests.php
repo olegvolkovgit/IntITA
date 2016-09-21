@@ -6,10 +6,9 @@
 foreach ($requests as $key=>$request) {
     ?>
     <li>
-        <a class='requestList' href="#">
+        <a class='requestList' href="#/requests/message/<?=$request->getMessageId()?>"">
             <div>
-                <div href="#" onclick="load('<?= Yii::app()->createUrl("/_teacher/_admin/request/request", array(
-                    'message' => $request->getMessageId())) ?>', '<?=$request->title()?>')">
+                <div href="#/requests/message/<?=$request->getMessageId()?>">
                     <strong><?= $request->sender()->userName()==""?$request->sender()->email:$request->sender()->userName(); ?></strong>
                     <span class="pull-right text-muted"><em><?=$request->title();?></em></span>
                     <?php if ($request->module()){?>
@@ -25,7 +24,7 @@ foreach ($requests as $key=>$request) {
 } ?>
 <li>
     <a class="text-center" href="#">
-        <strong><a href="#" onclick="load('<?=Yii::app()->createUrl("/_teacher/_admin/request/index")?>', 'Запити')">
+        <strong><a href="#/requests" >
                 Всі запити</a></strong>
         <i class="fa fa-angle-right"></i>
     </a>

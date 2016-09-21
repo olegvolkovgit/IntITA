@@ -107,6 +107,7 @@ class StudentController extends TeacherCabinetController
         $criteria = new CDbCriteria;
         $criteria->addCondition('id_user=' . Yii::app()->user->getId());
         $adapter = new NgTableAdapter('PayCourses',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
         //echo PayCourses::getPayCoursesListByUser();
     }

@@ -10,16 +10,11 @@ angular
         return $resource(
             url,
             {
-                page: 'page',
-                limit: 'limit'
             },
             {
                 list: {
-                    method: 'GET',
-                    params: {
-                        page: 'page',
-                        limit: 'limit'
-                    }
+                    url: url,
+                    method: 'GET'
                 }
             });
     }]);

@@ -1,9 +1,9 @@
 <?php
 /* @var $message UserMessages*/
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="messagesCtrl">
     <div class="panel-heading">
-        <a data-toggle="collapse" href="#collapse<?= $message->id_message; ?>" id="messageBlock">
+        <a data-toggle="collapse" href="javascript:void(0)" ng-click="collapse('#collapse<?= $message->id_message; ?>')" id="messageBlock">
             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                  style="height:24px"/>
             <strong><?= $message->message0->sender0->userName(); ?></strong>

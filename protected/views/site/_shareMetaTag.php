@@ -13,7 +13,7 @@ Yii::app()->clientScript->registerMetaTag($title, null, null, array('name' => "t
 Yii::app()->clientScript->registerMetaTag($description, null, null, array('name' => "description"));
 ?>
 <div id="sharing">
-    <div class="share42init" data-top1="75" data-top2="110" data-margin="15"
+    <div class="share42init" data-top1="70" data-top2="70" data-margin="15"
          data-url="<?php echo $url ?>"
          data-title="<?php echo $title ?>"
          data-image="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg') ?>"

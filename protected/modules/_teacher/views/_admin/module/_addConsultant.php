@@ -34,7 +34,7 @@
                 Якщо потрібного користувача немає в списку співробітників, то додати співробітника можна на
                 сторінці
                 <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
-                    Додати спвіробітника
+                    Додати співробітника
                 </a>.
             </div>
         </div>
@@ -49,8 +49,6 @@
                     <div ng-bind="match.model.email" class="typeahead_secondary"></div>
                 </div>
             </div>
-
-
         </a>
     </script>
 </div>

@@ -6,23 +6,100 @@ class MessagesController extends TeacherCabinetController
         return !Yii::app()->user->isGuest;
     }
 
+    public function actionGetUserSentMessages(){
+        $criteria = new CDbCriteria();
+        $params =$_GET;
+        if (isset($params['filter']['name']))
+        {
+            $criteria->addSearchCondition('receiver.email',urldecode($params['filter']['name']),true,'AND');
+            $criteria->addSearchCondition('receiver.firstName',urldecode($params['filter']['name']),true,'OR');
+            $criteria->addSearchCondition('receiver.secondName',urldecode($params['filter']['name']),true,'OR');
+            unset($params['filter']['name']);
+        }
+        if (isset($params['filter']['subject']))
+        {
+            $criteria->addSearchCondition('userMessages.subject',urldecode($params['filter']['subject']),true,'AND');
+            $criteria->addSearchCondition('notificationMessages.subject',urldecode($params['filter']['subject']),true,'OR');
+            unset($params['filter']['subject']);
+        }
+        $criteria->compare('sender.id',Yii::app()->user->getId(),false,'AND');
+        $criteria->addCondition('message.type =1 AND deleted IS NULL');
+        $criteria->with = ['message','sender','userMessages','paymentMessage','approveRevisionMessages','rejectRevisionMessages','notificationMessages','rejectModuleRevisionMessages','payCourse','payModule'];
+        $adapter = new NgTableAdapter('MessageReceiver',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo  json_encode($adapter->getData());
+    }
+
+    public function actionGetUserReceiverMessages(){
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+
+        if (isset($params['filter']['name']))
+        {
+            $criteria->addSearchCondition('sender.email',urldecode($params['filter']['name']),true,'AND');
+            $criteria->addSearchCondition('sender.firstName',urldecode($params['filter']['name']),true,'OR');
+            $criteria->addSearchCondition('sender.secondName',urldecode($params['filter']['name']),true,'OR');
+            unset($params['filter']['name']);
+        }
+        if (isset($params['filter']['subject']))
+        {
+            $criteria->addSearchCondition('userMessages.subject',urldecode($params['filter']['subject']),true,'AND');
+            $criteria->addSearchCondition('notificationMessages.subject',urldecode($params['filter']['subject']),true,'OR');
+            unset($params['filter']['subject']);
+        }
+        $criteria->compare('id_receiver',Yii::app()->user->getId(),false,'AND');
+        $criteria->addInCondition('message.type',[1,2,6,7,9,12],'AND');
+        $criteria->addCondition('deleted IS NULL');
+        $criteria->with = ['message','sender','userMessages','paymentMessage','approveRevisionMessages','rejectRevisionMessages','notificationMessages','rejectModuleRevisionMessages','payCourse','payModule'];
+        $adapter = new NgTableAdapter('MessageReceiver',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo  json_encode($adapter->getData());
+    }
+
+    public function actionGetUserDeletedMessages(){
+        $params =$_GET;
+        $criteria = new CDbCriteria();
+        if (isset($params['filter']['name']))
+        {
+            $criteria->addSearchCondition('sender.email',urldecode($params['filter']['name']),true,'AND');
+            $criteria->addSearchCondition('sender.firstName',urldecode($params['filter']['name']),true,'OR');
+            $criteria->addSearchCondition('sender.secondName',urldecode($params['filter']['name']),true,'OR');
+            unset($params['filter']['name']);
+        }
+        if (isset($params['filter']['subject']))
+        {
+            $criteria->addSearchCondition('userMessages.subject',urldecode($params['filter']['subject']),true,'AND');
+            $criteria->addSearchCondition('notificationMessages.subject',urldecode($params['filter']['subject']),true,'OR');
+            unset($params['filter']['subject']);
+        }
+        $criteria->compare('id_receiver',Yii::app()->user->getId(),false,'AND');
+        $criteria->addInCondition('message.type',[1,2,6,7,9,12],'AND');
+        $criteria->addCondition('deleted IS NOT NULL');
+        $criteria->with = ['message','sender','userMessages','paymentMessage','approveRevisionMessages','rejectRevisionMessages','notificationMessages','rejectModuleRevisionMessages','payCourse','payModule'];
+        $adapter = new NgTableAdapter('MessageReceiver',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo  json_encode($adapter->getData());
+    }
+
     public function actionIndex()
     {
-        $id = Yii::app()->user->getId();
-        $model = StudentReg::model()->findByPk($id);
-        $message = new UserMessages();
+//        $id = Yii::app()->user->getId();
+//        $model = StudentReg::model()->findByPk($id);
+//        $message = new UserMessages();
+//        $sentMessages = $model->sentMessages();
+//        $receivedMessages = $model->receivedMessages();
+//        $deletedMessages = $model->deletedMessages();
+//
+//        $this->renderPartial('index', array(
+//            'model' => $model,
+//            'message' => $message,
+//            'sentMessages' => $sentMessages,
+//            'receivedMessages' => $receivedMessages,
+//            'deletedMessages' => $deletedMessages,
+//        ));
 
-        $sentMessages = $model->sentMessages();
-        $receivedMessages = $model->receivedMessages();
-        $deletedMessages = $model->deletedMessages();
+       $this->renderPartial('indexNg');
 
-        $this->renderPartial('index', array(
-            'model' => $model,
-            'message' => $message,
-            'sentMessages' => $sentMessages,
-            'receivedMessages' => $receivedMessages,
-            'deletedMessages' => $deletedMessages,
-        ));
     }
 
     public function actionWrite($id, $receiver = 0)

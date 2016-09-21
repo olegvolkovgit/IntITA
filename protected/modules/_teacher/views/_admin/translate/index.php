@@ -19,11 +19,11 @@
                         <col width="15%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data">
-                        <td data-title="'ID'" style="width: ">{{row.id}}</td>
-                        <td data-title="'Мова'" >{{row.language}}</td>
-                        <td data-title="'Категорія'">{{row.category}}</td>
-                        <td data-title="'Переклад'"><a href="#/interfacemessages/view/{{row.id_record}}">{{row.translation}}</a></td>
-                        <td data-title="'Коментар'" >{{row.comment}}</td>
+                        <td data-title="'ID'" filter="{'id': 'text'}" style="width: ">{{row.id}}</td>
+                        <td data-title="'Мова'" filter="{'language': 'text'}">{{row.language}}</td>
+                        <td data-title="'Категорія'"filter="{'source.category': 'text'}" >{{row.source.category}}</td>
+                        <td data-title="'Переклад'" filter="{'translation': 'text'}" ><a href="#/interfacemessages/view/{{row.id_record}}">{{row.translation}}</a></td>
+                        <td data-title="'Коментар'" filter="{'comment': 'text'}">{{row.comment}}</td>
                     </tr>
                 </table>
 
@@ -31,8 +31,3 @@
         </div>
     </div>
 </div>
-<script>
-    $jq(document).ready(function () {
-        initTranslatesList();
-    });
-</script>
