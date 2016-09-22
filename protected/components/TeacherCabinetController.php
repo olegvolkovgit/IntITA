@@ -45,16 +45,16 @@ class TeacherCabinetController extends CController
 
         if (Config::getMaintenanceMode() == 1) {
             $this->renderPartial('/default/notice');
-            Yii::app()->cache->flush();
-            Yii::app()->end();
+            $app->cache->flush();
+            $app->end();
         }
 
-        if (Yii::app()->user->isGuest) {
-            if(Yii::app()->request->isAjaxRequest){
-                Yii::app()->end();
+        if ($app->user->isGuest) {
+            if($app->request->isAjaxRequest){
+                $app->end();
             }else{
                 $this->render('authorize');
-                Yii::app()->end();
+                $app->end();
             }
         }
 
