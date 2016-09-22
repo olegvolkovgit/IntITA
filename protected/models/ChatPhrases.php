@@ -1,29 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "chat_room".
+ * This is the model class for table "chat_phrases".
  *
- * The followings are the available columns in table 'chat_room':
- * @property integer $id
- * @property integer $active
- * @property string $name
- * @property integer $author_id
- * @property integer $type
- *
- * The followings are the available model relations:
- * @property ChatUser $author
- * @property ChatUser[] $chatUsers
- * @property ChatUserLastRoomDate[] $chatUserLastRoomDates
- * @property ChatUserMessage[] $chatUserMessages
+ * The followings are the available columns in table 'chat_phrases':
+ * @property string $id
+ * @property string $text
+ * @property string $text_en
+ * @property string $text_ru
+ * @property string $text_ua
  */
-class ChatRoom extends CActiveRecord
+class ChatPhrases extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'chat_room';
+		return 'chat_phrases';
 	}
 
 	/**
@@ -34,12 +28,11 @@ class ChatRoom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('active, name, type', 'required'),
-			array('active, author_id, type', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>255),
+			array('text, text_ua', 'required'),
+			array('text, text_en, text_ru, text_ua', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, active, name, author_id, type', 'safe', 'on'=>'search'),
+			array('id, text, text_en, text_ru, text_ua', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,12 +44,6 @@ class ChatRoom extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'author' => array(self::BELONGS_TO, 'ChatUser', 'author_id'),
-			'roomUsers' => array(self::HAS_MANY, 'ChatRoomUsers','rooms_from_users_id' ),
-			//'userInRoom' => array(self::HAS_MANY, 'ChatUser', array('users_id'=>'id'), 'through' => 'roomUsers'),
-			//'chatUsers' => array(self::BELONGS_TO, 'ChatUser', array('users_id'=>'id'), 'through' => 'ChatRoomUsers'),
-//			'chatUserLastRoomDates' => array(self::HAS_MANY, 'ChatUserLastRoomDate', 'room_id'),
-//			'chatUserMessages' => array(self::HAS_MANY, 'ChatUserMessage', 'room_id'),
 		);
 	}
 
@@ -67,10 +54,10 @@ class ChatRoom extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'active' => 'Active',
-			'name' => 'Name',
-			'author_id' => 'Author',
-			'type' => 'Type',
+			'text' => 'Text',
+			'text_en' => 'Text En',
+			'text_ru' => 'Text Ru',
+			'text_ua' => 'Text Ua',
 		);
 	}
 
@@ -92,11 +79,11 @@ class ChatRoom extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('active',$this->active);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('author_id',$this->author_id);
-		$criteria->compare('type',$this->type);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('text',$this->text,true);
+		$criteria->compare('text_en',$this->text_en,true);
+		$criteria->compare('text_ru',$this->text_ru,true);
+		$criteria->compare('text_ua',$this->text_ua,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,7 +94,7 @@ class ChatRoom extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ChatRoom the static model class
+	 * @return ChatPhrases the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

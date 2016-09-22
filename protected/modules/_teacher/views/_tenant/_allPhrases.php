@@ -4,9 +4,7 @@
     <br>
     <ul class="list-inline">
         <li>
-            <button class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/renderAddPhrase'
-                       ); ?>', 'Створити фразу')">
+            <button class="btn btn-primary" ng-click="changeView('tenant/phrases/create')">
                 Створити фразу
             </button>
         </li>
@@ -15,17 +13,18 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="allPhrasesTable">
-                    <thead>
-                    <tr>
-                        <th style="width:30%;" >Фраза</th>
-                        <th style="width:12%;"></th>
-                        <th style="width:12%;"></th>
+                <table ng-table="phrasesTable" class="table table-striped table-bordered table-hover">
+                    <colgroup>
+                        <col style="width:30%;"/>
+                        <col style="width:12%;"/>
+                        <col style="width:12%;"/>
+                    </colgroup>
+                    <tr ng-repeat="row in $data">
+                        <td data-title="'Фраза'">{{row.text}}</td>
+                        <td data-title="'Змінити'"><a href="javascript:void(0)" ng-click="edit(row.id)">Змінити</a> </td>
+                        <td data-title="'Видалити'"><a href="javascript:void(0)" ng-click="delete(row.id)">Видалити</a></td>
 
                     </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
                 </table>
             </div>
         </div>
