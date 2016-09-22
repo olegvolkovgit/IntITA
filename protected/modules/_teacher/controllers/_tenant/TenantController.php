@@ -62,9 +62,12 @@ class TenantController extends TeacherCabinetController
 
         $this->renderPartial('/_tenant/searchChats', array(), false, true);
     }
-    public function actionFindChats($author,$user)
+    public function actionFindChats($author=0,$user=0)
     {
-            echo Tenant::getListOfChatsBetweenUsers($author,$user);
+        $ngTable = new NgTableAdapter('ChatRoom',['page'=>1,'count'=>'10000']);
+        $test = json_encode($ngTable->getData());
+
+        echo Tenant::getListOfChatsBetweenUsers($author,$user);
 
 
     }
@@ -83,9 +86,26 @@ class TenantController extends TeacherCabinetController
     }
     public function actionBots()
     {
-
-
         $this->renderPartial('/_tenant/bots', array(), false, true);
+    }
+
+    public function actionGetCharUsersByQuery($query){
+        $query = urlencode($query);
+        $criteria = new CDbCriteria();
+        $criteria->alias ='t';
+        $criteria->addCondition('t.nick_name IS NOT NULL');
+        $criteria->addSearchCondition('LOWER(nick_name)',strtolower($query),true,'AND');
+        $criteria->addSearchCondition('LOWER(user.firstName)',$query,true,'OR');
+        $criteria->addSearchCondition('LOWER(user.middleName)',$query,true,'OR');
+        $criteria->addSearchCondition('LOWER(user.secondName)',$query,true,'OR');
+        $criteria->addSearchCondition('LOWER(user.email)',$query,true,'OR');
+        $records = ChatUser::model()->with('user')->findAll($criteria);
+        $result = ["results"];
+        foreach($records as $record){
+            $result["results"][] = $record->getAttributes();
+        }
+        echo json_encode($result);
+
     }
 
 }

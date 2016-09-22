@@ -1,5 +1,5 @@
 
-<div class="panel panel-primary" ng-controller="searchChatCtrl">
+<div class="panel panel-primary" ng-controller="tenantCtrl">
     <div class="panel-body">
         <form >
             <div class="form-group" id="receiver">
@@ -34,7 +34,17 @@
             </button>
         </form>
         <br>
+        <div class="form-group">
+            <label>
+                <strong>Модуль:</strong>
+            </label>
+                    <input type="text" size="135" ng-model="moduleSelected" ng-model-options="{ debounce: 1000 }" placeholder="Модуль" uib-typeahead="item.nick_name for item in getUser($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectUser($item)" class="form-control" />
+            <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+            <div ng-show="moduleNoResults">
+                <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
+            </div>
 
+        </div>
     </div>
 </div>
 <script>

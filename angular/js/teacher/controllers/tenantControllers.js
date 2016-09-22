@@ -5,7 +5,8 @@ angular
     .module('teacherApp')
     .controller('phrasesCtrl', function ($scope){
         initAllPhrasesTable();
-    })
+    }).
+    controller('tenantCtrl',tenantCtrl)
     .controller('chatsCtrl', function ($scope, $stateParams){
         $jq('#allChatsTable').DataTable({
             "autoWidth": false,
@@ -74,3 +75,11 @@ angular
             processing : true,
         });
     });
+
+function tenantCtrl($scope, typeAhead){
+    var tenantTypeaheadUrl = basePath + '/_teacher/_tenant/tenant/getCharUsersByQuery';
+
+    $scope.getUser = function(value){
+        return typeAhead.getData(tenantTypeaheadUrl,{query : value})
+    };
+}
