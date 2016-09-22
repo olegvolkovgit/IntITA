@@ -9,38 +9,23 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'chat-phrases-form',
 	'enableAjaxValidation'=>true,
+	'enableClientValidation'=>true,
+
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'text'); ?>
-		<?php echo $form->textField($model,'text',array('size'=>60,'maxlength'=>255)); ?>
+		<label>Фраза</label>
+		<?php echo $form->textField($model,'text',array('size'=>60,'maxlength'=>255, 'class' => 'form-control' )); ?>
 		<?php echo $form->error($model,'text'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'text_en'); ?>
-		<?php echo $form->textField($model,'text_en',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'text_en'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'text_ru'); ?>
-		<?php echo $form->textField($model,'text_ru',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'text_ru'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'text_ua'); ?>
-		<?php echo $form->textField($model,'text_ua',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'text_ua'); ?>
-	</div>
-
+	<br/>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти',array('class'=>'btn btn-primary')); ?>
+		<button type="reset" class="btn btn-default"
+				onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>')">
+			Скасувати
+		</button>
 	</div>
 
 <?php $this->endWidget(); ?>

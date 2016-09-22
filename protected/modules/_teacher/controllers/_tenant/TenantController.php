@@ -32,11 +32,30 @@ class TenantController extends TeacherCabinetController
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
+        $this->performAjaxValidation($model);
+
         if(isset($_POST['ChatPhrases']))
         {
             $model->attributes=$_POST['ChatPhrases'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+            $valid=$model->validate();
+            if($valid) {
+                $model->save();
+                echo CJSON::encode(array(
+                    'status' => 'success'
+                ));
+                Yii::app()->end();
+            }
+            else{
+                $error = CActiveForm::validate($model);
+                if($error!='[]')
+                    echo $error;
+                Yii::app()->end();
+            }
+//
+//
+//            $model->attributes=$_POST['ChatPhrases'];
+//            if($model->save())
+//                $this->redirect(array('view','id'=>$model->id));
         }
 
         $this->renderPartial('/_tenant/_form',array(
