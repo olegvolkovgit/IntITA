@@ -28,7 +28,7 @@ class ChatPhrases extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('text, text_ua', 'required'),
+			array('text', 'required'),
 			array('text, text_en, text_ru, text_ua', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

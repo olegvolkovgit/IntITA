@@ -24,76 +24,41 @@ class TenantController extends TeacherCabinetController
         //echo Tenant::getAllPhrases();
 
     }
+
     public function actionRenderAddPhrase()
     {
 
-        $model=new ChatPhrases;
+        $view = '/_tenant/addPhrase';
+        $this->renderPartial($view, array(), false, true);
+    }
+    public function actionSavePhrase(){
+        if ($_POST['id'] == '')
+            $model = new ChatPhrases();
+        else
+            $model = $this->loadModel($_POST['id']);
+        $model->text = $_POST['phrase'];
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        $this->performAjaxValidation($model);
-
-        if(isset($_POST['ChatPhrases']))
+        if ($model->validate())
         {
-            $model->attributes=$_POST['ChatPhrases'];
-            $valid=$model->validate();
-            if($valid) {
-                $model->save();
-                echo CJSON::encode(array(
-                    'status' => 'success'
-                ));
-                Yii::app()->end();
-            }
-            else{
-                $error = CActiveForm::validate($model);
-                if($error!='[]')
-                    echo $error;
-                Yii::app()->end();
-            }
-//
-//
-//            $model->attributes=$_POST['ChatPhrases'];
-//            if($model->save())
-//                $this->redirect(array('view','id'=>$model->id));
+            $model->text_ua = $model->text;
+            $model->save();
+            echo 'success';
         }
-
-        $this->renderPartial('/_tenant/_form',array(
-            'model'=>$model,
-        ));
-
-
-//        $view = '/_tenant/addPhrase';
-//        $this->renderPartial($view, array(), false, true);
-    }
-    public function actionSavePhrase($phrase){
-
-        $tmp=Tenant::savePhrase($phrase);
-        return true;
+        else
+            echo CActiveForm::validate($model);
 
     }
+
+    public function actionGetPhrase($id){
+        $model = $this->loadModel($id);
+        echo json_encode($model->getAttributes());
+    }
+
     public function actionEditPhrase($id){
 
-            $model=$this->loadModel($id);
 
-            // Uncomment the following line if AJAX validation is needed
-            // $this->performAjaxValidation($model);
-
-            if(isset($_POST['ChatPhrases']))
-            {
-                $model->attributes=$_POST['ChatPhrases'];
-                if($model->save())
-                    $this->redirect(array('view','id'=>$model->id));
-            }
-
-            $this->renderPartial('/_tenant/_form',array(
-                'model'=>$model,
-            ));
-
-
-        $tmp=Tenant::editPhrase($id);
-
-        $this->renderPartial('/_tenant/editPhrase', array('phrase'=>$tmp,'id'=>$id), false, true);
+       // $tmp=Tenant::editPhrase($id);
+        $this->renderPartial('/_tenant/addPhrase', array(), false, true);
     }
     public function actionUpdatePhrase($phrase,$id){
 
@@ -101,17 +66,18 @@ class TenantController extends TeacherCabinetController
             return true;
 
     }
-    public function actionDeletePhrase($id){
+    public function actionDeletePhrase(){
 
-        $tmp=Tenant::deletePhrase($id);
-        $this->renderPartial('/_tenant/allPhrases', array(), false, true);
+        if (isset($_POST['id'])){
+            $model = $this->loadModel($_POST['id']);
+            $model->delete();
+            echo 'success';
+        }
 
 
     }
     public function actionSearchChats()
     {
-
-
         $this->renderPartial('/_tenant/searchChats', array(), false, true);
     }
     public function actionFindChats($author=0,$user=0)

@@ -21,12 +21,13 @@
                     </colgroup>
                     <tr ng-repeat="row in $data">
                         <td data-title="'Фраза'">{{row.text}}</td>
-                        <td data-title="'Змінити'"><a href="javascript:void(0)" ng-click="edit(row.id)">Змінити</a> </td>
-                        <td data-title="'Видалити'"><a href="javascript:void(0)" ng-click="delete(row.id)">Видалити</a></td>
-
+                        <td data-title="'Змінити'"><a href="javascript:void(0)" ng-click="editPhrase(row.id)">Змінити</a> </td>
+                        <td data-title="'Видалити'"><a href="javascript:void(0)" ng-click="deletePhrase(row.id)">Видалити</a></td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+

@@ -6,7 +6,7 @@ angular
     .controller('phrasesCtrl',phrasesCtrl)
     .controller('tenantCtrl',tenantCtrl)
     .controller('chatsCtrl',chatsCtrl)
-    .controller('tenantChatsCtrl',phrasesCtrl)
+    .controller('phraseCtrl',phraseCtrl)
     .controller('showChatCtrl',function($stateParams){
         $jq('#allChatsTable').DataTable({
             "autoWidth": false,
@@ -37,7 +37,7 @@ angular
         });
     });
 
-function tenantCtrl($scope, typeAhead, $state){
+function tenantCtrl($scope, typeAhead, $state, $http){
 
     var tenantTypeaheadUrl = basePath + '/_teacher/_tenant/tenant/getCharUsersByQuery';
 
@@ -85,7 +85,7 @@ function chatsCtrl ($scope, NgTableParams, $stateParams, $resource){
     });
 }
 
-function phrasesCtrl ($scope, NgTableParams, $resource, $state){
+function phrasesCtrl ($scope, NgTableParams, $resource, $state, $http){
     //initAllPhrasesTable();
     $scope.phrasesTable = new NgTableParams({
     }, {
@@ -98,15 +98,53 @@ function phrasesCtrl ($scope, NgTableParams, $resource, $state){
     });
 
     $scope.editPhrase = function(phraseId){
-        console.log(phraseId)
+        $state.go('tenant/phrases/edit/:phraseId',{phraseId:phraseId})
     };
 
     $scope.deletePhrase = function(phraseId){
-
+        bootbox.confirm("Ви впевнені, що бажаєте видалити фразу?", function(result) {
+            if(result){
+                $http({
+                    method:'POST',
+                    url:basePath + "/_teacher/_tenant/tenant/deletePhrase",
+                    data:$jq.param({id:phraseId}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                }).success(function(){
+                    $scope.phrasesTable.reload();
+                }).error(function(){
+                    bootbox.alert('Что-то пошло не так');
+                })
+            }
+        });
     }
+}
+
+function phraseCtrl($scope, $http, $stateParams, $state){
+
+    $scope.phrase = "";
+    $scope.errors = "";
+    if ($state.is('tenant/phrases/edit/:phraseId') && $stateParams.phraseId)
+        $http.get(basePath + "/_teacher/_tenant/tenant/getPhrase?id="+$stateParams.phraseId).then(function(response){
+            $scope.phrase = response.data;
+    });
 
     $scope.addPhrase = function(phraseId){
-        $state.go()
-    }
 
+        $http({
+            method:'POST',
+            url:basePath + "/_teacher/_tenant/tenant/SavePhrase",
+            data:$jq.param({id:$scope.phrase.id,phrase:$scope.phrase.text}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+        }).success(function(data){
+            if (data === 'success')
+            {
+                $state.go('tenant/phrases');
+            }
+            else{
+                $scope.errors = data;
+            }
+        }).error(function(){
+         bootbox.alert('Что-то пошло не так');
+        })
+    }
 }

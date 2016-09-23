@@ -51,6 +51,17 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: function($stateParams){
                 return "/_teacher/_tenant/tenant/ShowChats?author="+$stateParams.user1+"&user="+$stateParams.user2; }
         })
+        .state('tenant/phrases/edit/:phraseId', {
+            url: "/tenant/phrases/edit/:phraseId",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Редагувати фразу');
+            },
+            templateUrl: function($stateParams){
+                return basePath+ "/_teacher/_tenant/tenant/editPhrase?id="+$stateParams.phraseId
+            }
+
+        })
 
 });
 
