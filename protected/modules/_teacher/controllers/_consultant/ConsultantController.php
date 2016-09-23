@@ -24,20 +24,77 @@ class ConsultantController extends TeacherCabinetController
     }
 
     public function actionGetTodayConsultationsList(){
-        echo Consultationscalendar::todayConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addBetweenCondition('date_cons',date_format($currentDate, "Y-m-d"),date_format($currentDate, "Y-m-d"));
+        $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        $records = $adapter->getData();
+        foreach ($records['rows'] as &$record){
+            {
+                if(date('H:i')< date('H:i',strtotime($record["start_cons"]))){
+                    $record['status'] = 'очікування';
+                }
+                elseif(date('H:i') > date('H:i',strtotime($record["end_cons"]))){
+                    $record['status'] = 'закінчена';
+                }
+                else{
+                    $record['status'] = 'start';
+                }
+            }
+            unset($record);
+        }
+
+        echo json_encode($records);
+        //echo Consultationscalendar::todayConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetPastConsultationsList(){
-        echo Consultationscalendar::pastConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addCondition('date_cons < "'.date_format($currentDate, "Y-m-d").'" ');
+        $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+        //echo Consultationscalendar::pastConsultationsList(Yii::app()->user->getId());
     }
 
 
     public function actionGetCancelConsultationsList(){
-        echo Consultationscalendar::cancelConsultationsList(Yii::app()->user->getId());
+        date_default_timezone_set('Europe/Kiev');
+        $params = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NOT NULL');
+        $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+       // echo Consultationscalendar::cancelConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionGetPlannedConsultationsList(){
-        echo Consultationscalendar::plannedConsultationsList(Yii::app()->user->getId());
+        $params = $_GET;
+        $currentDate = new DateTime();
+        $criteria = new CDbCriteria();
+        $criteria->with = ['user','teacher','lecture'];
+        $criteria->addCondition('date_cancelled IS NULL');
+        $criteria->addCondition('date_cons > "'.date_format($currentDate, "Y-m-d").'" ');
+        $criteria->compare('t.teacher_id',Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+       // echo Consultationscalendar::plannedConsultationsList(Yii::app()->user->getId());
     }
 
     public function actionConsultation($id){

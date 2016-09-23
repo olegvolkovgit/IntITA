@@ -36,6 +36,20 @@ class CabinetController extends TeacherCabinetController
         ));
     }
 
+    public function actionGetNewMessages(){
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'm';
+            $criteria->order = 'm.id DESC';
+            $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
+            $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . Yii::app()->user->getId() . ' and
+        (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
+         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . '
+          or m.type=' . MessagesType::REJECT_MODULE_REVISION . ')');
+
+            echo json_encode(count(Messages::model()->findAll($criteria)));
+
+    }
+
     public function actionLoadPage($page)
     {
         $page = strtoupper($page);

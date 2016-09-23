@@ -10,23 +10,24 @@ angular
         initAgreementsTable();
     });
 
-function studentCtrl($scope, $http, NgTableParams,$resource, $state) {
+function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) {
+
 
     $scope.getTodayConsultations = function() {
         initTodayConsultationsTable();
 
         // NEXT iteration
-        //$scope.todayConsultationsTable = new NgTableParams({
-        //    page: 1,
-        //    count: 10
-        //}, {
-        //    getData: function (params) {
-        //        return $resource(basePath + '/_teacher/_student/student/getTodayConsultationsList').get(params.url()).$promise.then(function (data) {
-        //            params.total(data.count);
-        //            return data.rows;
-        //        });
-        //    }
-        //});
+        $scope.todayConsultationsTable = new NgTableParams({
+            page: 1,
+            count: 10
+        }, {
+            getData: function (params) {
+                return $resource(basePath + '/_teacher/_student/student/getTodayConsultationsList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
     };
     $scope.getPastConsultations = function(){
         $scope.pastConsultationsTable = new NgTableParams({
@@ -113,6 +114,26 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state) {
             }
         });
     };
+
+    $scope.cancelConsultation = function(consultationId){
+        bootbox.confirm('Відмінити консультацію?,',function(result){
+            if (result){
+                $http({
+                    method:'POST',
+                    url:basePath+'/_teacher/_student/student/cancelConsultation?id='+consultationId,
+                }).success(function(response){
+                    if (response==='success'){
+                        $state.go('students/consultations');
+                    }
+                    else{
+                        bootbox.alert('Что-то пошло не так!')
+                    }
+                }).error(function(){
+                    bootbox.alert('Что-то пошло не так!')
+                })
+            }
+        })
+    }
 
     $scope.showStudentAgreement = function(agreementId, agreementName){
         $scope.changePageHeader('Договір'+ agreementName);

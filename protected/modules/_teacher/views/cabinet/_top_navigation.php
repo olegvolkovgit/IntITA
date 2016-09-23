@@ -26,9 +26,9 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="">
-            <?php if($countNewMessages > 0){?>
-                <span class="label label-success"><?=$countNewMessages;?></span>
-            <?php }?>
+
+            <span class="label label-success" ng-if="countOfMessages > 0">{{countOfMessages}}</span>
+
             <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
             <i class="fa fa-caret-down"></i>
         </a>
