@@ -24,6 +24,10 @@ $(window).scroll(function() {
             $("#hambMenu").css("height", "inherit");
         }
         $("#hambNav").css({display: "block"});
+        if($('#hambMenu').css('display') == "none"){
+            $("#sharing").css({display: "none"});
+            $("#sharingMain").css({display: "none"});
+        }
     }else{
         $("#hambNav").css({display: "none"});
         $("#hambMenu").hide();

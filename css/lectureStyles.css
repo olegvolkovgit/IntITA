@@ -18,7 +18,7 @@ div.subLinks{
 .lessonBlock {
     margin: 0 auto;
     max-width: 1200px;
-    width: 100%;
+    width: 95%;
     position: relative;
 }
 .lessonBlock p{
@@ -765,7 +765,6 @@ img {
 
 #iconImage {
     display: inline-block;
-    width: 20px;
 }
 
 #counter {
@@ -1180,6 +1179,7 @@ h1.lessonPartEdit p img {
     margin-left: 41%;
     margin-top: 177px;
     cursor: pointer;
+    width: 20%;
 }
 
 .startVideoHover {
@@ -1659,7 +1659,7 @@ a.cke_dialog_ui_fileButton{
         color: #4b75a4;
         font-size: 28px;
         line-height: 28px;
-        padding-left: 50px;
+        padding-left: 60px;
         word-wrap: break-word;
     }
     .sidebarMini{

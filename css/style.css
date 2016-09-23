@@ -195,10 +195,10 @@ div.modal-dialog {
     max-width: 50%\0/;
     margin: 10px auto\0/;
 }
-#sharing{display:none}
 #share42{top:110px}
 /*adaptive*/
 @media only screen and (max-width: 800px) {
+    #sharing{display:none}
     #share42{top:60px}
     /*breadcrumbs and status*/
     .my-cool-breadcrumbs {
@@ -283,6 +283,11 @@ div.modal-dialog {
         display: none;
     }
     /*main footer*/
+    /*registration form*/
+    .ui-dialog.ui-widget.ui-widget-content{
+        max-width: 95%;
+    }
+    /*registration form*/
 }
 @media only screen and (max-width: 360px) {
     /*header*/

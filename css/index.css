@@ -1,5 +1,5 @@
 /*about block*/
-.mainAboutBlock{margin:0 auto;max-width:1200px;text-align:center;width:100%}
+.mainAboutBlock{margin:0 auto;max-width:1200px;text-align:center;width:95%}
 .mainAbout{box-sizing:border-box;-moz-box-sizing:border-box;border:solid 0px;height:100%;overflow:hidden;display:inline-block;position:relative;font-family:MyriadPro;}
 .header{text-align:center;position:relative;color:#666666;font-family:MyriadPro;font-size:34px;list-style:none;margin-top:0px;margin-left:0px;}
 .header p{color:#4682B4;font-size:19px;font-family:MyriadPro;margin-top:0px;}
@@ -65,8 +65,8 @@ p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
     /*slider*/
     /*about block*/
     .mainAboutBlock, .mainAbout, .header{
-        max-width: 800px;
-        width: 100%;
+        /*max-width: 800px;*/
+        max-width: 95%;
     }
     .block {
         max-width: 240px;
