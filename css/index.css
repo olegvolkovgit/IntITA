@@ -92,6 +92,7 @@ p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
     .stepLeft .stepUrl, .stepRight .stepUrl{
         border:2px solid #4b75a4;
         float: left;
+        margin-left: 20px;
     }
     .stepLeft, .stepRight{
         max-width: 596px;
@@ -140,6 +141,7 @@ p.stepName{color:#3d4d60;font-size:130%;font-weight:normal;margin:0px;}
         padding: 0 5px 0 20px;
         text-align: left;
         float: inherit;
+        min-width: 200px;
     }
     .steps h2 {
         margin-top: 4px;

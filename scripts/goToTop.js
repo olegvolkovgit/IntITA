@@ -1,10 +1,10 @@
 /**
  * Created by Wizlight on 28.07.2015.
  */
-/*рух ракети вгору і зникання вихлопу*/
+
 function rocketMove(element,w) {
     element.animate({
-        top:-210,
+        top:-$('#rocket').height(),
         left:w
     }, 3000);
 
@@ -12,18 +12,18 @@ function rocketMove(element,w) {
         $('#exhaust').hide();
     }, 500);
 }
-/*Якщо на сторінці є ракета - запускаємо її, якщо нема - скролимся вгору*/
+
 function goUp(){
-        var hPosR=$(document).outerHeight()-500;
-        var wPosR=$(document).outerWidth()/2-270;
-        var hPosE=$(document).outerHeight()-320;
-        var wPosE=$(document).outerWidth()/2-500;
-        $('#rocket').offset({top:hPosR, left:wPosR});
-        $('#exhaust').show();
-        $('#exhaust').offset({top:hPosE, left:wPosE});
+    var hPosR=$(document).outerHeight()-($('#rocket').height()+$('#exhaust').height());
+    var wPosR=$(document).outerWidth()/2-$(window).width()*0.225;
+    var hPosE=$(document).outerHeight()-$('#exhaust').height();
+    var wPosE=$(document).outerWidth()/2-$(window).width()*0.4167;
+    $('#rocket').offset({top:hPosR, left:wPosR});
+    $('#exhaust').show();
+    $('#exhaust').offset({top:hPosE, left:wPosE});
 
-        $('#rocket').show();
+    $('#rocket').show();
 
-        $('body,html').animate({scrollTop: 0}, 2500);
-        rocketMove($('#rocket'),wPosR);
+    $('body,html').animate({scrollTop: 0}, 2700);
+    rocketMove($('#rocket'),wPosR);
 };
