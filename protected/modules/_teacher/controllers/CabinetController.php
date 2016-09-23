@@ -37,16 +37,32 @@ class CabinetController extends TeacherCabinetController
     }
 
     public function actionGetNewMessages(){
-            $criteria = new CDbCriteria();
-            $criteria->alias = 'm';
-            $criteria->order = 'm.id DESC';
-            $criteria->join = 'JOIN message_receiver r ON r.id_message = m.id';
-            $criteria->addCondition('r.deleted IS NULL AND r.read IS NULL and r.id_receiver =' . Yii::app()->user->getId() . ' and
-        (m.type=' . MessagesType::USER . ' or m.type=' . MessagesType::PAYMENT . ' or m.type=' . MessagesType::APPROVE_REVISION . '
-         or m.type=' . MessagesType::REJECT_REVISION . ' or m.type=' . MessagesType::NOTIFICATION . '
-          or m.type=' . MessagesType::REJECT_MODULE_REVISION . ')');
+        $model = Yii::app()->user->model;
+        $newReceivedMessages = $model->newReceivedMessages();
+        $newReceivedMessages = $model->newMessages($newReceivedMessages);
+        $requests = $model->requests();
+        $newRequests = [];
+        $newMessages =[];
+        foreach ($requests as $key=>$request){
+            $req['id'] = $request->getMessageId();
+            $req['sender'] = $request->sender()->userName()==""?$request->sender()->email:$request->sender()->userName();
+            $req['title']=$request->title();
+            if ($request->module()){
+                $req['module'] ='Модуль: '. $request->module()->getTitle();
+            }
+            array_push($newRequests,$req);
+        }
+        foreach ($newReceivedMessages as $key=>$record) {
+            $message = $record->message();
+            $mes['senderId'] = $message->sender0->id;
+            $mes['userId'] = $model->id;
+            ($message->sender0->userName() == "")?$mes['user'] = $message->sender0->email:$mes['user'] = $message->sender0->userName();
+            $mes['date'] = date("h:m, d F", strtotime($message->create_date));
+            $mes['subject'] = $record->subject();
+            array_push($newMessages,$mes);
+        }
 
-            echo json_encode(count(Messages::model()->findAll($criteria)));
+            echo json_encode(['requests'=> ['countOfRequests'=>count($newRequests),'newRequests'=>$newRequests],'messages'=>['countOfNewMessages'=>count($newMessages),'newMessages'=>$newMessages ]]);
 
     }
 

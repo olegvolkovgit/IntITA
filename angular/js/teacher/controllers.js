@@ -41,7 +41,8 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $ti
     $scope.countOfMessages = 0;
     var updateCounter = function() {
         $http.get(basePath+'/_teacher/cabinet/getNewMessages',{ignoreLoadingBar: true}).then(function(response){
-            $scope.countOfMessages = response.data;
+            $scope.requests = response.data.requests;
+            $scope.messages = response.data.messages;
         })
         $timeout(updateCounter, 10000);
     };

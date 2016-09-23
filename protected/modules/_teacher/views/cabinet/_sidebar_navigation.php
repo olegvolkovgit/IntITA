@@ -26,7 +26,7 @@
             <li>
                 <a href="#/messages">
                     <i class="fa fa-envelope fa-fw"></i> Повідомлення
-                    <span class="label label-success" ng-if="countOfMessages > 0">{{countOfMessages}}</span>
+                    <span class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
                 </a>
             </li>
 

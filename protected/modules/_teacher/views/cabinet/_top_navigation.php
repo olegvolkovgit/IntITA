@@ -27,9 +27,9 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="">
 
-            <span class="label label-success" ng-if="countOfMessages > 0">{{countOfMessages}}</span>
+            <span class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
 
-            <i class="fa fa-envelope fa-fw" onclick="load('<?=Yii::app()->createUrl("/_teacher/messages/index")?>')"></i>
+            <i class="fa fa-envelope fa-fw"></i>
             <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-messages">
@@ -40,9 +40,7 @@
     <?php if($model->isAdmin() || $model->isContentManager()){?>
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="">
-            <?php if(!empty($requests)){?>
-                <span class="label label-success"><?=count($requests)?></span>
-            <?php }?>
+            <span class="label label-success" ng-if="requests.countOfRequests > 0">{{requests.countOfRequests}}</span>
             <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-tasks">
