@@ -3,12 +3,10 @@
  * @var $model Consultationscalendar
  */
 ?>
-<div class="row">
+<div class="row" ng-controller="consultantCtrl">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?= Yii::app()->createUrl("/_teacher/_consultant/consultant/consultations"); ?>',
-                        'Консультації')">Всі консультації
+            <button type="button" class="btn btn-primary" ng-click="changeView('consultant/consultations')">Всі консультації
             </button>
         </li>
         <?php if ($model->isAvailable() && !$model->isCancelled()) { ?>
@@ -21,9 +19,7 @@
         <?php } ?>
         <?php if ($model->isCanBeCancelled() && !$model->isCancelled()) { ?>
         <li>
-            <button type="button" class="btn btn-outline btn-warning" onclick="cancelConsultation(
-                '<?= Yii::app()->createUrl('/_teacher/_consultant/consultant/cancelConsultation/', array('id' => $model->id)) ?>',
-                'teacherConsultation')">Скасувати консультацію
+            <button type="button" class="btn btn-outline btn-warning" ng-click="cancelConsultation('<?=$model->id?>')">Скасувати консультацію
             </button>
         </li>
         <?php } ?>

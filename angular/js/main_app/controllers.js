@@ -31,7 +31,7 @@ function editProfileController($scope, $http, countryCity) {
         }else{
             $('.tabs').children("ul").children("li:first-child").trigger('click');
         }
-        if(element[0].tagName=='INPUT')
+        if(element[0].tagName=='INPUT' || element[0].tagName=='TEXTAREA')
             element.focus();
         else element.click();
     };

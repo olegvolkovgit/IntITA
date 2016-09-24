@@ -113,8 +113,9 @@ div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidd
 #teacher-view img{width:150px;}
 #mydialog, #forgotpass, #changePasswordDialog,#changeemail,#mydialog2,#mydialog3, #dialogNextLecture{display:none;}
 .forumLink{cursor:pointer;}
-div#rocket{display:none;position:absolute;z-index:2000;}
-div#exhaust{display:none;position:absolute;z-index:2000;}
+div#rocket{display:none;width:7%;position:absolute;z-index:2000;}
+div#exhaust{display:none;width:45%;position:absolute;z-index:2000;}
+#exhaust img, #rocket img{width: 100%}
 #sharing .share42-counter,#sharingMain .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
 #sharing .share42-counter:before,#sharingMain .share42-counter:before{background:none;}
 #module-grid .grid-view table.items td{width:100px;}
@@ -194,10 +195,10 @@ div.modal-dialog {
     max-width: 50%\0/;
     margin: 10px auto\0/;
 }
-#sharing{display:none}
 #share42{top:110px}
 /*adaptive*/
 @media only screen and (max-width: 800px) {
+    #sharing{display:none}
     #share42{top:60px}
     /*breadcrumbs and status*/
     .my-cool-breadcrumbs {
@@ -258,12 +259,13 @@ div.modal-dialog {
     .centerfooter{
         border-left: none;
         width: 84%;
-        margin-top: 25px;
+        padding-left: 0;
     }
     .rightfooter {
         border-left: none;
         width: 12%;
         float:none;
+        padding-right: 5px;
     }
     #mainfooter .centerfooter .footermenu{
         display: none;
@@ -275,11 +277,17 @@ div.modal-dialog {
     }
     #mainfooter .footercontact p {
         position: inherit;
+        margin-left: 0;
     }
     #mainfooter .footerlogo #footerLogo{
         display: none;
     }
     /*main footer*/
+    /*registration form*/
+    .ui-dialog.ui-widget.ui-widget-content{
+        max-width: 95%;
+    }
+    /*registration form*/
 }
 @media only screen and (max-width: 360px) {
     /*header*/
@@ -290,11 +298,17 @@ div.modal-dialog {
     /*header*/
     /*footer*/
     .rightfooter {
-        display: none;
+        /*display: none;*/
     }
     #mainfooter div.footerlogo {
         display: block;
-        margin-bottom: 10px;
+        margin: 0;
+    }
+    .centerfooter{display: inline-block;vertical-align: top;}
+    #footerLogo800 {margin: 0 auto;margin-top: 0}
+    #mainfooter  .leftfooter,#mainfooter  .leftfooter table,#mainfooter  .leftfooter tr,#mainfooter  .leftfooter td{
+        vertical-align: top;
+        display: inline-block;
     }
     /*footer*/
 }

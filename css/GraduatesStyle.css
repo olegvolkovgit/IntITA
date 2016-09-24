@@ -1,7 +1,7 @@
 .graduateBlock{
     max-width: 1200px;
     margin: 0 auto;
-    width: 100%;
+    width: 95%;
 }
 .graduates {
     position: relative;
@@ -22,6 +22,7 @@ table.graduatesFilter{
     border-bottom: 1px solid #d8d8d8;
     box-sizing:border-box;
     margin-bottom: 28px;
+    word-break:break-word;
 }
 .GraduatesBlock a{
     color: #4B75A4;

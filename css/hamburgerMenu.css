@@ -2,8 +2,8 @@
 #lessonHumMenu #hambNav{display:block;}
 #hambButton{position:absolute;margin-top:10px;margin-left:15px;z-index:3;}
 #hambButton:hover{cursor:pointer;}
-#hambButton img{}
-#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;}
+#hambButton img{max-width: inherit}
+#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height: 460px}
 #hambMenu a.logo{display:block;overflow:hidden;margin-left:90px;margin-top:10px;}
 #hambMenu a.logo img{display:block;}
 #hambMenu .humblang{display:block;margin-left:90px;margin-top:10px;clear:both;}
@@ -27,13 +27,27 @@ div.humavatar{width:70px;height:70px;margin-right:10px;overflow:hidden;}
 .humStatus a div{vertical-align:top;}
 
 @media only screen and (max-width: 800px) {
-    div.humavatar {display: block;margin: 0 auto}
-    #hambMenu .menulist {
-        line-height: 1.5;
-        margin: 10px 0 10px 90px;
-    }
+    div.humavatar {margin:0}
     a#hum_button {
         margin-top: 5px;
-        margin-bottom:0;
+        margin-bottom: 5px;
+    }
+    div.humStatus {
+        top: 0;
+        text-align: left;
+        margin-left: 65px;
+    }
+    div.humavatar {
+        width: 50px;
+        height: 50px;
+        margin-right:2px;
+    }
+    .humavatar img {
+        width: 100%;
+        min-height: 100%;
+    }
+    .humStatus div {
+        font-size: 14px;
+        line-height: 0.95;
     }
 }
