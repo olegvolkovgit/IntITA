@@ -47,7 +47,7 @@
                         <?php echo $teacherValue->firstName(); ?>
                         <?php echo $teacherValue->middleName(); ?></h2>
                     </div>
-                    <div>
+                    <div class="teacherInfo">
                         <div class="adaptiveTeacherName">
                             <h2><?php echo $teacherValue->lastName(); ?>
                             <?php echo $teacherValue->firstName(); ?>

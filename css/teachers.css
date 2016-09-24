@@ -83,7 +83,7 @@ div.ifYouTeachers label.courseslabel{
 {
     margin: 0 auto;
     max-width: 1200px;
-    width: 100%;
+    width: 95%;
     overflow: hidden;
 }
 /*Title*/
@@ -110,6 +110,7 @@ div.titleTeachers {
 /*teacher Profile Block*/
 .teacherBlock {
     margin-bottom: 40px;
+    clear: both;
 }
 .teacherTable{
     display: table;
@@ -207,10 +208,20 @@ div.aboutMore{
 }
 .teacherTable .teacherName{display: none}
 #minTeacherForm{display:none}
+.teacherBlock ul li{
+    word-break:break-word; ;
+}
+.teacherInfo{width: 100%}
 @media only screen and (max-width: 800px) {
     .leftTeacher,.rightTeacher{width: 98%}
     #minTeacherForm{display:block}
     #maxTeacherForm{display:none}
+    .teacherBlock ul {
+        padding-left:0;
+    }
+    .teacherCourses {
+        padding-left: 0;
+    }
 }
 @media only screen and (max-width: 360px) {
     .teacherTable>div {display: inline-block}

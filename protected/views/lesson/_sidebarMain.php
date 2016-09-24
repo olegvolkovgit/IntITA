@@ -10,8 +10,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                 <?php echo Yii::t('lecture', '0070'); ?>
                 <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $idCourse)) ?>">
                     <?php echo $course->getTitle(); ?>
-                </a>(<?php echo Yii::t('lecture', '0071') . strtoupper($course->language); ?>
-                )
+                </a> (<?php echo Yii::t('lecture', '0071') . strtoupper($course->language); ?>)
             </li>
             <li>
                 <?php echo Yii::t('lecture', '0072'); ?>

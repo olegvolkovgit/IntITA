@@ -28,7 +28,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                 </td>
                 <?php if ($owner) { ?>
                     <td>
-                        <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
+                        <a class="editLink" href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>">
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'common', 'profileedit.png'); ?>"/>
+                        </a>
                     </td>
                     <td>
                         <a class="editLink" href="<?php echo Yii::app()->createUrl('studentreg/edit'); ?>"><?php echo Yii::t('profile', '0096'); ?></a>
