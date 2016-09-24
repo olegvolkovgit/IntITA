@@ -1,29 +1,15 @@
-<?php
-/** @var $record UserMessages
- *  @var $model RegisteredUser
- *  @var $newMessages array
- */
-foreach ($newMessages as $key=>$record) {
-    if(!$record) continue;
-
-    $message = $record->message();
-
-    if(!$record->isRead($model->registrationData))
-    ?>
-    <li>
-        <a class="newMessages" ng-href="#/dialog/<?php echo $message->sender0->id ?>/<?php echo $model->id ?>">
+    <li ng-repeat="message in messages.newMessages">
+        <a class="newMessages" ng-href="#/dialog/{{message.senderId}}/{{message.userId}}">
             <div>
-                <strong><?=($message->sender0->userName() == "")?$message->sender0->email:$message->sender0->userName(); ?></strong>
+                <strong>{{message.user}}</strong>
                 <span class="pull-right text-muted">
-                    <em><?= date("h:m, d F", strtotime($message->create_date)); ?></em>
+                    <em>{{message.date}}</em>
                 </span>
             </div>
-            <div><?= CHtml::encode($record->subject()); ?></div>
+            <div>{{message.subject}}</div>
         </a>
     </li>
-    <?php
-}
-?>
+
 <li>
     <a class="text-center" href="#">
         <strong>
