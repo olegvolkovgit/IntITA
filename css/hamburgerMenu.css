@@ -3,7 +3,7 @@
 #hambButton{position:absolute;margin-top:10px;margin-left:15px;z-index:3;}
 #hambButton:hover{cursor:pointer;}
 #hambButton img{max-width: inherit}
-#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height: 290px}
+#hambMenu{display:none;position:fixed;top:0;width:250px;background:#ffffff;z-index:2;box-shadow:0 0 2px 2px #999999;padding-bottom:5px;min-height: 460px}
 #hambMenu a.logo{display:block;overflow:hidden;margin-left:90px;margin-top:10px;}
 #hambMenu a.logo img{display:block;}
 #hambMenu .humblang{display:block;margin-left:90px;margin-top:10px;clear:both;}
@@ -28,22 +28,14 @@ div.humavatar{width:70px;height:70px;margin-right:10px;overflow:hidden;}
 
 @media only screen and (max-width: 800px) {
     div.humavatar {margin:0}
-    #hambMenu .menulist {
-        line-height: 1.2;
-        margin: 0 0 0 90px;
-    }
     a#hum_button {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    #hambMenu .humblang {
         margin-top: 5px;
+        margin-bottom: 5px;
     }
     div.humStatus {
         top: 0;
         text-align: left;
         margin-left: 65px;
-        margin-bottom: 2px;
     }
     div.humavatar {
         width: 50px;

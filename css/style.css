@@ -116,7 +116,7 @@ div.minavatar{width:70px;height:70px;float:right;margin-right:10px;overflow:hidd
 div#rocket{display:none;width:7%;position:absolute;z-index:2000;}
 div#exhaust{display:none;width:45%;position:absolute;z-index:2000;}
 #exhaust img, #rocket img{width: 100%}
-#sharing .share42-counter,#sharingMain .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:14px;line-height:14px;}
+#sharing .share42-counter,#sharingMain .share42-counter{display:block;margin:0;padding:0;text-align:center;background:#FFF;border:1px solid #d1d1d1;border-top:none;border-radius:0 0 5px 5px;height:20px;line-height:20px;}
 #sharing .share42-counter:before,#sharingMain .share42-counter:before{background:none;}
 #module-grid .grid-view table.items td{width:100px;}
 .languageRow{white-space:nowrap;margin-bottom:40px}
@@ -198,11 +198,6 @@ div.modal-dialog {
 #share42{top:110px}
 /*adaptive*/
 @media only screen and (max-width: 800px) {
-    #sharing .share42-counter, #sharingMain .share42-counter {
-        height: 12px;
-        line-height: 12px;
-        width: 34px;
-    }
     #sharing{display:none}
     #share42{top:60px}
     /*breadcrumbs and status*/
