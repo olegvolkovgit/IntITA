@@ -137,9 +137,7 @@ div.avatarsize{
     padding-left: 20px;
 }
 .teacherCourses {
-    padding-top:1px;
-    padding-bottom:1px;
-    padding-left: 20px;
+    padding:1px 10px;
     background-color: rgba(75,117,164,0.2);
     color:#467c98;
 }
@@ -216,12 +214,6 @@ div.aboutMore{
     .leftTeacher,.rightTeacher{width: 98%}
     #minTeacherForm{display:block}
     #maxTeacherForm{display:none}
-    .teacherBlock ul {
-        padding-left:0;
-    }
-    .teacherCourses {
-        padding-left: 0;
-    }
 }
 @media only screen and (max-width: 360px) {
     .teacherTable>div {display: inline-block}
