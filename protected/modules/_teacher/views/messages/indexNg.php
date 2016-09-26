@@ -42,7 +42,7 @@
                             <col width="55%" />
                             <col width="15%" />
                         </colgroup>
-                        <tr ng-repeat="row in $data" ng-click="changeView('dialog/'+row.sender.id+'/'+row.receiver.id)" ng-class="!row.read ? 'new' : ''">
+                        <tr ng-repeat="row in $data" ng-click="changeView('messages/message/'+row.id_message)">
                             <td data-title="'Від кого'"  filter="{'name' : 'text'}">
                                 <div ng-if="row.sender.fullName"><em>{{row.sender.fullName}} ({{row.sender.email}})</em></div>
                                 <div ng-if="row.sender.fullName == ''"><em>{{row.sender.email}}</em></div>

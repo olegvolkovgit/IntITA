@@ -23,4 +23,14 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return   basePath+'/_teacher/messages/message/?id='+$stateParams.idMessage
             }
         })
+        .state('messages/message/:idMessage', {
+            url: "/messages/message/:idMessage",
+            cache         : false,
+            controller:function($scope){
+                $scope.changePageHeader('Повідомлення')
+            },
+            templateUrl: function($stateParams){
+                return   basePath+'/_teacher/messages/message/?id='+$stateParams.idMessage
+            }
+        })
 });
