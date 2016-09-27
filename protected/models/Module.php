@@ -383,7 +383,7 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function getNumber()
     {
-        return $this->module_number;
+        return $this->module_ID;
     }
 
     public function getType()
