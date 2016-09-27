@@ -123,27 +123,28 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
 
     $scope.checkboxes = { 'checked': false, items: {} };
 
+
     // watch for check all checkbox
-    $scope.$watch('checkboxes.checkAll', function(value) {
+    $scope.$watch('checkboxes.checkAll', function() {
+        if ($scope.checkboxes)
             angular.forEach($scope.receivedMessagesTable.data, function(item) {
                 $scope.checkboxes.items[item.id_message] = $scope.checkboxes.checkAll;
             });
-        });
 
-    // watch for data checkboxes
-    $scope.$watch('checkboxes.items', function(values) {
-       console.log(values);
-        var checked = 0, unchecked = 0,
-            total = $scope.receivedMessagesTable.data.length;
-        angular.forEach($scope.users, function(item) {
-            checked   +=  ($scope.checkboxes.items[item.id_message]) || 0;
-            unchecked += (!$scope.checkboxes.items[item.id_message]) || 0;
         });
-        if ((unchecked == 0) || (checked == 0)) {
-            $scope.checkboxes.checked = (checked == total);
+    $scope.$watch('checkboxes.items', function(values) {
+            $scope.deleteReceivedMessages = []
+        for (var key in values) {
+            if (values[key]){
+                $scope.deleteReceivedMessages.push(key)
+            }
         }
-        // grayed checkbox
-        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+        if ($scope.deleteReceivedMessages.length < $scope.receivedMessagesTable.data.length && $scope.deleteReceivedMessages.length > 0)
+            angular.element(document.querySelector("#select_all")).prop('indeterminate',true)
+        else if ($scope.deleteReceivedMessages.length == 0){
+            angular.element(document.querySelector("#select_all")).prop('indeterminate',false)
+        }
+
     }, true);
 
        $scope.$watch('dt',function(){
@@ -156,7 +157,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
         sorting: { 'message.create_date': "desc"},
     }, {
         getData: function (params) {
-            delete $scope.checkboxes;
+            delete $scope.deleteReceivedMessages;
             $scope.checkboxes = { 'checked': false, items: {} };
             return $resource(basePath + '/_teacher/messages/getUserReceiverMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
@@ -187,6 +188,33 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
             });
         }
     });
+
+    $scope.deleteMessages = function(){
+        bootbox.confirm("Видалити обрані повідомлення?",function(result){
+            if (result){
+                $http({
+                    method:'POST',
+                    url:basePath+'/_teacher/messages/delete',
+                    data: $jq.param({
+                        data: JSON.stringify({
+                            messages: $scope.deleteReceivedMessages,
+                        })}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                }).success(function(response){
+                    if (response == 'success'){
+                        bootbox.alert('Опрерацію успішно виконано',function(){
+                            $scope.receivedMessagesTable.reload();
+                        })
+                    }
+                    else{
+                        bootbox.alert('Что-то пошло не так');
+                    }
+                }).error(function(){
+                    bootbox.alert('Что-то пошло не так');
+                })
+            }
+        } );
+    };
 
     $scope.sendMessage = function (url) {
         receiver = $jq("#receiverId").val();
@@ -235,7 +263,8 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                     cache: false
                 }).then(function successCallback() {
-                    $state.go($state.current, {}, {reload: true});
+                   // $state.go($state.current, {}, {reload: true});
+                    $state.reload();
                 }, function errorCallback() {
                     bootbox.alert("Операцію не вдалося виконати.");
                 });

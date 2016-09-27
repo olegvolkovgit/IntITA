@@ -146,12 +146,23 @@ class MessagesController extends TeacherCabinetController
     public function actionDelete()
     {
         $jsonObj = json_decode($_POST['data']);
-        $message = MessagesFactory::getInstance(Messages::model()->findByPk($jsonObj->message));
-        $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        if ($message->deleteMessage($receiver))
+        if (isset($jsonObj->messages)) {
+            foreach ($jsonObj->messages as $item) {
+
+                    $message = MessagesFactory::getInstance(Messages::model()->findByPk($item));
+                    $message->deleteMessage(StudentReg::model()->findByPk(Yii::app()->user->id));
+
+            }
             echo 'success';
-        else
-            echo 'error';
+        }
+        else {
+            $message = MessagesFactory::getInstance(Messages::model()->findByPk($jsonObj->message));
+            $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
+            if ($message->deleteMessage($receiver))
+                echo 'success';
+            else
+                echo 'error';
+        }
     }
 
     public function actionDeleteDialog()

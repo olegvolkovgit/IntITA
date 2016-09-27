@@ -40,6 +40,9 @@
             <uib-tabset active="0">
 
                 <uib-tab index="0" heading="<?php echo Yii::t("letter", "0532") ?>" select="reload()">
+                    <div ng-if="deleteReceivedMessages.length > 0" style="padding: 10px">
+                    <button class="btn btn-danger"  ng-click="deleteMessages()">Видалити повідомлення </button>
+                    </div>
                     <table ng-table="receivedMessagesTable" class="table table-striped table-bordered table-hover" width="100%" style="cursor:pointer">
                         <colgroup>
                             <col width="5%" />
