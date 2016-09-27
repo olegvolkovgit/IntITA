@@ -29,4 +29,15 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: basePath+"/_teacher/_consultant/consultant/consultations/id/"+user,
         })
+        .state('consultant/consultation/view/:consultationId', {
+            url: "/consultant/consultation/view/:consultationId",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Консультація');
+            },
+            templateUrl: function($stateParams){
+                return basePath+"/_teacher/_consultant/consultant/consultation/id/"+$stateParams.consultationId
+            }
+
+        })
 });

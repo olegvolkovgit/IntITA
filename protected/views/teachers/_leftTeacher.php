@@ -45,7 +45,7 @@
                         <?php echo $teacherValue->firstName(); ?>
                         <?php echo $teacherValue->middleName(); ?></h2>
                     </div>
-                    <div>
+                    <div class="teacherInfo">
                         <div class="adaptiveTeacherName">
                             <h2><?php echo $teacherValue->lastName(); ?>
                             <?php echo $teacherValue->firstName(); ?>
@@ -58,7 +58,6 @@
                                 <?php echo Yii::t('teachers', '0061'); ?>
                             </p>
                             <div class="TeacherProfilecourse">
-
                                 <div class="teacherCourses">
                                     <ul>
                                         <?php

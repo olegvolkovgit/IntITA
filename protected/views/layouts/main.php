@@ -182,7 +182,7 @@ $header = new Header();
                     </td>
                     <td>
                         <a href="https://youtube.com" target="_blank" title="Youtube">
-                            <img src="<?php echo Yii::app()->request->baseUrl; ?>/css/images/youtube.png"/>
+                            <img src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'youtube.png'); ?>"/>
                         </a>
                     </td>
                     <td>

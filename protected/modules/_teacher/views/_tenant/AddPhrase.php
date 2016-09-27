@@ -1,26 +1,25 @@
 
-<div class="panel panel-primary">
+<div class="panel panel-primary" ng-controller="phraseCtrl">
     <div class="panel-body">
-        <form >
+        <form name="form" novalidate>
             <div class="form-group" id="receiver">
 
                 <label>Фраза</label>
                 <br>
                 <br>
                 <input id="phrase" type="text" class="form-control" name="user" placeholder="Введіть фразу"
-                       size="90" required>
+                       size="90" required ng-model="phrase.text">
+                <div class="error" ng-show="errors.ChatPhrases_text && form.user.$touched">{{errors.ChatPhrases_text[0]}}</div>
                 <br>
                 <br>
 
             </div>
 
-            <button class="btn btn-primary"
-                    onclick="addPhrase();return false;">
-            Створити фразу
+            <button class="btn btn-primary" ng-click="addPhrase()">
+            <span ng-if="!phrase.id">Створити фразу</span>
+            <span ng-if="phrase.id">Змінити фразу</span>
             </button>
-
-                        <button type="reset" class="btn btn-default"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>')">
+                        <button type="reset" class="btn btn-default" ng-click="changeView('tenant/phrases')">
             Скасувати
             </button>
         </form>
@@ -28,15 +27,3 @@
 
     </div>
 </div>
-<script>
-   function addPhrase(){
-       var phrase = document.getElementById('phrase').value;
-
-   $jq.ajax({
-       url: basePath + "/_teacher/_tenant/tenant/savePhrase?phrase="+phrase,
-       success: function () {
-           load(basePath + '/_teacher/_tenant/tenant/showPhrases');
-       },
-
-   });}
-</script>

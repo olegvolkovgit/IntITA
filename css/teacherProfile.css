@@ -14,7 +14,7 @@
 {
     margin: 0 auto;
     max-width: 1200px;
-    width: 100%;
+    width: 95%;
     overflow: hidden;
 }
 .TeacherProfileblock1
@@ -193,6 +193,9 @@ img.lessonBut  {
 .editableText p{
     margin: 2px 0;
 }
+.editableText {
+    word-break: break-word;
+}
 .hideInput{
     position: absolute;
     opacity: 0;
@@ -272,10 +275,16 @@ img.lessonBut  {
     visibility: hidden;
 }
 .teacherName{display: none}
+.teacherCourses ul li{
+    word-break:break-word; ;
+}
 @media only screen and (max-width: 800px) {
     .TeacherProfileblock1,.TeacherProfileblock2 {
         float:none;
         width:99%;
+    }
+    .TeacherProfilecourse {
+        padding-left:0;
     }
 }
 @media only screen and (max-width: 360px) {
@@ -286,7 +295,8 @@ img.lessonBut  {
     {
         color:#4B75A4;
         font-size:26px;
-        margin-bottom:0px;
+        margin-bottom:0;
+        vertical-align: top;
     }
     .TeacherProfilename{display:none}
 }

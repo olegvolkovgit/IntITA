@@ -1633,7 +1633,7 @@ function initConsultationsTable() {
     });
 }
 
-function cancelConsultation(url, callback) {
+function cancelConsultationDeprecated(url, callback) {
     bootbox.confirm('Відмінити консультацію?', function (result) {
         if (result) {
             $jq.ajax({

@@ -2,7 +2,7 @@
 {
     margin: 0 auto;
     max-width: 1200px;
-    width: 100%;
+    width: 95%;
     margin-bottom: 20px;
     clear: both;
     overflow: hidden;
@@ -890,7 +890,7 @@ body .grid-view table.items td{
         width: 65px;
         display: inline-block;
     }
-    .editLink{display:none}
+    /*.editLink{display:none}*/
     .formStudProf div.studProfInf table,.formStudProf div.studProfInf img{margin-left:0}
     .userNameMini{display: inline-block;}
     .userNameMini h1{font-size: 20px}
@@ -938,7 +938,7 @@ body .grid-view table.items td{
         margin-top: 0;
     }
 }
-@media only screen and (min-width: 360px) {
+@media only screen and (min-width: 361px) {
     #spoilerContentMini{display: block!important;}
 }
 @media only screen and (min-width: 801px) {

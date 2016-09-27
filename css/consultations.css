@@ -1,5 +1,6 @@
 .consultationsMainBlock{
-    width: 1200px;
+    max-width: 1200px;
+    width: 95%;
     margin: 0 auto;
     display:block;
     position:relative;
@@ -58,7 +59,6 @@
 }
 .consultations{
     position: relative;
-    width: 1200px;
     margin: 0 auto;
     color: #4B75A4;
     border-bottom: 1px solid #d8d8d8;
@@ -414,4 +414,31 @@ div#timeInfo{
     position: absolute;
     z-index: 1;
     display: inline-block;
+}
+.teacherBlock{
+    padding: 10px 0 10px 0;
+    margin: 0;
+}
+.leftBlock{width: 25%}
+.rightBlock{width: 65%;text-align: left}
+@media only screen and (max-width: 800px) {
+    .one, .two{
+        width:98%;
+        float:none;
+        margin: 0 auto;
+    }
+    .teacherBlock{
+        text-align: center;
+    }
+    .leftBlock div.photobg, .leftBlock img.teacherphoto {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        min-height: 70px;
+        margin: 0 auto;
+    }
+    .leftBlock img.mask {
+        width: 100%;
+    }
+
 }

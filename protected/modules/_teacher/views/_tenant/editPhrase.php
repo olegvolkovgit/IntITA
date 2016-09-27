@@ -3,7 +3,6 @@
     <div class="panel-body">
         <form >
             <div class="form-group" id="receiver">
-
                 <label>Фраза</label>
                 <br>
                 <br>

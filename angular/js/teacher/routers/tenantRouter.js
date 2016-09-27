@@ -37,11 +37,30 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: "/_teacher/_tenant/tenant/showPhrases",
         })
+        .state('tenant/phrases/create', {
+            url: "/tenant/phrases/create",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Створити фразу');
+            },
+            templateUrl: "/_teacher/_tenant/tenant/renderAddPhrase",
+        })
         .state('tenant/searchchat/:user1/:user2', {
             url: "/tenant/searchchat/:user1/:user2",
             cache         : false,
             templateUrl: function($stateParams){
-                return "/_teacher/_tenant/tenant/ShowChats?user1="+$stateParams.user1+"&user2="+$stateParams.user2; }
+                return "/_teacher/_tenant/tenant/ShowChats?author="+$stateParams.user1+"&user="+$stateParams.user2; }
+        })
+        .state('tenant/phrases/edit/:phraseId', {
+            url: "/tenant/phrases/edit/:phraseId",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Редагувати фразу');
+            },
+            templateUrl: function($stateParams){
+                return basePath+ "/_teacher/_tenant/tenant/editPhrase?id="+$stateParams.phraseId
+            }
+
         })
 
 });

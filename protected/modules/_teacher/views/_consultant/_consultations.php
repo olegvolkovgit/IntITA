@@ -1,34 +1,18 @@
 <div class="panel panel-default" ng-controller="consultantCtrl">
     <div class="panel-body">
-        <!-- Nav tabs -->
-        <ul id="userTabs" class="nav nav-tabs">
-            <li><a href="#planned" data-toggle="tab">Заплановані консультації</a>
-            </li>
-            <li class="active"><a href="#today" data-toggle="tab">Сьогодні</a>
-            </li>
-            <li><a href="#past" data-toggle="tab">Минулі консультації</a>
-            </li>
-            <li><a href="#cancel" data-toggle="tab">Скасовані консультації</a>
-            </li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade" id="planned">
+        <uib-tabset active="1">
+            <uib-tab heading="Заплановані консультації" index="0" select="getPlannedConsultations()">
                 <?php $this->renderPartial('/_consultant/_plannedConsultations');?>
-            </div>
-            <div class="tab-pane fade in active" id="today">
+            </uib-tab>
+            <uib-tab heading="Сьогодні" index="1" select="getTodayConsultations()">
                 <?php $this->renderPartial('/_consultant/_todayConsultations');?>
-            </div>
-            <div class="tab-pane fade" id="past">
+            </uib-tab>
+            <uib-tab heading="Минулі консультації" index="2" select="getPastConsultations()">
                 <?php $this->renderPartial('/_consultant/_pastConsultations');?>
-            </div>
-            <div class="tab-pane fade" id="cancel">
+            </uib-tab>
+            <uib-tab heading="Скасовані консультації" index="3" select="getCanceledConsultations()">
                 <?php $this->renderPartial('/_consultant/_cancelledConsultations');?>
-            </div>
-        </div>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>
-
-<script>
-
-</script>

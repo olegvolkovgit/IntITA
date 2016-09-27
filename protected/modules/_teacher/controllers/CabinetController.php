@@ -36,6 +36,36 @@ class CabinetController extends TeacherCabinetController
         ));
     }
 
+    public function actionGetNewMessages(){
+        $model = Yii::app()->user->model;
+        $newReceivedMessages = $model->newReceivedMessages();
+        $newReceivedMessages = $model->newMessages($newReceivedMessages);
+        $requests = $model->requests();
+        $newRequests = [];
+        $newMessages =[];
+        foreach ($requests as $key=>$request){
+            $req['id'] = $request->getMessageId();
+            $req['sender'] = $request->sender()->userName()==""?$request->sender()->email:$request->sender()->userName();
+            $req['title']=$request->title();
+            if ($request->module()){
+                $req['module'] ='Модуль: '. $request->module()->getTitle();
+            }
+            array_push($newRequests,$req);
+        }
+        foreach ($newReceivedMessages as $key=>$record) {
+            $message = $record->message();
+            $mes['senderId'] = $message->sender0->id;
+            $mes['userId'] = $model->id;
+            ($message->sender0->userName() == "")?$mes['user'] = $message->sender0->email:$mes['user'] = $message->sender0->userName();
+            $mes['date'] = date("h:m, d F", strtotime($message->create_date));
+            $mes['subject'] = $record->subject();
+            array_push($newMessages,$mes);
+        }
+
+            echo json_encode(['requests'=> ['countOfRequests'=>count($newRequests),'newRequests'=>$newRequests],'messages'=>['countOfNewMessages'=>count($newMessages),'newMessages'=>$newMessages ]]);
+
+    }
+
     public function actionLoadPage($page)
     {
         $page = strtoupper($page);
