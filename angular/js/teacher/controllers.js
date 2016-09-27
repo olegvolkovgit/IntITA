@@ -119,10 +119,34 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $ti
 
 }
 
-function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter) {
+function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter,$element) {
 
-    ;
-    $scope.$watch('dt',function(){
+    $scope.checkboxes = { 'checked': false, items: {} };
+
+    // watch for check all checkbox
+    $scope.$watch('checkboxes.checkAll', function(value) {
+            angular.forEach($scope.receivedMessagesTable.data, function(item) {
+                $scope.checkboxes.items[item.id_message] = $scope.checkboxes.checkAll;
+            });
+        });
+
+    // watch for data checkboxes
+    $scope.$watch('checkboxes.items', function(values) {
+       console.log(values);
+        var checked = 0, unchecked = 0,
+            total = $scope.receivedMessagesTable.data.length;
+        angular.forEach($scope.users, function(item) {
+            checked   +=  ($scope.checkboxes.items[item.id_message]) || 0;
+            unchecked += (!$scope.checkboxes.items[item.id_message]) || 0;
+        });
+        if ((unchecked == 0) || (checked == 0)) {
+            $scope.checkboxes.checked = (checked == total);
+        }
+        // grayed checkbox
+        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+    }, true);
+
+       $scope.$watch('dt',function(){
         if ($scope.dt)
             $scope.params.filter()['message.create_date'] = $filter("shortDate")($scope.dt,'yyyy-MM-dd')
     });
@@ -132,7 +156,8 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
         sorting: { 'message.create_date': "desc"},
     }, {
         getData: function (params) {
-
+            delete $scope.checkboxes;
+            $scope.checkboxes = { 'checked': false, items: {} };
             return $resource(basePath + '/_teacher/messages/getUserReceiverMessages').get(params.url()).$promise.then(function (data) {
                 params.total(data.count);
                 return data.rows;

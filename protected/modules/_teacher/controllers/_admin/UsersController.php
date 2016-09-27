@@ -4,12 +4,11 @@ class UsersController extends TeacherCabinetController
 {
     public function hasRole()
     {
-        $allowedActions = ['cancelRole','getTeacherConsultantsList','getConsultantsList','renderAddRoleForm','assignRole','setTeacherRoleAttribute'];
-        $action = Yii::app()->controller->action ->id;
-        if (Yii::app()->user->model->isAdmin()|| (Yii::app()->user->model->isContentManager() && in_array($action,$allowedActions))){
-          return true;
-        }
-        else
+        $allowedActions = ['cancelRole', 'getTeacherConsultantsList', 'getConsultantsList', 'renderAddRoleForm', 'assignRole', 'setTeacherRoleAttribute', 'usersAddForm'];
+        $action = Yii::app()->controller->action->id;
+        if (Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array($action, $allowedActions))) {
+            return true;
+        } else
             return false;
         //return Yii::app()->user->model->isAdmin();
     }
