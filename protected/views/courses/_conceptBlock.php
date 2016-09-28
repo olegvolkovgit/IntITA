@@ -28,7 +28,7 @@
     <div class='courseBox2'>
         <span id='courseText2'><?php echo Yii::t('courses', '0148'); ?></span>
         <?php $tmp = Yii::t('courses', '0229');?>
-        <div id="razv"
+        <div class="razv"
              onclick='wrt("<?php echo $tmp;?>")'>
             <br>
             <u><?php echo Yii::t('courses', '0146'); ?></u>
