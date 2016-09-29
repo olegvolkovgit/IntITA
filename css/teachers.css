@@ -28,17 +28,19 @@ div.ifYouTeachers{
     overflow: hidden;
 }
 div.ifYouTeachers label{
+    min-width: 80px;
     display: inline-block;
     text-align: right;
-    width: 17%;
+    width: 20%;
     height: 40px;
     font-size: 18px;
     line-height: 40px;
     color: #FFF;
+    font-weight: normal;
 }
 div.ifYouTeachers input {
     float: right;
-    width: 68%;
+    width: 70%;
     height: 40px;
     border-radius: 5px;
     box-shadow: none;
@@ -46,7 +48,7 @@ div.ifYouTeachers input {
 }
 div.ifYouTeachers textarea {
     float: right;
-    width: 68%;
+    width: 70%;
     height: 160px;
     border:none;
     border-radius: 5px;
@@ -74,7 +76,11 @@ div.ifYouTeachers label.courseslabel{
 .ifYouTeachers div.error input, .ifYouTeachers div.error textarea{
     border: 1px solid darkred;
 }
-
+.ifYouTeachers .clientValidationError {
+    color: darkred;
+    margin-left: 30%;
+}
+.ifYouTeachers .row>label+span{font-size: 18px;color:#fff}
 .subLinksTeachers a{
     color: #666666;
 }
@@ -137,9 +143,7 @@ div.avatarsize{
     padding-left: 20px;
 }
 .teacherCourses {
-    padding-top:1px;
-    padding-bottom:1px;
-    padding-left: 20px;
+    padding:1px 10px;
     background-color: rgba(75,117,164,0.2);
     color:#467c98;
 }
@@ -178,7 +182,7 @@ div.aboutMore{
     border-radius: 10px;
     border:none;
     color:#467c98;
-    background-color:#EEEEEE;
+    background-color:#FFF;
     font-size: medium;
     margin-top: 20px;
     clear: both;
@@ -212,16 +216,13 @@ div.aboutMore{
     word-break:break-word; ;
 }
 .teacherInfo{width: 100%}
+#send_btn:disabled{
+    background: #B4ACAC;
+}
 @media only screen and (max-width: 800px) {
     .leftTeacher,.rightTeacher{width: 98%}
     #minTeacherForm{display:block}
     #maxTeacherForm{display:none}
-    .teacherBlock ul {
-        padding-left:0;
-    }
-    .teacherCourses {
-        padding-left: 0;
-    }
 }
 @media only screen and (max-width: 360px) {
     .teacherTable>div {display: inline-block}

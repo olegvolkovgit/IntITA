@@ -6,8 +6,34 @@ angular
     .service('sendTaskJsonService', [
         '$http',
         function($http) {
-            this.sendJson = function (url,jsonTask) {
+            var self = this;
+            self.sendJson = function (url,jsonTask,idTask) {
                 $('#ajaxLoad').center().show();
+                $http({
+                    url: basePath+'/interpreter/editTask',
+                    method: "POST",
+                    data: $.param({
+                        json: JSON.stringify(jsonTask),
+                        idTask: idTask,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    if(response.data) {
+                        $('#ajaxLoad').hide();
+                        bootbox.alert(response.data, function () {
+                            location.reload();
+                        });
+                    } else{
+                        self.send(url,jsonTask);
+                    }
+                }, function errorCallback(response) {
+                    $('#ajaxLoad').hide();
+                    console.log(response);
+                    bootbox.alert("Вибач, але виникла помилка при отримані інформації про стан задачі даної ревізії. Спробуй пізніше або зв'яжись з адміністратором сайту.");
+                });
+            };
+
+            self.send = function (url,jsonTask) {
                 $http({
                     url: url,
                     method: "POST",

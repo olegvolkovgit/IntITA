@@ -593,3 +593,7 @@ div.loader > div {
     100% { transform: rotate(360deg); }
 }
 #text{resize: none}
+.ng-table th.sortable .sort-indicator {
+    float: right;
+    width: 100%;
+}

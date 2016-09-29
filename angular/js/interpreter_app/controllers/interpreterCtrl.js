@@ -299,7 +299,7 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
     $scope.fNameGenerate = function () {
         $scope.function.function_name=$scope.finalResult.name+$scope.prefix;
     };
-    $scope.sendJson = function (url) {
+    $scope.sendJson = function (url,idTask,uid) {
         for (var i=0;i<$scope.res_finalResult.function.args.length;i++){
             if($scope.res_finalResult.function.args[i].type==0 && $scope.res_finalResult.function.args[i].is_array==0){
                 for(var j=0;j<$scope.res_finalResult.function.args[i].value.length;j++){
@@ -355,11 +355,8 @@ function interpreterCtrl($scope,sendTaskJsonService,getTaskJson) {
             }, 1000);
             $("#params").addClass('invalidParams');
         }else{
-            //todo equated id interpreter task to json task id
-            if($scope.res_finalResult.task!=window.location.search.substring(1).split("&")[0].split("=")[1]){
-                $scope.res_finalResult.task=window.location.search.substring(1).split("&")[0].split("=")[1];
-            }
-            sendTaskJsonService.sendJson(url,$scope.res_finalResult);
+            $scope.res_finalResult.task=uid;
+            sendTaskJsonService.sendJson(url,$scope.res_finalResult, idTask);
         }
 
         function returnUnique(arr) {

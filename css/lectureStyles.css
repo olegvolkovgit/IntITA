@@ -767,7 +767,6 @@ img {
 }
 
 #counter {
-    display: inline-block;
     margin-bottom: -20px;
     margin-top: -6px;
 }
@@ -1067,6 +1066,9 @@ a.pageDone, a.pageNoAccess, a#pagePressed, div.spotDisabled, div#pagePressed  {
     display: inline-block;
     cursor: pointer;
 }
+#pagePressed div.spotDone{
+    background:#23527c;
+}
 
 div.spotDone:hover {
     background: #003366;
@@ -1101,6 +1103,9 @@ div.lastAccessPage {
 
 .text, .codeExample, .code {
     overflow: hidden;
+}
+.codeExample{
+    background: #d6ece0;
 }
 
 .lessonText fieldset {
@@ -1302,7 +1307,7 @@ a.lectureDisabled{
     color: #666666;
 }
 .helpHeader{
-    color:#c54b37;
+    color:#339900;
     font-size: 16px;
 }
 .skypeAssistance{
@@ -1618,12 +1623,11 @@ a.cke_dialog_ui_fileButton{
     font-size: smaller;
 }
 .lectureHeaderMini,.lectureFooterMini{display: none}
-.lecturesSpots{margin-bottom:0;margin-top: 20px}
+.titlesBlock ul li.lecturesSpots{margin-bottom:0;margin-top: 20px}
 .helpButtons{clear: both;margin-left: 15px;overflow: hidden}
 .consultations{display: inline-block;margin-left: 15px;}
 #video{
     position: relative;
-    /*height: 0;*/
     overflow: hidden;
 }
 #video iframe,
@@ -1650,20 +1654,11 @@ a.cke_dialog_ui_fileButton{
     #text, #quiz, #video {
         border-radius:0;
     }
-    .lectureHeaderMini{display: block;margin-top: 10px;}
-    .themeMini{
-        display: inline-block;
-        vertical-align:top;
-        width: 100%;
-        color: #4b75a4;
-        font-size: 28px;
-        line-height: 28px;
-        padding-left: 60px;
-        word-wrap: break-word;
-    }
+    .lectureHeaderMini{display: block;margin-top: 10px;margin-bottom: 10px}
     .sidebarMini{
         display: inline-block;
         width: 100%;
+        padding-left: 35px;
     }
     .titlesBlock {
         margin-left:2px;
@@ -1671,17 +1666,44 @@ a.cke_dialog_ui_fileButton{
     }
     .titlesBlock ul li {
         line-height: 1;
-        margin:10px 0 10px 0;
+        margin:5px 0;
         font-size: 16px;
     }
     .lecturesSpots{margin-top:0}
     .lectureFooterMini{display: block}
     .helpButtons{width:22%;display: inline-block;vertical-align: top;min-width: 160px}
     .forum{width:45%;display: inline-block;vertical-align: top;min-width: 300px}
-    .consultations{width:22%;vertical-align: top;min-width: 200px;margin-top: 25px}
-    .consultations .consultationText {width: 100px;}
+    .consultations{width:22%;vertical-align: top;min-width: 200px;}
+    .consultations .consultationText {width: 90px;}
     .lectureFooterMini{margin-bottom: 15px}
     #discussion{border-radius: 0}
+    .lectureType, .lectureType+li{display:inline-block}
+    .lectureType{margin-bottom:0}
+    .titlesBlock ul li.lecturesSpots{margin-top:0;}
+    span.spoilerTitle {
+        font-size: 20px;
+    }
+    #labelBlock p, #tooltip p {
+        font-size: 18px;
+    }
+    .lectureProgress a {
+        padding: 0;
+        margin-right: 3px;
+    }
+    .lessonPart {
+        height:inherit;
+        line-height:inherit;
+    }
+    .chat{overflow: hidden;margin-bottom: 20px}
+    #consultationAssistance {
+        width: 160px;
+        height: 50px;
+        margin-top: 25px;
+    }
+    .consultationText, .mibewText {
+        font-size: 14px;
+        margin-left: 5px;
+    }
 }
 @media only screen and (max-width: 360px) {
     .lectureHeaderMini{overflow:hidden}
@@ -1689,10 +1711,7 @@ a.cke_dialog_ui_fileButton{
         display: block;
         width: 100%;
         border-left:none;
-    }
-    .themeMini{
-        display: block;
-        width: 100%;
+        padding-left:inherit;
     }
     .titlesBlock ul li {
         line-height: 1.2;
@@ -1706,5 +1725,38 @@ a.cke_dialog_ui_fileButton{
     }
     .consultationButtons{
         float: none;
+    }
+    #labelBlock p, #tooltip p {
+        font-size: 16px;
+    }
+    .lessonPart {overflow: hidden;}
+    .lectureHeaderMini {
+        margin-top: 40px;
+    }
+    #hambButton {
+        margin-top: 2px;
+    }
+    .titlesBlock {
+        padding-left: 0;
+    }
+    .chat,.skype{display:inline-block;vertical-align: top}
+    .skype .skypeAssistance,.chat .skypeAssistance {
+        width: 125px;
+        margin-right:0;
+    }
+    .consultationLogos {
+        margin-left: 2px;
+    }
+    .consultationText {
+        width: 70px;
+    }
+    #discussionHeader {
+        margin-top:0;
+    }
+    .forum {
+        min-width: inherit;
+    }
+    .consultationText, .mibewText {
+        margin-left:0;
     }
 }
