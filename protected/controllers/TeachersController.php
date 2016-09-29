@@ -47,22 +47,22 @@ class TeachersController extends Controller
     public function actionTeacherLetter()
     {
         $obj = new TeacherLetter;
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'teacherletter-form') {
-            echo CActiveForm::validate($obj);
-            Yii::app()->end();
-        }
-        $obj->attributes = $_POST["TeacherLetter"];
+        $obj->firstname=Yii::app()->request->getPost('firstname');
+        $obj->lastname=Yii::app()->request->getPost('lastname');
+        $obj->age=Yii::app()->request->getPost('age');
+        $obj->education=Yii::app()->request->getPost('education');
+        $obj->phone=Yii::app()->request->getPost('phone');
+        $obj->courses=Yii::app()->request->getPost('courses');
+        $obj->email=Yii::app()->request->getPost('email');
         if ($obj->validate()) {
             $title = "Teacher_Work " . $obj->firstname . " " . $obj->lastname;
-            $mess = "Ім'я: " . $obj->firstname . " " . $obj->lastname . "\r\n" . "Дата народження: " . $obj->age . "\r\n" . "Освіта: " . $obj->education . "\r\n" . "Телефон: " . $obj->phone . "\r\n" . "Курси які готовий викладати: " . $obj->courses;
-            // $to - кому отправляем
+            $mess = "Ім'я: " . $obj->firstname . " " . $obj->lastname . "\r\n" . "Вік: " . $obj->age . "\r\n" . "Освіта: " . $obj->education . "\r\n" . "Телефон: " . $obj->phone . "\r\n" . "Курси які готовий викладати: " . $obj->courses;
             $to = Config::getAdminEmail();
-            // функция, которая отправляет наше письмо.
             mail($to, $title, $mess, "Content-type: text/plain; charset=utf-8 \r\n" . "From:" . $obj->email . "\r\n");
-            Yii::app()->user->setFlash('messagemail', Yii::t('teachers', '0564'));
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        } else $this->renderIndex($obj);
-        //}
+            echo Yii::t('letter', '0914');
+        } else {
+            echo Yii::t('letter', '0915');
+        }
     }
 
     private function renderIndex($teacherLetter)
