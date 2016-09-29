@@ -146,10 +146,23 @@ class MessagesController extends TeacherCabinetController
     public function actionDelete()
     {
         $jsonObj = json_decode($_POST['data']);
+        if (isset($jsonObj->messages)) {
+            foreach ($jsonObj->messages as $item) {
 
-        $message = UserMessages::model()->findByPk($jsonObj->message);
-        $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
-        return $message->deleteMessage($receiver);
+                    $message = MessagesFactory::getInstance(Messages::model()->findByPk($item));
+                    $message->deleteMessage(StudentReg::model()->findByPk(Yii::app()->user->id));
+
+            }
+            echo 'success';
+        }
+        else {
+            $message = MessagesFactory::getInstance(Messages::model()->findByPk($jsonObj->message));
+            $receiver = StudentReg::model()->findByPk($jsonObj->receiver);
+            if ($message->deleteMessage($receiver))
+                echo 'success';
+            else
+                echo 'error';
+        }
     }
 
     public function actionDeleteDialog()
@@ -202,9 +215,13 @@ class MessagesController extends TeacherCabinetController
 
     public function actionMessage($id)
     {
-        $message = UserMessages::model()->findByAttributes(array('id_message' => $id));
+        $message = MessagesFactory::getInstance(Messages::model()->findByPk($id));
+        //$message = UserMessages::model()->findByAttributes(array('id_message' => $id));
+        $deleted = $message->isDeleted(StudentReg::model()->findByPk(Yii::app()->user->id));
+
+
         $this->renderPartial('_viewMessage', array(
-            'message' => $message,
+            'message' => $message, 'deleted'=>$deleted
         ), false, true);
     }
 

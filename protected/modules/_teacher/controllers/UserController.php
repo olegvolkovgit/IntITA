@@ -3,7 +3,8 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isTrainer();
+        $allowedContentManagerActions=['loadJsonUserModel'];
+        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isTrainer()||(Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action ->id,$allowedContentManagerActions));
     }
 
     public function actionIndex($id)

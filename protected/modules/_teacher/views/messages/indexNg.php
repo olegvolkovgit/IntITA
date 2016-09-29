@@ -14,6 +14,9 @@
 </a>
 <br>
 <br>
+<script type="text/ng-template" id="headerCheckbox.html">
+    <input type="checkbox" ng-model="checkboxes.checkAll" id="select_all" name="filter-checkbox" value="" />
+</script>
 
 <div id="mylettersSend">
     <div class="panel panel-default">
@@ -35,15 +38,21 @@
 
 
             <uib-tabset active="0">
+
                 <uib-tab index="0" heading="<?php echo Yii::t("letter", "0532") ?>" select="reload()">
+                    <div ng-if="deleteReceivedMessages.length > 0" style="padding: 10px">
+                    <button class="btn btn-danger"  ng-click="deleteMessages()">Видалити повідомлення </button>
+                    </div>
                     <table ng-table="receivedMessagesTable" class="table table-striped table-bordered table-hover" width="100%" style="cursor:pointer">
                         <colgroup>
+                            <col width="5%" />
                             <col width="25%" />
                             <col width="55%" />
                             <col width="15%" />
                         </colgroup>
-                        <tr ng-repeat="row in $data" ng-click="changeView('dialog/'+row.sender.id+'/'+row.receiver.id)" ng-class="!row.read ? 'new' : ''">
-                            <td data-title="'Від кого'"  filter="{'name' : 'text'}">
+                        <tr ng-repeat="row in $data">
+                            <td header="'headerCheckbox.html'"> <input type="checkbox" ng-model="checkboxes.items[row.id_message]" /></td>
+                            <td data-title="'Від кого'"  filter="{'name' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ng-if="row.sender.fullName"><em>{{row.sender.fullName}} ({{row.sender.email}})</em></div>
                                 <div ng-if="row.sender.fullName == ''"><em>{{row.sender.email}}</em></div>
                             </td>
