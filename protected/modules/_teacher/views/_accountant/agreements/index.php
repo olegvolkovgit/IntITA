@@ -14,10 +14,10 @@
                         {{row.user.fullName}}, {{row.user.email}}
                     </td>
                     <td data-title="'Дата створення'" filter="{create_date: 'text'}" sortable="'create_date'">
-                        {{row.create_date}}
+                        {{row.create_date | shortDate:'dd.MM.yyyy'}}
                     </td>
                     <td data-title="'Дата підтвердження'" filter="{approval_date: 'text'}" sortable="'approval_date'">
-                        {{row.approval_date}}
+                        {{row.approval_date | shortDate:'dd.MM.yyyy'}}
                     </td>
                     <td data-title="'Підтверджено користувачем'" filter="{'approvalUser.fullName': 'text'}"
                         sortable="'approvalUser.fullName'">{{row.approvalUser.fullName}}, {{row.approvalUser.email}}

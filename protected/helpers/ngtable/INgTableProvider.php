@@ -1,6 +1,6 @@
 <?php
 
-interface INgTableProvider {
+interface INgTableProvider extends IBehavior{
     /**
      * Returns list of fields which should be returned if model is main model in request
      * @return mixed

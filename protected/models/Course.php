@@ -382,7 +382,7 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getNumber()
     {
-        return $this->course_number;
+        return $this->course_ID;
     }
 
     public function getType()
