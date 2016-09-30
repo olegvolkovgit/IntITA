@@ -39,7 +39,7 @@ class ExternalPays extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose, companyId', 'required'),
+			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose, companyId', 'required', 'message'=>'Поле \'{attribute}\' не може бути пустим'),
 			array('createUser, userId, companyId', 'numerical', 'integerOnly'=>true),
 			array('sourceId, amount', 'length', 'max'=>10),
 			array('documentPurpose', 'length', 'max'=>512),
@@ -78,6 +78,7 @@ class ExternalPays extends CActiveRecord
             'documentDate' => 'Дата створення платежу',
             'amount' => 'Сумма до сплати',
             'documentPurpose' => 'Пояснення платежу',
+			'companyId' => 'ID компанії'
 		);
 	}
 

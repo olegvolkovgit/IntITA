@@ -29,6 +29,6 @@ function showLoader() {
         scope: {
             control: '=control'
         },
-        templateUrl: '/angular/js/teacher/templates/blockWindowLoader.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/blockWindowLoader.html'
     }
 }
