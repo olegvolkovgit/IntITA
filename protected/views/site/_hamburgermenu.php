@@ -30,7 +30,7 @@
             <?php if (!Yii::app()->user->isGuest) { ?>
             <li><a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a></li>
             <?php } ?>
-            <li><a href="http://profitday.info/" target="_blank"><?php echo Yii::t('header', '0912'); ?></a></li>
+            <li><a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a></li>
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {
