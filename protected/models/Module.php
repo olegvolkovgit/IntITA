@@ -504,9 +504,9 @@ class Module extends CActiveRecord implements IBillableObject
     public function modulePrice($idCourse = 0)
     {
         if ($idCourse > 0) {
-            return round($this->module_price*Config::getCoeffDependentModule());
+            return round($this->module_price*Config::getCoeffDependentModule(),2);
         } else {
-            return round($this->module_price);
+            return round($this->module_price,2);
         }
     }
 

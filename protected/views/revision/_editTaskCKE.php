@@ -11,7 +11,7 @@ $revisionTask=RevisionTask::model()->findByAttributes(array('id_lecture_element'
 idBlock=<?php echo $idElement; ?>;'>
 <div class="editTask" ng-controller="taskCtrl">
     <br>
-    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->uid)); ?>" method="post" target="_blank">
+    <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->id)); ?>" method="post" target="_blank">
         <fieldset>
             <legend id="label">Редагувати:</legend>
             Мова програмування:<br>

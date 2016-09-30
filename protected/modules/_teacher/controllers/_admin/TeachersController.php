@@ -9,7 +9,8 @@
 class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        $allowedActions=['setTeacherRoleAttribute'];
+        return Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action ->id,$allowedActions));
     }
 
     protected function performAjaxValidation($model)

@@ -81,9 +81,6 @@ $finishedLecture = $lecture->isFinished($user);
 <div ng-cloak class="lessonBlock" id="lessonBlock" ng-app="lessonApp">
     <div ng-controller="lessonPageCtrl">
         <div class="lectureHeaderMini">
-            <div class="themeMini">
-                <?php $this->renderPartial('_lectureTheme', array('lecture' => $lecture, 'editMode' => $editMode)); ?>
-            </div>
             <div class="sidebarMini">
                 <?php $this->renderPartial('_sidebarMain', array('lecture' => $lecture, 'editMode' => $editMode, 'idCourse' => $idCourse, 'finishedLecture' => $finishedLecture, 'passedPages' => $passedPages)); ?>
             </div>

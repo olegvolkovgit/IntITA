@@ -3,7 +3,7 @@
  */
 function wrt(x)
 {
-    document.getElementById("razv").innerHTML=x;
+    $(".razv").html(x);
 }
 
 function xexx()

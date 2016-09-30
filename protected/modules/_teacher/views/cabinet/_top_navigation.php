@@ -27,7 +27,7 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="">
 
-            <span class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
+            <span ng-cloak class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
 
             <i class="fa fa-envelope fa-fw"></i>
             <i class="fa fa-caret-down"></i>
@@ -40,7 +40,7 @@
     <?php if($model->isAdmin() || $model->isContentManager()){?>
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="">
-            <span class="label label-success" ng-if="requests.countOfRequests > 0">{{requests.countOfRequests}}</span>
+            <span ng-cloak class="label label-success" ng-if="requests.countOfRequests > 0">{{requests.countOfRequests}}</span>
             <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-tasks">
@@ -84,6 +84,8 @@
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0018'); ?></a></li>
             <li><a href="http://www.robotamolodi.org/" target="_blank"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0902'); ?></a></li>
+            <li><a href="http://profitday.info/" target="_blank"><i
+                        class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0912'); ?></a></li>
             <li class="divider"></li>
             <li><a href="<?php echo Yii::app()->createUrl('site/logout'); ?>">
                     <i class="fa fa-sign-out fa-fw"></i> Вихід</a>

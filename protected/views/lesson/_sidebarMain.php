@@ -27,7 +27,7 @@ $lecturesCount = $lecture->module->lecturesCount();
             $this->renderPartial('_jsChaptersListTemplate', array('idLecture' => $lecture->id, 'isFree' => $lecture->isFree, 'passedPages' => $passedPages, 'editMode' => $editMode, 'idCourse' => $idCourse));
             ?>
         </li>
-        <li style="margin-bottom: 0"><?php echo Yii::t('lecture', '0074'); ?>
+        <li class="lectureType"><?php echo Yii::t('lecture', '0074'); ?>
             <div id="lectionTypeText"><?php
                 $titleParam = 'title_'.CommonHelper::getLanguage();
                 echo $lecture->type->$titleParam; ?></div>

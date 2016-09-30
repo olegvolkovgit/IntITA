@@ -34,6 +34,7 @@
 <script>
     basePath='<?php echo  Config::getBaseUrl(); ?>';
 </script>
+<input type="hidden" ng-init='idTask="<?php echo $task->id; ?>"' />
 <input type="hidden" ng-init='lang="<?php echo $task->language; ?>"' ng-model="lang" />
 <input type="hidden" ng-init='task="<?php echo $task->uid; ?>"' ng-model="task" />
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />

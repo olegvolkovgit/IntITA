@@ -245,4 +245,38 @@ class RevisionTask extends RevisionQuiz
 			return false;
 		else return true;
 	}
+
+    //create new interpreter task if edit task in not original revision
+	public function editTaskWithNewUID($json) {
+		$url = Config::getInterpreterServer();
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			$this->update();
+			$pos = strpos($json,'"task":"'.json_decode($json)->task.'"');
+			$newJson= substr_replace($json, '"task":'.$this->uid, $pos, strlen('"task":"'.json_decode($json)->task.'"'));
+			$result=file_get_contents($url, false, stream_context_create(array(
+				'http' => array(
+					'method'  => 'POST',
+					'header'  => 'Content-type: application/x-www-form-urlencoded;charset=utf-8;',
+					'content' => $newJson
+				)
+			)));
+			$result=json_decode($result);
+
+			if($result->status=='updated') {
+				$msg="Зміни юніттестів успішно скомпільовані";
+			} else if($result->status=='success') {
+				$msg="Додані юніттести успішно скомпільовані";
+			} else if($result->status=='failed') {
+				$msg='Змін не відбулося';
+			} else {
+				$msg="Виникла помилка при компіляції: "+"<br/>".$result->status;
+			}
+			$transaction->commit();
+			return $msg;
+		} catch (Exception $e) {
+			$transaction->rollback();
+			throw new \application\components\Exceptions\IntItaException(500, "Внести зміни в юніттести не вдалося. Зв'яжіться з адміністрацією");
+		}
+	}
 }

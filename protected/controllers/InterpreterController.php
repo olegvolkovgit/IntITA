@@ -12,28 +12,40 @@ class InterpreterController extends Controller
 
     public function initialize($idRevision, $task)
     {
-//        $lecture = Lecture::model()->findByPk($idLecture);
-//        $task = Task::model()->findByPk($idTask);
         $revision = RevisionLecture::model()->findByPk($idRevision);
 
         if(!$revision || !$task){
             throw new \application\components\Exceptions\IntItaException('404', 'Запитувана сторінка не існує.');
         }
-//        if($idLecture!=Task::getTaskLecture(($idTask))){
-//            throw new \application\components\Exceptions\IntItaException('404', 'Запитувана сторінка не існує.');
-//        }
-        $editMode = Teacher::isTeacherAuthorModule(Yii::app()->user->getId(),$revision->id_module);
-        if (!$editMode) {
+
+        if ($revision->properties->id_user_created!=Yii::app()->user->getId()) {
             throw new \application\components\Exceptions\IntItaException('403', 'У вас недостатньо прав для перегляду та редагування сторінки.
-                Для отримання доступу увійдіть з логіном автора модуля.');
-           }
+                Для отримання доступу увійдіть з логіном автора ревізії.');
+        }
+        if (!$revision->isEditable()) {
+            throw new \application\components\Exceptions\IntItaException('403', 'Ревізія знаходиться в статусі недоступному для редагування');
+        }
     }
 
     public function actionIndex($id,$task)
     {
-        $task = RevisionTask::model()->findByAttributes(array('uid'=>$task));
+        $task = RevisionTask::model()->findByPk(array($task));
         $this->initialize($id,$task);
 
         $this->render('index',array('task'=>$task));
+    }
+
+    public function actionEditTask()
+    {
+        $idTask = Yii::app()->request->getPost('idTask');
+        $json=Yii::app()->request->getPost('json');
+        $task=RevisionTask::model()->findByPk($idTask);
+
+        $taskArray=RevisionTask::model()->findAllByAttributes(array('uid'=>$task->uid));
+        if($taskArray[0]->lectureElement->page->revision->id_revision!=$task->lectureElement->page->revision->id_revision){
+            echo $task->editTaskWithNewUID($json);
+        }else{
+            echo false;
+        }
     }
 }

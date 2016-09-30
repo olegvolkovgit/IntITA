@@ -3,7 +3,9 @@ angular
     .module('mainApp')
     .controller('editProfileController',editProfileController)
     .controller('registrationFormController',registrationFormController)
-    .controller('aboutUsCtrl',aboutUsCtrl);
+    .controller('aboutUsCtrl',aboutUsCtrl)
+    .controller('sendTeacherLetter',sendTeacherLetter);
+
 
 /* Controllers */
 function editProfileController($scope, $http, countryCity) {
@@ -178,6 +180,27 @@ function aboutUsCtrl($scope, $http) {
     
     $scope.nextPage=function (buttonNumber) {
         $scope.openPage=buttonNumber;
+    }
+}
+
+function sendTeacherLetter($scope, $http) {
+    $scope.sendLetter=function () {
+        $http({
+            url: basePath+"/teachers/teacherletter",
+            method: "POST",
+            data: $.param({
+                firstname: $scope.firstname,lastname:$scope.lastname,
+                age:$scope.age,education:$scope.education,phone:$scope.phone,
+                courses:$scope.courses,email:$scope.email
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data,function () {
+                location.reload();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка при відпправлені листа. Зв\'яжіться з адміністрацією.");
+        });
     }
 }
 
