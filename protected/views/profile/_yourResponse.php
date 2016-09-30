@@ -1,11 +1,11 @@
-<?php
-    $knowldg = '0';
-    $behvr = '0';
-    $motivtn = '0';
-    $knowval = Null;
-    $behval = Null;
-    $motivval = Null;
-?>
+<script>
+    idTeacher='<?php echo $model->primaryKey ?>';
+    basePath = '<?php echo Config::getBaseUrl(); ?>';
+    min = '<?=Config::getMinLengthResponse()?>';
+    max = '<?=Config::getMaxLengthResponse()?>';
+    minMsg='<?php echo Yii::t("response", "0820", array('{min}' => Config::getMinLengthResponse())) ?>';
+    maxMsg='<?php echo Yii::t("response", "0821", array('{max}' => Config::getMaxLengthResponse())) ?>';
+</script>
 <?php if (!Yii::app()->user->isGuest && Yii::app()->user->model->canAddResponse($model->primaryKey)) { ?>
     <div class="lessonTask">
         <img class="lessonBut"
@@ -51,91 +51,32 @@
             <div class="BBCode">
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'response-form',
-                    'action' => Yii::app()->createUrl('profile/index', array('idTeacher' => $model->primaryKey)),
                     'enableAjaxValidation' => false,
-                    'htmlOptions' => array('enctype' => 'multipart/form-data'),
+                    'htmlOptions' => array(
+                        'enctype' => 'multipart/form-data',
+                        'ng-controller'=>'teacherResponse'
+                    ),
                 )); ?>
                 <div class="row">
-                    <?php echo $form->hiddenField($response, 'knowledge', array('id' => 'rat1', 'value' => $knowval)); ?>
+                    <?php echo $form->hiddenField($response, 'knowledge', array('id' => 'rat1', 'ng-model'=>'knowledge')); ?>
                 </div>
                 <div class="row">
-                    <?php echo $form->hiddenField($response, 'behavior', array('id' => 'rat2', 'value' => $behval)); ?>
+                    <?php echo $form->hiddenField($response, 'behavior', array('id' => 'rat2','ng-model'=>'behavior')); ?>
                 </div>
                 <div class="row">
-                    <?php echo $form->hiddenField($response, 'motivation', array('id' => 'rat3', 'value' => $motivval)); ?>
+                    <?php echo $form->hiddenField($response, 'motivation', array('id' => 'rat3', 'ng-model'=>'motivation')); ?>
                 </div>
-
                 <div class="row">
                     <?php echo $form->textArea($response, 'text', array('class' => 'editor', 'id' => 'go')); ?>
                 </div>
-                <div class="modelerrors">
-                    <?php if ($form->error($response, 'knowledge') || $form->error($response, 'behavior') || $form->error($response, 'motivation'))
-                        echo Yii::t('response', '0385'); ?>
-                    <?php echo $form->error($response, 'text'); ?>
-                </div>
                 <div class="rowbuttons">
-                    <?php echo CHtml::submitButton(Yii::t('teacher', '0192'), array('id' => "sendResponse")); ?>
+                    <input id='sendResponse' type="button" ng-click="sendResponse()" value="<?php echo Yii::t('teacher', '0192') ?>">
                 </div>
-                <?php if (Yii::app()->user->hasFlash('messageResponse')):
-                    echo Yii::app()->user->getFlash('messageResponse');
-                endif; ?>
                 <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>
 <?php } ?>
 <script type="text/javascript">
-
     $.fn.raty.defaults.path = "<?php echo Config::getBaseUrl(); ?>/images/rating/";
-
-    $('#material').raty({
-        score: <?php echo $knowldg; ?>,
-        click: function (score) {
-            document.getElementById('rat1').value = score;
-        }
-    });
-
-    $('#behavior').raty({
-        score: <?php echo $behvr; ?>,
-        click: function (score) {
-            document.getElementById('rat2').value = score;
-        }
-    });
-    $('#motiv').raty({
-        score: <?php echo $motivtn; ?>,
-        click: function (score) {
-            document.getElementById('rat3').value = score;
-        }
-    });
-
-    $(document).ready(function () {
-        var responseButton=document.getElementById('sendResponse');
-        if(responseButton) {
-            $('#sendResponse').tooltip();
-            min = <?=Config::getMinLengthResponse()?>;
-            max = <?=Config::getMaxLengthResponse()?>;
-            $('.responseBG').on('mousemove', function (e) { check_charcount($('.wysibb-text-editor'), max, min, e); });
-            $('.BBCode').on('keypress', '.wysibb-text-editor', function (e) { check_charcount($(this), max, min, e); });
-            function check_charcount(content, max, min, e) {
-                tmpstr = content.text().replace(/\s/gm, '');
-                if (tmpstr.length < min) {
-                    responseButton.disabled = true;
-                    responseButton.setAttribute('title', '<?php echo Yii::t("response", "0820", array('{min}' => Config::getMinLengthResponse())) ?>');
-                    responseButton.setAttribute('style', 'background:gray');
-                } else {
-                    responseButton.disabled = false;
-                    responseButton.removeAttribute('title');
-                    responseButton.removeAttribute('style');
-                    if (tmpstr.length > max) {
-                        responseButton.disabled = true;
-                        responseButton.setAttribute('title', '<?php echo Yii::t("response", "0821", array('{max}' => Config::getMaxLengthResponse())) ?>');
-                        responseButton.setAttribute('style', 'background:gray');
-                    }
-                }
-                if (e.which != 8 && tmpstr.length > max) {
-                    e.preventDefault();
-                }
-            }
-        }
-    });
 </script>
