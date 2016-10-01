@@ -38,7 +38,7 @@
                 </td>
                 <td>
                     <?php
-                    $priceInCourse=$model->module_price*Config::getCoeffDependentModule();
+                    $priceInCourse=round($model->module_price*Config::getCoeffDependentModule(),2);
                     echo ($priceInCourse == 0) ? "безкоштовно" : $priceInCourse;
                     ?>
                 </td>

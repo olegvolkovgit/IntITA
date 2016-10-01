@@ -7,11 +7,10 @@ trait GracefulDivision
 
         $pay = ceil($summa * 100 / $payCount);
         $pay /= 100;
-        for($i = 0; $i < $payCount; $i++){
-            $arrayInvoiceSumma[$i] = $pay;
-            if ($i == $payCount - 1){
-                $arrayInvoiceSumma[$payCount - 1] = $summa - $pay * ($payCount - 1);
-            }
+
+        while ($summa > 0) {
+            $arrayInvoiceSumma[] = min($pay, $summa);
+            $summa -= $pay;
         }
 
         return  $arrayInvoiceSumma;

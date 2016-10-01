@@ -3,7 +3,10 @@ angular
     .module('mainApp')
     .controller('editProfileController',editProfileController)
     .controller('registrationFormController',registrationFormController)
-    .controller('aboutUsCtrl',aboutUsCtrl);
+    .controller('aboutUsCtrl',aboutUsCtrl)
+    .controller('sendTeacherLetter',sendTeacherLetter)
+    .controller('teacherResponse', teacherResponse);
+
 
 /* Controllers */
 function editProfileController($scope, $http, countryCity) {
@@ -178,6 +181,98 @@ function aboutUsCtrl($scope, $http) {
     
     $scope.nextPage=function (buttonNumber) {
         $scope.openPage=buttonNumber;
+    }
+}
+
+function sendTeacherLetter($scope, $http) {
+    $scope.sendLetter=function () {
+        $http({
+            url: basePath+"/teachers/teacherletter",
+            method: "POST",
+            data: $.param({
+                firstname: $scope.firstname,lastname:$scope.lastname,
+                age:$scope.age,education:$scope.education,phone:$scope.phone,
+                courses:$scope.courses,email:$scope.email
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data,function () {
+                location.reload();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка при відпправлені листа. Зв\'яжіться з адміністрацією.");
+        });
+    }
+}
+function teacherResponse($scope, $http) {
+    $scope.knowldg = '0';
+    $scope.behvr = '0';
+    $scope.motivtn = '0';
+    
+    $('#material').raty({
+        score: $scope.knowldg, 
+        click: function (score) {
+            $scope.knowledge = score;
+        }
+    });
+
+    $('#behavior').raty({
+        score: $scope.behvr, 
+        click: function (score) {
+            $scope.behavior = score;
+        }
+    });
+    $('#motiv').raty({
+        score: $scope.motivtn, 
+        click: function (score) {
+            $scope.motivation = score;
+        }
+    });
+
+    $scope.sendResponse=function () {
+        if($scope.tmpstr.length < min || $scope.tmpstr.length > max) return;
+        $scope.text=$('.wysibb-text-editor').html();
+        $http({
+            url: basePath+"/profile/sendresponse/?idTeacher="+idTeacher,
+            method: "POST", 
+            data: $.param({
+            knowledge: $scope.knowledge,behavior:$scope.behavior,
+            motivation:$scope.motivation,text:$scope.text
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data.msg,function () {
+                if(response.data.validation)
+                    location.reload();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка при відпправлені відгука. Зв\'яжіться з адміністрацією.");
+        });
+    }
+
+    var responseButton=document.getElementById('sendResponse');
+    if(responseButton) {
+        $('#sendResponse').tooltip();
+
+        $('.responseBG').on('mousemove', function (e) { check_charcount($('.wysibb-text-editor'), max, min, e); });
+        $('.BBCode').on('keypress', '.wysibb-text-editor', function (e) { check_charcount($(this), max, min, e); });
+        function check_charcount(content, max, min, e) {
+            $scope.tmpstr = content.text().replace(/\s/gm, '');
+            if ($scope.tmpstr.length < min) {
+                responseButton.setAttribute('title', minMsg);
+                responseButton.setAttribute('style', 'background:gray');
+            } else {
+                responseButton.removeAttribute('title');
+                responseButton.removeAttribute('style');
+                if ($scope.tmpstr.length > max) {
+                    responseButton.setAttribute('title', maxMsg);
+                    responseButton.setAttribute('style', 'background:gray');
+                }
+            }
+            if (e.which != 8 && $scope.tmpstr.length > max) {
+                e.preventDefault();
+            }
+        }
     }
 }
 

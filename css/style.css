@@ -15,7 +15,6 @@ p{font-family:"MyriadPro";color:#666666;}
 #navigation{border-collapse: collapse;display:table;max-width:1200px;width:100%;height:100px;margin:0 auto;background-color:white;box-sizing:content-box;}
 #navigation.down{height:60px;}
 #navigation.downmain{height:60px;}
-#navigation #menulist{padding-left:5%}
 #menulist ul{float:right}
 #navigation.downmain div#menulist{width:940px;margin:0 auto;text-align:center;}
 #navigation ul{display:inline-block;margin-bottom:0;padding:0;}
@@ -35,10 +34,10 @@ p{font-family:"MyriadPro";color:#666666;}
 #enterButton, .enterButton{display:inline-block;position:relative;height:33px;width:70px;}
 #enterButton.downmain, .enterButton.downmain{margin-right:23px;}
 #navigation.down #enterButton{width:100px;text-align:center;margin-right:0}
-#button_border, .button_border{position:absolute;border:2px solid #4b70a3;border-radius:10px 10px 0 0;margin-left:93px;margin-top:74px;z-index:6;height:20px;width:74px;}
+#button_border, .button_border{position:absolute;border:2px solid #4b70a3;border-radius:10px 10px 0 0;margin-left:89px;margin-top:74px;z-index:6;height:20px;width:74px;}
 #button_border.down, .button_border.down{display:none;}
 #button_border.downmain, .button_border.downmain{display:none;}
-#enter_button, .enter_button{position:absolute;margin-left:95px;margin-top:76px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:7;cursor:pointer}
+#enter_button, .enter_button{position:absolute;margin-left:91px;margin-top:76px;height:33px;width:70px;background:#4b70a3;border-radius:10px;border:2px solid #ffffff;color:white;vertical-align:middle;font:16px/30px "MyriadPro";text-align:center;text-decoration:none;z-index:7;cursor:pointer}
 #navigation.down #enter_button{position:inherit;}
 #enter_button:hover, .enter_button:hover{background:#454545;}
 #enter_button:active, .enter_button:active{background:#363636;}
@@ -62,16 +61,17 @@ p{font-family:"MyriadPro";color:#666666;}
 #mainfooter .leftfooter table{margin:0 auto;border-collapse:separate;border-spacing:2px 2px;margin-top:10px;}
 #mainfooter .leftfooter table img{vertical-align:middle;}
 #mainfooter .leftfooter table img:hover{border-radius:50px;box-shadow:0 0 10px #4b75a4;}
-.centerfooter{display:table-cell;position:relative;width:74%;padding-left:10px;color:#4b75a4;}
+.centerfooter{display:table-cell;position:relative;width:74%;padding-left:10px;color:#4b75a4;padding-right: 5px}
 #mainfooter .centerfooter div{display:inline-block;position:relative;}
 #mainfooter .footerlogo img{width:140px;display:block;margin-top:12px;}
 #mainfooter div.footerlogo{margin-left:20px;vertical-align:top;}
 #mainfooter div.footercontact{display:inline-block;position:relative;}
 #mainfooter .footercontact p{line-height:14px;margin-left:15px;color:#114988;font-size:14px}
-.footermenu{display:inline-block;position:relative;float:right;max-width:450px;font-size:1em;margin-top:5px;}
+#mainfooter .centerfooter .leftpart{display:table-cell;width: 48%}
+#mainfooter .centerfooter .footermenu{display:table-cell;position:relative;font-size:1em;margin-top:5px;width: 48%;vertical-align: top;}
 #mainfooter .footermenu ul{margin-top:10px;margin-left:0;padding-left:0;}
 #mainfooter .footermenu li{display:inline;padding:8px;}
-#mainfooter .footermenu li a{text-decoration:none;font-family:"MyriadPro";font-size:15px;color:#336699;}
+#mainfooter .footermenu li a{text-decoration:none;font-family:"MyriadPro";font-size:15px;color:#336699;white-space: nowrap}
 #mainfooter .footermenu li a:hover{color:#666666;}
 .rightfooter{display:table-cell;vertical-align:top;position:relative;width:8%;border-left:1px solid #33ccff;}
 #mainfooter .rightfooter img{width:40px;position:relative;display:block;margin:0 auto;top:23px;cursor:pointer;}
@@ -188,7 +188,9 @@ body.ie8 #hambMenu {
     box-shadow:0px 0px 2px rgba(24, 37, 51, .5);
 }
 .authorizePage div{
+    width: 95%;
     text-align: center;
+    margin: 0 auto;
     /*padding-bottom: 5px;*/
 }
 div.modal-dialog {
@@ -306,10 +308,9 @@ div.modal-dialog {
     }
     .centerfooter{display: inline-block;vertical-align: top;}
     #footerLogo800 {margin: 0 auto;margin-top: 0}
-    #mainfooter  .leftfooter,#mainfooter  .leftfooter table,#mainfooter  .leftfooter tr,#mainfooter  .leftfooter td{
-        vertical-align: top;
-        display: inline-block;
-    }
+    #mainfooter .footercontact{max-width: 150px}
+    #mainfooter .footercontact p{font-size: 14px;line-height: 1}
+    #mainfooter .footercontact p span{white-space: nowrap}
     /*footer*/
 }
 @media only screen and (min-width: 801px) {

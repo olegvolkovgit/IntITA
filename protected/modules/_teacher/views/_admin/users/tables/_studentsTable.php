@@ -42,7 +42,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Email'" filter="{'email': 'text'}" sortable="'email'">
                             <a ng-href="#/admin/users/user/{{row.id}}">{{row.email}}</a>
                         </td>
-                        <td data-title="'Зареєстровано'" filter="{'reg_time': 'text'}" sortable="'reg_time'">{{row.reg_time=='0000-00-00 00:00:00'  ? "невідомо" : row.reg_time}}</td>
+                        <td data-title="'Надано роль'" filter="{'student.start_date': 'text'}" sortable="'student.start_date'">{{row.student.start_date}}</td>
                         <td data-title="'Форма'" filter="{'educform': 'text'}" sortable="'educform'">{{row.educform}}</td>
                         <td data-title="'Країна'" filter="{'country0.title_ua': 'text'}" sortable="'country0.title_ua'">{{row.country0.title_ua}}</td>
                         <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city.title_ua}}</td>

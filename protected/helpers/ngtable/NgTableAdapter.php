@@ -76,10 +76,30 @@ class NgTableAdapter {
     }
 
     /**
+     * @return array
+     */
+    public function getData() {
+        $models = $this->activeRecord->findAll($this->getCriteriaInstance());
+        $totalCount = $this->activeRecord->count($this->getCriteriaInstance());
+
+        return [
+            'count' => $totalCount,
+            'rows' => $this->toAssocArray($models)
+        ];
+    }
+
+    /**
+     * @param CDbCriteria $criteria
+     */
+    public function mergeCriteriaWith($criteria) {
+        $this->getCriteriaInstance()->mergeWith($criteria);
+    }
+
+    /**
      * @param null|string|CActiveRecord $activeRecord
      * @throws Exception
      */
-    public function setActiveRecord($activeRecord) {
+    private function setActiveRecord($activeRecord) {
         if (isset($activeRecord)) {
             if (gettype($activeRecord) === 'string' &&
                 class_exists($activeRecord) &&
@@ -101,7 +121,7 @@ class NgTableAdapter {
     /**
      * @param array $requestParams
      */
-    public function setRequestParams($requestParams) {
+    private function setRequestParams($requestParams) {
         /* TODO array_merge */
         $this->requestParams = $requestParams;
         $this->page = key_exists('page', $this->requestParams) ? $this->requestParams['page'] : self::DEFAULT_PAGE;
@@ -120,25 +140,9 @@ class NgTableAdapter {
     }
 
     /**
+     * @param $model
      * @return array
      */
-    public function getData() {
-        $models = $this->activeRecord->findAll($this->getCriteriaInstance());
-        $totalCount = $this->activeRecord->count($this->getCriteriaInstance());
-
-        return [
-            'count' => $totalCount,
-            'rows' => $this->toAssocArray($models)
-        ];
-    }
-
-    /**
-     * @param CDbCriteria $criteria
-     */
-    public function mergeCriteriaWith($criteria) {
-        $this->getCriteriaInstance()->mergeWith($criteria);
-    }
-
     private function getModelAssoc($model) {
         $provider = $this->getBehavior($model);
 
@@ -301,6 +305,9 @@ class NgTableAdapter {
         return $this;
     }
 
+    /**
+     * @param $extraParams
+     */
     private function buildExtraParamsQuery($extraParams) {
         foreach ($extraParams as $field => $value) {
             $this->getCriteriaInstance()->mergeWith(new CDbCriteria([

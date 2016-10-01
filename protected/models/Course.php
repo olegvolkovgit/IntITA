@@ -382,7 +382,7 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getNumber()
     {
-        return $this->course_number;
+        return $this->course_ID;
     }
 
     public function getType()
@@ -558,26 +558,34 @@ class Course extends CActiveRecord implements IBillableObject
         return $courses;
     }
 
-    public static function juniorCoursesCount()
+    public static function selectCoursesCount($arr)
     {
-        return count(Course::model()->findAllByAttributes(array(
-                'level' => array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR),
-                'cancelled' => Course::AVAILABLE)
-        ));
-    }
+        if(isset($arr)){
+            $courses = Course::model()->findAllByAttributes(array('level'=>$arr, 'cancelled'=>Course::AVAILABLE));   
+        }else{
+            $courses = Course::model()->findAllByAttributes(array('cancelled'=>Course::AVAILABLE));
+        }
+        $coursesLangs = CourseLanguages::model()->findAll();
+        $langs = array('ua', 'ru', 'en');
+        $duplicate=0;
 
-    public static function middleCoursesCount()
-    {
-        return Course::model()->count('level=:level and cancelled=:isAvailable',
-            array(':level' => Level::MIDDLE, ':isAvailable' => Course::AVAILABLE)
-        );
-    }
+        foreach($coursesLangs as $langsRecord){
+            $linkedCourses=0;
+            for($i=0; $i < 3; $i++) {
+                if ($langsRecord['lang_'.$langs[$i]] != 0) {
+                    foreach ($courses as $key=>$course) {
+                        if ($langsRecord['lang_'.$langs[$i]] == $course["course_ID"]) {
+                            $linkedCourses++;
+                        }
+                    }
+                }
+            }
+            if($linkedCourses>0){
+                $duplicate=$duplicate+$linkedCourses-1;
+            }
+        }
 
-    public static function seniorCoursesCount()
-    {
-        return Course::model()->count('level=:level and cancelled=:isAvailable',
-            array(':level' => Level::SENIOR, ':isAvailable' => Course::AVAILABLE)
-        );
+        return count($courses)-$duplicate;
     }
 
     public function modulesCount()
@@ -921,10 +929,10 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function countersBySelectors(){
         $result = [];
-        $result["junior"] = Course::juniorCoursesCount();
-        $result["middle"] = Course::middleCoursesCount();
-        $result["senior"] = Course::seniorCoursesCount();
-        $result["total"] = Course::model()->count('cancelled = :isCancel', array(':isCancel' => Course::AVAILABLE));
+        $result["junior"] = Course::selectCoursesCount(array(Level::INTERN, Level::JUNIOR, Level::STRONG_JUNIOR));
+        $result["middle"] = Course::selectCoursesCount(Level::MIDDLE);
+        $result["senior"] = Course::selectCoursesCount(Level::SENIOR);
+        $result["total"] = Course::selectCoursesCount(null);
 
         return $result;
     }

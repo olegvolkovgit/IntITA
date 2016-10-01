@@ -34,6 +34,6 @@ function addExternalPayment(externalPayments, _) {
             'document': '=document'
         },
         link: link,
-        templateUrl: '/angular/js/teacher/templates/accountancy/findExternalPayment.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/findExternalPayment.html'
     }
 }

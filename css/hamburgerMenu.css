@@ -11,7 +11,7 @@
 #hambMenu .humblang a:hover{color:#666666;}
 #hambMenu .humblang a:first-child{border-left:none;padding-left:0;}
 #hambMenu .humblang a.selectedLang{color:#999999;text-decoration:none;}
-#hambMenu .menulist{list-style:none;font-size:18px;line-height:2;clear:both;margin:25px 0 10px 90px;padding:0;}
+#hambMenu .menulist{list-style:none;font-size:18px;line-height:2;clear:both;margin:10px 0 10px 90px;padding:0;}
 #hambMenu .menulist a{color:#333333;text-decoration:none;}
 #hambMenu .menulist a:hover{color:#4b70a4;}
 #hambMenu .menulist li{display:block;}

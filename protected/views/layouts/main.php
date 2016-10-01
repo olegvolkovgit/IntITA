@@ -86,11 +86,16 @@ $header = new Header();
                             <li>
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
+                            <?php if (!Yii::app()->user->isGuest) { ?>
                             <li>
                                 <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
                             </li>
+                            <?php } ?>
                             <li>
                                 <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
+                            </li>
+                            <li>
+                                <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                             </li>
                         </ul>
                     </td>
@@ -218,21 +223,23 @@ $header = new Header();
             </table>
         </div>
         <div class="centerfooter">
-            <div class="footerlogo">
-                <a href="<?php echo Yii::app()->createUrl('site/index'); ?>">
-                    <img id="footerLogo" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png'); ?>">
-                    <img id="footerLogo800" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small800.png'); ?>">
-                </a>
+            <div class="leftpart">
+                <div class="footerlogo">
+                    <a href="<?php echo Yii::app()->createUrl('site/index'); ?>">
+                        <img id="footerLogo" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small.png'); ?>">
+                        <img id="footerLogo800" src="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'Logo_small800.png'); ?>">
+                    </a>
+                </div>
+                <div class="footercontact">
+                    <p>
+                        <span><?php $footer = new Footer(); echo $footer->getTel(); ?></span><br/>
+                        <span><?php echo $footer->getMobile(); ?></span><br/>
+                        <span><?php echo $footer->getEmail(); ?></span><br/>
+                        <span><?php echo $footer->getSkype(); ?></span><br/>
+                    </p>
+                </div>
             </div>
-            <div class="footercontact">
-                <p>
-                    <?php $footer = new Footer();
-                    echo $footer->getTel(); ?><br/>
-                    <?php echo $footer->getMobile(); ?><br/>
-                    <?php echo $footer->getEmail(); ?><br/>
-                    <?php echo $footer->getSkype(); ?><br/>
-                </p>
-            </div>
+
             <div class="footermenu">
                 <ul>
                     <li>
@@ -249,8 +256,16 @@ $header = new Header();
                     <li>
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                     </li>
+                    <?php if (!Yii::app()->user->isGuest) { ?>
+                        <li>
+                            <a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a>
+                        </li>
+                    <?php } ?>
                     <li>
                         <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
+                    </li>
+                    <li>
+                        <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                     </li>
                 </ul>
             </div>

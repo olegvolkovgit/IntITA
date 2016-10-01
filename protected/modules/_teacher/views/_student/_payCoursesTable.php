@@ -7,7 +7,7 @@
                         <td data-title="'Назва'"><div ng-if="!row.course.cancelled"><a href="/course/{{row.course.language}}/{{row.course.alias}}">{{row.course.title_ua}}</a></div>
                             <div ng-if="row.course.cancelled">{{row.course.title_ua}} (скасований)</div>
                         </td>
-                        <td data-title="'Сума, грн'"><div ng-if="row.course.course_price">{{row.course.course_price *usd}}</div><div ng-if="!row.course.course_price">бескоштовно</div></td>
+                        <td data-title="'Сума, грн'"><div ng-if="row.course.course_price">{{row.course.course_price *usd}}</div><div ng-if="!row.course.course_price">безкоштовно</div></td>
                     </tr>
                 </table>
             </div>

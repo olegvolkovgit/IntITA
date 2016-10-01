@@ -76,6 +76,19 @@ class TeacherConsultantController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, 'Такої задачі не знайдено.');
         }
 
+        $idModule=$plainTask->plainTask->lectureElement->lecture->idModule;
+        $idStudent=$plainTask->id_student;
+        $sqlModule="SELECT COUNT(*) FROM `teacher_consultant_module` where id_teacher=".Yii::app()->user->getId()." 
+        and id_module=".$idModule." and end_date IS NULL";
+        $sqlStudent="SELECT COUNT(*) FROM `teacher_consultant_student` where id_teacher=".Yii::app()->user->getId()." 
+        and id_student=".$idStudent." and id_module=".$idModule." and end_date IS NULL";
+        $module = Yii::app()->db->createCommand($sqlModule)->queryScalar();
+        $student = Yii::app()->db->createCommand($sqlStudent)->queryScalar();
+
+        if ($module==0 || $student==0) {
+            throw new \application\components\Exceptions\IntItaException(403, 'Переглядати задачу заборонено');
+        }
+
         return $this->renderPartial('/_teacher_consultant/showPlainTask', array(
             'plainTask' => $plainTask
         ), false, true);

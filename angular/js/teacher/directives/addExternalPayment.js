@@ -47,6 +47,6 @@ function addExternalPayment(externalSources, externalPayments, companies) {
             'showSaveButton': '=showSaveButton'
         },
         link: link,
-        templateUrl: '/angular/js/teacher/templates/accountancy/addExternalPayment.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/addExternalPayment.html'
     }
 }

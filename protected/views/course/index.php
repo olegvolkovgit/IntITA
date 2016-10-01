@@ -4,6 +4,10 @@
  * @var $isEditor
  */
 ?>
+<?php
+$this->breadcrumbs = array(
+    Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", CHtml::decode($model->getTitle()),
+); ?>
     <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
     <script
         src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleListCtrl.js'); ?>"></script>
@@ -11,16 +15,14 @@
         idCourse = <?php echo $model->course_ID;?>;
         lang = '<?php if (CommonHelper::getLanguage() == 'ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';
     </script>
-    <div class="main">
-        <div class="courseTitle">
-            <h1>
-                <?php echo $model->getTitle(); ?>
-            </h1>
-        </div>
-    </div>
 
     <div class="courseBlock" ng-cloak="">
         <div class="courseShortInfo" ng-controller="moduleListCtrl">
+            <div class="courseTitle">
+                <h1>
+                    <?php echo $model->getTitle(); ?>
+                </h1>
+            </div>
             <?php $this->renderPartial('_courseShortInfo', array('model' => $model)); ?>
             <br>
             <div style="clear: both"></div>

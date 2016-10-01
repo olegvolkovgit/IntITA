@@ -14,6 +14,9 @@
 </a>
 <br>
 <br>
+<script type="text/ng-template" id="headerCheckbox.html">
+    <input type="checkbox" ng-model="checkboxes.checkAll" id="select_all" name="filter-checkbox" value="" />
+</script>
 
 <div id="mylettersSend">
     <div class="panel panel-default">
@@ -35,19 +38,25 @@
 
 
             <uib-tabset active="0">
+
                 <uib-tab index="0" heading="<?php echo Yii::t("letter", "0532") ?>" select="reload()">
+                    <div ng-if="deleteReceivedMessages.length > 0" style="padding: 10px">
+                    <button class="btn btn-danger"  ng-click="deleteMessages()">Видалити повідомлення </button>
+                    </div>
                     <table ng-table="receivedMessagesTable" class="table table-striped table-bordered table-hover" width="100%" style="cursor:pointer">
                         <colgroup>
+                            <col width="5%" />
                             <col width="25%" />
                             <col width="55%" />
                             <col width="15%" />
                         </colgroup>
-                        <tr ng-repeat="row in $data" ng-click="changeView('dialog/'+row.sender.id+'/'+row.receiver.id)" ng-class="!row.read ? 'new' : ''">
-                            <td data-title="'Від кого'"  filter="{'name' : 'text'}">
+                        <tr ng-repeat="row in $data">
+                            <td header="'headerCheckbox.html'"> <input type="checkbox" ng-model="checkboxes.items[row.id_message]" /></td>
+                            <td data-title="'Від кого'"  filter="{'name' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)" sortable="'sender.fullName'">
                                 <div ng-if="row.sender.fullName"><em>{{row.sender.fullName}} ({{row.sender.email}})</em></div>
                                 <div ng-if="row.sender.fullName == ''"><em>{{row.sender.email}}</em></div>
                             </td>
-                            <td data-title="'Тема'" filter="{'subject' : 'text'}">
+                            <td data-title="'Тема'" filter="{'subject' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ng-if="row.rejectRevisionMessages"><em>Запит на затвердження ревізії відхилено</em></div>
                                 <div ng-if="row.userMessages"><em>{{row.userMessages.subject}}</em></div>
                                 <div ng-if="row.notificationMessages"><em>{{row.notificationMessages.subject}}</em></div>
@@ -56,7 +65,7 @@
                                 <div ng-if="row.payCourse"><em>Доступ до курсу</em></div>
                                 <div ng-if="row.paymentMessage && !row.paymentMessage.service_id"><em>Доступ до лекцій</em></div>
                             </td>
-                            <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }">
+                            <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }" ng-click="changeView('messages/message/'+row.id_message)">
                                 <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
                             </td>
                         </tr>
@@ -71,14 +80,14 @@
                             <col width="15%" />
                         </colgroup>
                         <tr ng-repeat="row in $data" ng-click="changeView('dialog/'+row.sender.id+'/'+row.receiver.id)">
-                            <td data-title="'Кому'"  filter="{'name' : 'text'}">
+                            <td data-title="'Кому'"  filter="{'name' : 'text'}" sortable="'receiver.fullName'">
                                 <div ng-if="row.receiver.fullName"><em>{{row.receiver.fullName}} ({{row.receiver.email}})</em></div>
                                 <div ng-if="row.receiver.fullName == ''"><em>{{row.receiver.email}}</em></div>
                             </td>
-                            <td data-title="'Тема'"  filter="{'subject' : 'text'}">
+                            <td data-title="'Тема'"  filter="{'subject' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ><em>{{row.userMessages.subject}}</em></div>
                             </td>
-                            <td data-title="'Дата'"  sortable="'message.create_date'">
+                            <td data-title="'Дата'"  sortable="'message.create_date'" ng-click="changeView('messages/message/'+row.id_message)">
                                 <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
                             </td>
                         </tr>
@@ -96,11 +105,11 @@
                             <col width="15%" />
                         </colgroup>
                         <tr ng-repeat="row in $data" ng-click="changeView('deletedmessage/'+row.id_message)">
-                            <td data-title="'Від кого'"  filter="{'name' : 'text'}">
+                            <td data-title="'Від кого'"  filter="{'name' : 'text'}" sortable="'sender.fullName'">
                                 <div ng-if="row.sender.fullName"><em>{{row.sender.fullName}} ({{row.sender.email}})</em></div>
                                 <div ng-if="row.sender.fullName == ''"><em>{{row.sender.email}}</em></div>
                             </td>
-                            <td data-title="'Тема'"  filter="{'subject' : 'text'}">
+                            <td data-title="'Тема'"  filter="{'subject' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ng-if="row.rejectRevisionMessages"><em>Запит на затвердження ревізії відхилено</em></div>
                                 <div ng-if="row.userMessages"><em>{{row.userMessages.subject}}</em></div>
                                 <div ng-if="row.notificationMessages"><em>{{row.notificationMessages.subject}}</em></div>
@@ -109,7 +118,7 @@
                                 <div ng-if="row.payCourse"><em>Доступ до курсу</em></div>
                                 <div ng-if="row.paymentMessage && !row.paymentMessage.service_id"><em>Доступ до лекцій</em></div>
                             </td>
-                            <td data-title="'Дата'" sortable="'message.create_date'">
+                            <td data-title="'Дата'" sortable="'message.create_date'" ng-click="changeView('messages/message/'+row.id_message)">
                                 <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
                             </td>
                         </tr>
