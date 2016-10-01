@@ -95,7 +95,7 @@ $header = new Header();
                                 <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
                             </li>
                             <li>
-                                <a href="http://profitday.info/" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
+                                <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                             </li>
                         </ul>
                     </td>
@@ -265,7 +265,7 @@ $header = new Header();
                         <a href="http://www.robotamolodi.org/" target="_blank"><?php echo Yii::t('header', '0902'); ?></a>
                     </li>
                     <li>
-                        <a href="http://profitday.info/" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
+                        <a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a>
                     </li>
                 </ul>
             </div>

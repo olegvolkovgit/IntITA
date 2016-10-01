@@ -14,35 +14,6 @@ class ProfileController extends Controller
         }
         $response = new Response();
 
-        if (isset($_POST['Response'])) {
-            $response->attributes = $_POST["Response"];
-            $response->who = Yii::app()->user->id;
-            $response->date = date("Y-m-d H:i:s");
-            $str = trim($_POST['Response']['text'], chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
-            if ($str == '') {
-                $response->text = NULL;
-            }
-            if ($response->validate()) {
-                $response->text = trim($response->bbcode_to_html($_POST['Response']['text']), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
-                $response->knowledge = $_POST['Response']['knowledge'];
-                $response->behavior = $_POST['Response']['behavior'];
-                $response->motivation = $_POST['Response']['motivation'];
-                $response->rate = round(($_POST['Response']['knowledge'] + $_POST['Response']['behavior'] + $_POST['Response']['motivation']) / 3);
-
-                $response->who_ip = $_SERVER["REMOTE_ADDR"];
-
-                $response->save();
-                $command = Yii::app()->db->createCommand();
-                $command->insert('teacher_response', array(
-                    'id_teacher'=>$teacher->user_id,
-                    'id_response'=>$response->id,
-                ));
-
-                Yii::app()->user->setFlash('messageResponse', Yii::t('response', '0386'));
-                $this->refresh();
-            }
-        }
-
         if (Yii::app()->user->getId() == $teacher->user_id) {
             $editMode = 1;
         } else {
@@ -61,6 +32,60 @@ class ProfileController extends Controller
         ));
     }
 
+    public function actionSendResponse($idTeacher)
+    {
+        $teacher = Teacher::model()->findByPk($idTeacher);
+
+        $response = new Response();
+        $response->knowledge=Yii::app()->request->getPost('knowledge');
+        $response->behavior=Yii::app()->request->getPost('behavior');
+        $response->motivation=Yii::app()->request->getPost('motivation');
+        $response->text=Yii::app()->request->getPost('text');
+
+        $result=array();
+
+        if($response->knowledge=='' || $response->behavior=='' || $response->motivation==''){
+            $result['validation']=false;
+            $result['msg']=Yii::t('response', '0385');
+            echo json_encode($result);
+            return;
+        }
+        if(strip_tags($response->text)==''){
+            $result['validation']=false;
+            $result['msg']=Yii::t("response", "0544");
+            echo json_encode($result);
+            return;
+        }
+
+        $response->who = Yii::app()->user->id;
+        $response->date = date("Y-m-d H:i:s");
+        $str = trim($response->text, chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
+        if ($str == '') {
+            $response->text = NULL;
+        }
+        if ($response->validate()) {
+            $response->text = trim($response->bbcode_to_html($response->text), chr(194) . chr(160) . chr(32) . " \t\n\r\0\x0B");
+            $response->rate = round(($response->knowledge + $response->behavior + $response->motivation) / 3);
+            $response->who_ip = $_SERVER["REMOTE_ADDR"];
+            $response->save();
+
+            $command = Yii::app()->db->createCommand();
+            $command->insert('teacher_response', array(
+                'id_teacher'=>$teacher->user_id,
+                'id_response'=>$response->id,
+            ));
+
+            $result['validation']=true;
+            $result['msg']=Yii::t('response', '0386');
+            echo json_encode($result);
+            return;
+        }else{
+            $result['validation']=false;
+            $result['msg']='Відправити відгук не вдалося';
+            echo json_encode($result);
+            return;
+        }
+    }
     public function actionSave()
     {
         if (isset($_POST['id'])) {
