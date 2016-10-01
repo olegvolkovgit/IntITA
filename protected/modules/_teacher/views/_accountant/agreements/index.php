@@ -30,11 +30,11 @@
                                 ng-click="confirm(row.id)">
                             Підтвердити
                         </button>
-                        <button ng-if="row.approval_date" class="btn btn-danger"
+                        <button ng-if="row.approval_date && !row.cancel_date" class="btn btn-danger"
                                 ng-click="cancel(row.id)">
                             Скасувати
                         </button>
-                        <button ng-if="row.approval_date" class="btn btn-danger"
+                        <button ng-if="row.approval_date && !row.close_date" class="btn btn-danger"
                                 ng-click="close(row.id)">
                                 Закрити
                         </button>
