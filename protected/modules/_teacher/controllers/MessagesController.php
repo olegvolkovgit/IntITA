@@ -218,7 +218,8 @@ class MessagesController extends TeacherCabinetController
         $message = MessagesFactory::getInstance(Messages::model()->findByPk($id));
         //$message = UserMessages::model()->findByAttributes(array('id_message' => $id));
         $deleted = $message->isDeleted(StudentReg::model()->findByPk(Yii::app()->user->id));
-
+        if (!$message->isRead(StudentReg::model()->findByPk(Yii::app()->user->id)))
+            $message->read(StudentReg::model()->findByPk(Yii::app()->user->id));
 
         $this->renderPartial('_viewMessage', array(
             'message' => $message, 'deleted'=>$deleted
