@@ -1,39 +1,21 @@
-<?php
-/**
- * @var $model CorporateEntity
- */
-?>
 <div class="row">
     <ul class="list-inline">
         <li>
-            <button type="button" class="btn btn-primary"
-                    onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
-                        'Компанії')">
-                Компанії
-            </button>
+            <a type="button" class="btn btn-primary" ng-href="#/accountant/company">Компанії</a>
         </li>
     </ul>
 </div>
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#main" data-toggle="tab">Головне</a>
-            </li>
-            <li><a href="#representatives" data-toggle="tab">Представники</a>
-            </li>
-        </ul>
         <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="main">
+        <uib-tabset active="0">
+            <uib-tab index="0" heading="Головне" id="main">
                 <?php $this->renderPartial('_mainTab', array('model' => $model));?>
-            </div>
-            <div class="tab-pane fade" id="representatives">
+            </uib-tab>
+            <uib-tab index="1" heading="Представники" id="representatives">
                 <?php $this->renderPartial('_representativesTab', array('model' => $model));?>
-            </div>
-        </div>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>
-
-

@@ -47,11 +47,13 @@ config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('accountant/company', {
             url: "/accountant/company",
+            controller: 'companiesCtrl',
             cache         : false,
             templateUrl: accountantUrl+"company/index"
         })
         .state('accountant/representative', {
             url: "/accountant/representative",
+            controller: 'representativesCtrl',
             cache         : false,
             templateUrl: accountantUrl+"representative/index"
         })
@@ -74,6 +76,34 @@ config(function ($stateProvider, $urlRouterProvider) {
             url: "/accountant/cancelreasontype",
             cache         : false,
             templateUrl: accountantUrl+"cancelReasonType/index"
-        });
+        })
+        .state('accountant/addcompany', {
+            url: "/accountant/addcompany",
+            controller: 'oneCompanyCtrl',
+            cache         : false,
+            templateUrl: accountantUrl+"company/renderAddForm"
+        })
+        .state('accountant/addRepresentative', {
+            url: "/accountant/addRepresentative",
+            controller: 'oneRepresentativeCtrl',
+            cache         : false,
+            templateUrl: accountantUrl+"representative/renderAddForm"
+        })
+        .state('accountant/viewCompany/:id', {
+            url: "/accountant/viewCompany/:id",
+            controller: 'oneCompanyCtrl',
+            cache         : false,
+            templateUrl: function ($stateParams) {
+                return accountantUrl+"company/viewCompany/?id="+$stateParams.id;
+            }
+        })
+        .state('accountant/viewRepresentative/:id', {
+            url: "/accountant/viewRepresentative/:id",
+            controller: 'oneRepresentativeCtrl',
+            cache         : false,
+            templateUrl: function ($stateParams) {
+                return accountantUrl+"representative/viewRepresentative/?id="+$stateParams.id;
+            }
+        })
     }
 );
