@@ -588,6 +588,12 @@ class Course extends CActiveRecord implements IBillableObject
         return count($courses)-$duplicate;
     }
 
+    public static function selectModulesCount()
+    {
+        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE));
+        return count($modules);
+    }
+
     public function modulesCount()
     {
         return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $this->course_ID
@@ -933,6 +939,7 @@ class Course extends CActiveRecord implements IBillableObject
         $result["middle"] = Course::selectCoursesCount(Level::MIDDLE);
         $result["senior"] = Course::selectCoursesCount(Level::SENIOR);
         $result["total"] = Course::selectCoursesCount(null);
+        $result["modules"] = Course::selectModulesCount();
 
         return $result;
     }
