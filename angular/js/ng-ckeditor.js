@@ -159,6 +159,7 @@
                             })
                                 .success(function (response) {
                                     if(response.length==0){
+                                        scope.editSaving=true;
                                         $ngBootbox.alert(scope.saveMsg)
                                             .then(function() {
                                             });

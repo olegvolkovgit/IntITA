@@ -32,7 +32,7 @@
             <input name="idType" id="testType" type="hidden"/>
         </fieldset>
         <br>
-        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" id='addtests' ng-disabled=addTestForm.$invalid>
+        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0697'); ?>" ng-click="quizCheckSaved()" id='addtests' ng-disabled=addTestForm.$invalid>
         <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" ng-click='cancelQuiz()'>
     </form>
 </div>

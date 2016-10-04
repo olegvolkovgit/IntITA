@@ -8,7 +8,8 @@
 $revisionTask=RevisionTask::model()->findByAttributes(array('id_lecture_element' => $idElement));
 ?>
 <div ng-init='idPage=<?php echo $pageId; ?>;
-idBlock=<?php echo $idElement; ?>;'>
+idBlock=<?php echo $idElement; ?>;
+quizSaving=true;'>
 <div class="editTask" ng-controller="taskCtrl">
     <br>
     <form name="addTaskForm" action="<?php echo Yii::app()->createUrl('interpreter/index', array('id'=>$revisionId,'task'=>$revisionTask->id)); ?>" method="post" target="_blank">

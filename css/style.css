@@ -7,8 +7,6 @@ a, button, input[type="submit"]{outline:none;}
 a:hover{color:#666666;}
 #main-wrapper{box-sizing:border-box;min-height:100%;}
 .main{position:relative;width:95%;margin:0 auto;}
-/*#content.mainPage{width:100%}*/
-/*#content{width:95%;margin:0 auto}*/
 h1, h2, h3, h4, html{font-family:"MyriadPro";color:#333333;font-weight:normal;}
 p{font-family:"MyriadPro";color:#666666;}
 #mainheader{border-bottom:2px solid #4b75a4;width: 100%;margin:0 auto;}

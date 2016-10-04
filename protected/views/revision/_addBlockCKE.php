@@ -13,7 +13,7 @@
         <input name="idRevision" value="<?php echo $idRevision; ?>" id="page" type="hidden">
 
         <textarea id="CKE" ng-cloak ckeditor="editorOptions" name="html_block" ng-model="CkeAdd" required></textarea>
-        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit" ng-disabled=addCKEBlock.html_block.$error.required >
+        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" id="addBlockSubmit" ng-click="checkSaved()" ng-disabled=addCKEBlock.html_block.$error.required >
         <input class="btn btn-default" type="button" id="cancelButton" onclick="hideFormCKE('addBlock')" value="<?php echo Yii::t('course', '0368') ?>">
     </form>
 </div>
@@ -24,7 +24,7 @@
         <input name="idRevision" value="<?php echo $idRevision; ?>" id="page" type="hidden">
 
         <textarea id="CKECode" name="html_block" ng-model="CkeAddCode" ></textarea>
-        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" ng-disabled=addCKEBlockCode.html_block.$error.required >
+        <input class="btn btn-default" type="submit" value="<?php echo Yii::t('lecture', '0712'); ?>" ng-click="checkSaved()" ng-disabled=addCKEBlockCode.html_block.$error.required >
         <input class="btn btn-default" type="button" value="<?php echo Yii::t('course', '0368') ?>" onclick="hideFormCKE('addBlock')" >
         <input class="btn btn-default" type="button" value="Очистити форматування" onclick="removeHtml()">
     </form>
