@@ -287,16 +287,10 @@ class CoursemanageController extends TeacherCabinetController
         }
     }
 
-    public function actionAddLinkedCourse($model, $course, $lang)
+    public function actionAddLinkedCourse($course, $lang)
     {
-        $courseModel = Course::model()->findByPk($course);
-        $courseLangModel = CourseLanguages::model()->findByPk($model);
-        if (!$courseLangModel) {
-            $courseLangModel = new CourseLanguages();
-        }
         $this->renderPartial('_addLinkedCourse', array(
-            'model' => $courseLangModel,
-            'course' => $courseModel,
+            'course' => $course,
             'lang' => $lang
         ), false, true);
     }
@@ -312,11 +306,13 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionChangeLinkedCourses()
     {
-
         $linkedId = Yii::app()->request->getPost("linkedCourse", 0);
-        $modelId = Yii::app()->request->getPost("modelId", 0);
         $courseId = Yii::app()->request->getPost("course", 0);
         $lang = Yii::app()->request->getPost("lang", '');
+
+        $courseModel = Course::model()->findByPk($courseId);
+        $courseLangModel = CourseLanguages::model()->findByAttributes(array('lang_'.$courseModel->language => $courseModel->course_ID));
+        $modelId=$courseLangModel?$courseLangModel->id:0;
 
         $course = Course::model()->findByPk($courseId);
         $linkedCourse = Course::model()->findByPk($linkedId);

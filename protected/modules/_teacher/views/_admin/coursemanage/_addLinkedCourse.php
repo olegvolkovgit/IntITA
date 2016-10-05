@@ -5,8 +5,6 @@
  * @var $lang string
  */
 ?>
-
-
 <div class="col-md-6" ng-controller="coursemanageCtrl">
     <form role="form">
         <fieldset>
@@ -23,13 +21,10 @@
             <br>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Редагувати" ng-click="addLinkedCourse('<?= ($model->getIsNewRecord()) ? 0 : $model->id;?>', '<?= $course->course_ID ?>', '<?=$lang?>', courseId) ">
+                <input type="submit" class="btn btn-primary" value="Редагувати" ng-click="addLinkedCourse('<?= $course ?>', '<?=$lang?>', courseId) ">
          </div>
 
         </fieldset>
     </form>
-
-
-
 </div>
 
