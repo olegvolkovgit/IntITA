@@ -76,6 +76,8 @@ class LessonController extends Controller
 
         $isLastLecture=$lecture->isLastLecture();
 
+        $this->setUserLastLink();
+
         if($lecture->verified) {
             $view='indexTemplate';
         } else $view='index1';
@@ -713,5 +715,18 @@ class LessonController extends Controller
         $lectures['icoPath']=StaticFilesHelper::createPath('image', 'lecture', '');
 
         echo json_encode($lectures);
+    }
+
+    private function setUserLastLink() {
+        $userLastLink=UserLastLink::model()->findByPk(Yii::app()->user->getId());
+        if($userLastLink){
+            $userLastLink->last_link=$_SERVER['REQUEST_URI'];
+            $userLastLink->update();
+        }else{
+            $userLastLink= new UserLastLink();
+            $userLastLink->id_user=Yii::app()->user->getId();
+            $userLastLink->last_link=$_SERVER['REQUEST_URI'];
+            $userLastLink->save();
+        }
     }
 }
