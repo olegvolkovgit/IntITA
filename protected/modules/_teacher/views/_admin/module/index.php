@@ -12,14 +12,14 @@
             <div class="dataTable_wrapper">
                 <table ng-table="modulesTable" class="table table-striped table-bordered table-hover">
                     <colgroup>
-                        <col width="8%" />
+                        <col width="6%" />
                         <col width="15%" />
                         <col width="8%" />
                         <col width="24%" />
+                        <col width="12%" />
+                        <col width="12%" />
                         <col width="10%" />
-                        <col width="17%" />
-                        <col width="10%" />
-                        <col width="8%" />
+                        <col width="12%" />
                     </colgroup>
                     <tr ng-repeat="row in $data">
                         <td data-title="'Id'" sortable="'module_ID'" filter="{module_ID: 'text'}">{{row.module_ID}}</td>
