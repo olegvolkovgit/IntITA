@@ -143,11 +143,21 @@ class GraduateController extends TeacherCabinetController {
         echo Graduate::graduatesList();
     }
 
-    public function actionGetGraduatesJson($page = 0, $pageCount=10){
-        $criteria = new CDbCriteria([
-            'offset' => $page*$pageCount -$pageCount,
-            'limit' => $pageCount
-        ]);
-        echo JsonForNgDatatablesHelper::returnJson(Graduate::model()->findAll($criteria),null,Graduate::model()->count());
+    public function actionGetGraduatesJson(){
+
+        $criteria = new CDbCriteria();
+
+
+        if (isset($_GET['sorting']['first_name'])){
+            $criteria->order = 'first_name  COLLATE utf8_unicode_ci ' .$_GET['sorting']['first_name']  ;
+        }
+        $adapter = new NgTableAdapter('Graduate',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
+//        $criteria = new CDbCriteria([
+//            'offset' => $page*$pageCount -$pageCount,
+//            'limit' => $pageCount
+//        ]);
+//        echo JsonForNgDatatablesHelper::returnJson(Graduate::model()->findAll($criteria),null,Graduate::model()->count());
     }
 }
