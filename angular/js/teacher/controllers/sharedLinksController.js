@@ -7,7 +7,7 @@ angular
 
 function sharedlinksCtrl ($scope, $http, DTOptionsBuilder, DTColumnDefBuilder ){
 
-    $http.get('/_teacher/_admin/shareLink/shareLinksList').then(function (data) {
+    $http.get(basePath+'/_teacher/_admin/shareLink/shareLinksList').then(function (data) {
         $scope.sharedLinksList = data.data["data"];
     });
 
