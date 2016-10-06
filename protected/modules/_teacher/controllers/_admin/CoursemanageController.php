@@ -289,16 +289,18 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionAddLinkedCourse($course, $lang)
     {
+        $currentCourseLang = Course::model()->findByPk($course)->language;
         $this->renderPartial('_addLinkedCourse', array(
             'course' => $course,
-            'lang' => $lang
+            'lang' => $lang,
+            'currentCourseLang'=>$currentCourseLang
         ), false, true);
     }
 
-    public function actionCoursesByQueryAndLang($query, $lang)
+    public function actionCoursesByQueryAndLang($query, $lang, $currentCourseLang)
     {
-        if ($query && $lang) {
-            echo Course::coursesByQueryAndLang($query, $lang);
+        if ($query && $lang && $currentCourseLang) {
+            echo Course::coursesByQueryAndLang($query, $lang, $currentCourseLang);
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
@@ -310,22 +312,31 @@ class CoursemanageController extends TeacherCabinetController
         $courseId = Yii::app()->request->getPost("course", 0);
         $lang = Yii::app()->request->getPost("lang", '');
 
-        $courseModel = Course::model()->findByPk($courseId);
-        $courseLangModel = CourseLanguages::model()->findByAttributes(array('lang_'.$courseModel->language => $courseModel->course_ID));
-        $modelId=$courseLangModel?$courseLangModel->id:0;
-
         $course = Course::model()->findByPk($courseId);
         $linkedCourse = Course::model()->findByPk($linkedId);
+
+        $currentCourseLangModel = CourseLanguages::model()->findByAttributes(array('lang_'.$course->language => $course->course_ID));
+        $linkedCourseLangModel = CourseLanguages::model()->findByAttributes(array('lang_'.$linkedCourse->language => $linkedCourse->course_ID));
+
         if ($course && $linkedCourse) {
-            if ($modelId == 0) {
+            if ($currentCourseLangModel && !$linkedCourseLangModel) {
+                $langParam = "lang_" . $lang;
+                $model = $currentCourseLangModel;
+                $model->$langParam = $linkedCourse->course_ID;
+            } else if(!$currentCourseLangModel && $linkedCourseLangModel) {
+                $langParam = "lang_" . $course->language;
+                $model = $linkedCourseLangModel;
+                $model->$langParam = $course->course_ID;
+            } else if(!$currentCourseLangModel && !$linkedCourseLangModel){
                 $model = new CourseLanguages();
                 $param = 'lang_' . $course->language;
                 $model->$param = $course->course_ID;
+                $langParam = "lang_" . $lang;
+                $model->$langParam = $linkedCourse->course_ID;
             } else {
-                $model = CourseLanguages::model()->findByPk($modelId);
+                echo 'Не можна приєднати курс, який має зв\'язки з іншими курсами, котрі відрізняються від зв\'язків даного курсу';
+                Yii::app()->end();
             }
-            $langParam = "lang_" . $lang;
-            $model->$langParam = $linkedCourse->course_ID;
 
             if ($model->save()) {
                 echo "Операцію успішно виконано.";

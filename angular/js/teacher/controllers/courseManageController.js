@@ -55,11 +55,12 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $stateParams, $state
         });
     };
     /* Get modules List   */
-    $scope.getCourses = function(value) {
+    $scope.getCourses = function(value, currentCourseLang) {
         return $http.get(basePath+'/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
             params: {
                 query: value,
-                lang: $stateParams.lang
+                lang: $stateParams.lang,
+                currentCourseLang: currentCourseLang
             }
         }).then(function(response){
             if (response.data.results)
