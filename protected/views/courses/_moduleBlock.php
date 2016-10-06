@@ -15,7 +15,13 @@
     </div>
 <?php } ?>
 <div class='courseBox'>
-    <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'module', $data->module_img); ?>'>
+    <div class="displayMini">
+        <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'module', $data->module_img); ?>'>
+        <div class='courseNameMini'><a
+                href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $data->module_ID)); ?>"><?php
+                echo $data->getTitle(); ?></a>
+        </div>
+    </div>
     <div class="courseInfo">
         <div class='courseName'><a
                 href="<?php echo Yii::app()->createUrl('module/index', array('idModule' => $data->module_ID)); ?>"><?php

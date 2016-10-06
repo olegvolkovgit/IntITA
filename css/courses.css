@@ -62,20 +62,20 @@
     font-family:MyriadPro;
     font-size: 14px;
 }
-.courseBox > img
+.courseLogo
 {
     width: 108px;
     height: 108px;
     margin-right: 20px;
     border-radius: 50%;
 }
-.courseName
+.courseName, .courseNameMini
 {
     position:relative;
     color:#4682B4;
     font-size:20px;
 }
-.courseName a
+.courseName a, .courseNameMini a
 {
     color:#4682B4;
     font-size:20px;
@@ -382,6 +382,9 @@ span.moduleNum{
     clear: both;
     margin-bottom: 5px;
 }
+.courseNameMini{
+    display: none;
+}
 @media only screen and (max-width: 800px) {
     .one,.two{  width:99%;
         float:none;
@@ -398,7 +401,7 @@ span.moduleNum{
     #miniConcept{display: block}
     #largeConcept{display: none}
 }
-@media only screen and (max-width: 460px) {
+@media only screen and (max-width: 360px) {
     .spoilerTriangle {
         display: inline-block;
         color: #4b75a4;
@@ -419,5 +422,20 @@ span.moduleNum{
     #coursesFilter{display:inline-block}
     .sourse {
         display: block;
+    }
+    .courseBox{
+        display:inherit;
+        margin-left: 0;
+    }
+    .courseName{
+        display: none;
+    }
+    .courseInfo {
+        display: block;
+    }
+    .displayMini{display: table;margin-bottom: 5px}
+    .displayMini .courseLogo,.displayMini .courseNameMini{display: table-cell;vertical-align:bottom}
+    ul.yiiPager a:link, ul.yiiPager a:visited {
+        font-size: 10px;
     }
 }
