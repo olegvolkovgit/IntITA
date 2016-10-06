@@ -3,7 +3,8 @@
  * @var $pageId integer
  */ ?>
 <div ng-init='idPage=<?php echo $pageId; ?>;
-idBlock=<?php echo $idElement; ?>;'>
+idBlock=<?php echo $idElement; ?>;
+quizSaving=true;'>
 <div id="editSkipTask">
     <form name="editSkipTask" ng-controller="skipTaskCtrl">
         <fieldset>

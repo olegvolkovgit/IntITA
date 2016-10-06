@@ -91,8 +91,19 @@ class CorporateRepresentative extends CActiveRecord
         return parent::model($className);
     }
 
-    public static function companyRepresentativesList()
+    public static function companyRepresentativesList($params)
     {
+//        $criteria = new CDbCriteria();
+//        $criteria->select = 'cr.id, cr.full_name, cer.position, cer.representative_order, ce.title, ce.EDPNOU';
+//        $criteria->alias = 'cr';
+//        $criteria->join = ' left join acc_corporate_entity_representatives cer on cer.corporate_representative = cr.id';
+//        $criteria->join .= ' left join acc_corporate_entity ce on ce.id = cer.corporate_entity';
+//        $criteria->addCondition('cer.corporate_representative IS NOT NULL');
+//
+//        $adapter = new NgTableAdapter('CorporateRepresentative',$params);
+//        $adapter->mergeCriteriaWith($criteria);
+//        echo  json_encode($adapter->getData());
+
         $sql = 'select cr.id, cr.full_name, cer.position, cer.representative_order, ce.title, ce.EDPNOU from acc_corporate_representative cr
                 left join acc_corporate_entity_representatives cer on cer.corporate_representative = cr.id
                 left join acc_corporate_entity ce on ce.id = cer.corporate_entity
@@ -102,7 +113,7 @@ class CorporateRepresentative extends CActiveRecord
 
         foreach ($representatives as $record) {
             $row = array();
-
+            $row["id"] = $record["id"];
             $row["title"]["name"] = CHtml::encode($record["full_name"]);
             $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/representative/viewRepresentative',
                 array('id' => $record["id"]));
@@ -116,22 +127,11 @@ class CorporateRepresentative extends CActiveRecord
         return json_encode($return);
     }
 
-    public static function representativesList()
+    public static function representativesList($params)
     {
-        $representatives = CorporateRepresentative::model()->findAll();
-        $return = array('data' => array());
-
-        foreach ($representatives as $record) {
-            $row = array();
-
-            $row["title"]["name"] = CHtml::encode($record->full_name);
-            $row["title"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/representative/viewRepresentative',
-                array('id' => $record->id));
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
+//        $params['extraParams'] = ['relation->id.company_id' => ''];
+        $adapter = new NgTableAdapter('CorporateRepresentative',$params);
+        return  json_encode($adapter->getData());
     }
 
     public static function representativesByQuery($query)

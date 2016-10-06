@@ -13,11 +13,13 @@ class RepresentativeController extends TeacherCabinetController
 
 
     public function actionGetCompanyRepresentativesList(){
-        echo CorporateRepresentative::companyRepresentativesList();
+        $params = $_GET;
+        echo CorporateRepresentative::companyRepresentativesList($params);
     }
 
     public function actionGetRepresentativesList(){
-        echo CorporateRepresentative::representativesList();
+        $params = $_GET;
+        echo CorporateRepresentative::representativesList($params);
     }
 
     public function actionRenderAddForm(){
@@ -36,7 +38,7 @@ class RepresentativeController extends TeacherCabinetController
 
     public function actionNewRepresentative(){
 
-        $name = Yii::app()->request->getPost('full_name', '');
+        $name = Yii::app()->request->getPost('fullName', '');
         $position = Yii::app()->request->getPost('position', '');
         $order =  Yii::app()->request->getPost('order', 0);
         $companyId =  Yii::app()->request->getPost('company', 0);

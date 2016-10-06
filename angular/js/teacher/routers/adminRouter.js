@@ -295,11 +295,11 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath + "/_teacher/_admin/config/view/id/" + $stateParams.id;
             }
         })
-        .state('addLinkedCourse/:model/:course/:lang', {
-            url: "/addLinkedCourse/:model/:course/:lang",
+        .state('addLinkedCourse/:course/:lang', {
+            url: "/addLinkedCourse/:course/:lang",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/model/"+$stateParams.model+"/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
+                return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         })
     

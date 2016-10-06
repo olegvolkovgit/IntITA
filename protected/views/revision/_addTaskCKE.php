@@ -26,7 +26,7 @@
             Умова задачі*:<textarea ng-cloak ckeditor="editorOptionsTask" name="condition" id="condition" cols="105" rows="10" required ng-model="addTask"></textarea>
         </fieldset>
         <br>
-        <input class="btn btn-default" type="submit" value="Додати задачу" id='addtests' ng-disabled="addTaskForm.$invalid">
+        <input class="btn btn-default" type="submit" value="Додати задачу" id='addtests' ng-click="quizCheckSaved()" ng-disabled="addTaskForm.$invalid">
         <input class="btn btn-default" type="button" value="<?php echo Yii::t('lecture', '0707'); ?>" ng-click='cancelQuiz()'>
     </form>
 </div>

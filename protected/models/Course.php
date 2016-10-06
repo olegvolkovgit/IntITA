@@ -588,6 +588,12 @@ class Course extends CActiveRecord implements IBillableObject
         return count($courses)-$duplicate;
     }
 
+    public static function selectModulesCount()
+    {
+        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE));
+        return count($modules);
+    }
+
     public function modulesCount()
     {
         return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $this->course_ID
@@ -933,11 +939,12 @@ class Course extends CActiveRecord implements IBillableObject
         $result["middle"] = Course::selectCoursesCount(Level::MIDDLE);
         $result["senior"] = Course::selectCoursesCount(Level::SENIOR);
         $result["total"] = Course::selectCoursesCount(null);
+        $result["modules"] = Course::selectModulesCount();
 
         return $result;
     }
 
-    public static function coursesByQueryAndLang($query, $lang){
+    public static function coursesByQueryAndLang($query, $lang, $currentCourseLang){
         $criteria = new CDbCriteria();
         $criteria->alias = 'c';
         $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
@@ -947,7 +954,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
         $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
-        $criteria->addCondition('cl.lang_'.$lang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
+        $criteria->addCondition('cl.lang_'.$currentCourseLang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
 
         $data = Course::model()->findAll($criteria);
         $result = array();

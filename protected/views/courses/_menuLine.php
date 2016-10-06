@@ -5,7 +5,12 @@
 ?>
 <?php if (isset($_GET['selector'])) $select = $_GET['selector']; else $select = 'all'; ?>
 <div class="coursesHeader">
-    <h1><?php echo Yii::t('courses', '0066'); ?></h1>
+    <h1>
+        <?php if ($select == 'modules')
+            echo Yii::t('course', '0330');
+        else echo Yii::t('courses', '0066'); ?>
+    </h1>
+
 
     <div class="coursesType">
         <div class="category">
@@ -18,16 +23,16 @@
                     src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
             </div>
         </div>
-<div class="category">
-    <div class='selectType sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
-            href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle')); ?>">
-            <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
-            class='courseNum'><?php echo $counters["middle"]; ?></span>
-    </div>
-    <div class='selectLine sourse'>&nbsp;&nbsp;<img
-            src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
-    </div>
-</div>
+        <div class="category">
+            <div class='selectType sourse <?php if ($select == 'middle') echo 'selectedSelector' ?>'><a
+                    href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'middle')); ?>">
+                    <?php echo Yii::t('courses', '0141'); ?></a>&nbsp;<span
+                    class='courseNum'><?php echo $counters["middle"]; ?></span>
+            </div>
+            <div class='selectLine sourse'>&nbsp;&nbsp;<img
+                    src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
+            </div>
+        </div>
 
         <div class="category">
             <div class='selectType sourse <?php if ($select == 'senior') echo 'selectedSelector' ?>'><a
@@ -45,6 +50,18 @@
                 <?php echo Yii::t('courses', '0143'); ?></a>&nbsp;<span
                 class='courseNum'><?php echo $counters["total"]; ?></span>
         </div>
+        <div class='selectLine sourse'>&nbsp;&nbsp;<img
+                src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>&nbsp;&nbsp;
+        </div>
+
+        <div class="category">
+            <div class='selectType sourse <?php if ($select == 'modules') echo 'selectedSelector' ?>'><a
+                    href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'modules')); ?>">
+                    <?php echo Yii::t('course', '0330'); ?></a>&nbsp;<span
+                    class='moduleNum'><?php echo $counters["modules"]; ?></span>
+            </div>
+        </div>
+        
         <div id="coursesFilter">
             <div class="spoilerTriangle" onclick="courseTypeSpoiler(this);">
                 <img src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline2.png'); ?>"/>
@@ -66,6 +83,11 @@
                         href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'senior')); ?>">
                         <?php echo Yii::t('courses', '0142'); ?></a>&nbsp;<span
                         class='courseNum'><?php echo $counters["senior"]; ?></span>
+                </div>
+                <div class='sourse <?php if ($select == 'modules') echo 'selectedSelector' ?>'><a
+                        href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'modules')); ?>">
+                        <?php echo Yii::t('course', '0330'); ?></a>&nbsp;<span
+                        class='moduleNum'><?php echo $counters["modules"]; ?></span>
                 </div>
             </div>
         </div>

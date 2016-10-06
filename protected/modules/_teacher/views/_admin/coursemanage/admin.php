@@ -10,12 +10,12 @@
                 <table class="table table-striped table-bordered table-hover" id="coursesTable" style="width:100%" datatable="ng" dt-options="dtOptions">
                     <thead>
                     <tr>
-                        <th ng-style="{ width:'8%' }">Id</th>
-                        <th ng-style="{ width:'15%' }" >Псевдонім</th>
-                        <th ng-style="{ width:'37%' }">Назва</th>
-                        <th ng-style="{ width:'10%' }">Статус</th>
-                        <th ng-style="{ width:'10%' }">Видалений</th>
-                        <th ng-style="{ width:'20%' }">Рівень</th>
+                        <th>Id</th>
+                        <th>Псевдонім</th>
+                        <th>Назва</th>
+                        <th>Статус</th>
+                        <th>Видалений</th>
+                        <th>Рівень</th>
                     </tr>
                     </thead>
                     <tbody>
