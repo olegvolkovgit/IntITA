@@ -21,7 +21,7 @@
                     'enctype' => 'multipart/form-data',
                     'ng-submit'=>"checkTags()"
                 ),
-                'enableAjaxValidation' => false,
+                'enableAjaxValidation' => true,
                 'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,

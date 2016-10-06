@@ -73,6 +73,10 @@ class CabinetController extends TeacherCabinetController
         $model = Yii::app()->user->model;
         $role = new UserRoles($page);
 
+        if(!$model->hasRole($role)){
+            throw new \application\components\Exceptions\IntItaException(403, 'Сторінка недоступна');
+        }
+
         if ($role && $model)
             $this->rolesDashboard($model, array($role));
     }

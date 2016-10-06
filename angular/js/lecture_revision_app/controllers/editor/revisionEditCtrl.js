@@ -143,6 +143,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
 
     /*add Skip Task*/
     $scope.createSkipTaskCKE = function (url, pageId, revisionId,quizType) {
+        $scope.quizSaving=true;
         var questionTemp = $scope.addSkipTaskQuest;
         var condition = $scope.addSkipTaskCond;
 
@@ -233,6 +234,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
             })
                 .success(function (response) {
                     if(response.length==0){
+                        $scope.editSaving=true;
                         $ngBootbox.alert($scope.saveMsg)
                             .then(function() {
                             });
@@ -315,7 +317,52 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
     };
 
     $scope.cancelQuiz=function() {
+        $scope.quizSaving=true;
         location.reload();
+    }
+
+    //check unsaved text blocks
+    $scope.quizSaving=true;
+    $(window).bind("beforeunload",function(event) {
+        console.log($scope.quizSaving);
+        if(($('#addBlock').is(':visible') && !$scope.saving) || ($('.openCKE').length && !$scope.editSaving) ||
+            !$scope.quizSaving)
+            return "Ви дійсно хочете покинути сторінку? На сторінці знаходяться не збережені дані";
+    });
+    $scope.checkSaved=function() {
+        $scope.saving=true;
+    };
+    $scope.quizCheckSaved=function() {
+        $scope.quizSaving=true;
+    }
+    $scope.$watch('editRedactor', function (newValue, oldValue) {
+        if(newValue!=oldValue) $scope.editSaving=false;
+    });
+
+    $scope.showAddTaskFormCKE=function(taskType){
+        $scope.quizSaving=false;
+        task = taskType;
+        document.getElementById('addTask').style.display = 'block';
+        document.getElementById('buttonsPanel').style.display = 'none';
+    }
+
+    $scope.showAddSkipTaskFormCKE=function(){
+        $scope.quizSaving=false;
+        document.getElementById('addSkipTask').style.display = 'block';
+        document.getElementById('buttonsPanel').style.display = 'none';
+    }
+
+    $scope.showAddTestFormCKE=function(taskType){
+        $scope.quizSaving=false;
+        document.getElementById('testType').value = testType;
+        document.getElementById('addTest').style.display = 'block';
+        document.getElementById('buttonsPanel').style.display = 'none';
+    }
+    $scope.showAddPlainTaskFormCKE=function(taskType){
+        $scope.quizSaving=false;
+        document.getElementById('plainTaskType').value = testType;
+        document.getElementById('addPlainTask').style.display = 'block';
+        document.getElementById('buttonsPanel').style.display = 'none';
     }
 }
 
@@ -329,28 +376,6 @@ function blockValidation() {
 }
 function removeHtml() {
     myCodeMirror.setValue(myCodeMirror.getValue().replace(/<\/?[^>]+>/g,''));
-}
-
-function showAddTaskFormCKE(taskType){
-    task = taskType;
-    document.getElementById('addTask').style.display = 'block';
-    document.getElementById('buttonsPanel').style.display = 'none';
-}
-
-function showAddSkipTaskFormCKE(){
-    document.getElementById('addSkipTask').style.display = 'block';
-    document.getElementById('buttonsPanel').style.display = 'none';
-}
-
-function showAddTestFormCKE(testType){
-    document.getElementById('testType').value = testType;
-    document.getElementById('addTest').style.display = 'block';
-    document.getElementById('buttonsPanel').style.display = 'none';
-}
-function showAddPlainTaskFormCKE(testType){
-    document.getElementById('plainTaskType').value = testType;
-    document.getElementById('addPlainTask').style.display = 'block';
-    document.getElementById('buttonsPanel').style.display = 'none';
 }
 
 function hideFormCKE(id) {

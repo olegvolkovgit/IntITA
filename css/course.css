@@ -605,7 +605,13 @@ input.paymentPlan_value{
         height:inherit;
     }
     .courseShortInfoTable{display:inline-block}
+    #discount{
+        margin-left:20px;
+    }
 }
 @media only screen and (max-width: 360px) {
-
+    #discount{
+        margin-left:0;
+        display: block;
+    }
 }

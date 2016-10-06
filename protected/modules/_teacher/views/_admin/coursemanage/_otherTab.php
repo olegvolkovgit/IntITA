@@ -18,7 +18,7 @@ $langs = array_diff(array('ua', 'ru', 'en'), array($model->language));
                     ?>
                     <li>
 
-                        <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('addLinkedCourse/<?= $linkedCourses->id ?>/<?= $model->course_ID ?>/<?= $item ?>')">
+                        <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('addLinkedCourse/<?= $model->course_ID ?>/<?= $item ?>')">
                             Додати курс (<?= $item ?>)
                         </button>
                     </li>

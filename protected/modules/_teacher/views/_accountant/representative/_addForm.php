@@ -1,45 +1,44 @@
 <ul class="list-inline">
     <li>
-        <button type="button" class="btn btn-primary"
-                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/representative/index'); ?>',
-                    'Представники')">
-            Представники
-        </button>
+        <a type="button" class="btn btn-primary" ng-href="#/accountant/representative">Представники</a>
     </li>
 </ul>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="formMargin">
-            <form>
+            <form novalidate name="addRepresentativeForm" ng-submit="addRepresentative('<?php echo Yii::app()->createUrl('/_teacher/_accountant/representative/newRepresentative') ?>')">
                 <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#new">
+                            <a href="" ng-click="isNewRepresentativeOpen = !isNewRepresentativeOpen">
                                 Новий представник
                             </a>
                         </div>
-                        <div id="new" class="panel-collapse collapse in">
+                        <div ng-show="!isNewRepresentativeOpen">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label>Прізвище, ім'я, по-батькові</label>
-                                    <input type="text" name="full_name" class="form-control" maxlength="255"
-                                           size="50" id="newRepresentative" onkeyup="newRepresentativeValidate(this)">
+                                    <input ng-model="newRepresentative" type="text" name="full_name" class="form-control" maxlength="255"
+                                           size="50" id="newRepresentative" ng-disabled="oldRepresentative">
+                                    <div ng-cloak  class="clientValidationError" ng-show="addRepresentativeForm['newRepresentative'].$dirty && addRepresentativeForm['newRepresentative'].$invalid">
+                                        <span ng-show="addRepresentativeForm['newRepresentative'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#exist">
+                            <a href="" ng-click="isOldRepresentativeOpen = !isOldRepresentativeOpen">
                                 Вибрати існуючого представника
                             </a>
                         </div>
-                        <div id="exist" class="panel-collapse collapse">
+                        <div ng-show="isOldRepresentativeOpen">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label>Представник</label>
-                                    <input id="typeaheadRepresentative" type="text" class="typeahead form-control"
-                                           placeholder="виберіть представника" onkeyup="oldRepresentativeValidate(this)" size="90">
+                                    <input ng-model="oldRepresentative" id="typeaheadRepresentative" type="text" class="typeahead form-control"
+                                           placeholder="виберіть представника" size="90"  ng-disabled="newRepresentative">
                                     <input type="number" hidden="hidden" id="representative" value="0"/>
                                 </div>
                             </div>
@@ -47,48 +46,46 @@
                     </div>
                     <div class="form-group">
                         <label>Компанія *</label>
-                        <input id="typeaheadCompany" type="text" class="typeahead form-control" name="company"
-                               placeholder="виберіть компанію" size="90" onkeyup="deleteErrorValidationClass(this)" required>
+                        <input id="typeaheadCompany" type="text" class="typeahead form-control" name="company" ng-model="company"
+                               placeholder="виберіть компанію" size="90" required>
                         <input type="number" hidden="hidden" id="companyId" value="0"/>
-                        <span class="representativeErrorMessage">Поле обов'язкове для заповнення</span>
+                        <div ng-cloak  class="clientValidationError" ng-show="addRepresentativeForm['company'].$dirty && addRepresentativeForm['company'].$invalid">
+                            <span ng-show="addRepresentativeForm['company'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label>Посада *</label>
-                        <input type="text" name="position" class="form-control" maxlength="100" onkeyup="deleteErrorValidationClass(this)" required>
-                        <span class="representativeErrorMessage">Поле обов'язкове для заповнення</span>
+                        <input ng-model="position" type="text" name="position" class="form-control" maxlength="100" required>
+                        <div ng-cloak  class="clientValidationError" ng-show="addRepresentativeForm['position'].$dirty && addRepresentativeForm['position'].$invalid">
+                            <span ng-show="addRepresentativeForm['position'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label>Порядок *</label>
-                        <input type="number" name="order" class="form-control" max="99" min="1" onkeyup="deleteErrorValidationClass(this)" required>
-                        <span class="representativeErrorMessage">Поле обов'язкове для заповнення</span>
+                        <input ng-model="order" type="number" name="order" class="form-control" max="99" min="1" required>
+                        <div ng-cloak  class="clientValidationError" ng-show="addRepresentativeForm['order'].$dirty && addRepresentativeForm['order'].$invalid">
+                            <span ng-show="addRepresentativeForm['order'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                            <span ng-show="addRepresentativeForm['order'].$error.max || addRepresentativeForm['order'].$error.number">Порядок - число від 1 до 99</span>
+                        </div>
                     </div>
 
-                    <input type="number" hidden="hidden" id="scenario" value="new"/>
+                    <input type="text" hidden="hidden" id="scenario" value="new"/>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary"
-                                onclick="addRepresentative('<?php echo Yii::app()->createUrl('/_teacher/_accountant/representative/newRepresentative') ?>');
-                                    return false;">Зберегти
+                        <button type="submit" class="btn btn-primary" ng-disabled=addRepresentativeForm.$invalid>Зберегти
                         </button>
-                        <button type="reset" class="btn btn-outline btn-default"
-                                onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/representative/index'); ?>',
-                                    'Представники')">Скасувати
-                        </button>
+                        <a type="reset" class="btn btn-primary" ng-href="#/accountant/representative">Скасувати</a>
                     </div>
             </form>
 
             <div class="alert alert-info">
                 Якщо немає потрібної компанії, потрібно спочатку додати її у формі:
-                <a href="#" class="alert-link"
-                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/renderAddForm'); ?>',
-                       'Додати компанію')">Додати компанію</a>.
+                <a class="alert-link" ng-href="#/accountant/addcompany">Додати компанію</a>.
                 <br>
                 Список усіх компаній:
-                <a href="#" class="alert-link"
-                   onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_accountant/company/index'); ?>',
-                       'Компанії')">Усі компанії</a>.
+                <a class="alert-link" ng-href="#/accountant/company">Компанії</a>.
             </div>
         </div>
     </div>
@@ -171,27 +168,5 @@
             suggestion: Handlebars.compile("<div class='typeahead_wrapper'><div class='typeahead_labels'><div class='typeahead_primary'>{{title}}&nbsp;</div><div class='typeahead_secondary'>ЄДРПОУ: {{edpnou}}</div></div></div>")
         }
     });
-
-
-    function newRepresentativeValidate(input) {
-        if($jq(input).val().length !=0){
-            $jq('#typeaheadRepresentative').attr('disabled', true);
-            $jq('#typeaheadRepresentative').css('background-color', '#eee');
-        }
-        else{
-            $jq('#typeaheadRepresentative').attr('disabled',false);
-            $jq('#typeaheadRepresentative').css('background-color', 'inherit');
-        }
-
-    }
-    function oldRepresentativeValidate(input) {
-        if($jq(input).val().length !=0)
-            $jq('#newRepresentative').attr('disabled', true);
-        else
-            $jq('#newRepresentative').attr('disabled',false);
-    }
-    function deleteErrorValidationClass(el){
-        $jq(el).removeClass('errorValidation');
-    }
 </script>
 

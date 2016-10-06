@@ -1,4 +1,7 @@
-<?php $header = new Header(); ?>
+<?php
+$header = new Header();
+$lastLink=Yii::app()->user->isGuest?null:Yii::app()->user->model->lastLink();
+?>
 <!-- Hamburger menu -->
 <div id="hambNav">
     <div id="hambButton">
@@ -30,7 +33,10 @@
             <?php if (!Yii::app()->user->isGuest) { ?>
             <li><a href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index'); ?>"><?php echo Yii::t('profile', '0815'); ?></a></li>
             <?php } ?>
-            <li><a href="http://profitday.info/" target="_blank"><?php echo Yii::t('header', '0912'); ?></a></li>
+            <li><a href="http://profitday.info/upcomingevents" target="_blank"><?php echo Yii::t('header', '0912'); ?></a></li>
+            <?php if ($lastLink) { ?>
+            <li><a href="<?php echo $lastLink ?>"><?php echo 'Продовжити'; ?></a></li>
+            <?php } ?>
         </ul>
         <div class="humundline"></div>
         <?php if (Yii::app()->user->isGuest) {

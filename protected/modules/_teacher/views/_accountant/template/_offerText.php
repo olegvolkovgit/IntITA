@@ -18,7 +18,7 @@
                         </button>
                     </li>
                 </ul>
-                <pre>
+                <pre class="offer">
                 <?= file_get_contents(Config::getBaseUrl() . '/files/offers/offer_' . $lang . '.html'); ?>
                     </pre>
             </div>

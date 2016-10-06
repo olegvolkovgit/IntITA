@@ -12,7 +12,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Автор');
             },
-            templateUrl: "/_teacher/cabinet/loadPage/?page=author",
         })
         .state('author/modules', {
             url: "/author/modules",

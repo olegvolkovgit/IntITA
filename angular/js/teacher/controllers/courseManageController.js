@@ -5,7 +5,7 @@ angular
     .module('teacherApp')
     .controller('coursemanageCtrl',coursemanageCtrl);
 
-function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $state ,$templateCache){
+function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $stateParams, $state ,$templateCache){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
@@ -55,11 +55,12 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
         });
     };
     /* Get modules List   */
-    $scope.getCourses = function(value) {
+    $scope.getCourses = function(value, currentCourseLang) {
         return $http.get(basePath+'/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
             params: {
                 query: value,
-                lang: $stateParams.lang
+                lang: $stateParams.lang,
+                currentCourseLang: currentCourseLang
             }
         }).then(function(response){
             if (response.data.results)
@@ -79,20 +80,19 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
         $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/view?id="+courseId);
     };
 
-    $scope.addLinkedCourse = function(modelId, courseId, language, linkedCourseId) {
-
+    $scope.addLinkedCourse = function(courseId, language, linkedCourseId) {
         $http({
             method: "POST",
             url:  basePath+"/_teacher/_admin/coursemanage/changeLinkedCourses/",
-            data: $jq.param({"course":courseId, "lang":language, "linkedCourse":linkedCourseId, "modelId":modelId }),
+            data: $jq.param({"course":courseId, "lang":language, "linkedCourse":linkedCourseId }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         })
             .success(function(data){
                 bootbox.alert(data, function () {
-
+                    $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.course);
+                    $state.go('course/edit/:id', {id:$stateParams.course},{reload:true});
                 })
-                $window.history.back();
             }).error(function (){
             bootbox.alert("Операцію не вдалося виконати.", function () {
             })
@@ -111,9 +111,9 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
                 })
                     .success(function(data){
                         bootbox.alert(data, function () {
-
+                            $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.id);
+                            $state.reload();
                         })
-                        $window.location = '/';
                     }).error(function (){
                     bootbox.alert("Операцію не вдалося виконати.", function () {
                     })
