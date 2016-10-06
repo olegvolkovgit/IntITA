@@ -129,6 +129,7 @@ class CorporateRepresentative extends CActiveRecord
 
     public static function representativesList($params)
     {
+//        $params['extraParams'] = ['relation->id.company_id' => ''];
         $adapter = new NgTableAdapter('CorporateRepresentative',$params);
         return  json_encode($adapter->getData());
     }
