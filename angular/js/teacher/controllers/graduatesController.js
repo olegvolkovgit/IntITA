@@ -7,12 +7,10 @@ angular
 
 function graduateCtrl ($scope, $http, graduates, NgTableParams ){
 
+    
     $scope.tableParams = new NgTableParams({}, {
         getData: function(params) {
-            return graduates.list({
-                    page: params.page(),
-                    pageCount: params.count()
-                })
+            return graduates.list(params.url())
                 .$promise
                 .then(function (data) {
                     params.total(data.count); // recal. page nav controls

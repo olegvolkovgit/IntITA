@@ -70,6 +70,15 @@ class Graduate extends CActiveRecord
 		);
 	}
 
+	public function scopes()
+	{
+		return array(
+			'orderUkr'=>array(
+				'order'=>'first_name COLLATE utf8_unicode_ci',
+			),
+		);
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -127,7 +136,6 @@ class Graduate extends CActiveRecord
 		$criteria->compare('last_name_en',$this->last_name_en,true);
         $criteria->compare('first_name_en',$this->first_name_ru,true);
         $criteria->compare('last_name_en',$this->last_name_ru,true);
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

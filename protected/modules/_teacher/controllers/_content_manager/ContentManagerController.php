@@ -88,37 +88,40 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList()
     {
-
+        $count =0;
         $params = $_GET;
         $sql = ' `module_ID` as id, module.`title_ua` as title, module.language  as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions';
         $command = Yii::app()->db->createCommand();
         $command->select($sql)
             ->from('module');
+        if (isset($_GET['filter'])){
+            $value = '%'.urldecode($_GET['filter']['title']).'%';
+            $command->where('module.title_ua LIKE :title', array(':title'=>$value));
+        }
         if ($params['courseId']) {
-            $command->where('module_ID IN (SELECT course_modules.id_module FROM course_modules WHERE course_modules.id_course = :courseId)');
-           // $command->bindValues([':courseId'=>$params['courseId']]);
+            $command->andWhere('module_ID IN (SELECT course_modules.id_module FROM course_modules WHERE course_modules.id_course = :courseId)',array(':courseId'=>$params['courseId']));
         };
         switch ($params['type']){
             case 'all':
                 $command->order('title')
                     ->limit($params['count'])
                     ->offset($params['page']*$params['count'] -$params['count']);
-                if ($params['courseId']) {
-                    $command->bindValues([':courseId'=>$params['courseId']]);
-                }
-
                 echo json_encode(['rows' => [$command->queryAll()]]);
                 break;
             case 'withoutVideos':
                 $alias = Yii::app()->db->createCommand();
                 $alias->from('('.$command->text.') stat ');
-                $alias->where('videos = 0')
-                    ->order('title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count']);
+                $alias->where('videos = 0');
                 if ($params['courseId']) {
                     $alias->bindValues([':courseId'=>$params['courseId']]);
                 }
+                if (isset($_GET['filter'])){
+                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+                    $alias->bindValues([':title'=>$value]);
+                };
+                $alias->order('title')
+                      ->limit($params['count'])
+                      ->offset($params['page']*$params['count'] -$params['count']);
                 echo json_encode(['rows' => [$alias->queryAll()]]);
                 break;
             case 'withoutTests':
@@ -128,6 +131,10 @@ class ContentManagerController extends TeacherCabinetController
                     ->order('title')
                     ->limit($params['count'])
                     ->offset($params['page']*$params['count'] -$params['count']);
+                if (isset($_GET['filter'])){
+                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+                    $alias->bindValues([':title'=>$value]);
+                }
                 if ($params['courseId']) {
                     $alias->bindValues([':courseId'=>$params['courseId']]);
                 }
@@ -140,6 +147,10 @@ class ContentManagerController extends TeacherCabinetController
                     ->order('title')
                     ->limit($params['count'])
                     ->offset($params['page']*$params['count'] -$params['count']);
+                if (isset($_GET['filter'])){
+                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+                    $alias->bindValues([':title'=>$value]);
+                }
                 if ($params['courseId']) {
                     $alias->bindValues([':courseId'=>$params['courseId']]);
                 }
@@ -225,6 +236,10 @@ class ContentManagerController extends TeacherCabinetController
         $command = Yii::app()->db->createCommand();
         $command->select($sql)
                 ->from('course');
+        if (isset($_GET['filter'])){
+            $value = '%'.urldecode($_GET['filter']['title']).'%';
+            $command->where('course.title_ua LIKE :title', array(':title'=>$value));
+        }
         switch ($params['type']){
             case 'all':
                 $command->order('title')
@@ -235,6 +250,10 @@ class ContentManagerController extends TeacherCabinetController
             case 'withoutVideos':
                 $alias = Yii::app()->db->createCommand();
                 $alias->from('('.$command->text.') stat ');
+                if (isset($_GET['filter'])){
+                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+                    $alias->bindValues([':title'=>$value]);
+                };
                 $alias->where('videos = 0')
                       ->order('title')
                       ->limit($params['count'])
@@ -244,6 +263,10 @@ class ContentManagerController extends TeacherCabinetController
             case 'withoutTests':
                 $alias = Yii::app()->db->createCommand();
                 $alias->from('('.$command->text.') stat ');
+                if (isset($_GET['filter'])){
+                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+                    $alias->bindValues([':title'=>$value]);
+                };
                 $alias->where('tests = 0')
                     ->order('title')
                     ->limit($params['count'])
@@ -254,6 +277,10 @@ class ContentManagerController extends TeacherCabinetController
 
                 $alias = Yii::app()->db->createCommand();
                 $alias->from('('.$command->text.') stat ');
+                if (isset($_GET['filter'])){
+                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+                    $alias->bindValues([':title'=>$value]);
+                };
                 $alias->where('tests = 0 AND videos =0')
                     ->order('title')
                     ->limit($params['count'])
