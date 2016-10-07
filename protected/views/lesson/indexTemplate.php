@@ -93,7 +93,8 @@ $finishedLecture = $lecture->isFinished($user);
         </div>
         <div class="lessonText">
             <div class="lessonTheme">
-                <?php $this->renderPartial('_lectureTheme', array('lecture' => $lecture, 'editMode' => $editMode)); ?>
+                <?php echo $lecture->title(); ?>
+                <?php $this->renderPartial('_editLecture', array('lecture' => $lecture, 'editMode' => $editMode)); ?>
             </div>
             <?php
             $this->renderPartial('_jsLecturePageTabs', array('lectureId'=>$lecture->id, 'page' => $page, 'lastAccessPage' => $lastAccessPage, 'dataProvider' => $dataProvider, 'finishedLecture' => $finishedLecture, 'passedLecture' => $passedLecture, 'passedPages' => $passedPages, 'editMode' => $editMode, 'user' => $user, 'order' => $lecture->order, 'idCourse' => $idCourse));
