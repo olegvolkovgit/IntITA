@@ -9,6 +9,7 @@
         <table class="table table-striped table-bordered table-hover" id="teacherModulesTable">
             <thead>
             <tr>
+                <th width="10%">Id</th>
                 <th>Модуль</th>
                 <th width="20%">Призначено</th>
             </tr>
@@ -17,6 +18,9 @@
             <?php if (!empty($modules)) {
                 foreach ($modules as $module) { ?>
                     <tr>
+                        <td>
+                            <?php echo $module["id"] ?>
+                        </td>
                         <td>
                             <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
                                target="_blank">

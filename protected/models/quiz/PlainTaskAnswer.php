@@ -199,15 +199,16 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->select = '*';
         $criteria->alias = 'ans';
         $criteria->order = 'ans.id DESC';
-        $criteria->join = ' LEFT JOIN teacher_consultant_student tcs ON ans.id_student = tcs.id_student';
-        $criteria->join .= ' LEFT JOIN plain_task pt ON ans.quiz_uid = pt.uid';
+        $criteria->join = ' LEFT JOIN plain_task pt ON ans.quiz_uid = pt.uid';
         $criteria->join .= ' LEFT JOIN lecture_element le ON pt.block_element = le.id_block';
         $criteria->join .= ' LEFT JOIN lectures l ON le.id_lecture = l.id';
+        $criteria->join .= ' RIGHT JOIN teacher_consultant_student tcs ON ans.id_student = tcs.id_student and l.idModule = tcs.id_module';
         $criteria->join .= ' RIGHT JOIN teacher_consultant_module tcm ON l.idModule = tcm.id_module';
         $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
         and tcm.end_date IS NULL and tcm.id_teacher=:id');
         $criteria->params = array(':id' => $id);
         $criteria->group = 'ans.id DESC';
+        
         return PlainTaskAnswer::model()->findAll($criteria);
     }
 
