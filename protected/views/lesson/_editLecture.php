@@ -1,4 +1,4 @@
-<div style="display: inline-block; float: right; margin-top: 10px">
+<div class="editLecture">
     <?php if ($editMode) { ?>
         <a href="<?=Yii::app()->createUrl("revision/editlecture", array("idLecture" => $lecture->id)); ?>">
             <img style="margin-left: 5px"
@@ -7,4 +7,3 @@
         </a>
     <?php } ?>
 </div>
-<?php echo $lecture->title(); ?>
