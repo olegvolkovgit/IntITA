@@ -26,7 +26,7 @@ function skipTaskCtrl($scope, $http) {
         var condition = $scope.dataSkipTask.condition;
 
         var number=0;
-        var question=questionTemp.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
+        var question=questionTemp.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d][^\>]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
@@ -34,10 +34,10 @@ function skipTaskCtrl($scope, $http) {
             bootbox.alert("Виділіть хоч одне слово-пропуск!");
             return;
         }
-        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d][^\>]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             return '<input type=text size="'+p5.length+'" id=skipTask'+p2+' caseInsensitive='+p3+' />';
         });
-        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
+        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d][^\>]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
             "pageId":pageId,
@@ -66,7 +66,6 @@ function skipTaskCtrl($scope, $http) {
                 return;
                 bootbox.alert("Вибачте, але на сайті виникла помилка і додати завдання до заняття наразі неможливо. " +
                     "Спробуйте додати пізніше або зв'яжіться з адміністратором сайту.");
-                //location.reload();
             })
             .always(function () {
             });

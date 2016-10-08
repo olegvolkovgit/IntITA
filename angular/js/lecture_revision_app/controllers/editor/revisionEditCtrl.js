@@ -324,7 +324,6 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
     //check unsaved text blocks
     $scope.quizSaving=true;
     $(window).bind("beforeunload",function(event) {
-        console.log($scope.quizSaving);
         if(($('#addBlock').is(':visible') && !$scope.saving) || ($('.openCKE').length && !$scope.editSaving) ||
             !$scope.quizSaving)
             return "Ви дійсно хочете покинути сторінку? На сторінці знаходяться не збережені дані";

@@ -26,12 +26,13 @@ angular
                         null,
                         null,
                         null,
+                        null,
                         {
                             "type": "de_date", targets: 1,
                         },
                         null,
                     ],
-                    "order": [[5, "asc"], [4, "desc"]]
+                    "order": [[6, "asc"], [5, "desc"]]
                 }
             );
         });
