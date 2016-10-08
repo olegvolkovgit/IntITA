@@ -109,4 +109,11 @@ class EducationForm extends CActiveRecord
 	public function isOffline(){
 		return $this->id == self::OFFLINE;
 	}
+
+    public function getCoefficient() {
+        if ($this->id == self::OFFLINE) {
+            return Config::getCoeffModuleOffline();
+        }
+        return 1;
+    }
 }

@@ -1,33 +1,32 @@
 <?php
 
 /**
- * This is the model class for table "acc_payment_schema".
+ * This is the model class for table "acc_user_special_offer_payment".
  *
- * The followings are the available columns in table 'acc_payment_schema':
- * @property string $id
+ * The followings are the available columns in table 'acc_user_special_offer_payment':
+ * @property integer $id
+ * @property integer $userId
+ * @property integer $courseId
+ * @property integer $moduleId
  * @property string $discount
- * @property integer $pay_count
+ * @property integer $payCount
  * @property string $loan
  * @property string $name
  * @property integer $monthpay
+ * @property string $startDate
+ * @property string $endDate
+ * 
+ * @property Course $course
+ * @property Module $module
  */
-class PaymentScheme extends CActiveRecord
+class UserSpecialOffer extends CActiveRecord
 {
-	const ADVANCE = 1;
-    const BASE_TWO_PAYS = 2;
-    const BASE_FOUR_PAYS = 3;
-    const MONTHLY = 4;
-    const CREDIT_TWO_YEARS = 5;
-    const CREDIT_THREE_YEARS = 6;
-    const CREDIT_FOUR_YEARS = 7;
-    const CREDIT_FIVE_YEARS = 8;
-
-    /**
+	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_payment_schema';
+		return 'acc_user_special_offer_payment';
 	}
 
 	/**
@@ -38,13 +37,14 @@ class PaymentScheme extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('pay_count, monthpay', 'numerical', 'integerOnly'=>true),
+			array('userId', 'required'),
+			array('userId, courseId, moduleId, payCount, monthpay', 'numerical', 'integerOnly'=>true),
 			array('discount, loan', 'length', 'max'=>10),
 			array('name', 'length', 'max'=>512),
+			array('startDate, endDate', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, discount, pay_count, loan, name, monthpay', 'safe', 'on'=>'search'),
+			array('id, userId, courseId, moduleId, discount, payCount, loan, name, monthpay, startDate, endDate', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,8 +55,10 @@ class PaymentScheme extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return [
+            'course' => [self::HAS_ONE, 'Course', 'courseID'],
+            'module' => [self::HAS_ONE, 'Module', 'moduleID'],
+        ];
 	}
 
 	/**
@@ -65,12 +67,17 @@ class PaymentScheme extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-            'id' => 'ID',
-            'discount' => 'відсоток знижки',
-            'pay_count' => 'кількість проплат',
-            'loan' => 'відсоток',
-            'name' => 'опис',
-            'monthpay' => 'кількість платежів по-місячно',
+			'id' => 'ID',
+			'userId' => 'User',
+			'courseId' => 'Course',
+			'moduleId' => 'Module',
+			'discount' => 'Discount',
+			'payCount' => 'Pay Count',
+			'loan' => 'Loan',
+			'name' => 'Name',
+			'monthpay' => 'Monthpay',
+			'startDate' => 'Start Date',
+			'endDate' => 'End Date',
 		);
 	}
 
@@ -92,12 +99,17 @@ class PaymentScheme extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('userId',$this->userId);
+		$criteria->compare('courseId',$this->courseId);
+		$criteria->compare('moduleId',$this->moduleId);
 		$criteria->compare('discount',$this->discount,true);
-		$criteria->compare('pay_count',$this->pay_count);
+		$criteria->compare('payCount',$this->payCount);
 		$criteria->compare('loan',$this->loan,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('monthpay',$this->monthpay);
+		$criteria->compare('startDate',$this->startDate,true);
+		$criteria->compare('endDate',$this->endDate,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,40 +120,10 @@ class PaymentScheme extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PaymentScheme the static model class
+	 * @return UserSpecialOffer the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-    
-    /* @TODO 06.10.16 remove static method */
-    public static function getSchema($id, $educFormId){
-        $schema = null;
-        $educForm = EducationForm::model()->findByPk($educFormId);
-        $model = PaymentScheme::model()->findByPk($id);
-        return $model->getSchemaCalculator($educForm);
-    }
-
-    /**
-     * @param EducationForm $educationForm
-     * @return IPaymentCalculator
-     */
-    public function getSchemaCalculator(EducationForm $educationForm) {
-        $schema = null;
-        if ($this->loan > 0){
-            $schema = new LoanPaymentSchema($this->loan, $this->pay_count, $educationForm);
-        }else{
-            if ($this->monthpay > 0){
-                $schema = new BasePaymentSchema($this->pay_count, $educationForm);
-            } else {
-                $schema = new AdvancePaymentSchema($this->discount, $this->pay_count, $educationForm);
-            }
-        }
-        return $schema;
-    }
-
-    public static function getName($id){
-        return PaymentScheme::model()->findByPk($id)->name;
-    }
 }
