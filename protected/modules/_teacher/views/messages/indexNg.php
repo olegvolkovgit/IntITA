@@ -79,8 +79,8 @@
                             <col width="55%" />
                             <col width="15%" />
                         </colgroup>
-                        <tr ng-repeat="row in $data" ng-click="changeView('dialog/'+row.sender.id+'/'+row.receiver.id)">
-                            <td data-title="'Кому'"  filter="{'name' : 'text'}" sortable="'receiver.fullName'">
+                        <tr ng-repeat="row in $data" >
+                            <td data-title="'Кому'"  filter="{'name' : 'text'}" sortable="'receiver.fullName'" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ng-if="row.receiver.fullName"><em>{{row.receiver.fullName}} ({{row.receiver.email}})</em></div>
                                 <div ng-if="row.receiver.fullName == ''"><em>{{row.receiver.email}}</em></div>
                             </td>
