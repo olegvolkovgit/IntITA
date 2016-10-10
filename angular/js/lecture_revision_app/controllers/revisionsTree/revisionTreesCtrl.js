@@ -68,7 +68,7 @@ function revisionTreesCtrl($compile, $rootScope, $scope, revisionMessage) {
         revisionMessage.sendMessage(idRevision);
     };
     $scope.cloneRev = function(idRevision) {
-        location.href = basePath+'/revision/createLectureRevision?idRevision=' + idRevision+'&clone=true';
+        location.href = basePath+'/revision/createLectureRevision?idRevision=' + idRevision+'&newBranch=true';
     };
 }
 

@@ -1039,7 +1039,7 @@ class RevisionController extends Controller {
         echo CJSON::encode($data);
     }
 
-    public function actionCreateLectureRevision($idRevision, $clone=false) {
+    public function actionCreateLectureRevision($idRevision, $newBranch=false) {
 
         $lectureRevision = RevisionLecture::model()->with("properties", "lecturePages")->findByPk($idRevision);
 
@@ -1047,7 +1047,7 @@ class RevisionController extends Controller {
             throw new RevisionControllerException(403, Yii::t('error', '0590'));
         }
 
-        $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user, false, $clone);
+        $lectureRevision = $lectureRevision->cloneLecture(Yii::app()->user, false, $newBranch);
         if($lectureRevision){
             $this->redirect(Yii::app()->createUrl('/revision/editLectureRevision',array('idRevision'=>$lectureRevision->id_revision)));
         }else{
