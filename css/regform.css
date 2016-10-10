@@ -24,7 +24,7 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 #regCheckbox:focus + label:before{box-shadow:0 0 1px #1287bf;}
 #regCheckbox:hover + label:before{box-shadow:0 0 1px #1287bf;}
 .regCheckboxW{width:452px;margin:0 auto;overflow:hidden;}
-.regCheckbox{position:relative;text-align:left;float:left;}
+.authLinks .regCheckbox{position:relative;text-align:left;float:left;max-width:60%;width:inherit}
 .regCheckbox label{color:#4B75A4;}
 .regCheckbox label:hover{color:#666666;}
 .rowemail input:focus,.rowpass input:focus{cursor:text;}
@@ -72,9 +72,9 @@ input.ng-invalid.ng-dirty, input.ng-invalid.ng-dirty:focus{box-shadow:0 0 4px #c
 .studProf .clientValidationError, .formStudProf .clientValidationError{margin-left:215px;}
 .formStudProf .rightProfileColumn .clientValidationError{margin-left:0;margin-bottom:15px;}
 input[type="submit"][disabled],input[type="submit"][disabled]#signInButtonM,input[type="submit"][disabled]#signInButton,.formStudProf input[type="submit"][disabled]{background:#666666;}
-#studentreg-form .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}
-.signIn .clientValidationError{text-align:left;margin-left:30px;margin-top:10px;margin-bottom:5px;}
-.signUp .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}
+/*#studentreg-form .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}*/
+/*.signIn .clientValidationError{text-align:left;margin-left:30px;margin-top:10px;margin-bottom:5px;}*/
+/*.signUp .clientValidationError{text-align:left;margin-left:45px;margin-top:10px;margin-bottom:5px;}*/
 label.registration{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin-bottom:0px}
 a#authLinks:hover, label.registration:hover{color:#666666;}
 .registrationWhenForgot{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin:10px 24px 0 0}

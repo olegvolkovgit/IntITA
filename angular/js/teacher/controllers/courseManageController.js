@@ -30,7 +30,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $stateParams, $state
             bootbox.confirm("Схема курсу збережена.", function () {
             })
         }).error(function(data){
-            showDialog("Схему курса не вдалося зберегти.");
+            showDialog("Схему курсу не вдалося зберегти.");
         });
 
         $scope.changeView('course/edit/'+idCourse);

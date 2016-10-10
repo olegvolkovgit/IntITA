@@ -8,8 +8,8 @@ $this->breadcrumbs = array(
     'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $page->revision->id_module)),
     'Ревізії занять модуля' => Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$page->revision->id_module)),
     'Ревізії заняття' => Yii::app()->createUrl('/revision/revisionsBranch', array('idRevision'=>$page->id_revision)),
-    'Ревізія заняття даної сторінки' => Yii::app()->createUrl('/revision/EditLectureRevision', array('idRevision'=>$page->id_revision)),
-    'Ревізія сторінки заняття',
+    'Ревізія даного заняття' => Yii::app()->createUrl('/revision/EditLectureRevision', array('idRevision'=>$page->id_revision)),
+    'Редагування ревізії',
 );
 ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>

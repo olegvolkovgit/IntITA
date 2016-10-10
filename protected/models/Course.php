@@ -847,7 +847,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
     public function paymentMailTheme(){
-        return 'Доступ до курса';
+        return 'Доступ до курсу';
     }
 
     public static function readyCoursesList($query){

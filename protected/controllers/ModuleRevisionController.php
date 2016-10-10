@@ -28,7 +28,7 @@ class ModuleRevisionController extends Controller {
 
     public function actionCourseModulesRevisions($idCourse) {
         if (!Yii::app()->user->model->canApprove()) {
-            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курса');
+            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курсу');
         }
 
         $this->render('courseModulesRevisions', array(

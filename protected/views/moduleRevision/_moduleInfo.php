@@ -5,7 +5,9 @@
         <td><?= Module::getModuleName($module->module_ID).' (id='.$module->module_ID.')'?></td>
 
         <td><label>Актуальна ревізія:</label></td>
-        <td><a href="<?=Yii::app()->createUrl('/moduleRevision/previewModuleRevision',array('idRevision'=>$module->id_module_revision));?>">Ревізія №<?=$module->id_module_revision?></a></td>
+        <?php if($module->id_module_revision){ ?>
+            <td><a href="<?=Yii::app()->createUrl('/moduleRevision/previewModuleRevision',array('idRevision'=>$module->id_module_revision));?>">Ревізія №<?=$module->id_module_revision?></a></td>
+        <?php } ?>
     </tr>
     <tr>
         <td><label>Назва (укр):</label></td>

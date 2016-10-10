@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs = array(
     'Курс' => Yii::app()->createUrl("course/index", array("id" => $idCourse)),
-    'Ревізії модулів курса',
+    'Ревізії модулів курсу',
 );
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/module_revision_app/app.js'); ?>"></script>
@@ -25,7 +25,7 @@ $this->breadcrumbs = array(
 <div id="revisionMainBox" ng-app="moduleRevisionsApp">
     <div class="form-group" ng-controller="moduleRevisionsTreeCtrl" ng-cloak>
         <div ng-controller="courseModulesRevisionsCtrl">
-            <a href="" ng-click="isOpenActualRevisions = !isOpenActualRevisions">Актуальні версії модулів курса(натисніть, для відображення)</a>
+            <a href="" ng-click="isOpenActualRevisions = !isOpenActualRevisions">Актуальні версії модулів курсу(натисніть, для відображення)</a>
             <ul ng-show="isOpenActualRevisions" class="list-group">
                 <li class="list-group-item node-tree" ng-repeat="module in currentModules track by $index">
                     <strong>{{module.title}}</strong>

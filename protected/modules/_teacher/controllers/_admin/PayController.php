@@ -149,7 +149,7 @@ class PayController extends TeacherCabinetController
 
             if ($payCourse) {
                 if ($payCourse->delete()) {
-                    $this->notify($student, 'Скасовано доступ до курса',
+                    $this->notify($student, 'Скасовано доступ до курсу',
                         '_payCourseCancelledNotification', array($payCourse->course, Teacher::model()->findByAttributes(array('user_id' => Config::getAdminId()))));
                 }
                 echo PayCourses::getCancelText($payCourse->course, $userName);

@@ -1,4 +1,4 @@
-<label>Властивості ревізії курса: </label>
+<label>Властивості ревізії курсу: </label>
 <table class="table">
     <tr>
         <td>Cтатус:</td>
@@ -222,10 +222,10 @@
         </td>
     </tr>
     <tr>
-        <td>Доступність курса:</td>
+        <td>Доступність курсу:</td>
         <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
         
-        <td>Готовність курса:</td>
+        <td>Готовність курсу:</td>
         <td><?=$courseRevision->properties->status?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>

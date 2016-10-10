@@ -2,7 +2,7 @@
 //todo
     $this->breadcrumbs = array(
         'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $idModule)),
-        'Ревізії модуля' => Yii::app()->createUrl("revision/moduleLecturesRevisions", array("idModule" => $idModule)),
+        'Ревізії занять модуля' => Yii::app()->createUrl("revision/moduleLecturesRevisions", array("idModule" => $idModule)),
         'Ревізії заняття',
     );
 ?>

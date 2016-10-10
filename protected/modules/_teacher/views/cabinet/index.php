@@ -118,7 +118,7 @@
             case 'payCourse':
                 window.history.pushState(null, null, basePath + "/cabinet/#");
                 load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
-                    array('course' => $course));?>', 'Оплата курса');
+                    array('course' => $course));?>', 'Оплата курсу');
                 break;
             case 'payModule':
                 window.history.pushState(null, null, basePath + "/cabinet/#");

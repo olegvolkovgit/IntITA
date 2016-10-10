@@ -22,13 +22,13 @@
             <li>
 
                 <button type="button" class="btn btn-success" ng-click="changeView('course/schema/<?php echo $model->course_ID; ?>')">
-                    Згенерувати схему курса
+                    Згенерувати схему курсу
                 </button>
             </li>
             <?php if(Yii::app()->user->model->isContentManager()) { ?>
             <li>
                 <a href="<?php echo Yii::app()->createUrl('/courseRevision/courseRevisions/',
-                    array('idCourse' => $model->course_ID)); ?>" class="btn btn-primary" target="_blank">Ревізії курса</a>
+                    array('idCourse' => $model->course_ID)); ?>" class="btn btn-primary" target="_blank">Ревізії курсу</a>
             </li>
             <?php } ?>
         </ul>

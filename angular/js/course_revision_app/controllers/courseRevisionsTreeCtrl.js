@@ -72,7 +72,7 @@ function courseRevisionsTreeCtrl($compile, $rootScope, $scope, $http, courseRevi
         }).then(function successCallback(response) {
             location.href = basePath+'/courseRevision/courseRevisions?idCourse=' + response.data;
         }, function errorCallback() {
-            bootbox.alert("Помилка при тримані курса ревізії. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
+            bootbox.alert("Помилка при отримані ревізії курсу. Спробуйте ще раз або зв'яжіться з адміністратором сайту.");
             return false;
         });
 

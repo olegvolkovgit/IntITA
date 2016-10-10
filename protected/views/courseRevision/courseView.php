@@ -1,8 +1,8 @@
 <?php
 $this->breadcrumbs = array(
     'Курс' => Yii::app()->createUrl("course/index", array("id" => $courseRevision->id_course)),
-    'Ревізії курса' => Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$courseRevision->id_course)),
-    'Ревізія даного курса',
+    'Ревізії курсу' => Yii::app()->createUrl('/courseRevision/courseRevisions', array('idCourse'=>$courseRevision->id_course)),
+    'Ревізія даного курсу',
 );
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/course_revision_app/app.js'); ?>"></script>
@@ -85,7 +85,7 @@ $this->breadcrumbs = array(
                 </div>
             </div>
             <br>
-            <label>Перелік модулів в ревізії курса: </label>
+            <label>Перелік модулів в ревізії курсу: </label>
 
             <table id="pages" class="table">
                 <tr>
