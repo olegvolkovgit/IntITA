@@ -5,19 +5,38 @@ angular
     .module('teacherApp')
     .controller('coursemanageCtrl',coursemanageCtrl);
 
-function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $stateParams, $state ,$templateCache){
+function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams, $state ,$templateCache){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
+    /* Sorting params  */
+    $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
+    $scope.cancelled = [{id:'0', title:'доступний'},{id:'1', title:'видалений'}];
+    $scope.languages = [{id:'ua', title:'ua'},{id:'ru', title:'ru'},{id:'en', title:'en'}];
+    $scope.levels = $resource(basePath+'/_teacher/_admin/level/getlevelslist').get()
+        .$promise.then(function(data){
+            var levels = [];
+            data.rows.forEach(function(element){
+                levels.push({
+                    'id': element.id,
+                    'title': element.title_ua
+                })
+            });
+            return levels;
+        });
     /* Init course table  */
-
-    $http.get(basePath+'/_teacher/_admin/coursemanage/getCoursesList').then(function (data) {
-        $scope.coursesList = data.data["data"];
+    var dataFromServer = $resource(basePath+'/_teacher/_admin/coursemanage/getCoursesList');
+    $scope.courseTable = new NgTableParams({
+        sorting:{'course_ID':"asc"}
+    }, {
+        getData: function(params) {
+            return dataFromServer.get(params.url()).$promise.then(function(data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
     });
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json');
-    /* Save course schema  */
+
     $scope.saveSchema = function(idCourse){
         var url = basePath+'/_teacher/_admin/coursemanage/saveschema?idCourse='+idCourse;
         $http({

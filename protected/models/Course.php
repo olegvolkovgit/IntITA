@@ -90,7 +90,6 @@ class Course extends CActiveRecord implements IBillableObject
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'modules' => array(self::HAS_MANY, 'Modules', 'course'),
             'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
                                                 'order' => 'module.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
