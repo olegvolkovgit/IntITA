@@ -353,13 +353,13 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
 
     $scope.showAddTestFormCKE=function(taskType){
         $scope.quizSaving=false;
-        document.getElementById('testType').value = testType;
+        document.getElementById('testType').value = taskType;
         document.getElementById('addTest').style.display = 'block';
         document.getElementById('buttonsPanel').style.display = 'none';
     }
     $scope.showAddPlainTaskFormCKE=function(taskType){
         $scope.quizSaving=false;
-        document.getElementById('plainTaskType').value = testType;
+        document.getElementById('plainTaskType').value = taskType;
         document.getElementById('addPlainTask').style.display = 'block';
         document.getElementById('buttonsPanel').style.display = 'none';
     }

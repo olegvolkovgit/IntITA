@@ -50,9 +50,9 @@ div.error select,
 input.error,
 textarea.error,
 select.error{box-shadow:0 0 4px #c72929;}
-.signIn .errorMessage,.signUp .errorMessage{float:left;margin:10px 0 5px 30px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
-.signUp .errorMessage{float:left;margin:10px 0 5px 45px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
-.signInForm .errorMessage{float:left;clear:right;margin:10px 0 5px 45px;color:#c72929;font-size:16px;font-family:"MyriadPro";}
+.signIn .errorMessage,.signUp .errorMessage{color:#c72929;font-size:16px;font-family:"MyriadPro";}
+.signUp .errorMessage{color:#c72929;font-size:16px;font-family:"MyriadPro";}
+.signInForm .errorMessage{color:#c72929;font-size:16px;font-family:"MyriadPro";}
 #studentreg-form{padding-bottom:30px;overflow:hidden;}
 #quick-form{padding-bottom:20px;}
 .signIn .image,.signUp .image{margin-bottom:20px;}
