@@ -109,4 +109,16 @@ class LectureType extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function allTypeByLang($lg = 'ua'){
+		$param = "title_".$lg;
+		$criteria = new CDbCriteria();
+		$criteria->select = 'id, '.$param;
+		$types =  LectureType::model()->findAll($criteria);
+		$result = [];
+		foreach($types as $type){
+			$result[$type->id] = $type->$param;
+		}
+		return $result;
+	}
 }

@@ -511,7 +511,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * @return array
      */
     public static function getEditableProperties() {
-        return ['title_ua', 'title_ru', 'title_en'];
+        return ['title_ua', 'title_ru', 'title_en','id_type'];
     }
 
     /**
