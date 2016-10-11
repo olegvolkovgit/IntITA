@@ -416,4 +416,11 @@ class ModuleController extends Controller
 
         ModuleTags::model()->editModuleTags($moduleTags,$idModule);
     }
+
+    public function actionGetTypeahead($query) {
+        $models = TypeAheadHelper::getTypeahead($query, 'Module', ['title_ua', 'title_ru', 'title_en']);
+        $array = ActiveRecordToJSON::toAssocArray($models);
+        echo json_encode($array);
+    }
+
 }

@@ -321,8 +321,8 @@ class StudentRegController extends Controller
     }
 
     public function actionGetTypeahead($query) {
-        $models = AccountancyHelper::getTypeahead($query, 'StudentReg', ['firstName', 'middleName', 'secondName', 'email']);
-        $array = AccountancyHelper::toAssocArray($models);
+        $models = TypeAheadHelper::getTypeahead($query, 'StudentReg', ['firstName', 'middleName', 'secondName', 'email']);
+        $array = ActiveRecordToJSON::toAssocArray($models);
         echo json_encode($array);
     }
 
@@ -346,7 +346,7 @@ class StudentRegController extends Controller
 
         $models = StudentReg::model()->findAll($criteria);
 
-        echo json_encode(AccountancyHelper::toAssocArray($models));
+        echo json_encode(ActiveRecordToJSON::toAssocArray($models));
     }
 
 }

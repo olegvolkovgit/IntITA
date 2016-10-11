@@ -1,13 +1,11 @@
 <?php
 
 /**
- * This is the model class for table "acc_user_special_offer_payment".
+ * This is the model class for table "acc_course_special_offer".
  *
- * The followings are the available columns in table 'acc_user_special_offer_payment':
+ * The followings are the available columns in table 'acc_course_special_offer':
  * @property integer $id
- * @property integer $userId
  * @property integer $courseId
- * @property integer $moduleId
  * @property string $discount
  * @property integer $payCount
  * @property string $loan
@@ -15,17 +13,14 @@
  * @property integer $monthpay
  * @property string $startDate
  * @property string $endDate
- * 
- * @property Course $course
- * @property Module $module
  */
-class UserSpecialOffer extends ASpecialOffer {
+class CourseSpecialOffer extends ASpecialOffer {
     /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'acc_user_special_offer_payment';
+		return 'acc_course_special_offer';
 	}
 
 	/**
@@ -36,14 +31,14 @@ class UserSpecialOffer extends ASpecialOffer {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('userId', 'required'),
-			array('userId, courseId, moduleId, payCount, monthpay', 'numerical', 'integerOnly'=>true),
+			array('courseId', 'required'),
+			array('courseId, payCount, monthpay', 'numerical', 'integerOnly'=>true),
 			array('discount, loan', 'length', 'max'=>10),
 			array('name', 'length', 'max'=>512),
 			array('startDate, endDate', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, userId, courseId, moduleId, discount, payCount, loan, name, monthpay, startDate, endDate', 'safe', 'on'=>'search'),
+			array('id, courseId, discount, payCount, loan, name, monthpay, startDate, endDate', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,9 +50,7 @@ class UserSpecialOffer extends ASpecialOffer {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return [
-            'course' => [self::HAS_ONE, 'Course', '', 'on' => 't.courseId = course.course_ID'],
-            'module' => [self::HAS_ONE, 'Module', '', 'on' => 't.moduleId = module.module_ID'],
-            'user' => [self::HAS_ONE, 'StudentReg', '', 'on' => 't.userId = user.id'],
+            'course' => [self::HAS_ONE, 'Course', '', 'on' => 't.courseId = course.course_ID']
         ];
 	}
 
@@ -68,9 +61,7 @@ class UserSpecialOffer extends ASpecialOffer {
 	{
 		return array(
 			'id' => 'ID',
-			'userId' => 'User',
 			'courseId' => 'Course',
-			'moduleId' => 'Module',
 			'discount' => 'Discount',
 			'payCount' => 'Pay Count',
 			'loan' => 'Loan',
@@ -100,9 +91,7 @@ class UserSpecialOffer extends ASpecialOffer {
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('userId',$this->userId);
 		$criteria->compare('courseId',$this->courseId);
-		$criteria->compare('moduleId',$this->moduleId);
 		$criteria->compare('discount',$this->discount,true);
 		$criteria->compare('payCount',$this->payCount);
 		$criteria->compare('loan',$this->loan,true);
@@ -120,29 +109,22 @@ class UserSpecialOffer extends ASpecialOffer {
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserSpecialOffer the static model class
+	 * @return CourseSpecialOffer the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className=__CLASS__)
+	{
 		return parent::model($className);
 	}
 
-    protected function getConditionCriteria($params) {
+    public function getConditionCriteria($params) {
         $criteria = null;
-
-        if (key_exists('userId', $params) && !empty($params['userId'])) {
+        if (key_exists('courseId', $params) && !empty($params['courseId'])) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition("userId=" . $params["userId"]);
-            if (!empty($courseId)) {
-                $criteria->addCondition("courseId=" . $params['courseId']);
-            }
-            if (!empty($moduleId)) {
-                $criteria->addCondition("moduleId=" . $params["moduleId"]);
-            }
+            $criteria->addCondition("courseId=" . $params['courseId']);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
             $criteria->order = 'startDate DESC';
             $criteria->limit = 1;
         }
-
         return $criteria;
     }
 }

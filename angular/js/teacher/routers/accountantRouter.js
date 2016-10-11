@@ -105,5 +105,15 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"representative/viewRepresentative/?id="+$stateParams.id;
             }
         })
+        .state('accountant/paymentSchemas', {
+            url: '/accountant/paymentSchemas/:schemeType',
+            cache         : false,
+            templateUrl: accountantUrl+"specialOffer/index"
+        })
+        .state('accountant/paymentSchemas/add', {
+            url: '/accountant/paymentSchemas/add/:schemeType',
+            cache         : false,
+            templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
+        })
     }
 );

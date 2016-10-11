@@ -29,13 +29,13 @@ class Invoices {
 
         return [
             'count' => $totalCount,
-            'rows' => AccountancyHelper::toAssocArray($agreements, $this->relationsMapping)
+            'rows' => ActiveRecordToJSON::toAssocArray($agreements, $this->relationsMapping)
         ];
     }
 
     public function getTypeahead($invoiceNumber) {
-        $models = AccountancyHelper::getTypeahead($invoiceNumber, 'Invoice', ['number']);
-        return AccountancyHelper::toAssocArray($models, $this->relationsMapping);
+        $models = TypeAheadHelper::getTypeahead($invoiceNumber, 'Invoice', ['number']);
+        return ActiveRecordToJSON::toAssocArray($models, $this->relationsMapping);
     }
 
 }

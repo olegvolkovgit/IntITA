@@ -485,4 +485,63 @@ angular
                 }
             }
         );
-    });
+    })
+
+    .controller('paymentsSchemaCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.schemeType = $stateParams.schemeType;
+    }])
+    .controller('addPaymentsSchemaCtrl',
+        [
+            '$scope',
+            '$stateParams',
+            'userService',
+            'courseService',
+            'moduleService',
+            function ($scope, $stateParams, user, course, module) {
+                $scope.schemeType = $stateParams.schemeType;
+                if (['module', 'user', 'course'].indexOf($scope.schemeType) === -1) {
+                    $scope.schemeType = 'default'
+                }
+
+
+                $scope.user = {
+                    isSelect : $scope.schemeType === 'user',
+                    typeahead: function getUserTypeahead(value) {
+                        return user.typeahead({query: value}).$promise
+                    },
+                    label: function (user) {
+                        return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
+                    },
+                    onSelect: function onSelectUser($item, $model, $label, $event) {
+                    }
+                };
+
+                $scope.course = {
+                    isSelect : $scope.schemeType === 'user' || $scope.schemeType === 'course',
+                    typeahead: function getCourseTypeahead(value) {
+                        return course.typeahead({query: value}).$promise
+                    },
+                    label: function (course) {
+                        return course ? ((course.title_ua || '' ) + ', ' + (course.language || '')) : '';
+                    },
+                    onSelect: function onSelectUser($item, $model, $label, $event) {
+                    }
+                };
+
+                $scope.module = {
+                    isSelect : $scope.schemeType === 'user' || $scope.schemeType === 'module',
+                    typeahead: function getModuleTypeahead(value) {
+                        return module.typeahead({query: value}).$promise
+                    },
+                    label: function (module) {
+                        return module ? ((module.title_ua || '' ) + ', ' + (module.language || '')) : '';
+                    },
+                    onSelect: function onSelectUser($item, $model, $label, $event) {
+                    }
+                };
+
+                
+
+            }
+        ]
+    );

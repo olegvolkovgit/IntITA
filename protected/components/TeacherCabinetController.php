@@ -63,10 +63,6 @@ class TeacherCabinetController extends CController
 
     public function pathToCabinet()
     {
-//      -----Deprecated after QA --------------
-//        $this->pathToCabinet = Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id));
-//        return $this->pathToCabinet;
-//
         return Yii::app()->createUrl('/_teacher/cabinet/index');
     }
 

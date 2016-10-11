@@ -20,7 +20,7 @@ class ExternalSourcesController extends TeacherCabinetController
 
     public function actionGetSources() {
         $models = ExternalSources::model()->findAll();
-        echo json_encode(AccountancyHelper::toAssocArray($models));
+        echo json_encode(ActiveRecordToJSON::toAssocArray($models));
     }
 
     /**

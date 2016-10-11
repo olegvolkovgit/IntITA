@@ -41,12 +41,14 @@
             </div>
 
             <div class="input-group m-b-10">
-            <span ng-show="!loadingLocations && !noResults" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-pencil"></i></span>
-            <span ng-show="loadingLocations" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-refresh"></i></span>
-                <span ng-show="noResults" class="input-group-addon" id="gl_icon"><i
-                        class="glyphicon glyphicon-remove"></i></span>
+                <span ng-show="!loadingLocations && !noResults" class="input-group-addon" id="gl_icon">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </span>
+                <span ng-show="loadingLocations" class="input-group-addon" id="gl_icon">
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </span>
+                <span ng-show="noResults" class="input-group-addon" id="gl_icon">
+                    <i class="glyphicon glyphicon-remove"></i></span>
                 <input
                     aria-describedby="gl_icon"
                     type="text"
