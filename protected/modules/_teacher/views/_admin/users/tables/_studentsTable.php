@@ -45,7 +45,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Надано роль'" filter="{'student.start_date': 'text'}" sortable="'student.start_date'">{{row.student.start_date}}</td>
                         <td data-title="'Форма'" filter="{'educform': 'text'}" sortable="'educform'">{{row.educform}}</td>
                         <td data-title="'Країна'" filter="{'country0.title_ua': 'text'}" sortable="'country0.title_ua'">{{row.country0.title_ua}}</td>
-                        <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city.title_ua}}</td>
+                        <td data-title="'Місто'" filter="{'city0.title_ua': 'text'}" sortable="'city0.title_ua'">{{row.city0.title_ua}}</td>
                         <td data-title="'Тренер'" sortable="'trainer.trainer'">
                             {{row.trainer.trainer ? 'присутній':''}}
                         </td>
