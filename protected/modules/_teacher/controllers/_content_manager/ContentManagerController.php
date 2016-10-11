@@ -88,75 +88,78 @@ class ContentManagerController extends TeacherCabinetController
     }
     public function actionGetModulesList()
     {
-        $count =0;
-        $params = $_GET;
-        $sql = ' `module_ID` as id, module.`title_ua` as title, module.language  as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions';
-        $command = Yii::app()->db->createCommand();
-        $command->select($sql)
-            ->from('module');
-        if (isset($_GET['filter'])){
-            $value = '%'.urldecode($_GET['filter']['title']).'%';
-            $command->where('module.title_ua LIKE :title', array(':title'=>$value));
-        }
-        if ($params['courseId']) {
-            $command->andWhere('module_ID IN (SELECT course_modules.id_module FROM course_modules WHERE course_modules.id_course = :courseId)',array(':courseId'=>$params['courseId']));
-        };
-        switch ($params['type']){
-            case 'all':
-                $command->order('title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count']);
-                echo json_encode(['rows' => [$command->queryAll()]]);
-                break;
-            case 'withoutVideos':
-                $alias = Yii::app()->db->createCommand();
-                $alias->from('('.$command->text.') stat ');
-                $alias->where('videos = 0');
-                if ($params['courseId']) {
-                    $alias->bindValues([':courseId'=>$params['courseId']]);
-                }
-                if (isset($_GET['filter'])){
-                    $value = '%'.urldecode($_GET['filter']['title']).'%';
-                    $alias->bindValues([':title'=>$value]);
-                };
-                $alias->order('title')
-                      ->limit($params['count'])
-                      ->offset($params['page']*$params['count'] -$params['count']);
-                echo json_encode(['rows' => [$alias->queryAll()]]);
-                break;
-            case 'withoutTests':
-                $alias = Yii::app()->db->createCommand();
-                $alias->from('('.$command->text.') stat ');
-                $alias->where('tests = 0')
-                    ->order('title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count']);
-                if (isset($_GET['filter'])){
-                    $value = '%'.urldecode($_GET['filter']['title']).'%';
-                    $alias->bindValues([':title'=>$value]);
-                }
-                if ($params['courseId']) {
-                    $alias->bindValues([':courseId'=>$params['courseId']]);
-                }
-                echo json_encode(['rows' => [$alias->queryAll()]]);
-                break;
-            case 'withoutVideosAndTests':
-                $alias = Yii::app()->db->createCommand();
-                $alias->from('('.$command->text.') stat ');
-                $alias->where('tests = 0 AND videos =0')
-                    ->order('title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count']);
-                if (isset($_GET['filter'])){
-                    $value = '%'.urldecode($_GET['filter']['title']).'%';
-                    $alias->bindValues([':title'=>$value]);
-                }
-                if ($params['courseId']) {
-                    $alias->bindValues([':courseId'=>$params['courseId']]);
-                }
-                echo json_encode(['rows' => [$alias->queryAll()]]);
-                break;
-        }
+        $adapter = new NgTableStatisticAdapter($_GET,'module');
+        $test = $adapter->returnData();
+        echo json_encode($test);
+//        $count =0;
+//        $params = $_GET;
+//        $sql = ' `module_ID` as id, module.`title_ua` as title, module.language  as language, (SELECT COUNT(*) FROM lectures WHERE module.module_ID = lectures.idModule) AS countOfLectures, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type = 2) AS videos, (SELECT COUNT(*) FROM lecture_element, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_element.id_lecture AND lecture_element.id_type IN (5,6,9,12,13)) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture) AS parts, (SELECT COUNT(*) FROM vc_lecture WHERE module.module_ID = vc_lecture.id_module) as revisions';
+//        $command = Yii::app()->db->createCommand();
+//        $command->select($sql)
+//            ->from('module');
+//        if (isset($_GET['filter'])){
+//            $value = '%'.urldecode($_GET['filter']['title']).'%';
+//            $command->where('module.title_ua LIKE :title', array(':title'=>$value));
+//        }
+//        if ($params['courseId']) {
+//            $command->andWhere('module_ID IN (SELECT course_modules.id_module FROM course_modules WHERE course_modules.id_course = :courseId)',array(':courseId'=>$params['courseId']));
+//        };
+//        switch ($params['type']){
+//            case 'all':
+//                $command->order('title')
+//                    ->limit($params['count'])
+//                    ->offset($params['page']*$params['count'] -$params['count']);
+//                echo json_encode(['rows' => [$command->queryAll()]]);
+//                break;
+//            case 'withoutVideos':
+//                $alias = Yii::app()->db->createCommand();
+//                $alias->from('('.$command->text.') stat ');
+//                $alias->where('videos = 0');
+//                if ($params['courseId']) {
+//                    $alias->bindValues([':courseId'=>$params['courseId']]);
+//                }
+//                if (isset($_GET['filter'])){
+//                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+//                    $alias->bindValues([':title'=>$value]);
+//                };
+//                $alias->order('title')
+//                      ->limit($params['count'])
+//                      ->offset($params['page']*$params['count'] -$params['count']);
+//                echo json_encode(['rows' => [$alias->queryAll()]]);
+//                break;
+//            case 'withoutTests':
+//                $alias = Yii::app()->db->createCommand();
+//                $alias->from('('.$command->text.') stat ');
+//                $alias->where('tests = 0')
+//                    ->order('title')
+//                    ->limit($params['count'])
+//                    ->offset($params['page']*$params['count'] -$params['count']);
+//                if (isset($_GET['filter'])){
+//                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+//                    $alias->bindValues([':title'=>$value]);
+//                }
+//                if ($params['courseId']) {
+//                    $alias->bindValues([':courseId'=>$params['courseId']]);
+//                }
+//                echo json_encode(['rows' => [$alias->queryAll()]]);
+//                break;
+//            case 'withoutVideosAndTests':
+//                $alias = Yii::app()->db->createCommand();
+//                $alias->from('('.$command->text.') stat ');
+//                $alias->where('tests = 0 AND videos =0')
+//                    ->order('title')
+//                    ->limit($params['count'])
+//                    ->offset($params['page']*$params['count'] -$params['count']);
+//                if (isset($_GET['filter'])){
+//                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+//                    $alias->bindValues([':title'=>$value]);
+//                }
+//                if ($params['courseId']) {
+//                    $alias->bindValues([':courseId'=>$params['courseId']]);
+//                }
+//                echo json_encode(['rows' => [$alias->queryAll()]]);
+//                break;
+//        }
 //
 
 //        $allModules = Yii::app()->db->createCommand()
@@ -202,7 +205,7 @@ class ContentManagerController extends TeacherCabinetController
                 break;
             case 'courses':
                 $allModules = Yii::app()->db->createCommand()
-                    ->select(' course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions FROM course ORDER BY title')
+                    ->select(' course.course_ID as id, course.title_ua , course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions FROM course ORDER BY title')
                     ->queryAll();
                 break;
 
@@ -230,64 +233,66 @@ class ContentManagerController extends TeacherCabinetController
 
     public function actionGetCoursesList()
     {
-
-        $params = $_GET;
-        $sql = 'course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions ';
-        $command = Yii::app()->db->createCommand();
-        $command->select($sql)
-                ->from('course');
-        if (isset($_GET['filter'])){
-            $value = '%'.urldecode($_GET['filter']['title']).'%';
-            $command->where('course.title_ua LIKE :title', array(':title'=>$value));
-        }
-        switch ($params['type']){
-            case 'all':
-                $command->order('title')
-                        ->limit($params['count'])
-                        ->offset($params['page']*$params['count'] -$params['count']);
-                echo json_encode(['rows' => [$command->queryAll()]]);
-                break;
-            case 'withoutVideos':
-                $alias = Yii::app()->db->createCommand();
-                $alias->from('('.$command->text.') stat ');
-                if (isset($_GET['filter'])){
-                    $value = '%'.urldecode($_GET['filter']['title']).'%';
-                    $alias->bindValues([':title'=>$value]);
-                };
-                $alias->where('videos = 0')
-                      ->order('title')
-                      ->limit($params['count'])
-                      ->offset($params['page']*$params['count'] -$params['count']);
-                echo json_encode(['rows' => [$alias->queryAll()]]);
-                break;
-            case 'withoutTests':
-                $alias = Yii::app()->db->createCommand();
-                $alias->from('('.$command->text.') stat ');
-                if (isset($_GET['filter'])){
-                    $value = '%'.urldecode($_GET['filter']['title']).'%';
-                    $alias->bindValues([':title'=>$value]);
-                };
-                $alias->where('tests = 0')
-                    ->order('title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count']);
-                echo json_encode(['rows' => [$alias->queryAll()]]);
-                break;
-            case 'withoutVideosAndTests':
-
-                $alias = Yii::app()->db->createCommand();
-                $alias->from('('.$command->text.') stat ');
-                if (isset($_GET['filter'])){
-                    $value = '%'.urldecode($_GET['filter']['title']).'%';
-                    $alias->bindValues([':title'=>$value]);
-                };
-                $alias->where('tests = 0 AND videos =0')
-                    ->order('title')
-                    ->limit($params['count'])
-                    ->offset($params['page']*$params['count'] -$params['count']);
-                echo json_encode(['rows' => [$alias->queryAll()]]);
-                break;
-        }
+        $adapter = new NgTableStatisticAdapter($_GET,'course');
+        $test = $adapter->returnData();
+        echo json_encode($test);
+//        $params = $_GET;
+//        $sql = 'course.course_ID as id, course.title_ua as title, course.language AS language, (SELECT COUNT(*) FROM course_modules WHERE course_modules.id_course = course.course_ID) AS modulesCount, (SELECT COUNT(lectures.id) FROM lectures, course_modules WHERE course_modules.id_module = lectures.idModule AND course_modules.id_course = course.course_ID) as countOfLectures, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type = 2 ) AS videos, (SELECT COUNT(lecture_element.id_type) FROM lecture_element, course_modules, lectures, module WHERE lecture_element.id_lecture = lectures.id AND lectures.idModule = module.module_ID AND module.module_ID = course_modules.id_module AND course_modules.id_course = course.course_ID AND lecture_element.id_type IN(5,6,9,12,13) ) AS tests, (SELECT COUNT(*) FROM lecture_page, lectures,course_modules,module WHERE module.module_ID = lectures.idModule AND lectures.id = lecture_page.id_lecture AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS parts, (SELECT COUNT(*) FROM vc_lecture,module,course_modules WHERE module.module_ID = vc_lecture.id_module AND vc_lecture.id_module = module.module_ID AND course_modules.id_module = module.module_ID AND course_modules.id_course = course.course_ID) AS revisions ';
+//        $command = Yii::app()->db->createCommand();
+//        $command->select($sql)
+//                ->from('course');
+//        if (isset($_GET['filter'])){
+//            $value = '%'.urldecode($_GET['filter']['title']).'%';
+//            $command->where('course.title_ua LIKE :title', array(':title'=>$value));
+//        }
+//        switch ($params['type']){
+//            case 'all':
+//                $command->order('title')
+//                        ->limit($params['count'])
+//                        ->offset($params['page']*$params['count'] -$params['count']);
+//                echo json_encode(['rows' => [$command->queryAll()]]);
+//                break;
+//            case 'withoutVideos':
+//                $alias = Yii::app()->db->createCommand();
+//                $alias->from('('.$command->text.') stat ');
+//                if (isset($_GET['filter'])){
+//                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+//                    $alias->bindValues([':title'=>$value]);
+//                };
+//                $alias->where('videos = 0')
+//                      ->order('title')
+//                      ->limit($params['count'])
+//                      ->offset($params['page']*$params['count'] -$params['count']);
+//                echo json_encode(['rows' => [$alias->queryAll()]]);
+//                break;
+//            case 'withoutTests':
+//                $alias = Yii::app()->db->createCommand();
+//                $alias->from('('.$command->text.') stat ');
+//                if (isset($_GET['filter'])){
+//                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+//                    $alias->bindValues([':title'=>$value]);
+//                };
+//                $alias->where('tests = 0')
+//                    ->order('title')
+//                    ->limit($params['count'])
+//                    ->offset($params['page']*$params['count'] -$params['count']);
+//                echo json_encode(['rows' => [$alias->queryAll()]]);
+//                break;
+//            case 'withoutVideosAndTests':
+//
+//                $alias = Yii::app()->db->createCommand();
+//                $alias->from('('.$command->text.') stat ');
+//                if (isset($_GET['filter'])){
+//                    $value = '%'.urldecode($_GET['filter']['title']).'%';
+//                    $alias->bindValues([':title'=>$value]);
+//                };
+//                $alias->where('tests = 0 AND videos =0')
+//                    ->order('title')
+//                    ->limit($params['count'])
+//                    ->offset($params['page']*$params['count'] -$params['count']);
+//                echo json_encode(['rows' => [$alias->queryAll()]]);
+//                break;
+//        }
     }
 
     public function actionGetAuthorsList()

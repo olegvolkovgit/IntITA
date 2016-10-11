@@ -23,18 +23,17 @@ angular
         var modulesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getModulesList');
         var coursesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getCourseslist');
 
-        function initCounts(resource){
-            resource.get({courseId:$stateParams.courseId}).$promise.then(function(data){
-                countOfModules = data.countOfModules;
-                countOfModulesWithoutVideos = data.countOfModulesWithoutVideos;
-                countOfModulesWithoutTests = data.countOfModulesWithoutTests;
-                countOfModulesWithoutVideosAndTests = data.countOfModulesWithoutVideosAndTests;
-
-            });
-        }
+        // function initCounts(resource){
+        //     resource.get({courseId:$stateParams.courseId}).$promise.then(function(data){
+        //         countOfModules = data.countOfModules;
+        //         countOfModulesWithoutVideos = data.countOfModulesWithoutVideos;
+        //         countOfModulesWithoutTests = data.countOfModulesWithoutTests;
+        //         countOfModulesWithoutVideosAndTests = data.countOfModulesWithoutVideosAndTests;
+        //
+        //     });
+        // }
         console.log($stateParams.idModule)
         $scope.initModulesList = function (){
-            initCounts(modules);
             $scope.AllModulesTable = new NgTableParams({
                 page: 1,
                 count: 10,
@@ -43,8 +42,8 @@ angular
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModules);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
@@ -58,8 +57,8 @@ angular
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModulesWithoutVideos);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
@@ -73,8 +72,8 @@ angular
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModulesWithoutTests);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
@@ -88,8 +87,8 @@ angular
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModulesWithoutVideosAndTests);
-                        return data.rows[0];
+                        params.total = data.count;
+                        return data.rows;
                     });
                 }
             });
@@ -99,16 +98,15 @@ angular
         //////////////////////
 
         $scope.initCoursesList = function (){
-            initCounts(courses);
             $scope.AllModulesTable = new NgTableParams({
                 page: 1,
                 count: 10,
-                type:'all',
+                type:'all'
             }, {
                 getData: function(params) {
                     return coursesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModules);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
@@ -121,8 +119,8 @@ angular
             }, {
                 getData: function(params) {
                     return coursesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModulesWithoutVideos);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
@@ -135,8 +133,8 @@ angular
             }, {
                 getData: function(params) {
                     return coursesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModulesWithoutTests);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
@@ -149,8 +147,8 @@ angular
             }, {
                 getData: function(params) {
                     return coursesTable.get(params.url()).$promise.then(function(data) {
-                        params.total(countOfModulesWithoutVideosAndTests);
-                        return data.rows[0];
+                        params.total(data.count);
+                        return data.rows;
                     });
                 }
             });
