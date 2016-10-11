@@ -125,7 +125,7 @@ angular
                         $scope.updateInvoiceData({'extraParams[id]': $model.id});
                         $scope.updateAgreementData({'extraParams[id]': $model.agreement_id.agreement_id})
                             .then(function () {
-                                $scope.operation.userId = $scope.agreementsList[0].user_id.user_id;
+                                $scope.operation.userId = $scope.agreementsList[0].user_id;
                                 $scope.updateUserData({id: $scope.operation.userId})
                             });
                     }
