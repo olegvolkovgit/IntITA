@@ -148,7 +148,7 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
         var condition = $scope.addSkipTaskCond;
 
         var number=0;
-        var question=questionTemp.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
+        var question=questionTemp.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d][^\>]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             number++;
             return '<span skip=\"'+number+'\:'+p3+'\" style=\"background:'+p4+'\">'+p5+'<\/span>';
         });
@@ -156,10 +156,10 @@ function CKEditorCtrl($compile, $scope, $http, $ngBootbox, getLectureData) {
             bootbox.alert("Виділіть хоч одне слово-пропуск!");
             return;
         }
-        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
+        text = question.replace( /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d][^\>]*)\">(.+?)<\/span>/g, function(p1,p2,p3,p4,p5) {
             return '<input type=text size="'+p5.length+'" id=skipTask'+p2+' caseInsensitive='+p3+' />';
         });
-        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d]*)\">(.+?)<\/span>/ig;
+        pattern = /<span skip=\"(.+?)\:(.+?)\" style=\"background:([^\d][^\>]*)\">(.+?)<\/span>/ig;
 
         var newSkipTask = {
             "pageId":pageId,
