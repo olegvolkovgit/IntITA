@@ -274,7 +274,8 @@ class CoursemanageController extends TeacherCabinetController
 
     public function actionGetCoursesList()
     {
-        echo Course::coursesList();
+        $adapter = new NgTableAdapter('Course',$_GET);
+        echo json_encode($adapter->getData());
     }
 
     public function actionModulesByQuery($query, $course)
