@@ -1,0 +1,132 @@
+<div ng-controller="addPaymentsSchemaCtrl">
+    <!--user typeahead -->
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Користувач</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span ng-show="!user.loading && !user.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-pencil"></i></span>
+            <span ng-show="user.loading" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-refresh"></i></span>
+            <span ng-show="user.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-remove"></i></span>
+            <input
+                    id="userTypeahead"
+                    aria-describedby="gl_icon"
+                    type="text"
+                    ng-model="user.selected"
+                    uib-typeahead="typeahead as user.label(typeahead) for typeahead in user.typeahead($viewValue)"
+                    typeahead-loading="user.loading"
+                    typeahead-no-results="user.noResults"
+                    typeahead-on-select="user.onSelect($item, $model, $label, $event)"
+                    class="form-control"
+                    ng-disabled="!user.isSelect"
+                    disabled='disabled'>
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Курс</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span ng-show="!course.loading && !course.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-pencil"></i></span>
+            <span ng-show="course.loading" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-refresh"></i></span>
+            <span ng-show="course.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-remove"></i></span>
+            <input
+                    id="courseTypeahead"
+                    aria-describedby="gl_icon"
+                    type="text"
+                    ng-model="course.selected"
+                    uib-typeahead="typeahead as course.label(typeahead) for typeahead in course.typeahead($viewValue)"
+                    typeahead-loading="course.loading"
+                    typeahead-no-results="course.noResults"
+                    typeahead-on-select="course.onSelect($item, $model, $label, $event)"
+                    class="form-control"
+                    ng-disabled="!course.isSelect"
+                    disabled='disabled'>
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Модуль</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span ng-show="!module.loading && !module.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-pencil"></i></span>
+            <span ng-show="module.loading" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-refresh"></i></span>
+            <span ng-show="module.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-remove"></i></span>
+            <input
+                    id="moduleTypeahead"
+                    aria-describedby="gl_icon"
+                    type="text"
+                    ng-model="module.selected"
+                    uib-typeahead="typeahead as module.label(typeahead) for typeahead in module.typeahead($viewValue)"
+                    typeahead-loading="module.loading"
+                    typeahead-no-results="module.noResults"
+                    typeahead-on-select="module.onSelect($item, $model, $label, $event)"
+                    class="form-control"
+                    ng-disabled="!module.isSelect"
+                    disabled='disabled'>
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Відсоток знижки</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Відсоток кредиту</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Кількість платежів</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Кількість місяців оплати кредиту</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="row m-b-20" ng-if="schemeType!=='default'">
+        <div class="col-md-4">
+            <span class="control-label">Початок акції</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="row m-b-20" ng-if="schemeType!=='default'">
+        <div class="col-md-4">
+            <span class="control-label">Завершення акції</span>
+        </div>
+        <div class="col-md-8 input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+
+</div>

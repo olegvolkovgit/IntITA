@@ -21,7 +21,7 @@ class ExternalPaymentsController extends TeacherCabinetController
         $payment->userId = Yii::app()->user->getId();
 
         if ($payment->save()) {
-            echo json_encode(AccountancyHelper::toAssocArray($payment));
+            echo json_encode(ActiveRecordToJSON::toAssocArray($payment));
         } else {
             echo json_encode(['status' => 'error', 'message' => array_values($payment->getErrors())]);
         }
@@ -29,7 +29,7 @@ class ExternalPaymentsController extends TeacherCabinetController
 
     public function actionGetPayment($id) {
         $model = ExternalPays::model()->with(ExternalPays::model()->relations())->findByPk($id);
-        echo json_encode(AccountancyHelper::toAssocArray($model));
+        echo json_encode(ActiveRecordToJSON::toAssocArray($model));
     }
 
     public function actionGetNgTable() {

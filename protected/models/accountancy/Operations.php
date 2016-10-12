@@ -72,7 +72,7 @@ class Operations {
 
         return [
             'count' => $totalCount,
-            'rows' => AccountancyHelper::toAssocArray($operations, $this->relatedModelsMapping)
+            'rows' => ActiveRecordToJSON::toAssocArray($operations, $this->relatedModelsMapping)
         ];
     }
 

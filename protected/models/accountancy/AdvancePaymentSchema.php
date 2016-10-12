@@ -14,7 +14,7 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     private $educForm;
 
     function __construct($discount, $payCount, $educForm){
-        $this->discount = $discount;
+        $this->discount = min($discount, 100);
         $this->payCount = $payCount;
         $this->educForm = $educForm;
     }

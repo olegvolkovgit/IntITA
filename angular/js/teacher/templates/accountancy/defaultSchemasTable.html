@@ -1,0 +1,9 @@
+<table ng-table="courseSpecialOfferTable" class="table table-striped table-bordered table-hover">
+    <tr ng-repeat="row in $data track by row.id">
+        <td data-title="'Знижка'">{{row.discount}}</td>
+        <td data-title="'Відсоток за кредитом'">{{row.loan}}</td>
+        <td data-title="'Кількість платежів'">{{row.pay_count}}</td>
+        <td data-title="'Кількість місяців оплати'">{{row.monthpay}}</td>
+        <td data-title="'Назва'">{{row.name}}</td>
+    </tr>
+</table>

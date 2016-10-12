@@ -216,4 +216,11 @@ class CourseController extends Controller
         $educationForm = EducationForm::model()->findByPk($educationFormId);
         echo json_encode($course->getPaymentSchemas($educationForm));
     }
+
+    public function actionGetTypeahead($query) {
+        $models = TypeAheadHelper::getTypeahead($query, 'Course', ['title_ua', 'title_ru', 'title_en']);
+        $array = ActiveRecordToJSON::toAssocArray($models);
+        echo json_encode($array);
+    }
+
 }

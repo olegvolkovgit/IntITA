@@ -2,15 +2,15 @@
 
 angular
     .module('teacherApp')
-    .directive('internalPaymentsTable', ['internalPaymentsService', 'NgTableParams', internalPaymentsTable]);
+    .directive('courseSpecialOfferTable', ['courseSpecialOfferService', 'NgTableParams', courseSpecialOfferTable]);
 
-function internalPaymentsTable(internalPayments, NgTableParams) {
+function courseSpecialOfferTable(courseSpecialOffer, NgTableParams) {
 
     function link($scope, element, attrs) {
 
-        $scope.internalPaymentsTableParams = new NgTableParams({}, {
+        $scope.courseSpecialOfferTable = new NgTableParams({}, {
             getData: function (params) {
-                return internalPayments
+                return courseSpecialOffer
                     .list(params.url())
                     .$promise
                     .then(function (data) {
@@ -24,7 +24,7 @@ function internalPaymentsTable(internalPayments, NgTableParams) {
 
     return {
         link: link,
-        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/internalPaymentsTable.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/courseSpecialOffersTable.html'
     }
 }
 
