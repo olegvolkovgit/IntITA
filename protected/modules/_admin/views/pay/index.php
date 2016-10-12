@@ -17,7 +17,7 @@
         $courseAction = 'payCourse';
         $buttonModuleName = Yii::t('payments', '0599');
         $buttonCourseName = Yii::t('payments', '0604');
-        $headerName = 'Автоматична оплата курса/модуля';
+        $headerName = 'Автоматична оплата курсу/модуля';
         $fieldsetModule = Yii::t('payments', '0593');
         $fieldsetCourse = Yii::t('payments', '0600');
     }

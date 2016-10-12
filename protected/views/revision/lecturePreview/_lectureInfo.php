@@ -64,6 +64,10 @@
         <td><?=CHtml::encode($lectureRevision->properties->title_en)?></td>
     </tr>
     <tr>
+        <td>Тип:</td>
+        <td><?= LectureType::model()->findByPk($lectureRevision->properties->id_type)->title_ua ?></td>
+    </tr>
+    <tr>
         <td>Автор:</td>
         <td><?=StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created).' (id='.$lectureRevision->properties->id_user_created.')'?>
             <a class="btnSend" href="" ng-click="sendRevisionMessage('<?=$lectureRevision->id_revision?>')" title="Приватне повідомлення">

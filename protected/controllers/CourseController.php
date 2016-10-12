@@ -119,6 +119,7 @@ class CourseController extends Controller
         if ($model === null)
             throw new \application\components\Exceptions\CourseNotFoundException();
     }
+
     public function actionModulesData()
     {
         //init data json
@@ -208,5 +209,11 @@ class CourseController extends Controller
 
         }
         echo CJSON::encode($data);
+    }
+
+    public function actionGetPaymentSchemas($courseId, $educationFormId=EducationForm::ONLINE) {
+        $course = Course::model()->findByPk($courseId);
+        $educationForm = EducationForm::model()->findByPk($educationFormId);
+        echo json_encode($course->getPaymentSchemas($educationForm));
     }
 }

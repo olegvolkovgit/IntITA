@@ -41,7 +41,7 @@
     </div>
 
     <div class="form-group">
-        <div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курса (якщо не вказана ціна модуля в конкретному курсі - вкладка
+        <div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курсу (якщо не вказана ціна модуля в конкретному курсі - вкладка
         <У курсах>) і при розрахунку вартості самостійного модуля.">
             <?php echo $form->labelEx($model, 'module_price'); ?>
             <?php echo $form->textField($model, 'module_price', array('class' => 'form-control')); ?>

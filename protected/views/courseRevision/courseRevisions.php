@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs = array(
     'Курс' => Yii::app()->createUrl("course/index", array("id" => $course->course_ID)),
-    'Ревізії курса',
+    'Ревізії курсу',
 );
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/course_revision_app/app.js'); ?>"></script>
@@ -33,7 +33,7 @@ $this->breadcrumbs = array(
             ?>
             <div>
                 <?php if(!$revisionExists){ ?>
-                    <a href="" ng-click="createCourseRevision(idCourse)">Створити ревізію даного курса</a>
+                    <a href="" ng-click="createCourseRevision(idCourse)">Створити ревізію даного курсу</a>
                 <?php } ?>
             </div>
         </div>

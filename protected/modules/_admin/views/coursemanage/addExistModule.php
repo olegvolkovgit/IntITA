@@ -45,7 +45,7 @@
             </div>
             <br>
             <br>
-            <input class="btn btn-default" type="submit" value="Додати модуль до курса">
+            <input class="btn btn-default" type="submit" value="Додати модуль до курсу">
         </fieldset>
     </form>
 </div>

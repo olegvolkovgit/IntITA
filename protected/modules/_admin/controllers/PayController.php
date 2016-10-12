@@ -29,7 +29,7 @@ class PayController extends AdminController
         if(Mail::sendPayLetter($userId,$module)){
 
         Yii::app()->user->setFlash('payModule', '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
-            $module->$name.'</strong> курса <strong>'.
+            $module->$name.'</strong> курсу <strong>'.
 
             Course::getCourseName($_POST['course']).'</strong> оплачено.
             <br />Тепер у Вас є доступ до усіх занять цього модуля.');
@@ -81,7 +81,7 @@ class PayController extends AdminController
         $payModule = PayModules::model()->findByAttributes(array('id_user' => $user,'id_module' => $idModule));
         if($payModule){
             Yii::app()->user->setFlash('payModule', '<br />Модуль <strong>'.
-                $moduleName.'</strong> курса <strong>'.
+                $moduleName.'</strong> курсу <strong>'.
                 Course::getCourseName($_POST['course']).'</strong> скасовано.
             <br />Тепер у Вас НЕМАЄ доступу до усіх занять цього модуля.');
 

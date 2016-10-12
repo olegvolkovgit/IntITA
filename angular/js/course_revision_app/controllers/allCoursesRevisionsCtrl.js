@@ -76,7 +76,7 @@ function allCoursesRevisionsCtrl($rootScope,$scope, courseRevisionsTree, courseR
     var authorActions=[
         {
             "type": "button",
-            "title": "Переглянути ревізії даного курса",
+            "title": "Переглянути ревізії даного курсу",
             "visible": true,
             "userId":userId,
             "action": function(event) {

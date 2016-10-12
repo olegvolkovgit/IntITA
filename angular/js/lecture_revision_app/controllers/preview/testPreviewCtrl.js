@@ -29,8 +29,8 @@ function testCtrl($http, $scope) {
         }).then(function successCallback(response) {
             $('#ajaxLoad').hide();
             if(response.data)
-                bootbox.alert("<span style='color:green'>Відповідь на тест вірна</span>");
-            else bootbox.alert("<span style='color:red'>Відповідь на тест не вірна</span>");
+                bootbox.alert("<span style='color:green'>Відповідь на завдання правильна</span>");
+            else bootbox.alert("<span style='color:red'>Відповідь на завдання неправильна</span>");
             button.removeAttr('disabled');
 
         }, function errorCallback() {

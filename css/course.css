@@ -582,6 +582,9 @@ input.paymentPlan_value{
 #courseTabs,.hideBlock{display: none}
 .hideBlockLink{display:inline-block}
 .courseShortInfoTable,.courseImg{display: table-cell}
+#demo a{
+    text-decoration: underline;
+}
 @media only screen and (max-width: 800px) {
     #modules,.hideBlockLink,.courseModules>h2{display:none}
     .courseModules{margin-top: 10px}

@@ -2,8 +2,9 @@
 <table class="table" style="margin-bottom: 0">
     <tr>
         <td><label>Cтатус:</label></td>
+        <td><div>{{moduleData.module.status}}</div></td>
+        <td><label>Дія над ревізією:</label></td>
         <td>
-            <div>{{moduleData.module.status}}</div>
             <div class="editButtons">
                 <img ng-if=moduleData.module.canApprove ng-click=approveModuleRevision('<?php echo $moduleRevision->id_module_revision; ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'approve.png'); ?>"

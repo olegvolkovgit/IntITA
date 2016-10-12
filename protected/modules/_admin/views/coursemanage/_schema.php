@@ -69,7 +69,7 @@
     <?php if (!$save) { ?>
         <br>
         <br>
-        <button id="saveButton" onclick="alert('Схема курса збережена!')"><a
+        <button id="saveButton" onclick="alert('Схема курсу збережена!')"><a
                 href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/saveSchema',
                     array('idCourse' => $idCourse)
                 ); ?>"><?php echo Course::getMessage($message, 'save'); ?></a></button>

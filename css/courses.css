@@ -434,7 +434,8 @@ span.moduleNum{
         display: block;
     }
     .displayMini{display: table;margin-bottom: 5px}
-    .displayMini .courseLogo,.displayMini .courseNameMini{display: table-cell;vertical-align:bottom}
+    .displayMini .courseLogo{display: table-cell;vertical-align:bottom}
+    .displayMini .courseNameMini{display: table-cell;vertical-align:middle}
     ul.yiiPager a:link, ul.yiiPager a:visited {
         font-size: 10px;
     }

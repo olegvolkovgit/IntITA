@@ -121,10 +121,12 @@ class RevisionPlainTask extends RevisionQuiz
         return $newPlainTest;
     }
 
-    public function cloneTest($idLectureElement, $newModule) {
+    public function cloneTest($idLectureElement, $newModule, $newBranch) {
         $newPlainTest = new RevisionPlainTask();
         $newPlainTest->id_lecture_element = $idLectureElement;
-        $newPlainTest->uid = $newModule ? RevisionQuizFactory::getQuizId($newModule):$this->uid;
+		if($newModule) $newPlainTest->uid = RevisionQuizFactory::getQuizId($newModule);
+		else if($newBranch) $newPlainTest->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
+		else $newPlainTest->uid = $this->uid;
         $newPlainTest->updated = $this->updated == 1 ? 1 : 0;
         $newPlainTest->id_test = $this->id_test;
         $newPlainTest->saveCheck();

@@ -187,28 +187,15 @@ class Course extends CActiveRecord implements IBillableObject
     public function getBasePrice()
     {
         $price = 0;
-        $modules = $this->module;
-
-        foreach ($modules as $module) {
+        foreach ($this->module as $module) {
             $price += $module->moduleInCourse->module_price;
         }
-
         return $price*Config::getCoeffDependentModule();
     }
-
-//    public function getBasePriceUAH(){
-//        return $this->getBasePrice() * Config::getDollarRate();
-//    }
 
     public function getDuration()
     {
         return $this->getApproximatelyDurationInMonths();
-//        $modules = $this->getCourseModulesSchema($this->course_ID);
-//        $tableCells = $this->getTableCells($modules, $this->course_ID);
-//        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
-//
-//        return $courseDurationInMonths;
-
     }
 
     public function getHoursTermination($num)
@@ -847,7 +834,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
     public function paymentMailTheme(){
-        return 'Доступ до курса';
+        return 'Доступ до курсу';
     }
 
     public static function readyCoursesList($query){
@@ -992,5 +979,27 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getModelUAH(){
         return new CourseUAH($this);
+    }
+
+    /**
+     * @param EducationForm $educationForm
+     * @return array
+     */
+    public function getPaymentSchemas(EducationForm $educationForm) {
+        $paymentSchemas = PaymentScheme::model()->findAll();
+        $result = [];
+        foreach ($paymentSchemas as $paymentSchema) {
+            $calculator = $paymentSchema->getSchemaCalculator($educationForm);
+            $payment = $calculator->getPaymentProperties();
+            $totalPayment = $calculator->getSumma($this);
+            $paymentsCount = key_exists('paymentsCount', $payment) ? (int) $payment['paymentsCount'] : 1;
+
+            $payment['fullPrice'] = $this->getBasePrice();
+            $payment['price'] = $totalPayment;
+            $payment['approxMonthPayment'] = round($totalPayment / $paymentsCount, 2);
+
+            $result[] = $payment;
+        }
+        return $result;
     }
 }

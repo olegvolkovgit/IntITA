@@ -71,6 +71,29 @@
         </td>
     </tr>
     <tr>
+        <td>Тип:</td>
+        <td>
+            <?php
+            $sources = LectureType::allTypeByLang('ua');
+            $this->widget('editable.EditableField', array(
+                'type' => 'select',
+                'model' => $lectureRevision->properties,
+                'attribute' => 'id_type',
+                'url' => $this->createUrl('revision/XEditableEditProperties'),
+                'source' => Editable::source(array(
+                        '1' => $sources[1],
+                        '2' => $sources[2],
+                        '3' => $sources[3],
+                        '4' => $sources[4],
+                    )
+                ),
+                'title' => 'Тип:',
+                'placement' => 'right',
+            ));
+            ?>
+        </td>
+    </tr>
+    <tr>
         <td>Автор:</td>
         <td><?=StudentReg::getUserNamePayment($lectureRevision->properties->id_user_created).' (id='.$lectureRevision->properties->id_user_created.')'?></td>
     </tr>

@@ -173,24 +173,24 @@ class RevisionQuizFactory {
      * @param RevisionLectureElement $lectureElementNew
      * @return array|mixed|null
      */
-    public static function cloneQuiz($lectureElementOld, $lectureElementNew, $newModule=null) {
+    public static function cloneQuiz($lectureElementOld, $lectureElementNew, $newModule=null, $newBranch=false) {
 
         switch ($lectureElementOld->id_type) {
             case LectureElement::PLAIN_TASK :
                 $test = RevisionPlainTask::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
-                return $test->cloneTest($lectureElementNew->id, $newModule);
+                return $test->cloneTest($lectureElementNew->id, $newModule, $newBranch);
                 break;
             case LectureElement::TEST :
                 $test = RevisionTests::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
-                return $test->cloneTest($lectureElementNew->id, $newModule);
+                return $test->cloneTest($lectureElementNew->id, $newModule, $newBranch);
                 break;
             case LectureElement::TASK :
                 $test = RevisionTask::model()->findByAttributes(array('id_lecture_element' => $lectureElementOld->id));
-                return $test->cloneTest($lectureElementNew->id, $newModule);
+                return $test->cloneTest($lectureElementNew->id, $newModule, $newBranch);
                 break;
             case LectureElement::SKIP_TASK:
                 $test = RevisionSkipTask::model()->findByAttributes(array('condition' => $lectureElementOld->id));
-                return $test->cloneTest($lectureElementNew->id, $newModule);
+                return $test->cloneTest($lectureElementNew->id, $newModule, $newBranch);
                 break;
             default:
                 return null;

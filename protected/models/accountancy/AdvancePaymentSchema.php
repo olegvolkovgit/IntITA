@@ -20,7 +20,7 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     }
 
     public function getSumma(IBillableObject $payObject){
-        $basePrice = ($this->educForm->isOnline())?$payObject->getBasePrice():$payObject->getBasePrice() * Config::getCoeffModuleOffline();
+        $basePrice = $payObject->getBasePrice() * $this->educForm->getCoefficient();
         return $basePrice * (1 - $this->discount/100);
     }
 
@@ -42,5 +42,23 @@ class AdvancePaymentSchema implements IPaymentCalculator{
             $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
         }
         return $invoicesList;
+    }
+
+    /**
+     * Returns discount, payments count
+     * @return mixed
+     */
+    public function getPaymentProperties() {
+        return [
+            'discount' => $this->discount,
+            'paymentsCount' => $this->payCount,
+            'translates' => [
+                'title' => $this->payCount == 1 ? Yii::t('course', '0197') : $this->payCount . ' ' . Yii::t('course', '0198'),
+                'currencySymbol' => Yii::t('courses', '0322'),
+                'discount' => Yii::t('courses', '0144'),
+                'payment' => Yii::t('course', '0323'),
+                'month' => Yii::t('payments', '0865')
+            ]
+        ];
     }
 }

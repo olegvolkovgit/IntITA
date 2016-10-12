@@ -86,7 +86,7 @@ function taskCtrl($timeout, $scope, taskJson,userAnswerTaskService,ipCookie) {
                         case 'done':
                             $('#ajaxLoad').hide();
                             if(serverResponse.done==true){
-                                bootbox.alert("<span style='color:green'>Відповідь на тест вірна</span>");
+                                bootbox.alert("<span style='color:green'>Відповідь на завдання правильна</span>");
                             } else if(serverResponse.done==false){
                                 var countUnit = serverResponse.testResult.length;
                                 var falseUnits = 0;

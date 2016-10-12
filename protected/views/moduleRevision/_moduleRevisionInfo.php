@@ -1,9 +1,13 @@
 <label>Властивості ревізії модуля: </label>
 <table class="table">
     <tr>
-        <td>Cтатус:</td>
+        <td>Cтатус (<b>id ревізії</b>):</td>
         <td>
-            <div>{{moduleData.module.status}}</div>
+            <div>{{moduleData.module.status}} (<b>id:<?=$moduleRevision->id_module_revision ?></b>)</div>
+
+        </td>
+        <td>Дія над ревізією:</td>
+        <td>
             <div class="editButtons">
                 <img ng-if=moduleData ng-click=previewModuleRevision('<?=Yii::app()->createUrl("moduleRevision/previewModuleRevision", array("idRevision" => $moduleRevision->id_module_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'preview.png'); ?>"
@@ -16,8 +20,6 @@
                      title="Відміна автором"/>
             </div>
         </td>
-        <td>Номер ревізії:</td>
-        <td><?=$moduleRevision->id_module_revision ?></td>
     </tr>
     <tr>
         <td>Назва (укр):</td>
