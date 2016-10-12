@@ -14,29 +14,14 @@ angular
     })
     .controller('statusOfModulesCtrl', function ($scope, $resource, NgTableParams, $stateParams){
 
-        var countOfModules = null;
-        var countOfModulesWithoutVideos = null;
-        var countOfModulesWithoutTests = null;
-        var countOfModulesWithoutVideosAndTests = null;
-        var modules = $resource(basePath + '/_teacher/_content_manager/contentManager/getCounts?type=modules');
-        var courses = $resource(basePath + '/_teacher/_content_manager/contentManager/getCounts?type=courses');
         var modulesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getModulesList');
         var coursesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getCourseslist');
-
-        // function initCounts(resource){
-        //     resource.get({courseId:$stateParams.courseId}).$promise.then(function(data){
-        //         countOfModules = data.countOfModules;
-        //         countOfModulesWithoutVideos = data.countOfModulesWithoutVideos;
-        //         countOfModulesWithoutTests = data.countOfModulesWithoutTests;
-        //         countOfModulesWithoutVideosAndTests = data.countOfModulesWithoutVideosAndTests;
-        //
-        //     });
-        // }
-        console.log($stateParams.idModule)
+        
         $scope.initModulesList = function (){
             $scope.AllModulesTable = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'all',
                 courseId:$stateParams.courseId
             }, {
@@ -52,6 +37,7 @@ angular
             $scope.ModulesWithoutVideo = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'withoutVideos',
                 courseId:$stateParams.courseId
             }, {
@@ -67,6 +53,7 @@ angular
             $scope.ModulesWithoutTests = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'withoutTests',
                 courseId:$stateParams.courseId
             }, {
@@ -82,12 +69,13 @@ angular
             $scope.ModulesWithoutVideoAndTests = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'withoutVideosAndTests',
                 courseId:$stateParams.courseId
             }, {
                 getData: function(params) {
                     return modulesTable.get(params.url()).$promise.then(function(data) {
-                        params.total = data.count;
+                        params.total(data.count);
                         return data.rows;
                     });
                 }
@@ -101,6 +89,7 @@ angular
             $scope.AllModulesTable = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'all'
             }, {
                 getData: function(params) {
@@ -115,6 +104,7 @@ angular
             $scope.ModulesWithoutVideo = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'withoutVideos',
             }, {
                 getData: function(params) {
@@ -129,6 +119,7 @@ angular
             $scope.ModulesWithoutTests = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'withoutTests',
             }, {
                 getData: function(params) {
@@ -143,6 +134,7 @@ angular
             $scope.ModulesWithoutVideoAndTests = new NgTableParams({
                 page: 1,
                 count: 10,
+                sorting:{title:'asc'},
                 type:'withoutVideosAndTests',
             }, {
                 getData: function(params) {
@@ -153,11 +145,7 @@ angular
                 }
             });
         };
-
-        //initModulesListTable($stateParams.idModule,'0');
-        //initModulesListTable($stateParams.idModule,'1');
-        //initModulesListTable($stateParams.idModule,'2');
-        //initModulesListTable($stateParams.idModule,'3');
+        
     })
     .controller('statusOfCoursesCtrl', function ($scope){
         //initCoursesListTable(0);
