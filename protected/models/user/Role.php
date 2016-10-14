@@ -59,7 +59,8 @@ abstract class Role
     {
         if(Yii::app()->db->createCommand()->
         insert($this->tableName(), array(
-            'id_user' => $user->id
+            'id_user' => $user->id,
+            'assigned_by'=>Yii::app()->user->getId()
         ))){
             $this->notifyAssignRole($user);
             return true;
@@ -75,6 +76,7 @@ abstract class Role
         if(Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_date'=>date("Y-m-d H:i:s"),
+            'cancelled_by'=>Yii::app()->user->id
         ), 'id_user=:id', array(':id'=>$user->id))){
             $this->notifyCancelRole($user);
             return true;

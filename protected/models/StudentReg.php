@@ -1325,4 +1325,6 @@ class StudentReg extends CActiveRecord
 
         return json_encode($data);
     }
+
+
 }

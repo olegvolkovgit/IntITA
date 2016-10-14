@@ -21,7 +21,10 @@ class UserTenant extends CActiveRecord
 	{
 		return 'user_tenant';
 	}
-
+    public function getRoleName()
+    {
+        return 'Тенант';
+    }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -49,7 +52,8 @@ class UserTenant extends CActiveRecord
 		return array(
 			'chatUser' => array(self::BELONGS_TO, 'ChatUser', 'chat_user_id'),
 			'user' => array(self::BELONGS_TO, 'StudentReg', array('intita_user_id'=>'id'), 'through' => 'chatUser'),
-
+            'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
+            'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
 		);
 	}
 

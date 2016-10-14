@@ -158,4 +158,58 @@ class UserController extends TeacherCabinetController {
 
         echo CJSON::encode($result);
     }
+
+    public function actionGetRolesHistory($id){
+
+        $historyAdmin =  UserAdmin::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $historyAccountant = UserAccountant::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $historyStudent = UserStudent::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $historyTenant = UserTenant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('chat_user_id=:id', array(':id'=>$id));
+        $historyTrainer = UserTrainer::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $historyConsultant = UserConsultant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
+        $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
+        $historyAuthor = UserAuthor::model()->with('moduleAuthor','assigned_by_user','cancelled_by_user')->model()->findAll('idTeacher=:id', array(':id'=>$id));
+        $array = array_merge($historyAuthor,$historyAdmin,$historyAccountant,$historyTenant,$historyStudent,$historyTrainer,$historyConsultant,$historyContentManager,$historyTeacherConsultant );
+        $history = [];
+        foreach ($array as $value)
+        {
+
+            $role = $value->getAttributes();
+            $role['role'] = $value->getRoleName();
+            if ($role['role'] == 'Автор'){
+                $_temp=[];
+                foreach($role as $key => $val)
+                {
+                    if($key === 'start_time') $key = 'start_date';
+                    $_temp[$key] = $val;
+                    if($key === 'end_time') $key = 'end_date';
+                    $_temp[$key] = $val;
+                }
+
+                $role = $_temp;
+                $relation = $value->getRelated('moduleAuthor');
+                if (isset($relation)){
+                    $role['module'] = $value->getRelated('moduleAuthor')->getAttributes(['title_ua']);
+                }
+            }
+            $relation = $value->getRelated('assigned_by_user');
+            if (isset($relation)){
+                $role['assigned_by_user'] = $value->getRelated('assigned_by_user')->getAttributes(['firstName','middleName','secondName']);
+            }
+            $relation = $value->getRelated('cancelled_by_user');
+            if (isset($relation)){
+                $role['cancelled_by_user'] = $value->getRelated('cancelled_by_user')->getAttributes(['firstName','middleName','secondName']);
+            }
+            array_push($history,$role);
+        }
+        usort($history,function($a,$b){
+            if (strtotime ($a['start_date']) == strtotime ($b['start_date'])) {
+                return 0;
+            }
+            return (strtotime ($a['start_date']) > strtotime ($b['start_date'])) ? -1 : 1;
+        });
+        echo CJSON::encode($history);
+
+    }
 }
