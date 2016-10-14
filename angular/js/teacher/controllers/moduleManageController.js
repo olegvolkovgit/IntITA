@@ -23,6 +23,8 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
 
     $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
     $scope.cancelled = [{id:'0', title:'доступний'},{id:'1', title:'видалений'}];
+    $scope.lang = [{id:'ua', title:'ua'},{id:'ru', title:'ru'},{id:'en', title:'en'}];
+
     $scope.levels = $resource(basePath+'/_teacher/_admin/level/getlevelslist').get()
                    .$promise.then(function(data){
                     var levels = [];
