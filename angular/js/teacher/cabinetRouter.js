@@ -30,6 +30,21 @@ angular
                         return basePath + "/_teacher/messages/write/?id=" + user + "&receiver=" +$stateParams.id
                     }
                 })
+                .state(':scenario/:id/educationForm/:educationForm/scheme/:scheme', {
+                    url: "/:scenario/:id/educationForm/:educationForm/scheme/:scheme",
+                    cache         : false,
+                    templateUrl: function ($stateParams) {
+                        return basePath + "/_teacher/_student/student/"+$stateParams.scenario+"/?id="+$stateParams.id+"&agreementType="+$stateParams.educationForm+"&scheme="+$stateParams.scheme
+                    }
+                })
+                .state('publicOffer/course/:course/module/:module/scenario/:scenario/educationForm/:educationForm/scheme/:scheme', {
+                    url: "/publicOffer/course/:course/module/:module/scenario/:scenario/educationForm/:educationForm/scheme/:scheme",
+                    cache         : false,
+                    templateUrl: function ($stateParams) {
+                        return basePath + "/_teacher/_student/student/publicOffer?course=" + $stateParams.course + "&module=" + $stateParams.module +
+                            "&type=" + $stateParams.scenario + "&form=" + $stateParams.educationForm + "&schema=" + $stateParams.scheme;
+                    }
+                })
     }
     );
 

@@ -1,0 +1,70 @@
+<input type="radio" ng-if="scheme.educForm=='Online'" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOnline',scheme.educForm)" name="payment" ng-model="selectedSchemeOnline.scheme" ng-value="scheme.type">
+<input type="radio" ng-if="scheme.educForm=='Offline'" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline',scheme.educForm)" name="payment" ng-model="selectedSchemeOffline.scheme" ng-value="scheme.type">
+<span>
+    <table ng-if="scheme.discount==0" class="mainPay">
+        <tr>
+            <td class="icoPay">
+                <img class="icoNoCheck" ng-src="{{scheme.ico}}">
+                <img class="icoCheck" ng-src="{{scheme.icoCheck}}">
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                             <div style="color:#4b75a4">
+                                 {{scheme.translates.title}}
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="numbers">
+                                <span class="coursePriceStatus">
+                                    {{scheme.translates.currencySymbol}}{{scheme.fullPrice}}
+                                </span>&asymp; {{scheme.price}}{{scheme.translates.currencySymbol}}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table ng-if="scheme.discount!=0" class="mainPay">
+        <tr>
+            <td class="icoPay">
+                <img class="icoNoCheck" ng-src="{{scheme.ico}}">
+                <img class="icoCheck" ng-src="{{scheme.icoCheck}}">
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                             <div style="color:#4b75a4">
+                                 {{scheme.translates.title}}
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="numbers">
+                                <span class="coursePriceStatus">
+                                    {{scheme.translates.currencySymbol}}{{scheme.fullPrice}}
+                                </span>&nbsp
+                                <span class="coursePriceStatus2">
+                                    {{scheme.translates.currencySymbol}}{{scheme.price}}&asymp;
+                                </span>
+                                <span>
+                                    {{scheme.approxMonthPayment}}{{scheme.translates.currencySymbol}} x {{scheme.paymentsCount}} {{scheme.translates.payment}}
+                                </span>
+                            </div>
+                            <span class="discount">
+                                <img style="text-align:right" ng-src="{{onlineSchemeData.icons.discountIco}}">
+                                <span class="discountColor">({{scheme.translates.discount}} - {{scheme.discount}}%)</span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</span>

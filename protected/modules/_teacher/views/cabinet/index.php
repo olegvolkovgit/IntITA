@@ -111,6 +111,10 @@
 -->
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/requestsList.js'); ?>"></script>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/paymentsScheme.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/paymentsService.js'); ?>"></script>
+
 <script>
     window.onload = function()
     {

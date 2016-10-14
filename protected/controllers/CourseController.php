@@ -214,7 +214,12 @@ class CourseController extends Controller
     public function actionGetPaymentSchemas($courseId, $educationFormId=EducationForm::ONLINE) {
         $course = Course::model()->findByPk($courseId);
         $educationForm = EducationForm::model()->findByPk($educationFormId);
-        echo json_encode($course->getPaymentSchemas($educationForm));
+        $result=[];
+        $result['schemes']=$course->getPaymentSchemas($educationForm);
+        $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
+        $result['translates']['price']=Yii::t('courses', '0147');
+        $result['translates']['free']=Yii::t('module', '0421');
+        echo json_encode($result);
     }
 
     public function actionGetTypeahead($query) {

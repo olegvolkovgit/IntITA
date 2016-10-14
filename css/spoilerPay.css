@@ -68,7 +68,7 @@ input.paymentPlan_value{
 #firstRadio{
     display: block;
 }
-#rowRadio input:checked+span > .mainPay{
+.rowRadio input:checked+span > .mainPay,#rowRadio input:checked+span > .mainPay{
     color: #264b73;
 }
 .icoCheck{
@@ -129,7 +129,7 @@ input.paymentPlan_value{
     color: #666666;
     font-weight: bold;
 }
-#discount{
+.discount{
     color: #078a0d;
     margin-left: 85px;
 }

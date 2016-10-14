@@ -38,12 +38,12 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $stateParams, $state
     /* Change course status  */
     $scope.changeCourse = function(courseId) {
         var url = basePath+'/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
-        bootbox.confirm("Видалити курс?", function (result) {
+        bootbox.confirm("Змінити статус курсу?", function (result) {
             if (result) {
                 $http.post(url).success(function (data) {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+courseId);
-                        $state.go('admin/coursemanage',{reload:true});
+                        $state.go('course/edit/:id',{'id':courseId},{reload: true});
                     })
                 }).error(function (data) {
                     showDialog("Операцію не вдалося виконати.");

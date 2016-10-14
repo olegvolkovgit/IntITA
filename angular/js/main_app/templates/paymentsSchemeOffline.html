@@ -1,0 +1,13 @@
+<div class="paymentsForm">
+    <form name="paymentsForm">
+        <input value="1" type="hidden" name="schema"/>
+        <input value="Online" type="hidden" name="type" id="type"/>
+        <div ng-if="offlineSchemeData.schemes[0].fullPrice==0">
+            {{onlineSchemeData.translates.price}} <span class="colorGreen">{{onlineSchemeData.translates.free}}</span>
+        </div>
+        <div class="rowRadio" ng-if="offlineSchemeData.schemes[0].fullPrice!=0">
+            <div ng-repeat="scheme in offlineSchemeData.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'" ng-include="getIncludeFile(scheme.type)">
+            </div>
+        </div>
+    </form>
+</div>

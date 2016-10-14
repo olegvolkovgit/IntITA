@@ -52,6 +52,9 @@ class AdvancePaymentSchema implements IPaymentCalculator{
         return [
             'discount' => $this->discount,
             'paymentsCount' => $this->payCount,
+            'type'=>PaymentScheme::getPaymentType($this->payCount),
+            'ico'=>PaymentScheme::getPaymentIco($this->payCount, false),
+            'icoCheck'=>PaymentScheme::getPaymentIco($this->payCount, true),
             'translates' => [
                 'title' => $this->payCount == 1 ? Yii::t('course', '0197') : $this->payCount . ' ' . Yii::t('course', '0198'),
                 'currencySymbol' => Yii::t('courses', '0322'),

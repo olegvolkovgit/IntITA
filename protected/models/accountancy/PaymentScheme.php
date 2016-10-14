@@ -162,4 +162,46 @@ class PaymentScheme extends CActiveRecord {
 
         return PaymentScheme::model()->findAll();
     }
+
+    public static function getPaymentIco($count, $check=false) {
+        if($count==1){
+            if($check) return StaticFilesHelper::createPath('image', 'course', 'checkWallet.png');
+            else return StaticFilesHelper::createPath('image', 'course', 'wallet.png');
+        }else if($count==2){
+            if($check) return StaticFilesHelper::createPath('image', 'course', 'checkCoins.png');
+            else return StaticFilesHelper::createPath('image', 'course', 'coins.png');
+        }else if($count==4){
+            if($check) return StaticFilesHelper::createPath('image', 'course', 'checkMoreCoins.png');
+            else return StaticFilesHelper::createPath('image', 'course', 'moreCoins.png');
+        }else if($count==12){
+            if($check) return StaticFilesHelper::createPath('image', 'course', 'checkCalendar.png');
+            else return StaticFilesHelper::createPath('image', 'course', 'calendar.png');
+        }else{
+            if($check) return StaticFilesHelper::createPath('image', 'course', 'checkPercent.png');
+            else return StaticFilesHelper::createPath('image', 'course', 'percent.png');
+        }
+    }
+    
+    public static function getPaymentType($count) {
+        switch ($count) {
+            case 1:
+                return PaymentScheme::ADVANCE;
+            case 2:
+                return PaymentScheme::BASE_TWO_PAYS;
+            case 4:
+                return PaymentScheme::BASE_FOUR_PAYS;
+            case 12:
+                return PaymentScheme::MONTHLY;
+            case 24:
+                return PaymentScheme::CREDIT_TWO_YEARS;
+            case 36:
+                return PaymentScheme::CREDIT_THREE_YEARS;
+            case 48:
+                return PaymentScheme::CREDIT_FOUR_YEARS;
+            case 60:
+                return PaymentScheme::CREDIT_FIVE_YEARS;
+            default:
+                return PaymentScheme::ADVANCE;
+        }
+    }
 }
