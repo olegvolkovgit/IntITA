@@ -1,5 +1,4 @@
 "use strict";
-
 angular
     .module('teacherApp')
     .directive('paymentsSchemeOnline', ['paymentsService', paymentsSchemeOnline])
