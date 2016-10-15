@@ -985,7 +985,13 @@ class Course extends CActiveRecord implements IBillableObject
      * @return array
      */
     public function getPaymentSchemas(EducationForm $educationForm) {
-        $paymentSchemas = PaymentScheme::model()->findAll();
+        $paymentSchemas = PaymentScheme::model()->getPaymentScheme(
+            [
+                'user' => Yii::app()->user,
+                'course' => $this
+            ]
+        );
+        
         $result = [];
         foreach ($paymentSchemas as $paymentSchema) {
             $calculator = $paymentSchema->getSchemaCalculator($educationForm);
@@ -993,9 +999,10 @@ class Course extends CActiveRecord implements IBillableObject
             $totalPayment = $calculator->getSumma($this);
             $paymentsCount = key_exists('paymentsCount', $payment) ? (int) $payment['paymentsCount'] : 1;
 
-            $payment['fullPrice'] = $this->getBasePrice();
-            $payment['price'] = $totalPayment;
+            $payment['fullPrice'] = $educationForm->id==EducationForm::ONLINE?sprintf("%01.2f",$this->getBasePrice()):sprintf("%01.2f",$this->getBasePrice()*Config::getCoeffModuleOffline());
+            $payment['price'] = sprintf ("%01.2f",$totalPayment);
             $payment['approxMonthPayment'] = round($totalPayment / $paymentsCount, 2);
+            $payment['educForm'] = $educationForm->id==EducationForm::ONLINE?'Online':'Offline';
 
             $result[] = $payment;
         }

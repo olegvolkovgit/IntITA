@@ -342,7 +342,7 @@ padding-left: 0px;
     color: #078a0d;
     margin-left: 85px;
 }
-#discount{
+.discount{
     color: #078a0d;
     margin-left: 85px;
 }
@@ -463,7 +463,7 @@ input.paymentPlan_value{
 #firstRadioOnline, #firstRadioOffline{
     display: none;
 }
-#rowRadio input:checked+span > .mainPay{
+.rowRadio input:checked+span > .mainPay, #rowRadio input:checked+span > .mainPay{
     color: #264b73;
 }
 .icoCheck{
@@ -585,6 +585,9 @@ input.paymentPlan_value{
 #demo a{
     text-decoration: underline;
 }
+#paymentsOnlineSpoiler,#paymentsOfflineSpoiler{text-decoration: underline;color: #4b75a4;cursor:pointer}
+.discountColor{color: #078a0d;}
+.basePayment{color: #4b75a4;}
 @media only screen and (max-width: 800px) {
     #modules,.hideBlockLink,.courseModules>h2{display:none}
     .courseModules{margin-top: 10px}
@@ -608,12 +611,12 @@ input.paymentPlan_value{
         height:inherit;
     }
     .courseShortInfoTable{display:inline-block}
-    #discount{
+    .discount{
         margin-left:20px;
     }
 }
 @media only screen and (max-width: 360px) {
-    #discount{
+    .discount{
         margin-left:0;
         display: block;
     }

@@ -101,7 +101,7 @@
                             <span id="coursePriceStatus1"><?= round($val[0]->getBasePrice()) .Yii::t('courses', '0322');?></span>
                             &nbsp<span id="coursePriceStatus2"><?=$price.
                                 Yii::t('courses', '0322');?></span>
-                            <span id="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
+                            <span class="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
                             <?php
                         }
                         ?>

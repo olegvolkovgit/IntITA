@@ -19,9 +19,8 @@
  * @property Course $course
  * @property Module $module
  */
-class UserSpecialOffer extends CActiveRecord
-{
-	/**
+class UserSpecialOffer extends ASpecialOffer {
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -56,8 +55,9 @@ class UserSpecialOffer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return [
-            'course' => [self::HAS_ONE, 'Course', 'courseID'],
-            'module' => [self::HAS_ONE, 'Module', 'moduleID'],
+            'course' => [self::HAS_ONE, 'Course', '', 'on' => 't.courseId = course.course_ID'],
+            'module' => [self::HAS_ONE, 'Module', '', 'on' => 't.moduleId = module.module_ID'],
+            'user' => [self::HAS_ONE, 'StudentReg', '', 'on' => 't.userId = user.id'],
         ];
 	}
 
@@ -122,8 +122,27 @@ class UserSpecialOffer extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return UserSpecialOffer the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
+
+    protected function getConditionCriteria($params) {
+        $criteria = null;
+
+        if (key_exists('userId', $params) && !empty($params['userId'])) {
+            $criteria = new CDbCriteria();
+            $criteria->addCondition("userId=" . $params["userId"]);
+            if (!empty($courseId)) {
+                $criteria->addCondition("courseId=" . $params['courseId']);
+            }
+            if (!empty($moduleId)) {
+                $criteria->addCondition("moduleId=" . $params["moduleId"]);
+            }
+            $criteria->addCondition('NOW() BETWEEN startDate and endDate');
+            $criteria->order = 'startDate DESC';
+            $criteria->limit = 1;
+        }
+
+        return $criteria;
+    }
 }

@@ -85,7 +85,7 @@ $basePrice = ($educForm == "online")?$model->getBasePrice():$model->getBasePrice
                                         Yii::t('courses', '0322') . ' x ' . $schema->payCount . ' ' . Yii::t('course', '0323'); ?>
                                 </span>
                                 </div>
-                            <span id="discount">
+                            <span class="discount">
                                 <img style="text-align:right"
                                      src="<?php echo StaticFilesHelper::createPath('image', 'course', 'pig.png'); ?>">
                                 (<?php echo Yii::t('courses', '0144') . ' - ' . $discount . '%)'; ?>

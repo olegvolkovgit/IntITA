@@ -7,7 +7,7 @@
  * @var $type string
  */
 ?>
-<div class="col col-md-12">
+<div class="col col-md-12" ng-controller="paymentsCtrl">
     <pre class="offer">
     <?php
     $param = (isset(Yii::app()->session['lg'])) ? "offer_" . Yii::app()->session['lg'] . ".html" : "offer_ua.html";
@@ -29,11 +29,12 @@
         <br>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" disabled id="agreeButton"
-                    onclick="createAgreement('<?= Yii::app()->createUrl("/_teacher/_student/student/new" . $type . "Agreement"); ?>',
+                    ng-click="createAgreement('<?= Yii::app()->createUrl("/_teacher/_student/student/new" . $type . "Agreement"); ?>',
                         '<?= $schemaNum ?>',
                         '<?= $course ?>',
                         '<?= $educationForm ?>',
-                        '<?= $module ?>'); return false;">
+                        '<?= $module ?>',
+                        '<?= $type ?>');">
                 Підписати договір
             </button>
             <button type="reset" class="btn btn-default" onclick="back(); return false;">Назад</button>

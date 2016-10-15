@@ -5,6 +5,8 @@
  */
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'module.css'); ?>" />
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleCtrl.js'); ?>"></script>
+<script>basePath = '<?php echo Config::getBaseUrl(); ?>';</script>
 <?php
 if($idCourse != 0) {
     $this->breadcrumbs = array(

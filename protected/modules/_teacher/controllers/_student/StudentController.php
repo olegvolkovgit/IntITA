@@ -184,26 +184,51 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayCourse($course)
+//    public function actionPayCourse($course)
+//    {
+//        if(!Yii::app()->user->model->isStudent()){
+//            Yii::app()->user->model->setRole(UserRoles::STUDENT);
+//        }
+//        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
+//            : 'Online';
+//        $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;
+//        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course, $educForm)) {
+//            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, $educForm);
+//            $this->renderPartial('/_student/_agreement', array(
+//                'agreement' => $agreement,
+//            ));
+//        } else {
+//            $courseModel = Course::model()->findByPk($course);
+//            if (!$courseModel) {
+//                throw new \application\components\Exceptions\IntItaException(400);
+//            }
+//
+//            $this->renderPartial('/_student/agreement/payCourse', array(
+//                'course' => $courseModel,
+//                'type' => $type,
+//                'offerScenario' => Config::offerScenario()
+//            ), false, true);
+//        }
+//    }
+    public function actionPayCourse($id,$agreementType,$scheme)
     {
         if(!Yii::app()->user->model->isStudent()){
             Yii::app()->user->model->setRole(UserRoles::STUDENT);
         }
-        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value
-            : 'Online';
-        $educForm = ($type == 'Offline')?EducationForm::OFFLINE:EducationForm::ONLINE;
-        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $course, $educForm)) {
-            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $course, 1, $educForm);
+        $type = $scheme;
+        $educForm = $agreementType;
+        if (UserAgreements::courseAgreementExist(Yii::app()->user->getId(), $id, $educForm)) {
+            $agreement = UserAgreements::courseAgreement(Yii::app()->user->getId(), $id, 1, $educForm);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
         } else {
-            $courseModel = Course::model()->findByPk($course);
+            $courseModel = Course::model()->findByPk($id);
             if (!$courseModel) {
                 throw new \application\components\Exceptions\IntItaException(400);
             }
 
-            $this->renderPartial('/_student/agreement/payCourse', array(
+            $this->renderPartial('/_student/agreement/payCourseForm', array(
                 'course' => $courseModel,
                 'type' => $type,
                 'offerScenario' => Config::offerScenario()
@@ -211,27 +236,52 @@ class StudentController extends TeacherCabinetController
         }
     }
 
-    public function actionPayModule($course, $module)
+//    public function actionPayModule($course, $module)
+//    {
+//        if(!Yii::app()->user->model->isStudent()){
+//            Yii::app()->user->model->setRole(UserRoles::STUDENT);
+//        }
+//        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value : 'Online';
+//        $educForm = ($type == 'Offline') ? EducationForm::OFFLINE : EducationForm::ONLINE;
+//        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module, $educForm)) {
+//            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $educForm);
+//            $this->renderPartial('/_student/_agreement', array(
+//                'agreement' => $agreement,
+//            ));
+//        } else {
+//            $model = Module::model()->findByPk($module);
+//            if (!$model) {
+//                throw new \application\components\Exceptions\IntItaException(400);
+//            }
+//
+//            $this->renderPartial('/_student/agreement/_payModule', array(
+//                'model' => $model,
+//                'course' => $course,
+//                'offerScenario' => Config::offerScenario()
+//            ));
+//        }
+//    }
+
+    public function actionPayModule($id,$agreementType,$scheme)
     {
         if(!Yii::app()->user->model->isStudent()){
             Yii::app()->user->model->setRole(UserRoles::STUDENT);
         }
-        $type = isset(Yii::app()->request->cookies['agreementType']) ? Yii::app()->request->cookies['agreementType']->value : 'Online';
-        $educForm = ($type == 'Offline') ? EducationForm::OFFLINE : EducationForm::ONLINE;
-        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module, $educForm)) {
-            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $module, 1, $educForm);
+        $type = $scheme;
+        $educForm = $agreementType;
+        if (UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $id, $educForm)) {
+            $agreement = UserAgreements::moduleAgreement(Yii::app()->user->getId(), $id, 1, $educForm);
             $this->renderPartial('/_student/_agreement', array(
                 'agreement' => $agreement,
             ));
         } else {
-            $model = Module::model()->findByPk($module);
+            $model = Module::model()->findByPk($id);
             if (!$model) {
                 throw new \application\components\Exceptions\IntItaException(400);
             }
 
-            $this->renderPartial('/_student/agreement/_payModule', array(
+            $this->renderPartial('/_student/agreement/_payModuleForm', array(
                 'model' => $model,
-                'course' => $course,
                 'offerScenario' => Config::offerScenario()
             ));
         }

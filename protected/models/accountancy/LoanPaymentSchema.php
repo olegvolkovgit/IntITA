@@ -55,6 +55,9 @@ class LoanPaymentSchema implements IPaymentCalculator{
     public function getPaymentProperties() {
         return [
             'paymentsCount' => $this->payCount,
+            'type'=>PaymentScheme::getPaymentType($this->payCount),
+            'ico'=>PaymentScheme::getPaymentIco($this->payCount, false),
+            'icoCheck'=>PaymentScheme::getPaymentIco($this->payCount, true),
             'translates' => [
                 'title' => Yii::t('course', '0425') . ' ' . $this->yearsCount() . ' ' . CommonHelper::getYearsTermination($this->yearsCount()),
                 'currencySymbol' => Yii::t('courses', '0322'),

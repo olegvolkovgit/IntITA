@@ -46,6 +46,9 @@ class BasePaymentSchema implements IPaymentCalculator {
     public function getPaymentProperties() {
         return [
             'paymentsCount' => $this->payCount,
+            'type'=>PaymentScheme::getPaymentType($this->payCount),
+            'ico'=>PaymentScheme::getPaymentIco($this->payCount, false),
+            'icoCheck'=>PaymentScheme::getPaymentIco($this->payCount, true),
             'translates' => [
                 'title' => Yii::t('course', '0200'),
                 'currencySymbol' => Yii::t('courses', '0322'),
