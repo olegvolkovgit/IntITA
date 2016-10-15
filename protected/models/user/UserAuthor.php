@@ -36,7 +36,10 @@ class UserAuthor extends CActiveRecord
 			array('id, idTeacher, idModule, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
-
+    public function getRoleName()
+    {
+        return 'Автор';
+    }
 	/**
 	 * @return array relational rules.
 	 */
@@ -48,6 +51,9 @@ class UserAuthor extends CActiveRecord
 				'user' => array(self::BELONGS_TO, 'StudentReg', ['idTeacher'=>'id']),
 				'authorActive' => array(self::BELONGS_TO, 'StudentReg', ['idTeacher'=>'id'],'condition'=>'end_time IS NULL', 'group'=>'idTeacher'),
 				'modules' => array(self::HAS_MANY, 'Module', ['module_ID'=>'idModule']),
+                'moduleAuthor' => array(self::BELONGS_TO, 'Module', ['idModule'=>'module_ID']),
+                'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
+                'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
 		);
 	}
 

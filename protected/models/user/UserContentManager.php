@@ -20,7 +20,10 @@ class UserContentManager extends CActiveRecord
     {
         return 'user_content_manager';
     }
-
+    public function getRoleName()
+    {
+        return 'Контент-менеджер';
+    }
     /**
      * @return array validation rules for model attributes.
      */
@@ -46,6 +49,8 @@ class UserContentManager extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
+            'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
+            'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
         );
     }
     public function primaryKey()

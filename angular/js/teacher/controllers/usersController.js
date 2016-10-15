@@ -336,6 +336,9 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
         $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+$stateParams.id).then(function (response) {
             $scope.data = response.data;
         });
+        $http.get(basePath + "/_teacher/user/getRolesHistory/id/"+$stateParams.id).then(function (response) {
+            $scope.roles = response.data;
+        });
     };
 
     $scope.loadUserData();

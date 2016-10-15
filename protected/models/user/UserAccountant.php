@@ -20,7 +20,10 @@ class UserAccountant extends CActiveRecord
 	{
 		return 'user_accountant';
 	}
-
+    public function getRoleName()
+    {
+        return 'Бухгалтер';
+    }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -46,6 +49,8 @@ class UserAccountant extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
+            'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
+            'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
 		);
 	}
 	public function primaryKey()
