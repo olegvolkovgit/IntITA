@@ -59,5 +59,9 @@ angular
                         url: basePath + '/_teacher/_content_manager/contentManager/getAuthorsList',
                         method: 'GET'
                     },
+                    superVisorsList: {
+                        url: url + '/getSuperVisorsList',
+                        method: 'GET'
+                    },
                 });
         }]);

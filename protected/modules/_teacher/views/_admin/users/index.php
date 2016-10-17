@@ -63,6 +63,11 @@
                         <?php $this->renderPartial('tables/_tenantsTable');?>
                     </div>
                 </uib-tab>
+                <uib-tab  index="11" heading="Supervisors (<?=$counters["superVisors"];?>)">
+                    <div ng-controller="superVisorsTableCtrl">
+                        <?php $this->renderPartial('tables/_superVisorsTable');?>
+                    </div>
+                </uib-tab>
             </uib-tabset>
         </div>
     </div>
