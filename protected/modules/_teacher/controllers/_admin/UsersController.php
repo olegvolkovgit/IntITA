@@ -258,6 +258,8 @@ class UsersController extends TeacherCabinetController
         $criteria = new CDbCriteria();
         $criteria->addCondition('unlocked_by IS NULL and unlocked_date IS NULL');
         $ngTable = new NgTableAdapter('UserBlocked', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        echo json_encode($ngTable->getData());
     }
     
     public function actionGetSuperVisorsList()
