@@ -61,6 +61,9 @@ angular
                     },
                     blockedUsersList: {
                         url: url + '/getBlockedUsersList',
+                    },
+                    superVisorsList: {
+                        url: url + '/getSuperVisorsList',
                         method: 'GET'
                     },
                 });
