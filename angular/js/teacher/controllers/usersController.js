@@ -12,7 +12,40 @@ angular
     .controller('tenantsTableCtrl',tenantsTableCtrl)
     .controller('consultantsTableCtrl',consultantsTableCtrl)
     .controller('trainersTableCtrl',trainersTableCtrl)
-    .controller('moduleAuthorsCtrl',moduleAuthorsCtrl);
+    .controller('moduleAuthorsCtrl',moduleAuthorsCtrl)
+    .controller('blockedUsersCtrl',blockedUsersCtrl);
+
+function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
+    $scope.blockedUsersTable = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .blockedUsersList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+    $scope.changeUserStatus=function (url, user, message) {
+        bootbox.confirm(message, function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.confirm(response.data, function () {
+                        $scope.blockedUsersTable.reload();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    }
+};
 
 function usersTableCtrl ($scope, usersService, NgTableParams){
         $scope.usersTableParams = new NgTableParams({}, {
@@ -75,6 +108,7 @@ function teachersTableCtrl ($http, $scope, usersService, NgTableParams){
                 });
         }
     });
+    
     
     $scope.setTeacherStatus= function(isPrint, id) {
         bootbox.confirm('Змінити статус викладача?', function (result) {

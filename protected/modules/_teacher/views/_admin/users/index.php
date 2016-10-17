@@ -63,6 +63,11 @@
                         <?php $this->renderPartial('tables/_tenantsTable');?>
                     </div>
                 </uib-tab>
+                <uib-tab  index="11" heading="Заблоковані користувачі (<?=$counters["blockedUsers"];?>)">
+                    <div ng-controller="blockedUsersCtrl">
+                        <?php $this->renderPartial('tables/_blockedUsersTable');?>
+                    </div>
+                </uib-tab>
             </uib-tabset>
         </div>
     </div>
