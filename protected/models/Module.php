@@ -404,7 +404,7 @@ class Module extends CActiveRecord implements IBillableObject
         if ($moduleTitle == "") {
             $moduleTitle = $this->title_ua;
         }
-        return CHtml::encode($moduleTitle);
+        return $moduleTitle;
     }
 
     public function getTitleForBreadcrumbs()
