@@ -18,7 +18,7 @@
                                                                     <span ng-if="!row.lockedBy">Administrator</span>
                         </td>
                         <td data-title="'Профіль'"><a ng-href="/profile/{{row.registeredUser.id}}" target="_blank">Профіль</a></td>
-                        <td data-title="'Розблокувати'"><button class="btn btn-outline btn-success btn-block" ng-click="changeUserStatus('/_teacher/user/changeUserStatus/', row.id, 'Відновити користувача?');">Розблокувати</button></td>
+                        <td data-title="'Розблокувати'"><button class="btn btn-outline btn-success btn-block" ng-click="changeUserStatus('/_teacher/user/changeUserStatus/', row.id_user, 'Відновити користувача?');">Розблокувати</button></td>
                     </tr>
                 </table>
             </div>
