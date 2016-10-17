@@ -263,8 +263,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                     cache: false
                 }).then(function successCallback() {
-                   // $state.go($state.current, {}, {reload: true});
-                    $state.reload();
+                    $state.go('messages', {}, {reload: true});
                 }, function errorCallback() {
                     bootbox.alert("Операцію не вдалося виконати.");
                 });
