@@ -147,7 +147,18 @@ class StudentReg extends CActiveRecord
     {
         $this->_identity = new UserIdentity($this->email, $this->password);
         if (!$this->_identity->authenticate())
-            $this->addError('password', Yii::t('error', '0273'));
+        {
+            if($this->_identity->errorCode == 666)
+            {
+                $this->addError('password', Yii::t('error', '0916'));
+            }
+            if($this->_identity->errorCode == 1 || $this->_identity->errorCode == 2 )
+            {
+                $this->addError('password', Yii::t('error', '0273'));
+            }
+
+        }
+
     }
 
     public function authenticatePass()
@@ -1227,7 +1238,27 @@ class StudentReg extends CActiveRecord
     }
 
     public function changeUserStatus(){
-        $this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
+        $lockUser = null;
+        if (!$this->cancelled)
+        {
+            $lockUser = new  UserBlocked();
+            $lockUser->id_user = $this->id;
+            $lockUser->locked_by = Yii::app()->user->getId();
+            $lockUser->locked_date = date("Y-m-d H:i:s");
+            $lockUser->save();
+            $this->cancelled = StudentReg::DELETED;
+        }
+        else
+        {
+            $lockUser = UserBlocked::model()->find('id_user=:id_user AND unlocked_by IS NULL ',[':id_user'=>$this->id]);
+            $lockUser->unlocked_by = Yii::app()->user->getId();
+            $lockUser->unlocked_date = date("Y-m-d H:i:s");
+            $lockUser->save(true, array('unlocked_by','unlocked_date'));
+            $this->cancelled = StudentReg::ACTIVE;
+
+        }
+
+        //$this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
         return $this->save(true, array('cancelled'));
     }
 

@@ -12,11 +12,26 @@ class AddressController extends TeacherCabinetController
     }
 
     public function actionGetCountriesList(){
-        echo AddressCountry::countriesList();
+        $criteria = new CDbCriteria();
+        if (isset($_GET['sorting']['title_ua'])){
+            $criteria->order = 'title_ua  COLLATE utf8_unicode_ci ' .$_GET['sorting']['title_ua']  ;
+        }
+        $adapter = new NgTableAdapter('AddressCountry',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
     }
 
     public function actionGetCitiesList(){
-        echo AddressCity::citiesList();
+        $criteria = new CDbCriteria();
+        if (isset($_GET['sorting']['title_ua'])){
+            $criteria->order = 't.title_ua  COLLATE utf8_unicode_ci ' .$_GET['sorting']['title_ua']  ;
+        }
+        if (isset($_GET['sorting']['country0.title_ua'])){
+            $criteria->order = 'country0.title_ua  COLLATE utf8_unicode_ci ' .$_GET['sorting']['country0.title_ua']  ;
+        }
+        $adapter = new NgTableAdapter('AddressCity',$_GET);
+        $adapter->mergeCriteriaWith($criteria);
+        echo json_encode($adapter->getData());
     }
 
     public function actionAddCountry(){

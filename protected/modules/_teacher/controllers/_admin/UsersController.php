@@ -28,6 +28,8 @@ class UsersController extends TeacherCabinetController
         $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
         $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
         $counters["withoutRoles"] = StudentReg::countUsersWithoutRoles();
+        $counters["blockedUsers"] = StudentReg::model()->count('cancelled='.StudentReg::DELETED);
+        $counters["superVisors"] = UserSuperVisor::model()->count("end_date IS NULL");
 
         $this->renderPartial('index', array(
             'counters' => $counters
@@ -207,7 +209,6 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAdminsList()
     {
-
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
@@ -245,6 +246,29 @@ class UsersController extends TeacherCabinetController
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
         $ngTable = new NgTableAdapter('UserConsultant', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+
+    public function actionGetBlockedUsersList()
+    {
+        $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('unlocked_by IS NULL and unlocked_date IS NULL');
+        $ngTable = new NgTableAdapter('UserBlocked', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        echo json_encode($ngTable->getData());
+    }
+    
+    public function actionGetSuperVisorsList()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserSuperVisor', $requestParams);
+
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);

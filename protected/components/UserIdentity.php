@@ -19,12 +19,15 @@ class UserIdentity extends CUserIdentity
             $this->errorCode=self::ERROR_USERNAME_INVALID;
         else if(sha1($this->password)!==$user->password)
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
+        else if($user->cancelled)
+            $this->errorCode=666;
         else
         {
             $this->_id=$user->id;
             $this->setState('email', $user->email);
             $this->errorCode=self::ERROR_NONE;
         }
+
         return !$this->errorCode;
     }
 

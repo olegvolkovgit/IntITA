@@ -12,7 +12,41 @@ angular
     .controller('tenantsTableCtrl',tenantsTableCtrl)
     .controller('consultantsTableCtrl',consultantsTableCtrl)
     .controller('trainersTableCtrl',trainersTableCtrl)
-    .controller('moduleAuthorsCtrl',moduleAuthorsCtrl);
+    .controller('moduleAuthorsCtrl',moduleAuthorsCtrl)
+    .controller('blockedUsersCtrl',blockedUsersCtrl)
+    .controller('superVisorsTableCtrl', superVisorsTableCtrl);
+
+function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
+    $scope.blockedUsersTable = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .blockedUsersList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+    $scope.changeUserStatus=function (url, user, message) {
+        bootbox.confirm(message, function (response) {
+            if (response) {
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: $jq.param({user: user}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    bootbox.confirm(response.data, function () {
+                        $scope.blockedUsersTable.reload();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    }
+};
 
 function usersTableCtrl ($scope, usersService, NgTableParams){
         $scope.usersTableParams = new NgTableParams({}, {
@@ -75,6 +109,7 @@ function teachersTableCtrl ($http, $scope, usersService, NgTableParams){
                 });
         }
     });
+    
     
     $scope.setTeacherStatus= function(isPrint, id) {
         bootbox.confirm('Змінити статус викладача?', function (result) {
@@ -490,7 +525,7 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
         $jq(el).toggle("medium");
     };
 
-    $scope.cancelModuleAttr=function(url, id, attr, role, user, successUrl,tab,header){
+    $scope.cancelModuleAttr=function(url, id, attr, role, user){
         if (!user) {
             user = $jq('#user').val();
         }
@@ -520,7 +555,7 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
     };
 }
 
-function moduleAuthorsCtrl($scope, usersService, $http, NgTableParams){
+function moduleAuthorsCtrl($scope, usersService, NgTableParams){
 
     $scope.authorsTable = new NgTableParams({}, {
         getData: function (params) {
@@ -536,4 +571,36 @@ function moduleAuthorsCtrl($scope, usersService, $http, NgTableParams){
                 });
         }
     });
+}
+
+function superVisorsTableCtrl ($scope, usersService, NgTableParams, $http){
+    $scope.superVisorsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .superVisorsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+
+    $scope.cancelRole= function(url, role, user) {
+        bootbox.confirm('Скасувати роль?', function (result) {
+            if (result) {
+                $http({
+                    method: 'POST',
+                    url: basePath+url,
+                    data: $jq.param({userId: user, role: role}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    $scope.superVisorsTableParams.reload();
+                    bootbox.alert(response.data);
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                });
+            }
+        });
+    };
 }

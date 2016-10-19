@@ -14,27 +14,23 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" datatable="ng" dt-options="dtOptionsCity" id="citiesTable">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Країна</th>
-                        <th>Українською</th>
-                        <th>Російською</th>
-                        <th>Англійською</th>
-                        <th>Редагувати</th>
+                <table class="table table-striped table-bordered table-hover" ng-table="citiesTable">
+                    <colgroup>
+                        <col width="10%" />
+                        <col width="20%" />
+                        <col width="20%" />
+                        <col width="20%" />
+                        <col width="20%" />
+                        <col width="10%" />
+                    </colgroup>
+                    <tr ng-repeat="row in $data">
+                        <td data-title="'ID'" sortable="'id'" filter="{id:'text'}">{{row.id}}</td>
+                        <td data-title="'Країна'" sortable="'country0.title_ua'" filter="{'country0.title_ua':'text'}">{{row.country0.title_ua}}</td>
+                        <td data-title="'Українською'" sortable="'title_ua'" filter="{title_ua:'text'}">{{row.title_ua}}</td>
+                        <td data-title="'Російською'" sortable="'title_ru'"filter="{title_ru:'text'}">{{row.title_ru}}</td>
+                        <td data-title="'Англійською'" sortable="'title_en'" filter="{title_en:'text'}">{{row.title_en}}</td>
+                        <td data-title="'Редагувати'"><a type="button" class="btn btn-outline btn-success btn-sm" ng-href="#/admin/editcity/{{row.id}}">редагувати</a></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="row in citiesList">
-                        <td>{{row.id}}</td>
-                        <td>{{row.country}}</td>
-                        <td>{{row.title_ua}}</td>
-                        <td>{{row.title_ru}}</td>
-                        <td>{{row.title_en}}</td>
-                        <td><a type="button" class="btn btn-outline btn-success btn-sm" ng-href="#/admin/editcity/{{row.id}}">редагувати</a></td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>

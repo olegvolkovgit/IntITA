@@ -15,7 +15,8 @@ class AllRolesDataSource implements IRolesDataSource
             UserRoles::TEACHER_CONSULTANT,
             UserRoles::TRAINER,
             UserRoles::STUDENT,
-            UserRoles::TENANT
+            UserRoles::TENANT,
+            UserRoles::SUPER_VISOR
         );
     }
 }
