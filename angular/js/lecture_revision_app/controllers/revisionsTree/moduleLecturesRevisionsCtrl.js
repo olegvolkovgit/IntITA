@@ -134,6 +134,7 @@ function moduleLecturesRevisionsCtrl($rootScope, $scope, revisionsTree,revisions
         },
         {
             "type": "button",
+            "actionType": "create",
             "title": "Клонувати ревізію в нову гілку",
             "visible": true,
             "userId":userId,

@@ -25,14 +25,14 @@ $this->breadcrumbs = array(
                 $this->renderPartial('_moduleRevisionInfo', array('moduleRevision' => $moduleRevision));
             ?>
             <button class="btn btn-primary" ng-click="checkModuleRevision();">Наявність конфліктів</button>
-
-            <div>
-                <a href="" ng-click="isOpenLecture = !isOpenLecture">Створити ревізію нового заняття</a>
-            </div>
-            <div ng-show="isOpenLecture">
-                <?php $this->renderPartial('/revision/_addLessonForm', array('idModule'=>$moduleRevision->id_module)); ?>
-            </div>
-
+            <?php if($author) { ?>
+                <div>
+                    <a href="" ng-click="isOpenLecture = !isOpenLecture">Створити ревізію нового заняття</a>
+                </div>
+                <div ng-show="isOpenLecture">
+                    <?php $this->renderPartial('/revision/_addLessonForm', array('idModule'=>$moduleRevision->id_module)); ?>
+                </div>
+            <?php } ?>
             <h3>Доступні ревізії занять:</h3>
             <div class="revisionTable">
                 <label>Доступні ревізії занять данного модуля(запропоновані до релізу, в релізі, затверджені):</label>

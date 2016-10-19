@@ -119,6 +119,7 @@ function revisionsBranchCtrl($rootScope, $scope, revisionsTree,revisionsActions)
         },
         {
             "type": "button",
+            "actionType": "create",
             "title": "Клонувати ревізію в нову гілку",
             "visible": true,
             "userId":userId,

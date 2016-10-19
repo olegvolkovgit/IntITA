@@ -130,6 +130,7 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
         {
             "type": "button",
             "title": "Клонувати ревізію в нову гілку",
+            "actionType": "create",
             "visible": true,
             "userId":userId,
             "action": function(event) {
