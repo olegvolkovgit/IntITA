@@ -114,8 +114,11 @@ class ModuleRevisionController extends Controller {
             }
         }
 
+        $author=Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $moduleRevision->id_module);
+
         $this->render("moduleView", array(
-            "moduleRevision" => $moduleRev,
+            "moduleRevision" => $moduleRevision,
+            "author"=>$author
         ));
 
     }
@@ -477,9 +480,11 @@ class ModuleRevisionController extends Controller {
         if (!$moduleRevision->canEdit()) {
             throw new RevisionControllerException(403, Yii::t('revision', '0825'));
         }
+        $author=Teacher::isTeacherAuthorModule(Yii::app()->user->getId(), $moduleRevision->id_module);
 
         $this->render("moduleView", array(
             "moduleRevision" => $moduleRevision,
+            "author"=>$author
         ));
     }
 
