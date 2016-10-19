@@ -28,7 +28,8 @@ angular
         'responseRouter',
         'interfaceMessagesRouter',
         'siteConfigRouter',
-        'requestsRouter'
+        'requestsRouter',
+        'superVisorRouter'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {
