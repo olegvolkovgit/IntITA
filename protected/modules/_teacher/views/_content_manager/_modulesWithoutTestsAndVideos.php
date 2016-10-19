@@ -14,12 +14,12 @@
                         <col width="12%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data">
-                        <td style="width:30%;" data-title="'Назва модуля'"><a href="#/detail/module/{{row.id}}">{{row.title}} ({{row.language}})</a></td>
-                        <td style="width:12%;" data-title="'К-ть занять'">{{row.countOfLectures}}</td>
-                        <td style="width:12%;" data-title="'К-ть відео'">{{row.videos}}</td>
-                        <td style="width:12%;" data-title="'К-ть тестів'">{{row.tests}}</td>
-                        <td style="width:12%;" data-title="'К-ть частин'">{{row.parts}}</td>
-                        <td style="width:12%;" data-title="'К-ть ревізій'">{{row.revisions}}</td>
+                        <td style="width:30%;" data-title="'Назва модуля'" sortable="'title'" filter="{title: 'text'}"><a href="#/detail/module/{{row.id}}">{{row.title}} ({{row.language}})</a></td>
+                        <td style="width:12%;" data-title="'К-ть занять'" sortable="'countOfLectures'" filter="{countOfLectures: 'text'}">{{row.countOfLectures}}</td>
+                        <td style="width:12%;" data-title="'К-ть відео'" sortable="'videos'" filter="{videos: 'text'}">{{row.videos}}</td>
+                        <td style="width:12%;" data-title="'К-ть тестів'" sortable="'tests'" filter="{tests: 'text'}">{{row.tests}}</td>
+                        <td style="width:12%;" data-title="'К-ть частин'" sortable="'parts'" filter="{parts: 'text'}">{{row.parts}}</td>
+                        <td style="width:12%;" data-title="'К-ть ревізій'" sortable="'revisions'" filter="{revisions: 'text'}">{{row.revisions}}</td>
                     </tr>
                 </table>
             </div>

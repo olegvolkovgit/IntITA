@@ -35,7 +35,7 @@ function signFreeModule(url, user, module) {
         })
         .fail(function () {
             bootbox.alert("На сайті виникла помилка.\n" +
-                "Спробуйте перезавантажити сторінку або напишіть нам на адресу " + adminEmail);
+                "Спробуйте перезавантажити сторінку або напишіть нам на адресу");
         })
         .always(function () {
             },

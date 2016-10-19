@@ -134,7 +134,7 @@ span.spoilerTriangle {
 }
 .closed {
 }
-.GraduatesBlock td > img {
+.graduateAvatar img {
     width: 65px;
     height: 65px;
 }
@@ -167,7 +167,11 @@ span.spoilerTriangle {
     color:#999999;
     text-decoration: none;
 }
-.GraduatesBlock table{width: 100%}
+.graduatesTable{display: table;width: 100%}
+.graduatesTd{display: table-cell}
+.graduateInfo{padding-left: 10px;}
+.graduateAvatar{vertical-align: top;}
+.graduateHeaderMini{display: none}
 @media only screen and (max-width: 800px) {
     .one,.two{  width:99%;
         float:none;
@@ -175,5 +179,21 @@ span.spoilerTriangle {
     }
 }
 @media only screen and (max-width: 360px) {
-
+    .graduatesTable {
+        display:block;
+    }
+    .graduateAvatar{
+        display: table;
+    }
+    .graduateAvatar img, .graduateAvatar .graduateHeaderMini{
+        display: table-cell;
+        vertical-align: top;
+        margin-bottom: 5px;
+    }
+    .graduateAvatar img{
+        margin-right: 5px;
+    }
+    .graduatesTd{padding-left: 0}
+    .graduateName, .graduateDate{display: none}
+    .graduateInfo{display: block}
 }

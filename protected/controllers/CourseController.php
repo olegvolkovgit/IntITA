@@ -119,6 +119,7 @@ class CourseController extends Controller
         if ($model === null)
             throw new \application\components\Exceptions\CourseNotFoundException();
     }
+
     public function actionModulesData()
     {
         //init data json
@@ -209,4 +210,22 @@ class CourseController extends Controller
         }
         echo CJSON::encode($data);
     }
+
+    public function actionGetPaymentSchemas($courseId, $educationFormId=EducationForm::ONLINE) {
+        $course = Course::model()->findByPk($courseId);
+        $educationForm = EducationForm::model()->findByPk($educationFormId);
+        $result=[];
+        $result['schemes']=$course->getPaymentSchemas($educationForm);
+        $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
+        $result['translates']['price']=Yii::t('courses', '0147');
+        $result['translates']['free']=Yii::t('module', '0421');
+        echo json_encode($result);
+    }
+
+    public function actionGetTypeahead($query) {
+        $models = TypeAheadHelper::getTypeahead($query, 'Course', ['title_ua', 'title_ru', 'title_en']);
+        $array = ActiveRecordToJSON::toAssocArray($models);
+        echo json_encode($array);
+    }
+
 }

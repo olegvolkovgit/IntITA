@@ -13,7 +13,7 @@
                 <input type="text" hidden="hidden" value="student" id="role">
                 <div class="col col-md-6">
                     <input type="number" hidden="hidden" id="value" value="0"/>
-                    <input id="typeaheadCourse" type="text" class="form-control" name="course" placeholder="Назва курса"
+                    <input id="typeaheadCourse" type="text" class="form-control" name="course" placeholder="Назва курсу"
                            size="65" required autofocus>
                 </div>
                 <div class="col col-md-2">

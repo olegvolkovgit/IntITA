@@ -361,4 +361,11 @@ class RegisteredUser
 
         return false;
     }
+
+    public function lastLink()
+    {
+        if($this->registrationData->lastLink)
+            return $this->registrationData->lastLink->last_link;
+        else return false;
+    }
 }

@@ -23,7 +23,7 @@
     <li>
         <button type="button" class="btn btn-success" ng-click="changeView('course/schema/<?php echo $model->course_ID ?>')"
                 >
-            Згенерувати схему курса
+            Згенерувати схему курсу
         </button>
     </li>
 </ul>

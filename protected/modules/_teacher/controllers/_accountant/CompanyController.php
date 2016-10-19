@@ -16,7 +16,8 @@ class CompanyController extends TeacherCabinetController
     }
 
     public function actionGetCompaniesList(){
-        echo CorporateEntity::companiesList();
+        $params = $_GET;
+        echo CorporateEntity::companiesList($params);
     }
 
     public function actionRenderAddForm(){

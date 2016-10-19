@@ -90,7 +90,6 @@ class Course extends CActiveRecord implements IBillableObject
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'modules' => array(self::HAS_MANY, 'Modules', 'course'),
             'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
                                                 'order' => 'module.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
@@ -187,28 +186,15 @@ class Course extends CActiveRecord implements IBillableObject
     public function getBasePrice()
     {
         $price = 0;
-        $modules = $this->module;
-
-        foreach ($modules as $module) {
+        foreach ($this->module as $module) {
             $price += $module->moduleInCourse->module_price;
         }
-
         return $price*Config::getCoeffDependentModule();
     }
-
-//    public function getBasePriceUAH(){
-//        return $this->getBasePrice() * Config::getDollarRate();
-//    }
 
     public function getDuration()
     {
         return $this->getApproximatelyDurationInMonths();
-//        $modules = $this->getCourseModulesSchema($this->course_ID);
-//        $tableCells = $this->getTableCells($modules, $this->course_ID);
-//        $courseDurationInMonths = Course::getCourseDuration($tableCells) + 1 + 4;//где 1 месяц екзамена, где 4 месяца стажировки
-//
-//        return $courseDurationInMonths;
-
     }
 
     public function getHoursTermination($num)
@@ -588,6 +574,12 @@ class Course extends CActiveRecord implements IBillableObject
         return count($courses)-$duplicate;
     }
 
+    public static function selectModulesCount()
+    {
+        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE));
+        return count($modules);
+    }
+
     public function modulesCount()
     {
         return count(Yii::app()->db->createCommand("SELECT DISTINCT id_module FROM course_modules WHERE id_course =" . $this->course_ID
@@ -841,7 +833,7 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
     public function paymentMailTheme(){
-        return 'Доступ до курса';
+        return 'Доступ до курсу';
     }
 
     public static function readyCoursesList($query){
@@ -933,11 +925,12 @@ class Course extends CActiveRecord implements IBillableObject
         $result["middle"] = Course::selectCoursesCount(Level::MIDDLE);
         $result["senior"] = Course::selectCoursesCount(Level::SENIOR);
         $result["total"] = Course::selectCoursesCount(null);
+        $result["modules"] = Course::selectModulesCount();
 
         return $result;
     }
 
-    public static function coursesByQueryAndLang($query, $lang){
+    public static function coursesByQueryAndLang($query, $lang, $currentCourseLang){
         $criteria = new CDbCriteria();
         $criteria->alias = 'c';
         $criteria->select = "course_ID, title_ua, title_ru, title_en, language";
@@ -947,7 +940,7 @@ class Course extends CActiveRecord implements IBillableObject
         $criteria->addSearchCondition('course_ID', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('alias', $query, true, "OR", "LIKE");
         $criteria->join = ' left join course_languages cl on cl.lang_'.$lang.'=c.course_ID';
-        $criteria->addCondition('cl.lang_'.$lang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
+        $criteria->addCondition('cl.lang_'.$currentCourseLang.' IS NULL and cancelled=0 and language LIKE "'.$lang.'"');
 
         $data = Course::model()->findAll($criteria);
         $result = array();
@@ -985,5 +978,34 @@ class Course extends CActiveRecord implements IBillableObject
 
     public function getModelUAH(){
         return new CourseUAH($this);
+    }
+
+    /**
+     * @param EducationForm $educationForm
+     * @return array
+     */
+    public function getPaymentSchemas(EducationForm $educationForm) {
+        $paymentSchemas = PaymentScheme::model()->getPaymentScheme(
+            [
+                'user' => Yii::app()->user,
+                'course' => $this
+            ]
+        );
+        
+        $result = [];
+        foreach ($paymentSchemas as $paymentSchema) {
+            $calculator = $paymentSchema->getSchemaCalculator($educationForm);
+            $payment = $calculator->getPaymentProperties();
+            $totalPayment = $calculator->getSumma($this);
+            $paymentsCount = key_exists('paymentsCount', $payment) ? (int) $payment['paymentsCount'] : 1;
+
+            $payment['fullPrice'] = $educationForm->id==EducationForm::ONLINE?sprintf("%01.2f",$this->getBasePrice()):sprintf("%01.2f",$this->getBasePrice()*Config::getCoeffModuleOffline());
+            $payment['price'] = sprintf ("%01.2f",$totalPayment);
+            $payment['approxMonthPayment'] = round($totalPayment / $paymentsCount, 2);
+            $payment['educForm'] = $educationForm->id==EducationForm::ONLINE?'Online':'Offline';
+
+            $result[] = $payment;
+        }
+        return $result;
     }
 }

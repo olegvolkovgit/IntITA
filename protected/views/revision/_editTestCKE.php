@@ -7,7 +7,8 @@
  */
 ?>
 <div ng-init='idPage=<?php echo $pageId; ?>;
-idBlock=<?php echo $idElement; ?>;'>
+idBlock=<?php echo $idElement; ?>;
+quizSaving=true;'>
 </div>
 <div class="editTest" ng-controller="testCtrl">
     <br>

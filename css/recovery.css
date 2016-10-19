@@ -83,6 +83,7 @@ input#signInButtonM:hover {
     margin-bottom: 0;
 }
 .recoveryForm{
+    max-width: 95%;
     width: 540px;
     padding: 40px 0 60px 0;
     margin: 0 auto;
@@ -114,4 +115,16 @@ input#signInButtonM:hover {
 box-shadow:0 0 3px #4b75a4;
 border-color:#4b75a4;
 cursor: text;
+}
+
+@media only screen and (max-width: 800px) {
+    .rowpass {
+        max-width: 444px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .recoveryForm .rowpass input {
+        max-width: 100%;
+        width: 100%;
+    }
 }

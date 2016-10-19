@@ -12,6 +12,7 @@ if (!empty($teacherPlainTasks)) { ?>
                     <table class="table table-striped table-bordered table-hover" id="tasksTable">
                         <thead>
                         <tr>
+                            <th >Модуль(id)</th>
                             <th style="width: 15%">Лекція</th>
                             <th style="width: 20%">Задача</th>
                             <th style="width: 15%">Користувач</th>
@@ -28,6 +29,9 @@ if (!empty($teacherPlainTasks)) { ?>
 
                                 <?php if (!$mark) echo 'class="success"'; ?>
                                 style="cursor: pointer">
+                                <td class="center">
+                                    <?php echo $plainTaskAnswer->plainTask->lectureElement->lecture->module->title_ua.'('.$plainTaskAnswer->plainTask->lectureElement->lecture->module->module_ID.')' ?>
+                                </td>
                                 <td class="center"><?=$plainTaskAnswer->getLectureTitle()?$plainTaskAnswer->getLectureTitle():'Лекція видалена';?></td>
                                 <td class="center"><?php echo strip_tags($plainTaskAnswer->plainTask->getDescription()); ?></td>
                                 <td class="center"><?php echo $plainTaskAnswer->getStudentName(); ?></td>

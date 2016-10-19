@@ -5,19 +5,38 @@ angular
     .module('teacherApp')
     .controller('coursemanageCtrl',coursemanageCtrl);
 
-function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParams, $state ,$templateCache){
+function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams, $state ,$templateCache){
     $scope.formData = {};
     $scope.courseId= null;
     $scope.coursesList =null;
+    /* Sorting params  */
+    $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
+    $scope.cancelled = [{id:'0', title:'доступний'},{id:'1', title:'видалений'}];
+    $scope.languages = [{id:'ua', title:'ua'},{id:'ru', title:'ru'},{id:'en', title:'en'}];
+    $scope.levels = $resource(basePath+'/_teacher/_admin/level/getlevelslist').get()
+        .$promise.then(function(data){
+            var levels = [];
+            data.rows.forEach(function(element){
+                levels.push({
+                    'id': element.id,
+                    'title': element.title_ua
+                })
+            });
+            return levels;
+        });
     /* Init course table  */
-
-    $http.get(basePath+'/_teacher/_admin/coursemanage/getCoursesList').then(function (data) {
-        $scope.coursesList = data.data["data"];
+    var dataFromServer = $resource(basePath+'/_teacher/_admin/coursemanage/getCoursesList');
+    $scope.courseTable = new NgTableParams({
+        sorting:{'course_ID':"asc"}
+    }, {
+        getData: function(params) {
+            return dataFromServer.get(params.url()).$promise.then(function(data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
     });
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json');
-    /* Save course schema  */
+
     $scope.saveSchema = function(idCourse){
         var url = basePath+'/_teacher/_admin/coursemanage/saveschema?idCourse='+idCourse;
         $http({
@@ -30,7 +49,7 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
             bootbox.confirm("Схема курсу збережена.", function () {
             })
         }).error(function(data){
-            showDialog("Схему курса не вдалося зберегти.");
+            showDialog("Схему курсу не вдалося зберегти.");
         });
 
         $scope.changeView('course/edit/'+idCourse);
@@ -38,12 +57,12 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
     /* Change course status  */
     $scope.changeCourse = function(courseId) {
         var url = basePath+'/_teacher/_admin/coursemanage/changeStatus/id/' + courseId + '/';
-        bootbox.confirm("Видалити курс?", function (result) {
+        bootbox.confirm("Змінити статус курсу?", function (result) {
             if (result) {
                 $http.post(url).success(function (data) {
                     bootbox.alert("Операцію успішно виконано.", function () {
                         $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+courseId);
-                        $state.go('admin/coursemanage',{reload:true});
+                        $state.go('course/edit/:id',{'id':courseId},{reload: true});
                     })
                 }).error(function (data) {
                     showDialog("Операцію не вдалося виконати.");
@@ -55,11 +74,12 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
         });
     };
     /* Get modules List   */
-    $scope.getCourses = function(value) {
+    $scope.getCourses = function(value, currentCourseLang) {
         return $http.get(basePath+'/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
             params: {
                 query: value,
-                lang: $stateParams.lang
+                lang: $stateParams.lang,
+                currentCourseLang: currentCourseLang
             }
         }).then(function(response){
             if (response.data.results)
@@ -79,20 +99,19 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
         $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/view?id="+courseId);
     };
 
-    $scope.addLinkedCourse = function(modelId, courseId, language, linkedCourseId) {
-
+    $scope.addLinkedCourse = function(courseId, language, linkedCourseId) {
         $http({
             method: "POST",
             url:  basePath+"/_teacher/_admin/coursemanage/changeLinkedCourses/",
-            data: $jq.param({"course":courseId, "lang":language, "linkedCourse":linkedCourseId, "modelId":modelId }),
+            data: $jq.param({"course":courseId, "lang":language, "linkedCourse":linkedCourseId }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             cache: false
         })
             .success(function(data){
                 bootbox.alert(data, function () {
-
+                    $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.course);
+                    $state.go('course/edit/:id', {id:$stateParams.course},{reload:true});
                 })
-                $window.history.back();
             }).error(function (){
             bootbox.alert("Операцію не вдалося виконати.", function () {
             })
@@ -111,9 +130,9 @@ function coursemanageCtrl ($http, $scope, DTOptionsBuilder, $window, $stateParam
                 })
                     .success(function(data){
                         bootbox.alert(data, function () {
-
+                            $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+$stateParams.id);
+                            $state.reload();
                         })
-                        $window.location = '/';
                     }).error(function (){
                     bootbox.alert("Операцію не вдалося виконати.", function () {
                     })

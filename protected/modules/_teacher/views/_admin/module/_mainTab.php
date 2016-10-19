@@ -22,7 +22,7 @@
                 <td><?=CHtml::encode($model->alias);?></td>
             </tr>
             <tr>
-                <td><div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курса
+                <td><div data-toggle="tooltip" data-placement="top" title="Ціна використовується при розрахунку ціни курсу
                 (якщо не вказана ціна модуля в конкретному курсі - вкладка <У курсах>)
                 і при розрахунку вартості самостійного модуля.">
                         Ціна модуля базова, USD:

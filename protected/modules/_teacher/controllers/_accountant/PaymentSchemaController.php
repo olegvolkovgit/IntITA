@@ -8,6 +8,6 @@ class PaymentSchemaController extends TeacherCabinetController
 
     public function actionGetSchemas()
     {
-        echo json_encode(AccountancyHelper::toAssocArray(PaymentScheme::model()->findAll()));
+        echo json_encode(ActiveRecordToJSON::toAssocArray(PaymentScheme::model()->findAll()));
     }
 }

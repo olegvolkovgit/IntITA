@@ -19,7 +19,7 @@ class LoanPaymentSchema implements IPaymentCalculator{
      }
 
     public function getSumma(IBillableObject $payObject){
-        $basePrice = ($this->educForm->isOnline())?$payObject->getBasePrice():$payObject->getBasePrice() * Config::getCoeffModuleOffline();
+        $basePrice = $payObject->getBasePrice() * $this->educForm->getCoefficient();
         $coeff =  pow((1 + $this->loanValue/100), $this->payCount/12);
         return round($basePrice * $coeff);
     }
@@ -46,5 +46,25 @@ class LoanPaymentSchema implements IPaymentCalculator{
 
     public function yearsCount(){
         return $this->payCount / 12;
+    }
+
+    /**
+     * Returns discount, payments count
+     * @return mixed
+     */
+    public function getPaymentProperties() {
+        return [
+            'paymentsCount' => $this->payCount,
+            'type'=>PaymentScheme::getPaymentType($this->payCount),
+            'ico'=>PaymentScheme::getPaymentIco($this->payCount, false),
+            'icoCheck'=>PaymentScheme::getPaymentIco($this->payCount, true),
+            'translates' => [
+                'title' => Yii::t('course', '0425') . ' ' . $this->yearsCount() . ' ' . CommonHelper::getYearsTermination($this->yearsCount()),
+                'currencySymbol' => Yii::t('courses', '0322'),
+                'payment' => Yii::t('course', '0324'),
+                'month' => Yii::t('payments', '0865')
+            ]
+
+        ];
     }
 }

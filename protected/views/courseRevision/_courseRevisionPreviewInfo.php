@@ -1,4 +1,4 @@
-<label class="showMore" ng-click="isOpenMore = !isOpenMore">Властивості ревізії курса: <span>&#9660;</span></label>
+<label class="showMore" ng-click="isOpenMore = !isOpenMore">Властивості ревізії курсу: <span>&#9660;</span></label>
 <table class="table" style="margin-bottom: 0">
     <tr>
         <td><label>Cтатус:</label></td>
@@ -10,7 +10,7 @@
                      title="Затвердити"/>
                 <img ng-if=courseData.course.canEdit ng-click=editCourseRevisionPage('<?=Yii::app()->createUrl("courseRevision/editCourseRevisionPage", array("idRevision" => $courseRevision->id_course_revision)); ?>')
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'edit_revision.png'); ?>"
-                     title="Редагувати ревізію курса"/>
+                     title="Редагувати ревізію курсу"/>
                 <img ng-if=courseData.course.canSend ng-click=sendCourseRevision('<?php echo $courseRevision->id_course_revision; ?>',false)
                      src="<?php echo StaticFilesHelper::createPath('image', 'editor', 'send_approve.png'); ?>"
                      title="Відправити на затвердження"/>
@@ -47,7 +47,7 @@
 </table>
 <table class="table" ng-show="isOpenMore">
     <tr>
-        <td><label>UID курса ревізії:</label></td>
+        <td><label>UID ревізії курсу:</label></td>
         <td><?=$courseRevision->id_course ?></td>
 
         <td><label>Номер ревізії:</label></td>
@@ -103,10 +103,10 @@
         <td><?=CHtml::encode($courseRevision->properties->what_you_get_en) ?></td>
     </tr>
     <tr>
-        <td><label>Доступність курса:</label></td>
+        <td><label>Доступність курсу:</label></td>
         <td><?=$courseRevision->properties->cancelled?'Скасований':'Доступний' ?></td>
 
-        <td><label>Готовність курса:</label></td>
+        <td><label>Готовність курсу:</label></td>
         <td><?=$courseRevision->properties->status?'Готовий':'В розробці' ?></td>
     </tr>
     <tr>

@@ -15,7 +15,13 @@
         if ($j % 2 == 0) {
             ?>
             <div class='courseBox'>
-                <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
+                <div class="displayMini">
+                    <img class="courseLogo" src='<?php echo StaticFilesHelper::createPath('image', 'course', $val[0]->course_img); ?>'>
+                    <div class='courseNameMini'><a
+                            href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val[0]->course_ID)); ?>"><?php
+                            echo $val[0]->getTitle(); ?></a>
+                    </div>
+                </div>
                 <div class="courseInfo">
                     <div class='courseName'><a
                             href="<?php echo Yii::app()->createUrl('course/index', array('id' => $val[0]->course_ID)); ?>"><?php
@@ -95,7 +101,7 @@
                             <span id="coursePriceStatus1"><?= round($val[0]->getBasePrice()) .Yii::t('courses', '0322');?></span>
                             &nbsp<span id="coursePriceStatus2"><?=$price.
                                 Yii::t('courses', '0322');?></span>
-                            <span id="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
+                            <span class="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
                             <?php
                         }
                         ?>

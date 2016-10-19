@@ -12,7 +12,7 @@ angular
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені списку актуальних модулів курса. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Виникла помилка при завантажені списку актуальних модулів курсу. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
@@ -27,7 +27,7 @@ angular
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені списку ревізій модулів курса. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Виникла помилка при завантажені списку ревізій модулів курсу. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;
@@ -103,7 +103,7 @@ angular
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    bootbox.alert("Виникла помилка при завантажені списку ревізій курса. Зв'яжіться з адміністрацією");
+                    bootbox.alert("Виникла помилка при завантажені списку ревізій курсу. Зв'яжіться з адміністрацією");
                     return false;
                 });
                 return promise;

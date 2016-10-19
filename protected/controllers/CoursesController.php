@@ -26,14 +26,36 @@ class CoursesController extends Controller
      */
     public function actionIndex($selector = 'all')
     {
-        $blocks = Course::getCoursesByLang($selector);
-
         $counters = Course::countersBySelectors();
-        $totalBlocks = count($blocks);
 
-        $this->render('index', array(
-            'blocks' => $blocks,
-            'counters' => $counters,
-        ));
+        if($selector=='modules'){
+            $dataProvider = new CActiveDataProvider('Module', array(
+                'sort' => array(
+                    'defaultOrder' => 'module_ID DESC',
+                ),
+                'pagination' => array(
+                    'pageSize' => 50,
+                ),
+            ));
+            if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')
+                $lang = 'uk';
+            else $lang = Yii::app()->session['lg'];
+
+            $this->render('index', array(
+                'dataProvider' => $dataProvider,
+                'lang'=>$lang,
+                'selector'=>$selector,
+                'counters' => $counters,
+            ));
+        }else{
+            $blocks = Course::getCoursesByLang($selector);
+
+            $this->render('index', array(
+                'selector'=>$selector,
+                'blocks' => $blocks,
+                'counters' => $counters,
+            ));
+        }
     }
+
 }

@@ -74,11 +74,11 @@ class Agreements {
 
     public function getUserAgreement($agreementId) {
         $agreement = UserAgreements::model()->with('user', 'approvalUser', 'cancelUser', 'paymentSchema')->findByPk($agreementId);
-        return AccountancyHelper::toAssocArray($agreement, $this->agreementRelationMapping);
+        return ActiveRecordToJSON::toAssocArray($agreement, $this->agreementRelationMapping);
     }
 
     public function getTypeahead($agreementNumber) {
-        $models = AccountancyHelper::getTypeahead($agreementNumber, 'UserAgreements', ['number']);
-        return AccountancyHelper::toAssocArray($models, $this->agreementRelationMapping);
+        $models = TypeAheadHelper::getTypeahead($agreementNumber, 'UserAgreements', ['number']);
+        return ActiveRecordToJSON::toAssocArray($models, $this->agreementRelationMapping);
     }
 }

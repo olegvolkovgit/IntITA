@@ -2,15 +2,12 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="representativesTable"
-                       style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>Повне ім'я</th>
+                <table ng-table="representativesTable" class="table table-striped table-bordered table-hover" width="100%" style="cursor:pointer">
+                    <tr ng-repeat="row in $data">
+                        <td data-title="'Повне ім\'я'">
+                            <a ng-href="#/accountant/viewRepresentative/{{row.id}}">{{row.full_name}}</a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
                 </table>
             </div>
         </div>

@@ -8,8 +8,8 @@ $this->breadcrumbs = array(
     'Модуль' => Yii::app()->createUrl("module/index", array("idModule" => $page->revision->id_module)),
     'Ревізії занять модуля' => Yii::app()->createUrl('/revision/ModuleLecturesRevisions', array('idModule'=>$page->revision->id_module)),
     'Ревізії заняття' => Yii::app()->createUrl('/revision/revisionsBranch', array('idRevision'=>$page->id_revision)),
-    'Ревізія заняття даної сторінки' => Yii::app()->createUrl('/revision/EditLectureRevision', array('idRevision'=>$page->id_revision)),
-    'Ревізія сторінки заняття',
+    'Ревізія даного заняття' => Yii::app()->createUrl('/revision/EditLectureRevision', array('idRevision'=>$page->id_revision)),
+    'Редагування ревізії',
 );
 ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
@@ -154,7 +154,7 @@ $this->breadcrumbs = array(
                 <div id="blockList">
                     <?php $this->renderPartial('/revision/_blocks_list_CKE', array('dataProvider' => $dataProvider, 'editMode' => 1, 'user' => $user)); ?>
                 </div>
-                <div ng-cloak id="addBlock">
+                <div ng-cloak id="addBlock" style="display: none;">
                     <div ng-class="{lessonInstr: instructionStyle,  lessonBG: instructionStyle}">
                         <div ng-show="instructionStyle" class="instrTaskImg" >
                             <img src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'instr.png'); ?>">
@@ -198,10 +198,10 @@ $this->breadcrumbs = array(
                 }
             } else { ?>
             <div id="buttonsPanel">
-                <button class="btn btn-default" onclick="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
-                <button class="btn btn-default" onclick="showAddPlainTaskFormCKE('6')"><?php echo Yii::t('lecture', '0698'); ?></button>
-                <button class="btn btn-default" onclick="showAddTaskFormCKE('5')"><?php echo Yii::t('lecture', '0699'); ?></button>
-                <button class="btn btn-default" onclick="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
+                <button class="btn btn-default" ng-click="showAddTestFormCKE('12')"><?php echo Yii::t('lecture', '0697'); ?></button>
+                <button class="btn btn-default" ng-click="showAddPlainTaskFormCKE('6')"><?php echo Yii::t('lecture', '0698'); ?></button>
+                <button class="btn btn-default" ng-click="showAddTaskFormCKE('5')"><?php echo Yii::t('lecture', '0699'); ?></button>
+                <button class="btn btn-default" ng-click="showAddSkipTaskFormCKE()"><?=Yii::t('editor', '0789');?></button>
             </div>
                 <?php
             }

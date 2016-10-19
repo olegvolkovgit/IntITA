@@ -136,7 +136,7 @@ class RevisionTask extends RevisionQuiz
         return $newTask;
     }
 
-    public function cloneTest($idLectureElement, $newModule) {
+    public function cloneTest($idLectureElement, $newModule, $newBranch) {
         $newTask = new RevisionTask();
         $newTask->id_lecture_element = $idLectureElement;
         $newTask->setAttributes($this->getAttributes(['assignment', 'language', 'table', 'id_test', 'id_test']));
@@ -144,9 +144,13 @@ class RevisionTask extends RevisionQuiz
 		if($newModule){
 			$newTask->uid = RevisionQuizFactory::getQuizId($newModule);
 			$this->cloneInterpreterJson($this->uid,$newTask->uid);
-		}else{
+		}else if($newBranch) {
+			$newTask->uid = RevisionQuizFactory::cloneQuizUID($this->uid);
+			$this->cloneInterpreterJson($this->uid,$newTask->uid);
+		} else {
 			$newTask->uid = $this->uid;
 		}
+	
         $newTask->saveCheck();
         return $newTask;
     }

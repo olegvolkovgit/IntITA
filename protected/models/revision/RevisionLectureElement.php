@@ -176,7 +176,7 @@ class RevisionLectureElement extends CActiveRecord
      * @return RevisionLectureElement
      * @throws RevisionLectureElementException
      */
-    public function cloneLectureElement($idNewPage, $newModule=null) {
+    public function cloneLectureElement($idNewPage, $newModule=null, $newBranch = false) {
         if ($idNewPage == null) {
             $idNewPage = $this->id_page;
         }
@@ -190,7 +190,7 @@ class RevisionLectureElement extends CActiveRecord
         $clone->saveCheck();
 
         if ($this->isQuiz()) {
-            RevisionQuizFactory::cloneQuiz($this, $clone, $newModule);
+            RevisionQuizFactory::cloneQuiz($this, $clone, $newModule, $newBranch);
         }
 
         return $clone;

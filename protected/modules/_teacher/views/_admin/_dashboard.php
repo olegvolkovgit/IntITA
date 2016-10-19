@@ -40,8 +40,6 @@
                             Курси</a></li>
                     <li><a href="#/modulemanage">
                             Модулі</a></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('revision/index'); ?>">
-                            Всі ревізії занять</a></li>
                 </ul>
             </div>
             <div class="panel-footer">

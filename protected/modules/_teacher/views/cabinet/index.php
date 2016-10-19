@@ -111,6 +111,10 @@
 -->
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/requestsList.js'); ?>"></script>
+
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/paymentsScheme.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/paymentsService.js'); ?>"></script>
+
 <script>
     window.onload = function()
     {
@@ -118,7 +122,7 @@
             case 'payCourse':
                 window.history.pushState(null, null, basePath + "/cabinet/#");
                 load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
-                    array('course' => $course));?>', 'Оплата курса');
+                    array('course' => $course));?>', 'Оплата курсу');
                 break;
             case 'payModule':
                 window.history.pushState(null, null, basePath + "/cabinet/#");

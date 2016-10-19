@@ -8,7 +8,7 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
             <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
                  style="height:24px"/>
             <strong><?= $message->message0->sender0->userName(); ?></strong>
-            <em><?= CHtml::encode($message->subject) . "..."; ?></em>
+            <em><?= CHtml::encode($message->subject()) . "..."; ?></em>
         </a>
         <div class="pull-right">
             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>
@@ -58,7 +58,11 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
     <div id="collapse<?= $message->id_message ?>" class="panel-collapse collapse in">
         <div class="panel-body">
             <p>
-                <?=CHtml::encode($message->text);?>
+                <?php if ($message->type() == MessagesType::USER) {?>
+                <?=CHtml::encode($message->text());?>
+                <?php }else {?>
+                    <?=$message->text();?>
+                <?php }?>
                 <br>
                 <?php
                 $forwarded = $message->message0->forwarded();

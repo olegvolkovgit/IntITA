@@ -191,6 +191,7 @@ class StudentReg extends CActiveRecord
             'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'on' => 'payModules.rights = 1'),
             'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'on' => 'payCourses.rights = 1'),
             'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
+            'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
         );
     }
 
@@ -1324,4 +1325,6 @@ class StudentReg extends CActiveRecord
 
         return json_encode($data);
     }
+
+
 }

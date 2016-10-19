@@ -125,7 +125,7 @@ angular
                         $scope.updateInvoiceData({'extraParams[id]': $model.id});
                         $scope.updateAgreementData({'extraParams[id]': $model.agreement_id.agreement_id})
                             .then(function () {
-                                $scope.operation.userId = $scope.agreementsList[0].user_id.user_id;
+                                $scope.operation.userId = $scope.agreementsList[0].user_id;
                                 $scope.updateUserData({id: $scope.operation.userId})
                             });
                     }
@@ -345,15 +345,119 @@ angular
             };
         }])
 
-    .controller('companyCtrl', function ($scope) {
-        initCompanies();
+    .controller('companiesCtrl', function ($scope, $http, $state, NgTableParams, $resource) {
+        $scope.changePageHeader('Компанії');
+        $scope.companiesTable = new NgTableParams({
+            sorting: {},
+        }, {
+            getData: function (params) {
+                return $resource(basePath + '/_teacher/_accountant/company/getCompaniesList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+    })
+    .controller('oneCompanyCtrl', function ($scope, $http, $state, NgTableParams, $resource) {
+        $scope.changePageHeader('Компанія');
+
+        $scope.addCompany=function(url) {
+            $http({
+                url: url,
+                method: "POST",
+                data: $jq.param({
+                    title: $jq('[name="title"]').val(),
+                    EDPNOU: $jq('[name="edpnou"]').val(),
+                    certificate_of_vat: $jq('[name="certificate_of_vat"]').val(),
+                    edpnou_issue_date: $jq('#edpnou_issue_date').val(),
+                    certificate_of_vat_issue_date: $jq('#certificate_of_vat_issue_date').val(),
+                    tax_certificate: $jq('[name="tax_certificate"]').val(),
+                    tax_certificate_issue_date: $jq('#tax_certificate_issue_date').val(),
+                    legal_address: $jq('[name="legal_address"]').val(),
+                    legal_address_city_code: $jq('#cityLegal').val(),
+                    legal_address_city_value: $jq('[name="cityLegal"]').val(),
+                    actual_address: $jq('[name="actual_address"]').val(),
+                    actual_address_city_code: $jq('#cityActual').val(),
+                    actual_address_city_value: $jq('[name="cityActual"]').val()
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function(){
+                    if(response.data != "Неправильні дані.")
+                        $state.go("accountant/company", {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
+    })
+    .controller('representativesCtrl', function ($scope, NgTableParams, $resource) {
+        $scope.changePageHeader('Представники');
+        $scope.companyRepresentativesTable = new NgTableParams({
+            sorting: {},
+        }, {
+            getData: function (params) {
+                return $resource(basePath + '/_teacher/_accountant/representative/getCompanyRepresentativesList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    // return data.rows;
+                    return data.data;
+                });
+            }
+        });
+
+        $scope.representativesTable = new NgTableParams({
+            sorting: {},
+        }, {
+            getData: function (params) {
+                return $resource(basePath + '/_teacher/_accountant/representative/getRepresentativesList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
     })
 
-    .controller('representativeCtrl', function ($scope) {
-        initCompanyRepresentatives();
-        initRepresentatives();
-    })
+    .controller('oneRepresentativeCtrl', function ($scope, $http, $state) {
+        $scope.changePageHeader('Представник');
+        
+        $scope.$watch('newRepresentative', function() {
+            if ($scope.newRepresentative)
+                $jq('#typeaheadRepresentative').css('background-color', '#eee');
+            else $jq('#typeaheadRepresentative').css('background-color', 'inherit');
+        });
 
+        $scope.addRepresentative=function(url) {
+            var error=false;
+            if ($jq('#representative').val() == 0 && !($jq('[name="full_name"]').val())) {
+                bootbox.alert('Виберіть існуючого представника зі списку або додайте нового.');
+                error=true;
+            } if($jq('#companyId').val()==0){
+                bootbox.alert('Виберіть існуючу компанію зі списку або створіть нову');
+                error=true;
+            }
+            if(!error) {
+                $http({
+                    url: url,
+                    method: "POST",
+                    data: $jq.param({
+                        representative: $jq('#representative').val(),
+                        fullName: $jq('[name="full_name"]').val(),
+                        position: $jq('[name="position"]').val(),
+                        company: $jq('#companyId').val(),
+                        order: $jq('[name="order"]').val(),
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    bootbox.alert(response.data, function () {
+                        $state.go("accountant/representative", {}, {reload: true});
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                });
+            }
+        }
+    })
+    
     .controller('operationTypeCtrl', function ($scope) {
         $jq('#operationTypes').DataTable({
                 language: {
@@ -381,4 +485,63 @@ angular
                 }
             }
         );
-    });
+    })
+
+    .controller('paymentsSchemaCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.schemeType = $stateParams.schemeType;
+    }])
+    .controller('addPaymentsSchemaCtrl',
+        [
+            '$scope',
+            '$stateParams',
+            'userService',
+            'courseService',
+            'moduleService',
+            function ($scope, $stateParams, user, course, module) {
+                $scope.schemeType = $stateParams.schemeType;
+                if (['module', 'user', 'course'].indexOf($scope.schemeType) === -1) {
+                    $scope.schemeType = 'default'
+                }
+
+
+                $scope.user = {
+                    isSelect : $scope.schemeType === 'user',
+                    typeahead: function getUserTypeahead(value) {
+                        return user.typeahead({query: value}).$promise
+                    },
+                    label: function (user) {
+                        return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
+                    },
+                    onSelect: function onSelectUser($item, $model, $label, $event) {
+                    }
+                };
+
+                $scope.course = {
+                    isSelect : $scope.schemeType === 'user' || $scope.schemeType === 'course',
+                    typeahead: function getCourseTypeahead(value) {
+                        return course.typeahead({query: value}).$promise
+                    },
+                    label: function (course) {
+                        return course ? ((course.title_ua || '' ) + ', ' + (course.language || '')) : '';
+                    },
+                    onSelect: function onSelectUser($item, $model, $label, $event) {
+                    }
+                };
+
+                $scope.module = {
+                    isSelect : $scope.schemeType === 'user' || $scope.schemeType === 'module',
+                    typeahead: function getModuleTypeahead(value) {
+                        return module.typeahead({query: value}).$promise
+                    },
+                    label: function (module) {
+                        return module ? ((module.title_ua || '' ) + ', ' + (module.language || '')) : '';
+                    },
+                    onSelect: function onSelectUser($item, $model, $label, $event) {
+                    }
+                };
+
+                
+
+            }
+        ]
+    );

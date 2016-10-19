@@ -12,7 +12,7 @@
         </a>
     <br>
         <a href="<?php echo Yii::app()->createUrl('/_admin/coursemanage/schema', array('idCourse' => $model->course_ID)); ?>">
-            Згенерувати схему курса
+            Згенерувати схему курсу
         </a>
     <div class="page-header">
         <h1>Оновити курс <?php echo $model->title_ua . " (" . $model->language . ")"; ?></h1>

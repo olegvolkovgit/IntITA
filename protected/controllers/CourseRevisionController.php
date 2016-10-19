@@ -17,7 +17,7 @@ class CourseRevisionController extends Controller {
 
     public function actionIndex() {
         if (!Yii::app()->user->model->canApprove()) {
-            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій курса');
+            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій курсу');
         }
 
         $this->render('index',array(
@@ -28,7 +28,7 @@ class CourseRevisionController extends Controller {
 
     public function actionCourseRevisions($idCourse) {
         if (!Yii::app()->user->model->canApprove()) {
-            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курса');
+            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для перегляду ревізій модулів курсу');
         }
         $course = Course::model()->findByPk($idCourse);
         $courseRevision = RevisionCourse::model()->exists('id_course='.$idCourse);
@@ -45,7 +45,7 @@ class CourseRevisionController extends Controller {
         $idCourse = Yii::app()->request->getPost('id_course_revision');
         $courseRevision = RevisionCourse::model()->findByAttributes(['id_course_revision' => $idCourse]);
         if ($courseRevision->properties->id_user_created!=Yii::app()->user->getId()) {
-            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для редагування ревізії курса');
+            throw new RevisionControllerException(403, 'Доступ заборонено. У тебе недостатньо прав для редагування ревізії курсу');
         }
         $courseRevision->editModulesList($courseModules, Yii::app()->user);
     }

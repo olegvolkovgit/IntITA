@@ -1,0 +1,32 @@
+<input type="radio" ng-if="scheme.educForm=='Online'" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOnline',scheme.educForm)" name="payment" ng-model="selectedSchemeOnline.scheme" ng-value="scheme.type">
+<input type="radio" ng-if="scheme.educForm=='Offline'" class="paymentPlan_value" ng-click="setSchema($event,'numbersFirstOffline',scheme.educForm)" name="payment" ng-model="selectedSchemeOffline.scheme" ng-value="scheme.type">
+<span>
+    <table ng-if="scheme.fullPrice!=0" class="mainPay">
+        <tr>
+            <td class="icoPay">
+                <img class="icoNoCheck" ng-src="{{scheme.ico}}">
+                <img class="icoCheck" ng-src="{{scheme.icoCheck}}">
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                             <div>
+                                 {{scheme.translates.title}}
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="numbers">
+                                <span>
+                                    {{scheme.translates.currencySymbol}}{{scheme.approxMonthPayment}} / {{scheme.translates.month}}  х {{scheme.paymentsCount}} {{scheme.translate.payment}}
+                                </span>&asymp; <b>{{scheme.price}}{{scheme.translates.currencySymbol}}</b>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</span>

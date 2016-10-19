@@ -63,10 +63,6 @@ class TeacherCabinetController extends CController
 
     public function pathToCabinet()
     {
-//      -----Deprecated after QA --------------
-//        $this->pathToCabinet = Yii::app()->createUrl('/_teacher/cabinet/index', array('id' => Yii::app()->user->id));
-//        return $this->pathToCabinet;
-//
         return Yii::app()->createUrl('/_teacher/cabinet/index');
     }
 
@@ -75,6 +71,10 @@ class TeacherCabinetController extends CController
         return array(
             array('allow',
                 'expression'=>array($this, 'hasRole'),
+            ),
+            array('allow',
+                'actions'=>array('PayCourse', 'PayModule'),
+                'users'=>array('*'),
             ),
             array('deny',
                 'message'=>"У вас недостатньо прав для перегляду та редагування сторінки.",

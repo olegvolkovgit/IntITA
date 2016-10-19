@@ -128,24 +128,9 @@ class CorporateEntity extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function companiesList(){
-        $courses = CorporateEntity::model()->findAll();
-        $return = array('data' => array());
-
-        foreach ($courses as $record) {
-            $row = array();
-
-            $row["title"]["name"] = CHtml::encode($record->title);
-            $row["title"]["url"] = $row["edrnou"]["url"] = Yii::app()->createUrl('/_teacher/_accountant/company/viewCompany',
-                array('id' => $record->id));
-            $row["edrnou"]["title"] = $record->EDPNOU;
-            $row["legal_address"] = $record->legal_address;
-            $row["actual_address"] = $record->actual_address;
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
+    public static function companiesList($params){
+		$adapter = new NgTableAdapter('CorporateEntity',$params);
+		return  json_encode($adapter->getData());
     }
 
     public static function companiesByQuery($query){

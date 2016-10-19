@@ -126,6 +126,17 @@ function allRevisionsCtrl($rootScope, $scope, revisionsTree,revisionsActions) {
                 var idRevision = $(event.data.el).attr('id');
                 $scope.sendRevisionMessage(idRevision);
             }
+        },
+        {
+            "type": "button",
+            "title": "Клонувати ревізію в нову гілку",
+            "actionType": "create",
+            "visible": true,
+            "userId":userId,
+            "action": function(event) {
+                var idRevision = $(event.data.el).attr('id');
+                $scope.cloneRev(idRevision);
+            }
         }
     ];
     var generalActions=[

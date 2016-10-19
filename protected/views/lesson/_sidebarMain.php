@@ -11,6 +11,7 @@ $lecturesCount = $lecture->module->lecturesCount();
                 <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $idCourse)) ?>">
                     <?php echo $course->getTitle(); ?>
                 </a> (<?php echo Yii::t('lecture', '0071') . strtoupper($course->language); ?>)
+                <?php $this->renderPartial('_editLecture', array('lecture' => $lecture, 'editMode' => $editMode)); ?>
             </li>
             <li>
                 <?php echo Yii::t('lecture', '0072'); ?>

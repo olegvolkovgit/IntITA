@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * @param CActiveRecord  $model
+ * @param array $mapRelated
+ * @return array
+ */
 function attributesToAssoc($model, $mapRelated) {
     $mapped = $model->getAttributes();
     if ($mapRelated) {
@@ -12,15 +16,13 @@ function attributesToAssoc($model, $mapRelated) {
     }
     foreach ($model->relations() as $relation=>$relationProperties) {
         if ($model->hasRelated($relation)) {
-            $mapped[$relation] = AccountancyHelper::toAssocArray($model->$relation);
+            $mapped[$relation] = ActiveRecordToJSON::toAssocArray($model->$relation);
         }
     }
     return array_filter($mapped);
-
 }
 
-class AccountancyHelper {
-
+class ActiveRecordToJSON {
 
     public static function toAssocArray($dataArray, $mapRelated = null) {
         $result = [];
@@ -33,17 +35,4 @@ class AccountancyHelper {
         }
         return $result;
     }
-
-    public static function getTypeahead($value, $className, $fields, $limit=10) {
-        if (class_exists($className) && is_subclass_of($className, 'CActiveRecord')) {
-            $criteria = new CDbCriteria(['limit' => $limit]);
-            foreach ($fields as $field) {
-                $criteria->addSearchCondition($field, $value, true, 'OR');
-            }
-            $models = $className::model()->findAll($criteria);
-            return $models;
-        }
-        return [];
-    }
-    
 }

@@ -453,6 +453,9 @@ td.button-column{
     text-decoration: none;
 }
 .paymentsButtons{overflow: hidden;min-height: 40px;}
+.moduleInfoTable{display: table}
+.moduleInfoTd{display: table-cell;}
+.moduleParam{padding-left: 15px; border-left: 1px solid #cccccc;}
 @media only screen and (max-width: 800px) {
     .leftModule,.rightModule{width: 100%;float: none;margin: 0 auto}
     .teacherBox table {width: 100%}
@@ -474,5 +477,14 @@ td.button-column{
     }
 }
 @media only screen and (max-width: 360px) {
-
+    .moduleInfoTable{display: block}
+    .moduleInfoTd{display: block}
+    .moduleLogo{text-align: center}
+    #avatarInfo {
+        width: 100%;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+    .moduleParam{border-left:none;padding: 0}
+    .moduleTitle h1{margin-bottom: 2px}
 }

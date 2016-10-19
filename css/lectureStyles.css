@@ -51,6 +51,7 @@ div.subLinks{
     font-weight: normal;
     display: inline-block;
     width: 100%;
+    padding-left: 40px;
 }
 h1.lessonPart p{
     color: #4b75a4;
@@ -1155,6 +1156,7 @@ div.lastAccessPage {
     font-size: 22px;
     color: #4b75a4;
     margin: 0;
+    padding-left: 40px;
 }
 h4.labelBlock a{
     white-space: normal;
@@ -1639,6 +1641,11 @@ a.cke_dialog_ui_fileButton{
     width: 100%;
     height: 100%;
 }
+#MyTab-Menu{padding-left: 0;padding-right: 0}
+.editLecture{display: inline-block; float: right; margin-top: 10px}
+#titlesBlock .editLecture{
+    display:none;
+}
 @media only screen and (max-width: 800px) {
     #sidebarLesson,.lessonTheme{
         display: none;
@@ -1704,6 +1711,23 @@ a.cke_dialog_ui_fileButton{
         font-size: 14px;
         margin-left: 5px;
     }
+    span.spoilerClick {
+        font-weight:normal;
+    }
+    .editButton {
+        width: 22px;
+    }
+    .editLecture {
+        margin-top:0;
+    }
+    .editLecture{display:none}
+    #titlesBlock .editLecture{
+        display: inline-block;
+    }
+    #labelBlock p, #tooltip p {
+         padding-left:0;
+     }
+
 }
 @media only screen and (max-width: 360px) {
     .lectureHeaderMini{overflow:hidden}

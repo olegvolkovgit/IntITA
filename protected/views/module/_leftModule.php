@@ -20,7 +20,7 @@ if (!Yii::app()->user->isGuest) {
             $this->renderPartial('_moduleInfo', array('post' => $post,'price'=>$price));
         }
         ?>
-        <div class="paymentsButtons">
+        <div class="paymentsButtons" ng-controller="moduleCtrl">
             <div class="startModule">
                 <?php
                 if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
@@ -29,13 +29,10 @@ if (!Yii::app()->user->isGuest) {
                     if ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
                         if ($post->getBasePrice() > 0) {
                             ?>
-                            <a id="paymentButtonModule" onclick="redirectToProfile()"
-                               href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                                   'scenario' => 'payModule',
-                                   'receiver' => 0,
-                                   'course' => 0,
-                                   'module' => $post->module_ID,
-                               )); ?>"><?php echo Yii::t('module', '0279'); ?></a>
+                            <a id="paymentButtonModule"
+                               ng-click="redirectToCabinet('payModule',<?php echo $post->module_ID ?>)">
+                                <?php echo Yii::t('module', '0279'); ?>
+                            </a>
                         <?php } else { ?>
                             <a id="paymentButtonModule" onclick="signFreeModule(
                                 '<?= Yii::app()->createUrl("module/addAccessFreeModule") ?>',
@@ -54,13 +51,10 @@ if (!Yii::app()->user->isGuest) {
                         echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButtonCourse", 'onclick' => 'openSignIn();'));
                     } else if (!$isPaidCourse) {
                         ?>
-                        <a id="paymentButtonCourse" onclick="redirectToProfile()"
-                           href="<?php echo Yii::app()->createUrl('/_teacher/cabinet/index', array(
-                               'scenario' => 'payCourse',
-                               'receiver' => 0,
-                               'course' => $_GET['idCourse'],
-                               'module' => $post->module_ID,
-                           )); ?>"><?php echo Yii::t('course', '0328'); ?></a>
+                        <a id="paymentButtonCourse"
+                           ng-click="redirectToCabinet('payCourse',<?php echo $_GET['idCourse'] ?>)">
+                            <?php echo Yii::t('course', '0328'); ?>
+                        </a>
                         <?php
                     }
                     ?>

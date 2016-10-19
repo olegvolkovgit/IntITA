@@ -223,7 +223,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * @return RevisionLecture
      * @throws Exception
      */
-    public function cloneLecture($user, $newModule = false) {
+    public function cloneLecture($user, $newModule = false, $newBranch = false) {
         $connection = Yii::app()->db;
         $transaction = null;
 
@@ -232,8 +232,8 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
         }
         try {
             $newRevision = new RevisionLecture();
-            $newRevision->id_parent = !$newModule ? $this->id_revision : null;
-            $newRevision->id_lecture = !$newModule ? $this->id_lecture : null;
+            $newRevision->id_parent = (!$newModule && !$newBranch) ? $this->id_revision : null;
+            $newRevision->id_lecture = (!$newModule && !$newBranch) ? $this->id_lecture : null;
             $newRevision->id_module = !$newModule ? $this->id_module: $newModule;
 
             $newProperties = $this->properties->cloneProperties($user, $newModule);
@@ -242,7 +242,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
             $newRevision->saveCheck();
 
             foreach ($this->lecturePages as $page) {
-                $page->clonePage($newRevision->id_revision, $newModule);
+                $page->clonePage($newRevision->id_revision, $newModule, $newBranch);
             }
             if ($transaction != null) {
                 $transaction->commit();
@@ -511,7 +511,7 @@ class RevisionLecture extends CRevisionUnitActiveRecord {
      * @return array
      */
     public static function getEditableProperties() {
-        return ['title_ua', 'title_ru', 'title_en'];
+        return ['title_ua', 'title_ru', 'title_en','id_type'];
     }
 
     /**
