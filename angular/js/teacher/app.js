@@ -9,6 +9,7 @@ angular
         'directive.loading',
         'ngResource',
         'ngTable',
+        'ngToast',
         'angular-loading-bar',
         'freeLecturesRouter',
         'messagesRouter',

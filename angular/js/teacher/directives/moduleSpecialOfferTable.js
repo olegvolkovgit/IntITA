@@ -2,16 +2,16 @@
 
 angular
     .module('teacherApp')
-    .directive('moduleSpecialOfferTable', ['moduleSpecialOfferService', 'NgTableParams', moduleSpecialOfferTable]);
+    .directive('moduleSpecialOfferTable', ['paymentSchemaService', 'NgTableParams', moduleSpecialOfferTable]);
 
-function moduleSpecialOfferTable(moduleSpecialOffer, NgTableParams) {
+function moduleSpecialOfferTable(paymentSchema, NgTableParams) {
 
     function link($scope, element, attrs) {
 
         $scope.moduleSpecialOfferTable = new NgTableParams({}, {
             getData: function (params) {
-                return moduleSpecialOffer 
-                    .list(params.url())
+                return paymentSchema
+                    .moduleList(params.url())
                     .$promise
                     .then(function (data) {
                         params.total(data.count);
