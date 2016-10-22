@@ -186,6 +186,11 @@ class RegisteredUser
         return $this->hasRole(UserRoles::AUTHOR);
     }
 
+    public function isSuperVisor()
+    {
+        return $this->hasRole(UserRoles::SUPER_VISOR);
+    }
+    
     public function canApprove()
     {
         return $this->isContentManager();

@@ -6,7 +6,12 @@ angular
     .module('teacherApp')
     .factory('paymentSchemaService', ['$resource', 'transformRequest',
         function ($resource, transformRequest) {
-            var url = basePath + '/_teacher/_accountant/paymentSchema';
+            var url = basePath + '/_teacher/_accountant/paymentSchema',
+                urlCourse = basePath + '/_teacher/_accountant/specialOffer',
+                urlModule = basePath + '/_teacher/_accountant/specialOffer',
+                urlUser = basePath + '/_teacher/_accountant/specialOffer',
+                urlDefault = basePath + '/_teacher/_accountant/specialOffer';
+
             return $resource(
                 '',
                 {},
@@ -14,7 +19,26 @@ angular
                     query: {
                         url: url + '/getSchemas',
                         method: 'GET',
-                        isArray : true
+                        isArray: true
+                    },
+                    courseList: {
+                        url: urlCourse + '/getCourseOffersNgTable'
+                    },
+                    moduleList: {
+                        url: urlModule + '/getModuleOffersNgTable'
+                    },
+                    userList: {
+                        url: urlUser + '/getUserOffersNgTable'
+                    },
+                    defaultList : {
+                        url: urlDefault + '/getPaymentSchemasNgTable'
+                    },
+                    create : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/createSchema',
+                        transformRequest : transformRequest.bind(null)
                     }
                 });
-        }]);
+        }])
+;

@@ -142,6 +142,7 @@ class CabinetController extends TeacherCabinetController
                 case 'teacher_consultant':
                 case 'admin':
                 case 'accountant':
+                case 'super_visor':
                     $this->renderDashboard($role, $user);
                     break;
                 default:

@@ -123,7 +123,6 @@ class CourseSpecialOffer extends ASpecialOffer {
             $criteria->addCondition("courseId=" . $params['courseId']);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
             $criteria->order = 'startDate DESC';
-            $criteria->limit = 1;
         }
         return $criteria;
     }

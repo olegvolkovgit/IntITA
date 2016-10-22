@@ -9,6 +9,7 @@ angular
         'directive.loading',
         'ngResource',
         'ngTable',
+        'ngToast',
         'angular-loading-bar',
         'freeLecturesRouter',
         'messagesRouter',
@@ -28,7 +29,8 @@ angular
         'responseRouter',
         'interfaceMessagesRouter',
         'siteConfigRouter',
-        'requestsRouter'
+        'requestsRouter',
+        'superVisorRouter'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

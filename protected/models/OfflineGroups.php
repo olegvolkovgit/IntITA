@@ -1,32 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "user_super_visor".
+ * This is the model class for table "offline_groups".
  *
- * The followings are the available columns in table 'user_super_visor':
- * @property integer $id_user
+ * The followings are the available columns in table 'offline_groups:
+ * @property integer $id
+ * @property string $name
  * @property string $start_date
- * @property string $end_date
- * @property integer $assigned_by
- * @property integer $cancelled_by
+ * @property string $specialization
+ * @property integer $city
  *
- * The followings are the available model relations:
- * @property StudentReg $user
  */
-class UserSuperVisor extends CActiveRecord
+class OfflineGroups extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'user_super_visor';
+		return 'offline_groups';
 	}
-
-    public function getRoleName()
-    {
-        return 'Supervisor';
-    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -36,11 +29,10 @@ class UserSuperVisor extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('start_date, assigned_by', 'required'),
-			array('end_date', 'safe'),
+			array('name, start_date, specialization, city', 'required'),
+			array('name', 'length', 'max'=>128),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id_user, start_date, end_date,assigned_by,cancelled_by', 'safe', 'on'=>'search'),
+			array('id, name, start_date, specialization, city', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,24 +44,22 @@ class UserSuperVisor extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
-            'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
-            'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+			'specializationName' => array(self::HAS_ONE, 'SpecializationsGroup', ['id'=>'specialization']),
+			'cityName' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
 		);
 	}
-	public function primaryKey()
-	{
-		return array('id_user', 'start_date');
-	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
 	{
 		return array(
-			'id_user' => 'Id User',
-			'start_date' => 'Start Date',
-			'end_date' => 'End Date',
+			'id' => 'ID',
+			'name' => 'Назва',
+			'start_date' => 'Дата створення',
+			'specialization' => 'Спеціалізація',
+			'city' => 'Місто',
 		);
 	}
 
@@ -87,13 +77,13 @@ class UserSuperVisor extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_user',$this->id_user);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('start_date',$this->start_date,true);
-		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('specialization',$this->specialization,true);
+		$criteria->compare('city',$this->city,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -104,22 +94,14 @@ class UserSuperVisor extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserSuperVisor the static model class
+	 * @return OfflineGroups the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	public static function superVisorsArray(){
-        $criteria = new CDbCriteria();
-        $criteria->distinct = true;
-        $criteria->addCondition('end_date IS NULL');
-		return UserSuperVisor::model()->with('user')->findAll($criteria);
-	}
-
-	public static function adminsData()
-	{
-		return;
+	public function primaryKey(){
+		return 'id';
 	}
 }
