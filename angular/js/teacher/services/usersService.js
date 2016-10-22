@@ -59,6 +59,9 @@ angular
                         url: basePath + '/_teacher/_content_manager/contentManager/getAuthorsList',
                         method: 'GET'
                     },
+                    blockedUsersList: {
+                        url: url + '/getBlockedUsersList',
+                    },
                     superVisorsList: {
                         url: url + '/getSuperVisorsList',
                         method: 'GET'
