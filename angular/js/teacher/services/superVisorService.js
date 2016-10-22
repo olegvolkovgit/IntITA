@@ -15,6 +15,22 @@ angular
                         url: url + '/getOfflineGroupsList',
                         method: 'GET',
                     },
+                    offlineSubgroupsList: {
+                        url: url + '/getOfflineSubgroupsList',
+                        method: 'GET',
+                    },
+                    offlineStudentsList: {
+                        url: url + '/getOfflineStudentsList',
+                        method: 'GET',
+                    },
+                    studentsWithoutGroupList: {
+                        url: url + '/getStudentsWithoutGroupList',
+                        method: 'GET',
+                    },
+                    offlineGroupSubgroupsList: {
+                        url: url + '/getGroupsOfflineSubgroupsList',
+                        method: 'GET',
+                    },
                     getSpecializationsList: {
                         url: url + '/getSpecializationsList',
                         isArray:true

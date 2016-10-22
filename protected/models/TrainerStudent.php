@@ -122,6 +122,7 @@ class TrainerStudent extends CActiveRecord
 	public static function getTrainerByStudent($studentId)
 	{
 		$criteria = new CDbCriteria();
+		$criteria->select = 'user.id, user.avatar, user.email, user.nickname, user.skype, user.phone, user.reg_time,user.firstName, user.middleName, user.secondName';
 		$criteria->alias = 'user';
 		$criteria->join = 'INNER JOIN trainer_student on user.id = trainer_student.trainer';
 		$criteria->condition = 'student = :student and end_time IS NULL';

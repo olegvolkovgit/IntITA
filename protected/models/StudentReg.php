@@ -1326,5 +1326,27 @@ class StudentReg extends CActiveRecord
         return json_encode($data);
     }
 
+    public static function userData($id){
+        $user = StudentReg::model()->findByPk($id);
+        $data=array();
+        $data["id"] = $user->id;
+        $data["fullName"] = $user->userNameWithEmail();
+        $data["nickname"] = $user->nickname;
+        $data["birthday"] = $user->birthday;
+        $data["email"] = $user->email;
+        $data["educform"] = $user->educform;
+        $data["addressAge"] = $user->addressString();
+        $data["avatar"] = StaticFilesHelper::createPath('image', 'avatars', $user->avatar);
+        $data["country"] = $user->country0;
+        $data["city"] = $user->city0;
+        $data["skype"] = $user->skype;
+        $data["phone"] = $user->phone;
+        $data["status"] = $user->status;
+        $data["cancelled"] = $user->cancelled;
+        $data["trainer"] = TrainerStudent::getTrainerByStudent($id);
+        $data["profileLink"] = Yii::app()->createUrl('studentreg/profile', array('idUser' => $user->id));
+
+        return $data;
+    }
 
 }

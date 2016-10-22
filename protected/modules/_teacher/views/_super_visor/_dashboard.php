@@ -7,13 +7,19 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/offline_groups">Оффлайнові групи</a>
+                        <a href="#/supervisor/offlineGroups">Оффлайнові групи</a>
                     </li>
                     <li>
-                        <a href="#/offline_subgroups">Оффлайнові підгрупи</a>
+                        <a href="#/supervisor/offlineSubgroups">Оффлайнові підгрупи</a>
                     </li>
                     <li>
-                        <a href="#/offline_students">Студенти(оффлайнова форма навчання)</a>
+                        <a href="#/supervisor/offlineStudents">Студенти(розподілені)</a>
+                    </li>
+                    <li>
+                        <a href="#/supervisor/studentsWithoutGroup">Студенти(нерозподілені)</a>
+                    </li>
+                    <li>
+                        <a href="#/supervisor/specializations">Спеціалізації груп</a>
                     </li>
                 </ul>
             </div>

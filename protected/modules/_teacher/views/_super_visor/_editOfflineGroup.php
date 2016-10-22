@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" ng-disabled="addOfflineGroupForm.$invalid || !selectedSpecialization">Зберегти
                         </button>
-                        <a type="button" class="btn btn-default" ng-href="#/offline_groups">
+                        <a type="button" class="btn btn-default" ng-href="#/supervisor/offlineGroups">
                             Назад
                         </a>
                     </div>
