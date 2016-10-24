@@ -12,10 +12,10 @@
                 <table ng-table="teachersTableParams" class="table table-bordered table-striped table-condensed">
                     <tr ng-repeat="row in $data track by row.user_id">
                         <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                            <a ng-href="#/admin/users/teacher/{{row.user.id}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
+                            <a ng-href="#/admin/users/user/{{row.user.id}}">{{row.user.firstName}} {{row.user.middleName}} {{row.user.secondName}}</a>
                         </td>
                         <td data-title="'Email'" filter="{'user.email': 'text'}" sortable="'user.email'">
-                            <a ng-href="#/admin/users/teacher/{{row.user.id}}">{{row.user.email}}</a>
+                            <a ng-href="#/admin/users/user/{{row.user.id}}">{{row.user.email}}</a>
                         </td>
                         <td data-title="'Статус'" sortable="'isPrint'">{{row.isPrint==1  ? "видимий" : "невидимий"}}</td>
                         <td data-title="'Змінити статус'" sortable="'isPrint'">

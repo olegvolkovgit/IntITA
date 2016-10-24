@@ -11,9 +11,6 @@
         <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
     </li>
     <li>
-        <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/{{data.user.id}}">Переглянути інформацію даного співробітника</a>
-    </li>
-    <li>
         <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">Переглянути інформацію даного користувача</a>
     </li>
 </ul>

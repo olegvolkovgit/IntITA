@@ -116,6 +116,18 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $ti
 
     };
 
+    $scope.moduleLink = function (id) {
+        $http({
+            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
 
 }
 
