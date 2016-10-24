@@ -1,7 +1,7 @@
 <div class="panel panel-default" ng-controller="requestsCtrl">
     <div class="panel-body">
         <!-- Nav tabs -->
-        <uib-tabset  active="1">
+        <uib-tabset  active="0">
             <uib-tab index="0" heading="Очікують підтвердження" select="initActiveRequests()">
                 <?php $this->renderPartial('_activeRequests');?>
             </uib-tab>
