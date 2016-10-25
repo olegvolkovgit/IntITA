@@ -337,4 +337,18 @@ class StudentController extends TeacherCabinetController
 
         echo ($agreement)?$agreement->id:0;
     }
+
+    public function actionOfflineEducation()
+    {
+        $student = OfflineStudents::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId(),'end_date'=>null));
+        $group=$student->group->name;
+        $subgroup=$student->subgroupName->name;
+        $info=$student->subgroupName->data;
+        $trainer=trim($student->trainer->trainer0->getLastFirstName().($student->trainer->trainer0->user->email));
+        $trainerEmail=$student->trainer->trainer0->user->email;
+        $trainerId=$student->trainer->trainer0->user_id;
+        
+        $this->renderPartial('/_student/_offlineEducation', 
+            array('group'=>$group,'subgroup'=>$subgroup,'info'=>$info,'trainer'=>$trainer,'trainerId'=>$trainerId,'trainerEmail'=>$trainerEmail), false, true);
+    }
 }

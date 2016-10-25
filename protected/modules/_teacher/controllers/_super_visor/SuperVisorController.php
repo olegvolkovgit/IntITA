@@ -55,6 +55,28 @@ class SuperVisorController extends TeacherCabinetController
     {
         $this->renderPartial('/_super_visor/offlineStudentProfile', array(), false, true);
     }
+
+    public function actionAddOfflineStudent($id)
+    {
+        $model=RegisteredUser::userById($id);
+        $user = $model->registrationData->getAttributes();
+//        todo
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+
+        $this->renderPartial('/_super_visor/addOfflineStudent', array(), false, true);
+    }
+
+    public function actionEditOfflineStudent($id)
+    {
+        $model=RegisteredUser::userById($id);
+        $user = $model->registrationData->getAttributes();
+//        todo
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+
+        $this->renderPartial('/_super_visor/updateOfflineStudent', array(), false, true);
+    }
     
     public function actionGetOfflineGroupsList()
     {
@@ -104,7 +126,8 @@ class SuperVisorController extends TeacherCabinetController
 
         $criteria->alias = 't';
         $criteria->join = 'inner join user_student us on t.id = us.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL and t.educform="Онлайн/Офлайн"';
+        $criteria->join .= ' left JOIN offline_students os ON t.id = os.id_user';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and (os.id_user IS NULL or os.end_date IS NOT NULL) and us.end_date IS NULL and t.educform="Онлайн/Офлайн"';
         $criteria->group = 't.id';
 
         $ngTable->mergeCriteriaWith($criteria);
@@ -160,6 +183,11 @@ class SuperVisorController extends TeacherCabinetController
         echo  CJSON::encode(StudentReg::userData(Yii::app()->request->getParam('id')));
     }
 
+    public function actionGetOfflineStudentData()
+    {
+        echo  CJSON::encode(OfflineStudents::studentData(Yii::app()->request->getParam('id')));
+    }
+    
     public function actionGetSubgroupData()
     {
         echo CJSON::encode(OfflineSubgroups::model()->findByPk(Yii::app()->request->getParam('id')));
@@ -364,6 +392,77 @@ class SuperVisorController extends TeacherCabinetController
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionGroupsByQuery($query)
+    {
+        if ($query) {
+            $groups = OfflineGroups::groupsByQuery($query);
+            echo $groups;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionAddStudentToSubgroup()
+    {
+        $userId = Yii::app()->request->getPost('userId');
+        $subgroupId = Yii::app()->request->getPost('subgroupId');
+        $startDate = Yii::app()->request->getPost('startDate');
+
+        $student=new OfflineStudents();
+        $student->id_user=$userId;
+        $student->start_date=$startDate;
+        $student->id_subgroup=$subgroupId;
+
+        if(OfflineStudents::model()->findByAttributes(array('id_user'=>$student->id_user, 'end_date'=>null))){
+            echo 'Студент уже входить в одну з підгруп оффлайн групи';
+        }else{
+            if($student->save()){
+                echo 'Студента додано в підгрупу';
+            }else{
+                echo 'Додати студента не вдалося';
+            }
+        }
+    }
+
+    public function actionUpdateOfflineStudent()
+    {
+        $userId = Yii::app()->request->getPost('userId');
+        $subgroupId = Yii::app()->request->getPost('subgroupId');
+        $startDate = Yii::app()->request->getPost('startDate');
+        $graduateDate = Yii::app()->request->getPost('graduateDate');
+
+        $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId));
+        if($student){
+            $student->start_date=$startDate;
+            $student->graduate_date=$graduateDate;
+            if($student->update()){
+                echo 'Дані оновлено';
+            }else{
+                echo 'Оновити дані не вдалося';
+            }
+        }else{
+            echo 'Студента в даній підгрупі не знайдено';
+        }
+    }
+
+    public function actionCancelStudentFromSubgroup()
+    {
+        $userId = Yii::app()->request->getPost('userId');
+        $subgroupId = Yii::app()->request->getPost('subgroupId');
+
+        $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId));
+        if($student){
+            $student->end_date=date("Y-m-d H:i:s");
+            if($student->update()){
+                echo 'Студента скасовано';
+            }else{
+                echo 'Скасувати студента не вдалося';
+            }
+        }else{
+            echo 'Студента в даній підгрупі не знайдено';
         }
     }
 }

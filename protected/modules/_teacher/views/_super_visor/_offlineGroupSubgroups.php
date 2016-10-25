@@ -11,7 +11,7 @@
                     <td data-title="'Назва'" sortable="'name'" filter="{'name': 'text'}" >
                         <a ng-href="#/supervisor/offlineSubgroup/{{row.id}}">{{row.name}}</a>
                     </td>
-                    <td data-title="'Спеціалізація'" filter="{'specializationName.name': 'text'}" sortable="'specializationName.name'">{{row.specializationName.name}}</td>
+                    <td data-title="'Спеціалізація'" filter="{'specialization.name': 'text'}" sortable="'specialization.name'">{{row.specialization.name}}</td>
                     <td data-title="'Інформація(розклад)'" ><a href="{{row.data}}" target="_blank">{{row.data}}</a></td>
                 </tr>
             </table>
