@@ -22,6 +22,8 @@ function  requestsCtrl($scope, $http, $ngBootbox, $state){
         initRejectedRevisionRequestsTable();
     }
 
+    $scope.initActiveRequests();
+
     $scope.setRequestStatus = function(message, user) {
         $http({
             url:basePath+'/_teacher/_admin/request/approve/message/'+message+'/user/'+user,

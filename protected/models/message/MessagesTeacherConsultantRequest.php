@@ -337,4 +337,25 @@ class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRe
             return '';
         }
     }
+
+    public function isRejected()
+    {
+        if ($this->cancelled && !$this->user_approved) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function reject()
+    {
+        date_default_timezone_set(Config::getServerTimezone());
+        $this->cancelled = 1;
+        if ($this->save()) {
+            return "Операцію успішно виконано.";
+        } else {
+            return "Операцію не вдалося виконати.";
+        }
+    }
+
 }

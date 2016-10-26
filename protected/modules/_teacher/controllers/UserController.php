@@ -128,7 +128,8 @@ class UserController extends TeacherCabinetController {
     {
         $result = array();
         $model=RegisteredUser::userById($id);
-        
+        $teacher = Teacher::model()->findByPk($id);
+
         $user = $model->registrationData->getAttributes();
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
@@ -155,7 +156,10 @@ class UserController extends TeacherCabinetController {
                 $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
             }
         }
-
+        if ($teacher) {
+            $result['teacher'] = (array)$teacher->getAttributes();
+            $result['teacher']['modules'] = $teacher->modulesActive;
+        }
         echo CJSON::encode($result);
     }
 
