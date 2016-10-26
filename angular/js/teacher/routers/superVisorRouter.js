@@ -127,4 +127,20 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_super_visor/superVisor/editSubgroupForm/?id=" + $stateParams.id
             }
         })
+        .state('supervisor/addStudentToSubgroup/:id', {
+            url: "/supervisor/addStudentToSubgroup/:id",
+            cache: false,
+            controller: 'offlineStudentProfileCtrl',
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_super_visor/superVisor/addOfflineStudent/?id=" + $stateParams.id
+            }
+        })
+        .state('supervisor/editOfflineStudent/:id', {
+            url: "/supervisor/editOfflineStudent/:id",
+            cache: false,
+            controller: 'offlineStudentProfileCtrl',
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_super_visor/superVisor/editOfflineStudent/?id=" + $stateParams.id
+            }
+        })
 });

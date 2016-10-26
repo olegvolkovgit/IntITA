@@ -332,6 +332,7 @@ function moduleValidation(data,hasError) {
         if(data['Module_title_ua'] !== undefined)
             $jq('#uaTab a').click();
         else $jq('#mainTab a').click();
+        $jq("#"+Object.keys(data)[0]).focus();
         return false;
     }else return true;
 }
@@ -397,6 +398,7 @@ function courseValidation(data,hasError) {
         else if(data['Course_title_en'] !== undefined)
             $jq('#enTab a').click();
         else $jq('#mainTab a').click();
+        $jq("#"+Object.keys(data)[0]).focus();
         return false;
     }else return true;
 }

@@ -97,6 +97,21 @@ function studentsTableCtrl ($http, $scope, usersService, NgTableParams){
         });
     }
 }
+
+function offlineStudentsTableCtrl ($scope, superVisorService, NgTableParams){
+    $scope.offlineStudentsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return superVisorService
+                .offlineStudentsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+}
+
 function teachersTableCtrl ($http, $scope, usersService, NgTableParams){
     $scope.teachersTableParams = new NgTableParams({}, {
         getData: function (params) {

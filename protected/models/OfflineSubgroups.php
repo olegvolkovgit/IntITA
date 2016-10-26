@@ -44,6 +44,7 @@ class OfflineSubgroups extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'groupName' => array(self::HAS_ONE, 'OfflineGroups', ['id'=>'group']),
+			'specialization' => array(self::BELONGS_TO, 'SpecializationsGroup', array('specialization'=>'id'), 'through' => 'groupName'),
 		);
 	}
 

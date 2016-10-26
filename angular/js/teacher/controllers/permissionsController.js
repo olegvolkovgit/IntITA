@@ -7,7 +7,6 @@ angular.module('teacherApp').controller('permissionsCtrl',permissionsCtrl);
 function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
 
     $scope.teacherModule = null;
-    console.log($scope.selectedTeacher);
     $scope.onSelect = function ($item) {
         $scope.selectedTeacher = $item;
     };
@@ -180,7 +179,6 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
                 break;
         }
         if ($scope.selectedModule && user)
-        console.log(user);
             $http({
                 method:'POST',
                 url: url,

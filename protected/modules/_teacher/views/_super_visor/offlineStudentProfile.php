@@ -6,6 +6,11 @@
                         Оффлайн студенти
                     </a>
                 </li>
+                <li>
+                    <a type="button" class="btn btn-primary" ng-href="#/supervisor/editOfflineStudent/{{student.id}}">
+                        Редагувати як оффлайн студента
+                    </a>
+                </li>
             </ul>
     </div>
     <div class="row">

@@ -104,4 +104,20 @@ class OfflineGroups extends CActiveRecord
 	public function primaryKey(){
 		return 'id';
 	}
+
+	public static function groupsByQuery($query)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, name";
+		$criteria->alias = "g";
+		$criteria->addSearchCondition('name', $query, true, "OR", "LIKE");
+		$data = OfflineGroups::model()->findAll($criteria);
+		$result = array();
+		foreach ($data as $key => $model) {
+			$result["results"][$key]["id"] = $model->id;
+			$result["results"][$key]["name"] = $model->name;
+		}
+		return json_encode($result);
+	}
+
 }

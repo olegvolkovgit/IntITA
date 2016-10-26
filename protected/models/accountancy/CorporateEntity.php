@@ -137,7 +137,7 @@ class CorporateEntity extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, title, EDPNOU";
         $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('title', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('LOWER(title)', strtolower($query), true, "OR", "LIKE");
         $criteria->addSearchCondition('EDPNOU', $query, true, "OR", "LIKE");
 
         $data = CorporateEntity::model()->findAll($criteria);

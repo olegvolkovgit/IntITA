@@ -113,4 +113,10 @@ class UserStudent extends CActiveRecord
 
         return $model->save();
 	}
+
+	public static function studentHasSubgroup($id){
+		$model = OfflineStudents::model()->findByAttributes(array('id_user'=>$id,'end_date'=>null));
+		if($model) return true;
+		else return false;
+	}
 }

@@ -11,6 +11,9 @@
                 <td data-title="'Тренер'" sortable="'trainer.trainer'">
                     {{row.trainer.trainer ? 'присутній':''}}
                 </td>
+                <td data-title="">
+                    <a ng-href="#/supervisor/addStudentToSubgroup/{{row.id}}">Додати в підгрупу</a>
+                </td>
             </tr>
         </table>
     </div>

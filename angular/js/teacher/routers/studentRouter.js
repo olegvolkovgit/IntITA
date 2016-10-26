@@ -54,5 +54,10 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_student/student/agreement/id/"+$stateParams.agreementId;
             }
         })
+        .state('students/offlineEducation', {
+            url: "/students/offlineEducation",
+            cache         : false,
+            templateUrl: basePath+"/_teacher/_student/student/offlineEducation"
+        })
 });
 

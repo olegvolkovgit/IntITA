@@ -10,6 +10,11 @@
  * @property string $graduate_date
  * @property integer $id_subgroup
  *
+ * The followings are the available model relations:
+ * @property OfflineSubgroups $subgroupName
+ * @property StudentReg $user
+ * @property TrainerStudent $trainer
+ * @property OfflineGroups $group
  */
 class OfflineStudents extends CActiveRecord
 {
@@ -43,9 +48,10 @@ class OfflineStudents extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'subgroupName' => array(self::HAS_ONE, 'OfflineSubgroups', ['id'=>'id_subgroup'], 'with' => 'groupName'),
+			'subgroupName' => array(self::HAS_ONE, 'OfflineSubgroups', ['id'=>'id_subgroup']),
 			'user' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 			'trainer' => array(self::HAS_ONE, 'TrainerStudent', ['student'=>'id_user'], 'on' => 'trainer.end_time IS NULL'),
+			'group' => array(self::HAS_ONE, 'OfflineGroups', array('group'=>'id'), 'through' => 'subgroupName'),
 		);
 	}
 
@@ -103,5 +109,19 @@ class OfflineStudents extends CActiveRecord
 
 	public function primaryKey(){
 		return array('id_user','id_subgroup');
+	}
+
+	public static function studentData($id){
+		$student = OfflineStudents::model()->findByAttributes(array('id_user'=>$id));
+		$data=array();
+		$data["id_user"] = $student->id_user;
+		$data["startDate"] = $student->start_date;
+		$data["endDate"] = $student->end_date;
+		$data["graduateDate"] = $student->graduate_date;
+		$data["idSubgroup"] = $student->id_subgroup;
+		$data["groupName"] = $student->group->name;
+		$data["subgroupName"] = $student->subgroupName->name;
+
+		return $data;
 	}
 }

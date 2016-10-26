@@ -19,6 +19,10 @@ angular
                         url: url + '/getStudentsList',
                         method: 'GET',
                     },
+                    offlineStudentsList: {
+                        url: url + '/getOfflineStudentsList',
+                        method: 'GET',
+                    },
                     teachersList: {
                         url: url + '/getTeachersList',
                         method: 'GET'

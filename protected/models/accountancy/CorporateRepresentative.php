@@ -139,7 +139,7 @@ class CorporateRepresentative extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, full_name";
         $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('full_name', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('LOWER(full_name)', strtolower($query), true, "OR", "LIKE");
 
         $data = CorporateRepresentative::model()->findAll($criteria);
 

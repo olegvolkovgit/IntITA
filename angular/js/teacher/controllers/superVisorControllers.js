@@ -59,7 +59,6 @@ function offlineStudentsTableCtrl ($scope, superVisorService, NgTableParams){
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
-                    console.log(data.rows);
                     return data.rows;
                 });
         }
@@ -345,12 +344,18 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     };
 }
 
-function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams){
+function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhead, superVisorService){
     $scope.changePageHeader('Студенти(оффлайнова форма навчання)');
 
     $scope.loadStudentData=function(){
         $http.get(basePath + "/_teacher/_super_visor/superVisor/getStudentData/?id="+$stateParams.id).then(function (response) {
             $scope.student = response.data;
+        });
+    };
+    $scope.loadOfflineStudentData=function(){
+        $http.get(basePath + "/_teacher/_super_visor/superVisor/getOfflineStudentData/?id="+$stateParams.id).then(function (response) {
+            $scope.offlineStudent = response.data;
+            console.log($scope.offlineStudent);
         });
     };
     $scope.loadStudentData();
@@ -380,5 +385,74 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams){
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
         });
+    };
+
+    $scope.addStudentToSubgroup=function () {
+        if ($scope.selectedGroup==null) {
+            bootbox.alert("Виберіть групу");
+        } else if($scope.selectedSubgroup==null){
+            bootbox.alert("Виберіть підгрупу");
+        } else if($scope.student.id==null){
+            bootbox.alert("Виберіть студента");
+        }else{
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_super_visor/superVisor/addStudentToSubgroup',
+                data: $jq.param({userId: $scope.student.id, subgroupId: $scope.selectedSubgroup.id, startDate: $scope.startDate}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function () {
+                    $state.go('supervisor/studentsWithoutGroup');
+                });
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+    };
+
+    $scope.updateOfflineStudent=function (idUser, idSubgroup, startDate, graduateDate) {
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/_super_visor/superVisor/updateOfflineStudent',
+            data: $jq.param({userId: idUser, subgroupId: idSubgroup, startDate: startDate, graduateDate: graduateDate}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data);
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+
+    $scope.cancelStudentFromSubgroup=function (idUser, idSubgroup) {
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/_super_visor/superVisor/cancelStudentFromSubgroup',
+            data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data);
+            $scope.loadOfflineStudentData();
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+    
+    $scope.onSelect = function ($item) {
+        $scope.selectedGroup = $item;
+        superVisorService
+            .offlineGroupSubgroupsList({'id':$scope.selectedGroup.id})
+            .$promise
+            .then(function (data) {
+                $scope.subgroupsList=data.rows;
+            });
+    };
+    $scope.reload = function(){
+        $scope.selectedGroup=null;
+        $scope.selectedSubgroup=null;
+        $scope.subgroupsList=null;
+    };
+    var groupTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/groupsByQuery';
+    $scope.getGroups = function(value){
+        return typeAhead.getData(groupTypeaheadUrl,{query : value});
     };
 }
