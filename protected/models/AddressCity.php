@@ -155,7 +155,7 @@ class AddressCity extends CActiveRecord
         $criteria->select = "id, title_ua, country";
         $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('LOWER(title_ua)', strtolower($query), true, "OR", "LIKE");
-        $criteria->addSearchCondition('country', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('LOWER(country)', strtolower($query), true, "OR", "LIKE");
 
         $data = AddressCity::model()->findAll($criteria);
 
