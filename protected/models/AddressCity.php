@@ -88,9 +88,9 @@ class AddressCity extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('country',$this->country);
-		$criteria->compare('LOWER(title_ua)',strtolower($this->title_ua),true);
-		$criteria->compare('LOWER(title_ru)',strtolower($this->title_ru),true);
-		$criteria->compare('LOWER(title_en)',strtolower($this->title_en),true);
+		$criteria->compare('title_ua',$this->title_ua,true);
+		$criteria->compare('title_ru',$this->title_ru,true);
+		$criteria->compare('title_en',$this->title_en,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -154,7 +154,7 @@ class AddressCity extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, title_ua, country";
         $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('LOWER(title_ua)', strtolower($query), true, "OR", "LIKE");
         $criteria->addSearchCondition('country', $query, true, "OR", "LIKE");
 
         $data = AddressCity::model()->findAll($criteria);
