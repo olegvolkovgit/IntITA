@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'fontface.css'); ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', '/my/jquery-ui.css') ?>"/>
 <div ng-app class="authorizePage">
     <div>
         <?php echo 'Для перегляду сторінки спочатку авторизуйся' ?>

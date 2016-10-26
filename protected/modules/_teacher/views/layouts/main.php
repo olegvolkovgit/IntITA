@@ -69,7 +69,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'roles.css'); ?>"/>
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'jquery-ui.min.css') ?>"/>
-    <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', '/my/jquery-ui.css') ?>"/>
     <!-- Angular datatable css -->
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'css/angular-datatables.css') ?>">
 
