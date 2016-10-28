@@ -5,9 +5,8 @@ angular
     .module('teacherApp')
     .controller('superVisorCtrl', superVisorCtrl)
     .controller('offlineGroupsTableCtrl', offlineGroupsTableCtrl)
-    .controller('offlineGroupSubgroupsTableCtrl', offlineGroupSubgroupsTableCtrl)
-    .controller('addOfflineGroupCtrl', addOfflineGroupCtrl)
     .controller('offlineGroupCtrl', offlineGroupCtrl)
+    .controller('offlineGroupSubgroupsTableCtrl', offlineGroupSubgroupsTableCtrl)
     .controller('addOfflineSubgroupCtrl', addOfflineSubgroupCtrl)
     .controller('offlineSubgroupCtrl', offlineSubgroupCtrl)
     .controller('offlineSubgroupsTableCtrl', offlineSubgroupsTableCtrl)
@@ -157,40 +156,6 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function addOfflineGroupCtrl ($scope, superVisorService, $state, $http){
-    $scope.changePageHeader('Нова оффлайн група');
-    $scope.loadSpecializations=function(){
-        return superVisorService
-            .getSpecializationsList()
-            .$promise
-            .then(function (data) {
-                $scope.specializations=data;
-            });
-    };
-    
-    $scope.loadSpecializations();
-    
-    $scope.createOfflineGroup= function () {
-        if($jq('#city').val()==0){
-            bootbox.alert('Виберіть місто з існуючого списку');
-            return;
-        }
-
-        $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/createOfflineGroup',
-            method: "POST",
-            data: $jq.param({name: $scope.name,date:$scope.startDate,specialization:$scope.selectedSpecialization.id,city:$jq('#city').val()}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroups", {}, {reload: true});
-            });
-        }, function errorCallback() {
-            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
-        });
-    };
-}
-
 function addOfflineSubgroupCtrl ($scope, $state, $http, $stateParams){
     $scope.groupId=$stateParams.groupId;
     $scope.changePageHeader('Нова підгрупа');
@@ -225,29 +190,22 @@ function addOfflineSubgroupCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams){
-    $scope.groupId=$stateParams.id;
-    $scope.offlineStudentsTableParams = new NgTableParams({'idGroup':$scope.groupId}, {
-        getData: function (params) {
-            return superVisorService
-                .offlineStudentsList(params.url())
-                .$promise
-                .then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-        }
-    });
-    
-    $scope.loadSpecializations=function(){
-        return superVisorService
-            .getSpecializationsList()
-            .$promise
-            .then(function (data) {
-                $scope.specializations=data;
-                $scope.loadGroupData();
-            });
-    };
+function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
+    if($stateParams.id){
+        $scope.groupId=$stateParams.id;
+        $scope.offlineStudentsTableParams = new NgTableParams({'idGroup':$scope.groupId}, {
+            getData: function (params) {
+                return superVisorService
+                    .offlineStudentsList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+    }
+
     $scope.loadGroupData=function(){
         $http({
             url: basePath+'/_teacher/_super_visor/superVisor/getGroupData',
@@ -256,24 +214,39 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.group=response.data;
+            $scope.loadCityToModel($scope.group.city);
             $scope.changePageHeader('Оффлайн група: '+$scope.group.name);
             $scope.selectedSpecialization=$scope.specializations[$scope.group.specialization-1].id;
         }, function errorCallback() {
             bootbox.alert("Отримати дані групи не вдалося");
         });
     };
-
-    $scope.loadSpecializations();
     
-    $scope.editOfflineGroup= function () {
-        // if($jq('#city').val()==0){
-        //     bootbox.alert('Виберіть місто з існуючого списку');
-        //     return;
-        // }
+    $scope.loadSpecializations=function(){
+        return superVisorService
+            .getSpecializationsList()
+            .$promise
+            .then(function (data) {
+                $scope.specializations=data;
+                if($stateParams.id)
+                    $scope.loadGroupData();
+            });
+    };
+    $scope.loadSpecializations();
+
+    $scope.sendFormOfflineGroup= function (scenario) {
+        if(scenario=='new') $scope.createOfflineGroup();
+        else $scope.editOfflineGroup();
+    };
+    $scope.createOfflineGroup= function () {
+        if(!$scope.selectedCity){
+            bootbox.alert('Виберіть місто з існуючого списку');
+            return;
+        }
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/updateOfflineGroup',
+            url: basePath+'/_teacher/_super_visor/superVisor/createOfflineGroup',
             method: "POST",
-            data: $jq.param({id:$stateParams.id,name: $scope.group.name,date:$scope.group.start_date,specialization:$scope.selectedSpecialization,city:$jq('#city').val()}),
+            data: $jq.param({name: $scope.group.name,date:$scope.group.start_date,specialization:$scope.selectedSpecialization,city:$scope.selectedCity.id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data, function(){
@@ -282,6 +255,42 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
         }, function errorCallback() {
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
         });
+    };
+    $scope.editOfflineGroup= function () {
+        if(!$scope.selectedCity){
+            bootbox.alert('Виберіть місто з існуючого списку');
+            return;
+        }
+        $http({
+            url: basePath+'/_teacher/_super_visor/superVisor/updateOfflineGroup',
+            method: "POST",
+            data: $jq.param({id:$stateParams.id,name: $scope.group.name,date:$scope.group.start_date,specialization:$scope.selectedSpecialization,city:$scope.selectedCity.id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function(){
+                $state.go("supervisor/offlineGroups", {}, {reload: true});
+            });
+        }, function errorCallback() {
+            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
+        });
+    };
+
+    //select city
+    $scope.loadCityToModel=function(cityId){
+        $http.get(basePath + "/_teacher/_super_visor/superVisor/getCityById/?id="+cityId).then(function (response) {
+            $scope.cityEntered = response.data;
+            $scope.selectedCity={id: cityId, title: response.data};
+        });
+    };
+    $scope.onSelect = function ($item) {
+        $scope.selectedCity = $item;
+    };
+    $scope.reload = function(){
+        $scope.selectedCity=null;
+    };
+    var citiesTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/citiesByQuery';
+    $scope.getCities = function(value){
+        return typeAhead.getData(citiesTypeaheadUrl,{query : value});
     };
 }
 
@@ -355,7 +364,6 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
     $scope.loadOfflineStudentData=function(){
         $http.get(basePath + "/_teacher/_super_visor/superVisor/getOfflineStudentData/?id="+$stateParams.id).then(function (response) {
             $scope.offlineStudent = response.data;
-            console.log($scope.offlineStudent);
         });
     };
     $scope.loadStudentData();

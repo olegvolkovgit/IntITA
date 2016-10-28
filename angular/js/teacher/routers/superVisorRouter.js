@@ -94,7 +94,7 @@ config(function ($stateProvider) {
         .state('supervisor/addOfflineGroup', {
             url: "/supervisor/addOfflineGroup",
             cache: false,
-            controller: 'addOfflineGroupCtrl',
+            controller: 'offlineGroupCtrl',
             templateUrl: basePath + "/_teacher/_super_visor/superVisor/addNewOfflineGroupForm",
         })
         .state('supervisor/editOfflineGroup/:id', {
