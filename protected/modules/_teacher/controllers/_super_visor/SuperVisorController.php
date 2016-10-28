@@ -16,14 +16,35 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_super_visor/offlineGroup', array(), false, true);
     }
 
-    public function actionOfflineSubgroup()
+
+    public function actionAddNewOfflineGroupForm()
     {
-        $this->renderPartial('/_super_visor/offlineSubgroup', array(), false, true);
+        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'new'), false, true);
+    }
+
+    public function actionEditOfflineGroupForm()
+    {
+        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'update'), false, true);
     }
     
     public function actionOfflineSubgroups()
     {
         $this->renderPartial('/_super_visor/offlineSubgroups', array(), false, true);
+    }
+    
+    public function actionOfflineSubgroup()
+    {
+        $this->renderPartial('/_super_visor/offlineSubgroup', array(), false, true);
+    }
+
+    public function actionAddSubgroupForm()
+    {
+        $this->renderPartial('/_super_visor/_subgroupForm', array('scenario'=>'new'), false, true);
+    }
+    
+    public function actionEditSubgroupForm()
+    {
+        $this->renderPartial('/_super_visor/_subgroupForm', array('scenario'=>'update'), false, true);
     }
 
     public function actionOfflineStudents()
@@ -55,7 +76,7 @@ class SuperVisorController extends TeacherCabinetController
     {
         $this->renderPartial('/_super_visor/offlineStudentProfile', array(), false, true);
     }
-
+    
     public function actionAddOfflineStudent($id)
     {
         $model=RegisteredUser::userById($id);
@@ -146,26 +167,6 @@ class SuperVisorController extends TeacherCabinetController
 
         $result = $ngTable->getData();
         echo json_encode($result);
-    }
-    
-    public function actionAddNewOfflineGroupForm()
-    {
-        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'new'), false, true);
-    }
-
-    public function actionEditOfflineGroupForm()
-    {
-        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'update'), false, true);
-    }
-
-    public function actionEditSubgroupForm()
-    {
-        $this->renderPartial('/_super_visor/_editSubgroup', array(), false, true);
-    }
-    
-    public function actionAddSubgroupForm()
-    {
-        $this->renderPartial('/_super_visor/_addSubgroup', array(), false, true);
     }
     
     public function actionGetSpecializationsList()

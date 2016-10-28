@@ -7,7 +7,6 @@ angular
     .controller('offlineGroupsTableCtrl', offlineGroupsTableCtrl)
     .controller('offlineGroupCtrl', offlineGroupCtrl)
     .controller('offlineGroupSubgroupsTableCtrl', offlineGroupSubgroupsTableCtrl)
-    .controller('addOfflineSubgroupCtrl', addOfflineSubgroupCtrl)
     .controller('offlineSubgroupCtrl', offlineSubgroupCtrl)
     .controller('offlineSubgroupsTableCtrl', offlineSubgroupsTableCtrl)
     .controller('offlineStudentsTableCtrl', offlineStudentsTableCtrl)
@@ -156,40 +155,6 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function addOfflineSubgroupCtrl ($scope, $state, $http, $stateParams){
-    $scope.groupId=$stateParams.groupId;
-    $scope.changePageHeader('Нова підгрупа');
-
-    $scope.loadGroupData=function(){
-        $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/getGroupData',
-            method: "POST",
-            data: $jq.param({id:$scope.groupId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            $scope.group=response.data;
-        }, function errorCallback() {
-            bootbox.alert("Отримати дані групи не вдалося");
-        });
-    };
-    $scope.loadGroupData();
-
-    $scope.addSubgroup= function () {
-        $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/addSubgroup',
-            method: "POST",
-            data: $jq.param({name: $scope.name, group: $scope.groupId, data: $scope.data}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
-            });
-        }, function errorCallback() {
-            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
-        });
-    };
-}
-
 function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
@@ -294,39 +259,15 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     };
 }
 
-function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams){
-    $scope.subgroupId=$stateParams.id;
-    $scope.offlineStudentsTableParams = new NgTableParams({'idSubgroup':$scope.subgroupId}, {
-        getData: function (params) {
-            return superVisorService
-                .offlineStudentsList(params.url())
-                .$promise
-                .then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-        }
-    });
+function addOfflineSubgroupCtrl ($scope, $state, $http, $stateParams){
+    $scope.groupId=$stateParams.groupId;
+    $scope.changePageHeader('Нова підгрупа');
 
-    $scope.loadSubgroupData=function(){
-        $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/getSubgroupData',
-            method: "POST",
-            data: $jq.param({id:$scope.subgroupId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            $scope.subgroup=response.data;
-            $scope.changePageHeader('Оффлайн підгрупа: '+$scope.subgroup.name);
-            $scope.loadGroupData();
-        }, function errorCallback() {
-            bootbox.alert("Отримати дані підгрупи не вдалося");
-        });
-    };
     $scope.loadGroupData=function(){
         $http({
             url: basePath+'/_teacher/_super_visor/superVisor/getGroupData',
             method: "POST",
-            data: $jq.param({id:$scope.subgroup.group}),
+            data: $jq.param({id:$scope.groupId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.group=response.data;
@@ -334,9 +275,91 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             bootbox.alert("Отримати дані групи не вдалося");
         });
     };
-    
-    $scope.loadSubgroupData();
 
+
+    $scope.addSubgroup= function () {
+        $http({
+            url: basePath+'/_teacher/_super_visor/superVisor/addSubgroup',
+            method: "POST",
+            data: $jq.param({name: $scope.name, group: $scope.groupId, data: $scope.data}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function(){
+                $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+            });
+        }, function errorCallback() {
+            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
+        });
+    };
+}
+
+function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams){
+    $scope.loadSubgroupData=function(subgroupId){
+        $http({
+            url: basePath+'/_teacher/_super_visor/superVisor/getSubgroupData',
+            method: "POST",
+            data: $jq.param({id:subgroupId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.subgroup=response.data;
+            $scope.changePageHeader('Оффлайн підгрупа: '+$scope.subgroup.name);
+            $scope.loadGroupData($scope.subgroup.group);
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані підгрупи не вдалося");
+        });
+    };
+    $scope.loadGroupData=function(groupId){
+        $http({
+            url: basePath+'/_teacher/_super_visor/superVisor/getGroupData',
+            method: "POST",
+            data: $jq.param({id:groupId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.group=response.data;
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані групи не вдалося");
+        });
+    };
+
+    if($stateParams.groupId) {
+        $scope.groupId=$stateParams.groupId;
+        $scope.loadGroupData($scope.groupId);
+    }
+    if($stateParams.id) {
+        $scope.subgroupId = $stateParams.id;
+        $scope.offlineStudentsTableParams = new NgTableParams({'idSubgroup': $scope.subgroupId}, {
+            getData: function (params) {
+                return superVisorService
+                    .offlineStudentsList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+        $scope.loadSubgroupData($scope.subgroupId);
+    };
+
+    $scope.sendFormSubgroup= function (scenario) {
+        if(scenario=='new') $scope.addSubgroup();
+        else $scope.editSubgroup();
+    };
+
+    $scope.addSubgroup= function () {
+        $http({
+            url: basePath+'/_teacher/_super_visor/superVisor/addSubgroup',
+            method: "POST",
+            data: $jq.param({name: $scope.subgroup.name, group: $scope.groupId, data: $scope.subgroup.data}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function(){
+                $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+            });
+        }, function errorCallback() {
+            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
+        });
+    };
     $scope.editSubgroup= function () {
         $http({
             url: basePath+'/_teacher/_super_visor/superVisor/updateSubgroup',
@@ -350,6 +373,13 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
         }, function errorCallback() {
             bootbox.alert("Редагувати підгрупу не вдалося. Помилка сервера.");
         });
+    };
+    $scope.goBack= function () {
+        if($stateParams.groupId) {
+            $state.go('supervisor/offlineGroup/:id', {id:$stateParams.groupId}, {reload: true});
+        } else if($stateParams.id) {
+            $state.go('supervisor/offlineSubgroup/:id', {id:$stateParams.id}, {reload: true});
+        }
     };
 }
 
