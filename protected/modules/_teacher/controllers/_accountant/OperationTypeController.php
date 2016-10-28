@@ -33,7 +33,7 @@ class OperationTypeController extends TeacherCabinetController
         {
             $model->attributes=$_POST['OperationType'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet().'#/accountant/operationtype');
         }
 
         $this->renderPartial('create',array(
@@ -57,7 +57,7 @@ class OperationTypeController extends TeacherCabinetController
         {
             $model->attributes=$_POST['OperationType'];
             if($model->save())
-                $this->redirect($this->pathToCabinet());
+                $this->redirect($this->pathToCabinet().'#/accountant/operationtype');
         }
 
         $this->renderPartial('update',array(
@@ -70,9 +70,15 @@ class OperationTypeController extends TeacherCabinetController
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        return $this->loadModel($id)->delete();
+        if (isset($_POST['id']))
+        {
+            $id = $_POST['id'];
+            return $this->loadModel($id)->delete();
+        }
+
+
     }
 
     /**
@@ -113,5 +119,10 @@ class OperationTypeController extends TeacherCabinetController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function actionLoadList(){
+        $adapter = new NgTableAdapter('OperationType',$_GET);
+        echo json_encode($adapter->getData());
     }
 }
