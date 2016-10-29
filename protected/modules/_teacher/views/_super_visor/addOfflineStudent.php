@@ -8,15 +8,6 @@
                         <input class="form-control" ng-model="student.fullName" required maxlength="128" size="50" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Група:</label>
-                        <input class="form-control" ng-model="student.fullName" required maxlength="128" size="50" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Підгрупа:</label>
-                        <input class="form-control" ng-model="student.fullName" required maxlength="128" size="50" disabled>
-                    </div>
-                    
-                    <div class="form-group">
                         <label>Група*:</label>
                         <input name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть групу" required size="50" 

@@ -60,17 +60,10 @@
             </li>
             <li class="divider"></li>
             <li class="lang">
-                <?php
-                if (Yii::app()->session['lg'] == NULL) Yii::app()->session['lg'] = 'ua';
-                foreach (array("ua", "en", "ru") as $val) {
-                    ?>
-                    <a href="<?php echo Yii::app()->createUrl('site/changeLang', array('lg' => $val)); ?>"
-                        <?php echo (Yii::app()->session['lg'] == $val) ? 'class="selectedLang"' : ''; ?>>
-                        <?php echo $val; ?>
-                    </a>
-                    <?php
-                }
-                ?>
+                <a ng-repeat="lang in languages track by $index" href="" ng-click="changeLang(lang)"
+                   ng-class="{selectedLang: currentLanguage==lang}">
+                    {{lang}}
+                </a>
             </li>
             <li><a href="<?php echo Config::getBaseUrl() . '/courses'; ?>"><i
                         class="fa fa-user fa-fw"></i><?php echo Yii::t('header', '0016'); ?></a></li>

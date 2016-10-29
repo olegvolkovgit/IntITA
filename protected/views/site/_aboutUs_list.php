@@ -21,7 +21,6 @@
             'dataProvider'=>$aboutUsDataProvider,
             'itemView'=>'_aboutusBlock',
             'summaryText' => '',
-            'id'=>"steps_list",
         ));
         ?>
     </div>

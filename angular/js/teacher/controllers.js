@@ -36,7 +36,18 @@ angular
     .controller('addRoleCtrl', addRoleCtrl);
 
 function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $timeout) {
-
+    $scope.currentLanguage=currentLanguage;
+    $scope.languages=['ua','en','ru'];
+    $scope.changeLang = function (lang) {
+        $http({
+            method: "GET",
+            url: basePath+'/_teacher/cabinet/changeLang?lg='+lang,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function () {
+            location.reload();
+        });
+    };
 
     $scope.countOfMessages = 0;
     var updateCounter = function() {
