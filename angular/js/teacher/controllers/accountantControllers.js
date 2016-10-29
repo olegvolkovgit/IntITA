@@ -458,13 +458,46 @@ angular
         }
     })
     
-    .controller('operationTypeCtrl', function ($scope) {
+    .controller('operationTypeCtrl', function ($scope, $http, $resource, NgTableParams) {
         $jq('#operationTypes').DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
                 }
             }
         );
+
+        $scope.operationTypesTable = new NgTableParams({
+            sorting: {},
+        }, {
+            getData: function (params) {
+                return $resource(basePath + '/_teacher/_accountant/operationType/loadList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+
+        $scope.deleteOperationType = function (id) {
+            bootbox.confirm('Ви впевнені що хочете видалити тип проплати ' + id + '?',function (result) {
+                if(result){
+                    $http({
+                        method:'POST',
+                        url:basePath+'/_teacher/_accountant/operationType/delete',
+                        data: $jq.param({id:id}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    })
+                        .success(function (data) {
+                            bootbox.alert('Тип проплат видалений.',function () {
+                                $scope.operationTypesTable.reload();
+                            })
+                        })
+                        .error(function () {
+                            bootbox.alert('Операцію не вдалося виконати.')
+                        })
+                }
+            })
+
+        }
     })
 
     .controller('externalSourcesCtrl', function ($scope) {
