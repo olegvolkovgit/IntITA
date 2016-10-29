@@ -16,14 +16,35 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_super_visor/offlineGroup', array(), false, true);
     }
 
-    public function actionOfflineSubgroup()
+
+    public function actionAddNewOfflineGroupForm()
     {
-        $this->renderPartial('/_super_visor/offlineSubgroup', array(), false, true);
+        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'new'), false, true);
+    }
+
+    public function actionEditOfflineGroupForm()
+    {
+        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'update'), false, true);
     }
     
     public function actionOfflineSubgroups()
     {
         $this->renderPartial('/_super_visor/offlineSubgroups', array(), false, true);
+    }
+    
+    public function actionOfflineSubgroup()
+    {
+        $this->renderPartial('/_super_visor/offlineSubgroup', array(), false, true);
+    }
+
+    public function actionAddSubgroupForm()
+    {
+        $this->renderPartial('/_super_visor/_subgroupForm', array('scenario'=>'new'), false, true);
+    }
+    
+    public function actionEditSubgroupForm()
+    {
+        $this->renderPartial('/_super_visor/_subgroupForm', array('scenario'=>'update'), false, true);
     }
 
     public function actionOfflineStudents()
@@ -55,7 +76,7 @@ class SuperVisorController extends TeacherCabinetController
     {
         $this->renderPartial('/_super_visor/offlineStudentProfile', array(), false, true);
     }
-
+    
     public function actionAddOfflineStudent($id)
     {
         $model=RegisteredUser::userById($id);
@@ -148,26 +169,6 @@ class SuperVisorController extends TeacherCabinetController
         echo json_encode($result);
     }
     
-    public function actionAddNewOfflineGroupForm()
-    {
-        $this->renderPartial('/_super_visor/_addOfflineGroup', array(), false, true);
-    }
-
-    public function actionEditOfflineGroupForm()
-    {
-        $this->renderPartial('/_super_visor/_editOfflineGroup', array(), false, true);
-    }
-
-    public function actionEditSubgroupForm()
-    {
-        $this->renderPartial('/_super_visor/_editSubgroup', array(), false, true);
-    }
-    
-    public function actionAddSubgroupForm()
-    {
-        $this->renderPartial('/_super_visor/_addSubgroup', array(), false, true);
-    }
-    
     public function actionGetSpecializationsList()
     {
         echo SpecializationsGroup::specializationsList();
@@ -198,6 +199,11 @@ class SuperVisorController extends TeacherCabinetController
         echo CJSON::encode(SpecializationsGroup::model()->findByPk(Yii::app()->request->getParam('id')));
     }
 
+    public function actionGetCityById($id)
+    {
+        echo AddressCity::model()->findByPk($id)->title_ua;
+    }
+    
     public function actionCreateOfflineGroup()
     {
         $name=Yii::app()->request->getParam('name');
@@ -241,13 +247,13 @@ class SuperVisorController extends TeacherCabinetController
         $name=Yii::app()->request->getPost('name');
         $startDate=Yii::app()->request->getPost('date');
         $specializationId=Yii::app()->request->getPost('specialization');
-//        $city=Yii::app()->request->getParam('city');
+        $city=Yii::app()->request->getParam('city');
 
         $group=OfflineGroups::model()->findByPk($id);
         $group->name=$name;
         $group->start_date=$startDate;
         $group->specialization=$specializationId;
-//        $group->city=$city;
+        $group->city=$city;
 
         if($group->update()){
             echo 'Оффлайн групу успішно оновлено';

@@ -94,7 +94,7 @@ config(function ($stateProvider) {
         .state('supervisor/addOfflineGroup', {
             url: "/supervisor/addOfflineGroup",
             cache: false,
-            controller: 'addOfflineGroupCtrl',
+            controller: 'offlineGroupCtrl',
             templateUrl: basePath + "/_teacher/_super_visor/superVisor/addNewOfflineGroupForm",
         })
         .state('supervisor/editOfflineGroup/:id', {
@@ -105,12 +105,6 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_super_visor/superVisor/editOfflineGroupForm/?id=" + $stateParams.id
             }
         })
-        .state('supervisor/group/:groupId/addOfflineSubgroup', {
-            url: "/supervisor/group/:groupId/addOfflineSubgroup",
-            cache: false,
-            controller: 'addOfflineSubgroupCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/addSubgroupForm"
-        })
         .state('supervisor/offlineSubgroup/:id', {
             url: "/supervisor/offlineSubgroup/:id",
             cache: false,
@@ -118,6 +112,12 @@ config(function ($stateProvider) {
             templateUrl: function ($stateParams) {
                 return basePath + "/_teacher/_super_visor/superVisor/offlineSubgroup/?id=" + $stateParams.id
             }
+        })
+        .state('supervisor/group/:groupId/addOfflineSubgroup', {
+            url: "/supervisor/group/:groupId/addOfflineSubgroup",
+            cache: false,
+            controller: 'offlineSubgroupCtrl',
+            templateUrl: basePath + "/_teacher/_super_visor/superVisor/addSubgroupForm"
         })
         .state('supervisor/editSubgroup/:id', {
             url: "/supervisor/editSubgroup/:id",
