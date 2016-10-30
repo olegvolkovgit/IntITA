@@ -225,7 +225,7 @@ class CourseController extends Controller
     public function actionGetTypeahead($query) {
         $models = TypeAheadHelper::getTypeahead($query, 'Course', ['title_ua', 'title_ru', 'title_en']);
         $array = ActiveRecordToJSON::toAssocArray($models);
-        echo json_encode($array);
+        $this->renderPartial('/ajax/json', ['data' => json_encode($array)]);
     }
 
 }

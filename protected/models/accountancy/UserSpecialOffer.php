@@ -132,11 +132,12 @@ class UserSpecialOffer extends ASpecialOffer {
         if (key_exists('userId', $params) && !empty($params['userId'])) {
             $criteria = new CDbCriteria();
             $criteria->addCondition("userId=" . $params["userId"]);
-            if (!empty($courseId)) {
+            if (key_exists('courseId', $params) && !empty($params['courseId'])) {
                 $criteria->addCondition("courseId=" . $params['courseId']);
-            }
-            if (!empty($moduleId)) {
+            } else if (key_exists('moduleId', $params) && !empty($params['moduleId'])) {
                 $criteria->addCondition("moduleId=" . $params["moduleId"]);
+            } else {
+                return null;
             }
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
             $criteria->order = 'startDate DESC';
