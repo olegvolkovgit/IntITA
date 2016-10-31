@@ -20,15 +20,10 @@
  * @property Module $module
  */
 class UserSpecialOffer extends ASpecialOffer {
-    /**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'acc_user_special_offer_payment';
-	}
 
-	/**
+    const TYPE = 1;
+
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -61,7 +56,7 @@ class UserSpecialOffer extends ASpecialOffer {
         ];
 	}
 
-	/**
+    /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -145,5 +140,9 @@ class UserSpecialOffer extends ASpecialOffer {
         }
 
         return $criteria;
+    }
+
+    protected function getTableType() {
+        return self::TYPE;
     }
 }

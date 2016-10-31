@@ -16,13 +16,7 @@
  */
 class ModuleSpecialOffer extends ASpecialOffer {
 
-    /**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'acc_module_special_offer';
-	}
+    const TYPE = 3;
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -132,5 +126,9 @@ class ModuleSpecialOffer extends ASpecialOffer {
             $criteria->limit = 1;
         }
         return $criteria;
+    }
+
+    protected function getTableType() {
+        return self::TYPE;
     }
 }
