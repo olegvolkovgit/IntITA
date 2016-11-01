@@ -12,21 +12,18 @@
                 <ul>
 
                     <li>
-                        <a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/Bots'); ?>',
-                               'Боти')">
+                        <a href="#/tenant/bots">
                             Боти
                         </a>
                     </li>
-                    <li><a href="#"
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/SearchChats'); ?>',
-                               'Розмови')">Розмови</a>
+                    <li> <a href="#/tenant/chats">
+                            Розмови
+                        </a>
                     </li>
 
-                    <li><a href="#"
-
-                           onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_tenant/tenant/showPhrases'); ?>',
-                               'Типові фрази')">Типові фрази</a>
+                    <li><a href="#/tenant/phrases">
+                            Типові фрази
+                        </a>
                     </li>
                 </ul>
             </div>
