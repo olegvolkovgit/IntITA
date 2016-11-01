@@ -20,8 +20,8 @@
                         <td data-title="'ПІБ'" filter="{'idUser.fullName': 'text'}" sortable="'idUser.fullName'">
                             <a ng-href="#/content_manager/showUser/{{row.id_user}}">{{row.idUser.firstName}} {{row.idUser.middleName}} {{row.idUser.secondName}}</a>
                         </td>
-                        <td data-title="'Email'" sortable="'idUser.email'" filter="{'email': 'text'}" sortable="'email'">
-                            <a ng-href="##/content_manager/showUser/{{row.id_user}}">{{row.idUser.email}}</a>
+                        <td data-title="'Email'" sortable="'idUser.email'" filter="{'idUser.email': 'text'}" sortable="'email'">
+                            <a ng-href="#/content_manager/showUser/{{row.id_user}}">{{row.idUser.email}}</a>
                         </td>
                         <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
                         <td data-title="'Відмінено'" filter="{'end_date': 'text'}" sortable="'end_date'">{{row.end_date}}</td>
