@@ -35,5 +35,9 @@ angular
                         url: url + '/getSpecializationsList',
                         isArray:true
                     },
+                    usersList: {
+                        url: url + '/getUsersList',
+                        method: 'GET',
+                    },
                 });
         }]);

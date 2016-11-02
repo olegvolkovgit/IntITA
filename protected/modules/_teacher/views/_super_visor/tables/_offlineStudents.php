@@ -3,10 +3,10 @@
         <table ng-table="offlineStudentsTableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="row in $data track by $index">
                 <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                    <a ng-href="#/supervisor/studentProfile/{{row.id_user}}">{{row.user.fullName}}</a>
+                    <a ng-href="#/supervisor/userProfile/{{row.id_user}}">{{row.user.fullName}}</a>
                 </td>
                 <td data-title="'Email'" filter="{'user.email': 'text'}" sortable="'user.email'">
-                    <a ng-href="#/supervisor/studentProfile/{{row.id_user}}">{{row.user.email}}</a>
+                    <a ng-href="#/supervisor/userProfile/{{row.id_user}}">{{row.user.email}}</a>
                 </td>
                 <td data-title="'Тренер'" sortable="'trainer.trainer'">
                     {{row.trainer.trainer ? 'присутній':''}}

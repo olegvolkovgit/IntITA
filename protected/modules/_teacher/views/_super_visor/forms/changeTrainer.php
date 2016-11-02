@@ -1,20 +1,20 @@
 <div class="col-md-8">
-    <a type="button" class="btn btn-primary" ng-href="#/supervisor/studentProfile/{{student.id}}">
+    <a type="button" class="btn btn-primary" ng-href="#/supervisor/userProfile/{{user.id}}">
         Переглянути інформацію про студента
     </a>
     <h4><em>Користувач:</em></h4>
     <div id="userInfo">
-        {{student.firstName}} {{student.secondName}} &lt;{{student.email}}&gt;
+        {{user.fullName}}
     </div>
     <br>
-    <div ng-if="student.trainer">
+    <div ng-if="user.trainer">
         <h4><em>Тренер:</em></h4>
         <form method="post"
               ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_super_visor/superVisor/removeTrainer"); ?>', 'remove');">
-            <input class="form-control" id="user" type="hidden" ng-value="student.id">
-            <input class="form-control" id="oldTrainerId" type="hidden" ng-value="student.trainer.user_id">
+            <input class="form-control" id="user" type="hidden" ng-value="user.id">
+            <input class="form-control" id="oldTrainerId" type="hidden" ng-value="user.trainer.user_id">
             <div id="userInfo">
-                {{student.trainer.firstName}} {{student.trainer.secondName}} {{student.trainer.middleName}} &lt;{{student.trainer.email}}&gt;
+                {{user.trainer.fullName}} {{user.trainer.secondName}} {{user.trainer.middleName}} {{user.trainer.email}}
             </div>
             <input type="submit" class="btn btn-success" value="Скасувати">
         </form>
@@ -24,8 +24,8 @@
     <div class="form-group">
         <form method="post"
               ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_super_visor/superVisor/editTrainer"); ?>', 'edit');">
-            <input class="form-control" id="user" type="hidden" ng-value="student.id">
-            <?php $this->renderPartial('/_super_visor/_selectTrainer'); ?>
+            <input class="form-control" id="user" type="hidden" ng-value="user.id">
+            <?php $this->renderPartial('/_super_visor/forms/_selectTrainer'); ?>
             <br>
             <br>
             <input type="submit" class="btn btn-success" value="Призначити тренера">

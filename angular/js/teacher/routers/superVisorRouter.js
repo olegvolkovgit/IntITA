@@ -69,11 +69,11 @@ config(function ($stateProvider) {
             controller: 'specializationsTableCtrl',
             templateUrl: basePath+"/_teacher/_super_visor/superVisor/specializationCreate"
         })
-        .state('supervisor/studentProfile/:id', {
-            url: "/supervisor/studentProfile/:id",
+        .state('supervisor/userProfile/:id', {
+            url: "/supervisor/userProfile/:id",
             cache: false,
             controller: 'offlineStudentProfileCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineStudentProfile"
+            templateUrl: basePath + "/_teacher/_super_visor/superVisor/userProfile"
         })
         .state('supervisor/student/:id/changetrainer', {
             url: "/supervisor/student/:id/changetrainer",
@@ -135,12 +135,18 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_super_visor/superVisor/addOfflineStudent/?id=" + $stateParams.id
             }
         })
-        .state('supervisor/editOfflineStudent/:id', {
-            url: "/supervisor/editOfflineStudent/:id",
+        .state('supervisor/editOfflineStudent/:idOfflineStudentModel', {
+            url: "/supervisor/editOfflineStudent/:idOfflineStudentModel",
             cache: false,
-            controller: 'offlineStudentProfileCtrl',
+            controller: 'updateOfflineStudentCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/editOfflineStudent/?id=" + $stateParams.id
+                return basePath + "/_teacher/_super_visor/superVisor/editOfflineStudent/?id=" + $stateParams.idOfflineStudentModel
             }
+        })
+        .state('supervisor/users', {
+            url: "/supervisor/users",
+            cache: false,
+            controller: 'usersTableCtrl',
+            templateUrl: basePath+"/_teacher/_super_visor/superVisor/users",
         })
 });

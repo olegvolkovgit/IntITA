@@ -48,6 +48,7 @@
  * @property TrainerStudent $trainer
  * @property PayModules [] $payModules
  * @property PayCourses [] $payCourses
+ * @property UserStudent [] $student
  */
 class StudentReg extends CActiveRecord
 {
@@ -645,7 +646,7 @@ class StudentReg extends CActiveRecord
 
     public function userNameWithEmail()
     {
-        $name = $this->firstName . " " . $this->secondName;
+        $name = trim($this->firstName . " " . $this->secondName);
         if ($name == "") {
             return $this->email;
         } else {
@@ -653,6 +654,21 @@ class StudentReg extends CActiveRecord
         }
     }
 
+    public function userIdFullName()
+    {
+        $data=array();
+        $fullName = trim($this->firstName . " " . $this->secondName);
+        if ($fullName == "") {
+            $fullName=$this->email;
+        } else {
+            $fullName=trim($fullName . ", " . $this->email);
+        }
+        $data["id"] = $this->id;
+        $data["fullName"] = $fullName;
+        
+        return $data;
+    }
+    
     public static function getUserInfo()
     {
         $criteria = new CDbCriteria();
@@ -1356,28 +1372,4 @@ class StudentReg extends CActiveRecord
 
         return json_encode($data);
     }
-
-    public static function userData($id){
-        $user = StudentReg::model()->findByPk($id);
-        $data=array();
-        $data["id"] = $user->id;
-        $data["fullName"] = $user->userNameWithEmail();
-        $data["nickname"] = $user->nickname;
-        $data["birthday"] = $user->birthday;
-        $data["email"] = $user->email;
-        $data["educform"] = $user->educform;
-        $data["addressAge"] = $user->addressString();
-        $data["avatar"] = StaticFilesHelper::createPath('image', 'avatars', $user->avatar);
-        $data["country"] = $user->country0;
-        $data["city"] = $user->city0;
-        $data["skype"] = $user->skype;
-        $data["phone"] = $user->phone;
-        $data["status"] = $user->status;
-        $data["cancelled"] = $user->cancelled;
-        $data["trainer"] = TrainerStudent::getTrainerByStudent($id);
-        $data["profileLink"] = Yii::app()->createUrl('studentreg/profile', array('idUser' => $user->id));
-
-        return $data;
-    }
-
 }
