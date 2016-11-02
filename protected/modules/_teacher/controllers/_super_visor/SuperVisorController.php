@@ -19,17 +19,17 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionAddNewOfflineGroupForm()
     {
-        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'new'), false, true);
+        $this->renderPartial('/_super_visor/forms/_offlineGroupForm', array('scenario'=>'new'), false, true);
     }
 
     public function actionEditOfflineGroupForm()
     {
-        $this->renderPartial('/_super_visor/_offlineGroupForm', array('scenario'=>'update'), false, true);
+        $this->renderPartial('/_super_visor/forms/_offlineGroupForm', array('scenario'=>'update'), false, true);
     }
     
     public function actionOfflineSubgroups()
     {
-        $this->renderPartial('/_super_visor/offlineSubgroups', array(), false, true);
+        $this->renderPartial('/_super_visor/tables/offlineSubgroups', array(), false, true);
     }
     
     public function actionOfflineSubgroup()
@@ -39,42 +39,47 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionAddSubgroupForm()
     {
-        $this->renderPartial('/_super_visor/_subgroupForm', array('scenario'=>'new'), false, true);
+        $this->renderPartial('/_super_visor/forms/_subgroupForm', array('scenario'=>'new'), false, true);
     }
     
     public function actionEditSubgroupForm()
     {
-        $this->renderPartial('/_super_visor/_subgroupForm', array('scenario'=>'update'), false, true);
+        $this->renderPartial('/_super_visor/forms/_subgroupForm', array('scenario'=>'update'), false, true);
     }
 
     public function actionOfflineStudents()
     {
-        $this->renderPartial('/_super_visor/_offlineStudents', array(), false, true);
+        $this->renderPartial('/_super_visor/tables/_offlineStudents', array(), false, true);
     }
 
     public function actionStudentsWithoutGroup()
     {
-        $this->renderPartial('/_super_visor/_studentsWithoutGroup', array(), false, true);
+        $this->renderPartial('/_super_visor/tables/_studentsWithoutGroup', array(), false, true);
     }
 
     public function actionSpecializations()
     {
-        $this->renderPartial('/_super_visor/specializations', array(), false, true);
+        $this->renderPartial('/_super_visor/tables/specializations', array(), false, true);
     }
 
     public function actionSpecializationCreate()
     {
-        $this->renderPartial('/_super_visor/specializationCreate', array(), false, true);
+        $this->renderPartial('/_super_visor/forms/specializationCreate', array(), false, true);
     }
     
     public function actionSpecializationUpdate()
     {
-        $this->renderPartial('/_super_visor/specializationUpdate', array(), false, true);
+        $this->renderPartial('/_super_visor/forms/specializationUpdate', array(), false, true);
     }
 
-    public function actionOfflineStudentProfile()
+    public function actionUserProfile()
     {
-        $this->renderPartial('/_super_visor/offlineStudentProfile', array(), false, true);
+        $this->renderPartial('/_super_visor/userProfile', array(), false, true);
+    }
+
+    public function actionUsers()
+    {
+        $this->renderPartial('/_super_visor/tables/users', array(), false, true);
     }
     
     public function actionAddOfflineStudent($id)
@@ -85,18 +90,17 @@ class SuperVisorController extends TeacherCabinetController
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
 
-        $this->renderPartial('/_super_visor/addOfflineStudent', array(), false, true);
+        $this->renderPartial('/_super_visor/forms/addOfflineStudent', array(), false, true);
     }
 
     public function actionEditOfflineStudent($id)
     {
-        $model=RegisteredUser::userById($id);
-        $user = $model->registrationData->getAttributes();
+        $offlineStudent = OfflineStudents::model()->findByPk($id);
 //        todo
-        if($user===null)
+        if($offlineStudent===null)
             throw new CHttpException(404,'The requested page does not exist.');
 
-        $this->renderPartial('/_super_visor/updateOfflineStudent', array(), false, true);
+        $this->renderPartial('/_super_visor/forms/updateOfflineStudent', array(), false, true);
     }
     
     public function actionGetOfflineGroupsList()
@@ -148,7 +152,7 @@ class SuperVisorController extends TeacherCabinetController
         $criteria->alias = 't';
         $criteria->join = 'inner join user_student us on t.id = us.id_user';
         $criteria->join .= ' left JOIN offline_students os ON t.id = os.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and (os.id_user IS NULL or os.end_date IS NOT NULL) and us.end_date IS NULL and t.educform="Онлайн/Офлайн"';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL and t.educform="Онлайн/Офлайн"';
         $criteria->group = 't.id';
 
         $ngTable->mergeCriteriaWith($criteria);
@@ -168,6 +172,19 @@ class SuperVisorController extends TeacherCabinetController
         $result = $ngTable->getData();
         echo json_encode($result);
     }
+
+    public function actionGetUsersList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE;
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
     
     public function actionGetSpecializationsList()
     {
@@ -179,14 +196,14 @@ class SuperVisorController extends TeacherCabinetController
         echo CJSON::encode(OfflineGroups::model()->findByPk(Yii::app()->request->getParam('id')));
     }
 
-    public function actionGetStudentData()
+    public function actionGetUserData()
     {
-        echo  CJSON::encode(StudentReg::userData(Yii::app()->request->getParam('id')));
+        echo  CJSON::encode(OfflineStudents::userData(Yii::app()->request->getParam('id')));
     }
 
-    public function actionGetOfflineStudentData()
+    public function actionGetOfflineStudentModel()
     {
-        echo  CJSON::encode(OfflineStudents::studentData(Yii::app()->request->getParam('id')));
+        echo  CJSON::encode(OfflineStudents::studentModel(Yii::app()->request->getParam('id')));
     }
     
     public function actionGetSubgroupData()
@@ -203,6 +220,12 @@ class SuperVisorController extends TeacherCabinetController
     {
         echo AddressCity::model()->findByPk($id)->title_ua;
     }
+
+    public function actionGetCuratorById($id)
+    {
+        $id=$id?$id:Yii::app()->user->getId();
+        echo json_encode(StudentReg::model()->findByPk($id)->userIdFullName());
+    }
     
     public function actionCreateOfflineGroup()
     {
@@ -210,12 +233,15 @@ class SuperVisorController extends TeacherCabinetController
         $startDate=Yii::app()->request->getParam('date');
         $specializationId=Yii::app()->request->getParam('specialization');
         $city=Yii::app()->request->getParam('city');
+        $curatorId=Yii::app()->request->getParam('curator');
 
         $group= new OfflineGroups();
         $group->name=$name;
         $group->start_date=$startDate;
         $group->specialization=$specializationId;
         $group->city=$city;
+        $group->id_user_created=Yii::app()->user->getId();
+        $group->id_user_curator=$curatorId;
         if($group->save()){
             echo 'Оффлайн групу успішно створено';
         }else{
@@ -228,11 +254,15 @@ class SuperVisorController extends TeacherCabinetController
         $name=Yii::app()->request->getParam('name');
         $group=Yii::app()->request->getParam('group');
         $data=Yii::app()->request->getParam('data');
+        $curatorId=Yii::app()->request->getParam('curator');
         
         $subgroup= new OfflineSubgroups();
         $subgroup->name=$name;
         $subgroup->group=$group;
         $subgroup->data=$data;
+        $subgroup->id_user_created=Yii::app()->user->getId();
+        $subgroup->id_user_curator=$curatorId;
+
         if($subgroup->save()){
             echo 'Підгрупу успішно додано';
         }else{
@@ -248,12 +278,14 @@ class SuperVisorController extends TeacherCabinetController
         $startDate=Yii::app()->request->getPost('date');
         $specializationId=Yii::app()->request->getPost('specialization');
         $city=Yii::app()->request->getParam('city');
+        $curatorId=Yii::app()->request->getParam('curator');
 
         $group=OfflineGroups::model()->findByPk($id);
         $group->name=$name;
         $group->start_date=$startDate;
         $group->specialization=$specializationId;
         $group->city=$city;
+        $group->id_user_curator=$curatorId;
 
         if($group->update()){
             echo 'Оффлайн групу успішно оновлено';
@@ -268,10 +300,12 @@ class SuperVisorController extends TeacherCabinetController
         $id=Yii::app()->request->getPost('id');
         $name=Yii::app()->request->getPost('name');
         $data=Yii::app()->request->getPost('data');
-        
+        $curatorId=Yii::app()->request->getParam('curator');
+
         $subgroup=OfflineSubgroups::model()->findByPk($id);
         $subgroup->name=$name;
         $subgroup->data=$data;
+        $subgroup->id_user_curator=$curatorId;
 
         if($subgroup->update()){
             echo 'Підгрупу успішно оновлено';
@@ -316,6 +350,10 @@ class SuperVisorController extends TeacherCabinetController
         echo AddressCity::citiesByQuery($query);
     }
 
+    public function actionCuratorsByQuery($query){
+        echo SuperVisor::addCuratorsList($query);
+    }
+    
     public function actionAddTrainer($id)
     {
         $user = StudentReg::model()->findByPk($id);
@@ -324,7 +362,7 @@ class SuperVisorController extends TeacherCabinetController
 
         $trainers = Teacher::getAllTrainers();
 
-        $this->renderPartial('/_super_visor/addTrainer', array(
+        $this->renderPartial('/_super_visor/forms/addTrainer', array(
             'user' => $user,
             'trainers' => $trainers
         ), false, true);
@@ -353,7 +391,7 @@ class SuperVisorController extends TeacherCabinetController
 
         $trainers = Teacher::getAllTrainers();
 
-        $this->renderPartial('/_super_visor/changeTrainer', array(
+        $this->renderPartial('/_super_visor/forms/changeTrainer', array(
             'user' => $user,
             'trainers' => $trainers,
             'oldTrainer' => $oldTrainer
@@ -421,9 +459,10 @@ class SuperVisorController extends TeacherCabinetController
         $student->id_user=$userId;
         $student->start_date=$startDate;
         $student->id_subgroup=$subgroupId;
+        $student->assigned_by=Yii::app()->user->getId();
 
-        if(OfflineStudents::model()->findByAttributes(array('id_user'=>$student->id_user, 'end_date'=>null))){
-            echo 'Студент уже входить в одну з підгруп оффлайн групи';
+        if(OfflineStudents::model()->findByAttributes(array('id_user'=>$student->id_user, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
+            echo 'Студент уже входить в дану підгрупу';
         }else{
             if($student->save()){
                 echo 'Студента додано в підгрупу';
@@ -435,15 +474,25 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionUpdateOfflineStudent()
     {
+        $modelId = Yii::app()->request->getPost('modelId');
         $userId = Yii::app()->request->getPost('userId');
         $subgroupId = Yii::app()->request->getPost('subgroupId');
         $startDate = Yii::app()->request->getPost('startDate');
         $graduateDate = Yii::app()->request->getPost('graduateDate');
+        $newSubgroupId = Yii::app()->request->getPost('newSubgroupId');
 
-        $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId));
+        $student=OfflineStudents::model()->findByPk($modelId);
         if($student){
+            if($subgroupId!=$newSubgroupId){
+                $student->id_subgroup=$newSubgroupId;
+                if(OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'end_date'=>null,'id_subgroup'=>$newSubgroupId))){
+                    echo 'Студент уже входить в дану підгрупу';
+                    return;
+                }
+            }
             $student->start_date=$startDate;
-            $student->graduate_date=$graduateDate;
+            if($graduateDate) $student->graduate_date=$graduateDate;
+            else $student->graduate_date=null;
             if($student->update()){
                 echo 'Дані оновлено';
             }else{
@@ -459,7 +508,7 @@ class SuperVisorController extends TeacherCabinetController
         $userId = Yii::app()->request->getPost('userId');
         $subgroupId = Yii::app()->request->getPost('subgroupId');
 
-        $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId));
+        $student=OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'id_subgroup'=>$subgroupId,'end_date'=>null));
         if($student){
             $student->end_date=date("Y-m-d H:i:s");
             if($student->update()){

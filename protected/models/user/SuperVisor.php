@@ -74,4 +74,30 @@ class SuperVisor extends Role
 		}
 		return json_encode($result);
 	}
+
+	public static function addCuratorsList($query)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->alias = "s";
+		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+		$criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+		$criteria->addCondition('t.user_id IS NOT NULL');
+		$criteria->group = 's.id';
+
+		$data = StudentReg::model()->findAll($criteria);
+
+		$result = [];
+		foreach ($data as $key=>$model) {
+			$result["results"][$key]["id"] = $model->id;
+			$result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+			$result["results"][$key]["email"] = $model->email;
+			$result["results"][$key]["nameEmail"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName.' ('.$model->email.')');
+			$result["results"][$key]["url"] = $model->avatarPath();
+		}
+		return json_encode($result);
+	}
 }

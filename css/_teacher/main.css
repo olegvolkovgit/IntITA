@@ -597,3 +597,10 @@ div.loader > div {
     float: right;
     width: 100%;
 }
+.list-group-item .groupList{
+    margin-bottom:0;
+    background-color:inherit;
+    border-radius:0;
+    border:none;
+    border-bottom:1px solid #ddd;
+}

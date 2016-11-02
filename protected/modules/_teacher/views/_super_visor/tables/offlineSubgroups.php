@@ -9,7 +9,10 @@
                     <td data-title="'Група'" filter="{'groupName.name': 'text'}" sortable="'groupName.name'">
                         <a ng-href="#/supervisor/offlineGroup/{{row.groupName.id}}">{{row.groupName.name}}</a>
                     </td>
-                    <td data-title="'Інформація(розклад)'" ><a href="{{row.data}}" target="_blank">{{row.data}}</a></td>
+                    <td data-title="'Інформація(розклад)'" ><span ng-bind-html="row.data | linky"></span></td>
+                    <td data-title="'Куратор підгрупи'" filter="{'userCurator.fullName': 'text'}" sortable="'userCurator.fullName'">
+                        <a ng-href="#/supervisor/userProfile/{{row.id_user_curator}}">{{row.userCurator.fullName}} ({{row.userCurator.email}})</a>
+                    </td>
                 </tr>
             </table>
         </div>

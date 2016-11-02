@@ -1,11 +1,25 @@
 <div class="panel-body">
+    <ul class="list-inline">
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/supervisor/offlineStudents">
+                Оффлайн студенти
+            </a>
+        </li>
+        <li>
+            <a type="button" class="btn btn-primary" ng-href="#/supervisor/userProfile/{{user.id}}">
+                Профіль студента
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="panel-body">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="addStudentToSubgroup()" name="addStudent"  novalidate>
+                <form ng-submit="addStudentToSubgroup(studentId,selectedSubgroup.id,startDate)" name="addStudent"  novalidate>
                     <div class="form-group">
                         <label>Студент:</label>
-                        <input class="form-control" ng-model="student.fullName" required maxlength="128" size="50" disabled>
+                        <input class="form-control" ng-model="user.fullName" required maxlength="128" size="50" disabled>
                     </div>
                     <div class="form-group">
                         <label>Група*:</label>
@@ -37,9 +51,6 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" ng-disabled="addStudent.$invalid">Зберегти
                         </button>
-                        <a type="button" class="btn btn-default" ng-href="#/supervisor/studentsWithoutGroup">
-                            Назад
-                        </a>
                     </div>
                 </form>
             </div>

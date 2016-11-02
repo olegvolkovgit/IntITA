@@ -9,6 +9,8 @@
  * @property string $start_date
  * @property string $specialization
  * @property integer $city
+ * @property integer $id_user_created
+ * @property integer $id_user_curator
  *
  */
 class OfflineGroups extends CActiveRecord
@@ -29,10 +31,10 @@ class OfflineGroups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, start_date, specialization, city', 'required'),
+			array('name, start_date, specialization, city, id_user_created, id_user_curator', 'required'),
 			array('name', 'length', 'max'=>128),
 			// The following rule is used by search().
-			array('id, name, start_date, specialization, city', 'safe', 'on'=>'search'),
+			array('id, name, start_date, specialization, city, id_user_created, id_user_curator', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,6 +48,8 @@ class OfflineGroups extends CActiveRecord
 		return array(
 			'specializationName' => array(self::HAS_ONE, 'SpecializationsGroup', ['id'=>'specialization']),
 			'cityName' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
+			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
+			'userCurator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_curator'),
 		);
 	}
 
@@ -60,6 +64,8 @@ class OfflineGroups extends CActiveRecord
 			'start_date' => 'Дата створення',
 			'specialization' => 'Спеціалізація',
 			'city' => 'Місто',
+			'id_user_created' => 'Ід автора групи',
+			'id_user_curator' => 'Ід куратора групи'
 		);
 	}
 
@@ -84,6 +90,8 @@ class OfflineGroups extends CActiveRecord
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('specialization',$this->specialization,true);
 		$criteria->compare('city',$this->city,true);
+		$criteria->compare('id_user_created',$this->id_user_created,true);
+		$criteria->compare('id_user_curator',$this->id_user_curator,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
