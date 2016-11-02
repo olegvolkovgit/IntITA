@@ -23,7 +23,7 @@ class BasePaymentSchema implements IPaymentCalculator {
     public function getCloseDate(IBillableObject $payObject, DateTime $startDate) {
         $interval = new DateInterval('P' . $payObject->getDuration() . 'D');
         $closeDate = $startDate->add($interval);
-        return $closeDate->getTimestamp();
+        return $closeDate;
     }
 
     public function getInvoicesList(IBillableObject $payObject, DateTime $startDate) {

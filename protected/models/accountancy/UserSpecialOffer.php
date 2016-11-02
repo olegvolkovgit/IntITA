@@ -20,15 +20,10 @@
  * @property Module $module
  */
 class UserSpecialOffer extends ASpecialOffer {
-    /**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'acc_user_special_offer_payment';
-	}
 
-	/**
+    const TYPE = 1;
+
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -61,7 +56,7 @@ class UserSpecialOffer extends ASpecialOffer {
         ];
 	}
 
-	/**
+    /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -132,11 +127,12 @@ class UserSpecialOffer extends ASpecialOffer {
         if (key_exists('userId', $params) && !empty($params['userId'])) {
             $criteria = new CDbCriteria();
             $criteria->addCondition("userId=" . $params["userId"]);
-            if (!empty($courseId)) {
+            if (key_exists('courseId', $params) && !empty($params['courseId'])) {
                 $criteria->addCondition("courseId=" . $params['courseId']);
-            }
-            if (!empty($moduleId)) {
+            } else if (key_exists('moduleId', $params) && !empty($params['moduleId'])) {
                 $criteria->addCondition("moduleId=" . $params["moduleId"]);
+            } else {
+                return null;
             }
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
             $criteria->order = 'startDate DESC';
@@ -144,5 +140,9 @@ class UserSpecialOffer extends ASpecialOffer {
         }
 
         return $criteria;
+    }
+
+    protected function getTableType() {
+        return self::TYPE;
     }
 }

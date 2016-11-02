@@ -983,6 +983,7 @@ class Course extends CActiveRecord implements IBillableObject
     /**
      * @param EducationForm $educationForm
      * @return array
+     * @internal param EducationForm $educationForml
      */
     public function getPaymentSchemas(EducationForm $educationForm) {
         $paymentSchemas = PaymentScheme::model()->getPaymentScheme(

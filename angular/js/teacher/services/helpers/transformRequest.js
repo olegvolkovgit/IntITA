@@ -11,8 +11,7 @@ angular
                 if (data.hasOwnProperty(name)) {
                     if (typeof data[name] === 'function' ||
                         data[name] === null ||
-                        data[name] === undefined ||
-                        isNaN(data[name])) {
+                        data[name] === undefined) {
                         continue;
                     } else if (Array.isArray(data[name])) {
                         for (var index in data[name]) {

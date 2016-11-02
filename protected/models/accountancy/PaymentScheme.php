@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'acc_payment_schema':
  * @property string $id
  * @property string $discount
- * @property integer $pay_count
+ * @property integer $payCount
  * @property string $loan
  * @property string $name
  * @property integer $monthpay
@@ -28,6 +28,12 @@ class PaymentScheme extends CActiveRecord {
         return 'acc_payment_schema';
     }
 
+    public function defaultScope() {
+        return [
+            'condition' => 'type = 0'
+        ];
+    }
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -36,12 +42,12 @@ class PaymentScheme extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('name', 'required'),
-            array('pay_count, monthpay', 'numerical', 'integerOnly' => true),
+            array('payCount, monthpay', 'numerical', 'integerOnly' => true),
             array('discount, loan', 'length', 'max' => 10),
             array('name', 'length', 'max' => 512),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, discount, pay_count, loan, name, monthpay', 'safe', 'on' => 'search'),
+            array('id, discount, payCount, loan, name, monthpay', 'safe', 'on' => 'search'),
         );
     }
 
@@ -61,7 +67,7 @@ class PaymentScheme extends CActiveRecord {
         return array(
             'id' => 'ID',
             'discount' => 'відсоток знижки',
-            'pay_count' => 'кількість проплат',
+            'payCount' => 'кількість проплат',
             'loan' => 'відсоток',
             'name' => 'опис',
             'monthpay' => 'кількість платежів по-місячно',
@@ -87,7 +93,7 @@ class PaymentScheme extends CActiveRecord {
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('discount', $this->discount, true);
-        $criteria->compare('pay_count', $this->pay_count);
+        $criteria->compare('payCount', $this->payCount);
         $criteria->compare('loan', $this->loan, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('monthpay', $this->monthpay);
@@ -122,12 +128,12 @@ class PaymentScheme extends CActiveRecord {
     public function getSchemaCalculator(EducationForm $educationForm) {
         $schema = null;
         if ($this->loan > 0) {
-            $schema = new LoanPaymentSchema($this->loan, $this->pay_count, $educationForm);
+            $schema = new LoanPaymentSchema($this->loan, $this->payCount, $educationForm);
         } else {
             if ($this->monthpay > 0) {
-                $schema = new BasePaymentSchema($this->pay_count, $educationForm);
+                $schema = new BasePaymentSchema($this->payCount, $educationForm);
             } else {
-                $schema = new AdvancePaymentSchema($this->discount, $this->pay_count, $educationForm);
+                $schema = new AdvancePaymentSchema($this->discount, $this->payCount, $educationForm);
             }
         }
         return $schema;

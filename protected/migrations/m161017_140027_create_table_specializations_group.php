@@ -2,13 +2,13 @@
 
 class m161017_140027_create_table_specializations_group extends CDbMigration
 {
-	public function up()
+	public function safeUp()
 	{
 		$this->createTable('specializations_group', array(
 			'id' => 'INT(10) NOT NULL AUTO_INCREMENT',
 			'name' => 'VARCHAR(128) NOT NULL',
 			'PRIMARY KEY (`id`)'
-		));
+		), 'DEFAULT CHARSET=utf8');
 
 		$this->insertMultiple('specializations_group', array(
 				array(
@@ -43,8 +43,7 @@ class m161017_140027_create_table_specializations_group extends CDbMigration
 	}
 
 	public function safeDown()
-	{
-		
+    {
 		$this->dropForeignKey('FK_group_address_city','offline_groups');
 		$this->dropForeignKey('FK_offline_groups_specialization','offline_groups');
 		$this->dropTable('offline_groups');

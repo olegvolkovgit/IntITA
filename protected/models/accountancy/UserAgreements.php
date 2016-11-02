@@ -285,8 +285,7 @@ class UserAgreements extends CActiveRecord
         $billableObjectUAH = clone $billableObject->getModelUAH();
 
         $model->summa = $schema->getSumma($billableObjectUAH);
-        $startDate = new DateTime();
-        $model->close_date = $schema->getCloseDate($billableObject, $startDate);
+        $model->close_date = $schema->getCloseDate($billableObject, new DateTime())->format(Yii::app()->params['dbDateFormat']);
         $model->status = 1;
 
         if ($model->save()) {

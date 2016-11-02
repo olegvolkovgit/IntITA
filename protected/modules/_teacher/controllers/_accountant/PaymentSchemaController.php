@@ -19,7 +19,6 @@ class PaymentSchemaController extends TeacherCabinetController
             $offer = $soFactory->createSpecialOffer();
             if ($offer === null) {
                 $offer = new PaymentScheme();
-                $params['pay_count'] = key_exists('payCount', $params) ? $params['payCount'] : null;
                 $offer->setAttributes($params);
                 $offer->save();
 
@@ -30,6 +29,6 @@ class PaymentSchemaController extends TeacherCabinetController
         } catch (Exception $error) {
             $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-        echo json_encode($result);
+        $this->renderPartial('//ajax/json', ['data' => json_encode($result)]);
     }
 }

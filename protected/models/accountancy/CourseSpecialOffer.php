@@ -15,13 +15,8 @@
  * @property string $endDate
  */
 class CourseSpecialOffer extends ASpecialOffer {
-    /**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'acc_course_special_offer';
-	}
+
+    const TYPE = 2;
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -125,5 +120,9 @@ class CourseSpecialOffer extends ASpecialOffer {
             $criteria->order = 'startDate DESC';
         }
         return $criteria;
+    }
+
+    protected function getTableType() {
+        return self::TYPE;
     }
 }
