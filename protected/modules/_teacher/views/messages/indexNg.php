@@ -24,13 +24,13 @@
             <!-- Nav tabs -->
             <script type="text/ng-template" id="path/to/your/filters/age.html">
                 <div ng-controller="messagesCtrl">
-                    <p class="input-group">
+                    <p class="input-group dateInput">
                         <input type="text" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="input-filter form-control"/ >
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="show = !show"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>
                     </p>
-                    <div ng-show="show" style="display:block; z-index: 400; position: absolute; min-height:290px;">
+                    <div ng-show="show" class="dateFilter">
                         <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
                     </div>
                 </div>
