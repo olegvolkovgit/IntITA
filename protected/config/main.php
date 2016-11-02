@@ -29,6 +29,7 @@ return array(
         'application.models.accountancy.*',
         'application.models.accountancy.services.*',
         'application.models.accountancy.paymentScheme.*',
+        'application.models.accountancy.corporateEntity.*',
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
