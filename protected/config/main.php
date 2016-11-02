@@ -27,6 +27,8 @@ return array(
         'application.models.track.*',
         'application.models.track.statistics.*',
         'application.models.accountancy.*',
+        'application.models.accountancy.services.*',
+        'application.models.accountancy.paymentScheme.*',
         'application.models.message.*',
         'application.models.quiz.*',
         'application.models.slider.*',
