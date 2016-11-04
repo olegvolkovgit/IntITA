@@ -7,11 +7,6 @@ class Operations {
         'user_create' => 'userCreated.fullName'
     ];
 
-    /* TODO */
-    private function validateOperation($operation) {
-        return true;
-    }
-
     /**
      * @param $agreementId
      * @param array $invoices
