@@ -35,7 +35,7 @@ if ($model->isReady()   ) { ?>
                     </tr>
                 </table>
                 <div  ng-show="isOpenOnlineSchema">
-                    <payments-scheme-online data-course-id="<?php echo $model->course_ID;?>"></payments-scheme-online>
+                    <payments-scheme data-schemes="onlineSchemeData" data-other-schemes='offlineSchemeData'></payments-scheme>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@ if ($model->isReady()   ) { ?>
                 </tr>
             </table>
             <div  ng-show="isOpenOfflineSchema">
-                <payments-scheme-offline data-course-id="<?php echo $model->course_ID;?>"></payments-scheme-offline>
+                <payments-scheme data-schemes="offlineSchemeData" data-other-schemes='onlineSchemeData'></payments-scheme>
             </div>
         </div>
 

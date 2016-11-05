@@ -110,20 +110,20 @@ function moduleListCtrl($http,$scope) {
     };
 }
 
-function courseSchemaCtrl($scope) {
-    $scope.selectedSchemeOnline = { scheme: '' };
-    $scope.selectedSchemeOffline = { scheme: '' };
-    $scope.getIncludeFile = function(section) {
-        switch (section) {
-            case 1:
-                return basePath + '/angular/js/main_app/templates/_advanceSchema.html';
-            case 2:
-            case 3:
-                return basePath + '/angular/js/main_app/templates/_baseSchema.html';
-            default:
-                return basePath + '/angular/js/main_app/templates/_loanSchema.html';
-        }
-    };
+function courseSchemaCtrl(paymentsService,$scope) {
+    paymentsService
+        .scheme({courseId: idCourse,educationFormId:1})
+        .$promise
+        .then(function (data) {
+            $scope.onlineSchemeData = data;
+        });
+    paymentsService
+        .scheme({courseId: idCourse,educationFormId:2})
+        .$promise
+        .then(function (data) {
+            $scope.offlineSchemeData = data;
+        });
+
     $scope.paymentOnlineSpoiler=function (a,b) {
         if($scope.spoilerOnlineTitle==a+'\u25BC') {
             $scope.spoilerOnlineTitle=b+'\u25B2';
@@ -143,29 +143,15 @@ function courseSchemaCtrl($scope) {
         }
     };
 
-    $scope.setSchema = function (event,changeEl,educForm) {
-        if(educForm=='Online'){
-            $scope.selectedSchemeOffline.scheme='';
-        }else{
-            $scope.selectedSchemeOnline.scheme='';
-        }
-        var schemaHtml=$(event.currentTarget).next().find('.numbers').html();
-        if($(event.currentTarget).next().find('.numbers').next().is('.discount'))
-            schemaHtml=schemaHtml+$(event.currentTarget).next().find('.numbers').next('.discount').html();
-        $('#'+changeEl).html(schemaHtml);
-    };
-
     $scope.redirectToCabinet=function (scenario,id) {
-        if($scope.selectedSchemeOnline.scheme){
-            $scope.educationForm=1;
-            $scope.schemeType=$scope.selectedSchemeOnline.scheme;
-        }else if($scope.selectedSchemeOffline.scheme){
-            $scope.educationForm=2;
-            $scope.schemeType=$scope.selectedSchemeOffline.scheme;
-        }else{
+        if(typeof $scope.onlineSchemeData.selectedForm=='undefined' || typeof $scope.offlineSchemeData.selectedForm=='undefined'){
             $scope.educationForm=1;
             $scope.schemeType=1;
+        }else{
+            $scope.educationForm=$scope.onlineSchemeData.selectedForm?1:2;
+            $scope.schemeType=$scope.onlineSchemeData.selectedSchemeType?$scope.onlineSchemeData.selectedSchemeType:$scope.offlineSchemeData.selectedSchemeType;
         }
+
         location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/educationForm/'+$scope.educationForm+'/scheme/'+$scope.schemeType;
     };
 

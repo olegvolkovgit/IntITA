@@ -1,0 +1,63 @@
+<label style="cursor:pointer;font-weight:normal">
+    <input type="radio" class="paymentPlan_value" ng-click="setSchema($event,scheme.educForm, scheme.type)" name="payment" ng-model="selectedSchemeOnline.scheme" ng-value="scheme.type">
+    <span>
+        <table ng-if="scheme.discount==0" class="mainPay">
+            <tr>
+                <td class="icoPay">
+                    <img class="icoNoCheck" ng-src="{{scheme.ico}}">
+                    <img class="icoCheck" ng-src="{{scheme.icoCheck}}">
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <div>{{scheme.translates.title}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="coursePriceStatus2">
+                                    {{scheme.translates.currencySymbol}}. {{scheme.price}}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table class="mainPay">
+            <tr>
+                <td class="icoPay">
+                    <img class="icoNoCheck" ng-src="{{scheme.ico}}">
+                    <img class="icoCheck" ng-src="{{scheme.icoCheck}}">
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <div ng-class="{basePayment: scheme.type==2 || scheme.type==3}">{{scheme.translates.title}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="numbers">
+                                    <span class="coursePriceStatus1">
+                                        {{scheme.translates.currencySymbol}}{{scheme.fullPrice}}
+                                    </span>
+                                    &nbsp
+                                    <span class="coursePriceStatus2">
+                                        {{scheme.translates.currencySymbol}}{{scheme.price}}
+                                    </span>
+                                </div>
+                                <span class="discount">
+                                    <img style="text-align:right" ng-src="{{onlineSchemeData.icons.discountIco}}"/>
+                                    <span class="discountColor">({{scheme.translates.discount}} - {{scheme.discount}}%)</span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </span>
+</label>

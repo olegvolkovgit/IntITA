@@ -11,15 +11,14 @@ $price = $course->getBasePrice();
         <div class="tab-content">
             <uib-tabset active="active" >
                 <uib-tab  index="0" heading="Навчання онлайн">
-                    <payments-scheme-online data-course-id="<?php echo $course->course_ID;?>"></payments-scheme-online>
+                    <payments-scheme data-schemes="onlineSchemeData" data-other-schemes='offlineSchemeData'></payments-scheme>
                 </uib-tab>
                 <uib-tab  index="1" heading="Навчання офлайн">
-                    <payments-scheme-offline data-course-id="<?php echo $course->course_ID;?>"></payments-scheme-offline>
+                    <payments-scheme data-schemes="offlineSchemeData" data-other-schemes='onlineSchemeData'></payments-scheme>
                 </uib-tab>
             </uib-tabset>
             <br>
             <div class="col-md-3">
-                <?php if ($price > 0) { ?>
                 <button class="btn btn-primary" type="button"
                         ng-click="createAccount(
                             '<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
@@ -27,9 +26,8 @@ $price = $course->getBasePrice();
                             '0',
                             'Course',
                             '<?= $offerScenario ?>',
-                            '')"><?php echo Yii::t('profile', '0261'); ?>
+                            '')">Продовжити
                 </button>
-                <?php } ?>
             </div>
         </div>
     </div>

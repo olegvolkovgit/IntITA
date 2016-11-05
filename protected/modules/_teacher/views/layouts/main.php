@@ -41,6 +41,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-locale_uk-ua.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'cabinet/authForm.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/paymentsSchemes.js'); ?>"></script>
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
     <title><?php echo Yii::app()->name; ?></title>
 

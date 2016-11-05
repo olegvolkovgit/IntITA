@@ -1,0 +1,16 @@
+<div class="paymentsForm">
+    <input value="1" type="hidden" name="schema"/>
+    <input value="Online" type="hidden" name="type" id="type"/>
+    <div ng-if="document.schemes[0].fullPrice==0">
+        {{document.translates.price}} <span class="colorGreen">{{document.translates.free}}</span>
+    </div>
+    <div ng-if="document.schemes[0].fullPrice!=0" class="rowRadio">
+        <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'"
+             ng-include="scheme.type==1 && '/IntITA/angular/js/templates/_advanceSchema.html' ||
+             scheme.type==2 && '/angular/js/templates/_baseSchema.html' ||
+             scheme.type==3 && '/angular/js/templates/_baseSchema.html' ||
+             '/angular/js/templates/_loanSchema.html'"
+            >
+        </div>
+    </div>
+</div>
