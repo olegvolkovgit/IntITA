@@ -38,8 +38,10 @@ class AdvancePaymentSchema implements IPaymentCalculator{
             $this->payCount);
 
         for($i = 0; $i < $this->payCount; $i++){
-            array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
-            $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
+            if(isset($arrayInvoiceSumma[$i])){
+                array_push($invoicesList, Invoice::createInvoice($arrayInvoiceSumma[$i], $currentTimeInterval));
+                $currentTimeInterval = $currentTimeInterval->modify(' +'.$timeInterval.' days');
+            }
         }
         return $invoicesList;
     }
