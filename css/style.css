@@ -120,7 +120,7 @@ div#exhaust{display:none;width:45%;position:absolute;z-index:2000;}
 .languageRow{white-space:nowrap;margin-bottom:40px}
 .emptyTd{display: none}
 .dateInput{margin-bottom:0px}
-.dateFilter {display:block; z-index: 400; position: absolute; min-height:290px;margin-left:-80px}
+.dateFilter {display:block; z-index: 400; position: absolute; min-height:290px;right:55px}
 #hamburgerMini{display:none}
 #emailVerification-form {
     margin: 50px auto;
