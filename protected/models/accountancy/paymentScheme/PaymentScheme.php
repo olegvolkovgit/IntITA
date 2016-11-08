@@ -30,7 +30,7 @@ class PaymentScheme extends CActiveRecord {
 
     public function defaultScope() {
         return [
-            'condition' => 'type = 0'
+            'condition' => 'userId IS NULL AND serviceId IS NULL'
         ];
     }
 
@@ -143,30 +143,14 @@ class PaymentScheme extends CActiveRecord {
         return PaymentScheme::model()->findByPk($id)->name;
     }
 
-    public function getPaymentScheme($params) {
-
-        if (is_array($params) && !empty($params)) {
-            $userId = key_exists('user', $params) ? $params['user']->getId() : null;
-            $courseId = key_exists('course', $params) ? $params['course']->course_ID : null;
-            $moduleId = key_exists('module', $params) ? $params['module']->module_ID : null;
-
-            $params = [
-                'userId' => $userId,
-                'courseId' => $courseId,
-                'moduleId' => $moduleId
-            ];
-
-            $specialOffersFactory = new SpecialOfferFactory($params);
-            $specialOffer = $specialOffersFactory->getSpecialOffer();
-            if (!empty($specialOffer)) {
-                return is_array($specialOffer) ? $specialOffer : [$specialOffer];
-            } else {
-                return PaymentScheme::model()->findAll();
-            }
+    public function getPaymentScheme($user, $service) {
+        $specialOffersFactory = new SpecialOfferFactory($user, $service);
+        $specialOffer = $specialOffersFactory->getSpecialOffer();
+        if (!empty($specialOffer)) {
+            return is_array($specialOffer) ? $specialOffer : [$specialOffer];
+        } else {
+            return PaymentScheme::model()->findAll();
         }
-
-
-        return PaymentScheme::model()->findAll();
     }
 
     public static function getPaymentIco($count, $check=false) {

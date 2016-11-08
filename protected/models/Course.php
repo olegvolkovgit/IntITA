@@ -32,6 +32,8 @@
  * @property Module[] $modules
  * @property Module $module
  * @property Level $level0
+ * @property CourseService $courseServiceOffline
+ * @property CourseService $courseServiceOnline
  */
 class Course extends CActiveRecord implements IBillableObject
 {
@@ -93,6 +95,8 @@ class Course extends CActiveRecord implements IBillableObject
             'module' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course, id_course)',
                                                 'order' => 'module.order ASC'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
+            'courseServiceOnline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOnline.education_form='.EducationForm::ONLINE],
+            'courseServiceOffline' => [self::HAS_ONE, 'CourseService', 'course_id', 'on' => 'courseServiceOffline.education_form='.EducationForm::OFFLINE]
         );
     }
 
@@ -982,17 +986,29 @@ class Course extends CActiveRecord implements IBillableObject
 
     /**
      * @param EducationForm $educationForm
+     * @return CourseService
+     * @throws Exception
+     */
+    private function getService($educationForm) {
+        if ($educationForm->isOnline()) {
+            return $this->courseServiceOnline;
+        } else if ($educationForm->isOffline()) {
+            return $this->courseServiceOffline;
+        } else {
+            throw new Exception('Unknown education form');
+        }
+    }
+
+    /**
+     * @param EducationForm $educationForm
      * @return array
-     * @internal param EducationForm $educationForml
      */
     public function getPaymentSchemas(EducationForm $educationForm) {
-        $paymentSchemas = PaymentScheme::model()->getPaymentScheme(
-            [
-                'user' => Yii::app()->user,
-                'course' => $this
-            ]
-        );
-        
+
+        $service = $this->getService($educationForm);
+        $user = Yii::app()->user;
+        $paymentSchemas = PaymentScheme::model()->getPaymentScheme($user, $service);
+
         $result = [];
         foreach ($paymentSchemas as $paymentSchema) {
             $calculator = $paymentSchema->getSchemaCalculator($educationForm);

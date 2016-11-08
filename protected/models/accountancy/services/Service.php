@@ -49,8 +49,8 @@ class Service extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'courseServices' => array(self::HAS_MANY, 'CourseService', 'service_id'),
-            'moduleServices' => array(self::HAS_MANY, 'ModuleService', 'service_id'),
+            'courseServices' => array(self::HAS_ONE, 'CourseService', 'service_id'),
+            'moduleServices' => array(self::HAS_ONE, 'ModuleService', 'service_id'),
 		);
 	}
 

@@ -1,11 +1,10 @@
 <?php
 
 /**
- * This is the model class for table "acc_module_special_offer".
- *
- * The followings are the available columns in table 'acc_module_special_offer':
+ * The followings are the available columns in table 'acc_user_special_offer_payment':
  * @property integer $id
- * @property integer $moduleId
+ * @property integer $userId
+ * @property integer $serviceId
  * @property string $discount
  * @property integer $payCount
  * @property string $loan
@@ -13,10 +12,13 @@
  * @property integer $monthpay
  * @property string $startDate
  * @property string $endDate
+ * 
+ * @property Course $course
+ * @property Module $module
  */
-class ModuleSpecialOffer extends ASpecialOffer {
+class ServiceSpecialOffer extends ASpecialOffer {
 
-	/**
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -24,14 +26,14 @@ class ModuleSpecialOffer extends ASpecialOffer {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('moduleId', 'required'),
-			array('moduleId, payCount, monthpay', 'numerical', 'integerOnly'=>true),
-			array('discount, loan', 'length', 'max'=>10),
+			array('serviceId', 'required'),
+			array('userId, serviceId, payCount, monthpay', 'numerical', 'integerOnly'=>true),
+			array('loan', 'length', 'max'=>10),
 			array('name', 'length', 'max'=>512),
 			array('startDate, endDate', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, moduleId, discount, payCount, loan, name, monthpay, startDate, endDate', 'safe', 'on'=>'search'),
+			array('id, userId, serviceId, discount, payCount, loan, name, monthpay, startDate, endDate', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,18 +45,19 @@ class ModuleSpecialOffer extends ASpecialOffer {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return [
-            'module' => [self::HAS_ONE, 'Module', '', 'on' => 't.moduleId = module.module_ID']
+            'service' => [self::HAS_ONE, 'Service', '', 'on' => 't.serviceId = service.service_id'],
         ];
 	}
 
-	/**
+    /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
 	{
 		return array(
 			'id' => 'ID',
-			'moduleId' => 'Module',
+			'userId' => 'User',
+			'serviceId' => 'Service',
 			'discount' => 'Discount',
 			'payCount' => 'Pay Count',
 			'loan' => 'Loan',
@@ -84,7 +87,8 @@ class ModuleSpecialOffer extends ASpecialOffer {
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('moduleId',$this->moduleId);
+		$criteria->compare('userId',$this->userId);
+		$criteria->compare('serviceId',$this->serviceId);
 		$criteria->compare('discount',$this->discount,true);
 		$criteria->compare('payCount',$this->payCount);
 		$criteria->compare('loan',$this->loan,true);
@@ -102,27 +106,28 @@ class ModuleSpecialOffer extends ASpecialOffer {
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ModuleSpecialOffer the static model class
+	 * @return UserSpecialOffer the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
-    /**
-     * Returns criteria to fetch special offer data from DB
-     * @param array $params
-     * @return CDbCriteria|null
-     */
-    public function getConditionCriteria($params) {
+    protected function getConditionCriteria($params) {
         $criteria = null;
-        if (key_exists('moduleId', $params) && !empty($params['moduleId'])) {
+
+        if (key_exists('service', $params) && !empty($params['service'])) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition("moduleId=" . $params['moduleId']);
+            $criteria->addCondition("serviceId=" . $params["service"]->service_id);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
             $criteria->order = 'startDate DESC';
-            $criteria->limit = 1;
         }
+
         return $criteria;
+    }
+
+    protected function getTableScope() {
+        return [
+            'condition' => 'userId IS NULL AND serviceId IS NOT NULL'
+        ];
     }
 }
