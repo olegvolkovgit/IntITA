@@ -58,8 +58,9 @@ class NgTableAdapter {
 
     private $extraParams = null;
 
+    private $modelsBehaviours = null;
+
     /**
-     * TODO WeekMap ?
      * @var array
      */
     private $attachedBehaviors = [];
@@ -68,9 +69,10 @@ class NgTableAdapter {
      * NgTableAdapter constructor.
      * @param CActiveRecord|string $activeRecord
      * @param array $requestParams
-     * @throws Exception
+     * @param array $modelsBehaviours
      */
-    public function     __construct($activeRecord = null, $requestParams = null) {
+    public function __construct($activeRecord = null, $requestParams = null, $modelsBehaviours = []) {
+        $this->setModelBehaviours($modelsBehaviours);
         $this->setActiveRecord($activeRecord);
         $this->setRequestParams($requestParams);
     }
@@ -93,6 +95,13 @@ class NgTableAdapter {
      */
     public function mergeCriteriaWith($criteria) {
         $this->getCriteriaInstance()->mergeWith($criteria);
+    }
+
+    private function setModelBehaviours($modelBehaviours) {
+        $this->modelsBehaviours = [];
+        foreach ($modelBehaviours as $className => $behaviourName) {
+            $this->modelsBehaviours[$className] = ['class' => $behaviourName];
+        }
     }
 
     /**
@@ -122,7 +131,6 @@ class NgTableAdapter {
      * @param array $requestParams
      */
     private function setRequestParams($requestParams) {
-        /* TODO array_merge */
         $this->requestParams = $requestParams;
         $this->page = key_exists('page', $this->requestParams) ? $this->requestParams['page'] : self::DEFAULT_PAGE;
         $this->count = key_exists('count', $this->requestParams) ? $this->requestParams['count'] : self::DEFAULT_COUNT;
@@ -140,7 +148,7 @@ class NgTableAdapter {
     }
 
     /**
-     * @param $model
+     * @param CActiveRecord $model
      * @return array
      */
     private function getModelAssoc($model) {
@@ -159,15 +167,19 @@ class NgTableAdapter {
      */
     private function modelToAssoc($model) {
         $result = $this->getModelAssoc($model);
+        $provider = $this->getBehavior($model);
+        $relations = array_keys($provider->getRelations());
 
-        foreach (array_keys($this->relations) as $relationName) {
-            $relation = $model->$relationName;
-            if ($relation instanceof CActiveRecord) {
-                $result[$relationName] = $this->getModelAssoc($relation);
-            } else if (is_array($relation)) {
-                $result[$relationName] = [];
-                foreach ($relation as $item) {
-                    array_push($result[$relationName], $this->getModelAssoc($item));
+        foreach ($relations as $relationName) {
+            if ($model->hasRelated($relationName)) {
+                $relation = $model->getRelated($relationName);
+                if ($relation instanceof CActiveRecord) {
+                    $result[$relationName] = $this->modelToAssoc($relation);
+                } else if (is_array($relation)) {
+                    $result[$relationName] = [];
+                    foreach ($relation as $item) {
+                        array_push($result[$relationName], $this->modelToAssoc($item));
+                    }
                 }
             }
         }
@@ -181,8 +193,8 @@ class NgTableAdapter {
     private function toAssocArray($dataArray) {
         $result = [];
         if (is_array($dataArray)) {
-            foreach ($dataArray as $userAgreement) {
-                array_push($result, $this->modelToAssoc($userAgreement));
+            foreach ($dataArray as $model) {
+                array_push($result, $this->modelToAssoc($model));
             }
         } else if ($dataArray instanceof CActiveRecord) {
             return $this->modelToAssoc($dataArray);
@@ -212,8 +224,7 @@ class NgTableAdapter {
             ->buildLimitQuery($this->offset, $this->limit)
             ->buildFilterQuery($this->filter)
             ->buildSortingQuery($this->sorting)
-            ->buildExtraParamsQuery($this->extraParams)
-        ;
+            ->buildExtraParamsQuery($this->extraParams);
     }
 
     /**
@@ -318,7 +329,7 @@ class NgTableAdapter {
 
     /**
      * @param $relation
-     * @return null|void
+     * @return CActiveRecord
      * @throws Exception
      */
     private function getModel($relation) {
@@ -329,19 +340,30 @@ class NgTableAdapter {
             if (key_exists($relation, $modelRelations)) {
                 return $modelRelations[$relation][1]::model();
             } else {
-                throw new Exception("Reation $relation doesn't exists in " + get_class($this->activeRecord));
+                throw new Exception("Reation $relation doesn't exists in " . get_class($this->activeRecord));
             }
         }
     }
 
+    private function getBehaviorParams($className) {
+        $behaviorParams = ['class' => 'NgTableProviderDefault'];
+        if (is_array($this->modelsBehaviours) && key_exists($className, $this->modelsBehaviours)) {
+            $behaviorParams = $this->modelsBehaviours[$className];
+        }
+        return $behaviorParams;
+    }
+
+
     /**
-     * @param $model
+     * @param CActiveRecord $model
      * @return INgTableProvider
      */
     private function getBehavior($model) {
         $ngTableProvider = null;
         if (!isset($model->ngTable)) {
-            $model->attachBehavior('ngTable', ['class' => 'NgTableProviderDefault']);
+
+            $model->attachBehavior('ngTable', $this->getBehaviorParams(get_class($model)));
+//            $model->attachBehavior('ngTable', ['class' => 'NgTableProviderDefault']);
             $this->attachedBehaviors[] = ['model' => $model, 'name' => 'ngTable'];
         }
         $ngTableProvider = $model->ngTable;
