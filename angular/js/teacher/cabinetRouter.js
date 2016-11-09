@@ -30,19 +30,19 @@ angular
                         return basePath + "/_teacher/messages/write/?id=" + user + "&receiver=" +$stateParams.id
                     }
                 })
-                .state(':scenario/:id/educationForm/:educationForm/scheme/:scheme', {
-                    url: "/:scenario/:id/educationForm/:educationForm/scheme/:scheme",
+                .state(':scenario/:id/:form/scheme/:schemeId', {
+                    url: "/:scenario/:id/:form/scheme/:schemeId",
                     cache         : false,
                     templateUrl: function ($stateParams) {
-                        return basePath + "/_teacher/_student/student/"+$stateParams.scenario+"/?id="+$stateParams.id+"&agreementType="+$stateParams.educationForm+"&scheme="+$stateParams.scheme
+                        return basePath + "/_teacher/_student/student/"+$stateParams.scenario+"/?id="+$stateParams.id+"&form="+$stateParams.form+"&schemeId="+$stateParams.schemeId
                     }
                 })
-                .state('publicOffer/course/:course/module/:module/scenario/:scenario/educationForm/:educationForm/scheme/:scheme', {
-                    url: "/publicOffer/course/:course/module/:module/scenario/:scenario/educationForm/:educationForm/scheme/:scheme",
+                .state('publicOffer/course/:course/module/:module/scenario/:scenario/:form/scheme/:schemeId', {
+                    url: "/publicOffer/course/:course/module/:module/scenario/:scenario/:form/scheme/:schemeId",
                     cache         : false,
                     templateUrl: function ($stateParams) {
                         return basePath + "/_teacher/_student/student/publicOffer?course=" + $stateParams.course + "&module=" + $stateParams.module +
-                            "&type=" + $stateParams.scenario + "&form=" + $stateParams.educationForm + "&schema=" + $stateParams.scheme;
+                            "&type=" + $stateParams.scenario + "&form=" + $stateParams.form + "&schema=" + $stateParams.schemeId;
                     }
                 })
     }

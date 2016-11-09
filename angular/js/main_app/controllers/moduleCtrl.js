@@ -7,8 +7,8 @@ angular
 
 function moduleCtrl($scope) {
     $scope.redirectToCabinet=function (scenario,id) {
-        $scope.educationForm=1;
-        $scope.schemeType=1;
-        location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/educationForm/'+$scope.educationForm+'/scheme/'+$scope.schemeType;
+        $scope.educationForm='online';
+        $scope.schemeId=0;
+        location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/'+$scope.educationForm+'/scheme/'+$scope.schemeId;
     };
 }

@@ -16,8 +16,6 @@
  */
 class CourseSpecialOffer extends ASpecialOffer {
 
-    const TYPE = 2;
-
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -120,9 +118,5 @@ class CourseSpecialOffer extends ASpecialOffer {
             $criteria->order = 'startDate DESC';
         }
         return $criteria;
-    }
-
-    protected function getTableType() {
-        return self::TYPE;
     }
 }

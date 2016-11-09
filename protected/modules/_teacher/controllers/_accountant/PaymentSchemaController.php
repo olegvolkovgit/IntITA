@@ -12,11 +12,26 @@ class PaymentSchemaController extends TeacherCabinetController
 
     public function actionCreateSchema () {
         $result = ['message' => 'OK'];
+        $statusCode = 201;
         try {
-            $params = $_POST;
+            $params = array_filter($_POST);
+            $educationFrom = EducationForm::model()->findByPk($params['educationForm']);
+
+            $service = null;
+            $user = null;
+            if (key_exists('courseId', $params)) {
+                $service = CourseService::getService($params['courseId'], $educationFrom);
+            } else if (key_exists('moduleId', $params)) {
+                $service = ModuleService::getService($params['moduleId'], $educationFrom);
+            }
+
+            if (key_exists('userId', $params)) {
+                $user = StudentReg::model()->findByPk($params['userId']);
+            }
+
             $offer = null;
-            $soFactory = new SpecialOfferFactory($params);
-            $offer = $soFactory->createSpecialOffer();
+            $soFactory = new SpecialOfferFactory($user, $service);
+            $offer = $soFactory->createSpecialOffer($params);
             if ($offer === null) {
                 $offer = new PaymentScheme();
                 $offer->setAttributes($params);
@@ -27,8 +42,9 @@ class PaymentSchemaController extends TeacherCabinetController
                 }
             }
         } catch (Exception $error) {
+            $statusCode = 500;
             $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
-        $this->renderPartial('//ajax/json', ['data' => json_encode($result)]);
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 }

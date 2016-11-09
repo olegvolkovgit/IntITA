@@ -8,12 +8,10 @@ abstract class ASpecialOffer extends CActiveRecord implements ISpecialOffer{
      * @return CDbCriteria|null
      */
     abstract protected function getConditionCriteria($params);
-    abstract protected function getTableType();
+    abstract protected function getTableScope();
 
     public function defaultScope() {
-        return [
-            'condition' => 'type = ' . $this->getTableType()
-        ];
+        return $this->getTableScope();
     }
 
     /**
@@ -23,12 +21,6 @@ abstract class ASpecialOffer extends CActiveRecord implements ISpecialOffer{
     {
         return 'acc_payment_schema';
     }
-
-    protected function beforeSave() {
-        $this->type = $this->getTableType();
-        return parent::beforeSave();
-    }
-
 
     public function makeSchema() {
         $paymentSchema = new PaymentScheme();

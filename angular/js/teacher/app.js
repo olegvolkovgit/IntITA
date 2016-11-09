@@ -13,7 +13,7 @@ angular
         'angular-loading-bar',
         'freeLecturesRouter',
         'messagesRouter',
-        'cabinetRouter', 
+        'cabinetRouter',
         'adminRouter',
         'authorRouter',
         'consultantRouter',
@@ -30,7 +30,8 @@ angular
         'interfaceMessagesRouter',
         'siteConfigRouter',
         'requestsRouter',
-        'superVisorRouter'
+        'superVisorRouter',
+        'paymentsSchemes.directives'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

@@ -535,7 +535,9 @@ angular
             function ($scope, $stateParams, ngToast, user, course, module, paymentSchema) {
                 $scope.schemeType = defineSchemaType($stateParams.schemeType);
 
-                $scope.paymentSchema = {};
+                $scope.paymentSchema = {
+                  educationForm : 1
+                };
 
                 $scope.user = {
                     isSelect : $scope.schemeType === 'user',

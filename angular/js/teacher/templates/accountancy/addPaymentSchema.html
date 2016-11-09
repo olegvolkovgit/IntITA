@@ -91,6 +91,19 @@
         </div>
     </div>
 
+
+    <div class="row m-b-20" ng-if="module.isSelect || course.isSelect">
+        <div class="col-md-4">
+            <span class="control-label">Форма навчання</span>
+        </div>
+        <div class="col-md-8">
+            <div class="btn-group">
+                <label class="btn btn-default" ng-model="paymentSchema.educationForm" uib-btn-radio="1">Online</label>
+                <label class="btn btn-default" ng-model="paymentSchema.educationForm" uib-btn-radio="2">Offline</label>
+            </div>
+        </div>
+    </div>
+
     <div class="row m-b-20">
         <div class="col-md-4">
             <span class="control-label">Відсоток знижки</span>

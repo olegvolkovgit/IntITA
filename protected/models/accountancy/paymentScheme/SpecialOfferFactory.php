@@ -8,23 +8,25 @@
  */
 class SpecialOfferFactory {
 
-    private $params = null;
+    private $user = null;
+    private $service = null;
 
     const SPECIAL_OFFERS = [
         'UserSpecialOffer',
-        'CourseSpecialOffer',
-        'ModuleSpecialOffer'
+        'ServiceSpecialOffer'
     ];
 
-    function __construct($params) {
-        $this->params = $params;
+    function __construct($user, $service) {
+        $this->user = $user;
+        $this->service = $service;
     }
     
     public function getSpecialOffer() {
         $specialOffer = null;
+        $params = ['user' => $this->user, 'service' => $this->service];
         foreach (self::SPECIAL_OFFERS as $offerClass) {
             $model = $offerClass::model();
-            $specialOffer = $model->getActualOffer($this->params);
+            $specialOffer = $model->getActualOffer($params);
             if (!empty($specialOffer)) {
                 break;
             }
@@ -32,22 +34,35 @@ class SpecialOfferFactory {
         return $specialOffer;
     }
 
-    public function createSpecialOffer() {
+    public function createSpecialOffer($attributes) {
         $offer = null;
+        $params = $this->pickPaymentSchemaParams($attributes);
 
-        if (key_exists('userId', $this->params)) {
+        if ($this->user && $this->service) {
             $offer = new UserSpecialOffer();
-        } else if (key_exists('courseId', $this->params)) {
-            $offer = new CourseSpecialOffer();
-        } else if (key_exists('moduleId', $this->params)) {
-            $offer = new ModuleSpecialOffer();
+            $params['userId'] = $this->user->id;
+        } else if ($this->service) {
+            $offer = new ServiceSpecialOffer();
         }
 
         if (!empty($offer)) {
-            $offer->setAttributes($this->params);
+            $params['serviceId'] = $this->service->service_id;
+            $offer->setAttributes($params);
             $offer->save();
         }
 
         return $offer;
+    }
+
+    private function pickPaymentSchemaParams($params) {
+        $paymentSchemaParams = [
+            'discount' => true,
+            'loan' => true,
+            'name' => true,
+            'monthpay' => true,
+            'startDate' => true,
+            'endDate' => true
+        ];
+        return array_intersect_key($params, $paymentSchemaParams);
     }
 }
