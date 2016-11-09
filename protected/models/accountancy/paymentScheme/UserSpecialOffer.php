@@ -19,6 +19,8 @@
  */
 class UserSpecialOffer extends ASpecialOffer {
 
+    use WithGetSchemaCalculator;
+
     /**
      * @return array validation rules for model attributes.
      */

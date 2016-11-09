@@ -12,6 +12,9 @@
  * @property integer $monthpay
  */
 class PaymentScheme extends CActiveRecord {
+
+    use WithGetSchemaCalculator;
+
     const ADVANCE = 1;
     const BASE_TWO_PAYS = 2;
     const BASE_FOUR_PAYS = 3;
@@ -119,24 +122,6 @@ class PaymentScheme extends CActiveRecord {
         $educForm = EducationForm::model()->findByPk($educFormId);
         $model = PaymentScheme::model()->findByPk($id);
         return $model->getSchemaCalculator($educForm);
-    }
-
-    /**
-     * @param EducationForm $educationForm
-     * @return IPaymentCalculator
-     */
-    public function getSchemaCalculator(EducationForm $educationForm) {
-        $schema = null;
-        if ($this->loan > 0) {
-            $schema = new LoanPaymentSchema($this->loan, $this->payCount, $educationForm);
-        } else {
-            if ($this->monthpay > 0) {
-                $schema = new BasePaymentSchema($this->payCount, $educationForm);
-            } else {
-                $schema = new AdvancePaymentSchema($this->discount, $this->payCount, $educationForm);
-            }
-        }
-        return $schema;
     }
 
     public static function getName($id) {
