@@ -18,6 +18,8 @@
  */
 class ServiceSpecialOffer extends ASpecialOffer {
 
+    use WithGetSchemaCalculator;
+
     /**
 	 * @return array validation rules for model attributes.
 	 */

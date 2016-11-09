@@ -22,27 +22,13 @@ abstract class ASpecialOffer extends CActiveRecord implements ISpecialOffer{
         return 'acc_payment_schema';
     }
 
-    public function makeSchema() {
-        $paymentSchema = new PaymentScheme();
-        $paymentSchema->setAttributes(
-            [
-                'discount' => $this->discount,
-                'payCount' => $this->payCount,
-                'loan' => $this->loan,
-                'name' => $this->name,
-                'monthpay' => $this->monthpay
-            ]
-        );
-        return $paymentSchema;
-    }
-
     public function getActualOffer($params) {
         $paymentSchemas = null;
         $criteria = $this->getConditionCriteria($params);
 
         if (!empty($criteria)) {
             $paymentSchemas = array_map(function($offer) {
-                return $offer->makeSchema();
+                return $offer;
             }, $this->findAll($criteria));
         }
 
