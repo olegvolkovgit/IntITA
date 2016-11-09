@@ -5,6 +5,9 @@
                     <a type="button" class="btn btn-primary" href="#/supervisor/users">Зареєстровані користувачі</a>
                 </li>
                 <li>
+                    <a type="button" class="btn btn-primary" href="#/supervisor/students">Усі студенти</a>
+                </li>
+                <li>
                     <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Усі студенти(оффлайн ф.н.)</a>
                 </li>
                 <li>

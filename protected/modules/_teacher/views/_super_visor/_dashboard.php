@@ -31,6 +31,9 @@
                         <a href="#/supervisor/users">Зареєстровані користувачі</a>
                     </li>
                     <li>
+                        <a href="#/supervisor/students">Усі студенти</a>
+                    </li>
+                    <li>
                         <a href="#/supervisor/studentsWithoutGroup">Усі студенти(оффлайн ф.н.)</a>
                     </li>
                     <li>
