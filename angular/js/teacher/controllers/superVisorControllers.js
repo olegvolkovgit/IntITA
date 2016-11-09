@@ -582,11 +582,11 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
     };
 }
 
-function usersTableCtrl ($scope, usersService, NgTableParams){
+function usersTableCtrl ($scope, superVisorService, NgTableParams){
     $scope.changePageHeader('Зареєстровані користувачі');
     $scope.usersTableParams = new NgTableParams({}, {
         getData: function (params) {
-            return usersService
+            return superVisorService
                 .usersList(params.url())
                 .$promise
                 .then(function (data) {

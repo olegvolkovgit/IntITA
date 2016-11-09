@@ -1,79 +1,54 @@
 <?php
 if ($model->isReady()   ) { ?>
     <div ng-show="onlineSchemeData && offlineSchemeData">
-        <div>
-            <div ng-if="onlineSchemeData.schemes[0].fullPrice==0">
-                {{onlineSchemeData.translates.price}} <span class="colorGreen">{{onlineSchemeData.translates.free}}</span>
+        <div ng-if="onlineSchemeData.schemes[0].fullPrice==0">
+            {{onlineSchemeData.translates.price}} <span class="colorGreen">{{onlineSchemeData.translates.free}}</span>
+        </div>
+        <div ng-show="onlineSchemeData.schemes[0].fullPrice!=0">
+            <span ng-click="isOpenOnlineSchema = !isOpenOnlineSchema" ng-show="!isOpenOnlineSchema" class="paymentsOnlineSpoiler">
+                <?php echo Yii::t('course', '0414'); ?>&#9662;
+            </span>
+            <span ng-click="isOpenOnlineSchema = !isOpenOnlineSchema" ng-show="isOpenOnlineSchema" class="paymentsOnlineSpoiler">
+                <?php echo Yii::t('course', '0415'); ?>&#9652;
+            </span>
+            <div  ng-show="!isOpenOnlineSchema" class="mainPay">
+                <?php $this->renderPartial('_selectedOnlineScheme', array()); ?>
             </div>
-            <div ng-show="onlineSchemeData.schemes[0].fullPrice!=0">
-                <span id="paymentsOnlineSpoiler" ng-hide="onlineSchemeData.schemes[0].fullPrice==0" ng-init="spoilerOnlineTitle='<?php echo Yii::t('course', '0414'); ?>&#9660;'" ng-click="paymentOnlineSpoiler('<?php echo Yii::t('course', '0414'); ?>', '<?php echo Yii::t('course', '0415'); ?>', 'Online')">
-                {{spoilerOnlineTitle}}
-                </span>
-                <table  ng-show="!isOpenOnlineSchema" class="mainPay">
-                    <tr>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <div class="numbers" id="numbersFirstOnline">
-                            <span class="coursePriceStatus1">
-                                {{onlineSchemeData.schemes[0].translates.currencySymbol}}{{onlineSchemeData.schemes[0].fullPrice}}
-                            </span>
-                                            &nbsp
-                            <span class="coursePriceStatus2">
-                                {{onlineSchemeData.schemes[0].translates.currencySymbol}}{{onlineSchemeData.schemes[0].price}}
-                            </span>
-                            <span class="discount">
-                                <img style="text-align:right" ng-src="{{onlineSchemeData.icons.discountIco}}"/>
-                                ({{onlineSchemeData.schemes[0].translates.discount}} - {{onlineSchemeData.schemes[0].discount}}%)
-                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <div  ng-show="isOpenOnlineSchema">
-                    <payments-scheme data-schemes="onlineSchemeData" data-other-schemes='offlineSchemeData'></payments-scheme>
-                </div>
+            <div  ng-show="isOpenOnlineSchema">
+                <payments-scheme
+                    data-course-id="<?php echo $model->course_ID ?>"
+                    data-module-id="0"
+                    data-education-form="online"
+                    data-schemes="onlineSchemeData"
+                    data-selected-model-scheme="selectedScheme"
+                    data-set-form="setForm"
+                    data-set-scheme="schemeId"
+                >
+                </payments-scheme>
             </div>
         </div>
 
-        <div  ng-show="offlineSchemeData.schemes[0].fullPrice!=0">
-            <span id="paymentsOfflineSpoiler" ng-hide="offlineSchemeData.schemes[0].fullPrice==0" ng-init="spoilerOfflineTitle='<?php echo Yii::t('course', '0819'); ?>&#9660;'" ng-click="paymentOfflineSpoiler('<?php echo Yii::t('course', '0819'); ?>', '<?php echo Yii::t('course', '0415'); ?>', 'Offline')">
-                {{spoilerOfflineTitle}}
+        <div ng-show="offlineSchemeData.schemes[0].fullPrice!=0">
+            <span ng-click="isOpenOfflineSchema = !isOpenOfflineSchema" ng-show="!isOpenOfflineSchema" class="paymentsOfflineSpoiler">
+                <?php echo Yii::t('course', '0819'); ?>&#9662;
             </span>
-            <div ng-if="offlineSchemeData.schemes[0].fullPrice==0">
-                {{offlineSchemeData.translates.price}} <span class="colorGreen">{{offlineSchemeData.translates.free}}</span>
+            <span ng-click="isOpenOfflineSchema = !isOpenOfflineSchema" ng-show="isOpenOfflineSchema" class="paymentsOfflineSpoiler">
+                <?php echo Yii::t('course', '0415'); ?>&#9652;
+            </span>
+            <div ng-show="!isOpenOfflineSchema" class="mainPay">
+                <?php $this->renderPartial('_selectedOfflineScheme', array()); ?>
             </div>
-            <table ng-show="!isOpenOfflineSchema" class="mainPay">
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <div class="numbers" id="numbersFirstOffline">
-                                    <span class="coursePriceStatus1">
-                                        {{offlineSchemeData.schemes[0].translates.currencySymbol}}{{offlineSchemeData.schemes[0].fullPrice}}
-                                    </span>
-                                        &nbsp
-                                    <span class="coursePriceStatus2">
-                                        {{offlineSchemeData.schemes[0].translates.currencySymbol}}{{offlineSchemeData.schemes[0].price}}
-                                    </span>
-                                    <span class="discount">
-                                        <img style="text-align:right" ng-src="{{offlineSchemeData.icons.discountIco}}"/>
-                                        ({{offlineSchemeData.schemes[0].translates.discount}} - {{offlineSchemeData.schemes[0].discount}}%)
-                                    </span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
             <div  ng-show="isOpenOfflineSchema">
-                <payments-scheme data-schemes="offlineSchemeData" data-other-schemes='onlineSchemeData'></payments-scheme>
+                <payments-scheme
+                    data-course-id="<?php echo $model->course_ID ?>"
+                    data-module-id="0"
+                    data-education-form="offline"
+                    data-schemes="offlineSchemeData"
+                    data-selected-model-scheme="selectedScheme"
+                    data-set-form="setForm"
+                    data-set-scheme="schemeId"
+                >
+                </payments-scheme>
             </div>
         </div>
 
@@ -92,7 +67,7 @@ if ($model->isReady()   ) { ?>
                     if ($model->isReady()) {
                         ?>
                         <a ng-cloak ng-if="modulesProgress.isPaidCourse==false" id="paymentButton"
-                           ng-click="redirectToCabinet('payCourse',<?php echo $model->course_ID ?>)">
+                           ng-click="redirectToCabinet('payCourse',<?php echo $model->course_ID ?>,selectedScheme)">
                             <?php echo Yii::t('course', '0328'); ?>
                         </a>
                         <?php

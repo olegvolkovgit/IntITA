@@ -1,16 +1,38 @@
 <div class="paymentsForm">
-    <input value="1" type="hidden" name="schema"/>
-    <input value="Online" type="hidden" name="type" id="type"/>
-    <div ng-if="document.schemes[0].fullPrice==0">
-        {{document.translates.price}} <span class="colorGreen">{{document.translates.free}}</span>
+    <div ng-if="schemes.schemes[0].fullPrice==0">
+        {{schemes.translates.price}} <span class="colorGreen">{{schemes.translates.free}}</span>
     </div>
-    <div ng-if="document.schemes[0].fullPrice!=0" class="rowRadio">
-        <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'"
-             ng-include="scheme.type==1 && '/IntITA/angular/js/templates/_advanceSchema.html' ||
-             scheme.type==2 && '/angular/js/templates/_baseSchema.html' ||
-             scheme.type==3 && '/angular/js/templates/_baseSchema.html' ||
-             '/angular/js/templates/_loanSchema.html'"
-            >
+    <div ng-show="schemes.schemes[0].fullPrice!=0" class="rowRadio">
+        <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'">
+            <div>
+                <label class="priceLabel">
+                    <input type="radio" class="paymentPlan_value" name="payment" ng-click="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme" ng-value=scheme>
+                    <div class="mainPay">
+                        <div class="icoPay">
+                            <img ng-src="{{scheme == selectedModelScheme && scheme.icoCheck || scheme.ico}}">
+                        </div>
+                        <div class="priceBlock">
+                            <div ng-class="{basePayment: scheme.type==2 || scheme.type==3}">{{scheme.translates.title}}</div>
+                            <div class="numbers">
+                            <span ng-if="scheme.type<4">
+                                <span ng-if="scheme.discount>0" class="coursePriceStatus">{{scheme.translates.currencySymbol}}{{scheme.fullPrice}}</span>
+                                <span ng-if="scheme.discount>0">&nbsp</span>
+                                <span class="coursePriceStatus1">{{scheme.translates.currencySymbol}}{{scheme.price}}</span>
+                                <span ng-if="scheme.type==2 || scheme.type==3">&asymp; {{scheme.approxMonthPayment}}{{scheme.translates.currencySymbol}} x {{scheme.paymentsCount}} {{scheme.translates.payment}}</span>
+                            </span>
+                            <span ng-if="scheme.type>3">{{scheme.translates.currencySymbol}}{{scheme.approxMonthPayment}} / {{scheme.translates.month}}  х {{scheme.paymentsCount}} {{scheme.translate.payment}}
+                                &asymp; <b>{{scheme.price}}{{scheme.translates.currencySymbol}}</b></span>
+                            </div>
+                        <span class="discount" ng-if="scheme.discount>0">
+                            <img ng-src="{{schemes.icons.discountIco}}"/>
+                            <span class="discountColor">({{scheme.translates.discount}} - {{scheme.discount}}%)</span>
+                        </span>
+                        </div>
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 </div>
+
+

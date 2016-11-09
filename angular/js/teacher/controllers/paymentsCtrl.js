@@ -2,51 +2,42 @@ angular
     .module('teacherApp')
     .controller('paymentsCtrl', paymentsCtrl);
 
-function paymentsCtrl(paymentsService, $scope, $stateParams, $http,  $state) {
-    if(typeof $stateParams.id!='undefined'){
-        paymentsService
-            .scheme({courseId: $stateParams.id,educationFormId:1})
-            .$promise
-            .then(function (data) {
-                $scope.onlineSchemeData = data;
-            });
-        paymentsService
-            .scheme({courseId: $stateParams.id,educationFormId:2})
-            .$promise
-            .then(function (data) {
-                $scope.offlineSchemeData = data;
-            });
-    }
-    // if($stateParams.educationForm==1){
-    //     $scope.selectedSchemeOnline.scheme=$stateParams.scheme;
-    // }else{
-    //     $scope.selectedSchemeOffline.scheme=$stateParams.scheme;
-    // }
-
+function paymentsCtrl($scope, $stateParams, $http,  $state) {
     if($stateParams.scenario=='payCourse'){
-        $scope.active=$stateParams.educationForm-1;
+        $scope.courseId= $stateParams.id;
+        $scope.moduleId= 0;
     }
+    if($stateParams.scenario=='payModule'){
+        $scope.moduleId= $stateParams.id;
+        $scope.courseId= 0;
+    }
+    $scope.setForm=$stateParams.form;
+    $scope.schemeId=$stateParams.schemeId;
 
-    $scope.createAccount=function (url, course, module, scenario, offerScenario, schema, educationForm) {
+    $scope.createAccount=function (url, course, module, scenario, offerScenario, schema, educationForm, selectedScheme) {
         if(scenario=="Course"){
-            $scope.getScheme();
+            if(typeof selectedScheme=='undefined') {
+                bootbox.alert('Виберіть спочатку схему проплати');
+                return false;
+            }else{
+                $scope.educationForm=selectedScheme.educForm;
+                $scope.schemeId=selectedScheme.schemeId;
+            }
         } else if(scenario=="Module"){
-            $scope.educationForm=educationForm;
-            $scope.schemeType=1;
+            $scope.educationForm=educationForm==1?'online':'offline';
+            //todo
+            // $scope.schemeType=1;
+            $scope.schemeId=1;
         }
 
-        if ($scope.schemeType == 0) {
+        if ($scope.schemeId == 0) {
             bootbox.alert("Виберіть схему проплати.");
         } else {
             if (offerScenario != "noOffer") {
-                if (1 <=  $scope.schemeType <= 8) {
-                    $state.go('publicOffer/course/:course/module/:module/scenario/:scenario/educationForm/:educationForm/scheme/:scheme',
-                        {course:course,module:module,scenario:scenario,educationForm:$scope.educationForm,scheme:$scope.schemeType}, {reload: true});
-                } else {
-                    bootbox.alert("Неправильно вибрана схема проплати.");
-                }
+                $state.go('publicOffer/course/:course/module/:module/scenario/:scenario/:form/scheme/:schemeId',
+                    {course:course,module:module,scenario:scenario,form:$scope.educationForm,schemeId:$scope.schemeId}, {reload: true});
             } else {
-                $scope.createAgreement(url, $scope.schemeType, course, $scope.educationForm, module, scenario);
+                $scope.createAgreement(url, $scope.schemeId, course, $scope.educationForm, module, scenario);
             }
         }
     };
@@ -69,21 +60,4 @@ function paymentsCtrl(paymentsService, $scope, $stateParams, $http,  $state) {
             bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора');
         });
     };
-
-    $jq('html').on('click','.paymentPlan_value',function () {
-        $jq('img.icoCheck').hide();
-        $jq('img.icoNoCheck').show();
-        $jq(this).next('span').find('img.icoNoCheck').hide();
-        $jq(this).next('span').find('img.icoCheck').show();
-    });
-
-    $scope.getScheme=function () {
-        if(typeof $scope.onlineSchemeData.selectedForm=='undefined' || typeof $scope.offlineSchemeData.selectedForm=='undefined'){
-            bootbox.alert('Виберіть спочатку схему проплати');
-            return false;
-        }else{
-            $scope.educationForm=$scope.onlineSchemeData.selectedForm?1:2;
-            $scope.schemeType=$scope.onlineSchemeData.selectedSchemeType?$scope.onlineSchemeData.selectedSchemeType:$scope.offlineSchemeData.selectedSchemeType;
-        }
-    }
 }

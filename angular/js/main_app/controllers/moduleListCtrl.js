@@ -110,55 +110,8 @@ function moduleListCtrl($http,$scope) {
     };
 }
 
-function courseSchemaCtrl(paymentsService,$scope) {
-    paymentsService
-        .scheme({courseId: idCourse,educationFormId:1})
-        .$promise
-        .then(function (data) {
-            $scope.onlineSchemeData = data;
-        });
-    paymentsService
-        .scheme({courseId: idCourse,educationFormId:2})
-        .$promise
-        .then(function (data) {
-            $scope.offlineSchemeData = data;
-        });
-
-    $scope.paymentOnlineSpoiler=function (a,b) {
-        if($scope.spoilerOnlineTitle==a+'\u25BC') {
-            $scope.spoilerOnlineTitle=b+'\u25B2';
-            $scope.isOpenOnlineSchema=true;
-        } else {
-            $scope.spoilerOnlineTitle=a+'\u25BC';
-            $scope.isOpenOnlineSchema=false;
-        }
+function courseSchemaCtrl($scope) {
+    $scope.redirectToCabinet=function (scenario,id,selectedScheme) {
+        location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/'+selectedScheme.educForm+'/scheme/'+selectedScheme.schemeId;
     };
-    $scope.paymentOfflineSpoiler=function (a,b) {
-        if($scope.spoilerOfflineTitle==a+'\u25BC') {
-            $scope.spoilerOfflineTitle=b+'\u25B2';
-            $scope.isOpenOfflineSchema=true;
-        } else {
-            $scope.spoilerOfflineTitle=a+'\u25BC';
-            $scope.isOpenOfflineSchema=false;
-        }
-    };
-
-    $scope.redirectToCabinet=function (scenario,id) {
-        if(typeof $scope.onlineSchemeData.selectedForm=='undefined' || typeof $scope.offlineSchemeData.selectedForm=='undefined'){
-            $scope.educationForm=1;
-            $scope.schemeType=1;
-        }else{
-            $scope.educationForm=$scope.onlineSchemeData.selectedForm?1:2;
-            $scope.schemeType=$scope.onlineSchemeData.selectedSchemeType?$scope.onlineSchemeData.selectedSchemeType:$scope.offlineSchemeData.selectedSchemeType;
-        }
-
-        location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/educationForm/'+$scope.educationForm+'/scheme/'+$scope.schemeType;
-    };
-
-    $('html').on('click','.paymentPlan_value',function () {
-        $('img.icoCheck').hide();
-        $('img.icoNoCheck').show();
-        $(this).next('span').find('img.icoNoCheck').hide();
-        $(this).next('span').find('img.icoCheck').show();
-    });
 }

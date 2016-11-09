@@ -8,25 +8,45 @@ $price = $course->getBasePrice();
 ?>
 <div class="panel panel-default" ng-controller="paymentsCtrl">
     <div class="panel-body">
-        <div class="tab-content">
-            <uib-tabset active="active" >
-                <uib-tab  index="0" heading="Навчання онлайн">
-                    <payments-scheme data-schemes="onlineSchemeData" data-other-schemes='offlineSchemeData'></payments-scheme>
-                </uib-tab>
-                <uib-tab  index="1" heading="Навчання офлайн">
-                    <payments-scheme data-schemes="offlineSchemeData" data-other-schemes='onlineSchemeData'></payments-scheme>
-                </uib-tab>
-            </uib-tabset>
+        <div class="tab-content" ng-cloak>
+            <div class="schemesBlock">
+                <h3>Навчання онлайн</h3>
+                <payments-scheme
+                    data-course-id="courseId"
+                    data-module-id="moduleId"
+                    data-education-form="online"
+                    data-schemes="onlineSchemeData"
+                    data-selected-model-scheme="selectedScheme"
+                    data-set-form="setForm"
+                    data-set-scheme="schemeId"
+                >
+                </payments-scheme>
+            </div>
+            <div class="schemesBlock">
+                <h3>Навчання оффлайн</h3>
+                <payments-scheme
+                    data-course-id="courseId"
+                    data-module-id="moduleId"
+                    data-education-form="offline"
+                    data-schemes="offlineSchemeData"
+                    data-selected-model-scheme="selectedScheme"
+                    data-set-form="setForm"
+                    data-set-scheme="schemeId"
+                >
+                </payments-scheme>
+            </div>
             <br>
-            <div class="col-md-3">
-                <button class="btn btn-primary" type="button"
+            <div style="width:96%">
+                <button class="schemesBlockButton btn btn-primary" type="button"
                         ng-click="createAccount(
                             '<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
                             '<?php echo $course->course_ID; ?>',
                             '0',
                             'Course',
                             '<?= $offerScenario ?>',
-                            '')">Продовжити
+                            '',
+                            '',
+                            selectedScheme)">Продовжити
                 </button>
             </div>
         </div>
