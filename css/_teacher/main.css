@@ -604,5 +604,5 @@ div.loader > div {
     border:none;
     border-bottom:1px solid #ddd;
 }
-.schemesBlock{display:inline-block;width:48%;border:1px solid #ddd;border-radius:2px;padding:5px}
+.schemesBlock{vertical-align:top;display:inline-block;width:48%;border:1px solid #ddd;border-radius:2px;padding:5px}
 .schemesBlockButton{float: right;margin-top:10px}

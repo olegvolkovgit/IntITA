@@ -13,17 +13,24 @@
             </li>
         </ul>
         <div class="panel-body" style="padding:15px 0 0 0">
-            <label>Група:</label><input class="form-control" type="text" ng-model="group.name" disabled>
-            <br>
-            <label>Підгрупа:</label><input class="form-control" type="text" ng-model="subgroup.name" disabled>
-            <br>
-            <label>Куратор:</label>
-            <a ng-href="#/supervisor/userProfile/{{subgroup.id_user_curator}}">{{selectedCurator.name}}</a>
-            <br>
-            <label>Інформація(розклад):</label><a href="{{subgroup.data}}" target="_blank">{{subgroup.data}}</a>
-            <br>
-            <label>Студенти:</label>
-            <?php $this->renderPartial('/_super_visor/tables/_offlineStudents', array());?>
+            <ul class="list-group" >
+                <li class="list-group-item">
+                    <label>Група:</label> {{group.name}}
+                </li>
+                <li class="list-group-item">
+                    <label>Підрупа:</label> {{subgroup.name}}
+                </li>
+                <li class="list-group-item">
+                    <label>Куратор:</label> <a ng-href="#/supervisor/userProfile/{{subgroup.id_user_curator}}">{{selectedCurator.name}}</a>
+                </li>
+                <li class="list-group-item">
+                    <label>Інформація(розклад):</label> <span ng-bind-html="subgroup.data | linky">
+                </li>
+                <li class="list-group-item">
+                    <label>Студенти:</label>
+                    <?php $this->renderPartial('/_super_visor/tables/_offlineStudents', array());?>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

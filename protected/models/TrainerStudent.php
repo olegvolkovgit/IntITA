@@ -46,7 +46,7 @@ class TrainerStudent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'trainer0' => array(self::BELONGS_TO, 'Teacher', 'trainer'),
+			'trainer0' => array(self::BELONGS_TO, 'Teacher', ['trainer'=>'user_id']),
             'trainerStudent' => array(self::HAS_MANY, 'StudentReg','id'),
         );
 	}

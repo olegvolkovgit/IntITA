@@ -1,4 +1,10 @@
 <div class="row">
+    <div class="col-lg-12">
+        Supervisor
+    </div>
+</div>
+<hr>
+<div class="row">
     <div class="col-lg-4">
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -29,6 +35,9 @@
                 <ul>
                     <li>
                         <a href="#/supervisor/users">Зареєстровані користувачі</a>
+                    </li>
+                    <li>
+                        <a href="#/supervisor/students">Усі студенти</a>
                     </li>
                     <li>
                         <a href="#/supervisor/studentsWithoutGroup">Усі студенти(оффлайн ф.н.)</a>
