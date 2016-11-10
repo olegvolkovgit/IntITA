@@ -17,7 +17,7 @@ function agreementDetailed(agreements) {
 
     return {
         link: link,
-        templateUrl: '/angular/js/teacher/templates/accountancy/agreementDetailed.html'
+        templateUrl: basePath+'/angular/js/teacher/templates/accountancy/agreementDetailed.html'
     }
 }
 

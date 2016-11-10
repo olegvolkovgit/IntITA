@@ -40,13 +40,13 @@ config(function ($stateProvider) {
         .state('supervisor/offlineStudents', {
             url: "/supervisor/offlineStudents",
             cache: false,
-            controller: 'offlineStudentsTableCtrl',
+            controller: 'offlineStudentsSVTableCtrl',
             templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineStudents",
         })
         .state('supervisor/studentsWithoutGroup', {
             url: "/supervisor/studentsWithoutGroup",
             cache: false,
-            controller: 'studentsWithoutGroupTableCtrl',
+            controller: 'studentsWithoutGroupSVTableCtrl',
             templateUrl: basePath + "/_teacher/_super_visor/superVisor/studentsWithoutGroup",
         })
         .state('supervisor/specializations', {
@@ -146,7 +146,13 @@ config(function ($stateProvider) {
         .state('supervisor/users', {
             url: "/supervisor/users",
             cache: false,
-            controller: 'usersTableCtrl',
+            controller: 'usersSVTableCtrl',
             templateUrl: basePath+"/_teacher/_super_visor/superVisor/users",
+        })
+        .state('supervisor/students', {
+            url: "/supervisor/students",
+            cache: false,
+            controller: 'studentsSVTableCtrl',
+            templateUrl: basePath+"/_teacher/_super_visor/superVisor/students",
         })
 });

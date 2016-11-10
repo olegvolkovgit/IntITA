@@ -57,6 +57,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('students/offlineEducation', {
             url: "/students/offlineEducation",
             cache         : false,
+            controller: 'offlineEducationCtrl',
             templateUrl: basePath+"/_teacher/_student/student/offlineEducation"
         })
 });
