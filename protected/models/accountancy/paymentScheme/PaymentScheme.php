@@ -128,8 +128,8 @@ class PaymentScheme extends CActiveRecord {
         return PaymentScheme::model()->findByPk($id)->name;
     }
 
-    public function getPaymentScheme($user, $service) {
-        $specialOffersFactory = new SpecialOfferFactory($user, $service);
+    public function getPaymentScheme($user, $service, $schemeId=null) {
+        $specialOffersFactory = new SpecialOfferFactory($user, $service, $schemeId);
         $specialOffer = $specialOffersFactory->getSpecialOffer();
         if (!empty($specialOffer)) {
             return is_array($specialOffer) ? $specialOffer : [$specialOffer];

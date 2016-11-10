@@ -116,6 +116,11 @@ class UserSpecialOffer extends ASpecialOffer {
     protected function getConditionCriteria($params) {
         $criteria = null;
 
+        if (key_exists('schemeId', $params) && !empty($params['schemeId'])) {
+            $criteria = new CDbCriteria();
+            $criteria->addCondition("id=" . $params["schemeId"]);
+        }
+
         if (key_exists('user', $params) && !empty($params['user']) &&
             key_exists('service', $params) && !empty($params['service'])) {
             $criteria = new CDbCriteria();
