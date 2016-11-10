@@ -59,6 +59,11 @@
                         </li>
                     </ul>
                 </li>
+                <li ng-if="user.student" class="list-group-item">
+                    <a ng-href="#/supervisor/addStudentToSubgroup/{{user.id}}">
+                        Додати студента в підгрупу
+                    </a>
+                </li>
                 <li class="list-group-item" ng-if="user.student">Тренер:
                     <div ng-if="user.trainer">
                         <a ng-href="/teacher/{{user.trainer.id}}" target="_blank">
