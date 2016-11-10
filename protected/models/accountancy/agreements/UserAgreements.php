@@ -268,15 +268,22 @@ class UserAgreements extends CActiveRecord
         return false;
     }
 
-    private static function newAgreement($user, $modelFactory, $param_id, $schemaId, EducationForm $educForm)
+    private static function newAgreement($userId, $modelFactory, $param_id, $schemaId, EducationForm $educForm)
     {
-        $schema = PaymentScheme::getSchema($schemaId, $educForm->id);
-
+        $user = StudentReg::model()->findByPk($userId);
         $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
+        $so = new SpecialOfferFactory($user, $serviceModel);
+
+        $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);
+        $schema = array_filter($schemas, function($item) use ($schemaId) {
+            return $item->id == $schemaId;
+        });
+        $schema = array_values($schema)[0];
+        $calculator = $schema->getSchemaCalculator($educForm);
 
         $model = new UserAgreements();
-        $model->user_id = $user;
+        $model->user_id = $userId;
         $model->payment_schema = $schemaId;
         $model->service_id = $serviceModel->service_id;
 
@@ -284,17 +291,17 @@ class UserAgreements extends CActiveRecord
         //used only in computing agreement and invoices price
         $billableObjectUAH = clone $billableObject->getModelUAH();
 
-        $model->summa = $schema->getSumma($billableObjectUAH);
-        $model->close_date = $schema->getCloseDate($billableObject, new DateTime())->format(Yii::app()->params['dbDateFormat']);
+        $model->summa = $calculator->getSumma($billableObjectUAH);
+        $model->close_date = $calculator->getCloseDate($billableObject, new DateTime())->format(Yii::app()->params['dbDateFormat']);
         $model->status = 1;
 
         if ($model->save()) {
-            $invoicesList = $schema->getInvoicesList($billableObjectUAH, new DateTime());
+            $invoicesList = $calculator->getInvoicesList($billableObjectUAH, new DateTime());
             $agreementId = $model->id;
             $model->updateByPk($agreementId, array(
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
                 )));
-            Invoice::setInvoicesParamsAndSave($invoicesList, $user, $agreementId);
+            Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
         } else {
             throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
