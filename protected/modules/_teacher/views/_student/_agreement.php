@@ -7,7 +7,7 @@
     <h4><?php echo $agreement->service->description; ?></h4>
     <h4>Форма
         навчання: <?= AbstractIntITAService::getServiceById($agreement->service->service_id)->getEducationForm()->title_ua ?></h4>
-    <h4>Схема проплат: <?= $agreement->paymentSchema->name; ?></h4>
+    <h4>Схема проплат: <?= $agreement->getPaymentSchema()->name; ?></h4>
 </div>
 <div class="col-lg-12">
     <div class="panel panel-default">

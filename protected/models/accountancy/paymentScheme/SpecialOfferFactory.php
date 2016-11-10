@@ -16,14 +16,15 @@ class SpecialOfferFactory {
         'ServiceSpecialOffer'
     ];
 
-    function __construct(StudentReg $user, $service) {
+    function __construct($user, $service, $schemeId = null) {
         $this->user = $user;
         $this->service = $service;
+        $this->schemeId = $schemeId;
     }
     
     public function getSpecialOffer() {
         $specialOffer = null;
-        $params = ['user' => $this->user, 'service' => $this->service];
+        $params = ['user' => $this->user, 'service' => $this->service, 'schemeId' => $this->schemeId];
         foreach (self::SPECIAL_OFFERS as $offerClass) {
             $model = $offerClass::model();
             $specialOffer = $model->getActualOffer($params);
