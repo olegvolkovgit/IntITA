@@ -116,10 +116,10 @@ class UserSpecialOffer extends ASpecialOffer {
     protected function getConditionCriteria($params) {
         $criteria = null;
 
-        if (key_exists('user', $params) && !empty($params['user'] && !$params['user']->isGuest) &&
+        if (key_exists('user', $params) && !empty($params['user']) &&
             key_exists('service', $params) && !empty($params['service'])) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition("userId=" . $params["user"]->getId());
+            $criteria->addCondition("userId=" . $params["user"]->id);
             $criteria->addCondition("serviceId=" . $params['service']->service_id);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         }

@@ -16,7 +16,7 @@ class SpecialOfferFactory {
         'ServiceSpecialOffer'
     ];
 
-    function __construct($user, $service) {
+    function __construct(StudentReg $user, $service) {
         $this->user = $user;
         $this->service = $service;
     }
