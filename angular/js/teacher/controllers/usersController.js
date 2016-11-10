@@ -14,7 +14,8 @@ angular
     .controller('trainersTableCtrl',trainersTableCtrl)
     .controller('moduleAuthorsCtrl',moduleAuthorsCtrl)
     .controller('blockedUsersCtrl',blockedUsersCtrl)
-    .controller('superVisorsTableCtrl', superVisorsTableCtrl);
+    .controller('superVisorsTableCtrl', superVisorsTableCtrl)
+    .controller('offlineStudentsAdmTableCtrl', offlineStudentsAdmTableCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({}, {
@@ -98,10 +99,10 @@ function studentsTableCtrl ($http, $scope, usersService, NgTableParams){
     }
 }
 
-function offlineStudentsTableCtrl ($scope, superVisorService, NgTableParams){
+function offlineStudentsAdmTableCtrl ($scope, usersService, NgTableParams){
     $scope.offlineStudentsTableParams = new NgTableParams({}, {
         getData: function (params) {
-            return superVisorService
+            return usersService
                 .offlineStudentsList(params.url())
                 .$promise
                 .then(function (data) {

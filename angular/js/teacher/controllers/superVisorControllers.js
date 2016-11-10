@@ -15,7 +15,7 @@ angular
     .controller('studentsWithoutGroupTableCtrl', studentsWithoutGroupTableCtrl)
     .controller('specializationsTableCtrl', specializationsTableCtrl)
     .controller('specializationCtrl', specializationCtrl)
-    .controller('usersTableCtrl', usersTableCtrl)
+    .controller('usersSVTableCtrl', usersSVTableCtrl)
 
 function superVisorCtrl (){
 
@@ -582,7 +582,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
     };
 }
 
-function usersTableCtrl ($scope, superVisorService, NgTableParams){
+function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
     $scope.changePageHeader('Зареєстровані користувачі');
     $scope.usersTableParams = new NgTableParams({}, {
         getData: function (params) {

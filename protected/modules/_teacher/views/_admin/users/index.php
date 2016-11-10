@@ -19,7 +19,7 @@
                     </div>
                 </uib-tab>
                 <uib-tab  index="2" heading="Оффлайн студенти (<?=$counters["offlineStudents"];?>)">
-                    <div ng-controller="offlineStudentsTableCtrl">
+                    <div ng-controller="offlineStudentsAdmTableCtrl">
                         <?php $this->renderPartial('tables/_offlineStudentsTable');?>
                     </div>
                 </uib-tab>

@@ -146,7 +146,7 @@ config(function ($stateProvider) {
         .state('supervisor/users', {
             url: "/supervisor/users",
             cache: false,
-            controller: 'usersTableCtrl',
+            controller: 'usersSVTableCtrl',
             templateUrl: basePath+"/_teacher/_super_visor/superVisor/users",
         })
 });
