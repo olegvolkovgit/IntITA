@@ -81,7 +81,12 @@ class SuperVisorController extends TeacherCabinetController
     {
         $this->renderPartial('/_super_visor/tables/users', array(), false, true);
     }
-    
+
+    public function actionStudents()
+    {
+        $this->renderPartial('/_super_visor/tables/students', array(), false, true);
+    }
+
     public function actionAddOfflineStudent($id)
     {
         $model=RegisteredUser::userById($id);
@@ -182,6 +187,28 @@ class SuperVisorController extends TeacherCabinetController
         $criteria->condition = 't.cancelled='.StudentReg::ACTIVE;
         $ngTable->mergeCriteriaWith($criteria);
 
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionGetStudentsList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+
+        $criteria =  new CDbCriteria();
+
+        $criteria->alias = 't';
+        $criteria->join = 'inner join user_student us on t.id = us.id_user';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
+        $criteria->group = 't.id';
+        if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+            $startDate=$_GET['startDate'];
+            $endDate=$_GET['endDate'];
+            $criteria->condition = "TIMESTAMP(us.start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
+        }
+
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }

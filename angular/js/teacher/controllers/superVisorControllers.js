@@ -9,13 +9,14 @@ angular
     .controller('offlineGroupSubgroupsTableCtrl', offlineGroupSubgroupsTableCtrl)
     .controller('offlineSubgroupsTableCtrl', offlineSubgroupsTableCtrl)
     .controller('offlineSubgroupCtrl', offlineSubgroupCtrl)
-    .controller('offlineStudentsTableCtrl', offlineStudentsTableCtrl)
+    .controller('offlineStudentsSVTableCtrl', offlineStudentsSVTableCtrl)
     .controller('offlineStudentProfileCtrl', offlineStudentProfileCtrl)
     .controller('updateOfflineStudentCtrl', updateOfflineStudentCtrl)
-    .controller('studentsWithoutGroupTableCtrl', studentsWithoutGroupTableCtrl)
+    .controller('studentsWithoutGroupSVTableCtrl', studentsWithoutGroupSVTableCtrl)
     .controller('specializationsTableCtrl', specializationsTableCtrl)
     .controller('specializationCtrl', specializationCtrl)
     .controller('usersSVTableCtrl', usersSVTableCtrl)
+    .controller('studentsSVTableCtrl', studentsSVTableCtrl)
 
 function superVisorCtrl (){
 
@@ -50,7 +51,7 @@ function offlineSubgroupsTableCtrl ($scope, superVisorService, NgTableParams){
 }
 
 
-function offlineStudentsTableCtrl ($scope, superVisorService, NgTableParams){
+function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
     $scope.changePageHeader('Студенти в підгрупах');
     $scope.offlineStudentsTableParams = new NgTableParams({}, {
         getData: function (params) {
@@ -65,7 +66,7 @@ function offlineStudentsTableCtrl ($scope, superVisorService, NgTableParams){
     });
 }
 
-function studentsWithoutGroupTableCtrl ($scope, superVisorService, NgTableParams){
+function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams){
     $scope.changePageHeader('Усі студенти(оффлайн ф.н.)');
     $scope.studentsWithoutGroupTableParams = new NgTableParams({}, {
         getData: function (params) {
@@ -595,4 +596,43 @@ function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
                 });
         }
     });
+}
+
+function studentsSVTableCtrl ($scope, superVisorService, NgTableParams){
+    $scope.changePageHeader('Усі студенти');
+
+    $jq("#startDate").datepicker(lang);
+    $jq("#endDate").datepicker(lang);
+
+    $scope.studentsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            $scope.params=params.url();
+            $scope.params.startDate=$scope.startDate;
+            $scope.params.endDate=$scope.endDate;
+            return superVisorService
+                .studentsList($scope.params)
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+
+    $scope.updateStudentList=function(startDate, endDate){
+        $scope.studentsTableParams = new NgTableParams({}, {
+            getData: function (params) {
+                $scope.params=params.url();
+                $scope.params.startDate=startDate;
+                $scope.params.endDate=endDate;
+                return superVisorService
+                    .studentsList($scope.params)
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+    }
 }

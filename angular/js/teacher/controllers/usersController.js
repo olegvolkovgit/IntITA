@@ -15,7 +15,7 @@ angular
     .controller('moduleAuthorsCtrl',moduleAuthorsCtrl)
     .controller('blockedUsersCtrl',blockedUsersCtrl)
     .controller('superVisorsTableCtrl', superVisorsTableCtrl)
-    .controller('offlineStudentsAdmTableCtrl', offlineStudentsAdmTableCtrl)
+    .controller('offlineStudentsTableCtrl', offlineStudentsTableCtrl);
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({}, {
@@ -62,7 +62,7 @@ function usersTableCtrl ($scope, usersService, NgTableParams){
             }
         });
 }
-function studentsTableCtrl ($http, $scope, usersService, NgTableParams){
+function studentsTableCtrl ($scope, usersService, NgTableParams){
     $jq("#startDate").datepicker(lang);
     $jq("#endDate").datepicker(lang);
 
@@ -99,7 +99,7 @@ function studentsTableCtrl ($http, $scope, usersService, NgTableParams){
     }
 }
 
-function offlineStudentsAdmTableCtrl ($scope, usersService, NgTableParams){
+function offlineStudentsTableCtrl ($scope, usersService, NgTableParams){
     $scope.offlineStudentsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService

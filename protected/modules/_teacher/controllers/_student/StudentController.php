@@ -301,15 +301,32 @@ class StudentController extends TeacherCabinetController
 
     public function actionOfflineEducation()
     {
-        $student = OfflineStudents::model()->findByAttributes(array('id_user'=>Yii::app()->user->getId(),'end_date'=>null));
-        $group=$student->group->name;
-        $subgroup=$student->subgroupName->name;
-        $info=$student->subgroupName->data;
-        $trainer=trim($student->trainer->trainer0->getLastFirstName().($student->trainer->trainer0->user->email));
-        $trainerEmail=$student->trainer->trainer0->user->email;
-        $trainerId=$student->trainer->trainer0->user_id;
-        
-        $this->renderPartial('/_student/_offlineEducation', 
-            array('group'=>$group,'subgroup'=>$subgroup,'info'=>$info,'trainer'=>$trainer,'trainerId'=>$trainerId,'trainerEmail'=>$trainerEmail), false, true);
+        $this->renderPartial('/_student/_offlineEducation', array(), false, true);
+    }
+
+    public function actionGetOfflineEducationData()
+    {
+        $students = OfflineStudents::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'end_date'=>null));
+        $subgroups=[];
+        foreach ($students as $key=>$subgroup){
+            $subgroups[$key]['group']=$subgroup->group->name;
+            $subgroups[$key]['subgroup']=$subgroup->subgroupName->name;
+            $subgroups[$key]['info']=$subgroup->subgroupName->data;
+            $subgroups[$key]['groupCurator']=$subgroup->group->userCurator->userNameWithEmail();
+            $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userCurator->email;
+            $subgroups[$key]['groupCuratorId']=$subgroup->group->userCurator->id;
+            $subgroups[$key]['subgroupCurator']=$subgroup->subgroupName->userCurator->userNameWithEmail();
+            $subgroups[$key]['subgroupCuratorEmail']=$subgroup->subgroupName->userCurator->email;
+            $subgroups[$key]['subgroupCuratorId']=$subgroup->subgroupName->userCurator->id;
+
+            if($subgroup->trainer){
+                $subgroups[$key]['trainer']=trim($subgroup->trainer->trainer0->getLastFirstName().($subgroup->trainer->trainer0->user->email));
+                $subgroups[$key]['trainerEmail']=$subgroup->trainer->trainer0->user->email;
+                $subgroups[$key]['trainerId']=$subgroup->trainer->trainer0->user_id;
+                $subgroups[$key]['trainerLink']=Yii::app()->createUrl('studentreg/profile', array('idUser' => $subgroup->trainer->trainer0->user_id));
+            }
+        }
+
+        echo json_encode($subgroups);
     }
 }

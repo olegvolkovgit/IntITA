@@ -117,8 +117,13 @@ class ServiceSpecialOffer extends ASpecialOffer {
     protected function getConditionCriteria($params) {
         $criteria = null;
 
-        if (key_exists('service', $params) && !empty($params['service'])) {
+        if (key_exists('schemeId', $params) && !empty($params['schemeId'])) {
             $criteria = new CDbCriteria();
+            $criteria->addCondition("id=" . $params["schemeId"]);
+        }
+
+        if (key_exists('service', $params) && !empty($params['service'])) {
+            $criteria = $criteria ? $criteria : new CDbCriteria();
             $criteria->addCondition("serviceId=" . $params["service"]->service_id);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
             $criteria->order = 'startDate DESC';

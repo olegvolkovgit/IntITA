@@ -461,7 +461,7 @@ class UserAgreements extends CActiveRecord
             $row["object"] = ($record->service)?CHtml::encode($record->service->description):"";
             $row["date"] = date("d.m.y", strtotime($record->create_date));
             $row["summa"] = ($record->summa != 0)?number_format($record->summa, 2, ",","&nbsp;"): "безкоштовно";
-            $row["schema"] = CHtml::encode($record->paymentSchema->name);
+            $row["schema"] = CHtml::encode($record->getPaymentSchema()->name);
             $row["invoices"]["name"] = "Договір ".$record->number;
             $row["invoices"]["url"] = "'".Yii::app()->createUrl("/_teacher/_student/student/agreement", array("id" =>$record->id))."'";
 
@@ -473,6 +473,10 @@ class UserAgreements extends CActiveRecord
 
     public function getId(){
         return $this->id;
+    }
+
+    public function getPaymentSchema() {
+        return array_values(PaymentScheme::model()->getPaymentScheme(null, null, $this->payment_schema))[0];
     }
 }
 

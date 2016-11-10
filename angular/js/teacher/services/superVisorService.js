@@ -39,5 +39,9 @@ angular
                         url: url + '/getUsersList',
                         method: 'GET',
                     },
+                    studentsList: {
+                        url: url + '/getStudentsList',
+                        method: 'GET',
+                    },
                 });
         }]);
