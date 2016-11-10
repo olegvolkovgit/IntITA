@@ -1006,7 +1006,7 @@ class Course extends CActiveRecord implements IBillableObject
     public function getPaymentSchemas(EducationForm $educationForm) {
 
         $service = $this->getService($educationForm);
-        $user = Yii::app()->user;
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId);
         $paymentSchemas = PaymentScheme::model()->getPaymentScheme($user, $service);
 
         $result = [];
