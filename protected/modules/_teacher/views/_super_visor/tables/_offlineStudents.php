@@ -8,8 +8,8 @@
                 <td data-title="'Email'" filter="{'user.email': 'text'}" sortable="'user.email'">
                     <a ng-href="#/supervisor/userProfile/{{row.id_user}}">{{row.user.email}}</a>
                 </td>
-                <td data-title="'Тренер'" sortable="'trainer.trainer'">
-                    {{row.trainer.trainer ? 'присутній':''}}
+                <td data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
+                    <a ng-href="#/supervisor/userProfile/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>
                 </td>
                 <td data-title="'Група'" filter="{'group.name': 'text'}" sortable="'group.name'">
                     <a ng-href="#/supervisor/offlineGroup/{{row.group.id}}">{{row.group.name}}</a>

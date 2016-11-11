@@ -204,6 +204,7 @@ class StudentReg extends CActiveRecord
             'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'on' => 'payCourses.rights = 1'),
             'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
+            'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
         );
     }
 
