@@ -70,6 +70,13 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $ti
         $compile(container.html(data))($scope);
     };
 
+    $scope.addUIHandlers = function(msg) {
+        holder = angular.element(document.querySelector("#operationMessageHolder"));
+        holder.fadeIn();
+        holder.html(msg);
+        window.setTimeout(function(){ holder.fadeOut(); }, 3000);
+    };
+
     $scope.ediConsult = function (url) {
         var elemId = document.getElementsByName('id');
         var id = elemId[0].value;
