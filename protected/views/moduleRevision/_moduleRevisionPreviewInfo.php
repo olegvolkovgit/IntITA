@@ -106,7 +106,7 @@
         <td><label>Ціна:</label></td>
         <td><?=$moduleRevision->properties->module_price ?></td>
 
-        <td><label>Ціна оффлайн:</label></td>
+        <td><label>Ціна офлайн:</label></td>
         <td><?=$moduleRevision->properties->price_offline ?></td>
     </tr>
     <tr>

@@ -18,7 +18,7 @@
                         <?php $this->renderPartial('tables/_studentsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="2" heading="Оффлайн студенти (<?=$counters["offlineStudents"];?>)">
+                <uib-tab  index="2" heading="Офлайн студенти (<?=$counters["offlineStudents"];?>)">
                     <div ng-controller="offlineStudentsTableCtrl">
                         <?php $this->renderPartial('tables/_offlineStudentsTable');?>
                     </div>

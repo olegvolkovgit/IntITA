@@ -13,10 +13,10 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/supervisor/offlineGroups">Оффлайнові групи</a>
+                        <a href="#/supervisor/offlineGroups">Офлайнові групи</a>
                     </li>
                     <li>
-                        <a href="#/supervisor/offlineSubgroups">Оффлайнові підгрупи</a>
+                        <a href="#/supervisor/offlineSubgroups">Офлайнові підгрупи</a>
                     </li>
                     <li>
                         <a href="#/supervisor/specializations">Спеціалізації груп</a>
@@ -40,7 +40,7 @@
                         <a href="#/supervisor/students">Усі студенти</a>
                     </li>
                     <li>
-                        <a href="#/supervisor/studentsWithoutGroup">Усі студенти(оффлайн ф.н.)</a>
+                        <a href="#/supervisor/studentsWithoutGroup">Усі студенти(офлайн ф.н.)</a>
                     </li>
                     <li>
                         <a href="#/supervisor/offlineStudents">Студенти в підгрупах</a>

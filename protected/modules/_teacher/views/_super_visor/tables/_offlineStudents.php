@@ -26,6 +26,9 @@
                 <td data-title="'Випуск'" sortable="'graduate_date'" filter="{'graduate_date': 'text'}">
                     {{row.graduate_date}}
                 </td>
+                <td style="word-wrap:break-word;" data-title="'Телефон'" sortable="'user.phone'" filter="{'user.phone': 'text'}">
+                    {{row.user.phone}}
+                </td>
             </tr>
         </table>
     </div>

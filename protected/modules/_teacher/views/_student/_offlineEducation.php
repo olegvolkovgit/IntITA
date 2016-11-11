@@ -2,7 +2,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <ul class="list-group" ng-repeat="subgroup in subgroups track by $index">
+                <ul class="list-group studentInformation" ng-repeat="subgroup in subgroups track by $index">
                     <li class="list-group-item">
                         <label>Група:</label> {{subgroup.group}}<br>
                         <label>Куратор групи:</label>{{subgroup.groupCurator}}<br>
@@ -28,7 +28,7 @@
                         <a ng-href="<?= Config::getChatPath()?>{{subgroup.subgroupCuratorId}}" target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i></a>
                     </li>
                     <li class="list-group-item">
-                        <label>Інформація(розклад):</label><span ng-bind-html="subgroup.info | linky"></span>
+                        <label>Інформація(розклад):</label><span ng-bind-html="subgroup.info | linky:'_blank'"></span>
                     </li>
                     <li ng-if="subgroup.trainer" class="list-group-item">
                         <label>Тренер:</label> <a ng-href="{{subgroup.trainerLink}}" target="_blank">{{subgroup.trainer}}</a>

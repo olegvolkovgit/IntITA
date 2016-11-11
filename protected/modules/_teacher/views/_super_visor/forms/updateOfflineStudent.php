@@ -2,7 +2,7 @@
     <ul class="list-inline">
         <li>
             <a type="button" class="btn btn-primary" ng-href="#/supervisor/offlineStudents">
-                Оффлайн студенти
+                Офлайн студенти
             </a>
         </li>
         <li>
@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label>Підгрупа*</label>
                         <select ng-disabled=studentModel.endDate class="form-control" ng-options="subgroup as subgroup.name for subgroup in subgroupsList track by subgroup.id" ng-model="selectedSubgroup" required>
-                            <option value="" disabled selected>(Виберіть підгрупу або створіть, якщо її немає)</option>
+                            <option value="" disabled selected>(Виберіть підгрупу)</option>
                         </select>
                     </div>
                     <div class="form-group">

@@ -49,6 +49,9 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Тренер'" sortable="'trainer.trainer'">
                             {{row.trainer.trainer ? 'присутній':''}}
                         </td>
+                        <td style="word-wrap:break-word;" data-title="'Телефон'" sortable="'phone'" filter="{'phone': 'text'}">
+                            {{row.phone}}
+                        </td>
                         <td data-title="">
                             <a ng-href="#/supervisor/addStudentToSubgroup/{{row.id}}">Додати в підгрупу</a>
                         </td>

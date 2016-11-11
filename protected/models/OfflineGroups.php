@@ -33,6 +33,7 @@ class OfflineGroups extends CActiveRecord
 		return array(
 			array('name, start_date, specialization, city, id_user_created, id_user_curator', 'required'),
 			array('name', 'length', 'max'=>128),
+			array('name', 'unique', 'caseSensitive' => false, 'message' => 'Група з такою назвою вже існує'),
 			// The following rule is used by search().
 			array('id, name, start_date, specialization, city, id_user_created, id_user_curator', 'safe', 'on'=>'search'),
 		);
@@ -126,6 +127,16 @@ class OfflineGroups extends CActiveRecord
 			$result["results"][$key]["name"] = $model->name;
 		}
 		return json_encode($result);
+	}
+
+	public function getValidationErrors() {
+		$errors=[];
+		foreach($this->getErrors() as $key=>$attribute){
+			foreach($attribute as $error){
+				array_push($errors,$error);
+			}
+		}
+		return implode(", ", $errors);
 	}
 
 }

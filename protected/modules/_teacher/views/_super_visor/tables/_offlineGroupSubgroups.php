@@ -2,7 +2,7 @@
     <div class="panel-body">
         <div ng-controller="offlineGroupSubgroupsTableCtrl">
             <a type="button" class="btn btn-primary" ng-href="#/supervisor/group/{{groupId}}/addOfflineSubgroup">
-                Додати оффлайн підгрупу
+                Додати офлайн підгрупу
             </a>
             <br>
             <br>
@@ -12,7 +12,7 @@
                         <a ng-href="#/supervisor/offlineSubgroup/{{row.id}}">{{row.name}}</a>
                     </td>
                     <td data-title="'Спеціалізація'" filter="{'specialization.name': 'text'}" sortable="'specialization.name'">{{row.specialization.name}}</td>
-                    <td data-title="'Інформація(розклад)'" ><span ng-bind-html="row.data | linky"></span></td>
+                    <td data-title="'Інформація(розклад)'" ><span ng-bind-html="row.data | linky:'_blank'"></span></td>
                     <td data-title="'Куратор підгрупи'" filter="{'userCurator.fullName': 'text'}" sortable="'userCurator.fullName'">
                         <a ng-href="#/supervisor/userProfile/{{row.id_user_curator}}">{{row.userCurator.fullName}} ({{row.userCurator.email}})</a>
                     </td>
