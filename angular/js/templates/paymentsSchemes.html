@@ -1,13 +1,13 @@
 <div class="paymentsForm">
-    <div ng-if="schemes.schemes[0].fullPrice==0">
-        {{schemes.translates.price}} <span class="colorGreen">{{schemes.translates.free}}</span>
-    </div>
-    <div ng-show="schemes.schemes[0].fullPrice!=0" class="rowRadio">
-        <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'">
+    <div class="rowRadio">
+        <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'" ng-hide="scheme.fullPrice==0 && $index!=0">
             <div>
-                <label class="priceLabel">
+                <label class="priceLabel" >
                     <input type="radio" class="paymentPlan_value" name="payment" ng-click="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme" ng-value=scheme>
-                    <div class="mainPay">
+                    <div ng-if="scheme.fullPrice==0" class="mainPay">
+                        {{schemes.translates.price}} <span class="colorGreen">{{schemes.translates.free}}</span>
+                    </div>
+                    <div ng-hide="scheme.fullPrice==0 && $index==0" class="mainPay">
                         <div class="icoPay">
                             <img ng-src="{{scheme == selectedModelScheme && scheme.icoCheck || scheme.ico}}">
                         </div>
