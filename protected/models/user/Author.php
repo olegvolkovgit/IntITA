@@ -73,7 +73,8 @@ class Author extends Role
                     if (Yii::app()->db->createCommand()->
                     insert('teacher_module', array(
                         'idTeacher' => $user->id,
-                        'idModule' => $value
+                        'idModule' => $value,
+                        'assigned_by'=>Yii::app()->user->getId()
                     ))){
                         $revisionRequest=MessagesAuthorRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
                         if($revisionRequest){
@@ -115,6 +116,7 @@ class Author extends Role
                 if (Yii::app()->db->createCommand()->
                 update('teacher_module', array(
                     'end_time' => date("Y-m-d H:i:s"),
+                    'cancelled_by'=>Yii::app()->user->getId(),
                 ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
                     $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
                         array(Module::model()->findByPk($value)),
@@ -168,6 +170,7 @@ class Author extends Role
         if(Yii::app()->db->createCommand()->
         update($this->tableName(), array(
             'end_time'=>date("Y-m-d H:i:s"),
+            'cancelled_by'=>Yii::app()->user->getId(),
         ), 'idTeacher=:id and end_time IS NULL', array(':id'=>$user->id))){
             $this->notifyCancelRole($user);
             return true;
