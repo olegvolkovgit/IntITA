@@ -1,5 +1,5 @@
 <a type="button" class="btn btn-primary" ng-href="#/supervisor/addOfflineGroup">
-    Створити оффлайн групу
+    Створити офлайн групу
 </a>
 <br>
 <br>

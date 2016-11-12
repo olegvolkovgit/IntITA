@@ -23,7 +23,7 @@ $price = $course->getBasePrice();
                 </payments-scheme>
             </div>
             <div class="schemesBlock">
-                <h3>Навчання оффлайн</h3>
+                <h3>Навчання офлайн</h3>
                 <payments-scheme
                     data-course-id="courseId"
                     data-module-id="moduleId"

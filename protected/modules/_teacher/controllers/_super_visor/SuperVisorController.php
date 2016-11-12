@@ -269,10 +269,11 @@ class SuperVisorController extends TeacherCabinetController
         $group->city=$city;
         $group->id_user_created=Yii::app()->user->getId();
         $group->id_user_curator=$curatorId;
-        if($group->save()){
-            echo 'Оффлайн групу успішно створено';
+        if($group->validate()){
+            $group->save();
+            echo 'Офлайн групу успішно створено';
         }else{
-            echo 'Створити групу не вдалося. Введені не вірні дані';
+            echo $group->getValidationErrors();
         }
     }
 
@@ -314,12 +315,12 @@ class SuperVisorController extends TeacherCabinetController
         $group->city=$city;
         $group->id_user_curator=$curatorId;
 
-        if($group->update()){
-            echo 'Оффлайн групу успішно оновлено';
+        if($group->validate()){
+            $group->update();
+            echo 'Офлайн групу успішно оновлено';
         }else{
-            echo 'Оновити групу не вдалося. Введені не вірні дані';
+            echo $group->getValidationErrors();
         }
-
     }
 
     public function actionUpdateSubgroup()

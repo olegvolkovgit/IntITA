@@ -606,3 +606,4 @@ div.loader > div {
 }
 .schemesBlock{vertical-align:top;display:inline-block;width:48%;border:1px solid #ddd;border-radius:2px;padding:5px}
 .schemesBlockButton{float: right;margin-top:10px}
+.studentInformation{word-wrap:break-word}

@@ -37,7 +37,6 @@
 input.paymentPlan_value{
     position: relative;
     vertical-align: top;
-    margin-top: 10px;
     cursor: pointer;
 }
 .priceLabel{cursor:pointer;font-weight:normal}

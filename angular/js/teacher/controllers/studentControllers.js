@@ -143,7 +143,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
 }
 
 function offlineEducationCtrl($scope, $http) {
-    $scope.changePageHeader('Оффлайн навчання');
+    $scope.changePageHeader('Офлайн навчання');
     $http({
         method: 'POST',
         url: basePath+'/_teacher/_student/student/getOfflineEducationData',
@@ -151,6 +151,6 @@ function offlineEducationCtrl($scope, $http) {
     }).then(function successCallback(response) {
         $scope.subgroups=response.data;
     }, function errorCallback() {
-        bootbox.alert("Завантажити дані оффлайн навчання не вдалося. Зв\'яжіться з адміністрацією.");
+        bootbox.alert("Завантажити дані офлайн навчання не вдалося. Зв\'яжіться з адміністрацією.");
     });
 }

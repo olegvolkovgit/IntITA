@@ -8,7 +8,7 @@
                     <a type="button" class="btn btn-primary" href="#/supervisor/students">Усі студенти</a>
                 </li>
                 <li>
-                    <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Усі студенти(оффлайн ф.н.)</a>
+                    <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Усі студенти(офлайн ф.н.)</a>
                 </li>
                 <li>
                     <a type="button" class="btn btn-primary" href="#/supervisor/offlineStudents">Студенти в підгрупах</a>
@@ -44,14 +44,14 @@
                     </a>
                 </li>
                 <li ng-if="offlineStudent" class="list-group-item">
-                    Оффлайн навчання:
+                    Офлайн навчання:
                     <ul class="list-group">
                         <li class="list-group-item groupList" ng-repeat="subgroup in offlineStudent track by $index">
                             <label>Група</label>: {{subgroup.groupName}}<br>
                             <label>Спеціалізація:</label> {{subgroup.specialization}}<br>
                             <label>Підгрупа:</label> {{subgroup.subgroupName}}<br>
                             <label>Дата старту:</label> {{subgroup.startDate}}<br>
-                            <label>Дата виключеня:</label> {{subgroup.endDate}}<br>
+                            <label>Дата виключення:</label> {{subgroup.endDate}}<br>
                             <label>Дата випуску:</label> {{subgroup.graduateDate}}<br>
                             <a ng-href="#/supervisor/editOfflineStudent/{{subgroup.idOfflineStudent}}">
                                 Редагувати студента в підгрупі

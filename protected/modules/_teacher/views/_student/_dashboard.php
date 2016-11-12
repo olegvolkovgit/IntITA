@@ -21,7 +21,7 @@
                     <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>
                     <li>
                         <a href="#/students/offlineEducation">
-                            Оффлайн навчання
+                            Офлайн навчання
                         </a>
                     </li>
                     <?php } ?>

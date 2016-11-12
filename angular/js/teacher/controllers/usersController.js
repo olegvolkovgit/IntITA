@@ -428,9 +428,8 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
                 data: $jq.param({role: role, user: user}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go('admin/users/user/:id/addrole', {id:user}, {reload: true});
-                });
+                $scope.addUIHandlers(response.data);
+                $scope.loadUserData();
             }, function errorCallback() {
                 bootbox.alert("Операцію не вдалося виконати");
             });
@@ -471,9 +470,11 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
                 data: $jq.param({user: user, module: module, course: course}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $scope.loadUserData();
-                });
+                $scope.addUIHandlers(response.data);
+                $scope.loadUserData();
+                // bootbox.alert(response.data, function () {
+                //     $scope.loadUserData();
+                // });
             }, function errorCallback() {
                 bootbox.alert("Операцію не вдалося виконати");
             });

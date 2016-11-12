@@ -67,7 +67,7 @@ function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
 }
 
 function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams){
-    $scope.changePageHeader('Усі студенти(оффлайн ф.н.)');
+    $scope.changePageHeader('Усі студенти(офлайн ф.н.)');
     $scope.studentsWithoutGroupTableParams = new NgTableParams({}, {
         getData: function (params) {
             return superVisorService
@@ -159,7 +159,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
 }
 
 function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
-    $scope.changePageHeader('Оффлайн група');
+    $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
         $scope.offlineStudentsTableParams = new NgTableParams({'idGroup':$scope.groupId}, {
@@ -185,7 +185,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             $scope.group=response.data;
             $scope.loadCityToModel($scope.group.city);
             $scope.loadCuratorToModel($scope.group.id_user_curator);
-            $scope.changePageHeader('Оффлайн група: '+$scope.group.name);
+            $scope.changePageHeader('Офлайн група: '+$scope.group.name);
             $scope.selectedSpecialization=$scope.specializations[$scope.group.specialization-1].id;
         }, function errorCallback() {
             bootbox.alert("Отримати дані групи не вдалося");
@@ -329,7 +329,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             $scope.subgroup=response.data;
-            $scope.changePageHeader('Оффлайн підгрупа: '+$scope.subgroup.name);
+            $scope.changePageHeader('Офлайн підгрупа: '+$scope.subgroup.name);
             $scope.loadGroupData($scope.subgroup.group);
             $scope.loadCuratorToModel($scope.subgroup.id_user_curator);
         }, function errorCallback() {
@@ -519,7 +519,7 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
 }
 
 function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhead, superVisorService){
-    $scope.changePageHeader('Студент(оффлайнова форма навчання)');
+    $scope.changePageHeader('Студент(офлайнова форма навчання)');
     $scope.studentModelId=$stateParams.idOfflineStudentModel;
     $scope.loadStudentModel=function(modelId){
         $http.get(basePath + "/_teacher/_super_visor/superVisor/getOfflineStudentModel/?id="+modelId).then(function (response) {

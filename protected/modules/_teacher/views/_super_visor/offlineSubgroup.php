@@ -24,7 +24,7 @@
                     <label>Куратор:</label> <a ng-href="#/supervisor/userProfile/{{subgroup.id_user_curator}}">{{selectedCurator.name}}</a>
                 </li>
                 <li class="list-group-item">
-                    <label>Інформація(розклад):</label> <span ng-bind-html="subgroup.data | linky">
+                    <label>Інформація(розклад):</label> <span ng-bind-html="subgroup.data | linky:'_blank'">
                 </li>
                 <li class="list-group-item">
                     <label>Студенти:</label>

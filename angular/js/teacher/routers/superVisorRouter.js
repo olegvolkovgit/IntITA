@@ -17,7 +17,7 @@ config(function ($stateProvider) {
             url: "/supervisor/offlineGroups",
             cache: false,
             controller: function ($scope) {
-                $scope.changePageHeader('Оффлайнові групи');
+                $scope.changePageHeader('Офлайнові групи');
             },
             templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineGroups",
         })
@@ -33,7 +33,7 @@ config(function ($stateProvider) {
             url: "/supervisor/offlineSubgroups",
             cache: false,
             controller: function ($scope) {
-                $scope.changePageHeader('Оффлайнові підгрупи');
+                $scope.changePageHeader('Офлайнові підгрупи');
             },
             templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineSubgroups",
         })

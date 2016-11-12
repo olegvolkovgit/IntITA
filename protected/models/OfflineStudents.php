@@ -55,6 +55,7 @@ class OfflineStudents extends CActiveRecord
 			'user' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
 			'trainer' => array(self::HAS_ONE, 'TrainerStudent', ['student'=>'id_user'], 'on' => 'trainer.end_time IS NULL'),
 			'group' => array(self::HAS_ONE, 'OfflineGroups', array('group'=>'id'), 'through' => 'subgroupName'),
+			'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
 			'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
 			'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
 		);
