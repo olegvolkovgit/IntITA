@@ -208,14 +208,14 @@ class Teacher extends CActiveRecord
 
     public static function updateFirstText($id, $firstText)
     {
-        $teacher=Teacher::model()->findByAttributes(array('teacher_id'=>$id));
+        $teacher=Teacher::model()->findByPk($id);
         $teacher->profile_text_first=$firstText;
         return $teacher->update('profile_text_first');
     }
 
     public static function updateSecondText($id, $secondText)
     {
-        $teacher=Teacher::model()->findByAttributes(array('teacher_id'=>$id));
+        $teacher=Teacher::model()->findByPk($id);
         $teacher->profile_text_last=$secondText;
         return $teacher->update('profile_text_last');
     }
