@@ -597,3 +597,13 @@ div.loader > div {
     float: right;
     width: 100%;
 }
+.list-group-item .groupList{
+    margin-bottom:0;
+    background-color:inherit;
+    border-radius:0;
+    border:none;
+    border-bottom:1px solid #ddd;
+}
+.schemesBlock{vertical-align:top;display:inline-block;width:48%;border:1px solid #ddd;border-radius:2px;padding:5px}
+.schemesBlockButton{float: right;margin-top:10px}
+.studentInformation{word-wrap:break-word}

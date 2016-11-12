@@ -3,7 +3,7 @@
 ?>
 
 <script>
-    summa = "<?php echo CommonHelper::getPriceUah($model->summa);?>";
+    summa = "<?php echo $model->summa;?>";
     user = "<?php echo $model->user_created;?>";
 </script>
 <div id="account">
@@ -55,7 +55,7 @@
                     комп'ютерна грамотність (<?php echo CHtml::encode(Invoice::getProductTitle($model)); ?>, <?php echo AbstractIntITAService::getServiceById($model->agreement->service->service_id)->getEducationForm()->title_ua; ?>)
                 </td>
                 <td><span
-                        id="summa"><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",","&nbsp;"); ?></span>
+                        id="summa"><?php echo number_format($model->summa, 2, ",","&nbsp;"); ?></span>
                 </td>
             </tr>
             <tr style="border: none;">
@@ -64,7 +64,7 @@
                     <br>
                     <b><span id="summaLetters"></span></b>
                 </td>
-                <td><?php echo number_format(CommonHelper::getPriceUah($model->summa), 2, ",", "&nbsp;"); ?></td>
+                <td><?php echo number_format($model->summa, 2, ",", "&nbsp;"); ?></td>
             </tr>
         </table>
         <span>Рахунок дійсний протягом <?=Config::getExpirationTimeInterval();?> днів до <?=date("d.m.y", strtotime($model->expiration_date));?></span>

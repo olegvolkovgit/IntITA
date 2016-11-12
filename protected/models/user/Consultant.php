@@ -107,25 +107,22 @@ class Consultant extends Role
     }
 
     public static function consultantsByQuery($query){
-        $criteria = new CDbCriteria();
-        $criteria->select = "s.id, secondName, firstName, middleName, email, avatar";
-        $criteria->alias = "s";
-        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'LEFT JOIN consultant_modules cm ON cm.consultant = s.id';
-        $criteria->addCondition('cm.consultant IS NOT NULL and cm.end_time IS NULL');
-        $criteria->group = 's.id';
 
-        $data = StudentReg::model()->findAll($criteria);
+        $criteria = new CDbCriteria();
+        //$criteria->select = "idUser.id, idUser.secondName, idUser.firstName, idUser.middleName, idUser.email, idUser.avatar";
+        $criteria->addSearchCondition('idUser.firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('idUser.secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('idUser.middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('idUser.email', $query, true, "OR", "LIKE");
+        $criteria->addCondition('end_date IS NULL');
+        $data = UserConsultant::model()->with('idUser')->findAll($criteria);
 
         $result = [];
         foreach ($data as $key=>$model) {
-            $result["results"][$key]["id"] = $model->id;
-            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
-            $result["results"][$key]["email"] = $model->email;
-            $result["results"][$key]["url"] = $model->avatarPath();
+            $result["results"][$key]["id"] = $model->id_user;
+            $result["results"][$key]["name"] = $model->idUser->secondName . " " . $model->idUser->firstName . " " . $model->idUser->middleName;
+            $result["results"][$key]["email"] = $model->idUser->email;
+            $result["results"][$key]["url"] = $model->idUser->avatarPath();
         }
         return json_encode($result);
     }

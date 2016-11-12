@@ -9,10 +9,11 @@ angular
         'directive.loading',
         'ngResource',
         'ngTable',
+        'ngToast',
         'angular-loading-bar',
         'freeLecturesRouter',
         'messagesRouter',
-        'cabinetRouter', 
+        'cabinetRouter',
         'adminRouter',
         'authorRouter',
         'consultantRouter',
@@ -28,7 +29,9 @@ angular
         'responseRouter',
         'interfaceMessagesRouter',
         'siteConfigRouter',
-        'requestsRouter'
+        'requestsRouter',
+        'superVisorRouter',
+        'paymentsSchemes.directives'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

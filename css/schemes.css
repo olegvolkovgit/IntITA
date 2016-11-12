@@ -1,0 +1,59 @@
+.paymentsListEven{
+    height: 75px;
+    background: #ececec;
+}
+.paymentsListOdd{
+    height: 75px;
+}
+.mainPay{
+    display: inline-block;
+}
+.icoPay{
+    display: inline-block;
+}
+.priceBlock{
+    float: right;
+}
+.coursePriceStatus {
+    color: #e41818;
+    text-decoration: line-through;
+}
+.coursePriceStatus1 {
+    color: #666666;
+    font-weight: bold;
+}
+.discount{
+    color: #078a0d;
+    margin-left: 85px;
+}
+.discountColor{color: #078a0d;}
+.courseShortInfoTable table.mainPay{
+    display: inline-block;
+}
+.rowRadio input:checked+span > .mainPay, #rowRadio input:checked+span > .mainPay{
+    color: #264b73;
+}
+.basePayment{color: #4b75a4;}
+input.paymentPlan_value{
+    position: relative;
+    vertical-align: top;
+    cursor: pointer;
+}
+.priceLabel{cursor:pointer;font-weight:normal}
+.colorGreen{
+    color: green;
+}
+@media only screen and (max-width: 800px) {
+    .discount{
+        margin-left:20px;
+    }
+    .paymentsListEven,.paymentsListOdd{
+        height:inherit;
+    }
+}
+@media only screen and (max-width: 360px) {
+    .discount{
+        margin-left:0;
+        display: block;
+    }
+}

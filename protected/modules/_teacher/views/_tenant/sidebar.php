@@ -1,5 +1,5 @@
 <li>
-    <a href="#/tenant">
+    <a href="#/tenant" ng-click="changeView('tenant')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Tenant
         <span class="fa arrow"></span>
     </a>

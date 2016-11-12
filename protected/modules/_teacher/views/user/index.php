@@ -14,10 +14,10 @@
                 <?php $this->renderPartial('_rolesTab', array('model' =>$model));?>
             </uib-tab>
             <?php if ($model->isStudent()){?>
-                <uib-tab index="2" heading="Курси">
+                <uib-tab index="2" heading="Проплачені курси">
                     <?php $this->renderPartial('_coursesTab');?>
                 </uib-tab>
-                <uib-tab index="3" heading="Модулі">
+                <uib-tab index="3" heading="Проплачені модулі">
                     <?php $this->renderPartial('_modulesTab');?>
                 </uib-tab>
             <?php }?>

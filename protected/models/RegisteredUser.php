@@ -186,6 +186,11 @@ class RegisteredUser
         return $this->hasRole(UserRoles::AUTHOR);
     }
 
+    public function isSuperVisor()
+    {
+        return $this->hasRole(UserRoles::SUPER_VISOR);
+    }
+    
     public function canApprove()
     {
         return $this->isContentManager();
@@ -195,8 +200,9 @@ class RegisteredUser
     public function hasRole($role)
     {
         if ($role == "author") {
+            //todo
 //            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
-            return true;
+            return Teacher::model()->exists('user_id='.$this->id);
         }
         return in_array($role, $this->getRoles());
     }

@@ -3,7 +3,7 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
-        $allowedContentManagerActions=['loadJsonUserModel'];
+        $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory'];
         return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isTrainer()||(Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action ->id,$allowedContentManagerActions));
     }
 
@@ -128,7 +128,8 @@ class UserController extends TeacherCabinetController {
     {
         $result = array();
         $model=RegisteredUser::userById($id);
-        
+        $teacher = Teacher::model()->findByPk($id);
+
         $user = $model->registrationData->getAttributes();
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
@@ -155,7 +156,10 @@ class UserController extends TeacherCabinetController {
                 $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
             }
         }
-
+        if ($teacher) {
+            $result['teacher'] = (array)$teacher->getAttributes();
+            $result['teacher']['modules'] = $teacher->modulesActive;
+        }
         echo CJSON::encode($result);
     }
 
@@ -170,7 +174,8 @@ class UserController extends TeacherCabinetController {
         $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
         $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
         $historyAuthor = UserAuthor::model()->with('moduleAuthor','assigned_by_user','cancelled_by_user')->model()->findAll('idTeacher=:id', array(':id'=>$id));
-        $array = array_merge($historyAuthor,$historyAdmin,$historyAccountant,$historyTenant,$historyStudent,$historyTrainer,$historyConsultant,$historyContentManager,$historyTeacherConsultant );
+        $historySuperVisor = UserSuperVisor::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
+        $array = array_merge($historyAuthor,$historyAdmin,$historyAccountant,$historyTenant,$historyStudent,$historyTrainer,$historyConsultant,$historyContentManager,$historyTeacherConsultant,$historySuperVisor);
         $history = [];
         foreach ($array as $value)
         {

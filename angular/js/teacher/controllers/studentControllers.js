@@ -2,8 +2,9 @@
  * Created by adm on 26.07.2016.
  */
 angular
-    .module('teacherApp').
-    controller('studentCtrl', studentCtrl)
+    .module('teacherApp')
+    .controller('studentCtrl', studentCtrl)
+    .controller('offlineEducationCtrl', offlineEducationCtrl)
     .controller('studentFinancesCtrl', function ($scope) {
         initPayCoursesList();
         initPayModulesTable();
@@ -139,4 +140,17 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
         $scope.changePageHeader('Договір'+ agreementName);
         $state.go('students/agreement/:agreementId',{agreementId:agreementId},{reload:true});
     };
+}
+
+function offlineEducationCtrl($scope, $http) {
+    $scope.changePageHeader('Офлайн навчання');
+    $http({
+        method: 'POST',
+        url: basePath+'/_teacher/_student/student/getOfflineEducationData',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).then(function successCallback(response) {
+        $scope.subgroups=response.data;
+    }, function errorCallback() {
+        bootbox.alert("Завантажити дані офлайн навчання не вдалося. Зв\'яжіться з адміністрацією.");
+    });
 }

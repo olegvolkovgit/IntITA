@@ -41,9 +41,6 @@ span#spoilerClickOnline, span#spoilerClickOffline {
     text-decoration:underline;
     color:#4b75a4;
 }
-.courseDetail span {
-    white-space: nowrap;
-}
 .spoilerRow{
     display: none;
 }
@@ -181,9 +178,6 @@ div.courseShortInfoTable{
 }
 .courseDetail span.colorP{
     display: inline-block;
-}
-.courseDetail .numbers{
-    line-height: 1;
 }
 span.readmore-js-toggle{
     margin-right: 100px;
@@ -326,26 +320,6 @@ padding-left: 0px;
 .colorGreen{
     color: green;
 }
-.coursePriceStatus {
-    color: #e41818;
-    text-decoration: line-through;
-}
-.coursePriceStatus1 {
-    color: #e41818;
-    text-decoration: line-through;
-}
-.coursePriceStatus2 {
-    color: #666666;
-    font-weight: bold;
-}
-#discountCollapsed{
-    color: #078a0d;
-    margin-left: 85px;
-}
-.discount{
-    color: #078a0d;
-    margin-left: 85px;
-}
 #addModule{
     float:right;
     margin-top: 20px;
@@ -422,49 +396,14 @@ input[type="submit"][disabled]#submitButton {
     width: 20px;
     height: 20px;
 }
-.courseShortInfoTable table.mainPay{
-    display: inline-block;
-}
-.courseShortInfoTable table.mainPay,.courseShortInfoTable table.mainPay table{
-    border-collapse: collapse;
-    border-spacing: 0;
-    line-height: 1;
-}
-.courseShortInfoTable table.mainPay td {
-    position: relative;
-    vertical-align: top;
-}
-.courseShortInfoTable table.mainPay img {
-    margin-top: 5px;
-    margin-right: 5px;
-}
-.courseShortInfoTable table.mainPay table img {
-    margin-top: 0;
-}
 #PaymentPlan_value input{
     position: relative;
     vertical-align: top;
     margin-top: 10px;
     cursor: pointer;
 }
-input.paymentPlan_value{
-    position: relative;
-    vertical-align: top;
-    margin-top: 10px;
-    cursor: pointer;
-}
-.paymentsListEven{
-    height: 75px;
-    background: #ececec;
-}
-.paymentsListOdd{
-    height: 75px;
-}
 #firstRadioOnline, #firstRadioOffline{
     display: none;
-}
-.rowRadio input:checked+span > .mainPay, #rowRadio input:checked+span > .mainPay{
-    color: #264b73;
 }
 .icoCheck{
     display: none;
@@ -585,9 +524,37 @@ input.paymentPlan_value{
 #demo a{
     text-decoration: underline;
 }
-#paymentsOnlineSpoiler,#paymentsOfflineSpoiler{text-decoration: underline;color: #4b75a4;cursor:pointer}
-.discountColor{color: #078a0d;}
-.basePayment{color: #4b75a4;}
+.paymentsOnlineSpoiler,.paymentsOfflineSpoiler{text-decoration: underline;color: #4b75a4;cursor:pointer}
+.cssSlideUp {
+    transition: 2s linear all;
+    height: 20px;
+    overflow: hidden;
+}
+.cssSlideUp.ng-hide {
+    height:0;
+}
+.headerScheme .discount{
+    margin-left:5px;
+}
+.courseDetail span {
+    white-space: nowrap;
+}
+.courseShortInfoTable table.mainPay,.courseShortInfoTable table.mainPay table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    line-height: 1;
+}
+.courseShortInfoTable table.mainPay td {
+    position: relative;
+    vertical-align: top;
+}
+.courseShortInfoTable table.mainPay img {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.courseShortInfoTable table.mainPay table img {
+    margin-top: 0;
+}
 @media only screen and (max-width: 800px) {
     #modules,.hideBlockLink,.courseModules>h2{display:none}
     .courseModules{margin-top: 10px}
@@ -607,17 +574,5 @@ input.paymentPlan_value{
     .courseDetail span {
          white-space: inherit;
     }
-    .paymentsListEven,.paymentsListOdd{
-        height:inherit;
-    }
     .courseShortInfoTable{display:inline-block}
-    .discount{
-        margin-left:20px;
-    }
-}
-@media only screen and (max-width: 360px) {
-    .discount{
-        margin-left:0;
-        display: block;
-    }
 }

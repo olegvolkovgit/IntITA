@@ -21,6 +21,7 @@ class UsersController extends TeacherCabinetController
         $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
         $counters["teachers"] = Teacher::model()->count('t.cancelled='.Teacher::ACTIVE);
         $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled = 0 AND end_date IS NULL");
+        $counters["offlineStudents"] = OfflineStudents::model()->count("end_date IS NULL");
         $counters["users"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);
         $counters["tenants"] = UserTenant::model()->count("end_date IS NULL");
         $counters["trainers"] = UserTrainer::model()->count("end_date IS NULL");
@@ -28,6 +29,8 @@ class UsersController extends TeacherCabinetController
         $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
         $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
         $counters["withoutRoles"] = StudentReg::countUsersWithoutRoles();
+        $counters["blockedUsers"] = StudentReg::model()->count('cancelled='.StudentReg::DELETED);
+        $counters["superVisors"] = UserSuperVisor::model()->count("end_date IS NULL");
 
         $this->renderPartial('index', array(
             'counters' => $counters
@@ -127,6 +130,29 @@ class UsersController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionGetOfflineStudentsList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('OfflineStudents', $requestParams);
+
+        if(isset($requestParams['idGroup'])){
+            $criteria =  new CDbCriteria();
+            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+            $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
+            $criteria->condition = 'g.id='.$requestParams['idGroup'];
+            $ngTable->mergeCriteriaWith($criteria);
+        }
+        if(isset($requestParams['idSubgroup'])){
+            $criteria =  new CDbCriteria();
+            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+            $criteria->condition = 'sg.id='.$requestParams['idSubgroup'];
+            $ngTable->mergeCriteriaWith($criteria);
+        }
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
     public function actionGetUsersList()
     {
         $requestParams = $_GET;
@@ -207,7 +233,6 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetAdminsList()
     {
-
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
         $requestParams = $_GET;
@@ -245,6 +270,29 @@ class UsersController extends TeacherCabinetController
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
         $ngTable = new NgTableAdapter('UserConsultant', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+
+    public function actionGetBlockedUsersList()
+    {
+        $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('unlocked_by IS NULL and unlocked_date IS NULL');
+        $ngTable = new NgTableAdapter('UserBlocked', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
+        echo json_encode($ngTable->getData());
+    }
+    
+    public function actionGetSuperVisorsList()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('end_date IS NULL');
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UserSuperVisor', $requestParams);
+
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);

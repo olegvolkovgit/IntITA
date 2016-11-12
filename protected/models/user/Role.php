@@ -49,6 +49,9 @@ abstract class Role
             case "tenant":
                 $model = new Tenant();
                 break;
+            case "super_visor":
+                $model = new SuperVisor();
+                break;
             default :
                 $model = null;
         }

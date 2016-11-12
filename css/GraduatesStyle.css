@@ -169,8 +169,8 @@ span.spoilerTriangle {
 }
 .graduatesTable{display: table;width: 100%}
 .graduatesTd{display: table-cell}
-.graduateInfo{padding-left: 10px;}
-.graduateAvatar{vertical-align: top;}
+.graduateInfo{padding-left: 10px;width: 80%}
+.graduateAvatar{vertical-align: top;width: 10%}
 .graduateHeaderMini{display: none}
 @media only screen and (max-width: 800px) {
     .one,.two{  width:99%;
@@ -184,6 +184,7 @@ span.spoilerTriangle {
     }
     .graduateAvatar{
         display: table;
+        width:inherit;
     }
     .graduateAvatar img, .graduateAvatar .graduateHeaderMini{
         display: table-cell;
@@ -195,5 +196,5 @@ span.spoilerTriangle {
     }
     .graduatesTd{padding-left: 0}
     .graduateName, .graduateDate{display: none}
-    .graduateInfo{display: block}
+    .graduateInfo{display: block;width:inherit}
 }

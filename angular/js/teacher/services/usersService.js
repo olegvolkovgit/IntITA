@@ -19,6 +19,10 @@ angular
                         url: url + '/getStudentsList',
                         method: 'GET',
                     },
+                    offlineStudentsList: {
+                        url: url + '/getOfflineStudentsList',
+                        method: 'GET',
+                    },
                     teachersList: {
                         url: url + '/getTeachersList',
                         method: 'GET'
@@ -57,6 +61,13 @@ angular
                     },
                     authorsList: {
                         url: basePath + '/_teacher/_content_manager/contentManager/getAuthorsList',
+                        method: 'GET'
+                    },
+                    blockedUsersList: {
+                        url: url + '/getBlockedUsersList',
+                    },
+                    superVisorsList: {
+                        url: url + '/getSuperVisorsList',
                         method: 'GET'
                     },
                 });

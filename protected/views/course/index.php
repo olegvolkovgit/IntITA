@@ -9,9 +9,8 @@ $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0050') => Config::getBaseUrl() . "/courses", CHtml::decode($model->getTitle()),
 ); ?>
     <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'course.css'); ?>"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'schemes.css'); ?>"/>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleListCtrl.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/directives/paymentsScheme.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/paymentsService.js'); ?>"></script>
     <script type="text/javascript">
         idCourse = <?php echo $model->course_ID;?>;
         lang = '<?php if (CommonHelper::getLanguage() == 'ua') echo 'uk'; else echo CommonHelper::getLanguage();?>';

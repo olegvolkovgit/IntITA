@@ -36,7 +36,18 @@ angular
     .controller('addRoleCtrl', addRoleCtrl);
 
 function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $timeout) {
-
+    $scope.currentLanguage=currentLanguage;
+    $scope.languages=['ua','en','ru'];
+    $scope.changeLang = function (lang) {
+        $http({
+            method: "GET",
+            url: basePath+'/_teacher/cabinet/changeLang?lg='+lang,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+            cache: false
+        }).then(function () {
+            location.reload();
+        });
+    };
 
     $scope.countOfMessages = 0;
     var updateCounter = function() {
@@ -57,6 +68,13 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $ti
         container = angular.element(document.querySelector("#pageContainer"));
         container.html('');
         $compile(container.html(data))($scope);
+    };
+
+    $scope.addUIHandlers = function(msg) {
+        holder = angular.element(document.querySelector("#operationMessageHolder"));
+        holder.fadeIn();
+        holder.html(msg);
+        window.setTimeout(function(){ holder.fadeOut(); }, 3000);
     };
 
     $scope.ediConsult = function (url) {
@@ -116,6 +134,18 @@ function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $ti
 
     };
 
+    $scope.moduleLink = function (id) {
+        $http({
+            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
 
 }
 
@@ -263,8 +293,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                     cache: false
                 }).then(function successCallback() {
-                   // $state.go($state.current, {}, {reload: true});
-                    $state.reload();
+                    $state.go('messages', {}, {reload: true});
                 }, function errorCallback() {
                     bootbox.alert("Операцію не вдалося виконати.");
                 });
@@ -363,22 +392,45 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
     }
 }
 
-function addressCtrl($scope, $http, DTOptionsBuilder, $state) {
-    $http.get(basePath + "/_teacher/_admin/address/getCitiesList").then(function (data) {
-        $scope.citiesList = data.data["data"];
-    });
-    $scope.dtOptionsCity = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
-        .withOption('order', [[0, "asc"]]);
+function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
+    
+    
 
-    $http.get(basePath + "/_teacher/_admin/address/getCountriesList").then(function (data) {
-        $scope.countriesList = data.data["data"];
+    $scope.countriesTable = new NgTableParams({},
+    {
+        getData: function (params) {
+            return $resource(basePath + "/_teacher/_admin/address/getCountriesList").get(params.url()).$promise.then(function (data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
     });
-    $scope.dtOptionsCountry = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
-        .withOption('order', [[0, "asc"]]);
+
+    $scope.citiesTable = new NgTableParams({},
+        {
+            getData: function (params) {
+                return $resource(basePath + "/_teacher/_admin/address/getCitiesList").get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+    
+    // $http.get(basePath + "/_teacher/_admin/address/getCitiesList").then(function (data) {
+    //     $scope.citiesList = data.data["data"];
+    // });
+    // $scope.dtOptionsCity = DTOptionsBuilder.newOptions()
+    //     .withPaginationType('simple_numbers')
+    //     .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+    //     .withOption('order', [[0, "asc"]]);
+    //
+    // $http.get(basePath + "/_teacher/_admin/address/getCountriesList").then(function (data) {
+    //     $scope.countriesList = data.data["data"];
+    // });
+    // $scope.dtOptionsCountry = DTOptionsBuilder.newOptions()
+    //     .withPaginationType('simple_numbers')
+    //     .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
+    //     .withOption('order', [[0, "asc"]]);
 
     $scope.editCity = function (url) {
         country = $jq('#country').val();

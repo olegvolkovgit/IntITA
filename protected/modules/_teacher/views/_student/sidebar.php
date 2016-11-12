@@ -22,5 +22,12 @@
                 Фінанси
             </a>
         </li>
+        <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>
+        <li>
+            <a href="#/students/offlineEducation">
+                Офлайн навчання
+            </a>
+        </li>
+        <?php } ?>
     </ul>
 </li>

@@ -3,67 +3,41 @@ angular
     .controller('paymentsCtrl', paymentsCtrl);
 
 function paymentsCtrl($scope, $stateParams, $http,  $state) {
-    $scope.selectedSchemeOnline = { scheme: '' };
-    $scope.selectedSchemeOffline = { scheme: '' };
-    if($stateParams.educationForm==1){
-        $scope.selectedSchemeOnline.scheme=$stateParams.scheme;
-    }else{
-        $scope.selectedSchemeOffline.scheme=$stateParams.scheme;
-    }
-
     if($stateParams.scenario=='payCourse'){
-        $scope.active=$stateParams.educationForm-1;
-
-        $scope.getIncludeFile = function(section) {
-            switch (section) {
-                case 1:
-                    return basePath + '/angular/js/main_app/templates/_advanceSchema.html';
-                case 2:
-                case 3:
-                    return basePath + '/angular/js/main_app/templates/_baseSchema.html';
-                default:
-                    return basePath + '/angular/js/main_app/templates/_loanSchema.html';
-            }
-        };
-
-        $scope.setSchema = function (event,changeEl,educForm) {
-            if(educForm=='Online'){
-                $scope.selectedSchemeOffline.scheme='';
-            }else{
-                $scope.selectedSchemeOnline.scheme='';
-            }
-        };
+        $scope.courseId= $stateParams.id;
+        $scope.moduleId= 0;
     }
+    if($stateParams.scenario=='payModule'){
+        $scope.moduleId= $stateParams.id;
+        $scope.courseId= 0;
+    }
+    $scope.setForm=$stateParams.form;
+    $scope.schemeId=$stateParams.schemeId;
 
-    $scope.createAccount=function (url, course, module, scenario, offerScenario, schema, educationForm) {
+    $scope.createAccount=function (url, course, module, scenario, offerScenario, schema, educationForm, selectedScheme) {
         if(scenario=="Course"){
-            if($scope.selectedSchemeOnline.scheme){
-                $scope.educationForm=1;
-                $scope.schemeType=$scope.selectedSchemeOnline.scheme;
-            }else if($scope.selectedSchemeOffline.scheme){
-                $scope.educationForm=2;
-                $scope.schemeType=$scope.selectedSchemeOffline.scheme;
+            if(typeof selectedScheme=='undefined') {
+                bootbox.alert('Виберіть спочатку схему проплати');
+                return false;
             }else{
-                $scope.educationForm=1;
-                $scope.schemeType=1;
+                $scope.educationForm=selectedScheme.educForm;
+                $scope.schemeId=selectedScheme.schemeId;
             }
         } else if(scenario=="Module"){
-            $scope.educationForm=educationForm;
-            $scope.schemeType=1;
+            $scope.educationForm=educationForm==1?'online':'offline';
+            //todo
+            // $scope.schemeType=1;
+            $scope.schemeId=1;
         }
 
-        if ($scope.schemeType == 0) {
+        if ($scope.schemeId == 0) {
             bootbox.alert("Виберіть схему проплати.");
         } else {
             if (offerScenario != "noOffer") {
-                if (1 <=  $scope.schemeType <= 8) {
-                    $state.go('publicOffer/course/:course/module/:module/scenario/:scenario/educationForm/:educationForm/scheme/:scheme',
-                        {course:course,module:module,scenario:scenario,educationForm:$scope.educationForm,scheme:$scope.schemeType}, {reload: true});
-                } else {
-                    bootbox.alert("Неправильно вибрана схема проплати.");
-                }
+                $state.go('publicOffer/course/:course/module/:module/scenario/:scenario/:form/scheme/:schemeId',
+                    {course:course,module:module,scenario:scenario,form:$scope.educationForm,schemeId:$scope.schemeId}, {reload: true});
             } else {
-                $scope.createAgreement(url, $scope.schemeType, course, $scope.educationForm, module, scenario);
+                $scope.createAgreement(url, $scope.schemeId, course, $scope.educationForm, module, scenario);
             }
         }
     };
@@ -86,11 +60,4 @@ function paymentsCtrl($scope, $stateParams, $http,  $state) {
             bootbox.alert('Договір не вдалося створити. Спробуйте пізніше або зверніться до адміністратора');
         });
     };
-
-    $jq('html').on('click','.paymentPlan_value',function () {
-        $jq('img.icoCheck').hide();
-        $jq('img.icoNoCheck').show();
-        $jq(this).next('span').find('img.icoNoCheck').hide();
-        $jq(this).next('span').find('img.icoCheck').show();
-    });
 }

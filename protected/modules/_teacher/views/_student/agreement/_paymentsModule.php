@@ -23,8 +23,6 @@
                     <table class="mainPay">
                         <tr>
                             <td class="icoPay">
-                                <img class="icoNoCheck"
-                                     src="<?= StaticFilesHelper::createPath('image', 'course', 'wallet.png'); ?>">
                                 <img class="icoCheck"
                                      src="<?= StaticFilesHelper::createPath('image', 'course', 'checkWallet.png'); ?>">
                             </td>
@@ -58,5 +56,6 @@
                 'Module',
                 '<?= $offerScenario ?>',
                 '',
-                '<?= $educForm ?>')"><?php echo Yii::t('profile', '0261'); ?></button>
+                '<?= $educForm ?>',
+                '')"><?php echo Yii::t('profile', '0261'); ?></button>
 <?php } ?>

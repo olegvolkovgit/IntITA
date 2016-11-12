@@ -50,7 +50,7 @@ class AddressCity extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'country0' => array(self::BELONGS_TO, 'AddressCountry', 'country'),
-			'users' => array(self::HAS_MANY, 'User', 'city'),
+			'users' => array(self::HAS_MANY, 'StudentReg', 'city'),
 		);
 	}
 
@@ -134,26 +134,7 @@ class AddressCity extends CActiveRecord
         }
         return null;
     }
-
-	public static function citiesList(){
-        $cities = AddressCity::model()->findAll();
-        $return = array('data' => array());
-
-        foreach ($cities as $record) {
-            $row = array();
-
-            $row["id"] = $record->id;
-            $row["country"] = $record->country0->title_ua;
-            $row["title_ua"] = $record->title_ua;
-            $row["title_ru"] = $record->title_ru;
-            $row["title_en"] = $record->title_en;
-			
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-	}
-
+	
 	public static function newCity(AddressCountry $country, $titleUa, $titleRu, $titleEn){
 		$model = new AddressCity();
 
@@ -173,8 +154,8 @@ class AddressCity extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "id, title_ua, country";
         $criteria->addSearchCondition('id', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('title_ua', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('country', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('LOWER(title_ua)', strtolower($query), true, "OR", "LIKE");
+        $criteria->addSearchCondition('LOWER(country)', strtolower($query), true, "OR", "LIKE");
 
         $data = AddressCity::model()->findAll($criteria);
 

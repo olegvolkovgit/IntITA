@@ -48,6 +48,7 @@
  * @property TrainerStudent $trainer
  * @property PayModules [] $payModules
  * @property PayCourses [] $payCourses
+ * @property UserStudent [] $student
  */
 class StudentReg extends CActiveRecord
 {
@@ -147,7 +148,18 @@ class StudentReg extends CActiveRecord
     {
         $this->_identity = new UserIdentity($this->email, $this->password);
         if (!$this->_identity->authenticate())
-            $this->addError('password', Yii::t('error', '0273'));
+        {
+            if($this->_identity->errorCode == 666)
+            {
+                $this->addError('password', Yii::t('error', '0916'));
+            }
+            if($this->_identity->errorCode == 1 || $this->_identity->errorCode == 2 )
+            {
+                $this->addError('password', Yii::t('error', '0273'));
+            }
+
+        }
+
     }
 
     public function authenticatePass()
@@ -192,6 +204,7 @@ class StudentReg extends CActiveRecord
             'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'on' => 'payCourses.rights = 1'),
             'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
+            'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
         );
     }
 
@@ -634,7 +647,7 @@ class StudentReg extends CActiveRecord
 
     public function userNameWithEmail()
     {
-        $name = $this->firstName . " " . $this->secondName;
+        $name = trim($this->firstName . " " . $this->secondName);
         if ($name == "") {
             return $this->email;
         } else {
@@ -642,6 +655,21 @@ class StudentReg extends CActiveRecord
         }
     }
 
+    public function userIdFullName()
+    {
+        $data=array();
+        $fullName = trim($this->firstName . " " . $this->secondName);
+        if ($fullName == "") {
+            $fullName=$this->email;
+        } else {
+            $fullName=trim($fullName . ", " . $this->email);
+        }
+        $data["id"] = $this->id;
+        $data["fullName"] = $fullName;
+        
+        return $data;
+    }
+    
     public static function getUserInfo()
     {
         $criteria = new CDbCriteria();
@@ -1227,7 +1255,27 @@ class StudentReg extends CActiveRecord
     }
 
     public function changeUserStatus(){
-        $this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
+        $lockUser = null;
+        if (!$this->cancelled)
+        {
+            $lockUser = new  UserBlocked();
+            $lockUser->id_user = $this->id;
+            $lockUser->locked_by = Yii::app()->user->getId();
+            $lockUser->locked_date = date("Y-m-d H:i:s");
+            $lockUser->save();
+            $this->cancelled = StudentReg::DELETED;
+        }
+        else
+        {
+            $lockUser = UserBlocked::model()->find('id_user=:id_user AND unlocked_by IS NULL ',[':id_user'=>$this->id]);
+            $lockUser->unlocked_by = Yii::app()->user->getId();
+            $lockUser->unlocked_date = date("Y-m-d H:i:s");
+            $lockUser->save(true, array('unlocked_by','unlocked_date'));
+            $this->cancelled = StudentReg::ACTIVE;
+
+        }
+
+        //$this->cancelled = ($this->isActive())?StudentReg::DELETED:StudentReg::ACTIVE;
         return $this->save(true, array('cancelled'));
     }
 
@@ -1325,6 +1373,4 @@ class StudentReg extends CActiveRecord
 
         return json_encode($data);
     }
-
-
 }

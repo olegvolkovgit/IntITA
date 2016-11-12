@@ -18,7 +18,14 @@ angular
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback(response) {
                     if(response.data.status=='success'){
-                        var result=JSON.parse(response.data.json.replace(/\n/g, "\\n"));
+                        //replace space symbols for json
+                        var oldSymbol = ['\n','\t','\r'];
+                        var newSymbol = ['\\n','\\t','\\r'];
+                        for (var i in oldSymbol) {
+                            response.data.json=response.data.json.replace( RegExp( oldSymbol[i], "g" ), newSymbol[i]);
+                        }
+
+                        var result=JSON.parse(response.data.json);
                         var type, arg_type,res_type;
                         var variable = [];
                         for(var i=0;i<result.function.args.length;i++){

@@ -8,7 +8,7 @@
                 <br>
 
                 <div class="form-group">
-                    <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue) | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getConsultants($viewValue) | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
                     <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResultsConsultant">
                         <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено

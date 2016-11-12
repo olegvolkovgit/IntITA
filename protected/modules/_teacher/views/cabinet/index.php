@@ -15,7 +15,7 @@
     scenario = '<?=$scenario?>';
     adminEmail = '<?=Config::getAdminEmail();?>';
     <!-- kludge -->
-
+    currentLanguage = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
 </script>
 
 
@@ -61,8 +61,7 @@
     </div>
     <!-- /.modal -->
 </div>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'spoilerPay.css'); ?>"/>
-
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'schemes.css'); ?>"/>
 <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-ui.min.js'); ?>"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -112,28 +111,7 @@
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/requestsList.js'); ?>"></script>
 
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/directives/paymentsScheme.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/paymentsService.js'); ?>"></script>
-
 <script>
-    window.onload = function()
-    {
-        switch (scenario) {
-            case 'payCourse':
-                window.history.pushState(null, null, basePath + "/cabinet/#");
-                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payCourse",
-                    array('course' => $course));?>', 'Оплата курсу');
-                break;
-            case 'payModule':
-                window.history.pushState(null, null, basePath + "/cabinet/#");
-                load('<?=Yii::app()->createUrl("/_teacher/_student/student/payModule",
-                    array('course' => $course, 'module' => $module));?>', 'Оплата модуля');
-                break;
-            default:
-//                history.pushState({url : '<?php //echo Yii::app()->createUrl("/_teacher/cabinet/loadDashboard",
-//                    array('user' => $model->id)); ?>//'},"");
-        }
-    };
     window.onpopstate = function(event){
         reloadPage(event);
     };

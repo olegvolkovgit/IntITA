@@ -24,13 +24,13 @@
             <!-- Nav tabs -->
             <script type="text/ng-template" id="path/to/your/filters/age.html">
                 <div ng-controller="messagesCtrl">
-                    <p class="input-group">
-                        <input type="text" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="input-filter form-control"/ >
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="show = !show"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
+                    <p class="input-group dateInput">
+                        <input type="text" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="input-filter form-control" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="show = !show"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
                     </p>
-                    <div ng-show="show" style="display:block; z-index: 400; position: absolute; min-height:290px;">
+                    <div ng-show="show" class="dateFilter">
                         <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                             <td data-title="'Тема'"  filter="{'subject' : 'text'}" ng-click="changeView('messages/message/'+row.id_message)">
                                 <div ><em>{{row.userMessages.subject}}</em></div>
                             </td>
-                            <td data-title="'Дата'"  sortable="'message.create_date'" ng-click="changeView('messages/message/'+row.id_message)">
+                            <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }" ng-click="changeView('messages/message/'+row.id_message)">
                                 <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
                             </td>
                         </tr>
@@ -118,7 +118,7 @@
                                 <div ng-if="row.payCourse"><em>Доступ до курсу</em></div>
                                 <div ng-if="row.paymentMessage && !row.paymentMessage.service_id"><em>Доступ до лекцій</em></div>
                             </td>
-                            <td data-title="'Дата'" sortable="'message.create_date'" ng-click="changeView('messages/message/'+row.id_message)">
+                            <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }" ng-click="changeView('messages/message/'+row.id_message)">
                                 <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
                             </td>
                         </tr>

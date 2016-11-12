@@ -4,13 +4,10 @@
 .header{text-align:center;position:relative;color:#666666;font-family:MyriadPro;font-size:34px;list-style:none;margin-top:0px;margin-left:0px;}
 .header p{color:#4682B4;font-size:19px;font-family:MyriadPro;margin-top:0px;}
 .line1{margin-top:-25px;}
-.block{border:solid 0px #DCDCDC;height:280px;display:inline-block;position:relative;margin-left:50px;margin-top:35px;}
-.block ul{display:inline-block;padding:0px;top:0px;list-style:none;margin-left:210px;}
-.block ul li{margin-left:-50px;padding:0;}
-.icon{position:absolute;top:0px;margin-top:-5px;left:10%;}
-.title{position:absolute;top:30%;left:12%;color:#4682B4;font-size:22px;text-align:left;}
-.title p{width:240px;text-align:left;margin-top:5px;color:#696969;font-size:16px;font-family:MyriadPro;line-height:18px;}
-.block a{position:absolute;top:92%;left:12%;color:#4682B4;font-size:16px;}
+.block{border:solid 0px #DCDCDC;display:inline-block;position:relative;margin-top:35px;text-align:left;margin-right:5px;margin-left:5px;vertical-align:top}
+.title{color:#4682B4;font-size:22px;}
+.title p{width:240px;margin-top:5px;color:#696969;font-size:16px;font-family:MyriadPro;line-height:18px;}
+.block a{color:#4682B4;font-size:16px;}
 .block a:hover{color:#000000;}
 .hexagon800{display:none}
 /*about block*/

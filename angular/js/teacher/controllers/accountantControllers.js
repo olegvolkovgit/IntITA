@@ -458,13 +458,46 @@ angular
         }
     })
     
-    .controller('operationTypeCtrl', function ($scope) {
+    .controller('operationTypeCtrl', function ($scope, $http, $resource, NgTableParams) {
         $jq('#operationTypes').DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
                 }
             }
         );
+
+        $scope.operationTypesTable = new NgTableParams({
+            sorting: {},
+        }, {
+            getData: function (params) {
+                return $resource(basePath + '/_teacher/_accountant/operationType/loadList').get(params.url()).$promise.then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+            }
+        });
+
+        $scope.deleteOperationType = function (id) {
+            bootbox.confirm('Ви впевнені що хочете видалити тип проплати ' + id + '?',function (result) {
+                if(result){
+                    $http({
+                        method:'POST',
+                        url:basePath+'/_teacher/_accountant/operationType/delete',
+                        data: $jq.param({id:id}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    })
+                        .success(function (data) {
+                            bootbox.alert('Тип проплат видалений.',function () {
+                                $scope.operationTypesTable.reload();
+                            })
+                        })
+                        .error(function () {
+                            bootbox.alert('Операцію не вдалося виконати.')
+                        })
+                }
+            })
+
+        }
     })
 
     .controller('externalSourcesCtrl', function ($scope) {
@@ -488,21 +521,23 @@ angular
     })
 
     .controller('paymentsSchemaCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
-        $scope.schemeType = $stateParams.schemeType;
+        $scope.schemeType = defineSchemaType($stateParams.schemeType);
     }])
     .controller('addPaymentsSchemaCtrl',
         [
             '$scope',
             '$stateParams',
+            'ngToast',
             'userService',
             'courseService',
             'moduleService',
-            function ($scope, $stateParams, user, course, module) {
-                $scope.schemeType = $stateParams.schemeType;
-                if (['module', 'user', 'course'].indexOf($scope.schemeType) === -1) {
-                    $scope.schemeType = 'default'
-                }
+            'paymentSchemaService',
+            function ($scope, $stateParams, ngToast, user, course, module, paymentSchema) {
+                $scope.schemeType = defineSchemaType($stateParams.schemeType);
 
+                $scope.paymentSchema = {
+                  educationForm : 1
+                };
 
                 $scope.user = {
                     isSelect : $scope.schemeType === 'user',
@@ -512,8 +547,7 @@ angular
                     label: function (user) {
                         return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
                     },
-                    onSelect: function onSelectUser($item, $model, $label, $event) {
-                    }
+                    onSelect: selectFromTypeahead.bind(null, $scope.paymentSchema, 'userId', 'id')
                 };
 
                 $scope.course = {
@@ -524,8 +558,7 @@ angular
                     label: function (course) {
                         return course ? ((course.title_ua || '' ) + ', ' + (course.language || '')) : '';
                     },
-                    onSelect: function onSelectUser($item, $model, $label, $event) {
-                    }
+                    onSelect: selectFromTypeahead.bind(null, $scope.paymentSchema, 'courseId', 'course_ID')
                 };
 
                 $scope.module = {
@@ -536,12 +569,48 @@ angular
                     label: function (module) {
                         return module ? ((module.title_ua || '' ) + ', ' + (module.language || '')) : '';
                     },
-                    onSelect: function onSelectUser($item, $model, $label, $event) {
-                    }
+                    onSelect: selectFromTypeahead.bind(null, $scope.paymentSchema, 'moduleId', 'module_ID')
                 };
 
-                
+                $scope.startDateOptions = new DateOptions();
+                $scope.endDateOptions = new DateOptions();
 
+                $scope.createSchema = function () {
+                    paymentSchema
+                        .create($scope.paymentSchema)
+                        .$promise
+                        .then(function (data) {
+                            if (data.message === 'OK') {
+                                ngToast.create({
+                                    content : 'Схема створена успішно'
+                                })
+                            } else {
+                                ngToast.create({
+                                    className:'danger',
+                                    content:"Під час створення схеми виникла помилка."
+                                })
+                            }
+                        });
+                }
             }
         ]
     );
+
+function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
+    context[field] = $model[modelField];
+}
+
+function defineSchemaType(input) {
+    return ['module', 'user', 'course'].indexOf(input) >= 0 ? input : 'default'
+}
+
+function DateOptions () {
+    this.popupOpened = false;
+    this.maxDate = new Date(2020, 5, 22);
+    this.minDate = new Date();
+    this.startingDay = 1;
+}
+
+DateOptions.prototype.open = function () {
+    this.popupOpened = true;
+};

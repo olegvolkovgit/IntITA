@@ -1,39 +1,55 @@
 <div ng-controller="addPaymentsSchemaCtrl">
+    <!--
+        todo из-за того, что выше по дереву находится элемент с id=pageWrapper, то тосты не видны - показываются за пределами экрана
+        там конкретно мешают padding и margin - они сдвигают элемент влево. Как поправить - не знаю, но надо поправить и забрать инлайновые стили
+     -->
+    <toast style="left:0px"></toast>
     <!--user typeahead -->
-    <div class="row m-b-20">
+    <div class="row m-b-20" ng-if="user.isSelect">
         <div class="col-md-4">
             <span class="control-label">Користувач</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span ng-show="!user.loading && !user.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-pencil"></i></span>
-            <span ng-show="user.loading" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-refresh"></i></span>
-            <span ng-show="user.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-remove"></i></span>
-            <input
+        <div class="col-md-8">
+            <div class="input-group">
+                <span ng-show="!user.loading && !user.noResults" class="input-group-addon">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </span>
+                <span ng-show="user.loading" class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </span>
+                <span ng-show="user.noResults" class="input-group-addon">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </span>
+                <input
                     id="userTypeahead"
-                    aria-describedby="gl_icon"
                     type="text"
                     ng-model="user.selected"
                     uib-typeahead="typeahead as user.label(typeahead) for typeahead in user.typeahead($viewValue)"
                     typeahead-loading="user.loading"
                     typeahead-no-results="user.noResults"
                     typeahead-on-select="user.onSelect($item, $model, $label, $event)"
-                    class="form-control"
-                    ng-disabled="!user.isSelect"
-                    disabled='disabled'>
+                    class="form-control">
+            </div>
         </div>
     </div>
 
-    <div class="row m-b-20">
+    <div class="row m-b-20" ng-if="course.isSelect">
         <div class="col-md-4">
             <span class="control-label">Курс</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span ng-show="!course.loading && !course.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-pencil"></i></span>
-            <span ng-show="course.loading" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-refresh"></i></span>
-            <span ng-show="course.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-remove"></i></span>
-            <input
+        <div class="col-md-8">
+            <div class="input-group">
+                <span ng-show="!course.loading && !course.noResults" class="input-group-addon">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </span>
+                <span ng-show="course.loading" class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </span>
+                <span ng-show="course.noResults" class="input-group-addon">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </span>
+                <input
                     id="courseTypeahead"
-                    aria-describedby="gl_icon"
                     type="text"
                     ng-model="course.selected"
                     uib-typeahead="typeahead as course.label(typeahead) for typeahead in course.typeahead($viewValue)"
@@ -41,22 +57,28 @@
                     typeahead-no-results="course.noResults"
                     typeahead-on-select="course.onSelect($item, $model, $label, $event)"
                     class="form-control"
-                    ng-disabled="!course.isSelect"
-                    disabled='disabled'>
+                    ng-disabled="paymentSchema.moduleId">
+            </div>
         </div>
     </div>
 
-    <div class="row m-b-20">
+    <div class="row m-b-20" ng-if="module.isSelect">
         <div class="col-md-4">
             <span class="control-label">Модуль</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span ng-show="!module.loading && !module.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-pencil"></i></span>
-            <span ng-show="module.loading" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-refresh"></i></span>
-            <span ng-show="module.noResults" class="input-group-addon" id="gl_icon"><i class="glyphicon glyphicon-remove"></i></span>
-            <input
+        <div class="col-md-8">
+            <div class=" input-group">
+                <span ng-show="!module.loading && !module.noResults" class="input-group-addon">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </span>
+                <span ng-show="module.loading" class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </span>
+                <span ng-show="module.noResults" class="input-group-addon">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </span>
+                <input
                     id="moduleTypeahead"
-                    aria-describedby="gl_icon"
                     type="text"
                     ng-model="module.selected"
                     uib-typeahead="typeahead as module.label(typeahead) for typeahead in module.typeahead($viewValue)"
@@ -64,8 +86,21 @@
                     typeahead-no-results="module.noResults"
                     typeahead-on-select="module.onSelect($item, $model, $label, $event)"
                     class="form-control"
-                    ng-disabled="!module.isSelect"
-                    disabled='disabled'>
+                    ng-disabled="paymentSchema.courseId">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row m-b-20" ng-if="module.isSelect || course.isSelect">
+        <div class="col-md-4">
+            <span class="control-label">Форма навчання</span>
+        </div>
+        <div class="col-md-8">
+            <div class="btn-group">
+                <label class="btn btn-default" ng-model="paymentSchema.educationForm" uib-btn-radio="1">Online</label>
+                <label class="btn btn-default" ng-model="paymentSchema.educationForm" uib-btn-radio="2">Offline</label>
+            </div>
         </div>
     </div>
 
@@ -73,9 +108,14 @@
         <div class="col-md-4">
             <span class="control-label">Відсоток знижки</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-            <input type="text" class="form-control">
+        <div class="col-md-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+                <input type="text"
+                       class="form-control"
+                       ng-disabled="paymentSchema.loan"
+                       ng-model="paymentSchema.discount">
+            </div>
         </div>
     </div>
 
@@ -83,9 +123,14 @@
         <div class="col-md-4">
             <span class="control-label">Відсоток кредиту</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-            <input type="text" class="form-control">
+        <div class="col-md-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+                <input type="text"
+                       class="form-control"
+                       ng-disabled="paymentSchema.discount"
+                       ng-model="paymentSchema.loan">
+            </div>
         </div>
     </div>
 
@@ -93,9 +138,11 @@
         <div class="col-md-4">
             <span class="control-label">Кількість платежів</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-            <input type="text" class="form-control">
+        <div class="col-md-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+                <input type="number" class="form-control" ng-model="paymentSchema.payCount">
+            </div>
         </div>
     </div>
 
@@ -103,30 +150,74 @@
         <div class="col-md-4">
             <span class="control-label">Кількість місяців оплати кредиту</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-            <input type="text" class="form-control">
+        <div class="col-md-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+                <input type="number"
+                       class="form-control"
+                       ng-max="paymentSchema.payCount"
+                       ng-model="paymentSchema.monthPay">
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-b-20">
+        <div class="col-md-4">
+            <span class="control-label">Назва</span>
+        </div>
+        <div class="col-md-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+                <input type="text" class="form-control" ng-model="paymentSchema.name">
+            </div>
         </div>
     </div>
 
     <div class="row m-b-20" ng-if="schemeType!=='default'">
         <div class="col-md-4">
-            <span class="control-label">Початок акції</span>
+            <span class="control-label">Дати початку і завершення</span>
         </div>
-        <div class="col-md-8 input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-            <input type="text" class="form-control">
-        </div>
-    </div>
-
-    <div class="row m-b-20" ng-if="schemeType!=='default'">
         <div class="col-md-4">
-            <span class="control-label">Завершення акції</span>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="startDateOptions.open()"><i
+                            class="glyphicon glyphicon-calendar"></i></span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="paymentSchema.startDate"
+                       is-open="startDateOptions.popupOpened"
+                       datepicker-options="startDateOptions"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'>
+            </div>
         </div>
-        <div class="col-md-8 input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-            <input type="text" class="form-control">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="endDateOptions.open()"><i
+                            class="glyphicon glyphicon-calendar"></i></span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="paymentSchema.endDate"
+                       is-open="endDateOptions.popupOpened"
+                       datepicker-options="endDateOptions"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'>
+            </div>
         </div>
     </div>
 
+    <div class="row m-b-20">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <input type="button" class="btn btn-primary btn-block" value="Додати" ng-click="createSchema()"/>
+        </div>
+    </div>
+    <pre>{{paymentSchema}}</pre>
 </div>

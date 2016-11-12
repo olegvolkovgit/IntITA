@@ -94,6 +94,6 @@
     </div>
 </div>
 <div class="coursesline1">
-    <a id="coursesline1" href="#form"><img
+    <a id="coursesline1" ><img
             src="<?php echo StaticFilesHelper::createPath('image', 'courses', 'coursesline1.png'); ?>"/></a>
 </div>

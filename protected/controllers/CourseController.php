@@ -219,13 +219,13 @@ class CourseController extends Controller
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');
-        echo json_encode($result);
+        $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($result)]);
     }
 
     public function actionGetTypeahead($query) {
         $models = TypeAheadHelper::getTypeahead($query, 'Course', ['title_ua', 'title_ru', 'title_en']);
         $array = ActiveRecordToJSON::toAssocArray($models);
-        echo json_encode($array);
+        $this->renderPartial('//ajax/json', ['body' => json_encode($array)]);
     }
 
 }

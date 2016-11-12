@@ -142,6 +142,7 @@ class CabinetController extends TeacherCabinetController
                 case 'teacher_consultant':
                 case 'admin':
                 case 'accountant':
+                case 'super_visor':
                     $this->renderDashboard($role, $user);
                     break;
                 default:
@@ -167,5 +168,41 @@ class CabinetController extends TeacherCabinetController
         } else {
             throw new \application\components\Exceptions\IntItaException('400');
         }
+    }
+
+    public function actionChangeLang()
+    {
+        $new_lang = $_GET['lg'];
+        if ($new_lang == "ua") {
+            $new_lang = "uk";
+            $_SESSION['current_language'] = null;
+        } else {
+            $_SESSION['current_language'] = $new_lang;
+        }
+
+        $id = null;
+
+        foreach ($_SESSION as $key => $value) {
+            if (strpos($key, '__id')) {
+                $id = $value;
+                break;
+            }
+        }
+
+        if ($id) {
+            $forumUser = ForumUser::model()->findByPk($id);
+
+            if ($forumUser) {
+                $forumUser->user_lang = $new_lang;
+                $forumUser->save();
+            } else
+                throw new \application\components\Exceptions\ForumException('In forum user not change language');
+        }
+
+        $app = Yii::app();
+        if (isset($_GET['lg'])) {
+            $app->session['lg'] = $_GET['lg'];
+        }
+        echo $app->session['lg'];
     }
 }

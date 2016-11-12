@@ -51,7 +51,7 @@ class AddressCountry extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'addressCities' => array(self::HAS_MANY, 'AddressCity', 'country'),
-			'users' => array(self::HAS_MANY, 'User', 'country'),
+			'users' => array(self::HAS_MANY, 'StudentReg', 'country'),
 		);
 	}
 
@@ -108,25 +108,7 @@ class AddressCountry extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-	public static function countriesList(){
-        $countries = AddressCountry::model()->findAll();
-        $return = array('data' => array());
-
-        foreach ($countries as $record) {
-            $row = array();
-
-            $row["id"] = $record->id;
-            $row["title_ua"] = $record->title_ua;
-            $row["title_ru"] = $record->title_ru;
-            $row["title_en"] = $record->title_en;
-			$row["geocode"] = $record->geocode;
-
-            array_push($return['data'], $row);
-        }
-        return json_encode($return);
-	}
-
+	
 	public static function newCountry($titleUa, $titleRu, $titleEn, $geocode){
         $model = new AddressCountry();
 

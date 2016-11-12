@@ -80,7 +80,9 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
                             <p>
                                 <?php
                                 if($message->type() == MessagesType::USER){
-                                    echo CHtml::encode($message->text());
+                                    echo preg_replace_callback('~'.Config::getBaseUrl().'/(module|)(r|R)evision/preview(Lecture|Module|Course)Revision/\?idRevision=\d+~',function ($matches){
+                                        return '<a href="'.$matches[0].'">'.$matches[0].'</a>';
+                                    },CHtml::encode($message->text()));
                                 } else {
                                     echo $message->text();
                                 }

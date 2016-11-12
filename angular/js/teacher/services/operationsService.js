@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('operationsService', ['$resource', 'transformRequest',
         function ($resource, transformRequest) {
-            var url = '/_teacher/_accountant/operation';
+            var url = basePath+'/_teacher/_accountant/operation';
             return $resource(
                 '',
                 {},
