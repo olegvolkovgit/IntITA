@@ -146,6 +146,7 @@
             </div>
         </div>
     </div>
+    <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
 </div>
 
 

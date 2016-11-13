@@ -31,6 +31,7 @@ angular
         'siteConfigRouter',
         'requestsRouter',
         'superVisorRouter',
+        'newsletterRouter',
         'paymentsSchemes.directives'
     ])
     .filter('shortDate', [
