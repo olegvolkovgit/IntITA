@@ -54,6 +54,7 @@ class UserAuthor extends CActiveRecord
                 'moduleAuthor' => array(self::BELONGS_TO, 'Module', ['idModule'=>'module_ID']),
                 'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
                 'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+                'activeMembers' => array(self::BELONGS_TO, 'StudentReg', ['idTeacher'=>'id'],'condition'=>'end_time IS NULL AND activeMembers.cancelled=0'),
 		);
 	}
 

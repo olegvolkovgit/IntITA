@@ -100,4 +100,9 @@ class SuperVisor extends Role
 		}
 		return json_encode($result);
 	}
+
+    function getMembers($criteria = null)
+    {
+        return UserSuperVisor::model()->findAll($criteria);
+    }
 }

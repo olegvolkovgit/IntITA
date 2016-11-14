@@ -323,4 +323,9 @@ class TeacherConsultant extends Role
     public function notify(StudentReg $user, $idModule){
         $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
     }
+
+    function getMembers($criteria = null)
+    {
+        return UserTeacherConsultant::model()->findAll($criteria);
+    }
 }

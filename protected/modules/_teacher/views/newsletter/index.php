@@ -50,12 +50,12 @@
                 </div>
             <div class="form-group col-md-8">
                 <label>Тема</label>
-                <input class="form-control" name="subject" placeholder="Тема листа">
+                <input class="form-control" name="subject" placeholder="Тема листа" ng-model="subject">
             </div>
 
             <div class="form-group col-md-8">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" id="text" placeholder="Лист" required></textarea>
+                <textarea class="form-control" rows="6" id="text" placeholder="Лист" required ng-model="message"></textarea>
             </div>
             <div class="col-md-8">
             <button type="submit" class="btn btn-primary"

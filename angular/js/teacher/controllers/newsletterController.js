@@ -7,7 +7,6 @@ angular
 
 function newsletterCtrl($scope, $http, $resource) {
 
-    
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
 
     $scope.getRoles = function(query, querySelectAs) {
@@ -15,15 +14,17 @@ function newsletterCtrl($scope, $http, $resource) {
             return response;
         });
     };
-    
-    
-    
-    $scope.send = function () {         
-        $http({
-            method:'POST',
-            url:basePath+'/_teacher/newsletter/sendLetter',
-            data: $jq.param({"users":$scope.selectedRoles }),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+
+    $scope.send = function () {
+        var recipients =[];
+        angular.forEach($scope.selectedRoles, function(value) {
+            recipients.push(value.id)
+        });
+         $http({
+             method:'POST',
+             url:basePath+'/_teacher/newsletter/sendLetter',
+             data: $jq.param({"type":$scope.newsletterType, "recipients":recipients,"subject":$scope.subject,"message":$scope.message}),
+             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         });
     }
 

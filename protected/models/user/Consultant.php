@@ -196,4 +196,9 @@ class Consultant extends Role
 
         return $records;
     }
+
+    function getMembers($criteria = null)
+    {
+        return UserConsultant::model()->findAll($criteria);
+    }
 }

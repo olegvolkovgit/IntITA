@@ -29,8 +29,11 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-
-        $post = Yii::app()->request->getPost();
-        return true;
+        $type = Yii::app()->request->getPost('type');
+        $recipients = Yii::app()->request->getPost('recipients');
+        $subject = Yii::app()->request->getPost('subject');
+        $message = Yii::app()->request->getPost('message');
+        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
+        $newsLetter->startSend();
     }
 }
