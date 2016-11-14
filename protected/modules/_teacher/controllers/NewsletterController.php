@@ -28,4 +28,9 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionSendLetter(){
+
+        $post = Yii::app()->request->getPost();
+        return true;
+    }
 }

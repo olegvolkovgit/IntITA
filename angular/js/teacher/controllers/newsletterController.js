@@ -5,10 +5,26 @@ angular
     .module('teacherApp')
     .controller('newsletterCtrl',newsletterCtrl);
 
-function newsletterCtrl($scope, $http) {
+function newsletterCtrl($scope, $http, $resource) {
 
-     $http.get(basePath+'/_teacher/newsletter/getRoles').then(function (response) {
-         $scope.roles = response.data;
-     });
+    
+    var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
+
+    $scope.getRoles = function(query, querySelectAs) {
+      return rolesArray.query().$promise.then(function(response) {
+            return response;
+        });
+    };
+    
+    
+    
+    $scope.send = function () {         
+        $http({
+            method:'POST',
+            url:basePath+'/_teacher/newsletter/sendLetter',
+            data: $jq.param({"users":$scope.selectedRoles }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        });
+    }
 
 }
