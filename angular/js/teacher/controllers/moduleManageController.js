@@ -9,6 +9,7 @@ angular
 
 function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
     $scope.selectedTeacher=null;
+    $scope.selectedAuthor=null;
 
     var dataFromServer = $resource(basePath+'/_teacher/_admin/module/getModulesList');
     $scope.modulesTable = new NgTableParams({
@@ -89,15 +90,30 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
         }).then(function(response){
             if (response.data.results)
                 return response.data.results.map(function(item){
-                    console.log(item);
                     return item;
                 });
         });
     };
 
+    $scope.getAuthors = function(value) {
+        return $http.get(basePath+'/_teacher/_admin/module/authorsByQuery', {
+            params: {
+                query: value
+            }
+        }).then(function(response){
+            if (response.data.results)
+                return response.data.results.map(function(item){
+                    return item;
+                });
+        });
+    };
+
+    $scope.onSelectAuthor = function ($item) {
+        $scope.selectedAuthor = $item;
+    };
+    
     $scope.onSelect = function ($item) {
         $scope.selectedTeacher = $item;
-        console.log($item);
     };
 
     $scope.changeStatus = function(moduleId, status){

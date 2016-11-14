@@ -70,6 +70,8 @@ class UserSuperVisor extends CActiveRecord
 			'id_user' => 'Id User',
 			'start_date' => 'Start Date',
 			'end_date' => 'End Date',
+			'assigned_by' => 'Assigned by',
+			'cancelled_by' => 'Cancelled by',
 		);
 	}
 
@@ -94,6 +96,8 @@ class UserSuperVisor extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('assigned_by',$this->assigned_by,true);
+		$criteria->compare('cancelled_by',$this->cancelled_by,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

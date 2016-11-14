@@ -23,10 +23,16 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
     var teachersTypeaheadUrl = basePath+'/_teacher/_admin/module/teachersByQuery';
     var moduleTypeaheadUrl = basePath + '/_teacher/_admin/permissions/modulesByQuery';
     var consultantTypeaheadUrl = basePath + '/_teacher/_admin/permissions/consultantsByQuery';
+    var authorsTypeaheadUrl = basePath+'/_teacher/_admin/module/authorsByQuery';
 
     $scope.getTeachers = function(value){
         return typeAhead.getData(teachersTypeaheadUrl,{query : value})
     };
+
+    $scope.getAuthors = function(value) {
+        return typeAhead.getData(authorsTypeaheadUrl,{query : value})
+    };
+
     $scope.getModules = function(value){
             return typeAhead.getData(moduleTypeaheadUrl,{query : value});
     };

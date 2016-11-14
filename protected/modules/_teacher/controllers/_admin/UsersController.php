@@ -20,6 +20,7 @@ class UsersController extends TeacherCabinetController
         $counters["admins"] = UserAdmin::model()->count("end_date IS NULL");
         $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
         $counters["teachers"] = Teacher::model()->count('t.cancelled='.Teacher::ACTIVE);
+        $counters["authors"] = UserAuthor::model()->count("end_date IS NULL");
         $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled = 0 AND end_date IS NULL");
         $counters["offlineStudents"] = OfflineStudents::model()->count("end_date IS NULL");
         $counters["users"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);

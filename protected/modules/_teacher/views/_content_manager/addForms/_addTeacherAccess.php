@@ -5,7 +5,7 @@
         <label>Викладач:</label>
         <br>
         <div class="form-group">
-            <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue) | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+            <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getAuthors($viewValue) | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
             <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResultsConsultant">
                 <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
@@ -30,16 +30,16 @@
     <br>
     <div class="alert alert-info">
         <?php if (Yii::app()->user->model->isAdmin()) { ?>
-            Автором модуля можна призначити лише зареєстрованого співробітника.
-            Якщо потрібного користувача немає в списку авторів, то призначити роль автора можна на сторінці
-            <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/create');?>', 'Призначити автора')">
-                Призначити співробітника</a>.
+            Автором модуля можна призначити лише співробітника з ролю автор.
+<!--            Якщо потрібного користувача немає в списку авторів, то призначити роль автора можна на сторінці-->
+<!--            <a href="#" class="alert-link" onclick="load('--><?php //echo Yii::app()->createUrl('/_teacher/_admin/teachers/create');?>//', 'Призначити автора')">Призначити співробітника</a>.
         <?php } else { ?>
-            Призначити автором можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
-            за посиланням:
-            <a href="#" class="alert-link"
-               onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/sendCoworkerRequest'); ?>',
-                   'Запит на призначення співробітника')">Надіслати запит</a>.
+            Автором модуля можна призначити лише співробітника з ролю автор.
+<!--            Призначити автором можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна-->
+<!--            за посиланням:-->
+<!--            <a href="#" class="alert-link"-->
+<!--               onclick="load('--><?php //echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/sendCoworkerRequest'); ?><!--',-->
+<!--                   'Запит на призначення співробітника')">Надіслати запит</a>.-->
         <?php } ?>
     </div>
 </div>

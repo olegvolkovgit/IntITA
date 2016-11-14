@@ -199,11 +199,6 @@ class RegisteredUser
     //todo author role check
     public function hasRole($role)
     {
-        if ($role == "author") {
-            //todo
-//            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
-            return Teacher::model()->exists('user_id='.$this->id);
-        }
         return in_array($role, $this->getRoles());
     }
 
