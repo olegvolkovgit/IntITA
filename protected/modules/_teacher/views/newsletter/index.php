@@ -18,17 +18,17 @@
                 </label>
                 <br>
                 <label>
-                    <input type="radio" ng-model="newsletterType" value="allUsers">
-                    Зареєстровані користувачі
+                    <input type="radio" ng-model="newsletterType" value="allUsers" ng-click="selectedRecipients = null">
+                    Всі активні користувачі
                 </label>
                 <br>
                 <label>
-                    <input type="radio" ng-model="newsletterType" value="roles">
+                    <input type="radio" ng-model="newsletterType" value="roles" ng-click="selectedRecipients = null">
                     Розсилка по ролях
                 </label>
                 <br>
                 <label>
-                    <input type="radio" ng-model="newsletterType" value="users">
+                    <input type="radio" ng-model="newsletterType" value="users" ng-click="selectedRecipients = null">
                     Розсилка по окремих користувачах
                 </label>
 
@@ -38,12 +38,28 @@
                 <br>
                 <oi-select
                     oi-options="role.name for role in getRoles($query, $selectedAs)"
-                    ng-model="selectedRoles"
+                    ng-model="selectedRecipients"
                     multiple
                     placeholder="Кому"
                 ></oi-select>
             </div>
 
+            <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='users'">
+                <label>Кориcтувачі</label>
+                <br>
+                <oi-select
+                    oi-options="user.email for user in getUsers($query)"
+                    ng-model="selectedRecipients"
+                    multiple
+                    placeholder="Кому"
+                    oi-select-options="{
+                      debounce: 200,
+                      dropdownFilter: 'usersFilter',
+                      searchFilter: 'usersSearchFilter',
+                     }"
+                ></oi-select>
+            </div>
+            {{selectedUsers}}
 
 
             <div class="form-group col-md-8" id="receiver">

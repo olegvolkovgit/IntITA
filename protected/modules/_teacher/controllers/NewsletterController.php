@@ -36,4 +36,15 @@ class NewsletterController extends TeacherCabinetController
         $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
         $newsLetter->startSend();
     }
+
+    public function actionGetUserEmail(){
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],'StudentReg',['email','firstName','middleName','secondName']);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['name'=>$model->firstName.' '.$model->middleName.' '.$model->secondName,'email'=>$model->email ]);
+            }
+        }
+        echo json_encode($result);
+    }
 }

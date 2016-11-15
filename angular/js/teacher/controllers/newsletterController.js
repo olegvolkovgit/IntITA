@@ -3,22 +3,53 @@
  */
 angular
     .module('teacherApp')
-    .controller('newsletterCtrl',newsletterCtrl);
+    .controller('newsletterCtrl',newsletterCtrl).filter('usersFilter', function($sce) {
+    return function(usersArray, query, item, options, element) {
+
+        var html = item.name + " &lt;" + item.email+"&gt;";
+
+        return $sce.trustAsHtml(html);
+    };
+})
+    .filter('usersSearchFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+            var html = item.name +"<span class=\"close select-search-list-item_selection-remove\">×</span>";
+
+            return $sce.trustAsHtml(html);
+        };
+    })
+;
 
 function newsletterCtrl($scope, $http, $resource) {
 
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
-
+    var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
     $scope.getRoles = function(query, querySelectAs) {
+        console.log(query);
       return rolesArray.query().$promise.then(function(response) {
             return response;
         });
     };
 
+    $scope.getUsers = function(query, querySelectAs) {
+
+        return usersArray.query({query:query}).$promise.then(function(response) {
+            return response;
+        });
+    };
+
     $scope.send = function () {
-        var recipients =[];
-        angular.forEach($scope.selectedRoles, function(value) {
-            recipients.push(value.id)
+        var recipients = [];
+        angular.forEach($scope.selectedRecipients, function(value) {
+            switch ($scope.newsletterType){
+                case 'roles':
+                    recipients.push(value.id);
+                    break;
+                case 'users':
+                    recipients.push(value.email);
+                    break;
+            }
         });
          $http({
              method:'POST',

@@ -75,6 +75,9 @@ class NewsLetter
                     }
                 }
                 break;
+            case "users":
+                $mailList = $this->recipients;
+                break;
         }
         return array_unique($mailList);
     }
