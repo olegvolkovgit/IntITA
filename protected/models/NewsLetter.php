@@ -44,7 +44,10 @@ class NewsLetter
      */
     public function startSend()
     {
-        $this->getMailList();
+        $recipientsArray = array_chunk($this->getMailList(),$this::numberRecipients);
+        foreach ($recipientsArray as $item){
+            $this->sendMail(implode(',',$item));
+        }
     }
 
     private function getMailList()
@@ -73,8 +76,17 @@ class NewsLetter
                 }
                 break;
         }
-        $test = array_unique($mailList);
         return array_unique($mailList);
+    }
+
+    private function sendMail($recipients){
+
+        $headers = "From: ".Config::getAdminEmail()."\n"
+            . "MIME-Version: 1.0\n"
+            . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
+
+        mail($recipients,$this->subject,$this->message,$headers);
+
     }
 
 }
