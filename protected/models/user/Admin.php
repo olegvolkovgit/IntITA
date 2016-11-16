@@ -74,4 +74,9 @@ class Admin extends Role
 		}
 		return json_encode($result);
 	}
+
+    function getMembers($criteria = null)
+    {
+        return UserAdmin::model()->findAll($criteria);
+    }
 }

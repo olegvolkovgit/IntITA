@@ -211,7 +211,13 @@ class Consultant extends Role
         return $records;
     }
 
-    //cancel consultant role
+
+    function getMembers($criteria = null)
+    {
+        return UserConsultant::model()->findAll($criteria);
+
+    }
+
     public function cancelRole(StudentReg $user)
     {
         if(!$this->checkBeforeDeleteRole($user)){

@@ -233,4 +233,9 @@ class Author extends Role
         }
         return false;
     }
+
+    function getMembers($criteria = null)
+    {
+        return UserAuthor::model()->findAll($criteria);
+    }
 }

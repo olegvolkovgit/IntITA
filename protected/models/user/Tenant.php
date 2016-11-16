@@ -272,4 +272,9 @@ class Tenant extends Role
         return json_encode($return);
 
     }
+
+    function getMembers($criteria = null)
+    {
+        return UserTenant::model()->with('user')->findAll($criteria);
+    }
 }

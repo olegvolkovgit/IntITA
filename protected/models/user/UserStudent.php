@@ -51,6 +51,7 @@ class UserStudent extends CActiveRecord
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+            'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
 		);
 	}
 
