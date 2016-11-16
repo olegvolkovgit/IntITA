@@ -7,7 +7,7 @@ angular
     .controller('createModuleCtrl',createModuleCtrl)
     .controller('updateModuleCtrl',updateModuleCtrl);
 
-function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
+function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope, $state){
     $scope.selectedTeacher=null;
     $scope.selectedAuthor=null;
 
@@ -66,13 +66,13 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
                         showDialog(response);
                         break;
                     case "author":
-                        showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
+                        bootbox.alert(response);
                         break;
                     case "consultant":
-                        showDialog("Консультанту вже призначений даний модуль для консультацій");
+                        bootbox.alert(response);
                         break;
                     case "teacher_consultant":
-                        showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
+                        bootbox.alert(response);
                         break;
                     default:
                         showDialog("Операцію не вдалося виконати");
@@ -97,6 +97,19 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
 
     $scope.getAuthors = function(value) {
         return $http.get(basePath+'/_teacher/_admin/module/authorsByQuery', {
+            params: {
+                query: value
+            }
+        }).then(function(response){
+            if (response.data.results)
+                return response.data.results.map(function(item){
+                    return item;
+                });
+        });
+    };
+
+    $scope.getConsultants = function(value) {
+        return $http.get(basePath+'/_teacher/_admin/permissions/consultantsByQuery', {
             params: {
                 query: value
             }
@@ -171,6 +184,34 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
             return false;
         });
         return promise;
+    };
+
+    $scope.cancelModuleAttr=function(url, id, attr, role, user){
+        if (!user) {
+            user = $jq('#user').val();
+        }
+        if (!role) {
+            role = $jq('#role').val();
+        }
+        if (user && role) {
+            $http({
+                method: "POST",
+                url: url,
+                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            }).then(function successCallback(response) {
+                if (response.data == "success") {
+                    bootbox.alert("Операцію успішно виконано.", function () {
+                        location.reload();
+                    });
+                } else {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                }
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати.");
+            });
+        }
     };
 }
 function createModuleCtrl ($scope, $rootScope){

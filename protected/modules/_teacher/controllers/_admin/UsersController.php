@@ -10,7 +10,6 @@ class UsersController extends TeacherCabinetController
             return true;
         } else
             return false;
-        //return Yii::app()->user->model->isAdmin();
     }
 
     public function actionIndex()
@@ -51,14 +50,15 @@ class UsersController extends TeacherCabinetController
         $userId = Yii::app()->request->getPost('userId');
         $role = Yii::app()->request->getPost('role');
         $user = RegisteredUser::userById($userId);
+        $roleObj = Role::getInstance($role);
 
         if ($user->hasRole($role)) {
             echo "Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
             return;
         }
         if ($user->setRole($role))
-            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$role;
-        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
+            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$roleObj->title();
+        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$roleObj->title().".
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
@@ -214,9 +214,9 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTeacherConsultantsList()
     {
+        $requestParams = $_GET;
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
-        $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserTeacherConsultant', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();

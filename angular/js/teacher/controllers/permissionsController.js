@@ -24,6 +24,7 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
     var moduleTypeaheadUrl = basePath + '/_teacher/_admin/permissions/modulesByQuery';
     var consultantTypeaheadUrl = basePath + '/_teacher/_admin/permissions/consultantsByQuery';
     var authorsTypeaheadUrl = basePath+'/_teacher/_admin/module/authorsByQuery';
+    var teachersConsultantTypeaheadUrl = basePath+'/_teacher/_admin/permissions/teacherConsultantsByQuery';
 
     $scope.getTeachers = function(value){
         return typeAhead.getData(teachersTypeaheadUrl,{query : value})
@@ -31,6 +32,10 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
 
     $scope.getAuthors = function(value) {
         return typeAhead.getData(authorsTypeaheadUrl,{query : value})
+    };
+
+    $scope.getTeachersConsultant = function(value) {
+        return typeAhead.getData(teachersConsultantTypeaheadUrl,{query : value})
     };
 
     $scope.getModules = function(value){
@@ -45,6 +50,7 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
         var url;
         var attribute;
         var role;
+
         switch (permission){
             case "moduleAuchtor":
                 url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
@@ -81,10 +87,10 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
                         bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
                         break;
                     case "consultant":
-                        bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
+                        bootbox.alert(data);
                         break;
                     case "teacher_consultant":
-                        bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                        bootbox.alert(data);
                         break;
                 }
             }
@@ -191,23 +197,25 @@ function permissionsCtrl ($scope, typeAhead, $http, $state, $templateCache){
                 data: $jq.param({'attribute': attribute, 'attributeValue':$scope.selectedModule.id, 'role': role, 'user' : user  }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
             }).success(function(data){
-                if (data === 'success')
+                if (data == 'success')
                 {
                     bootbox.alert("Операцію успішно виконано",function(){
                         $templateCache.remove(basePath+'/_teacher/_content_manager/contentManager/showTeacher/id/'+user);
                         $state.go($state.current, {}, {reload: true});
                     });
-                }
-                else {
+                } else {
                     switch (permission){
                         case "moduleAuchtor":
                             bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
                             break;
+                        case "author":
+                            bootbox.alert(data);
+                            break;
                         case "consultant":
-                            bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
+                            bootbox.alert(data);
                             break;
                         case "teacher_consultant":
-                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
+                            bootbox.alert(data);
                             break;
                     }
                 }

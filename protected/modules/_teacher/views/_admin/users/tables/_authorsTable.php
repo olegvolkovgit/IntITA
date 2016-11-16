@@ -24,6 +24,7 @@
                             </a>
                         </td>
                         <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','author',row.id_user)"><i class="fa fa-trash fa-fw"></i></a></td>
+                        <td data-title="'Додати'"><a type="button" class="btn btn-primary" ng-href="#/admin/teacher/{{row.id_user}}/editRole/role/author">модуль</a></td>
                     </tr>
                 </table>
             </div>

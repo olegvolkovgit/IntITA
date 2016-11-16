@@ -42,34 +42,38 @@ class Consultant extends Role
             ->queryAll();
 
         $attribute = array(
-            'key' => 'module',
-            'title' => 'Модулі',
-            'type' => 'module-list',
-            'value' => $list
+            array(
+                'key' => 'module',
+                'title' => 'Модулі',
+                'type' => 'module-list',
+                'value' => $list
+            )
         );
-        $result = [];
-        $result["module"] = $attribute;
-
-        return $result;
+        
+        return $attribute;
     }
 
     public function setAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'module':
-                if($this->checkModule($user->id, $value)) {
-                    if(Yii::app()->db->createCommand()->
-                    insert('consultant_modules', array(
-                        'consultant' => $user->id,
-                        'module' => $value
-                    ))){
-                        $user->notify('consultant'. DIRECTORY_SEPARATOR . '_addConsultantModule', array(Module::model()->findByPk($value)),
-                            'Надано права консультанта');
-                        return true;
+                if($this->checkBeforeSetAttribute($user)){
+                    if($this->checkModule($user->id, $value)) {
+                        if(Yii::app()->db->createCommand()->
+                        insert('consultant_modules', array(
+                            'consultant' => $user->id,
+                            'module' => $value
+                        ))){
+                            $user->notify('consultant'. DIRECTORY_SEPARATOR . '_addConsultantModule', array(Module::model()->findByPk($value)),
+                                'Надано права консультанта');
+                            return true;
+                        } else {
+                            return false;
+                        }
                     } else {
                         return false;
                     }
-                } else {
+                }else{
                     return false;
                 }
             default:
@@ -77,10 +81,20 @@ class Consultant extends Role
         }
     }
 
+    public function checkBeforeSetAttribute(StudentReg $user){
+        $user = RegisteredUser::userById($user->id);
+        if($user->isConsultant())
+            return true;
+        else {
+            $this->errorMessage="Призначити модуль не вдалося. Користувачу не призначена роль консультанта";
+            return false;
+        }
+    }
+    
     public function checkModule($teacher, $module){
         if(Yii::app()->db->createCommand('select consultant from consultant_modules where module='.$module.
             ' and consultant='.$teacher.' and end_time IS NULL')->queryScalar()) {
-            $this->errorMessage = "Даний викладач вже має права консультанта для обраного модуля.";
+            $this->errorMessage = "Даний користувач вже має права консультанта для обраного модуля.";
             return false;
         }
         else return true;
@@ -195,5 +209,36 @@ class Consultant extends Role
             ->queryAll();
 
         return $records;
+    }
+
+    //cancel consultant role
+    public function cancelRole(StudentReg $user)
+    {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
+
+        if(Yii::app()->db->createCommand()->
+        update($this->tableName(), array(
+            'end_date'=>date("Y-m-d H:i:s"),
+            'cancelled_by'=>Yii::app()->user->getId(),
+        ), 'id_user=:id and end_date IS NULL', array(':id'=>$user->id))){
+            $this->cancelModulesRights($user);
+            $this->notifyCancelRole($user);
+            return true;
+        }
+        return false;
+    }
+
+    //cancel rules for all consultant's modules
+    public function cancelModulesRights(StudentReg $user)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('consultant_modules', array(
+            'end_time'=>date("Y-m-d H:i:s"),
+        ), 'consultant=:id and end_time IS NULL', array(':id'=>$user->id))){
+            return true;
+        }
+        return false;
     }
 }

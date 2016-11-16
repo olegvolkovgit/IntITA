@@ -177,7 +177,7 @@ class ContentManagerController extends TeacherCabinetController
     public function actionSendRequest()
     {
         $userToAssign = Yii::app()->request->getPost('user', 0);
-        $user = Yii::app()->request->getPost('sender', 0);
+        $user = Yii::app()->user->getId();
 
         $teacherModel = StudentReg::model()->findByPk($userToAssign);
         $userModel = StudentReg::model()->findByPk($user);

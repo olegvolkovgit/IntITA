@@ -19,7 +19,7 @@
         <input type="hidden" ng-value="data.user.id" id="user">
         <input type="hidden" ng-value="data.user.role" id="role">
         <uib-tabset active="0" >
-            <uib-tab  ng-if="(data.user.roles[data.user.role].length && attribute.type!='hidden') || data.user.role=='author'"
+            <uib-tab  ng-if="(data.user.roles[data.user.role].length && attribute.type!='hidden')"
                       ng-repeat="attribute in data.user.roles[data.user.role] track by $index" index="$index" heading="{{attribute.title}}">
                 <div class="form-group">
                     <input type="hidden" ng-value="attribute.key" id="attr">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </uib-tab>
-            <div ng-if="!data.user.roles[data.user.role].length && data.user.role!='author'">
+            <div ng-if="!data.user.roles[data.user.role].length">
                 Атрибутів для даної ролі не задано.
             </div>
         </uib-tabset>

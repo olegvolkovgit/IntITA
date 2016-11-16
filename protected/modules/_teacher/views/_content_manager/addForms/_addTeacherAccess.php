@@ -25,21 +25,21 @@
         <div class="form-group">
             <button type="button" class="btn btn-success" ng-click="addPermission('moduleAuchtor')">Призначити автора модуля
             </button>
+            <a type="button" class="btn btn-default" ng-click='back()'>
+                Назад
+            </a>
         </div>
     </div>
     <br>
     <div class="alert alert-info">
         <?php if (Yii::app()->user->model->isAdmin()) { ?>
-            Автором модуля можна призначити лише співробітника з ролю автор.
-<!--            Якщо потрібного користувача немає в списку авторів, то призначити роль автора можна на сторінці-->
-<!--            <a href="#" class="alert-link" onclick="load('--><?php //echo Yii::app()->createUrl('/_teacher/_admin/teachers/create');?>//', 'Призначити автора')">Призначити співробітника</a>.
+            Автором модуля можна призначити лише співробітника з ролю 'автор'.
+            Якщо потрібного користувача немає в списку авторів, то додати автора можна на сторінці
+            <a class="alert-link" ng-href="#/admin/users/addrole/author">
+                додати автора
+            </a>.
         <?php } else { ?>
-            Автором модуля можна призначити лише співробітника з ролю автор.
-<!--            Призначити автором можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна-->
-<!--            за посиланням:-->
-<!--            <a href="#" class="alert-link"-->
-<!--               onclick="load('--><?php //echo Yii::app()->createUrl('/_teacher/_content_manager/contentManager/sendCoworkerRequest'); ?><!--',-->
-<!--                   'Запит на призначення співробітника')">Надіслати запит</a>.-->
+            Автором модуля можна призначити лише співробітника з ролю 'автор'.
         <?php } ?>
     </div>
 </div>

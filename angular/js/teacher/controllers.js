@@ -35,7 +35,10 @@ angular
     .module('teacherApp')
     .controller('addRoleCtrl', addRoleCtrl);
 
-function teacherCtrl($http, $scope, $compile, $ngBootbox, $location, $state, $timeout) {
+function teacherCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope) {
+    $rootScope.back = function () {
+        window.history.back();
+    };
     $scope.currentLanguage=currentLanguage;
     $scope.languages=['ua','en','ru'];
     $scope.changeLang = function (lang) {
@@ -642,7 +645,7 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
         }
     };
 
-    $scope.cancelModuleAttr = function (url, id, attr, role, user, successUrl, tab, header) {
+    $scope.cancelModuleAttr = function (url, id, attr, role, user) {
         if (!user) {
             user = $jq('#user').val();
         }
@@ -710,18 +713,6 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
             currentRole: $stateParams.role
         }).$promise.then(function (response) {
             $scope.data = response;
-            //todo
-            if($stateParams.role=='author' && typeof $scope.data.user.roles=='undefined'){
-                $scope.data.user.roles= new Object();
-            }
-            if($stateParams.role=='author' && typeof $scope.data.user.roles.author=='undefined'){
-                $scope.data.user.roles.author=new Object();
-                $scope.data.user.roles.author.module=new Object();
-                $scope.data.user.roles.author.module.key="module";
-                $scope.data.user.roles.author.module.title="Модулі";
-                $scope.data.user.roles.author.module.type="module-list";
-                $scope.data.user.roles.author.module.value=[];
-            }
         });
     };
     $scope.loadTeacherData();
@@ -813,7 +804,7 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
         }
     };
 
-    $scope.cancelModuleAttr = function (url, id, attr, role, user, successUrl, tab, header) {
+    $scope.cancelModuleAttr = function (url, id, attr, role, user) {
         if (!user) {
             user = $jq('#user').val();
         }
@@ -843,7 +834,7 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
 }
 
 function addRoleCtrl($scope, $http, $state) {
-
+    $scope.changePageHeader('Призначити роль');
     $scope.assignRole = function (url, role) {
         user = $jq("#userId").val();
         if (user == 0) {

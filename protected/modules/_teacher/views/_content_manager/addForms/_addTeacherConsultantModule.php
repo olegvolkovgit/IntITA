@@ -7,7 +7,7 @@
             <br>
 
             <div class="form-group">
-                <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue) | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="Викладач" uib-typeahead="item.email for item in getTeachersConsultant($viewValue) | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
                 <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
                 <div ng-show="noResultsConsultant">
                     <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
@@ -27,6 +27,9 @@
             <div class="form-group">
                 <button type="button" class="btn btn-success" ng-click="addPermission('teacher_consultant')">Призначити модуль для викладача
                 </button>
+                <a type="button" class="btn btn-default" ng-click='back()'>
+                    Назад
+                </a>
             </div>
         </div>
 
@@ -34,14 +37,10 @@
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 Викладачем модуля можна призначити лише зареєтрованого співробітника, який має права викладача.
                 Якщо потрібного користувача немає в списку викладачів, то надати права викладача користувачу можна на сторінці
-                <a href="javascript:void(0)" class="alert-link" ng-click="changeView('admin/users/addrole/teacherConsultant')">
-                    Призначити викладача</a>.
+                <a ng-href="#/admin/users/addrole/teacherConsultant" class="alert-link" >
+                    призначити викладача</a>.
             <?php } else { ?>
                 Викладачем модуля можна призначити лише зареєтрованого співробітника, який має права викладача.
-                Якщо потрібного користувача немає в списку викладачів, то можна надіслати запит для призначення ролі викладача
-                <a href="javascript:void(0)" class="alert-link"
-                   onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendCoworkerRequest"); ?>',
-                       'Запит на призначення співробітника'); return false;">Надіслати запит</a>.
             <?php } ?>
         </div>
     </div>

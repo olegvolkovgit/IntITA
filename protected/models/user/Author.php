@@ -53,23 +53,23 @@ class Author extends Role
         }
 
         $attribute = array(
-            'key' => 'module',
-            'title' => 'Модулі',
-            'type' => 'module-list',
-            'value' => $list
+            array(
+                'key' => 'module',
+                'title' => 'Модулі',
+                'type' => 'module-list',
+                'value' => $list
+            )
         );
 
-        $result = [];
-        $result["module"] = $attribute;
 
-        return $result;
+        return $attribute;
     }
 
     public function setAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'module':
-                if($this->checkBeforeSetRole($user)){
+                if($this->checkBeforeSetAttribute($user)){
                     if($this->checkModule($user->id, $value)) {
                         if (Yii::app()->db->createCommand()->
                         insert('teacher_module', array(
@@ -85,8 +85,10 @@ class Author extends Role
                                 array(Module::model()->findByPk($value)),
                                 'Призначено модуль для редагування');
                             return true;
+                        }else{
+                            $this->errorMessage="Призначити модуль не вдалося";
+                            return false;   
                         }
-                        return false;
                     } else {
                         return false;
                     }
@@ -99,7 +101,7 @@ class Author extends Role
         }
     }
 
-    public function checkBeforeSetRole(StudentReg $user){
+    public function checkBeforeSetAttribute(StudentReg $user){
         $user = RegisteredUser::userById($user->id);
         if($user->isAuthor())
             return true;
@@ -111,9 +113,10 @@ class Author extends Role
 
     public function checkModule($teacher, $module){
         if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
-            ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar())
+            ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar()) {
+            $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного викладача";
             return false;
-        else return true;
+        } else return true;
     }
 
     public static function isTeacherAuthorModule($teacher, $module){
@@ -215,6 +218,7 @@ class Author extends Role
             $this->notifyCancelRole($user);
             return true;
         }
+        return false;
     }
 
     //cancel authorship for all modules

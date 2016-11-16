@@ -25,13 +25,16 @@
                             >
                         Призначити автора
                     </button>
+                    <a type="button" class="btn btn-default" ng-click='back()'>
+                        Назад
+                    </a>
                 </div>
             </form>
             <br>
             <div class="alert alert-info">
                 Автором модуля можна призначити лише співробітника з ролю 'автор'.
                 Якщо потрібного користувача немає в списку авторів, то додати автора можна на сторінці
-                <a style="color:green;font-weight:bold" ng-href="#/admin/users/addrole/author">
+                <a class="alert-link" ng-href="#/admin/users/addrole/author">
                     додати автора
                 </a>.
             </div>

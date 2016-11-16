@@ -18,21 +18,25 @@
                     ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','teacher_consultant');">
                 Призначити викладача
             </button>
-
-            <a type="button" class="btn btn-default" ng-href="#/admin/users">
-                Скасувати
+            <a type="button" class="btn btn-default" ng-click='back()'>
+                Назад
             </a>
         </form>
         <br>
         <div class="alert alert-info">
-            Призначити викладачем можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
-            за посиланням:
-            <a type="button" class="alert-link" ng-href="#/admin/teacher/create">
-                Додати співробітника
+        <?php if (Yii::app()->user->model->isAdmin()) { ?>
+            Консультантом можна призначити лише зареєтрованого співробітника.
+            Якщо потрібного користувача немає в списку, то призначити співробітника можна на сторінці
+            <a href="#" class="alert-link" ng-href="#/admin/teacher/create">
+                призначити співробітника
             </a>.
-            <br>
-            Список усіх співробітників:
+                Список усіх співробітників:
             <a type="button" class="alert-link" ng-href="#/admin/teachers">Співробітники</a>.
+        <?php } else { ?>
+            Призначити викладачем можна тільки співробітника. Надіслати запит на призначення співробітника можна
+            за посиланням:
+            <a href="#" class="alert-link" ng-href="#/content_manager/sendCoworkerRequest">надіслати запит</a>.
+        <?php } ?>
         </div>
     </div>
 </div>
