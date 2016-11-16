@@ -227,6 +227,16 @@ class ModuleController extends TeacherCabinetController
         }
     }
 
+    public function actionAuthorsByQuery($query)
+    {
+        if ($query) {
+            $authors = UserAuthor::authorsList($query);
+            echo $authors;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    
     public function actionAddTeacher($id)
     {
         $module = Module::model()->findByPk($id);

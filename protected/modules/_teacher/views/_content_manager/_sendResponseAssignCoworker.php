@@ -16,10 +16,7 @@
             </div>
             <br>
             <div class="form-group">
-                <button type="button" class="btn btn-success"
-                        onclick="sendCoworkerRequest('<?php echo Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendRequest"); ?>',
-                            '<?=Yii::app()->user->getId();?>');
-                            return false;">Надіслати запит</button>
+                <button type="button" class="btn btn-success" ng-click="sendCoworkerRequest()">Надіслати запит</button>
             </div>
         </form>
     </div>
@@ -65,31 +62,4 @@
     $jq('#typeaheadTeacher').on('typeahead:selected', function (e, item) {
         $jq("#userId").val(item.id);
     });
-
-    function sendCoworkerRequest(url, sender){
-        user = $jq('#userId').val();
-        if(user == 0){
-            bootbox.alert("Виберіть користувача.");
-        } else {
-            bootbox.confirm("Відправити запит на призначення користувача співробітником?", function (result) {
-                if (result) {
-                    $jq.ajax({
-                        url: url,
-                        type: "POST",
-                        data: {user: user, sender: sender},
-                        success: function (response) {
-                            bootbox.alert(response, function () {
-                                window.history.back();
-                            });
-                        },
-                        error: function () {
-                            bootbox.alert("Запит не вдалося надіслати.");
-                        }
-                    });
-                } else {
-                    bootbox.alert("Запит відмінено.");
-                }
-            });
-        }
-    }
 </script>

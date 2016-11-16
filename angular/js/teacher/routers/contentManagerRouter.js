@@ -5,7 +5,7 @@ var contentManagerUrl = basePath+"/_teacher/_content_manager/contentManager";
 
 angular
     .module('contentManagerRouter',['ui.router']).
-config(function ($stateProvider, $urlRouterProvider) {
+config(function ($stateProvider) {
     $stateProvider
         .state('content_manager', {
         url: "/content_manager",
@@ -107,5 +107,11 @@ config(function ($stateProvider, $urlRouterProvider) {
                 $scope.changePageHeader('Призначити автора модуля');
             },
             templateUrl: contentManagerUrl+"/addTeacherModuleForm",
+        })
+        .state('content_manager/sendCoworkerRequest', {
+            url: "/content_manager/sendCoworkerRequest",
+            cache         : false,
+            controller:'sendCoworkerRequestCtrl',
+            templateUrl: contentManagerUrl+"/sendCoworkerRequest",
         })
 });

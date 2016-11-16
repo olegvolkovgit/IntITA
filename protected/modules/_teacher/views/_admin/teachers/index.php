@@ -35,7 +35,6 @@
                                     <i class="fa fa-envelope fa-fw"></i>
                                 </a>
                             </td>
-                            <td data-title="'Додати'"><a type="button" class="btn btn-primary" ng-href="#/admin/teacher/{{row.user.id}}/editRole/role/author">модуль</a></td>
                         </tr>
                     </table>
                 </div>

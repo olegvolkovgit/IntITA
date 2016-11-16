@@ -9,7 +9,7 @@
 class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
-        $allowedActions=['setTeacherRoleAttribute'];
+        $allowedActions=['setTeacherRoleAttribute','unsetTeacherRoleAttribute'];
         return Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action ->id,$allowedActions));
     }
 
@@ -282,14 +282,12 @@ class TeachersController extends TeacherCabinetController{
         if ($userId && $attribute && $value && $role) {
             $response=$user->setRoleAttribute(new UserRoles($role), $attribute, $value);
             if($response===true){
-                echo "success";
-            } else if($response===false){
-                echo "error";
-            } else {
+                echo 'success';
+            } else{
                 echo $response;
             }
         } else {
-            echo "error";
+            echo 'Введені не вірні дані';
         }
     }
 

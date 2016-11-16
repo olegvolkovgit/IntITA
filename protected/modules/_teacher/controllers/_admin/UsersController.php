@@ -10,7 +10,6 @@ class UsersController extends TeacherCabinetController
             return true;
         } else
             return false;
-        //return Yii::app()->user->model->isAdmin();
     }
 
     public function actionIndex()
@@ -20,6 +19,7 @@ class UsersController extends TeacherCabinetController
         $counters["admins"] = UserAdmin::model()->count("end_date IS NULL");
         $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
         $counters["teachers"] = Teacher::model()->count('t.cancelled='.Teacher::ACTIVE);
+        $counters["authors"] = UserAuthor::model()->count("end_date IS NULL");
         $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled = 0 AND end_date IS NULL");
         $counters["offlineStudents"] = OfflineStudents::model()->count("end_date IS NULL");
         $counters["users"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);
@@ -50,14 +50,15 @@ class UsersController extends TeacherCabinetController
         $userId = Yii::app()->request->getPost('userId');
         $role = Yii::app()->request->getPost('role');
         $user = RegisteredUser::userById($userId);
+        $roleObj = Role::getInstance($role);
 
         if ($user->hasRole($role)) {
             echo "Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
             return;
         }
         if ($user->setRole($role))
-            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$role;
-        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
+            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$roleObj->title();
+        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$roleObj->title().".
         Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
     }
 
@@ -213,9 +214,9 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTeacherConsultantsList()
     {
+        $requestParams = $_GET;
         $criteria = new CDbCriteria();
         $criteria->addCondition('end_date IS NULL');
-        $requestParams = $_GET;
         $ngTable = new NgTableAdapter('UserTeacherConsultant', $requestParams);
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();

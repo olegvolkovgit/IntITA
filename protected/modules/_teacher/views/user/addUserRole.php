@@ -20,7 +20,7 @@
                 <input type="number" hidden="hidden" ng-value="data.user.id" id="user">
                 Роль:<br>
                 <div class="form-group">
-                    <select class="form-control" ng-options="role as role disable when role=='author' for (choice, role) in data.user.noroles " ng-model="selectedRole">
+                    <select class="form-control" ng-options="role as role for (choice, role) in data.user.noroles " ng-model="selectedRole">
                         <option value="" disabled selected>(Виберіть роль)</option>
                     </select>
                 </div>

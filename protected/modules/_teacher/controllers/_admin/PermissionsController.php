@@ -20,9 +20,8 @@ class PermissionsController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний викладач.");
         $user = RegisteredUser::userById($id);
 
-        $modules = $user->getAttributesByRole(UserRoles::AUTHOR)["module"];
+        $modules = $user->getAttributesByRole(UserRoles::AUTHOR)[0];
         echo json_encode($modules);
-        //echo $this->renderPartial('_modules', array('modules' => $modules));
     }
 
     public function actionShowConsultantModules()
@@ -33,7 +32,7 @@ class PermissionsController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний викладач.");
         $user = RegisteredUser::userById($id);
 
-        $modules = $user->getAttributesByRole(UserRoles::CONSULTANT)["module"];
+        $modules = $user->getAttributesByRole(UserRoles::CONSULTANT)[0];
 
         echo json_encode($modules);
     }

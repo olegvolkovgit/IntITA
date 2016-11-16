@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
     <div class="panel-body">
-        <form role="form">
+        <form role="form" novalidate>
             <div class="form-group" id="receiver">
                 <input type="number" hidden="hidden" id="userId" value="0"/>
                 <label>Користувач</label>
@@ -18,21 +18,25 @@
                     ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','consultant');">
                 Призначити консультанта
             </button>
-
-            <a type="button" class="btn btn-default" ng-href="#/admin/users">
-                Скасувати
+            <a type="button" class="btn btn-default" ng-click='back()'>
+                Назад
             </a>
         </form>
         <br>
         <div class="alert alert-info">
-            Призначити консультантом можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
-            за посиланням:
-            <a type="button" class="alert-link" ng-href="#/admin/teacher/create">
-                Додати співробітника
-            </a>.
-            <br>
-            Список усіх співробітників:
-            <a type="button" class="alert-link" ng-href="#/admin/teachers">Співробітники</a>.
+            <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                Консультантом можна призначити лише зареєтрованого співробітника.
+                Якщо потрібного користувача немає в списку, то призначити співробітника можна на сторінці
+                <a href="#" class="alert-link" ng-href="#/admin/teacher/create">
+                    призначити співробітника
+                </a>.
+                                    Список усіх співробітників:
+                <a type="button" class="alert-link" ng-href="#/admin/teachers">Співробітники</a>.
+            <?php } else { ?>
+                Призначити консультантом можна тільки співробітника. Надіслати запит на призначення співробітника можна
+                за посиланням:
+                <a href="#" class="alert-link" ng-href="#/content_manager/sendCoworkerRequest">надіслати запит</a>.
+            <?php } ?>
         </div>
     </div>
 </div>

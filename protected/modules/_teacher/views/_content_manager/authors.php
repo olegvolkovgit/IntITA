@@ -1,3 +1,7 @@
+<div class="ng-scope ng-isolate-scope alert alert-dismissible alert-success">
+    *Автор - співробітник, який може створювати та редагувати ревізії занятть в модулі
+    та ревізії самого модуля, який призначений йому, як автору.
+</div>
 <div class="panel panel-default" ng-controller="moduleAuthorsCtrl">
     <div class="panel-body">
         <ul id="accessTabs" class="nav nav-tabs">
