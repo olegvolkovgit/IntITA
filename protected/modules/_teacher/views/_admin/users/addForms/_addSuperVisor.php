@@ -19,9 +19,8 @@
                     ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','super_visor');">
                 Призначити supervisor'ом
             </button>
-
-            <a type="button" class="btn btn-default" ng-href="#/admin/users">
-                Скасувати
+            <a type="button" class="btn btn-default" ng-click='back()'>
+                Назад
             </a>
         </form>
     </div>

@@ -1,4 +1,4 @@
-<div class="panel panel-default" ng-controller="requestsCtrl">
+<div class="panel panel-default" >
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table class="table table-striped table-bordered table-hover" id="activeRequestsTable">

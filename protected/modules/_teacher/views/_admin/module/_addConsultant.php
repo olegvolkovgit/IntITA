@@ -16,7 +16,7 @@
                     <input type="text" hidden="hidden" value="<?= UserRoles::CONSULTANT; ?>" id="role">
                 </div>
                 <div class="form-group">
-                    <input type="text" size="135" ng-model="teacherSelected" placeholder="Викладач" uib-typeahead="item.email for item in getTeachers($viewValue)" typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <input type="text" size="135" ng-model="teacherSelected" placeholder="Викладач" uib-typeahead="item.email for item in getConsultants($viewValue)" typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
                     <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResults">
                         <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
@@ -26,16 +26,14 @@
                     <button type="button" class="btn btn-success" ng-click="addTeacher('<?= $module->module_ID; ?>','<?= UserRoles::CONSULTANT; ?>',selectedTeacher.id)">
                         Призначити консультанта
                     </button>
+                    <a type="button" class="btn btn-default" ng-click='back()'>
+                        Назад
+                    </a>
                 </div>
             </form>
             <br>
             <div class="alert alert-info">
-                Консультантом модуля можна призначити лише зареєтрованого співробітника.
-                Якщо потрібного користувача немає в списку співробітників, то додати співробітника можна на
-                сторінці
-                <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
-                    Додати співробітника
-                </a>.
+                Консультантом модуля можна призначити лише співробітника з ролю 'консультант'.
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
  */
 angular
     .module('teacherApp')
+    .controller('sendCoworkerRequestCtrl',sendCoworkerRequestCtrl)
     .controller('allAuchtorsCtrl', function ($scope){
         initAuthorsTableCM();
     })
@@ -159,3 +160,27 @@ angular
     .controller('lessonDetailCtrl', function ($stateParams){
         initPartsListTable($stateParams.idLesson);
     });
+
+function sendCoworkerRequestCtrl ($http, $scope, $state) {
+    $scope.changePageHeader('Запит на призначення співробітника');
+
+    $scope.sendCoworkerRequest=function () {
+        user = $jq('#userId').val();
+        if(user == 0){
+            bootbox.alert("Виберіть користувача.");
+        } else {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_content_manager/contentManager/sendRequest',
+                data: $jq.param({user: user}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.confirm(response.data, function () {
+                    $state.reload();
+                });
+            }, function errorCallback() {
+                bootbox.alert("Запит не вдалося надіслати");
+            });
+        }
+    }
+}

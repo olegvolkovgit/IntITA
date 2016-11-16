@@ -54,7 +54,7 @@
                 </td>
                 <td>
                     <?php if ($item["end_date"] == '') { ?>
-                        <a href="javascript:void(0)" ng-click="cancelModuleAttr('/_teacher/_admin/permissions/unsetTeacherRoleAttribute','<?=$item["id"]?>','<?= $attribute["key"] ?>','<?= (string)$role; ?>',data.user.id)"
+                        <a href="javascript:void(0)" ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>','<?=$item["id"]?>','<?= $attribute["key"] ?>','<?= (string)$role; ?>',data.user.id)"
                            >
                             скасувати
                         </a>

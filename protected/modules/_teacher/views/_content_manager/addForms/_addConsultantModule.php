@@ -28,21 +28,20 @@
             <div class="form-group">
                 <button type="button" class="btn btn-success" ng-click="addPermission('consultant')">Призначити модуль для консультанта
                 </button>
+                <a type="button" class="btn btn-default" ng-click='back()'>
+                    Назад
+                </a>
             </div>
         </div>
         <div class="alert alert-info">
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 Консультантом модуля можна призначити лише зареєтрованого співробітника, який має права консультанта.
-                Якщо потрібного користувача немає в списку консультантів, то надати права консультанта можна на сторінці
-                <a href="#" class="alert-link" onclick="load('<?php echo Yii::app()->createUrl('/_teacher/_admin/users/renderAddRoleForm',
-                    array('role'=>'consultant'));?>', 'Призначити консультанта')">
-                    Призначити консультанта</a>.
+                Якщо потрібного користувача немає в списку консультантів, то додати права консультанта можна на сторінці
+                <a class="alert-link" ng-href="#/admin/users/addrole/consultant">
+                    додати консультанта
+                </a>.
             <?php } else { ?>
                 Консультантом модуля можна призначити лише зареєтрованого співробітника, який має права консультанта.
-                Якщо потрібного користувача немає в списку консультантів, то можна надіслати запит для призначення ролі консультанта
-                користувачу <a href="#" class="alert-link"
-                               onclick="load('<?= Yii::app()->createUrl("/_teacher/_content_manager/contentManager/sendCoworkerRequest"); ?>',
-                                   'Запит на призначення співробітника'); return false;">Надіслати запит</a>.
             <?php } ?>
         </div>
     </div>
@@ -58,7 +57,5 @@
                 <div ng-bind="match.model.email" class="typeahead_secondary"></div>
             </div>
         </div>
-
-
     </a>
 </script>

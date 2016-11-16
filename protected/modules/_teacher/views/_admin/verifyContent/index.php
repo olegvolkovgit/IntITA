@@ -3,6 +3,11 @@
  * @var $record Lecture
  */
 ?>
+<div class="ng-scope ng-isolate-scope alert alert-dismissible alert-success">
+    *Переіндексація контенту - створення каталогів(папок) для усіх модулів і занять, якщо таких немає. Каталоги містять шаблони занять.
+    <br>
+    *Шаблонізовані заняття - готові заняття у вигляді html файлів (швидке завантаження сторінок з заняттям)
+</div>
 <div class="col-lg-12" ng-controller="verifyContentCtrl">
     <button class="btn btn-primary"
             ng-click="reindexContent('<?php echo Yii::app()->createUrl("/_teacher/_admin/verifyContent/initializeDir") ?>')">

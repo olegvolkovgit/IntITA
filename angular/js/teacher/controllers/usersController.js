@@ -15,6 +15,7 @@ angular
     .controller('moduleAuthorsCtrl',moduleAuthorsCtrl)
     .controller('blockedUsersCtrl',blockedUsersCtrl)
     .controller('superVisorsTableCtrl', superVisorsTableCtrl)
+    .controller('authorsTableCtrl', authorsTableCtrl)
     .controller('offlineStudentsTableCtrl', offlineStudentsTableCtrl);
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
@@ -613,6 +614,38 @@ function superVisorsTableCtrl ($scope, usersService, NgTableParams, $http){
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
                     $scope.superVisorsTableParams.reload();
+                    bootbox.alert(response.data);
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати.");
+                });
+            }
+        });
+    };
+}
+
+function authorsTableCtrl ($scope, usersService, NgTableParams, $http){
+    $scope.authorsTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .authorsList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+
+    $scope.cancelRole= function(url, role, user) {
+        bootbox.confirm('Скасувати роль автора? При цьому будуть автоматично скасовані права автора на вже доступні модулі', function (result) {
+            if (result) {
+                $http({
+                    method: 'POST',
+                    url: basePath+url,
+                    data: $jq.param({userId: user, role: role}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback(response) {
+                    $scope.authorsTableParams.reload();
                     bootbox.alert(response.data);
                 }, function errorCallback() {
                     bootbox.alert("Операцію не вдалося виконати.");

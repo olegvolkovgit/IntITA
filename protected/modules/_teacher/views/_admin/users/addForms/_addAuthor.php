@@ -5,42 +5,32 @@
                 <input type="number" hidden="hidden" id="userId" value="0"/>
                 <label>Користувач</label>
                 <br>
-                <input id="typeahead" type="text" class="form-control" name="user" placeholder="Виберіть користувача"
+                <input id="typeahead" type="text" class="typeahead form-control" name="user"
+                       placeholder="Виберіть користувача"
                        size="90" required>
                 <br>
                 <br>
-                <em>* Зверніть увагу, що деяких користувачів може не бути в списку. В списку немає користувачів, в
-                    яких вже є права тренера.</em>
+                <em>Зверніть увагу, що деяких користувачів може не бути в списку. В списку немає користувачів, які не є співробітниками.</em>
                 <br>
             </div>
 
             <button class="btn btn-primary"
-                    ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','trainer');">
-                Призначити тренера
+                    ng-click="assignRole('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/assignRole"); ?>','author');">
+                Призначити автором
             </button>
             <a type="button" class="btn btn-default" ng-click='back()'>
                 Назад
             </a>
         </form>
-        <br>
-        <div class="alert alert-info">
-            Призначити тренером можна тільки вже зареєстрованого співробітника. Додати нового співробітника можна
-            за посиланням:
-            <a type="button" class="alert-link" ng-href="#/admin/teacher/create">
-                Додати співробітника
-            </a>.
-            <br>
-            Список усіх співробітників:
-            <a type="button" class="alert-link" ng-href="#/admin/teachers">Співробітники</a>.
-        </div>
     </div>
 </div>
+
 <script>
     var users = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: basePath + '/_teacher/_admin/users/usersAddForm?role=trainer&query=%QUERY',
+            url: basePath + '/_teacher/_admin/users/usersAddForm?role=author&query=%QUERY',
             wildcard: '%QUERY',
             filter: function (users) {
                 return $jq.map(users.results, function (user) {
