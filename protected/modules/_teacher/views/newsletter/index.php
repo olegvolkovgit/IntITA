@@ -11,6 +11,8 @@
 Написати листа
 </div>
     <div class="panel-body" ng-controller="newsletterCtrl">
+        <form  ng-app="myApp" name="newsletterForm" novalidate>
+
         <div class="row">
             <div class="form-group col-md-8" id="receiver">
                 <label>
@@ -59,19 +61,21 @@
                      }"
                 ></oi-select>
             </div>
-            {{selectedUsers}}
-
 
             <div class="form-group col-md-8" id="receiver">
                 </div>
             <div class="form-group col-md-8">
                 <label>Тема</label>
-                <input class="form-control" name="subject" placeholder="Тема листа" ng-model="subject">
+                <input class="form-control" name="subject" placeholder="Тема листа" ng-model="subject"  required>
+                <span style="color:red" ng-show="newsletterForm.subject.$dirty && newsletterForm.subject.$invalid">
+                <span ng-show="newsletterForm.subject.$error.required">Заповніть поле!</span>
             </div>
 
             <div class="form-group col-md-8">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" id="text" placeholder="Лист" required ng-model="message"></textarea>
+                <textarea class="form-control" rows="6" name="message" placeholder="Лист" required ng-model="message"></textarea>
+                <span style="color:red" ng-show="newsletterForm.message.$dirty && newsletterForm.message.$invalid">
+                <span ng-show="newsletterForm.message.$error.required">Заповніть поле!</span>
             </div>
             <div class="col-md-8">
             <button type="submit" class="btn btn-primary"
@@ -79,10 +83,15 @@
                         Надіслати
             </button>
                 <button type="reset" class="btn btn-default"
-                        ng-click="loadMessagesIndex()">
-                            Скасувати
+                        ng-click="clearForm()">
+                            Очистити форму
+                </button>
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel()">
+                    Скасувати
                 </button>
             </div>
     </div>
+            </form>
     </div>
 </div>

@@ -175,6 +175,10 @@ class Config extends CActiveRecord
 		return Yii::app()->config->get('coeffModuleOffline');
 	}
 
+	public static function getNewsletterMailAddress(){
+		return Yii::app()->config->get('newsletterMail');
+	}
+
 	public static function getItemsList(){
         $criteria = new CDbCriteria();
         $criteria->addCondition('hidden='.Config::VISIBLE);

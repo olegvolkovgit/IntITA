@@ -83,11 +83,11 @@ class NewsLetter
     }
 
     private function sendMail($recipients){
-
-        $headers = "From: ".Config::getAdminEmail()."\n"
+        
+        $headers = "From: IntITA <".Config::getNewsletterMailAddress().">\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
-
+        
         mail($recipients,$this->subject,$this->message,$headers);
 
     }

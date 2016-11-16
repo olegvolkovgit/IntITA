@@ -21,7 +21,14 @@ angular
     })
 ;
 
-function newsletterCtrl($scope, $http, $resource) {
+function newsletterCtrl($scope, $http, $resource, $state) {
+    function init() {
+        $scope.selectedRecipients = null;
+        $scope.newsletterType = null;
+        $scope.subject = null;
+        $scope.message = null;
+    };
+    init();
 
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
     var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
@@ -40,23 +47,47 @@ function newsletterCtrl($scope, $http, $resource) {
     };
 
     $scope.send = function () {
-        var recipients = [];
-        angular.forEach($scope.selectedRecipients, function(value) {
-            switch ($scope.newsletterType){
-                case 'roles':
-                    recipients.push(value.id);
-                    break;
-                case 'users':
-                    recipients.push(value.email);
-                    break;
-            }
-        });
-         $http({
-             method:'POST',
-             url:basePath+'/_teacher/newsletter/sendLetter',
-             data: $jq.param({"type":$scope.newsletterType, "recipients":recipients,"subject":$scope.subject,"message":$scope.message}),
-             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        });
+        if ($scope.newsletterForm.$valid && $scope.newsletterForm.$dirty && $scope.newsletterType) {
+            var recipients = [];
+            angular.forEach($scope.selectedRecipients, function (value) {
+                switch ($scope.newsletterType) {
+                    case 'roles':
+                        recipients.push(value.id);
+                        break;
+                    case 'users':
+                        recipients.push(value.email);
+                        break;
+                }
+            });
+            $http({
+                method: 'POST',
+                url: basePath + '/_teacher/newsletter/sendLetter',
+                data: $jq.param({
+                    "type": $scope.newsletterType,
+                    "recipients": recipients,
+                    "subject": $scope.subject,
+                    "message": $scope.message
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).success(function () {
+                bootbox.alert('Виконано успішно',function () {
+                   $state.go('index');
+                });
+            }).error(function () {
+                bootbox.alert('Вибачте, виникла помилка');
+            });
+        }
+        else
+            bootbox.alert('Невірні дані')
     }
+
+    $scope.clearForm = function () {
+        init();
+    };
+
+    $scope.cancel = function () {
+        init();
+        $state.go('index');
+    };
 
 }
