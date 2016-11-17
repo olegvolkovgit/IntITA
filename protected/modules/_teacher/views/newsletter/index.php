@@ -68,14 +68,14 @@
                 <label>Тема</label>
                 <input class="form-control" name="subject" placeholder="Тема листа" ng-model="subject"  required>
                 <span style="color:red" ng-show="newsletterForm.subject.$dirty && newsletterForm.subject.$invalid">
-                <span ng-show="newsletterForm.subject.$error.required">Заповніть поле!</span>
+                <span ng-cloak ng-show="newsletterForm.subject.$error.required">Заповніть поле!</span>
             </div>
 
             <div class="form-group col-md-8">
                 <label>Лист</label>
-                <textarea class="form-control" rows="6" name="message" placeholder="Лист" required ng-model="message"></textarea>
+                <textarea ckeditor="editorOptions" class="form-control" rows="6" name="message" id="message" placeholder="Лист" required ng-model="message"></textarea>
                 <span style="color:red" ng-show="newsletterForm.message.$dirty && newsletterForm.message.$invalid">
-                <span ng-show="newsletterForm.message.$error.required">Заповніть поле!</span>
+                <span ng-cloak ng-show="newsletterForm.message.$error.required">Заповніть поле!</span>
             </div>
             <div class="col-md-8">
             <button type="submit" class="btn btn-primary"

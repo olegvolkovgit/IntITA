@@ -4,43 +4,50 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
+<div class="form" ng-controller="mailTemplatesCtrl">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'mail-templates-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-)); ?>
+	<div class="panel panel-primary" >
+		<div class="panel-body">
+			<form name="mailTemplateForm" novalidate>
+				<div class="form-group">
+					<label>Назва шаблону</label>
+					<br>
+					<input type="text" class="form-control" name="title" placeholder="Введіть назву шаблону"
+						   size="90" required ng-model="mailTemplateModel.title">
+					<br>
+				</div>
+				<div class="form-group">
+					<label>Тема повідомлення</label>
+					<br>
+					<input type="text" class="form-control" name="title" placeholder="Введіть назву шаблону"
+						   size="90" required ng-model="mailTemplateModel.subject">
+					<br>
+				</div>
+				<div class="form-group">
+					<label>Текст електронного листа</label>
+					<br>
+					<textarea ckeditor="editorOptions" rows="10" cols="45"class="form-control" name="text" id="text" placeholder="Введіть текст листа"
+						   size="90" required ng-model="mailTemplateModel.text"></textarea>
+					<br>
+				</div>
+				<div class="form-group">
+					<select class="form-control" name="active" ng-model="mailTemplateModel.active">
+						<option value="1">Активний</option>
+						<option value="0">Не активний</option>
+					</select><br>
+				</div>
+				<button class="btn btn-primary" ng-click="addMailTemplate()">
+					<span ng-if="!mailTemplateModel.id">Створити шаблон</span>
+					<span ng-if="mailTemplateModel.id">Змінити шаблон</span>
+				</button>
+				<button type="reset" class="btn btn-default" ng-click="changeView('newsletter/templates')">
+					Скасувати
+				</button>
+			</form>
+			<br>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+		</div>
 
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'title'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'text'); ?>
-		<?php echo $form->textArea($model,'text',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'text'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'active'); ?>
-		<?php echo $form->textField($model,'active'); ?>
-		<?php echo $form->error($model,'active'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
-
-<?php $this->endWidget(); ?>
 
 </div><!-- form -->

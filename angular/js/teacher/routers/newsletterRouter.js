@@ -21,4 +21,32 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: "/_teacher/mailTemplates/index",
         })
+        .state('newsletter/template/create', {
+            url: "/newsletter/template/create",
+            cache: false,
+            controller: function ($scope) {
+                $scope.changePageHeader('Створення шаблону електронного листа');
+            },
+            templateUrl: "/_teacher/mailTemplates/create",
+        })
+        .state('newsletter/template/edit/:id', {
+            url: "/newsletter/template/edit/:id",
+            cache: false,
+            controller: function ($scope) {
+                $scope.changePageHeader('Редагування шаблону електронного листа');
+            },
+            templateUrl: function($stateParams){
+                return "/_teacher/mailTemplates/update/id/"+$stateParams.id
+            }
+        })
+        .state('newsletter/template/view/:id', {
+            url: "/newsletter/template/view/:id",
+            cache: false,
+            controller: function ($scope) {
+                $scope.changePageHeader('Перегляд шаблону електронного листа');
+            },
+            templateUrl: function($stateParams){
+                return "/_teacher/mailTemplates/view/id/"+$stateParams.id
+            }
+        })
 });

@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'mail_templates':
  * @property integer $id
  * @property string $title
+ * @property string $subject
  * @property string $text
  * @property integer $active
  */
@@ -30,9 +31,10 @@ class MailTemplates extends CActiveRecord
 			array('title, text', 'required'),
 			array('active', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>255),
+            array('subject', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, text, active', 'safe', 'on'=>'search'),
+			array('id, title, subject, text, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +57,7 @@ class MailTemplates extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'title' => 'Title',
+            'subject' => 'Title',
 			'text' => 'Text',
 			'active' => 'Active',
 		);
@@ -80,6 +83,7 @@ class MailTemplates extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('title',$this->title,true);
+        $criteria->compare('subject',$this->title,true);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('active',$this->active);
 

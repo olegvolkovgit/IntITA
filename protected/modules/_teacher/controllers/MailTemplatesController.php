@@ -4,9 +4,9 @@ class MailTemplatesController extends TeacherCabinetController
 {
 
 
-	public function hasRole(){
-		return !Yii::app()->user->isGuest;
-	}
+    public function hasRole(){
+        return (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
+    }
 
 	/**
 	 * Displays a particular model.
@@ -14,9 +14,7 @@ class MailTemplatesController extends TeacherCabinetController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$this->renderPartial('_view');
 	}
 
 	/**
@@ -34,10 +32,13 @@ class MailTemplatesController extends TeacherCabinetController
 		{
 			$model->attributes=$_POST['MailTemplates'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				echo 'success';
+            else
+                echo 'error';
+            Yii::app()->end();
 		}
 
-		$this->renderPartial('create',array(
+		$this->renderPartial('_form',array(
 			'model'=>$model,
 		));
 	}
@@ -58,10 +59,13 @@ class MailTemplatesController extends TeacherCabinetController
 		{
 			$model->attributes=$_POST['MailTemplates'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                echo 'success';
+            else
+                echo 'error';
+            Yii::app()->end();
 		}
 
-		$this->render('update',array(
+		$this->renderPartial('_form',array(
 			'model'=>$model,
 		));
 	}
@@ -71,13 +75,15 @@ class MailTemplatesController extends TeacherCabinetController
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		$this->loadModel($id)->delete();
+        if(isset($_POST['id'])) {
+            if ($this->loadModel($_POST['id'])->delete())
+                echo 'success';
+            else
+                echo 'error';
+        }
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -88,20 +94,6 @@ class MailTemplatesController extends TeacherCabinetController
 		$this->renderPartial('index');
 	}
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new MailTemplates('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['MailTemplates']))
-			$model->attributes=$_GET['MailTemplates'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

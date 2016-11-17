@@ -22,6 +22,11 @@ angular
 ;
 
 function newsletterCtrl($scope, $http, $resource, $state) {
+
+    $scope.editorOptions = {
+        language: 'uk-ua',
+    };
+
     function init() {
         $scope.selectedRecipients = null;
         $scope.newsletterType = null;
