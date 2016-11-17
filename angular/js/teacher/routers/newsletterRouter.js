@@ -13,4 +13,12 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: "/_teacher/newsletter/index",
         })
+        .state('newsletter/templates', {
+            url: "/newsletter/templates",
+            cache: false,
+            controller: function ($scope) {
+                $scope.changePageHeader('Керування шаблонами електронних листів');
+            },
+            templateUrl: "/_teacher/mailTemplates/index",
+        })
 });
