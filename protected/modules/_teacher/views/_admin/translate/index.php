@@ -10,7 +10,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table ng-table="tableParams" class="table table-striped table-bordered table-hover" id="graduatesTable" style="table-layout: fixed">
+                <table ng-table="tableParams" class="table table-striped table-bordered table-hover" style="table-layout: fixed">
                     <colgroup>
                         <col width="10%"/>
                         <col width="10%"/>
@@ -23,7 +23,7 @@
                         <td data-title="'Мова'" filter="{'language': 'text'}">{{row.language}}</td>
                         <td data-title="'Категорія'"filter="{'source.category': 'text'}" >{{row.source.category}}</td>
                         <td data-title="'Переклад'" filter="{'translation': 'text'}" ><a href="#/interfacemessages/view/{{row.id_record}}">{{row.translation}}</a></td>
-                        <td data-title="'Коментар'" filter="{'comment': 'text'}">{{row.comment}}</td>
+                        <td data-title="'Коментар'" filter="{'comment.comment': 'text'}">{{row.comment.comment}}</td>
                     </tr>
                 </table>
 

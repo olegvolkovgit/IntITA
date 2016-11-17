@@ -5,7 +5,8 @@ class ContentManagerController extends TeacherCabinetController
 
     public function hasRole()
     {
-        return Yii::app()->user->model->isContentManager();
+        $allowedAdminActions=['getAuthorsList'];
+        return Yii::app()->user->model->isContentManager() || (Yii::app()->user->model->isAdmin() && in_array(Yii::app()->controller->action->id,$allowedAdminActions));
     }
 
     public function actionAuthors()
@@ -101,17 +102,13 @@ class ContentManagerController extends TeacherCabinetController
     }
 
     public function actionGetAuthorsList()
-
     {
-
         $params = $_GET;
         $criteria = new CDbCriteria();
-        $criteria->addCondition('end_time IS NULL');
+        $criteria->addCondition('end_date IS NULL');
         $adapter = new NgTableAdapter('UserAuthor',$params);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
-
-        //echo TeacherModule::authorsList();
     }
 
     public function actionGetConsultantsList()
@@ -180,7 +177,7 @@ class ContentManagerController extends TeacherCabinetController
     public function actionSendRequest()
     {
         $userToAssign = Yii::app()->request->getPost('user', 0);
-        $user = Yii::app()->request->getPost('sender', 0);
+        $user = Yii::app()->user->getId();
 
         $teacherModel = StudentReg::model()->findByPk($userToAssign);
         $userModel = StudentReg::model()->findByPk($user);

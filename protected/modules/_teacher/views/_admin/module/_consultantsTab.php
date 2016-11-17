@@ -55,10 +55,9 @@
                                         <?php
                                         if ($item["end_time"] == '') { ?>
                                             <input type="number" hidden="hidden" value="<?= $item["id"]; ?>" id="user">
-                                            <a href="#"
-                                               onclick="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                                                   '<?= $model->module_ID; ?>', 'module', 'consultant', '<?=$item["id"]?>',
-                                                   '<?=Yii::app()->createUrl("/_teacher/_admin/module/update", array("id" => $model->module_ID));?>','6','Модуль <?php echo $model->getTitle() ?>');">
+                                            <a href=""
+                                               ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
+                                               '<?= $model->module_ID; ?>','module','consultant',<?= $item["id"]; ?>)">
                                                 скасувати
                                             </a>
                                         <?php } ?>

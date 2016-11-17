@@ -123,6 +123,8 @@ class RegisteredUser
         if ($this->hasRole($role)) {
             $roleObj = Role::getInstance($role);
             $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
+        }else{
+            throw new \application\components\Exceptions\IntItaException(403, "User does not has this role.");
         }
         return $this->_roleAttributes[(string)$role];
     }
@@ -130,7 +132,9 @@ class RegisteredUser
     public function setRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
-        return $roleObj->setAttribute($this->registrationData, $attribute, $value);
+        if($roleObj->setAttribute($this->registrationData, $attribute, $value)) 
+            return true; 
+        else return $roleObj->getErrorMessage();
     }
 
     public function unsetRoleAttribute($role, $attribute, $value)
@@ -199,11 +203,6 @@ class RegisteredUser
     //todo author role check
     public function hasRole($role)
     {
-        if ($role == "author") {
-            //todo
-//            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
-            return Teacher::model()->exists('user_id='.$this->id);
-        }
         return in_array($role, $this->getRoles());
     }
 
