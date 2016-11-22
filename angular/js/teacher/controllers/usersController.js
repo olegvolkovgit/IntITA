@@ -542,35 +542,6 @@ function trainersTableCtrl ($http, $scope, usersService, NgTableParams){
     $scope.collapse=function (el) {
         $jq(el).toggle("medium");
     };
-
-    $scope.cancelModuleAttr=function(url, id, attr, role, user){
-        if (!user) {
-            user = $jq('#user').val();
-        }
-        if (!role) {
-            role = $jq('#role').val();
-        }
-        if (user && role) {
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                if (response.data == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function () {
-                        $templateCache.remove(basePath+'/_teacher/_content_manager/contentManager/showTeacher/id/'+user);
-                        $state.go($state.current, {}, {reload: true});
-                    });
-                } else {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    };
 }
 
 function moduleAuthorsCtrl($scope, usersService, NgTableParams){

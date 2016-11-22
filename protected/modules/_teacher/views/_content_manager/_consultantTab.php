@@ -11,7 +11,7 @@ $teacher = $user->getTeacher();
             <ul class="list-group">
                 <?php
                 $this->renderPartial('/_content_manager/_moduleList', array(
-                    'attribute' => $user->getAttributesByRole(UserRoles::CONSULTANT)["module"],
+                    'attribute' => $user->getAttributesByRole(UserRoles::CONSULTANT)[0],
                     'model' => $user->registrationData,
                     'role' => 'consultant'
                 ));

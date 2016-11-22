@@ -11,6 +11,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function ($scope) {
                 $scope.changePageHeader('Створити розсилку');
             },
-            templateUrl: "/_teacher/newsletter/index",
+            templateUrl: basePath+"/_teacher/newsletter/index",
         })
 });

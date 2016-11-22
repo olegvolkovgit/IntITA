@@ -25,7 +25,10 @@
                     <div>
                         <label>Користувач:</label>
                         <br>
-                        <input type="text" size="135" ng-model="user" ng-model-options="{ debounce: 1000 }" placeholder="Користувач" uib-typeahead="item.email for item in getUsers($viewValue) | limitTo : 10" typeahead-no-results="noResultsUser"  typeahead-template-url="typeaheadUser" typeahead-on-select="selectUser($item)" class="form-control" />
+                        <input type="text" size="135" ng-model="selectedUser" ng-model-options="{ debounce: 1000 }"
+                               placeholder="Користувач" uib-typeahead="item.email for item in getUsers($viewValue) | limitTo : 10" 
+                               typeahead-no-results="noResultsUser"  typeahead-template-url="typeaheadUser" 
+                               typeahead-on-select="selectUser($item)" ng-change="reloadUser()" class="form-control" />
                         <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResultsUser">
                             <i class="glyphicon glyphicon-remove"></i> Користувача не знайдено
@@ -42,7 +45,10 @@
                 </label>
 
                 <div class="form-group">
-                    <input type="text" size="135" ng-model="module" ng-model-options="{ debounce: 1000 }" placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo : 10" typeahead-no-results="noResultsModule"  typeahead-on-select="selectModule($item)" class="form-control" />
+                    <input type="text" size="135" ng-model="selectedModule" ng-model-options="{ debounce: 1000 }"
+                           placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo : 10" 
+                           typeahead-no-results="noResultsModule"  typeahead-on-select="selectModule($item)"
+                           ng-change="reloadModule()" class="form-control" />
                     <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResultsModule">
                         <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
@@ -61,7 +67,10 @@
                         <strong><?php echo $fieldsetCourse ?>:</strong>
                     </label>
                     <div class="form-group">
-                        <input type="text" size="135" ng-model="course" ng-model-options="{ debounce: 1000 }" placeholder="Назва кусру" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10" typeahead-no-results="noResultsCourse"  typeahead-on-select="selectCourse($item)" class="form-control" />
+                        <input type="text" size="135" ng-model="selectedCourse" ng-model-options="{ debounce: 1000 }"
+                               placeholder="Назва кусру" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10" 
+                               typeahead-no-results="noResultsCourse"  typeahead-on-select="selectCourse($item)"
+                               ng-change="reloadCourse()" class="form-control" />
                         <i ng-show="loadingCourses" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResultsCourse">
                             <i class="glyphicon glyphicon-remove"></i> Курс не знайдено

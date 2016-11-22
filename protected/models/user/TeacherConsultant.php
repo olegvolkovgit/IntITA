@@ -75,7 +75,7 @@ class TeacherConsultant extends Role
             ->select('u.id, GROUP_CONCAT(DISTINCT u.secondName, u.firstName, u.middleName, u.email ORDER BY u.id ASC SEPARATOR " ") title, u.email, tcs.start_date, tcs.end_date')
             ->from('teacher_consultant_student tcs')
             ->rightJoin('user u', 'u.id=tcs.id_student')
-            ->where('id_teacher=:id', array(':id' => $this->user->id))
+            ->where('id_teacher=:id AND tcs.end_date IS NULL', array(':id' => $this->user->id))
             ->group('u.id')
             ->queryAll();
 
@@ -88,7 +88,7 @@ class TeacherConsultant extends Role
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date, m.cancelled')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id', array(':id' => $this->user->id))
+            ->where('id_teacher=:id AND tcm.end_date IS NULL', array(':id' => $this->user->id))
             ->queryAll();
 
         return $records;
@@ -121,10 +121,13 @@ class TeacherConsultant extends Role
                         array(Module::model()->findByPk($value)),
                         'Скасовано модуль');
                     return true;
+                }else{
+                    $this->errorMessage="Скасувати модуль не вдалося";
+                    return false;
                 }
-                return false;
                 break;
             default:
+                $this->errorMessage="Виконати операцію не вдалося";
                 return false;
         }
     }

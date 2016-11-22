@@ -19,7 +19,7 @@
 </script>
 
 
-<div id="wrapper" ng-controller="teacherCtrl">
+<div id="wrapper" ng-controller="cabinetCtrl">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <?php echo $this->renderPartial('_top_navigation', array(
@@ -34,6 +34,17 @@
         )); ?>
     </nav>
     <?php echo $this->renderPartial('_page_wrapper', array('model' => $model)); ?>
+    <script type="text/ng-template" id="customTemplate.html">
+        <a>
+            <div class="typeahead_wrapper  tt-selectable">
+                <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
+                <div class="typeahead_labels">
+                    <div ng-bind="match.model.name"></div>
+                    <div ng-bind="match.model.email" class="typeahead_secondary"></div>
+                </div>
+            </div>
+        </a>
+    </script>
 </div>
 <div style="display: none;text-align: center;" id="ajaxLoad" data-loading>
     <img style="position:relative;top:68px" src="<?php echo StaticFilesHelper::createPath('image', 'lecture', 'ajax.gif'); ?>" />
@@ -104,7 +115,6 @@
 
 <!--Deprecated  scripts
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/verifyContent.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/modulesList.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/coursesList.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', '_admin/graduatesList.js'); ?>"></script>
 -->

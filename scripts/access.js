@@ -34,39 +34,6 @@
 
     }
 
-    //function cancelTeacherAccess(url,header,redirect) {
-    //    var user = $jq("#user").val();
-    //    var moduleId = $jq("select[name=modules] option:selected").val();
-    //
-    //    if(user == 0) {
-    //        bootbox.alert("Виберіть викладача.");
-    //    }else {
-    //        $jq.ajax({
-    //            type: "POST",
-    //            url: url,
-    //            data: {
-    //                'module': moduleId,
-    //                'user' : user
-    //            },
-    //            cache: false,
-    //            success: function (data) {
-    //               if(data == "success"){
-    //                   showDialog("Операцію успішно виконано.");
-    //                   //if(redirect=='teacherAccess')
-    //                   //    loadAddTeacherAccess(header,'1');
-    //                   //else loadCancelAuthorModule();
-    //               } else {
-    //                   showDialog("Операцію не вдалося виконати.");
-    //               }
-    //            },
-    //            error:function()
-    //            {
-    //                showDialog("Операцію не вдалося виконати.");
-    //            }
-    //        });
-    //    }
-    //}
-
     function selectTeacherModules(url, teacher) {
         if (teacher == 0) {
             bootbox.alert("Виберіть викладача.");
@@ -140,7 +107,3 @@
         else
             showDialog('Введенні невірні дані!');
     }
-
-function loadCancelAuthorModule() {
-    load(basePath + '/_teacher/_admin/permissions/showCancelTeacherAccess/');
-}

@@ -123,7 +123,6 @@ class Consultant extends Role
     public static function consultantsByQuery($query){
 
         $criteria = new CDbCriteria();
-        //$criteria->select = "idUser.id, idUser.secondName, idUser.firstName, idUser.middleName, idUser.email, idUser.avatar";
         $criteria->addSearchCondition('idUser.firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('idUser.secondName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('idUser.middleName', $query, true, "OR", "LIKE");

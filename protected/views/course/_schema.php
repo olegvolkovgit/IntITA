@@ -74,8 +74,7 @@
     <?php if (!$save) { ?>
         <br>
         <br>
-        <button id="saveButton" onclick = "saveSchema('<?php echo Yii::app()->createUrl('/_teacher/_admin/coursemanage/saveSchema',
-            array('idCourse' => $idCourse)); ?>', '<?=$idCourse?>')"><?php echo Course::getMessage($message, 'save'); ?></button>
+        <button id="saveButton" ><?php echo Course::getMessage($message, 'save'); ?></button>
         <br>
         <br>
         <br>

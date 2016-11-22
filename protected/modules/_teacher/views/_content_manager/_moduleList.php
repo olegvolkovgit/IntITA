@@ -5,7 +5,7 @@
  */
 ?>
 <div class="col-md-12" ng-controller="usersCtrl">
-    <div class="row" ng-controller="permissionsCtrl">
+    <div class="row" ng-controller="roleAttributesCtrl">
         <form>
             <div class="col col-md-6">
                 <input type="text" size="135" ng-model="moduleSelected" ng-model-options="{ debounce: 1000 }" placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectModule($item)" class="form-control" />

@@ -85,13 +85,21 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             },
             templateUrl: basePath+"/_teacher/_admin/teachers/index",
         })
-        .state('admin/permissions', {
-            url: "/admin/permissions",
+        .state('admin/authorAttributes', {
+            url: "/admin/authorAttributes",
             cache: false,
             controller: function($scope){
-                $scope.changePageHeader('Права доступа');
+                $scope.changePageHeader('Атрибути автора контента');
             },
-            templateUrl: basePath+"/_teacher/_admin/permissions/index",
+            templateUrl: basePath+"/_teacher/_admin/roleAttributes/authorAttributes",
+        })
+        .state('admin/teacherAttributes', {
+            url: "/admin/teacherAttributes",
+            cache: false,
+            controller: function($scope){
+                $scope.changePageHeader('Атрибути викладача');
+            },
+            templateUrl: basePath+"/_teacher/_admin/roleAttributes/teacherConsultantAttributes",
         })
         .state('admin/pay', {
             url: "/admin/pay",

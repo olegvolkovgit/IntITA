@@ -169,6 +169,61 @@ class CabinetController extends TeacherCabinetController
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
+    public function actionActiveUsersByQuery($query)
+    {
+        if ($query) {
+            $users = StudentReg::usersByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    public function actionAuthorsByQuery($query)
+    {
+        if ($query) {
+            $authors = UserAuthor::authorsList($query);
+            echo $authors;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionModulesByQuery($query)
+    {
+        if ($query) {
+            $modules = Module::allModules($query);
+            echo $modules;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionModulesTitleById()
+    {
+        $id = Yii::app()->request->getPost('moduleId');
+
+        $module = Module::model()->findByPk($id);
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $titleParam = "title_" . $lang;
+        $result["id"] = $id;
+        $result["title"] = $module->$titleParam . " (" . $module->language . ")";
+        echo json_encode($result);
+    }
+
+    public function actionTeacherConsultantsByQuery($query)
+    {
+        echo TeacherConsultant::teacherConsultantsByQuery($query);
+    }
+
+    public function actionConsultantsByQuery($query)
+    {
+        echo Consultant::consultantsByQuery($query);
+    }
+
+    public function actionTeachersByQuery($query)
+    {
+        echo Teacher::teachersByQuery($query);
+    }
 
     public function actionChangeLang()
     {
@@ -205,4 +260,17 @@ class CabinetController extends TeacherCabinetController
         }
         echo $app->session['lg'];
     }
+
+    public function actionModulesListByRole()
+    {
+        $id = Yii::app()->request->getPost('user', '0');
+        $role = Yii::app()->request->getPost('role');
+        if ($id == 0)
+            throw new \application\components\Exceptions\IntItaException(400, "Неправильно вибраний користувач.");
+        $user = RegisteredUser::userById($id);
+
+        $modules = $user->getAttributesByRole(new UserRoles($role))[0];
+        echo json_encode($modules);
+    }
+    
 }

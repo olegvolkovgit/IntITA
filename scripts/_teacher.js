@@ -385,46 +385,6 @@ function loadAgreement(id) {
     load(basePath + "/_teacher/_student/student/agreement/id/" + id, 'Договір');
 }
 
-function cancelTeacherAccess(url, header, redirect, role) {
-    var user = $jq("#user").val();
-    var moduleId = $jq("select[name=modules] option:selected").val();
-
-    if (user == 0) {
-        bootbox.alert("Виберіть викладача.");
-    } else {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                'module': moduleId,
-                'user': user
-            },
-            cache: false,
-            success: function (data) {
-                if (data == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function () {
-                        switch (role) {
-                            case "author":
-                                if (redirect == 'teacherAccess')
-                                    loadAddTeacherAccess(header, '1');
-                                break;
-                            case "consultant":
-                                if (redirect == 'teacherAccess')
-                                    loadAddTeacherAccess(header, '3');
-                                break;
-                        }
-                    });
-                } else {
-                    bootbox.alert("Операцію не вдалося виконати.");
-                }
-            },
-            error: function () {
-                bootbox.alert("Операцію не вдалося виконати.");
-            }
-        });
-    }
-}
-
 function reloadPage(event) {
     if (event.state) {
         var path = history.state.url;
@@ -1335,11 +1295,6 @@ function toEnglish(name) {
         }
     });
     return newName;
-}
-
-
-function loadCancelAuthorModule() {
-    load(basePath + '/_teacher/_admin/permissions/showCancelTeacherAccess/');
 }
 
 function selectTeacherModules(url, teacher) {

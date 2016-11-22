@@ -30,32 +30,3 @@ function translateName(source, id, sourceId) {
 function loadAdminTeachersIndex() {
     load(basePath + '/_teacher/_admin/teachers/index', 'Викладачі');
 }
-
-function setTeacherStatus(url, usersPage) {
-    bootbox.confirm('Змінити статус викладача?', function (result) {
-        if (result) {
-            $jq.ajax({
-                url: url,
-                type: "POST",
-                success: function (response) {
-                    if(response == "success") {
-                        bootbox.confirm("Статус викладача змінено.", function(){
-                            if(usersPage == 'true'){
-                                loadUsersIndex(2);
-                            } else {
-                                loadAdminTeachersIndex();
-                            }
-                        });
-                    } else {
-                        showDialog("Операцію не вдалося виконати.");
-                    }
-                },
-                error:function () {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            });
-        } else {
-            showDialog("Операцію відмінено.");
-        }
-    });
-}

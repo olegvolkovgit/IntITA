@@ -141,7 +141,9 @@ class RegisteredUser
     {
         $roleObj = Role::getInstance($role);
         date_default_timezone_set(Config::getServerTimezone());
-        return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
+        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value)) 
+            return true; 
+        else return $roleObj->getErrorMessage();
     }
 
     public function isAdmin()

@@ -9,8 +9,7 @@
 class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
-        $allowedActions=['setTeacherRoleAttribute','unsetTeacherRoleAttribute'];
-        return Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action ->id,$allowedActions));
+        return Yii::app()->user->model->isAdmin();
     }
 
     protected function performAjaxValidation($model)
@@ -220,11 +219,6 @@ class TeachersController extends TeacherCabinetController{
         ),false,true);
     }
 
-    public function actionGetTeachersAdminList()
-    {
-        echo Teacher::teachersAdminList();
-    }
-
     public function actionChangeTeacherStatus(){
         $user = Yii::app()->request->getPost('user', '0');
         $model = RegisteredUser::userById($user);
@@ -237,16 +231,6 @@ class TeachersController extends TeacherCabinetController{
             }
         } else {
             echo "Неправильний запит. Такого користувача не існує.";
-        }
-    }
-
-    public function actionModulesByQuery($query)
-    {
-        if ($query) {
-            $modules = Module::allModules($query);
-            echo $modules;
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
         }
     }
 
@@ -269,49 +253,7 @@ class TeachersController extends TeacherCabinetController{
             throw new \application\components\Exceptions\IntItaException('400');
         }
     }
-
-    public function actionSetTeacherRoleAttribute()
-    {
-        $request = Yii::app()->request;
-        $userId = $request->getPost('user', 0);
-        $role = $request->getPost('role', '');
-        $attribute = $request->getPost('attribute', '');
-        $value = $request->getPost('attributeValue', 0);
-        $user = RegisteredUser::userById($userId);
-
-        if ($userId && $attribute && $value && $role) {
-            $response=$user->setRoleAttribute(new UserRoles($role), $attribute, $value);
-            if($response===true){
-                echo 'success';
-            } else{
-                echo $response;
-            }
-        } else {
-            echo 'Введені не вірні дані';
-        }
-    }
-
-
-    public function actionUnsetTeacherRoleAttribute()
-    {
-        $request = Yii::app()->request;
-        $userId = $request->getPost('user', 0);
-        $role = $request->getPost('role', '');
-        $attribute = $request->getPost('attribute', '');
-        $value = $request->getPost('attributeValue', 0);
-        $user = RegisteredUser::userById($userId);
-
-        if ($userId && $attribute && $value && $role) {
-            if($user->unsetRoleAttribute(new UserRoles($role), $attribute, $value)){
-                echo "success";
-            } else {
-                echo "error";
-            }
-        } else {
-            echo "error";
-        }
-    }
-
+    
     public function actionShowAttributes()
     {
         $user = Yii::app()->request->getPost('user');

@@ -907,7 +907,7 @@ class Module extends CActiveRecord implements IBillableObject
             $row["title"]["link"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/view", array("id" => $record->module_ID)) . "'";
             $row["title"]["id"] = $record->module_ID;
             $row["cancelled"] = $record->cancelledLabel();
-            $row["addAuthorLink"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/addTeacher", array("id" => $record->module_ID)) . "'";
+            $row["addAuthorLink"] = "'" . Yii::app()->createUrl("/_teacher/_admin/module/addAuthor", array("id" => $record->module_ID)) . "'";
 
             array_push($return['data'], $row);
         }
@@ -1005,8 +1005,16 @@ class Module extends CActiveRecord implements IBillableObject
 
     public function consultants()
     {
-        $sql = 'select u.id, u.firstName, u.middleName, u.secondName, cm.start_time, cm.end_time from consultant_modules cm
+        $sql = 'select u.id, u.firstName, u.middleName, u.secondName, u.email, cm.start_time, cm.end_time from consultant_modules cm
 		 LEFT JOIN user u on u.id=cm.consultant WHERE cm.module=' . $this->module_ID;
+
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
+
+    public function teacherConsultants()
+    {
+        $sql = 'select u.id, u.firstName, u.middleName, u.secondName, u.email, tcm.start_date, tcm.end_date from teacher_consultant_module tcm
+		 LEFT JOIN user u on u.id=tcm.id_teacher WHERE tcm.id_module=' . $this->module_ID;
 
         return Yii::app()->db->createCommand($sql)->queryAll();
     }

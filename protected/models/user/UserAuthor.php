@@ -136,7 +136,7 @@ class UserAuthor extends CActiveRecord
 		$result = [];
 		foreach ($data as $key=>$model) {
 			$result["results"][$key]["id"] = $model->id;
-			$result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+			$result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
 			$result["results"][$key]["email"] = $model->email;
 			$result["results"][$key]["url"] = $model->avatarPath();
 		}

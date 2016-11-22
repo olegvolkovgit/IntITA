@@ -5,7 +5,7 @@ class ContentManagerController extends TeacherCabinetController
 
     public function hasRole()
     {
-        $allowedAdminActions=['getAuthorsList'];
+        $allowedAdminActions=['getAuthorsList','setTeacherRoleAttribute','unsetTeacherRoleAttribute'];
         return Yii::app()->user->model->isContentManager() || (Yii::app()->user->model->isAdmin() && in_array(Yii::app()->controller->action->id,$allowedAdminActions));
     }
 
@@ -48,39 +48,37 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial('/_content_manager/addForms/_addTeacherAccess', array(), false, true);
     }
 
-    public function actionSetTeacherRoleAttribute()
+    public function actionSetTeacherRoleAttribute($userId,$role,$attribute,$attributeValue)
     {
-        $request = Yii::app()->request;
-        $userId = $request->getPost('user', 0);
-        $role = $request->getPost('role', '');
-        $attribute = $request->getPost('attribute', '');
-        $value = $request->getPost('attributeValue', 0);
         $user = RegisteredUser::userById($userId);
-
-        if ($userId && $attribute && $value && $role) {
-            if ($user->setRoleAttribute(new UserRoles($role), $attribute, $value)) {
-                echo "success";
+        $result=array();
+        if ($userId && $attribute && $attributeValue && $role) {
+            $response=$user->setRoleAttribute(new UserRoles($role), $attribute, $attributeValue);
+            if($response===true){
+                $result['data']="success";
             } else {
-                echo "error";
+                $result['data']=$response;
             }
         } else {
-            echo "error";
+            $result['data']='Введені не вірні дані';
         }
+        echo json_encode($result);
     }
-
-    public function actionCancelTeacherPermission()
+    public function actionUnsetTeacherRoleAttribute($userId,$role,$attribute,$attributeValue)
     {
-        $teacher = Yii::app()->request->getPost('user', '0');
-        $module = Yii::app()->request->getPost('module', '0');
-
-        $user = RegisteredUser::userById($teacher);
-        if ($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)) {
-            $permission = new PayModules();
-            $permission->unsetModulePermission($teacher, $module, array('read', 'edit'));
-            echo "success";
+        $user = RegisteredUser::userById($userId);
+        $result=array();
+        if ($userId && $attribute && $attributeValue && $role) {
+            $response=$user->unsetRoleAttribute(new UserRoles($role), $attribute, $attributeValue);
+            if($response===true){
+                $result['data']="success";
+            } else {
+                $result['data']=$response;
+            }
         } else {
-            echo "error";
+            $result['data']='Введені не вірні дані';
         }
+        echo json_encode($result);
     }
 
     public function actionGetTeacherConsultantsList()

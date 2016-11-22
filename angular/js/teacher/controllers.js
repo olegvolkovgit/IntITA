@@ -2,7 +2,7 @@
 
 angular
     .module('teacherApp')
-    .controller('teacherCtrl', teacherCtrl);
+    .controller('cabinetCtrl', cabinetCtrl);
 
 angular
     .module('teacherApp')
@@ -35,10 +35,12 @@ angular
     .module('teacherApp')
     .controller('addRoleCtrl', addRoleCtrl);
 
-function teacherCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope) {
+function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
+    //function back() redirect to prev link
     $rootScope.back = function () {
         window.history.back();
     };
+    
     $scope.currentLanguage=currentLanguage;
     $scope.languages=['ua','en','ru'];
     $scope.changeLang = function (lang) {
@@ -73,29 +75,13 @@ function teacherCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
         $compile(container.html(data))($scope);
     };
 
+    //show information block during some time after some action
     $scope.addUIHandlers = function(msg) {
         holder = angular.element(document.querySelector("#operationMessageHolder"));
         holder.fadeIn();
         holder.html(msg);
         window.setTimeout(function(){ holder.fadeOut(); }, 3000);
     };
-
-    $scope.ediConsult = function (url) {
-        var elemId = document.getElementsByName('id');
-        var id = elemId[0].value;
-        var consult = document.getElementById('consult').value;
-
-        $http({
-            method: "POST",
-            url: url,
-            data: $jq.param({id: id, consult: consult}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            cache: false
-        }).then(function (data) {
-            $scope.fillContainer(data.data);
-            $state.go($state.current, {}, {reload: true});
-        });
-    }
 
     $scope.ngLoad = function (url) {
         $http({
@@ -107,36 +93,14 @@ function teacherCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
             $scope.fillContainer(data.data);
 
         });
-    }
+    };
 
-    $scope.ngLoadDashboard = function (url) {
-        $http({
-            method: "POST",
-            url: url,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            cache: false
-        }).then(function (data) {
-            console.log(url);
-            $scope.fillContainer(data.data);
-        });
-    }
-
-    $scope.loadTeacherPage = function (url, page) {
-        $http({
-            method: "POST",
-            url: url,
-            data: $jq.param({page: page}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            cache: false
-        }).then(function (data) {
-            $scope.fillContainer(data.data);
-        });
-    }
     $scope.changeView = function (view) {
         $location.path(view);
 
     };
 
+    //redirect to module page
     $scope.moduleLink = function (id) {
         $http({
             url: basePath + '/_teacher/_admin/teachers/getModuleLink',
@@ -149,13 +113,45 @@ function teacherCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
             return false;
         });
     };
+    //different typeaheads data
+    var activeUsersTypeaheadUrl = basePath+'/_teacher/cabinet/activeUsersByQuery';
+    var teachersTypeaheadUrl = basePath+'/_teacher/cabinet/teachersByQuery';
+    var moduleTypeaheadUrl = basePath + '/_teacher/cabinet/modulesByQuery';
+    var consultantTypeaheadUrl = basePath + '/_teacher/cabinet/consultantsByQuery';
+    var authorsTypeaheadUrl = basePath+'/_teacher/cabinet/authorsByQuery';
+    var teachersConsultantTypeaheadUrl = basePath+'/_teacher/cabinet/teacherConsultantsByQuery';
+    var usersTypeaheadUrl = basePath+'/_teacher/cabinet/usersByQuery';
+    var coursesTypeaheadUrl = basePath+'/_teacher/_admin/pay/coursesByQuery'
 
+    $scope.getActiveUsers = function(value){
+        return typeAhead.getData(activeUsersTypeaheadUrl,{query : value})
+    };
+    $scope.getTeachers = function(value){
+        return typeAhead.getData(teachersTypeaheadUrl,{query : value})
+    };
+    $scope.getAuthors = function(value) {
+        return typeAhead.getData(authorsTypeaheadUrl,{query : value})
+    };
+    $scope.getTeachersConsultant = function(value) {
+        return typeAhead.getData(teachersConsultantTypeaheadUrl,{query : value})
+    };
+    $scope.getModules = function(value){
+        return typeAhead.getData(moduleTypeaheadUrl,{query : value});
+    };
+    $scope.getConsultants = function(value){
+        return typeAhead.getData(consultantTypeaheadUrl,{query : value});
+    };
+    $scope.getUsers = function(value){
+        return typeAhead.getData(usersTypeaheadUrl,{query : value});
+    };
+    $scope.getCourses = function(value){
+        return typeAhead.getData(coursesTypeaheadUrl,{query : value});
+    };
 }
 
-function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter,$element) {
+function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter) {
 
     $scope.checkboxes = { 'checked': false, items: {} };
-
 
     // watch for check all checkbox
     $scope.$watch('checkboxes.checkAll', function() {
@@ -177,16 +173,14 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
         else if ($scope.deleteReceivedMessages.length == 0){
             angular.element(document.querySelector("#select_all")).prop('indeterminate',false)
         }
-
     }, true);
 
-       $scope.$watch('dt',function(){
+    $scope.$watch('dt',function(){
         if ($scope.dt)
             $scope.params.filter()['message.create_date'] = $filter("shortDate")($scope.dt,'yyyy-MM-dd')
     });
 
-
-        $scope.receivedMessagesTable = new NgTableParams({
+    $scope.receivedMessagesTable = new NgTableParams({
         sorting: { 'message.create_date': "desc"},
     }, {
         getData: function (params) {
@@ -396,9 +390,6 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
 }
 
 function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
-    
-    
-
     $scope.countriesTable = new NgTableParams({},
     {
         getData: function (params) {
@@ -417,23 +408,8 @@ function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
                     return data.rows;
                 });
             }
-        });
-    
-    // $http.get(basePath + "/_teacher/_admin/address/getCitiesList").then(function (data) {
-    //     $scope.citiesList = data.data["data"];
-    // });
-    // $scope.dtOptionsCity = DTOptionsBuilder.newOptions()
-    //     .withPaginationType('simple_numbers')
-    //     .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
-    //     .withOption('order', [[0, "asc"]]);
-    //
-    // $http.get(basePath + "/_teacher/_admin/address/getCountriesList").then(function (data) {
-    //     $scope.countriesList = data.data["data"];
-    // });
-    // $scope.dtOptionsCountry = DTOptionsBuilder.newOptions()
-    //     .withPaginationType('simple_numbers')
-    //     .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
-    //     .withOption('order', [[0, "asc"]]);
+        }
+    );
 
     $scope.editCity = function (url) {
         country = $jq('#country').val();
@@ -645,47 +621,6 @@ function teachersCtrl($scope, $http, $state, $stateParams) {
         }
     };
 
-    $scope.cancelModuleAttr = function (url, id, attr, role, user) {
-        if (!user) {
-            user = $jq('#user').val();
-        }
-        if (!role) {
-            role = $jq('#role').val();
-        }
-        if (user && role) {
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                if (response.data == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function () {
-                        $scope.loadTeacherData();
-                    });
-                } else {
-                    showDialog("Операцію не вдалося виконати.");
-                }
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    };
-
-    $scope.moduleLink = function (id) {
-        $http({
-            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
-            method: "POST",
-            data: $jq.param({id: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            window.open(response.data);
-        }, function errorCallback() {
-            return false;
-        });
-    };
-
     $scope.cancelUserRole=function (url, role, user) {
         bootbox.confirm("Скасувати роль?", function (response) {
             if (response) {
@@ -725,19 +660,6 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
         .withPaginationType('simple_numbers')
         .withLanguageSource('//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json')
         .withOption('order', [[2, 'desc']]);
-
-    $scope.moduleLink = function (id) {
-        $http({
-            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
-            method: "POST",
-            data: $jq.param({id: id}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            window.open(response.data);
-        }, function errorCallback() {
-            return false;
-        });
-    };
 
     $scope.setTeacherRole = function (url) {
         var role = $jq("select[name=role] option:selected").val();
@@ -797,34 +719,6 @@ function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherSer
                             bootbox.alert("Операцію не вдалося виконати");
                             break;
                     }
-                }
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    };
-
-    $scope.cancelModuleAttr = function (url, id, attr, role, user) {
-        if (!user) {
-            user = $jq('#user').val();
-        }
-        if (!role) {
-            role = $jq('#role').val();
-        }
-        if (user && role) {
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: id}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                if (response.data == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function () {
-                        $scope.loadTeacherData();
-                    });
-                } else {
-                    showDialog("Операцію не вдалося виконати.");
                 }
             }, function errorCallback() {
                 bootbox.alert("Операцію не вдалося виконати.");

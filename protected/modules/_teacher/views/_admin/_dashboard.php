@@ -87,8 +87,6 @@
                 <ul>
                     <li><a href="#/admin/freelectures">Безкоштовні заняття</a>
                     </li>
-                    <li><a href="#/admin/permissions">Права доступа</a>
-                    </li>
                     <li><a href="#admin/pay">Сплатити курс/модуль</a>
                     </li>
                     <li><a href="#/admin/cancel">Скасувати курс/модуль</a>
@@ -147,6 +145,25 @@
         </div>
     </div>
     <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
+
+    <div class="col-lg-4">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                Атрибути ролей
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#/admin/authorAttributes">Призначити/скасувати модулі автора контента</a>
+                    </li>
+                    <li><a href="#/admin/teacherAttributes">Призначити/скасувати модулі викладача</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Призначення/скасування модулів по ролях</em>
+            </div>
+        </div>
+    </div>
 </div>
 
 
