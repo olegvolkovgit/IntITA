@@ -1051,6 +1051,9 @@ class StudentReg extends CActiveRecord
         foreach ($data as $key => $model) {
             if ($model->id != $id) {
                 $result["results"][$key]["id"] = $model->id;
+                $result["results"][$key]["firstName"] = $model->firstName;
+                $result["results"][$key]["middleName"] = $model->middleName;
+                $result["results"][$key]["secondName"] = $model->secondName;
                 $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
                 $result["results"][$key]["email"] = $model->email;
                 $result["results"][$key]["url"] = $model->avatarPath();
@@ -1356,6 +1359,32 @@ class StudentReg extends CActiveRecord
         $users = StudentReg::model()->findAll($criteria);
 
         return count($users);
+    }
+
+    public static function usersNotTeacherByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->alias = "s";
+        $criteria->join = 'left join teacher t on t.user_id=s.id';
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and t.user_id IS NULL');
+        $data = StudentReg::model()->findAll($criteria);
+        $result = array();
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["firstName"] = ($model->firstName) ? $model->firstName : "";
+            $result["results"][$key]["lastName"] = ($model->secondName) ? $model->secondName : "";
+            $result["results"][$key]["middleName"] = ($model->middleName) ? $model->middleName : "";
+            $result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["tel"] = $model->phone;
+            $result["results"][$key]["skype"] = $model->skype;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
     }
 
     public static function currentCountryCity(){

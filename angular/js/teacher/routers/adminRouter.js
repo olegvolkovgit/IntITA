@@ -174,34 +174,34 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         
-        .state('admin/users/teacher/:id', {
-            url: "/admin/users/teacher/:id",
-            cache: false,
-            controller:"teachersCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
-            }
-        })
+        // .state('admin/users/teacher/:id', {
+        //     url: "/admin/users/teacher/:id",
+        //     cache: false,
+        //     controller:"teachersCtrl",
+        //     templateUrl: function ($stateParams) {
+        //         return basePath+"/_teacher/_admin/teachers/showTeacher?id="+$stateParams.id;
+        //     }
+        // })
         .state('admin/users/teacher/update/:id', {
             url: "/admin/users/teacher/update/:id",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/update/?id="+$stateParams.id;
+                return basePath+"/_teacher/_admin/teachers/updateForm/?id="+$stateParams.id;
             }
         })
         .state('admin/teacher/create', {
             url: "/admin/teacher/create",
             cache: false,
-            templateUrl: basePath+"/_teacher/_admin/teachers/create",
+            templateUrl: basePath+"/_teacher/_admin/teachers/createForm",
         })
-        .state('admin/teacher/addTeacherRol/:id', {
-            url: "/admin/teacher/addTeacherRole/:id",
-            cache: false,
-            controller: "teachersCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/teachers/addTeacherRole/?id="+$stateParams.id;
-            }
-        })
+        // .state('admin/teacher/addTeacherRol/:id', {
+        //     url: "/admin/teacher/addTeacherRole/:id",
+        //     cache: false,
+        //     controller: "teachersCtrl",
+        //     templateUrl: function ($stateParams) {
+        //         return basePath+"/_teacher/_admin/teachers/addTeacherRole/?id="+$stateParams.id;
+        //     }
+        // })
         .state('admin/teacher/:id/editRole/role/:role', {
             url: "/admin/teacher/:id/editRole/role/:role",
             cache: false,

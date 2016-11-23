@@ -7,28 +7,26 @@
  */
 ?>
 <div ng-controller="moduleManageCtrl">
-    <div class="row">
-        <ul class="list-inline">
-            <li>
-                <button type="button" class="btn btn-primary" ng-click="changeView('modulemanage')">
-                    Список модулів
-                </button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-primary" ng-click="changeView('module/edit/<?=$model->module_ID?>')">Редагувати модуль</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-success" ng-click="changeView('module/addAuthor/<?= $model->module_ID ?>')">
-                    Призначити автора контента
-                </button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-success" ng-click="changeView('module/addTeacherConsultant/<?= $model->module_ID ?>')">
-                    Призначити викладача
-                </button>
-            </li>
-        </ul>
-    </div>
+    <ul class="list-inline">
+        <li>
+            <button type="button" class="btn btn-primary" ng-click="changeView('modulemanage')">
+                Список модулів
+            </button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-primary" ng-click="changeView('module/edit/<?=$model->module_ID?>')">Редагувати модуль</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-success" ng-click="changeView('module/addAuthor/<?= $model->module_ID ?>')">
+                Призначити автора контента
+            </button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-success" ng-click="changeView('module/addTeacherConsultant/<?= $model->module_ID ?>')">
+                Призначити викладача
+            </button>
+        </li>
+    </ul>
 
     <div class="panel panel-default">
         <div class="panel-body">

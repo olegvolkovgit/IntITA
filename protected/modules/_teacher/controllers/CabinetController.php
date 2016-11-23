@@ -224,7 +224,17 @@ class CabinetController extends TeacherCabinetController
     {
         echo Teacher::teachersByQuery($query);
     }
-
+    
+    public function actionUsersNotTeacherByQuery($query)
+    {
+        if ($query) {
+            $users = StudentReg::usersNotTeacherByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    
     public function actionChangeLang()
     {
         $new_lang = $_GET['lg'];

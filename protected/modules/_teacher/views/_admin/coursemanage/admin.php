@@ -3,7 +3,7 @@
         <button type="button" class="btn btn-primary" ng-click="changeView('admin/addcourse')"><?php echo Yii::t("coursemanage", "0511"); ?></button>
     </li>
 </ul>
-<div class="panel panel-default" ng-controller="coursemanageCtrl">
+<div class="panel panel-default" ng-controller="coursesTableCtrl">
     <div class="panel-body">
         <div class="dataTable_wrapper">
             <table ng-table="courseTable" class="table table-striped table-bordered table-hover" style="width:100%">

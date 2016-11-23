@@ -264,13 +264,4 @@ class ModuleController extends TeacherCabinetController
             echo "false";
         }
     }
-
-    public function actionAddConsultantModule($idModule)
-    {
-        $module = Module::model()->findByPk($idModule);
-
-        $this->renderPartial('/_admin/module/_consultantModule', array(
-            'module' => $module,
-        ), false, true);
-    }
 }

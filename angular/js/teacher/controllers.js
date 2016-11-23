@@ -22,11 +22,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('teachersCtrl', teachersCtrl);
-
-
-angular
-    .module('teacherApp')
     .controller('moduleAddTeacherCtrl', moduleAddTeacherCtrl);
 angular
     .module('teacherApp')
@@ -121,7 +116,8 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     var authorsTypeaheadUrl = basePath+'/_teacher/cabinet/authorsByQuery';
     var teachersConsultantTypeaheadUrl = basePath+'/_teacher/cabinet/teacherConsultantsByQuery';
     var usersTypeaheadUrl = basePath+'/_teacher/cabinet/usersByQuery';
-    var coursesTypeaheadUrl = basePath+'/_teacher/_admin/pay/coursesByQuery'
+    var coursesTypeaheadUrl = basePath+'/_teacher/_admin/pay/coursesByQuery';
+    var usersNotTeacherTypeaheadUrl = basePath+'/_teacher/cabinet/usersNotTeacherByQuery';
 
     $scope.getActiveUsers = function(value){
         return typeAhead.getData(activeUsersTypeaheadUrl,{query : value})
@@ -146,6 +142,9 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     };
     $scope.getCourses = function(value){
         return typeAhead.getData(coursesTypeaheadUrl,{query : value});
+    };
+    $scope.getUsersNotTeacher = function(value){
+        return typeAhead.getData(usersNotTeacherTypeaheadUrl,{query : value});
     };
 }
 
@@ -523,122 +522,6 @@ function moduleAddTeacherCtrl($scope) {
     $jq('#typeahead').on('typeahead:selected', function (e, item) {
         $jq("#user").val(item.id);
     });
-}
-
-function teachersCtrl($scope, $http, $state, $stateParams) {
-    $scope.loadTeacherData = function () {
-        $http.get(basePath + "/_teacher/_admin/teachers/loadJsonTeacherModel/g?id=" + $stateParams.id).then(function (response) {
-            $scope.data = response.data;
-        });
-    };
-    $scope.loadTeacherData();
-
-    $scope.changeUserStatus = function (url, user, message) {
-        bootbox.confirm(message, function (response) {
-            if (response) {
-                $http({
-                    method: 'POST',
-                    url: url,
-                    data: $jq.param({user: user}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).then(function successCallback(response) {
-                    bootbox.confirm(response.data, function () {
-                        $scope.loadTeacherData();
-                    });
-                }, function errorCallback() {
-                    bootbox.alert("Операцію не вдалося виконати");
-                });
-            }
-        });
-    };
-
-    $scope.setTeacherRole = function (url) {
-        var role = $scope.selectedRole;
-        var teacher = $jq("#teacher").val();
-        if (typeof role == 'undefined') {
-            bootbox.alert('Роль не вибрана');
-            return;
-        }
-        $http({
-            method: "POST",
-            url: url,
-            data: $jq.param({role: role, teacher: teacher}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            cache: false
-        }).then(function successCallback(response) {
-            bootbox.confirm(response.data, function () {
-                $scope.loadTeacherData();
-            });
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати.");
-        });
-    };
-
-    $scope.addTeacherAttr = function (url, attr, id, role) {
-        user = $jq('#user').val();
-        if (!role) {
-            role = $jq('#role').val();
-        }
-        var value = $jq(id).val();
-
-        if (value == 0) {
-            bootbox.alert('Введіть дані форми.');
-        }
-        if (parseInt(user && value)) {
-            $http({
-                method: "POST",
-                url: url,
-                data: $jq.param({user: user, role: role, attribute: attr, attributeValue: value}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-                cache: false
-            }).then(function successCallback(response) {
-                if (response.data == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function () {
-                        $scope.loadTeacherData();
-                    });
-                } else {
-                    switch (role) {
-                        case "trainer":
-                            bootbox.alert(response.data);
-                            break;
-                        case "author":
-                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
-                            break;
-                        case "consultant":
-                            bootbox.alert("Консультанту вже призначений даний модуль для консультацій");
-                            break;
-                        case "teacher_consultant":
-                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
-                            break;
-                        default:
-                            bootbox.alert("Операцію не вдалося виконати");
-                            break;
-                    }
-                }
-            }, function errorCallback() {
-                bootbox.alert("Операцію не вдалося виконати.");
-            });
-        }
-    };
-
-    $scope.cancelUserRole=function (url, role, user) {
-        bootbox.confirm("Скасувати роль?", function (response) {
-            if (response) {
-                $http({
-                    method: 'POST',
-                    url: url,
-                    data: $jq.param({role: role, user: user}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).then(function successCallback(response) {
-                    bootbox.alert(response.data, function () {
-                        $scope.loadTeacherData();
-                    });
-                }, function errorCallback() {
-                    bootbox.alert("Операцію не вдалося виконати");
-                });
-            }
-        });
-    };
 }
 
 function editTeacherRoleCtrl($scope, $http, $state, DTOptionsBuilder, teacherService, $stateParams) {

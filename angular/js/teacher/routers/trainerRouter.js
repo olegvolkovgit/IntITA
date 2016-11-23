@@ -57,7 +57,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Призначити модуль консультанту');
             },
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_admin/module/addConsultantModule/idModule/" + $stateParams.idModule;
+                return basePath + "/_teacher/_admin/module/addTeacherConsultant/idModule/" + $stateParams.idModule;
             }
         })
 

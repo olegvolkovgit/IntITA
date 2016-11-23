@@ -166,6 +166,16 @@ class Teacher extends CActiveRecord
         return 'user_id';
     }
 
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $key=>$attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return implode(", ", $errors);
+    }
+
     public static function setAverageTeacherRatings($teacherId, $responsesIdList)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => $teacherId));

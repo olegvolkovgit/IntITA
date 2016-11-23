@@ -3,7 +3,6 @@ angular
     .controller('usersCtrl',usersCtrl)
     .controller('usersTableCtrl',usersTableCtrl)
     .controller('studentsTableCtrl',studentsTableCtrl)
-    .controller('teachersTableCtrl',teachersTableCtrl)
     .controller('withoutRolesTableCtrl',withoutRolesTableCtrl)
     .controller('adminsTableCtrl',adminsTableCtrl)
     .controller('accountantsTableCtrl',accountantsTableCtrl)
@@ -114,43 +113,6 @@ function offlineStudentsTableCtrl ($scope, usersService, NgTableParams){
     });
 }
 
-function teachersTableCtrl ($http, $scope, usersService, NgTableParams){
-    $scope.teachersTableParams = new NgTableParams({}, {
-        getData: function (params) {
-            return usersService
-                .teachersList(params.url())
-                .$promise
-                .then(function (data) {
-                    params.total(data.count);
-                    return data.rows;
-                });
-        }
-    });
-    
-    
-    $scope.setTeacherStatus= function(isPrint, id) {
-        bootbox.confirm('Змінити статус викладача?', function (result) {
-            if (result) {
-                if(isPrint==1) var url=basePath+'/_teacher/_admin/teachers/delete/id/'+id;
-                else var url=basePath+'/_teacher/_admin/teachers/restore/id/'+id;
-                $http({
-                    method: 'POST',
-                    url: url,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).then(function successCallback(response) {
-                    if (response.data == "success") {
-                        $scope.teachersTableParams.reload();
-                        bootbox.alert("Статус викладача змінено.");
-                    } else {
-                        bootbox.alert("Операцію не вдалося виконати.");
-                    }
-                }, function errorCallback() {
-                    bootbox.alert("Виникла помилка");
-                });
-            }
-        });
-    }
-}
 function withoutRolesTableCtrl ($scope, usersService, NgTableParams){
     $scope.withoutRolesTableParams = new NgTableParams({}, {
         getData: function (params) {

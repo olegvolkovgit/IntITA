@@ -3,8 +3,8 @@
         <a type="button" class="btn btn-primary" ng-href="#/admin/teachers">Співробітники</a>
     </li>
     <li>
-        <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/{{data.user.id}}">
-            Переглянути інформацію про співробітника
+        <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">
+            Переглянути інформацію про користувача
         </a>
     </li>
 </ul>
