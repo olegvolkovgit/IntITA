@@ -5,7 +5,12 @@ angular
     .module('teacherApp')
     .controller('mailTemplatesCtrl', mailTemplatesCtrl);
 
-function mailTemplatesCtrl($scope, $http, $resource, $state, NgTableParams, $stateParams) {
+function mailTemplatesCtrl($scope, $http, $resource, $state, NgTableParams, $stateParams,$ngBootbox) {
+
+    $scope.loadMailTemplate = function (item) {
+        $scope.$emit('mailTemplateSelected', item);
+        $ngBootbox.hideAll();
+    };
 
     $scope.editorOptions = {
         language: 'uk-ua',

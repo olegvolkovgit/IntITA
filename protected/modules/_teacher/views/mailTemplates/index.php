@@ -13,7 +13,7 @@
 							<td data-title="'ID'" style="width: ">{{row.id}}</td>
 							<td data-title="'Назва шаблону'">{{row.title}}</a></td>
 							<td data-title="'Тема повідомлення'">{{row.subject}}</a></td>
-							<td data-title="'Текст повідомлення'"><div ng-bind-html="row.text"></div></td>
+							<td data-title="'Текст повідомлення'" style="text-overflow: ellipsis"><div ng-bind-html="row.text"></div></td>
 							<td data-title="'Активний'"><span ng-show="row.active">Активний</span>
 														<span ng-show="!row.active">Не активний</span></td>
 							<td><span><button class="btn btn-info" ng-click="changeView('newsletter/template/view/'+row.id)"><i class="glyphicon glyphicon-eye-open"></i></button>

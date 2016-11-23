@@ -14,14 +14,19 @@ angular
     .filter('usersSearchFilter', function($sce) {
         return function(label, query, item, options, element) {
 
-            var html = item.name +"<span class=\"close select-search-list-item_selection-remove\">×</span>";
+            var html= item.name + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
 
             return $sce.trustAsHtml(html);
         };
     })
 ;
 
-function newsletterCtrl($scope, $http, $resource, $state) {
+function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
+
+    $rootScope.$on('mailTemplateSelected', function (event, data) {
+        $scope.subject = data.subject;
+        $scope.message = data.text;
+    });
 
     $scope.editorOptions = {
         language: 'uk-ua',
