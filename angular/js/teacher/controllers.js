@@ -36,6 +36,8 @@ angular
     .controller('addRoleCtrl', addRoleCtrl);
 
 function teacherCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope) {
+
+
     $rootScope.back = function () {
         window.history.back();
     };

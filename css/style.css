@@ -121,6 +121,7 @@ div#exhaust{display:none;width:45%;position:absolute;z-index:2000;}
 .emptyTd{display: none}
 .dateInput{margin-bottom:0px}
 .dateFilter {display:block; z-index: 400; position: absolute; min-height:290px;right:55px}
+.mailTemplate > .modal-dialog {width: 80% !important;}
 #hamburgerMini{display:none}
 #emailVerification-form {
     margin: 50px auto;
