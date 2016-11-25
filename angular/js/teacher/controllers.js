@@ -91,7 +91,6 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
         $location.path(view);
 
     };
-
     //redirect to module page
     $scope.moduleLink = function (id) {
         $http({
