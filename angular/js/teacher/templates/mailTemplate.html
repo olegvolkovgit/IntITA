@@ -1,0 +1,17 @@
+<div class="panel panel-default" ng-controller="mailTemplatesCtrl">
+    <div class="panel-body" >
+        <div class="dataTable_wrapper">
+            <table ng-table="mailTemplatesTable"  class="table table-striped table-bordered table-hover" style="table-layout: fixed">
+                <colgroup>
+                    <col width="8%"/>
+                </colgroup>
+                <tr ng-repeat="row in $data" ng-click="loadMailTemplate(row)" style="cursor: pointer;">
+                    <td data-title="'ID'" >{{row.id}}</td>
+                    <td data-title="'Назва шаблону'">{{row.title}}</a></td>
+                    <td data-title="'Тема повідомлення'">{{row.subject}}</a></td>
+                    <td data-title="'Текст повідомлення'" style="text-overflow: ellipsis"><div ng-bind-html="row.text"></div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

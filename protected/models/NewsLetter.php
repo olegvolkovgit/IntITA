@@ -8,7 +8,6 @@
  */
 class NewsLetter
 {
-    const numberRecipients = 10;
     /**
      * Type of newsletter
      * type strig
@@ -44,9 +43,8 @@ class NewsLetter
      */
     public function startSend()
     {
-        $recipientsArray = array_chunk($this->getMailList(),$this::numberRecipients);
-        foreach ($recipientsArray as $item){
-            $this->sendMail(implode(',',$item));
+        foreach ($this->getMailList() as $item){
+            $this->sendMail($item);
         }
     }
 

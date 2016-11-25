@@ -58,6 +58,7 @@ return array(
                 'ext.giix-core', // giix generators
             ),
             'password' => 'admin',
+            'ipFilters' => ['127.0.0.1','10.0.0.1','localhost']
         ),
         '_admin',
         '_teacher',
