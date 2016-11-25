@@ -69,6 +69,4 @@ function freelecturesCtrl ($scope, $resource, NgTableParams,$state, $http){
               bootbox.alert('Операцію відмінено');
       })
     };
-
-    //initFreeLectures();
 }

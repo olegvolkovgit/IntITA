@@ -97,6 +97,7 @@ class Author extends Role
                 }
                 break;
             default:
+                $this->errorMessage="Виконати операцію не вдалося";
                 return false;
         }
     }
@@ -139,10 +140,13 @@ class Author extends Role
                         array(Module::model()->findByPk($value)),
                         'Скасовано модуль для редагування');
                     return true;
+                }else{
+                    $this->errorMessage="Скасувати модуль не вдалося";
+                    return false;
                 }
-                return false;
                 break;
             default:
+                $this->errorMessage="Виконати операцію не вдалося";
                 return false;
         }
     }

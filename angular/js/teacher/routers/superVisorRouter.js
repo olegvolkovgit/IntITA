@@ -11,7 +11,7 @@ config(function ($stateProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Supervisor');
             },
-            templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=super_visor",
+            templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=supervisor",
         })
         .state('supervisor/offlineGroups', {
             url: "/supervisor/offlineGroups",
@@ -19,14 +19,14 @@ config(function ($stateProvider) {
             controller: function ($scope) {
                 $scope.changePageHeader('Офлайнові групи');
             },
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineGroups",
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/offlineGroups",
         })
         .state('supervisor/offlineGroup/:id', {
             url: "/supervisor/offlineGroup/:id",
             cache: false,
             controller: 'offlineGroupCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/offlineGroup/?id=" + $stateParams.id
+                return basePath + "/_teacher/_supervisor/superVisor/offlineGroup/?id=" + $stateParams.id
             }
         })
         .state('supervisor/offlineSubgroups', {
@@ -35,52 +35,52 @@ config(function ($stateProvider) {
             controller: function ($scope) {
                 $scope.changePageHeader('Офлайнові підгрупи');
             },
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineSubgroups",
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/offlineSubgroups",
         })
         .state('supervisor/offlineStudents', {
             url: "/supervisor/offlineStudents",
             cache: false,
             controller: 'offlineStudentsSVTableCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/offlineStudents",
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/offlineStudents",
         })
         .state('supervisor/studentsWithoutGroup', {
             url: "/supervisor/studentsWithoutGroup",
             cache: false,
             controller: 'studentsWithoutGroupSVTableCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/studentsWithoutGroup",
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/studentsWithoutGroup",
         })
         .state('supervisor/specializations', {
             url: "/supervisor/specializations",
             cache: false,
             controller: 'specializationsTableCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/specializations",
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/specializations",
         })
         .state('supervisor/specialization/update/:id', {
             url: "/supervisor/specialization/update/:id",
             cache: false,
             controller: 'specializationCtrl',
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_super_visor/superVisor/specializationUpdate/id/"+$stateParams.id;
+                return basePath+"/_teacher/_supervisor/superVisor/specializationUpdate/id/"+$stateParams.id;
             }
         })
         .state('supervisor/createSpecialization', {
             url: "/supervisor/createSpecialization",
             cache: false,
             controller: 'specializationsTableCtrl',
-            templateUrl: basePath+"/_teacher/_super_visor/superVisor/specializationCreate"
+            templateUrl: basePath+"/_teacher/_supervisor/superVisor/specializationCreate"
         })
         .state('supervisor/userProfile/:id', {
             url: "/supervisor/userProfile/:id",
             cache: false,
             controller: 'offlineStudentProfileCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/userProfile"
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/userProfile"
         })
         .state('supervisor/student/:id/changetrainer', {
             url: "/supervisor/student/:id/changetrainer",
             cache: false,
             controller: 'offlineStudentProfileCtrl',
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_super_visor/superVisor/changeTrainer/id/"+$stateParams.id;
+                return basePath+"/_teacher/_supervisor/superVisor/changeTrainer/id/"+$stateParams.id;
             }
         })
         .state('supervisor/student/:id/addtrainer', {
@@ -88,21 +88,21 @@ config(function ($stateProvider) {
             cache: false,
             controller: 'offlineStudentProfileCtrl',
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_super_visor/superVisor/addTrainer/id/"+$stateParams.id;
+                return basePath+"/_teacher/_supervisor/superVisor/addTrainer/id/"+$stateParams.id;
             }
         })
         .state('supervisor/addOfflineGroup', {
             url: "/supervisor/addOfflineGroup",
             cache: false,
             controller: 'offlineGroupCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/addNewOfflineGroupForm",
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/addNewOfflineGroupForm",
         })
         .state('supervisor/editOfflineGroup/:id', {
             url: "/supervisor/editOfflineGroup/:id",
             cache: false,
             controller: 'offlineGroupCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/editOfflineGroupForm/?id=" + $stateParams.id
+                return basePath + "/_teacher/_supervisor/superVisor/editOfflineGroupForm/?id=" + $stateParams.id
             }
         })
         .state('supervisor/offlineSubgroup/:id', {
@@ -110,21 +110,21 @@ config(function ($stateProvider) {
             cache: false,
             controller: 'offlineSubgroupCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/offlineSubgroup/?id=" + $stateParams.id
+                return basePath + "/_teacher/_supervisor/superVisor/offlineSubgroup/?id=" + $stateParams.id
             }
         })
         .state('supervisor/group/:groupId/addOfflineSubgroup', {
             url: "/supervisor/group/:groupId/addOfflineSubgroup",
             cache: false,
             controller: 'offlineSubgroupCtrl',
-            templateUrl: basePath + "/_teacher/_super_visor/superVisor/addSubgroupForm"
+            templateUrl: basePath + "/_teacher/_supervisor/superVisor/addSubgroupForm"
         })
         .state('supervisor/editSubgroup/:id', {
             url: "/supervisor/editSubgroup/:id",
             cache: false,
             controller: 'offlineSubgroupCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/editSubgroupForm/?id=" + $stateParams.id
+                return basePath + "/_teacher/_supervisor/superVisor/editSubgroupForm/?id=" + $stateParams.id
             }
         })
         .state('supervisor/addStudentToSubgroup/:id', {
@@ -132,7 +132,7 @@ config(function ($stateProvider) {
             cache: false,
             controller: 'offlineStudentProfileCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/addOfflineStudent/?id=" + $stateParams.id
+                return basePath + "/_teacher/_supervisor/superVisor/addOfflineStudent/?id=" + $stateParams.id
             }
         })
         .state('supervisor/editOfflineStudent/:idOfflineStudentModel', {
@@ -140,19 +140,19 @@ config(function ($stateProvider) {
             cache: false,
             controller: 'updateOfflineStudentCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_super_visor/superVisor/editOfflineStudent/?id=" + $stateParams.idOfflineStudentModel
+                return basePath + "/_teacher/_supervisor/superVisor/editOfflineStudent/?id=" + $stateParams.idOfflineStudentModel
             }
         })
         .state('supervisor/users', {
             url: "/supervisor/users",
             cache: false,
             controller: 'usersSVTableCtrl',
-            templateUrl: basePath+"/_teacher/_super_visor/superVisor/users",
+            templateUrl: basePath+"/_teacher/_supervisor/superVisor/users",
         })
         .state('supervisor/students', {
             url: "/supervisor/students",
             cache: false,
             controller: 'studentsSVTableCtrl',
-            templateUrl: basePath+"/_teacher/_super_visor/superVisor/students",
+            templateUrl: basePath+"/_teacher/_supervisor/superVisor/students",
         })
 });

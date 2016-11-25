@@ -41,9 +41,13 @@
             <?php } else { ?>
                 <div class="form-group">
                     <label>
-                        <strong>Викладач-консультант:</strong>
+                        <strong>Викладач:</strong>
                     </label>
-                    <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="виберіть викладача" uib-typeahead="item.email for item in getTeachers($viewValue,'<?= $module->module_ID; ?>') | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <input type="text" size="135" ng-model="teacherSelected"
+                           ng-model-options="{ debounce: 1000 }" placeholder="виберіть викладача"
+                           uib-typeahead="item.email for item in getTeacherConsultantsByQueryAndModule($viewValue,'<?= $module->module_ID; ?>') | limitTo : 10"
+                           typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html"
+                           typeahead-on-select="onSelect($item)" class="form-control" />
                     <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResultsConsultant">
                         <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено
@@ -71,17 +75,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/ng-template" id="customTemplate.html">
-    <a>
-        <div class="typeahead_wrapper  tt-selectable">
-            <img class="typeahead_photo" ng-src="{{match.model.url}}" width="36">
-            <div class="typeahead_labels">
-                <div ng-bind="match.model.name" class="typeahead_primary"></div>
-                <div ng-bind="match.model.email" class="typeahead_secondary"></div>
-            </div>
-        </div>
-
-
-    </a>
-</script>

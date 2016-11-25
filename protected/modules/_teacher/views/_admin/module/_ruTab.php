@@ -6,7 +6,7 @@
 <table class="table table-hover">
     <tbody>
     <tr>
-        <td width="30%">Назва (рус.) *:</td>
+        <td width="30%">Назва (рос.):</td>
         <td><?= CHtml::encode($model->title_ru); ?></td>
     </tr>
     </tbody>

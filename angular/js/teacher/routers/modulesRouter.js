@@ -13,13 +13,6 @@ config(function ($stateProvider) {
             },
             templateUrl: basePath+"/_teacher/_admin/module/index",
         })
-        .state('module/addTeacher/id/:id', {
-            url: "/module/addTeacher/id/:id",
-            cache: false,
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/module/addTeacher/id/"+$stateParams.id;
-            }
-        })
         .state('module/mandatory/id/:moduleId/course/:courseId', {
             url: "/module/mandatory/id/:moduleId/course/:courseId",
             cache: false,
@@ -47,18 +40,18 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/module/update?id="+$stateParams.moduleId;
             }
         })
-        .state('module/addAuchtor/:moduleId', {
-            url: "/module/addAuchtor/:moduleId",
+        .state('module/addAuthor/:moduleId', {
+            url: "/module/addAuthor/:moduleId",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/module/addTeacher/id/"+$stateParams.moduleId;
+                return basePath+"/_teacher/_admin/module/addAuthor/id/"+$stateParams.moduleId;
             }
         })
-        .state('module/addConsultant/:moduleId', {
-            url: "/module/addConsultant/:moduleId",
+        .state('module/addTeacherConsultant/:moduleId', {
+            url: "/module/addTeacherConsultant/:moduleId",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/module/addConsultant/id/"+$stateParams.moduleId;
+                return basePath+"/_teacher/_admin/module/addTeacherConsultant/id/"+$stateParams.moduleId;
             }
         })
         .state('module/create', {

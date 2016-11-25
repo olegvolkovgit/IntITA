@@ -11,7 +11,7 @@ class TeacherRolesDataSource implements IRolesDataSource
             UserRoles::ADMIN,
             UserRoles::ACCOUNTANT,
             UserRoles::AUTHOR,
-            UserRoles::CONSULTANT,
+//            UserRoles::CONSULTANT,
             UserRoles::CONTENT_MANAGER,
             UserRoles::TEACHER_CONSULTANT,
             UserRoles::TRAINER,

@@ -8,25 +8,7 @@
  */
 $user = $model->registrationData;
 ?>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <?php if (Yii::app()->user->model->isAdmin()) { ?>
-            <ul class="list-inline">
-                <li>
-                    <a type="button" class="btn btn-primary" ng-href="#/admin/users">
-                        Користувачі
-                    </a>
-                </li>
-                <li ng-if="data.teacher">
-                    <a type="button" class="btn btn-primary" ng-href="#/admin/users/teacher/update/{{data.user.id}}">Редагувати</a>
-                </li>
-                <li ng-if="data.teacher">
-                    <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/{{data.user.id}}/editRole/role/author">Додати модуль</a>
-                </li>
-            </ul>
-        <?php } ?>
-    </div>
-
+<div class="panel panel-default" ng-cloak>
     <div class="row">
         <div class="col-md-3">
             <img src="<?php echo StaticFilesHelper::createPath('image', 'avatars', $user->avatar); ?>"
@@ -45,8 +27,8 @@ $user = $model->registrationData;
                     {{data.teacher.last_name_en}} {{data.teacher.first_name_en}} {{data.teacher.middle_name_en}}
                 </li>
                 <li class="list-group-item">Електронна пошта:
-                    <a href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$user->id; ?>" target="_blank">
-                        <?php echo $user->email . " "; ?>
+                    <a ng-href="#/newmessages/receiver/{{data.user.id}}" target="_blank">
+                        {{data.user.email}}
                         <i class="fa fa-envelope fa-fw"></i>
                     </a>
                     <div ng-if='data.user.skype'>
@@ -61,36 +43,63 @@ $user = $model->registrationData;
                        target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i>
                     </a>
                 </li>
+                <li ng-if="data.offlineStudent" class="list-group-item">
+                    Офлайн навчання:
+                    <ul class="list-group">
+                        <li class="list-group-item groupList" ng-repeat="subgroup in data.offlineStudent track by $index">
+                            <label>Спеціалізація:</label> {{subgroup.specialization}}<br>
+                            <label>Група</label>: {{subgroup.groupName}}<br>
+                            <label>Підгрупа:</label> {{subgroup.subgroupName}}<br>
+                            <label>Дата старту:</label> {{subgroup.startDate}}<br>
+                            <label>Дата виключення:</label> {{subgroup.endDate}}<br>
+                            <label>Дата випуску:</label> {{subgroup.graduateDate}}<br>
+                            <?php if (Yii::app()->user->model->isSuperVisor()) { ?>
+                            <a ng-href="#/supervisor/editOfflineStudent/{{subgroup.idOfflineStudent}}">
+                                Редагувати студента в підгрупі
+                            </a>
+                            <?php }?>
+                        </li>
+                    </ul>
+                </li>
+                <?php if (Yii::app()->user->model->isSuperVisor() && $model->isStudent()) { ?>
+                <li ng-if="user.student" class="list-group-item">
+                    <a ng-href="#/supervisor/addStudentToSubgroup/{{user.id}}">
+                        Додати студента в підгрупу
+                    </a>
+                </li>
+                <?php }?>
                 <?php if ($model->isStudent()) { ?>
                     <li class="list-group-item">Тренер:
-                        <div ng-if="data.trainer">
+                        <span ng-if="data.trainer">
                             <a ng-href="/teacher/{{data.trainer.id}}" target="_blank">
-                                {{data.trainer.firstName}} {{data.trainer.secondName}}({{data.trainer.firstName}})
+                                {{data.trainer.firstName}} {{data.trainer.secondName}}({{data.trainer.email}})
                             </a>
                             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                             <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/changetrainer">
                                 змінити
                             </a>
                             <?php } ?>
-                        </div>
-                        <div ng-if="!data.trainer">
+                        </span>
+                        <span ng-if="!data.trainer">
                             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                                 <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/addtrainer">
                                     додати
                                 </a>
                             <?php } ?>
-                        </div>
+                        </span>
                     </li>
                 <?php } ?>
-                <li class="list-group-item" ng-if="data.teacher">Статус співробітника: <em>{{data.teacher.isPrint==1 ? "видимий" : "невидимий"}}</em>
+                <li class="list-group-item" ng-if="data.teacher">Статус співробітника(видимий/не видимий): <em>{{data.teacher.isPrint==1 ? "видимий" : "невидимий"}}</em>
+                    <?php if (Yii::app()->user->model->isAdmin()) { ?>
                     <button type="button" class="btn btn-outline btn-primary btn-xs"
                             ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/changeTeacherStatus"); ?>',
                                 data.user.id,
                                 data.teacher.isPrint==1?'Приховати викладача?':'Показати викладача?')";>
                         змінити
                     </button>
+                    <?php } ?>
                 </li>
-                <li class="list-group-item">Акаунт: <em>{{data.user.status==1 ? "активований" : "не активований"}}</em>
+                <li class="list-group-item">Акаунт(активований/не активований): <em>{{data.user.status==1 ? "активований" : "не активований"}}</em>
                     <?php if (Yii::app()->user->model->isAdmin()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"
                                 ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeAccountStatus"); ?>',
@@ -100,12 +109,12 @@ $user = $model->registrationData;
                         </button>
                     <?php } ?>
                 </li>
-                <li class="list-group-item">Статус: <em>{{data.user.cancelled==0 ? "активний" : "заблокований"}}</em>
+                <li class="list-group-item">Статус(активний/заблокований): <em>{{data.user.cancelled==0 ? "активний" : "заблокований"}}</em>
                     <?php if (Yii::app()->user->model->isAdmin()) { ?>
                         <button type="button" class="btn  btn-outline btn-primary btn-xs"
                                 ng-click="changeUserStatus('<?= Yii::app()->createUrl("/_teacher/user/changeUserStatus"); ?>',
                                     data.user.id,
-                                    data.user.cancelled==0?'Видалити користувача?':'Відновити користувача?');">
+                                    data.user.cancelled==0?'Заблокувати користувача?':'Відновити користувача?');">
                             змінити
                         </button>
                     <?php } ?>
@@ -113,7 +122,7 @@ $user = $model->registrationData;
                 <li class="list-group-item" ng-if="data.user.educform">Форма навчання: <em>{{data.user.educform}}</em></li>
                 <li class="list-group-item">Адреса, вік: <em><?php echo $user->addressString(); ?></em></li>
 
-                <li ng-if="data.teacher.modules.length" class="list-group-item"> Веде модулі:<br>
+                <li ng-if="data.teacher.modules.length" class="list-group-item"> Автор модулів:<br>
                     <ul>
                         <li ng-if="module.cancelled==0" ng-repeat="module in data.teacher.modules track by $index">
                             <a href="" ng-click="moduleLink(module.module_ID)">

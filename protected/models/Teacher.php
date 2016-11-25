@@ -166,6 +166,16 @@ class Teacher extends CActiveRecord
         return 'user_id';
     }
 
+    public function getValidationErrors() {
+        $errors=[];
+        foreach($this->getErrors() as $key=>$attribute){
+            foreach($attribute as $error){
+                array_push($errors,$error);
+            }
+        }
+        return implode(", ", $errors);
+    }
+
     public static function setAverageTeacherRatings($teacherId, $responsesIdList)
     {
         $teacher = Teacher::model()->findByAttributes(array('user_id' => $teacherId));
@@ -442,7 +452,7 @@ class Teacher extends CActiveRecord
             $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["name"]["title"] = addslashes($record->user->secondName." ".$record->user->firstName." ".$record->user->middleName);
             $row["email"]["title"] = $record->user->email;
-            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/user/index',
                 array('id' => $record->user_id));
             if($record->isShow()){
                 $row["status"] = "видимий";
@@ -475,32 +485,6 @@ class Teacher extends CActiveRecord
 
     public function phone(){
         return $this->user->phone;
-    }
-
-    public static function teachersAdminList(){
-        $users = Teacher::model()->findAll();
-        $return = array('data' => array());
-
-        foreach ($users as $record) {
-            $row = array();
-            $name=$record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
-            $row["name"]["name"] = $name!='  '?$name:$record->user->email;
-            $row["email"] = $record->user->email;
-            $row["mailto"] = Yii::app()->createUrl('/cabinet/#/newmessages/receiver/').$record->user_id;
-            $row["name"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/showTeacher", array("id"=>$record->user_id))."'";
-            $row["addModuleLink"] = "'".Yii::app()->createUrl('/_teacher/_admin/teachers/addModule', array('id' => $record->user_id))."'";
-            if($record->isShow()){
-                $row["status"] = "видимий";
-                $row["changeStatus"]["title"] = "приховати";
-                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/delete", array('id'=>$record->user_id))."'";
-            } else {
-                $row["status"] = 'невидимий';
-                $row["changeStatus"]["title"] = "показати";
-                $row["changeStatus"]["link"] = "'".Yii::app()->createUrl("/_teacher/_admin/teachers/restore", array("id"=>$record->user_id))."'";
-            }
-            array_push($return['data'], $row);
-        }
-        return json_encode($return);
     }
 
     public function isShow(){
@@ -545,29 +529,6 @@ class Teacher extends CActiveRecord
         } else {
             return $this->setShowMode();
         }
-    }
-
-    public static function teachersWithoutAuthorsModule($query){
-        $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
-        $criteria->alias = "s";
-        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
-        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
-        $criteria->join = 'LEFT JOIN teacher t ON t.user_id = s.id';
-        $criteria->addCondition('t.user_id IS NOT NULL and t.cancelled='.Teacher::ACTIVE);
-
-        $data = StudentReg::model()->findAll($criteria);
-
-        $result = [];
-        foreach ($data as $key=>$model) {
-            $result["results"][$key]["id"] = $model->id;
-            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
-            $result["results"][$key]["email"] = $model->email;
-            $result["results"][$key]["url"] = $model->avatarPath();
-        }
-        return json_encode($result);
     }
 
     public static function teachersByQuery($query)
@@ -622,7 +583,7 @@ class Teacher extends CActiveRecord
     public static function teacherConsultantsByQueryAndModule($query, $module)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

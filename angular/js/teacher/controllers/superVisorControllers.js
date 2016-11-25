@@ -111,7 +111,7 @@ function specializationsTableCtrl ($scope, superVisorService, $state, $http, $st
 
     $scope.createSpecialization= function () {
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/createSpecialization',
+            url: basePath+'/_teacher/_supervisor/superVisor/createSpecialization',
             method: "POST",
             data: $jq.param({name: $scope.specialization.name}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -130,7 +130,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     
     $scope.loadSpecializationData=function(){
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/getSpecializationData',
+            url: basePath+'/_teacher/_supervisor/superVisor/getSpecializationData',
             method: "POST",
             data: $jq.param({id:$stateParams.id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -144,7 +144,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
 
     $scope.editSpecialization= function () {
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/updateSpecialization',
+            url: basePath+'/_teacher/_supervisor/superVisor/updateSpecialization',
             method: "POST",
             data: $jq.param({id:$stateParams.id,name: $scope.specialization.name}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -177,7 +177,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
 
     $scope.loadGroupData=function(){
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/getGroupData',
+            url: basePath+'/_teacher/_supervisor/superVisor/getGroupData',
             method: "POST",
             data: $jq.param({id:$stateParams.id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -219,7 +219,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             return;
         }
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/createOfflineGroup',
+            url: basePath+'/_teacher/_supervisor/superVisor/createOfflineGroup',
             method: "POST",
             data: $jq.param({
                 name: $scope.group.name,
@@ -243,7 +243,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             return;
         }
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/updateOfflineGroup',
+            url: basePath+'/_teacher/_supervisor/superVisor/updateOfflineGroup',
             method: "POST",
             data: $jq.param({
                 id:$stateParams.id,
@@ -266,7 +266,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     //select curator
     $scope.loadCuratorToModel=function(curatorId){
         curatorId = typeof curatorId !== 'undefined' ? curatorId :'';
-        $http.get(basePath + "/_teacher/_super_visor/superVisor/getCuratorById/?id="+curatorId).then(function (response) {
+        $http.get(basePath + "/_teacher/_supervisor/superVisor/getCuratorById/?id="+curatorId).then(function (response) {
             $scope.curatorEntered = response.data.fullName;
             $scope.selectedCurator={id: response.data.id, name: response.data.fullName};
         });
@@ -277,13 +277,13 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     $scope.reloadCurator = function(){
         $scope.selectedCurator=null;
     };
-    var curatorsTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/curatorsByQuery';
+    var curatorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/curatorsByQuery';
     $scope.getCurators = function(value){
         return typeAhead.getData(curatorsTypeaheadUrl,{query : value});
     };
     //select city
     $scope.loadCityToModel=function(cityId){
-        $http.get(basePath + "/_teacher/_super_visor/superVisor/getCityById/?id="+cityId).then(function (response) {
+        $http.get(basePath + "/_teacher/_supervisor/superVisor/getCityById/?id="+cityId).then(function (response) {
             $scope.cityEntered = response.data;
             $scope.selectedCity={id: cityId, title: response.data};
         });
@@ -294,7 +294,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     $scope.reload = function(){
         $scope.selectedCity=null;
     };
-    var citiesTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/citiesByQuery';
+    var citiesTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/citiesByQuery';
     $scope.getCities = function(value){
         return typeAhead.getData(citiesTypeaheadUrl,{query : value});
     };
@@ -304,7 +304,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     //select curator
     $scope.loadCuratorToModel=function(curatorId){
         curatorId = typeof curatorId !== 'undefined' ? curatorId :'';
-        $http.get(basePath + "/_teacher/_super_visor/superVisor/getCuratorById/?id="+curatorId).then(function (response) {
+        $http.get(basePath + "/_teacher/_supervisor/superVisor/getCuratorById/?id="+curatorId).then(function (response) {
             $scope.curatorEntered = response.data.fullName;
             $scope.selectedCurator={id: response.data.id, name: response.data.fullName};
         });
@@ -315,7 +315,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     $scope.reloadCurator = function(){
         $scope.selectedCurator=null;
     };
-    var curatorsTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/curatorsByQuery';
+    var curatorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/curatorsByQuery';
     $scope.getCurators = function(value){
         return typeAhead.getData(curatorsTypeaheadUrl,{query : value});
     };
@@ -323,7 +323,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
 
     $scope.loadSubgroupData=function(subgroupId){
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/getSubgroupData',
+            url: basePath+'/_teacher/_supervisor/superVisor/getSubgroupData',
             method: "POST",
             data: $jq.param({id:subgroupId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -338,7 +338,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     };
     $scope.loadGroupData=function(groupId){
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/getGroupData',
+            url: basePath+'/_teacher/_supervisor/superVisor/getGroupData',
             method: "POST",
             data: $jq.param({id:groupId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -377,7 +377,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
 
     $scope.addSubgroup= function () {
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/addSubgroup',
+            url: basePath+'/_teacher/_supervisor/superVisor/addSubgroup',
             method: "POST",
             data: $jq.param({
                 name: $scope.subgroup.name, 
@@ -396,7 +396,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     };
     $scope.editSubgroup= function () {
         $http({
-            url: basePath+'/_teacher/_super_visor/superVisor/updateSubgroup',
+            url: basePath+'/_teacher/_supervisor/superVisor/updateSubgroup',
             method: "POST",
             data: $jq.param({
                 id:$scope.subgroupId,
@@ -426,7 +426,7 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
     $scope.changePageHeader('Користувач');
     $scope.studentId=$stateParams.id;
     $scope.loadUserData=function(studentId){
-        $http.get(basePath + "/_teacher/_super_visor/superVisor/getUserData/?id="+studentId).then(function (response) {
+        $http.get(basePath + "/_teacher/_supervisor/superVisor/getUserData/?id="+studentId).then(function (response) {
             $scope.user = response.data.user;
             $scope.offlineStudent=response.data.offlineStudent;
         });
@@ -471,7 +471,7 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
         }else{
             $http({
                 method: 'POST',
-                url: basePath+'/_teacher/_super_visor/superVisor/addStudentToSubgroup',
+                url: basePath+'/_teacher/_supervisor/superVisor/addStudentToSubgroup',
                 data: $jq.param({userId: idUser, subgroupId: idSubgroup, startDate: startDate}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
@@ -487,7 +487,7 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
     $scope.cancelStudentFromSubgroup=function (idUser, idSubgroup) {
         $http({
             method: 'POST',
-            url: basePath+'/_teacher/_super_visor/superVisor/cancelStudentFromSubgroup',
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelStudentFromSubgroup',
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
@@ -512,7 +512,7 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
         $scope.selectedSubgroup=null;
         $scope.subgroupsList=null;
     };
-    var groupTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/groupsByQuery';
+    var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
     $scope.getGroups = function(value){
         return typeAhead.getData(groupTypeaheadUrl,{query : value});
     };
@@ -522,7 +522,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
     $scope.changePageHeader('Студент(офлайнова форма навчання)');
     $scope.studentModelId=$stateParams.idOfflineStudentModel;
     $scope.loadStudentModel=function(modelId){
-        $http.get(basePath + "/_teacher/_super_visor/superVisor/getOfflineStudentModel/?id="+modelId).then(function (response) {
+        $http.get(basePath + "/_teacher/_supervisor/superVisor/getOfflineStudentModel/?id="+modelId).then(function (response) {
             $scope.studentModel = response.data;
             superVisorService
                 .offlineGroupSubgroupsList({'id':$scope.studentModel.idGroup})
@@ -538,7 +538,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
     $scope.updateOfflineStudent=function (modelId, idUser, idSubgroup, newSubgroupId, startDate, graduateDate) {
         $http({
             method: 'POST',
-            url: basePath+'/_teacher/_super_visor/superVisor/updateOfflineStudent',
+            url: basePath+'/_teacher/_supervisor/superVisor/updateOfflineStudent',
             data: $jq.param({modelId: modelId, userId: idUser, subgroupId: idSubgroup, newSubgroupId: newSubgroupId, startDate: startDate, graduateDate: graduateDate}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
@@ -552,7 +552,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
     $scope.cancelStudentFromSubgroup=function (idUser, idSubgroup) {
         $http({
             method: 'POST',
-            url: basePath+'/_teacher/_super_visor/superVisor/cancelStudentFromSubgroup',
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelStudentFromSubgroup',
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
@@ -577,7 +577,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
         $scope.selectedSubgroup=null;
         $scope.subgroupsList=null;
     };
-    var groupTypeaheadUrl = basePath + '/_teacher/_super_visor/superVisor/groupsByQuery';
+    var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
     $scope.getGroups = function(value){
         return typeAhead.getData(groupTypeaheadUrl,{query : value});
     };

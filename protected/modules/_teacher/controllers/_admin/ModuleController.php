@@ -96,14 +96,14 @@ class ModuleController extends TeacherCabinetController
     {
         $model = Module::model()->with('lectures', 'inCourses')->findByPk($id);
         $courses = CourseModules::model()->with('course')->findAllByAttributes(array('id_module' => $id));
-        $teachers = TeacherModule::listByModule($model->module_ID);
-        $consultants = $model->consultants();
+        $authors = TeacherModule::listByModule($model->module_ID);
+        $teacherConsultants = $model->teacherConsultants();
 
         $this->renderPartial('view', array(
             'model' => $model,
-            'teachers' => $teachers,
+            'authors' => $authors,
             'courses' => $courses,
-            'consultants' => $consultants
+            'teacherConsultants' => $teacherConsultants
         ), false, true);
     }
 
@@ -148,14 +148,14 @@ class ModuleController extends TeacherCabinetController
             ModuleTags::model()->editModuleTags($moduleTags,$model->module_ID);
             Yii::app()->end();
         }
-        $teachers = TeacherModule::listByModule($model->module_ID);
-        $consultants = $model->consultants();
+        $authors = TeacherModule::listByModule($model->module_ID);
+        $teacherConsultants = $model->teacherConsultants();
 
         $this->renderPartial('update', array(
             'model' => $model,
-            'teachers' => $teachers,
+            'authors' => $authors,
             'courses' => $courses,
-            'consultants' => $consultants
+            'teacherConsultants' => $teacherConsultants
         ), false, true);
     }
 
@@ -217,42 +217,42 @@ class ModuleController extends TeacherCabinetController
         echo json_encode($adapter->getData());
     }
 
+    public function actionGetModuleAuthorsList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('TeacherModule', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'idModule='.$requestParams['idModule'];
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionGetModuleTeachersConsultantList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('TeacherConsultantModule', $requestParams);
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 'id_module='.$requestParams['idModule'];
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
     public function actionTeachersByQuery($query)
     {
-        if ($query) {
-            $teachers = Teacher::teachersWithoutAuthorsModule($query);
-            echo $teachers;
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
-        }
-    }
-
-    public function actionAuthorsByQuery($query)
-    {
-        if ($query) {
-            $authors = UserAuthor::authorsList($query);
-            echo $authors;
-        } else {
-            throw new \application\components\Exceptions\IntItaException('400');
-        }
+        echo Teacher::teachersByQuery($query);
     }
     
-    public function actionAddTeacher($id)
+    public function actionAddAuthor()
     {
-        $module = Module::model()->findByPk($id);
-
-        $this->renderPartial('_addTeacher', array(
-            'module' => $module
-        ));
+        $this->renderPartial('_addAuthor', array());
     }
 
-    public function actionAddConsultant($id)
+    public function actionAddTeacherConsultant()
     {
-        $module = Module::model()->findByPk($id);
-
-        $this->renderPartial('_addConsultant', array(
-            'module' => $module
-        ));
+        $this->renderPartial('_addTeacherConsultant', array());
     }
 
     public function actionCheckAlias()
@@ -263,14 +263,5 @@ class ModuleController extends TeacherCabinetController
         } else {
             echo "false";
         }
-    }
-
-    public function actionAddConsultantModule($idModule)
-    {
-        $module = Module::model()->findByPk($idModule);
-
-        $this->renderPartial('/_admin/module/_consultantModule', array(
-            'module' => $module,
-        ), false, true);
     }
 }

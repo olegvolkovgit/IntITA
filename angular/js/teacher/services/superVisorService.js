@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('superVisorService', ['$resource',
         function ($resource) { 
-            var url = basePath+'/_teacher/_super_visor/superVisor';
+            var url = basePath+'/_teacher/_supervisor/superVisor';
             return $resource(
                 '',
                 {},

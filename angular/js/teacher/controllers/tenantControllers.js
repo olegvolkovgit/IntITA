@@ -86,7 +86,6 @@ function chatsCtrl ($scope, NgTableParams, $stateParams, $resource){
 }
 
 function phrasesCtrl ($scope, NgTableParams, $resource, $state, $http){
-    //initAllPhrasesTable();
     $scope.phrasesTable = new NgTableParams({
     }, {
         getData: function(params) {

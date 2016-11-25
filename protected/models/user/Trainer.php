@@ -120,20 +120,19 @@ class Trainer extends Role
                             'Призначено нового студента');
                         return true;
                     }
+                    $this->errorMessage = "Призначити тренера не вдалося";
                     return false;
                     break;
+                }else {
+                    return false;
                 }
-                if($this->errorMessage)
-                    return $this->errorMessage;
-                else return true;
             case 'capacity':
                 if ($this->checkCapacity($value,$user)) {
                     parent::setAttribute($user, $attribute, $value);
                     return true;
+                }else{
+                    return false;
                 }
-                if($this->errorMessage)
-                    return $this->errorMessage;
-                else return true;
             default:
                 parent::setAttribute($user, $attribute, $value);
                 return true;

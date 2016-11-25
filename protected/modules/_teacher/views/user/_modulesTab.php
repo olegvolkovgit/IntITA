@@ -8,21 +8,22 @@
     <div class="panel-body">
         <?php if(Yii::app()->user->model->isAdmin()){?>
         <div class="row">
-            <form>
-                <div class="col col-md-6">
-                    <input type="number" hidden="hidden" id="value" value="0"/>
-                    <input id="typeaheadModule" type="text" class="form-control" name="module" placeholder="Назва модуля"
-                           size="65" required autofocus>
+            <div class="col col-md-6">
+                <input type="text" size="65" ng-model="formData.moduleSelected" ng-model-options="{ debounce: 1000 }"
+                       placeholder="Модуль" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10"
+                       typeahead-no-results="moduleNoResults" typeahead-on-select="onSelectModule($item)"
+                       ng-change="reloadModule()" class="form-control" ng-disabled="defaultModule"/>
+                <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="moduleNoResults">
+                    <i class="glyphicon glyphicon-remove"></i> модуль не знайдено
                 </div>
-                <div class="col col-md-2">
-                    <button type="button" class="btn btn-success"
-                            ng-click="addStudentAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/payModule'); ?>',
-                                data.user.id,
-                                'module')">
-                        Сплатити модуль
-                    </button>
-                </div>
-            </form>
+            </div>
+            <div class="col col-md-2">
+                <button type="button" class="btn btn-success"
+                        ng-click="actionModule('payModule',data.user.id,selectedModule.id)">
+                    Сплатити модуль
+                </button>
+            </div>
         </div>
         <?php } ?>
         <br>
@@ -40,7 +41,7 @@
                                 <em>договір</em>
                             </a>
                             <a href=""
-                               ng-click="cancelModule('<?php echo Yii::app()->createUrl('/_teacher/_admin/pay/cancelModule'); ?>',module.id,data.user.id)">
+                               ng-click="actionModule('cancelModule',data.user.id,module.id)">
                                 <span class="warningMessage"><em> скасувати доступ</em></span>
                             </a>
                         <?php } ?>
@@ -51,44 +52,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    var modules = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (modules) {
-                return $jq.map(modules.results, function (module) {
-                    return {
-                        id: module.id,
-                        title: module.title
-                    };
-                });
-            }
-        }
-    });
-
-    modules.initialize();
-
-    $jq('#typeaheadModule').typeahead(null, {
-        name: 'modules',
-        display: 'title',
-        limit: 10,
-        source: modules,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'модулів з такою назвою немає',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-        }
-    });
-
-    $jq('#typeaheadModule').on('typeahead:selected', function (e, item) {
-        $jq("#value").val(item.id);
-    });
-</script>
-

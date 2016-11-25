@@ -12,11 +12,6 @@
                         Призначити роль
                     </a>
                 </li>
-                <li>
-                    <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
-                        Додати співробітника
-                    </a>
-                </li>
             </ul>
         <?php } ?>
             <ul ng-if="data.user.roles.length" ng-repeat="role in data.user.roles track by $index" class="list-group">
@@ -26,9 +21,7 @@
                         <a ng-if="role!='<?php echo UserRoles::STUDENT ?>'" ng-href="#/admin/teacher/{{data.user.id}}/editRole/role/{{role}}">
                         <em>редагувати</em>
                         </a>
-                        <a href=""
-                           ng-click="cancelUserRole('<?= Yii::app()->createUrl("/_teacher/user/unsetUserRole"); ?>',
-                               role,data.user.id);">
+                        <a href="" ng-click="cancelRole(data.user.id, role);">
                             <em>скасувати</em>
                         </a>
                     <?php } ?>

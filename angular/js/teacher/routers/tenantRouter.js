@@ -11,7 +11,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Tenant');
             },
-            templateUrl: "/_teacher/cabinet/loadPage/?page=tenant",
+            templateUrl: basePath+"/_teacher/cabinet/loadPage/?page=tenant",
         })
         .state('tenant/bots', {
             url: "/tenant/bots",
@@ -19,7 +19,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Боти');
             },
-            templateUrl: "/_teacher/_tenant/tenant/Bots",
+            templateUrl: basePath+"/_teacher/_tenant/tenant/Bots",
         })
         .state('tenant/chats', {
             url: "/tenant/chats",
@@ -27,7 +27,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Розмови');
             },
-            templateUrl: "/_teacher/_tenant/tenant/SearchChats",
+            templateUrl: basePath+"/_teacher/_tenant/tenant/SearchChats",
         })
         .state('tenant/phrases', {
             url: "/tenant/phrases",
@@ -35,7 +35,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Типові фрази');
             },
-            templateUrl: "/_teacher/_tenant/tenant/showPhrases",
+            templateUrl: basePath+"/_teacher/_tenant/tenant/showPhrases",
         })
         .state('tenant/phrases/create', {
             url: "/tenant/phrases/create",
@@ -43,13 +43,13 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Створити фразу');
             },
-            templateUrl: "/_teacher/_tenant/tenant/renderAddPhrase",
+            templateUrl: basePath+"/_teacher/_tenant/tenant/renderAddPhrase",
         })
         .state('tenant/searchchat/:user1/:user2', {
             url: "/tenant/searchchat/:user1/:user2",
             cache         : false,
             templateUrl: function($stateParams){
-                return "/_teacher/_tenant/tenant/ShowChats?author="+$stateParams.user1+"&user="+$stateParams.user2; }
+                return basePath+"/_teacher/_tenant/tenant/ShowChats?author="+$stateParams.user1+"&user="+$stateParams.user2; }
         })
         .state('tenant/phrases/edit/:phraseId', {
             url: "/tenant/phrases/edit/:phraseId",
