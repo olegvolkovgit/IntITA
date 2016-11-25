@@ -194,15 +194,14 @@ class RegisteredUser
 
     public function isSuperVisor()
     {
-        return $this->hasRole(UserRoles::SUPER_VISOR);
+        return $this->hasRole(UserRoles::SUPERVISOR);
     }
     
     public function canApprove()
     {
         return $this->isContentManager();
     }
-
-    //todo author role check
+    
     public function hasRole($role)
     {
         return in_array($role, $this->getRoles());
@@ -225,7 +224,7 @@ class RegisteredUser
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData);
     }
-
+    
     public function cancelRoleMessage(UserRoles $role)
     {
         if (!$this->hasRole($role)) {
@@ -233,7 +232,7 @@ class RegisteredUser
         }
         $roleObj = Role::getInstance($role);
         if ($roleObj->cancelRole($this->registrationData)) {
-            return "Роль успішно відмінено.";
+            return true;
         } elseif ($roleObj->getErrorMessage() != "") {
             return $roleObj->getErrorMessage();
         } else {
@@ -316,12 +315,12 @@ class RegisteredUser
                 return true;
             }
         }
-        if ($this->isConsultant()) {
-            $consult = new Consultant();
-            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
+//        if ($this->isConsultant()) {
+//            $consult = new Consultant();
+//            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+//                return true;
+//            }
+//        }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
@@ -359,12 +358,12 @@ class RegisteredUser
                 return true;
             }
         }
-        if ($this->isConsultant()) {
-            $consult = new Consultant();
-            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
+//        if ($this->isConsultant()) {
+//            $consult = new Consultant();
+//            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+//                return true;
+//            }
+//        }
 
         return false;
     }

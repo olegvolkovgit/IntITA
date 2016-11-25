@@ -24,7 +24,7 @@
                                 <i class="fa fa-envelope fa-fw"></i>
                             </a>
                         </td>
-                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','trainer',row.id_user)"><i class="fa fa-trash fa-fw"></i></a></td>
+                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole(row.id_user,'trainer')"><i class="fa fa-trash fa-fw"></i></a></td>
                     </tr>
                 </table>
             </div>

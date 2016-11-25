@@ -4,9 +4,6 @@
 angular
     .module('teacherApp')
     .controller('sendCoworkerRequestCtrl',sendCoworkerRequestCtrl)
-    .controller('allAuchtorsCtrl', function ($scope){
-        initAuthorsTableCM();
-    })
     .controller('allConsultantsCtrl', function ($scope){
         initConsultantsTable();
     })

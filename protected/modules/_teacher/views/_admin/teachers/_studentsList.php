@@ -9,17 +9,21 @@
     <div class="row">
         <form>
             <div class="col col-md-6">
-                <input type="number" hidden="hidden" id="student" value="0"/>
-                <input id="typeahead" type="text" class="form-control" name="student" placeholder="Студент"
-                       size="65" required autofocus>
+                <input type="text" size="135" ng-model="formData.userSelected"  ng-model-options="{ debounce: 1000 }"
+                       placeholder="Студент" uib-typeahead="item.email for item in getStudents($viewValue) | limitTo : 10"
+                       typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html"
+                       typeahead-on-select="onSelectUser($item)" ng-change="reloadUser()" class="form-control" />
+                <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> студента не знайдено
+                </div>
             </div>
-            <div class="col col-md-2">
-                <button type="button" class="btn btn-success"
-                        ng-click="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            attribute.key, '#student')">
-                    Додати студента
-                </button>
-            </div>
+            <button type="button" class="btn btn-success"
+                    ng-click="setTeacherRoleAttribute(data.user.role,attribute.key,data.user.id,selectedUser.id)">
+                Додати студента
+            </button>
+            <a type="button" class="btn btn-default" ng-click='back()'>
+                Назад
+            </a>
         </form>
     </div>
     <br>
@@ -49,8 +53,7 @@
                 <td>{{student.end_date}}</td>
                 <td>
                     <a ng-if="!student.end_date" href=""
-                       ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                           student.id, attribute.key);">скасувати
+                       ng-click="cancelTeacherRoleAttribute(data.user.role, attribute.key, data.user.id, student.id);">скасувати
                     </a>
                 </td>
             </tr>

@@ -1,23 +1,25 @@
-<?php
-/* @var $attribute array
- * @var $role string
- * @var $model StudentReg
- */
-?>
 <div class="col-md-12">
     <div class="row">
         <form>
-            <div class="col col-md-6">
-                <input type="number" hidden="hidden" id="value" value="0"/>
-                <input id="typeahead" type="text" class="form-control" name="module" placeholder="Назва модуля"
-                       size="65" required autofocus>
+            <div class="form-group">
+                <input type="text" size="65" ng-model="formData.moduleSelected" ng-model-options="{ debounce: 1000 }"
+                       placeholder="Модуль" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10"
+                       typeahead-no-results="moduleNoResults" typeahead-on-select="onSelectModule($item)"
+                       ng-change="reloadModule()" class="form-control" ng-disabled="defaultModule"/>
+                <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="moduleNoResults">
+                    <i class="glyphicon glyphicon-remove"></i> модуль не знайдено
+                </div>
             </div>
-            <div class="col col-md-2">
+            <br>
+            <div class="form-group">
                 <button type="button" class="btn btn-success"
-                        ng-click="addTeacherAttr('<?php echo Yii::app()->createUrl('/_teacher/_admin/teachers/setTeacherRoleAttribute'); ?>',
-                            attribute.key, '#value')">
-                    Додати модуль
+                        ng-click="setTeacherRoleAttribute(data.user.role,'module',data.user.id,selectedModule.id)">
+                    Призначити модуль
                 </button>
+                <a type="button" class="btn btn-default" ng-click='back()'>
+                    Назад
+                </a>
             </div>
         </form>
     </div>
@@ -50,8 +52,7 @@
                 </td>
                 <td>
                     <a ng-if="!module.end_date" href=""
-                       ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/teachers/unsetTeacherRoleAttribute"); ?>',
-                           module.id, attribute.key);">скасувати
+                       ng-click="cancelTeacherRoleAttribute(data.user.role,attribute.key,data.user.id,module.id);">скасувати
                     </a>
                 </td>
             </tr>
@@ -59,42 +60,3 @@
         </table>
     </div>
 </div>
-<script>
-    var modules = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: basePath + '/_teacher/_admin/teachers/modulesByQuery?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function (modules) {
-                return $jq.map(modules.results, function (module) {
-                    return {
-                        id: module.id,
-                        title: module.title
-                    };
-                });
-            }
-        }
-    });
-
-    modules.initialize();
-
-    $jq('#typeahead').typeahead(null, {
-        name: 'modules',
-        display: 'title',
-        limit: 10,
-        source: modules,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'модулів з такою назвою немає',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile("<div class='typeahead_wrapper'>{{title}}&nbsp;</div>")
-        }
-    });
-
-    $jq('#typeahead').on('typeahead:selected', function (e, item) {
-        $jq("#value").val(item.id);
-    });
-</script>

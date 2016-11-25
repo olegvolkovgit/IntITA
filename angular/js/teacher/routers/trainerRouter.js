@@ -46,7 +46,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Нові студенти');
             },
             templateUrl: function ($stateParams) {
-
                 return basePath + "/_teacher/_trainer/trainer/editTeacherModule/id/"+$stateParams.studentId+"/idModule/" + $stateParams.idModule;
             }
         })

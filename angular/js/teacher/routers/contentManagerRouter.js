@@ -23,14 +23,6 @@ config(function ($stateProvider) {
             },
             templateUrl: contentManagerUrl+"/authors",
         })
-        .state('content_manager/consultants', {
-            url: "/content_manager/consultants",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Консультанти');
-            },
-            templateUrl: contentManagerUrl+"/consultants",
-        })
         .state('content_manager/teacherConsultants', {
             url: "/content_manager/teacherConsultants",
             cache         : false,
@@ -75,38 +67,21 @@ config(function ($stateProvider) {
             url: '/detail/lesson/:idLesson',
             templateUrl: function($stateParams){return contentManagerUrl+"/showPartsList?idLesson="+$stateParams.idLesson;},
         })
-        .state('content_manager/showUser/:id', {
-            url: "/content_manager/showUser/:id",
-            cache         : false,
+        .state('content_manager/authorAttributes', {
+            url: "/content_manager/authorAttributes",
+            cache: false,
             controller: function($scope){
-                $scope.changePageHeader('Викладач');
+                $scope.changePageHeader('Атрибути автора контента');
             },
-            templateUrl: function($stateParams){
-                return contentManagerUrl+"/showTeacher/id/"+$stateParams.id},
+            templateUrl: basePath+"/_teacher/_admin/roleAttributes/authorAttributes",
         })
-        .state('content_manager/addConsultantModule', {
-            url: "/content_manager/addConsultantModule",
-            cache         : false,
+        .state('content_manager/teacherConsultantAttributes', {
+            url: "/content_manager/teacherConsultantAttributes",
+            cache: false,
             controller: function($scope){
-                $scope.changePageHeader('Призначити модуль для консультанта');
+                $scope.changePageHeader('Атрибути викладача');
             },
-            templateUrl: contentManagerUrl+"/addConsultantModuleForm",
-        })
-        .state('content_manager/addTeacherConsultantModule', {
-            url: "/content_manager/addTeacherConsultantModule",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Призначити модуль для викладача');
-            },
-            templateUrl: contentManagerUrl+"/addTeacherConsultantForm",
-        })
-        .state('content_manager/addModuleAuthor', {
-            url: "/content_manager/addModuleAuthor",
-            cache         : false,
-            controller: function($scope){
-                $scope.changePageHeader('Призначити автора модуля');
-            },
-            templateUrl: contentManagerUrl+"/addTeacherModuleForm",
+            templateUrl: basePath+"/_teacher/_admin/roleAttributes/teacherConsultantAttributes",
         })
         .state('content_manager/sendCoworkerRequest', {
             url: "/content_manager/sendCoworkerRequest",
@@ -114,4 +89,12 @@ config(function ($stateProvider) {
             controller:'sendCoworkerRequestCtrl',
             templateUrl: contentManagerUrl+"/sendCoworkerRequest",
         })
+        .state('content_manager/user/:id/role/:role', {
+            url: "/content_manager/user/:id/role/:role",
+            cache         : false,
+            templateUrl: function($stateParams){
+                return contentManagerUrl+"/userAttributesList/id/"+$stateParams.id+"/role/"+$stateParams.role;
+            }
+        })
+    
 });

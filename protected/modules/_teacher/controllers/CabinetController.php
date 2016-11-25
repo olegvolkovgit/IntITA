@@ -142,7 +142,7 @@ class CabinetController extends TeacherCabinetController
                 case 'teacher_consultant':
                 case 'admin':
                 case 'accountant':
-                case 'super_visor':
+                case 'supervisor':
                     $this->renderDashboard($role, $user);
                     break;
                 default:
@@ -198,6 +198,21 @@ class CabinetController extends TeacherCabinetController
         }
     }
 
+    public function actionStudentsByQuery($query)
+    {
+        if ($query) {
+            $users = UserStudent::studentByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionCoursesByQuery($query)
+    {
+        echo Course::readyCoursesList($query);
+    }
+    
     public function actionModulesTitleById()
     {
         $id = Yii::app()->request->getPost('moduleId');
@@ -229,6 +244,25 @@ class CabinetController extends TeacherCabinetController
     {
         if ($query) {
             $users = StudentReg::usersNotTeacherByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+
+    public function actionTrainers($query)
+    {
+        if ($query) {
+            $users = Trainer::trainersByQuery($query);
+            echo $users;
+        } else {
+            throw new \application\components\Exceptions\IntItaException('400');
+        }
+    }
+    public function actionTeacherConsultantsByQueryAndModule($query,$module)
+    {
+        if ($query && $module) {
+            $users = Teacher::teacherConsultantsByQueryAndModule($query,$module);
             echo $users;
         } else {
             throw new \application\components\Exceptions\IntItaException('400');

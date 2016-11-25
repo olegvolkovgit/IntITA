@@ -135,8 +135,6 @@
                     <li><a href="#/configuration/siteconfig">Налаштування
                         </a>
                     </li>
-                    <li><a href="#/configuration/old">Функціонал попередньої версії</a>
-                    </li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -144,6 +142,8 @@
             </div>
         </div>
     </div>
+</div>
+<div class="row">
     <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
 
     <div class="col-lg-4">

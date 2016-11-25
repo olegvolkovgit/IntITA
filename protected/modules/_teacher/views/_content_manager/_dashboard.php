@@ -12,9 +12,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/content_manager/authors">Автори модулів</a>
-                    </li>
-                    <li><a href="#/content_manager/consultants">Консультанти для модулів</a>
+                    <li><a href="#/content_manager/authors">Автори контента</a>
                     </li>
                     <li><a href="#/content_manager/teacherConsultants">Викладачі</a>
                     </li>
@@ -54,8 +52,6 @@
                             Всі ревізії курсів</a>
                     </li>
                 </ul>
-                <br>
-                <br>
             </div>
             <div class="panel-footer">
                 <em>Ревізії курсів/модулів, etc.</em>

@@ -144,7 +144,7 @@ class TeacherModule extends CActiveRecord
 			$row = array();
 			$row["name"]["title"] = $record["secondName"]." ".$record["firstName"]." ".$record["middleName"];
 			$row["email"]["title"] = $record["email"];
-			$row["email"]["url"] = $row["name"]["url"] = Yii::app()->createAbsoluteUrl("/_teacher/_content_manager/contentManager/showTeacher",
+			$row["email"]["url"] = $row["name"]["url"] = Yii::app()->createAbsoluteUrl("/_teacher/_admin/user/index",
 				array('id' => $record["id"]));
 			array_push($return['data'], $row);
 		}

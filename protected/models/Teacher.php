@@ -452,7 +452,7 @@ class Teacher extends CActiveRecord
             $row["name"]["name"] = $record->user->secondName." ".$record->user->firstName." ".$record->user->middleName;
             $row["name"]["title"] = addslashes($record->user->secondName." ".$record->user->firstName." ".$record->user->middleName);
             $row["email"]["title"] = $record->user->email;
-            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/_admin/teachers/showTeacher',
+            $row["email"]["url"] = $row["name"]["url"] = Yii::app()->createUrl('/_teacher/user/index',
                 array('id' => $record->user_id));
             if($record->isShow()){
                 $row["status"] = "видимий";
@@ -583,7 +583,7 @@ class Teacher extends CActiveRecord
     public static function teacherConsultantsByQueryAndModule($query, $module)
     {
         $criteria = new CDbCriteria();
-        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->select = "s.id, secondName, firstName, middleName, email, phone, skype, avatar";
         $criteria->alias = "s";
         $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
         $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");

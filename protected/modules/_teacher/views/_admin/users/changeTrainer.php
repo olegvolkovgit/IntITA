@@ -12,15 +12,14 @@
     </a>
     <h4><em>Користувач:</em></h4>
     <div id="userInfo">
-        {{data.user.firstName}} {{data.user.secondName}} &lt;{{data.user.email}}&gt;
+        {{data.user.firstName}} {{data.user.secondName}}
+        <br>
+        {{data.user.email}}
     </div>
-    <br>
     <div ng-if="data.trainer">
         <h4><em>Тренер:</em></h4>
         <form method="post"
-              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/removeTrainer"); ?>', 'remove');">
-            <input class="form-control" id="user" type="hidden" ng-value="data.user.id">
-            <input class="form-control" id="oldTrainerId" type="hidden" ng-value="data.trainer.user_id">
+              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/removeTrainer"); ?>', 'remove',selectedTrainer.id, data.user.id);">
             <div id="userInfo">
                 {{data.trainer.firstName}} {{data.trainer.secondName}} {{data.trainer.middleName}} &lt;{{data.trainer.email}}&gt;
             </div>
@@ -31,11 +30,19 @@
     <h4><em>Новий тренер:</em></h4>
     <div class="form-group">
         <form method="post"
-              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/editTrainer"); ?>', 'edit');">
-            <input class="form-control" id="user" type="hidden" ng-value="data.user.id">
-            <?php $this->renderPartial('_selectTrainer'); ?>
-            <br>
-            <br>
+              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/editTrainer"); ?>', 'edit',selectedTrainer.id, data.user.id);">
+            <div class="form-group">
+                <label>
+                    <strong>Тренер:</strong>
+                </label>
+                <input type="text" size="135" ng-model="trainerSelected"  ng-model-options="{ debounce: 1000 }"
+                       placeholder="Тренер" uib-typeahead="item.email for item in getTrainers($viewValue) | limitTo : 10"
+                       typeahead-no-results="noResults"  typeahead-template-url="customTemplate.html"
+                       typeahead-on-select="onSelectTrainer($item)" ng-change="reloadTrainer()" class="form-control" />
+                <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> тренера не знайдено
+                </div>
+            </div>
             <input type="submit" class="btn btn-success" value="Призначити тренера">
         </form>
     </div>

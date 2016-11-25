@@ -41,9 +41,13 @@
             <?php } else { ?>
                 <div class="form-group">
                     <label>
-                        <strong>Викладач-консультант:</strong>
+                        <strong>Викладач:</strong>
                     </label>
-                    <input type="text" size="135" ng-model="teacherSelected" ng-model-options="{ debounce: 1000 }" placeholder="виберіть викладача" uib-typeahead="item.email for item in getTeachers($viewValue,'<?= $module->module_ID; ?>') | limitTo : 10" typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item)" class="form-control" />
+                    <input type="text" size="135" ng-model="teacherSelected"
+                           ng-model-options="{ debounce: 1000 }" placeholder="виберіть викладача"
+                           uib-typeahead="item.email for item in getTeacherConsultantsByQueryAndModule($viewValue,'<?= $module->module_ID; ?>') | limitTo : 10"
+                           typeahead-no-results="noResultsConsultant"  typeahead-template-url="customTemplate.html"
+                           typeahead-on-select="onSelect($item)" class="form-control" />
                     <i ng-show="loadingTeachers" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResultsConsultant">
                         <i class="glyphicon glyphicon-remove"></i> Викладача не знайдено

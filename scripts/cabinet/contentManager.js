@@ -1,84 +1,3 @@
-function addTeacherAttrCM(url, attr, id, role) {
-    user = $jq('#user').val();
-    if (!role) {
-        role = $jq('#role').val();
-    }
-    var value = $jq(id).val();
-
-    if (value == 0) {
-        showDialog('Введіть дані форми.');
-    }
-    if (parseInt(user && value)) {
-        $jq.ajax({
-            url: url,
-            type: "POST",
-            async: true,
-            data: {user: user, role: role, attribute: attr, attributeValue: value},
-            success: function (response) {
-                if (response == "success") {
-                    bootbox.alert("Операцію успішно виконано.", function () {
-                        switch (role) {
-                            case "author":
-                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'author');
-                                break;
-                            case "consultant":
-                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'consultant');
-                                break;
-                            case "teacher_consultant":
-                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'teacher_consultant');
-                                break;
-                            default:
-                                loadAuthorModuleListCM(user, 'Інформація про співробітника', 'main');
-                                break;
-                        }
-                    });
-                } else {
-                    switch (role) {
-                        case "trainer":
-                            showDialog("Для даного студента вже призначено тренера");
-                            break;
-                        case "author":
-                            showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
-                            break;
-                        case "consultant":
-                            showDialog("Консультанту вже призначений даний модуль для консультацій");
-                            break;
-                        case "teacher_consultant":
-                            showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
-                            break;
-                        default:
-                            showDialog("Операцію не вдалося виконати");
-                            break;
-                    }
-                }
-            },
-            error: function () {
-                showDialog("Операцію не вдалося виконати.");
-            }
-        });
-    }
-}
-
-function assignRoleCM(url, role) {
-    user = $jq("#userId").val();
-    if (user == 0) {
-        bootbox.alert('Виберіть користувача.');
-    } else {
-        var posting = $jq.post(url, {userId: user, role: role});
-        posting.done(function (response) {
-                bootbox.alert(response, function () {
-                    window.history.back();
-                });
-            })
-            .fail(function () {
-                bootbox.alert("Користувачу не вдалося призначити обрану роль. Спробуйте повторити " +
-                    "операцію пізніше або напишіть на адресу " + adminEmail, function () {
-                    window.history.back();
-                });
-            });
-    }
-}
-
 function selectTeacherModules(url, teacher) {
     if (teacher == 0) {
         bootbox.alert("Виберіть викладача.");
@@ -194,37 +113,6 @@ function cancelRoleCM(url, role, user) {
             });
     }
 }
-
-function initAuthorsTableCM() {
-    $jq('#authorsTable').DataTable({
-        "autoWidth": false,
-        "ajax": {
-            "url": basePath + "/_teacher/_content_manager/contentManager/getAuthorsList",
-            "dataSrc": "data"
-        },
-        "columns": [
-            {
-                "data": "name",
-                "render": function (name) {
-                    return '<a href="#" onclick="load(\'' + name["url"] + '\', \'Інформація про співробітника\');">' + name["title"] + '</a>';
-                }
-            },
-            {
-                "data": "email",
-                "render": function (email) {
-                    return '<a href="#" onclick="load( \'' + email["url"] + '\', \'Інформація про співробітника\');">' + email["title"] + '</a>';
-                }
-            }
-        ],
-        "createdRow": function (row, data, index) {
-            $jq(row).addClass('gradeX');
-        },
-        language: {
-            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        }
-    });
-}
-
 function initConsultantsTable() {
     $jq('#consultantsTable').DataTable({
         "autoWidth": false,
@@ -414,9 +302,5 @@ function initPartsListTable(idLesson) {
             "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
         }
     });
-}
-
-function loadAuthorModuleListCM(id, header, tab) {
-    load(basePath + '/_teacher/_content_manager/contentManager/showTeacher/id/' + id, header, '', tab);
 }
 

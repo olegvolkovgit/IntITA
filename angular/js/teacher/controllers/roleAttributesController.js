@@ -5,7 +5,7 @@
 angular.module('teacherApp')
     .controller('roleAttributesCtrl',roleAttributesCtrl);
 
-function roleAttributesCtrl ($scope, $http, $state, $templateCache, $stateParams, roleAttributeService){
+function roleAttributesCtrl ($scope, $http, $stateParams, roleAttributeService){
     $scope.changePageHeader('Атрибути ролі');
     $scope.formData = {};
     if(typeof $stateParams.moduleId!='undefined'){
@@ -58,7 +58,7 @@ function roleAttributesCtrl ($scope, $http, $state, $templateCache, $stateParams
         $scope.selectedModule=null;
     };
 
-    // params: role, role's attribute, attribute's id, users's id
+    // params: role, role's attribute, users's id, attribute's id
     $scope.setTeacherRoleAttribute = function(role, attribute, userId, attributeId){
         if (attributeId && userId){
             roleAttributeService
@@ -123,61 +123,5 @@ function roleAttributesCtrl ($scope, $http, $state, $templateCache, $stateParams
             console.log(data);
             bootbox.alert("Виникла помилка при завантаженні модулів користувача");
         })
-    };
-    
-    $scope.addCMPermission = function(permission,user){
-        var url;
-        var attribute;
-        var role;
-        switch (permission){
-            case "author":
-                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
-                role = "author";
-                attribute = "module";
-                break;
-            case "consultant":
-                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
-                role = "consultant";
-                attribute = "module";
-                break;
-            case "teacher_consultant":
-                url = basePath + "/_teacher/_admin/teachers/setTeacherRoleAttribute";
-                role = "teacher_consultant";
-                attribute = "module";
-                break;
-        }
-        if ($scope.selectedModule && user)
-            $http({
-                method:'POST',
-                url: url,
-                data: $jq.param({'attribute': attribute, 'attributeValue':$scope.selectedModule.id, 'role': role, 'user' : user  }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-            }).success(function(data){
-                if (data == 'success')
-                {
-                    bootbox.alert("Операцію успішно виконано",function(){
-                        $templateCache.remove(basePath+'/_teacher/_content_manager/contentManager/showTeacher/id/'+user);
-                        $state.go($state.current, {}, {reload: true});
-                    });
-                } else {
-                    switch (permission){
-                        case "moduleAuchtor":
-                            bootbox.alert("Обраний модуль вже присутній у списку модулів даного викладача");
-                            break;
-                        case "author":
-                            bootbox.alert(data);
-                            break;
-                        case "consultant":
-                            bootbox.alert(data);
-                            break;
-                        case "teacher_consultant":
-                            bootbox.alert(data);
-                            break;
-                    }
-                }
-            }).error(function(){
-                bootbox.alert("Операцію не вдалося виконати");
-            });
-
     };
 }

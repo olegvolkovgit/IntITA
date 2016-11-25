@@ -9,7 +9,9 @@
 class TeachersController extends TeacherCabinetController{
 
     public function hasRole(){
-        return Yii::app()->user->model->isAdmin();
+        $allowedCMActions = ['getTeacherDataList'];
+        $action = Yii::app()->controller->action->id;
+        return Yii::app()->user->model->isAdmin() || (Yii::app()->user->model->isContentManager() && in_array($action, $allowedCMActions));
     }
 
     protected function performAjaxValidation($model)
@@ -30,20 +32,6 @@ class TeachersController extends TeacherCabinetController{
 
         $this->renderPartial('index', array(
             'model' => $model,
-        ),false,true);
-    }
-
-    public function actionShowTeacher($id)
-    {
-        $user = RegisteredUser::userById($id);
-        if(!$user->isTeacher()){
-            throw new \application\components\Exceptions\IntItaException(400, 'Такого викладача немає.');
-        }
-        $teacher = $user->getTeacher();
-
-        $this->renderPartial('showTeacher',array(
-            'teacher' => $teacher,
-            'user' => $user
         ),false,true);
     }
 
@@ -177,30 +165,6 @@ class TeachersController extends TeacherCabinetController{
         $model->setShowMode();
         if($model->isShow()) echo 'success';
         else echo "error";
-    }
-
-    public function actionCancelTeacherRole($id)
-    {
-        $user = RegisteredUser::userById($id);
-        $roles = $user->teacherRoles();
-        $teacher = $user->getTeacher();
-
-        $this->renderPartial('cancelTeacherRole', array(
-            'teacher' => $teacher,
-            'roles' => $roles,
-        ),false,true);
-    }
-
-    public function actionAddTeacherRole($id)
-    {
-        $user = RegisteredUser::userById($id);
-        $teacher = $user->getTeacher();
-        $roles = $user->noSetRoles();
-
-        $this->renderPartial('addTeacherRole', array(
-            'teacher' => $teacher,
-            'roles' => $roles,
-        ),false,true);
     }
 
     public function actionUnsetTeacherRole()

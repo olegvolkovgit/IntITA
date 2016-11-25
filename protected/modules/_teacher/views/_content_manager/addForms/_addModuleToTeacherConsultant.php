@@ -39,7 +39,7 @@
             <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 Викладачем модуля можна призначити лише співробітника з ролю 'викладач'.
                 Якщо потрібного користувача немає в списку, то додати викладача можна на сторінці
-                <a class="alert-link" ng-href="#/admin/users/addrole/teacherConsultant">
+                <a class="alert-link" ng-href="#/admin/users/addrole/teacher_consultant">
                     додати викладача
                 </a>.
             <?php } else { ?>

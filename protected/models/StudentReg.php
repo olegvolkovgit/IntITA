@@ -1402,4 +1402,56 @@ class StudentReg extends CActiveRecord
 
         return json_encode($data);
     }
+
+    public static function userData($id){
+        $result = array();
+        $model=RegisteredUser::userById($id);
+        $teacher = Teacher::model()->findByPk($id);
+
+        $user = $model->registrationData->getAttributes();
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+
+        $result['user']=$user;
+        $result['user']['roles']=$model->getRoles();
+        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        foreach($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]= $role->__toString();
+        }
+        $result['trainer']=$trainer;
+        if($model->isStudent()){
+            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+            foreach($result['courses'] as $key=>$course){
+                $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
+                foreach($result['courses'][$key]['modules'] as $index=>$module){
+                    $result['courses'][$key]['modules'][$index]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
+                }
+            }
+            foreach($result['modules'] as $key=>$module){
+                $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
+            }
+        }
+        if ($teacher) {
+            $result['teacher'] = (array)$teacher->getAttributes();
+            $result['teacher']['modules'] = $teacher->modulesActive;
+        }
+        $studentSubgroups = OfflineStudents::model()->findAllByAttributes(array('id_user'=>$id));
+        if($studentSubgroups){
+            foreach ($studentSubgroups as $key=>$subgroup){
+                $result["offlineStudent"][$key]["idOfflineStudent"] = $subgroup->id;
+                $result["offlineStudent"][$key]["startDate"] = $subgroup->start_date;
+                $result["offlineStudent"][$key]["endDate"] = $subgroup->end_date;
+                $result["offlineStudent"][$key]["graduateDate"] = $subgroup->graduate_date;
+                $result["offlineStudent"][$key]["idSubgroup"] = $subgroup->id_subgroup;
+                $result["offlineStudent"][$key]["subgroupName"] = $subgroup->subgroupName->name;
+                $result["offlineStudent"][$key]["idGroup"] = $subgroup->group->id;
+                $result["offlineStudent"][$key]["groupName"] = $subgroup->group->name;
+                $result["offlineStudent"][$key]["specialization"] = $subgroup->group->specializationName->name;
+            }
+        }
+        return $result;
+    }
 }

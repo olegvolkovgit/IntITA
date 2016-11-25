@@ -13,12 +13,7 @@ class ContentManagerController extends TeacherCabinetController
     {
         $this->renderPartial('/_content_manager/authors');
     }
-
-    public function actionConsultants()
-    {
-        $this->renderPartial('/_content_manager/consultants');
-    }
-
+    
     public function actionTeacherConsultants()
     {
         $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
@@ -31,21 +26,6 @@ class ContentManagerController extends TeacherCabinetController
     public function actionStatusOfCourses()
     {
         $this->renderPartial('/_content_manager/statusOfCourses', array(), false, true);
-    }
-
-    public function actionAddConsultantModuleForm()
-    {
-        $this->renderPartial('/_content_manager/addForms/_addConsultantModule', array(), false, true);
-    }
-
-    public function actionAddTeacherConsultantForm()
-    {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultantModule', array(), false, true);
-    }
-
-    public function actionAddTeacherModuleForm()
-    {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherAccess', array(), false, true);
     }
 
     public function actionSetTeacherRoleAttribute($userId,$role,$attribute,$attributeValue)
@@ -131,18 +111,6 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial('/_content_manager/_dashboard', array(), false, true);
     }
 
-    public function actionShowTeacher($id)
-    {
-        $user = RegisteredUser::userById($id);
-        if ($user) {
-            $this->renderPartial('/_content_manager/_showTeacher', array(
-                'user' => $user
-            ), false, true);
-        } else {
-            throw new \application\components\Exceptions\IntItaException(400);
-        }
-    }
-
     public function actionRenderAddForm($role)
     {
         if ($role == "") {
@@ -207,21 +175,6 @@ class ContentManagerController extends TeacherCabinetController
         }
     }
 
-    public function actionAssignRole(){
-        $userId = Yii::app()->request->getPost('userId');
-        $role = Yii::app()->request->getPost('role');
-        $user = RegisteredUser::userById($userId);
-
-        if ($user->hasRole($role)) {
-            echo "Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
-            return;
-        }
-        if ($user->setRole($role))
-            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$role;
-        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
-        Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
-    }
-
     public function actionGetLessonsList($idModule) {
         echo UserContentManager::listOfLessons($idModule);
     }
@@ -240,4 +193,16 @@ class ContentManagerController extends TeacherCabinetController
 
     }
 
+    public function actionUserAttributesList($id,$role)
+    {
+        $user = RegisteredUser::userById($id);
+        $role = new UserRoles($role);
+        $attributes = $user->getAttributesByRole($role);
+
+        $this->renderPartial('/_content_manager/_moduleList', array(
+            'model' => $user->registrationData,
+            'role' => $role,
+            'attributes' => $attributes
+        ),false,true);
+    }
 }
