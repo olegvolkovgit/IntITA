@@ -4,12 +4,6 @@
 angular
     .module('teacherApp')
     .controller('sendCoworkerRequestCtrl',sendCoworkerRequestCtrl)
-    .controller('allConsultantsCtrl', function ($scope){
-        initConsultantsTable();
-    })
-    .controller('allTeachersConsultantsCtrl', function ($scope){
-        initTeacherConsultantsTableCM();
-    })
     .controller('statusOfModulesCtrl', function ($scope, $resource, NgTableParams, $stateParams){
 
         var modulesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getModulesList');

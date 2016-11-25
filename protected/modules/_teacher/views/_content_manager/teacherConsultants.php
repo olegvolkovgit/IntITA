@@ -11,7 +11,7 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="all">
-                <div class="col-lg-12" ng-controller="allTeachersConsultantsCtrl">
+                <div class="col-lg-12">
                     <br>
                     <ul class="list-inline">
                         <li>
