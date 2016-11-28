@@ -68,7 +68,7 @@
                         </label>
                         <div class="form-group">
                             <input type="text" size="135" ng-model="selectedCourse" ng-model-options="{ debounce: 1000 }"
-                                   placeholder="Назва кусру" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10"
+                                   placeholder="Назва курсу" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10"
                                    typeahead-no-results="noResultsCourse"  typeahead-on-select="selectCourse($item)"
                                    ng-change="reloadCourse()" class="form-control" />
                             <i ng-show="loadingCourses" class="glyphicon glyphicon-refresh"></i>

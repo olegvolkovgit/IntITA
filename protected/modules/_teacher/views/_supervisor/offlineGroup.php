@@ -11,6 +11,12 @@
                 <uib-tab  index="1" heading="Студенти">
                     <?php $this->renderPartial('/_supervisor/tables/_offlineStudents', array());?>
                 </uib-tab>
+                <uib-tab  index="2" heading="Доступ до курсів">
+                    <?php $this->renderPartial('/_supervisor/tables/_coursesAccess', array());?>
+                </uib-tab>
+                <uib-tab  index="3" heading="Доступ до модулів">
+                    <?php $this->renderPartial('/_supervisor/tables/_modulesAccess', array());?>
+                </uib-tab>
             </uib-tabset>
         </div>
     </div>

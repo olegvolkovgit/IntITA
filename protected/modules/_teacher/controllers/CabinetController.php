@@ -316,5 +316,14 @@ class CabinetController extends TeacherCabinetController
         $modules = $user->getAttributesByRole(new UserRoles($role))[0];
         echo json_encode($modules);
     }
+
+    public function actionGetModuleLink()
+    {
+        echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
+    }
+    public function actionGetCourseLink()
+    {
+        echo Yii::app()->createUrl('course/index', array('id' => Yii::app()->request->getPost('id')));
+    }
     
 }
