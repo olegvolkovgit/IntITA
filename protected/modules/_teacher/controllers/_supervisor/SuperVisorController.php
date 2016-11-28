@@ -107,6 +107,16 @@ class SuperVisorController extends TeacherCabinetController
 
         $this->renderPartial('/_supervisor/forms/updateOfflineStudent', array(), false, true);
     }
+
+    public function actionGroupAccess($type)
+    {
+        if($type=='course'){
+            $view='groupAccessToCourse';
+        } else if($type=='module'){
+            $view='groupAccessToModule';
+        }
+        $this->renderPartial('/_supervisor/forms/'.$view, array(), false, true);
+    }
     
     public function actionGetOfflineGroupsList()
     {
@@ -252,6 +262,36 @@ class SuperVisorController extends TeacherCabinetController
     {
         $id=$id?$id:Yii::app()->user->getId();
         echo json_encode(StudentReg::model()->findByPk($id)->userIdFullName());
+    }
+
+    public function actionGetCourseAccessList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('GroupAccess', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->join = ' LEFT JOIN acc_course_service cs ON t.service_id = cs.service_id';
+        $criteria->join .= ' LEFT JOIN course c ON cs.course_id = c.course_ID';
+        $criteria->condition = 't.group_id='.$requestParams['idGroup'].' and cs.course_id IS NOT NULL';
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionGetModuleAccessList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('GroupAccess', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->join = ' LEFT JOIN acc_module_service ms ON t.service_id = ms.service_id';
+        $criteria->join .= ' LEFT JOIN module m ON ms.module_id = m.module_ID';
+        $criteria->condition = 't.group_id='.$requestParams['idGroup'].' and ms.module_id IS NOT NULL';
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
     
     public function actionCreateOfflineGroup()
@@ -537,6 +577,38 @@ class SuperVisorController extends TeacherCabinetController
             }
         }else{
             echo 'Студента в даній підгрупі не знайдено';
+        }
+    }
+
+    public function actionSetGroupAccessToService()
+    {
+        $idGroup=Yii::app()->request->getParam('idGroup');
+        $idContent=Yii::app()->request->getParam('idContent');
+        $startDate=Yii::app()->request->getParam('startDate');
+        $endDate=Yii::app()->request->getParam('endDate');
+        $serviceType=Yii::app()->request->getParam('serviceType');
+
+        $educFormModel = EducationForm::model()->findByPk(EducationForm::OFFLINE);
+        if($serviceType=='course') 
+            $service = CourseService::getService($idContent, $educFormModel);
+        else if($serviceType=='module')
+            $service = ModuleService::getService($idContent, $educFormModel);
+
+        $groupAccess= new GroupAccess();
+        $groupAccess->group_id=$idGroup;
+        $groupAccess->service_id=$service->service_id;
+        $groupAccess->start_date=$startDate;
+        $groupAccess->end_date=$endDate;
+
+        if(GroupAccess::model()->findAllByAttributes(array('group_id'=>$groupAccess->group_id,'service_id'=>$groupAccess->service_id))){
+            echo 'Дана група вже має доступ до даного контента';
+        }else{
+            if($groupAccess->validate()){
+                $groupAccess->save();
+                echo 'Групі успішно надано права';
+            }else{
+                echo $groupAccess->getValidationErrors();
+            }
         }
     }
 }

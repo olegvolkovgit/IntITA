@@ -155,4 +155,11 @@ config(function ($stateProvider) {
             controller: 'studentsSVTableCtrl',
             templateUrl: basePath+"/_teacher/_supervisor/superVisor/students",
         })
+        .state('supervisor/groupAccess/:type', {
+            url: "/supervisor/groupAccess/:type",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type;
+            }
+        })
 });
