@@ -29,12 +29,21 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-        $type = Yii::app()->request->getPost('type');
-        $recipients = Yii::app()->request->getPost('recipients');
-        $subject = urldecode(Yii::app()->request->getPost('subject'));
-        $message = urldecode(Yii::app()->request->getPost('message'));
-        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
-        $newsLetter->startSend();
+//        $type = Yii::app()->request->getPost('type');
+//        $recipients = Yii::app()->request->getPost('recipients');
+//        $subject = urldecode(Yii::app()->request->getPost('subject'));
+//        $message = urldecode(Yii::app()->request->getPost('message'));
+//        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
+        $task = new Tasks();
+        $task->type = TaskFactory::NEWSLETTER;
+        $task->name = 'Розсилка';
+        $task->status = Tasks::STATUSNEW;
+        $task->parameters = json_encode($_POST);
+        date_default_timezone_set(Config::getServerTimezone());
+        $date = new DateTime('now');
+        $task->start_time = $date->format('Y-m-d H:i:s');
+        $task->save();
+        //$newsLetter->startSend();
     }
 
     public function actionGetUserEmail(){
