@@ -17,6 +17,8 @@
  * @property UserMessages[] $userMessages
  * @property StudentReg[] $receivers0
  */
+
+/* @TODO 28.11.16 Переписать к чертям все эти сообщения с наследованием, т.к. не совместимо с PHP7 */
 class Messages extends CActiveRecord
 {
     /**

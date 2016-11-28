@@ -12,7 +12,7 @@
  * @property Operation $operation
  * @property Messages $message0
  */
-class MessagesPayment extends Messages implements IMessage
+class MessagesPayment extends CActiveRecord /*extends Messages*/ implements IMessage
 {
     private $message;
     private $template;

@@ -12,7 +12,7 @@
  * @property StudentReg $sender
  * @property Messages $message0
  */
-class UserMessages extends Messages implements IMessage
+class UserMessages extends CActiveRecord /*extends Messages*/ implements IMessage
 {
     private $receivers;
     public $message;

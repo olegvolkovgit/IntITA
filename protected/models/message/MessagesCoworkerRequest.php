@@ -16,7 +16,7 @@
  * @property StudentReg $userApproved
  * @property Messages $message0
  */
-class MessagesCoworkerRequest extends Messages implements IMessage, IRequest
+class MessagesCoworkerRequest extends CActiveRecord /*extends Messages*/ implements IMessage, IRequest
 {
     private $template =  'coworker'. DIRECTORY_SEPARATOR . '_newCoworkerRequest';
     private $approveTemplate = 'coworker'. DIRECTORY_SEPARATOR . '_approveCoworkerRequest';
