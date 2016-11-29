@@ -108,14 +108,14 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/updateOfflineStudent', array(), false, true);
     }
 
-    public function actionGroupAccess($type)
+    public function actionGroupAccess($type, $scenario)
     {
         if($type=='course'){
             $view='groupAccessToCourse';
         } else if($type=='module'){
             $view='groupAccessToModule';
         }
-        $this->renderPartial('/_supervisor/forms/'.$view, array(), false, true);
+        $this->renderPartial('/_supervisor/forms/'.$view, array('scenario'=>$scenario), false, true);
     }
     
     public function actionGetOfflineGroupsList()
@@ -264,6 +264,17 @@ class SuperVisorController extends TeacherCabinetController
         echo json_encode(StudentReg::model()->findByPk($id)->userIdFullName());
     }
 
+    public function actionGetGroupAccess()
+    {
+        $result=array();
+        $groupAccess=GroupAccess::model()->findByPk(array('group_id'=>Yii::app()->request->getParam('groupId'),'service_id'=>Yii::app()->request->getParam('serviceId')));
+        $result['group']=$groupAccess->group->name;
+        $result['service']=$groupAccess->service->description;
+        $result['endDate']=$groupAccess->end_date;
+        
+        echo CJSON::encode($result);
+    }
+    
     public function actionGetCourseAccessList()
     {
         $requestParams = $_GET;
@@ -584,7 +595,6 @@ class SuperVisorController extends TeacherCabinetController
     {
         $idGroup=Yii::app()->request->getParam('idGroup');
         $idContent=Yii::app()->request->getParam('idContent');
-        $startDate=Yii::app()->request->getParam('startDate');
         $endDate=Yii::app()->request->getParam('endDate');
         $serviceType=Yii::app()->request->getParam('serviceType');
 
@@ -597,7 +607,7 @@ class SuperVisorController extends TeacherCabinetController
         $groupAccess= new GroupAccess();
         $groupAccess->group_id=$idGroup;
         $groupAccess->service_id=$service->service_id;
-        $groupAccess->start_date=$startDate;
+        $groupAccess->start_date=date('Y-m-d');
         $groupAccess->end_date=$endDate;
 
         if(GroupAccess::model()->findAllByAttributes(array('group_id'=>$groupAccess->group_id,'service_id'=>$groupAccess->service_id))){
@@ -610,5 +620,33 @@ class SuperVisorController extends TeacherCabinetController
                 echo $groupAccess->getValidationErrors();
             }
         }
+    }
+
+    public function actionUpdateGroupAccessToService()
+    {
+        $idGroup=Yii::app()->request->getParam('idGroup');
+        $idService=Yii::app()->request->getParam('idService');
+        $endDate=Yii::app()->request->getParam('endDate');
+
+        $groupAccess= GroupAccess::model()->findByPk(array('group_id'=>$idGroup,'service_id'=>$idService));
+        $groupAccess->end_date=$endDate;
+
+        if($groupAccess->validate()){
+            if($groupAccess->save())
+                echo 'Дані оновлено';
+        }else{
+            echo $groupAccess->getValidationErrors();
+        }
+    }
+
+    public function actionCancelGroupAccess()
+    {
+        $idGroup=Yii::app()->request->getParam('idGroup');
+        $idService=Yii::app()->request->getParam('idService');
+
+        $groupAccess = GroupAccess::model()->findByPk(array('group_id'=>$idGroup,'service_id'=>$idService));
+        $groupAccess->end_date=date('Y-m-d');
+        if($groupAccess->save()) return true;
+        else  throw new \application\components\Exceptions\IntItaException('500');
     }
 }

@@ -159,7 +159,21 @@ config(function ($stateProvider) {
             url: "/supervisor/groupAccess/:type",
             cache: false,
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type;
+                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=create";
+            }
+        })
+        .state('supervisor/editGroupAccess/:type/group/:group/service/:service', {
+            url: "/supervisor/editGroupAccess/:type/group/:group/service/:service",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=update";
+            }
+        })
+        .state('supervisor/groupAccess/:type/group/:group', {
+            url: "/supervisor/groupAccess/:type/group/:group",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_supervisor/superVisor/groupAccess/?type="+$stateParams.type+"&scenario=create";
             }
         })
 });

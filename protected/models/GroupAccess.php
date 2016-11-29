@@ -47,6 +47,7 @@ class GroupAccess extends CActiveRecord
 			'course' => array(self::BELONGS_TO, 'Course', array('course_id'=>'course_ID'), 'through' => 'courseService'),
 			'moduleService' => array(self::BELONGS_TO, 'ModuleService', ['service_id'=>'service_id']),
 			'module' => array(self::BELONGS_TO, 'Module', array('module_id'=>'module_ID'), 'through' => 'moduleService'),
+			'service' => array(self::BELONGS_TO, 'Service', ['service_id'=>'service_id']),
 		);
 	}
 
@@ -104,6 +105,12 @@ class GroupAccess extends CActiveRecord
 		return array('group_id', 'service_id');
 	}
 
+	public function afterSave()
+	{
+//		do something?
+//		parent::afterSave();
+	}
+	
 	public function getValidationErrors() {
 		$errors=[];
 		foreach($this->getErrors() as $key=>$attribute){

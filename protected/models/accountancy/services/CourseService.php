@@ -51,7 +51,7 @@ class CourseService extends AbstractIntITAService
 		// class name for the relations automatically generated below.
 		return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-            'course' => array(self::BELONGS_TO, 'Course', 'course_id'),
+            'courseModel' => array(self::BELONGS_TO, 'Course', 'course_id'),
             'educForm' => array(self::BELONGS_TO, 'EducationForm', 'education_form')
 		);
 	}

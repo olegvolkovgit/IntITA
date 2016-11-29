@@ -159,7 +159,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
+function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter){
     $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
@@ -196,8 +196,30 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                     });
             }
         });
+        
+        $scope.date = $filter('date')(new Date(), "yyyy-MM-dd");
     }
 
+    $scope.cancelGroupAccess=function(idGroup, idService, type){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelGroupAccess',
+            method: "POST",
+            data: $jq.param({
+                idGroup:idGroup,
+                idService:idService
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+           if(type=='course'){
+               $scope.groupCoursesAccessParams.reload();
+           }else if(type=='module'){
+               $scope.groupModulesAccessParams.reload();
+           }
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка");
+        });
+    };
+    
     $scope.loadGroupData=function(){
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/getGroupData',
@@ -653,42 +675,81 @@ function studentsSVTableCtrl ($scope, superVisorService, NgTableParams){
 }
 
 
-function groupAccessCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams){
+function groupAccessCtrl ($scope, $http, $stateParams){
     $scope.changePageHeader('Доступ групи до контенту');
-    $scope.onSelect = function ($item) {
+    $scope.end_date='2099-12-31';
+
+    $scope.loadGroupData=function(groupId){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/getGroupData',
+            method: "POST",
+            data: $jq.param({id:groupId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.selectedGroup=response.data;
+            $scope.groupSelected=response.data.name;
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані групи не вдалося");
+        });
+    };
+    $scope.loadGroupAccess=function(groupId,serviceId){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/getGroupAccess',
+            method: "POST",
+            data: $jq.param({
+                groupId:groupId,
+                serviceId:serviceId
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.groupSelected=response.data.group;
+            $scope.serviceSelected=response.data.service;
+            $scope.end_date=response.data.endDate;
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані не вдалося");
+        });
+    };
+
+    if($stateParams.service && $stateParams.group) {
+        $scope.defaultService=$stateParams.service;
+        $scope.defaultGroup=$stateParams.group;
+        $scope.loadGroupAccess($scope.defaultGroup, $scope.defaultService);
+    }else if(!$stateParams.service && $stateParams.group){
+        $scope.defaultGroup=$stateParams.group;
+        $scope.loadGroupData($stateParams.group);
+    }
+
+    $scope.onSelectGroup = function ($item) {
         $scope.selectedGroup = $item;
     };
-    $scope.reload = function(){
+    $scope.reloadGroup = function(){
         $scope.selectedGroup=null;
     };
-    $scope.onSelectCourse = function ($item) {
-        $scope.selectedCourse = $item;
+    $scope.onSelectService = function ($item) {
+        $scope.selectedContent = $item;
     };
-    $scope.reloadCourse = function(){
-        $scope.selectedCourse=null;
-    };
-    $scope.onSelectModule = function ($item) {
-        $scope.selectedModule = $item;
-    };
-    $scope.reloadModule = function(){
-        $scope.selectedModule=null;
+    $scope.reloadService = function(){
+        $scope.selectedContent=null;
     };
     $scope.clearContent = function(){
-        $scope.selectedCourse=null;
-        $scope.courseSelected=null;
-        $scope.selectedModule=null;
-        $scope.moduleSelected=null;
+        $scope.selectedContent=null;
+        $scope.serviceSelected=null;
     };
     
-    $scope.sendGroupAccessToContent=function(idGroup, idContent, startDate, endDate, serviceType){
-        if(idGroup && idContent && startDate && endDate){
+    $scope.sendGroupAccessToContent=function(scenario, idGroup, idContent, endDate, serviceType){
+        if(scenario=='create')
+            $scope.createGroupAccessToContent(idGroup, idContent, endDate, serviceType);
+        else $scope.updateGroupAccessToContent($scope.defaultGroup, $scope.defaultService, endDate);
+    };
+
+    $scope.createGroupAccessToContent=function(idGroup, idContent, endDate, serviceType){
+        if(idGroup && idContent && endDate && serviceType){
             $http({
                 url: basePath+'/_teacher/_supervisor/superVisor/setGroupAccessToService',
                 method: "POST",
                 data: $jq.param({
                     idGroup:idGroup,
                     idContent:idContent,
-                    startDate:startDate,
                     endDate:endDate,
                     serviceType:serviceType
                 }),
@@ -703,5 +764,43 @@ function groupAccessCtrl ($scope, $state, $http, $stateParams, superVisorService
         }else{
             bootbox.alert("Введіть всі необхідні дані форми");
         }
-    }
+    };
+
+    $scope.updateGroupAccessToContent=function(idGroup, idService, endDate){
+        if(idGroup && idService && endDate){
+            $http({
+                url: basePath+'/_teacher/_supervisor/superVisor/updateGroupAccessToService',
+                method: "POST",
+                data: $jq.param({
+                    idGroup:idGroup,
+                    idService:idService,
+                    endDate:endDate,
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+            }, function errorCallback(response) {
+                console.log(response);
+                bootbox.alert("Виникла помилка");
+            });
+        }else{
+            bootbox.alert("Введіть всі необхідні дані форми");
+        }
+    };
+
+    $scope.cancelGroupAccess=function(idGroup, idService){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelGroupAccess',
+            method: "POST",
+            data: $jq.param({
+                idGroup:idGroup,
+                idService:idService
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            $scope.loadGroupAccess(idGroup, idService);
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка");
+        });
+    };
 }
