@@ -23,6 +23,14 @@ angular
 
 function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
 
+    $scope.taskTypes = [{
+        name: 'Негайно',
+        value: '0'
+    }, {
+        name: 'Відкласти',
+        value: '1'
+    }];
+
     $rootScope.$on('mailTemplateSelected', function (event, data) {
         $scope.subject = data.subject;
         $scope.message = data.text;
@@ -37,6 +45,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
         $scope.newsletterType = null;
         $scope.subject = null;
         $scope.message = null;
+        $scope.taskType = $scope.taskTypes[0].value;
+
     };
     init();
 
@@ -80,8 +90,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             }).success(function () {
-                bootbox.alert('Виконано успішно',function () {
-                   $state.go('index');
+                bootbox.alert('Задача запланована',function () {
+                   $state.go('scheduler/tasks');
                 });
             }).error(function () {
                 bootbox.alert('Вибачте, виникла помилка');
@@ -100,4 +110,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
         $state.go('index');
     };
 
+    $scope.open1 = function() {
+        $scope.open = !$scope.open;
+    };
 }

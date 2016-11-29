@@ -34,10 +34,10 @@ class NewsletterController extends TeacherCabinetController
 //        $subject = urldecode(Yii::app()->request->getPost('subject'));
 //        $message = urldecode(Yii::app()->request->getPost('message'));
 //        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
-        $task = new Tasks();
+        $task = new SchedulerTasks();
         $task->type = TaskFactory::NEWSLETTER;
         $task->name = 'Розсилка';
-        $task->status = Tasks::STATUSNEW;
+        $task->status = SchedulerTasks::STATUSNEW;
         $task->parameters = json_encode($_POST);
         date_default_timezone_set(Config::getServerTimezone());
         $date = new DateTime('now');

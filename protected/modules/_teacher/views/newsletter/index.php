@@ -81,6 +81,36 @@
                     <span style="color:red" ng-show="newsletterForm.message.$dirty && newsletterForm.message.$invalid">
                 <span ng-cloak ng-show="newsletterForm.message.$error.required">Заповніть поле!</span>
                 </div>
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Відправка</label>
+                    <select class="form-control" id="selectTaskType"
+                            ng-model="taskType"
+                            ng-options="taskType.value as taskType.name for taskType in taskTypes">
+                    </select>
+                </div>
+                <div ng-show="taskType > 0">
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Повтор завдання</label>
+                    <select class="form-control" id="selectSchedulerType" ng-model="taskRepeat">
+                        <option value="1" selected="selected">Один раз</option>
+                        <option value="2">Раз на день</option>
+                        <option value="3">Раз на тиждень</option>
+                        <option value="4">Раз на місяць</option>
+                        <option value="5">Раз на рік</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-8">
+                    <p class="input-group col-md-3">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt"
+                               is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                               alt-input-formats="altInputFormats"/>
+                        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i
+                    class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                    </p>
+                </div>
+                </div>
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-primary"
                             ng-click="send();">
