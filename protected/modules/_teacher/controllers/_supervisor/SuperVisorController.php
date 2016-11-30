@@ -171,9 +171,12 @@ class SuperVisorController extends TeacherCabinetController
         $criteria =  new CDbCriteria();
 
         $criteria->alias = 't';
-        $criteria->join = 'inner join user_student us on t.id = us.id_user';
+        $criteria->distinct = true;
+        $criteria->join = 'left join user_student us on t.id = us.id_user';
         $criteria->join .= ' left JOIN offline_students os ON t.id = os.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL and t.educform="Онлайн/Офлайн"';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' 
+        and us.end_date IS NULL and t.educform="Онлайн/Офлайн" 
+        and os.id_user IS NULL';
         $criteria->group = 't.id';
 
         $ngTable->mergeCriteriaWith($criteria);

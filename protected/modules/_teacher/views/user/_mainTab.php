@@ -113,7 +113,15 @@ $user = $model->registrationData;
                         </button>
                     <?php } ?>
                 </li>
-                <li class="list-group-item" ng-if="data.user.educform">Форма навчання: <em>{{data.user.educform}}</em></li>
+                <li class="list-group-item" ng-if="data.user.educform">
+                    Форма навчання: <em>{{data.user.educform}}</em>
+                    <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
+                        <button type="button" class="btn btn-outline btn-primary btn-xs"
+                                ng-click="changeStudentEducForm(data.user.id,data.user.educform);">
+                            {{data.user.educform=='Онлайн' ? "змінити на 'Онлайн/Офлайн'" : "змінити на 'Онлайн'"}}
+                        </button>
+                    <?php } ?>
+                </li>
                 <li class="list-group-item">Адреса, вік: <em><?php echo $user->addressString(); ?></em></li>
 
                 <li ng-if="data.teacher.modules.length" class="list-group-item"> Автор модулів:<br>

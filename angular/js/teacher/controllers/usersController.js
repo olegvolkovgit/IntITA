@@ -428,7 +428,21 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService){
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
-    
+    $scope.changeStudentEducForm=function (user,currentEducForm) {
+        var form;
+        if(currentEducForm=='Онлайн') form='Онлайн/Офлайн';
+        else if(currentEducForm=='Онлайн/Офлайн') form='Онлайн';
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/user/setStudentEducForm',
+            data: $jq.param({user: user,form:form}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            $scope.loadUserData($scope.userId);
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
     $scope.assignRole = function (user, role) {
         if(user && role){
             roleService

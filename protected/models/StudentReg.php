@@ -1282,6 +1282,11 @@ class StudentReg extends CActiveRecord
         return $this->save(true, array('cancelled'));
     }
 
+    public function setUserForm($form){
+        $this->educform = $form;
+        return $this->save(true, array('educform'));
+    }
+
     public static function getAdminModel(){
         return StudentReg::model()->findByPk(Config::getAdminId());
     }

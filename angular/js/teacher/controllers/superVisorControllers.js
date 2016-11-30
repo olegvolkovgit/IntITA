@@ -68,7 +68,7 @@ function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
 }
 
 function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams){
-    $scope.changePageHeader('Усі студенти(офлайн ф.н.)');
+    $scope.changePageHeader('Студенти(офлайн ф.н.), які не в групі');
     $scope.studentsWithoutGroupTableParams = new NgTableParams({}, {
         getData: function (params) {
             return superVisorService
@@ -604,7 +604,7 @@ function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
     });
 }
 
-function studentsSVTableCtrl ($scope, superVisorService, NgTableParams){
+function studentsSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
     $scope.changePageHeader('Усі студенти');
 
     $jq("#startDate").datepicker(lang);
@@ -639,6 +639,21 @@ function studentsSVTableCtrl ($scope, superVisorService, NgTableParams){
                         return data.rows;
                     });
             }
+        });
+    }
+    $scope.changeStudentEducForm=function (user,currentEducForm) {
+        var form;
+        if(currentEducForm=='Онлайн') form='Онлайн/Офлайн';
+        else if(currentEducForm=='Онлайн/Офлайн') form='Онлайн';
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/user/setStudentEducForm',
+            data: $jq.param({user: user,form:form}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback() {
+            $scope.studentsTableParams.reload();
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
         });
     }
 }
