@@ -72,23 +72,8 @@ config(function ($stateProvider) {
         .state('supervisor/userProfile/:id', {
             url: "/supervisor/userProfile/:id",
             cache: false,
-            controller: 'offlineStudentProfileCtrl',
-            templateUrl: basePath + "/_teacher/_supervisor/superVisor/userProfile"
-        })
-        .state('supervisor/student/:id/changetrainer', {
-            url: "/supervisor/student/:id/changetrainer",
-            cache: false,
-            controller: 'offlineStudentProfileCtrl',
             templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_supervisor/superVisor/changeTrainer/id/"+$stateParams.id;
-            }
-        })
-        .state('supervisor/student/:id/addtrainer', {
-            url: "/supervisor/student/:id/addtrainer",
-            cache: false,
-            controller: 'offlineStudentProfileCtrl',
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_supervisor/superVisor/addTrainer/id/"+$stateParams.id;
+                return basePath + "/_teacher/_supervisor/superVisor/userProfile?id=" + $stateParams.id
             }
         })
         .state('supervisor/addOfflineGroup', {

@@ -1,28 +1,31 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Quicks
- * Date: 03.12.2015
- * Time: 18:16
- *
- * @var $trainers array
  * @var $trainer Teacher
+ * @var $oldTrainer Teacher
  * @var $user StudentReg
+ * @var $trainers array
  */
 ?>
-<div class="col-md-9">
-    <a type="button" class="btn btn-primary" ng-href="#/admin/users/user/{{data.user.id}}">
-        Переглянути інформацію про користувача
-    </a>
+<div class="col-md-8">
     <h4><em>Користувач:</em></h4>
     <div id="userInfo">
-        {{data.user.firstName}} {{data.user.secondName}} &lt;{{data.user.email}}&gt;
+        {{data.user.firstName}} {{data.user.secondName}}
+        <br>
+        {{data.user.email}}
+    </div>
+    <div ng-if="data.trainer">
+        <h4><em>Тренер:</em></h4>
+        <form method="post" ng-submit="cancelTrainer(data.user.id)">
+            <div id="userInfo">
+                {{data.trainer.firstName}} {{data.trainer.secondName}} {{data.trainer.middleName}} &lt;{{data.trainer.email}}&gt;
+            </div>
+            <input type="submit" class="btn btn-success" value="Скасувати">
+        </form>
     </div>
     <br>
-    <h4><em>Тренер:</em></h4>
+    <h4><em>Новий тренер:</em></h4>
     <div class="form-group">
-        <form method="post"
-              ng-submit="addTrainer('<?php echo Yii::app()->createUrl("/_teacher/_admin/users/setTrainer"); ?>', 'new', selectedTrainer.id, data.user.id);">
+        <form method="post" ng-submit="addTrainer(selectedTrainer.id, data.user.id);">
             <div class="form-group">
                 <label>
                     <strong>Тренер:</strong>
@@ -35,8 +38,6 @@
                     <i class="glyphicon glyphicon-remove"></i> тренера не знайдено
                 </div>
             </div>
-            <br>
-            <br>
             <input type="submit" class="btn btn-success" value="Призначити тренера">
             <a type="button" class="btn btn-default" ng-click='back()'>
                 Назад
@@ -44,3 +45,4 @@
         </form>
     </div>
 </div>
+

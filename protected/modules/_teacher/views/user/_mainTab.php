@@ -62,29 +62,23 @@ $user = $model->registrationData;
                     </ul>
                 </li>
                 <?php if (Yii::app()->user->model->isSuperVisor() && $model->isStudent()) { ?>
-                <li ng-if="user.student" class="list-group-item">
-                    <a ng-href="#/supervisor/addStudentToSubgroup/{{user.id}}">
+                <li ng-if="data.offlineStudent" class="list-group-item">
+                    <a ng-href="#/supervisor/addStudentToSubgroup/{{data.user.id}}">
                         Додати студента в підгрупу
                     </a>
                 </li>
                 <?php }?>
                 <?php if ($model->isStudent()) { ?>
                     <li class="list-group-item">Тренер:
-                        <span ng-if="data.trainer">
-                            <a ng-href="/teacher/{{data.trainer.id}}" target="_blank">
+                        <span>
+                            <a ng-if="data.trainer" ng-href="/teacher/{{data.trainer.id}}" target="_blank">
                                 {{data.trainer.firstName}} {{data.trainer.secondName}}({{data.trainer.email}})
                             </a>
-                            <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/changetrainer">
-                                змінити
+                            <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
+                            <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/addtrainer">
+                                <span ng-if="data.trainer">змінити</span>
+                                <span ng-if="!data.trainer">додати</span>
                             </a>
-                            <?php } ?>
-                        </span>
-                        <span ng-if="!data.trainer">
-                            <?php if (Yii::app()->user->model->isAdmin()) { ?>
-                                <a type="button" class="btn  btn-outline btn-primary btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/addtrainer">
-                                    додати
-                                </a>
                             <?php } ?>
                         </span>
                     </li>

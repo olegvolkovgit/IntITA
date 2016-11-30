@@ -1408,7 +1408,10 @@ class StudentReg extends CActiveRecord
         $model=RegisteredUser::userById($id);
         $teacher = Teacher::model()->findByPk($id);
 
-        $user = $model->registrationData->getAttributes();
+        $user = $model->registrationData->getAttributes(array(
+            'avatar','address','birthday','cancelled','city','country','education','educform','email','firstName',
+            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time'
+        ));
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
         $trainer = TrainerStudent::getTrainerByStudent($id);

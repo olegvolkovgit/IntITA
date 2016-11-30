@@ -72,9 +72,15 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/specializationUpdate', array(), false, true);
     }
 
-    public function actionUserProfile()
+    public function actionUserProfile($id)
     {
-        $this->renderPartial('/_supervisor/userProfile', array(), false, true);
+        $model = RegisteredUser::userById($id);
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+        
+        $this->renderPartial('/_supervisor/userProfile', array(
+            'model' => $model,
+            'trainer' => $trainer
+        ), false, true);
     }
 
     public function actionUsers()
@@ -231,11 +237,6 @@ class SuperVisorController extends TeacherCabinetController
     public function actionGetGroupData()
     {
         echo CJSON::encode(OfflineGroups::model()->findByPk(Yii::app()->request->getParam('id')));
-    }
-
-    public function actionGetUserData()
-    {
-        echo  CJSON::encode(OfflineStudents::userData(Yii::app()->request->getParam('id')));
     }
 
     public function actionGetOfflineStudentModel()
@@ -432,20 +433,6 @@ class SuperVisorController extends TeacherCabinetController
     public function actionCuratorsByQuery($query){
         echo SuperVisor::addCuratorsList($query);
     }
-    
-    public function actionAddTrainer($id)
-    {
-        $user = StudentReg::model()->findByPk($id);
-        if (!$user)
-            throw new CHttpException(404, 'Вказана сторінка не знайдена');
-
-        $trainers = Teacher::getAllTrainers();
-
-        $this->renderPartial('/_supervisor/forms/addTrainer', array(
-            'user' => $user,
-            'trainers' => $trainers
-        ), false, true);
-    }
 
     public function actionSetTrainer()
     {
@@ -455,58 +442,6 @@ class SuperVisorController extends TeacherCabinetController
 
         if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)===true) echo "success";
         else echo $trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-    }
-
-    public function actionChangeTrainer($id)
-    {
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-        if($trainer){
-            $oldTrainer = RegisteredUser::userById($trainer->id)->getTeacher();
-        } else {
-            $oldTrainer = null;
-        }
-
-        $user = StudentReg::model()->findByPk($id);
-
-        $trainers = Teacher::getAllTrainers();
-
-        $this->renderPartial('/_supervisor/forms/changeTrainer', array(
-            'user' => $user,
-            'trainers' => $trainers,
-            'oldTrainer' => $oldTrainer
-        ), false, true);
-    }
-    public function actionEditTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-        $trainerId = Yii::app()->request->getPost('trainerId');
-
-        $trainer = RegisteredUser::userById($trainerId);
-        $cancelResult='';
-        $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
-        if($oldTrainerId) {
-            $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
-            $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-            $cancelResult="Попереднього тренера скасовано.";
-        }
-        $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-        if ($result===true){
-            $setResult="Нового тренера призначено.";
-        } else{
-            $setResult=$result;
-        }
-        echo $cancelResult.' '.$setResult;
-    }
-
-    public function actionRemoveTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-
-        $trainer = TrainerStudent::getTrainerByStudent($userId);
-        $oldTrainer = RegisteredUser::userById($trainer->id);
-
-        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
     }
 
     public function actionGroupsByQuery($query)

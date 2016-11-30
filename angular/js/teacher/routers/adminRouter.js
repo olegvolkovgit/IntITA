@@ -147,14 +147,6 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/users/addTrainer/id/"+$stateParams.id;
             }
         })
-        .state('admin/users/user/:id/changetrainer', {
-            url: "/admin/users/user/:id/changetrainer",
-            cache: false,
-            controller:"userProfileCtrl",
-            templateUrl: function ($stateParams) {
-                return basePath+"/_teacher/_admin/users/changeTrainer/id/"+$stateParams.id;
-            }
-        })
         .state('admin/users/user/:id/addrole', {
             url: "/admin/users/user/:id/addrole",
             cache: false,

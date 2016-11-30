@@ -467,51 +467,21 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     };
 }
 
-function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhead, superVisorService){
-    $scope.changePageHeader('Користувач');
-    $scope.studentId=$stateParams.id;
-    $scope.loadUserData=function(studentId){
-        $http.get(basePath + "/_teacher/_supervisor/superVisor/getUserData/?id="+studentId).then(function (response) {
-            $scope.user = response.data.user;
-            $scope.offlineStudent=response.data.offlineStudent;
+function offlineStudentProfileCtrl ($scope, $state, $http, superVisorService, $stateParams){
+    $scope.userId=$stateParams.id;
+    $scope.loadUserData=function(userId){
+        $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+userId).then(function (response) {
+            $scope.data = response.data;
         });
     };
-    $scope.loadUserData($scope.studentId);
-
-    $scope.addTrainer=function (url, scenario) {
-        var id = document.getElementById('user').value;
-        var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
-        var oldTrainerId = 0;
-        if (trainerId == 0 && scenario != "remove") {
-            bootbox.alert("Виберіть тренера.");
-        }
-        $http({
-            method: 'POST',
-            url: url,
-            data: $jq.param({userId: id, trainerId: trainerId, oldTrainerId: oldTrainerId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            if (response.data == "success") {
-                bootbox.alert('Операцію успішно виконано.', function () {
-                    if(scenario == "new") $state.go('supervisor/student/:id/changetrainer', {id:id}, {reload: true});
-                    else if(scenario == "remove") $state.go('supervisor/student/:id/addtrainer', {id:id}, {reload: true});
-                    else $state.reload();
-                });
-            }else{
-                $scope.loadUserData($scope.studentId);
-                bootbox.alert(response.data)
-            }
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    };
-
+    $scope.loadUserData($scope.userId);
+    
     $scope.addStudentToSubgroup=function (idUser,idSubgroup,startDate) {
         if ($scope.selectedGroup==null) {
             bootbox.alert("Виберіть групу");
-        } else if($scope.selectedSubgroup==null){
+        } else if(idSubgroup==null){
             bootbox.alert("Виберіть підгрупу");
-        } else if($scope.user.id==null){
+        } else if(idUser==null){
             bootbox.alert("Виберіть студента");
         }else{
             $http({
@@ -520,9 +490,8 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
                 data: $jq.param({userId: idUser, subgroupId: idSubgroup, startDate: startDate}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go('supervisor/studentsWithoutGroup');
-                });
+                $scope.addUIHandlers(response.data);
+                $scope.loadUserData(idUser);
             }, function errorCallback() {
                 bootbox.alert("Операцію не вдалося виконати");
             });
@@ -536,14 +505,14 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data);
+            $scope.addUIHandlers(response.data);
             $scope.loadUserData(idUser);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
     
-    $scope.onSelect = function ($item) {
+    $scope.onSelectGroup = function ($item) {
         $scope.selectedGroup = $item;
         superVisorService
             .offlineGroupSubgroupsList({'id':$scope.selectedGroup.id})
@@ -552,14 +521,14 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
                 $scope.subgroupsList=data.rows;
             });
     };
-    $scope.reload = function(){
+    $scope.reloadGroup = function(){
         $scope.selectedGroup=null;
         $scope.selectedSubgroup=null;
         $scope.subgroupsList=null;
     };
 }
 
-function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhead, superVisorService){
+function updateOfflineStudentCtrl ($scope, $http, $stateParams, superVisorService){
     $scope.changePageHeader('Студент(офлайнова форма навчання)');
     $scope.studentModelId=$stateParams.idOfflineStudentModel;
     $scope.loadStudentModel=function(modelId){
@@ -583,7 +552,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
             data: $jq.param({modelId: modelId, userId: idUser, subgroupId: idSubgroup, newSubgroupId: newSubgroupId, startDate: startDate, graduateDate: graduateDate}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data);
+            $scope.addUIHandlers(response.data);
             $scope.loadStudentModel($scope.studentModelId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
@@ -597,7 +566,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data);
+            $scope.addUIHandlers(response.data);
             $scope.loadStudentModel($scope.studentModelId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");

@@ -55,9 +55,12 @@
                         <label>Дата скасування:</label>
                         <input class="form-control" ng-model="studentModel.endDate" maxlength="128" size="50" disabled>
                     </div>
-                    <div class="form-group" ng-if=!studentModel.endDate >
-                        <button type="submit" class="btn btn-primary" ng-disabled="updateStudent.$invalid">Зберегти
+                    <div class="form-group">
+                        <button  ng-if=!studentModel.endDate type="submit" class="btn btn-primary" ng-disabled="updateStudent.$invalid">Зберегти
                         </button>
+                        <a type="button" class="btn btn-default" ng-click='back()'>
+                            Назад
+                        </a>
                     </div>
                 </form>
             </div>
