@@ -21,7 +21,7 @@ angular
     })
 ;
 
-function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
+function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
 
     $scope.taskTypes = [{
         name: 'Негайно',
@@ -40,13 +40,22 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
         language: 'uk-ua',
     };
 
+
     function init() {
         $scope.selectedRecipients = null;
         $scope.newsletterType = null;
         $scope.subject = null;
         $scope.message = null;
         $scope.taskType = $scope.taskTypes[0].value;
-
+        $scope.hours = 1;
+        $scope.minutes = 1;
+        $scope.date = new Date();
+        $scope.time = new Date();
+        $scope.format = 'dd-MM-yyyy';
+        $scope.dateOptions = {
+            minDate: new Date(),
+            showWeeks: true
+        };
     };
     init();
 
@@ -86,7 +95,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state) {
                     "type": $scope.newsletterType,
                     "recipients": recipients,
                     "subject": $scope.subject,
-                    "message": $scope.message
+                    "message": $scope.message,
+                    "date": $filter('shortDate')($scope.date,'dd-MM-yyyy')+' '+$filter('shortDate')($scope.time,'HH:mm')
                 }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             }).success(function () {

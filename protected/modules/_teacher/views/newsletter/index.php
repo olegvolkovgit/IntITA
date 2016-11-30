@@ -101,14 +101,15 @@
                 </div>
                 <div class="form-group col-md-8">
                     <p class="input-group col-md-3">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt"
-                               is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date"
+                               is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
                                alt-input-formats="altInputFormats"/>
                         <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open1()"><i
                     class="glyphicon glyphicon-calendar"></i></button>
-          </span>
-                    </p>
+          </span>   </p>
+                    <span uib-timepicker ng-model="time" ng-change="changed()" hour-step="hours" minute-step="minutes" show-meridian="false"></span>
+
                 </div>
                 </div>
                 <div class="col-md-8">
