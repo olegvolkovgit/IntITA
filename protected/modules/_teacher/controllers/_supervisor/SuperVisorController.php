@@ -590,9 +590,9 @@ class SuperVisorController extends TeacherCabinetController
 
         $educFormModel = EducationForm::model()->findByPk(EducationForm::OFFLINE);
         if($serviceType=='course') 
-            $service = CourseService::getService($idContent, $educFormModel);
+            $service = CourseService::model()->getService($idContent, $educFormModel);
         else if($serviceType=='module')
-            $service = ModuleService::getService($idContent, $educFormModel);
+            $service = ModuleService::model()->getService($idContent, $educFormModel);
 
         $groupAccess= new GroupAccess();
         $groupAccess->group_id=$idGroup;

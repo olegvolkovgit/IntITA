@@ -20,9 +20,9 @@ class PaymentSchemaController extends TeacherCabinetController
             $service = null;
             $user = null;
             if (key_exists('courseId', $params)) {
-                $service = CourseService::getService($params['courseId'], $educationFrom);
+                $service = CourseService::model()->getService($params['courseId'], $educationFrom);
             } else if (key_exists('moduleId', $params)) {
-                $service = ModuleService::getService($params['moduleId'], $educationFrom);
+                $service = ModuleService::model()->getService($params['moduleId'], $educationFrom);
             }
 
             if (key_exists('userId', $params)) {

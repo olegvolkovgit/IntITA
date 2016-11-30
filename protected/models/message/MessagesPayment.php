@@ -124,7 +124,7 @@ class MessagesPayment extends CActiveRecord /*extends Messages*/ implements IMes
         $this->billableObject = $billableObject;
         $this->receiver = $user;
         $this->service_id = ($billableObject->getType() == 'K')?CourseService::getService($billableObject->course_ID, $educFormModel)->service_id:
-        ModuleService::getService($billableObject->module_ID, $educFormModel)->service_id;
+        ModuleService::model()->getService($billableObject->module_ID, $educFormModel)->service_id;
     }
 
 	public function create(){

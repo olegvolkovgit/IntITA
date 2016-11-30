@@ -25,11 +25,13 @@
  * @property integer $status
  *
  * The followings are the available model relations:
- * @property Course $Course
+ * @property Course[] $Course
  * @property CourseModules $inCourses
  * @property Level $level0
  * @property Lecture[] $lectures
  * @property Teacher $teacher
+ * @property ModuleService $moduleServiceOnline
+ * @property ModuleService $moduleServiceOffline
  */
 
 const EDITOR_ENABLED = 1;
@@ -109,6 +111,8 @@ class Module extends CActiveRecord implements IBillableObject
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
+            'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
+            'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE]
         );
     }
 
@@ -1058,5 +1062,31 @@ class Module extends CActiveRecord implements IBillableObject
         }
 
         return json_encode($data);
+    }
+
+    /**
+     * Function check user's access to course based on user's payments
+     * @param $userId
+     * @return bool
+     */
+    public function checkPaidAccess($userId) {
+        $access = false;
+        if ($this->moduleServiceOnline) {
+            $access = $this->moduleServiceOnline->access->checkServiceAccess($userId);
+        }
+        if (!$access && $this->moduleServiceOffline) {
+            $access = $this->moduleServiceOffline->access->checkServiceAccess($userId);
+        }
+
+        /* if user has no access to the module we should check if user has access to any course where the module exists */
+        if (!$access) {
+            foreach ($this->Course as $course) {
+                $access = $course->checkPaidAccess($userId);
+                if ($access) {
+                    break;
+                }
+            }
+        }
+        return $access;
     }
 }

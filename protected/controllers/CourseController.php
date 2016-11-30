@@ -20,6 +20,9 @@ class CourseController extends Controller
         }
 
         $model = Course::model()->findByPk($id);
+
+//        var_dump($model->checkPaidAccess(Yii::app()->user->getId()));
+
         if ($model->cancelled == Course::DELETED) {
             throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
         }
