@@ -2,15 +2,15 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="sendGroupAccessToContent(selectedGroup.id, selectedModule.id, start_date, end_date, 'module');" name="groupAccessForm" novalidate>
+                <form ng-submit="sendGroupAccessToContent('<?php echo $scenario ?>',selectedGroup.id, selectedContent.id, end_date, 'module');" name="groupAccessForm" novalidate>
                     <div class="form-group">
                         <label>Група*:</label>
                         <input name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть групу" required size="50"
                                uib-typeahead="item.name for item in getGroups($viewValue) | limitTo : 10"
                                typeahead-no-results="groupNoResults"
-                               typeahead-on-select="onSelect($item)"
-                               ng-change="reload()">
+                               typeahead-on-select="onSelectGroup($item)"
+                               ng-change="reloadGroup()" ng-disabled="defaultGroup">
                         <div ng-show="groupNoResults">
                             <i class="glyphicon glyphicon-remove"></i> групу не знайдено
                         </div>
@@ -20,25 +20,15 @@
                     </div>
                     <div class="form-group">
                         <label>Модуль*:</label>
-                        <input type="text" name="module" size="50" ng-model="moduleSelected" ng-model-options="{ debounce: 1000 }"
+                        <input type="text" name="module" size="50" ng-model="serviceSelected" ng-model-options="{ debounce: 1000 }"
                                placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo : 10"
-                               typeahead-no-results="noResultsModule"  typeahead-on-select="onSelectModule($item)"
-                               ng-change="reloadModule()" class="form-control"/>
+                               typeahead-no-results="noResultsModule"  typeahead-on-select="onSelectService($item)"
+                               ng-change="reloadService()" class="form-control" ng-disabled="defaultService"/>
                         <div ng-show="noResultsModule">
                             <i class="glyphicon glyphicon-remove"></i> модуль не знайдено
                         </div>
                         <div ng-cloak  class="clientValidationError" ng-show="groupAccessForm['module'].$dirty && groupAccessForm['module'].$invalid">
                             <span ng-show="groupAccessForm['module'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Початок надання прав*</label>
-                        <input type="text" id="start_date" ng-model="start_date" name="start_date"
-                               ng-pattern="/[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])/"
-                               style="border-radius: 4px;border: 1px solid #ccc;" size="16" value="" required/>
-                        <div ng-cloak  class="clientValidationError" ng-show="groupAccessForm['start_date'].$dirty && groupAccessForm['start_date'].$invalid">
-                            <span ng-show="groupAccessForm['start_date'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                            <span ng-show="groupAccessForm['start_date'].$error.pattern">Введи дату надання прав в форматі рррр-мм-дд</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,6 +44,10 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" ng-disabled="groupAccessForm.$invalid">Зберегти
                         </button>
+                        <a ng-if="defaultService" type="button" class="btn btn-danger"
+                           ng-click="cancelGroupAccess(defaultGroup, defaultService)" href="">
+                            Скасувати доступ
+                        </a>
                         <a type="button" class="btn btn-default" ng-click="back();" href="">
                             Назад
                         </a>
@@ -65,7 +59,6 @@
 </div>
 <script>
     $jq(document).ready(function () {
-        $jq("#start_date").datepicker(lang);
         $jq("#end_date").datepicker(lang);
     });
 </script>

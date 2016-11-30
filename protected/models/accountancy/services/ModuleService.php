@@ -54,7 +54,7 @@ class ModuleService extends AbstractIntITAService
         // class name for the relations automatically generated below.
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-            'module' => array(self::BELONGS_TO, 'Module', 'module_id'),
+            'moduleModel' => array(self::BELONGS_TO, 'Module', 'module_id'),
             'educForm' => array(self::BELONGS_TO, 'EducationForm', 'education_form')
         );
     }
