@@ -18,8 +18,8 @@
                         <?php $this->renderPartial('tables/_studentsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="2" heading="Оффлайн студенти (<?=$counters["offlineStudents"];?>)">
-                    <div ng-controller="offlineStudentsAdmTableCtrl">
+                <uib-tab  index="2" heading="Офлайн студенти (<?=$counters["offlineStudents"];?>)">
+                    <div ng-controller="offlineStudentsTableCtrl">
                         <?php $this->renderPartial('tables/_offlineStudentsTable');?>
                     </div>
                 </uib-tab>
@@ -28,39 +28,39 @@
                         <?php $this->renderPartial('tables/_teachersTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="4" heading="Користувачі без ролі (<?=$counters["withoutRoles"];?>)">
+                <uib-tab  index="4" heading="Автори контенту (<?=$counters["authors"];?>)">
+                    <div ng-controller="authorsTableCtrl">
+                        <?php $this->renderPartial('tables/_authorsTable');?>
+                    </div>
+                </uib-tab>
+                <uib-tab  index="5" heading="Користувачі без ролі (<?=$counters["withoutRoles"];?>)">
                     <div ng-controller="withoutRolesTableCtrl">
                         <?php $this->renderPartial('tables/_withoutRolesTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="5" heading="Адміністратори (<?=$counters["admins"];?>)">
+                <uib-tab  index="6" heading="Адміністратори (<?=$counters["admins"];?>)">
                     <div ng-controller="adminsTableCtrl">
                         <?php $this->renderPartial('tables/_adminsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="6" heading="Бухгалтери (<?=$counters["accountants"];?>)">
+                <uib-tab  index="7" heading="Бухгалтери (<?=$counters["accountants"];?>)">
                     <div ng-controller="accountantsTableCtrl">
                         <?php $this->renderPartial('tables/_accountantsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="7" heading="Контент менеджери (<?=$counters["contentManagers"];?>)">
+                <uib-tab  index="8" heading="Контент менеджери (<?=$counters["contentManagers"];?>)">
                     <div ng-controller="contentManagersTableCtrl">
                         <?php $this->renderPartial('tables/_contentManagersTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="8" heading="Викладачі (<?=$counters["teacherConsultants"];?>)">
+                <uib-tab  index="9" heading="Викладачі (<?=$counters["teacherConsultants"];?>)">
                     <div ng-controller="teacherConsultantsTableCtrl">
                         <?php $this->renderPartial('tables/_teacherConsultantsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="9" heading="Тренери (<?=$counters["trainers"];?>)">
+                <uib-tab  index="10" heading="Тренери (<?=$counters["trainers"];?>)">
                     <div ng-controller="trainersTableCtrl">
                         <?php $this->renderPartial('tables/_trainersTable');?>
-                    </div>
-                </uib-tab>
-                <uib-tab  index="10" heading="Консультанти (<?=$counters["consultants"];?>)">
-                    <div ng-controller="consultantsTableCtrl">
-                        <?php $this->renderPartial('tables/_consultantsTable');?>
                     </div>
                 </uib-tab>
                 <uib-tab  index="11" heading="Tenants (<?=$counters["tenants"];?>)">

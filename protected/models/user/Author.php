@@ -11,21 +11,21 @@ class Author extends Role
      */
     public function tableName()
     {
-        return "teacher_module";
+        return "user_author";
     }
 
     /**
      * @return string sql for check role author.
      */
     public function checkRoleSql(){
-        return 'select "author" from teacher_module tm where tm.idTeacher = :id and end_time IS NULL';
+        return 'select "author" from user_author ua where ua.id_user = :id and end_date IS NULL';
     }
 
     /**
      * @return string the role title (ua)
      */
     public function title(){
-        return 'Автор модуля';
+        return 'Автор контента';
     }
 
     public function getErrorMessage(){
@@ -53,52 +53,71 @@ class Author extends Role
         }
 
         $attribute = array(
-            'key' => 'module',
-            'title' => 'Модулі',
-            'type' => 'module-list',
-            'value' => $list
+            array(
+                'key' => 'module',
+                'title' => 'Модулі',
+                'type' => 'module-list',
+                'value' => $list
+            )
         );
 
-        $result = [];
-        $result["module"] = $attribute;
 
-        return $result;
+        return $attribute;
     }
 
     public function setAttribute(StudentReg $user, $attribute, $value)
     {
         switch ($attribute) {
             case 'module':
-                if($this->checkModule($user->id, $value)) {
-                    if (Yii::app()->db->createCommand()->
-                    insert('teacher_module', array(
-                        'idTeacher' => $user->id,
-                        'idModule' => $value
-                    ))){
-                        $revisionRequest=MessagesAuthorRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
-                        if($revisionRequest){
-                            $revisionRequest->setApproved();
+                if($this->checkBeforeSetAttribute($user)){
+                    if($this->checkModule($user->id, $value)) {
+                        if (Yii::app()->db->createCommand()->
+                        insert('teacher_module', array(
+                            'idTeacher' => $user->id,
+                            'idModule' => $value,
+                            'assigned_by'=>Yii::app()->user->getId()
+                        ))){
+                            $revisionRequest=MessagesAuthorRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
+                            if($revisionRequest){
+                                $revisionRequest->setApproved();
+                            }
+                            $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
+                                array(Module::model()->findByPk($value)),
+                                'Призначено модуль для редагування');
+                            return true;
+                        }else{
+                            $this->errorMessage="Призначити модуль не вдалося";
+                            return false;   
                         }
-                        $user->notify('author' .DIRECTORY_SEPARATOR . '_assignNewModule',
-                            array(Module::model()->findByPk($value)),
-                            'Призначено модуль для редагування');
-                        return true;
+                    } else {
+                        return false;
                     }
-                    return false;
-                } else {
+                }else{
                     return false;
                 }
                 break;
             default:
+                $this->errorMessage="Виконати операцію не вдалося";
                 return false;
+        }
+    }
+
+    public function checkBeforeSetAttribute(StudentReg $user){
+        $user = RegisteredUser::userById($user->id);
+        if($user->isAuthor())
+            return true;
+        else {
+            $this->errorMessage="Призначити авторство модулю не вдалося. Користувачу не призначена роль автора";
+            return false;
         }
     }
 
     public function checkModule($teacher, $module){
         if(Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$module.
-            ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar())
+            ' and idTeacher='.$teacher.' and end_time IS NULL')->queryScalar()) {
+            $this->errorMessage = "Обраний модуль вже присутній у списку модулів даного викладача";
             return false;
-        else return true;
+        } else return true;
     }
 
     public static function isTeacherAuthorModule($teacher, $module){
@@ -115,15 +134,19 @@ class Author extends Role
                 if (Yii::app()->db->createCommand()->
                 update('teacher_module', array(
                     'end_time' => date("Y-m-d H:i:s"),
+                    'cancelled_by'=>Yii::app()->user->getId(),
                 ), 'idTeacher=:user and idModule=:module and end_time IS NULL', array(':user' => $user->id, 'module' => $value))){
                     $user->notify('author' .DIRECTORY_SEPARATOR . '_cancelModule',
                         array(Module::model()->findByPk($value)),
                         'Скасовано модуль для редагування');
                     return true;
+                }else{
+                    $this->errorMessage="Скасувати модуль не вдалося";
+                    return false;
                 }
-                return false;
                 break;
             default:
+                $this->errorMessage="Виконати операцію не вдалося";
                 return false;
         }
     }
@@ -132,9 +155,34 @@ class Author extends Role
         return true;
     }
 
-    //not supported
-    public function addRoleFormList($query){
-        return array();
+    /**
+     * @param $query string - query from typeahead
+     * @return string - json for typeahead field in user manage page (cabinet, add)
+     */
+    public function addRoleFormList($query)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, avatar";
+        $criteria->alias = "s";
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->join = 'LEFT JOIN teacher t on t.user_id=s.id';
+        $criteria->join .= ' LEFT JOIN user_author ua ON ua.id_user = s.id';
+        $criteria->addCondition('t.user_id IS NOT NULL and (ua.id_user IS NULL or ua.end_date IS NOT NULL)');
+        $criteria->group = 's.id';
+
+        $data = StudentReg::model()->findAll($criteria);
+
+        $result = [];
+        foreach ($data as $key=>$model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
     }
 
     public function activeModules(StudentReg $teacher)
@@ -158,7 +206,7 @@ class Author extends Role
         return false;
     }
 
-    //cancel authorship for all modules
+    //cancel author role
     public function cancelRole(StudentReg $user)
     {
         if(!$this->checkBeforeDeleteRole($user)){
@@ -167,11 +215,31 @@ class Author extends Role
 
         if(Yii::app()->db->createCommand()->
         update($this->tableName(), array(
-            'end_time'=>date("Y-m-d H:i:s"),
-        ), 'idTeacher=:id and end_time IS NULL', array(':id'=>$user->id))){
+            'end_date'=>date("Y-m-d H:i:s"),
+            'cancelled_by'=>Yii::app()->user->getId(),
+        ), 'id_user=:id and end_date IS NULL', array(':id'=>$user->id))){
+            $this->cancelModulesAuthorship($user);
             $this->notifyCancelRole($user);
             return true;
         }
         return false;
+    }
+
+    //cancel authorship for all modules
+    public function cancelModulesAuthorship(StudentReg $user)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('teacher_module', array(
+            'end_time'=>date("Y-m-d H:i:s"),
+            'cancelled_by'=>Yii::app()->user->getId(),
+        ), 'idTeacher=:id and end_time IS NULL', array(':id'=>$user->id))){
+            return true;
+        }
+        return false;
+    }
+
+    function getMembers($criteria = null)
+    {
+        return UserAuthor::model()->findAll($criteria);
     }
 }

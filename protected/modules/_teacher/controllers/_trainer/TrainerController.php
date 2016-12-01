@@ -126,12 +126,6 @@ class TrainerController extends TeacherCabinetController
         echo Teacher::teachersByQueryAndModule($query, $module);
     }
 
-    public function actionTeacherConsultantsByQuery($query, $module)
-    {
-        echo Teacher::teacherConsultantsByQueryAndModule($query, $module);
-    }
-
-
     public function actionSendResponseConsultantModule($idModule)
     {
         $module = Module::model()->findByPk($idModule);

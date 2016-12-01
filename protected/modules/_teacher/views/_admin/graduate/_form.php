@@ -142,4 +142,8 @@
     $jq(document).ready(function () {
         $jq("#Graduate_graduate_date").datepicker(lang);
     });
+    function translateName(source, id, sourceId) {
+        if(!source) source = $jq(sourceId).val();
+        $jq(id).val(toEnglish(source));
+    }
 </script>

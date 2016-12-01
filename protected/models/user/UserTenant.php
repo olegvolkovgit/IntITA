@@ -54,6 +54,7 @@ class UserTenant extends CActiveRecord
 			'user' => array(self::BELONGS_TO, 'StudentReg', array('intita_user_id'=>'id'), 'through' => 'chatUser'),
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+            'activeMembers' => array(self::BELONGS_TO, 'StudentReg', array('intita_user_id'=>'id'), 'through' => 'chatUser','condition'=>'end_date IS NULL AND user.cancelled=0'),
 		);
 	}
 

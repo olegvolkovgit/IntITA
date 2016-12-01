@@ -12,6 +12,8 @@ abstract class Role
 
     abstract function getErrorMessage();
 
+    abstract function getMembers();
+
     abstract function attributes(StudentReg $user);
 
     abstract function addRoleFormList($query);
@@ -34,9 +36,9 @@ abstract class Role
             case "student":
                 $model = new Student();
                 break;
-            case "consultant":
-                $model = new Consultant();
-                break;
+//            case "consultant":
+//                $model = new Consultant();
+//                break;
             case "author":
                 $model = new Author();
                 break;
@@ -49,7 +51,7 @@ abstract class Role
             case "tenant":
                 $model = new Tenant();
                 break;
-            case "super_visor":
+            case "supervisor":
                 $model = new SuperVisor();
                 break;
             default :

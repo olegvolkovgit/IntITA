@@ -75,4 +75,9 @@ class Accountant extends Role
         }
         return json_encode($result);
 	}
+
+    function getMembers($criteria = null)
+    {
+        return UserAccountant::model()->findAll($criteria);
+    }
 }

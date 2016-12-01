@@ -476,7 +476,7 @@ hr {
 }
 /* consult */
 div#page-wrapper {
-    overflow: inherit;!important;
+    /*overflow: inherit;!important;*/
 }
 /*offer*/
 pre.offer{
@@ -537,6 +537,13 @@ div#loading-bar-spinner{
 }
 .tags li{
     display: inline-block;
+    background: #efefef;
+    border-color: #ebebeb;
+    margin: 2px 4px 2px 0;
+    padding: 2px;
+    vertical-align: middle;
+    white-space: normal;
+    border-radius: 2px;
 }
 .tags ul{
     padding-left: 0;
@@ -606,3 +613,4 @@ div.loader > div {
 }
 .schemesBlock{vertical-align:top;display:inline-block;width:48%;border:1px solid #ddd;border-radius:2px;padding:5px}
 .schemesBlockButton{float: right;margin-top:10px}
+.studentInformation{word-wrap:break-word}

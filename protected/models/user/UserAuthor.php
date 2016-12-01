@@ -1,14 +1,14 @@
 <?php
 
 /**
- * This is the model class for table "teacher_module".
+ * This is the model class for table "user_author".
  *
- * The followings are the available columns in table 'teacher_module':
- * @property integer $id
- * @property integer $idTeacher
- * @property integer $idModule
- * @property string $start_time
- * @property string $end_time
+ * The followings are the available columns in table 'user_author':
+ * @property integer $id_user
+ * @property string $start_date
+ * @property string $end_date
+ * @property integer $assigned_by
+ * @property integer $cancelled_by
  */
 class UserAuthor extends CActiveRecord
 {
@@ -17,7 +17,7 @@ class UserAuthor extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'teacher_module';
+		return 'user_author';
 	}
 
 	/**
@@ -28,17 +28,16 @@ class UserAuthor extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idTeacher, idModule, start_time', 'required'),
-			array('idTeacher, idModule', 'numerical', 'integerOnly'=>true),
-			array('end_time', 'safe'),
+			array('start_date', 'required'),
+			array('end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, idTeacher, idModule, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id_user, start_date, end_date', 'safe', 'on'=>'search'),
 		);
 	}
     public function getRoleName()
     {
-        return 'Автор';
+        return 'Автор контенту';
     }
 	/**
 	 * @return array relational rules.
@@ -48,12 +47,11 @@ class UserAuthor extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'user' => array(self::BELONGS_TO, 'StudentReg', ['idTeacher'=>'id']),
-				'authorActive' => array(self::BELONGS_TO, 'StudentReg', ['idTeacher'=>'id'],'condition'=>'end_time IS NULL', 'group'=>'idTeacher'),
-				'modules' => array(self::HAS_MANY, 'Module', ['module_ID'=>'idModule']),
-                'moduleAuthor' => array(self::BELONGS_TO, 'Module', ['idModule'=>'module_ID']),
+				'user' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id']),
+				'authorActive' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'],'condition'=>'end_date IS NULL', 'group'=>'id_user'),
                 'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
                 'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+                'activeMembers' => array(self::BELONGS_TO, 'StudentReg', ['id_user'=>'id'],'condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
 		);
 	}
 
@@ -63,11 +61,11 @@ class UserAuthor extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'idTeacher' => 'Id Teacher',
-			'idModule' => 'Id Module',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
+			'id_user' => 'Id User',
+			'start_date' => 'Start Date',
+			'end_date' => 'End Date',
+			'assigned_by' => 'Assigned by',
+			'cancelled_by' => 'Cancelled by',
 		);
 	}
 
@@ -89,11 +87,11 @@ class UserAuthor extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('idTeacher',$this->idTeacher);
-		$criteria->compare('idModule',$this->idModule);
-		$criteria->compare('start_time',$this->start_time,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('id_user',$this->id_user);
+		$criteria->compare('start_date',$this->start_date,true);
+		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('assigned_by',$this->assigned_by,true);
+		$criteria->compare('cancelled_by',$this->cancelled_by,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -116,9 +114,32 @@ class UserAuthor extends CActiveRecord
 		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->mergeWith(array(
-				'group'=>'idTeacher',
+				'group'=>'id_user',
 		));
-		//return parent::findAll();
+
 		return parent::findAll($criteria);
+	}
+
+	public static function authorsList($query){
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->alias = "s";
+		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+		$criteria->join = 'LEFT JOIN user_author ua ON ua.id_user = s.id';
+		$criteria->addCondition('ua.id_user IS NOT NULL and ua.end_date is NULL');
+
+		$data = StudentReg::model()->findAll($criteria);
+
+		$result = [];
+		foreach ($data as $key=>$model) {
+			$result["results"][$key]["id"] = $model->id;
+			$result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+			$result["results"][$key]["email"] = $model->email;
+			$result["results"][$key]["url"] = $model->avatarPath();
+		}
+		return json_encode($result);
 	}
 }

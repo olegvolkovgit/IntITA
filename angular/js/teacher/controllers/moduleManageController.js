@@ -3,12 +3,13 @@
  */
 angular
     .module('teacherApp')
-    .controller('modulemanageCtrl',modulemanageCtrl)
-    .controller('createModuleCtrl',createModuleCtrl)
-    .controller('updateModuleCtrl',updateModuleCtrl);
+    .controller('modulesTableCtrl',modulesTableCtrl)
+    .controller('moduleManageCtrl',moduleManageCtrl)
+    .controller('moduleAuthorsTableCtrl',moduleAuthorsTableCtrl)
+    .controller('moduleTeachersConsultantTableCtrl',moduleTeachersConsultantTableCtrl);
 
-function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
-    $scope.selectedTeacher=null;
+function modulesTableCtrl ($scope, NgTableParams, $resource){
+    $scope.changePageHeader('Модулі');
 
     var dataFromServer = $resource(basePath+'/_teacher/_admin/module/getModulesList');
     $scope.modulesTable = new NgTableParams({
@@ -26,79 +27,20 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
     $scope.lang = [{id:'ua', title:'ua'},{id:'ru', title:'ru'},{id:'en', title:'en'}];
 
     $scope.levels = $resource(basePath+'/_teacher/_admin/level/getlevelslist').get()
-                   .$promise.then(function(data){
-                    var levels = [];
-                    data.rows.forEach(function(element){
-                        levels.push({
-                            'id': element.id,
-                            'title': element.title_ua
-                       })
-                    });
-                    return levels;
+        .$promise.then(function(data){
+            var levels = [];
+            data.rows.forEach(function(element){
+                levels.push({
+                    'id': element.id,
+                    'title': element.title_ua
+                })
+            });
+            return levels;
         });
-    $scope.addTeacher = function(moduleId, role, userId){
-        $http({
-            method: "POST",
-            url:  basePath+"/_teacher/_admin/teachers/setTeacherRoleAttribute",
-            data: $jq.param({"user":userId, "role":role, "attribute":"module", "attributeValue":moduleId }),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
-        }).success(function(response){
-            if (response == "success") {
-                bootbox.alert("Операцію успішно виконано.", function () {
-                        switch (role) {
-                            case "trainer":
-                                break;
-                            case "author":
-                                location.hash = "module/view/"+moduleId;
-                                break;
-                            case "consultant":
-                                location.hash = "module/view/"+moduleId;
-                                break;
-                            case "teacher_consultant":
-                                break;
-                        }
-                }
-                )}
-            else {
-                switch (role) {
-                    case "trainer":
-                        showDialog(response);
-                        break;
-                    case "author":
-                        showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
-                        break;
-                    case "consultant":
-                        showDialog("Консультанту вже призначений даний модуль для консультацій");
-                        break;
-                    case "teacher_consultant":
-                        showDialog("Обраний модуль вже присутній у списку модулів даного викладача");
-                        break;
-                    default:
-                        showDialog("Операцію не вдалося виконати");
-                        break;
-                }
-                }
-        })
-    };
-
-    $scope.getTeachers = function(value) {
-            return $http.get(basePath+'/_teacher/_admin/module/teachersByQuery', {
-            params: {
-                query: value
-            }
-        }).then(function(response){
-            if (response.data.results)
-                return response.data.results.map(function(item){
-                    console.log(item);
-                    return item;
-                });
-        });
-    };
-
-    $scope.onSelect = function ($item) {
-        $scope.selectedTeacher = $item;
-        console.log($item);
-    };
+}
+function moduleManageCtrl ($scope, $http, $stateParams){
+    $scope.changePageHeader('Модуль');
+    $scope.moduleId=$stateParams.moduleId;
 
     $scope.changeStatus = function(moduleId, status){
         var url;
@@ -132,7 +74,7 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
     
     //add module tags
     $scope.checkTags = function() {
-        moduleTags=$rootScope.moduleTags;
+        moduleTags=$scope.moduleTags;
     };
     
     $scope.languages = [
@@ -156,52 +98,105 @@ function modulemanageCtrl ($scope, $http, NgTableParams, $resource, $rootScope){
         });
         return promise;
     };
-}
-function createModuleCtrl ($scope, $rootScope){
-    $rootScope.moduleTags=[];
-    $scope.tagsList();
-    $scope.tagsLoaded=true;
 
-    $scope.addTag = function(tag,index) {
-        $rootScope.moduleTags.push({id: tag.id, tag: tag.tag});
-        $scope.tags.splice(index, 1);
-    };
-    $scope.removeTag = function(tag,index) {
-        $scope.tags.push({id: tag.id, tag: tag.tag});
-        $rootScope.moduleTags.splice(index, 1);
-    };
-}
+    // create or update module tags
+    $scope.moduleTags=[];
 
-function updateModuleCtrl ($scope,$http, $rootScope){
     $scope.tagsList().then(function successCallback() {
-        $http({
-            url: basePath+'/module/getModuleTags',
-            method: "POST",
-            data: $jq.param({"idModule":$scope.moduleId }),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            $rootScope.moduleTags = response.data;
-            $.each($rootScope.moduleTags, function(indexModuleTag) {
-                $.each($scope.allTags, function(indexTag) {
-                    if($scope.allTags[indexTag]['id']==$rootScope.moduleTags[indexModuleTag]['id']){
-                        $scope.allTags.splice(indexTag, 1);
-                        return false;
-                    }
+        $scope.tagsLoaded=true;
+        if(typeof $scope.moduleId!='undefined'){
+            $scope.tagsLoaded=false;
+            $http({
+                url: basePath+'/module/getModuleTags',
+                method: "POST",
+                data: $jq.param({"idModule":$scope.moduleId }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.moduleTags = response.data;
+                $jq.each($scope.moduleTags, function(indexModuleTag) {
+                    $jq.each($scope.allTags, function(indexTag) {
+                        if($scope.allTags[indexTag]['id']==$scope.moduleTags[indexModuleTag]['id']){
+                            $scope.allTags.splice(indexTag, 1);
+                            return false;
+                        }
+                    });
                 });
+                $scope.tagsLoaded=true;
+            }, function errorCallback() {
+                bootbox.alert('Виникла помилка при завантажені хмарини тегів');
+                return false;
             });
-            $scope.tagsLoaded=true;
-        }, function errorCallback() {
-            bootbox.alert('Виникла помилка при завантажені хмарини тегів');
-            return false;
-        });
+        }
     });
 
     $scope.addTag = function(tag,index) {
-        $rootScope.moduleTags.push({id: tag.id, tag: tag.tag});
+        $scope.moduleTags.push({id: tag.id, tag: tag.tag});
         $scope.tags.splice(index, 1);
     };
     $scope.removeTag = function(tag,index) {
         $scope.tags.push({id: tag.id, tag: tag.tag});
-        $rootScope.moduleTags.splice(index, 1);
+        $scope.moduleTags.splice(index, 1);
+    };
+}
+
+function moduleAuthorsTableCtrl ($scope, NgTableParams, $resource,$stateParams,roleAttributeService){
+    var dataFromServer = $resource(basePath+'/_teacher/_admin/module/getModuleAuthorsList');
+    $scope.moduleAuthorsTable = new NgTableParams({'idModule':$stateParams.moduleId}, {
+        getData: function(params) {
+            return dataFromServer.get(params.url()).$promise.then(function(data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
+    });
+
+    $scope.cancelTeacherRoleAttribute=function(role, attribute, userId, attributeId){
+        roleAttributeService
+            .unsetRoleAttribute({
+                'attribute': attribute,
+                'attributeValue':attributeId,
+                'role': role,
+                'userId' : userId
+            })
+            .$promise
+            .then(function successCallback(response) {
+                if(response.data=='success')
+                    $scope.moduleAuthorsTable.reload();
+                else bootbox.alert("Операцію не вдалося виконати");
+            }, function errorCallback(data) {
+                console.log(data);
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+    };
+}
+
+function moduleTeachersConsultantTableCtrl ($scope, NgTableParams, $resource,$stateParams,roleAttributeService){
+    var dataFromServer = $resource(basePath+'/_teacher/_admin/module/getModuleTeachersConsultantList');
+    $scope.moduleTeachersConsultantTable = new NgTableParams({'idModule':$stateParams.moduleId}, {
+        getData: function(params) {
+            return dataFromServer.get(params.url()).$promise.then(function(data) {
+                params.total(data.count);
+                return data.rows;
+            });
+        }
+    });
+
+    $scope.cancelTeacherRoleAttribute=function(role, attribute, userId, attributeId){
+        roleAttributeService
+            .unsetRoleAttribute({
+                'attribute': attribute,
+                'attributeValue':attributeId,
+                'role': role,
+                'userId' : userId
+            })
+            .$promise
+            .then(function successCallback(response) {
+                if(response.data=='success')
+                    $scope.moduleTeachersConsultantTable.reload();
+                else bootbox.alert("Операцію не вдалося виконати");
+            }, function errorCallback(data) {
+                console.log(data);
+                bootbox.alert("Операцію не вдалося виконати");
+            });
     };
 }

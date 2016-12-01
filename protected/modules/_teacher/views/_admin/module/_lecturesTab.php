@@ -18,11 +18,13 @@ $lectures = $model->lectures;
                        class="btn btn-outline btn-primary">
                         Редагувати список лекцій</a>
                 </li>
+                <?php if (Yii::app()->user->model->isAdmin()) { ?>
                 <li>
                     <button type="button" class="btn btn-outline btn-primary" ng-click="changeView('admin/freelectures')">
                         Змінити статус лекції
                     </button>
                 </li>
+                <?php } ?>
             </ul>
         <?php } ?>
         <div class="col-md-12">

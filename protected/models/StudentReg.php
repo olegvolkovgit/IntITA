@@ -204,6 +204,7 @@ class StudentReg extends CActiveRecord
             'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'on' => 'payCourses.rights = 1'),
             'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
+            'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
         );
     }
 
@@ -1050,6 +1051,9 @@ class StudentReg extends CActiveRecord
         foreach ($data as $key => $model) {
             if ($model->id != $id) {
                 $result["results"][$key]["id"] = $model->id;
+                $result["results"][$key]["firstName"] = $model->firstName;
+                $result["results"][$key]["middleName"] = $model->middleName;
+                $result["results"][$key]["secondName"] = $model->secondName;
                 $result["results"][$key]["name"] = $model->secondName . " " . $model->firstName . " " . $model->middleName;
                 $result["results"][$key]["email"] = $model->email;
                 $result["results"][$key]["url"] = $model->avatarPath();
@@ -1278,6 +1282,11 @@ class StudentReg extends CActiveRecord
         return $this->save(true, array('cancelled'));
     }
 
+    public function setUserForm($form){
+        $this->educform = $form;
+        return $this->save(true, array('educform'));
+    }
+
     public static function getAdminModel(){
         return StudentReg::model()->findByPk(Config::getAdminId());
     }
@@ -1357,6 +1366,32 @@ class StudentReg extends CActiveRecord
         return count($users);
     }
 
+    public static function usersNotTeacherByQuery($query){
+        $criteria = new CDbCriteria();
+        $criteria->select = "id, secondName, firstName, middleName, email, phone, skype, avatar";
+        $criteria->alias = "s";
+        $criteria->join = 'left join teacher t on t.user_id=s.id';
+        $criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+        $criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+        $criteria->addCondition('s.cancelled='.StudentReg::ACTIVE.' and t.user_id IS NULL');
+        $data = StudentReg::model()->findAll($criteria);
+        $result = array();
+        foreach ($data as $key => $model) {
+            $result["results"][$key]["id"] = $model->id;
+            $result["results"][$key]["firstName"] = ($model->firstName) ? $model->firstName : "";
+            $result["results"][$key]["lastName"] = ($model->secondName) ? $model->secondName : "";
+            $result["results"][$key]["middleName"] = ($model->middleName) ? $model->middleName : "";
+            $result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+            $result["results"][$key]["email"] = $model->email;
+            $result["results"][$key]["tel"] = $model->phone;
+            $result["results"][$key]["skype"] = $model->skype;
+            $result["results"][$key]["url"] = $model->avatarPath();
+        }
+        return json_encode($result);
+    }
+
     public static function currentCountryCity(){
         $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
         $param = "title_".Yii::app()->session["lg"];
@@ -1371,5 +1406,60 @@ class StudentReg extends CActiveRecord
         }
 
         return json_encode($data);
+    }
+
+    public static function userData($id){
+        $result = array();
+        $model=RegisteredUser::userById($id);
+        $teacher = Teacher::model()->findByPk($id);
+
+        $user = $model->registrationData->getAttributes(array(
+            'avatar','address','birthday','cancelled','city','country','education','educform','email','firstName',
+            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time'
+        ));
+        if($user===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+
+        $result['user']=$user;
+        $result['user']['roles']=$model->getRoles();
+        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
+
+        foreach($model->getRoles() as $key=>$role){
+            $result['user']['roles'][$key]= $role->__toString();
+        }
+        $result['trainer']=$trainer;
+        if($model->isStudent()){
+            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+            foreach($result['courses'] as $key=>$course){
+                $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
+                foreach($result['courses'][$key]['modules'] as $index=>$module){
+                    $result['courses'][$key]['modules'][$index]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
+                }
+            }
+            foreach($result['modules'] as $key=>$module){
+                $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
+            }
+        }
+        if ($teacher) {
+            $result['teacher'] = (array)$teacher->getAttributes();
+            $result['teacher']['modules'] = $teacher->modulesActive;
+        }
+        $studentSubgroups = OfflineStudents::model()->findAllByAttributes(array('id_user'=>$id));
+        if($studentSubgroups){
+            foreach ($studentSubgroups as $key=>$subgroup){
+                $result["offlineStudent"][$key]["idOfflineStudent"] = $subgroup->id;
+                $result["offlineStudent"][$key]["startDate"] = $subgroup->start_date;
+                $result["offlineStudent"][$key]["endDate"] = $subgroup->end_date;
+                $result["offlineStudent"][$key]["graduateDate"] = $subgroup->graduate_date;
+                $result["offlineStudent"][$key]["idSubgroup"] = $subgroup->id_subgroup;
+                $result["offlineStudent"][$key]["subgroupName"] = $subgroup->subgroupName->name;
+                $result["offlineStudent"][$key]["idGroup"] = $subgroup->group->id;
+                $result["offlineStudent"][$key]["groupName"] = $subgroup->group->name;
+                $result["offlineStudent"][$key]["specialization"] = $subgroup->group->specializationName->name;
+            }
+        }
+        return $result;
     }
 }

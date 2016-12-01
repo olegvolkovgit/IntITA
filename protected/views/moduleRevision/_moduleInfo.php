@@ -55,7 +55,7 @@
         <td><label>Ціна:</label></td>
         <td><?=$module->module_price ?></td>
 
-        <td><label>Ціна оффлайн:</label></td>
+        <td><label>Ціна офлайн:</label></td>
         <td><?=$module->price_offline ?></td>
     </tr>
     <tr>

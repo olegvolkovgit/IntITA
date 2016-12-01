@@ -146,4 +146,9 @@ class Student extends Role
     public function notifyCancelRole(StudentReg $user){
         return false;
     }
+
+    function getMembers($criteria = null)
+    {
+        return UserStudent::model()->findAll($criteria);
+    }
 }

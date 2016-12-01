@@ -402,12 +402,12 @@ class Lecture extends CActiveRecord
                 }
             }
 
-            if (Yii::app()->user->model->isConsultant()) {
-                $consult = new Consultant();
-                if(!$consult->checkModule($user, $this->idModule)){
-                    return true;
-                }
-            }
+//            if (Yii::app()->user->model->isConsultant()) {
+//                $consult = new Consultant();
+//                if(!$consult->checkModule($user, $this->idModule)){
+//                    return true;
+//                }
+//            }
 
             if (Yii::app()->user->model->isAdmin() || $editMode || Yii::app()->user->model->isContentManager())
                 return true;

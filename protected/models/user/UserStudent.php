@@ -51,6 +51,7 @@ class UserStudent extends CActiveRecord
 			'idUser' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+            'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
 		);
 	}
 
@@ -118,5 +119,28 @@ class UserStudent extends CActiveRecord
 		$model = OfflineStudents::model()->findByAttributes(array('id_user'=>$id,'end_date'=>null));
 		if($model) return true;
 		else return false;
+	}
+
+	public static function studentByQuery($query){
+		$criteria = new CDbCriteria();
+		$criteria->select = "id, secondName, firstName, middleName, email, avatar";
+		$criteria->alias = "s";
+		$criteria->addSearchCondition('firstName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('secondName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('middleName', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('email', $query, true, "OR", "LIKE");
+		$criteria->join = 'LEFT JOIN user_student us ON us.id_user = s.id';
+		$criteria->addCondition('us.id_user IS NOT NULL and us.end_date is NULL');
+
+		$data = StudentReg::model()->findAll($criteria);
+
+		$result = [];
+		foreach ($data as $key=>$model) {
+			$result["results"][$key]["id"] = $model->id;
+			$result["results"][$key]["name"] = trim($model->secondName . " " . $model->firstName . " " . $model->middleName);
+			$result["results"][$key]["email"] = $model->email;
+			$result["results"][$key]["url"] = $model->avatarPath();
+		}
+		return json_encode($result);
 	}
 }

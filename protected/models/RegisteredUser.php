@@ -123,6 +123,8 @@ class RegisteredUser
         if ($this->hasRole($role)) {
             $roleObj = Role::getInstance($role);
             $this->_roleAttributes[(string)$role] = $roleObj->attributes($this->registrationData);
+        }else{
+            throw new \application\components\Exceptions\IntItaException(403, "User does not has this role.");
         }
         return $this->_roleAttributes[(string)$role];
     }
@@ -130,14 +132,18 @@ class RegisteredUser
     public function setRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
-        return $roleObj->setAttribute($this->registrationData, $attribute, $value);
+        if($roleObj->setAttribute($this->registrationData, $attribute, $value)) 
+            return true; 
+        else return $roleObj->getErrorMessage();
     }
 
     public function unsetRoleAttribute($role, $attribute, $value)
     {
         $roleObj = Role::getInstance($role);
         date_default_timezone_set(Config::getServerTimezone());
-        return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
+        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value)) 
+            return true; 
+        else return $roleObj->getErrorMessage();
     }
 
     public function isAdmin()
@@ -188,21 +194,16 @@ class RegisteredUser
 
     public function isSuperVisor()
     {
-        return $this->hasRole(UserRoles::SUPER_VISOR);
+        return $this->hasRole(UserRoles::SUPERVISOR);
     }
     
     public function canApprove()
     {
         return $this->isContentManager();
     }
-
-    //todo author role check
+    
     public function hasRole($role)
     {
-        if ($role == "author") {
-            return TeacherModule::model()->exists('idTeacher='.$this->id.' and end_time IS NULL');
-//            return true;
-        }
         return in_array($role, $this->getRoles());
     }
 
@@ -223,7 +224,7 @@ class RegisteredUser
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData);
     }
-
+    
     public function cancelRoleMessage(UserRoles $role)
     {
         if (!$this->hasRole($role)) {
@@ -231,7 +232,7 @@ class RegisteredUser
         }
         $roleObj = Role::getInstance($role);
         if ($roleObj->cancelRole($this->registrationData)) {
-            return "Роль успішно відмінено.";
+            return true;
         } elseif ($roleObj->getErrorMessage() != "") {
             return $roleObj->getErrorMessage();
         } else {
@@ -314,12 +315,12 @@ class RegisteredUser
                 return true;
             }
         }
-        if ($this->isConsultant()) {
-            $consult = new Consultant();
-            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
+//        if ($this->isConsultant()) {
+//            $consult = new Consultant();
+//            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+//                return true;
+//            }
+//        }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
@@ -357,12 +358,12 @@ class RegisteredUser
                 return true;
             }
         }
-        if ($this->isConsultant()) {
-            $consult = new Consultant();
-            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
+//        if ($this->isConsultant()) {
+//            $consult = new Consultant();
+//            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
+//                return true;
+//            }
+//        }
 
         return false;
     }

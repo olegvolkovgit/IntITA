@@ -3,12 +3,10 @@
  */
 angular
     .module('teacherApp')
+    .controller('coursesTableCtrl',coursesTableCtrl)
     .controller('coursemanageCtrl',coursemanageCtrl);
 
-function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams, $state ,$templateCache){
-    $scope.formData = {};
-    $scope.courseId= null;
-    $scope.coursesList =null;
+function coursesTableCtrl ($scope, NgTableParams, $resource){
     /* Sorting params  */
     $scope.statuses = [{id:'0', title:'в розробці'},{id:'1', title:'готовий'}];
     $scope.cancelled = [{id:'0', title:'доступний'},{id:'1', title:'видалений'}];
@@ -24,6 +22,7 @@ function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams
             });
             return levels;
         });
+
     /* Init course table  */
     var dataFromServer = $resource(basePath+'/_teacher/_admin/coursemanage/getCoursesList');
     $scope.courseTable = new NgTableParams({
@@ -36,6 +35,11 @@ function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams
             });
         }
     });
+}
+function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
+    $scope.formData = {};
+    $scope.courseId= null;
+    $scope.coursesList =null;
 
     $scope.saveSchema = function(idCourse){
         var url = basePath+'/_teacher/_admin/coursemanage/saveschema?idCourse='+idCourse;
@@ -74,7 +78,7 @@ function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams
         });
     };
     /* Get modules List   */
-    $scope.getCourses = function(value, currentCourseLang) {
+    $scope.getCoursesByLang = function(value, currentCourseLang) {
         return $http.get(basePath+'/_teacher/_admin/coursemanage/coursesByQueryAndLang', {
             params: {
                 query: value,
@@ -138,10 +142,7 @@ function coursemanageCtrl ($http, $scope, NgTableParams, $resource, $stateParams
                     })
                 })
             }
-            else
-                showDialog("Операцію відмінено.")
+            else bootbox.alert("Операцію відмінено.")
         })
     };
-
-
 }

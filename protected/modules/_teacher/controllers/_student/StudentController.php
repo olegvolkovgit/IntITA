@@ -320,7 +320,7 @@ class StudentController extends TeacherCabinetController
             $subgroups[$key]['subgroupCuratorId']=$subgroup->subgroupName->userCurator->id;
 
             if($subgroup->trainer){
-                $subgroups[$key]['trainer']=trim($subgroup->trainer->trainer0->getLastFirstName().($subgroup->trainer->trainer0->user->email));
+                $subgroups[$key]['trainer']=trim($subgroup->trainer->trainer0->getLastFirstName().' '.($subgroup->trainer->trainer0->user->email));
                 $subgroups[$key]['trainerEmail']=$subgroup->trainer->trainer0->user->email;
                 $subgroups[$key]['trainerId']=$subgroup->trainer->trainer0->user_id;
                 $subgroups[$key]['trainerLink']=Yii::app()->createUrl('studentreg/profile', array('idUser' => $subgroup->trainer->trainer0->user_id));

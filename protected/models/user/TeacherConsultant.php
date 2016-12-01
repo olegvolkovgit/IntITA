@@ -75,7 +75,7 @@ class TeacherConsultant extends Role
             ->select('u.id, GROUP_CONCAT(DISTINCT u.secondName, u.firstName, u.middleName, u.email ORDER BY u.id ASC SEPARATOR " ") title, u.email, tcs.start_date, tcs.end_date')
             ->from('teacher_consultant_student tcs')
             ->rightJoin('user u', 'u.id=tcs.id_student')
-            ->where('id_teacher=:id', array(':id' => $this->user->id))
+            ->where('id_teacher=:id AND tcs.end_date IS NULL', array(':id' => $this->user->id))
             ->group('u.id')
             ->queryAll();
 
@@ -88,7 +88,7 @@ class TeacherConsultant extends Role
             ->select('id_module id, language lang, m.title_ua title, tcm.start_date, tcm.end_date, m.cancelled')
             ->from('teacher_consultant_module tcm')
             ->join('module m', 'm.module_ID=tcm.id_module')
-            ->where('id_teacher=:id', array(':id' => $this->user->id))
+            ->where('id_teacher=:id AND tcm.end_date IS NULL', array(':id' => $this->user->id))
             ->queryAll();
 
         return $records;
@@ -97,6 +97,16 @@ class TeacherConsultant extends Role
     public function checkBeforeDeleteRole(StudentReg $user)
     {
         return true;
+    }
+    
+    public function checkBeforeSetAttribute(StudentReg $user){
+        $user = RegisteredUser::userById($user->id);
+        if($user->isTeacherConsultant())
+            return true;
+        else {
+            $this->errorMessage="Призначити модуль не вдалося. Користувачу не призначена роль викладача";
+            return false;
+        }
     }
 
     public function cancelAttribute(StudentReg $user, $attribute, $value)
@@ -111,10 +121,13 @@ class TeacherConsultant extends Role
                         array(Module::model()->findByPk($value)),
                         'Скасовано модуль');
                     return true;
+                }else{
+                    $this->errorMessage="Скасувати модуль не вдалося";
+                    return false;
                 }
-                return false;
                 break;
             default:
+                $this->errorMessage="Виконати операцію не вдалося";
                 return false;
         }
     }
@@ -149,21 +162,27 @@ class TeacherConsultant extends Role
     {
         switch ($attribute) {
             case 'module':
-                if (!$this->checkModule($user->id, $value)) {
-                    if (Yii::app()->db->createCommand()->
-                    insert('teacher_consultant_module', array(
-                        'id_teacher' => $user->id,
-                        'id_module' => $value
-                    ))){
-                        $revisionRequest=MessagesTeacherConsultantRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
-                        if($revisionRequest){
-                            $revisionRequest->setApproved();
+                if($this->checkBeforeSetAttribute($user)){
+                    if (!$this->checkModule($user->id, $value)) {
+                        if (Yii::app()->db->createCommand()->
+                        insert('teacher_consultant_module', array(
+                            'id_teacher' => $user->id,
+                            'id_module' => $value
+                        ))){
+                            $revisionRequest=MessagesTeacherConsultantRequest::model()->findByAttributes(array('id_module'=>$value,'id_teacher'=>$user->id,'cancelled'=>0));
+                            if($revisionRequest){
+                                $revisionRequest->setApproved();
+                            }
+                            $this->notify($user, $value);
+                            return true;
+                        }else{
+                            $this->errorMessage = "Призначити модуль викладачу не вдалося";
+                            return false;
                         }
-                        $this->notify($user, $value);
-                        return true;
+                    } else {
+                        return false;
                     }
-                    return false;
-                } else {
+                }else{
                     return false;
                 }
             default:
@@ -207,7 +226,10 @@ class TeacherConsultant extends Role
         if (empty(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $module .
                 ' and id_teacher=' . $teacher . ' and end_date IS NULL')->queryAll())) {
             return false;
-        } else return true;
+        } else {
+            $this->errorMessage = "Для даного викладача вже призначено цей модуль";
+            return true;
+        }
     }
 
     public function existOpenTaskAnswers(StudentReg $teacher)
@@ -322,5 +344,54 @@ class TeacherConsultant extends Role
 
     public function notify(StudentReg $user, $idModule){
         $user->notify('teacher_consultant'. DIRECTORY_SEPARATOR . '_notifyTeacherConsultant', array(Module::model()->findByPk($idModule)), 'Надано права викладача для модуля');
+    }
+
+    function getMembers($criteria = null)
+    {
+        return UserTeacherConsultant::model()->findAll($criteria);
+    }
+
+    //cancel teacher_consultant role
+    public function cancelRole(StudentReg $user)
+    {
+        if(!$this->checkBeforeDeleteRole($user)){
+            return false;
+        }
+
+        if(Yii::app()->db->createCommand()->
+        update($this->tableName(), array(
+            'end_date'=>date("Y-m-d H:i:s"),
+            'cancelled_by'=>Yii::app()->user->getId(),
+        ), 'id_user=:id and end_date IS NULL', array(':id'=>$user->id))){
+            $this->cancelModulesRights($user);
+            $this->cancelTeacherStudents($user);
+            $this->notifyCancelRole($user);
+            return true;
+        }
+        return false;
+    }
+
+    //cancel rules for all teacher_consultant's modules
+    public function cancelModulesRights(StudentReg $user)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('teacher_consultant_module', array(
+            'end_date'=>date("Y-m-d H:i:s"),
+        ), 'id_teacher=:id and end_date IS NULL', array(':id'=>$user->id))){
+            return true;
+        }
+        return false;
+    }
+
+    //cancel teacher's students
+    public function cancelTeacherStudents(StudentReg $user)
+    {
+        if(Yii::app()->db->createCommand()->
+        update('teacher_consultant_student', array(
+            'end_date'=>date("Y-m-d H:i:s"),
+        ), 'id_teacher=:id and end_date IS NULL', array(':id'=>$user->id))){
+            return true;
+        }
+        return false;
     }
 }
