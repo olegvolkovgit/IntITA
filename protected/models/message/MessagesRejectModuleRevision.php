@@ -12,7 +12,7 @@
  * @property Messages $message0
  * @property RevisionModule $idRevision
  */
-class MessagesRejectModuleRevision extends Messages implements IMessage
+class MessagesRejectModuleRevision extends CActiveRecord /*extends Messages*/ implements IMessage
 {
 	private $message;
 	private $template = 'revision'. DIRECTORY_SEPARATOR . '_rejectModuleRevisionNotification';

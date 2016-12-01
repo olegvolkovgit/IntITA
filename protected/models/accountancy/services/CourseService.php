@@ -12,6 +12,9 @@
  * @property Service $service
  * @property Course $course
  * @property EducationForm $educForm
+ *
+ * Behaviours
+ * @property ServiceAccessBehavior access
  */
 class CourseService extends AbstractIntITAService
 {
@@ -104,6 +107,14 @@ class CourseService extends AbstractIntITAService
 		return parent::model($className);
 	}
 
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => 'CourseServiceAccess'
+            ]
+        ];
+    }
+
     public function primaryKey() {
         return array('course_id', 'education_form');
     }
@@ -123,9 +134,9 @@ class CourseService extends AbstractIntITAService
         return Course::model();
     }
 
-    public static function getService($idCourse, EducationForm $educForm)
+    public function getService($idCourse, EducationForm $educForm)
     {
-        return parent::getService(__CLASS__,"course_id",$idCourse, $educForm);
+        return parent::_getService(__CLASS__,"course_id",$idCourse, $educForm);
     }
 
     protected function setMainModel($course,  $educForm)
