@@ -18,8 +18,6 @@ class ScheduleCommand extends CConsoleCommand
         $criteria->addCondition('status = :status');
         $criteria->params = [':time'=>$time, ':status' => SchedulerTasks::STATUSNEW];
         $tasks = SchedulerTasks::model()->findAll($criteria);
-//        $tt = strtotime("+1 year", (new DateTime('now'))->getTimestamp());
-//        $mm =  (new DateTime())->setTimestamp($tt)->format('Y-m-d H:i:s');
         foreach ($tasks as $task)
         {
             $this->startTask($task);
@@ -46,35 +44,26 @@ class ScheduleCommand extends CConsoleCommand
         $task->save();
         switch ($task->repeat_type){
             case 2:
-                $newTask = new SchedulerTasks();
-                $newTask = $task;
-                $newTask->start_date = strtotime("+1 day", $task->start_date);
-                $newTask->enf_date = '';
-                $newTask->save();
-                break;
-            case 2:
-                $newTask = new SchedulerTasks();
-                $newTask = $task;
-                $newTask->start_date = strtotime("+1 week", $task->start_date);
-                $newTask->enf_date = '';
-                $newTask->save();
+                $this->repeatTask($task,'1 day');
                 break;
             case 3:
-                $newTask = new SchedulerTasks();
-                $newTask = $task;
-                $newTask->start_date = strtotime("+1 month", $task->start_date);
-                $newTask->enf_date = '';
-                $newTask->save();
+                $this->repeatTask($task,'1 week');
                 break;
-            case 3:
-                $newTask = new SchedulerTasks();
-                $newTask = $task;
-                $newTask->start_date = strtotime("+1 year", $task->start_date);
-                $newTask->enf_date = '';
-                $newTask->save();
+            case 4:
+                $this->repeatTask($task,'1 month');
+                break;
+            case 5:
+                $this->repeatTask($task,'1 year');
                 break;
         }
     }
 
-
+    private function repeatTask(SchedulerTasks $task, $repeatPeriod){
+        $newTimeStamp = strtotime("+".$repeatPeriod, (new DateTime($task->start_time))->getTimestamp());
+        $newTask = new SchedulerTasks();
+        $newTask = $task;
+        $newTask->start_date =  (new DateTime())->setTimestamp($newTimeStamp)->format('Y-m-d H:i:s');;
+        $newTask->enf_date = '';
+        $newTask->save();
+    }
 }
