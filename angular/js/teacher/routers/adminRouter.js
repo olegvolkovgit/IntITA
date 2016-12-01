@@ -164,8 +164,8 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/user/agreement/user/"+$stateParams.id+'/param/'+$stateParams.idCourse+'/type/'+$stateParams.type;
             }
         })
-        .state('admin/users/teacher/update/:id', {
-            url: "/admin/users/teacher/update/:id",
+        .state('admin/teacher/update/:id', {
+            url: "/admin/teacher/update/:id",
             cache: false,
             templateUrl: function ($stateParams) {
                 return basePath+"/_teacher/_admin/teachers/updateForm/?id="+$stateParams.id;

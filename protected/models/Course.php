@@ -580,7 +580,7 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function selectModulesCount()
     {
-        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE));
+        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE,'status'=>Module::READY));
         return count($modules);
     }
 

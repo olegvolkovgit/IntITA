@@ -16,10 +16,18 @@ $user = $model->registrationData;
         </div>
         <div class="col-md-9">
             <ul class="list-group">
+                <?php if (Yii::app()->user->model->isAdmin()) { ?>
+                    <li class="list-group-item" ng-if="data.teacher">
+                        <a ng-href="#/admin/teacher/update/{{data.user.id}}">
+                            Редагувати як співробітника
+                        </a>
+                    </li>
+                <?php } ?>
                 <li class="list-group-item">Ім'я, email:
-                    <a href="<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => $user->id)) ?>"
-                       target="_blank">
-                        <?php echo $user->userNameWithEmail() ?></a></li>
+                    <a href="<?php echo Yii::app()->createUrl('studentreg/profile', array('idUser' => $user->id)) ?>" target="_blank">
+                        <?php echo $user->userNameWithEmail() ?>
+                    </a>
+                </li>
                 <li class="list-group-item" ng-if="data.teacher">Ім'я російською:
                     {{data.teacher.last_name_ru}} {{data.teacher.first_name_ru}} {{data.teacher.middle_name_ru}}
                 </li>
