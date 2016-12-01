@@ -29,12 +29,22 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-        $type = Yii::app()->request->getPost('type');
-        $recipients = Yii::app()->request->getPost('recipients');
-        $subject = urldecode(Yii::app()->request->getPost('subject'));
-        $message = urldecode(Yii::app()->request->getPost('message'));
-        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
-        $newsLetter->startSend();
+//        $type = Yii::app()->request->getPost('type');
+//        $recipients = Yii::app()->request->getPost('recipients');
+//        $subject = urldecode(Yii::app()->request->getPost('subject'));
+//        $message = urldecode(Yii::app()->request->getPost('message'));
+//        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
+        $task = new SchedulerTasks();
+        $task->type = TaskFactory::NEWSLETTER;
+        $task->name = 'Розсилка';
+        $task->status = SchedulerTasks::STATUSNEW;
+        $task->parameters = json_encode($_POST['parameters']);
+        $task->repeat_type = $_POST['taskRepeat'];
+        date_default_timezone_set('Europe/Kiev');
+        ($_POST['taskType'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
+        $task->start_time = $date->format('Y-m-d H:i:s');
+        $task->save();
+        //$newsLetter->startSend();
     }
 
     public function actionGetUserEmail(){

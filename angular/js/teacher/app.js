@@ -34,6 +34,7 @@ angular
         'newsletterRouter',
         'oi.select',
         'ngCkeditor',
+        'schedulerTasks',
         'paymentsSchemes.directives'
     ])
     .filter('shortDate', [

@@ -44,6 +44,7 @@ return array(
         'application.components.*',
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
+        'application.models.task.*',
        // 'ext.yii2-debug.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',

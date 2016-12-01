@@ -145,7 +145,6 @@
 </div>
 <div class="row">
     <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
-
     <div class="col-lg-4">
         <div class="panel panel-yellow">
             <div class="panel-heading">
@@ -164,6 +163,7 @@
             </div>
         </div>
     </div>
+    <?php $this->renderPartial('application.modules._teacher.views.schedulerTasks._schedulerDashboardItem');?>
 </div>
 
 
