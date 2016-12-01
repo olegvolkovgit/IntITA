@@ -76,7 +76,7 @@ class ConsultationscalendarController extends Controller
 		$this->initialize($lectureId,$idCourse);
 
         $lecture = Lecture::model()->findByPk($lectureId);
-        $dataProvider = $lecture->module->getConsultants();
+        $dataProvider = $lecture->module->getTeacherConsultant(Yii::app()->user->getId());
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -108,19 +108,20 @@ class ConsultationscalendarController extends Controller
 
 		$teacher = RegisteredUser::userById($idteacher);
         $lecture = Lecture::model()->findByPk($idlecture);
-        $consultant = new Consultant();
-//        if($teacher->isConsultant() && !$consultant->checkModule($idteacher, $lecture->idModule)) {
-//			if (Yii::app()->request->getPost('saveConsultation')) {
-//				$numcons = explode(",", Yii::app()->request->getPost('timecons'));
-//				for ($i = 0; $i < count($numcons); $i++) {
-//					if (Consultationscalendar::consultationFree($idteacher, $numcons[$i], $date)) {
-//						$teacher->getTeacher()->addConsult($numcons[$i], $date, $idlecture);
-//					} else {
-//						$this->redirect(array('consultationerror', 'lecture' => $idlecture, 'idCourse' => $idCourse));
-//					}
-//				}
-//			}
-//		}
+        $consultant = new TeacherConsultant();
+
+        if($teacher->isTeacherConsultant() && $consultant->checkModule($idteacher, $lecture->idModule)) {
+			if (Yii::app()->request->getPost('saveConsultation')) {
+				$numcons = explode(",", Yii::app()->request->getPost('timecons'));
+				for ($i = 0; $i < count($numcons); $i++) {
+					if (Consultationscalendar::consultationFree($idteacher, $numcons[$i], $date)) {
+						$teacher->getTeacher()->addConsult($numcons[$i], $date, $idlecture);
+					} else {
+						$this->redirect(array('consultationerror', 'lecture' => $idlecture, 'idCourse' => $idCourse));
+					}
+				}
+			}
+		}
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 

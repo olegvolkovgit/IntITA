@@ -117,7 +117,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
     };
 
     $scope.cancelConsultation = function(consultationId){
-        bootbox.confirm('Відмінити консультацію?,',function(result){
+        bootbox.confirm('Відмінити консультацію?',function(result){
             if (result){
                 $http({
                     method:'POST',

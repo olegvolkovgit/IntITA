@@ -16,7 +16,7 @@ $model = $params[0];
 закінчення - <?=date("H:i", strtotime($model->end_cons));?>).
 <br>
 Кабінет консультанта (вкладка "Консультант"): <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/consultant/consultations">
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/teacherConsultant/consultations">
     <em>консультації</em>
 </a>
 <br>

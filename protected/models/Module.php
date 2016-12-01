@@ -1029,18 +1029,21 @@ class Module extends CActiveRecord implements IBillableObject
         return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 
-    public function getConsultants()
+    public function getTeacherConsultant($studentId)
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 't';
-        $criteria->join = 'left join consultant_modules cm on cm.consultant=t.user_id';
-        $criteria->join .= ' left join user_consultant uc on uc.id_user=cm.consultant';
-        $criteria->addCondition('t.isPrint = 1 and cm.end_time IS NULL and uc.end_date IS NULL and cm.module=:module');
-        $criteria->params = array(":module" => $this->module_ID);
+        $criteria->join = 'left join teacher_consultant_student tcs on t.user_id=tcs.id_teacher';
+        $criteria->join .= ' left join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' left join module m on tcm.id_module=m.module_ID';
+        $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL 
+        and tcm.end_date IS NULL and m.module_ID=:module');
+        $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID);
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'pagination' => false,
         ));
+
         return $dataProvider;
     }
 
