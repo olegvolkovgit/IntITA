@@ -18,6 +18,8 @@ class ScheduleCommand extends CConsoleCommand
         $criteria->addCondition('status = :status');
         $criteria->params = [':time'=>$time, ':status' => SchedulerTasks::STATUSNEW];
         $tasks = SchedulerTasks::model()->findAll($criteria);
+//        $tt = strtotime("+1 year", (new DateTime('now'))->getTimestamp());
+//        $mm =  (new DateTime())->setTimestamp($tt)->format('Y-m-d H:i:s');
         foreach ($tasks as $task)
         {
             $this->startTask($task);
@@ -46,28 +48,28 @@ class ScheduleCommand extends CConsoleCommand
             case 2:
                 $newTask = new SchedulerTasks();
                 $newTask = $task;
-                $newTask->start_date = $date = strtotime("+1 day", $task->start_date);
+                $newTask->start_date = strtotime("+1 day", $task->start_date);
                 $newTask->enf_date = '';
                 $newTask->save();
                 break;
             case 2:
                 $newTask = new SchedulerTasks();
                 $newTask = $task;
-                $newTask->start_date = $date = strtotime("+1 week", $task->start_date);
+                $newTask->start_date = strtotime("+1 week", $task->start_date);
                 $newTask->enf_date = '';
                 $newTask->save();
                 break;
             case 3:
                 $newTask = new SchedulerTasks();
                 $newTask = $task;
-                $newTask->start_date = $date = strtotime("+1 month", $task->start_date);
+                $newTask->start_date = strtotime("+1 month", $task->start_date);
                 $newTask->enf_date = '';
                 $newTask->save();
                 break;
             case 3:
                 $newTask = new SchedulerTasks();
                 $newTask = $task;
-                $newTask->start_date = $date = strtotime("+1 year", $task->start_date);
+                $newTask->start_date = strtotime("+1 year", $task->start_date);
                 $newTask->enf_date = '';
                 $newTask->save();
                 break;
