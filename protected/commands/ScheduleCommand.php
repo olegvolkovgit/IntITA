@@ -11,7 +11,7 @@ class ScheduleCommand extends CConsoleCommand
 
     public function actionCheckTask(){
 
-        date_default_timezone_set(Config::getServerTimezone());
+        date_default_timezone_set('Europe/Kiev');
         $time = (new DateTime('now'))->format('Y-m-d H:i:s');
         $criteria = new CDbCriteria();
         $criteria->addCondition('start_time <= :time');
@@ -26,7 +26,7 @@ class ScheduleCommand extends CConsoleCommand
     }
 
     private function startTask($task){
-        date_default_timezone_set(Config::getServerTimezone());
+        date_default_timezone_set('Europe/Kiev');
         $task->status = SchedulerTasks::STATUSPROGRESS;
         $task->save();
         $scheduleTask = TaskFactory::getInstance($task->type,$task->parameters);
@@ -60,10 +60,11 @@ class ScheduleCommand extends CConsoleCommand
 
     private function repeatTask(SchedulerTasks $task, $repeatPeriod){
         $newTimeStamp = strtotime("+".$repeatPeriod, (new DateTime($task->start_time))->getTimestamp());
-        $newTask = new SchedulerTasks();
-        $newTask = $task;
-        $newTask->start_date =  (new DateTime())->setTimestamp($newTimeStamp)->format('Y-m-d H:i:s');;
-        $newTask->enf_date = '';
+        $newTask = new SchedulerTasks;
+        $newTask->attributes = $task->attributes;
+        $newTask->start_time =  (new DateTime())->setTimestamp($newTimeStamp)->format('Y-m-d H:i:s');
+        $newTask->status = SchedulerTasks::STATUSNEW;
+        $newTask->end_time = null;
         $newTask->save();
     }
 }

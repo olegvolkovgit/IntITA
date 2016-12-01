@@ -14,14 +14,14 @@
                         <col width="10%"/>
                     </colgroup>
                     <tr ng-repeat="row in $data" ng-class="{ 'danger': row.error }">
-                        <td data-title="'ID'" sortable="'id'" filter="{id:'text'}">{{row.id}}</td>
+                        <td data-title="'ID'">{{row.id}}</td>
                         <td data-title="'Назва'">{{row.name}}</td>
                         <td data-title="'Тип'"><span ng-if="row.type == 1">Розсилка електронних листів</span></td>
-                        <td data-title="'Повтор завдання'"><span ng-if="row.type == 1">Однократно</span>
-                            <span ng-if="row.type == 2">Раз на день</span>
-                            <span ng-if="row.type == 3">Раз на тиждень</span>
-                            <span ng-if="row.type == 4">Раз на місяць</span>
-                            <span ng-if="row.type == 5">Раз на рік</span>
+                        <td data-title="'Повтор завдання'"><span ng-if="row.repeat_type == 1">Однократно</span>
+                            <span ng-if="row.repeat_type == 2">Раз на день</span>
+                            <span ng-if="row.repeat_type == 3">Раз на тиждень</span>
+                            <span ng-if="row.repeat_type == 4">Раз на місяць</span>
+                            <span ng-if="row.repeat_type == 5">Раз на рік</span>
                         </td>
                         <td data-title="'Час початку'">{{row.start_time |shortDate:"dd-MM-yyyy HH:mm:ss"}}</td>
                         <td data-title="'Час закінчення'">{{row.end_time |shortDate:"dd-MM-yyyy HH:mm:ss"}}</td>
