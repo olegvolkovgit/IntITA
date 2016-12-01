@@ -42,6 +42,36 @@ class ScheduleCommand extends CConsoleCommand
         $task->status = SchedulerTasks::STATUSOK;
         $task->end_time  = (new DateTime('now'))->format('Y-m-d H:i:s');
         $task->save();
+        switch ($task->repeat_type){
+            case 2:
+                $newTask = new SchedulerTasks();
+                $newTask = $task;
+                $newTask->start_date = $date = strtotime("+1 day", $task->start_date);
+                $newTask->enf_date = '';
+                $newTask->save();
+                break;
+            case 2:
+                $newTask = new SchedulerTasks();
+                $newTask = $task;
+                $newTask->start_date = $date = strtotime("+1 week", $task->start_date);
+                $newTask->enf_date = '';
+                $newTask->save();
+                break;
+            case 3:
+                $newTask = new SchedulerTasks();
+                $newTask = $task;
+                $newTask->start_date = $date = strtotime("+1 month", $task->start_date);
+                $newTask->enf_date = '';
+                $newTask->save();
+                break;
+            case 3:
+                $newTask = new SchedulerTasks();
+                $newTask = $task;
+                $newTask->start_date = $date = strtotime("+1 year", $task->start_date);
+                $newTask->enf_date = '';
+                $newTask->save();
+                break;
+        }
     }
 
 
