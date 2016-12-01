@@ -3,7 +3,7 @@
 /**
  * This is the model class for table "offline_groups".
  *
- * The followings are the available columns in table 'offline_groups:
+ * The followings are the available columns in table 'offline_groups':
  * @property integer $id
  * @property string $name
  * @property string $start_date

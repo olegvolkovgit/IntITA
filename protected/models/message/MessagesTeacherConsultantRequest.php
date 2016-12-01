@@ -17,7 +17,7 @@
  * @property StudentReg $idTeacher
  * @property StudentReg $userApproved
  */
-class MessagesTeacherConsultantRequest extends Messages implements IMessage, IRequest
+class MessagesTeacherConsultantRequest extends CActiveRecord /*extends Messages*/ implements IMessage, IRequest
 {
     private $template = 'teacher_consultant'. DIRECTORY_SEPARATOR . '_teacherConsultantModuleRequest';
     const TYPE = MessagesType::TEACHER_CONSULTANT_REQUEST;

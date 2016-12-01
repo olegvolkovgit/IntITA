@@ -29,7 +29,10 @@ class CoursesController extends Controller
         $counters = Course::countersBySelectors();
 
         if($selector=='modules'){
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'cancelled='.Module::ACTIVE.' and status='.Module::READY;
             $dataProvider = new CActiveDataProvider('Module', array(
+                'criteria' => $criteria,
                 'sort' => array(
                     'defaultOrder' => 'module_ID DESC',
                 ),

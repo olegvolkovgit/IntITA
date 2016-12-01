@@ -17,6 +17,7 @@ angular
     .controller('specializationCtrl', specializationCtrl)
     .controller('usersSVTableCtrl', usersSVTableCtrl)
     .controller('studentsSVTableCtrl', studentsSVTableCtrl)
+    .controller('groupAccessCtrl', groupAccessCtrl)
 
 function superVisorCtrl (){
 
@@ -67,7 +68,7 @@ function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
 }
 
 function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams){
-    $scope.changePageHeader('Усі студенти(офлайн ф.н.)');
+    $scope.changePageHeader('Студенти(офлайн ф.н.), які не в групі');
     $scope.studentsWithoutGroupTableParams = new NgTableParams({}, {
         getData: function (params) {
             return superVisorService
@@ -158,7 +159,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
+function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter){
     $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
@@ -173,8 +174,52 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                     });
             }
         });
+        $scope.groupCoursesAccessParams = new NgTableParams({'idGroup':$scope.groupId}, {
+            getData: function (params) {
+                return superVisorService
+                    .courseAccessList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+        $scope.groupModulesAccessParams = new NgTableParams({'idGroup':$scope.groupId}, {
+            getData: function (params) {
+                return superVisorService
+                    .moduleAccessList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+        
+        $scope.date = $filter('date')(new Date(), "yyyy-MM-dd");
     }
 
+    $scope.cancelGroupAccess=function(idGroup, idService, type){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelGroupAccess',
+            method: "POST",
+            data: $jq.param({
+                idGroup:idGroup,
+                idService:idService
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+           if(type=='course'){
+               $scope.groupCoursesAccessParams.reload();
+           }else if(type=='module'){
+               $scope.groupModulesAccessParams.reload();
+           }
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка");
+        });
+    };
+    
     $scope.loadGroupData=function(){
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/getGroupData',
@@ -422,51 +467,21 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     };
 }
 
-function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhead, superVisorService){
-    $scope.changePageHeader('Користувач');
-    $scope.studentId=$stateParams.id;
-    $scope.loadUserData=function(studentId){
-        $http.get(basePath + "/_teacher/_supervisor/superVisor/getUserData/?id="+studentId).then(function (response) {
-            $scope.user = response.data.user;
-            $scope.offlineStudent=response.data.offlineStudent;
+function offlineStudentProfileCtrl ($scope, $state, $http, superVisorService, $stateParams){
+    $scope.userId=$stateParams.id;
+    $scope.loadUserData=function(userId){
+        $http.get(basePath + "/_teacher/user/loadJsonUserModel/"+userId).then(function (response) {
+            $scope.data = response.data;
         });
     };
-    $scope.loadUserData($scope.studentId);
-
-    $scope.addTrainer=function (url, scenario) {
-        var id = document.getElementById('user').value;
-        var trainerId = (scenario == "remove") ? 0 : $jq("#trainer").val();
-        var oldTrainerId = 0;
-        if (trainerId == 0 && scenario != "remove") {
-            bootbox.alert("Виберіть тренера.");
-        }
-        $http({
-            method: 'POST',
-            url: url,
-            data: $jq.param({userId: id, trainerId: trainerId, oldTrainerId: oldTrainerId}),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function successCallback(response) {
-            if (response.data == "success") {
-                bootbox.alert('Операцію успішно виконано.', function () {
-                    if(scenario == "new") $state.go('supervisor/student/:id/changetrainer', {id:id}, {reload: true});
-                    else if(scenario == "remove") $state.go('supervisor/student/:id/addtrainer', {id:id}, {reload: true});
-                    else $state.reload();
-                });
-            }else{
-                $scope.loadUserData($scope.studentId);
-                bootbox.alert(response.data)
-            }
-        }, function errorCallback() {
-            bootbox.alert("Операцію не вдалося виконати");
-        });
-    };
-
+    $scope.loadUserData($scope.userId);
+    
     $scope.addStudentToSubgroup=function (idUser,idSubgroup,startDate) {
         if ($scope.selectedGroup==null) {
             bootbox.alert("Виберіть групу");
-        } else if($scope.selectedSubgroup==null){
+        } else if(idSubgroup==null){
             bootbox.alert("Виберіть підгрупу");
-        } else if($scope.user.id==null){
+        } else if(idUser==null){
             bootbox.alert("Виберіть студента");
         }else{
             $http({
@@ -475,9 +490,8 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
                 data: $jq.param({userId: idUser, subgroupId: idSubgroup, startDate: startDate}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                bootbox.alert(response.data, function () {
-                    $state.go('supervisor/studentsWithoutGroup');
-                });
+                $scope.addUIHandlers(response.data);
+                $scope.loadUserData(idUser);
             }, function errorCallback() {
                 bootbox.alert("Операцію не вдалося виконати");
             });
@@ -491,14 +505,14 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data);
+            $scope.addUIHandlers(response.data);
             $scope.loadUserData(idUser);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
     
-    $scope.onSelect = function ($item) {
+    $scope.onSelectGroup = function ($item) {
         $scope.selectedGroup = $item;
         superVisorService
             .offlineGroupSubgroupsList({'id':$scope.selectedGroup.id})
@@ -507,18 +521,14 @@ function offlineStudentProfileCtrl ($scope, $state, $http, $stateParams, typeAhe
                 $scope.subgroupsList=data.rows;
             });
     };
-    $scope.reload = function(){
+    $scope.reloadGroup = function(){
         $scope.selectedGroup=null;
         $scope.selectedSubgroup=null;
         $scope.subgroupsList=null;
     };
-    var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
-    $scope.getGroups = function(value){
-        return typeAhead.getData(groupTypeaheadUrl,{query : value});
-    };
 }
 
-function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhead, superVisorService){
+function updateOfflineStudentCtrl ($scope, $http, $stateParams, superVisorService){
     $scope.changePageHeader('Студент(офлайнова форма навчання)');
     $scope.studentModelId=$stateParams.idOfflineStudentModel;
     $scope.loadStudentModel=function(modelId){
@@ -542,7 +552,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
             data: $jq.param({modelId: modelId, userId: idUser, subgroupId: idSubgroup, newSubgroupId: newSubgroupId, startDate: startDate, graduateDate: graduateDate}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data);
+            $scope.addUIHandlers(response.data);
             $scope.loadStudentModel($scope.studentModelId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
@@ -556,7 +566,7 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data);
+            $scope.addUIHandlers(response.data);
             $scope.loadStudentModel($scope.studentModelId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
@@ -577,10 +587,6 @@ function updateOfflineStudentCtrl ($scope, $state, $http, $stateParams, typeAhea
         $scope.selectedSubgroup=null;
         $scope.subgroupsList=null;
     };
-    var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
-    $scope.getGroups = function(value){
-        return typeAhead.getData(groupTypeaheadUrl,{query : value});
-    };
 }
 
 function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
@@ -598,7 +604,7 @@ function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
     });
 }
 
-function studentsSVTableCtrl ($scope, superVisorService, NgTableParams){
+function studentsSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
     $scope.changePageHeader('Усі студенти');
 
     $jq("#startDate").datepicker(lang);
@@ -635,4 +641,150 @@ function studentsSVTableCtrl ($scope, superVisorService, NgTableParams){
             }
         });
     }
+    $scope.changeStudentEducForm=function (user,currentEducForm) {
+        var form;
+        if(currentEducForm=='Онлайн') form='Онлайн/Офлайн';
+        else if(currentEducForm=='Онлайн/Офлайн') form='Онлайн';
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/user/setStudentEducForm',
+            data: $jq.param({user: user,form:form}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback() {
+            $scope.studentsTableParams.reload();
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    }
+}
+
+
+function groupAccessCtrl ($scope, $http, $stateParams){
+    $scope.changePageHeader('Доступ групи до контенту');
+    $scope.end_date='2099-12-31';
+
+    $scope.loadGroupData=function(groupId){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/getGroupData',
+            method: "POST",
+            data: $jq.param({id:groupId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.selectedGroup=response.data;
+            $scope.groupSelected=response.data.name;
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані групи не вдалося");
+        });
+    };
+    $scope.loadGroupAccess=function(groupId,serviceId){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/getGroupAccess',
+            method: "POST",
+            data: $jq.param({
+                groupId:groupId,
+                serviceId:serviceId
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.groupSelected=response.data.group;
+            $scope.serviceSelected=response.data.service;
+            $scope.end_date=response.data.endDate;
+        }, function errorCallback() {
+            bootbox.alert("Отримати дані не вдалося");
+        });
+    };
+
+    if($stateParams.service && $stateParams.group) {
+        $scope.defaultService=$stateParams.service;
+        $scope.defaultGroup=$stateParams.group;
+        $scope.loadGroupAccess($scope.defaultGroup, $scope.defaultService);
+    }else if(!$stateParams.service && $stateParams.group){
+        $scope.defaultGroup=$stateParams.group;
+        $scope.loadGroupData($stateParams.group);
+    }
+
+    $scope.onSelectGroup = function ($item) {
+        $scope.selectedGroup = $item;
+    };
+    $scope.reloadGroup = function(){
+        $scope.selectedGroup=null;
+    };
+    $scope.onSelectService = function ($item) {
+        $scope.selectedContent = $item;
+    };
+    $scope.reloadService = function(){
+        $scope.selectedContent=null;
+    };
+    $scope.clearContent = function(){
+        $scope.selectedContent=null;
+        $scope.serviceSelected=null;
+    };
+    
+    $scope.sendGroupAccessToContent=function(scenario, idGroup, idContent, endDate, serviceType){
+        if(scenario=='create')
+            $scope.createGroupAccessToContent(idGroup, idContent, endDate, serviceType);
+        else $scope.updateGroupAccessToContent($scope.defaultGroup, $scope.defaultService, endDate);
+    };
+
+    $scope.createGroupAccessToContent=function(idGroup, idContent, endDate, serviceType){
+        if(idGroup && idContent && endDate && serviceType){
+            $http({
+                url: basePath+'/_teacher/_supervisor/superVisor/setGroupAccessToService',
+                method: "POST",
+                data: $jq.param({
+                    idGroup:idGroup,
+                    idContent:idContent,
+                    endDate:endDate,
+                    serviceType:serviceType
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+                $scope.clearContent();
+            }, function errorCallback(response) {
+                console.log(response);
+                bootbox.alert("Виникла помилка");
+            });
+        }else{
+            bootbox.alert("Введіть всі необхідні дані форми");
+        }
+    };
+
+    $scope.updateGroupAccessToContent=function(idGroup, idService, endDate){
+        if(idGroup && idService && endDate){
+            $http({
+                url: basePath+'/_teacher/_supervisor/superVisor/updateGroupAccessToService',
+                method: "POST",
+                data: $jq.param({
+                    idGroup:idGroup,
+                    idService:idService,
+                    endDate:endDate,
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+            }, function errorCallback(response) {
+                console.log(response);
+                bootbox.alert("Виникла помилка");
+            });
+        }else{
+            bootbox.alert("Введіть всі необхідні дані форми");
+        }
+    };
+
+    $scope.cancelGroupAccess=function(idGroup, idService){
+        $http({
+            url: basePath+'/_teacher/_supervisor/superVisor/cancelGroupAccess',
+            method: "POST",
+            data: $jq.param({
+                idGroup:idGroup,
+                idService:idService
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            $scope.loadGroupAccess(idGroup, idService);
+        }, function errorCallback() {
+            bootbox.alert("Виникла помилка");
+        });
+    };
 }

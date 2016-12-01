@@ -580,7 +580,7 @@ class Course extends CActiveRecord implements IBillableObject
 
     public static function selectModulesCount()
     {
-        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE));
+        $modules = Module::model()->findAllByAttributes(array('cancelled'=>Module::ACTIVE,'status'=>Module::READY));
         return count($modules);
     }
 
@@ -1025,5 +1025,21 @@ class Course extends CActiveRecord implements IBillableObject
             $result[] = $payment;
         }
         return $result;
+    }
+
+    /**
+     * Function check user's access to course based on user's payments
+     * @param $userId
+     * @return bool
+     */
+    public function checkPaidAccess($userId) {
+        $access = false;
+        if ($this->courseServiceOnline) {
+            $access = $this->courseServiceOnline->access->checkServiceAccess($userId);
+        }
+        if (!$access && $this->courseServiceOffline) {
+            $access = $this->courseServiceOffline->access->checkServiceAccess($userId);
+        }
+        return $access;
     }
 }

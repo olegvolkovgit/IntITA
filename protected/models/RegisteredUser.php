@@ -315,12 +315,6 @@ class RegisteredUser
                 return true;
             }
         }
-//        if ($this->isConsultant()) {
-//            $consult = new Consultant();
-//            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-//                return true;
-//            }
-//        }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
@@ -358,12 +352,6 @@ class RegisteredUser
                 return true;
             }
         }
-//        if ($this->isConsultant()) {
-//            $consult = new Consultant();
-//            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-//                return true;
-//            }
-//        }
 
         return false;
     }

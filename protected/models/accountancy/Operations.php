@@ -92,8 +92,11 @@ class Operations {
                 }
                 $amount -= $paymentAmount;
                 $result['message'][] = "По рахунку № $invoice->number зараховано $paymentAmount";
-
             }
+
+            $agreement = UserAgreements::model()->findByPk($operation['agreementId']);
+            $agreement->provideAccess();
+//            todo $agreement->updateNextInvoicesDate();
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();

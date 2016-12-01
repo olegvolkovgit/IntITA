@@ -25,11 +25,13 @@
  * @property integer $status
  *
  * The followings are the available model relations:
- * @property Course $Course
+ * @property Course[] $Course
  * @property CourseModules $inCourses
  * @property Level $level0
  * @property Lecture[] $lectures
  * @property Teacher $teacher
+ * @property ModuleService $moduleServiceOnline
+ * @property ModuleService $moduleServiceOffline
  */
 
 const EDITOR_ENABLED = 1;
@@ -109,6 +111,8 @@ class Module extends CActiveRecord implements IBillableObject
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
+            'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
+            'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE]
         );
     }
 
@@ -1029,18 +1033,21 @@ class Module extends CActiveRecord implements IBillableObject
         return round($this->getBasePrice() * Config::getCoeffModuleOffline());
     }
 
-    public function getConsultants()
+    public function getTeacherConsultant($studentId)
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 't';
-        $criteria->join = 'left join consultant_modules cm on cm.consultant=t.user_id';
-        $criteria->join .= ' left join user_consultant uc on uc.id_user=cm.consultant';
-        $criteria->addCondition('t.isPrint = 1 and cm.end_time IS NULL and uc.end_date IS NULL and cm.module=:module');
-        $criteria->params = array(":module" => $this->module_ID);
+        $criteria->join = 'left join teacher_consultant_student tcs on t.user_id=tcs.id_teacher';
+        $criteria->join .= ' left join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' left join module m on tcm.id_module=m.module_ID';
+        $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL 
+        and tcm.end_date IS NULL and m.module_ID=:module');
+        $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID);
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'pagination' => false,
         ));
+
         return $dataProvider;
     }
 
@@ -1058,5 +1065,31 @@ class Module extends CActiveRecord implements IBillableObject
         }
 
         return json_encode($data);
+    }
+
+    /**
+     * Function check user's access to course based on user's payments
+     * @param $userId
+     * @return bool
+     */
+    public function checkPaidAccess($userId) {
+        $access = false;
+        if ($this->moduleServiceOnline) {
+            $access = $this->moduleServiceOnline->access->checkServiceAccess($userId);
+        }
+        if (!$access && $this->moduleServiceOffline) {
+            $access = $this->moduleServiceOffline->access->checkServiceAccess($userId);
+        }
+
+        /* if user has no access to the module we should check if user has access to any course where the module exists */
+        if (!$access) {
+            foreach ($this->Course as $course) {
+                $access = $course->checkPaidAccess($userId);
+                if ($access) {
+                    break;
+                }
+            }
+        }
+        return $access;
     }
 }

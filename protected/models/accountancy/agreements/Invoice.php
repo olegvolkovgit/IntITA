@@ -56,7 +56,7 @@ class Invoice extends CActiveRecord {
             'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
             'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
             'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
-            'internalPayment' => [self::HAS_MANY, 'InternalPays', '', 'on' => 't.id = internalPayment.invoice_id']
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', 'invoice_id']
         );
     }
 
@@ -194,29 +194,6 @@ class Invoice extends CActiveRecord {
         $criteria->addInCondition('id', $invoicesListId);
 
         return Invoice::model()->findAll($criteria);
-    }
-
-    public static function getInvoicesByData($agreement, $number, $user, $course, $module) {
-        $criteria = new CDbCriteria();
-
-        if ($number != "") {
-            $agr = UserAgreements::model()->findAllByPk($number);
-            return $agr;
-        }
-        if ($user != "") {
-            $criteria->addCondition('user_id=' . $user, 'OR');
-        }
-        if ($course != "") {
-            $service = CourseService::getService($course);
-            $criteria->addCondition('service_id=' . $service->service_id, 'OR');
-        }
-        if ($module != "") {
-            $service = ModuleService::getService($module);
-            $criteria->addCondition('service_id=' . $service->service_id, 'OR');
-        }
-
-        return UserAgreements::model()->findAll($criteria);
-
     }
 
     public function getAgreementNumber() {

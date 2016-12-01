@@ -30,6 +30,7 @@
  * @property StudentReg $approvalUser
  * @property StudentReg $cancelUser
  * @property UserAgreementStatus $status0
+ * @property Invoice[] invoice
  */
 class UserAgreements extends CActiveRecord
 {
@@ -71,7 +72,7 @@ class UserAgreements extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
-            'invoice' => array(self::HAS_MANY, 'Invoice', 'agreement_id'),
+            'invoice' => array(self::HAS_MANY, 'Invoice', 'agreement_id', 'order' => 'invoice.expiration_date'),
             'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
             'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
@@ -219,7 +220,7 @@ class UserAgreements extends CActiveRecord
     public static function courseAgreement($user, $course, $schema, $educForm)
     {
         $educFormModel = EducationForm::model()->findByPk($educForm);
-        $service = CourseService::getService($course, $educFormModel);
+        $service = CourseService::model()->getService($course, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -232,7 +233,7 @@ class UserAgreements extends CActiveRecord
     public static function courseAgreementExist($user, $course, $educForm)
     {
         $educFormModel = EducationForm::model()->findByPk($educForm);
-        $service = CourseService::getService($course, $educFormModel);
+        $service = CourseService::model()->getService($course, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -245,7 +246,7 @@ class UserAgreements extends CActiveRecord
     public static function moduleAgreement($user, $module, $schema, $educForm)
     {
         $educFormModel = EducationForm::model()->findByPk($educForm);
-        $service = ModuleService::getService($module, $educFormModel);
+        $service = ModuleService::model()->getService($module, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -258,7 +259,7 @@ class UserAgreements extends CActiveRecord
     public static function moduleAgreementExist($user, $module, $educForm)
     {
         $educFormModel = EducationForm::model()->findByPk($educForm);
-        $service = ModuleService::getService($module, $educFormModel);
+        $service = ModuleService::model()->getService($module, $educFormModel);
         if ($service) {
             $model = UserAgreements::model()->findByAttributes(array('user_id' => $user, 'service_id' => $service->service_id));
             if ($model) {
@@ -410,7 +411,6 @@ class UserAgreements extends CActiveRecord
     {
         $criteria = new CDbCriteria();
         $criteria->addCondition('agreement_id='.$this->id);
-
         return Invoice::model()->findAll($criteria);
     }
 
@@ -477,6 +477,26 @@ class UserAgreements extends CActiveRecord
 
     public function getPaymentSchema() {
         return array_values(PaymentScheme::model()->getPaymentScheme(null, null, $this->payment_schema))[0];
+    }
+
+    public function getFirstUnpaidInvoice() {
+        foreach ($this->invoice as $invoice) {
+            if ($invoice->getUnpaidSum() === 0) {
+                return $invoice;
+            }
+        }
+        return null;
+    }
+
+    public function provideAccess() {
+        $unpaidInvoice = $this->getFirstUnpaidInvoice();
+        if ($unpaidInvoice) {
+            $endDate = $unpaidInvoice->expiration_date;
+        } else {
+            $endDate = '3000-12-31 23:59:59';
+        }
+
+        $this->service->provideAccess($this->user_id, $endDate);
     }
 }
 

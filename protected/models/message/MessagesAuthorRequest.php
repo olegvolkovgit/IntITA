@@ -16,7 +16,7 @@
  * @property StudentReg $userApproved
  * @property Messages $message0
  */
-class MessagesAuthorRequest extends Messages implements IMessage, IRequest
+class MessagesAuthorRequest extends CActiveRecord /*extends Messages*/ implements IMessage, IRequest
 {
     private $template = 'author'. DIRECTORY_SEPARATOR . '_newAuthorModuleRequest';
     private $approveTemplate = 'author'. DIRECTORY_SEPARATOR . '_approveAuthorModuleRequest';

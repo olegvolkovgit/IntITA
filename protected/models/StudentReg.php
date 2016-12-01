@@ -1282,6 +1282,11 @@ class StudentReg extends CActiveRecord
         return $this->save(true, array('cancelled'));
     }
 
+    public function setUserForm($form){
+        $this->educform = $form;
+        return $this->save(true, array('educform'));
+    }
+
     public static function getAdminModel(){
         return StudentReg::model()->findByPk(Config::getAdminId());
     }
@@ -1408,7 +1413,10 @@ class StudentReg extends CActiveRecord
         $model=RegisteredUser::userById($id);
         $teacher = Teacher::model()->findByPk($id);
 
-        $user = $model->registrationData->getAttributes();
+        $user = $model->registrationData->getAttributes(array(
+            'avatar','address','birthday','cancelled','city','country','education','educform','email','firstName',
+            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time'
+        ));
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
         $trainer = TrainerStudent::getTrainerByStudent($id);

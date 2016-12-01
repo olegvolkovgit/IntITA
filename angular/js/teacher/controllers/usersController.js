@@ -400,7 +400,7 @@ function authorsTableCtrl ($scope, usersService, NgTableParams, roleService){
     };
 }
 
-function userProfileCtrl ($http, $scope, $state, $stateParams, roleService){
+function userProfileCtrl ($http, $scope, $stateParams, roleService){
     $scope.changePageHeader('Профіль користувача');
     $scope.userId=$stateParams.id;
     $scope.formData={};
@@ -428,7 +428,21 @@ function userProfileCtrl ($http, $scope, $state, $stateParams, roleService){
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
-    
+    $scope.changeStudentEducForm=function (user,currentEducForm) {
+        var form;
+        if(currentEducForm=='Онлайн') form='Онлайн/Офлайн';
+        else if(currentEducForm=='Онлайн/Офлайн') form='Онлайн';
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/user/setStudentEducForm',
+            data: $jq.param({user: user,form:form}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            $scope.loadUserData($scope.userId);
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
     $scope.assignRole = function (user, role) {
         if(user && role){
             roleService
@@ -558,23 +572,42 @@ function userProfileCtrl ($http, $scope, $state, $stateParams, roleService){
         $scope.trainerSelected=null;
         $scope.selectedTrainer=null;
     };
-    $scope.addTrainer=function (url, scenario, trainerId, userId) {
-        var trainer = (scenario == "remove") ? 0 : trainerId;
-        if (!trainer && scenario != "remove") {
+
+    $scope.cancelTrainer=function (userId) {
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/_admin/users/removeTrainer',
+            data: $jq.param({userId: userId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            if (response.data == "success") {
+                bootbox.alert('Операцію успішно виконано.', function () {
+                    $scope.loadUserData($scope.userId);
+                });
+            }else{
+                $scope.loadUserData($scope.userId);
+                bootbox.alert(response.data)
+            }
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    };
+
+    $scope.addTrainer=function (trainerId, userId) {
+        if (!trainerId) {
             bootbox.alert("Виберіть тренера.");
             return;
         }
         $http({
             method: 'POST',
-            url: url,
+            url: basePath+"/_teacher/_admin/users/setTrainer",
             data: $jq.param({userId: userId, trainerId: trainerId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
             $scope.clearTrainerInputs();
             if (response.data == "success") {
                 bootbox.alert('Операцію успішно виконано.', function () {
-                    if(scenario == "new") $state.go('admin/users/user/:id/changetrainer', {id:userId}, {reload: true});
-                    else $scope.loadUserData($scope.userId);
+                    $scope.loadUserData($scope.userId);
                 });
             }else{
                 $scope.loadUserData($scope.userId);

@@ -11,7 +11,7 @@
  * @property Messages $message0
  * @property RevisionLecture $idRevision
  */
-class MessagesApproveRevision extends Messages implements IMessage
+class MessagesApproveRevision extends CActiveRecord /*extends Messages*/ implements IMessage
 {
 	private $message;
 	private $template = 'revision'. DIRECTORY_SEPARATOR . '_approveRevisionNotification';

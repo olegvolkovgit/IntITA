@@ -283,11 +283,6 @@ class TeachersController extends TeacherCabinetController{
         echo CJSON::encode($result);
     }
 
-    public function actionGetModuleLink()
-    {
-        echo Yii::app()->createUrl('module/index', array('idModule' => Yii::app()->request->getPost('id')));
-    }
-
     public function actionLoadJsonTeacherModel($id)
     {
         $result = array();

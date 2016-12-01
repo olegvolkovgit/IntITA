@@ -72,9 +72,15 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/forms/specializationUpdate', array(), false, true);
     }
 
-    public function actionUserProfile()
+    public function actionUserProfile($id)
     {
-        $this->renderPartial('/_supervisor/userProfile', array(), false, true);
+        $model = RegisteredUser::userById($id);
+        $trainer = TrainerStudent::getTrainerByStudent($id);
+        
+        $this->renderPartial('/_supervisor/userProfile', array(
+            'model' => $model,
+            'trainer' => $trainer
+        ), false, true);
     }
 
     public function actionUsers()
@@ -106,6 +112,16 @@ class SuperVisorController extends TeacherCabinetController
             throw new CHttpException(404,'The requested page does not exist.');
 
         $this->renderPartial('/_supervisor/forms/updateOfflineStudent', array(), false, true);
+    }
+
+    public function actionGroupAccess($type, $scenario)
+    {
+        if($type=='course'){
+            $view='groupAccessToCourse';
+        } else if($type=='module'){
+            $view='groupAccessToModule';
+        }
+        $this->renderPartial('/_supervisor/forms/'.$view, array('scenario'=>$scenario), false, true);
     }
     
     public function actionGetOfflineGroupsList()
@@ -155,9 +171,12 @@ class SuperVisorController extends TeacherCabinetController
         $criteria =  new CDbCriteria();
 
         $criteria->alias = 't';
-        $criteria->join = 'inner join user_student us on t.id = us.id_user';
+        $criteria->distinct = true;
+        $criteria->join = 'left join user_student us on t.id = us.id_user';
         $criteria->join .= ' left JOIN offline_students os ON t.id = os.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL and t.educform="Онлайн/Офлайн"';
+        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' 
+        and us.end_date IS NULL and t.educform="Онлайн/Офлайн" 
+        and os.id_user IS NULL';
         $criteria->group = 't.id';
 
         $ngTable->mergeCriteriaWith($criteria);
@@ -223,11 +242,6 @@ class SuperVisorController extends TeacherCabinetController
         echo CJSON::encode(OfflineGroups::model()->findByPk(Yii::app()->request->getParam('id')));
     }
 
-    public function actionGetUserData()
-    {
-        echo  CJSON::encode(OfflineStudents::userData(Yii::app()->request->getParam('id')));
-    }
-
     public function actionGetOfflineStudentModel()
     {
         echo  CJSON::encode(OfflineStudents::studentModel(Yii::app()->request->getParam('id')));
@@ -252,6 +266,47 @@ class SuperVisorController extends TeacherCabinetController
     {
         $id=$id?$id:Yii::app()->user->getId();
         echo json_encode(StudentReg::model()->findByPk($id)->userIdFullName());
+    }
+
+    public function actionGetGroupAccess()
+    {
+        $result=array();
+        $groupAccess=GroupAccess::model()->findByPk(array('group_id'=>Yii::app()->request->getParam('groupId'),'service_id'=>Yii::app()->request->getParam('serviceId')));
+        $result['group']=$groupAccess->group->name;
+        $result['service']=$groupAccess->service->description;
+        $result['endDate']=$groupAccess->end_date;
+        
+        echo CJSON::encode($result);
+    }
+    
+    public function actionGetCourseAccessList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('GroupAccess', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->join = ' LEFT JOIN acc_course_service cs ON t.service_id = cs.service_id';
+        $criteria->join .= ' LEFT JOIN course c ON cs.course_id = c.course_ID';
+        $criteria->condition = 't.group_id='.$requestParams['idGroup'].' and cs.course_id IS NOT NULL';
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionGetModuleAccessList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('GroupAccess', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->join = ' LEFT JOIN acc_module_service ms ON t.service_id = ms.service_id';
+        $criteria->join .= ' LEFT JOIN module m ON ms.module_id = m.module_ID';
+        $criteria->condition = 't.group_id='.$requestParams['idGroup'].' and ms.module_id IS NOT NULL';
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
     
     public function actionCreateOfflineGroup()
@@ -381,20 +436,6 @@ class SuperVisorController extends TeacherCabinetController
     public function actionCuratorsByQuery($query){
         echo SuperVisor::addCuratorsList($query);
     }
-    
-    public function actionAddTrainer($id)
-    {
-        $user = StudentReg::model()->findByPk($id);
-        if (!$user)
-            throw new CHttpException(404, 'Вказана сторінка не знайдена');
-
-        $trainers = Teacher::getAllTrainers();
-
-        $this->renderPartial('/_supervisor/forms/addTrainer', array(
-            'user' => $user,
-            'trainers' => $trainers
-        ), false, true);
-    }
 
     public function actionSetTrainer()
     {
@@ -404,58 +445,6 @@ class SuperVisorController extends TeacherCabinetController
 
         if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)===true) echo "success";
         else echo $trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-    }
-
-    public function actionChangeTrainer($id)
-    {
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-        if($trainer){
-            $oldTrainer = RegisteredUser::userById($trainer->id)->getTeacher();
-        } else {
-            $oldTrainer = null;
-        }
-
-        $user = StudentReg::model()->findByPk($id);
-
-        $trainers = Teacher::getAllTrainers();
-
-        $this->renderPartial('/_supervisor/forms/changeTrainer', array(
-            'user' => $user,
-            'trainers' => $trainers,
-            'oldTrainer' => $oldTrainer
-        ), false, true);
-    }
-    public function actionEditTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-        $trainerId = Yii::app()->request->getPost('trainerId');
-
-        $trainer = RegisteredUser::userById($trainerId);
-        $cancelResult='';
-        $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
-        if($oldTrainerId) {
-            $oldTrainer = RegisteredUser::userById($oldTrainerId->id);
-            $oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-            $cancelResult="Попереднього тренера скасовано.";
-        }
-        $result=$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-        if ($result===true){
-            $setResult="Нового тренера призначено.";
-        } else{
-            $setResult=$result;
-        }
-        echo $cancelResult.' '.$setResult;
-    }
-
-    public function actionRemoveTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-
-        $trainer = TrainerStudent::getTrainerByStudent($userId);
-        $oldTrainer = RegisteredUser::userById($trainer->id);
-
-        if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
-        else echo "error";
     }
 
     public function actionGroupsByQuery($query)
@@ -538,5 +527,64 @@ class SuperVisorController extends TeacherCabinetController
         }else{
             echo 'Студента в даній підгрупі не знайдено';
         }
+    }
+
+    public function actionSetGroupAccessToService()
+    {
+        $idGroup=Yii::app()->request->getParam('idGroup');
+        $idContent=Yii::app()->request->getParam('idContent');
+        $endDate=Yii::app()->request->getParam('endDate');
+        $serviceType=Yii::app()->request->getParam('serviceType');
+
+        $educFormModel = EducationForm::model()->findByPk(EducationForm::OFFLINE);
+        if($serviceType=='course') 
+            $service = CourseService::model()->getService($idContent, $educFormModel);
+        else if($serviceType=='module')
+            $service = ModuleService::model()->getService($idContent, $educFormModel);
+
+        $groupAccess= new GroupAccess();
+        $groupAccess->group_id=$idGroup;
+        $groupAccess->service_id=$service->service_id;
+        $groupAccess->start_date=date('Y-m-d');
+        $groupAccess->end_date=$endDate;
+
+        if(GroupAccess::model()->findAllByAttributes(array('group_id'=>$groupAccess->group_id,'service_id'=>$groupAccess->service_id))){
+            echo 'Дана група вже має доступ до даного контента';
+        }else{
+            if($groupAccess->validate()){
+                $groupAccess->save();
+                echo 'Групі успішно надано права';
+            }else{
+                echo $groupAccess->getValidationErrors();
+            }
+        }
+    }
+
+    public function actionUpdateGroupAccessToService()
+    {
+        $idGroup=Yii::app()->request->getParam('idGroup');
+        $idService=Yii::app()->request->getParam('idService');
+        $endDate=Yii::app()->request->getParam('endDate');
+
+        $groupAccess= GroupAccess::model()->findByPk(array('group_id'=>$idGroup,'service_id'=>$idService));
+        $groupAccess->end_date=$endDate;
+
+        if($groupAccess->validate()){
+            if($groupAccess->save())
+                echo 'Дані оновлено';
+        }else{
+            echo $groupAccess->getValidationErrors();
+        }
+    }
+
+    public function actionCancelGroupAccess()
+    {
+        $idGroup=Yii::app()->request->getParam('idGroup');
+        $idService=Yii::app()->request->getParam('idService');
+
+        $groupAccess = GroupAccess::model()->findByPk(array('group_id'=>$idGroup,'service_id'=>$idService));
+        $groupAccess->end_date=date('Y-m-d');
+        if($groupAccess->save()) return true;
+        else  throw new \application\components\Exceptions\IntItaException('500');
     }
 }

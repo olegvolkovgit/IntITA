@@ -28,6 +28,7 @@ return array(
         'application.models.track.statistics.*',
         'application.models.accountancy.*',
         'application.models.accountancy.services.*',
+        'application.models.accountancy.services.serviceAccess.*',
         'application.models.accountancy.paymentScheme.*',
         'application.models.accountancy.corporateEntity.*',
         'application.models.accountancy.agreements.*',

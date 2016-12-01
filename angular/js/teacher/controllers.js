@@ -94,7 +94,20 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     //redirect to module page
     $scope.moduleLink = function (id) {
         $http({
-            url: basePath + '/_teacher/_admin/teachers/getModuleLink',
+            url: basePath + '/_teacher/cabinet/getModuleLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
+    //redirect to course page
+    $scope.courseLink = function (id) {
+        $http({
+            url: basePath + '/_teacher/cabinet/getCourseLink',
             method: "POST",
             data: $jq.param({id: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -118,6 +131,7 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     var trainersTypeaheadUrl = basePath+'/_teacher/cabinet/trainers';
     var studentsTypeaheadUrl = basePath+'/_teacher/cabinet/studentsByQuery';
     var teacherConsultantsByQueryAndModuleTypeaheadUrl = basePath+'/_teacher/cabinet/teacherConsultantsByQueryAndModule';
+    var groupTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/groupsByQuery';
 
     $scope.getActiveUsers = function(value){
         return typeAhead.getData(activeUsersTypeaheadUrl,{query : value})
@@ -158,7 +172,9 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.getTeacherConsultantsByQueryAndModule = function(value,module){
         return typeAhead.getData(teacherConsultantsByQueryAndModuleTypeaheadUrl,{query : value,module:module});
     };
-    
+    $scope.getGroups = function(value){
+        return typeAhead.getData(groupTypeaheadUrl,{query : value});
+    };
 }
 
 function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource, $filter) {

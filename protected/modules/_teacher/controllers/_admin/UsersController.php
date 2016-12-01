@@ -5,7 +5,7 @@ class UsersController extends TeacherCabinetController
     public function hasRole()
     {
         $allowedActions = ['getTeacherConsultantsList', 'getConsultantsList', 'setTeacherRoleAttribute'];
-        $allowedSupervisorActions=['setTrainer','editTrainer','removeTrainer'];
+        $allowedSupervisorActions=['addTrainer','setTrainer','removeTrainer'];
         $action = Yii::app()->controller->action->id;
         if (Yii::app()->user->model->isAdmin() || 
             (Yii::app()->user->model->isContentManager() && in_array($action, $allowedActions)) ||
@@ -320,50 +320,15 @@ class UsersController extends TeacherCabinetController
         if (!$user)
             throw new CHttpException(404, 'Вказана сторінка не знайдена');
 
-        $trainers = Teacher::getAllTrainers();
-
-        $this->renderPartial('addTrainer', array(
-            'user' => $user,
-            'trainers' => $trainers
-        ), false, true);
+        $this->renderPartial('addForms/addTrainer', array(), false, true);
     }
-
+   
     public function actionSetTrainer()
     {
         $userId = Yii::app()->request->getPost('userId');
         $trainerId = Yii::app()->request->getPost('trainerId');
         $trainer = RegisteredUser::userById($trainerId);
-
-        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)===true) echo "success";
-        else echo $trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-    }
-
-    public function actionChangeTrainer($id)
-    {
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-        if($trainer){
-            $oldTrainer = RegisteredUser::userById($trainer->id)->getTeacher();
-        } else {
-            $oldTrainer = null;
-        }
-
-        $user = StudentReg::model()->findByPk($id);
-
-        $trainers = Teacher::getAllTrainers();
-
-        $this->renderPartial('changeTrainer', array(
-            'user' => $user,
-            'trainers' => $trainers,
-            'oldTrainer' => $oldTrainer
-        ), false, true);
-    }
-
-    public function actionEditTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-        $trainerId = Yii::app()->request->getPost('trainerId');
-
-        $trainer = RegisteredUser::userById($trainerId);
+        
         $cancelResult='';
         $oldTrainerId = TrainerStudent::getTrainerByStudent($userId);
         if($oldTrainerId) {

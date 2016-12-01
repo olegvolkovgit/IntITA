@@ -6,7 +6,7 @@
             </a>
         </li>
         <li>
-            <a type="button" class="btn btn-primary" ng-href="#/supervisor/userProfile/{{user.id}}">
+            <a type="button" class="btn btn-primary" ng-href="#/supervisor/userProfile/{{data.user.id}}">
                 Профіль студента
             </a>
         </li>
@@ -16,10 +16,10 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="addStudentToSubgroup(studentId,selectedSubgroup.id,startDate)" name="addStudent"  novalidate>
+                <form ng-submit="addStudentToSubgroup(data.user.id,selectedSubgroup.id,startDate)" name="addStudent"  novalidate>
                     <div class="form-group">
                         <label>Студент:</label>
-                        <input class="form-control" ng-model="user.fullName" required maxlength="128" size="50" disabled>
+                        <input class="form-control" value="{{data.user.fullName}} {{data.user.email}}" required maxlength="128" size="50" disabled>
                     </div>
                     <div class="form-group">
                         <label>Група*:</label>
@@ -27,8 +27,8 @@
                                placeholder="Виберіть групу" required size="50" 
                                uib-typeahead="item.name for item in getGroups($viewValue) | limitTo : 10"
                                typeahead-no-results="groupNoResults"
-                               typeahead-on-select="onSelect($item)"
-                               ng-change="reload()">
+                               typeahead-on-select="onSelectGroup($item)"
+                               ng-change="reloadGroup()">
                         <div ng-cloak  class="clientValidationError" ng-show="addStudent['group'].$dirty && addStudent['group'].$invalid">
                             <span ng-show="addStudent['group'].$error.required"><?php echo Yii::t('error','0268') ?></span>
                         </div>
@@ -51,6 +51,9 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" ng-disabled="addStudent.$invalid">Зберегти
                         </button>
+                        <a type="button" class="btn btn-default" ng-click='back()'>
+                            Назад
+                        </a>
                     </div>
                 </form>
             </div>

@@ -43,5 +43,13 @@ angular
                         url: url + '/getStudentsList',
                         method: 'GET',
                     },
+                    courseAccessList: {
+                        url: url + '/getCourseAccessList',
+                        method: 'GET',
+                    },
+                    moduleAccessList: {
+                        url: url + '/getModuleAccessList',
+                        method: 'GET',
+                    },
                 });
         }]);

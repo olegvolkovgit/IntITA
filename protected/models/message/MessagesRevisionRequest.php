@@ -18,7 +18,7 @@
  * @property StudentReg $userRejected
  * @property RevisionLecture $idRevision
  */
-class MessagesRevisionRequest extends Messages implements IMessage, IRequest
+class MessagesRevisionRequest extends CActiveRecord /*extends Messages*/ implements IMessage, IRequest
 {
     private $template = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequest';
     private $approvedTemplate = 'revision'. DIRECTORY_SEPARATOR . '_revisionRequestApproved';

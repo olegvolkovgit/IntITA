@@ -23,5 +23,10 @@ $user =Yii::app()->user->model;
                 Всі задачі
             </a>
         </li>
+        <li>
+            <a href="#/teacherConsultant/consultations">
+                Консультації
+            </a>
+        </li>
     </ul>
 </li>
