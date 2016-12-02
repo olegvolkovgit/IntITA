@@ -542,6 +542,7 @@ class SuperVisorController extends TeacherCabinetController
         else if($serviceType=='module')
             $service = ModuleService::model()->getService($idContent, $educFormModel);
 
+        /* @TODO 02.12.16 Move this code into GroupAccessBehavior */
         $groupAccess= new GroupAccess();
         $groupAccess->group_id=$idGroup;
         $groupAccess->service_id=$service->service_id;

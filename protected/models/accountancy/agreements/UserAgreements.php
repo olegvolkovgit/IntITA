@@ -480,12 +480,13 @@ class UserAgreements extends CActiveRecord
     }
 
     public function getFirstUnpaidInvoice() {
+        $unpaidInvoice = null;
         foreach ($this->invoice as $invoice) {
-            if ($invoice->getUnpaidSum() === 0) {
-                return $invoice;
+            if ($invoice->getUnpaidSum() == 0) {
+                $unpaidInvoice = $invoice;
             }
         }
-        return null;
+        return $unpaidInvoice;
     }
 
     public function provideAccess() {
