@@ -629,4 +629,16 @@ class Teacher extends CActiveRecord
         }
         return json_encode($result);
     }
+
+    public function getRoles(){
+//        AllRolesDataSource::roles();
+        $model=RegisteredUser::userById($this->user_id);
+        $result=array();
+        $roles=[UserRoles::TEACHER_CONSULTANT,UserRoles::TRAINER];
+        foreach($roles as $role){
+            if($model->hasRole($role))
+                array_push($result,Role::getInstance($role)->title());
+        }
+        return implode(", ", $result);
+    }
 }

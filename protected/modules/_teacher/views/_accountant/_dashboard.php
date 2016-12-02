@@ -1,6 +1,9 @@
-<?php
-/* @var $this DefaultController */
-?>
+<div class="row">
+    <div class="col-lg-12">
+        Бухгалтер
+    </div>
+</div>
+<hr>
 <div class="row">
     <div class="col-lg-4">
         <div class="panel panel-green">

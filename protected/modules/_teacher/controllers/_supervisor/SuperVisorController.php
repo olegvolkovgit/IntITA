@@ -167,16 +167,33 @@ class SuperVisorController extends TeacherCabinetController
     {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('StudentReg', $requestParams);
+        $sql="select
+            u.id
+        from
+            `user` u
+        inner join user_student us on u.id = us.id_user
+            left JOIN offline_students os ON u.id = os.id_user
+        WHERE 
+         u.cancelled=".StudentReg::ACTIVE." and os.id_user IS NULL and us.end_date IS NULL and u.educform='Онлайн/Офлайн'
+        UNION
+        SELECT
+            os.id_user
+        from
+            `user` u
+            inner join user_student us on u.id = us.id_user
+            left JOIN offline_students os ON u.id = os.id_user
+        WHERE 
+         u.cancelled=".StudentReg::ACTIVE." and us.end_date IS NULL and u.educform='Онлайн/Офлайн'
+            and  os.id_user IS not NULL
+        GROUP BY os.id_user
+        HAVING count(os.id_user)=sum(if(os.end_date,1,0));";
+
+        $students=Yii::app()->db->createCommand($sql)->queryColumn();
 
         $criteria =  new CDbCriteria();
-
         $criteria->alias = 't';
         $criteria->distinct = true;
-        $criteria->join = 'left join user_student us on t.id = us.id_user';
-        $criteria->join .= ' left JOIN offline_students os ON t.id = os.id_user';
-        $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' 
-        and us.end_date IS NULL and t.educform="Онлайн/Офлайн" 
-        and os.id_user IS NULL';
+        $criteria->addInCondition('t.id', $students);
         $criteria->group = 't.id';
 
         $ngTable->mergeCriteriaWith($criteria);
