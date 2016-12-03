@@ -1,10 +1,8 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: anton
- * Date: 28.11.16
- * Time: 22:19
+ *
+ * @property StudentReg $owner
  */
 class StudentRegAccess extends CActiveRecordBehavior implements VisitorAccessBehavior {
 
@@ -28,10 +26,13 @@ class StudentRegAccess extends CActiveRecordBehavior implements VisitorAccessBeh
 
     /**
      * Check access for visitor to service
-     * @param $service
+     * @param CourseService|ModuleService $service
      * @return mixed
      */
     function checkVisitorAccess($service) {
-        // TODO: Implement checkVisitorAccess() method.
+        if ($service) {
+            return $service->access->checkServiceAccess($this->owner->id);
+        }
+        return false;
     }
 }

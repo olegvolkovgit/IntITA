@@ -83,6 +83,7 @@ class Operations {
             $externalPayment = ExternalPays::model()->with('internalPays')->findByPk($operation['sourceId']);
             $amount = min($operation['amount'], $externalPayment->getUnallocatedAmount());
             $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $amount);
+            $lastPaidInVoice = null;
 
             foreach ($operationInvoices as $invoice){
                 $paymentAmount = min($invoice->summa, $amount, $externalPayment->amount);
@@ -93,11 +94,10 @@ class Operations {
                 $amount -= $paymentAmount;
                 $result['message'][] = "По рахунку № $invoice->number зараховано $paymentAmount";
             }
-
+            $transaction->commit();
             $agreement = UserAgreements::model()->findByPk($operation['agreementId']);
             $agreement->provideAccess();
 //            todo $agreement->updateNextInvoicesDate();
-            $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
             $result = ['status' => 'error', 'message' => $e->getMessage()];

@@ -49,6 +49,13 @@
  * @property PayModules [] $payModules
  * @property PayCourses [] $payCourses
  * @property UserStudent [] $student
+ * @property OfflineStudents $offlineStudents
+ * @property OfflineSubgroups[] $offlineSubGroups
+ * @property OfflineGroups[] $offlineGroups
+ *
+ * Behaviours
+ * @property INgTableProvider $ngTable
+ * @property VisitorAccessBehavior $access
  */
 class StudentReg extends CActiveRecord
 {
@@ -205,6 +212,9 @@ class StudentReg extends CActiveRecord
             'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
             'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
+            'offlineStudents' => [self::HAS_ONE, 'OfflineStudents', 'id_user', 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()'],
+            'offlineSubGroups' => [self::HAS_MANY, 'OfflineSubgroups', ['id_subgroup' => 'id'], 'through' => 'offlineStudents'],
+            'offlineGroups' => [self::HAS_MANY, 'OfflineGroups', ['group' => 'id'], 'through' => 'offlineSubGroups']
         );
     }
 
@@ -258,6 +268,9 @@ class StudentReg extends CActiveRecord
         return [
             'ngTable' => [
                 'class' => 'NgTableProviderStudentReg'
+            ],
+            'access' => [
+                'class' => 'StudentRegAccess'
             ]
         ];
     }
