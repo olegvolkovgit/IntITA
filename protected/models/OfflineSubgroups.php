@@ -10,6 +10,7 @@
  * @property string $data
  * @property integer $id_user_created
  * @property integer $id_user_curator
+ * @property integer $id_trainer
  *
  */
 class OfflineSubgroups extends CActiveRecord
@@ -33,7 +34,7 @@ class OfflineSubgroups extends CActiveRecord
 			array('name, group, id_user_created, id_user_curator', 'required'),
 			array('name', 'length', 'max'=>128),
 			// The following rule is used by search().
-			array('id, name, group, data, id_user_created, id_user_curator', 'safe', 'on'=>'search'),
+			array('id, name, group, data, id_user_created, id_user_curator, id_trainer', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +50,7 @@ class OfflineSubgroups extends CActiveRecord
 			'specialization' => array(self::BELONGS_TO, 'SpecializationsGroup', array('specialization'=>'id'), 'through' => 'groupName'),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
 			'userCurator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_curator'),
+			'subgroupTrainer'=>array(self::BELONGS_TO, 'StudentReg', 'id_trainer'),
 		);
 	}
 
@@ -63,7 +65,8 @@ class OfflineSubgroups extends CActiveRecord
 			'group' => 'Група',
 			'data' => 'Інформація',
 			'id_user_created' => 'Ід автора підгрупи',
-			'id_user_curator' => 'Ід куратора підгрупи'
+			'id_user_curator' => 'Ід куратора підгрупи',
+			'id_trainer' => 'Ід тренера в групі'
 		);
 	}
 
@@ -89,7 +92,8 @@ class OfflineSubgroups extends CActiveRecord
 		$criteria->compare('data',$this->data,true);
 		$criteria->compare('id_user_created',$this->id_user_created,true);
 		$criteria->compare('id_user_curator',$this->id_user_curator,true);
-		
+		$criteria->compare('id_trainer',$this->id_trainer,true);
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -104,5 +108,13 @@ class OfflineSubgroups extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function subgroupData(){
+		$result = array();
+		$result['subgroup']=$this->getAttributes();
+		$result['subgroupTrainer']= $this->subgroupTrainer? StudentReg::model()->findByPk($this->subgroupTrainer->id)->userIdFullName():null;
+
+		return $result;
 	}
 }

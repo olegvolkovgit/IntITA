@@ -13,6 +13,9 @@
                     <td data-title="'Куратор підгрупи'" filter="{'userCurator.fullName': 'text'}" sortable="'userCurator.fullName'">
                         <a ng-href="#/supervisor/userProfile/{{row.id_user_curator}}">{{row.userCurator.fullName}} ({{row.userCurator.email}})</a>
                     </td>
+                    <td data-title="'Тренер підгрупи'" filter="{'subgroupTrainer.fullName': 'text'}" sortable="'subgroupTrainer.fullName'">
+                        <a ng-href="#/supervisor/userProfile/{{row.id_trainer}}">{{row.subgroupTrainer.fullName}} {{row.subgroupTrainer.email}}</a>
+                    </td>
                 </tr>
             </table>
         </div>

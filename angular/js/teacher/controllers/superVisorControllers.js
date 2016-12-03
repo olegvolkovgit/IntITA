@@ -360,6 +360,12 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     $scope.reloadCurator = function(){
         $scope.selectedCurator=null;
     };
+    $scope.onSelectTrainer = function ($item) {
+        $scope.selectedTrainer = $item;
+    };
+    $scope.reloadTrainer = function(){
+        $scope.selectedTrainer=null;
+    };
     var curatorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/curatorsByQuery';
     $scope.getCurators = function(value){
         return typeAhead.getData(curatorsTypeaheadUrl,{query : value});
@@ -373,7 +379,13 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             data: $jq.param({id:subgroupId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            $scope.subgroup=response.data;
+            $scope.subgroup=response.data.subgroup;
+            $scope.subgroupTrainer=response.data.subgroupTrainer;
+            if($scope.subgroupTrainer){
+                $scope.trainerEntered = response.data.subgroupTrainer.fullName;
+                $scope.selectedTrainer={id: response.data.subgroupTrainer.id, name: response.data.subgroupTrainer.fullName};
+            }
+            console.log(response.data);
             $scope.changePageHeader('Офлайн підгрупа: '+$scope.subgroup.name);
             $scope.loadGroupData($scope.subgroup.group);
             $scope.loadCuratorToModel($scope.subgroup.id_user_curator);
@@ -415,20 +427,21 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
         $scope.loadSubgroupData($scope.subgroupId);
     };
 
-    $scope.sendFormSubgroup= function (scenario) {
-        if(scenario=='new') $scope.addSubgroup();
-        else $scope.editSubgroup();
+    $scope.sendFormSubgroup= function (scenario, name, groupId, subgroupData, selectedCurator, selectedTrainer,subgroupId) {
+        if(scenario=='new') $scope.addSubgroup(name, groupId, subgroupData, selectedCurator, selectedTrainer);
+        else $scope.editSubgroup(name, subgroupData, selectedCurator, selectedTrainer,subgroupId);
     };
 
-    $scope.addSubgroup= function () {
+    $scope.addSubgroup= function (name, groupId, subgroupData, selectedCurator, selectedTrainer) {
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/addSubgroup',
             method: "POST",
             data: $jq.param({
-                name: $scope.subgroup.name, 
-                group: $scope.groupId, 
-                data: $scope.subgroup.data, 
-                curator: $scope.selectedCurator.id
+                name: name,
+                group: groupId,
+                data: subgroupData,
+                curator: selectedCurator,
+                trainer: selectedTrainer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
@@ -439,15 +452,16 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
         });
     };
-    $scope.editSubgroup= function () {
+    $scope.editSubgroup= function (name, subgroupData, selectedCurator, selectedTrainer,subgroupId) {
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/updateSubgroup',
             method: "POST",
             data: $jq.param({
-                id:$scope.subgroupId,
-                name: $scope.subgroup.name, 
-                data: $scope.subgroup.data,
-                curator: $scope.selectedCurator.id
+                id:subgroupId,
+                name: name,
+                data: subgroupData,
+                curator: selectedCurator,
+                trainer: selectedTrainer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {

@@ -266,7 +266,8 @@ class SuperVisorController extends TeacherCabinetController
     
     public function actionGetSubgroupData()
     {
-        echo CJSON::encode(OfflineSubgroups::model()->findByPk(Yii::app()->request->getParam('id')));
+        $subgroup=OfflineSubgroups::model()->findByPk(Yii::app()->request->getParam('id'));
+        echo CJSON::encode($subgroup->subgroupData());
     }
 
     public function actionGetSpecializationData()
@@ -355,6 +356,7 @@ class SuperVisorController extends TeacherCabinetController
         $group=Yii::app()->request->getParam('group');
         $data=Yii::app()->request->getParam('data');
         $curatorId=Yii::app()->request->getParam('curator');
+        $trainerId=Yii::app()->request->getParam('trainer');
         
         $subgroup= new OfflineSubgroups();
         $subgroup->name=$name;
@@ -362,6 +364,7 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup->data=$data;
         $subgroup->id_user_created=Yii::app()->user->getId();
         $subgroup->id_user_curator=$curatorId;
+        $subgroup->id_trainer=$trainerId;
 
         if($subgroup->save()){
             echo 'Підгрупу успішно додано';
@@ -401,12 +404,14 @@ class SuperVisorController extends TeacherCabinetController
         $name=Yii::app()->request->getPost('name');
         $data=Yii::app()->request->getPost('data');
         $curatorId=Yii::app()->request->getParam('curator');
-
+        $trainerId=Yii::app()->request->getParam('trainer');
+        
         $subgroup=OfflineSubgroups::model()->findByPk($id);
         $subgroup->name=$name;
         $subgroup->data=$data;
         $subgroup->id_user_curator=$curatorId;
-
+        $subgroup->id_trainer=$trainerId;
+        
         if($subgroup->update()){
             echo 'Підгрупу успішно оновлено';
         }else{
