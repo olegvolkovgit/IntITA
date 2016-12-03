@@ -1042,7 +1042,6 @@ class Course extends CActiveRecord implements IBillableObject
             $access = $studentReg->access->checkVisitorAccess($this->courseServiceOnline);
         }
         if (!$access) {
-            $studentReg = StudentReg::model()->findByPk($userId);
             foreach ($studentReg->offlineGroups as $group) {
                 $access = $group->access->checkVisitorAccess($this->courseServiceOffline);
                 if (!$access) {

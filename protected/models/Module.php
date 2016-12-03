@@ -1073,18 +1073,20 @@ class Module extends CActiveRecord implements IBillableObject
      * @return bool
      */
     public function checkPaidAccess($userId) {
-        $access = false;
-        if ($this->moduleServiceOnline) {
-            $access = $this->moduleServiceOnline->access->checkServiceAccess($userId);
-        }
-        if (!$access && $this->moduleServiceOffline) {
-            $access = $this->moduleServiceOffline->access->checkServiceAccess($userId);
-        }
 
-        /* if user has no access to the module we should check if user has access to any course where the module exists */
+        $access = false;
+        $studentReg = StudentReg::model()->findByPk($userId);
+        $access = $studentReg->access->checkVisitorAccess($this->moduleServiceOnline);
+
         if (!$access) {
-            foreach ($this->Course as $course) {
-                $access = $course->checkPaidAccess($userId);
+            $access = $studentReg->access->checkVisitorAccess($this->moduleServiceOffline);
+        }
+        if (!$access) {
+            foreach ($studentReg->offlineGroups as $group) {
+                $access = $group->access->checkVisitorAccess($this->moduleServiceOnline);
+                if (!$access) {
+                    $access = $group->access->checkVisitorAccess($this->moduleServiceOffline);
+                }
                 if ($access) {
                     break;
                 }
