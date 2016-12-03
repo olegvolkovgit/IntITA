@@ -131,7 +131,13 @@ $user = $model->registrationData;
                     <?php } ?>
                 </li>
                 <li class="list-group-item">Адреса, вік: <em><?php echo $user->addressString(); ?></em></li>
-
+                <?php if (Yii::app()->user->model->isContentManager()) { ?>
+                    <li class="list-group-item" ng-repeat="role in data.user.roles track by $index" ng-if="role=='author' || role=='teacher_consultant'">
+                        <a ng-href="#/content_manager/user/{{data.user.id}}/role/{{role}}">
+                            Призначити модуль, як {{role=='author' ? "автору" : "викладачу"}}
+                        </a>
+                    </li>
+                <?php } ?>
                 <li ng-if="data.teacher.modules.length" class="list-group-item"> Автор модулів:<br>
                     <ul>
                         <li ng-if="module.cancelled==0" ng-repeat="module in data.teacher.modules track by $index">

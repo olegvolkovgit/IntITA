@@ -12,7 +12,7 @@
  * @property StudentReg $sender
  * @property Messages $message0
  */
-class MessagesNotifications extends CActiveRecord /*extends Messages*/ implements IMessage
+class MessagesNotifications extends Messages implements IMessage
 {
 	const TYPE = MessagesType::NOTIFICATION;
 	//UserMessages model

@@ -13,6 +13,9 @@ config(function ($stateProvider, $urlRouterProvider) {
         .state('accountant', {
             url: "/accountant",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Бухгалтер');
+            },
             templateUrl: accountantUrl+"accountant/index"
         })
         .state('accountant/agreements', {
