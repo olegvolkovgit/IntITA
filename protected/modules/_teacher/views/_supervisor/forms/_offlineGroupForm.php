@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label>Місто*:</label>
-                        <input name="city" class="form-control" type="text" ng-model="cityEntered" ng-model-options="{ debounce: 1000 }"
+                        <input autocomplete="off" name="city" class="form-control" type="text" ng-model="cityEntered" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть місто" required size="50"
                                uib-typeahead="item.title for item in getCities($viewValue) | limitTo : 10"
                                typeahead-no-results="cityNoResults"

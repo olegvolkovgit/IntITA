@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <label>Група*:</label>
-                        <input name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
+                        <input autocomplete="off" name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть групу" required size="50" 
                                uib-typeahead="item.name for item in getGroups($viewValue) | limitTo : 10"
                                typeahead-no-results="groupNoResults"

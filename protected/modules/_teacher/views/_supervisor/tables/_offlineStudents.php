@@ -1,5 +1,8 @@
 <div class="panel panel-default">
     <div class="panel-body">
+        <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Оффлайн студенти(без групи)</a>
+        <br>
+        <br>
         <table ng-table="offlineStudentsTableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="row in $data track by $index">
                 <td data-title="'ПІБ'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
@@ -19,9 +22,6 @@
                 </td>
                 <td data-title="'Додано'" sortable="'start_date'" filter="{'start_date': 'text'}">
                     {{row.start_date}}
-                </td>
-                <td data-title="'Скасовано'" sortable="'end_date'" filter="{'end_date': 'text'}">
-                    {{row.end_date}}
                 </td>
                 <td data-title="'Випуск'" sortable="'graduate_date'" filter="{'graduate_date': 'text'}">
                     {{row.graduate_date}}
