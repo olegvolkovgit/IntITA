@@ -149,13 +149,19 @@ class SuperVisorController extends TeacherCabinetController
             $criteria =  new CDbCriteria();
             $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
             $criteria->join .= ' LEFT JOIN offline_groups g ON sg.group = g.id';
-            $criteria->condition = 'g.id='.$requestParams['idGroup'];
+            $criteria->condition = 'g.id='.$requestParams['idGroup'].' and t.end_date IS NULL';
             $ngTable->mergeCriteriaWith($criteria);
         }
         if(isset($requestParams['idSubgroup'])){
             $criteria =  new CDbCriteria();
             $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
-            $criteria->condition = 'sg.id='.$requestParams['idSubgroup'];
+            $criteria->condition = 'sg.id='.$requestParams['idSubgroup'].' and t.end_date IS NULL';
+            $ngTable->mergeCriteriaWith($criteria);
+        }
+        if(!isset($requestParams['idGroup']) && !isset($requestParams['idSubgroup'])){
+            $criteria =  new CDbCriteria();
+            $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+            $criteria->condition = 't.end_date IS NULL';
             $ngTable->mergeCriteriaWith($criteria);
         }
 
@@ -559,6 +565,7 @@ class SuperVisorController extends TeacherCabinetController
         else if($serviceType=='module')
             $service = ModuleService::model()->getService($idContent, $educFormModel);
 
+        /* @TODO 02.12.16 Move this code into GroupAccessBehavior */
         $groupAccess= new GroupAccess();
         $groupAccess->group_id=$idGroup;
         $groupAccess->service_id=$service->service_id;

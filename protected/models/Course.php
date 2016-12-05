@@ -1033,12 +1033,24 @@ class Course extends CActiveRecord implements IBillableObject
      * @return bool
      */
     public function checkPaidAccess($userId) {
+
         $access = false;
-        if ($this->courseServiceOnline) {
-            $access = $this->courseServiceOnline->access->checkServiceAccess($userId);
+        $studentReg = StudentReg::model()->findByPk($userId);
+        $access = $studentReg->access->checkVisitorAccess($this->courseServiceOffline);
+
+        if (!$access) {
+            $access = $studentReg->access->checkVisitorAccess($this->courseServiceOnline);
         }
-        if (!$access && $this->courseServiceOffline) {
-            $access = $this->courseServiceOffline->access->checkServiceAccess($userId);
+        if (!$access) {
+            foreach ($studentReg->offlineGroups as $group) {
+                $access = $group->access->checkVisitorAccess($this->courseServiceOffline);
+                if (!$access) {
+                    $access = $group->access->checkVisitorAccess($this->courseServiceOnline);
+                }
+                if ($access) {
+                    break;
+                }
+            }
         }
         return $access;
     }

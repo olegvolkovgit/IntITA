@@ -330,7 +330,8 @@ class RegisteredUser
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')))
+            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) &&
+                !$lecture->module->checkPaidAccess(Yii::app()->user->getId()))
                 throw new CHttpException(403, Yii::t('errors', '0139'));
             if ($lecture->order > $enabledLessonOrder)
                 throw new CHttpException(403, Yii::t('errors', '0646'));

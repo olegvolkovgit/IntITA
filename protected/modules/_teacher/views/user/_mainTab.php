@@ -62,7 +62,7 @@ $user = $model->registrationData;
                             <label>Дата виключення:</label> {{subgroup.endDate}}<br>
                             <label>Дата випуску:</label> {{subgroup.graduateDate}}<br>
                             <?php if (Yii::app()->user->model->isSuperVisor()) { ?>
-                            <a ng-href="#/supervisor/editOfflineStudent/{{subgroup.idOfflineStudent}}">
+                            <a ng-if="!subgroup.endDate" ng-href="#/supervisor/editOfflineStudent/{{subgroup.idOfflineStudent}}">
                                 Редагувати студента в підгрупі
                             </a>
                             <?php }?>

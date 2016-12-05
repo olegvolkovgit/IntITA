@@ -303,6 +303,7 @@ class UserAgreements extends CActiveRecord
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
                 )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
+            $model->provideAccess();
         } else {
             throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
@@ -480,12 +481,13 @@ class UserAgreements extends CActiveRecord
     }
 
     public function getFirstUnpaidInvoice() {
+        $unpaidInvoice = null;
         foreach ($this->invoice as $invoice) {
-            if ($invoice->getUnpaidSum() === 0) {
-                return $invoice;
+            if ($invoice->getUnpaidSum() == 0) {
+                $unpaidInvoice = $invoice;
             }
         }
-        return null;
+        return $unpaidInvoice;
     }
 
     public function provideAccess() {

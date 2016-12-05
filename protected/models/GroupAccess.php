@@ -104,12 +104,6 @@ class GroupAccess extends CActiveRecord
 	public function primaryKey(){
 		return array('group_id', 'service_id');
 	}
-
-	public function afterSave()
-	{
-//		do something?
-//		parent::afterSave();
-	}
 	
 	public function getValidationErrors() {
 		$errors=[];
