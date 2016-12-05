@@ -1092,6 +1092,14 @@ class Module extends CActiveRecord implements IBillableObject
                 }
             }
         }
+        if (!$access) {
+            foreach ($this->Course as $course) {
+                $access = $course->checkPaidAccess($userId);
+                if ($access) {
+                    break;
+                }
+            }
+        }
         return $access;
     }
 }

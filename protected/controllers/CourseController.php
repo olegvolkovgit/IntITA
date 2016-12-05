@@ -128,6 +128,8 @@ class CourseController extends Controller
         //init data json
         $data = [];
         $data["courseId"] = Yii::app()->request->getPost('id');
+        $course=Course::model()->findByPk($data["courseId"]);
+
         if(Yii::app()->user->getId())
         $data["userId"] = Yii::app()->user->getId();
         else $data["userId"]=false;
@@ -136,7 +138,7 @@ class CourseController extends Controller
         $data["termination"][1] = Yii::t('module', '0654');
         $data["termination"][2] = Yii::t('module', '0655');
         $data["modules"]=[];
-        if(Course::model()->findByPk($data["courseId"])->status=='1')
+        if($course->status=='1')
             $data["courseStatus"]=true;
         else $data["courseStatus"]=false;
 
@@ -144,7 +146,8 @@ class CourseController extends Controller
         if(!$data["userId"] || $data["isAdmin"]){
             $modules=Course::model()->modulesInCourse($data["courseId"]);
             if($data["isAdmin"])
-                $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
+                $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'))
+                    || $course->checkPaidAccess(Yii::app()->user->getId());
             for($i = 0;$i < count($modules);$i++){
                 if(!$data["userId"])
                     $data["modules"][$i]['access']=false;
@@ -162,10 +165,12 @@ class CourseController extends Controller
         $user=Studentreg::model()->findByPk($data["userId"]);
         if($user->isTeacher()){
             $data["teacherId"] = $user->id;
-            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
+            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'))
+                || $course->checkPaidAccess(Yii::app()->user->getId());
         }else{
             $data["teacherId"] = false;
-            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'));
+            $data["isPaidCourse"]=PayCourses::model()->checkCoursePermission($data["userId"], $data["courseId"], array('read'))
+                || $course->checkPaidAccess(Yii::app()->user->getId());
         }
 
         $modules=Course::model()->modulesInCourse($data["courseId"]);
@@ -195,7 +200,9 @@ class CourseController extends Controller
                     $data["modules"][$i]['finishTime'] = (Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))?(strtotime(Module::getTimeAnsweredQuiz($lastQuiz, $data["userId"]))): (false);
                 else $data["modules"][$i]['finishTime'] = false;
             }else{
-                if(PayModules::model()->checkModulePermission($data["userId"], $modules[$i]['id_module'], array('read')) || !$module->modulePrice($data["courseId"])) {
+                if(PayModules::model()->checkModulePermission($data["userId"], $modules[$i]['id_module'], array('read'))
+                    || $module->checkPaidAccess(Yii::app()->user->getId())
+                    || !$module->modulePrice($data["courseId"])) {
                     $data["modules"][$i]['access']=true;
                     $firstQuiz = $module->getFirstQuizId();
                     if(Lecture::getLastEnabledLessonOrder($modules[$i]['id_module'])<$module->lesson_count)

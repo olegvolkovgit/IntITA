@@ -5,7 +5,7 @@
                 <form ng-submit="sendGroupAccessToContent('<?php echo $scenario ?>',selectedGroup.id, selectedContent.id, end_date, 'course');" name="groupAccessForm" novalidate>
                     <div class="form-group">
                         <label>Група*:</label>
-                        <input name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
+                        <input autocomplete="off" name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть групу" required size="50"
                                uib-typeahead="item.name for item in getGroups($viewValue) | limitTo : 10"
                                typeahead-no-results="groupNoResults"
@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label>Курс*:</label>
-                        <input type="text" name="course" size="50" ng-model="serviceSelected" ng-model-options="{ debounce: 1000 }"
+                        <input autocomplete="off" type="text" name="course" size="50" ng-model="serviceSelected" ng-model-options="{ debounce: 1000 }"
                                placeholder="Назва курсу" uib-typeahead="item.title for item in getCourses($viewValue) | limitTo : 10"
                                typeahead-no-results="noResultsCourse"  typeahead-on-select="onSelectService($item)"
                                ng-change="reloadService()" class="form-control" ng-disabled="defaultService"/>
