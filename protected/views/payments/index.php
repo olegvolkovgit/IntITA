@@ -37,7 +37,7 @@ $this->widget('zii.widgets.grid.CGridView', ['id' => 'invoices-grid',
             'headerHtmlOptions' => array('style' => 'display:none'),
             'labelExpression' => function (Invoice $data, $row) use ($controller) {
                 $class = 'waiting';
-                if ($data->isPayed()) {
+                if ($data->isPaid()) {
                     $class = 'payed';
                 } else if ($data->isWaitPaymentDate()) {
                     $class = 'waitPaymentDate';
