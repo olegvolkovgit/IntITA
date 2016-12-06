@@ -16,8 +16,6 @@
 </ul>
 <div ng-cloak class="panel panel-default">
     <div class="panel-body">
-        <input type="hidden" ng-value="data.user.id" id="user">
-        <input type="hidden" ng-value="data.user.role" id="role">
         <uib-tabset active="0" >
             <uib-tab  ng-if="(data.user.roles[data.user.role].length && attribute.type!='hidden')"
                       ng-repeat="attribute in data.user.roles[data.user.role] track by $index" index="$index" heading="{{attribute.title}}">

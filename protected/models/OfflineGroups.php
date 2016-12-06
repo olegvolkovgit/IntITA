@@ -3,7 +3,7 @@
 /**
  * This is the model class for table "offline_groups".
  *
- * The followings are the available columns in table 'offline_groups:
+ * The followings are the available columns in table 'offline_groups':
  * @property integer $id
  * @property string $name
  * @property string $start_date
@@ -12,7 +12,15 @@
  * @property integer $id_user_created
  * @property integer $id_user_curator
  *
+ * Relations
+ * @property OfflineSubgroups[] $subGroups
+ * @property OfflineStudents[] $offlineStudents
+ * @property StudentReg[] $students
+ *
+ * Behaviours
+ * @property VisitorAccessBehavior $access
  */
+
 class OfflineGroups extends CActiveRecord
 {
 	/**
@@ -51,6 +59,9 @@ class OfflineGroups extends CActiveRecord
 			'cityName' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
 			'userCurator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_curator'),
+            'subGroups' => [self::HAS_MANY, 'OfflineSubgroups', 'group'],
+            'offlineStudents' => [self::HAS_MANY, 'OfflineStudents', ['id' => 'id_subgroup'], 'through' =>'subGroups'],
+            'students' => [self::HAS_MANY, 'StudentReg', ['id_user' => 'id'], 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()', 'through' =>'offlineStudents']
 		);
 	}
 
@@ -109,6 +120,14 @@ class OfflineGroups extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function behaviors() {
+        return [
+            'access' => [
+                'class' => 'GroupAccessBehavior'
+            ]
+        ];
+    }
 
 	public function primaryKey(){
 		return 'id';

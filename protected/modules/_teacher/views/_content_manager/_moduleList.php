@@ -4,75 +4,79 @@
  * @var $model StudentReg
  */
 ?>
-<div class="col-md-12" ng-controller="usersCtrl">
-    <div class="row" ng-controller="permissionsCtrl">
-        <form>
-            <div class="col col-md-6">
-                <input type="text" size="135" ng-model="moduleSelected" ng-model-options="{ debounce: 1000 }" placeholder="Назва модуля" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10" typeahead-no-results="moduleNoResults" typeahead-on-select="selectModule($item)" class="form-control" />
-                <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
-                <div ng-show="moduleNoResults">
-                    <i class="glyphicon glyphicon-remove"></i> Модуль не знайдено
+<div class="col-md-12" ng-controller="editTeacherRoleCtrl">
+    <uib-tabset active="0" >
+        <uib-tab  ng-if="(data.user.roles[data.user.role].length && attribute.type!='hidden')"
+                  ng-repeat="attribute in data.user.roles[data.user.role] track by $index" index="$index" heading="{{attribute.title}}">
+            <div class="form-group">
+                <div ng-if="attribute.type=='module-list'">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" size="65" ng-model="formData.moduleSelected" ng-model-options="{ debounce: 1000 }"
+                                           placeholder="Модуль" uib-typeahead="item.title for item in getModules($viewValue) | limitTo:10"
+                                           typeahead-no-results="moduleNoResults" typeahead-on-select="onSelectModule($item)"
+                                           ng-change="reloadModule()" class="form-control" ng-disabled="defaultModule"/>
+                                    <i ng-show="loadingModules" class="glyphicon glyphicon-refresh"></i>
+                                    <div ng-show="moduleNoResults">
+                                        <i class="glyphicon glyphicon-remove"></i> модуль не знайдено
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success"
+                                            ng-click="setTeacherRoleAttribute(data.user.role,'module',data.user.id,selectedModule.id)">
+                                        Призначити модуль
+                                    </button>
+                                    <a type="button" class="btn btn-default" ng-click='back()'>
+                                        Назад
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+                        <div>
+                            <b>Викладач: {{data.user.firstName}} {{data.user.secondName}} ({{data.user.email}})</b>
+                        </div>
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="studentsListTable" datatable="ng" dt-options="dtModulesOptions" dt-column-defs="dtColumnDefs">
+                                <thead>
+                                <tr>
+                                    <th>Модуль</th>
+                                    <th>Призначено</th>
+                                    <th>Відмінено</th>
+                                    <th>Видалити</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="module in attribute.value">
+                                    <td>
+                                        <a ng-href="" ng-click="moduleLink(module.id)">
+                                            {{module.title}} ({{module.lang}})
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{module.start_date}}
+                                    </td>
+                                    <td>
+                                        {{module.end_date}}
+                                    </td>
+                                    <td>
+                                        <a ng-if="!module.end_date" href=""
+                                           ng-click="cancelTeacherRoleAttribute(data.user.role,attribute.key,data.user.id,module.id);">скасувати
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col col-md-2">
-                <button type="button" class="btn btn-success" ng-click="addCMPermission('<?= (string)$role; ?>',data.user.id)">
-                    Додати модуль
-                </button>
-            </div>
-        </form>
-    </div>
-    <br>
-    <div>
-        <b><?php echo 'Викладач: '.$model->firstName.' '.$model->secondName.' '.'('.$model->email.')'?></b>
-    </div>
-    <div class="dataTable_wrapper">
-        <table class="table table-striped table-bordered table-hover" id="modulesTable_<?= $role; ?>">
-            <thead>
-            <tr>
-                <th width="45%">Модуль</th>
-                <th width="20%">Призначено</th>
-                <th width="20%">Відмінено</th>
-                <th width="15%">Видалити</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            foreach ($attribute["value"] as $item) {
-                if($item["cancelled"] == Module::ACTIVE){
-            ?>
-            <tr>
-                <td>
-                    <a href="<?= Yii::app()->createUrl('module/index', array('idModule' => $item["id"])); ?>">
-                        <?= CHtml::encode($item["title"]) . " (" . $item["lang"] . ")"; ?>
-                    </a>
-                </td>
-                <td>
-                    <?= date("d.m.Y", strtotime($item["start_date"])); ?>
-                </td>
-                <td>
-                    <?= ($item["end_date"] != "") ? date("d.m.Y", strtotime($item["end_date"])) : ""; ?>
-                </td>
-                <td>
-                    <?php if ($item["end_date"] == '') { ?>
-                        <a href="javascript:void(0)" ng-click="cancelModuleAttr('<?= Yii::app()->createUrl("/_teacher/_admin/permissions/unsetTeacherRoleAttribute"); ?>','<?=$item["id"]?>','<?= $attribute["key"] ?>','<?= (string)$role; ?>',data.user.id)"
-                           >
-                            скасувати
-                        </a>
-                    <?php } ?>
-                </td>
-                <?php
-                }
-                } ?>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        </uib-tab>
+        <div ng-if="!data.user.roles[data.user.role].length">
+            Атрибутів для даної ролі не задано.
+        </div>
+    </uib-tabset>
 </div>
-<script>
-    $jq('#modulesTable_'+'<?= $role; ?>').DataTable({
-        language: {
-            "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-        },
-        order: [[ 2, "asc" ]]
-    } );
-</script>

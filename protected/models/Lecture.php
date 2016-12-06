@@ -402,13 +402,6 @@ class Lecture extends CActiveRecord
                 }
             }
 
-            if (Yii::app()->user->model->isConsultant()) {
-                $consult = new Consultant();
-                if(!$consult->checkModule($user, $this->idModule)){
-                    return true;
-                }
-            }
-
             if (Yii::app()->user->model->isAdmin() || $editMode || Yii::app()->user->model->isContentManager())
                 return true;
         }
@@ -425,7 +418,9 @@ class Lecture extends CActiveRecord
         }
         if (!($this->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) || $this->order > $enabledOrder) {
+            if ((!$modulePermission->checkModulePermission($user, $this->idModule, array('read'))
+                && !$this->module->checkPaidAccess(Yii::app()->user->getId()))
+                || $this->order > $enabledOrder) {
                 return false;
             }
         } else {
@@ -979,7 +974,8 @@ class Lecture extends CActiveRecord
         }else{
             if (!($this->isFree)) {
                 $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read'))){
+                if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) &&
+                    !$this->module->checkPaidAccess(Yii::app()->user->getId())){
                     return Yii::t('exception', '0869');
                 }
                 if ($this->order > $enabledOrder){

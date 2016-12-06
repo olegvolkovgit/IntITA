@@ -6,7 +6,7 @@
  * Date: 14.11.2016
  * Time: 21:38
  */
-class NewsLetter
+class NewsLetter implements ITask
 {
     /**
      * Type of newsletter
@@ -45,6 +45,7 @@ class NewsLetter
     {
         foreach ($this->getMailList() as $item){
             $this->sendMail($item);
+            sleep(1);
         }
     }
 
@@ -76,6 +77,13 @@ class NewsLetter
             case "users":
                 $mailList = $this->recipients;
                 break;
+            case "groups":
+
+                $mailList = $this->recipients;
+                break;
+            case "subGroups":
+                $mailList = $this->recipients;
+                break;
         }
         return array_unique($mailList);
     }
@@ -89,4 +97,10 @@ class NewsLetter
 
     }
 
+    public function run()
+    {
+        $this->startSend();
+        return true;
+
+    }
 }

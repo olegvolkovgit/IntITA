@@ -29,12 +29,16 @@ class NewsletterController extends TeacherCabinetController
     }
 
     public function actionSendLetter(){
-        $type = Yii::app()->request->getPost('type');
-        $recipients = Yii::app()->request->getPost('recipients');
-        $subject = urldecode(Yii::app()->request->getPost('subject'));
-        $message = urldecode(Yii::app()->request->getPost('message'));
-        $newsLetter = new NewsLetter($type,$recipients,$subject,$message);
-        $newsLetter->startSend();
+        $task = new SchedulerTasks();
+        $task->type = TaskFactory::NEWSLETTER;
+        $task->name = 'Розсилка';
+        $task->status = SchedulerTasks::STATUSNEW;
+        $task->parameters = json_encode($_POST['parameters']);
+        $task->repeat_type = $_POST['taskRepeat'];
+        date_default_timezone_set('Europe/Kiev');
+        ($_POST['taskType'] = 1)?$date = DateTime::createFromFormat('d-m-Y H:i', $_POST['date']):$date = new DateTime('now');
+        $task->start_time = $date->format('Y-m-d H:i:s');
+        $task->save();
     }
 
     public function actionGetUserEmail(){
@@ -47,4 +51,30 @@ class NewsletterController extends TeacherCabinetController
         }
         echo json_encode($result);
     }
+
+    public function actionGetGroups(){
+        $models = TypeAheadHelper::getTypeahead($_GET['query'],'OfflineGroups',['id','name']);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->id,'name'=>$model->name ]);
+            }
+        }
+        echo json_encode($result);
+    }
+    public function actionGetSubGroups(){
+        $criteria = new CDbCriteria(['limit' => '10']);
+        $criteria->with = array('groupName');
+        $criteria->compare('LOWER(t.name)',mb_strtolower($_GET['query'], 'UTF-8'), true, 'OR');
+        $criteria->compare('LOWER(groupName.name)', mb_strtolower($_GET['query'], 'UTF-8'), true, 'OR');
+        $models = OfflineSubgroups::model()->findAll($criteria);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->id,'name'=>$model->name, 'groupName' =>$model->groupName->name ]);
+            }
+        }
+        echo json_encode($result);
+    }
+
 }

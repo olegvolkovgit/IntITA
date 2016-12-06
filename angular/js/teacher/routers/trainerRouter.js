@@ -46,7 +46,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Нові студенти');
             },
             templateUrl: function ($stateParams) {
-
                 return basePath + "/_teacher/_trainer/trainer/editTeacherModule/id/"+$stateParams.studentId+"/idModule/" + $stateParams.idModule;
             }
         })
@@ -57,7 +56,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 $scope.changePageHeader('Призначити модуль консультанту');
             },
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_admin/module/addConsultantModule/idModule/" + $stateParams.idModule;
+                return basePath + "/_teacher/_admin/module/addTeacherConsultant/idModule/" + $stateParams.idModule;
             }
         })
 

@@ -32,6 +32,18 @@
                     </label>
                     <br>
                     <label>
+                        <input type="radio" ng-model="newsletterType" value="groups"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по групах
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" ng-model="newsletterType" value="subGroups"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по підгрупах
+                    </label>
+                    <br>
+                    <label>
                         <input type="radio" ng-model="newsletterType" value="users"
                                ng-click="selectedRecipients = null">
                         Розсилка по окремих користувачах
@@ -48,6 +60,33 @@
                         placeholder="Кому"
                     ></oi-select>
                 </div>
+
+                <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='groups'">
+                    <label>Групи</label>
+                    <br>
+                    <oi-select
+                        oi-options="group.name for group in getGroups($query, $selectedAs) track by group.id"
+                        ng-model="selectedRecipients"
+                        multiple
+                        placeholder="Групи"
+                    ></oi-select>
+                </div>
+                <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='subGroups'">
+                    <label>Підгрупи</label>
+                    <br>
+                    <oi-select
+                        oi-options="subgroup.groupName for subgroup in getSubGroups($query) track by subgroup.id"
+                        ng-model="selectedRecipients"
+                        multiple
+                        placeholder="Назва групи"
+                        oi-select-options="{
+                      debounce: 200,
+                      dropdownFilter: 'subgroupsFilter',
+                      searchFilter: 'subgroupsSearchFilter',
+                     }"
+                    ></oi-select>
+                </div>
+
 
                 <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='users'">
                     <label>Кориcтувачі</label>
@@ -80,6 +119,36 @@
                               placeholder="Лист" required ng-model="message"></textarea>
                     <span style="color:red" ng-show="newsletterForm.message.$dirty && newsletterForm.message.$invalid">
                 <span ng-cloak ng-show="newsletterForm.message.$error.required">Заповніть поле!</span>
+                </div>
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Відправка</label>
+                    <select class="form-control" id="selectTaskType"
+                            ng-model="taskType"
+                            ng-options="taskType.value as taskType.name for taskType in taskTypes">
+                    </select>
+                </div>
+                <div ng-show="taskType > 0">
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Повтор завдання</label>
+                    <select class="form-control" id="selectSchedulerType"
+                            ng-model="taskRepeat"
+                            ng-options="taskRepeat.value as taskRepeat.name for taskRepeat in taskRepeatTypes">
+                    </select>
+                </div>
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Дата</label>
+                    <p class="input-group col-md-3">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date"
+                               is-open="open" datepicker-options="dateOptions" ng-required="true" close-text="Закрити"
+                               alt-input-formats="altInputFormats"/>
+                        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i
+                    class="glyphicon glyphicon-calendar"></i></button>
+          </span>   </p>
+                    <label for="selectSchedulerType">Час</label>
+                    <span uib-timepicker ng-model="time" ng-change="changed()" hour-step="hours" minute-step="minutes" show-meridian="false"></span>
+
+                </div>
                 </div>
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-primary"

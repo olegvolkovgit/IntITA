@@ -11,5 +11,5 @@ class UserRoles extends Enum
     const CONTENT_MANAGER = 'content_manager';
     const TENANT = 'tenant';
     const TEACHER_CONSULTANT = 'teacher_consultant';
-    const SUPER_VISOR = 'super_visor';
+    const SUPERVISOR = 'supervisor';
 }

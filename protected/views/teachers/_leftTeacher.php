@@ -13,6 +13,7 @@
     foreach ($post as $teacherValue) {
         $j++;
         if ($j % 2 <> 0) {
+            $roles=$teacherValue->getRoles();
             ?>
             <div class="teacherBlock">
                 <div class="teacherTable">
@@ -44,12 +45,14 @@
                         <h2><?php echo $teacherValue->lastName(); ?>
                         <?php echo $teacherValue->firstName(); ?>
                         <?php echo $teacherValue->middleName(); ?></h2>
+                        <div><em><?php echo $roles ?></em></div>
                     </div>
                     <div class="teacherInfo">
                         <div class="adaptiveTeacherName">
                             <h2><?php echo $teacherValue->lastName(); ?>
                             <?php echo $teacherValue->firstName(); ?>
                             <?php echo $teacherValue->middleName(); ?></h2>
+                            <div><em><?php echo $roles ?></em></div>
                         </div>
                         <?php echo $teacherValue->profile_text_short ?>
                         <?php $modules = $teacherValue->modulesActive;

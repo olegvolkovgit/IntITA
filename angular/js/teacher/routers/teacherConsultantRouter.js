@@ -48,6 +48,25 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
 
         })
+        .state('teacherConsultant/consultations', {
+            url: "/teacherConsultant/consultations",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Консультації');
+            },
+            templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/consultations/id/"+user,
+        })
+        .state('teacherConsultant/consultation/view/:consultationId', {
+            url: "/teacherConsultant/consultation/view/:consultationId",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Консультація');
+            },
+            templateUrl: function($stateParams){
+                return basePath+"/_teacher/_teacher_consultant/teacherConsultant/consultation/id/"+$stateParams.consultationId
+            }
+        
+        })
 
 });
 

@@ -119,45 +119,6 @@ class OfflineStudents extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function userData($id){
-		$user = StudentReg::model()->findByPk($id);
-		$data=array();
-		$data["user"]["student"] = $user->student;
-		$data["user"]["id"] = $user->id;
-		$data["user"]["fullName"] = $user->userNameWithEmail();
-		$data["user"]["nickname"] = $user->nickname;
-		$data["user"]["birthday"] = $user->birthday;
-		$data["user"]["email"] = $user->email;
-		$data["user"]["educform"] = $user->educform;
-		$data["user"]["addressAge"] = $user->addressString();
-		$data["user"]["avatar"] = StaticFilesHelper::createPath('image', 'avatars', $user->avatar);
-		$data["user"]["country"] = $user->country0;
-		$data["user"]["city"] = $user->city0;
-		$data["user"]["skype"] = $user->skype;
-		$data["user"]["phone"] = $user->phone;
-		$data["user"]["status"] = $user->status;
-		$data["user"]["cancelled"] = $user->cancelled;
-		$data["user"]["trainer"] = TrainerStudent::getTrainerByStudent($id);
-		$data["user"]["profileLink"] = Yii::app()->createUrl('studentreg/profile', array('idUser' => $user->id));
-
-		$studentSubgroups = OfflineStudents::model()->findAllByAttributes(array('id_user'=>$id));
-		if($studentSubgroups){
-			foreach ($studentSubgroups as $key=>$subgroup){
-				$data["offlineStudent"][$key]["idOfflineStudent"] = $subgroup->id;
-				$data["offlineStudent"][$key]["startDate"] = $subgroup->start_date;
-				$data["offlineStudent"][$key]["endDate"] = $subgroup->end_date;
-				$data["offlineStudent"][$key]["graduateDate"] = $subgroup->graduate_date;
-				$data["offlineStudent"][$key]["idSubgroup"] = $subgroup->id_subgroup;
-				$data["offlineStudent"][$key]["subgroupName"] = $subgroup->subgroupName->name;
-				$data["offlineStudent"][$key]["idGroup"] = $subgroup->group->id;
-				$data["offlineStudent"][$key]["groupName"] = $subgroup->group->name;
-				$data["offlineStudent"][$key]["specialization"] = $subgroup->group->specializationName->name;
-			}
-		}
-
-		return $data;
-	}
-
 	public static function studentModel($id){
 		$data=array();
 		$model = OfflineStudents::model()->findByPk($id);

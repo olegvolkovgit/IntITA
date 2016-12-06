@@ -1,6 +1,6 @@
 <div class="col-lg-12">
     <br>
-    <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/teacherConsultant">
+    <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/teacher_consultant">
         Призначити викладача
     </a>
     <br>
@@ -17,14 +17,13 @@
                             <a ng-href="#/admin/users/user/{{row.id_user}}">{{row.idUser.email}}</a>
                         </td>
                         <td data-title="'Призначено'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
-                        <td data-title="'Відмінено'" filter="{'end_date': 'text'}" sortable="'end_date'">{{row.end_date}}</td>
                         <td data-title="'Профіль'"><a ng-href="/profile/{{row.id_user}}" target="_blank">Профіль</a></td>
                         <td data-title="'Відправити листа'">
                             <a class="btnChat"  ng-href="#/newmessages/receiver/{{row.id_user}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
                                 <i class="fa fa-envelope fa-fw"></i>
                             </a>
                         </td>
-                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','teacher_consultant',row.id_user)"><i class="fa fa-trash fa-fw"></i></a></td>
+                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole(row.id_user,'teacher_consultant')"><i class="fa fa-trash fa-fw"></i></a></td>
                     </tr>
                 </table>
             </div>

@@ -10,7 +10,7 @@
         </button>
     </li>
 </ul>
-<div class="panel panel-default" ng-controller="modulemanageCtrl">
+<div class="panel panel-default" ng-controller="moduleManageCtrl">
     <div class="panel-body">
         <div class="form">
             <?php $form = $this->beginWidget('CActiveForm', array(
@@ -47,7 +47,6 @@
                     <?php $this->renderPartial('_enEditTab', array('model' => $model, 'form' => $form)); ?>
                 </uib-tab>
             </uib-tabset>
-
             <?php $this->endWidget(); ?>
         </div>
     </div>

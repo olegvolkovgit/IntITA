@@ -11,12 +11,7 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#/content_manager/authors">
-                Автори модулів
-            </a>
-        </li>
-        <li>
-            <a href="#/content_manager/consultants">
-                Консультанти
+                Автори контента
             </a>
         </li>
         <li>

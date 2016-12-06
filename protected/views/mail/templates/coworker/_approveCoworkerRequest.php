@@ -14,6 +14,6 @@ $model = $params[0];
 </strong> підтверджено.
 <br>
 Переглянути та редагувати права співробітника можна у кабінеті: <a
-    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/admin/users/teacher/<?php echo $model->id ?>">
+    href="<?= Yii::app()->createAbsoluteUrl('/_teacher/cabinet/index'); ?>#/admin/users/user/<?php echo $model->id ?>">
     <em>співробітник</em>
 </a>

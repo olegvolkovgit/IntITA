@@ -141,7 +141,9 @@ class RegisteredUser
     {
         $roleObj = Role::getInstance($role);
         date_default_timezone_set(Config::getServerTimezone());
-        return $roleObj->cancelAttribute($this->registrationData, $attribute, $value);
+        if($roleObj->cancelAttribute($this->registrationData, $attribute, $value)) 
+            return true; 
+        else return $roleObj->getErrorMessage();
     }
 
     public function isAdmin()
@@ -192,15 +194,14 @@ class RegisteredUser
 
     public function isSuperVisor()
     {
-        return $this->hasRole(UserRoles::SUPER_VISOR);
+        return $this->hasRole(UserRoles::SUPERVISOR);
     }
     
     public function canApprove()
     {
         return $this->isContentManager();
     }
-
-    //todo author role check
+    
     public function hasRole($role)
     {
         return in_array($role, $this->getRoles());
@@ -223,7 +224,7 @@ class RegisteredUser
         $roleObj = Role::getInstance($role);
         return $roleObj->cancelRole($this->registrationData);
     }
-
+    
     public function cancelRoleMessage(UserRoles $role)
     {
         if (!$this->hasRole($role)) {
@@ -231,7 +232,7 @@ class RegisteredUser
         }
         $roleObj = Role::getInstance($role);
         if ($roleObj->cancelRole($this->registrationData)) {
-            return "Роль успішно відмінено.";
+            return true;
         } elseif ($roleObj->getErrorMessage() != "") {
             return $roleObj->getErrorMessage();
         } else {
@@ -314,12 +315,6 @@ class RegisteredUser
                 return true;
             }
         }
-        if ($this->isConsultant()) {
-            $consult = new Consultant();
-            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
         if($idCourse!=0){
             $course = Course::model()->findByPk($idCourse);
             if(!$course->status)
@@ -335,7 +330,8 @@ class RegisteredUser
         }
         if (!($lecture->isFree)) {
             $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')))
+            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) &&
+                !$lecture->module->checkPaidAccess(Yii::app()->user->getId()))
                 throw new CHttpException(403, Yii::t('errors', '0139'));
             if ($lecture->order > $enabledLessonOrder)
                 throw new CHttpException(403, Yii::t('errors', '0646'));
@@ -354,12 +350,6 @@ class RegisteredUser
         if ($this->isTeacherConsultant()) {
             $consult = new TeacherConsultant();
             if($consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
-        if ($this->isConsultant()) {
-            $consult = new Consultant();
-            if(!$consult->checkModule($this->registrationData->id, $lecture->idModule)){
                 return true;
             }
         }

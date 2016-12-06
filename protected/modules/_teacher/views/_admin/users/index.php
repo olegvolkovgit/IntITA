@@ -63,22 +63,17 @@
                         <?php $this->renderPartial('tables/_trainersTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="11" heading="Консультанти (<?=$counters["consultants"];?>)">
-                    <div ng-controller="consultantsTableCtrl">
-                        <?php $this->renderPartial('tables/_consultantsTable');?>
-                    </div>
-                </uib-tab>
-                <uib-tab  index="12" heading="Tenants (<?=$counters["tenants"];?>)">
+                <uib-tab  index="11" heading="Tenants (<?=$counters["tenants"];?>)">
                     <div ng-controller="tenantsTableCtrl">
                         <?php $this->renderPartial('tables/_tenantsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="13" heading="Supervisors (<?=$counters["superVisors"];?>)">
+                <uib-tab  index="12" heading="Supervisors (<?=$counters["superVisors"];?>)">
                     <div ng-controller="superVisorsTableCtrl">
                         <?php $this->renderPartial('tables/_superVisorsTable');?>
                     </div>
                 </uib-tab>
-                <uib-tab  index="14" heading="Заблоковані користувачі (<?=$counters["blockedUsers"];?>)">
+                <uib-tab  index="13" heading="Заблоковані користувачі (<?=$counters["blockedUsers"];?>)">
                     <div ng-controller="blockedUsersCtrl">
                         <?php $this->renderPartial('tables/_blockedUsersTable');?>
                     </div>

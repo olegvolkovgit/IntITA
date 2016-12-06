@@ -128,7 +128,6 @@ class OperationController extends TeacherCabinetController
     /*
 
      curl 'http://intita.project/_teacher/_accountant/operation/createByInvoice'  \
-    -H 'Referer: http://intita.project/cabinet/' \
     -H 'Cookie: cookie_key=0a33cfa08c193c2db5f0bdc107038592; phpbb3_6vpfb_sid=cd24ee3f2e713ff8eaacf1b7d39d4e9f; PHPSESSID=5hfqqoc2ihoo4eavcg5ot0okv1; XDEBUG_SESSION=PHPSTORM' \
     --data 'userId=354&agreementId=32&invoiceId=321&invoices[0]=318&invoices[1]=319&invoices[2]=320&invoices[3]=321&sum=1021&sourceId=9'
 
@@ -143,17 +142,6 @@ class OperationController extends TeacherCabinetController
         } catch (Exception $exception) {
             echo json_encode(['status' => 'error', 'message' => $exception->getMessage()]);
         }
-
-
-//        $type = OperationType::model()->findByPk($typeId);
-//        if (Operation::performOperation($summa, $user, $type, $invoice, $source))
-//        {
-//            $this->redirect($this->pathToCabinet());
-//        }
-//        else
-//        {
-//            throw new \application\components\Exceptions\IntItaException(500, 'Помилка сервера. Проплата не проведена.');
-//        }
     }
 
     public function actionGetInvoicesByNumber()
