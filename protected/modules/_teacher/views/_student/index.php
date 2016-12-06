@@ -18,12 +18,12 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                             <li>
                                 <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"
                                    target="_blank">
-                                    <?=$course["title"]." (".$course["lang"].")";?>
+                                    <?= CHtml::encode($course["title"]." (".$course["lang"].")");?>
                                 </a>
                             </li>
                         <?php } else {?>
                             <li>
-                                <?=$course["title"]." (".$course["lang"].") - скасований";?>
+                                <?= CHtml::encode($course["title"]." (".$course["lang"].") - скасований");?>
                             </li>
                         <?php }
                         } ?>

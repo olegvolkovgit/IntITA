@@ -29,12 +29,12 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a  ng-click="isCollapsed = !isCollapsed">
-                                            <?= $course["title"] . " (" . $course["lang"] . ")"; ?>
+                                        <a  href="" ng-click="isCollapsed<?php echo $key ?> = !isCollapsed<?php echo $key ?>">
+                                            <?= CHtml::encode($course["title"] . " (" . $course["lang"] . ")"); ?>
                                         </a>
                                     </h4>
                                 </div>
-                                <div uib-collapse="!isCollapsed" class="panel-collapse collapse">
+                                <div uib-collapse="!isCollapsed<?php echo $key ?>" class="panel-collapse collapse">
                                     <ul>
                                         <?php
                                         $courseModules = CourseModules::modulesInfoByCourse($course["id"]);

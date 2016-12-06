@@ -483,7 +483,9 @@ class Lecture extends CActiveRecord
 
         $modulePermission = new PayModules();
         foreach ($sortedLectures as $key => $lecture) {
-            if (!$lecture->isFinished($user) || ($user && !$modulePermission->checkModulePermission($user, $idModule, array('read'))) && !$freeModule && !$lecture->isFree) {
+            if (!$lecture->isFinished($user) ||
+                ($user && (!$modulePermission->checkModulePermission($user, $idModule, array('read'))) && !$lecture->module->checkPaidAccess(Yii::app()->user->getId()))
+                && !$freeModule && !$lecture->isFree) {
                 return $lecture->order;
             }
         }
