@@ -68,19 +68,28 @@ class Student extends Role
 
     private function loadCourses(StudentReg $user, $mask)
     {
+        $groupCourses=[];
+        foreach ($user->offlineGroups as $group) {
+            $groupCourses=array_merge($groupCourses,$group->availableCoursesList());
+        }
 
-        $this->courses = Yii::app()->db->createCommand()
+        $payCourses= Yii::app()->db->createCommand()
             ->select('c.cancelled, id_course id, language lang, c.title_ua title')
             ->from('pay_courses pm')
             ->join('course c', 'c.course_ID=pm.id_course')
             ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
             ->queryAll();
+        $this->courses=array_merge($groupCourses,$payCourses);
     }
 
     private function loadModules(StudentReg $user, $mask)
     {
+        $groupModules=[];
+        foreach ($user->offlineGroups as $group) {
+            $groupModules=array_merge($groupModules,$group->availableModulesList());
+        }
 
-        $this->modules = Yii::app()->db->createCommand()
+        $payModules = Yii::app()->db->createCommand()
             ->select('m.cancelled, module_ID id, language lang, m.title_ua title, IF(tcs.end_date is null, u.id, 0) as teacherId,
             CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) as teacherName, tcs.end_date, tcs.start_date')
             ->from('pay_modules pm')
@@ -92,6 +101,8 @@ class Student extends Role
             ->order('m.module_ID, tcs.end_date DESC')
             ->group('m.module_ID')
             ->queryAll();
+
+        $this->modules=array_merge($groupModules,$payModules);
         return $this->modules;
     }
 

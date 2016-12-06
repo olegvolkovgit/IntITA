@@ -1037,17 +1037,18 @@ class Module extends CActiveRecord implements IBillableObject
     {
         $criteria = new CDbCriteria;
         $criteria->alias = 't';
-        $criteria->join = 'left join teacher_consultant_student tcs on t.user_id=tcs.id_teacher';
-        $criteria->join .= ' left join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
-        $criteria->join .= ' left join module m on tcm.id_module=m.module_ID';
-        $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL 
+        $criteria->join = 'inner join user_teacher_consultant utc ON utc.id_user = t.user_id';
+        $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' inner join teacher_consultant_student tcs on tcm.id_teacher=tcs.id_teacher';
+        $criteria->join .= ' inner join module m on tcm.id_module=m.module_ID and tcs.id_module=m.module_ID';
+        $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL
         and tcm.end_date IS NULL and m.module_ID=:module');
         $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID);
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'pagination' => false,
         ));
-
+        
         return $dataProvider;
     }
 
