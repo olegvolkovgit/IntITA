@@ -482,12 +482,38 @@ class UserAgreements extends CActiveRecord
 
     public function getFirstUnpaidInvoice() {
         $unpaidInvoice = null;
+        $unpaidInvoiceDate = null;
         foreach ($this->invoice as $invoice) {
-            if ($invoice->getUnpaidSum() == 0) {
-                $unpaidInvoice = $invoice;
+            if (!$invoice->isPaid()) {
+                $currentInvoiceDate = new DateTime($invoice->expiration_date);
+                if (!$unpaidInvoice) {
+                    $unpaidInvoice = $invoice;
+                    $unpaidInvoiceDate = new DateTime($unpaidInvoice->expiration_date);
+                } else if ($unpaidInvoiceDate->diff($currentInvoiceDate)->invert) {
+                    $unpaidInvoice = $invoice;
+                    $unpaidInvoiceDate = $currentInvoiceDate;
+                }
             }
         }
         return $unpaidInvoice;
+    }
+
+    public function getLastPaidInvoice() {
+        $paidInvoice = null;
+        $paidInvoiceDate = null;
+        foreach ($this->invoice as $invoice) {
+            if ($invoice->isPaid()) {
+                $currentInvoiceDate = new DateTime($invoice->expiration_date);
+                if (!$paidInvoice) {
+                    $paidInvoice = $invoice;
+                    $paidInvoiceDate = new DateTime($paidInvoice->expiration_date);
+                } else if ($paidInvoiceDate < $currentInvoiceDate) {
+                    $paidInvoice = $invoice;
+                    $paidInvoiceDate = $currentInvoiceDate;
+                }
+            }
+        }
+        return $paidInvoice;
     }
 
     public function provideAccess() {
@@ -499,6 +525,18 @@ class UserAgreements extends CActiveRecord
         }
 
         $this->service->provideAccess($this->user_id, $endDate);
+    }
+
+    public function updateNextInvoicesDate() {
+        $lastPaidInvoice = $this->getLastPaidInvoice();
+        if ($lastPaidInvoice->isPaidWithOverdue()) {
+            $newDate = $lastPaidInvoice->getFinallyPaymentDate();
+            foreach ($this->invoice as $invoice) {
+                if (!$invoice->isPaid()) {
+                    $newDate = $invoice->setNewStartDate($newDate);
+                }
+            }
+        }
     }
 }
 
