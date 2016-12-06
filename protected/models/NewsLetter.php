@@ -77,6 +77,13 @@ class NewsLetter implements ITask
             case "users":
                 $mailList = $this->recipients;
                 break;
+            case "groups":
+
+                $mailList = $this->recipients;
+                break;
+            case "subGroups":
+                $mailList = $this->recipients;
+                break;
         }
         return array_unique($mailList);
     }
