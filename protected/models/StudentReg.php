@@ -800,32 +800,6 @@ class StudentReg extends CActiveRecord
         return $nameEmail;
     }
 
-    public function getPaymentsModules()
-    {
-        $modulesCriteria = new CDbCriteria;
-        $modulesCriteria->alias = 'pay_modules';
-        $modulesCriteria->addCondition('id_user=' . $this->id);
-        $paymentsModules = new CActiveDataProvider('PayModules', array(
-            'criteria' => $modulesCriteria,
-            'pagination' => false,
-        ));
-        return $paymentsModules;
-    }
-
-    public function getPaymentsCourses()
-    {
-        $coursesCriteria = new CDbCriteria;
-        $coursesCriteria->alias = 'pay_courses';
-        $coursesCriteria->addCondition('id_user=' . $this->id);
-
-        $paymentsCourses = new CActiveDataProvider('PayCourses', array(
-            'criteria' => $coursesCriteria,
-            'pagination' => false,
-        ));
-
-        return $paymentsCourses;
-    }
-
     public function getSentLettersData()
     {
         $sentLettersCriteria = new CDbCriteria;

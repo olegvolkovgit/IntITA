@@ -259,7 +259,7 @@ class PayModules extends CActiveRecord
 
     public static function getCancelErrorText($userName)
     {
-        $result = '<br /> В користувача '. $userName. ' не було доступу до даного модуля';
+        $result = '<br /> В користувача '. $userName. ' не було доступу до даного модуля на індивідуальному рівні';
 
         return $result;
     }

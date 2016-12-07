@@ -74,12 +74,21 @@ class Student extends Role
         }
 
         $payCourses= Yii::app()->db->createCommand()
-            ->select('c.cancelled, id_course id, language lang, c.title_ua title')
+            ->select('c.cancelled, id_course id, language lang, c.title_ua, c.title_ru, c.title_en, 
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
             ->from('pay_courses pm')
             ->join('course c', 'c.course_ID=pm.id_course')
+            ->join('level l', 'l.id=c.level')
             ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
             ->queryAll();
-        $this->courses=array_merge($groupCourses,$payCourses);
+
+        $allCourses=array_merge($groupCourses,$payCourses);
+        $result = [];
+        foreach($allCourses as $course){
+            if(isset($result[$course['id']])) continue;
+            $result[$course['id']] = $course;
+        }
+        $this->courses=$result;
     }
 
     private function loadModules(StudentReg $user, $mask)
@@ -90,10 +99,13 @@ class Student extends Role
         }
 
         $payModules = Yii::app()->db->createCommand()
-            ->select('m.cancelled, module_ID id, language lang, m.title_ua title, IF(tcs.end_date is null, u.id, 0) as teacherId,
+            ->select('m.cancelled, module_ID id, language lang, m.title_ua, m.title_ru, m.title_en, 
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, 
+            IF(tcs.end_date is null, u.id, 0) as teacherId,
             CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) as teacherName, tcs.end_date, tcs.start_date')
             ->from('pay_modules pm')
             ->join('module m', 'm.module_ID=pm.id_module')
+            ->join('level l', 'l.id=m.level')
             ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
             ->leftJoin('user u', 'u.id=tcs.id_teacher')
             ->where('pm.id_user=:id and rights & :mask',
@@ -102,7 +114,14 @@ class Student extends Role
             ->group('m.module_ID')
             ->queryAll();
 
-        $this->modules=array_merge($groupModules,$payModules);
+        $allModules=array_merge($groupModules,$payModules);
+        $result = [];
+        foreach($allModules as $module){
+            if(isset($result[$module['id']])) continue;
+            $result[$module['id']] = $module;
+        }
+
+        $this->modules=$result;
         return $this->modules;
     }
 

@@ -23,14 +23,14 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
             <td width="20%">Курси:</td>
             <td>
                 <?php if (!empty($courses)) { ?>
-                    <?php foreach ($courses as $course) {
+                    <?php foreach ($courses as $key=>$course) {
                         ?>
                         <div class="panel-group">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a  href="" ng-click="isCollapsed<?php echo $key ?> = !isCollapsed<?php echo $key ?>">
-                                            <?= CHtml::encode($course["title"] . " (" . $course["lang"] . ")"); ?>
+                                            <?= CHtml::encode($course["title_ua"] . " (" . $course["lang"] . ")"); ?>
                                         </a>
                                     </h4>
                                 </div>
@@ -76,7 +76,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                             <li>
                                 <a href="javascript:void(0)" ng-click="changeView('trainer/changeTeacher/modude/<?=$module["id"]?>/student/<?=$student->id?>')"
                                    >
-                                    <?= $module["title"] . " (" . $module["lang"] . ")";
+                                    <?= $module["title_ua"] . " (" . $module["lang"] . ")";
                                     if (isset($teachersByModule[$module["id"]])) {
                                         ?>
                                         <em>(викладач - <?= $teachersByModule[$module["id"]]; ?>)</em>

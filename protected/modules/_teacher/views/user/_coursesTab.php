@@ -29,14 +29,14 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>Проплачені курси:</h4>
-                <ul ng-if="data.courses.length" class="list-group">
+                <ul ng-if="data.courses.length!=0" class="list-group">
                     <li ng-repeat="course in data.courses track by $index" class="list-group-item">
                         <div class="panel-group">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a href="" data-toggle="collapse" ng-click="collapse('#collapse'+course.id)">
-                                            {{course.title}} ({{course.lang}})
+                                            {{course.title_ua}} ({{course.lang}})
                                         </a>
                                         <?php if(Yii::app()->user->model->isAdmin()){?>
                                             <a type="button" class="btn btn-outline btn-success btn-xs" ng-href="#/admin/users/user/{{data.user.id}}/agreement/course/{{course.id}}">
@@ -62,7 +62,7 @@
                         </div>
                     </li>
                 </ul>
-                <em ng-if="!data.courses.length">Курсів немає.</em>
+                <em ng-if="data.courses.length==0">Курсів немає.</em>
             </div>
         </div>
     </div>
