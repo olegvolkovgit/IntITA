@@ -30,10 +30,10 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>Проплачені модулі:</h4>
-                <ul ng-if="data.modules.length" class="list-group">
+                <ul ng-if="data.modules.length!=0" class="list-group">
                     <li ng-repeat="module in data.modules track by $index" class="list-group-item">
                         <a ng-href="{{module.link}}" target="_blank">
-                            {{module.title}} ({{module.lang}})
+                            {{module.title_ua}} ({{module.lang}})
                         </a>
                         <input type="number" hidden="hidden" id="moduleId" ng-value="{{module.id}}"/>
                         <?php if(Yii::app()->user->model->isAdmin()){?>
@@ -47,7 +47,7 @@
                         <?php } ?>
                     </li>
                 </ul>
-                <em ng-if="!data.modules.length">Модулів немає.</em>
+                <em ng-if="data.modules.length==0">Модулів немає.</em>
             </div>
         </div>
     </div>
