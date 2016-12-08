@@ -66,7 +66,7 @@
                                 <div ng-if="row.paymentMessage && !row.paymentMessage.service_id"><em>Доступ до лекцій</em></div>
                             </td>
                             <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }" ng-click="changeView('messages/message/'+row.id_message)">
-                                <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
+                                <em>{{row.message.create_date |shortDate:"yyyy-MM-dd"}}</em>
                             </td>
                         </tr>
                     </table>
@@ -88,7 +88,7 @@
                                 <div ><em>{{row.userMessages.subject}}</em></div>
                             </td>
                             <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }" ng-click="changeView('messages/message/'+row.id_message)">
-                                <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
+                                <em>{{row.message.create_date |shortDate:"yyyy-MM-dd"}}</em>
                             </td>
                         </tr>
                     </table>
@@ -119,7 +119,7 @@
                                 <div ng-if="row.paymentMessage && !row.paymentMessage.service_id"><em>Доступ до лекцій</em></div>
                             </td>
                             <td data-title="'Дата'"  sortable="'message.create_date'" filter="{'message.create_date': 'path/to/your/filters/age.html' }" ng-click="changeView('messages/message/'+row.id_message)">
-                                <em>{{row.message.create_date |shortDate:"dd-MM-yyyy"}}</em>
+                                <em>{{row.message.create_date |shortDate:"yyyy-MM-dd"}}</em>
                             </td>
                         </tr>
                     </table>
