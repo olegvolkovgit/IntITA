@@ -4,7 +4,7 @@ class UsersController extends TeacherCabinetController
 {
     public function hasRole()
     {
-        $allowedActions = ['getTeacherConsultantsList', 'getConsultantsList', 'setTeacherRoleAttribute'];
+        $allowedActions = ['getTeacherConsultantsList', 'setTeacherRoleAttribute'];
         $allowedSupervisorActions=['addTrainer','setTrainer','removeTrainer'];
         $action = Yii::app()->controller->action->id;
         if (Yii::app()->user->model->isAdmin() || 
@@ -20,21 +20,20 @@ class UsersController extends TeacherCabinetController
     {
         $counters = [];
 
-        $counters["admins"] = UserAdmin::model()->count("end_date IS NULL");
-        $counters["accountants"] = UserAccountant::model()->count("end_date IS NULL");
-        $counters["teachers"] = Teacher::model()->count('t.cancelled='.Teacher::ACTIVE);
-        $counters["authors"] = UserAuthor::model()->count("end_date IS NULL");
-        $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled = 0 AND end_date IS NULL");
-        $counters["offlineStudents"] = OfflineStudents::model()->count("end_date IS NULL");
+        $counters["admins"] = UserAdmin::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["accountants"] = UserAccountant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["teachers"] = Teacher::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE);
+        $counters["authors"] = UserAuthor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["students"] = UserStudent::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["offlineStudents"] = OfflineStudents::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["users"] = StudentReg::model()->count('cancelled='.StudentReg::ACTIVE);
-        $counters["tenants"] = UserTenant::model()->count("end_date IS NULL");
-        $counters["trainers"] = UserTrainer::model()->count("end_date IS NULL");
-        $counters["consultants"] = UserConsultant::model()->count("end_date IS NULL");
-        $counters["contentManagers"] = UserContentManager::model()->count("end_date IS NULL");
-        $counters["teacherConsultants"] = UserTeacherConsultant::model()->count("end_date IS NULL");
+        $counters["tenants"] = UserTenant::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["trainers"] = UserTrainer::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["contentManagers"] = UserContentManager::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        $counters["teacherConsultants"] = UserTeacherConsultant::model()->with('idUser')->count("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
         $counters["withoutRoles"] = StudentReg::countUsersWithoutRoles();
         $counters["blockedUsers"] = StudentReg::model()->count('cancelled='.StudentReg::DELETED);
-        $counters["superVisors"] = UserSuperVisor::model()->count("end_date IS NULL");
+        $counters["superVisors"] = UserSuperVisor::model()->with('user')->count("user.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
 
         $this->renderPartial('index', array(
             'counters' => $counters
@@ -218,8 +217,6 @@ class UsersController extends TeacherCabinetController
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
-
-        //echo UserTenant::tenantsList();
     }
 
     public function actionGetContentManagersList()
@@ -246,9 +243,12 @@ class UsersController extends TeacherCabinetController
 
     public function actionGetTeachersList()
     {
-
         $requestParams = $_GET;
+        $criteria = new CDbCriteria();
+        $criteria->join = 'left join user u on u.id=t.user_id';
+        $criteria->addCondition('u.cancelled='.StudentReg::ACTIVE);
         $ngTable = new NgTableAdapter('Teacher', $requestParams);
+        $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
     }
@@ -285,18 +285,6 @@ class UsersController extends TeacherCabinetController
         $result = $ngTable->getData();
         echo json_encode($result);
     }
-
-    public function actionGetConsultantsList()
-    {
-        $requestParams = $_GET;
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('end_date IS NULL');
-        $ngTable = new NgTableAdapter('UserConsultant', $requestParams);
-        $ngTable->mergeCriteriaWith($criteria);
-        $result = $ngTable->getData();
-        echo json_encode($result);
-    }
-
 
     public function actionGetBlockedUsersList()
     {
