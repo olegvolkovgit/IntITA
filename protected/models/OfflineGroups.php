@@ -138,7 +138,7 @@ class OfflineGroups extends CActiveRecord
 		$criteria = new CDbCriteria();
 		$criteria->select = "id, name";
 		$criteria->alias = "g";
-		$criteria->addSearchCondition('name', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('LOWER(name)', mb_strtolower($query,'UTF-8'), true, "OR", "LIKE");
 		$data = OfflineGroups::model()->findAll($criteria);
 		$result = array();
 		foreach ($data as $key => $model) {

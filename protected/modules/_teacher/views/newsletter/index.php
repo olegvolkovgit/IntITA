@@ -32,6 +32,18 @@
                     </label>
                     <br>
                     <label>
+                        <input type="radio" ng-model="newsletterType" value="groups"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по групах
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" ng-model="newsletterType" value="subGroups"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по підгрупах
+                    </label>
+                    <br>
+                    <label>
                         <input type="radio" ng-model="newsletterType" value="users"
                                ng-click="selectedRecipients = null">
                         Розсилка по окремих користувачах
@@ -48,6 +60,33 @@
                         placeholder="Кому"
                     ></oi-select>
                 </div>
+
+                <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='groups'">
+                    <label>Групи</label>
+                    <br>
+                    <oi-select
+                        oi-options="group.name for group in getGroups($query, $selectedAs) track by group.id"
+                        ng-model="selectedRecipients"
+                        multiple
+                        placeholder="Групи"
+                    ></oi-select>
+                </div>
+                <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='subGroups'">
+                    <label>Підгрупи</label>
+                    <br>
+                    <oi-select
+                        oi-options="subgroup.groupName for subgroup in getSubGroups($query) track by subgroup.id"
+                        ng-model="selectedRecipients"
+                        multiple
+                        placeholder="Назва групи"
+                        oi-select-options="{
+                      debounce: 200,
+                      dropdownFilter: 'subgroupsFilter',
+                      searchFilter: 'subgroupsSearchFilter',
+                     }"
+                    ></oi-select>
+                </div>
+
 
                 <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='users'">
                     <label>Кориcтувачі</label>

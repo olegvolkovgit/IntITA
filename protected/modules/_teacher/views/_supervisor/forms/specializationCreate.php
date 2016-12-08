@@ -2,7 +2,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="createSpecialization();" name="editSpecializationForm"  novalidate>
+                <form autocomplete="off" ng-submit="createSpecialization();" name="editSpecializationForm"  novalidate>
                     <div class="form-group">
                         <label>Назва*</label>
                         <input name="name" class="form-control" ng-model="specialization.name" required maxlength="128" size="50">

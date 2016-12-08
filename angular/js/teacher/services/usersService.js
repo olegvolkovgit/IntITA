@@ -51,10 +51,6 @@ angular
                         url: url + '/getTrainersList',
                         method: 'GET'
                     },
-                    consultantsList: {
-                        url: url + '/getConsultantsList',
-                        method: 'GET'
-                    },
                     tenantsList: {
                         url: url + '/getTenantsList',
                         method: 'GET'

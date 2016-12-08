@@ -16,7 +16,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="addStudentToSubgroup(data.user.id,selectedSubgroup.id,startDate)" name="addStudent"  novalidate>
+                <form autocomplete="off" ng-submit="addStudentToSubgroup(data.user.id,selectedSubgroup.id,startDate)" name="addStudent"  novalidate>
                     <div class="form-group">
                         <label>Студент:</label>
                         <input class="form-control" value="{{data.user.fullName}} {{data.user.email}}" required maxlength="128" size="50" disabled>

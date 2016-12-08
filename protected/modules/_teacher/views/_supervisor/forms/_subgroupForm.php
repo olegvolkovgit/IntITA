@@ -5,7 +5,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="sendFormSubgroup('<?php echo $scenario ?>',subgroup.name,
+                <form autocomplete="off" ng-submit="sendFormSubgroup('<?php echo $scenario ?>',subgroup.name,
                 groupId,subgroup.data,selectedCurator.id, 
                 selectedTrainer.id, subgroupId);" name="subgroupForm"  novalidate>
                     <div class="form-group">

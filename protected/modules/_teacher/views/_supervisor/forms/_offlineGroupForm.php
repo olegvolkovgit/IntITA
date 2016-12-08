@@ -5,7 +5,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="sendFormOfflineGroup('<?php echo $scenario ?>');" name="offlineGroupForm"  novalidate>
+                <form autocomplete="off" ng-submit="sendFormOfflineGroup('<?php echo $scenario ?>');" name="offlineGroupForm"  novalidate>
                     <div class="form-group">
                         <label>Назва*</label>
                         <input name="name" class="form-control" ng-model="group.name" required maxlength="128" size="50">

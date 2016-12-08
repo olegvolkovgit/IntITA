@@ -19,6 +19,23 @@ angular
             return $sce.trustAsHtml(html);
         };
     })
+    .filter('subgroupsSearchFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+
+            var html= "&lt;" + item.groupName+"&gt;"+item.name + "<span class=\"close select-search-list-item_selection-remove\">×</span>";
+
+            return $sce.trustAsHtml(html);
+        };
+    })
+    .filter('subgroupsFilter', function($sce) {
+        return function(label, query, item, options, element) {
+
+            var html= "&lt;" + item.groupName+"&gt;"+item.name;
+
+            return $sce.trustAsHtml(html);
+        };
+    })
 ;
 
 function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
@@ -78,6 +95,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
     init();
 
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
+    var groupsArray =$resource(basePath+'/_teacher/newsletter/getGroups');
+    var subGroupsArray =$resource(basePath+'/_teacher/newsletter/getSubGroups');
     var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
     $scope.getRoles = function(query, querySelectAs) {
         console.log(query);
@@ -93,6 +112,21 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
         });
     };
 
+    $scope.getGroups = function(query, querySelectAs) {
+
+        return groupsArray.query({query:query}).$promise.then(function(response) {
+
+            return response;
+        });
+    };
+    $scope.getSubGroups = function(query, querySelectAs) {
+
+        return subGroupsArray.query({query:query}).$promise.then(function(response) {
+
+            return response;
+        });
+    };
+
     $scope.send = function () {
         if ($scope.newsletterForm.$valid && $scope.newsletterForm.$dirty && $scope.newsletterType) {
             var recipients = [];
@@ -103,6 +137,12 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
                         break;
                     case 'users':
                         recipients.push(value.email);
+                        break;
+                    case 'groups':
+                        recipients.push(value.id);
+                        break;
+                    case 'subGroups':
+                        recipients.push(value.id);
                         break;
                 }
             });

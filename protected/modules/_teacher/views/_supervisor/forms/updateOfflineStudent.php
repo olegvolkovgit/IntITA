@@ -21,7 +21,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-init="loadOfflineStudentData(studentId)" ng-submit="updateOfflineStudent(studentModelId, studentModel.id,studentModel.idSubgroup,selectedSubgroup.id,studentModel.startDate,studentModel.graduateDate)" name="updateStudent"  novalidate>
+                <form autocomplete="off" ng-init="loadOfflineStudentData(studentId)" ng-submit="updateOfflineStudent(studentModelId, studentModel.id,studentModel.idSubgroup,selectedSubgroup.id,studentModel.startDate,studentModel.graduateDate)" name="updateStudent"  novalidate>
                     <div class="form-group">
                         <label>Студент:</label>
                         <input class="form-control" ng-model="studentModel.fullName" required maxlength="128" size="50" disabled>

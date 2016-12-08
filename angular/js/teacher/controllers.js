@@ -258,7 +258,11 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                 }).success(function(response){
                     if (response == 'success'){
                         bootbox.alert('Опрерацію успішно виконано',function(){
-                            $scope.receivedMessagesTable.reload();
+                            $scope.receivedMessagesTable.reload().then(function successCallback() {
+                                if(!$scope.receivedMessagesTable.data.length){
+                                    $state.reload();
+                                }
+                            });
                         })
                     }
                     else{

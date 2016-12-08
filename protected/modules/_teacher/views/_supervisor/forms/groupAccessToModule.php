@@ -2,7 +2,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="sendGroupAccessToContent('<?php echo $scenario ?>',selectedGroup.id, selectedContent.id, end_date, 'module');" name="groupAccessForm" novalidate>
+                <form autocomplete="off" ng-submit="sendGroupAccessToContent('<?php echo $scenario ?>',selectedGroup.id, selectedContent.id, end_date, 'module');" name="groupAccessForm" novalidate>
                     <div class="form-group">
                         <label>Група*:</label>
                         <input autocomplete="off" name="group" class="form-control" type="text" ng-model="groupSelected" ng-model-options="{ debounce: 1000 }"
