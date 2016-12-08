@@ -8,7 +8,6 @@
  * @var $user RegisteredUser
  * @var $form CActiveForm
  * @var $addressString string*
- * @var $paymentsCourses
  * @var $markProvider
  * @var $owner
  */
@@ -146,7 +145,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             <hr class="lineUnderTab">
             <div class="tabsContent">
                 <div id="myCourse">
-                    <?php $this->renderPartial('_mycourse', array('paymentsCourses' => $paymentsCourses,'paymentsModules' => $paymentsModules,'owner'=>$owner)); ?>
+                    <?php $this->renderPartial('_mycourse', array('user' => $user, 'owner'=>$owner)); ?>
                 </div>
                 <div id="myRatting">
                     <?php $this->renderPartial('_myRatting', array('user' => $user,'owner'=>$owner)); ?>

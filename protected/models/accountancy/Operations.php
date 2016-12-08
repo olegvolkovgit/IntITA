@@ -96,8 +96,8 @@ class Operations {
             }
             $transaction->commit();
             $agreement = UserAgreements::model()->findByPk($operation['agreementId']);
+            $agreement->updateNextInvoicesDate();
             $agreement->provideAccess();
-//            todo $agreement->updateNextInvoicesDate();
         } catch (Exception $e) {
             $transaction->rollback();
             $result = ['status' => 'error', 'message' => $e->getMessage()];

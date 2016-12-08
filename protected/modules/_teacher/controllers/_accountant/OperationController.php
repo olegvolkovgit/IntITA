@@ -69,7 +69,7 @@ class OperationController extends TeacherCabinetController
     /**
      * Manages all models.
      */
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $this->renderPartial('index');
     }
