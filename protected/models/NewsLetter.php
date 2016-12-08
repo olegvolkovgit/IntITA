@@ -77,6 +77,32 @@ class NewsLetter implements ITask
             case "users":
                 $mailList = $this->recipients;
                 break;
+            case "groups":
+                $criteria = new CDbCriteria();
+                $criteria->with = array('user','group');
+                $criteria->addInCondition('group.id',$this->recipients);
+                $criteria->addCondition('end_date IS NULL');
+                $criteria->addCondition('graduate_date IS NULL');
+                $models = OfflineStudents::model()->findAll($criteria);
+                if (isset($models)) {
+                    foreach ($models as $user) {
+                        array_push($mailList, $user->user->email);
+                    }
+                }
+                break;
+            case "subGroups":
+                $criteria = new CDbCriteria();
+                $criteria->with = array('user','subgroupName');
+                $criteria->addInCondition('subgroupName.id',$this->recipients);
+                $criteria->addCondition('end_date IS NULL');
+                $criteria->addCondition('graduate_date IS NULL');
+                $models = OfflineStudents::model()->findAll($criteria);
+                if (isset($models)) {
+                    foreach ($models as $user) {
+                        array_push($mailList, $user->user->email);
+                    }
+                }
+                break;
         }
         return array_unique($mailList);
     }
