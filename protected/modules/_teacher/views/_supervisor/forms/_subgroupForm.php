@@ -5,7 +5,7 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form ng-submit="sendFormSubgroup('<?php echo $scenario ?>');" name="subgroupForm"  novalidate>
+                <form autocomplete="off" ng-submit="sendFormSubgroup('<?php echo $scenario ?>');" name="subgroupForm"  novalidate>
                     <div class="form-group">
                         <label>Група:</label>
                         <input class="form-control" ng-model="group.name" required maxlength="128" size="50" disabled>
