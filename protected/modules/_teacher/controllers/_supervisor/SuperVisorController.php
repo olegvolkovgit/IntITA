@@ -421,12 +421,16 @@ class SuperVisorController extends TeacherCabinetController
         $trainerId=Yii::app()->request->getParam('trainer');
         
         $subgroup=OfflineSubgroups::model()->findByPk($id);
+        $oldTrainer=$subgroup->id_trainer;
         $subgroup->name=$name;
         $subgroup->data=$data;
         $subgroup->id_user_curator=$curatorId;
         $subgroup->id_trainer=$trainerId;
         
         if($subgroup->update()){
+            if($oldTrainer!=$subgroup->id_trainer && $subgroup->id_trainer){
+                $subgroup->setTrainerForStudents();
+            }
             echo 'Підгрупу успішно оновлено';
         }else{
             echo 'Оновити підгрупу не вдалося. Введені не вірні дані';
@@ -473,16 +477,6 @@ class SuperVisorController extends TeacherCabinetController
         echo SuperVisor::addCuratorsList($query);
     }
 
-    public function actionSetTrainer()
-    {
-        $userId = Yii::app()->request->getPost('userId');
-        $trainerId = Yii::app()->request->getPost('trainerId');
-        $trainer = RegisteredUser::userById($trainerId);
-
-        if ($trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)===true) echo "success";
-        else echo $trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $userId);
-    }
-
     public function actionGroupsByQuery($query)
     {
         if ($query) {
@@ -509,6 +503,10 @@ class SuperVisorController extends TeacherCabinetController
             echo 'Студент уже входить в дану підгрупу';
         }else{
             if($student->save()){
+                $subgroup=OfflineSubgroups::model()->findByPk($subgroupId);
+                if($subgroup->id_trainer){
+                    $student->setTrainer($subgroup->id_trainer);
+                }
                 echo 'Студента додано в підгрупу';
             }else{
                 echo 'Додати студента не вдалося';
@@ -527,6 +525,7 @@ class SuperVisorController extends TeacherCabinetController
         $student=OfflineStudents::model()->findByPk($modelId);
         if($student){
             if($student->id_subgroup!=$subgroupId){
+                $newSubgroup=$subgroupId;
                 $student->id_subgroup=$subgroupId;
                 if(OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
                     echo 'Студент уже входить в дану підгрупу';
@@ -537,6 +536,12 @@ class SuperVisorController extends TeacherCabinetController
             if($graduateDate) $student->graduate_date=$graduateDate;
             else $student->graduate_date=null;
             if($student->update()){
+                if(isset($newSubgroup)){
+                    $subgroup=OfflineSubgroups::model()->findByPk($newSubgroup);
+                    if($subgroup->id_trainer){
+                        $student->setTrainer($subgroup->id_trainer);
+                    }
+                }
                 echo 'Дані оновлено';
             }else{
                 echo 'Оновити дані не вдалося';

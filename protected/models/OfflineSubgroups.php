@@ -117,4 +117,17 @@ class OfflineSubgroups extends CActiveRecord
 
 		return $result;
 	}
+
+	public function setTrainerForStudents(){
+		$students=OfflineStudents::model()->findAllByAttributes(array('id_subgroup' => $this->id,'end_date'=>null,'graduate_date'=>null));
+		$trainer = RegisteredUser::userById($this->id_trainer);
+		foreach ($students as $student){
+			$oldTrainerId = TrainerStudent::getTrainerByStudent($student->id_user);
+			if($oldTrainerId) {
+				$oldTrainer = RegisteredUser::userById($oldTrainerId->id);
+				$oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $student->id_user);
+			}
+			$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $student->id_user);
+		}
+	}
 }
