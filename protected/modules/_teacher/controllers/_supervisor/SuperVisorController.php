@@ -93,25 +93,33 @@ class SuperVisorController extends TeacherCabinetController
         $this->renderPartial('/_supervisor/tables/students', array(), false, true);
     }
 
-    public function actionAddOfflineStudent($id)
+    public function actionAddOfflineStudentForm($id)
     {
         $model=RegisteredUser::userById($id);
         $user = $model->registrationData->getAttributes();
-//        todo
+//        todo if student
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
 
-        $this->renderPartial('/_supervisor/forms/addOfflineStudent', array(), false, true);
+        $this->renderPartial('/_supervisor/forms/offlineStudentSubgroup', array('scenario'=>'create'), false, true);
     }
 
-    public function actionEditOfflineStudent($id)
+    public function actionAddOfflineStudentToSubgroupForm($idSubgroup)
+    {
+        $subgroup=OfflineSubgroups::model()->findByPk($idSubgroup);
+        if($subgroup===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+
+        $this->renderPartial('/_supervisor/forms/offlineStudentSubgroup', array('scenario'=>'create'), false, true);
+    }
+    
+    public function actionUpdateOfflineStudentForm($id)
     {
         $offlineStudent = OfflineStudents::model()->findByPk($id);
-//        todo
         if($offlineStudent===null)
             throw new CHttpException(404,'The requested page does not exist.');
 
-        $this->renderPartial('/_supervisor/forms/updateOfflineStudent', array(), false, true);
+        $this->renderPartial('/_supervisor/forms/offlineStudentSubgroup', array('scenario'=>'update'), false, true);
     }
 
     public function actionGroupAccess($type, $scenario)
@@ -260,9 +268,9 @@ class SuperVisorController extends TeacherCabinetController
         echo SpecializationsGroup::specializationsList();
     }
 
-    public function actionGetGroupData()
+    public function actionGetGroupData($id)
     {
-        echo CJSON::encode(OfflineGroups::model()->findByPk(Yii::app()->request->getParam('id')));
+        echo CJSON::encode(OfflineGroups::model()->findByPk($id));
     }
 
     public function actionGetOfflineStudentModel()
@@ -270,9 +278,9 @@ class SuperVisorController extends TeacherCabinetController
         echo  CJSON::encode(OfflineStudents::studentModel(Yii::app()->request->getParam('id')));
     }
     
-    public function actionGetSubgroupData()
+    public function actionGetSubgroupData($id)
     {
-        $subgroup=OfflineSubgroups::model()->findByPk(Yii::app()->request->getParam('id'));
+        $subgroup=OfflineSubgroups::model()->findByPk($id);
         echo CJSON::encode($subgroup->subgroupData());
     }
 
@@ -515,13 +523,12 @@ class SuperVisorController extends TeacherCabinetController
         $subgroupId = Yii::app()->request->getPost('subgroupId');
         $startDate = Yii::app()->request->getPost('startDate');
         $graduateDate = Yii::app()->request->getPost('graduateDate');
-        $newSubgroupId = Yii::app()->request->getPost('newSubgroupId');
 
         $student=OfflineStudents::model()->findByPk($modelId);
         if($student){
-            if($subgroupId!=$newSubgroupId){
-                $student->id_subgroup=$newSubgroupId;
-                if(OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'end_date'=>null,'id_subgroup'=>$newSubgroupId))){
+            if($student->id_subgroup!=$subgroupId){
+                $student->id_subgroup=$subgroupId;
+                if(OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
                     echo 'Студент уже входить в дану підгрупу';
                     return;
                 }

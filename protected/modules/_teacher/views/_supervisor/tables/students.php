@@ -59,7 +59,7 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                             {{row.phone}}
                         </td>
                         <td data-title="">
-                            <a ng-href="#/supervisor/addStudentToSubgroup/{{row.id}}">Додати в підгрупу</a>
+                            <a ng-href="#/supervisor/addOfflineStudent/{{row.id}}">Додати в підгрупу</a>
                         </td>
                     </tr>
                 </table>

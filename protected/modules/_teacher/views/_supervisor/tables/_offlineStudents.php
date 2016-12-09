@@ -1,6 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
-        <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Оффлайн студенти(без групи)</a>
+        <a type="button" class="btn btn-primary" ng-href="#/supervisor/studentsWithoutGroup">Офлайн студенти(без групи)</a>
+        <a ng-if="subgroup.id" type="button" class="btn btn-primary" ng-href="#/supervisor/addStudentToSubgroup/{{subgroup.id}}">Додати студента в підгрупу</a>
         <br>
         <br>
         <table ng-table="offlineStudentsTableParams" class="table table-bordered table-striped table-condensed">

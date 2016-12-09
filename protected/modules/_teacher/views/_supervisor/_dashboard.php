@@ -40,7 +40,7 @@
                         <a href="#/supervisor/students">Усі студенти</a>
                     </li>
                     <li>
-                        <a href="#/supervisor/studentsWithoutGroup">Оффлайн студенти(без групи)</a>
+                        <a href="#/supervisor/studentsWithoutGroup">Офлайн студенти(без групи)</a>
                     </li>
                     <li>
                         <a href="#/supervisor/offlineStudents">Студенти в групах</a>
