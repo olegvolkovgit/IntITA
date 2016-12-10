@@ -24,12 +24,10 @@
                                 <i class="fa fa-envelope fa-fw"></i>
                             </a>
                         </td>
-                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','admin',row.id_user)"><i class="fa fa-trash fa-fw"></i></a></td>
+                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole(row.id_user,'admin')"><i class="fa fa-trash fa-fw"></i></a></td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
 </div>
-<!--todo-->
-<!--filter="{'user.email': 'text'}" -->

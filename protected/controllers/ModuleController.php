@@ -23,6 +23,8 @@ class ModuleController extends Controller
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
         }
 
+//        var_dump($model->checkPaidAccess(Yii::app()->user->getId()));
+
         $editMode = 0;
         $isPaidCourse=false;
         $isPaidModule=false;

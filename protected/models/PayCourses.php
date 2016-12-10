@@ -217,7 +217,7 @@ class PayCourses extends CActiveRecord
 
     public static function getCancelErrorText($userName)
     {
-        $result = '<br /> В користувача '. $userName. ' не було доступу до даного курсу';
+        $result = '<br /> В користувача '. $userName. ' не було доступу до даного куру на індивідуальному рівні';
 
         return $result;
     }

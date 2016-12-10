@@ -560,7 +560,6 @@ class LessonController extends Controller
 
     public function actionGetAccessLectures()
     {
-        $lecturesData=[];
         $idModule = Yii::app()->request->getPost('module');
         $idCourse = Yii::app()->request->getPost('course');
         if($idCourse!=0){

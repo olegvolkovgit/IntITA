@@ -58,22 +58,4 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/config/update/id/"+$stateParams.paramId;
         }
         })
-        .state('configuration/old', {
-            url: "/configuration/old",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Функціонал попередньої версії ');
-            },
-            templateUrl: basePath + "/_teacher/_admin/old/index"
-        })
-        .state('configuration/old/changestatus', {
-            url: "/configuration/old/changestatus",
-            cache: false,
-            templateUrl: basePath + "/_teacher/_admin/old/userStatus"
-        })
-        .state('configuration/old/addaccess', {
-            url: "/configuration/old/addaccess",
-            cache: false,
-            templateUrl: basePath + "/_teacher/_admin/old/showAddAccessForm"
-        })
 });

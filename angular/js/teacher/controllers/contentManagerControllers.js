@@ -3,15 +3,7 @@
  */
 angular
     .module('teacherApp')
-    .controller('allAuchtorsCtrl', function ($scope){
-        initAuthorsTableCM();
-    })
-    .controller('allConsultantsCtrl', function ($scope){
-        initConsultantsTable();
-    })
-    .controller('allTeachersConsultantsCtrl', function ($scope){
-        initTeacherConsultantsTableCM();
-    })
+    .controller('sendCoworkerRequestCtrl',sendCoworkerRequestCtrl)
     .controller('statusOfModulesCtrl', function ($scope, $resource, NgTableParams, $stateParams){
 
         var modulesTable = $resource(basePath + '/_teacher/_content_manager/contentManager/getModulesList');
@@ -159,3 +151,27 @@ angular
     .controller('lessonDetailCtrl', function ($stateParams){
         initPartsListTable($stateParams.idLesson);
     });
+
+function sendCoworkerRequestCtrl ($http, $scope, $state) {
+    $scope.changePageHeader('Запит на призначення співробітника');
+
+    $scope.sendCoworkerRequest=function () {
+        user = $jq('#userId').val();
+        if(user == 0){
+            bootbox.alert("Виберіть користувача.");
+        } else {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_content_manager/contentManager/sendRequest',
+                data: $jq.param({user: user}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                bootbox.confirm(response.data, function () {
+                    $state.reload();
+                });
+            }, function errorCallback() {
+                bootbox.alert("Запит не вдалося надіслати");
+            });
+        }
+    }
+}

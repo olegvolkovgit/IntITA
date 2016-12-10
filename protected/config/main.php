@@ -28,6 +28,7 @@ return array(
         'application.models.track.statistics.*',
         'application.models.accountancy.*',
         'application.models.accountancy.services.*',
+        'application.models.accountancy.services.serviceAccess.*',
         'application.models.accountancy.paymentScheme.*',
         'application.models.accountancy.corporateEntity.*',
         'application.models.accountancy.agreements.*',
@@ -43,6 +44,7 @@ return array(
         'application.components.*',
         'application.components.widgets.*',
         'ext.imperavi-redactor-widget.*',
+        'application.models.task.*',
        // 'ext.yii2-debug.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',
@@ -58,6 +60,7 @@ return array(
                 'ext.giix-core', // giix generators
             ),
             'password' => 'admin',
+            'ipFilters' => ['127.0.0.1','10.0.0.1','localhost']
         ),
         '_admin',
         '_teacher',

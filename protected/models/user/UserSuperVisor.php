@@ -55,6 +55,7 @@ class UserSuperVisor extends CActiveRecord
 			'user' => array(self::BELONGS_TO, 'StudentReg', 'id_user'),
             'assigned_by_user' => array(self::BELONGS_TO, 'StudentReg', ['assigned_by'=>'id']),
             'cancelled_by_user' => array(self::BELONGS_TO, 'StudentReg',['cancelled_by'=>'id']),
+            'activeMembers' => array(self::BELONGS_TO, 'StudentReg', 'id_user','condition'=>'end_date IS NULL AND activeMembers.cancelled=0'),
 		);
 	}
 	public function primaryKey()
@@ -70,6 +71,8 @@ class UserSuperVisor extends CActiveRecord
 			'id_user' => 'Id User',
 			'start_date' => 'Start Date',
 			'end_date' => 'End Date',
+			'assigned_by' => 'Assigned by',
+			'cancelled_by' => 'Cancelled by',
 		);
 	}
 
@@ -94,6 +97,8 @@ class UserSuperVisor extends CActiveRecord
 		$criteria->compare('id_user',$this->id_user);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('assigned_by',$this->assigned_by,true);
+		$criteria->compare('cancelled_by',$this->cancelled_by,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

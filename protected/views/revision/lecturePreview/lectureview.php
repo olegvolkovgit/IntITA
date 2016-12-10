@@ -8,8 +8,8 @@ $this->breadcrumbs = array(
 );
 ?>
 <!--highlight-->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
-<script src='https://yastatic.net/highlightjs/8.2/highlight.min.js'></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/highlight.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/highlight2.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-highlightjs.min.js'); ?>"></script>
 <!--highlight-->
 <!--codemirror textarea hightlight-->

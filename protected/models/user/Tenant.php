@@ -41,7 +41,7 @@ class Tenant extends Role
                     return false;
                 }
             }
-            $sql = 'INSERT INTO user_tenant (chat_user_id) select id from chat_user where intita_user_id=' . $user->id;
+            $sql = 'INSERT INTO user_tenant (assigned_by, chat_user_id) VALUES ('.Yii::app()->user->getId().', (select id from chat_user where intita_user_id='.$user->id.'))';
             if (Yii::app()->db->createCommand($sql)->query()) {
                 $this->notifyAssignRole($user);
                 return true;
@@ -271,5 +271,10 @@ class Tenant extends Role
         }
         return json_encode($return);
 
+    }
+
+    function getMembers($criteria = null)
+    {
+        return UserTenant::model()->with('user')->findAll($criteria);
     }
 }

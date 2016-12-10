@@ -9,7 +9,7 @@ class InvoicesController extends TeacherCabinetController
     /**
      * Lists all models.
      */
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $this->renderPartial('index');
     }

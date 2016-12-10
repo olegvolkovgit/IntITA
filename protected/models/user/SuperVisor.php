@@ -17,7 +17,7 @@ class SuperVisor extends Role
 	 * @return string sql for check role admin.
 	 */
 	public function checkRoleSql(){
-		return 'select "super_visor" from user_super_visor sv where sv.id_user = :id and end_date IS NULL';
+		return 'select "supervisor" from user_super_visor sv where sv.id_user = :id and end_date IS NULL';
 	}
 
 	/**
@@ -100,4 +100,9 @@ class SuperVisor extends Role
 		}
 		return json_encode($result);
 	}
+
+    function getMembers($criteria = null)
+    {
+        return UserSuperVisor::model()->findAll($criteria);
+    }
 }

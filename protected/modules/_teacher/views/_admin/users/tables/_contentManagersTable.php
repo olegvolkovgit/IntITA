@@ -1,6 +1,6 @@
 <div class="col-lg-12">
     <br>
-    <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/contentManager">
+    <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/content_manager">
         Призначити контент менеджера
     </a>
     <br>
@@ -24,7 +24,7 @@
                                 <i class="fa fa-envelope fa-fw"></i>
                             </a>
                         </td>
-                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole('/_teacher/_admin/users/cancelRole','content_manager',row.id_user)"><i class="fa fa-trash fa-fw"></i></a></td>
+                        <td data-title="'Скасувати роль'"><a ng-if="!row.end_date" ng-click="cancelRole(row.id_user,'content_manager')"><i class="fa fa-trash fa-fw"></i></a></td>
                     </tr>
                 </table>
             </div>

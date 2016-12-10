@@ -155,8 +155,6 @@ class StudentRegController extends Controller
 
         $dataProvider = $model->getDataProfile();
         $markProvider = $model->getMarkProviderData();
-        $paymentsCourses = $model->getPaymentsCourses();
-        $paymentsModules = $model->getPaymentsModules();
         
         $owner = false;
         if ($idUser == Yii::app()->user->getId()) {
@@ -168,8 +166,6 @@ class StudentRegController extends Controller
             'post' => $model,
             'user' => $user,
             'markProvider' => $markProvider,
-            'paymentsCourses' => $paymentsCourses,
-            'paymentsModules' => $paymentsModules,
             'addressString' => $addressString,
             'owner' => $owner
         ));

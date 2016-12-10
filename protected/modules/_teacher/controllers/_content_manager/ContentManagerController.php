@@ -5,19 +5,15 @@ class ContentManagerController extends TeacherCabinetController
 
     public function hasRole()
     {
-        return Yii::app()->user->model->isContentManager();
+        $allowedAdminActions=['getAuthorsList','setTeacherRoleAttribute','unsetTeacherRoleAttribute'];
+        return Yii::app()->user->model->isContentManager() || (Yii::app()->user->model->isAdmin() && in_array(Yii::app()->controller->action->id,$allowedAdminActions));
     }
 
     public function actionAuthors()
     {
         $this->renderPartial('/_content_manager/authors');
     }
-
-    public function actionConsultants()
-    {
-        $this->renderPartial('/_content_manager/consultants');
-    }
-
+    
     public function actionTeacherConsultants()
     {
         $this->renderPartial('/_content_manager/teacherConsultants', array(), false, true);
@@ -32,54 +28,37 @@ class ContentManagerController extends TeacherCabinetController
         $this->renderPartial('/_content_manager/statusOfCourses', array(), false, true);
     }
 
-    public function actionAddConsultantModuleForm()
+    public function actionSetTeacherRoleAttribute($userId,$role,$attribute,$attributeValue)
     {
-        $this->renderPartial('/_content_manager/addForms/_addConsultantModule', array(), false, true);
-    }
-
-    public function actionAddTeacherConsultantForm()
-    {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherConsultantModule', array(), false, true);
-    }
-
-    public function actionAddTeacherModuleForm()
-    {
-        $this->renderPartial('/_content_manager/addForms/_addTeacherAccess', array(), false, true);
-    }
-
-    public function actionSetTeacherRoleAttribute()
-    {
-        $request = Yii::app()->request;
-        $userId = $request->getPost('user', 0);
-        $role = $request->getPost('role', '');
-        $attribute = $request->getPost('attribute', '');
-        $value = $request->getPost('attributeValue', 0);
         $user = RegisteredUser::userById($userId);
-
-        if ($userId && $attribute && $value && $role) {
-            if ($user->setRoleAttribute(new UserRoles($role), $attribute, $value)) {
-                echo "success";
+        $result=array();
+        if ($userId && $attribute && $attributeValue && $role) {
+            $response=$user->setRoleAttribute(new UserRoles($role), $attribute, $attributeValue);
+            if($response===true){
+                $result['data']="success";
             } else {
-                echo "error";
+                $result['data']=$response;
             }
         } else {
-            echo "error";
+            $result['data']='Введені не вірні дані';
         }
+        echo json_encode($result);
     }
-
-    public function actionCancelTeacherPermission()
+    public function actionUnsetTeacherRoleAttribute($userId,$role,$attribute,$attributeValue)
     {
-        $teacher = Yii::app()->request->getPost('user', '0');
-        $module = Yii::app()->request->getPost('module', '0');
-
-        $user = RegisteredUser::userById($teacher);
-        if ($user->unsetRoleAttribute(UserRoles::AUTHOR, 'module', $module)) {
-            $permission = new PayModules();
-            $permission->unsetModulePermission($teacher, $module, array('read', 'edit'));
-            echo "success";
+        $user = RegisteredUser::userById($userId);
+        $result=array();
+        if ($userId && $attribute && $attributeValue && $role) {
+            $response=$user->unsetRoleAttribute(new UserRoles($role), $attribute, $attributeValue);
+            if($response===true){
+                $result['data']="success";
+            } else {
+                $result['data']=$response;
+            }
         } else {
-            echo "error";
+            $result['data']='Введені не вірні дані';
         }
+        echo json_encode($result);
     }
 
     public function actionGetTeacherConsultantsList()
@@ -101,17 +80,13 @@ class ContentManagerController extends TeacherCabinetController
     }
 
     public function actionGetAuthorsList()
-
     {
-
         $params = $_GET;
         $criteria = new CDbCriteria();
-        $criteria->addCondition('end_time IS NULL');
+        $criteria->addCondition('end_date IS NULL');
         $adapter = new NgTableAdapter('UserAuthor',$params);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
-
-        //echo TeacherModule::authorsList();
     }
 
     public function actionGetConsultantsList()
@@ -134,18 +109,6 @@ class ContentManagerController extends TeacherCabinetController
     public function actionDashboard()
     {
         $this->renderPartial('/_content_manager/_dashboard', array(), false, true);
-    }
-
-    public function actionShowTeacher($id)
-    {
-        $user = RegisteredUser::userById($id);
-        if ($user) {
-            $this->renderPartial('/_content_manager/_showTeacher', array(
-                'user' => $user
-            ), false, true);
-        } else {
-            throw new \application\components\Exceptions\IntItaException(400);
-        }
     }
 
     public function actionRenderAddForm($role)
@@ -180,7 +143,7 @@ class ContentManagerController extends TeacherCabinetController
     public function actionSendRequest()
     {
         $userToAssign = Yii::app()->request->getPost('user', 0);
-        $user = Yii::app()->request->getPost('sender', 0);
+        $user = Yii::app()->user->getId();
 
         $teacherModel = StudentReg::model()->findByPk($userToAssign);
         $userModel = StudentReg::model()->findByPk($user);
@@ -212,21 +175,6 @@ class ContentManagerController extends TeacherCabinetController
         }
     }
 
-    public function actionAssignRole(){
-        $userId = Yii::app()->request->getPost('userId');
-        $role = Yii::app()->request->getPost('role');
-        $user = RegisteredUser::userById($userId);
-
-        if ($user->hasRole($role)) {
-            echo "Користувач ".$user->registrationData->userNameWithEmail()." уже має цю роль";
-            return;
-        }
-        if ($user->setRole($role))
-            echo "Користувачу ".$user->registrationData->userNameWithEmail()." призначена обрана роль ".$role;
-        else echo "Користувачу ".$user->registrationData->userNameWithEmail()." не вдалося призначити роль ".$role.".
-        Спробуйте повторити операцію пізніше або напишіть на адресу ".Config::getAdminEmail();
-    }
-
     public function actionGetLessonsList($idModule) {
         echo UserContentManager::listOfLessons($idModule);
     }
@@ -245,4 +193,16 @@ class ContentManagerController extends TeacherCabinetController
 
     }
 
+    public function actionUserAttributesList($id,$role)
+    {
+        $user = RegisteredUser::userById($id);
+        $role = new UserRoles($role);
+        $attributes = $user->getAttributesByRole($role);
+
+        $this->renderPartial('/_content_manager/_moduleList', array(
+            'model' => $user->registrationData,
+            'role' => $role,
+            'attributes' => $attributes
+        ),false,true);
+    }
 }

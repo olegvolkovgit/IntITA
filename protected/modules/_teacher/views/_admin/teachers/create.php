@@ -15,8 +15,7 @@
         </ul>
     </div>
 <?php } ?>
-<?php $this->renderPartial('_form', array(
-    'model' => $model,
+<?php $this->renderPartial('_teacherForm', array(
     'scenario' => 'create',
     'predefinedUser' => $predefinedUser,
     'message' => $message
