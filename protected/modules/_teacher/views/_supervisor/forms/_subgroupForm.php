@@ -5,7 +5,9 @@
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form autocomplete="off" ng-submit="sendFormSubgroup('<?php echo $scenario ?>');" name="subgroupForm"  novalidate>
+                <form autocomplete="off" ng-submit="sendFormSubgroup('<?php echo $scenario ?>',subgroup.name,
+                groupId,subgroup.data,selectedCurator.id, 
+                selectedTrainer.id, subgroupId);" name="subgroupForm"  novalidate>
                     <div class="form-group">
                         <label>Група:</label>
                         <input class="form-control" ng-model="group.name" required maxlength="128" size="50" disabled>
@@ -34,6 +36,18 @@
                         </div>
                         <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['curator'].$dirty && offlineGroupForm['curator'].$invalid">
                             <span ng-show="offlineGroupForm['curator'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Тренер в групі:</label>
+                        <input name="trainer" class="form-control" type="text" ng-model="trainerEntered" ng-model-options="{ debounce: 1000 }"
+                               placeholder="Виберіть тренера" size="50"
+                               uib-typeahead="item.name for item in getTrainers($viewValue) | limitTo : 10"
+                               typeahead-no-results="trainerNoResults"
+                               typeahead-on-select="onSelectTrainer($item)"
+                               ng-change="reloadTrainer()">
+                        <div ng-show="trainerNoResults">
+                            <i class="glyphicon glyphicon-remove"></i>тренера не знайдено
                         </div>
                     </div>
                     <div class="form-group">

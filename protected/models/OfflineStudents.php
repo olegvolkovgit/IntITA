@@ -136,4 +136,14 @@ class OfflineStudents extends CActiveRecord
 		}
 		return $data;
 	}
+
+	public function setTrainer($id){
+		$trainer = RegisteredUser::userById($id);
+		$oldTrainerId = TrainerStudent::getTrainerByStudent($this->id_user);
+		if($oldTrainerId) {
+			$oldTrainer = RegisteredUser::userById($oldTrainerId->id);
+			$oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $this->id_user);
+		}
+		$trainer->setRoleAttribute(UserRoles::TRAINER, 'students-list', $this->id_user);
+	}
 }

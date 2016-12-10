@@ -8,7 +8,7 @@
                     <a type="button" class="btn btn-primary" href="#/supervisor/students">Усі студенти</a>
                 </li>
                 <li>
-                    <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Оффлайн студенти(без групи)</a>
+                    <a type="button" class="btn btn-primary" href="#/supervisor/studentsWithoutGroup">Офлайн студенти(без групи)</a>
                 </li>
                 <li>
                     <a type="button" class="btn btn-primary" href="#/supervisor/offlineStudents">Студенти в підгрупах</a>

@@ -108,7 +108,9 @@ class Trainer extends Role
     {
         switch ($attribute) {
             case 'students-list':
-                if ($this->checkTrainer($value) && $this->checkTrainerCapacity($user) && $this->checkUserStudent($value)) {
+                if ($this->checkTrainer($value)
+//                    && $this->checkTrainerCapacity($user)
+                    && $this->checkUserStudent($value)) {
                     if (Yii::app()->db->createCommand()->
                     insert('trainer_student', array(
                         'trainer' => $user->id,

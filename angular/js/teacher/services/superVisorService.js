@@ -51,5 +51,13 @@ angular
                         url: url + '/getModuleAccessList',
                         method: 'GET',
                     },
+                    subgroupData: {
+                        url: url + '/getSubgroupData',
+                        method: 'GET',
+                    },
+                    groupData: {
+                        url: url + '/getGroupData',
+                        method: 'GET',
+                    },
                 });
         }]);

@@ -112,20 +112,25 @@ config(function ($stateProvider) {
                 return basePath + "/_teacher/_supervisor/superVisor/editSubgroupForm/?id=" + $stateParams.id
             }
         })
-        .state('supervisor/addStudentToSubgroup/:id', {
-            url: "/supervisor/addStudentToSubgroup/:id",
+        .state('supervisor/addOfflineStudent/:studentId', {
+            url: "/supervisor/addOfflineStudent/:studentId",
             cache: false,
-            controller: 'offlineStudentProfileCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_supervisor/superVisor/addOfflineStudent/?id=" + $stateParams.id
+                return basePath + "/_teacher/_supervisor/superVisor/addOfflineStudentForm/?id=" + $stateParams.studentId
             }
         })
-        .state('supervisor/editOfflineStudent/:idOfflineStudentModel', {
-            url: "/supervisor/editOfflineStudent/:idOfflineStudentModel",
+        .state('supervisor/updateOfflineStudent/:studentModelId', {
+            url: "/supervisor/updateOfflineStudent/:studentModelId",
             cache: false,
-            controller: 'updateOfflineStudentCtrl',
             templateUrl: function ($stateParams) {
-                return basePath + "/_teacher/_supervisor/superVisor/editOfflineStudent/?id=" + $stateParams.idOfflineStudentModel
+                return basePath + "/_teacher/_supervisor/superVisor/updateOfflineStudentForm/?id=" + $stateParams.studentModelId
+            }
+        })
+        .state('supervisor/addStudentToSubgroup/:subgroupId', {
+            url: "/supervisor/addStudentToSubgroup/:subgroupId",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_supervisor/superVisor/addOfflineStudentToSubgroupForm/?idSubgroup=" + $stateParams.subgroupId
             }
         })
         .state('supervisor/users', {
