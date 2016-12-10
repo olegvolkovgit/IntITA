@@ -3,7 +3,7 @@
 /**
  * This is the model class for table "offline_groups".
  *
- * The followings are the available columns in table 'offline_groups:
+ * The followings are the available columns in table 'offline_groups':
  * @property integer $id
  * @property string $name
  * @property string $start_date
@@ -12,7 +12,15 @@
  * @property integer $id_user_created
  * @property integer $id_user_curator
  *
+ * Relations
+ * @property OfflineSubgroups[] $subGroups
+ * @property OfflineStudents[] $offlineStudents
+ * @property StudentReg[] $students
+ *
+ * Behaviours
+ * @property VisitorAccessBehavior $access
  */
+
 class OfflineGroups extends CActiveRecord
 {
 	/**
@@ -51,6 +59,9 @@ class OfflineGroups extends CActiveRecord
 			'cityName' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
 			'userCurator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_curator'),
+            'subGroups' => [self::HAS_MANY, 'OfflineSubgroups', 'group'],
+            'offlineStudents' => [self::HAS_MANY, 'OfflineStudents', ['id' => 'id_subgroup'], 'through' =>'subGroups'],
+            'students' => [self::HAS_MANY, 'StudentReg', ['id_user' => 'id'], 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()', 'through' =>'offlineStudents']
 		);
 	}
 
@@ -110,6 +121,14 @@ class OfflineGroups extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public function behaviors() {
+        return [
+            'access' => [
+                'class' => 'GroupAccessBehavior'
+            ]
+        ];
+    }
+
 	public function primaryKey(){
 		return 'id';
 	}
@@ -119,7 +138,7 @@ class OfflineGroups extends CActiveRecord
 		$criteria = new CDbCriteria();
 		$criteria->select = "id, name";
 		$criteria->alias = "g";
-		$criteria->addSearchCondition('name', $query, true, "OR", "LIKE");
+		$criteria->addSearchCondition('LOWER(name)', mb_strtolower($query,'UTF-8'), true, "OR", "LIKE");
 		$data = OfflineGroups::model()->findAll($criteria);
 		$result = array();
 		foreach ($data as $key => $model) {
@@ -139,4 +158,31 @@ class OfflineGroups extends CActiveRecord
 		return implode(", ", $errors);
 	}
 
+	public function availableCoursesList()
+	{
+		$courses = Yii::app()->db->createCommand()
+			->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en,
+			 l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+			->from('acc_course_service acs')
+			->join('group_access_to_content ga', 'ga.service_id=acs.service_id')
+			->join('course c', 'c.course_ID=acs.course_id')
+			->join('level l', 'l.id=c.level')
+			->where('NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id)
+			->queryAll();
+		return $courses;
+	}
+
+	public function availableModulesList()
+	{
+		$modules = Yii::app()->db->createCommand()
+			->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en,
+			l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
+			->from('acc_module_service ams')
+			->join('group_access_to_content ga', 'ga.service_id=ams.service_id')
+			->join('module m', 'm.module_ID=ams.module_id')
+			->join('level l', 'l.id=m.level')
+			->where('NOW() BETWEEN ga.start_date AND ga.end_date AND group_id='.$this->id)
+			->queryAll();
+		return $modules;
+	}
 }

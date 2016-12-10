@@ -18,12 +18,12 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                             <li>
                                 <a href="<?= Yii::app()->createUrl("course/index", array("id" => $course["id"])); ?>"
                                    target="_blank">
-                                    <?=$course["title"]." (".$course["lang"].")";?>
+                                    <?= CHtml::encode($course["title_ua"]." (".$course["lang"].")");?>
                                 </a>
                             </li>
                         <?php } else {?>
                             <li>
-                                <?=$course["title"]." (".$course["lang"].") - скасований";?>
+                                <?= CHtml::encode($course["title_ua"]." (".$course["lang"].") - скасований");?>
                             </li>
                         <?php }
                         } ?>
@@ -43,12 +43,12 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                 <li>
                                     <a href="<?= Yii::app()->createUrl("module/index", array("idModule" => $module["id"])); ?>"
                                        target="_blank">
-                                        <?=$module["title"]." (".$module["lang"].")";?>
+                                        <?=$module["title_ua"]." (".$module["lang"].")";?>
                                     </a>
                                 </li>
                             <?php } else {?>
                                 <li>
-                                    <?=$module["title"]." (".$module["lang"].") - скасований";?>
+                                    <?=$module["title_ua"]." (".$module["lang"].") - скасований";?>
                                 </li>
                         <?php }
                         } ?>

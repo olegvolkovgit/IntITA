@@ -3,8 +3,12 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
-        $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory'];
-        return Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isTrainer()||(Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action ->id,$allowedContentManagerActions));
+        $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
+        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm'];
+        return Yii::app()->user->model->isAdmin() ||
+        Yii::app()->user->model->isTrainer() ||
+        (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action->id,$allowedContentManagerActions)) ||
+        (Yii::app()->user->model->isSuperVisor() && in_array(Yii::app()->controller->action->id,$allowedSupervisorActions));
     }
 
     public function actionIndex($id)
@@ -56,24 +60,35 @@ class UserController extends TeacherCabinetController {
         }
     }
 
-    public function actionUnsetUserRole(){
-        $user = Yii::app()->request->getPost('user', '0');
-        $role = Yii::app()->request->getPost('role', '');
-        if($user && $role){
-            $model = RegisteredUser::userById($user);
-            $roleModel = Role::getInstance($role);
-            if(!$roleModel->checkBeforeDeleteRole($model->registrationData)){
-                echo $roleModel->getErrorMessage();
+    public function actionSetStudentEducForm(){
+        $user = Yii::app()->request->getPost('user');
+        $form = Yii::app()->request->getPost('form');
+        $model = StudentReg::model()->findByPk($user);
+
+        if($model){
+            if($model->setUserForm($form)){
+                echo "Операцію успішно виконано.";
             } else {
-                if ($model->cancelRole(new UserRoles($role))) {
-                    echo "Обрану роль успішно скасовано.";
-                } else {
-                    echo "Роль не вдалося скасувати.";
-                }
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
             }
         } else {
-            echo "Неправильний запит. Зверніться до адміністратора ".Config::getAdminEmail();
+            echo "Неправильний запит. Такого користувача не існує.";
         }
+    }
+    
+    public function actionCancelRole($userId, $role)
+    {
+        $result=array();
+
+        $model = RegisteredUser::userById($userId);
+        $response=$model->cancelRoleMessage(new UserRoles($role));
+        if($response===true){
+            $result['data']="success";
+        } else {
+            $result['data']=$response;
+        }
+
+        echo json_encode($result);
     }
 
     public function actionAgreement($user, $param, $type){
@@ -95,72 +110,10 @@ class UserController extends TeacherCabinetController {
             throw new \application\components\Exceptions\IntItaException(400);
         }
     }
-
-    public function actionSetUserRole()
-    {
-        $id = Yii::app()->request->getPost('user', 0);
-        $role = Yii::app()->request->getPost('role', '');
-
-        $user = RegisteredUser::userById($id);
-
-        if(!$user->registrationData->isActive()){
-            echo "Акаунт користувача заблокований. Заблокованому користувачу не можна призначити роль.";
-            die;
-        }
-        if ($id && $role) {
-            if($role != UserRoles::STUDENT){
-                if(!$user->isTeacher()){
-                    echo "Користувач не є співробітником, призначити йому вибрану роль неможливо.";
-                    die;
-                }
-            }
-            if ($user->setRole(new UserRoles($role))) {
-                echo "Операцію успішно виконано.";
-            } else {
-                echo "Операцію не вдалося виконати.";
-            }
-        } else {
-            throw new \application\components\Exceptions\IntItaException(400, "Неправильний запит.");
-        }
-    }
-
+    
     public function actionLoadJsonUserModel($id)
     {
-        $result = array();
-        $model=RegisteredUser::userById($id);
-        $teacher = Teacher::model()->findByPk($id);
-
-        $user = $model->registrationData->getAttributes();
-        if($user===null)
-            throw new CHttpException(404,'The requested page does not exist.');
-        $trainer = TrainerStudent::getTrainerByStudent($id);
-
-        $result['user']=$user;
-        $result['user']['roles']=$model->getRoles();
-        $result['user']['noroles']=array_diff(AllRolesDataSource::roles(), $model->getRoles());
-
-        foreach($model->getRoles() as $key=>$role){
-            $result['user']['roles'][$key]= $role->__toString();
-        }
-        $result['trainer']=$trainer;
-        if($model->isStudent()){
-            $result['courses']=$model->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
-            $result['modules']=$model->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
-            foreach($result['courses'] as $key=>$course){
-                $result['courses'][$key]['modules']=CourseModules::modulesInfoByCourse($course["id"]);
-                foreach($result['courses'][$key]['modules'] as $index=>$module){
-                    $result['courses'][$key]['modules'][$index]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"], "idCourse" => $course["id"]))];
-                }
-            }
-            foreach($result['modules'] as $key=>$module){
-                $result['modules'][$key]+= ['link'=>Yii::app()->createUrl("module/index", array("idModule" => $module["id"]))];
-            }
-        }
-        if ($teacher) {
-            $result['teacher'] = (array)$teacher->getAttributes();
-            $result['teacher']['modules'] = $teacher->modulesActive;
-        }
-        echo CJSON::encode($result);
+        echo  CJSON::encode(StudentReg::userData($id));
     }
 
     public function actionGetRolesHistory($id){
@@ -173,31 +126,15 @@ class UserController extends TeacherCabinetController {
         $historyConsultant = UserConsultant::model()->model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
         $historyContentManager = UserContentManager::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
         $historyTeacherConsultant = UserTeacherConsultant::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
-        $historyAuthor = UserAuthor::model()->with('moduleAuthor','assigned_by_user','cancelled_by_user')->model()->findAll('idTeacher=:id', array(':id'=>$id));
+        $historyAuthor = UserAuthor::model()->with('assigned_by_user','cancelled_by_user')->model()->findAll('id_user=:id', array(':id'=>$id));
         $historySuperVisor = UserSuperVisor::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));
         $array = array_merge($historyAuthor,$historyAdmin,$historyAccountant,$historyTenant,$historyStudent,$historyTrainer,$historyConsultant,$historyContentManager,$historyTeacherConsultant,$historySuperVisor);
         $history = [];
         foreach ($array as $value)
         {
-
             $role = $value->getAttributes();
             $role['role'] = $value->getRoleName();
-            if ($role['role'] == 'Автор'){
-                $_temp=[];
-                foreach($role as $key => $val)
-                {
-                    if($key === 'start_time') $key = 'start_date';
-                    $_temp[$key] = $val;
-                    if($key === 'end_time') $key = 'end_date';
-                    $_temp[$key] = $val;
-                }
-
-                $role = $_temp;
-                $relation = $value->getRelated('moduleAuthor');
-                if (isset($relation)){
-                    $role['module'] = $value->getRelated('moduleAuthor')->getAttributes(['title_ua']);
-                }
-            }
+            
             $relation = $value->getRelated('assigned_by_user');
             if (isset($relation)){
                 $role['assigned_by_user'] = $value->getRelated('assigned_by_user')->getAttributes(['firstName','middleName','secondName']);

@@ -69,12 +69,9 @@
                 <td>
                     <div class="tags">
                         <ul>
-                            <?php foreach($model->moduleTags as $tag){ ?>
-                                <li><span class="select-search-list-item_selection-remove">
-                                        <?php echo $tag->tag['tag_ua'] ?>
-                                    </span>
-                                </li>
-                            <?php } ?>
+                            <li ng-repeat="moduleTag in moduleTags track by $index">
+                                <span>{{moduleTag.tag}}</span>
+                            </li>
                         </ul>
                     </div>
                 </td>

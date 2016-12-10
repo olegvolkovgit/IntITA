@@ -20,9 +20,6 @@
                 <td data-title="'Додано'" sortable="'start_date'" filter="{'start_date': 'text'}">
                     {{row.start_date}}
                 </td>
-                <td data-title="'Скасовано'" sortable="'end_date'" filter="{'end_date': 'text'}">
-                    {{row.end_date}}
-                </td>
                 <td data-title="'Випуск'" sortable="'graduate_date'" filter="{'graduate_date': 'text'}">
                     {{row.graduate_date}}
                 </td>

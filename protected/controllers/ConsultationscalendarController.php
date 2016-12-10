@@ -60,7 +60,8 @@ class ConsultationscalendarController extends Controller
 		if(!$module->status)
 			throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
 		$modulePermission = new PayModules();
-		if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))) {
+		if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
+			&& !$lecture->module->checkPaidAccess(Yii::app()->user->getId()) ) {
 			throw new CHttpException(403, 'Консультацію можна замовити тільки якщо заняття проплачене або укладений договір');
 		} else {
 			if ($lecture->order > $enabledLessonOrder)
@@ -76,7 +77,7 @@ class ConsultationscalendarController extends Controller
 		$this->initialize($lectureId,$idCourse);
 
         $lecture = Lecture::model()->findByPk($lectureId);
-        $dataProvider = $lecture->module->getConsultants();
+        $dataProvider = $lecture->module->getTeacherConsultant(Yii::app()->user->getId());
 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -108,8 +109,9 @@ class ConsultationscalendarController extends Controller
 
 		$teacher = RegisteredUser::userById($idteacher);
         $lecture = Lecture::model()->findByPk($idlecture);
-        $consultant = new Consultant();
-        if($teacher->isConsultant() && !$consultant->checkModule($idteacher, $lecture->idModule)) {
+        $consultant = new TeacherConsultant();
+
+        if($teacher->isTeacherConsultant() && $consultant->checkModule($idteacher, $lecture->idModule)) {
 			if (Yii::app()->request->getPost('saveConsultation')) {
 				$numcons = explode(",", Yii::app()->request->getPost('timecons'));
 				for ($i = 0; $i < count($numcons); $i++) {

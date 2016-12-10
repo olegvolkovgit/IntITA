@@ -73,4 +73,4 @@ $this->renderPartial('/site/_shareMetaTagMain', array(
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'es5-shim.js'); ?>"></script>

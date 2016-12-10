@@ -161,11 +161,6 @@ class PayController extends TeacherCabinetController
         }
     }
 
-    public function actionCoursesByQuery($query)
-    {
-        echo Course::readyCoursesList($query);
-    }
-
     public function notify(StudentReg $student, $subject, $template, $params)
     {
         $transaction = Yii::app()->db->beginTransaction();

@@ -10,17 +10,6 @@ function payCtrl ($scope, $http, typeAhead, $state){
     $scope.user = null;
     $scope.module = null;
     $scope.course = null;
-    $scope.getUsers = function(value){
-        return typeAhead.getData(basePath+'/_teacher/cabinet/usersByQuery',{query : value});
-    };
-
-    $scope.getModules = function(value){
-        return typeAhead.getData(basePath+'/_teacher/_admin/teachers/modulesByQuery',{query : value});
-    };
-
-    $scope.getCourses = function(value){
-        return typeAhead.getData(basePath+'/_teacher/_admin/pay/coursesByQuery',{query : value});
-    };
 
     $scope.selectModule = function(item){
         $scope.module = item;
@@ -32,6 +21,28 @@ function payCtrl ($scope, $http, typeAhead, $state){
 
     $scope.selectCourse = function(item){
         $scope.course = item;
+    };
+
+    $scope.reloadUser = function(){
+        $scope.user=null;
+    };
+
+    $scope.reloadModule = function(){
+        $scope.module=null;
+    };
+
+    $scope.reloadCourse = function(){
+        $scope.course=null;
+    };
+
+    $scope.clearModule= function(){
+        $scope.selectedModule=null;
+        $scope.module=null;
+    };
+
+    $scope.clearCourse= function(){
+        $scope.selectedCourse=null;
+        $scope.course=null;
     };
 
     $scope.actionModule = function(action) {
@@ -53,13 +64,14 @@ function payCtrl ($scope, $http, typeAhead, $state){
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             })
                 .success(function(data){
-                    bootbox.alert(data,function(){
-                       $state.reload();
-                    });
+                    $scope.addUIHandlers(data);
+                    $scope.clearModule();
                 })
                 .error(function(data){
                     bootbox.alert(data);
                 })
+        }else{
+            bootbox.alert('Користувача або модуль не вибрано');
         }
     };
 
@@ -82,13 +94,14 @@ function payCtrl ($scope, $http, typeAhead, $state){
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
             })
                 .success(function(data){
-                    bootbox.alert(data,function(){
-                        $state.reload();
-                    });
+                    $scope.addUIHandlers(data);
+                    $scope.clearCourse();
                 })
                 .error(function(data){
                     bootbox.alert(data);
                 })
+        }else{
+            bootbox.alert('Користувача або курс не вибрано');
         }
     }
 }

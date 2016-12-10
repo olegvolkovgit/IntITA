@@ -56,7 +56,7 @@ class Invoice extends CActiveRecord {
             'agreement' => array(self::BELONGS_TO, 'UserAgreements', 'agreement_id'),
             'userCreated' => array(self::BELONGS_TO, 'StudentReg', 'user_created'),
             'userCancelled' => array(self::BELONGS_TO, 'StudentReg', 'user_cancelled'),
-            'internalPayment' => [self::HAS_MANY, 'InternalPays', '', 'on' => 't.id = internalPayment.invoice_id']
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', 'invoice_id', 'order' => 'internalPayment.create_date DESC']
         );
     }
 
@@ -151,10 +151,6 @@ class Invoice extends CActiveRecord {
         return '';
     }
 
-    public function isPayed() {
-        return !empty($this->pay_date);
-    }
-
     public function isWaitPaymentDate() {
         return (strtotime($this->payment_date) < time());
     }
@@ -194,29 +190,6 @@ class Invoice extends CActiveRecord {
         $criteria->addInCondition('id', $invoicesListId);
 
         return Invoice::model()->findAll($criteria);
-    }
-
-    public static function getInvoicesByData($agreement, $number, $user, $course, $module) {
-        $criteria = new CDbCriteria();
-
-        if ($number != "") {
-            $agr = UserAgreements::model()->findAllByPk($number);
-            return $agr;
-        }
-        if ($user != "") {
-            $criteria->addCondition('user_id=' . $user, 'OR');
-        }
-        if ($course != "") {
-            $service = CourseService::getService($course);
-            $criteria->addCondition('service_id=' . $service->service_id, 'OR');
-        }
-        if ($module != "") {
-            $service = ModuleService::getService($module);
-            $criteria->addCondition('service_id=' . $service->service_id, 'OR');
-        }
-
-        return UserAgreements::model()->findAll($criteria);
-
     }
 
     public function getAgreementNumber() {
@@ -275,6 +248,52 @@ class Invoice extends CActiveRecord {
 
     public function getUnpaidSum() {
         return $this->summa - $this->getPaidSum();
+    }
+
+    public function isPaid() {
+        return $this->summa == $this->getPaidSum();
+    }
+
+    public function getFinallyPaymentDate(){
+        $date = null;
+        if ($this->isPaid()) {
+            $date = $this->internalPayment[0]->create_date;
+        }
+        return $date;
+    }
+
+    public function isPaidWithOverdue(){
+        $result = false;
+        if ($this->isPaid()) {
+            $shouldBePaidTo = new DateTime($this->expiration_date);
+            $actualPaymentDate = new DateTime($this->getFinallyPaymentDate());
+            if ($shouldBePaidTo < $actualPaymentDate) {
+                $result = true;
+            }
+        }
+        return $result;
+    }
+
+    public function getOverdueInterval() {
+        $interval = null;
+        $shouldBePaidTo = new DateTime($this->expiration_date);
+        $actualPaymentDate = new DateTime($this->getFinallyPaymentDate());
+        if ($actualPaymentDate) {
+            $interval = $shouldBePaidTo->diff($actualPaymentDate);
+        }
+        return $interval;
+    }
+
+    public function setNewStartDate($date) {
+        $createdDate = new DateTimeImmutable($date);
+        $paymentDate = $createdDate->add(DateInterval::createFromDateString('1 month'));
+        $expirationDate = $paymentDate->add(new DateInterval('P' . Config::getExpirationTimeInterval() . 'D'));
+
+        $this->date_created = $createdDate->format('Y-m-d G:i:s');
+        $this->payment_date = $paymentDate->format('Y-m-d G:i:s');
+        $this->expiration_date = $expirationDate->format('Y-m-d G:i:s');
+        $this->save();
+        return $this->payment_date;
     }
 
     /**

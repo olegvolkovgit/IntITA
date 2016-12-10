@@ -6,17 +6,12 @@
 <li>
     <a href="#/content_manager"  ng-click="changeView('content_manager')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Контент менеджер
-        <span class="fa arrow"></span >
+        <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
         <li>
             <a href="#/content_manager/authors">
-                Автори модулів
-            </a>
-        </li>
-        <li>
-            <a href="#/content_manager/consultants">
-                Консультанти
+                Автори контента
             </a>
         </li>
         <li>

@@ -18,4 +18,4 @@
             </a>
         </li>
     </ul>
-<?php $this->renderPartial('_form', array('model' => $model, 'scenario' => 'update')); ?>
+<?php $this->renderPartial('_teacherForm', array('model' => $model, 'scenario' => 'update')); ?>

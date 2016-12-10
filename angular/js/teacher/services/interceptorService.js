@@ -6,7 +6,7 @@ angular
     .service('errorInterceptor', function ($q) {
         var service = this;
         service.responseError = function (response) {
-            if (response.status == 403 || response.status == 500) {
+            if (response.status == 403 || response.status == 50) {
                 window.location = basePath + '/cabinet';
             }
             return $q.reject(response);

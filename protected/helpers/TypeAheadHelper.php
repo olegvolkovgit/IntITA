@@ -11,7 +11,7 @@ class TypeAheadHelper {
         if (class_exists($className) && is_subclass_of($className, 'CActiveRecord')) {
             $criteria = new CDbCriteria(['limit' => $limit]);
             foreach ($fields as $field) {
-                $criteria->addSearchCondition($field, $value, true, 'OR');
+                $criteria->addSearchCondition('LOWER('.$field.')', mb_strtolower($value , 'UTF-8'), true, 'OR');
             }
             $models = $className::model()->findAll($criteria);
             return $models;

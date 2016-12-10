@@ -6,7 +6,7 @@ angular
     .module('teacherApp')
     .factory('superVisorService', ['$resource',
         function ($resource) { 
-            var url = basePath+'/_teacher/_super_visor/superVisor';
+            var url = basePath+'/_teacher/_supervisor/superVisor';
             return $resource(
                 '',
                 {},
@@ -41,6 +41,22 @@ angular
                     },
                     studentsList: {
                         url: url + '/getStudentsList',
+                        method: 'GET',
+                    },
+                    courseAccessList: {
+                        url: url + '/getCourseAccessList',
+                        method: 'GET',
+                    },
+                    moduleAccessList: {
+                        url: url + '/getModuleAccessList',
+                        method: 'GET',
+                    },
+                    subgroupData: {
+                        url: url + '/getSubgroupData',
+                        method: 'GET',
+                    },
+                    groupData: {
+                        url: url + '/getGroupData',
                         method: 'GET',
                     },
                 });

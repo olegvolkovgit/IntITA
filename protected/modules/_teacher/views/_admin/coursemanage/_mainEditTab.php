@@ -9,14 +9,9 @@
 <br>
 <div class="formMargin">
     <div class="form-group">
-        <?php echo $form->labelEx($model, 'language', array('for' => 'language')); ?>
-        <?php if ($scenario == "update") {
-            echo $form->textField($model, 'language', array('class' => 'form-control', 'disabled'=>true));
-        }else {
-            echo $form->dropDownList($model, 'language', array(
-            'ua' => 'Українська', 'en' => 'English', 'ru' => 'Русский'),
-            array('options' => array('ua' => array('selected' => true)), 'empty' => 'Виберіть мову', 'class' => 'form-control'));
-        } ?>
+        <?php echo $form->labelEx($model, 'language'); ?>
+        <?php echo $form->dropDownList($model, 'language', array('ua' => 'українською', 'ru' => 'російською',
+            'en' => 'англійською'), array('class' => 'form-control', 'disabled'=>$model->isNewRecord?false:true)); ?>
         <?php echo $form->error($model, 'language'); ?>
     </div>
 
