@@ -134,6 +134,7 @@ class SchedulerTasksController extends TeacherCabinetController
 
 	public function actionGetTasksList(){
         $adapter = new NgTableAdapter('SchedulerTasks',$_GET);
+
         echo json_encode($adapter->getData());
     }
 }
