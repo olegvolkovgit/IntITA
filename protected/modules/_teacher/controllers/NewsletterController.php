@@ -18,6 +18,11 @@ class NewsletterController extends TeacherCabinetController
         $this->renderPartial('index');
     }
 
+    public function actionView()
+    {
+        $this->renderPartial('view');
+    }
+
     public function actionGetRoles(){
         $roles = AllRolesDataSource::roles();
         $result = [];

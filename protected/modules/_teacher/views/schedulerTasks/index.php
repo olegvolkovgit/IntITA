@@ -6,10 +6,11 @@
                     <colgroup>
                         <col width="5%"/>
                         <col width="8%"/>
-                        <col width="20%"/>
+                        <col width="15%"/>
+                        <col width="10%"/>
                         <col width="15%"/>
                         <col width="15%"/>
-                        <col width="15%"/>
+                        <col width="10%"/>
                         <col width="10%"/>
                         <col width="10%"/>
                     </colgroup>
@@ -31,6 +32,10 @@
                             <span ng-if="row.status == 4">Помилка</span>
                         </td>
                         <td data-title="'Помилка'">{{row.error}}</td>
+                        <td data-title="'Дії'"><span><button class="btn btn-info" ng-click="changeView('newsletter/template/view/'+row.id)"><i class="glyphicon glyphicon-eye-open"></i></button>
+								<span><button ng-show="row.status == 1"class="btn btn-warning" ng-click="changeView('newsletter/template/edit/'+row.id)"><i class="glyphicon glyphicon-pencil"></i></button>
+								<span><button ng-show="row.status == 1" class="btn btn-danger" ng-click="deleteTemplate(row.id)"><i class="glyphicon glyphicon-trash"></i></button>
+                        </td>
                     </tr>
                 </table>
             </div>
