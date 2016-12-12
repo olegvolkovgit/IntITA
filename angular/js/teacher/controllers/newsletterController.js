@@ -38,7 +38,7 @@ angular
     })
 ;
 
-function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
+function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $stateParams) {
 
     $scope.taskTypes = [{
         name: 'Негайно',
@@ -92,14 +92,13 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
         $scope.hours = 1;
         $scope.minutes = 1;
     }
-    init();
+   init();
 
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
     var groupsArray =$resource(basePath+'/_teacher/newsletter/getGroups');
     var subGroupsArray =$resource(basePath+'/_teacher/newsletter/getSubGroups');
     var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
     $scope.getRoles = function(query, querySelectAs) {
-        console.log(query);
       return rolesArray.query().$promise.then(function(response) {
             return response;
         });
@@ -185,4 +184,32 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
     $scope.open1 = function() {
         $scope.open = !$scope.open;
     };
+
+    function loadModel(id) {
+        $http.get(basePath+'/_teacher/schedulerTasks/getModel?id='+id).
+        then(function (response) {
+            $scope.model = response.data;
+            parameters = JSON.parse($scope.model.parameters);
+            var recipients  = parameters.recipients;
+            $scope.selectedRecipients = [];
+            for (var item in recipients){
+                $scope.selectedRecipients.push({email:recipients[item]});
+            }
+            $scope.newsletterType = parameters.type;
+            $scope.subject = parameters.subject;
+            $scope.message = parameters.message;
+        });
+    }
+
+    if ($state.is('scheduler/task/:id') || $state.is('scheduler/task/edit/:id')){
+        loadModel($stateParams.id);
+    };
+
+    $scope.editNewsletter = function(modelId){
+        $state.go('scheduler/task/edit/:id',{id:modelId});
+
+        //loadModel(modelId);
+    }
+
+
 }

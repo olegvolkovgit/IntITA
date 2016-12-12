@@ -6,7 +6,7 @@ angular
     .controller('schedulerTasksCtrl',schedulerTasksCtrl);
 
 
-function schedulerTasksCtrl($scope, $state, $resource, NgTableParams){
+function schedulerTasksCtrl($scope, $state, $resource, NgTableParams, $http){
 
     $scope.repeatFilter = [{ id: 1, title: "Однократно"},
                           { id: 2, title: "Раз на день"},
@@ -38,5 +38,31 @@ function schedulerTasksCtrl($scope, $state, $resource, NgTableParams){
             });
         }
     });
+
+    $scope.viewTask = function(taskId){
+        $state.go('scheduler/task/:id',{id:taskId});
+    }
+
+    $scope.cancelTask = function(taskId){
+        bootbox.confirm('Ви впевнені, що бажаєта відмінити завдання',function (response) {
+            if (response){
+                $http({
+                    method:'POST',
+                    url: basePath+'/_teacher/schedulerTasks/cancelTask',
+                    data: $jq.param({
+                        "id": taskId,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).success(function (response) {
+                    if (response == 'success'){
+                        $scope.schedulerTasksTable.reload();
+                    }
+                    else bootbox.alert('Помилка')
+                })
+            }
+        }).error(function(){
+            bootbox.alert('Помилка')
+        })
+    }
 
 }

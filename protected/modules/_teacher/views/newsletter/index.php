@@ -92,7 +92,7 @@
                     <label>Кориcтувачі</label>
                     <br>
                     <oi-select
-                        oi-options="user.email for user in getUsers($query)"
+                        oi-options="user.email for user in getUsers($query, $selectedAs)"
                         ng-model="selectedRecipients"
                         multiple
                         placeholder="Кому"
