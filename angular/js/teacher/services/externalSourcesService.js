@@ -23,7 +23,15 @@ angular
                         transformRequest : function (data, headersGetter) {
                             return transformRequest(data);
                         }
-                    }
+                    },
+                    getExternalSourcesList: {
+                        url: url + '/getSourcesList',
+                        method: 'GET',
+                    },
+                    externalSource: {
+                        url: url + '/getExternalSource',
+                        method: 'GET',
+                    },
                 }
             );
         }]);

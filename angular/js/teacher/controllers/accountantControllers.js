@@ -500,14 +500,37 @@ angular
         }
     })
 
-    .controller('externalSourcesCtrl', function ($scope) {
-        $jq('#externalSources').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
+    .controller('externalSourcesTableCtrl', function ($scope, externalSourcesService, NgTableParams, $http) {
+        $scope.changePageHeader('Джерела зовнішніх коштів');
+
+        $scope.externalSourcesParams = new NgTableParams({}, {
+            getData: function (params) {
+                return externalSourcesService
+                    .getExternalSourcesList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
             }
-        );
+        });
+
+        $scope.deleteExternalSources=function (id){
+            bootbox.confirm('Ви впевнені що хочете видалити зовнішнє джерело коштів?', function(result) {
+                if (result) {
+                    $http({
+                        url: basePath+'/_teacher/_accountant/externalSources/delete',
+                        method: "POST",
+                        data: $jq.param({id: id}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).then(function successCallback(response) {
+                        $scope.externalSourcesParams.reload();
+                    }, function errorCallback() {
+                        bootbox.alert("Операцію не вдалося виконати.");
+                    });
+                }
+            });
+        }
     })
 
     .controller('cancelReasonTypeCtrl', function ($scope) {
@@ -594,7 +617,67 @@ angular
                 }
             }
         ]
-    );
+    )
+
+    .controller('externalSourceCtrl', function ($scope, $http, $stateParams, externalSourcesService) {
+        $scope.loadExternalSourceData=function(id){
+            externalSourcesService.externalSource({'id':id}).$promise
+                .then(function successCallback(response) {
+                    $scope.source=response;
+                    $scope.source.cash=parseInt($scope.source.cash);
+                }, function errorCallback() {
+                    bootbox.alert("Отримати дані джерела коштів не вдалося");
+                });
+        };
+        
+        if($stateParams.id){
+            $scope.modelId=$stateParams.id;
+            $scope.loadExternalSourceData($scope.modelId);
+        }
+        $scope.sendExternalSourceForm= function (scenario, name, cash, modelId) {
+            if(scenario=='create') $scope.createExternalSource(name, cash);
+            else if(scenario=='update') $scope.updateExternalSource(modelId, name, cash);
+        };
+
+        $scope.clearForm = function () {
+            $scope.source.name=null;
+            $scope.externalSourceForm.name.$setPristine();
+        };
+        
+        $scope.createExternalSource= function (name, cash) {
+            $http({
+                url: basePath+'/_teacher/_accountant/externalSources/createExternalSource',
+                method: "POST",
+                data: $jq.param({
+                    name: name,
+                    cash: cash
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+                $scope.clearForm();
+            }, function errorCallback() {
+                bootbox.alert("Створити зовнішнє джерело не вдалося. Помилка сервера.");
+            });
+        };
+
+        $scope.updateExternalSource= function (id, name, cash) {
+            $http({
+                url: basePath+'/_teacher/_accountant/externalSources/updateExternalSource',
+                method: "POST",
+                data: $jq.param({
+                    id:id,
+                    name: name,
+                    cash: cash
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+            }, function errorCallback() {
+                bootbox.alert("Оновити зовнішнє джерело не вдалося. Помилка сервера.");
+            });
+        };
+    });
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
