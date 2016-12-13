@@ -5,11 +5,7 @@ angular
     .module('teacherApp')
     .controller('studentCtrl', studentCtrl)
     .controller('offlineEducationCtrl', offlineEducationCtrl)
-    .controller('studentFinancesCtrl', function ($scope) {
-        initPayCoursesList();
-        initPayModulesTable();
-        initAgreementsTable();
-    });
+    .controller('invoicesByAgreement', invoicesByAgreement)
 
 function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) {
 
@@ -72,7 +68,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
         });
     };
 
-    $scope.getStudentAreements = function(){
+    $scope.getStudentAgreements = function(){
         $scope.agreementsTable = new NgTableParams({
             page: 1,
             count: 10
@@ -135,11 +131,6 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
             }
         })
     }
-
-    $scope.showStudentAgreement = function(agreementId, agreementName){
-        $scope.changePageHeader('Договір'+ agreementName);
-        $state.go('students/agreement/:agreementId',{agreementId:agreementId},{reload:true});
-    };
 }
 
 function offlineEducationCtrl($scope, $http) {
@@ -152,5 +143,25 @@ function offlineEducationCtrl($scope, $http) {
         $scope.subgroups=response.data;
     }, function errorCallback() {
         bootbox.alert("Завантажити дані офлайн навчання не вдалося. Зв\'яжіться з адміністрацією.");
+    });
+}
+
+function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService) {
+    $scope.changePageHeader('Договір/рахунки');
+
+    $scope.invoiceUrl=basePath+'/invoice/';
+    
+    $scope.invoicesTable = new NgTableParams({}, {
+        getData: function (params) {
+            $scope.params=params.url();
+            $scope.params.id=$stateParams.agreementId;
+            return studentService
+                .invoicesByAgreement($scope.params)
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
     });
 }

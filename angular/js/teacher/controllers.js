@@ -14,10 +14,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('studentCtrl', studentCtrl);
-
-angular
-    .module('teacherApp')
     .controller('contentManagerCtrl', contentManagerCtrl);
 
 angular
@@ -504,10 +500,6 @@ function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
             });
         }
     }
-}
-
-function studentCtrl($scope, $location) {
-    $scope.changePageHeader('Студент');
 }
 
 function contentManagerCtrl($scope, $location) {

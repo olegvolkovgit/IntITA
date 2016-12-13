@@ -86,33 +86,6 @@ function getInvoicesListByNumber(url) {
     }
 }
 
-function getAgreementsListByUser(url) {
-    document.getElementById('selectUserInvoices').style.display = 'none';
-    document.getElementById('userAgreement').style.display = 'none';
-
-    var user = document.getElementsByName('user');
-    var userId = '';
-    for (var j = 0; j < user.length; j++) {
-        if (user[j].checked) {
-            userId = user[j].value;
-            break;
-        }
-    }
-
-    $jq.ajax({
-        type: "POST",
-        url: url,
-        data: {
-            'userId': userId
-        },
-        cache: false,
-        success: function (response) {
-            document.getElementById('userAgreement').style.display = 'block';
-            $jq('div[name="userAgreement"]').html(response);
-        }
-    });
-}
-
 function getUserList(url) {
     var number = document.getElementById('userEmail').value;
     if (number[2] != undefined) {

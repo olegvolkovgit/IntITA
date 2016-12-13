@@ -9,26 +9,20 @@
         навчання: <?= AbstractIntITAService::getServiceById($agreement->service->service_id)->getEducationForm()->title_ua ?></h4>
     <h4>Схема проплат: <?= $agreement->getPaymentSchema()->name; ?></h4>
 </div>
-<div class="col-lg-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="invoicesTable">
-                    <thead>
-                    <tr>
-                        <th>Рахунок</th>
-                        <th>Сума, грн.</th>
-                        <th>Дата сплати</th>
-                        <th>Надрукувати</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="panel panel-default">
+    <div class="panel-body" >
+        <table ng-table="invoicesTable" class="table table-striped table-bordered table-hover">
+            <tr ng-repeat="row in $data track by $index">
+                <td data-title="'Рахунок'">
+                    <a href="{{invoiceUrl}}{{row.id}}">Рахунок № {{row.number}}</a>
+                </td>
+                <td data-title="'Загальна сума, грн.'">{{row.summa}}</td>
+                <td data-title="'Сплачено, грн.'">{{row.summa}}</td>
+                <td data-title="'Сплатити до'">{{$index==0 ? row.expiration_date : row.payment_date}}</td>
+                <td data-title="'Надрукувати'">
+                    <a href="{{invoiceUrl}}{{row.id}}/?nolayout=1">переглянути</a>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
-<script>
-    initInvoicesTable('<?=$agreement->id?>');
-</script>

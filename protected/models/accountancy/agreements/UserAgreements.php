@@ -303,7 +303,7 @@ class UserAgreements extends CActiveRecord
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
                 )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
-            $model->provideAccess();
+//            $model->provideAccess();
         } else {
             throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
