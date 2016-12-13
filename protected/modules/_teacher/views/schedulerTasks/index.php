@@ -31,11 +31,11 @@
                             <span ng-if="row.status == 3">Завершено</span>
                             <span ng-if="row.status == 4">Помилка</span>
                             <span ng-if="row.status == 5">Редагується</span>
-                            <span ng-if="row.status == 6">Відмінено</span>
+                            <span ng-if="row.status == 6">Скасовано</span>
                         </td>
                         <td data-title="'Помилка'">{{row.error}}</td>
                         <td data-title="'Дії'"><span><button class="btn btn-info" ng-click="viewTask(row.id)"><i class="glyphicon glyphicon-eye-open"></i></button>
-								<span><button ng-show="row.status == 1"class="btn btn-warning" ng-click="changeView('newsletter/template/edit/'+row.id)"><i class="glyphicon glyphicon-pencil"></i></button>
+								<span><button ng-show="row.status == 1"class="btn btn-warning" ng-click="editTask(row.id)"><i class="glyphicon glyphicon-pencil"></i></button>
 								<span><button ng-show="row.status == 1" class="btn btn-danger" ng-click="cancelTask(row.id)"><i class="glyphicon glyphicon-trash"></i></button>
                         </td>
                     </tr>

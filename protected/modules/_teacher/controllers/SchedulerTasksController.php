@@ -22,16 +22,20 @@ class SchedulerTasksController extends TeacherCabinetController
 
     public function actionEdit($id)
     {
-        $_model = $this->loadModel($id);
-        switch ($_model->type){
+        $model = $this->loadModel($id);
+        switch ($model->type){
             case 1:
+                if ($model->status==SchedulerTasks::STATUSNEW){
+                    $model->status = SchedulerTasks::STATUSCANCEL;
+                    $model->save();
+                };
+
                 Yii::app()->runController('_teacher/newsletter/index');
                 break;
         }
     }
 
 	public function actionGetModel(){
-
         if (isset($_GET['id'])){
             $_model = $this->loadModel($_GET['id']);
             echo json_encode($_model->attributes);

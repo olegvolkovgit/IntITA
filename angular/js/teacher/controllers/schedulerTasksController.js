@@ -20,7 +20,7 @@ function schedulerTasksCtrl($scope, $state, $resource, NgTableParams, $http){
                             { id: 2, title: "В процесі"},
                             { id: 3, title: "Завершено"},
                             { id: 4, title: "Помилка"},
-                            { id: 5, title: "Скасовано"}
+                            { id: 6, title: "Скасовано"}
 
     ];
 
@@ -42,6 +42,11 @@ function schedulerTasksCtrl($scope, $state, $resource, NgTableParams, $http){
     $scope.viewTask = function(taskId){
         $state.go('scheduler/task/:id',{id:taskId});
     }
+
+    $scope.editTask = function(taskId){
+        $state.go('scheduler/task/edit/:id',{id:taskId});
+    }
+
 
     $scope.cancelTask = function(taskId){
         bootbox.confirm('Ви впевнені, що бажаєта відмінити завдання',function (response) {

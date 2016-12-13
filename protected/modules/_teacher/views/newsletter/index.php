@@ -163,7 +163,7 @@
                             ng-click="cancel()">
                         Скасувати
                     </button>
-                    <button type="reset" class="btn btn-default"
+                    <button class="btn btn-default"
                             ng-bootbox-title="Оберіть шаблон повідомлення"
                             ng-bootbox-custom-dialog
                             ng-bootbox-class-name="mailTemplate"

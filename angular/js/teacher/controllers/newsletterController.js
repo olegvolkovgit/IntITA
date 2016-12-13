@@ -127,7 +127,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     };
 
     $scope.send = function () {
-        if ($scope.newsletterForm.$valid && $scope.newsletterForm.$dirty && $scope.newsletterType) {
+        if ($scope.newsletterForm.$valid && $scope.newsletterType) {
             var recipients = [];
             angular.forEach($scope.selectedRecipients, function (value) {
                 switch ($scope.newsletterType) {
@@ -191,11 +191,46 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
             $scope.model = response.data;
             parameters = JSON.parse($scope.model.parameters);
             var recipients  = parameters.recipients;
-            $scope.selectedRecipients = [];
-            for (var item in recipients){
-                $scope.selectedRecipients.push({email:recipients[item]});
-            }
             $scope.newsletterType = parameters.type;
+            switch ($scope.newsletterType){
+                case 'users':
+                    $scope.selectedRecipients = [];
+                    for (var item in recipients){
+                        $scope.selectedRecipients.push({email:recipients[item]});
+                    }
+                    break;
+                case 'groups':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getGroupsById',
+                        data: $jq.param({groups:recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    })
+                    break;
+                case 'subGroups':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getSubGroupsById',
+                        data: $jq.param({subGroups:recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    })
+                    break;
+                case 'roles':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getRolesById',
+                        data: $jq.param({roles:recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    });
+                    break;
+            }
+
             $scope.subject = parameters.subject;
             $scope.message = parameters.message;
         });
