@@ -43,7 +43,8 @@ function addExternalPayment(externalSources, externalPayments, companies) {
     return {
         scope: {
             'document': '=document',
-            'showSaveButton': '=showSaveButton'
+            'showSaveButton': '=showSaveButton',
+            'formDirty': '=formDirty'
         },
         link: link,
         templateUrl: basePath+'/angular/js/teacher/templates/accountancy/addExternalPayment.html'

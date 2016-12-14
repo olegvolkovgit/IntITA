@@ -41,6 +41,8 @@ class ExternalPays extends CActiveRecord
 		return array(
 			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose, companyId', 'required', 'message'=>'Поле \'{attribute}\' не може бути пустим'),
 			array('createUser, userId, companyId', 'numerical', 'integerOnly'=>true),
+			array('amount', 'numerical', 'min'=>0, 'message'=>'Поле \'{attribute}\' має містити дані в числовому форматі'),
+			array('documentDate', 'date', 'format' => 'yyyy-M-d', 'message' => 'Поле \'{attribute}\' має містити дані в форматі рррр-мм-дд'),
 			array('sourceId, amount', 'length', 'max'=>10),
 			array('documentPurpose', 'length', 'max'=>512),
 			array('documentNumber', 'length', 'max'=>100),
@@ -73,12 +75,12 @@ class ExternalPays extends CActiveRecord
             'id' => 'Pay code',
             'createDate' => 'Дата створення ',
             'createUser' => 'Хто створив',
-            'sourceId' => 'Зовнішні джерела',
+            'sourceId' => 'Джерело коштів',
             'userId' => 'Хто платить',
-            'documentDate' => 'Дата створення платежу',
-            'amount' => 'Сумма до сплати',
-            'documentPurpose' => 'Пояснення платежу',
-			'companyId' => 'ID компанії'
+            'documentDate' => 'Дата документа',
+            'amount' => 'Сумма',
+            'documentPurpose' => 'Призначення платежу',
+			'companyId' => 'Компанія'
 		);
 	}
 

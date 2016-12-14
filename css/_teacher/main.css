@@ -618,3 +618,6 @@ div.loader > div {
     content:"*";
     color:red;
 }
+.ng-toast.ng-toast--right .ng-toast__message {
+    text-align: left;
+}

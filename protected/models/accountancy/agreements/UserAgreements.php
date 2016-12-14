@@ -274,7 +274,6 @@ class UserAgreements extends CActiveRecord
         $user = StudentReg::model()->findByPk($userId);
         $serviceModel = $modelFactory::getService($param_id, $educForm);
         $billableObject = $serviceModel->getBillableObject();
-        $so = new SpecialOfferFactory($user, $serviceModel);
 
         $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);
         $schema = array_filter($schemas, function($item) use ($schemaId) {
@@ -303,7 +302,6 @@ class UserAgreements extends CActiveRecord
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
                 )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
-//            $model->provideAccess();
         } else {
             throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
@@ -529,7 +527,7 @@ class UserAgreements extends CActiveRecord
 
     public function updateNextInvoicesDate() {
         $lastPaidInvoice = $this->getLastPaidInvoice();
-        if ($lastPaidInvoice->isPaidWithOverdue()) {
+        if ($lastPaidInvoice && $lastPaidInvoice->isPaidWithOverdue()) {
             $newDate = $lastPaidInvoice->getFinallyPaymentDate();
             foreach ($this->invoice as $invoice) {
                 if (!$invoice->isPaid()) {

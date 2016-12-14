@@ -75,15 +75,15 @@ angular
         'userService',
         'operationsService',
         'externalPaymentsService',
-        function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments) {
-
+        'ngToast',
+        function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments, ngToast) {
             $scope.typeaheadProviders = {
                 user: {
                     name: 'користувачу',
                     searchField: 'email',
                     provider: user,
                     label: function (user) {
-                        return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
+                        return user ? (((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ' <' + (user.email || ''))+'>').trim(): '';
                     },
                     onSelect: function ($model) {
                         $scope.operation.userId = $model.id;
@@ -158,7 +158,7 @@ angular
                 $scope.agreementsList = [];
                 $scope.invoicesList = [];
                 $scope.selected = '';
-                $scope.messages = [];
+                $scope.toastMessages = [];
             };
             $scope.initData();
 
@@ -168,7 +168,8 @@ angular
 
             $scope.invoicesSum = function () {
                 return $scope.operation.invoices.reduce(function (sum, item) {
-                    return sum += Number(item.amount)
+                    $scope.operation.sum=sum += Number(item.amount);
+                    return $scope.operation.sum;
                 }, 0);
             };
 
@@ -231,20 +232,21 @@ angular
             };
 
             $scope.createOperation = function createOperation() {
-                $scope.messages = [];
+                $scope.toastMessages='';
+                ngToast.dismiss();
                 $scope.loaderControl.show();
                 var sendData = {};
                 sendData.userId = $scope.operation.userId;
                 sendData.agreementId = $scope.operation.agreementId;
                 sendData.invoices = $scope.operation.invoices.map(function (item) {
-                    return {id: item.id, amount: item.summa}
+                    return {id: item.id, amount: item.amount}
                 });
 
                 $scope.getExternalPayment()
                     .then(
                         function success(data) {
                             sendData.sourceId = data.id;
-                            sendData.amount = data.amount;
+                            sendData.amount = $scope.operation.sum;
                             return operations
                                 .create(null, sendData)
                                 .$promise;
@@ -256,29 +258,49 @@ angular
                                 if (response.message) {
                                     if (_.isArray(response.message)) {
                                         response.message.forEach(function(item) {
-                                            $scope.messages.push({type: 'success', message: item});
+                                            $scope.toastMessages+=item+'<br>';
+                                        });
+                                        ngToast.create({
+                                            className:'success',
+                                            content:response.message
                                         });
                                     } else {
-                                        $scope.messages.push({type: 'success', message: 'Операція пройшла успішно'});
+                                        ngToast.create({
+                                            className:'success',
+                                            content:'Операція пройшла успішно'
+                                        });
                                     }
                                 }
                             } else {
-                                $scope.messages.push({type: 'danger', message: response.message});
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'danger',
+                                    content:response.message
+                                })
                             }
                             $scope.loaderControl.hide();
                         })
                     .catch(
                         function (response) {
                             if (response.message) {
-                                if (_.isArray(response.message)) {
-                                    response.message.forEach(function(item) {
-                                        $scope.messages.push({type: 'danger', message: item});
-                                    });
-                                } else {
-                                    $scope.messages.push({type: 'danger', message: response.message});
-                                }
+                                $scope.formDirty=true;
+                                response.message.forEach(function(item) {
+                                    $scope.toastMessages+=item+'<br>';
+                                });
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'danger',
+                                    content : $scope.toastMessages,
+                                })
                             } else {
-                                $scope.messages.push({type: 'danger', message: 'Невдачка'});
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'danger',
+                                    content:"Виникла помилка"
+                                })
                             }
                             $scope.loaderControl.hide();
                         });
@@ -338,10 +360,6 @@ angular
                 if (id) {
                     $state.go('accountant/invoice/', {invoiceId: id});
                 }
-            };
-
-            $scope.closeMessage = function closeMessage(index) {
-                $scope.messages.splice(index, 1);
             };
         }])
 
