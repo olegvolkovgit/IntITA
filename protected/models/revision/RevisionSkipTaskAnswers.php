@@ -154,6 +154,11 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
     public static function checkSkipAnswer($quizId, $answers) {
         $isDone = true;
         $skipTaskAnswers = RevisionSkipTask::model()->findByAttributes(array('condition' => $quizId))->answers;
+
+        if(!$skipTaskAnswers){
+            return 'noAnswers';
+        }
+
         usort($skipTaskAnswers, function ($a, $b) {
             return $a->answer_order-$b->answer_order;
         });

@@ -56,7 +56,9 @@ function skipTaskCtrl($http, $scope) {
             cache: false
         }).then(function successCallback(response) {
             $('#ajaxLoad').hide();
-            if(response.data)
+            if(response.data == 'noAnswers') {
+                bootbox.alert("<span style='color:red'>Виникла помилка при збережені відповідей на завдання. Перезбережіть завдання ревізії або зв\'яжіться з адміністрацією</span>")
+            }else if(response.data)
                 bootbox.alert("<span style='color:green'>Відповідь на завдання вірна</span>");
             else bootbox.alert("<span style='color:red'>Відповідь на завдання не вірна</span>");
             button.removeAttr('disabled');
