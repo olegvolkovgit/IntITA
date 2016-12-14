@@ -1,8 +1,8 @@
 <div class="form-horizontal m-t-10">
-
+    <form autocomplete="off" name="addExternalPayment"  novalidate>
     <div class="form-group row">
         <div class="col-md-4">
-            <label for="source" class="control-label">Джерело</label>
+            <label for="source" class="control-label required">Джерело коштів</label>
         </div>
         <div class="col-md-8">
             <select id='source' class="form-control form-inline" ng-model="document.sourceId">
@@ -13,7 +13,7 @@
 
     <div class="form-group row">
         <div class="col-md-4">
-            <label for="source" class="control-label">Компанія</label>
+            <label for="source" class="control-label required">Компанія</label>
         </div>
         <div class="col-md-8">
             <select id='company' class="form-control form-inline" ng-model="document.companyId">
@@ -30,19 +30,37 @@
             <input type="text" id="docNumber" class="form-control" ng-model="document.documentNumber">
         </div>
     </div>
-
     <div class="form-group">
         <div class="col-md-4">
-            <label for="docDate" class="control-label">Дата документу</label>
+            <label class="control-label required">Дата документу</label>
         </div>
-        <div class="col-md-8">
-            <input type="text" id="docDate" class="form-control" ng-model="document.documentDate">
+        <div class="col-md-4" ng-controller="datePickerCtrl">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="startDateOptions.open()"><i
+                            class="glyphicon glyphicon-calendar"></i></span>
+                </span>
+                <input type="text" ng-pattern="/[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])/"
+                       name="docDate" required
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="document.documentDate"
+                       is-open="startDateOptions.popupOpened"
+                       datepicker-options="startDateOptions"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'>
+            </div>
+            <div ng-cloak  class="clientValidationError" ng-show="addExternalPayment['docDate'].$dirty && addExternalPayment['docDate'].$invalid">
+                <span ng-show="addExternalPayment['docDate'].$error.required">Поле обо'язкове для заповнення</span>
+                <span ng-show="addExternalPayment['docDate'].$error.date">Введи дату в форматі рррр-мм-дд</span>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-4">
-            <label for="amount" class="control-label">Сума</label>
+            <label for="amount" class="control-label required">Сума</label>
         </div>
         <div class="col-md-8">
             <input id="amount" class="form-control" rows="3" ng-model="document.amount">
@@ -51,10 +69,10 @@
 
     <div class="form-group">
         <div class="col-md-4">
-            <label for="docPurpose" class="control-label">Призначення платежу</label>
+            <label for="docPurpose" class="control-label required">Призначення платежу</label>
         </div>
         <div class="col-md-8">
-            <textarea id="docPurpose" class="form-control" rows="3" ng-model="document.documentPurpose"></textarea>
+            <textarea style="resize:none" id="docPurpose" class="form-control" rows="3" ng-model="document.documentPurpose"></textarea>
         </div>
     </div>
 
@@ -63,15 +81,14 @@
             <label for="docComment">Коментар</label>
         </div>
         <div class="col-md-8">
-            <textarea id="docComment" class="form-control" rows="3" ng-model="document.comment"></textarea>
+            <textarea style="resize:none" id="docComment" class="form-control" rows="3" ng-model="document.comment"></textarea>
         </div>
     </div>
 
     <div class="form-group" ng-show="showSaveButton">
-        <div class="col-md6"></div>
-        <div class="col-md6">
+        <div class="col-md-4 pull-right">
             <button class="form-control form-inline" ng-click="saveExternalPayment()">Зберегти зовнішній платіж</button>
         </div>
     </div>
-
+    </form>
 </div>

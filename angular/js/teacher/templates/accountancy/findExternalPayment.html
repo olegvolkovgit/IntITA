@@ -1,24 +1,20 @@
 <div class="form-horizontal m-t-10">
-    <div class="form-group row">
-        <div class="input-group m-b-10">
-            <span ng-show="!loading && !noResults" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-pencil"></i></span>
-            <span ng-show="loading" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-refresh"></i></span>
-            <span ng-show="noResults" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-remove"></i></span>
-            <input
-                    aria-describedby="gl_icon"
-                    type="text"
-                    ng-model="selected"
-                    uib-typeahead="typeahead as formatLabel(typeahead) for typeahead in getExternalPaymentTypeahead($viewValue)"
-                    typeahead-loading="loading"
-                    typeahead-no-results="noResults"
-                    typeahead-on-select="onSelect($item, $model, $label, $event)"
-                    class="form-control">
-
-        </div>
-
+    <div class="input-group m-b-10">
+        <span ng-show="!loading && !noResults" class="input-group-addon" id="gl_icon"><i
+                class="glyphicon glyphicon-pencil"></i></span>
+        <span ng-show="loading" class="input-group-addon" id="gl_icon"><i
+                class="glyphicon glyphicon-refresh"></i></span>
+        <span ng-show="noResults" class="input-group-addon" id="gl_icon"><i
+                class="glyphicon glyphicon-remove"></i></span>
+        <input
+                aria-describedby="gl_icon"
+                type="text"
+                ng-model="selected"
+                uib-typeahead="typeahead as formatLabel(typeahead) for typeahead in getExternalPaymentTypeahead($viewValue)"
+                typeahead-loading="loading"
+                typeahead-no-results="noResults"
+                typeahead-on-select="onSelect($item, $model, $label, $event)"
+                class="form-control">
     </div>
 
     <div class="form-group">
@@ -50,10 +46,19 @@
 
     <div class="form-group">
         <div class="col-md-4">
-            <label for="amount" class="control-label">Сума</label>
+            <label for="amount" class="control-label">Загальна сума</label>
         </div>
         <div class="col-md-8">
             <input id="amount" class="form-control" rows="3" ng-model="document.amount" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
+            <label for="remainder" class="control-label">Невикористана сума</label>
+        </div>
+        <div class="col-md-8">
+            <input id="remainder" class="form-control" rows="3" ng-model="remainder" readonly>
         </div>
     </div>
 

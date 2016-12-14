@@ -677,7 +677,11 @@ angular
                 bootbox.alert("Оновити зовнішнє джерело не вдалося. Помилка сервера.");
             });
         };
-    });
+    })
+
+    .controller('datePickerCtrl', function ($scope) {
+        $scope.startDateOptions = new DateOptions();
+    })
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];

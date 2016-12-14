@@ -1,8 +1,3 @@
-<?php
-/**
- * @var $model StudentReg
- */
-?>
 <li>
     <a href="#/content_manager"  ng-click="changeView('content_manager')">
         <i class="fa fa-bar-chart-o fa-fw"></i>Контент менеджер

@@ -29,7 +29,6 @@ function addExternalPayment(externalSources, externalPayments, companies) {
                 .create($scope.document)
                 .$promise
                 .then(function (data) {
-                    console.log(data);
                     if (data.status && data.status == 'error') {
                         console.log(data);
                     } else {
