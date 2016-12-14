@@ -18,6 +18,11 @@ class NewsletterController extends TeacherCabinetController
         $this->renderPartial('index');
     }
 
+    public function actionView()
+    {
+        $this->renderPartial('view');
+    }
+
     public function actionGetRoles(){
         $roles = AllRolesDataSource::roles();
         $result = [];
@@ -77,4 +82,41 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionGetGroupsById(){
+        if (isset($_POST['groups'])){
+        $models = OfflineGroups::model()->findAllByPk($_POST['groups']);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->id,'name'=>$model->name]);
+            }
+        }
+        echo json_encode($result);
+        }
+    }
+
+    public function actionGetSubGroupsById(){
+        if (isset($_POST['subGroups'])){
+            $models = OfflineSubgroups::model()->with(['groupName'])->findAllByPk($_POST['subGroups']);
+            $result = [];
+            if (isset($models)){
+                foreach ($models as $model){
+                    array_push($result,['id'=>$model->id,'name'=>$model->name, 'groupName' =>$model->groupName->name ]);
+                }
+            }
+            echo json_encode($result);
+        }
+    }
+
+    public function actionGetRolesById(){
+        if (isset($_POST['roles'])){
+            $roles = $_POST['roles'];
+            $result = [];
+            foreach ($roles as $role)
+            {
+                array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
+            }
+            echo json_encode($result);
+        }
+    }
 }

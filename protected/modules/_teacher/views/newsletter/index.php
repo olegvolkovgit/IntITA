@@ -92,7 +92,7 @@
                     <label>Кориcтувачі</label>
                     <br>
                     <oi-select
-                        oi-options="user.email for user in getUsers($query)"
+                        oi-options="user.email for user in getUsers($query, $selectedAs)"
                         ng-model="selectedRecipients"
                         multiple
                         placeholder="Кому"
@@ -163,7 +163,7 @@
                             ng-click="cancel()">
                         Скасувати
                     </button>
-                    <button type="reset" class="btn btn-default"
+                    <button class="btn btn-default"
                             ng-bootbox-title="Оберіть шаблон повідомлення"
                             ng-bootbox-custom-dialog
                             ng-bootbox-class-name="mailTemplate"
