@@ -19,13 +19,21 @@
         <tr>
             <td width="30%">Тип розсилки:</td>
             <td>
-
+                <span ng-show="newsletterType == 'allUsers'">Всі користувачі</span>
+                <span ng-show="newsletterType == 'users'">Розсилка по окремих користувачах</span>
+                <span ng-show="newsletterType == 'groups'">Розсилка по групах </span>
+                <span ng-show="newsletterType == 'roles'">Розсилка по ролях</span>
+                <span ng-show="newsletterType == 'subGroups'">Розсилка по підгрупах</span>
             </td>
         </tr>
         <tr>
             <td>Кому:</td>
             <td>
-                <span ng-repeat="item in selectedRecipients">{{item.email}};</span>
+                <span ng-show="newsletterType == 'users'" ng-repeat="item in selectedRecipients">{{item.email}}; </span>
+                <span ng-show="newsletterType == 'groups'"  ng-repeat="item in selectedRecipients">{{item.name}}; </span>
+                <span ng-show="newsletterType == 'roles'" ng-repeat="item in selectedRecipients">{{item.name}}; </span>
+                <span ng-show="newsletterType == 'subGroups'" ng-repeat="item in selectedRecipients">&lt;{{item.groupName}}&gt;{{item.name}}; </span>
+                <span ng-show="newsletterType == 'allUsers'">Всі користувачі</span>
             </td>
         </tr>
         <tr>
