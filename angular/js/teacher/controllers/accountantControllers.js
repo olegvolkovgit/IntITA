@@ -223,7 +223,15 @@ angular
                             if (data.status && data.status == 'error') {
                                 return $q.reject(data);
                             } else {
-                                return data
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'success',
+                                    content:'Нове надходження коштів успішно створено'
+                                });
+                                $scope.formDirty=false;
+                                $scope.externalPayment = {};
+                                return data;
                             }
                         })
                 } else {
