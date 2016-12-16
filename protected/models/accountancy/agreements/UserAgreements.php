@@ -302,6 +302,7 @@ class UserAgreements extends CActiveRecord
                 'number' => UserAgreements::generateNumber($billableObject, $agreementId
                 )));
             Invoice::setInvoicesParamsAndSave($invoicesList, $userId, $agreementId);
+            $model->provideAccess();
         } else {
             throw new \application\components\Exceptions\IntItaException(500, 'Договір не вдалося створити. Зверніться до адміністратора '.Config::getAdminEmail());
         }
@@ -517,14 +518,13 @@ class UserAgreements extends CActiveRecord
     public function provideAccess() {
         $unpaidInvoice = $this->getFirstUnpaidInvoice();
         $firstInvoice=$this->getFirstInvoice();
-
         if ($unpaidInvoice) {
             $endDate = $unpaidInvoice->expiration_date;
         } else {
             $endDate = '3000-12-31 23:59:59';
         }
 
-        if($unpaidInvoice!=$firstInvoice){
+        if(!$firstInvoice || $unpaidInvoice!=$firstInvoice){
             $this->service->provideAccess($this->user_id, $endDate);
         }
     }
