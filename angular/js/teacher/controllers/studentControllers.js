@@ -91,6 +91,14 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
                 return $resource(basePath+'/_teacher/_student/student/getPayCoursesList').get(params.url()).$promise.then(function (data) {
                     params.total(data.count);
                     $scope.usd = data.usd;
+                    //todo
+                    data.rows.forEach(function(row) {
+                        var paid=0;
+                        row.internalPayment.forEach(function (pays) {
+                            paid = paid+Number(pays.summa);
+                        });
+                        row.paidAmount=paid;
+                    });
                     return data.rows;
                 });
             }
@@ -105,6 +113,14 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
             getData: function (params) {
                 return $resource(basePath+'/_teacher/_student/student/getPayModulesList').get(params.url()).$promise.then(function (data) {
                     params.total(data.count);
+                    //todo
+                    data.rows.forEach(function(row) {
+                        var paid=0;
+                        row.internalPayment.forEach(function (pays) {
+                            paid = paid+Number(pays.summa);
+                        });
+                        row.paidAmount=paid;
+                    });
                     $scope.usd = data.usd;
                     return data.rows;
                 });

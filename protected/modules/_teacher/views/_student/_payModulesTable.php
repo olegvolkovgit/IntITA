@@ -9,8 +9,11 @@
                     <div ng-if="row.module.cancelled">{{row.module.title_ua}} (скасований)</div>
                 </td>
                 <td data-title="'Сума, грн'">
-                    <div ng-if="row.agreement.summa">{{row.agreement.summa}}</div>
+                    <div ng-if="row.agreement.summa">{{row.agreement.summa | number:2}}</div>
                     <div ng-if="!row.agreement.summa">безкоштовно</div>
+                </td>
+                <td data-title="'Сплачено, грн'">
+                    <div>{{row.paidAmount | number:2}}</div>
                 </td>
                 <td data-title="'Доступний до:'">
                     {{row.endDate}}
