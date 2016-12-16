@@ -33,79 +33,6 @@ function getInvoicesList(url) {
     });
 }
 
-function getAgreementsList(url) {
-    var agreement = document.getElementById('agreementNumber').value;
-    document.getElementById('selectInvoices').style.display = 'none';
-    if (agreement[2] != undefined) {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                'agreement': agreement
-            },
-            cache: false,
-            success: function (response) {
-                if (response)
-                    $jq('div[name="selectAgreement"]').html(response);
-                else showDialog('По Вашому запиту нічого не знайдено');
-            }
-        });
-    }
-}
-
-function checkInvoices() {
-    var list = document.getElementsByName('invoices[]');
-    var checkBoxes=[];
-    for (var i = 0; i < list.length; i++) {
-        if (list[i].checked){
-            checkBoxes.push(list[i].value);
-        }
-    }
-    if(checkBoxes.length == 0){
-        showDialog("Виберіть хоча б один рахунок");
-        return false;
-    }else return checkBoxes;
-}
-
-function getInvoicesListByNumber(url) {
-    var number = document.getElementById('invoiceNumber').value;
-    if (number[2] != undefined) {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                'invoiceNumber': number
-            },
-            cache: false,
-            success: function (response) {
-                if (response)
-                    $jq('div[name="selectInvoicesByNumber"]').html(response);
-                else showDialog('По Вашому запиту нічого не знайдено');
-            }
-        });
-    }
-}
-
-function getUserList(url) {
-    var number = document.getElementById('userEmail').value;
-    if (number[2] != undefined) {
-        $jq.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                'userEmail': number
-            },
-            cache: false,
-            success: function (response) {
-                if (response)
-                    $jq('div[name="userList"]').html(response);
-                else
-                    showDialog('По Вашому запиту нічого не знайдено');
-            }
-        });
-    }
-}
-
 function confirm(url, id) {
     var posting = $jq.post(url, {id: id});
     posting.done(function (response) {
@@ -156,25 +83,5 @@ function deleteCancelReasonTypes(url, id){
         }
     });
 }
-
-// function deleteOperationType(url, id){
-//     bootbox.confirm('Ви впевнені що хочете видалити тип проплати ' + id + '?', function(result) {
-//         if (result != null) {
-//             $jq.ajax({
-//                 url: url,
-//                 type: "POST",
-//                 data : {id: id},
-//                 success: function () {
-//                     bootbox.confirm("Тип проплат видалений.", function () {
-//                         load(basePath + "/_teacher/_accountant/operationType/index");
-//                     });
-//                 }
-//             });
-//         } else {
-//             showDialog("Операцію не вдалося виконати.");
-//         }
-//     });
-// }
-
 
 

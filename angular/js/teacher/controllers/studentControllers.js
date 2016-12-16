@@ -98,7 +98,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
     };
     $scope.usd = null;
     $scope.getStudentPaidModules = function(){
-        $scope.paidModuesTable = new NgTableParams({
+        $scope.paidModulesTable = new NgTableParams({
             page: 1,
             count: 10
         }, {
@@ -160,6 +160,14 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                 .$promise
                 .then(function (data) {
                     params.total(data.count);
+                    //get paid amount for each invoice
+                    data.rows.forEach(function(row) {
+                        var paid=0;
+                        row.internalPayment.forEach(function (pays) {
+                            paid = paid+Number(pays.summa);
+                        });
+                        row.paidAmount=paid;
+                    });
                     return data.rows;
                 });
         }

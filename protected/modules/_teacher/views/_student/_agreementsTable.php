@@ -7,7 +7,7 @@
                 <td data-title="'Схема оплати'">{{row.paymentSchema.name}}</td>
                 <td data-title="'Дата заведення'">{{(row.create_date | shortDate:"dd-MM-yyyy")}}</td>
                 <td data-title="'Загальна сума, грн'">{{row.summa}}</td>
-                <td data-title="'Сплачено, грн'">{{row.summa}}</td>
+<!--                <td data-title="'Сплачено, грн'">{{row.summa}}</td>-->
                 <td data-title="'Рахунки'"><a ng-href="#/students/agreement/{{row.id}}">рахунки</a> </td>
             </tr>
         </table>

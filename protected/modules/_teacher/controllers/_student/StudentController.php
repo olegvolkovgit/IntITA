@@ -129,8 +129,8 @@ class StudentController extends TeacherCabinetController
     public function actionGetPayCoursesList()
     {
         $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $adapter = new NgTableAdapter('PayCourses',$_GET);
+        $criteria->addCondition('userId=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('UserServiceAccess',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
         //echo PayCourses::getPayCoursesListByUser();
@@ -139,11 +139,10 @@ class StudentController extends TeacherCabinetController
     public function actionGetPayModulesList()
     {
         $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $adapter = new NgTableAdapter('PayModules',$_GET);
+        $criteria->addCondition('userId=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('UserServiceAccess',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
-
         //echo PayModules::getPayModulesListByUser();
     }
 
