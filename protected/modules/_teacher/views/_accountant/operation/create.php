@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-md-1">
                                 <a class="btn btn-default no-blur"
-                                        ng-href="#/accountant/invoice/{{operation.agreementId}}"
+                                        ng-href="#/accountant/invoice/{{operation.invoiceId}}"
                                         target="_blank"
                                         ng-class="{disabled:!operation.invoiceId}">
                                     <i class="glyphicon glyphicon-eye-open"></i>

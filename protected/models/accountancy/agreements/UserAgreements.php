@@ -516,13 +516,17 @@ class UserAgreements extends CActiveRecord
 
     public function provideAccess() {
         $unpaidInvoice = $this->getFirstUnpaidInvoice();
+        $firstInvoice=$this->getFirstInvoice();
+
         if ($unpaidInvoice) {
             $endDate = $unpaidInvoice->expiration_date;
         } else {
             $endDate = '3000-12-31 23:59:59';
         }
 
-        $this->service->provideAccess($this->user_id, $endDate);
+        if($unpaidInvoice!=$firstInvoice){
+            $this->service->provideAccess($this->user_id, $endDate);
+        }
     }
 
     public function updateNextInvoicesDate() {
@@ -535,6 +539,15 @@ class UserAgreements extends CActiveRecord
                 }
             }
         }
+    }
+
+    public function getFirstInvoice() {
+        $firstInvoice = null;
+        
+        if(isset($this->invoice[0]))
+            $firstInvoice=$this->invoice[0];
+        
+        return $firstInvoice;
     }
 }
 

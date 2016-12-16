@@ -83,6 +83,7 @@ class Operations {
             $externalPayment = ExternalPays::model()->with('internalPays')->findByPk($operation['sourceId']);
             $operation['amount']=$operation['amount']<0?0:$operation['amount'];
             $amount = min($operation['amount'], $externalPayment->getUnallocatedAmount());
+            if($amount==0) return;
             $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $amount);
             $lastPaidInVoice = null;
 
