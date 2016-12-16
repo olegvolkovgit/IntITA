@@ -33,7 +33,9 @@ class ExternalPaymentsController extends TeacherCabinetController
 
     public function actionGetPayment($id) {
         $model = ExternalPays::model()->with(ExternalPays::model()->relations())->findByPk($id);
-        echo json_encode(ActiveRecordToJSON::toAssocArray($model));
+        $result=ActiveRecordToJSON::toAssocArray($model);
+        $result['remainder']=$model->getRemainderSum();
+        echo json_encode($result);
     }
 
     public function actionGetNgTable() {

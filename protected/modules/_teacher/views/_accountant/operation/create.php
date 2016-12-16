@@ -71,8 +71,12 @@
                                 </select>
                             </div>
                             <div class="col-md-1">
-                                <button class="btn btn-default disabled"><i class="glyphicon glyphicon-eye-open"></i>
-                                </button>
+                                <a class="btn btn-default no-blur"
+                                   ng-href="#/admin/users/user/{{operation.userId}}"
+                                   target="_blank"
+                                   ng-class="{disabled:!operation.userId}">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </a>
                             </div>
                         </div>
 
@@ -88,11 +92,12 @@
                                 </select>
                             </div>
                             <div class="col-md-1">
-                                <button class="btn btn-default no-blur"
-                                        ng-click="showAgreement(operation.agreementId)"
-                                        ng-class="{disabled:!operation.agreementId}">
+                                <a class="btn btn-default no-blur"
+                                   ng-href="#/accountant/agreement/{{operation.agreementId}}"
+                                   target="_blank"
+                                   ng-class="{disabled:!operation.agreementId}">
                                     <i class="glyphicon glyphicon-eye-open"></i>
-                                </button>
+                                </a>
                             </div>
                         </div>
 
@@ -102,17 +107,19 @@
                                 <select class="form-control form-inline" id="invoice" ng-model="operation.invoiceId">
                                     <option value="" ng-show="!operation.invoiceId"></option>
                                     <option ng-repeat="invoice in invoicesList" value="{{invoice.id}}"
-                                            ng-selected="invoice.id == operation.invoiceId">
+                                            ng-selected="invoice.id == operation.invoiceId"
+                                            ng-disabled="invoice.summa<=invoice.paidAmount">
                                         {{typeaheadProviders.invoice.label(invoice);}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-md-1">
-                                <button class="btn btn-default no-blur"
-                                        ng-click="showInvoice(operation.invoiceId)"
+                                <a class="btn btn-default no-blur"
+                                        ng-href="#/accountant/invoice/{{operation.agreementId}}"
+                                        target="_blank"
                                         ng-class="{disabled:!operation.invoiceId}">
                                     <i class="glyphicon glyphicon-eye-open"></i>
-                                </button>
+                                </a>
                             </div>
                         </div>
 
@@ -132,7 +139,7 @@
                             </div>
                             <div class="col-md-2">
                                 <input type="number" ng-model="invoice.amount" class="form-control form-inline"
-                                       max="{{invoice.summa}}">
+                                       max="{{invoice.summa-invoice.paidAmount}}" min="0">
                             </div>
                             <div class="col-md-1">
                                 <button class="btn btn-default" ng-click="operation.removeInvoice(invoice.id)"><i

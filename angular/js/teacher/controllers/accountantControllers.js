@@ -104,6 +104,7 @@ angular
                         return agreements ? ((agreements.number || '') + ' від ' + (agreements.create_date || '')) : '';
                     },
                     onSelect: function ($model) {
+                        $scope.clearOperation();
                         $scope.operation.agreementId = $model.id;
                         $scope.operation.userId = $model.user_id.user_id;
                         $scope.updateUserData({id: $model.user_id.user_id});
@@ -117,7 +118,8 @@ angular
                     searchField: 'number',
                     provider: invoices,
                     label: function (invoice) {
-                        return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '')) : '';
+                        return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '') +
+                        ' (погашено: ' +invoice.paidAmount+ ')') : '';
                     },
                     onSelect: function ($model) {
                         $scope.operation.invoiceId = $model.id;
@@ -140,6 +142,7 @@ angular
                 },
                 removeInvoice: function removeInvoice(id) {
                     _.remove($scope.operation.invoices, function (item) {
+                        $scope.operation.sum=$scope.operation.sum-item.amount;
                         return item.id == id
                     });
                 }
@@ -165,6 +168,11 @@ angular
             $scope.clearDocument = function clearDocument($event, $selectedIndex) {
                 $scope.externalPayment = {};
             };
+            $scope.clearOperation = function() {
+                $scope.operation.invoiceId = null;
+                $scope.operation.invoices = [];
+                $scope.operation.sum = 0;
+            };
 
             $scope.invoicesSum = function () {
                 return $scope.operation.invoices.reduce(function (sum, item) {
@@ -175,12 +183,31 @@ angular
 
             $scope.cleanUp = function cleanUp() {
                 $scope.initData();
+                angular.element(document.querySelector('#selectedPayment')).val('');
             };
 
             $scope.invoiceById = function invoiceById(id) {
                 return $scope.invoicesList.filter(function (item) {
                     return item.id == id
                 })[0];
+            };
+
+            $scope.externalPaymentsReload = function (externalPaymentId) {
+                externalPayments
+                    .getById({id:externalPaymentId})
+                    .$promise
+                    .then(function (data) {
+                        data.amount=Number(data.amount);
+                        $scope.externalPayment=data;
+                    })
+            };
+
+            $scope.updateOperationInvoicesData = function () {
+                $scope.operation.invoices.forEach(function(item, key) {
+                    if (_.find($scope.operation.invoices, ['id', item.id]) && _.find($scope.invoicesList, ['id', item.id])) {
+                        $scope.operation.invoices[key]=_.find($scope.invoicesList, ['id', item.id]);
+                    }
+                });
             };
 
             $scope.$watch('providerId', function (newValue, oldValue) {
@@ -192,12 +219,14 @@ angular
 
             $scope.$watch('operation.agreementId', function (newValue, oldValue) {
                 if (newValue != oldValue && newValue != null) {
+                    $scope.clearOperation();
                     $scope.updateInvoiceData({'extraParams[agreement_id]': newValue});
                 }
             });
 
             $scope.$watch('operation.userId', function (newValue, oldValue) {
                 if (newValue != oldValue && newValue != null) {
+                    $scope.clearOperation();
                     $scope.updateAgreementData({'extraParams[user_id]': newValue});
                 }
             });
@@ -253,39 +282,56 @@ angular
                 $scope.getExternalPayment()
                     .then(
                         function success(data) {
-                            sendData.sourceId = data.id;
-                            sendData.amount = $scope.operation.sum;
-                            return operations
-                                .create(null, sendData)
-                                .$promise;
+                            if(sendData.agreementId){
+                                sendData.sourceId = data.id;
+                                sendData.amount = $scope.operation.sum;
+                                return operations
+                                    .create(null, sendData)
+                                    .$promise;
+                            }
                         }
                     )
                     .then(
                         function (response) {
-                            if (response.status !== 'error') {
-                                if (response.message) {
-                                    if (_.isArray(response.message)) {
-                                        response.message.forEach(function(item) {
-                                            $scope.toastMessages+=item+'<br>';
-                                        });
-                                        ngToast.create({
-                                            className:'success',
-                                            content:response.message
-                                        });
-                                    } else {
-                                        ngToast.create({
-                                            className:'success',
-                                            content:'Операція пройшла успішно'
-                                        });
+                            if($scope.externalPayment.id)
+                                $scope.externalPaymentsReload($scope.externalPayment.id);
+                            if($scope.operation.agreementId)
+                                $scope.updateInvoiceData({'extraParams[agreement_id]': $scope.operation.agreementId})
+                                    .then(
+                                        function success() {
+                                            $scope.updateOperationInvoicesData();
+                                        }
+                                    )
+                            if(response){
+                                if (response.status !== 'error') {
+                                    if (response.message && response.message.length) {
+                                        if (_.isArray(response.message)) {
+                                            response.message.forEach(function(item) {
+                                                $scope.toastMessages+=item+'<br>';
+                                            });
+                                            ngToast.create({
+                                                dismissOnTimeout:false,
+                                                dismissButton:true,
+                                                className:'success',
+                                                content:response.message
+                                            });
+                                        } else {
+                                            ngToast.create({
+                                                dismissOnTimeout:false,
+                                                dismissButton:true,
+                                                className:'success',
+                                                content:'Операція пройшла успішно'
+                                            });
+                                        }
                                     }
+                                } else {
+                                    ngToast.create({
+                                        dismissOnTimeout:false,
+                                        dismissButton:true,
+                                        className:'danger',
+                                        content:response.message
+                                    })
                                 }
-                            } else {
-                                ngToast.create({
-                                    dismissOnTimeout:false,
-                                    dismissButton:true,
-                                    className:'danger',
-                                    content:response.message
-                                })
                             }
                             $scope.loaderControl.hide();
                         })
@@ -348,8 +394,12 @@ angular
                     .$promise
                     .then(function (data) {
                         $scope.invoicesList = data.rows.map(function (item) {
+                            item.paidAmount=0;
                             item.summa = Number(item.summa);
-                            item.amount = Number(item.summa);
+                            item.internalPayment.forEach(function(pays) {
+                                item.paidAmount=Number(item.paidAmount)+Number(pays.summa);
+                            });
+                            item.amount = item.summa-item.paidAmount;
                             return item;
                         });
                         defer.resolve(data.rows);
@@ -650,7 +700,7 @@ angular
             externalSourcesService.externalSource({'id':id}).$promise
                 .then(function successCallback(response) {
                     $scope.source=response;
-                    $scope.source.cash=parseInt($scope.source.cash);
+                    $scope.source.cash=Number($scope.source.cash);
                 }, function errorCallback() {
                     bootbox.alert("Отримати дані джерела коштів не вдалося");
                 });

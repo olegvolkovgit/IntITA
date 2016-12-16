@@ -158,4 +158,13 @@ class ExternalPays extends CActiveRecord
 //
 //        return false;
 //    }
+
+	public function getRemainderSum() {
+		$internalPays=InternalPays::model()->findAllByAttributes(array('externalPaymentId'=>$this->id));
+		$sum=0;
+		foreach ($internalPays as $pay){
+			$sum=$sum+$pay->summa;
+		}
+		return $this->amount-$sum;
+	}
 }
