@@ -614,3 +614,16 @@ div.loader > div {
 .schemesBlock{vertical-align:top;display:inline-block;width:48%;border:1px solid #ddd;border-radius:2px;padding:5px}
 .schemesBlockButton{float: right;margin-top:10px}
 .studentInformation{word-wrap:break-word}
+.control-label.required:after {
+    content:"*";
+    color:red;
+}
+.ng-toast.ng-toast--right .ng-toast__message {
+    text-align: left;
+}
+/*for payment operation forms directive*/
+#addExternalPayment input.ng-invalid.ng-dirty {
+    box-shadow:none;
+    border: 1px solid #ccc;
+}
+/*for payment operations forms directive*/

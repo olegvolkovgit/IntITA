@@ -137,5 +137,33 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"operationType/update/id/"+$stateParams.id;
             }
         })
+        .state('accountant/externalsource/create', {
+            url: "/accountant/externalsource/create",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Додати зовнішнє джерело коштів');
+            },
+            templateUrl: accountantUrl+"externalSources/create"
+        })
+        .state('accountant/externalsource/update/:id', {
+            url: "/accountant/externalsource/update/:id",
+            cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Редагувати зовнішнє джерело коштів');
+            },
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "externalSources/update/id/" + $stateParams.id;
+            }
+        })
+        .state('accountant/externalsource/view/:id', {
+            url: "/accountant/externalsource/view/:id",
+            cache         : false,
+            controller: function($scope,$stateParams){
+                $scope.changePageHeader('Джерело зовнішніх коштів №'+$stateParams.id);
+            },
+            templateUrl: function ($stateParams) {
+                return accountantUrl+"externalSources/view/id/"+$stateParams.id;
+            }
+        })
     }
 );

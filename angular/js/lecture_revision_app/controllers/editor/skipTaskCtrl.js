@@ -53,7 +53,7 @@ function skipTaskCtrl($scope, $http) {
             newSkipTask.answer.push({
                 "index": result[1],
                 "caseInsensitive":result[2],
-                "value":  result[4].replace(/[\u200B-\u200D\uFEFF]/g, '')
+                "value":  entityToText(result[4].replace(/[\u200B-\u200D\uFEFF]/g, '')),
             });
         }
 
@@ -85,4 +85,10 @@ function checkAnswersCKE(answers){
         bootbox.alert("Виберіть хоч один правильний варіант перед створенням тесту");
         return false;
     }
+}
+
+function entityToText(specialText) {
+    var d = document.createElement("div");
+    d.innerHTML = specialText;
+    return d.firstChild.nodeValue;
 }

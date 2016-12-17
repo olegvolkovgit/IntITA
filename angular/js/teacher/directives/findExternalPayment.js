@@ -24,6 +24,7 @@ function addExternalPayment(externalPayments, _) {
                 .getById({id:$model.id})
                 .$promise
                 .then(function (data) {
+                    data.amount=Number(data.amount);
                     _.assignIn($scope.document, data);
                 })
         };
