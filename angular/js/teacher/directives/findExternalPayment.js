@@ -16,7 +16,7 @@ function addExternalPayment(externalPayments, _) {
         };
 
         $scope.formatLabel = function (item) {
-            return item ? '№' + item.documentNumber + ' від ' + item.documentDate + ' (сума ' + item.amount + ' грн)' : null;
+            return item ? '№' + item.documentNumber + ' від ' + item.documentDate + ' (сума ' + item.amount + ' грн) '+item.payerName+' '+item.payerId : null;
         };
 
         $scope.onSelect = function onSelect($item, $model, $label, $event) {

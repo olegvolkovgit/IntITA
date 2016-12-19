@@ -7,12 +7,12 @@
                 <block-window-loader data-control="loaderControl"></block-window-loader>
 
                 <div class="row">
-                    <h3>Оберіть зовнішнє джерело коштів</h3>
+                    <h3>Оберіть проплату</h3>
                     <uib-tabset type="pills" justified="true">
-                        <uib-tab index="0" heading="Існуюче надходження" deselect="clearDocument($event, $selectedIndex)">
+                        <uib-tab index="0" heading="Існуюча проплата" deselect="clearDocument($event, $selectedIndex)">
                             <find-external-payment data-document="externalPayment"></find-external-payment>
                         </uib-tab>
-                        <uib-tab index="1" heading="Нове надходження" deselect="clearDocument($event, $selectedIndex)">
+                        <uib-tab index="1" heading="Нова проплата" deselect="clearDocument($event, $selectedIndex)">
                             <add-external-payment data-document="externalPayment"
                                                   data-show-save-button="false"
                                                   data-form-dirty="formDirty">
@@ -106,7 +106,8 @@
                             <div class="col-md-9">
                                 <select class="form-control form-inline" id="invoice" ng-model="operation.invoiceId">
                                     <option value="" ng-show="!operation.invoiceId"></option>
-                                    <option ng-repeat="invoice in invoicesList" value="{{invoice.id}}"
+                                    <option ng-class="{startPayment: invoice.paidAmount>0 && invoice.paidAmount<invoice.summa}"
+                                            ng-repeat="invoice in invoicesList" value="{{invoice.id}}"
                                             ng-selected="invoice.id == operation.invoiceId"
                                             ng-disabled="invoice.summa<=invoice.paidAmount">
                                         {{typeaheadProviders.invoice.label(invoice);}}
@@ -148,20 +149,28 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="sum" class="control-label col-md-2">Сума</label>
+                            <label for="sum" class="control-label col-md-3">Сума погашення<span style="color:red">*</span> (грн.)</label>
                             <div class="col-md-9" id="sum">
                                 <input id="sum" type="number" class="form-control form-inline text-right"
                                        ng-value="invoicesSum()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"
                                        ng-model="operation.sum"
                                        readonly/>
                             </div>
-                            <label for="sum" class="control-label col-md-1"> грн.</label>
                         </div>
-
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">Доступна сума:</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control form-inline text-right" ng-value="(externalPayment.remainder-operation.sum)<0?0:(externalPayment.remainder-operation.sum)" readonly/>
+                            </div>
+                        </div>
+                        <span style="color:red">*</span>При спробі погасити більше одного рахунку одночасно, <b><em>сума погашення</em></b>
+                        буде спочатку максимально погашувати попередні рахунки починаючи з першого. Якщо на рахунок не буде вистачати доступних коштів,
+                        рахунок буде погашено на максимально можливу суму.
+                        <br>
+                        <br>
                         <div class="form-group row">
                             <div class="col-md-4">
-                                <button class="btn btn-default form-control no-blur" ng-click="createOperation()">Створити
-                                    платіж
+                                <button class="btn btn-default form-control no-blur" ng-click="createOperation()">Погасити рахунок
                                 </button>
                             </div>
                             <div class="col-md-4 pull-right">
@@ -174,3 +183,13 @@
         </div>
     </div>
 </div>
+<style>
+    #invoice option:disabled{
+        color: green;
+        font-weight: bold;
+    }
+    option.startPayment{
+        color: orangered;
+        font-weight: bold;
+    }
+</style>

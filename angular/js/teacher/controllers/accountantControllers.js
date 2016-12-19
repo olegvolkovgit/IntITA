@@ -208,6 +208,10 @@ angular
                         $scope.operation.invoices[key]=_.find($scope.invoicesList, ['id', item.id]);
                     }
                 });
+                $scope.operation.invoices.forEach(function(item, key) {
+                    if($scope.operation.invoices[key].paidAmount==$scope.operation.invoices[key].summa)
+                        $scope.operation.removeInvoice($scope.operation.invoices[key].id);
+                });
             };
 
             $scope.$watch('providerId', function (newValue, oldValue) {
@@ -220,7 +224,14 @@ angular
             $scope.$watch('operation.agreementId', function (newValue, oldValue) {
                 if (newValue != oldValue && newValue != null) {
                     $scope.clearOperation();
-                    $scope.updateInvoiceData({'extraParams[agreement_id]': newValue});
+                    $scope.updateInvoiceData({'extraParams[agreement_id]': newValue})
+                        .then(function (data) {
+                            data.forEach(function(invoice) {
+                                if(invoice.paidAmount!=invoice.summa)
+                                    $scope.operation.addInvoice(invoice.id);
+                            })
+
+                    });
                 }
             });
 
