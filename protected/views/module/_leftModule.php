@@ -25,24 +25,12 @@ if (!Yii::app()->user->isGuest) {
                 <?php
                 if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
                     echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                } else {
-                    if ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
-                        if ($post->getBasePrice() > 0) {
-                            ?>
-                            <a id="paymentButtonModule"
-                               ng-click="redirectToCabinet('payModule',<?php echo $post->module_ID ?>)">
-                                <?php echo Yii::t('module', '0279'); ?>
-                            </a>
-                        <?php } else { ?>
-                            <a id="paymentButtonModule" onclick="signFreeModule(
-                                '<?= Yii::app()->createUrl("module/addAccessFreeModule") ?>',
-                                '<?= Yii::app()->user->getId() ?>',
-                                '<?= $post->module_ID ?>')">
-                                <?php echo Yii::t('module', '0279'); ?>
-                            </a>
-                        <?php }
-                    }
-                } ?>
+                } else {?>
+                    <a id="paymentButtonModule"
+                       ng-click="redirectToCabinet('payModule',<?php echo $post->module_ID ?>)">
+                        <?php echo Yii::t('module', '0279'); ?>
+                    </a>
+                <?php } ?>
             </div>
             <?php if (isset($_GET['idCourse']) && $_GET['idCourse'] > 0 && Course::getStatus($_GET['idCourse']) == 1) { ?>
                 <div class="startCourse">

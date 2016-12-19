@@ -18,27 +18,3 @@ function getImgName (str){
     var uploaded = document.getElementById("avatarInfo");
     uploaded.innerHTML = filename;
 }
-function redirectToProfile() {
-    $.cookie('openProfileTab', 5, {'path': "/"});
-}
-function signFreeModule(url, user, module) {
-    data = {
-        user: user,
-        module: module
-    };
-    $.post(url, data, function () {
-        })
-        .done(function (response) {
-            bootbox.alert(response, function() {
-                location.reload();
-            });
-        })
-        .fail(function () {
-            bootbox.alert("На сайті виникла помилка.\n" +
-                "Спробуйте перезавантажити сторінку або напишіть нам на адресу");
-        })
-        .always(function () {
-            },
-            "json"
-        );
-}
