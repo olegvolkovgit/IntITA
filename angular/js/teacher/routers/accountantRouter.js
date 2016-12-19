@@ -65,11 +65,6 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: accountantUrl+"template/index"
         })
-        .state('accountant/operationtype', {
-            url: "/accountant/operationtype",
-            cache         : false,
-            templateUrl: accountantUrl+"operationType/index"
-        })
         .state('accountant/externalsources', {
             url: "/accountant/externalsources",
             cache         : false,
@@ -117,25 +112,6 @@ config(function ($stateProvider, $urlRouterProvider) {
             url: '/accountant/paymentSchemas/add/:schemeType',
             cache         : false,
             templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
-        })
-        .state('accountant/operationType/create', {
-            url: "/accountant/operationType/create",
-            cache         : false,
-            templateUrl: accountantUrl+"operationType/create"
-        })
-        .state('accountant/operationType/view/:id', {
-            url: "/accountant/operationType/view/:id",
-            cache         : false,
-            templateUrl: function ($stateParams) {
-                return accountantUrl+"operationType/view/id/"+$stateParams.id;
-            }
-        })
-        .state('accountant/operationType/edit/:id', {
-            url: "/accountant/operationType/edit/:id",
-            cache         : false,
-            templateUrl: function ($stateParams) {
-                return accountantUrl+"operationType/update/id/"+$stateParams.id;
-            }
         })
         .state('accountant/externalsource/create', {
             url: "/accountant/externalsource/create",

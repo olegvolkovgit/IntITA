@@ -23,9 +23,6 @@
             <a href="#/accountant/template">Шаблони, оферта</a>
         </li>
         <li>
-            <a href="#/accountant/operationtype">Типи проплат</a>
-        </li>
-        <li>
             <a href="#/accountant/externalsources">Зовнішні джерела коштів</a>
         </li>
         <li>
