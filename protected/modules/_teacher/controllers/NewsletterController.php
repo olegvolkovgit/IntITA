@@ -10,7 +10,7 @@ class NewsletterController extends TeacherCabinetController
 {
 
     public function hasRole(){
-        return (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
+        return (!Yii::app()->user->model->isStudent() || !Yii::app()->user->model->isTenant());
     }
 
     public function actionIndex()
