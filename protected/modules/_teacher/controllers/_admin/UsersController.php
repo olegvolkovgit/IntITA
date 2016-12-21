@@ -350,4 +350,220 @@ class UsersController extends TeacherCabinetController
         if($oldTrainer->unsetRoleAttribute(UserRoles::TRAINER, 'students-list', $userId)) echo "success";
         else echo "error";
     }
+
+    public function actionExport($type)
+    {
+        switch ($type) {
+            case 'all': {
+                $fieldsToExport = ['firstName' => 'Ім\'я',
+                    'middleName' => 'По-батькові',
+                    'secondName' => 'Прізвище',
+                    'email' => 'Електронна пошта',
+                    'city0.title_ua' => 'Місто',
+                    'country0.title_ua' => 'Країна',
+                    'reg_time' => 'Час реєстрації'];
+                $exporter = new ExcelExporter('StudentReg', $fieldsToExport);
+                $exporter->setCriteria('cancelled=' . StudentReg::ACTIVE);
+            }
+            break;
+            case 'students':{
+                $fieldsToExport = ['firstName' => 'Ім\'я',
+                    'middleName' => 'По-батькові',
+                    'secondName' => 'Прізвище',
+                    'email' => 'Електронна пошта',
+                    'student.start_date'=>'Надано роль',
+                    'educform' => 'Форма',
+                    'city0.title_ua' => 'Місто',
+                    'country0.title_ua' => 'Країна',
+                    'trainerData.fullName'=>'Тренер',
+                    'reg_time' => 'Час реєстрації'];
+                $criteria =  new CDbCriteria();
+                $criteria->alias = 't';
+                $criteria->join = 'inner join user_student us on t.id = us.id_user';
+                $criteria->condition = 't.cancelled='.StudentReg::ACTIVE.' and us.end_date IS NULL';
+                $criteria->group = 't.id';
+                $exporter = new ExcelExporter('StudentReg', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+            break;
+            case 'offlineStudents':{
+                $fieldsToExport = ['user.firstName' => 'Ім\'я',
+                    'user.middleName' => 'По-батькові',
+                    'user.secondName' => 'Прізвище',
+                    'user.email' => 'Електронна пошта',
+                    'trainerData.fullName' => 'Тренер',
+                    'group.name' => 'Група',
+                    'subgroupName.name'=>'Підгрупа',
+                    'start_date' => 'Додано',
+                    'user.phone' => 'Телефон',];
+                $criteria =  new CDbCriteria();
+                $criteria->join = ' LEFT JOIN offline_subgroups sg ON t.id_subgroup = sg.id';
+                $criteria->condition = 't.end_date IS NULL';
+                $exporter = new ExcelExporter('OfflineStudents', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'teachers':{
+                $fieldsToExport = ['user.firstName' => 'Ім\'я',
+                    'user.middleName' => 'По-батькові',
+                    'user.secondName' => 'Прізвище',
+                    'user.email' => 'Електронна пошта',
+                    ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('user.cancelled='.StudentReg::ACTIVE);
+                $exporter = new ExcelExporter('Teacher', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'authors':{
+                $fieldsToExport = ['user.firstName' => 'Ім\'я',
+                    'user.middleName' => 'По-батькові',
+                    'user.secondName' => 'Прізвище',
+                    'user.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('user.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserAuthor', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'withoutRoles':{
+                $fieldsToExport = ['firstName' => 'Ім\'я',
+                    'middleName' => 'По-батькові',
+                    'secondName' => 'Прізвище',
+                    'email' => 'Електронна пошта',
+                    'reg_time' => 'Зареєстровано',
+                    'city0.title_ua' => 'Місто',
+                    'country0.title_ua' => 'Країна',
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->alias = 't';
+                $criteria->join = 'left join user_student us on us.id_user=t.id';
+                $criteria->join .= ' left join teacher tt on tt.user_id=t.id';
+                $criteria->addCondition('t.cancelled='.StudentReg::ACTIVE);
+                $criteria->addCondition('us.id_user IS NULL and tt.user_id IS NULL');
+                $exporter = new ExcelExporter('StudentReg', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'admins':{
+                $fieldsToExport = ['user.firstName' => 'Ім\'я',
+                    'user.middleName' => 'По-батькові',
+                    'user.secondName' => 'Прізвище',
+                    'user.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('user.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserAdmin', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'accountants':{
+                $fieldsToExport = ['idUser.firstName' => 'Ім\'я',
+                    'idUser.middleName' => 'По-батькові',
+                    'idUser.secondName' => 'Прізвище',
+                    'idUser.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('idUser.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserAccountant', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'contentManagers':{
+                $fieldsToExport = ['idUser.firstName' => 'Ім\'я',
+                    'idUser.middleName' => 'По-батькові',
+                    'idUser.secondName' => 'Прізвище',
+                    'idUser.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('idUser.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserContentManager', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'consultants':{
+                $fieldsToExport = ['idUser.firstName' => 'Ім\'я',
+                    'idUser.middleName' => 'По-батькові',
+                    'idUser.secondName' => 'Прізвище',
+                    'idUser.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('idUser.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserTeacherConsultant', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'trainers':{
+                $fieldsToExport = ['idUser.firstName' => 'Ім\'я',
+                    'idUser.middleName' => 'По-батькові',
+                    'idUser.secondName' => 'Прізвище',
+                    'idUser.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('idUser.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserTrainer', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'tenants':{
+                $fieldsToExport = ['user.firstName' => 'Ім\'я',
+                    'user.middleName' => 'По-батькові',
+                    'user.secondName' => 'Прізвище',
+                    'user.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('user.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserTenant', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'supervisors':{
+                $fieldsToExport = ['user.firstName' => 'Ім\'я',
+                    'user.middleName' => 'По-батькові',
+                    'user.secondName' => 'Прізвище',
+                    'user.email' => 'Електронна пошта',
+                    'start_date' => 'Призначено'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('user.cancelled='.StudentReg::ACTIVE.' AND end_date IS NULL');
+                $exporter = new ExcelExporter('UserSuperVisor', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+            case 'blockedUsers':{
+                $fieldsToExport = ['registeredUser.firstName' => 'Ім\'я',
+                    'registeredUser.middleName' => 'По-батькові',
+                    'registeredUser.secondName' => 'Прізвище',
+                    'registeredUser.email' => 'Електронна пошта',
+                    'locked_date' => 'Дата блокування',
+                    'lockedBy.fullName' => 'Заблоковано користувачем'
+                ];
+                $criteria =  new CDbCriteria();
+                $criteria->addCondition('registeredUser.cancelled='.StudentReg::DELETED);
+                $exporter = new ExcelExporter('UserBlocked', $fieldsToExport);
+                $exporter->setCriteria($criteria);
+            }
+                break;
+        }
+
+
+        header ( "Expires: Mon, 1 Apr 1974 05:00:00 GMT" );
+        header ( "Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT" );
+        header ( "Cache-Control: no-cache, must-revalidate" );
+        header ( "Pragma: no-cache" );
+        header ( "Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" );
+        $objWriter = new PHPExcel_Writer_Excel2007($exporter->getDocument());
+        $objWriter->save('php://output');
+        Yii::app()->end();
+
+    }
+
 }

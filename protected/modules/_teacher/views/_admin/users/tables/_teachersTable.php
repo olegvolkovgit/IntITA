@@ -4,6 +4,9 @@
         <a type="button" class="btn btn-primary" ng-href="#/admin/teacher/create">
             Додати співробітника
         </a>
+        <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
+           href="/_teacher/_admin/users/export/type/teachers">
+        </a>
     </div>
     <br>
     <div class="panel panel-default">
