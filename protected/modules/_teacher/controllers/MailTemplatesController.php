@@ -5,7 +5,14 @@ class MailTemplatesController extends TeacherCabinetController
 
 
     public function hasRole(){
-        return (!Yii::app()->user->model->isStudent() || !Yii::app()->user->model->isTenant());
+        return (Yii::app()->user->model->isAdmin()
+            || Yii::app()->user->model->isAccountant()
+            || Yii::app()->user->model->isTrainer()
+            || Yii::app()->user->model->isAuthor()
+            || Yii::app()->user->model->isContentManager()
+            || Yii::app()->user->model->isTeacherConsultant()
+            || Yii::app()->user->model->isSuperVisor()
+        );
     }
 
 	/**
