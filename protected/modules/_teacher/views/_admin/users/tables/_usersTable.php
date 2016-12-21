@@ -1,3 +1,10 @@
+<div class="col-lg-12">
+
+    <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
+           href="/_teacher/_admin/users/export/type/all">
+    </a>
+
+</div>
 <table ng-table="usersTableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="row in $data track by row.id">
         <td data-title="'ПІБ'" sortable="'fullName'" filter="{'fullName': 'text'}" >

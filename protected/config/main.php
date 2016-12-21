@@ -50,6 +50,7 @@ return array(
         'application.helpers.ngtable.*',
         'editable.*', //easy include of editable classes
         'ext.giix-components.*', // giix components
+        'ext.PHPExcel.*', //PHPExcel
         'application.components.Exceptions.*',
     ),
 
