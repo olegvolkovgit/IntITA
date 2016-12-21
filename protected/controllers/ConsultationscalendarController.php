@@ -41,13 +41,10 @@ class ConsultationscalendarController extends Controller
 		$lecture = Lecture::model()->findByPk($id);
 		if(!$lecture)
 			throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
-		$editMode = false;
-		$author = new Author();
-		if(Yii::app()->user->model->isAuthor()) {
-			$editMode = $author->isTeacherAuthorModule(Yii::app()->user->getID(), $lecture->idModule);
-		}
+	
+		$editMode = Yii::app()->user->model->isAuthorModule($lecture->idModule);
 
-		$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
+		$enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
 		if (Yii::app()->user->model->isAdmin() || $editMode) {
 			return true;
 		}

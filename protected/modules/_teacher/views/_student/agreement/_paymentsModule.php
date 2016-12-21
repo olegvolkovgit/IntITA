@@ -53,5 +53,5 @@
             '<?= $offerScenario ?>',
             '',
             '<?= $educForm ?>',
-            '')"><?php echo Yii::t('profile', '0261'); ?>
+            '')">Продовжити
 </button>

@@ -1,6 +1,6 @@
 <?php
 /* @var $course Course */
-$enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
+$enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
 $lecturesCount = $lecture->module->lecturesCount();
 ?>
 <div class="titlesBlock" id="titlesBlock">

@@ -190,7 +190,7 @@ class CourseController extends Controller
             if($data["isPaidCourse"]){
                 $data["modules"][$i]['access']=true;
                 $firstQuiz = $module->getFirstQuizId();
-                if(Lecture::getLastEnabledLessonOrder($modules[$i]['id_module'])<$module->lesson_count)
+                if($module->getLastAccessLectureOrder()<$module->lesson_count)
                     $lastQuiz = false;
                 else $lastQuiz = $module->getLastQuizId();
                 if ($firstQuiz)
@@ -205,7 +205,7 @@ class CourseController extends Controller
                     || !$module->modulePrice($data["courseId"])) {
                     $data["modules"][$i]['access']=true;
                     $firstQuiz = $module->getFirstQuizId();
-                    if(Lecture::getLastEnabledLessonOrder($modules[$i]['id_module'])<$module->lesson_count)
+                    if($module->getLastAccessLectureOrder()<$module->lesson_count)
                         $lastQuiz = false;
                     else $lastQuiz = $module->getLastQuizId();
                     if ($firstQuiz)

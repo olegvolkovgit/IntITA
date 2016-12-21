@@ -99,7 +99,7 @@
         <div>
             <span id="titleModule"><?php echo Yii::t('module', '0215'); ?></span>
             <b> <?php echo $post->getLecturesCount() . " " . Yii::t('module', '0216'); ?></b><?php
-            if ($post->lesson_count != 0) {?>
+            if ($post->getLecturesCount() != 0) {?>
                 <?=", " . Yii::t('module', '0217')?> - <b><?=$post->monthsCount() . " " . Yii::t('module', '0218');?></b> (
                 <?=$post->hours_in_day . " " . Yii::t('module', '0219') . ", " . $post->days_in_week . " " .
                 Yii::t('module', '0220') . ")";
@@ -154,12 +154,8 @@
             ?>
         </div>
         <div>
-            <div>
-                <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-                <?php
-                $course = (!isset($_GET['idCourse']) || ($_GET['idCourse'] == 0)) ? 0 : $_GET['idCourse'];
-                $this->renderPartial('_price', array('idCourse' => $course, 'model' => $post,'price'=>$price)); ?>
-            </div>
+            <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
+            <?php $this->renderPartial('_price', array()); ?>
         </div>
         <br>
 
