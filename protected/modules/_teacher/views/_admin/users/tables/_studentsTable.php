@@ -28,7 +28,9 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
 
     <span> з </span><input type="text" class="form-inline" ng-model=startDate id="startDate"/>
     <span> по </span><input type="text" class="form-inline" ng-model=endDate id="endDate"/>
-
+    <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
+       href="/_teacher/_admin/users/export/type/students">
+    </a>
     <br>
     <br>
     <div class="panel panel-default">

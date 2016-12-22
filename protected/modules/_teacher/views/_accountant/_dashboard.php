@@ -105,4 +105,6 @@
             </div>
         </div>
     </div>
+    <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
+    <?php $this->renderPartial('application.modules._teacher.views.schedulerTasks._schedulerDashboardItem');?>
 </div>

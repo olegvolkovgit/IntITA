@@ -4,7 +4,14 @@ class SchedulerTasksController extends TeacherCabinetController
 {
 
     public function hasRole(){
-        return (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
+        return (Yii::app()->user->model->isAdmin()
+            || Yii::app()->user->model->isAccountant()
+            || Yii::app()->user->model->isTrainer()
+            || Yii::app()->user->model->isAuthor()
+            || Yii::app()->user->model->isContentManager()
+            || Yii::app()->user->model->isTeacherConsultant()
+            || Yii::app()->user->model->isSuperVisor()
+        );
     }
 	/**
 	 * Displays a particular model.
