@@ -2,11 +2,18 @@
 <?php
 /**
  * @var $post Module
+ * @var $teachers 
  */
 ?>
+<link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/gridview/styles.css' ?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'module.css'); ?>" />
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleCtrl.js'); ?>"></script>
-<script>basePath = '<?php echo Config::getBaseUrl(); ?>';</script>
+<script>
+    basePath = '<?php echo Config::getBaseUrl(); ?>';
+    idModule = '<?php echo $post->module_ID;?>';
+    idCourse = '<?php echo $idCourse ? 1 : 0; ?>';
+    finishedPrevLectureMsg='<?php echo Yii::t('exception', '0870') ?>';
+</script>
 <?php
 if($idCourse != 0) {
     $this->breadcrumbs = array(
@@ -19,16 +26,14 @@ if($idCourse != 0) {
         $post->getTitleForBreadcrumbs(),
     );
 }
-$price = $post->modulePrice($idCourse);
 ?>
 
-<div class="ModuleBlock">
-    <?php $this->renderPartial('_leftModule', array('post' => $post, 'dataProvider' =>$dataProvider, 'editMode' => $editMode, "idCourse"=>$idCourse,"isPaidCourse"=>$isPaidCourse,"isPaidModule"=>$isPaidModule,'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager,'price'=>$price));?>
+<div class="ModuleBlock" ng-controller="moduleCtrl" ng-cloak ng-hide="!module">
+    <?php $this->renderPartial('_leftModule', array('post' => $post, "idCourse"=>$idCourse));?>
 
     <div class="rightModule">
          <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>
     </div>
-
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>
 <?php
@@ -38,7 +43,6 @@ $this->renderPartial('/site/_shareMetaTag', array(
     'description'=>Yii::t('sharing','0644'),
 ));
 ?>
-<script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">

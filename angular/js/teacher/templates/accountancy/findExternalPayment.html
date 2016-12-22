@@ -20,7 +20,7 @@
 
     <div class="form-group">
         <div class="col-md-4">
-            <label for="docNumber" class="control-label">Компанія</label>
+            <label for="docNumber" class="control-label">Отримувач</label>
         </div>
         <div class="col-md-8">
             <input type="text" id="company" class="form-control" ng-model="document.company.title" readonly>
@@ -33,6 +33,24 @@
         </div>
         <div class="col-md-8">
             <input type="text" id="docNumber" class="form-control" ng-model="document.documentNumber" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
+            <label for="payerName" class="control-label">Назва платника</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="payerName" class="form-control" ng-model="document.payerName" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
+            <label for="payerId" class="control-label">Ідентифікаційний код</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="payerId" class="form-control" ng-model="document.payerId" readonly>
         </div>
     </div>
 

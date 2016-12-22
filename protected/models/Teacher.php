@@ -424,14 +424,6 @@ class Teacher extends CActiveRecord
         return false;
     }
 
-    public static function isTeacherIdAuthorModule($idTeacher, $idModule)
-    {
-        $author = TeacherModule::model()->findByAttributes(
-            array('idTeacher'=>$idTeacher,'idModule'=>$idModule), 'end_time IS NULL'
-        );
-        if (isset($author)) return true; else return false;
-    }
-
     public function getStatus()
     {
         if ($this->isPrint)

@@ -83,12 +83,16 @@ class Operations {
             $externalPayment = ExternalPays::model()->with('internalPays')->findByPk($operation['sourceId']);
             $operation['amount']=$operation['amount']<0?0:$operation['amount'];
             $amount = min($operation['amount'], $externalPayment->getUnallocatedAmount());
-            if($amount==0) return;
             $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $amount);
             $lastPaidInVoice = null;
 
+            usort($operationInvoices, function($a, $b){
+                return ($a['id'] - $b['id']);
+            });
+
             foreach ($operationInvoices as $invoice){
                 $paymentAmount = min($invoice->getUnpaidSum(), $amount, $externalPayment->amount);
+                if($paymentAmount==0) continue;
                 $resultMakePayment = $invoice->makePayment($externalPayment, $paymentAmount, $user);
                 if ($resultMakePayment!== true) {
                     throw new Exception('Internal payment error ' . json_encode($resultMakePayment));

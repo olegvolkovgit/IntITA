@@ -2,7 +2,7 @@
     <form autocomplete="off" name="addExternalPayment" id="addExternalPayment" novalidate>
         <div class="form-group row">
             <div class="col-md-4">
-                <label for="source" class="control-label required">Джерело коштів</label>
+                <label for="source" class="control-label required">Спосіб проплати</label>
             </div>
             <div class="col-md-8">
                 <select name="source" id='source' class="form-control form-inline" ng-model="document.sourceId" required>
@@ -16,7 +16,7 @@
 
         <div class="form-group row">
             <div class="col-md-4">
-                <label for="source" class="control-label required">Компанія</label>
+                <label for="source" class="control-label required">Отримувач</label>
             </div>
             <div class="col-md-8">
                 <select name="company" id='company' class="form-control form-inline" ng-model="document.companyId" required>
@@ -36,6 +36,25 @@
                 <input type="text" id="docNumber" class="form-control" ng-model="document.documentNumber">
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="payerName" class="control-label">Назва платника</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" id="payerName" class="form-control" ng-model="document.payerName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="payerId" class="control-label">Ідентифікаційний код</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" id="payerId" class="form-control" ng-model="document.payerId">
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-4">
                 <label class="control-label required">Дата документа</label>

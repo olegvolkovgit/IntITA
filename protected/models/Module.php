@@ -46,7 +46,7 @@ class Module extends CActiveRecord implements IBillableObject
     const ACTIVE = 0;
     const DELETED = 1;
 
-
+    public $errorMessage;
     /**
      * @return string the associated database table name
      */
@@ -1102,5 +1102,40 @@ class Module extends CActiveRecord implements IBillableObject
             }
         }
         return $access;
+    }
+
+    public function getLastAccessLectureOrder()
+    {
+        $user = Yii::app()->user->getId();
+        $moduleAccess=$this->checkPaidAccess($user);
+        
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'lectures';
+        $criteria->addCondition('idModule=' . $this->module_ID . ' and `order`>0');
+        $criteria->order = '`order` ASC';
+        $sortedLectures = Lecture::model()->findAll($criteria);
+        
+        foreach ($sortedLectures as $key => $lecture) {
+            if (!$lecture->isFinished($user) || !$moduleAccess && !$lecture->isFree) {
+                return $lecture->order;
+            }
+        }
+        if (empty($sortedLectures))
+            return 0;
+        else return $sortedLectures[count($sortedLectures) - 1]['order'];
+    }
+
+    public function getModuleStatus($idCourse=0)
+    {
+        if ($idCourse && Course::model()->findByPk($idCourse)->status==Course::DEVELOP) {
+            $this->errorMessage=Yii::t('lecture', '0811');
+            return false;
+        }
+        if ($this->status==Module::DEVELOP) {
+            $this->errorMessage=Yii::t('lecture', '0894');
+            return false;
+        }
+        
+        return true;
     }
 }

@@ -341,95 +341,6 @@ class Lecture extends CActiveRecord
         return Lecture::model()->findAll($criteria);
     }
 
-    /*Провіряємо чи доступна користувачу лекція. Якщо є попередні лекції з непройденими фінальними завданнями - то лекція не доступна
-Перевірка відбувається за допомогою зрівнювання порядку даної лекції з порядком першої лекції з фінальним завданням яке не пройдене
-Якщо $order>$enabledOrder то недоступна*/
-    public static function accessLecture($id, $order, $enabledOrder, $idCourse = 0)
-    {
-        $lecture = Lecture::model()->findByPk($id);
-        $user = Yii::app()->user->getId();
-        $editMode = false;
-        if (!Yii::app()->user->isGuest) {
-            if (Yii::app()->user->model->isAuthor()) {
-                $model = new Author();
-                $editMode = $model->isTeacherAuthorModule($user, $lecture->idModule);
-            }
-        }
-
-        if (Yii::app()->user->isGuest) {
-            return false;
-        } else {
-            if (Yii::app()->user->model->isAdmin() || $editMode)
-                return true;
-        }
-        if ($idCourse != 0) {
-            $course = Course::model()->findByPk($idCourse);
-            if (!$course->status)
-                return false;
-//            $module = Module::model()->findByPk($lecture->idModule);
-//            if(!$module->status)
-//                return false;
-        }
-        if (!($lecture->isFree)) {
-            $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission($user, $lecture->idModule, array('read')) || $order > $enabledOrder) {
-                return false;
-            }
-        } else {
-            if ($order > $enabledOrder)
-                return false;
-        }
-        return true;
-    }
-
-    public function hasAccessLecture($enabledOrder, $isReadyCourse=true,$freeModule=false)
-    {
-        $user = Yii::app()->user->getId();
-        $editMode = false;
-        if (Yii::app()->user->isGuest) {
-            return false;
-        } else {
-            if (Yii::app()->user->model->isAuthor()) {
-                $model = new Author();
-                if($model->isTeacherAuthorModule($user, $this->idModule))
-                    return true;
-            }
-
-            if (Yii::app()->user->model->isTeacherConsultant()) {
-                $model = new TeacherConsultant();
-                if($model->checkModule($user, $this->idModule)){
-                    return true;
-                }
-            }
-
-            if (Yii::app()->user->model->isAdmin() || $editMode || Yii::app()->user->model->isContentManager())
-                return true;
-        }
-        if (!$isReadyCourse) {
-            return false;
-        }
-        if ($this->module->status==Module::DEVELOP) {
-            return false;
-        }
-        if ($freeModule) {
-            if ($this->order > $enabledOrder)
-                return false;
-            else return true;
-        }
-        if (!($this->isFree)) {
-            $modulePermission = new PayModules();
-            if ((!$modulePermission->checkModulePermission($user, $this->idModule, array('read'))
-                && !$this->module->checkPaidAccess(Yii::app()->user->getId()))
-                || $this->order > $enabledOrder) {
-                return false;
-            }
-        } else {
-            if ($this->order > $enabledOrder)
-                return false;
-        }
-        return true;
-    }
-
     public function isFinished($idUser)
     {
         $passedPages = $this->getFinishedPages($idUser);
@@ -467,31 +378,6 @@ class Lecture extends CActiveRecord
     public static function getLectureDuration($id)
     {
         return Lecture::model()->findByPk($id)->durationInMinutes . Yii::t('lecture', '0076');
-    }
-
-    public static function getLastEnabledLessonOrder($idModule)
-    {
-        $module=Module::model()->findByPk($idModule);
-        $freeModule=($module->modulePrice()==0)?true:false;
-        $user = Yii::app()->user->getId();
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'lectures';
-        $criteria->addCondition('idModule=' . $idModule . ' and `order`>0');
-        $criteria->order = '`order` ASC';
-        $sortedLectures = Lecture::model()->findAll($criteria);
-
-        $modulePermission = new PayModules();
-        foreach ($sortedLectures as $key => $lecture) {
-            if (!$lecture->isFinished($user) ||
-                ($user && (!$modulePermission->checkModulePermission($user, $idModule, array('read'))) && !$lecture->module->checkPaidAccess(Yii::app()->user->getId()))
-                && !$freeModule && !$lecture->isFree) {
-                return $lecture->order;
-            }
-        }
-        if (empty($sortedLectures))
-            return 0;
-        else return $sortedLectures[count($sortedLectures) - 1]['order'];
     }
 
     public static function getLectureTitle($id)
@@ -956,38 +842,6 @@ class Lecture extends CActiveRecord
             "SELECT `order` FROM lectures WHERE idModule=" . $this->idModule . "  ORDER BY `order` DESC LIMIT 1";
         $lastLectureOrder = Yii::app()->db->createCommand($sqlLastOrder)->queryScalar();
         return $lastLectureOrder;
-    }
-
-    public function exceptionsForTooltips($enabledOrder, $isReadyCourse=true,$freeModule=false)
-    {
-        $user = Yii::app()->user->getId();
-        if (Yii::app()->user->isGuest) {
-            return Yii::t('exception', '0868');
-        }
-        if (!$isReadyCourse) {
-            return Yii::t('lecture', '0811');
-        }
-        if ($this->module->status==Module::DEVELOP) {
-            return Yii::t('lecture', '0894');
-        }
-        if ($freeModule) {
-            if ($this->order > $enabledOrder)
-                return Yii::t('exception', '0870');
-        }else{
-            if (!($this->isFree)) {
-                $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) &&
-                    !$this->module->checkPaidAccess(Yii::app()->user->getId())){
-                    return Yii::t('exception', '0869');
-                }
-                if ($this->order > $enabledOrder){
-                    return Yii::t('exception', '0870');
-                }
-            } else {
-                if ($this->order > $enabledOrder)
-                    return Yii::t('exception', '0870');
-            }
-        }
     }
 
     /**

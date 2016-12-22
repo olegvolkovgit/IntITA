@@ -58,7 +58,6 @@ class UserServiceAccess extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg', 'userId'),
             'changedUser' => array(self::BELONGS_TO, 'StudentReg', 'userChanged'),
             'agreement' => array(self::BELONGS_TO, 'UserAgreements', ['serviceId'=>'service_id','userId'=>'user_id']),
-			//todo
 			'invoices' => array(self::HAS_MANY, 'Invoice', array('id'=>'agreement_id'), 'through' => 'agreement'),
 			'internalPayment' => array(self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoices')
 		);
