@@ -844,38 +844,6 @@ class Lecture extends CActiveRecord
         return $lastLectureOrder;
     }
 
-    public function exceptionsForTooltips($enabledOrder, $isReadyCourse=true,$freeModule=false)
-    {
-        $user = Yii::app()->user->getId();
-        if (Yii::app()->user->isGuest) {
-            return Yii::t('exception', '0868');
-        }
-        if (!$isReadyCourse) {
-            return Yii::t('lecture', '0811');
-        }
-        if ($this->module->status==Module::DEVELOP) {
-            return Yii::t('lecture', '0894');
-        }
-        if ($freeModule) {
-            if ($this->order > $enabledOrder)
-                return Yii::t('exception', '0870');
-        }else{
-            if (!($this->isFree)) {
-                $modulePermission = new PayModules();
-                if (!$modulePermission->checkModulePermission($user, $this->idModule, array('read')) &&
-                    !$this->module->checkPaidAccess(Yii::app()->user->getId())){
-                    return Yii::t('exception', '0869');
-                }
-                if ($this->order > $enabledOrder){
-                    return Yii::t('exception', '0870');
-                }
-            } else {
-                if ($this->order > $enabledOrder)
-                    return Yii::t('exception', '0870');
-            }
-        }
-    }
-
     /**
      * Clear regular DB from lecture (pages and elements)
      * @throws CDbException

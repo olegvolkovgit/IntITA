@@ -44,9 +44,9 @@ class StudentController extends TeacherCabinetController
         $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
         $adapter->mergeCriteriaWith($criteria);
         $records = $adapter->getData();
-        //$access ="";
         foreach ($records['rows'] as &$record){
-            $access=PayModules::model()->checkModulePermission(Yii::app()->user->getId(), $record['lecture']["idModule"], array('read'));
+            $module=Module::model()->findByPk($record['lecture']["idModule"]);
+            $access=$module->checkPaidAccess(Yii::app()->user->getId());
             if ($access){
                 if(date('H:i')< date('H:i',strtotime($record["start_cons"]))){
                     $record['status'] = 'очікування';

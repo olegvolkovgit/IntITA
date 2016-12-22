@@ -40,30 +40,9 @@ class ConsultationscalendarController extends Controller
 	{
 		$lecture = Lecture::model()->findByPk($id);
 		if(!$lecture)
-			throw new \application\components\Exceptions\IntItaException('404', 'Заняття не існує');
-	
-		$editMode = Yii::app()->user->model->isAuthorModule($lecture->idModule);
-
-		$enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
-		if (Yii::app()->user->model->isAdmin() || $editMode) {
-			return true;
-		}
-		if($idCourse!=0){
-			$course = Course::model()->findByPk($idCourse);
-			if(!$course->status)
-				throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Курс знаходиться в розробці.');
-		}
-		$module = Module::model()->findByPk($lecture->idModule);
-		if(!$module->status)
-			throw new \application\components\Exceptions\IntItaException('403', 'Заняття не доступне. Модуль знаходиться в розробці.');
-		$modulePermission = new PayModules();
-		if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read'))
-			&& !$lecture->module->checkPaidAccess(Yii::app()->user->getId()) ) {
-			throw new CHttpException(403, 'Консультацію можна замовити тільки якщо заняття проплачене або укладений договір');
-		} else {
-			if ($lecture->order > $enabledLessonOrder)
-				throw new CHttpException(403, 'Ти не можеш запланувати консультацію. Спочатку пройди попередній матеріал.');
-		}
+			throw new \application\components\Exceptions\IntItaException('404', Yii::t('lecture', '0810'));
+		if(!Yii::app()->user->model->hasLectureAccess($lecture, $idCourse))
+			throw new \application\components\Exceptions\IntItaException('403', Yii::app()->user->model->lectureAccessErrorMessage);
 	}
 
 	/**

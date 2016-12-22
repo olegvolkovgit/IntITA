@@ -380,7 +380,8 @@ class Consultationscalendar extends CActiveRecord
         $return = array('data' => array());
 
         foreach ($result as $record) {
-            $access=PayModules::model()->checkModulePermission($user, $record["idModule"], array('read'));
+            $module=Module::model()->findByPk($record["idModule"]);
+            $access=$module->checkPaidAccess($user);
             $row = array();
 
             $row["user"]["name"] = implode(" ", array($record["secondName"], $record["firstName"], $record["middleName"], $record["email"]));

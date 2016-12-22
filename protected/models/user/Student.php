@@ -38,15 +38,13 @@ class Student extends Role
 
     public function attributes(StudentReg $user)
     {
-        $mask = PayModules::setFlags(array('read'));
-
         if (!$this->courses) {
-            $this->loadCourses($user, $mask);
+            $this->loadCourses($user);
         }
         $courses = $this->courses;
 
         if (!$this->modules) {
-            $this->loadModules($user, $mask);
+            $this->loadModules($user);
         }
         $modules = $this->modules;
 
@@ -66,7 +64,7 @@ class Student extends Role
         );
     }
 
-    private function loadCourses(StudentReg $user, $mask)
+    private function loadCourses(StudentReg $user)
     {
         $groupCourses=[];
         foreach ($user->offlineGroups as $group) {
@@ -81,7 +79,7 @@ class Student extends Role
             ->join('acc_course_service cs', 'cs.service_id=sa.serviceId')
             ->join('course c', 'c.course_ID=cs.course_id')
             ->join('level l', 'l.id=c.level')
-            ->where('sa.userId=' . Yii::app()->user->getId().' and sa.endDate>='.$now)
+            ->where('sa.userId=' . $user->id.' and sa.endDate>='.$now)
             ->queryAll();
 
         $allCourses=array_merge($groupCourses,$accessCourses);
@@ -93,7 +91,7 @@ class Student extends Role
         $this->courses=$result;
     }
 
-    private function loadModules(StudentReg $user, $mask)
+    private function loadModules(StudentReg $user)
     {
         $groupModules=[];
         foreach ($user->offlineGroups as $group) {
@@ -108,7 +106,7 @@ class Student extends Role
             ->join('acc_module_service ms', 'ms.service_id=sa.serviceId')
             ->join('module m', 'm.module_ID=ms.module_id')
             ->join('level l', 'l.id=m.level')
-            ->where('sa.userId=' . Yii::app()->user->getId().' and sa.endDate>='.$now)
+            ->where('sa.userId=' . $user->id.' and sa.endDate>='.$now)
             ->queryAll();
 
         $allModules=array_merge($groupModules,$accessModules);
