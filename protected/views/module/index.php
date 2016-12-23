@@ -11,7 +11,7 @@
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
     idModule = '<?php echo $post->module_ID;?>';
-    idCourse = '<?php echo $idCourse ? 1 : 0; ?>';
+    idCourse = '<?php echo $idCourse ?>';
     finishedPrevLectureMsg='<?php echo Yii::t('exception', '0870') ?>';
 </script>
 <?php

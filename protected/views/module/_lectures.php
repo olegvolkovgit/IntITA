@@ -41,7 +41,7 @@
                         <span ng-if="!(module.moduleAccess===true ||
                         (!module.notAccessMessage && lecture.order<=module.user.lastAccessLectureOrder) ||
                         (module.moduleAccess!==false && lecture.isFree && lecture.order<=module.user.lastAccessLectureOrder))" class="disablesLink"
-                              uib-tooltip-html="'{{(module.moduleAccess!==false && lecture.isFree)?finishedPrevLectureMsg:module.notAccessMessage}}'">{{lecture.title}}
+                              uib-tooltip-html="'{{(module.moduleAccess!==false && lecture.isFree || !module.notAccessMessage)?finishedPrevLectureMsg:module.notAccessMessage}}'">{{lecture.title}}
                         </span>
                     </td>
                 </tr>
