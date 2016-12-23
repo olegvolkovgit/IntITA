@@ -86,15 +86,15 @@
             <div class="panel-body">
                 <ul>
                     <li><a href="#/admin/freelectures">Безкоштовні заняття</a>
-                    </li>
-                    <li><a href="#admin/pay">Сплатити курс/модуль</a>
-                    </li>
-                    <li><a href="#/admin/cancel">Скасувати курс/модуль</a>
-                    </li>
+<!--                    </li>-->
+<!--                    <li><a href="#admin/pay">Сплатити курс/модуль</a>-->
+<!--                    </li>-->
+<!--                    <li><a href="#/admin/cancel">Скасувати курс/модуль</a>-->
+<!--                    </li>-->
                 </ul>
             </div>
             <div class="panel-footer">
-                <em>Права доступу до курсів/модулів</em>
+                <em>Встановлення безкоштовних занять</em>
             </div>
         </div>
     </div>
