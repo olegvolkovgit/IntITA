@@ -133,7 +133,6 @@ class StudentController extends TeacherCabinetController
         $adapter = new NgTableAdapter('UserServiceAccess',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
-        //echo PayCourses::getPayCoursesListByUser();
     }
 
     public function actionGetPayModulesList()
@@ -143,7 +142,6 @@ class StudentController extends TeacherCabinetController
         $adapter = new NgTableAdapter('UserServiceAccess',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
-        //echo PayModules::getPayModulesListByUser();
     }
 
     public function actionGetAgreementsList()

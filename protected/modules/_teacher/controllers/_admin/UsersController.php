@@ -124,8 +124,6 @@ class UsersController extends TeacherCabinetController
         $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
             'country0'=>true,
             'city0'=>true,
-            'payModules'=>true,
-            'payCourses'=>true,
             'studentTrainer'=>true));
 
         $criteria =  new CDbCriteria();

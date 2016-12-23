@@ -51,11 +51,11 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                         <td data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
                             <a ng-href="#/admin/users/user/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>
                         </td>
-                        <td data-title="'Доступ до контенту'" >
+                        <td data-title="'Доступ до контента (по договору)'" >
                             <a type="button"
-                               ng-class="{'btn btn-outline btn-success btn-block': (row.payCourses.length || row.payModules.length),
-                               'btn btn-outline btn-danger btn-block': (!row.payCourses.length && !row.payModules.length) }" ng-href="#/admin/users/user/{{row.id}}">
-                                {{(row.payCourses.length || row.payModules.length)? "є доступ":"немає доступу"}}
+                               ng-class="{'btn btn-outline btn-success btn-block': row.serviceAccess.length,
+                               'btn btn-outline btn-danger btn-block': !row.serviceAccess.length }" ng-href="#/admin/users/user/{{row.id}}">
+                                {{row.serviceAccess.length? "є доступ":"немає доступу"}}
                             </a>
                         </td>
                     </tr>
