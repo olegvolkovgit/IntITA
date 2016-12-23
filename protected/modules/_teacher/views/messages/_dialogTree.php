@@ -8,8 +8,9 @@ $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
 
 <div class="col-lg-12 message">
+    <a href="javascript:void(0)" onclick="window.open('/profile/<?=$dialog->partner1->id?>')">
     <h3><?= $dialog->partner1->userNameWithEmail(); ?></h3>
-
+        </a>
     <div class="panel-group" id="accordion">
         <?php foreach ($dialog->messages() as $key => $message) {
             if (!$message->isDeleted($dialog->partner2)) {
