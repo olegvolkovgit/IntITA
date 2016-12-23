@@ -166,5 +166,33 @@
     <?php $this->renderPartial('application.modules._teacher.views.schedulerTasks._schedulerDashboardItem');?>
 </div>
 
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Схеми проплат
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a href="#/accountant/paymentSchemas/default">Стандартні схеми проплат</a>
+                    </li>
+                    <li>
+                        <a href="#/accountant/paymentSchemas/course">Курси</a>
+                    </li>
+                    <li>
+                        <a href="#/accountant/paymentSchemas/module">Модулі</a>
+                    </li>
+                    <li>
+                        <a href="#/accountant/paymentSchemas/user">Користувачі</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <em>Схеми оплат(індивідуальні скидки, акції тощо)</em>
+            </div>
+        </div>
+    </div>
+</div>
 
 
