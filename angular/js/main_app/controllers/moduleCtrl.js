@@ -39,6 +39,7 @@ function moduleCtrl($scope, $http) {
         $scope.basePath=basePath;
         $scope.module=response;
         var title='title_'+lang;
+        
         if($scope.module.user)
             $scope.module.user.lastAccessLectureOrder=Number($scope.module.user.lastAccessLectureOrder);
         $scope.module.lectures.forEach(function(item, key) {
