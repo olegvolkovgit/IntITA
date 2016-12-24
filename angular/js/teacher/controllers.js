@@ -253,7 +253,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 }).success(function(response){
                     if (response == 'success'){
-                        bootbox.alert('Опрерацію успішно виконано',function(){
+                        bootbox.alert('Операцію успішно виконано',function(){
                             $scope.receivedMessagesTable.reload().then(function successCallback() {
                                 if(!$scope.receivedMessagesTable.data.length){
                                     $state.reload();
