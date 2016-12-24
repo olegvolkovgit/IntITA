@@ -46,8 +46,7 @@
  * @property AddressCountry $country0
  * @property AddressCity $city0
  * @property TrainerStudent $trainer
- * @property PayModules [] $payModules
- * @property PayCourses [] $payCourses
+ * @property UserServiceAccess [] $serviceAccess
  * @property UserStudent [] $student
  * @property OfflineStudents $offlineStudents
  * @property OfflineSubgroups[] $offlineSubGroups
@@ -207,8 +206,7 @@ class StudentReg extends CActiveRecord
             'trainer' => array(self::HAS_ONE, 'TrainerStudent', 'student', 'on' => 'trainer.end_time IS NULL'),
             'country0' => array(self::HAS_ONE, 'AddressCountry', ['id'=>'country']),
             'city0' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
-            'payModules' => array(self::HAS_MANY, 'PayModules', 'id_user', 'on' => 'payModules.rights = 1'),
-            'payCourses' => array(self::HAS_MANY, 'PayCourses', 'id_user', 'on' => 'payCourses.rights = 1'),
+            'serviceAccess' => array(self::HAS_MANY, 'UserServiceAccess', 'userId', 'on' => 'serviceAccess.endDate > NOW()'),
             'student' => array(self::HAS_ONE, 'UserStudent', 'id_user', 'on' => 'student.end_date IS NULL'),
             'lastLink' => array(self::HAS_ONE, 'UserLastLink', 'id_user'),
             'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
@@ -938,49 +936,6 @@ class StudentReg extends CActiveRecord
         else return $this->email;
     }
 
-    public static function getStudentsList($startDate, $endDate)
-    {
-        $criteria =  new CDbCriteria();
-        $criteria->select = 'u.id,concat(IFNULL(u.firstName, ""), " ", IFNULL(u.secondName, "")) as studentName, u.email, us.start_date as startTime, u.educform, u.country, u.city';
-
-        $criteria->alias = 'u';
-        $criteria->join = 'inner join user_student us on u.id = us.id_user';
-        $criteria->condition = 'u.cancelled='.StudentReg::ACTIVE;
-
-        $criteria->group = 'u.id';
-        if (isset($startDate) && isset($endDate)) {
-            $criteria->condition = "TIMESTAMP(start_date) BETWEEN " . "'$startDate'" . " AND " . "'$endDate'";
-        }
-        $result = StudentReg::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($result as $record) {
-            $row = array();
-            
-            $row["student"]["id"] = $record["id"];
-            $row["student"]["name"] = $record["studentName"];
-            $row["email"]["title"] = $record["email"];
-            $row["student"]["header"] = $row["email"]["header"] = addslashes($record["studentName"])." <".$record["email"].">";
-            $row["email"]["url"] = $row["student"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["date"] = date("d.m.Y H:m", strtotime($record["startTime"]));
-            $row["educForm"] = $record->educform;
-            $row["country"] = ($record->country0)?$record->country0->title_ua:"";
-            $row["city"] = ($record->city0)?$record->city0->title_ua:"";
-            $row["trainer"] = $record->trainer?$record->trainer->getTrainerByStudent($record->id)->userNameWithEmail():'';
-            $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
-            if($record->hasPayedContent()){
-                $row["addAccessLink"]["color"] = "success";
-                $row["addAccessLink"]["text"] = "є проплати";
-            } else {
-                $row["addAccessLink"]["color"] = "danger";
-                $row["addAccessLink"]["text"] = "немає проплат";
-            }
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-    }
-
     public static function countTeachers()
     {
         $criteria = new CDbCriteria();
@@ -1075,46 +1030,6 @@ class StudentReg extends CActiveRecord
         $criteria->addCondition('r.id_receiver=' . $this->id . ' and u.id = m.sender');
 
         return StudentReg::model()->findAll($criteria);
-    }
-
-    public static function usersList()
-    {
-        $users = StudentReg::model()->findAll('cancelled='.StudentReg::ACTIVE);
-
-        $return = array('data' => array());
-
-        foreach ($users as $record) {
-            $row = array();
-            $name = $record->secondName . " " . $record->firstName . " " . $record->middleName;
-            $row["user"]["id"] = $record["id"];
-            $row["user"]["name"] = $name;
-            $row["email"]["title"] = $record["email"];
-            $row["user"]["header"] = $row["email"]["header"] = addslashes($name)." <".$record["email"].">";
-            $row["email"]["url"] = $row["user"]["url"] = Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]));
-            $row["educForm"] = $record->educform;
-            $row["country"] = ($record->country0)?$record->country0->title_ua:"";
-            $row["city"] = ($record->city0)?$record->city0->title_ua:"";
-            $row["register"] = ($record["reg_time"] > 0) ? date("d.m.Y", strtotime($record["reg_time"])) : 'невідомо';
-            $row["addAccessLink"]["url"] =  "'".Yii::app()->createUrl('/_teacher/user/index', array('id' => $record["id"]))."'";
-            if($record->hasPayedContent()){
-                $row["addAccessLink"]["color"] = "success";
-                $row["addAccessLink"]["text"] = "є проплати";
-            } else {
-                $row["addAccessLink"]["color"] = "danger";
-                $row["addAccessLink"]["text"] = "немає проплат";
-            }
-
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-    }
-
-    public function hasPayedContent(){
-        return ($this->payCourses || $this->payModules)?true:false;
-//        return PayModules::model()->exists('id_user=:id', array('id' => $this->id)) ||
-//        PayCourses::model()->exists('id_user=:id', array('id' => $this->id));
     }
 
     public static function usersWithoutTeachers($query)

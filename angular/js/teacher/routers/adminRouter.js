@@ -101,22 +101,22 @@ config(function ($stateProvider) {
             },
             templateUrl: basePath+"/_teacher/_admin/roleAttributes/teacherConsultantAttributes",
         })
-        .state('admin/pay', {
-            url: "/admin/pay",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Сплатити курс/модуль');
-            },
-            templateUrl: basePath+"/_teacher/_admin/pay/index"
-        })
-        .state('admin/cancel', {
-            url: "/admin/cancel",
-            cache: false,
-            controller: function($scope){
-                $scope.changePageHeader('Скасувати курс/модуль');
-            },
-            templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
-        })
+        // .state('admin/pay', {
+        //     url: "/admin/pay",
+        //     cache: false,
+        //     controller: function($scope){
+        //         $scope.changePageHeader('Сплатити курс/модуль');
+        //     },
+        //     templateUrl: basePath+"/_teacher/_admin/pay/index"
+        // })
+        // .state('admin/cancel', {
+        //     url: "/admin/cancel",
+        //     cache: false,
+        //     controller: function($scope){
+        //         $scope.changePageHeader('Скасувати курс/модуль');
+        //     },
+        //     templateUrl: basePath+"/_teacher/_admin/pay/cancelCourseModule",
+        // })
         .state('admin/users', {
             url: "/admin/users",
             cache: false,

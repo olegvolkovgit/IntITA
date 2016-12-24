@@ -39,14 +39,15 @@ function moduleCtrl($scope, $http) {
         $scope.basePath=basePath;
         $scope.module=response;
         var title='title_'+lang;
-
         if($scope.module.user)
             $scope.module.user.lastAccessLectureOrder=Number($scope.module.user.lastAccessLectureOrder);
         $scope.module.lectures.forEach(function(item, key) {
             $scope.module.lectures[key].order=Number($scope.module.lectures[key].order);
             $scope.module.lectures[key].title=$scope.module.lectures[key][title]!=''?$scope.module.lectures[key][title]:$scope.module.lectures[key]['ua'];
 
-            if($scope.module.user && ($scope.module.moduleAccess || !$scope.module.notAccessMessage || ($scope.module.lectures[key].isFree && $scope.module.lectures[key].order<=$scope.module.user.lastAccessLectureOrder)))
+            if($scope.module.moduleAccess===true ||
+                (!$scope.module.notAccessMessage && $scope.module.lectures[key].order<=$scope.module.user.lastAccessLectureOrder) ||
+                ($scope.module.moduleAccess!==false && $scope.module.lectures[key].isFree && $scope.module.lectures[key].order<=$scope.module.user.lastAccessLectureOrder))
                 $scope.module.lectures[key].ico='enabled.png';
             else $scope.module.lectures[key].ico='disabled.png';
 
