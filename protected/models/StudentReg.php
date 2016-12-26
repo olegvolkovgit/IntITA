@@ -399,9 +399,7 @@ class StudentReg extends CActiveRecord
 
     public static function getEdForm($edForm)
     {
-        if (isset($edForm) &&
-            $edForm == 'Онлайн/Офлайн'
-        ) {
+        if (isset($edForm) && $edForm == EducationForm::ONLINE_OFFLINE) {
             $val = 'checked';
         } else {
             $val = '';
@@ -1363,5 +1361,11 @@ class StudentReg extends CActiveRecord
             }
         }
         return $result;
+    }
+
+    public function getEducationFormStr()
+    {
+        $param = "title_".Yii::app()->session["lg"];
+        return $this->educationForm->$param;
     }
 }

@@ -186,20 +186,19 @@ $param = "title_".Yii::app()->session["lg"];
                             <span
                                 ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
                     </div>
-                    <?php if (!$user->isTeacher()) {
-                        ?>
-                        <div class="rowRadioButton" id="rowEducForm">
-                            <?php echo $form->labelEx($model, 'educform'); ?>
-
-                            <div class="radiolabel">
-                                <label><input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>online</label>
-                                <label><input class="checkstyle" type="checkbox" name="educformOff"
-                                              value="1" <?php echo $post::getEdForm($post->educform) ?> />offline</label>
-                            </div>
+                    <div class="rowRadioButton" id="rowEducForm">
+                        <?php echo $form->labelEx($model, 'educform'); ?>
+                        <div class="radiolabel">
+                            <label>
+                                <input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>
+                                <?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?>
+                            </label>
+                            <label>
+                                <input class="checkstyle" type="checkbox" name="educformOff" value="3" <?php echo $post::getEdForm($post->educform) ?> />
+                                <?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?>
+                            </label>
                         </div>
-                        <?php
-                    }
-                    ?>
+                    </div>
                     <div class="row">
                         <?php echo $form->label($model, 'email'); ?>
                         <?php echo $form->textField($model, 'email', array('ng-init' => "dataForm.email='$post->email'", 'ng-model' => "dataForm.email", 'maxlength' => 40, "disabled" => "disabled", 'class' => 'indicator')); ?>

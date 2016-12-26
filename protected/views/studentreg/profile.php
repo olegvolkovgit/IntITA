@@ -107,8 +107,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                                         class="colorP"><?php echo Yii::t('profile', '0105') ?></span>{{profileData.aboutUs}}</p>
                             </div>
                             <div class="aboutInfo">
-                                <p ng-if="profileData.educform && !profileData.teacher"><span
-                                        class="colorP"><?php echo Yii::t('profile', '0106') ?></span>{{profileData.educform}}
+                                <p ng-if="profileData.educform && !profileData.teacher">
+                                    <span class="colorP"><?php echo Yii::t('profile', '0106') ?></span>
+                                    <?php echo $post->getEducationFormStr(); ?>
                                 </p>
                             </div>
                             <div class="aboutInfo">

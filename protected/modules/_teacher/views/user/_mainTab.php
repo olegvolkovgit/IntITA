@@ -126,7 +126,7 @@ $user = $model->registrationData;
                     <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"
                                 ng-click="changeStudentEducForm(data.user.id,data.user.educform);">
-                            {{data.user.educform=='Онлайн' ? "змінити на 'Онлайн/Офлайн'" : "змінити на 'Онлайн'"}}
+                            {{data.user.educform=='1' ? "змінити на 'Онлайн/Офлайн'" : "змінити на 'Онлайн'"}}
                         </button>
                     <?php } ?>
                 </li>

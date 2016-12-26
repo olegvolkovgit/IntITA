@@ -193,10 +193,9 @@ class StudentRegController extends Controller
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-
-        if (isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
-            $_POST['StudentReg']['educform'] = 'Онлайн/Офлайн';
-        else $_POST['StudentReg']['educform'] = 'Онлайн';
+        
+        $_POST['StudentReg']['educform'] = (isset($_POST['educformOff']) && $_POST['educformOff'] == 
+            EducationForm::ONLINE_OFFLINE)?EducationForm::ONLINE_OFFLINE:EducationForm::ONLINE;
 
         $model->attributes = $_POST['StudentReg'];
         if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
