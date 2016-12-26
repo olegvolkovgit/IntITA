@@ -57,12 +57,22 @@
         </div>
         <div ng-show="signMode=='signUp'">
             <div class="authLinks">
-                <div class="regCheckbox">
-                    <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
-                    <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
+                <div class="row">
+                    <div class="regCheckbox">
+                        <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
+                        <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
+                    </div>
+
+                    <div class="regCheckbox">
+                        <input type="checkbox" class="eductionFormCheckbox" ng-model="educationForm.online" ng-init='educationForm.online=true' name="educationForm" id="onlineEducation" disabled>
+                        <label for="onlineEducation">online</label>
+                        <input type="checkbox" class="eductionFormCheckbox" ng-model="educationForm.offline" name="educationForm" id="offlineEducation">
+                        <label for="offlineEducation">offline</label>
+                    </div>
+
+                    <label for="signInMode" class=registration><?php echo Yii::t('regform','0806') ?></label>
+                    <input ng-hide=true ng-init="signMode='<?php echo $mode; ?>'" type="radio" ng-model="signMode" name="signMode" id="signInMode" value="signIn" />
                 </div>
-                <label for="signInMode" class=registration><?php echo Yii::t('regform','0806') ?></label>
-                <input ng-hide=true ng-init="signMode='<?php echo $mode; ?>'" type="radio" ng-model="signMode" name="signMode" id="signInMode" value="signIn" />
             </div>
             <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authForm.$invalid && !regChecked', 'value'=>Yii::t('regform', Yii::t('regform', '0013')))); ?>
         </div>

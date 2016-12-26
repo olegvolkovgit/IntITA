@@ -72,6 +72,12 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                     <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
                     <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
                 </div>
+                <div class="regCheckbox">
+                    <input type="checkbox" class="eductionFormCheckbox" ng-model="educationForm.online" ng-init='educationForm.online=true' name="educationForm" id="onlineEducation" disabled>
+                    <label for="onlineEducation">online</label>
+                    <input type="checkbox" class="eductionFormCheckbox" ng-model="educationForm.offline" name="educationForm" id="offlineEducation">
+                    <label for="offlineEducation">offline</label>
+                </div>
                 <label for="signInModeDialog" class=registration><?php echo Yii::t('regform','0806') ?></label>
                 <input ng-hide=true ng-init="signModeDialog='<?php echo $mode; ?>'" type="radio" ng-model="signModeDialog" name="signMode" id="signInModeDialog" value="signIn" />
             </div>

@@ -14,17 +14,27 @@ div.linesignInForm{margin:0 auto;max-width:444px;width:100%;font-size:18px;borde
 .rowButtons{margin-bottom:25px;position:relative;}
 div.image{margin:0 auto;max-width:444px;width:100%}
 #regCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
-#regCheckbox + label{cursor:pointer;font-weight:normal;margin-bottom:0px;display: inline-block;margin-bottom: 5px;}
+#regCheckbox + label{cursor:pointer;font-weight:normal;display: inline-block;margin-bottom: 5px;}
 #regCheckbox:not(checked){position:absolute;opacity:0;}
-#regCheckbox:not(checked) + label{position:relative;padding:0 0 0 42px;}
+#regCheckbox:not(checked) + label{position:relative;padding:0 0 0 32px;}
 #regCheckbox:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:26px;height:14px;border-radius:13px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
 #regCheckbox:not(checked) + label:after{content:'';position:absolute;top:6px;left:4px;width:10px;height:10px;border-radius:10px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
 #regCheckbox:checked + label:before{background:#4B75A4;border:1px solid #4B75A4;}
 #regCheckbox:checked + label:after{left:16px;border:1px solid #FFF;}
 #regCheckbox:focus + label:before{box-shadow:0 0 1px #1287bf;}
 #regCheckbox:hover + label:before{box-shadow:0 0 1px #1287bf;}
+
+.eductionFormCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
+.eductionFormCheckbox + label{cursor:pointer;font-weight:normal;display: inline-block;margin-left: 15px}
+.eductionFormCheckbox:not(checked){position:absolute;opacity:0;}
+.eductionFormCheckbox:not(checked) + label{position:relative;padding:0 0 0 18px;}
+.eductionFormCheckbox:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:10px;height:10px;border-radius:10px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
+.eductionFormCheckbox:checked + label:before{background:#4B75A4;border:1px solid #4B75A4;}
+.eductionFormCheckbox:focus + label:before{box-shadow:0 0 1px #1287bf;}
+.eductionFormCheckbox:hover + label:before{box-shadow:0 0 1px #1287bf;}
+
 .regCheckboxW{width:452px;margin:0 auto;overflow:hidden;}
-.authLinks .regCheckbox{position:relative;text-align:left;float:left;max-width:60%;width:inherit}
+.authLinks .regCheckbox{position:relative;text-align:left;float:left;}
 .regCheckbox label{color:#4B75A4;}
 .regCheckbox label:hover{color:#666666;}
 .rowemail input:focus,.rowpass input:focus{cursor:text;}
@@ -36,7 +46,7 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 .signIn,.signUp{text-align:center;}
 .signInEmailM{margin-top:0;}
 .signInPassM{margin-top:8px;}
-.authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;}
+.authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;margin-top:5px}
 .authLinks a{text-decoration:underline;}
 #signInButtonM{margin:0 auto;margin-top:5px;margin-bottom:27px;}
 a#authLinks{color:#4b75a4;float:left;font-size:16px;cursor:pointer}

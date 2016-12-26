@@ -15,7 +15,7 @@
  * @property string $phone
  * @property string $address
  * @property string $education
- * @property string $educform
+ * @property integer $educform
  * @property string $interests
  * @property string $aboutUs
  * @property string $aboutMy
@@ -102,7 +102,7 @@ class StudentReg extends CActiveRecord
         // will receive user inputs.
         return array(
             array('facebook, googleplus, linkedin, vkontakte, twitter', 'networkValidation'),
-            array('city, country', 'numerical', 'integerOnly' => true),
+            array('educform, city, country', 'numerical', 'integerOnly' => true),
             array('avatar', 'file', 'types' => 'jpg, gif, png, jpeg', 'maxSize' => 1024 * 1024 * 5, 'allowEmpty' => true, 'tooLarge' => Yii::t('error', '0302'), 'on' => 'reguser,edit', 'except' => 'socialLogin'),
             array('email, password, password_repeat', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'reguser'),
             array('email', 'required', 'message' => Yii::t('error', '0268'), 'on' => 'recovery,resetemail,linkingemail'),
@@ -126,7 +126,6 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'max' => 15),
             array('passport, document_type, inn, document_issued_date', 'length', 'max' => 30),
             array('phone', 'length', 'min' => 15),
-            array('educform', 'length', 'max' => 60),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country,
             city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
@@ -212,7 +211,8 @@ class StudentReg extends CActiveRecord
             'trainerData' => array(self::BELONGS_TO, 'StudentReg', array('trainer'=>'id'), 'through' => 'trainer'),
             'offlineStudents' => [self::HAS_ONE, 'OfflineStudents', 'id_user', 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()'],
             'offlineSubGroups' => [self::HAS_MANY, 'OfflineSubgroups', ['id_subgroup' => 'id'], 'through' => 'offlineStudents'],
-            'offlineGroups' => [self::HAS_MANY, 'OfflineGroups', ['group' => 'id'], 'through' => 'offlineSubGroups']
+            'offlineGroups' => [self::HAS_MANY, 'OfflineGroups', ['group' => 'id'], 'through' => 'offlineSubGroups'],
+            'educationForm' => array(self::HAS_ONE, 'EducationForm', ['id'=>'educform']),
         );
     }
 

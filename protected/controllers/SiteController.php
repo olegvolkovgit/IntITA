@@ -703,7 +703,7 @@ class SiteController extends Controller
         $signMode = Yii::app()->request->getPost('signMode');
         $extended = Yii::app()->request->getPost('isExtended');
         $formId = Yii::app()->request->getPost('formId');
-        $callBack = Yii::app()->request->getPost('callBack');
+        $offlineForm=Yii::app()->request->getPost('educationForm');
 
         $model = new StudentReg();
         if ($signMode == 'signUp') //            SignUp
@@ -718,6 +718,7 @@ class SiteController extends Controller
             }
             if (isset($post)) {
                 $model->attributes = $post;
+                $model->educform=$offlineForm?3:1;
                 $getToken = rand(0, 99999);
                 $getTime = date("Y-m-d H:i:s");
                 $model->token = sha1($getToken . $getTime);
@@ -748,7 +749,6 @@ class SiteController extends Controller
                 $statusmodel = StudentReg::model()->findByAttributes(array('email' => $model->email));
                 if ($statusmodel->status == 1) {
                     if ($model->login()) {
-                        $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                         $event = 'LogIn';
                         $lesson = Yii::app()->request->getPost('lesson',0);
                         $part = Yii::app()->request->getPost('page',0);
@@ -756,19 +756,6 @@ class SiteController extends Controller
 
                         $Model = EventsFactory::trackEvent($event);
                         $Model->trackEvent($user_id,$lesson,$part);
-                        //                        Forum login
-                        if (!ForumUser::login($userModel))
-                            throw new ForumException('Forum user not save!!!');
-                        if (!isset($_COOKIE['cookie_key'])) {
-                            foreach ($_SESSION as $key => $value) {
-                                if (strpos($key, '__id')) {
-                                    $cookie_key = substr($key, 0, strpos($key, '_'));
-                                    setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
-                                    break;
-                                }
-                            }
-                        };
-//                                                Forum login
                         if (!empty($callBack)) {
                             $this->redirect($callBack);
                         }
