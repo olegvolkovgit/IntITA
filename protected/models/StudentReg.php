@@ -119,9 +119,9 @@ class StudentReg extends CActiveRecord
             array('email', 'unique', 'caseSensitive' => true, 'allowEmpty' => true, 'message' => Yii::t('error', '0272'), 'on' => 'resetemail, repidreg,reguser,edit,fromraptoext'),
             array('password', 'authenticate', 'on' => 'loginuser'),
             array('password_repeat', 'passdiff', 'on' => 'edit'),
+            array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
             array('password', 'compare', 'compareAttribute' => 'password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'reguser'),
             array('firstName, secondName, nickname, email, password, education, passport_issued', 'length', 'max' => 255),
-            array('birthday', 'length', 'max' => 11),
             array('phone', 'match', 'pattern' => '^\+\d{2}\(\d{3}\)\d{3}\d{2}\d{2}$^', 'message' => 'Введіть коректний номер'),
             array('phone', 'length', 'max' => 15),
             array('passport, document_type, inn, document_issued_date', 'length', 'max' => 30),
@@ -393,7 +393,7 @@ class StudentReg extends CActiveRecord
             $format = "d/m/Y";
             $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday),'Y-m-d');
         }
-        return parent::beforeSave();
+          return parent::beforeSave();
     }
 
     public static function getAdressYears($birthday, $adress = '')

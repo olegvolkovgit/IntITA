@@ -67,4 +67,34 @@ class ScheduleCommand extends CConsoleCommand
         $newTask->end_time = null;
         $newTask->save();
     }
+
+    public function actionCheckBirthdays(){
+        $trainers = UserTrainer::model()->with('idUser')->findAll("idUser.cancelled=".StudentReg::ACTIVE." AND end_date IS NULL");
+        foreach ($trainers as $trainer){
+            $students = TrainerStudent::model()->with(['trainer0','trainerStudent'])->findAll('trainer0.user_id='.$trainer->id_user.' AND DATE_FORMAT(trainerStudent.birthday, "%d-%m")=DATE_FORMAT(NOW(),"%d-%m")');
+            if(count($students)>0){
+                $user = StudentReg::model()->findByPk($trainer->id_user);
+                    $message = new UserMessages();
+                    $receiverId = $trainer->id_user;
+                    if ($receiverId == 0) {
+                        throw new \application\components\Exceptions\IntItaException(400, 'Неправильно вибраний адресат повідомлення.');
+                    }
+                    $receiver = StudentReg::model()->findByPk($receiverId);
+                    $subject = 'Оповіщення про День народження';
+                    $text = "Сьогодні День народження у: \r\n" ;
+                    foreach ($students as $student){
+                        $model = StudentReg::model()->findByPk($student->student);
+                        $text .= "\r\n".$model->fullName.' ('.$model->email.');';
+                    }
+                    $message->build($subject, $text, array($receiver), $user);
+                    $msg = $message->create();
+                    Yii::app()->db->createCommand()->insert('message_receiver', array(
+                    'id_message' => $msg->id_message,
+                    'id_receiver' => $receiverId,
+                    ));
+            }
+        }
+
+
+    }
 }

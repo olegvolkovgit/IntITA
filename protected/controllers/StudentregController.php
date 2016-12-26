@@ -66,11 +66,6 @@ class StudentRegController extends Controller
     {
         $model = new StudentReg('reguser');
 
-        if (isset($_POST['StudentReg']['birthday'])){
-            $format = "d/m/Y";
-            $_POST['StudentReg']['birthday'] = date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['birthday']),'Y-m-d');
-        }
-        
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
             
             echo CActiveForm::validate($model);
@@ -192,11 +187,6 @@ class StudentRegController extends Controller
     public function actionRewrite()
     {
 
-//        if (isset($_POST['StudentReg']['birthday'])){
-//            $format = "d/m/Y";
-//            $_POST['StudentReg']['birthday'] = date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['birthday']),'Y-m-d');
-//        }
-
         $id = Yii::app()->user->id;
         $model = $this->loadModel($id);
         $model->setScenario('edit');
@@ -216,11 +206,9 @@ class StudentRegController extends Controller
             if (isset($model->avatar)) {
                 Avatar::saveStudentAvatar($model);
             }
-
             $model->updateByPk($id, array('firstName' => $_POST['StudentReg']['firstName']));
             $model->updateByPk($id, array('secondName' => $_POST['StudentReg']['secondName']));
             $model->updateByPk($id, array('nickname' => $_POST['StudentReg']['nickname']));
-            $model->updateByPk($id, array('birthday' => $_POST['StudentReg']['birthday']));
             $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
             $model->updateByPk($id, array('address' => $_POST['StudentReg']['address']));
             $model->updateByPk($id, array('education' => $_POST['StudentReg']['education']));
@@ -234,6 +222,14 @@ class StudentRegController extends Controller
             $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
             $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
             $model->updateByPk($id, array('skype' => $_POST['StudentReg']['skype']));
+
+            if (isset($_POST['StudentReg']['birthday'])){
+                $format = "d/m/Y";
+                if ($_POST['StudentReg']['birthday'] !="")
+                    $model->updateByPk($id, array('birthday' => date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['birthday']),'Y-m-d')));
+                else
+                    $model->updateByPk($id, array('birthday' => null));
+            }
 
             if (isset($_POST['StudentReg']['country'])) {
                 $model->updateByPk($id, array('country' => $_POST['StudentReg']['country']));
