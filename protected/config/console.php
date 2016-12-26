@@ -15,6 +15,8 @@ return array(
         'application.components.*',
         'application.helpers.*',
         'application.helpers.ngtable.*',
+        'application.models.accountancy.*',
+        'application.models.message.*',
         'application.models.accountancy.services.serviceAccess.*'
 
 	),
