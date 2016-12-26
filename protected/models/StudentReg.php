@@ -119,7 +119,6 @@ class StudentReg extends CActiveRecord
             array('email', 'unique', 'caseSensitive' => true, 'allowEmpty' => true, 'message' => Yii::t('error', '0272'), 'on' => 'resetemail, repidreg,reguser,edit,fromraptoext'),
             array('password', 'authenticate', 'on' => 'loginuser'),
             array('password_repeat', 'passdiff', 'on' => 'edit'),
-            array('birthday', 'date', 'format' => 'dd/MM/yyyy', 'message' => Yii::t('error', '0427'), 'on' => 'reguser,edit'),
             array('password', 'compare', 'compareAttribute' => 'password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'reguser'),
             array('firstName, secondName, nickname, email, password, education, passport_issued', 'length', 'max' => 255),
             array('birthday', 'length', 'max' => 11),
@@ -150,6 +149,7 @@ class StudentReg extends CActiveRecord
                     $this->addError($attribute, Yii::t('validation', '0636'));
         }
     }
+
 
     public function authenticate()
     {
@@ -381,6 +381,19 @@ class StudentReg extends CActiveRecord
     public function afterFind() {
         /* setup full name field after find */
         $this->fullName = trim($this->firstName . " " . $this->secondName);
+        //format birthday
+        if ($this->birthday != null){
+            $format = "Y-m-d";
+            $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday),'d/m/Y');
+        }
+    }
+    
+    public function beforeSave(){
+            if ($this->birthday != null){
+            $format = "d/m/Y";
+            $this->birthday = date_format(DateTime::createFromFormat($format, $this->birthday),'Y-m-d');
+        }
+        return parent::beforeSave();
     }
 
     public static function getAdressYears($birthday, $adress = '')

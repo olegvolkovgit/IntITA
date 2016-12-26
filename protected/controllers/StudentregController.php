@@ -66,7 +66,13 @@ class StudentRegController extends Controller
     {
         $model = new StudentReg('reguser');
 
+        if (isset($_POST['StudentReg']['birthday'])){
+            $format = "d/m/Y";
+            $_POST['StudentReg']['birthday'] = date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['birthday']),'Y-m-d');
+        }
+        
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
+            
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -74,7 +80,6 @@ class StudentRegController extends Controller
             if (isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
                 $_POST['StudentReg']['educform'] = 'Онлайн/Офлайн';
             else $_POST['StudentReg']['educform'] = 'Онлайн';
-
             $model->attributes = $_POST['StudentReg'];
             if ($model->password !== Null){
                 $model->password = sha1($model->password);
@@ -161,6 +166,7 @@ class StudentRegController extends Controller
             $owner = true;
         }
 
+
         $this->render("profile", array(
             'dataProvider' => $dataProvider,
             'post' => $model,
@@ -185,6 +191,12 @@ class StudentRegController extends Controller
 
     public function actionRewrite()
     {
+
+//        if (isset($_POST['StudentReg']['birthday'])){
+//            $format = "d/m/Y";
+//            $_POST['StudentReg']['birthday'] = date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['birthday']),'Y-m-d');
+//        }
+
         $id = Yii::app()->user->id;
         $model = $this->loadModel($id);
         $model->setScenario('edit');
@@ -284,6 +296,7 @@ class StudentRegController extends Controller
     {
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
+
         if($model->trainer){
             $trainer=array('name'=>$model->trainer->getTrainerByStudent($id)->userNameWithEmail(),
                 'link'=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => $model->trainer->trainer)));
