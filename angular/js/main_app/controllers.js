@@ -9,7 +9,7 @@ angular
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity) {
+function editProfileController($scope, $http, countryCity, specializations) {
     //init progress bar
     $scope.dataForm=[];
     $scope.modelsArr=[];
@@ -92,6 +92,29 @@ function editProfileController($scope, $http, countryCity) {
         $scope.countriesList=response;
     });
 
+
+    $scope.getCurrentSpecializations=function () {
+        var promise = $http({
+            url: basePath + "/studentreg/getcurrentspecializations",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            $scope.selectedCountry=response.data.country;
+            $scope.selectedCity=response.data.city;
+        }, function errorCallback() {
+            alert("Виникла помилка при завантажені країни-міста. Зв'яжіться з адміністратором сайту.");
+        });
+        return promise;
+    };
+    
+    // specializations.getSpecializationsList().then(function (response) {
+    //     $scope.specializations=response;
+    // });
+
+    specializations.getSpecializationsList().then(function (response) {
+        $scope.specializations=response;
+    });
+    
     $scope.$watch('selectedCountry', function() {
         if(typeof $scope.selectedCountry!='undefined'){
             $("#StudentReg_country").val($scope.selectedCountry.id);

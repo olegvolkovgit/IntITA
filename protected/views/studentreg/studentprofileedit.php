@@ -1,6 +1,9 @@
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css"/>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <?php
 /* @var $this StudentregController */
 /* @var $model Studentreg
@@ -29,6 +32,7 @@ $param = "title_".Yii::app()->session["lg"];
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/inputstyler.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.css'); ?>" rel="stylesheet"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/countryCityServices.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/specializationsServices.js'); ?>"></script>
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
     avatar= '<?php echo $post->avatar ?>';
@@ -137,10 +141,13 @@ $param = "title_".Yii::app()->session["lg"];
         <div class="tabs">
             <ul>
                 <li>
-                    <?php echo Yii::t('regexp', '0562'); ?>
+                    <?php echo Yii::t('regexp', '0562').' Персональні дані'; ?>
                 </li>
                 <li>
-                    <?php echo Yii::t('regexp', '0563'); ?>
+                    <?php echo Yii::t('regexp', '0563').' Познайомимось ближче'; ?>
+                </li>
+                <li>
+                    <?php echo 'Укладення договору' ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -172,60 +179,11 @@ $param = "title_".Yii::app()->session["lg"];
                         <?php echo $form->textField($model, 'nickname', array('ng-init' => "dataForm.nickname='$post->nickname'", 'maxlength' => 20, 'class' => 'indicator', 'ng-model' => "dataForm.nickname", 'data-source' => Yii::t('edit', '0623'), 'placeholder' => Yii::t('regexp', '0163'))); ?>
                         <span><?php echo $form->error($model, 'nickname'); ?></span>
                     </div>
-                    <div class="rowDate">
+                    <div class="row">
                         <?php echo $form->label($model, 'birthday'); ?>
                         <?php echo $form->textField($model, 'birthday', array('ng-init' => "dataForm.birthday='$post->birthday'",'ng-keyup'=>"modelWatch('dataForm.birthday')", 'ng-model' => "dataForm.birthday", 'class' => 'date indicator', 'maxlength' => 11, 'placeholder' => Yii::t('regexp', '0152'), 'data-source' => Yii::t('edit', '0624'))); ?>
                         <span><?php echo $form->error($model, 'birthday'); ?></span>
                     </div>
-                    <div class="row">
-                        <?php echo $form->labelEx($model, 'phone'); ?>
-                        <?php echo $form->textField($model, 'phone', array('ng-init' => "dataForm.phone='$post->phone'",'ng-keyup'=>"modelWatch('dataForm.phone')",'model-watch'=>'phone', 'ng-model' => "dataForm.phone", 'class' => 'phone indicator', 'maxlength' => 15, 'minlength' => 15, 'data-source' => Yii::t('edit', '0625'), 'placeholder' => Yii::t('regexp', '0165'))); ?>
-                        <span><?php echo $form->error($model, 'phone'); ?></span>
-                    </div>
-                    <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
-                            <span
-                                ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
-                    </div>
-                    <div class="rowRadioButton" id="rowEducForm">
-                        <?php echo $form->labelEx($model, 'educform'); ?>
-                        <div class="radiolabel">
-                            <label>
-                                <input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>
-                                <?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?>
-                            </label>
-                            <label>
-                                <input class="checkstyle" type="checkbox" name="educformOff" value="3" <?php echo $post::getEdForm($post->educform) ?> />
-                                <?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <?php echo $form->label($model, 'email'); ?>
-                        <?php echo $form->textField($model, 'email', array('ng-init' => "dataForm.email='$post->email'", 'ng-model' => "dataForm.email", 'maxlength' => 40, "disabled" => "disabled", 'class' => 'indicator')); ?>
-                        <span><?php echo $form->error($model, 'email'); ?></span>
-                    </div>
-                    <?php if (is_null($post->password)) {
-                        ?>
-                        <div class="rowPass">
-                            <?php echo $form->label($model, 'password'); ?>
-                            <span
-                                class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, 'ng-model' => "pw1")); ?></span>
-                            <?php echo $form->error($model, 'password'); ?>
-                        </div>
-                        <div class="row">
-                            <?php echo $form->label($model, 'password_repeat'); ?>
-                            <span
-                                class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, 'ng-model' => "pw2", 'pw-check' => "pw1")); ?></span>
-                            <?php echo $form->error($model, 'password_repeat'); ?>
-                            <div ng-cloak class="clientValidationError"
-                                 ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
-                                <span
-                                    ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error', '0269') ?></span>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
-                <div id="addreg">
                     <div class="row selectRow">
                         <?php echo $form->label($model, 'country'); ?>
                         <div class="selectBox">
@@ -272,12 +230,41 @@ $param = "title_".Yii::app()->session["lg"];
                         <span><?php echo $form->error($model, 'address'); ?></span>
                     </div>
                     <div class="row">
-                        <?php echo $form->label($model, 'education'); ?>
-                        <?php echo $form->textField($model, 'education', array('ng-init' => "dataForm.education='$post->education'", 'ng-model' => "dataForm.education", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0627'), 'placeholder' => Yii::t('regexp', '0167'))); ?>
-                        <span><?php echo $form->error($model, 'education'); ?></span>
+                        <?php echo $form->labelEx($model, 'phone'); ?>
+                        <?php echo $form->textField($model, 'phone', array('ng-init' => "dataForm.phone='$post->phone'",'ng-keyup'=>"modelWatch('dataForm.phone')",'model-watch'=>'phone', 'ng-model' => "dataForm.phone", 'class' => 'phone indicator', 'maxlength' => 15, 'minlength' => 15, 'data-source' => Yii::t('edit', '0625'), 'placeholder' => Yii::t('regexp', '0165'))); ?>
+                        <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
-
-                    <div class="row rowAbout">
+                    <div ng-cloak class="clientValidationError" ng-show="profileForm['StudentReg[phone]'].$invalid">
+                            <span ng-show="profileForm['StudentReg[phone]'].$error.min"><?php echo Yii::t('error', '0416') ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'email'); ?>
+                        <?php echo $form->textField($model, 'email', array('ng-init' => "dataForm.email='$post->email'", 'ng-model' => "dataForm.email", 'maxlength' => 40, "disabled" => "disabled", 'class' => 'indicator')); ?>
+                        <span><?php echo $form->error($model, 'email'); ?></span>
+                    </div>
+                    <?php if (is_null($post->password)) {
+                        ?>
+                        <div class="rowPass">
+                            <?php echo $form->label($model, 'password'); ?>
+                            <span
+                                class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, 'ng-model' => "pw1")); ?></span>
+                            <?php echo $form->error($model, 'password'); ?>
+                        </div>
+                        <div class="row">
+                            <?php echo $form->label($model, 'password_repeat'); ?>
+                            <span
+                                class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, 'ng-model' => "pw2", 'pw-check' => "pw1")); ?></span>
+                            <?php echo $form->error($model, 'password_repeat'); ?>
+                            <div ng-cloak class="clientValidationError"
+                                 ng-show="profileForm['StudentReg[password_repeat]'].$dirty && profileForm['StudentReg[password_repeat]'].$invalid">
+                                <span
+                                    ng-show="profileForm['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error', '0269') ?></span>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <div id="addreg">
+                    <div class="row rowAbout rowTextarea">
                         <?php echo $form->label($model, 'aboutMy'); ?>
                         <?php echo $form->textArea($model, 'aboutMy', array('ng-init' => "dataForm.aboutMy='$post->aboutMy'", 'ng-model' => "dataForm.aboutMy", 'maxlength' => 500, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0628'), 'placeholder' => Yii::t('regexp', '0170'))); ?>
                         <?php echo $form->error($model, 'aboutMy'); ?>
@@ -286,6 +273,11 @@ $param = "title_".Yii::app()->session["lg"];
                         <?php echo $form->label($model, 'interests'); ?>
                         <?php echo $form->textField($model, 'interests', array('ng-init' => "dataForm.interests='$post->interests'", 'ng-model' => "dataForm.interests", 'maxlength' => 255, 'placeholder' => Yii::t('regexp', '0153'), 'class' => 'indicator', 'data-source' => Yii::t('edit', '0629'))); ?>
                         <span><?php echo $form->error($model, 'interests'); ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'education'); ?>
+                        <?php echo $form->textField($model, 'education', array('ng-init' => "dataForm.education='$post->education'", 'ng-model' => "dataForm.education", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0627'), 'placeholder' => Yii::t('regexp', '0167'))); ?>
+                        <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
                     <div class="row">
                         <label></label>
@@ -321,6 +313,35 @@ $param = "title_".Yii::app()->session["lg"];
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('ng-init' => "dataForm.twitter='$post->twitter'", 'ng-model' => "dataForm.twitter", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0635'), 'placeholder' => Yii::t('regexp', '0247'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
+                    </div>
+                </div>
+                <div id="accountantTab">
+                    <div class="row rowTextarea">
+                        <label>Спеціалізація</label>
+                        <ui-select multiple ng-model="dataForm.ggg" theme="bootstrap" close-on-select="false" title="Обери спеціалізацію">
+                            <ui-select-match placeholder="Обери спреціалізацію, яка тебе цікавить">{{$item.specialization}}</ui-select-match>
+                            <ui-select-choices repeat="spec in specializations track by $index">
+                                {{spec.specialization}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="rowRadioButton" id="rowEducForm">
+                        <?php echo $form->labelEx($model, 'educform'); ?>
+                        <div class="radiolabel">
+                            <label>
+                                <input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>
+                                <?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?>
+                            </label>
+                            <label>
+                                <input class="checkstyle" type="checkbox" name="educformOff" value="3" <?php echo $post::getEdForm($post->educform) ?> />
+                                <?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'education'); ?>
+                        <?php echo $form->textField($model, 'education', array('ng-init' => "dataForm.education='$post->education'", 'ng-model' => "dataForm.education", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0627'), 'placeholder' => Yii::t('regexp', '0167'))); ?>
+                        <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
                 </div>
             </div>

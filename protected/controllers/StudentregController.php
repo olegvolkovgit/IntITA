@@ -315,6 +315,11 @@ class StudentRegController extends Controller
         echo StudentReg::currentCountryCity();
     }
 
+    public function actionGetCurrentSpecializations()
+    {
+        echo StudentReg::currentSpecializations();
+    }
+    
     public function actionGetTypeahead($query) {
         $models = TypeAheadHelper::getTypeahead($query, 'StudentReg', ['firstName', 'middleName', 'secondName', 'email']);
         $array = ActiveRecordToJSON::toAssocArray($models);
@@ -342,6 +347,11 @@ class StudentRegController extends Controller
         $models = StudentReg::model()->findAll($criteria);
 
         echo json_encode(ActiveRecordToJSON::toAssocArray($models));
+    }
+
+    public function actionGetSpecializationsList()
+    {
+        echo SpecializationsGroup::specializationsList();
     }
 
 }

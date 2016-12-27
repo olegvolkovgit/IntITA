@@ -1308,6 +1308,19 @@ class StudentReg extends CActiveRecord
         return json_encode($data);
     }
 
+    public static function currentSpecializations(){
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+//        $param = "title_".Yii::app()->session["lg"];
+        $param = "name";
+        $data=array();
+        if($user->country){
+            $data["country"]["id"] = $user->country;
+            $data["country"]["title"] = $user->country0->$param;
+        }
+
+        return json_encode($data);
+    }
+    
     public static function userData($id){
         $result = array();
         $model=RegisteredUser::userById($id);

@@ -91,8 +91,13 @@ class SpecializationsGroup extends CActiveRecord
 	}
 
 	public static function specializationsList(){
-		$specializations=SpecializationsGroup::model()->findAll();
-		$data=array();
+//		$param = "title_".Yii::app()->session["lg"];
+		$param = "name";
+		$criteria = new CDbCriteria();
+		$criteria->order=$param.' ASC';
+		$specializations = SpecializationsGroup::model()->findAll($criteria);
+		$data = array();
+
 		foreach ($specializations as $key=>$specialization) {
 			$data[$key]['id']=$specialization['id'];
 			$data[$key]['specialization']=$specialization['name'];

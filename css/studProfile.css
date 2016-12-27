@@ -60,6 +60,9 @@ table.profileInfo {
 .row.rowAbout,.row.rowAbout>label{
     height: inherit;
 }
+.rowTextarea>label{
+    vertical-align:top;
+}
 #aboutUs{vertical-align: top}
 .rowPass {
     margin-top: 28px;
@@ -132,7 +135,7 @@ table.profileInfo {
 }
 .selectBox{
     display: inline-block;
-    width: 63.1%;
+    width: 62%;
 }
 .close {
     float: right;
@@ -431,7 +434,6 @@ span.colorP {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     color: #666666;
-    width: 140px;
     height: 35px;
     text-align: center;
     border: 1px solid #d8d8d8;
@@ -440,7 +442,7 @@ span.colorP {
     cursor:pointer;
     display:block;
     float:left;
-    padding:0;
+    padding:0 10px;
     border-radius: 5px 5px 0 0;
 }
 .tabs > ul li.active{
@@ -649,6 +651,11 @@ table#emptyFieldList td{
 .studProf .clientValidationError{
     margin-left: 31%;
 }
+.rowRadioButton label,.rowDate label,.row label {max-width:inherit;margin-bottom:inherit;font-weight:inherit;}
+.row .ui-select-container{display: inline-block;width:62%;height:50px}
+.row .ui-select-container input:hover{box-shadow:none}
+.row .ui-select-container span{font-size:16px}
+.row .ui-select-container .close{padding:inherit}
 @media only screen and (max-width: 800px) {
    #gridProgress,#crowns,table.titleProfile{display: none}
     .rightProfileColumn {
@@ -665,9 +672,6 @@ table#emptyFieldList td{
     }
     .studPhoto {
         border:none;
-    }
-    .selectBox {
-        width: 63.5%;
     }
 }
 @media only screen and (max-width: 420px) {
@@ -687,7 +691,7 @@ table#emptyFieldList td{
         padding-right: 10%;
     }
     .lineUnderTab{margin: 0 auto;margin-bottom: 10px}
-    .studProf input, .studProf .rowPass > input,.studProf textarea {width: 90%;}
+    .row .ui-select-container, .studProf input, .studProf .rowPass > input,.studProf textarea {width: 90%;}
     .rowPass .passEye,.row .passEye
     {
         width: 90%;
@@ -695,7 +699,7 @@ table#emptyFieldList td{
     .rowPass, .rowPass+.row {
         margin-right: 8px;
     }
-    .selectBox {width: 93%;}
+    .selectBox {width: 90%;}
     .studProf .clientValidationError {
         margin-left: 0;
     }

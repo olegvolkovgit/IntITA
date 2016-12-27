@@ -1,4 +1,7 @@
 <? $css_version = 1; ?>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.css'); ?>"/>
+<link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'studProfile.css'); ?>"/>
 <!-- studprofile style -->
 <!-- uploadInfo, jQuery -->
@@ -28,6 +31,7 @@ $this->breadcrumbs = array(
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'formstyler/inputstyler.js'); ?>"></script>
 <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.css'); ?>" rel="stylesheet"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/countryCityServices.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/specializationsServices.js'); ?>"></script>
 <!--StyleForm Check and radio box-->
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
@@ -92,6 +96,9 @@ $this->breadcrumbs = array(
                 <li>
                     <?php echo Yii::t('regexp', '0563'); ?>
                 </li>
+                <li>
+                    <?php echo 'Укладення договору' ?>
+                </li>
             </ul>
             <hr class="lineUnderTab">
             <div class="tabsContent">
@@ -122,50 +129,6 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'birthday', array('maxlength' => 11, 'class' => 'date', 'placeholder' => Yii::t('regexp', '0152'))); ?>
                         <span><?php echo $form->error($model, 'birthday'); ?></span>
                     </div>
-                    <div class="rowPhone">
-                        <?php echo $form->labelEx($model, 'phone'); ?>
-                        <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15, 'placeholder' => Yii::t('regexp', '0165'))); ?>
-                        <span><?php echo $form->error($model, 'phone'); ?></span>
-                    </div>
-                    <div class="rowRadioButton" id="rowEducForm">
-                        <?php echo $form->labelEx($model, 'educform'); ?>
-                        <div class="radiolabel">
-                            <label><input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>online</label>
-                            <label><input class="checkstyle" type="checkbox" name="educformOff"
-                                          value="1"/>offline</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <?php echo $form->labelEx($model, 'email'); ?>
-                        <?php echo $form->emailField($model, 'email', array('ng-init'=>"email='$email'",'ng-model'=>"email",'maxlength' => 40, "required"=>true, 'onKeyUp'=>"hideServerValidationMes(this)", 'placeholder' => Yii::t('regexp', '0242'))); ?>
-                        <?php echo $form->error($model, 'email'); ?>
-                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[email]'].$dirty && StudentReg['StudentReg[email]'].$invalid">
-                            <span ng-show="StudentReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                            <span ng-show="StudentReg['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
-                            <span ng-show="StudentReg['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
-                        </div>
-                    </div>
-                    <div class="rowPass">
-                        <?php echo $form->labelEx($model, 'password'); ?>
-                        <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw1", 'placeholder' => Yii::t('regexp', '0171'))); ?></span>
-                        <?php echo $form->error($model, 'password'); ?>
-                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password]'].$dirty && StudentReg['StudentReg[password]'].$invalid">
-                            <span ng-show="StudentReg['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <?php echo $form->labelEx($model, 'password_repeat'); ?>
-                        <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw2", 'pw-check'=>"pw1", 'placeholder' => Yii::t('regexp', '0172'))); ?></span>
-                        <?php echo $form->error($model, 'password_repeat'); ?>
-                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password_repeat]'].$dirty && StudentReg['StudentReg[password_repeat]'].$invalid">
-                            <span ng-show="StudentReg['StudentReg[password_repeat]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                            <span ng-if="!StudentReg['StudentReg[password_repeat]'].$error.required" ng-show="StudentReg['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error','0269') ?></span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div id="addreg">
                     <div class="row selectRow">
                         <?php echo $form->label($model, 'country'); ?>
                         <div class="selectBox">
@@ -211,12 +174,42 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'address', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0166'))); ?>
                         <span><?php echo $form->error($model, 'address'); ?></span>
                     </div>
-                    <div class="row">
-                        <?php echo $form->label($model, 'education'); ?>
-                        <?php echo $form->textField($model, 'education', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0167'))); ?>
-                        <span><?php echo $form->error($model, 'education'); ?></span>
+                    <div class="rowPhone">
+                        <?php echo $form->labelEx($model, 'phone'); ?>
+                        <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15, 'placeholder' => Yii::t('regexp', '0165'))); ?>
+                        <span><?php echo $form->error($model, 'phone'); ?></span>
                     </div>
-                    <div class="row rowAbout">
+                    <div class="row">
+                        <?php echo $form->labelEx($model, 'email'); ?>
+                        <?php echo $form->emailField($model, 'email', array('ng-init'=>"email='$email'",'ng-model'=>"email",'maxlength' => 40, "required"=>true, 'onKeyUp'=>"hideServerValidationMes(this)", 'placeholder' => Yii::t('regexp', '0242'))); ?>
+                        <?php echo $form->error($model, 'email'); ?>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[email]'].$dirty && StudentReg['StudentReg[email]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[email]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                            <span ng-show="StudentReg['StudentReg[email]'].$error.email"><?php echo Yii::t('error','0271') ?></span>
+                            <span ng-show="StudentReg['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
+                        </div>
+                    </div>
+                    <div class="rowPass">
+                        <?php echo $form->labelEx($model, 'password'); ?>
+                        <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw1", 'placeholder' => Yii::t('regexp', '0171'))); ?></span>
+                        <?php echo $form->error($model, 'password'); ?>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password]'].$dirty && StudentReg['StudentReg[password]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[password]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->labelEx($model, 'password_repeat'); ?>
+                        <span class="passEye"> <?php echo $form->passwordField($model, 'password_repeat', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw2", 'pw-check'=>"pw1", 'placeholder' => Yii::t('regexp', '0172'))); ?></span>
+                        <?php echo $form->error($model, 'password_repeat'); ?>
+                        <div ng-cloak class="clientValidationError" ng-show="StudentReg['StudentReg[password_repeat]'].$dirty && StudentReg['StudentReg[password_repeat]'].$invalid">
+                            <span ng-show="StudentReg['StudentReg[password_repeat]'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                            <span ng-if="!StudentReg['StudentReg[password_repeat]'].$error.required" ng-show="StudentReg['StudentReg[password_repeat]'].$error.pwmatch"><?php echo Yii::t('error','0269') ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="addreg">
+                    <div class="row rowAbout rowTextarea">
                         <?php echo $form->label($model, 'aboutMy'); ?>
                         <?php echo $form->textArea($model, 'aboutMy', array('maxlength' => 500, 'placeholder' => Yii::t('regexp', '0170'))); ?>
                         <?php echo $form->error($model, 'aboutMy'); ?>
@@ -225,6 +218,11 @@ $this->breadcrumbs = array(
                         <?php echo $form->label($model, 'interests'); ?>
                         <?php echo $form->textField($model, 'interests', array('maxlength' => 255, 'placeholder' => Yii::t('regexp', '0153'))); ?>
                         <span><?php echo $form->error($model, 'interests'); ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'education'); ?>
+                        <?php echo $form->textField($model, 'education', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0167'))); ?>
+                        <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
                     <div class="row">
                         <label></label>
@@ -260,6 +258,21 @@ $this->breadcrumbs = array(
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� twitter','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
+                    </div>
+                </div>
+                <div id="accountantTab">
+                    <div class="rowRadioButton" id="rowEducForm">
+                        <?php echo $form->labelEx($model, 'educform'); ?>
+                        <div class="radiolabel">
+                            <label>
+                                <input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>
+                                <?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?>
+                            </label>
+                            <label>
+                                <input class="checkstyle" type="checkbox" name="educformOff" value="1"/>
+                                <?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
