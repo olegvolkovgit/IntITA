@@ -1,7 +1,6 @@
 <? $css_version = 1; ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/studProfile.css"/>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/uploadInfo.js"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.css'); ?>"/>
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <?php
@@ -13,7 +12,7 @@ $user = RegisteredUser::userById(Yii::app()->user->id);
 $post = $user->registrationData;
 $post->firstName = addslashes($post->firstName);
 $post->secondName = addslashes($post->secondName);
-$param = "title_".Yii::app()->session["lg"];
+$param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
 ?>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'inputmask/jquery.inputmask.extensions.js'); ?>"></script>
@@ -33,6 +32,7 @@ $param = "title_".Yii::app()->session["lg"];
 <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.css'); ?>" rel="stylesheet"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/countryCityServices.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/specializationsServices.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/careerService.js'); ?>"></script>
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
     avatar= '<?php echo $post->avatar ?>';
@@ -289,27 +289,27 @@ $param = "title_".Yii::app()->session["lg"];
                         <?php echo $form->textField($model, 'skype', array('ng-init' => "dataForm.skype='$post->skype'", 'ng-model' => "dataForm.skype", 'maxlength' => 50, 'class' => 'indicator', 'data-source' => 'Skype', 'placeholder' => 'Skype')); ?>
                         <span><?php echo $form->error($model, 'skype'); ?></span>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
                         <?php echo $form->textField($model, 'facebook', array('ng-init' => "dataForm.facebook='$post->facebook'", 'ng-model' => "dataForm.facebook", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0631'), 'placeholder' => Yii::t('regexp', '0243'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
                         <?php echo $form->textField($model, 'googleplus', array('ng-init' => "dataForm.googleplus='$post->googleplus'", 'ng-model' => "dataForm.googleplus", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0632'), 'placeholder' => Yii::t('regexp', '0244'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
                         <?php echo $form->textField($model, 'linkedin', array('ng-init' => "dataForm.linkedin='$post->linkedin'", 'ng-model' => "dataForm.linkedin", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0633'), 'placeholder' => Yii::t('regexp', '0245'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
                         <?php echo $form->textField($model, 'vkontakte', array('ng-init' => "dataForm.vkontakte='$post->vkontakte'", 'ng-model' => "dataForm.vkontakte", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0634'), 'placeholder' => Yii::t('regexp', '0246'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('ng-init' => "dataForm.twitter='$post->twitter'", 'ng-model' => "dataForm.twitter", 'maxlength' => 255, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0635'), 'placeholder' => Yii::t('regexp', '0247'), 'onKeyUp' => "hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>

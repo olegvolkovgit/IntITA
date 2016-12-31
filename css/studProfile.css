@@ -49,7 +49,7 @@ div.regLinks{
 table.profileInfo {
     margin: 10px 10px 80px 22px;
 }
-.row,.rowDate,.rowPhone,.rowNetwork,.rowRadioButton {
+.row,.rowRadioButton {
     margin-bottom: 10px;
 }
 .radiolabel{
@@ -75,7 +75,7 @@ table.profileInfo {
 .studProf label
  {
      display: inline-block;
-     width: 25%;
+     width: 28%;
      text-align: right;
      margin-right: 20px;
      margin-left: 10px;
@@ -651,11 +651,72 @@ table#emptyFieldList td{
 .studProf .clientValidationError{
     margin-left: 31%;
 }
-.rowRadioButton label,.rowDate label,.row label {max-width:inherit;margin-bottom:inherit;font-weight:inherit;}
-.row .ui-select-container{display: inline-block;width:62%;height:50px}
-.row .ui-select-container input:hover{box-shadow:none}
-.row .ui-select-container span{font-size:16px}
-.row .ui-select-container .close{padding:inherit}
+.formStudProf label {max-width:inherit;margin-bottom:inherit;font-weight:inherit;}
+.formStudProf .row {margin-right: inherit;margin-left: inherit}
+.row .ui-select-container{display: inline-block;width:62%;}
+.row .ui-select-container input:hover, .row .ui-select-container input:focus{box-shadow:none}
+.row .ui-select-container span{font-size:16px;}
+.row .ui-select-container .close{padding:inherit;}
+.row .ui-select-multiple.ui-select-bootstrap .ui-select-match .close{}
+.row .ui-select-multiple.ui-select-bootstrap {
+    position: relative;
+    /*min-height: 50px;*/
+    vertical-align: top;
+}
+.row .ui-select-multiple input.ui-select-search {
+    width: auto!important;
+    /*min-width: 50%!important;*/
+}
+.row .ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+    /*min-height: 50px;*/
+}
+.g-checkbox {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    border: 1px solid #C3C3C3;
+    border-radius: 2px;
+    background: #F6F6F6;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05), inset -1px -1px #FFF, inset 1px -1px #FFF;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.g-checkbox:hover {cursor:pointer}
+
+.g-checkbox.checked {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    background: #4b75a4;
+    box-shadow: inset 0 -3px 6px #AAA;
+}
+
+.g-radio {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    border: 1px solid #C3C3C3;
+    border-radius: 10px;
+    background: #F6F6F6;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05), inset -1px -1px #FFF, inset 1px -1px #FFF;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.g-radio:hover {cursor:pointer}
+
+.g-radio.checked {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 10px;
+    background: #4b75a4;
+    box-shadow: inset 0 -3px 6px #AAA;
+}
 @media only screen and (max-width: 800px) {
    #gridProgress,#crowns,table.titleProfile{display: none}
     .rightProfileColumn {

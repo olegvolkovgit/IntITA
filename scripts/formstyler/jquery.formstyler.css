@@ -28,9 +28,9 @@
 
 
 .jq-radio {
-    top: 14px;
-	width: 20px;
-	height: 20px;
+	margin-right: 5px;
+	width: 24px;
+	height: 24px;
     float: left;
     line-height: 50px;
 	border: 1px solid #C3C3C3;
@@ -43,7 +43,7 @@
 .jq-radio.checked .jq-radio__div {
 	width: 14px;
 	height: 14px;
-	margin: 3px 0 0 3px;
+	margin: 4px 0 0 4px;
 	border-radius: 50%;
     background: #4b75a4;
 }

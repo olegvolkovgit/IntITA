@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" ng-disabled="editSpecializationForm.$invalid">Зберегти
                         </button>
-                        <a type="button" class="btn btn-default" ng-href="#/supervisor/specializations">
+                        <a type="button" class="btn btn-default" ng-click='back()'>
                             Назад
                         </a>
                     </div>

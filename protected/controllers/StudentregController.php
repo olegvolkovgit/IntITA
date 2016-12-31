@@ -362,5 +362,9 @@ class StudentRegController extends Controller
     {
         echo SpecializationsGroup::specializationsList();
     }
-
+    
+    public function actionGetCareersList()
+    {
+        echo Careers::careersList();
+    }
 }

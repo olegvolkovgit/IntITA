@@ -146,9 +146,22 @@ function editProfileController($scope, $http, countryCity, specializations) {
     }
 }
 
-function registrationFormController($scope, countryCity) {
+function registrationFormController($scope, countryCity, careerService, specializations) {
+    $scope.educformOn=true;
+    
+    $scope.include = false;
+    $scope.showInclude = function(){alert($scope.include)};
+
     countryCity.getCountriesList().then(function (response) {
         $scope.countriesList=response;
+    });
+
+    careerService.getCareersList().then(function (response) {
+        $scope.careers=response;
+    });
+
+    specializations.getSpecializationsList().then(function (response) {
+        $scope.specializations=response;
     });
 
     $scope.$watch('selectedCountry', function() {
@@ -170,6 +183,15 @@ function registrationFormController($scope, countryCity) {
             $("#StudentReg_city").val(null);
             $('input[name=cityTitle]').val(null);
         }
+    }, true);
+
+    $scope.$watch('educformOff', function() {
+        if($scope.educformOff){
+            $('input[name=educformOff]').val(true);
+        }else{
+            $('input[name=educformOff]').val(null);
+        }
+        console.log($('input[name=educformOff]').val());
     }, true);
 }
 
@@ -326,6 +348,32 @@ angular.module('mainApp.directives', [])
                     ngModelController.$setValidity('fileType', validFormats.indexOf(ext) !== -1);
                     scope.$apply();
                 });
+            }
+        };
+    })
+    .directive('checkbox', function(){
+        return {
+            restrict: 'EA',
+            require: 'ngModel',
+            replace: true,
+            template: '<span class="{{class}}"><input id="{{id}}" name="{{name}}" type="checkbox" style="display:none;" ng-checked="ngModel" disabled="{{disabled}}"/></span>',
+            scope: {
+                name:'@',
+                class:  '@',
+                id: '@',
+                ngModel: '=',
+                disabled:'@'
+            },
+            link: function(scope, element, attrs){
+                element.removeAttr('id');
+                element.bind('click', function(){
+                    if(!attrs.disabled){
+                        element.toggleClass('checked');
+                        scope.ngModel = !scope.ngModel;
+                        scope.$apply();
+                    }
+
+                })
             }
         };
     });

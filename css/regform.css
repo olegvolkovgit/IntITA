@@ -24,8 +24,8 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 #regCheckbox:focus + label:before{box-shadow:0 0 1px #1287bf;}
 #regCheckbox:hover + label:before{box-shadow:0 0 1px #1287bf;}
 
-.eductionFormCheckbox input{margin:13px 3px 0 0;width:15px;height:15px;}
-.eductionFormCheckbox + label{cursor:pointer;font-weight:normal;display: inline-block;margin-left: 15px}
+.eductionFormCheckbox input{margin:13px 3px 0 0;width:16px;height:16px;}
+.eductionFormCheckbox + label{cursor:pointer;font-weight:normal;display: inline-block;}
 .eductionFormCheckbox:not(checked){position:absolute;opacity:0;}
 .eductionFormCheckbox:not(checked) + label{position:relative;padding:0 0 0 18px;}
 .eductionFormCheckbox:not(checked) + label:before{content:'';position:absolute;top:4px;left:2px;width:10px;height:10px;border-radius:10px;background:#FFF;border:1px solid #4B75A4;transition:all .3s;}
@@ -35,6 +35,7 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 
 .regCheckboxW{width:452px;margin:0 auto;overflow:hidden;}
 .authLinks .regCheckbox{position:relative;text-align:left;float:left;}
+.authLinks .regFormEducation{position:relative;text-align:left;float:right;}
 .regCheckbox label{color:#4B75A4;}
 .regCheckbox label:hover{color:#666666;}
 .rowemail input:focus,.rowpass input:focus{cursor:text;}
@@ -48,7 +49,7 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 .signInPassM{margin-top:8px;}
 .authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;margin-top:5px}
 .authLinks a{text-decoration:underline;}
-#signInButtonM{margin:0 auto;margin-top:5px;margin-bottom:27px;}
+#signInButtonM{margin:0 auto;margin-top:0;margin-bottom:15px;}
 a#authLinks{color:#4b75a4;float:left;font-size:16px;cursor:pointer}
 label.registration{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin-bottom:0px}
 a#authLinks:hover, label.registration:hover{color:#666666;}
@@ -97,3 +98,8 @@ a#authLinks:hover, label.registration:hover{color:#666666;}
     }
     .rowemail input,.rowpass input{width:100%}
 }
+@media only screen and (max-width: 360px) {
+    .authLinks .regFormEducation{float:none}
+    a#authLinks,label.registration {float: none;}
+}
+

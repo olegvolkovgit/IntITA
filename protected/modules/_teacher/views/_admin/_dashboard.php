@@ -135,6 +135,9 @@
                     <li><a href="#/configuration/siteconfig">Налаштування
                         </a>
                     </li>
+                    <li><a href="#/configuration/careers">Перелік кар'єр
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-footer">

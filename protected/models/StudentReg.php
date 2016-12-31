@@ -42,6 +42,9 @@
  * @property string $document_issued_date
  * @property string $inn
  * @property string $passport_issued
+ * @property string $prev_job
+ * @property string $current_job
+ * @property string $education_shift
  *
  * @property AddressCountry $country0
  * @property AddressCity $city0
@@ -127,11 +130,11 @@ class StudentReg extends CActiveRecord
             array('phone', 'length', 'min' => 15),
             array('firstName, secondName', 'match', 'pattern' => '/^[a-zа-яіїёA-ZА-ЯІЇЁєЄ\s\'’]+$/u', 'message' => Yii::t('error', '0416')),
             array('address, interests, aboutUs,send_letter, role, educform, aboutMy, avatar, network, facebook, country,
-            city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype', 'safe'),
+            city, education, googleplus, linkedin, vkontakte, twitter,token,activkey_lifetime, status, identity, skype, prev_job, current_job, education_shift', 'safe'),
             // The following rule is used by search().
             array('id, firstName, secondName, nickname, birthday, email, password, phone, address, country, city, education,
             educform, interests, aboutUs, password_repeat, middleName,aboutMy, avatar, upload, role, reg_time, identity, skype, cancelled,
-            passport, document_type, inn, document_issued_date, passport_issued', 'safe', 'on' => 'search'),
+            passport, document_type, inn, document_issued_date, passport_issued, prev_job, current_job, education_shift', 'safe', 'on' => 'search'),
         );
     }
 
@@ -213,6 +216,7 @@ class StudentReg extends CActiveRecord
             'offlineSubGroups' => [self::HAS_MANY, 'OfflineSubgroups', ['id_subgroup' => 'id'], 'through' => 'offlineStudents'],
             'offlineGroups' => [self::HAS_MANY, 'OfflineGroups', ['group' => 'id'], 'through' => 'offlineSubGroups'],
             'educationForm' => array(self::HAS_ONE, 'EducationForm', ['id'=>'educform']),
+            'educationShift' => array(self::HAS_ONE, 'EducationShift', ['id'=>'education_shift']),
         );
     }
 
@@ -259,6 +263,9 @@ class StudentReg extends CActiveRecord
             'document_type' => 'Тип документа, серія/номер якого зазначений в полі паспорт',
             'document_issued_date' => 'Дата видачі паспорта',
             'passport_issued' => 'Ким виданий (паспорт)',
+            'prev_job' => 'Ким працював (чим займався) раніше?',
+            'current_job' => 'Де працюєш (чим займаєшся) зараз? Години зайнятості?',
+            'education_shift' => 'Навчальна зміна',
         );
     }
 
@@ -355,7 +362,9 @@ class StudentReg extends CActiveRecord
         $criteria->compare('document_type', $this->document_type, true);
         $criteria->compare('document_issued_date', $this->document_issued_date, true);
         $criteria->compare('passport_issued', $this->passport_issued, true);
-
+        $criteria->compare('prev_job', $this->prev_job, true);
+        $criteria->compare('current_job', $this->current_job, true);
+        $criteria->compare('education_shift', $this->education_shift, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -1391,7 +1400,13 @@ class StudentReg extends CActiveRecord
 
     public function getEducationFormStr()
     {
-        $param = "title_".Yii::app()->session["lg"];
+        $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
         return $this->educationForm->$param;
+    }
+
+    public function getEducationShiftStr()
+    {
+        $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
+        return $this->educationShift->$param;
     }
 }

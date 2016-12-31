@@ -1,5 +1,4 @@
 <? $css_version = 1; ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-select/select.min.css'); ?>"/>
 <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/bootstrap.min.css'); ?>">
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'studProfile.css'); ?>"/>
@@ -16,6 +15,7 @@
 $this->breadcrumbs = array(
     Yii::t('breadcrumbs', '0056'),
 );
+$param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
 ?>
 
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'rolesReg.js'); ?>"></script>
@@ -32,6 +32,7 @@ $this->breadcrumbs = array(
 <link href="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/select.min.css'); ?>" rel="stylesheet"/>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/countryCityServices.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/specializationsServices.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/services/careerService.js'); ?>"></script>
 <!--StyleForm Check and radio box-->
 <script>
     basePath = '<?php echo Config::getBaseUrl(); ?>';
@@ -124,7 +125,7 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'nickname', array('maxlength' => 20, 'placeholder' => Yii::t('regexp', '0163'))); ?>
                         <span><?php echo $form->error($model, 'nickname'); ?></span>
                     </div>
-                    <div class="rowDate">
+                    <div class="row">
                         <?php echo $form->label($model, 'birthday'); ?>
                         <?php echo $form->textField($model, 'birthday', array('maxlength' => 11, 'class' => 'date', 'placeholder' => Yii::t('regexp', '0152'))); ?>
                         <span><?php echo $form->error($model, 'birthday'); ?></span>
@@ -174,7 +175,7 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'address', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0166'))); ?>
                         <span><?php echo $form->error($model, 'address'); ?></span>
                     </div>
-                    <div class="rowPhone">
+                    <div class="row">
                         <?php echo $form->labelEx($model, 'phone'); ?>
                         <?php echo $form->textField($model, 'phone', array('class' => 'phone', 'maxlength' => 15,'minlength' => 15, 'placeholder' => Yii::t('regexp', '0165'))); ?>
                         <span><?php echo $form->error($model, 'phone'); ?></span>
@@ -189,7 +190,7 @@ $this->breadcrumbs = array(
                             <span ng-show="StudentReg['StudentReg[email]'].$error.maxlength"><?php echo Yii::t('error','0271') ?></span>
                         </div>
                     </div>
-                    <div class="rowPass">
+                    <div class="row">
                         <?php echo $form->labelEx($model, 'password'); ?>
                         <span class="passEye"><?php echo $form->passwordField($model, 'password', array('maxlength' => 20, "required"=>true, 'ng-model'=>"pw1", 'placeholder' => Yii::t('regexp', '0171'))); ?></span>
                         <?php echo $form->error($model, 'password'); ?>
@@ -224,6 +225,27 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'education', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0167'))); ?>
                         <span><?php echo $form->error($model, 'education'); ?></span>
                     </div>
+
+                    <div class="row  rowTextarea">
+                        <?php echo $form->label($model, 'prev_job'); ?>
+                        <?php echo $form->textArea($model, 'prev_job', array('maxlength' => 1000, 'placeholder' => 'Попередня зайнятість')); ?>
+                        <span><?php echo $form->error($model, 'prev_job'); ?></span>
+                    </div>
+                    <div class="row  rowTextarea">
+                        <?php echo $form->label($model, 'current_job'); ?>
+                        <?php echo $form->textArea($model, 'current_job', array('maxlength' => 1000, 'placeholder' => 'Теперішня зайнятість')); ?>
+                        <span><?php echo $form->error($model, 'current_job'); ?></span>
+                    </div>
+                    <div class="row rowTextarea">
+                        <label>Як би ти хотів розпочати кар'єру в ІТ?</label>
+                        <ui-select multiple ng-model="dataForm.careerStart" theme="bootstrap" close-on-select="false" title="Початок кар'єри">
+                            <ui-select-match placeholder="Початок кар'єри">{{$item.title}}</ui-select-match>
+                            <ui-select-choices repeat="career in careers track by $index">
+                                {{career.title}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
                     <div class="row">
                         <label></label>
                         <?php echo $form->textField($model, 'aboutUs', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0154'), 'id' => 'aboutUs')); ?>
@@ -234,46 +256,108 @@ $this->breadcrumbs = array(
                         <?php echo $form->textField($model, 'skype', array('maxlength' => 50, 'id' => 'skype', 'placeholder' => 'Skype')); ?>
                         <span><?php echo $form->error($model, 'skype'); ?></span>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
                         <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� facebook','placeholder' => Yii::t('regexp', '0243'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
                         <?php echo $form->textField($model, 'googleplus', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� googleplus','placeholder' => Yii::t('regexp', '0244'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
                         <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� linkedin','placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
                         <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� vkontakte','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
-                    <div class="rowNetwork">
+                    <div class="row rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
                         <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� twitter','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
                 <div id="accountantTab">
+                    <div class="row rowTextarea">
+                        <label>Спеціалізація</label>
+                        <ui-select multiple ng-model="dataForm.specializations" theme="bootstrap" close-on-select="false" title="Обери спреціалізацію, яка тебе цікавить">
+                            <ui-select-match placeholder="Обери спреціалізацію" >{{$item.specialization}}</ui-select-match>
+                            <ui-select-choices repeat="item in specializations track by $index">
+                                {{item.specialization}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
                     <div class="rowRadioButton" id="rowEducForm">
                         <?php echo $form->labelEx($model, 'educform'); ?>
+<!--                        <div class="radiolabel">-->
+<!--                            <label>-->
+<!--                                <input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>-->
+<!--                                --><?php //echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?>
+<!--                            </label>-->
+<!--                            <label>-->
+<!--                                <input class="checkstyle" type="checkbox" name="educformOff" value="1"/>-->
+<!--                                --><?php //echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?>
+<!--                            </label>-->
+<!--                        </div>-->
                         <div class="radiolabel">
-                            <label>
-                                <input class="checkstyle" type="checkbox" name="educformOn" checked disabled/>
-                                <?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?>
+                            <checkbox class="g-checkbox checked" ng-model="educformOn" name="educformOn" disabled="true"></checkbox>
+                            <label><?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?></label>
+
+                            <checkbox class="g-checkbox" ng-model="educformOff" value="true"></checkbox>
+                            <label><?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?></label>
+                        </div>
+                    </div>
+                    <div ng-show="educformOff" class="row">
+                        <label>Навчальна зміна</label>
+                        <div class="radiolabel">
+                            <label style="margin-left:inherit">
+                                <input class="checkstyle" type="radio" name="shift" value="<?php echo EducationShift::MORNING ?>"/>
+                                <?php echo EducationShift::model()->findByPk(EducationShift::MORNING)->$param ?>
                             </label>
                             <label>
-                                <input class="checkstyle" type="checkbox" name="educformOff" value="1"/>
-                                <?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?>
+                                <input class="checkstyle" type="radio" name="shift" value="<?php echo EducationShift::EVENING ?>"/>
+                                <?php echo EducationShift::model()->findByPk(EducationShift::EVENING)->$param ?>
+                            </label>
+                            <label>
+                                <input class="checkstyle" type="radio" name="shift" value="<?php echo EducationShift::ALL_ONE ?>" checked="checked"/>
+                                <?php echo EducationShift::model()->findByPk(EducationShift::ALL_ONE)->$param ?>
                             </label>
                         </div>
                     </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'passport'); ?>
+                        <?php echo $form->textField($model, 'passport', array('maxlength' => 100, 'placeholder' => 'Серія паспорта')); ?>
+                        <span><?php echo $form->error($model, 'passport'); ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'passport_issued'); ?>
+                        <?php echo $form->textField($model, 'passport_issued', array('maxlength' => 100, 'placeholder' => 'Ким виданий паспорт')); ?>
+                        <span><?php echo $form->error($model, 'passport_issued'); ?></span>
+                    </div>
+                    <div class="row">
+                        <?php echo $form->label($model, 'document_issued_date'); ?>
+                        <?php echo $form->textField($model, 'document_issued_date', array('maxlength' => 100, 'placeholder' => 'Дата видачі паспорта')); ?>
+                        <span><?php echo $form->error($model, 'document_issued_date'); ?></span>
+                    </div>
+<!--                    <div class="row">-->
+<!--                        --><?php //echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+<!--                        <label for="chooseAvatar">--><?php //echo Yii::t('regexp', '0157'); ?><!--</label>-->
+<!--                    </div>-->
+                    <div class="row">
+                        <?php echo $form->label($model, 'inn'); ?>
+                        <?php echo $form->textField($model, 'inn', array('maxlength' => 100, 'placeholder' => 'Ідентифікаційний код')); ?>
+                        <span><?php echo $form->error($model, 'inn'); ?></span>
+                    </div>
+<!--                    <div class="row">-->
+<!--                        --><?php //echo CHtml::activeFileField($model, 'avatar', array('tabindex' => '-1', 'max-file-size' => "5242880", 'ng-model' => "attachment", 'file-check' => "", "onchange" => "getName(this.value)")); ?>
+<!--                        <label for="chooseAvatar">--><?php //echo Yii::t('regexp', '0157'); ?><!--</label>-->
+<!--                    </div>-->
                 </div>
             </div>
             <div class="rowbuttons">
