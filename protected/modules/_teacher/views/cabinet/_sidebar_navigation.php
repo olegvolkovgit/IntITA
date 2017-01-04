@@ -29,6 +29,11 @@
                     <span ng-cloak class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
                 </a>
             </li>
+            <li>
+                <a href="/mail?intitaLogon=<?=$mail?>">
+                    <i class="fa fa-envelope fa-fw"></i> Електронна скринька
+                </a>
+            </li>
 
             <?php
             $roles = Yii::app()->user->model->getRoles();
