@@ -113,7 +113,7 @@ function specializationsTableCtrl ($scope, superVisorService, $state, $http, $st
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/createSpecialization',
             method: "POST",
-            data: $jq.param({name: $scope.specialization.name}),
+            data: $jq.param({title_ua: $scope.specialization.title_ua,title_ru: $scope.specialization.title_ru,title_en: $scope.specialization.title_en}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data, function(){
@@ -146,7 +146,12 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
         $http({
             url: basePath+'/_teacher/_supervisor/superVisor/updateSpecialization',
             method: "POST",
-            data: $jq.param({id:$stateParams.id,name: $scope.specialization.name}),
+            data: $jq.param({
+                id:$stateParams.id,
+                title_ua: $scope.specialization.title_ua,
+                title_ru: $scope.specialization.title_ru,
+                title_en: $scope.specialization.title_en
+            }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data, function(){

@@ -1,23 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "specializations_group".
+ * This is the model class for table "education_shift".
  *
- * The followings are the available columns in table 'specializations_group':
+ * The followings are the available columns in table 'education_shift':
  * @property integer $id
  * @property string $title_ua
  * @property string $title_ru
  * @property string $title_en
  *
  */
-class SpecializationsGroup extends CActiveRecord
+class EducationShift extends CActiveRecord
 {
+    const MORNING = 1;
+    const EVENING = 2;
+	const ALL_ONE = 3;
+
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'specializations_group';
+		return 'education_shift';
 	}
 
 	/**
@@ -29,7 +33,7 @@ class SpecializationsGroup extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title_ua, title_ru, title_en', 'required'),
-			array('title_ua, title_ru, title_en', 'length', 'max'=>128),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>30),
 			// The following rule is used by search().
 			array('id, title_ua, title_ru, title_en', 'safe', 'on'=>'search'),
 		);
@@ -53,9 +57,9 @@ class SpecializationsGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title_ua' => 'Назва спеціалізації (укр.)',
-			'title_ru' => 'Назва спеціалізації (рос.)',
-			'title_en' => 'Назва спеціалізації (англ.)',
+			'title_ua' => 'Title Ua',
+			'title_ru' => 'Title Ru',
+			'title_en' => 'Title En',
 		);
 	}
 
@@ -89,27 +93,10 @@ class SpecializationsGroup extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SpecializationsGroup the static model class
+	 * @return EducationShift the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	public static function specializationsList(){
-		$param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
-		$criteria = new CDbCriteria();
-		$specializations = SpecializationsGroup::model()->findAll($criteria);
-		$data = array();
-
-		foreach ($specializations as $key=>$specialization) {
-			$data[$key]['id']=$specialization['id'];
-			$data[$key]['title']=$specialization[$param];
-			$data[$key]['title_ua']=$specialization['title_ua'];
-			$data[$key]['title_ru']=$specialization['title_ru'];
-			$data[$key]['title_en']=$specialization['title_en'];
-		}
-
-		return json_encode($data);
 	}
 }

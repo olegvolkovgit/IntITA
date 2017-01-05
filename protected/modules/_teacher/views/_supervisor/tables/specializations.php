@@ -11,12 +11,20 @@
                     <table class="table table-striped table-bordered table-hover" style="table-layout: fixed">
                         <tr>
                             <th>ID</th>
-                            <th>Спеціалізація</th>
+                            <th>Спеціалізація(укр.)</th>
+                            <th>Спеціалізація(рос.)</th>
+                            <th>Спеціалізація(англ.)</th>
                         </tr>
                         <tr ng-repeat="row in specializations">
                             <td>{{row.id}}</td>
                             <td>
-                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.specialization}}</a>
+                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.title_ua}}</a>
+                            </td>
+                            <td>
+                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.title_ru}}</a>
+                            </td>
+                            <td>
+                                <a ng-href="#/supervisor/specialization/update/{{row.id}}">{{row.title_en}}</a>
                             </td>
                         </tr>
                     </table>

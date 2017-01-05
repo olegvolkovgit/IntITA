@@ -8,6 +8,7 @@
 ?>
 <div class="signInForm">
     <?php
+    $param=Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
     $form = $this->beginWidget('CActiveForm', array(
     'id' => $id,
     'enableClientValidation' => true,
@@ -49,22 +50,37 @@
         </div>
         <div ng-show="signMode=='signIn'">
             <div class="authLinks">
+                <div class="raw" style="clear:both;margin-top: 27px">
+                    <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authForm.$invalid', 'value'=>Yii::t('regform', Yii::t('regform', '0093')))); ?>
+                </div>
                 <?php echo CHtml::link(Yii::t('regform', '0092'), '', array('id' => 'authLinks', 'onclick' => 'openForgotpass("fromForm")')); ?>
                 <label for="signUpMode" class=registration><?php echo Yii::t('registration', '0591'); ?></label>
                 <input ng-hide=true type="radio" ng-model="signMode" id="signUpMode" name="signMode" value="signUp" />
             </div>
-            <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authForm.$invalid', 'value'=>Yii::t('regform', Yii::t('regform', '0093')))); ?>
         </div>
         <div ng-show="signMode=='signUp'">
             <div class="authLinks">
-                <div class="regCheckbox">
-                    <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
-                    <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
+                <div class="row">
+                    <div class="regCheckbox">
+                        <input type="checkbox" id="regCheckbox" ng-init='regChecked=false' ng-model="regChecked" name="isExtended" />
+                        <label for="regCheckbox"><?php echo Yii::t('regform','0011'); ?></label>
+                    </div>
+
+                    <div class="regFormEducation">
+                        <input type="checkbox" class="eductionFormCheckbox" ng-model="educationForm.online" ng-init='educationForm.online=true' name="educationForm" id="onlineEducation" disabled>
+                        <label for="onlineEducation"><?php echo EducationForm::model()->findByPk(EducationForm::ONLINE)->$param ?></label>
+                        <input type="checkbox" class="eductionFormCheckbox" ng-model="educationForm.offline" name="educationForm" id="offlineEducation">
+                        <label for="offlineEducation"><?php echo EducationForm::model()->findByPk(EducationForm::OFFLINE)->$param ?></label>
+                    </div>
+
+                    <div class="raw" style="clear:both;">
+                        <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authForm.$invalid && !regChecked', 'value'=>Yii::t('regform', Yii::t('regform', '0013')))); ?>
+                    </div>
+                    
+                    <label for="signInMode" class="registration"><?php echo Yii::t('regform','0806') ?></label>
+                    <input ng-hide=true ng-init="signMode='<?php echo $mode; ?>'" type="radio" ng-model="signMode" name="signMode" id="signInMode" value="signIn" />
                 </div>
-                <label for="signInMode" class=registration><?php echo Yii::t('regform','0806') ?></label>
-                <input ng-hide=true ng-init="signMode='<?php echo $mode; ?>'" type="radio" ng-model="signMode" name="signMode" id="signInMode" value="signIn" />
             </div>
-            <?php echo CHtml::submitButton('', array('id' => "signInButtonM", 'ng-disabled' => 'authForm.$invalid && !regChecked', 'value'=>Yii::t('regform', Yii::t('regform', '0013')))); ?>
         </div>
 
         <div class="linesignInForm"><?php echo Yii::t('regform', '0091'); ?></div>

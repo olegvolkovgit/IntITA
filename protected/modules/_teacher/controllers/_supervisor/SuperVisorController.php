@@ -440,10 +440,14 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionCreateSpecialization()
     {
-        $name=Yii::app()->request->getPost('name');
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
 
         $specialization=new SpecializationsGroup();
-        $specialization->name=$name;
+        $specialization->title_ua=$title_ua;
+        $specialization->title_ru=$title_ru;
+        $specialization->title_en=$title_en;
 
         if($specialization->save()){
             echo 'Спеціалізацію створено';
@@ -456,10 +460,14 @@ class SuperVisorController extends TeacherCabinetController
     public function actionUpdateSpecialization()
     {
         $id=Yii::app()->request->getPost('id');
-        $name=Yii::app()->request->getPost('name');
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
 
         $specialization=SpecializationsGroup::model()->findByPk($id);
-        $specialization->name=$name;
+        $specialization->title_ua=$title_ua;
+        $specialization->title_ru=$title_ru;
+        $specialization->title_en=$title_en;
 
         if($specialization->update()){
             echo 'Спеціалізацію оновлено';
