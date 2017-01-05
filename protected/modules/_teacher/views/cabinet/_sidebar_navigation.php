@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li>
-                <a href="/mail?intitaLogon=<?=$mail?>">
+                <a href="javascript:void(0)" onclick="window.open('/cabinet/mail'); return false">
                     <i class="fa fa-envelope fa-fw"></i> Електронна скринька
                 </a>
             </li>

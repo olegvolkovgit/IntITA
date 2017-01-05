@@ -325,5 +325,19 @@ class CabinetController extends TeacherCabinetController
     {
         echo Yii::app()->createUrl('course/index', array('id' => Yii::app()->request->getPost('id')));
     }
+
+    public function actionMail(){
+        $teacher = Teacher::model()->findByPk(Yii::app()->user->id);
+        $params = array(
+            'uid' => Yii::app()->user->id,
+            'pass'=>rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256,md5('test'), base64_decode(urldecode(Yii::app()->session['mp'])),MCRYPT_MODE_ECB)),
+            'mail'=>$teacher->email,
+        );
+        $test = json_encode($params);
+        $token = urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $test, MCRYPT_MODE_ECB)));
+        $teacher->login_token = $token;
+        $teacher->save();
+        $this->redirect(Config::getRoundcubeAddress().'/?intitaLogon='.$token);
+    }
     
 }

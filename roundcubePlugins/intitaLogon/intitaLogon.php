@@ -27,13 +27,22 @@ class intitaLogon extends rcube_plugin
 
     function authenticate($args)
     {
-
         if (!empty($_GET['intitaLogon'])) {
-            $args['user'] = 'postmaster@dev.intita.com';
+            $decrypted = $this->decrypt($_GET['intitaLogon']);
+            $args['user'] = $decrypted['mail'];
+            $args['pass'] = $decrypted['pass'];
             $args['host'] = 'localhost';
+            $args['cookiecheck'] = false;
             $args['valid'] = true;
         }
         return $args;
     }
+
+    private function decrypt($token){
+        $_token = urlencode($token);
+        $decrypted = mcrypt_decrypt(MCRYPT_RIJNDAEL_256,md5('test'), base64_decode(urldecode($_token)),MCRYPT_MODE_ECB);
+        return json_decode(rtrim($decrypted),true);
+    }
+
 
 }

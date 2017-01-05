@@ -282,7 +282,7 @@ class StudentReg extends CActiveRecord
             $this->_identity->authenticate();
         }
         if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
-            Yii::app()->session['imap']=base64_encode(base64_encode($this->password));
+            Yii::app()->session['mp']=urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $this->password, MCRYPT_MODE_ECB)));
             $duration = 3600 * 24; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
             return true;
