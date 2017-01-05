@@ -11,7 +11,7 @@
                     <td data-title="'Назва'" sortable="'name'" filter="{'name': 'text'}" >
                         <a ng-href="#/supervisor/offlineSubgroup/{{row.id}}">{{row.name}}</a>
                     </td>
-                    <td data-title="'Спеціалізація'" filter="{'specialization.name': 'text'}" sortable="'specialization.name'">{{row.specialization.name}}</td>
+                    <td data-title="'Спеціалізація'" filter="{'specialization.title_ua': 'text'}" sortable="'specialization.title_ua'">{{row.specialization.title_ua}}</td>
                     <td data-title="'Інформація(розклад)'" ><span ng-bind-html="row.data | linky:'_blank'"></span></td>
                     <td data-title="'Куратор підгрупи'" filter="{'userCurator.fullName': 'text'}" sortable="'userCurator.fullName'">
                         <a ng-href="#/supervisor/userProfile/{{row.id_user_curator}}">{{row.userCurator.fullName}} ({{row.userCurator.email}})</a>

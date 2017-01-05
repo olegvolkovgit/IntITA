@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label>Спеціалізація*:</label>
-                        <select class="form-control" ng-options="item.id as item.specialization for item in specializations"
+                        <select class="form-control" ng-options="item.id as item.title_ua for item in specializations"
                                 ng-model="selectedSpecialization">
                             <option name="specialization" value="" disabled selected>(Виберіть спеціалізацію)</option>
                         </select>
