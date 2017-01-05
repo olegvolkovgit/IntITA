@@ -9,7 +9,7 @@ angular
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity, careerService, specializations) {
+function editProfileController($scope, $http, countryCity, careerService, specializations, $q) {
     //init progress bar
     $scope.dataForm=[];
     $scope.form=[];
@@ -67,8 +67,30 @@ function editProfileController($scope, $http, countryCity, careerService, specia
    };
 
     angular.element(document).ready(function () {
-        $scope.getCurrentCountryCity().then(function(){
-            //get progress
+        $q.all([
+            $scope.getCurrentCountryCity(),
+            careerService.getCareersList(),
+            $scope.getCurrentCareers(),
+            $scope.getCurrentSpecializations(),
+            specializations.getSpecializationsList()
+        ]).then(function (response) {
+            $scope.careers=response[1];
+            $scope.currentCareers=response[2];
+            $scope.currentSpecializations=response[3];
+            $scope.specializations=response[4];
+
+            $scope.currentCareers.forEach(function(item, key) {
+                if (_.find($scope.currentCareers, ['id_career', item.id_career]) && _.find($scope.careers, ['id', item.id_career])) {
+                    $scope.form.careerStart[key]=_.find($scope.careers, ['id', item.id_career]);
+                }
+            });
+            $scope.currentSpecializations.forEach(function(item, key) {
+                if (_.find($scope.currentSpecializations, ['id_specialization', item.id_specialization]) && _.find($scope.specializations, ['id', item.id_specialization])) {
+                    $scope.form.specializations[key]=_.find($scope.specializations, ['id', item.id_specialization]);
+                }
+            });
+
+
             for (var key in $scope.dataForm) {
                 if($scope.dataForm[key].trim()!='')
                     $scope.progress++;
@@ -131,22 +153,12 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            $scope.currentSpecializations=response.data;
+            return response.data;
         }, function errorCallback() {
             console.log("Виникла помилка при завантажені спеціалзацій яким надано перевагу. Зв'яжіться з адміністратором сайту.");
         });
         return promise;
     };
-    specializations.getSpecializationsList().then(function (response) {
-        $scope.specializations=response;
-        $scope.getCurrentSpecializations().then(function () {
-            $scope.currentSpecializations.forEach(function(item, key) {
-                if (_.find($scope.currentSpecializations, ['id_specialization', item.id_specialization]) && _.find($scope.specializations, ['id', item.id_specialization])) {
-                    $scope.form.specializations[key]=_.find($scope.specializations, ['id', item.id_specialization]);
-                }
-            });
-        });
-    });
     //specializations list
 
     //careers list
@@ -156,22 +168,12 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            $scope.currentCareers=response.data;
+            return response.data;
         }, function errorCallback() {
             console.log("Виникла помилка при завантажені кар'єр яким надано перевагу. Зв'яжіться з адміністратором сайту.");
         });
         return promise;
     };
-    careerService.getCareersList().then(function (response) {
-        $scope.careers=response;
-        $scope.getCurrentCareers().then(function () {
-            $scope.currentCareers.forEach(function(item, key) {
-                if (_.find($scope.currentCareers, ['id_career', item.id_career]) && _.find($scope.careers, ['id', item.id_career])) {
-                    $scope.form.careerStart[key]=_.find($scope.careers, ['id', item.id_career]);
-                }
-            });
-        });
-    });
     //careers list
 
     $scope.careersListToString = function(careers){
