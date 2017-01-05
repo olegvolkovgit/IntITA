@@ -65,16 +65,21 @@ class StudentRegController extends Controller
     public function actionRegistration()
     {
         $model = new StudentReg('reguser');
-
+        
+        $careers=json_decode($_POST['careers']);
+        $specializations=json_decode($_POST['specializations']);
+        
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
-            
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
         if (isset($_POST['StudentReg'])) {
-            if (isset($_POST['educformOff']) && $_POST['educformOff'] == '1')
-                $_POST['StudentReg']['educform'] = 'Онлайн/Офлайн';
-            else $_POST['StudentReg']['educform'] = 'Онлайн';
+            if ($_POST['educformOff']) {
+                $_POST['StudentReg']['educform'] = EducationForm::ONLINE_OFFLINE;
+                $_POST['StudentReg']['education_shift'] = $_POST['shift']?$_POST['shift']:EducationShift::ALL_ONE;
+            } else {
+                $_POST['StudentReg']['educform'] = EducationForm::ONLINE;
+            }
             $model->attributes = $_POST['StudentReg'];
             if ($model->password !== Null){
                 $model->password = sha1($model->password);
@@ -94,6 +99,10 @@ class StudentRegController extends Controller
                 if (Yii::app()->session['lg']) $lang = Yii::app()->session['lg'];
                 else $lang = 'ua';
                 $model->save();
+                
+                if($careers) $model->createUserCareer($careers);
+                if($specializations) $model-> createUserSpecialization($specializations);
+               
                 if ($model->avatar == Null) {
                     $thisModel = new StudentReg();
                     $thisModel->updateByPk($model->id, array('avatar' => 'noname.png'));
@@ -105,9 +114,7 @@ class StudentRegController extends Controller
 
                 $this->redirect(Yii::app()->createUrl('/site/activationinfo', array('email' => $model->email)));
             } else {
-
                 $this->render("studentreg", array('model' => $model));
-
             }
         }
     }
@@ -191,13 +198,21 @@ class StudentRegController extends Controller
         $model = $this->loadModel($id);
         $model->setScenario('edit');
 
+        $careers=json_decode($_POST['careers']);
+        $specializations=json_decode($_POST['specializations']);
+        
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'editProfile-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-        
-        $_POST['StudentReg']['educform'] = (isset($_POST['educformOff']) && $_POST['educformOff'] == 
-            EducationForm::ONLINE_OFFLINE)?EducationForm::ONLINE_OFFLINE:EducationForm::ONLINE;
+
+        if ($_POST['educformOff']) {
+            $_POST['StudentReg']['educform'] = EducationForm::ONLINE_OFFLINE;
+            $_POST['StudentReg']['education_shift'] = isset($_POST['shift'])?$_POST['shift']:EducationShift::ALL_ONE;
+        } else {
+            $_POST['StudentReg']['educform'] = EducationForm::ONLINE;
+            $_POST['StudentReg']['education_shift'] = null;
+        }
 
         $model->attributes = $_POST['StudentReg'];
         if (isset($model->avatar)) $model->avatar = CUploadedFile::getInstance($model, 'avatar');
@@ -205,22 +220,11 @@ class StudentRegController extends Controller
             if (isset($model->avatar)) {
                 Avatar::saveStudentAvatar($model);
             }
-            $model->updateByPk($id, array('firstName' => $_POST['StudentReg']['firstName']));
-            $model->updateByPk($id, array('secondName' => $_POST['StudentReg']['secondName']));
-            $model->updateByPk($id, array('nickname' => $_POST['StudentReg']['nickname']));
-            $model->updateByPk($id, array('phone' => $_POST['StudentReg']['phone']));
-            $model->updateByPk($id, array('address' => $_POST['StudentReg']['address']));
-            $model->updateByPk($id, array('education' => $_POST['StudentReg']['education']));
-            $model->updateByPk($id, array('educform' => $_POST['StudentReg']['educform']));
-            $model->updateByPk($id, array('interests' => $_POST['StudentReg']['interests']));
-            $model->updateByPk($id, array('aboutUs' => $_POST['StudentReg']['aboutUs']));
-            $model->updateByPk($id, array('aboutMy' => $_POST['StudentReg']['aboutMy']));
-            $model->updateByPk($id, array('facebook' => $_POST['StudentReg']['facebook']));
-            $model->updateByPk($id, array('googleplus' => $_POST['StudentReg']['googleplus']));
-            $model->updateByPk($id, array('linkedin' => $_POST['StudentReg']['linkedin']));
-            $model->updateByPk($id, array('vkontakte' => $_POST['StudentReg']['vkontakte']));
-            $model->updateByPk($id, array('twitter' => $_POST['StudentReg']['twitter']));
-            $model->updateByPk($id, array('skype' => $_POST['StudentReg']['skype']));
+
+            $model->update(array('firstName','secondName','nickname','phone','address','education','educform','interests','aboutUs','aboutMy','facebook','googleplus',
+                'linkedin','vkontakte','twitter','skype','passport','document_type','inn','passport_issued','prev_job','current_job','education_shift'));
+            $model->updateUserCareer($careers);
+            $model->updateUserSpecialization($specializations);
 
             if (isset($_POST['StudentReg']['birthday'])){
                 $format = "d/m/Y";
@@ -228,6 +232,13 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('birthday' => date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['birthday']),'Y-m-d')));
                 else
                     $model->updateByPk($id, array('birthday' => null));
+            }
+            if (isset($_POST['StudentReg']['document_issued_date'])){
+                $format = "d/m/Y";
+                if ($_POST['StudentReg']['document_issued_date'] !="")
+                    $model->updateByPk($id, array('document_issued_date' => date_format(DateTime::createFromFormat($format, $_POST['StudentReg']['document_issued_date']),'Y-m-d')));
+                else
+                    $model->updateByPk($id, array('document_issued_date' => null));
             }
 
             if (isset($_POST['StudentReg']['country'])) {
@@ -240,9 +251,6 @@ class StudentRegController extends Controller
                     $model->updateByPk($id, array('city' => null));
                 }
             }
-
-            // Uncomment the following line if AJAX validation is needed
-            // $this->performAjaxValidation($model);
 
             if (!empty($_POST['StudentReg']['password']) && sha1($_POST['StudentReg']['password']) == sha1($_POST['StudentReg']['password_repeat']))
                 $model->updateByPk($id, array('password' => sha1($_POST['StudentReg']['password'])));
@@ -327,6 +335,11 @@ class StudentRegController extends Controller
     public function actionGetCurrentSpecializations()
     {
         echo StudentReg::currentSpecializations();
+    }
+    
+    public function actionGetCurrentCareers()
+    {
+        echo StudentReg::currentCareers();
     }
     
     public function actionGetTypeahead($query) {

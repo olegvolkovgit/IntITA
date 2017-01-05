@@ -663,7 +663,12 @@ class SiteController extends Controller
             }
             if (isset($post)) {
                 $model->attributes = $post;
-                $model->educform=$offlineForm?3:1;
+                if($offlineForm){
+                    $model->educform=3;
+                    $model->education_shift=3;
+                }else{
+                    $model->educform=1;
+                }
                 $getToken = rand(0, 99999);
                 $getTime = date("Y-m-d H:i:s");
                 $model->token = sha1($getToken . $getTime);

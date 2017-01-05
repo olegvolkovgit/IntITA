@@ -91,7 +91,9 @@ a#authLinks:hover, label.registration:hover{color:#666666;}
 .registrationWhenForgot{color:#4b75a4;float:right;font-size:16px;cursor:pointer;text-decoration:underline;font-weight:normal;margin:10px 24px 0 0}
 .registrationWhenForgot:hover{color:#666666;}
 .rowemail.error .registrationWhenForgot{display: block;}.rowemail .registrationWhenForgot{display: none;}
-
+#forgotPass{color: #4b75a4;margin:2px}
+#forgotPass:focus{outline:none}
+.forgotPass{margin:10px}
 @media only screen and (max-width: 800px) {
     a#authLinks,label.registration {
         font-size: 14px;
