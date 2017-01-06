@@ -152,10 +152,10 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <li>
                     <?php echo Yii::t('regexp', '0562'); ?>
                 </li>
-                <li>
+                <li ng-click="uiSelectInit()">
                     <?php echo Yii::t('regexp', '0563'); ?>
                 </li>
-                <li>
+                <li ng-click="uiSelectInit()">
                     <?php echo 'Укладення договору' ?>
                 </li>
             </ul>

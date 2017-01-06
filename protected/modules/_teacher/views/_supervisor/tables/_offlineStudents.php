@@ -15,6 +15,11 @@
                 <td data-title="'Тренер'" filter="{'trainerData.fullName': 'text'}" sortable="'trainerData.fullName'">
                     <a ng-href="#/supervisor/userProfile/{{row.trainerData.id}}">{{row.trainerData.fullName}} {{row.trainerData.email}}</a>
                 </td>
+                <td data-title="'Навчальна зміна'" filter="{'user.education_shift': 'select'}" filter-data="shifts">
+                    <span ng-if="row.user.education_shift==1">ранкова</span>
+                    <span ng-if="row.user.education_shift==2">вечірня</span>
+                    <span ng-if="row.user.education_shift==3">байдуже</span>
+                </td>
                 <td data-title="'Група'" filter="{'group.name': 'text'}" sortable="'group.name'">
                     <a ng-href="#/supervisor/offlineGroup/{{row.group.id}}">{{row.group.name}}</a>
                 </td>

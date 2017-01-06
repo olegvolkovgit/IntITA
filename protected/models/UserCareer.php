@@ -45,7 +45,7 @@ class UserCareer extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-
+			'career' => array(self::BELONGS_TO, 'Careers', array('id_career'=>'id')),
         );
     }
 

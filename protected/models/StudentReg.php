@@ -1235,6 +1235,11 @@ class StudentReg extends CActiveRecord
         return $this->save(true, array('educform'));
     }
 
+    public function setUserShift($shift){
+        $this->education_shift = $shift;
+        return $this->save(true, array('education_shift'));
+    }
+
     public static function getAdminModel(){
         return StudentReg::model()->findByPk(Config::getAdminId());
     }
@@ -1373,7 +1378,8 @@ class StudentReg extends CActiveRecord
 
         $user = $model->registrationData->getAttributes(array(
             'avatar','address','birthday','cancelled','city','country','education','educform','email','firstName',
-            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time'
+            'fullName','id','middleName','nickname','skype','state','status','phone','reg_time','education_shift','prev_job',
+            'current_job','passport','document_issued_date','inn','passport_issued'
         ));
         if($user===null)
             throw new CHttpException(404,'The requested page does not exist.');
@@ -1417,6 +1423,13 @@ class StudentReg extends CActiveRecord
                 $result["offlineStudent"][$key]["groupName"] = $subgroup->group->name;
                 $result["offlineStudent"][$key]["specialization"] = $subgroup->group->specializationName->title_ua;
             }
+        }
+
+        foreach($model->startCareers as $key=>$career){
+            $result['careers'][$key]=$career->career->title_ua;
+        }
+        foreach($model->preferSpecializations as $key=>$specialization){
+            $result['specializations'][$key]=$specialization->specialization->title_ua;
         }
         return $result;
     }
