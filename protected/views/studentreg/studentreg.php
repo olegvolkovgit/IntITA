@@ -96,7 +96,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                     <?php echo Yii::t('regexp', '0563'); ?>
                 </li>
                 <li ng-click="uiSelectInit()">
-                    <?php echo 'Укладення договору' ?>
+                    <?php echo Yii::t('regexp', '0919'); ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -138,7 +138,6 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                                 oi-select-options="{cleanModel: true}"
                                 placeholder="<?php echo Yii::t('regexp', '0896'); ?>"
                                 class="indicator"
-                                data-source='<?php echo Yii::t('regexp', '0897'); ?>'
                                 id="countrySelect"
                             ></oi-select>
                         </div>
@@ -160,7 +159,6 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                                 }"
                                 placeholder="<?php echo Yii::t('regexp', '0898'); ?>"
                                 class="indicator"
-                                data-source='<?php echo Yii::t('regexp', '0899'); ?>'
                                 id="citySelect"
                             ></oi-select>
                         </div>
@@ -225,19 +223,19 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
 
                     <div class="row  rowTextarea">
                         <?php echo $form->label($model, 'prev_job'); ?>
-                        <?php echo $form->textArea($model, 'prev_job', array('maxlength' => 1000, 'placeholder' => 'Попередня зайнятість')); ?>
+                        <?php echo $form->textArea($model, 'prev_job', array('maxlength' => 1000, 'placeholder' => Yii::t('regexp', '0920'))); ?>
                         <span><?php echo $form->error($model, 'prev_job'); ?></span>
                     </div>
                     <div class="row  rowTextarea">
                         <?php echo $form->label($model, 'current_job'); ?>
-                        <?php echo $form->textArea($model, 'current_job', array('maxlength' => 1000, 'placeholder' => 'Теперішня зайнятість')); ?>
+                        <?php echo $form->textArea($model, 'current_job', array('maxlength' => 1000, 'placeholder' => Yii::t('regexp', '0921'))); ?>
                         <span><?php echo $form->error($model, 'current_job'); ?></span>
                     </div>
                     <div class="row rowTextarea">
                         <input type="hidden" name="careers">
-                        <label>Як би ти хотів розпочати кар'єру в ІТ?</label>
-                        <ui-select multiple ng-model="dataForm.careerStart" theme="bootstrap" close-on-select="false" title="Початок кар'єри">
-                            <ui-select-match placeholder="Початок кар'єри">{{$item.title}}</ui-select-match>
+                        <label><?php echo Yii::t('regexp', '0923') ?></label>
+                        <ui-select multiple ng-model="dataForm.careerStart" theme="bootstrap" close-on-select="false" title="<?php echo Yii::t('regexp', '0922') ?>">
+                            <ui-select-match placeholder="<?php echo Yii::t('regexp', '0922') ?>">{{$item.title}}</ui-select-match>
                             <ui-select-choices repeat="career in careers track by $index">
                                 {{career.title}}
                             </ui-select-choices>
@@ -256,36 +254,36 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                     </div>
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'facebook'); ?>
-                        <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� facebook','placeholder' => Yii::t('regexp', '0243'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'facebook', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0243'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'facebook'); ?>
                     </div>
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'googleplus'); ?>
-                        <?php echo $form->textField($model, 'googleplus', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� googleplus','placeholder' => Yii::t('regexp', '0244'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'googleplus', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0244'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'googleplus'); ?>
                     </div>
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'linkedin'); ?>
-                        <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� linkedin','placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'linkedin', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0245'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'linkedin'); ?>
                     </div>
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'vkontakte'); ?>
-                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� vkontakte','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'vkontakte', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0246'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'vkontakte'); ?>
                     </div>
                     <div class="row rowNetwork">
                         <?php echo $form->label($model, 'twitter'); ?>
-                        <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator', 'data-source' => '��������� �� twitter','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
+                        <?php echo $form->textField($model, 'twitter', array('maxlength' => 255, 'class' => 'indicator','placeholder' => Yii::t('regexp', '0247'), 'onKeyUp'=>"hideServerValidationMes(this)")); ?>
                         <?php echo $form->error($model, 'twitter'); ?>
                     </div>
                 </div>
                 <div id="accountantTab">
                     <div class="row rowTextarea">
                         <input type="hidden" name="specializations">
-                        <label>Спеціалізація</label>
-                        <ui-select multiple ng-model="dataForm.specializations" theme="bootstrap" close-on-select="false" title="Обери спреціалізацію, яка тебе цікавить">
-                            <ui-select-match placeholder="Обери спреціалізацію" >{{$item.title}}</ui-select-match>
+                        <label><?php echo Yii::t('regexp', '0924') ?></label>
+                        <ui-select multiple ng-model="dataForm.specializations" theme="bootstrap" close-on-select="false" title="<?php echo Yii::t('regexp', '0925') ?>">
+                            <ui-select-match placeholder="<?php echo Yii::t('regexp', '0925') ?>" >{{$item.title}}</ui-select-match>
                             <ui-select-choices repeat="item in specializations track by $index">
                                 {{item.title}}
                             </ui-select-choices>
@@ -309,7 +307,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         </div>
                     </div>
                     <div ng-show="dataForm.educformOff" class="radioShift row">
-                        <label>Навчальна зміна</label>
+                        <?php echo $form->label($model, 'education_shift'); ?>
                         <div class="radiolabel">
                             <label>
                                 <input class="checkstyle" type="radio" name="shift" value="<?php echo EducationShift::MORNING ?>"/>
@@ -327,17 +325,17 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'passport'); ?>
-                        <?php echo $form->textField($model, 'passport', array('maxlength' => 100, 'placeholder' => 'Серія паспорта')); ?>
+                        <?php echo $form->textField($model, 'passport', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0927'))); ?>
                         <span><?php echo $form->error($model, 'passport'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'passport_issued'); ?>
-                        <?php echo $form->textField($model, 'passport_issued', array('maxlength' => 100, 'placeholder' => 'Ким виданий паспорт')); ?>
+                        <?php echo $form->textField($model, 'passport_issued', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0928'))); ?>
                         <span><?php echo $form->error($model, 'passport_issued'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'document_issued_date'); ?>
-                        <?php echo $form->textField($model, 'document_issued_date', array('maxlength' => 11, 'class' => 'date', 'placeholder' => 'Дата видачі паспорта')); ?>
+                        <?php echo $form->textField($model, 'document_issued_date', array('maxlength' => 11, 'class' => 'date', 'placeholder' => Yii::t('regexp', '0929'))); ?>
                         <span><?php echo $form->error($model, 'document_issued_date'); ?></span>
                     </div>
 <!--                    <div class="row">-->
@@ -346,7 +344,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
 <!--                    </div>-->
                     <div class="row">
                         <?php echo $form->label($model, 'inn'); ?>
-                        <?php echo $form->textField($model, 'inn', array('maxlength' => 100, 'placeholder' => 'Ідентифікаційний код')); ?>
+                        <?php echo $form->textField($model, 'inn', array('maxlength' => 100, 'placeholder' => Yii::t('regexp', '0930'))); ?>
                         <span><?php echo $form->error($model, 'inn'); ?></span>
                     </div>
 <!--                    <div class="row">-->
