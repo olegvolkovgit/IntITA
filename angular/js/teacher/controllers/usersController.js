@@ -61,6 +61,7 @@ function usersTableCtrl ($scope, usersService, NgTableParams){
         });
 }
 function studentsTableCtrl ($scope, usersService, NgTableParams){
+    $scope.educationForms = [{id:'1', title:'онлайн'},{id:'3', title:'онлайн/офлайн'}];
     $jq("#startDate").datepicker(lang);
     $jq("#endDate").datepicker(lang);
 
@@ -98,6 +99,7 @@ function studentsTableCtrl ($scope, usersService, NgTableParams){
 }
 
 function offlineStudentsTableCtrl ($scope, usersService, NgTableParams){
+    $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
     $scope.offlineStudentsTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService
@@ -430,8 +432,8 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService){
     };
     $scope.changeStudentEducForm=function (user,currentEducForm) {
         var form;
-        if(currentEducForm=='Онлайн') form='Онлайн/Офлайн';
-        else if(currentEducForm=='Онлайн/Офлайн') form='Онлайн';
+        if(currentEducForm==1) form=3;
+        else if(currentEducForm==3) form=1;
         $http({
             method: 'POST',
             url: basePath+'/_teacher/user/setStudentEducForm',
@@ -443,6 +445,18 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService){
             bootbox.alert("Операцію не вдалося виконати");
         });
     };
+    $scope.changeStudentShift=function (user,shift) {
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/user/setStudentShift',
+            data: $jq.param({user: user,shift:shift}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback() {
+            $scope.loadUserData($scope.userId);
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    }
     $scope.assignRole = function (user, role) {
         if(user && role){
             roleService

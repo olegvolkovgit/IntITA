@@ -188,7 +188,7 @@ class SuperVisorController extends TeacherCabinetController
         inner join user_student us on u.id = us.id_user
             left JOIN offline_students os ON u.id = os.id_user
         WHERE 
-         u.cancelled=".StudentReg::ACTIVE." and os.id_user IS NULL and us.end_date IS NULL and u.educform='Онлайн/Офлайн'
+         u.cancelled=".StudentReg::ACTIVE." and os.id_user IS NULL and us.end_date IS NULL and u.educform=".EducationForm::ONLINE_OFFLINE."
         UNION
         SELECT
             os.id_user
@@ -197,7 +197,7 @@ class SuperVisorController extends TeacherCabinetController
             inner join user_student us on u.id = us.id_user
             left JOIN offline_students os ON u.id = os.id_user
         WHERE 
-         u.cancelled=".StudentReg::ACTIVE." and us.end_date IS NULL and u.educform='Онлайн/Офлайн'
+         u.cancelled=".StudentReg::ACTIVE." and us.end_date IS NULL and u.educform=".EducationForm::ONLINE_OFFLINE."
             and  os.id_user IS not NULL
         GROUP BY os.id_user
         HAVING count(os.id_user)=sum(if(os.end_date,1,0));";

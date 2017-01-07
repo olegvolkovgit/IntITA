@@ -94,7 +94,7 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
         <div class="linesignInForm"><?php echo Yii::t('regform', '0091'); ?></div>
         <div class="image">
             <script src="//ulogin.ru/js/ulogin.js"></script>
-            <div id="uLogin" x-ulogin-params="display=buttons;fields=;optional=email,first_name,last_name,nickname,bdate,phone,photo_big,city;
+            <div id="uLogin" x-ulogin-params="display=buttons;fields=;optional=email,first_name,last_name,nickname,phone,photo_big,city;
                                     redirect_uri=<?php echo Config::getBaseUrl() . '/site/sociallogin' ?>">
                 <div id="uLoginImages">
                     <img src="<?php echo StaticFilesHelper::createPath('image', 'signin', 'facebook2.png'); ?>"

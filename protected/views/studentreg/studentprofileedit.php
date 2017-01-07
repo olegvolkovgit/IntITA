@@ -113,11 +113,11 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         </tr>
                         <tr ng-show="!form.careerStart.length">
                             <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusUiSelect("form.careerStart")'></td>
-                            <td><?php echo Yii::t('edit', '0620');?> початок кар'єри</td>
+                            <td><?php echo Yii::t('edit', '0620');?> <?php echo Yii::t('edit', '0942');?></td>
                         </tr>
                         <tr ng-show="!form.specializations.length">
                             <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusUiSelect("form.specializations")'></td>
-                            <td><?php echo Yii::t('edit', '0620');?> спеціалізації, яким надано перевагу</td>
+                            <td><?php echo Yii::t('edit', '0620');?> <?php echo Yii::t('edit', '0941');?></td>
                         </tr>
                         <tr ng-hide="avatar!='noname.png'">
                             <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusAvatar()'></td>
@@ -152,11 +152,11 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <li>
                     <?php echo Yii::t('regexp', '0562'); ?>
                 </li>
-                <li>
+                <li ng-click="uiSelectInit()">
                     <?php echo Yii::t('regexp', '0563'); ?>
                 </li>
-                <li>
-                    <?php echo 'Укладення договору' ?>
+                <li ng-click="uiSelectInit()">
+                    <?php echo Yii::t('regexp', '0919'); ?>
                 </li>
             </ul>
             <hr class="lineUnderTab">
@@ -291,19 +291,19 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
 
                     <div class="row  rowTextarea">
                         <?php echo $form->label($model, 'prev_job'); ?>
-                        <?php echo $form->textArea($model, 'prev_job', array('ng-init' => "dataForm.prev_job='$post->prev_job'", 'ng-model' => "dataForm.prev_job", 'maxlength' => 1000, 'class' => 'indicator', 'data-source' => 'попередню зайнятість', 'placeholder' => 'Попередня зайнятість')); ?>
+                        <?php echo $form->textArea($model, 'prev_job', array('ng-init' => "dataForm.prev_job='$post->prev_job'", 'ng-model' => "dataForm.prev_job", 'maxlength' => 1000, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0933'), 'placeholder' => Yii::t('regexp', '0920'))); ?>
                         <span><?php echo $form->error($model, 'prev_job'); ?></span>
                     </div>
                     <div class="row  rowTextarea">
                         <?php echo $form->label($model, 'current_job'); ?>
-                        <?php echo $form->textArea($model, 'current_job', array('ng-init' => "dataForm.current_job='$post->current_job'", 'ng-model' => "dataForm.current_job",'maxlength' => 1000, 'class' => 'indicator', 'data-source' => 'теперішню зайнятість', 'placeholder' => 'Теперішня зайнятість')); ?>
+                        <?php echo $form->textArea($model, 'current_job', array('ng-init' => "dataForm.current_job='$post->current_job'", 'ng-model' => "dataForm.current_job",'maxlength' => 1000, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0934'), 'placeholder' => Yii::t('regexp', '0921'))); ?>
                         <span><?php echo $form->error($model, 'current_job'); ?></span>
                     </div>
                     <div class="row rowTextarea">
                         <input type="hidden" name="careers">
-                        <label>Як би ти хотів розпочати кар'єру в ІТ?</label>
-                        <ui-select multiple ng-model="form.careerStart" theme="bootstrap" close-on-select="false" title="Початок кар'єри">
-                            <ui-select-match placeholder="Початок кар'єри">{{$item.title}}</ui-select-match>
+                        <label><?php echo Yii::t('regexp', '0923') ?></label>
+                        <ui-select multiple ng-model="form.careerStart" theme="bootstrap" close-on-select="false" title="<?php echo Yii::t('regexp', '0922') ?>">
+                            <ui-select-match placeholder="<?php echo Yii::t('regexp', '0922') ?>">{{$item.title}}</ui-select-match>
                             <ui-select-choices repeat="career in careers track by $index">
                                 {{career.title}}
                             </ui-select-choices>
@@ -349,9 +349,9 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <div id="accountantTab">
                     <div class="row rowTextarea">
                         <input type="hidden" name="specializations">
-                        <label>Спеціалізація</label>
-                        <ui-select multiple ng-model="form.specializations" theme="bootstrap" close-on-select="false" title="Обери спреціалізацію, яка тебе цікавить">
-                            <ui-select-match placeholder="Обери спреціалізацію" >{{$item.title}}</ui-select-match>
+                        <label><?php echo Yii::t('regexp', '0924') ?></label>
+                        <ui-select multiple ng-model="form.specializations" theme="bootstrap" close-on-select="false" title="<?php echo Yii::t('regexp', '0925') ?>">
+                            <ui-select-match placeholder="<?php echo Yii::t('regexp', '0925') ?>" >{{$item.title}}</ui-select-match>
                             <ui-select-choices repeat="item in specializations track by $index">
                                 {{item.title}}
                             </ui-select-choices>
@@ -375,7 +375,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                         </div>
                     </div>
                     <div ng-show="form.educformOff" class="radioShift row">
-                        <label>Навчальна зміна</label>
+                        <?php echo $form->label($model, 'education_shift'); ?>
                         <div class="radiolabel">
                             <label>
                                 <input class="checkstyle" type="radio" name="shift" value="<?php echo EducationShift::MORNING ?>" <?php echo $post->getShiftForm(EducationShift::MORNING) ?> />
@@ -394,17 +394,17 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
 
                     <div class="row">
                         <?php echo $form->label($model, 'passport'); ?>
-                        <?php echo $form->textField($model, 'passport', array('ng-init' => "dataForm.passport='$post->passport'", 'ng-model' => "dataForm.passport", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'серію паспорта', 'placeholder' => 'Серія паспорта')); ?>
+                        <?php echo $form->textField($model, 'passport', array('ng-init' => "dataForm.passport='$post->passport'", 'ng-model' => "dataForm.passport", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0935'), 'placeholder' => Yii::t('regexp', '0927'))); ?>
                         <span><?php echo $form->error($model, 'passport'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'passport_issued'); ?>
-                        <?php echo $form->textField($model, 'passport_issued', array('ng-init' => "dataForm.passport_issued='$post->passport_issued'", 'ng-model' => "dataForm.passport_issued", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'ким виданий паспорт', 'placeholder' => 'Ким виданий паспорт')); ?>
+                        <?php echo $form->textField($model, 'passport_issued', array('ng-init' => "dataForm.passport_issued='$post->passport_issued'", 'ng-model' => "dataForm.passport_issued", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0936'), 'placeholder' => Yii::t('regexp', '0928'))); ?>
                         <span><?php echo $form->error($model, 'passport_issued'); ?></span>
                     </div>
                     <div class="row">
                         <?php echo $form->label($model, 'document_issued_date'); ?>
-                        <?php echo $form->textField($model, 'document_issued_date', array('ng-init' => "dataForm.document_issued_date='$post->document_issued_date'",'ng-keyup'=>"modelWatch('dataForm.document_issued_date')", 'ng-model' => "dataForm.document_issued_date", 'maxlength' => 11, 'class' => 'indicator date', 'data-source' => 'дату видачі паспорта', 'placeholder' => 'Дата видачі паспорта')); ?>
+                        <?php echo $form->textField($model, 'document_issued_date', array('ng-init' => "dataForm.document_issued_date='$post->document_issued_date'",'ng-keyup'=>"modelWatch('dataForm.document_issued_date')", 'ng-model' => "dataForm.document_issued_date", 'maxlength' => 11, 'class' => 'indicator date', 'data-source' => Yii::t('edit', '0937'), 'placeholder' => Yii::t('regexp', '0929'))); ?>
                         <span><?php echo $form->error($model, 'document_issued_date'); ?></span>
                     </div>
                     <!--                    <div class="row">-->
@@ -413,7 +413,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                     <!--                    </div>-->
                     <div class="row">
                         <?php echo $form->label($model, 'inn'); ?>
-                        <?php echo $form->textField($model, 'inn', array('ng-init' => "dataForm.inn='$post->inn'", 'ng-model' => "dataForm.inn", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => 'ідентифікаційний код', 'placeholder' => 'Ідентифікаційний код')); ?>
+                        <?php echo $form->textField($model, 'inn', array('ng-init' => "dataForm.inn='$post->inn'", 'ng-model' => "dataForm.inn", 'maxlength' => 100, 'class' => 'indicator', 'data-source' => Yii::t('edit', '0938'), 'placeholder' => Yii::t('regexp', '0930'))); ?>
                         <span><?php echo $form->error($model, 'inn'); ?></span>
                     </div>
                     <!--                    <div class="row">-->

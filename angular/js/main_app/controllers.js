@@ -9,7 +9,12 @@ angular
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity, careerService, specializations, $q) {
+function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout) {
+    $scope.uiSelectInit = function(){
+        $timeout(function () {
+            $scope.$digest();
+        });
+    };
     //init progress bar
     $scope.dataForm=[];
     $scope.form=[];
@@ -246,7 +251,12 @@ function editProfileController($scope, $http, countryCity, careerService, specia
     }, true);
 }
 
-function registrationFormController($scope, countryCity, careerService, specializations) {
+function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {
+    $scope.uiSelectInit = function(){
+        $timeout(function () {
+            $scope.$digest();
+        });
+    };
     $scope.careersListToString = function(careers){
         var careersString=[];
         if(careers){

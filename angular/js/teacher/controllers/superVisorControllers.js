@@ -19,7 +19,7 @@ angular
     .controller('offlineStudentSubgroupCtrl', offlineStudentSubgroupCtrl)
 
 function superVisorCtrl (){
-
+    $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
 }
 
 function offlineGroupsTableCtrl ($scope, superVisorService, NgTableParams){
@@ -52,6 +52,7 @@ function offlineSubgroupsTableCtrl ($scope, superVisorService, NgTableParams){
 
 
 function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
+    $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
     $scope.changePageHeader('Студенти в підгрупах');
     $scope.offlineStudentsTableParams = new NgTableParams({}, {
         getData: function (params) {
@@ -66,7 +67,8 @@ function offlineStudentsSVTableCtrl ($scope, superVisorService, NgTableParams){
     });
 }
 
-function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams){
+function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
+    $scope.shifts = [{id:'1', title:'ранкова'},{id:'2', title:'вечірня'},{id:'3', title:'байдуже'}];
     $scope.changePageHeader('Студенти(офлайн ф.н.), які не в групі');
     $scope.studentsWithoutGroupTableParams = new NgTableParams({}, {
         getData: function (params) {
@@ -79,6 +81,19 @@ function studentsWithoutGroupSVTableCtrl ($scope, superVisorService, NgTablePara
                 });
         }
     });
+
+    $scope.changeStudentShift=function (user,shift) {
+        $http({
+            method: 'POST',
+            url: basePath+'/_teacher/user/setStudentShift',
+            data: $jq.param({user: user,shift:shift}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback() {
+            $scope.studentsWithoutGroupTableParams.reload();
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    }
 }
 
 function offlineGroupSubgroupsTableCtrl ($scope, superVisorService, NgTableParams, $stateParams){
@@ -489,6 +504,7 @@ function usersSVTableCtrl ($scope, superVisorService, NgTableParams){
 }
 
 function studentsSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
+    $scope.educationForms = [{id:'1', title:'онлайн'},{id:'3', title:'онлайн/офлайн'}];
     $scope.changePageHeader('Усі студенти');
 
     $jq("#startDate").datepicker(lang);
@@ -527,8 +543,8 @@ function studentsSVTableCtrl ($scope, superVisorService, NgTableParams, $http){
     }
     $scope.changeStudentEducForm=function (user,currentEducForm) {
         var form;
-        if(currentEducForm=='Онлайн') form='Онлайн/Офлайн';
-        else if(currentEducForm=='Онлайн/Офлайн') form='Онлайн';
+        if(currentEducForm==1) form=3;
+        else if(currentEducForm==3) form=1;
         $http({
             method: 'POST',
             url: basePath+'/_teacher/user/setStudentEducForm',

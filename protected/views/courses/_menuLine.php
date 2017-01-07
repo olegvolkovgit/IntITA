@@ -7,7 +7,7 @@
 <div class="coursesHeader">
     <h1>
         <?php if ($select == 'modules')
-            echo Yii::t('course', '0330');
+            echo Yii::t('courses', '0918');
         else echo Yii::t('courses', '0066'); ?>
     </h1>
 
@@ -57,7 +57,7 @@
         <div class="category">
             <div class='selectType sourse <?php if ($select == 'modules') echo 'selectedSelector' ?>'><a
                     href="<?php echo Yii::app()->createUrl('courses/index', array('selector' => 'modules')); ?>">
-                    <?php echo Yii::t('course', '0330'); ?></a>&nbsp;<span
+                    <?php echo Yii::t('courses', '0918'); ?></a>&nbsp;<span
                     class='moduleNum'><?php echo $counters["modules"]; ?></span>
             </div>
         </div>
