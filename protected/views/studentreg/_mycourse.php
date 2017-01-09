@@ -5,8 +5,12 @@
 $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
 $title = "title_" . $lang;
 $level = "level_" . $lang;
-$courses = $user->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
-$modules = $user->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+if($user->isStudent()){
+    $courses = $user->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
+    $modules = $user->getAttributesByRole(UserRoles::STUDENT)[0]["value"];
+}else{
+    $courses=$modules=array();
+}
 ?>
 <p class="tabHeader"><?php echo ($owner) ? Yii::t('profile', '0108') : Yii::t('profile', '0822'); ?></p>
 <div class="profileCourse">
