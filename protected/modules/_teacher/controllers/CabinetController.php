@@ -23,11 +23,21 @@ class CabinetController extends TeacherCabinetController
         $countNewMessages = count($newReceivedMessages);
         $newReceivedMessages = $model->newMessages($newReceivedMessages);
         $requests = $model->requests();
-
+        $imapMessages = 0;
+        if ($model->isTeacher())
+        {
+            $conn   = imap_open('{localhost:993/imap/ssl/novalidate-cert}INBOX', 'test@dev.intita.com', '1', OP_READONLY);
+            $countMailBoxMessages = imap_search($conn, 'UNSEEN');
+            if ($countMailBoxMessages){
+                $imapMessages = count($countMailBoxMessages);
+            }
+            imap_close($conn);
+        }
         $this->render('index', array(
             'model' => $model,
             'newMessages' => $newReceivedMessages,
             'countNewMessages' => $countNewMessages,
+            'mailboxMessages' => $imapMessages,
             'scenario' => $scenario,
             'receiver' => $receiver,
             'course' => $course,
@@ -43,6 +53,16 @@ class CabinetController extends TeacherCabinetController
         $requests = $model->requests();
         $newRequests = [];
         $newMessages =[];
+        $imapMessages = 0;
+        if ($model->isTeacher())
+        {
+            $conn   = imap_open('{localhost:993/imap/ssl/novalidate-cert}INBOX', 'test@dev.intita.com', '1', OP_READONLY);
+            $countMailBoxMessages = imap_search($conn, 'UNSEEN');
+            if ($countMailBoxMessages){
+                $imapMessages = count($countMailBoxMessages);
+            }
+            imap_close($conn);
+        }
         foreach ($requests as $key=>$request){
             $req['id'] = $request->getMessageId();
             $req['sender'] = $request->sender()->userName()==""?$request->sender()->email:$request->sender()->userName();
@@ -330,13 +350,13 @@ class CabinetController extends TeacherCabinetController
         $teacher = Teacher::model()->findByPk(Yii::app()->user->id);
         $params = array(
             'uid' => Yii::app()->user->id,
-            'pass'=>rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256,md5('test'), base64_decode(urldecode(Yii::app()->session['mp'])),MCRYPT_MODE_ECB)),
-            'mail'=>$teacher->email,
+            'pass'=>rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256,Yii::app()->params['secretKey'], base64_decode(urldecode($teacher->mail_password)),MCRYPT_MODE_ECB)),
+            'mail'=>$teacher->corporate_mail,
+            'time'=>time()
         );
+
         $test = json_encode($params);
         $token = urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $test, MCRYPT_MODE_ECB)));
-        $teacher->login_token = $token;
-        $teacher->save();
         $this->redirect(Config::getRoundcubeAddress().'/?intitaLogon='.$token);
     }
     

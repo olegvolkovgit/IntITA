@@ -156,4 +156,34 @@ class UserController extends TeacherCabinetController {
         echo CJSON::encode($history);
 
     }
+
+    public function actionAddCorpMail(){
+        if (isset($_POST['userId']) && isset($_POST['address'])){
+            $model = Teacher::model()->findByPk($_POST['userId']);
+            $mailBox = new Mailbox();
+            $mailBox->username = $_POST['address'].'@'.Config::getBaseUrlWithoutSchema();
+            $mailBox->name = $_POST['address'];
+            $mailBox->maildir = Config::getBaseUrlWithoutSchema().'/'.$_POST['address'];
+            $mailBox->domain = Config::getBaseUrlWithoutSchema();
+            $mailBox->active = 0;
+            if ($mailBox->validate()){
+                $mailBox->save();
+                $model->corporate_mail = $mailBox->username;
+                $model->save();
+                $message = new UserMessages();
+                $text = $this->renderPartial('//mail/templates/_createMail',array('mail'=>$mailBox->username),true);
+                $message->build('Надано корпоративну електронну адресу',$text,StudentReg::model()->findByPk(Yii::app()->user->id),StudentReg::model()->findByPk($_POST['userId']));
+                $msg = $message->create();
+                Yii::app()->db->createCommand()->insert('message_receiver', array(
+                    'id_message' => $msg->id_message,
+                    'id_receiver' => $_POST['userId'],
+                ));
+                echo $mailBox->username;
+            }
+            else
+                echo json_encode($mailBox->getErrors());
+        }
+        else
+            return http_response_code(400);
+    }
 }

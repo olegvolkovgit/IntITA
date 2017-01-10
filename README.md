@@ -17,4 +17,4 @@ Yii 1.1.16 <br/>
 ###Admin pages
 1. [IntITA CMS] (http://intita.com/_admin) - http://intita.com/_admin  <br/>
 
-PHP Extensions needed: mcrypt, zip, xml
+PHP Extensions needed: mcrypt, zip, xml, imap

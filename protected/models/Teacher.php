@@ -20,6 +20,9 @@
  * @property string $middle_name_ru
  * @property string $last_name_ru
  * @property integer $cancelled
+ * @property string $corporate_mail
+ * @property string $mail_password
+ * @property integer $mailActive
  *
  * @property StudentReg $user
  * @property Module $modules
@@ -32,6 +35,7 @@ class Teacher extends CActiveRecord
     const ACTIVE = 0;
     const DELETED = 1;
 
+    public $mail_password_repeat;
     /**
      * @return string the associated database table name
      */
@@ -54,6 +58,7 @@ class Teacher extends CActiveRecord
             array('rate_knowledge, rate_efficiency, rate_relations, user_id, isPrint', 'numerical', 'integerOnly' => true),
             array('first_name_en, middle_name_en, last_name_en', 'match', 'pattern' => '/^([a-zA-Z0-9_ ])+$/', 'message' => 'Недопустимі символи!'),
             array('first_name_ru, middle_name_ru, last_name_ru', 'match', 'pattern' => '/^([а-яА-ЯёЁ ])+$/u', 'message' => 'Недопустимі символи!'),
+            array('mail_password', 'compare', 'compareAttribute' => 'mail_password_repeat', 'message' => Yii::t('error', '0269'), 'on' => 'mailActivation'),
             array('profile_text_first,profile_text_short,profile_text_last', 'safe'),
             // The following rule is used by search().
             array('profile_text_first, profile_text_short, profile_text_last, rate_knowledge, rate_efficiency,
@@ -100,6 +105,10 @@ class Teacher extends CActiveRecord
             'middle_name_ru' => 'По батькові (російською)',
             'last_name_ru' => 'Прізвище (російською)',
             'cancelled' => 'Видалений',
+            'corporate_mail' => 'Корпоративна адреса електронної пошти',
+            'mail_password' => 'Пароль електронної пошти',
+            'mailActive' => 'Активована поштова скринька',
+
         );
     }
 
@@ -133,7 +142,7 @@ class Teacher extends CActiveRecord
         $criteria->compare('middle_name_ru', $this->middle_name_ru, true);
         $criteria->compare('last_name_ru', $this->last_name_ru, true);
         $criteria->compare('cancelled', $this->cancelled, true);
-
+        $criteria->compare('corporate_mail', $this->corporate_mail, true);
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => array(

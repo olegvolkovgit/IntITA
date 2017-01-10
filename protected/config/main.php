@@ -151,6 +151,7 @@ return array(
         'db' => $local_config['db'],
         'db2' => $local_config['db'],
         'dbForum' => $local_config['dbForum'],
+        'dbMail' => $local_config['dbMail'],
 
         'errorHandler' => array(
             // use 'site/error' action to display errors

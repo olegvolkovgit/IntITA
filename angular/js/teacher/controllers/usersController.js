@@ -621,4 +621,19 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService){
     $scope.collapse=function (el) {
         $jq(el).toggle("medium");
     };
+
+    $scope.addCorpAddress = function () {
+        bootbox.prompt('Корпоративна адреса електронної пошти без домену',function (result) {
+            $http({
+                method: 'POST',
+                url: basePath+"/_teacher/user/addCorpMail",
+                data: $jq.param({userId: $stateParams.id, address: result}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response) {
+                $scope.data.teacher.corp_mail=response;
+            }).error(function () {
+                bootbox.alert('Что-то пошло не так')
+            })
+        });
+    }
 }

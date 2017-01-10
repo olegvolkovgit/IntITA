@@ -13,7 +13,7 @@ class m170105_091051_add_roundcube_address extends CDbMigration
 
 		$this->insert('config', array(
 			'param' => 'roundcubeAddress',
-			'value' => 'https://mail'.$domain.'/mail',
+			'value' => 'https://mail.'.$domain.'/mail',
 			'default' => 'https://mail.'.$domain.'/mail',
 			'label' => 'Веб інтерфейс поштової скриньки',
 			'type' => 'string',
