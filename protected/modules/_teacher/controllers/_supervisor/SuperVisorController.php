@@ -369,7 +369,6 @@ class SuperVisorController extends TeacherCabinetController
         $name=Yii::app()->request->getParam('name');
         $group=Yii::app()->request->getParam('group');
         $data=Yii::app()->request->getParam('data');
-        $curatorId=Yii::app()->request->getParam('curator');
         $trainerId=Yii::app()->request->getParam('trainer');
         
         $subgroup= new OfflineSubgroups();
@@ -377,7 +376,6 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup->group=$group;
         $subgroup->data=$data;
         $subgroup->id_user_created=Yii::app()->user->getId();
-        $subgroup->id_user_curator=$curatorId;
         $subgroup->id_trainer=$trainerId;
 
         if($subgroup->save()){
@@ -417,14 +415,12 @@ class SuperVisorController extends TeacherCabinetController
         $id=Yii::app()->request->getPost('id');
         $name=Yii::app()->request->getPost('name');
         $data=Yii::app()->request->getPost('data');
-        $curatorId=Yii::app()->request->getParam('curator');
         $trainerId=Yii::app()->request->getParam('trainer');
         
         $subgroup=OfflineSubgroups::model()->findByPk($id);
         $oldTrainer=$subgroup->id_trainer;
         $subgroup->name=$name;
         $subgroup->data=$data;
-        $subgroup->id_user_curator=$curatorId;
         $subgroup->id_trainer=$trainerId;
         
         if($subgroup->update()){
