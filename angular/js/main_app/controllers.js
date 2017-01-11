@@ -9,9 +9,17 @@ angular
 
 
 /* Controllers */
-function editProfileController($scope, $http, countryCity) {
+function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout) {
+    $scope.uiSelectInit = function(){
+        $timeout(function () {
+            $scope.$digest();
+        });
+    };
     //init progress bar
     $scope.dataForm=[];
+    $scope.form=[];
+    $scope.form.careerStart=[];
+    $scope.form.specializations=[];
     $scope.modelsArr=[];
     $scope.progress = 1;
     $scope.avatar=avatar;
@@ -24,34 +32,83 @@ function editProfileController($scope, $http, countryCity) {
             msg:$(this).attr('data-source')
         });
     });
+    $('ui-select').each(function () {
+        $scope.modelsArr.push({
+            name:$(this).attr('ng-model'),
+            msg:$(this).attr('data-source')
+        });
+    });
+    
     $('#progressBar').show();
     $('#gridBlock').show();
 
     $scope.focusEmptyField=function (model) {
         var element = angular.element('[ng-model="'+model+'"]');
         if(element.parent().parent().is('#addreg') || element.parent().parent().parent().is('#addreg')){
-            $('.tabs').children("ul").children("li:last-child").trigger('click');
-        }else{
+            $('.tabs').children("ul").children("li:nth-child(2)").trigger('click');
+        }else if(element.parent().parent().is('#mainreg') || element.parent().parent().parent().is('#mainreg')){
             $('.tabs').children("ul").children("li:first-child").trigger('click');
+        }else{
+            $('.tabs').children("ul").children("li:last-child").trigger('click');
         }
         if(element[0].tagName=='INPUT' || element[0].tagName=='TEXTAREA')
             element.focus();
         else element.click();
+    };
+    $scope.focusUiSelect=function (model) {
+        var element = angular.element('[ng-model="'+model+'"]');
+        if(element.parent().parent().is('#addreg') || element.parent().parent().parent().is('#addreg')){
+            $('.tabs').children("ul").children("li:nth-child(2)").trigger('click');
+        }else if(element.parent().parent().is('#mainreg') || element.parent().parent().parent().is('#mainreg')){
+            $('.tabs').children("ul").children("li:first-child").trigger('click');
+        }else{
+            $('.tabs').children("ul").children("li:last-child").trigger('click');
+        }
+        var selectInput=element.find('input');
+        selectInput.focus();
     };
     $scope.focusAvatar=function() {
        $('#avatar').trigger('click');
    };
 
     angular.element(document).ready(function () {
-        $scope.getCurrentCountryCity().then(function(){
-            //get progress
+        $q.all([
+            $scope.getCurrentCountryCity(),
+            careerService.getCareersList(),
+            $scope.getCurrentCareers(),
+            $scope.getCurrentSpecializations(),
+            specializations.getSpecializationsList()
+        ]).then(function (response) {
+            $scope.careers=response[1];
+            $scope.currentCareers=response[2];
+            $scope.currentSpecializations=response[3];
+            $scope.specializations=response[4];
+
+            $scope.currentCareers.forEach(function(item, key) {
+                if (_.find($scope.currentCareers, ['id_career', item.id_career]) && _.find($scope.careers, ['id', item.id_career])) {
+                    $scope.form.careerStart[key]=_.find($scope.careers, ['id', item.id_career]);
+                }
+            });
+            $scope.currentSpecializations.forEach(function(item, key) {
+                if (_.find($scope.currentSpecializations, ['id_specialization', item.id_specialization]) && _.find($scope.specializations, ['id', item.id_specialization])) {
+                    $scope.form.specializations[key]=_.find($scope.specializations, ['id', item.id_specialization]);
+                }
+            });
+
+
             for (var key in $scope.dataForm) {
                 if($scope.dataForm[key].trim()!='')
                     $scope.progress++;
             }
-            if(typeof  $scope.selectedCountry!='undefined')
+            if(typeof  $scope.form.selectedCountry!='undefined')
                 $scope.progress++;
-            if(typeof $scope.selectedCity!='undefined'){
+            if(typeof $scope.form.selectedCity!='undefined'){
+                $scope.progress++;
+            }
+            if($scope.form.careerStart.length){
+                $scope.progress++;
+            }
+            if($scope.form.specializations.length){
                 $scope.progress++;
             }
 
@@ -70,6 +127,8 @@ function editProfileController($scope, $http, countryCity) {
             }
             $("#gridMask").css('margin-left', gridML).css('margin-top', -gridMT);
             $("#crowns img").css('margin-left', -marginCrowns);
+
+            $scope.loadProgress=true;
         });
     });
     //init progress bar
@@ -80,8 +139,8 @@ function editProfileController($scope, $http, countryCity) {
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            $scope.selectedCountry=response.data.country;
-            $scope.selectedCity=response.data.city;
+            $scope.form.selectedCountry=response.data.country;
+            $scope.form.selectedCity=response.data.city;
         }, function errorCallback() {
             alert("Виникла помилка при завантажені країни-міста. Зв'яжіться з адміністратором сайту.");
         });
@@ -92,21 +151,79 @@ function editProfileController($scope, $http, countryCity) {
         $scope.countriesList=response;
     });
 
-    $scope.$watch('selectedCountry', function() {
-        if(typeof $scope.selectedCountry!='undefined'){
-            $("#StudentReg_country").val($scope.selectedCountry.id);
-            countryCity.getCitiesList($scope.selectedCountry.id).then(function (response) {
-                $scope.citiesList=response;
+    //specializations list
+    $scope.getCurrentSpecializations=function () {
+        var promise = $http({
+            url: basePath + "/studentreg/getcurrentspecializations",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            console.log("Виникла помилка при завантажені спеціалзацій яким надано перевагу. Зв'яжіться з адміністратором сайту.");
+        });
+        return promise;
+    };
+    //specializations list
+
+    //careers list
+    $scope.getCurrentCareers=function () {
+        var promise = $http({
+            url: basePath + "/studentreg/getcurrentcareers",
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            console.log("Виникла помилка при завантажені кар'єр яким надано перевагу. Зв'яжіться з адміністратором сайту.");
+        });
+        return promise;
+    };
+    //careers list
+
+    $scope.careersListToString = function(careers){
+        var careersString=[];
+        if(careers){
+            careers.forEach(function(item) {
+                careersString.push({
+                    id: item.id,
+                });
+            });
+            $('input[name=careers]').val(JSON.stringify(careersString));
+        }
+    };
+    $scope.specializationsListToString = function(specializations){
+        var specializationsString=[];
+        if(specializations){
+            specializations.forEach(function(item) {
+                specializationsString.push({
+                    id: item.id,
+                });
+            });
+            $('input[name=specializations]').val(JSON.stringify(specializationsString));
+        }
+    };
+
+    $scope.sendForm=function (form) {
+        $scope.careersListToString(form.careerStart);
+        $scope.specializationsListToString(form.specializations);
+    };
+    
+    $scope.$watch('form.selectedCountry', function() {
+        if(typeof $scope.form.selectedCountry!='undefined'){
+            $("#StudentReg_country").val($scope.form.selectedCountry.id);
+            countryCity.getCitiesList($scope.form.selectedCountry.id).then(function (response) {
+                $scope.form.citiesList=response;
             });
         }else{
             $("#StudentReg_country").val(null);
         }
     }, true);
 
-    $scope.$watch('selectedCity', function() {
-        if(typeof $scope.selectedCity!='undefined'){
-            $("#StudentReg_city").val($scope.selectedCity.id);
-            $('input[name=cityTitle]').val($scope.selectedCity.title);
+    $scope.$watch('form.selectedCity', function() {
+        if(typeof $scope.form.selectedCity!='undefined'){
+            $("#StudentReg_city").val($scope.form.selectedCity.id);
+            $('input[name=cityTitle]').val($scope.form.selectedCity.title);
         }else{
             $("#StudentReg_city").val(null);
             $('input[name=cityTitle]').val(null);
@@ -117,35 +234,101 @@ function editProfileController($scope, $http, countryCity) {
         if(model=='dataForm.birthday'){
             $scope.dataForm.birthday=angular.element('[ng-model="'+model+'"]').val();
         }
+        if(model=='dataForm.document_issued_date'){
+            $scope.dataForm.document_issued_date=angular.element('[ng-model="'+model+'"]').val();
+        }
         if(model=='dataForm.phone'){
             $scope.dataForm.phone=angular.element('[ng-model="'+model+'"]').val();
         }
     }
+
+    $scope.$watch('form.educformOff', function() {
+        if($scope.form.educformOff){
+            $('input[name=educformOff]').val(true);
+        }else{
+            $('input[name=educformOff]').val(null);
+        }
+    }, true);
 }
 
-function registrationFormController($scope, countryCity) {
+function registrationFormController($scope, countryCity, careerService, specializations,$timeout) {
+    $scope.uiSelectInit = function(){
+        $timeout(function () {
+            $scope.$digest();
+        });
+    };
+    $scope.careersListToString = function(careers){
+        var careersString=[];
+        if(careers){
+            careers.forEach(function(item) {
+                careersString.push({
+                    id: item.id,
+                });
+            });
+            $('input[name=careers]').val(JSON.stringify(careersString));
+        }
+    };
+    $scope.specializationsListToString = function(specializations){
+        var specializationsString=[];
+        if(specializations){
+            specializations.forEach(function(item) {
+                specializationsString.push({
+                    id: item.id,
+                });
+            });
+            $('input[name=specializations]').val(JSON.stringify(specializationsString));
+        }
+    };
+    
+    $scope.sendForm=function (form) {
+        $scope.careersListToString(form.careerStart);
+        $scope.specializationsListToString(form.specializations);
+    };
+    $scope.dataForm=[];
+
+    $scope.educformOn=true;
+    
+    $scope.include = false;
+    $scope.showInclude = function(){alert($scope.include)};
+
     countryCity.getCountriesList().then(function (response) {
         $scope.countriesList=response;
     });
 
-    $scope.$watch('selectedCountry', function() {
-        if(typeof $scope.selectedCountry!='undefined'){
-            $("#StudentReg_country").val($scope.selectedCountry.id);
-            countryCity.getCitiesList($scope.selectedCountry.id).then(function (response) {
-                $scope.citiesList=response;
+    careerService.getCareersList().then(function (response) {
+        $scope.careers=response;
+    });
+
+    specializations.getSpecializationsList().then(function (response) {
+        $scope.specializations=response;
+    });
+
+    $scope.$watch('dataForm.selectedCountry', function() {
+        if(typeof $scope.dataForm.selectedCountry!='undefined'){
+            $("#StudentReg_country").val($scope.dataForm.selectedCountry.id);
+            countryCity.getCitiesList($scope.dataForm.selectedCountry.id).then(function (response) {
+                $scope.dataForm.citiesList=response;
             });
         }else{
             $("#StudentReg_country").val(null);
         }
     }, true);
 
-    $scope.$watch('selectedCity', function() {
-        if(typeof $scope.selectedCity!='undefined'){
-            $("#StudentReg_city").val($scope.selectedCity.id);
-            $('input[name=cityTitle]').val($scope.selectedCity.title);
+    $scope.$watch('dataForm.selectedCity', function() {
+        if(typeof $scope.dataForm.selectedCity!='undefined'){
+            $("#StudentReg_city").val($scope.dataForm.selectedCity.id);
+            $('input[name=cityTitle]').val($scope.dataForm.selectedCity.title);
         }else{
             $("#StudentReg_city").val(null);
             $('input[name=cityTitle]').val(null);
+        }
+    }, true);
+
+    $scope.$watch('dataForm.educformOff', function() {
+        if($scope.dataForm.educformOff){
+            $('input[name=educformOff]').val(true);
+        }else{
+            $('input[name=educformOff]').val(null);
         }
     }, true);
 }
@@ -303,6 +486,32 @@ angular.module('mainApp.directives', [])
                     ngModelController.$setValidity('fileType', validFormats.indexOf(ext) !== -1);
                     scope.$apply();
                 });
+            }
+        };
+    })
+    .directive('checkbox', function(){
+        return {
+            restrict: 'EA',
+            require: 'ngModel',
+            replace: true,
+            template: '<span class="{{class}}"><input id="{{id}}" name="{{name}}" type="checkbox" style="display:none;" ng-checked="ngModel" disabled="{{disabled}}"/></span>',
+            scope: {
+                name:'@',
+                class:  '@',
+                id: '@',
+                ngModel: '=',
+                disabled:'@'
+            },
+            link: function(scope, element, attrs){
+                element.removeAttr('id');
+                element.bind('click', function(){
+                    if(!attrs.disabled){
+                        element.toggleClass('checked');
+                        scope.ngModel = !scope.ngModel;
+                        scope.$apply();
+                    }
+
+                })
             }
         };
     });

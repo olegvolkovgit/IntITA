@@ -131,15 +131,43 @@ $user = $model->registrationData;
                     <?php } ?>
                 </li>
                 <li class="list-group-item" ng-if="data.user.educform">
-                    Форма навчання: <em>{{data.user.educform}}</em>
+                    Форма навчання: <em>{{data.user.educform==1? "онлайн":"онлайн/оффлайн"}}</em>
                     <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
                         <button type="button" class="btn btn-outline btn-primary btn-xs"
                                 ng-click="changeStudentEducForm(data.user.id,data.user.educform);">
-                            {{data.user.educform=='Онлайн' ? "змінити на 'Онлайн/Офлайн'" : "змінити на 'Онлайн'"}}
+                            {{data.user.educform=='1' ? "змінити на 'Онлайн/Офлайн'" : "змінити на 'Онлайн'"}}
                         </button>
                     <?php } ?>
                 </li>
+                <li class="list-group-item" ng-if="data.user.educform==3">
+                    Навчальна зміна:
+                    <em ng-if="data.user.education_shift==1">ранкова</em>
+                    <em ng-if="data.user.education_shift==2">вечірня</em>
+                    <em ng-if="data.user.education_shift==3">байдуже</em>
+                    <?php if (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isSuperVisor()) { ?>
+                        <button ng-if="data.user.education_shift!=2" type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeStudentShift(data.user.id,2);">
+                            змінити на вечірню
+                        </button>
+                        <button ng-if="data.user.education_shift!=1" type="button" class="btn btn-outline btn-primary btn-xs" ng-click="changeStudentShift(data.user.id,1);">
+                            змінити на ранкову
+                        </button>
+                    <?php } ?>
+                </li>
+                <li class="list-group-item" ng-if="data.careers.length">Як би хотів розпочати кар'єру в ІТ:
+                    <span style="background-color:#ddd;border: 1px solid #ccc;margin: 0 2px" ng-repeat="career in data.careers track by $index">{{career}}</span>
+                </li>
+                <li class="list-group-item" ng-if="data.specializations.length">Спеціалізації яким надає перевагу:
+                    <span style="background-color:#ddd;border: 1px solid #ccc;margin: 0 2px" ng-repeat="specialization in data.specializations track by $index">{{specialization}}</span>
+                </li>
                 <li class="list-group-item">Адреса, вік: <em><?php echo $user->addressString(); ?></em></li>
+                <li class="list-group-item" ng-if="data.user.prev_job">Попередня зайнятість: <em>{{data.user.prev_job}}</em></li>
+                <li class="list-group-item" ng-if="data.user.current_job">Теперішня зайнятість: <em>{{data.user.current_job}}</em></li>
+                <?php if (Yii::app()->user->model->isAccountant()) { ?>
+                    <li class="list-group-item" ng-if="data.user.passport">Номер паспорта: <em>{{data.user.passport}}</em></li>
+                    <li class="list-group-item" ng-if="data.user.document_issued_date">Дата видачі паспорта: <em>{{data.user.document_issued_date}}</em></li>
+                    <li class="list-group-item" ng-if="data.user.passport_issued">Ким виданий паспорт: <em>{{data.user.passport_issued}}</em></li>
+                    <li class="list-group-item" ng-if="data.user.inn">Ідентифікаційний код: <em>{{data.user.inn}}</em></li>
+                <?php } ?>
                 <?php if (Yii::app()->user->model->isContentManager()) { ?>
                     <li class="list-group-item" ng-repeat="role in data.user.roles track by $index" ng-if="role=='author' || role=='teacher_consultant'">
                         <a ng-href="#/content_manager/user/{{data.user.id}}/role/{{role}}">

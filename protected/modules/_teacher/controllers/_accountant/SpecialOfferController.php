@@ -3,7 +3,7 @@
 class SpecialOfferController extends TeacherCabinetController {
 
     public function hasRole() {
-        return Yii::app()->user->model->isAccountant();
+        return Yii::app()->user->model->isAccountant() || Yii::app()->user->model->isAdmin();
     }
 
     public function actionIndex() {

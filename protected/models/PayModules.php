@@ -253,25 +253,4 @@ class PayModules extends CActiveRecord
 
         return $result;
     }
-
-    public static function getPayModulesListByUser(){
-        $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $modules = PayModules::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($modules as $record) {
-            $row = array();
-
-            $row["title"]["name"] = $record->module->cancelled?$record->module->getTitle().'(скасований)':$record->module->getTitle();
-            $row["title"]["url"] = $record->module->cancelled?'':Yii::app()->createAbsoluteUrl("module/index", array("idModule" =>$record->module->module_ID));
-            $row["summa"] = ($record->module->getBasePrice() != 0)?number_format(CommonHelper::getPriceUah($record->module->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
-            //$row["schema"] = CHtml::encode($record->paymentSchema->name);
-            //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-    }
 }

@@ -1044,6 +1044,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL
         and tcm.end_date IS NULL and m.module_ID=:module');
         $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID);
+        $criteria->group = 't.teacher_id';
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'pagination' => false,
@@ -1136,6 +1137,22 @@ class Module extends CActiveRecord implements IBillableObject
             return false;
         }
         
+        return true;
+    }
+
+    public static function checkMandatoryModule($idCourse,$idModule,$mandatory)
+    {
+        $nextMandatory=$mandatory;
+        $i=0;
+        do {
+            $nextMandatory=CourseModules::model()->findByAttributes(array(
+                'id_course' => $idCourse,
+                'id_module' => $nextMandatory
+            ))->mandatory_modules;
+            if($nextMandatory==$idModule) return false;
+            $i=$i+1;
+        } while ($nextMandatory);
+
         return true;
     }
 }

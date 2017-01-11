@@ -16,9 +16,11 @@ function addExternalPayment(externalPayments, _) {
         };
 
         $scope.formatLabel = function (item) {
-            var name=item.payerName?item.payerName:'';
-            var id=item.payerId?item.payerId:'';
-            return item ? '№' + item.documentNumber + ' від ' + item.documentDate + ' (сума ' + item.amount + ' грн) '+name+' '+id : null;
+            if(item){
+                var name=item.payerName?item.payerName:'';
+                var id=item.payerId?item.payerId:'';
+                return item ? '№' + item.documentNumber + ' від ' + item.documentDate + ' (сума ' + item.amount + ' грн) '+name+' '+id : null;
+            }
         };
 
         $scope.onSelect = function onSelect($item, $model, $label, $event) {

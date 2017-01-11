@@ -5,8 +5,10 @@
  *
  * The followings are the available columns in table 'specializations_group':
  * @property integer $id
- * @property string $name
-
+ * @property string $title_ua
+ * @property string $title_ru
+ * @property string $title_en
+ *
  */
 class SpecializationsGroup extends CActiveRecord
 {
@@ -26,10 +28,10 @@ class SpecializationsGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('name', 'length', 'max'=>128),
+			array('title_ua, title_ru, title_en', 'required'),
+			array('title_ua, title_ru, title_en', 'length', 'max'=>128),
 			// The following rule is used by search().
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, title_ua, title_ru, title_en', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +53,9 @@ class SpecializationsGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Назва спеціалізації',
+			'title_ua' => 'Назва спеціалізації (укр.)',
+			'title_ru' => 'Назва спеціалізації (рос.)',
+			'title_en' => 'Назва спеціалізації (англ.)',
 		);
 	}
 
@@ -72,7 +76,9 @@ class SpecializationsGroup extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('title_ua',$this->title_ua,true);
+		$criteria->compare('title_ru',$this->title_ru,true);
+		$criteria->compare('title_en',$this->title_en,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,11 +97,17 @@ class SpecializationsGroup extends CActiveRecord
 	}
 
 	public static function specializationsList(){
-		$specializations=SpecializationsGroup::model()->findAll();
-		$data=array();
+		$param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
+		$criteria = new CDbCriteria();
+		$specializations = SpecializationsGroup::model()->findAll($criteria);
+		$data = array();
+
 		foreach ($specializations as $key=>$specialization) {
 			$data[$key]['id']=$specialization['id'];
-			$data[$key]['specialization']=$specialization['name'];
+			$data[$key]['title']=$specialization[$param];
+			$data[$key]['title_ua']=$specialization['title_ua'];
+			$data[$key]['title_ru']=$specialization['title_ru'];
+			$data[$key]['title_en']=$specialization['title_en'];
 		}
 
 		return json_encode($data);

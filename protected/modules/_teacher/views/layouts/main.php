@@ -159,6 +159,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/teachersControllers.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/roleController.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/schedulerTasksController.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/controllers/careersControllers.js'); ?>"></script>
 
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/ngBootbox.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'CheckFile.js');?>"></script>
@@ -190,6 +191,7 @@
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/roleAttributeService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/roleService.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/studentService.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/careerService.js'); ?>"></script>
     
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/transformRequest.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/services/helpers/lodash.js'); ?>"></script>

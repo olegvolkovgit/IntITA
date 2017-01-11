@@ -5,7 +5,7 @@ class UserController extends TeacherCabinetController {
     public function hasRole(){
         $allowedAccountantActions=['loadJsonUserModel','getRolesHistory','index'];
         $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm'];
+        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm', 'setStudentShift'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
         (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action->id,$allowedContentManagerActions)) ||
@@ -69,6 +69,22 @@ class UserController extends TeacherCabinetController {
 
         if($model){
             if($model->setUserForm($form)){
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
+            }
+        } else {
+            echo "Неправильний запит. Такого користувача не існує.";
+        }
+    }
+
+    public function actionSetStudentShift(){
+        $user = Yii::app()->request->getPost('user');
+        $shift = Yii::app()->request->getPost('shift');
+        $model = StudentReg::model()->findByPk($user);
+
+        if($model){
+            if($model->setUserShift($shift)){
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();

@@ -43,8 +43,8 @@ $startOfDay = date('Y-m-d H:i:s', strtotime(date('Y-m-d')));
                             <a ng-href="#/supervisor/userProfile/{{row.id}}">{{row.email}}</a>
                         </td>
                         <td data-title="'Надано роль'" filter="{'student.start_date': 'text'}" sortable="'student.start_date'">{{row.student.start_date}}</td>
-                        <td style="text-align: center" data-title="'Форма'" filter="{'educform': 'text'}" sortable="'educform'">
-                            {{row.educform}}
+                        <td style="text-align: center" data-title="'Форма'" filter="{'educform': 'select'}" filter-data="educationForms">
+                            {{row.educform==1? "онлайн":"онлайн/оффлайн"}}
                             <button type="button" class="btn btn-outline btn-primary btn-xs"
                                     ng-click="changeStudentEducForm(row.id,row.educform);">
                                 змінити
