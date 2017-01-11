@@ -30,18 +30,18 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Куратор (автор чату групи)*:</label>
-                        <input name="curator" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"
+                        <label>Автор чату групи*:</label>
+                        <input name="chat_author" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть куратора" required size="50"
-                               uib-typeahead="item.nameEmail for item in getCurators($viewValue) | limitTo : 10"
+                               uib-typeahead="item.nameEmail for item in getChatAuthors($viewValue) | limitTo : 10"
                                typeahead-no-results="curatorNoResults"
                                typeahead-on-select="onSelectCurator($item)"
                                ng-change="reloadCurator()">
                         <div ng-show="curatorNoResults">
-                            <i class="glyphicon glyphicon-remove"></i>Куратора не знайдено
+                            <i class="glyphicon glyphicon-remove"></i>Користувача не знайдено
                         </div>
-                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['curator'].$dirty && offlineGroupForm['curator'].$invalid">
-                            <span ng-show="offlineGroupForm['curator'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['chat_author'].$dirty && offlineGroupForm['chat_author'].$invalid">
+                            <span ng-show="offlineGroupForm['chat_author'].$error.required"><?php echo Yii::t('error','0268') ?></span>
                         </div>
                     </div>
                     <div class="form-group">

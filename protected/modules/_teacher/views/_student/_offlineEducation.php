@@ -5,7 +5,7 @@
                 <ul class="list-group studentInformation" ng-repeat="subgroup in subgroups track by $index">
                     <li class="list-group-item">
                         <label>Група:</label> {{subgroup.group}}<br>
-                        <label>Куратор групи:</label> {{subgroup.groupCurator}}<br>
+                        <label>Керівник чату групи:</label> {{subgroup.groupCurator}}<br>
                         <label>Написати повідомлення:</label>
                         <a ng-href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/'); ?>{{subgroup.groupCuratorId}}">
                             {{subgroup.groupCuratorEmail}}

@@ -347,7 +347,7 @@ class SuperVisorController extends TeacherCabinetController
         $startDate=Yii::app()->request->getParam('date');
         $specializationId=Yii::app()->request->getParam('specialization');
         $city=Yii::app()->request->getParam('city');
-        $curatorId=Yii::app()->request->getParam('curator');
+        $chatAuthorId=Yii::app()->request->getParam('chat_author');
 
         $group= new OfflineGroups();
         $group->name=$name;
@@ -355,7 +355,7 @@ class SuperVisorController extends TeacherCabinetController
         $group->specialization=$specializationId;
         $group->city=$city;
         $group->id_user_created=Yii::app()->user->getId();
-        $group->id_user_curator=$curatorId;
+        $group->chat_author_id=$chatAuthorId;
         if($group->validate()){
             $group->save();
             echo 'Офлайн групу успішно створено';
@@ -395,14 +395,14 @@ class SuperVisorController extends TeacherCabinetController
         $startDate=Yii::app()->request->getPost('date');
         $specializationId=Yii::app()->request->getPost('specialization');
         $city=Yii::app()->request->getParam('city');
-        $curatorId=Yii::app()->request->getParam('curator');
+        $chatAuthorId=Yii::app()->request->getParam('chat_author');
 
         $group=OfflineGroups::model()->findByPk($id);
         $group->name=$name;
         $group->start_date=$startDate;
         $group->specialization=$specializationId;
         $group->city=$city;
-        $group->id_user_curator=$curatorId;
+        $group->chat_author_id=$chatAuthorId;
 
         if($group->validate()){
             $group->update();
@@ -481,8 +481,8 @@ class SuperVisorController extends TeacherCabinetController
         echo AddressCity::citiesByQuery($query);
     }
 
-    public function actionCuratorsByQuery($query){
-        echo SuperVisor::addCuratorsList($query);
+    public function actionChatAuthorsByQuery($query){
+        echo SuperVisor::addChatAuthorsList($query);
     }
 
     public function actionGroupsByQuery($query)

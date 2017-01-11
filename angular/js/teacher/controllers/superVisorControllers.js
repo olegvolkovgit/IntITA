@@ -244,7 +244,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             .then(function successCallback(response) {
                 $scope.group=response;
                 $scope.loadCityToModel($scope.group.city);
-                $scope.loadCuratorToModel($scope.group.id_user_curator);
+                $scope.loadCuratorToModel($scope.group.chat_author_id);
                 $scope.changePageHeader('Офлайн група: '+$scope.group.name);
                 $scope.selectedSpecialization=$scope.specializations[$scope.group.specialization-1].id;
             }, function errorCallback() {
@@ -286,7 +286,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                 date:$scope.group.start_date,
                 specialization:$scope.selectedSpecialization,
                 city:$scope.selectedCity.id,
-                curator:$scope.selectedCurator.id
+                chat_author:$scope.selectedCurator.id
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
@@ -311,7 +311,7 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
                 date:$scope.group.start_date,
                 specialization:$scope.selectedSpecialization,
                 city:$scope.selectedCity.id,
-                curator:$scope.selectedCurator.id
+                chat_author:$scope.selectedCurator.id
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
@@ -337,9 +337,9 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     $scope.reloadCurator = function(){
         $scope.selectedCurator=null;
     };
-    var curatorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/curatorsByQuery';
-    $scope.getCurators = function(value){
-        return typeAhead.getData(curatorsTypeaheadUrl,{query : value});
+    var chatAuthorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/chatAuthorsByQuery';
+    $scope.getChatAuthors = function(value){
+        return typeAhead.getData(chatAuthorsTypeaheadUrl,{query : value});
     };
     //select city
     $scope.loadCityToModel=function(cityId){
@@ -381,9 +381,9 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
     $scope.reloadTrainer = function(){
         $scope.selectedTrainer=null;
     };
-    var curatorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/curatorsByQuery';
-    $scope.getCurators = function(value){
-        return typeAhead.getData(curatorsTypeaheadUrl,{query : value});
+    var chatAuthorsTypeaheadUrl = basePath + '/_teacher/_supervisor/superVisor/chatAuthorsByQuery';
+    $scope.getChatAuthors = function(value){
+        return typeAhead.getData(chatAuthorsTypeaheadUrl,{query : value});
     };
     //select curator
 

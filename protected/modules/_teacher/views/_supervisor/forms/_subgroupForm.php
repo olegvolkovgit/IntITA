@@ -27,7 +27,7 @@
                         <label>Куратор (автор чату підгрупи)*:</label>
                         <input name="curator" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть куратора" required size="50"
-                               uib-typeahead="item.nameEmail for item in getCurators($viewValue) | limitTo : 10"
+                               uib-typeahead="item.nameEmail for item in getChatAuthors($viewValue) | limitTo : 10"
                                typeahead-no-results="curatorNoResults"
                                typeahead-on-select="onSelectCurator($item)"
                                ng-change="reloadCurator()">
