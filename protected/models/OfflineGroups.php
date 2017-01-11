@@ -10,7 +10,7 @@
  * @property string $specialization
  * @property integer $city
  * @property integer $id_user_created
- * @property integer $id_user_curator
+ * @property integer $chat_author_id
  *
  * Relations
  * @property OfflineSubgroups[] $subGroups
@@ -39,11 +39,11 @@ class OfflineGroups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, start_date, specialization, city, id_user_created, id_user_curator', 'required'),
+			array('name, start_date, specialization, city, id_user_created, chat_author_id', 'required'),
 			array('name', 'length', 'max'=>128),
 			array('name', 'unique', 'caseSensitive' => false, 'message' => 'Група з такою назвою вже існує'),
 			// The following rule is used by search().
-			array('id, name, start_date, specialization, city, id_user_created, id_user_curator', 'safe', 'on'=>'search'),
+			array('id, name, start_date, specialization, city, id_user_created, chat_author_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,7 +58,7 @@ class OfflineGroups extends CActiveRecord
 			'specializationName' => array(self::HAS_ONE, 'SpecializationsGroup', ['id'=>'specialization']),
 			'cityName' => array(self::HAS_ONE, 'AddressCity', ['id'=>'city']),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
-			'userCurator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_curator'),
+			'userChatAuthor' => array(self::BELONGS_TO, 'StudentReg', 'chat_author_id'),
             'subGroups' => [self::HAS_MANY, 'OfflineSubgroups', 'group'],
             'offlineStudents' => [self::HAS_MANY, 'OfflineStudents', ['id' => 'id_subgroup'], 'through' =>'subGroups'],
             'students' => [self::HAS_MANY, 'StudentReg', ['id_user' => 'id'], 'on' => 'offlineStudents.end_date IS NULL or offlineStudents.end_date > NOW()', 'through' =>'offlineStudents']
@@ -77,7 +77,7 @@ class OfflineGroups extends CActiveRecord
 			'specialization' => 'Спеціалізація',
 			'city' => 'Місто',
 			'id_user_created' => 'Ід автора групи',
-			'id_user_curator' => 'Ід куратора групи'
+			'chat_author_id' => 'Ід автора чату групи'
 		);
 	}
 
@@ -103,7 +103,7 @@ class OfflineGroups extends CActiveRecord
 		$criteria->compare('specialization',$this->specialization,true);
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('id_user_created',$this->id_user_created,true);
-		$criteria->compare('id_user_curator',$this->id_user_curator,true);
+		$criteria->compare('chat_author_id',$this->chat_author_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

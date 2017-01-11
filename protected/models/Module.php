@@ -1139,4 +1139,20 @@ class Module extends CActiveRecord implements IBillableObject
         
         return true;
     }
+
+    public static function checkMandatoryModule($idCourse,$idModule,$mandatory)
+    {
+        $nextMandatory=$mandatory;
+        $i=0;
+        do {
+            $nextMandatory=CourseModules::model()->findByAttributes(array(
+                'id_course' => $idCourse,
+                'id_module' => $nextMandatory
+            ))->mandatory_modules;
+            if($nextMandatory==$idModule) return false;
+            $i=$i+1;
+        } while ($nextMandatory);
+
+        return true;
+    }
 }

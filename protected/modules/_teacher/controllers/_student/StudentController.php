@@ -314,12 +314,9 @@ class StudentController extends TeacherCabinetController
             $subgroups[$key]['group']=$subgroup->group->name;
             $subgroups[$key]['subgroup']=$subgroup->subgroupName->name;
             $subgroups[$key]['info']=$subgroup->subgroupName->data;
-            $subgroups[$key]['groupCurator']=$subgroup->group->userCurator->userNameWithEmail();
-            $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userCurator->email;
-            $subgroups[$key]['groupCuratorId']=$subgroup->group->userCurator->id;
-            $subgroups[$key]['subgroupCurator']=$subgroup->subgroupName->userCurator->userNameWithEmail();
-            $subgroups[$key]['subgroupCuratorEmail']=$subgroup->subgroupName->userCurator->email;
-            $subgroups[$key]['subgroupCuratorId']=$subgroup->subgroupName->userCurator->id;
+            $subgroups[$key]['groupCurator']=$subgroup->group->userChatAuthor->userNameWithEmail();
+            $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userChatAuthor->email;
+            $subgroups[$key]['groupCuratorId']=$subgroup->group->userChatAuthor->id;
 
             if($subgroup->trainer){
                 $subgroups[$key]['trainer']=trim($subgroup->trainer->trainer0->getLastFirstName().' '.($subgroup->trainer->trainer0->user->email));

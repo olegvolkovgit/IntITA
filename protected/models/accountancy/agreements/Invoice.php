@@ -39,7 +39,6 @@ class Invoice extends CActiveRecord {
         return array(
             array('user_created, summa, agreement_id', 'required'),
             array('agreement_id, user_created, user_cancelled', 'numerical', 'integerOnly' => true),
-            array('summa', 'length', 'max' => 10),
             // The following rule is used by search().
             array('id, agreement_id, date_created, date_cancelled, summa, payment_date, user_created, expiration_date,
 			user_cancelled, pay_date', 'safe', 'on' => 'search'),

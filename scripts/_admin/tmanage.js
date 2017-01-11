@@ -1,24 +1,3 @@
-function addMandatory(url) {
-    var mandatory = $jq("select[name=mandatory] option:selected").val();
-    var courseId = $jq("input[name=course]").val();
-    var moduleId = $jq("input[name=module]").val();
-    if (mandatory && courseId && moduleId) {
-        $jq.ajax({
-            url: url,
-            type: 'post',
-            data: {'module': moduleId, 'course': courseId, 'mandatory': mandatory},
-            success: function (response) {
-                bootbox.confirm(response, function () {
-                    location.hash = '/module/view/'+ moduleId;
-                });
-            },
-            error: function () {
-                showDialog('Операцію не вдалося виконати.');
-            }
-        });
-    }
-}
-
 function sendError(form, data, hasError) {
     if (hasError) {
         for (var prop in data) {

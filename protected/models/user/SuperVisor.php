@@ -75,7 +75,7 @@ class SuperVisor extends Role
 		return json_encode($result);
 	}
 
-	public static function addCuratorsList($query)
+	public static function addChatAuthorsList($query)
 	{
 		$criteria = new CDbCriteria();
 		$criteria->select = "id, secondName, firstName, middleName, email, avatar";

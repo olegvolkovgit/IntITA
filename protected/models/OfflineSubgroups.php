@@ -9,7 +9,6 @@
  * @property integer $group
  * @property string $data
  * @property integer $id_user_created
- * @property integer $id_user_curator
  * @property integer $id_trainer
  *
  */
@@ -31,10 +30,10 @@ class OfflineSubgroups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, group, id_user_created, id_user_curator', 'required'),
+			array('name, group, id_user_created, id_trainer', 'required'),
 			array('name', 'length', 'max'=>128),
 			// The following rule is used by search().
-			array('id, name, group, data, id_user_created, id_user_curator, id_trainer', 'safe', 'on'=>'search'),
+			array('id, name, group, data, id_user_created, id_trainer', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +48,6 @@ class OfflineSubgroups extends CActiveRecord
 			'groupName' => array(self::HAS_ONE, 'OfflineGroups', ['id'=>'group']),
 			'specialization' => array(self::BELONGS_TO, 'SpecializationsGroup', array('specialization'=>'id'), 'through' => 'groupName'),
 			'userCreator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_created'),
-			'userCurator' => array(self::BELONGS_TO, 'StudentReg', 'id_user_curator'),
 			'subgroupTrainer'=>array(self::BELONGS_TO, 'StudentReg', 'id_trainer'),
 		);
 	}
@@ -65,7 +63,6 @@ class OfflineSubgroups extends CActiveRecord
 			'group' => 'Група',
 			'data' => 'Інформація',
 			'id_user_created' => 'Ід автора підгрупи',
-			'id_user_curator' => 'Ід куратора підгрупи',
 			'id_trainer' => 'Ід тренера в групі'
 		);
 	}
@@ -91,7 +88,6 @@ class OfflineSubgroups extends CActiveRecord
 		$criteria->compare('group',$this->group,true);
 		$criteria->compare('data',$this->data,true);
 		$criteria->compare('id_user_created',$this->id_user_created,true);
-		$criteria->compare('id_user_curator',$this->id_user_curator,true);
 		$criteria->compare('id_trainer',$this->id_trainer,true);
 
 		return new CActiveDataProvider($this, array(

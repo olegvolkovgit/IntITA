@@ -767,7 +767,7 @@ angular
     })
 
     .controller('datePickerCtrl', function ($scope) {
-        $scope.startDateOptions = new DateOptions();
+        $scope.startDateOptions = new ExternalPaymentDateOptions();
     })
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
@@ -786,5 +786,14 @@ function DateOptions () {
 }
 
 DateOptions.prototype.open = function () {
+    this.popupOpened = true;
+};
+
+function ExternalPaymentDateOptions () {
+    this.popupOpened = false;
+    this.startingDay = 1;
+}
+
+ExternalPaymentDateOptions.prototype.open = function () {
     this.popupOpened = true;
 };
