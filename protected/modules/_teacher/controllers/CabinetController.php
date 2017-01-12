@@ -23,21 +23,11 @@ class CabinetController extends TeacherCabinetController
         $countNewMessages = count($newReceivedMessages);
         $newReceivedMessages = $model->newMessages($newReceivedMessages);
         $requests = $model->requests();
-        $imapMessages = 0;
-        if ($model->isTeacher())
-        {
-            $conn   = imap_open('{localhost:993/imap/ssl/novalidate-cert}INBOX', 'test@dev.intita.com', '1', OP_READONLY);
-            $countMailBoxMessages = imap_search($conn, 'UNSEEN');
-            if ($countMailBoxMessages){
-                $imapMessages = count($countMailBoxMessages);
-            }
-            imap_close($conn);
-        }
+
         $this->render('index', array(
             'model' => $model,
             'newMessages' => $newReceivedMessages,
             'countNewMessages' => $countNewMessages,
-            'mailboxMessages' => $imapMessages,
             'scenario' => $scenario,
             'receiver' => $receiver,
             'course' => $course,
@@ -54,15 +44,22 @@ class CabinetController extends TeacherCabinetController
         $newRequests = [];
         $newMessages =[];
         $imapMessages = 0;
-        if ($model->isTeacher())
-        {
-            $conn   = imap_open('{localhost:993/imap/ssl/novalidate-cert}INBOX', 'test@dev.intita.com', '1', OP_READONLY);
-            $countMailBoxMessages = imap_search($conn, 'UNSEEN');
-            if ($countMailBoxMessages){
-                $imapMessages = count($countMailBoxMessages);
+        if ($model->isTeacher()) {
+            $corpEmail = Teacher::model()->findByPk(Yii::app()->user->id)->getAttributes(['corporate_mail', 'mail_password', 'mailActive']);
+            if ($corpEmail['corporate_mail'] != null && $corpEmail['mail_password'] != null && $corpEmail['mailActive']) {
+                if (extension_loaded('imap')) {
+                    $mailPassword = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256,Yii::app()->params['secretKey'], base64_decode(urldecode($corpEmail['mail_password'])),MCRYPT_MODE_ECB));
+                    $conn = imap_open('{localhost:993/imap/ssl/novalidate-cert}INBOX', $corpEmail['corporate_mail'], $mailPassword, OP_READONLY,1);
+                    $countMailBoxMessages = imap_search($conn, 'UNSEEN');
+                    if ($countMailBoxMessages) {
+                        $imapMessages = count($countMailBoxMessages);
+                    }
+                    imap_close($conn);
+
+                }
             }
-            imap_close($conn);
         }
+
         foreach ($requests as $key=>$request){
             $req['id'] = $request->getMessageId();
             $req['sender'] = $request->sender()->userName()==""?$request->sender()->email:$request->sender()->userName();
@@ -81,8 +78,10 @@ class CabinetController extends TeacherCabinetController
             $mes['subject'] = $record->subject();
             array_push($newMessages,$mes);
         }
-
-            echo json_encode(['requests'=> ['countOfRequests'=>count($newRequests),'newRequests'=>$newRequests],'messages'=>['countOfNewMessages'=>count($newMessages),'newMessages'=>$newMessages ]]);
+        if ($model->isTeacher())
+            echo json_encode(['requests' => ['countOfRequests' => count($newRequests), 'newRequests' => $newRequests], 'messages' => ['countOfNewMessages' => count($newMessages), 'newMessages' => $newMessages, 'imapMessages'=>$imapMessages]]);
+            else
+            echo json_encode(['requests'=> ['countOfRequests'=>count($newRequests),'newRequests'=>$newRequests],'messages'=>['countOfNewMessages'=>count($newMessages),'newMessages'=>$newMessages]]);
 
     }
 

@@ -29,12 +29,15 @@
                     <span ng-cloak class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
                 </a>
             </li>
+            <?php if ($model->isTeacher()) { ?>
             <li>
+
                 <a href="javascript:void(0)" onclick="window.open('/cabinet/mail'); return false">
                     <i class="fa fa-envelope fa-fw"></i> Електронна скринька
+                    <span ng-cloak class="label label-success" ng-if="messages.imapMessages > 0">{{messages.imapMessages}}</span>
                 </a>
             </li>
-
+            <?php } ?>
             <?php
             $roles = Yii::app()->user->model->getRoles();
             foreach($roles as $role) {
