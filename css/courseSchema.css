@@ -28,7 +28,7 @@
 .fullMonthsCell{
     background-color:#cdffcc;
 }
-.emptyMonthsCell, .fullMonthsCell, .examCell, .trainee, .lastCell{
+.emptyMonthsCell, .fullMonthsCell, .examCell, .examCellE, .examCellP, .trainee, .lastCell{
     width: 50px;
     height: 58px;
     text-align: center;
@@ -38,9 +38,13 @@
     height: 30px;
     text-align: center;
 }
-.examCell{
+.examCellE,.examCell{
     background-color:#ffcccb;
     color:red;
+}
+.examCellP{
+    background-color:#4b75a4;
+    color:blue;
 }
 .trainee{
     background-color: #ffcc80;
