@@ -29,11 +29,13 @@ class intitaLogon extends rcube_plugin
     {
         if (!empty($_GET['intitaLogon'])) {
             $decrypted = $this->decrypt($_GET['intitaLogon']);
-            $args['user'] = $decrypted['mail'];
-            $args['pass'] = $decrypted['pass'];
-            $args['host'] = 'localhost';
-            $args['cookiecheck'] = false;
-            $args['valid'] = true;
+            if ((time()-$decrypted['time'])<60) {
+                $args['user'] = $decrypted['mail'];
+                $args['pass'] = $decrypted['pass'];
+                $args['host'] = 'localhost';
+                $args['cookiecheck'] = false;
+                $args['valid'] = true;
+            }
         }
         return $args;
     }

@@ -23,6 +23,10 @@ angular
     .module('teacherApp')
     .controller('editTeacherRoleCtrl', editTeacherRoleCtrl);
 
+angular
+    .module('teacherApp')
+    .controller('mailCtrl', mailCtrl);
+
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -644,5 +648,32 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
         }
 
     };
+}
+
+function mailCtrl($scope, $http, $stateParams, $ngBootbox) {
+    $scope.hideMailError = function () {
+        $scope.usernameError = undefined;
+    }
+    $scope.addCorpAddress = function () {
+        if ($scope.mailForm.mailAddress.$dirty && $scope.mailForm.mailAddress.$valid)
+        {
+            $http({
+                method: 'POST',
+                url: basePath+"/_teacher/user/addCorpMail",
+                data: $jq.param({userId: $stateParams.id, address: $scope.address}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response) {
+                    if (response.error == undefined) {
+                        $scope.$emit('mailAddressCreated', response);
+                        $ngBootbox.hideAll();
+                    }
+                    else{
+                        $scope.usernameError = response.error.username[0];
+                    }
+            })
+        }
+
+    };
+
 }
 

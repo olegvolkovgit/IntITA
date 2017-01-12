@@ -194,10 +194,11 @@ class UserController extends TeacherCabinetController {
                     'id_message' => $msg->id_message,
                     'id_receiver' => $_POST['userId'],
                 ));
-                echo $mailBox->username;
+                echo json_encode(array('mailbox' => $mailBox->username));
             }
             else
-                echo json_encode($mailBox->getErrors());
+
+                echo json_encode(array('error'=>$mailBox->getErrors()));
         }
         else
             return http_response_code(400);
