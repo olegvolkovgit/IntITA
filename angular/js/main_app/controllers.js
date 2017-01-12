@@ -10,9 +10,15 @@ angular
 
 /* Controllers */
 function editProfileController($scope, $http, countryCity, careerService, specializations, $q, $timeout) {
-    $scope.uiSelectInit = function(){
+    $scope.focusField = function(model,select){
         $timeout(function () {
             $scope.$digest();
+            if(typeof select!='undefined'){
+                $scope.focusEmptyField(model);
+                $scope.focusUiSelect(model);
+            }else if(typeof model!='undefined'){
+                $scope.focusEmptyField(model);
+            }
         });
     };
     //init progress bar
