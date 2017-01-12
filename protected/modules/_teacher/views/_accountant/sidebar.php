@@ -29,6 +29,9 @@
             <a href="#/accountant/cancelreasontype">Причини відміни проплат</a>
         </li>
         <li>
+            <a href="#/accountant/paymentSchemas/schemas/template">Шаблони типів схем</a>
+        </li>
+        <li>
             <a href="#/accountant/paymentSchemas/default">Стандартні схеми проплат</a>
         </li>
         <li>

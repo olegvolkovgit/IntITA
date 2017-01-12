@@ -87,6 +87,9 @@
             <div class="panel-body">
                 <ul>
                     <li>
+                        <a href="#/accountant/paymentSchemas/schemas/template">Шаблони типів схем</a>
+                    </li>
+                    <li>
                         <a href="#/accountant/paymentSchemas/default">Стандартні схеми проплат</a>
                     </li>
                     <li>

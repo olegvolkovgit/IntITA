@@ -113,6 +113,16 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
         })
+        .state('accountant/paymentSchemas/schemas/template', {
+            url: '/accountant/paymentSchemas/schemas/template',
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/schemasTemplates"
+        })
+        .state('accountant/paymentSchemas/schemas/template/create', {
+            url: '/accountant/paymentSchemas/schemas/template/create',
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/templateCreate"
+        })
         .state('accountant/externalsource/create', {
             url: "/accountant/externalsource/create",
             cache         : false,

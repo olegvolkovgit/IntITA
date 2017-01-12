@@ -47,4 +47,14 @@ class PaymentSchemaController extends TeacherCabinetController
         }
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
+
+    public function actionSchemasTemplates()
+    {
+        $this->renderPartial('schemasTemplates',array(),false,true);
+    }
+
+    public function actionTemplateCreate()
+    {
+        $this->renderPartial('create',array('scenario'=>'create'),false,true);
+    }
 }

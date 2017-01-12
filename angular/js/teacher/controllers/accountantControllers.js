@@ -770,6 +770,10 @@ angular
         $scope.startDateOptions = new ExternalPaymentDateOptions();
     })
 
+    .controller('paymentsSchemaTemplateCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+
+    }])
+
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
 }

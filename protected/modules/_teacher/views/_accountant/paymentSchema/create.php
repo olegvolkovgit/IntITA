@@ -1,0 +1,66 @@
+<?php
+/* @var $scenario */
+?>
+<div class="panel-body">
+    <div class="row">
+        <div class="formMargin">
+            <div class="col-lg-8">
+                <form autocomplete="off" ng-submit="sendFormOfflineGroup('<?php echo $scenario ?>');" name="offlineGroupForm"  novalidate>
+                    <div class="form-group">
+                        <label>Назва*</label>
+                        <input name="name" class="form-control" ng-model="group.name" required maxlength="128" size="50">
+                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['name'].$dirty && offlineGroupForm['name'].$invalid">
+                            <span ng-show="offlineGroupForm['name'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        </div>
+                    </div>
+
+<!--                    -->
+<!--                    <div class="form-group">-->
+<!--                        <label>Спеціалізація*:</label>-->
+<!--                        <select class="form-control" ng-options="item.id as item.title_ua for item in specializations"-->
+<!--                                ng-model="selectedSpecialization">-->
+<!--                            <option name="specialization" value="" disabled selected>(Виберіть спеціалізацію)</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Керівник чату групи*:</label>-->
+<!--                        <input name="chat_author" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"-->
+<!--                               placeholder="Виберіть керівник чату групи" required size="50"-->
+<!--                               uib-typeahead="item.nameEmail for item in getChatAuthors($viewValue) | limitTo : 10"-->
+<!--                               typeahead-no-results="curatorNoResults"-->
+<!--                               typeahead-on-select="onSelectCurator($item)"-->
+<!--                               ng-change="reloadCurator()">-->
+<!--                        <div ng-show="curatorNoResults">-->
+<!--                            <i class="glyphicon glyphicon-remove"></i>Користувача не знайдено-->
+<!--                        </div>-->
+<!--                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['chat_author'].$dirty && offlineGroupForm['chat_author'].$invalid">-->
+<!--                            <span ng-show="offlineGroupForm['chat_author'].$error.required">--><?php //echo Yii::t('error','0268') ?><!--</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Місто*:</label>-->
+<!--                        <input autocomplete="off" name="city" class="form-control" type="text" ng-model="cityEntered" ng-model-options="{ debounce: 1000 }"-->
+<!--                               placeholder="Виберіть місто" required size="50"-->
+<!--                               uib-typeahead="item.title for item in getCities($viewValue) | limitTo : 10"-->
+<!--                               typeahead-no-results="cityNoResults"-->
+<!--                               typeahead-on-select="onSelect($item)"-->
+<!--                               ng-change="reload()">-->
+<!--                        <div ng-show="cityNoResults">-->
+<!--                            <i class="glyphicon glyphicon-remove"></i>Місто не знайдено-->
+<!--                        </div>-->
+<!--                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['city'].$dirty && offlineGroupForm['city'].$invalid">-->
+<!--                            <span ng-show="offlineGroupForm['city'].$error.required">--><?php //echo Yii::t('error','0268') ?><!--</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" ng-disabled="offlineGroupForm.$invalid || !selectedSpecialization  || !selectedCity || !selectedCurator">Зберегти
+                        </button>
+                        <a type="button" class="btn btn-default" ng-click='back()'>
+                            Назад
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
