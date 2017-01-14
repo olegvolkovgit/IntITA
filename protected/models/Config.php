@@ -213,4 +213,8 @@ class Config extends CActiveRecord
 	public static function getNotifyEmail(){
         return Yii::app()->config->get('notifyMail');
     }
+
+	public static function getRoundcubeAddress(){
+		return Yii::app()->config->get('roundcubeAddress');
+	}
 }

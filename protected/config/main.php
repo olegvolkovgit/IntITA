@@ -4,6 +4,7 @@
 // Yii::setPathOfAlias('local','path/to/local-folder');
 Yii::setPathOfAlias('editable', dirname(__FILE__) . '/../extensions/x-editable');
 $local_config = require(dirname(__FILE__) . '/local.php');
+$params_config = require(dirname(__FILE__) . '/params.php');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
@@ -118,6 +119,7 @@ return array(
                 'aboutus/<id:\d+>' => 'aboutus/index',
                 'invoice/<id:\d+>' => 'payments/invoice',
                 'cabinet' => '_teacher/cabinet/index',
+                'cabinet/mail' => '_teacher/cabinet/mail',
                 'profile/edit' => 'studentreg/edit',
                 'agreement/<id:\d+>' => 'payments/showAgreement',
 
@@ -149,6 +151,7 @@ return array(
         'db' => $local_config['db'],
         'db2' => $local_config['db'],
         'dbForum' => $local_config['dbForum'],
+        'dbMail' => $local_config['dbMail'],
 
         'errorHandler' => array(
             // use 'site/error' action to display errors
@@ -196,16 +199,8 @@ return array(
 
         //'debug' => $local_config['debug'],
     ),
-
+    'params' => $params_config['params'],
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
-    'params' => array(
-        // this is used in teacher profile page
-        'adminEmail' => 'Wizlightdragon@gmail.com',
-        'languages' => array('en' => 'English', 'ua' => 'Ukrainian', 'ru' => 'Russian'),
-        'dbDateFormat'=>'Y-m-d H:i:s',
-        'titleUAPattern'=>'^[=а-еж-щьюяА-ЕЖ-ЩЬЮЯa-zA-Z0-9ЄєІіЇїҐґ.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]',
-        'titleRUPattern'=>'^[=а-яА-Яa-zA-Z0-9.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]',
-        'titleENPattern'=>'^[=a-zA-Z0-9.,\/:;`\'’&@_(){}\[\]%#№|\\\\?! ~<>*+-]'
-    ),
+    
 );
