@@ -38,7 +38,10 @@ angular
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         url: url + '/createSchema',
                         transformRequest : transformRequest.bind(null)
-                    }
+                    },
+                    schemesTemplatesList : {
+                        url: url + '/getPaymentSchemasTemplatesNgTable'
+                    },
                 });
         }])
 ;

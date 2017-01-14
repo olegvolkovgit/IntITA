@@ -1,65 +1,69 @@
 <?php
 /* @var $scenario */
 ?>
-<div class="panel-body">
+<div class="panel-body" ng-controller="paymentsSchemaTemplateCtrl">
     <div class="row">
         <div class="formMargin">
             <div class="col-lg-8">
-                <form autocomplete="off" ng-submit="sendFormOfflineGroup('<?php echo $scenario ?>');" name="offlineGroupForm"  novalidate>
-                    <div class="form-group">
-                        <label>Назва*</label>
-                        <input name="name" class="form-control" ng-model="group.name" required maxlength="128" size="50">
-                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['name'].$dirty && offlineGroupForm['name'].$invalid">
-                            <span ng-show="offlineGroupForm['name'].$error.required"><?php echo Yii::t('error','0268') ?></span>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label>Назва шаблону схеми*</label>
+                    <input name="name" class="form-control" ng-model="template.name" required maxlength="64" size="50">
+                </div>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Кількість проплат</th>
+                        <th>Назва схеми</th>
+                        <th>Відсоток знижки</th>
+                        <th>Відсоток кредиту</th>
+                        <th>
+                            Додати схему
+                            <button type="button" class="btn btn-default btn-sm" ng-click="operation.addScheme()">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                            </button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="scheme in schemes track by $index">
+                        <td>
+                            <select
+                                class="form-control"
+                                ng-model="schemes[$index].pay_count"
+                                ng-options="pay_count.value as pay_count.value for pay_count in payCount"
+                                ng-change="updateScheme(schemes[$index].pay_count,$index)" >
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" ng-disabled=true class="form-control" ng-value="schemes[$index].name">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                   step="0.01" ng-model="schemes[$index].discount" min="0" max="100" ng-disabled="schemes[$index].pay_count>12"/>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                   step="0.01" ng-model="schemes[$index].loan" min="0" max="100" ng-disabled="schemes[$index].pay_count<=12"/>
+                        </td>
+                        <td ng-if="$index!=0">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="operation.removeScheme($index)">
+                                <span class="glyphicon glyphicon-minus-sign"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-<!--                    -->
-<!--                    <div class="form-group">-->
-<!--                        <label>Спеціалізація*:</label>-->
-<!--                        <select class="form-control" ng-options="item.id as item.title_ua for item in specializations"-->
-<!--                                ng-model="selectedSpecialization">-->
-<!--                            <option name="specialization" value="" disabled selected>(Виберіть спеціалізацію)</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label>Керівник чату групи*:</label>-->
-<!--                        <input name="chat_author" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"-->
-<!--                               placeholder="Виберіть керівник чату групи" required size="50"-->
-<!--                               uib-typeahead="item.nameEmail for item in getChatAuthors($viewValue) | limitTo : 10"-->
-<!--                               typeahead-no-results="curatorNoResults"-->
-<!--                               typeahead-on-select="onSelectCurator($item)"-->
-<!--                               ng-change="reloadCurator()">-->
-<!--                        <div ng-show="curatorNoResults">-->
-<!--                            <i class="glyphicon glyphicon-remove"></i>Користувача не знайдено-->
-<!--                        </div>-->
-<!--                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['chat_author'].$dirty && offlineGroupForm['chat_author'].$invalid">-->
-<!--                            <span ng-show="offlineGroupForm['chat_author'].$error.required">--><?php //echo Yii::t('error','0268') ?><!--</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label>Місто*:</label>-->
-<!--                        <input autocomplete="off" name="city" class="form-control" type="text" ng-model="cityEntered" ng-model-options="{ debounce: 1000 }"-->
-<!--                               placeholder="Виберіть місто" required size="50"-->
-<!--                               uib-typeahead="item.title for item in getCities($viewValue) | limitTo : 10"-->
-<!--                               typeahead-no-results="cityNoResults"-->
-<!--                               typeahead-on-select="onSelect($item)"-->
-<!--                               ng-change="reload()">-->
-<!--                        <div ng-show="cityNoResults">-->
-<!--                            <i class="glyphicon glyphicon-remove"></i>Місто не знайдено-->
-<!--                        </div>-->
-<!--                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['city'].$dirty && offlineGroupForm['city'].$invalid">-->
-<!--                            <span ng-show="offlineGroupForm['city'].$error.required">--><?php //echo Yii::t('error','0268') ?><!--</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" ng-disabled="offlineGroupForm.$invalid || !selectedSpecialization  || !selectedCity || !selectedCurator">Зберегти
-                        </button>
-                        <a type="button" class="btn btn-default" ng-click='back()'>
-                            Назад
-                        </a>
-                    </div>
-                </form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" ng-click="createTemplate(template)" ng-disabled="!template.name || !template.schemes.length">
+                    Зберегти
+                </button>
+                <a type="button" class="btn btn-default" ng-click='back()'>
+                    Назад
+                </a>
             </div>
         </div>
     </div>

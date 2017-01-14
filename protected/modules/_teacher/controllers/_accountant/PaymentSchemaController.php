@@ -57,4 +57,30 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $this->renderPartial('create',array('scenario'=>'create'),false,true);
     }
+
+    public function actionCreateSchemeTemplate()
+    {
+        $template=json_decode(Yii::app()->request->getParam('template'));
+        $templateModel= new PaymentSchemeTemplate();
+        $templateModel->template_name=$template->name;
+        if($templateModel->save()){
+            foreach ($template->schemes as $scheme){
+                $model= new TemplateSchemes();
+                $model->id_template=$templateModel->id;
+                $model->pay_count=$scheme->pay_count;
+                $model->discount=$scheme->discount;
+                $model->loan=$scheme->loan;
+                $model->save();
+            }
+        }
+    }
+
+    public function actionGetPaymentSchemasTemplatesNgTable()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('PaymentSchemeTemplate', $requestParams);
+        $result = $ngTable->getData();
+
+        echo json_encode($result);
+    }
 }

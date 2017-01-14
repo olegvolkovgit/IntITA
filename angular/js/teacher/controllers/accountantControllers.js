@@ -770,9 +770,87 @@ angular
         $scope.startDateOptions = new ExternalPaymentDateOptions();
     })
 
-    .controller('paymentsSchemaTemplateCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
-
+    .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService',
+            function ($scope, $stateParams, NgTableParams,paymentSchemaService) {
+        $scope.schemesTemplateTableParams = new NgTableParams({}, {
+            getData: function (params) {
+                return paymentSchemaService
+                    .schemesTemplatesList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
     }])
+
+    .controller('paymentsSchemaTemplateCtrl', ['$scope', 'lodash', '$http', function ($scope, _, $http) {
+        $scope.schemes = [
+            {pay_count:1,discount:30,loan:0,name:'Проплата наперед'},
+            {pay_count:2,discount:10,loan:0,name:'2 проплати'},
+            {pay_count:4,discount:8,loan:0,name:'4 проплати'},
+            {pay_count:12,discount:0,loan:0,name:'Оплата за рік помісячно'},
+            {pay_count:24,discount:0,loan:24,name:'Кредитування на 2 роки'},
+            {pay_count:36,discount:0,loan:24,name:'Кредитування на 3 роки'},
+            {pay_count:48,discount:0,loan:24,name:'Кредитування на 4 роки'},
+            {pay_count:60,discount:0,loan:24,name:'Кредитування на 5 роки'},
+        ];
+
+        $scope.template={
+            name:'',
+            schemes:$scope.schemes,
+        }
+        
+        $scope.payCount = [
+            {value: 1, name: 'Проплата наперед'},
+            {value: 2, name: '2 проплати'},
+            {value: 4, name: '4 проплати'},
+            {value: 6, name: '6 проплат'},
+            {value: 12, name: 'Оплата за рік помісячно'},
+            {value: 24, name: 'Кредитування на 2 роки'},
+            {value: 36, name: 'Кредитування на 3 роки'},
+            {value: 48, name: 'Кредитування на 4 роки'},
+            {value: 60, name: 'Кредитування на 5 роки'},
+        ]
+
+        $scope.updateScheme = function(payCount,index){
+            $scope.schemes[index]['name']=_.find($scope.payCount, ['value', payCount]).name;
+            if(payCount>12){
+                $scope.schemes[index]['discount']=0;
+            }else {
+                $scope.schemes[index]['loan']=0;
+            }
+        };
+
+        $scope.operation = {
+            addScheme: function addScheme() {
+                $scope.schemes.push({pay_count:1,discount:0,loan:0,name:'Проплата наперед'});
+            },
+            removeScheme: function removeScheme(index) {
+                _($scope.schemes)
+                    .splice(index, 1)
+                    .value();
+            }
+        };
+
+        $scope.createTemplate= function (template) {
+            $http({
+                url: basePath+'/_teacher/_accountant/paymentSchema/createSchemeTemplate',
+                method: "POST",
+                data: $jq.param({
+                    template: JSON.stringify(template),
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                bootbox.alert(response.data, function(){
+                    // $state.go("accountant/paymentSchemas/schemas/template", {}, {reload: true});
+                });
+            }, function errorCallback() {
+                bootbox.alert("Створити шаблон схем не вдалося. Помилка сервера.");
+            });
+        };
+    }]);
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
