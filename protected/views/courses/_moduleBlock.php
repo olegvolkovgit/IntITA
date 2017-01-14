@@ -3,7 +3,7 @@
  * @var $data Module
  */
 ?>
-<?php $price = $data->modulePrice(1); ?>
+<?php $price = $data->modulePrice(); ?>
 <?php if($index==0){ ?>
     <div id="miniConcept">
         <?php $this->renderPartial('_conceptBlock'); ?>
@@ -67,7 +67,7 @@
         </div>
         <div class="coursePriceBox">
             <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-            <?php $this->renderPartial('/module/_price', array('idCourse' => 1, 'model' => $data,'price'=>$price)); ?>
+            <?php $this->renderPartial('/courses/_modulePrice', array('price'=>$price)); ?>
         </div>
         <div class="moduleRating">
             <span id="titleModule"><?php echo Yii::t('module', '0224'); ?></span>
