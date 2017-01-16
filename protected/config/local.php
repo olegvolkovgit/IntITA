@@ -25,6 +25,15 @@ return array(
         'charset' => 'utf8',
         'enableProfiling' => true,
     ),
+    'dbMail' => array(
+        'class' => 'CDbConnection',
+        'connectionString' => 'mysql:host=localhost;dbname=vmail',
+        'emulatePrepare' => true,
+        'username' => 'vmailadmin',
+        'password' => 'BGlUeh0LCVeIxaTRSWgloS0rqObhSj',
+        'charset' => 'utf8',
+        'enableProfiling' => true,
+    ),
     'debug' => array(
         'class' => 'ext.yii2-debug.Yii2Debug',
         'panels' => array(

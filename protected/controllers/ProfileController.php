@@ -127,4 +127,26 @@ class ProfileController extends Controller
         }
 
     }
+
+    public function actionActivateMail(){
+        $model = Teacher::model()->findByPk(Yii::app()->user->id);
+        if (isset($_POST['Teacher'])) {
+            $model->scenario = 'mailActivation';
+            $model->mail_password = $_POST['Teacher']['mail_password'];
+            $model->mail_password_repeat = $_POST['Teacher']['mail_password_repeat'];
+            if($model->validate())
+            {
+                $model->mail_password = urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $model->mail_password_repeat, MCRYPT_MODE_ECB)));
+                $model->mailActive = true;
+                $model->save(false);
+                $mailbox = Mailbox::model()->find('username="'.$model->corporate_mail.'"');
+                $mailbox->active = 1;
+                $mailbox->setPassword($model->mail_password_repeat);
+                $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->user_id)));
+            }
+            else
+                echo CActiveForm::validate($model);
+        }
+            return $this->render('_mailpassword', array('model'=>$model));
+    }
 }

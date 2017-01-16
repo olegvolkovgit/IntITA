@@ -299,7 +299,7 @@ class StudentRegController extends Controller
     {
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
-
+        $teacher_attributes = [];
         if($model->trainer){
             $trainer=array('name'=>$model->trainer->getTrainerByStudent($id)->userNameWithEmail(),
                 'link'=>Yii::app()->createUrl('/studentreg/profile', array('idUser' => $model->trainer->trainer)));
@@ -309,10 +309,12 @@ class StudentRegController extends Controller
 
         if ($model->isTeacher()) {
             $role = array('teacher' => true,'trainer'=>$trainer);
+            $teacher_attributes = Teacher::model()->findByPk($id)->getAttributes(array('corporate_mail','mailActive'));
+
         } else {
             $role = array('teacher' => false,'trainer'=>$trainer);
         }
-        $data = array_merge($model->attributes, $role);
+        $data = array_merge($model->attributes, $role, $teacher_attributes);
         echo json_encode($data);
     }
 

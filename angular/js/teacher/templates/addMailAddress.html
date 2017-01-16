@@ -1,0 +1,22 @@
+<div class="panel panel-default" ng-controller="mailCtrl">
+    <script>
+        var domain = window.location.hostname.split('www.');
+        if (domain.length>1)
+        {
+            domain = domain[1];
+        }
+        document.getElementById("domain").innerHTML = '@'+domain;
+    </script>
+    <form name="mailForm" novalidate>
+    <div class="panel-body" >
+        <div class="col-xs-6">
+            <input class="form-control" id="mailAddress" name="mailAddress" type="text" ng-model="address" required ng-keyup="hideMailError()">
+            <span ng-cloak class="errorMessage" ng-show="mailForm.mailAddress.$invalid && mailForm.mailAddress.$touched">Поле не ма бути пустим</span>
+            <span ng-cloak class="errorMessage" ng-show="usernameError">{{usernameError}}</span>
+        </div>
+        <div id="domain" style="font-size:14pt; margin-right: -12px;">
+        </div>
+        <button class="btn btn-primary" style="float: right;" ng-click="addCorpAddress()">Створити</button>
+    </div>
+    </form>
+</div>

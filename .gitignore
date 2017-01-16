@@ -5,6 +5,7 @@ protected/runtime/*
 forum/cache/*
 local.php
 assets/*
+mail/*
 files/course_schemas/*
 protected/views/site/error.php
 /protected/config/local.php

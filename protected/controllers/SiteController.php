@@ -603,7 +603,6 @@ class SiteController extends Controller
         if (isset($user['first_name'])) $model->firstName = $user['first_name'];
         if (isset($user['last_name'])) $model->secondName = $user['last_name'];
         if (isset($user['nickname'])) $model->nickname = $user['nickname'];
-        if (isset($user['bdate'])) $model->birthday = $user['bdate'];
         if (isset($user['phone'])) $model->phone = $user['phone'];
         if (isset($user['photo_big'])) {
             $arrContextOptions = array(
@@ -638,7 +637,6 @@ class SiteController extends Controller
                     break;
             }
         }
-
         return $model;
     }
 

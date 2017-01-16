@@ -368,7 +368,7 @@ class Module extends CActiveRecord implements IBillableObject
         $hours = ($this->hours_in_day != 0) ? $this->hours_in_day : 3;
         $days = ($this->days_in_week != 0) ? $this->days_in_week : 2;
 
-        return round($hours * $days);
+        return round($hours * $days / Config::getLectureDurationInHours());
     }
 
     public function statusTitle()

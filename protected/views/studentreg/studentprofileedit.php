@@ -107,17 +107,17 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 </div>
                 <div>
                     <table id="emptyFieldList">
-                        <tr ng-repeat="model in modelsArr track by $index" ng-hide="{{model.name}} || (model.name=='selectedCity' && !selectedCountry)">
-                            <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusEmptyField(model.name)'></td>
+                        <tr ng-repeat="model in modelsArr track by $index" ng-hide="{{model.name}} || (model.name=='form.selectedCity' && !form.selectedCountry)">
+                            <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusField(model.name)'></td>
                             <td><?php echo Yii::t('edit', '0620');?> {{model.msg}}</td>
                         </tr>
                         <tr ng-show="!form.careerStart.length">
-                            <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusUiSelect("form.careerStart")'></td>
-                            <td><?php echo Yii::t('edit', '0620');?> <?php echo Yii::t('edit', '0942');?></td>
+                            <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusField("form.careerStart","select")'></td>
+                            <td><?php echo Yii::t('edit', '0620');?> <?php echo Yii::t('edit', '0941');?></td>
                         </tr>
                         <tr ng-show="!form.specializations.length">
-                            <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusUiSelect("form.specializations")'></td>
-                            <td><?php echo Yii::t('edit', '0620');?> <?php echo Yii::t('edit', '0941');?></td>
+                            <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusField("form.specializations","select")'></td>
+                            <td><?php echo Yii::t('edit', '0620');?> <?php echo Yii::t('edit', '0942');?></td>
                         </tr>
                         <tr ng-hide="avatar!='noname.png'">
                             <td><img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'plus.png');?>' ng-click='focusAvatar()'></td>
@@ -152,10 +152,10 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <li>
                     <?php echo Yii::t('regexp', '0562'); ?>
                 </li>
-                <li ng-click="uiSelectInit()">
+                <li ng-click="focusField()">
                     <?php echo Yii::t('regexp', '0563'); ?>
                 </li>
-                <li ng-click="uiSelectInit()">
+                <li ng-click="focusField()">
                     <?php echo Yii::t('regexp', '0919'); ?>
                 </li>
             </ul>

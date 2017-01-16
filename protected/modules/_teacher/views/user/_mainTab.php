@@ -39,6 +39,21 @@ $user = $model->registrationData;
                         {{data.user.email}}
                         <i class="fa fa-envelope fa-fw"></i>
                     </a>
+                    <div ng-if='data.teacher'>
+                        Електронна пошта(корпоративна): {{data.teacher.corporate_mail}}
+                        <?php if (Yii::app()->user->model->isAdmin()) { ?>
+<!--                            <button type="button" class="btn btn-outline btn-primary btn-xs"-->
+<!--                                    ng-click="addCorpAddress()" ng-show="!data.teacher.corporate_mail">-->
+<!--                                Додати корпоративну адресу-->
+<!--                            </button>-->
+                            <button class="btn btn-outline btn-primary btn-xs" ng-show="!data.teacher.corporate_mail"
+                                    ng-bootbox-title="Адреса корпоративної пошти без домену"
+                                    ng-bootbox-custom-dialog
+                                    ng-bootbox-custom-dialog-template="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/teacher/templates/addMailAddress.html'); ?>">
+                                Додати корпоративну адресу
+                            </button>
+                        <?php } ?>
+                    </div>
                     <div ng-if='data.user.skype'>
                         Skype: {{data.user.skype}}
                     </div>

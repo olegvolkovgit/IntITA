@@ -76,6 +76,16 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                             <p ng-if="profileData.email"><span class="colorP"><?php echo Yii::t('profile', '0101') ?></span>{{profileData.email}}
                             </p>
                         </div>
+                        <?php if ($owner) { ?>
+                        <div class="aboutInfo">
+                            <p ng-if="profileData.corporate_mail"><span class="colorP"><?php echo Yii::t('profile', '0101') ?>(корпоративна)</span>{{profileData.corporate_mail}}
+                                <a type="button" class="btn btn-outline btn-primary btn-xs"
+                                        href="/profile/activateMail" ng-show="profileData.mailActive==0">
+                                    Активувати
+                                </a>
+                            </p>
+                        </div>
+                        <?php }?>
                         <div class="spoiler" ng-click="spoiler('spoilerContent','middle')">
                             {{spoilerTitle}}
                             <span id='trg2'>&#9660;</span>
