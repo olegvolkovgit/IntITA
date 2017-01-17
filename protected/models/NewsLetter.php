@@ -111,8 +111,12 @@ class NewsLetter implements ITask
     }
 
     private function sendMail($recipients){
-
-        $headers = "From: IntITA <".$this->email.">\n"
+        $fromName = 'IntITA';
+        if ($this->email != Config::getNewsletterMailAddress()){
+            $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->email));
+            $fromName = "{$model->user->firstName} {$model->user->middleName} {$model->user->secondName}";
+        }
+        $headers = "From: {$fromName} <{$this->email}>\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
         mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->message,$headers);
