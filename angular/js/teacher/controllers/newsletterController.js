@@ -81,7 +81,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         minDate: $scope.date,
         showWeeks: true
     };
-
+    $scope.emailSelected = [];
     function init() {
         $scope.selectedRecipients = null;
         $scope.newsletterType = null;
@@ -91,8 +91,13 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         $scope.taskRepeat = $scope.taskRepeatTypes[0].value;
         $scope.hours = 1;
         $scope.minutes = 1;
+        $resource(basePath+'/_teacher/newsletter/getEmails').query().$promise.then(function (response) {
+            $scope.emailSelected.email = response[0].email;
+            return $scope.userEmails = response;
+        });
     }
-   init();
+
+
 
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
     var groupsArray =$resource(basePath+'/_teacher/newsletter/getGroups');
@@ -154,6 +159,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         "recipients": recipients,
                         "subject": $scope.subject,
                         "message": $scope.message,
+                        "email": $scope.emailSelected.email
                     },
                     "taskType": $scope.taskType,
                     "taskRepeat": $scope.taskRepeat,
@@ -230,7 +236,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                     });
                     break;
             }
-
+            $scope.emailSelected.email = parameters.email;
             $scope.subject = parameters.subject;
             $scope.message = parameters.message;
         });
@@ -238,12 +244,13 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
 
     if ($state.is('scheduler/task/:id') || $state.is('scheduler/task/edit/:id')){
         loadModel($stateParams.id);
+    }
+    else {
+        init();
     };
 
     $scope.editNewsletter = function(modelId){
         $state.go('scheduler/task/edit/:id',{id:modelId});
-
-        //loadModel(modelId);
     }
 
 

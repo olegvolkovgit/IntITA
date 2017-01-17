@@ -37,6 +37,12 @@
             </td>
         </tr>
         <tr>
+            <td>Від:</td>
+            <td>
+                {{emailSelected.email}}
+            </td>
+        </tr>
+        <tr>
             <td>Тема:</td>
             <td>
                 {{subject}}

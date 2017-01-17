@@ -29,12 +29,15 @@ class NewsLetter implements ITask
      */
     private $message;
 
-    public function __construct($type, $recipients, $subject, $message)
+    private $email;
+
+    public function __construct($type, $recipients, $subject, $message, $email)
     {
         $this->type = $type;
         $this->recipients = $recipients;
         $this->subject = $subject;
         $this->message = $message;
+        $this->email = $email;
     }
 
     /**
@@ -108,8 +111,8 @@ class NewsLetter implements ITask
     }
 
     private function sendMail($recipients){
-        
-        $headers = "From: IntITA <".Config::getNewsletterMailAddress().">\n"
+
+        $headers = "From: IntITA <".$this->email.">\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
         mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->message,$headers);

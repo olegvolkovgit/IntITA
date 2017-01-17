@@ -141,7 +141,7 @@ class ProfileController extends Controller
                 $model->save(false);
                 $mailbox = Mailbox::model()->find('username="'.$model->corporate_mail.'"');
                 $mailbox->active = 1;
-                $mailbox->setPassword($model->mail_password);
+                $mailbox->setPassword($model->mail_password_repeat);
                 $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->user_id)));
             }
             else
