@@ -91,8 +91,15 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
         $scope.taskRepeat = $scope.taskRepeatTypes[0].value;
         $scope.hours = 1;
         $scope.minutes = 1;
+
+    }
+    
+    function getUserMailboxes() {
         $resource(basePath+'/_teacher/newsletter/getEmails').query().$promise.then(function (response) {
-            $scope.emailSelected.email = response[0].email;
+            if (!$state.is('scheduler/task/edit/:id'))
+            {
+                $scope.emailSelected.email = response[0].email;
+            }
             return $scope.userEmails = response;
         });
     }
@@ -243,9 +250,14 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
     }
 
     if ($state.is('scheduler/task/:id') || $state.is('scheduler/task/edit/:id')){
+        if ($state.is('scheduler/task/edit/:id'))
+        {
+            getUserMailboxes();
+        }
         loadModel($stateParams.id);
     }
     else {
+        getUserMailboxes();
         init();
     };
 
