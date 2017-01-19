@@ -5,11 +5,7 @@ angular
     .module('teacherApp')
     .controller('studentCtrl', studentCtrl)
     .controller('offlineEducationCtrl', offlineEducationCtrl)
-    .controller('studentFinancesCtrl', function ($scope) {
-        initPayCoursesList();
-        initPayModulesTable();
-        initAgreementsTable();
-    });
+    .controller('invoicesByAgreement', invoicesByAgreement)
 
 function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) {
 
@@ -72,7 +68,7 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
         });
     };
 
-    $scope.getStudentAreements = function(){
+    $scope.getStudentAgreements = function(){
         $scope.agreementsTable = new NgTableParams({
             page: 1,
             count: 10
@@ -95,6 +91,14 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
                 return $resource(basePath+'/_teacher/_student/student/getPayCoursesList').get(params.url()).$promise.then(function (data) {
                     params.total(data.count);
                     $scope.usd = data.usd;
+                    //todo
+                    data.rows.forEach(function(row) {
+                        var paid=0;
+                        row.internalPayment.forEach(function (pays) {
+                            paid = paid+Number(pays.summa);
+                        });
+                        row.paidAmount=paid;
+                    });
                     return data.rows;
                 });
             }
@@ -102,13 +106,21 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
     };
     $scope.usd = null;
     $scope.getStudentPaidModules = function(){
-        $scope.paidModuesTable = new NgTableParams({
+        $scope.paidModulesTable = new NgTableParams({
             page: 1,
             count: 10
         }, {
             getData: function (params) {
                 return $resource(basePath+'/_teacher/_student/student/getPayModulesList').get(params.url()).$promise.then(function (data) {
                     params.total(data.count);
+                    //todo
+                    data.rows.forEach(function(row) {
+                        var paid=0;
+                        row.internalPayment.forEach(function (pays) {
+                            paid = paid+Number(pays.summa);
+                        });
+                        row.paidAmount=paid;
+                    });
                     $scope.usd = data.usd;
                     return data.rows;
                 });
@@ -135,11 +147,6 @@ function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) 
             }
         })
     }
-
-    $scope.showStudentAgreement = function(agreementId, agreementName){
-        $scope.changePageHeader('Договір'+ agreementName);
-        $state.go('students/agreement/:agreementId',{agreementId:agreementId},{reload:true});
-    };
 }
 
 function offlineEducationCtrl($scope, $http) {
@@ -152,5 +159,33 @@ function offlineEducationCtrl($scope, $http) {
         $scope.subgroups=response.data;
     }, function errorCallback() {
         bootbox.alert("Завантажити дані офлайн навчання не вдалося. Зв\'яжіться з адміністрацією.");
+    });
+}
+
+function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService) {
+    $scope.changePageHeader('Договір/рахунки');
+
+    $scope.invoiceUrl=basePath+'/invoice/';
+    
+    $scope.invoicesTable = new NgTableParams({}, {
+        getData: function (params) {
+            $scope.params=params.url();
+            $scope.params.id=$stateParams.agreementId;
+            return studentService
+                .invoicesByAgreement($scope.params)
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    //get paid amount for each invoice
+                    data.rows.forEach(function(row) {
+                        var paid=0;
+                        row.internalPayment.forEach(function (pays) {
+                            paid = paid+Number(pays.summa);
+                        });
+                        row.paidAmount=paid;
+                    });
+                    return data.rows;
+                });
+        }
     });
 }

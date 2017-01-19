@@ -9,7 +9,7 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="#/students/courses">
-                Курси / модулі
+                Доступні курси/модулі
             </a>
         </li>
         <li>

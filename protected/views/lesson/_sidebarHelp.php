@@ -45,8 +45,7 @@
     <div id="discussion"></div>
 </div>
 
-<?php if(PayModules::model()->checkModulePermission(Yii::app()->user->id, $lecture['idModule'], array('read'))
-    || $lecture->module->checkPaidAccess(Yii::app()->user->getId())){ ?>
+<?php if($lecture->module->checkPaidAccess(Yii::app()->user->getId())){ ?>
     <div class="consultations">
         <a class='consultationButtons'
            href="<?php echo Yii::app()->createUrl('/consultationscalendar/index', array('lectureId' => $lecture->id, 'idCourse' => $idCourse)); ?>">

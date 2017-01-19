@@ -17,7 +17,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: "/students/courses",
             cache         : false,
             controller: function($scope){
-                $scope.changePageHeader('Курси/модулі');
+                $scope.changePageHeader('Доступні курси/модулі');
             },
             templateUrl: basePath+"/_teacher/_student/student/index/id/"+user,
         })
@@ -50,6 +50,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('students/agreement/:agreementId', {
             url: "/students/agreement/:agreementId",
             cache         : false,
+            controller: 'invoicesByAgreement',
             templateUrl: function($stateParams){
                 return basePath+"/_teacher/_student/student/agreement/id/"+$stateParams.agreementId;
             }

@@ -11,57 +11,26 @@ if (!Yii::app()->user->isGuest) {
 <div class="leftModule">
     <div class="headerLeftModule">
         <?php
-        if (!Yii::app()->user->isGuest) {
-            if (Yii::app()->user->model->isAdmin())
-                $this->renderPartial('_moduleInfoForAdmin', array('post' => $post,'price'=>$price));
-            else
-                $this->renderPartial('_moduleInfo', array('post' => $post,'price'=>$price));
+        if (!Yii::app()->user->isGuest && Yii::app()->user->model->isAdmin()) {
+            $this->renderPartial('_moduleInfoForAdmin', array('post' => $post));
         } else {
-            $this->renderPartial('_moduleInfo', array('post' => $post,'price'=>$price));
+            $this->renderPartial('_moduleInfo', array('post' => $post));
         }
         ?>
-        <div class="paymentsButtons" ng-controller="moduleCtrl">
+        <div class="paymentsButtons">
             <div class="startModule">
-                <?php
-                if (Yii::app()->user->isGuest && $post->status == 1 && $post->cancelled == 0) {
-                    echo CHtml::button(Yii::t('module', '0279'), array('id' => "paymentButtonModule", 'onclick' => 'openSignIn();'));
-                } else {
-                    if ($post->status == 1 && $post->cancelled == 0 && !$isPaidModule) {
-                        if ($post->getBasePrice() > 0) {
-                            ?>
-                            <a id="paymentButtonModule"
-                               ng-click="redirectToCabinet('payModule',<?php echo $post->module_ID ?>)">
-                                <?php echo Yii::t('module', '0279'); ?>
-                            </a>
-                        <?php } else { ?>
-                            <a id="paymentButtonModule" onclick="signFreeModule(
-                                '<?= Yii::app()->createUrl("module/addAccessFreeModule") ?>',
-                                '<?= Yii::app()->user->getId() ?>',
-                                '<?= $post->module_ID ?>')">
-                                <?php echo Yii::t('module', '0279'); ?>
-                            </a>
-                        <?php }
-                    }
-                } ?>
+                <a ng-if="module.canPayModule" id="paymentButtonModule"
+                   ng-click="payService('payModule',module.module.module_ID,'<?php echo Yii::app()->user->isGuest ?>')">
+                    <?php echo Yii::t('module', '0279'); ?>
+                </a>
             </div>
-            <?php if (isset($_GET['idCourse']) && $_GET['idCourse'] > 0 && Course::getStatus($_GET['idCourse']) == 1) { ?>
-                <div class="startCourse">
-                    <?php
-                    if (Yii::app()->user->isGuest) {
-                        echo CHtml::button(Yii::t('module', '0280'), array('id' => "paymentButtonCourse", 'onclick' => 'openSignIn();'));
-                    } else if (!$isPaidCourse) {
-                        ?>
-                        <a id="paymentButtonCourse"
-                           ng-click="redirectToCabinet('payCourse',<?php echo $_GET['idCourse'] ?>)">
-                            <?php echo Yii::t('course', '0328'); ?>
-                        </a>
-                        <?php
-                    }
-                    ?>
-                </div>
-            <?php } ?>
+            <div  class="startCourse">
+                <a ng-if="module.canPayCourse" id="paymentButtonCourse"
+                   ng-click="payService('payCourse',module.idCourse,'<?php echo Yii::app()->user->isGuest ?>')">
+                    <?php echo Yii::t('course', '0328'); ?>
+                </a>
+            </div>
         </div>
-        <?php
-        $this->renderPartial('_lectures', array('dataProvider' => $dataProvider, 'canEdit' => $editMode, 'module' => $post, "idCourse" => $idCourse, 'isReadyCourse' => $isReadyCourse, 'isContentManager' => $isContentManager,'price'=>$price)); ?>
+        <?php $this->renderPartial('_lectures', array('module' => $post,"idCourse" => $idCourse)); ?>
     </div>
 </div>

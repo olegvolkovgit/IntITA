@@ -5,7 +5,7 @@
                 <ul class="list-group studentInformation" ng-repeat="subgroup in subgroups track by $index">
                     <li class="list-group-item">
                         <label>Група:</label> {{subgroup.group}}<br>
-                        <label>Куратор групи:</label> {{subgroup.groupCurator}}<br>
+                        <label>Керівник чату групи:</label> {{subgroup.groupCurator}}<br>
                         <label>Написати повідомлення:</label>
                         <a ng-href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/'); ?>{{subgroup.groupCuratorId}}">
                             {{subgroup.groupCuratorEmail}}
@@ -17,15 +17,6 @@
                     </li>
                     <li class="list-group-item">
                         <label>Підгрупа:</label> {{subgroup.subgroup}}<br>
-                        <label>Куратор підгрупи:</label> {{subgroup.subgroupCurator}}<br>
-                        <label>Написати повідомлення:</label>
-                        <a ng-href="<?= Yii::app()->createUrl('/cabinet/#/newmessages/receiver/'); ?>{{subgroup.subgroupCuratorId}}">
-                            {{subgroup.subgroupCuratorEmail}}
-                            <i class="fa fa-envelope fa-fw"></i>
-                        </a>
-                        <br>
-                        <label>Приватний чат:</label>
-                        <a ng-href="<?= Config::getChatPath()?>{{subgroup.subgroupCuratorId}}" target="_blank">почати чат <i class="fa fa-wechat fa-fw"></i></a>
                     </li>
                     <li class="list-group-item">
                         <label>Інформація(розклад): </label><span ng-bind-html="subgroup.info | linky:'_blank'"></span>

@@ -38,15 +38,13 @@ class Student extends Role
 
     public function attributes(StudentReg $user)
     {
-        $mask = PayModules::setFlags(array('read'));
-
         if (!$this->courses) {
-            $this->loadCourses($user, $mask);
+            $this->loadCourses($user);
         }
         $courses = $this->courses;
 
         if (!$this->modules) {
-            $this->loadModules($user, $mask);
+            $this->loadModules($user);
         }
         $modules = $this->modules;
 
@@ -66,23 +64,25 @@ class Student extends Role
         );
     }
 
-    private function loadCourses(StudentReg $user, $mask)
+    private function loadCourses(StudentReg $user)
     {
         $groupCourses=[];
         foreach ($user->offlineGroups as $group) {
             $groupCourses=array_merge($groupCourses,$group->availableCoursesList());
         }
 
-        $payCourses= Yii::app()->db->createCommand()
-            ->select('c.cancelled, id_course id, language lang, c.title_ua, c.title_ru, c.title_en, 
+        $now = new CDbExpression("NOW()");
+        $accessCourses= Yii::app()->db->createCommand()
+            ->select('c.cancelled, c.course_ID id, c.language lang, c.title_ua, c.title_ru, c.title_en, 
             l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en')
-            ->from('pay_courses pm')
-            ->join('course c', 'c.course_ID=pm.id_course')
+            ->from('user_service_access sa')
+            ->join('acc_course_service cs', 'cs.service_id=sa.serviceId')
+            ->join('course c', 'c.course_ID=cs.course_id')
             ->join('level l', 'l.id=c.level')
-            ->where('id_user=:id and rights & :mask', array(':id' => $user->id, ':mask' => $mask))
+            ->where('sa.userId=' . $user->id.' and sa.endDate>='.$now)
             ->queryAll();
 
-        $allCourses=array_merge($groupCourses,$payCourses);
+        $allCourses=array_merge($groupCourses,$accessCourses);
         $result = [];
         foreach($allCourses as $course){
             if(isset($result[$course['id']])) continue;
@@ -91,30 +91,25 @@ class Student extends Role
         $this->courses=$result;
     }
 
-    private function loadModules(StudentReg $user, $mask)
+    private function loadModules(StudentReg $user)
     {
         $groupModules=[];
         foreach ($user->offlineGroups as $group) {
             $groupModules=array_merge($groupModules,$group->availableModulesList());
         }
 
-        $payModules = Yii::app()->db->createCommand()
-            ->select('m.cancelled, module_ID id, language lang, m.title_ua, m.title_ru, m.title_en, 
-            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, 
-            IF(tcs.end_date is null, u.id, 0) as teacherId,
-            CONCAT(u.secondName, " ", u.firstName, " ", u.middleName) as teacherName, tcs.end_date, tcs.start_date')
-            ->from('pay_modules pm')
-            ->join('module m', 'm.module_ID=pm.id_module')
+        $now = new CDbExpression("NOW()");
+        $accessModules= Yii::app()->db->createCommand()
+            ->select('m.cancelled, m.module_ID id, m.language lang, m.title_ua, m.title_ru, m.title_en, 
+            l.title_ua level_ua, l.title_ru level_ru, l.title_en level_en, ')
+            ->from('user_service_access sa')
+            ->join('acc_module_service ms', 'ms.service_id=sa.serviceId')
+            ->join('module m', 'm.module_ID=ms.module_id')
             ->join('level l', 'l.id=m.level')
-            ->leftJoin('teacher_consultant_student tcs', 'tcs.id_module=m.module_ID')
-            ->leftJoin('user u', 'u.id=tcs.id_teacher')
-            ->where('pm.id_user=:id and rights & :mask',
-                array(':id' => $user->id, ':mask' => $mask))
-            ->order('m.module_ID, tcs.end_date DESC')
-            ->group('m.module_ID')
+            ->where('sa.userId=' . $user->id.' and sa.endDate>='.$now)
             ->queryAll();
 
-        $allModules=array_merge($groupModules,$payModules);
+        $allModules=array_merge($groupModules,$accessModules);
         $result = [];
         foreach($allModules as $module){
             if(isset($result[$module['id']])) continue;

@@ -65,11 +65,6 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: accountantUrl+"template/index"
         })
-        .state('accountant/operationtype', {
-            url: "/accountant/operationtype",
-            cache         : false,
-            templateUrl: accountantUrl+"operationType/index"
-        })
         .state('accountant/externalsources', {
             url: "/accountant/externalsources",
             cache         : false,
@@ -118,23 +113,32 @@ config(function ($stateProvider, $urlRouterProvider) {
             cache         : false,
             templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
         })
-        .state('accountant/operationType/create', {
-            url: "/accountant/operationType/create",
+        .state('accountant/externalsource/create', {
+            url: "/accountant/externalsource/create",
             cache         : false,
-            templateUrl: accountantUrl+"operationType/create"
+            controller: function($scope){
+                $scope.changePageHeader('Додати зовнішнє джерело коштів');
+            },
+            templateUrl: accountantUrl+"externalSources/create"
         })
-        .state('accountant/operationType/view/:id', {
-            url: "/accountant/operationType/view/:id",
+        .state('accountant/externalsource/update/:id', {
+            url: "/accountant/externalsource/update/:id",
             cache         : false,
+            controller: function($scope){
+                $scope.changePageHeader('Редагувати зовнішнє джерело коштів');
+            },
             templateUrl: function ($stateParams) {
-                return accountantUrl+"operationType/view/id/"+$stateParams.id;
+                return accountantUrl + "externalSources/update/id/" + $stateParams.id;
             }
         })
-        .state('accountant/operationType/edit/:id', {
-            url: "/accountant/operationType/edit/:id",
+        .state('accountant/externalsource/view/:id', {
+            url: "/accountant/externalsource/view/:id",
             cache         : false,
+            controller: function($scope,$stateParams){
+                $scope.changePageHeader('Джерело зовнішніх коштів №'+$stateParams.id);
+            },
             templateUrl: function ($stateParams) {
-                return accountantUrl+"operationType/update/id/"+$stateParams.id;
+                return accountantUrl+"externalSources/view/id/"+$stateParams.id;
             }
         })
     }

@@ -224,16 +224,6 @@ class PayModules extends CActiveRecord
         }
     }
 
-    public static function checkEditMode($idModule, $idUser)
-    {
-        $permission = new PayModules();
-        if ($permission->checkModulePermission($idUser, $idModule, array('edit'))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public static function getConfirmText(Module $module,$userName)
     {
         $result = '<br /><h4>Вітаємо!</h4> Модуль <strong>'.
@@ -262,26 +252,5 @@ class PayModules extends CActiveRecord
         $result = '<br /> В користувача '. $userName. ' не було доступу до даного модуля на індивідуальному рівні';
 
         return $result;
-    }
-
-    public static function getPayModulesListByUser(){
-        $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $modules = PayModules::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($modules as $record) {
-            $row = array();
-
-            $row["title"]["name"] = $record->module->cancelled?$record->module->getTitle().'(скасований)':$record->module->getTitle();
-            $row["title"]["url"] = $record->module->cancelled?'':Yii::app()->createAbsoluteUrl("module/index", array("idModule" =>$record->module->module_ID));
-            $row["summa"] = ($record->module->getBasePrice() != 0)?number_format(CommonHelper::getPriceUah($record->module->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
-            //$row["schema"] = CHtml::encode($record->paymentSchema->name);
-            //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
     }
 }

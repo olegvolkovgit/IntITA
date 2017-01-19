@@ -17,6 +17,10 @@ class ExternalPaymentsController extends TeacherCabinetController
 
         $payment = new ExternalPays();
         $payment->setAttributes($params);
+        //        todo validation
+        if(date("Y-m-d", strtotime($payment->documentDate))!="1970-01-01"){
+            $payment->documentDate=date("Y-m-d", strtotime($payment->documentDate));
+        }
         $payment->createUser = Yii::app()->user->getId();
         $payment->userId = Yii::app()->user->getId();
 
@@ -29,7 +33,9 @@ class ExternalPaymentsController extends TeacherCabinetController
 
     public function actionGetPayment($id) {
         $model = ExternalPays::model()->with(ExternalPays::model()->relations())->findByPk($id);
-        echo json_encode(ActiveRecordToJSON::toAssocArray($model));
+        $result=ActiveRecordToJSON::toAssocArray($model);
+        $result['remainder']=$model->getRemainderSum();
+        echo json_encode($result);
     }
 
     public function actionGetNgTable() {

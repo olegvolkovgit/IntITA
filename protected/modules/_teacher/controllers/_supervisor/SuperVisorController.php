@@ -188,7 +188,7 @@ class SuperVisorController extends TeacherCabinetController
         inner join user_student us on u.id = us.id_user
             left JOIN offline_students os ON u.id = os.id_user
         WHERE 
-         u.cancelled=".StudentReg::ACTIVE." and os.id_user IS NULL and us.end_date IS NULL and u.educform='Онлайн/Офлайн'
+         u.cancelled=".StudentReg::ACTIVE." and os.id_user IS NULL and us.end_date IS NULL and u.educform=".EducationForm::ONLINE_OFFLINE."
         UNION
         SELECT
             os.id_user
@@ -197,7 +197,7 @@ class SuperVisorController extends TeacherCabinetController
             inner join user_student us on u.id = us.id_user
             left JOIN offline_students os ON u.id = os.id_user
         WHERE 
-         u.cancelled=".StudentReg::ACTIVE." and us.end_date IS NULL and u.educform='Онлайн/Офлайн'
+         u.cancelled=".StudentReg::ACTIVE." and us.end_date IS NULL and u.educform=".EducationForm::ONLINE_OFFLINE."
             and  os.id_user IS not NULL
         GROUP BY os.id_user
         HAVING count(os.id_user)=sum(if(os.end_date,1,0));";
@@ -347,7 +347,7 @@ class SuperVisorController extends TeacherCabinetController
         $startDate=Yii::app()->request->getParam('date');
         $specializationId=Yii::app()->request->getParam('specialization');
         $city=Yii::app()->request->getParam('city');
-        $curatorId=Yii::app()->request->getParam('curator');
+        $chatAuthorId=Yii::app()->request->getParam('chat_author');
 
         $group= new OfflineGroups();
         $group->name=$name;
@@ -355,7 +355,7 @@ class SuperVisorController extends TeacherCabinetController
         $group->specialization=$specializationId;
         $group->city=$city;
         $group->id_user_created=Yii::app()->user->getId();
-        $group->id_user_curator=$curatorId;
+        $group->chat_author_id=$chatAuthorId;
         if($group->validate()){
             $group->save();
             echo 'Офлайн групу успішно створено';
@@ -369,7 +369,6 @@ class SuperVisorController extends TeacherCabinetController
         $name=Yii::app()->request->getParam('name');
         $group=Yii::app()->request->getParam('group');
         $data=Yii::app()->request->getParam('data');
-        $curatorId=Yii::app()->request->getParam('curator');
         $trainerId=Yii::app()->request->getParam('trainer');
         
         $subgroup= new OfflineSubgroups();
@@ -377,7 +376,6 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup->group=$group;
         $subgroup->data=$data;
         $subgroup->id_user_created=Yii::app()->user->getId();
-        $subgroup->id_user_curator=$curatorId;
         $subgroup->id_trainer=$trainerId;
 
         if($subgroup->save()){
@@ -395,14 +393,14 @@ class SuperVisorController extends TeacherCabinetController
         $startDate=Yii::app()->request->getPost('date');
         $specializationId=Yii::app()->request->getPost('specialization');
         $city=Yii::app()->request->getParam('city');
-        $curatorId=Yii::app()->request->getParam('curator');
+        $chatAuthorId=Yii::app()->request->getParam('chat_author');
 
         $group=OfflineGroups::model()->findByPk($id);
         $group->name=$name;
         $group->start_date=$startDate;
         $group->specialization=$specializationId;
         $group->city=$city;
-        $group->id_user_curator=$curatorId;
+        $group->chat_author_id=$chatAuthorId;
 
         if($group->validate()){
             $group->update();
@@ -417,14 +415,12 @@ class SuperVisorController extends TeacherCabinetController
         $id=Yii::app()->request->getPost('id');
         $name=Yii::app()->request->getPost('name');
         $data=Yii::app()->request->getPost('data');
-        $curatorId=Yii::app()->request->getParam('curator');
         $trainerId=Yii::app()->request->getParam('trainer');
         
         $subgroup=OfflineSubgroups::model()->findByPk($id);
         $oldTrainer=$subgroup->id_trainer;
         $subgroup->name=$name;
         $subgroup->data=$data;
-        $subgroup->id_user_curator=$curatorId;
         $subgroup->id_trainer=$trainerId;
         
         if($subgroup->update()){
@@ -440,10 +436,14 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionCreateSpecialization()
     {
-        $name=Yii::app()->request->getPost('name');
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
 
         $specialization=new SpecializationsGroup();
-        $specialization->name=$name;
+        $specialization->title_ua=$title_ua;
+        $specialization->title_ru=$title_ru;
+        $specialization->title_en=$title_en;
 
         if($specialization->save()){
             echo 'Спеціалізацію створено';
@@ -456,10 +456,14 @@ class SuperVisorController extends TeacherCabinetController
     public function actionUpdateSpecialization()
     {
         $id=Yii::app()->request->getPost('id');
-        $name=Yii::app()->request->getPost('name');
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
 
         $specialization=SpecializationsGroup::model()->findByPk($id);
-        $specialization->name=$name;
+        $specialization->title_ua=$title_ua;
+        $specialization->title_ru=$title_ru;
+        $specialization->title_en=$title_en;
 
         if($specialization->update()){
             echo 'Спеціалізацію оновлено';
@@ -473,8 +477,8 @@ class SuperVisorController extends TeacherCabinetController
         echo AddressCity::citiesByQuery($query);
     }
 
-    public function actionCuratorsByQuery($query){
-        echo SuperVisor::addCuratorsList($query);
+    public function actionChatAuthorsByQuery($query){
+        echo SuperVisor::addChatAuthorsList($query);
     }
 
     public function actionGroupsByQuery($query)

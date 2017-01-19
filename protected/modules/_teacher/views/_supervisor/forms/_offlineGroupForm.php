@@ -24,24 +24,24 @@
                     </div>
                     <div class="form-group">
                         <label>Спеціалізація*:</label>
-                        <select class="form-control" ng-options="item.id as item.specialization for item in specializations"
+                        <select class="form-control" ng-options="item.id as item.title_ua for item in specializations"
                                 ng-model="selectedSpecialization">
                             <option name="specialization" value="" disabled selected>(Виберіть спеціалізацію)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Куратор (автор чату групи)*:</label>
-                        <input name="curator" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"
-                               placeholder="Виберіть куратора" required size="50"
-                               uib-typeahead="item.nameEmail for item in getCurators($viewValue) | limitTo : 10"
+                        <label>Керівник чату групи*:</label>
+                        <input name="chat_author" class="form-control" type="text" ng-model="curatorEntered" ng-model-options="{ debounce: 1000 }"
+                               placeholder="Виберіть керівник чату групи" required size="50"
+                               uib-typeahead="item.nameEmail for item in getChatAuthors($viewValue) | limitTo : 10"
                                typeahead-no-results="curatorNoResults"
                                typeahead-on-select="onSelectCurator($item)"
                                ng-change="reloadCurator()">
                         <div ng-show="curatorNoResults">
-                            <i class="glyphicon glyphicon-remove"></i>Куратора не знайдено
+                            <i class="glyphicon glyphicon-remove"></i>Користувача не знайдено
                         </div>
-                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['curator'].$dirty && offlineGroupForm['curator'].$invalid">
-                            <span ng-show="offlineGroupForm['curator'].$error.required"><?php echo Yii::t('error','0268') ?></span>
+                        <div ng-cloak  class="clientValidationError" ng-show="offlineGroupForm['chat_author'].$dirty && offlineGroupForm['chat_author'].$invalid">
+                            <span ng-show="offlineGroupForm['chat_author'].$error.required"><?php echo Yii::t('error','0268') ?></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" ng-disabled="offlineGroupForm.$invalid || !selectedSpecialization  || !selectedCity || !selectedCurator">Зберегти
                         </button>
-                        <a type="button" class="btn btn-default" ng-href="#/supervisor/offlineGroups">
+                        <a type="button" class="btn btn-default" ng-click='back()'>
                             Назад
                         </a>
                     </div>

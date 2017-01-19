@@ -3,12 +3,14 @@
 class UserController extends TeacherCabinetController {
 
     public function hasRole(){
+        $allowedAccountantActions=['loadJsonUserModel','getRolesHistory','index'];
         $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
-        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm'];
+        $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm', 'setStudentShift'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
         (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action->id,$allowedContentManagerActions)) ||
-        (Yii::app()->user->model->isSuperVisor() && in_array(Yii::app()->controller->action->id,$allowedSupervisorActions));
+        (Yii::app()->user->model->isSuperVisor() && in_array(Yii::app()->controller->action->id,$allowedSupervisorActions)) ||
+        (Yii::app()->user->model->isAccountant() && in_array(Yii::app()->controller->action->id,$allowedAccountantActions));
     }
 
     public function actionIndex($id)
@@ -67,6 +69,22 @@ class UserController extends TeacherCabinetController {
 
         if($model){
             if($model->setUserForm($form)){
+                echo "Операцію успішно виконано.";
+            } else {
+                echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
+            }
+        } else {
+            echo "Неправильний запит. Такого користувача не існує.";
+        }
+    }
+
+    public function actionSetStudentShift(){
+        $user = Yii::app()->request->getPost('user');
+        $shift = Yii::app()->request->getPost('shift');
+        $model = StudentReg::model()->findByPk($user);
+
+        if($model){
+            if($model->setUserShift($shift)){
                 echo "Операцію успішно виконано.";
             } else {
                 echo "Операцію не вдалося виконати. Зверніться до адміністратора ".Config::getAdminEmail();
@@ -153,5 +171,36 @@ class UserController extends TeacherCabinetController {
         });
         echo CJSON::encode($history);
 
+    }
+
+    public function actionAddCorpMail(){
+        if (isset($_POST['userId']) && isset($_POST['address'])){
+            $model = Teacher::model()->findByPk($_POST['userId']);
+            $mailBox = new Mailbox();
+            $mailBox->username = $_POST['address'].'@'.Config::getBaseUrlWithoutSchema();
+            $mailBox->name = $_POST['address'];
+            $mailBox->maildir = Config::getBaseUrlWithoutSchema().'/'.$_POST['address'];
+            $mailBox->domain = Config::getBaseUrlWithoutSchema();
+            $mailBox->active = 0;
+            if ($mailBox->validate()){
+                $mailBox->save();
+                $model->corporate_mail = $mailBox->username;
+                $model->save();
+                $message = new UserMessages();
+                $text = $this->renderPartial('//mail/templates/_createMail',array('mail'=>$mailBox->username),true);
+                $message->build('Надано корпоративну електронну адресу',$text,StudentReg::model()->findByPk(Yii::app()->user->id),StudentReg::model()->findByPk($_POST['userId']));
+                $msg = $message->create();
+                Yii::app()->db->createCommand()->insert('message_receiver', array(
+                    'id_message' => $msg->id_message,
+                    'id_receiver' => $_POST['userId'],
+                ));
+                echo json_encode(array('mailbox' => $mailBox->username));
+            }
+            else
+
+                echo json_encode(array('error'=>$mailBox->getErrors()));
+        }
+        else
+            return http_response_code(400);
     }
 }

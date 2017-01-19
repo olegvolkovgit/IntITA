@@ -39,7 +39,6 @@ class Invoice extends CActiveRecord {
         return array(
             array('user_created, summa, agreement_id', 'required'),
             array('agreement_id, user_created, user_cancelled', 'numerical', 'integerOnly' => true),
-            array('summa', 'length', 'max' => 10),
             // The following rule is used by search().
             array('id, agreement_id, date_created, date_cancelled, summa, payment_date, user_created, expiration_date,
 			user_cancelled, pay_date', 'safe', 'on' => 'search'),
@@ -210,28 +209,6 @@ class Invoice extends CActiveRecord {
         if ($userAgreement->insertServiceUserData())
             return true;
         else return false;
-    }
-
-    public static function invoicesListByAgreement($agreement) {
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'agreement_id=' . $agreement;
-
-        $invoices = Invoice::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($invoices as $key => $record) {
-            $row = array();
-
-            $row["title"]["name"] = "Рахунок №" . ($key + 1);
-            $row["title"]["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id));
-            $row["summa"] = number_format($record->summa, 2, ",", "&nbsp;");
-            $row["date"] = date("d.m.y", strtotime($record->payment_date));
-            $row["url"] = Yii::app()->createUrl('payments/invoice', array('id' => $record->id, 'nolayout' => true));
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
     }
 
     public function getOrderInAgreement() {

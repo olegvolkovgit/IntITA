@@ -15,6 +15,8 @@
  * @property string $documentNumber
  * @property string $comment
  * @property integer $companyId
+ * @property string $payerName
+ * @property string $payerId
  *
  * The followings are the available model relations:
  * @property ExternalSources $source
@@ -41,12 +43,14 @@ class ExternalPays extends CActiveRecord
 		return array(
 			array('createUser, sourceId, userId, documentDate, amount, documentNumber, documentPurpose, companyId', 'required', 'message'=>'Поле \'{attribute}\' не може бути пустим'),
 			array('createUser, userId, companyId', 'numerical', 'integerOnly'=>true),
+			array('amount', 'numerical', 'min'=>0, 'message'=>'Поле \'{attribute}\' має містити дані в числовому форматі'),
+			array('documentDate', 'date', 'format' => 'yyyy-M-d', 'message' => 'Поле \'{attribute}\' має містити дані в форматі рррр-мм-дд'),
 			array('sourceId, amount', 'length', 'max'=>10),
 			array('documentPurpose', 'length', 'max'=>512),
 			array('documentNumber', 'length', 'max'=>100),
-			array('comment', 'length', 'max'=>255),
+			array('comment, payerName, payerId', 'length', 'max'=>255),
 			// The following rule is used by search().
-			array('id, createDate, createUser, sourceId, userId, documentDate, amount, documentPurpose, documentNumber, comment, companyId', 'safe', 'on'=>'search'),
+			array('id, createDate, createUser, sourceId, userId, documentDate, amount, documentPurpose, documentNumber, comment, companyId, payerName, payerId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,12 +77,14 @@ class ExternalPays extends CActiveRecord
             'id' => 'Pay code',
             'createDate' => 'Дата створення ',
             'createUser' => 'Хто створив',
-            'sourceId' => 'Зовнішні джерела',
+            'sourceId' => 'Джерело коштів',
             'userId' => 'Хто платить',
-            'documentDate' => 'Дата створення платежу',
-            'amount' => 'Сумма до сплати',
-            'documentPurpose' => 'Пояснення платежу',
-			'companyId' => 'ID компанії'
+            'documentDate' => 'Дата документа',
+            'amount' => 'Сумма',
+            'documentPurpose' => 'Призначення платежу',
+			'companyId' => 'Компанія',
+			'payerName' => 'Назва платника',
+			'payerId' => 'Ідентифікаційний код'
 		);
 	}
 
@@ -111,6 +117,8 @@ class ExternalPays extends CActiveRecord
 		$criteria->compare('documentNumber',$this->documentNumber,true);
 		$criteria->compare('comment',$this->comment,true);
 		$criteria->compare('companyId',$this->comment);
+		$criteria->compare('payerName',$this->payerName,true);
+		$criteria->compare('payerId',$this->payerId);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -133,27 +141,12 @@ class ExternalPays extends CActiveRecord
         return array_reduce($this->internalPays, function($prev, $curr) {return $prev -= $curr->summa;}, $this->amount);
     }
 
-//    public static function addNewExternalPay(Operation $operation){
-//        $invoicesDescription = '';
-//        foreach($operation->invoicesList as $invoice){
-//            $invoicesDescription .= $invoice->description();
-//        }
-//
-//        $model = new ExternalPays();
-//        $model->createUser = $operation->user_create;
-//        $model->sourceId = $operation->externalSource;
-//        $model->userId = $operation->user_create;
-//        $model->pay_date = $operation->date_create;
-//        $model->summa = $operation->summa;
-//
-//         $model->description = $operation->type->description.". ".
-//            $invoicesDescription.". Сплачено ".date("d.m.y", strtotime($model->pay_date));
-//
-//        if ($model->validate()){
-//            $model->save();
-//            return true;
-//        }
-//
-//        return false;
-//    }
+	public function getRemainderSum() {
+		$internalPays=InternalPays::model()->findAllByAttributes(array('externalPaymentId'=>$this->id));
+		$sum=0;
+		foreach ($internalPays as $pay){
+			$sum=$sum+$pay->summa;
+		}
+		return $this->amount-$sum;
+	}
 }

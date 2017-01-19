@@ -23,6 +23,13 @@ class ExternalSourcesController extends TeacherCabinetController
         echo json_encode(ActiveRecordToJSON::toAssocArray($models));
     }
 
+    public function actionGetSourcesList() {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('ExternalSources', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+    
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -39,50 +46,51 @@ class ExternalSourcesController extends TeacherCabinetController
      */
     public function actionCreate()
     {
-        $model=new ExternalSources;
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-        if(isset($_POST['ExternalSources']))
-        {
-            $model->attributes=$_POST['ExternalSources'];
-            if($model->save())
-                $this->redirect($this->pathToCabinet());
-        }
-        $this->renderPartial('create',array(
-            'model'=>$model,
-        ));
+        $this->renderPartial('form', array('scenario'=>'create'), false, true);
     }
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
+    public function actionCreateExternalSource()
+    {
+        $name=Yii::app()->request->getParam('name');
+        $cash=Yii::app()->request->getParam('cash');
+        
+        $model=new ExternalSources;
+        $model->name=$name;
+        $model->cash=$cash;
+       
+        if($model->validate()){
+            $model->save();
+            echo 'Зовнішнє джерело успішно створено';
+        }else{
+            echo $model->getValidationErrors();
+        }
+    }
+
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-        if(isset($_POST['ExternalSources']))
-        {
-            $model->attributes=$_POST['ExternalSources'];
-            if($model->save())
-                $this->redirect($this->pathToCabinet());
-        }
-        $this->renderPartial('update',array(
-            'model'=>$model,
-        ), false, true);
+        $this->renderPartial('form', array('scenario'=>'update'), false, true);
     }
-    /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
-     */
-    public function actionDelete($id)
+
+    public function actionUpdateExternalSource()
     {
-        $this->loadModel($id)->delete();
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
-            $this->redirect($this->pathToCabinet());
+        $id=Yii::app()->request->getParam('id');
+        $name=Yii::app()->request->getParam('name');
+        $cash=Yii::app()->request->getParam('cash');
+
+        $model=ExternalSources::model()->findByPk($id);
+        $model->name=$name;
+        $model->cash=$cash;
+
+        if($model->validate()){
+            $model->update();
+            echo 'Зовнішнє джерело коштів оновлено';
+        }else{
+            echo $model->getValidationErrors();
+        }
+    }
+
+    public function actionDelete()
+    {
+        $this->loadModel(Yii::app()->request->getParam('id'))->delete();
     }
 
     /**
@@ -110,5 +118,13 @@ class ExternalSourcesController extends TeacherCabinetController
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function actionGetExternalSource()
+    {
+        $model=ExternalSources::model()->findByPk(Yii::app()->request->getParam('id'));
+        if($model===null)
+            throw new CHttpException(404,'The requested page does not exist.');
+        echo CJSON::encode($model);
     }
 }

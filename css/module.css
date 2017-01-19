@@ -440,6 +440,11 @@ td.button-column{
 .disablesLink{
     cursor: pointer;
 }
+.disablesLink a,.disablesLink a:hover,.disablesLink a:focus{
+    cursor: pointer;
+    color: #666666;
+    text-decoration: none;
+}
 .revisionIco{
     position: relative;
     vertical-align: top;

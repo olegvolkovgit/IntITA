@@ -19,48 +19,78 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        if($model->cancelled && !StudentReg::isAdmin()) {
+        if($model->cancelled && !Yii::app()->user->model->isAdmin()) {
             throw new CHttpException(403, 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном адміністратора.');
-        }
-
-//        var_dump($model->checkPaidAccess(Yii::app()->user->getId()));
-
-        $editMode = 0;
-        $isPaidCourse=false;
-        $isPaidModule=false;
-        $isContentManager=false;
-        if (!Yii::app()->user->isGuest) {
-            $userId=Yii::app()->user->getID();
-            $author = new Author();
-            if(Yii::app()->user->model->isAuthor()) {
-                $editMode = $author->isTeacherAuthorModule($userId, $idModule);
-            }
-            if($idCourse!=0 && PayCourses::model()->checkCoursePermission($userId, $idCourse, array('read'))){
-                $isPaidCourse=true;
-            }
-            if(PayModules::model()->checkModulePermission($userId, $idModule, array('read'))){
-                $isPaidModule=true;
-            }
-            $isContentManager=Yii::app()->user->model->isContentManager();
-        }
-        if($idCourse!=0){
-            $isReadyCourse=Course::model()->findByPk($idCourse)->status;
-        }else{
-            $isReadyCourse=true;
         }
         
         $this->render('index', array(
             'post' => $model,
             'teachers' => $model->teacher,
-            'editMode' => $editMode,
-            'lecturesTitles' => $model->lectures,
-            'dataProvider' => $model->getLecturesDataProvider(),
             'idCourse' => $idCourse,
-            'isPaidCourse' => $isPaidCourse,
-            'isPaidModule' => $isPaidModule,
-            'isReadyCourse' => $isReadyCourse,
-            'isContentManager' => $isContentManager,
         ));
+    }
+
+    public function actionModuleData()
+    {
+        $data=array();
+        
+        $idModule = Yii::app()->request->getPost('moduleId');
+        $idCourse = Yii::app()->request->getPost('courseId');
+        $idUser=Yii::app()->user->getId();
+
+        $module = Module::model()->findByPk($idModule);
+
+        if($idCourse){
+            $data['idCourse']=$idCourse;
+            $course=Course::model()->findByPk($idCourse);
+            $data['canPayCourse']=$course->status && !$course->cancelled;
+            $isReadyCourse=$course->status;
+        }else{
+            $isReadyCourse=true;
+        }
+
+        if (!Yii::app()->user->isGuest) {
+            if(isset($course)){
+                $isPaidCourse=$course->checkPaidAccess($idUser);
+            }else{
+                $isPaidCourse=false;
+            }
+
+            $data['user']['isPaidModule']=$module->checkPaidAccess($idUser);
+            $data['user']['isPaidCourse']=$isPaidCourse;
+            $data['user']['isContentManager']=Yii::app()->user->model->isContentManager();
+            $data['user']['isAdmin']=Yii::app()->user->model->isAdmin();
+            $data['user']['canSendRequest']=Yii::app()->user->model->canSendRequest($module->module_ID);
+            $data['user']['isAuthor'] = Yii::app()->user->model->isAuthorModule($idModule);
+            $data['user']['lastAccessLectureOrder'] = $module->getLastAccessLectureOrder();
+        }
+
+        $data['module']=ActiveRecordToJSON::toAssocArray($module);
+        $data['canPayModule']=$module->status && !$module->cancelled;
+        $data['moduleTitle']=$module->getTitle();
+        $data['modulePrice']=$module->modulePrice($idCourse);
+        $data['isReadyCourse']=$isReadyCourse;
+        $data['lectures']=ActiveRecordToJSON::toAssocArray($module->lectures);
+
+        if (!Yii::app()->user->isGuest) {
+            if (!Yii::app()->user->model->coworkerHasModuleAccess($module)) {
+                if(!$module->getModuleStatus($idCourse)){
+                    $data['moduleAccess']=false;
+                    $data['notAccessMessage']=$module->errorMessage;
+                } else if(!$module->checkPaidAccess($idUser)){
+                    $data['notAccessMessage']=Yii::t('exception', '0869');
+                }
+
+            }else{
+                $data['moduleAccess']=true;
+            }
+        }else{
+            $data['moduleAccess']=false;
+            $data['notAccessMessage']=Yii::t('exception', '0868');
+        }
+        
+        
+        echo json_encode($data);
     }
 
     public function actionEdit($idModule, $idCourse=0)
@@ -76,11 +106,7 @@ class ModuleController extends Controller
 
         $this->checkModelInstance($model);
 
-        $editMode = false;
-        $author = new Author();
-        if(Yii::app()->user->model->isAuthor()) {
-            $editMode = $author->isTeacherAuthorModule(Yii::app()->user->getID(), $idModule);
-        }
+        $editMode = Yii::app()->user->model->isAuthorModule($idModule);
 
         if(!$editMode) {
             throw new \application\components\Exceptions\IntItaException('403', 'Ти запросив сторінку, доступ до якої обмежений спеціальними правами. Для отримання доступу увійди на сайт з логіном автора модуля.');
@@ -305,50 +331,6 @@ class ModuleController extends Controller
     private function checkModelInstance($model) {
         if ($model === null)
             throw new \application\components\Exceptions\ModuleNotFoundException();
-    }
-    public function actionModuleData()
-    {
-        $data = [];
-        $model = Module::model()->with('teacher', 'lectures')->findByPk(Yii::app()->request->getPost('id'));
-        $modelData=get_object_vars($model->getLecturesDataProvider());
-
-        for($i = 0;$i < count($modelData['rawData']);$i++){
-            $data['lecturesLink'][$i]=Yii::app()->createUrl("lesson/index", array("id" => $modelData['rawData'][$i]['id'], "idCourse" => 0));
-        }
-        $fullData=CJSON::encode(array_merge($modelData,$data));
-
-        echo $fullData;
-    }
-
-    public function actionAddAccessFreeModule(){
-        $userId = Yii::app()->request->getPost('user', 0);
-        $moduleId = Yii::app()->request->getPost('module', 0);
-
-        $user = StudentReg::model()->findByPk($userId);
-        $module = Module::model()->findByPk($moduleId);
-
-        if($user && $module){
-            $exist = PayModules::model()->findByAttributes(array('id_user' => $userId, 'id_module' => $moduleId));
-            if (!empty($exist)) {
-               echo "У тебе вже є доступ до цього модуля.";
-                Yii::app()->end();
-            } else {
-                $permission = new PayModules();
-                $permission->setModuleRead($user->id, $module->module_ID);
-                if (!UserAgreements::moduleAgreementExist(Yii::app()->user->getId(), $module->module_ID, EducationForm::ONLINE)) {
-                    UserAgreements::agreementByParams('Module', $user->id, $module->module_ID, 0, 1, EducationForm::ONLINE);
-                }
-                $message = new MessagesPayment();
-                $message->build(null, $user, $module);
-                $message->create();
-
-                $sender = new MailTransport();
-                $message->send($sender);
-                echo "Вітаємо!<br> Тепер у тебе є доступ до усіх матеріалів цього модуля.";
-            }
-        } else {
-            echo Yii::t('breadcrumbs', '0781');
-        }
     }
 
     public function actionGetTagsList()

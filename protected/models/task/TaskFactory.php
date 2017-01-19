@@ -22,7 +22,8 @@ class TaskFactory
                     $recipients = $params['recipients'];
                 $subject = urldecode($params['subject']);
                 $message = urldecode($params['message']);
-                return new NewsLetter($type,$recipients,$subject,$message);
+                $email = $params['email'];
+                return new NewsLetter($type,$recipients,$subject,$message,$email);
         }
         return null;
     }

@@ -112,4 +112,67 @@ class ConfigController extends TeacherCabinetController {
         ]);
         echo JsonForNgDatatablesHelper::returnJson(Config::model()->findAll($criteria),null,Config::model()->count());
     }
+
+    public function actionCareers()
+    {
+        $this->renderPartial('/_admin/config/careers/careers', array(), false, true);
+    }
+
+    public function actionCareerCreate()
+    {
+        $this->renderPartial('/_admin/config/careers/careerCreate', array(), false, true);
+    }
+
+    public function actionCareerUpdate()
+    {
+        $this->renderPartial('/_admin/config/careers/careerUpdate', array(), false, true);
+    }
+
+    public function actionGetCareersList()
+    {
+        echo Careers::careersList();
+    }
+
+    public function actionCreateCareer()
+    {
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
+        
+        $career=new Careers();
+        $career->title_ua=$title_ua;
+        $career->title_ru=$title_ru;
+        $career->title_en=$title_en;
+        
+        if($career->save()){
+            echo "Кар'єру створено";
+        }else{
+            echo "Створити кар'єру не вдалося. Введені не вірні дані";
+        }
+    }
+
+    public function actionGetCareerData()
+    {
+        echo CJSON::encode(Careers::model()->findByPk(Yii::app()->request->getParam('id')));
+    }
+
+    public function actionUpdateCareer()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $title_ua=Yii::app()->request->getPost('title_ua');
+        $title_ru=Yii::app()->request->getPost('title_ru');
+        $title_en=Yii::app()->request->getPost('title_en');
+
+        $career=Careers::model()->findByPk($id);
+        $career->title_ua=$title_ua;
+        $career->title_ru=$title_ru;
+        $career->title_en=$title_en;
+
+        if($career->update()){
+            echo 'Кар\'єру оновлено';
+        }else{
+            echo 'Оновити кар\'єру не вдалося. Введені не вірні дані';
+        }
+
+    }
 }

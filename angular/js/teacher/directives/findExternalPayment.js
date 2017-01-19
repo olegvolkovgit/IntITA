@@ -16,7 +16,11 @@ function addExternalPayment(externalPayments, _) {
         };
 
         $scope.formatLabel = function (item) {
-            return item ? '№' + item.documentNumber + ' від ' + item.documentDate + ' (сума ' + item.amount + ' грн)' : null;
+            if(item){
+                var name=item.payerName?item.payerName:'';
+                var id=item.payerId?item.payerId:'';
+                return item ? '№' + item.documentNumber + ' від ' + item.documentDate + ' (сума ' + item.amount + ' грн) '+name+' '+id : null;
+            }
         };
 
         $scope.onSelect = function onSelect($item, $model, $label, $event) {
@@ -24,6 +28,7 @@ function addExternalPayment(externalPayments, _) {
                 .getById({id:$model.id})
                 .$promise
                 .then(function (data) {
+                    data.amount=Number(data.amount);
                     _.assignIn($scope.document, data);
                 })
         };
