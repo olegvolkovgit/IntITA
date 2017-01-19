@@ -121,8 +121,11 @@ class Mailbox extends CActiveRecord
 	 */
 
 	private function hashPassword($password){
+        $cryptAgorythm = Yii::app()->params['dovecotPasswordScheme'];
+        if (Yii::app()->params['dovecotPasswordScheme']=='sha')
+            $cryptAgorythm = 'sha1';
         $salt = substr(sha1(rand()), 0, 16);
-        return "{SSHA}" . base64_encode(hash('sha1', $password . $salt, true) . $salt);
+        return "{S".strtoupper(Yii::app()->params['dovecotPasswordScheme'])."}" . base64_encode(hash($cryptAgorythm, $password . $salt, true) . $salt);
     }
 
     public function setPassword($password){
