@@ -24,7 +24,8 @@ class SchedulerTasks extends CActiveRecord implements ITask
     const STATUSPROGRESS = 2;
     const STATUSOK = 3;
     const STATUSERROR = 4;
-
+    const STATUSEDIT = 5;
+    const STATUSCANCEL = 6;
     /**
      * Repeat task constant
      */

@@ -35,4 +35,3 @@ $newModulesCount = count(UserTrainer::modulesWithoutConsult($user));
         </div>
     </div>
 </div>
-

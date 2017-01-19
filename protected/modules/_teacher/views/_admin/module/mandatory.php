@@ -7,7 +7,7 @@
 */
 $modules = CourseModules::availableMandatoryModules($course->course_ID, $module->module_ID);
 ?>
-<form onsubmit="addMandatory('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addMandatoryModule'); ?>');return false;"
+<form ng-controller="mandatoryModulesCtrl" ng-submit="addMandatory('<?php echo Yii::app()->createUrl('/_teacher/_admin/module/addMandatoryModule'); ?>')"
     name="add-accessModule">
     <fieldset>
         <div class="col-md-8">
@@ -41,6 +41,9 @@ $modules = CourseModules::availableMandatoryModules($course->course_ID, $module-
             </div>
             <div class="form-group">
                 <input class="btn btn-primary" type="submit" value="Задати попередній модуль">
+                <a type="button" class="btn btn-default" ng-click='back()'>
+                    Назад
+                </a>
             </div>
         </div>
 </form>

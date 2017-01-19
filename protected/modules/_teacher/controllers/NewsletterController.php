@@ -10,12 +10,24 @@ class NewsletterController extends TeacherCabinetController
 {
 
     public function hasRole(){
-        return (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
+        return (Yii::app()->user->model->isAdmin()
+                || Yii::app()->user->model->isAccountant()
+                || Yii::app()->user->model->isTrainer()
+                || Yii::app()->user->model->isAuthor()
+                || Yii::app()->user->model->isContentManager()
+                || Yii::app()->user->model->isTeacherConsultant()
+                || Yii::app()->user->model->isSuperVisor()
+        );
     }
 
     public function actionIndex()
     {
         $this->renderPartial('index');
+    }
+
+    public function actionView()
+    {
+        $this->renderPartial('view');
     }
 
     public function actionGetRoles(){
@@ -77,4 +89,52 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionGetGroupsById(){
+        if (isset($_POST['groups'])){
+        $models = OfflineGroups::model()->findAllByPk($_POST['groups']);
+        $result = [];
+        if (isset($models)){
+            foreach ($models as $model){
+                array_push($result,['id'=>$model->id,'name'=>$model->name]);
+            }
+        }
+        echo json_encode($result);
+        }
+    }
+
+    public function actionGetSubGroupsById(){
+        if (isset($_POST['subGroups'])){
+            $models = OfflineSubgroups::model()->with(['groupName'])->findAllByPk($_POST['subGroups']);
+            $result = [];
+            if (isset($models)){
+                foreach ($models as $model){
+                    array_push($result,['id'=>$model->id,'name'=>$model->name, 'groupName' =>$model->groupName->name ]);
+                }
+            }
+            echo json_encode($result);
+        }
+    }
+
+    public function actionGetRolesById(){
+        if (isset($_POST['roles'])){
+            $roles = $_POST['roles'];
+            $result = [];
+            foreach ($roles as $role)
+            {
+                array_push($result,['id' =>$role, 'name'=>Role::getInstance($role)->title()]);
+            }
+            echo json_encode($result);
+        }
+    }
+
+    public function actionGetEmails(){
+
+        $userEmails = [];
+        array_push($userEmails,array('email'=>Config::getNewsletterMailAddress()));
+        $mail = Teacher::model()->findByPk(Yii::app()->user->id)->corporate_mail;
+        if ($mail)
+            array_push($userEmails,array('email'=>$mail));
+        echo json_encode($userEmails);
+
+    }
 }

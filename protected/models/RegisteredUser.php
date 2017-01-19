@@ -22,6 +22,8 @@ class RegisteredUser
     private $_isTeacher = false;
     private $_roleAttributes = array();
 
+    public $lectureAccessErrorMessage;
+    
     public function __construct(StudentReg $registrationData)
     {
         $this->registrationData = $registrationData;
@@ -192,6 +194,22 @@ class RegisteredUser
         return $this->hasRole(UserRoles::AUTHOR);
     }
 
+    public function isAuthorModule($moduleId)
+    {
+        if($this->isAuthor() && Yii::app()->db->createCommand('select idTeacher from teacher_module where idModule='.$moduleId.
+            ' and idTeacher='.$this->id.' and end_time IS NULL')->queryScalar())
+            return true;
+        else return false;
+    }
+
+    public function isTeacherConsultantModule($moduleId)
+    {
+        if ($this->isTeacherConsultant() && !empty(Yii::app()->db->createCommand('select id_module from teacher_consultant_module where id_module=' . $moduleId .
+            ' and id_teacher=' . $this->id . ' and end_date IS NULL')->queryAll()))
+            return true;
+        else return false;
+    }
+
     public function isSuperVisor()
     {
         return $this->hasRole(UserRoles::SUPERVISOR);
@@ -201,7 +219,23 @@ class RegisteredUser
     {
         return $this->isContentManager();
     }
-    
+
+    public function coworkerHasModuleAccess(Module $module)
+    {
+        if ($this->isAuthorModule($module->module_ID)) {
+            return true;
+        }
+
+        if ($this->isTeacherConsultantModule($module->module_ID)) {
+            return true;
+        }
+
+        if ($this->isAdmin() || $this->isContentManager())
+            return true;
+
+        return false;
+    }
+
     public function hasRole($role)
     {
         return in_array($role, $this->getRoles());
@@ -304,57 +338,30 @@ class RegisteredUser
         return $this->isStudent() && $this->id!=$id;
     }
 
-    public function hasLectureAccess(Lecture $lecture, $editMode = false, $idCourse = 0,$freeModule=false){
-        $enabledLessonOrder = Lecture::getLastEnabledLessonOrder($lecture->idModule);
-        if ($this->isAdmin() || $editMode||$this->isContentManager()) {
-            return true;
-        }
-        if ($this->isTeacherConsultant()) {
-            $consult = new TeacherConsultant();
-            if($consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
+    public function hasLectureAccess(Lecture $lecture, $idCourse = 0){
+        $enabledLessonOrder = $lecture->module->getLastAccessLectureOrder();
+
+        if (!$this->coworkerHasModuleAccess($lecture->module)) {
+            if(!$lecture->module->getModuleStatus($idCourse)){
+                $this->lectureAccessErrorMessage=$lecture->module->errorMessage;
+                return false;
             }
-        }
-        if($idCourse!=0){
-            $course = Course::model()->findByPk($idCourse);
-            if(!$course->status)
-                throw new \application\components\Exceptions\IntItaException('403', Yii::t('lecture', '0811'));
-        }
-        if ($lecture->module->status==Module::DEVELOP) {
-            throw new CHttpException(403, Yii::t('lecture', '0894'));
-        }
-        if ($freeModule) {
-            if ($lecture->order > $enabledLessonOrder)
-                throw new CHttpException(403, Yii::t('errors', '0646'));
-            else return true;
-        }
-        if (!($lecture->isFree)) {
-            $modulePermission = new PayModules();
-            if (!$modulePermission->checkModulePermission(Yii::app()->user->getId(), $lecture->idModule, array('read')) &&
-                !$lecture->module->checkPaidAccess(Yii::app()->user->getId()))
-                throw new CHttpException(403, Yii::t('errors', '0139'));
-            if ($lecture->order > $enabledLessonOrder)
-                throw new CHttpException(403, Yii::t('errors', '0646'));
-        } else {
-            if ($lecture->order > $enabledLessonOrder)
-                throw new CHttpException(403, Yii::t('errors', '0646'));
+            if(!$lecture->isFree && !$lecture->module->checkPaidAccess($this->id)){
+                $this->lectureAccessErrorMessage=Yii::t('exception', '0869');
+                return false;
+            }else{
+                if ($lecture->order>$enabledLessonOrder){
+                    $this->lectureAccessErrorMessage=Yii::t('exception', '0870');
+                    return false;
+                }
+            }
         }
 
         return true;
     }
-
-    public function hasLecturePagesAccess(Lecture $lecture, $editMode = false){
-        if ($this->isAdmin() || $editMode || $this->isContentManager()) {
-            return true;
-        }
-        if ($this->isTeacherConsultant()) {
-            $consult = new TeacherConsultant();
-            if($consult->checkModule($this->registrationData->id, $lecture->idModule)){
-                return true;
-            }
-        }
-
-        return false;
+    
+    public function hasLecturePagesAccess(Lecture $lecture){
+        return $this->coworkerHasModuleAccess($lecture->module);
     }
 
     public function lastLink()

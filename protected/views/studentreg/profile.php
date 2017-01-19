@@ -76,6 +76,17 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                             <p ng-if="profileData.email"><span class="colorP"><?php echo Yii::t('profile', '0101') ?></span>{{profileData.email}}
                             </p>
                         </div>
+                        <?php if ($owner) { ?>
+                        <div class="aboutInfo">
+                            <p ng-if="profileData.corporate_mail"><span class="colorP"><?php echo Yii::t('profile', '0101') ?>(корпоративна)</span>{{profileData.corporate_mail}}
+                                <button type="button" class="btn btn-outline btn-primary btn-xs"
+                                        onclick="window.location.href='/profile/activateMail'"
+                                        ng-show="profileData.mailActive==0">
+                                    Активувати
+                                </button>
+                            </p>
+                        </div>
+                        <?php }?>
                         <div class="spoiler" ng-click="spoiler('spoilerContent','middle')">
                             {{spoilerTitle}}
                             <span id='trg2'>&#9660;</span>
@@ -107,8 +118,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
                                         class="colorP"><?php echo Yii::t('profile', '0105') ?></span>{{profileData.aboutUs}}</p>
                             </div>
                             <div class="aboutInfo">
-                                <p ng-if="profileData.educform && !profileData.teacher"><span
-                                        class="colorP"><?php echo Yii::t('profile', '0106') ?></span>{{profileData.educform}}
+                                <p ng-if="profileData.educform && !profileData.teacher">
+                                    <span class="colorP"><?php echo Yii::t('profile', '0106') ?></span>
+                                    <?php echo $post->getEducationFormStr(); ?>
                                 </p>
                             </div>
                             <div class="aboutInfo">
@@ -145,7 +157,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             <hr class="lineUnderTab">
             <div class="tabsContent">
                 <div id="myCourse">
-                    <?php $this->renderPartial('_mycourse', array('user' => $user, 'owner'=>$owner)); ?>
+                    <?php
+                    if($user->isStudent()) $this->renderPartial('_mycourse', array('user' => $user, 'owner'=>$owner));
+                    ?>
                 </div>
                 <div id="myRatting">
                     <?php $this->renderPartial('_myRatting', array('user' => $user,'owner'=>$owner)); ?>

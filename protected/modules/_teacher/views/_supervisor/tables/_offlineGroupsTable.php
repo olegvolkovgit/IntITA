@@ -10,10 +10,10 @@
                 <a ng-href="#/supervisor/offlineGroup/{{row.id}}">{{row.name}}</a>
             </td>
             <td data-title="'Дата створення'" filter="{'start_date': 'text'}" sortable="'start_date'">{{row.start_date}}</td>
-            <td data-title="'Спеціалізація'" filter="{'specializationName.name': 'text'}" sortable="'specializationName.name'">{{row.specializationName.name}}</td>
+            <td data-title="'Спеціалізація'" filter="{'specializationName.title_ua': 'text'}" sortable="'specializationName.title_ua'">{{row.specializationName.title_ua}}</td>
             <td data-title="'Місто'" filter="{'cityName.title_ua': 'text'}" sortable="'cityName.title_ua'">{{row.cityName.title_ua}}</td>
-            <td data-title="'Куратор групи'" filter="{'userCurator.fullName': 'text'}" sortable="'userCurator.fullName'">
-                <a ng-href="#/supervisor/userProfile/{{row.id_user_curator}}">{{row.userCurator.fullName}} ({{row.userCurator.email}})</a>
+            <td data-title="'Керівник чату групи'" filter="{'userChatAuthor.fullName': 'text'}" sortable="'userChatAuthor.fullName'">
+                <a ng-href="#/supervisor/userProfile/{{row.chat_author_id}}">{{row.userChatAuthor.fullName}} ({{row.userChatAuthor.email}})</a>
             </td>
         </tr>
     </table>

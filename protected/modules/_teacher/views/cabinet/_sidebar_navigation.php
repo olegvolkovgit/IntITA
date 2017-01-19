@@ -29,7 +29,39 @@
                     <span ng-cloak class="label label-success" ng-if="messages.countOfNewMessages > 0">{{messages.countOfNewMessages}}</span>
                 </a>
             </li>
+            <?php if ($model->isTeacher()) { ?>
+            <li>
+                <a href="javascript:void(0)" onclick="window.open('/cabinet/mail'); return false">
+                    <i class="fa fa-at fa-fw"></i> Електронна скринька
+                    <span ng-cloak class="label label-success" ng-if="messages.imapMessages > 0">{{messages.imapMessages}}</span>
+                </a>
 
+            </li>
+            <?php } ?>
+
+            <?php if ($model->isTeacher() || $model->isAdmin()
+                    || $model->isAccountant()
+                    || $model->isTrainer()
+                    || $model->isAuthor()
+                    || $model->isContentManager()
+                    || $model->isTeacherConsultant()
+                    || $model->isSuperVisor()) {?>
+            <li>
+                    <a href="javascript:void(0)">
+                    <i class="fa fa-rss fa-fw"></i>Керування розсилками<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="#/newsletter/create">
+                            Розіслати повідомлення</a>
+                    </li>
+                    <li><a href="#/newsletter/templates">
+                            Шаблони повідомлень</a>
+                    </li>
+                    <li><a href="#/scheduler/tasks">
+                            Переглянути заплановані завдання</a>
+                    </li>
+                </ul>
+            </li>
+            <?php }?>
             <?php
             $roles = Yii::app()->user->model->getRoles();
             foreach($roles as $role) {

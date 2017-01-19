@@ -46,7 +46,7 @@ class Module extends CActiveRecord implements IBillableObject
     const ACTIVE = 0;
     const DELETED = 1;
 
-
+    public $errorMessage;
     /**
      * @return string the associated database table name
      */
@@ -368,7 +368,7 @@ class Module extends CActiveRecord implements IBillableObject
         $hours = ($this->hours_in_day != 0) ? $this->hours_in_day : 3;
         $days = ($this->days_in_week != 0) ? $this->days_in_week : 2;
 
-        return round($hours * $days);
+        return round($hours * $days / Config::getLectureDurationInHours());
     }
 
     public function statusTitle()
@@ -1044,6 +1044,7 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->addCondition('t.isPrint = 1 and tcs.id_student = :id and tcs.end_date IS NULL
         and tcm.end_date IS NULL and m.module_ID=:module');
         $criteria->params = array(':id' => $studentId, ':module'=>$this->module_ID);
+        $criteria->group = 't.teacher_id';
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
             'pagination' => false,
@@ -1102,5 +1103,56 @@ class Module extends CActiveRecord implements IBillableObject
             }
         }
         return $access;
+    }
+
+    public function getLastAccessLectureOrder()
+    {
+        $user = Yii::app()->user->getId();
+        $moduleAccess=$this->checkPaidAccess($user);
+        
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'lectures';
+        $criteria->addCondition('idModule=' . $this->module_ID . ' and `order`>0');
+        $criteria->order = '`order` ASC';
+        $sortedLectures = Lecture::model()->findAll($criteria);
+        
+        foreach ($sortedLectures as $key => $lecture) {
+            if (!$lecture->isFinished($user) || !$moduleAccess && !$lecture->isFree) {
+                return $lecture->order;
+            }
+        }
+        if (empty($sortedLectures))
+            return 0;
+        else return $sortedLectures[count($sortedLectures) - 1]['order'];
+    }
+
+    public function getModuleStatus($idCourse=0)
+    {
+        if ($idCourse && Course::model()->findByPk($idCourse)->status==Course::DEVELOP) {
+            $this->errorMessage=Yii::t('lecture', '0811');
+            return false;
+        }
+        if ($this->status==Module::DEVELOP) {
+            $this->errorMessage=Yii::t('lecture', '0894');
+            return false;
+        }
+        
+        return true;
+    }
+
+    public static function checkMandatoryModule($idCourse,$idModule,$mandatory)
+    {
+        $nextMandatory=$mandatory;
+        $i=0;
+        do {
+            $nextMandatory=CourseModules::model()->findByAttributes(array(
+                'id_course' => $idCourse,
+                'id_module' => $nextMandatory
+            ))->mandatory_modules;
+            if($nextMandatory==$idModule) return false;
+            $i=$i+1;
+        } while ($nextMandatory);
+
+        return true;
     }
 }

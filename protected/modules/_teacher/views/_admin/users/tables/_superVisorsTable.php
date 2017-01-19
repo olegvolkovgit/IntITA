@@ -3,6 +3,9 @@
     <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/supervisor">
         Призначити supervisor'а
     </a>
+    <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
+       href="/_teacher/_admin/users/export/type/supervisors">
+    </a>
     <br>
     <br>
     <div class="panel panel-default">

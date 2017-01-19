@@ -19,7 +19,7 @@
 				<div class="form-group">
 					<label>Тема повідомлення</label>
 					<br>
-					<input type="text" class="form-control" name="title" placeholder="Введіть назву шаблону"
+					<input type="text" class="form-control" name="title" placeholder="Введіть тему повідомлення"
 						   size="90" required ng-model="mailTemplateModel.subject">
 					<br>
 				</div>

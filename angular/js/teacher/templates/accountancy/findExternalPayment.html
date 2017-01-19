@@ -1,29 +1,26 @@
 <div class="form-horizontal m-t-10">
-    <div class="form-group row">
-        <div class="input-group m-b-10">
-            <span ng-show="!loading && !noResults" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-pencil"></i></span>
-            <span ng-show="loading" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-refresh"></i></span>
-            <span ng-show="noResults" class="input-group-addon" id="gl_icon"><i
-                    class="glyphicon glyphicon-remove"></i></span>
-            <input
-                    aria-describedby="gl_icon"
-                    type="text"
-                    ng-model="selected"
-                    uib-typeahead="typeahead as formatLabel(typeahead) for typeahead in getExternalPaymentTypeahead($viewValue)"
-                    typeahead-loading="loading"
-                    typeahead-no-results="noResults"
-                    typeahead-on-select="onSelect($item, $model, $label, $event)"
-                    class="form-control">
-
-        </div>
-
+    <div class="input-group m-b-10">
+        <span ng-show="!loading && !noResults" class="input-group-addon" id="gl_icon"><i
+                class="glyphicon glyphicon-pencil"></i></span>
+        <span ng-show="loading" class="input-group-addon" id="gl_icon"><i
+                class="glyphicon glyphicon-refresh"></i></span>
+        <span ng-show="noResults" class="input-group-addon" id="gl_icon"><i
+                class="glyphicon glyphicon-remove"></i></span>
+        <input
+                id="selectedPayment"
+                aria-describedby="gl_icon"
+                type="text"
+                ng-model="selected"
+                uib-typeahead="typeahead as formatLabel(typeahead) for typeahead in getExternalPaymentTypeahead($viewValue)"
+                typeahead-loading="loading"
+                typeahead-no-results="noResults"
+                typeahead-on-select="onSelect($item, $model, $label, $event)"
+                class="form-control">
     </div>
 
     <div class="form-group">
         <div class="col-md-4">
-            <label for="docNumber" class="control-label">Компанія</label>
+            <label for="docNumber" class="control-label">Отримувач</label>
         </div>
         <div class="col-md-8">
             <input type="text" id="company" class="form-control" ng-model="document.company.title" readonly>
@@ -41,6 +38,24 @@
 
     <div class="form-group">
         <div class="col-md-4">
+            <label for="payerName" class="control-label">Назва платника</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="payerName" class="form-control" ng-model="document.payerName" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
+            <label for="payerId" class="control-label">Ідентифікаційний код</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="payerId" class="form-control" ng-model="document.payerId" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
             <label for="docDate" class="control-label">Дата документу</label>
         </div>
         <div class="col-md-8">
@@ -50,7 +65,7 @@
 
     <div class="form-group">
         <div class="col-md-4">
-            <label for="amount" class="control-label">Сума</label>
+            <label for="amount" class="control-label">Загальна сума</label>
         </div>
         <div class="col-md-8">
             <input id="amount" class="form-control" rows="3" ng-model="document.amount" readonly>
@@ -59,10 +74,19 @@
 
     <div class="form-group">
         <div class="col-md-4">
+            <label for="remainder" class="control-label">Невикористана сума</label>
+        </div>
+        <div class="col-md-8">
+            <input id="remainder" class="form-control" rows="3" ng-model="document.remainder" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
             <label for="docPurpose" class="control-label">Призначення платежу</label>
         </div>
         <div class="col-md-8">
-            <textarea id="docPurpose" class="form-control" rows="3" ng-model="document.documentPurpose" readonly></textarea>
+            <textarea style="resize:none" id="docPurpose" class="form-control" rows="3" ng-model="document.documentPurpose" readonly></textarea>
         </div>
     </div>
 
@@ -71,7 +95,7 @@
             <label for="docComment">Коментар</label>
         </div>
         <div class="col-md-8">
-            <textarea id="docComment" class="form-control" rows="3" ng-model="document.comment" readonly></textarea>
+            <textarea style="resize:none" id="docComment" class="form-control" rows="3" ng-model="document.comment" readonly></textarea>
         </div>
     </div>
 

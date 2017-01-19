@@ -29,7 +29,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                         } ?>
                     </ul>
                 <?php } else {
-                    echo "Немає проплачених курсів.";
+                    echo "Немає доступних курсів.";
                 }?>
             </td>
         </tr>
@@ -54,7 +54,7 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                         } ?>
                     </ul>
                 <?php } else {
-                    echo "Немає проплачених модулів.";
+                    echo "Немає доступних модулів.";
                 }?>
             </td>
         </tr>

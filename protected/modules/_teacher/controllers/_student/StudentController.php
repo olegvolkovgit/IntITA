@@ -5,7 +5,8 @@ class StudentController extends TeacherCabinetController
 
     public function hasRole()
     {
-        return Yii::app()->user->model->isStudent();
+        $allowedUserActions=['payCourse','payModule','publicOffer','newCourseAgreement','newModuleAgreement'];
+        return Yii::app()->user->model->isStudent() || (!Yii::app()->user->isGuest && in_array(Yii::app()->controller->action->id,$allowedUserActions));
     }
 
     public function actionIndex($id)
@@ -43,9 +44,9 @@ class StudentController extends TeacherCabinetController
         $adapter = new NgTableAdapter('Consultationscalendar',$params,['user','teacher','lecture']);
         $adapter->mergeCriteriaWith($criteria);
         $records = $adapter->getData();
-        //$access ="";
         foreach ($records['rows'] as &$record){
-            $access=PayModules::model()->checkModulePermission(Yii::app()->user->getId(), $record['lecture']["idModule"], array('read'));
+            $module=Module::model()->findByPk($record['lecture']["idModule"]);
+            $access=$module->checkPaidAccess(Yii::app()->user->getId());
             if ($access){
                 if(date('H:i')< date('H:i',strtotime($record["start_cons"]))){
                     $record['status'] = 'очікування';
@@ -128,22 +129,19 @@ class StudentController extends TeacherCabinetController
     public function actionGetPayCoursesList()
     {
         $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $adapter = new NgTableAdapter('PayCourses',$_GET);
+        $criteria->addCondition('userId=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('UserServiceAccess',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
-        //echo PayCourses::getPayCoursesListByUser();
     }
 
     public function actionGetPayModulesList()
     {
         $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $adapter = new NgTableAdapter('PayModules',$_GET);
+        $criteria->addCondition('userId=' . Yii::app()->user->getId());
+        $adapter = new NgTableAdapter('UserServiceAccess',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode(array_merge($adapter->getData(),['usd'=> Config::getDollarRate()]));
-
-        //echo PayModules::getPayModulesListByUser();
     }
 
     public function actionGetAgreementsList()
@@ -153,7 +151,6 @@ class StudentController extends TeacherCabinetController
         $adapter = new NgTableAdapter('UserAgreements',$_GET);
         $adapter->mergeCriteriaWith($criteria);
         echo json_encode($adapter->getData());
-        //echo UserAgreements::agreementsListByUser();
     }
 
     public function actionAgreement($id)
@@ -186,10 +183,6 @@ class StudentController extends TeacherCabinetController
     
     public function actionPayCourse($id,$form,$schemeId)
     {
-        if(!Yii::app()->user->model->isStudent()){
-            Yii::app()->user->model->setRole(UserRoles::STUDENT);
-        }
-
         if($form=='online') $educForm=EducationForm::ONLINE;
         else if($form=='offline') $educForm=EducationForm::OFFLINE;
         else throw new \application\components\Exceptions\IntItaException(400);
@@ -214,9 +207,6 @@ class StudentController extends TeacherCabinetController
 
     public function actionPayModule($id,$form,$schemeId)
     {
-        if(!Yii::app()->user->model->isStudent()){
-            Yii::app()->user->model->setRole(UserRoles::STUDENT);
-        }
         if($form=='online') $educForm=EducationForm::ONLINE;
         else if($form=='offline') $educForm=EducationForm::OFFLINE;
         else throw new \application\components\Exceptions\IntItaException(400);
@@ -241,7 +231,6 @@ class StudentController extends TeacherCabinetController
 
     public function actionPublicOffer($course, $module, $type, $form, $schema)
     {
-
         $this->renderPartial('/_student/agreement/publicOffer', array(
             'course' => $course,
             'module' => $module,
@@ -263,12 +252,22 @@ class StudentController extends TeacherCabinetController
         ));
     }
 
-    public function actionGetInvoicesByAgreement($id)
+    public function actionGetInvoicesByAgreement()
     {
-        echo Invoice::invoicesListByAgreement($id);
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('Invoice', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = "agreement_id= ".$_GET['id'];
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
     }
 
     public function actionNewCourseAgreement(){
+        if(!Yii::app()->user->model->isStudent()){
+            Yii::app()->user->model->setRole(UserRoles::STUDENT);
+        }
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $educationForm = Yii::app()->request->getPost('educationForm');
@@ -285,6 +284,9 @@ class StudentController extends TeacherCabinetController
     }
 
     public function actionNewModuleAgreement(){
+        if(!Yii::app()->user->model->isStudent()){
+            Yii::app()->user->model->setRole(UserRoles::STUDENT);
+        }
         $user = Yii::app()->user->getId();
         $course = Yii::app()->request->getPost('course', 0);
         $module = Yii::app()->request->getPost('module', 0);
@@ -312,12 +314,9 @@ class StudentController extends TeacherCabinetController
             $subgroups[$key]['group']=$subgroup->group->name;
             $subgroups[$key]['subgroup']=$subgroup->subgroupName->name;
             $subgroups[$key]['info']=$subgroup->subgroupName->data;
-            $subgroups[$key]['groupCurator']=$subgroup->group->userCurator->userNameWithEmail();
-            $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userCurator->email;
-            $subgroups[$key]['groupCuratorId']=$subgroup->group->userCurator->id;
-            $subgroups[$key]['subgroupCurator']=$subgroup->subgroupName->userCurator->userNameWithEmail();
-            $subgroups[$key]['subgroupCuratorEmail']=$subgroup->subgroupName->userCurator->email;
-            $subgroups[$key]['subgroupCuratorId']=$subgroup->subgroupName->userCurator->id;
+            $subgroups[$key]['groupCurator']=$subgroup->group->userChatAuthor->userNameWithEmail();
+            $subgroups[$key]['groupCuratorEmail']=$subgroup->group->userChatAuthor->email;
+            $subgroups[$key]['groupCuratorId']=$subgroup->group->userChatAuthor->id;
 
             if($subgroup->trainer){
                 $subgroups[$key]['trainer']=trim($subgroup->trainer->trainer0->getLastFirstName().' '.($subgroup->trainer->trainer0->user->email));

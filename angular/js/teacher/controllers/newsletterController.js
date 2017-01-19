@@ -38,7 +38,7 @@ angular
     })
 ;
 
-function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
+function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $stateParams) {
 
     $scope.taskTypes = [{
         name: 'Негайно',
@@ -81,7 +81,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
         minDate: $scope.date,
         showWeeks: true
     };
-
+    $scope.emailSelected = [];
     function init() {
         $scope.selectedRecipients = null;
         $scope.newsletterType = null;
@@ -91,15 +91,26 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
         $scope.taskRepeat = $scope.taskRepeatTypes[0].value;
         $scope.hours = 1;
         $scope.minutes = 1;
+
     }
-    init();
+    
+    function getUserMailboxes() {
+        $resource(basePath+'/_teacher/newsletter/getEmails').query().$promise.then(function (response) {
+            if (!$state.is('scheduler/task/edit/:id'))
+            {
+                $scope.emailSelected.email = response[0].email;
+            }
+            return $scope.userEmails = response;
+        });
+    }
+
+
 
     var rolesArray = $resource(basePath+'/_teacher/newsletter/getRoles');
     var groupsArray =$resource(basePath+'/_teacher/newsletter/getGroups');
     var subGroupsArray =$resource(basePath+'/_teacher/newsletter/getSubGroups');
     var usersArray = $resource(basePath+'/_teacher/newsletter/getUserEmail');
     $scope.getRoles = function(query, querySelectAs) {
-        console.log(query);
       return rolesArray.query().$promise.then(function(response) {
             return response;
         });
@@ -128,7 +139,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
     };
 
     $scope.send = function () {
-        if ($scope.newsletterForm.$valid && $scope.newsletterForm.$dirty && $scope.newsletterType) {
+        if ($scope.newsletterForm.$valid && $scope.newsletterType) {
             var recipients = [];
             angular.forEach($scope.selectedRecipients, function (value) {
                 switch ($scope.newsletterType) {
@@ -155,6 +166,7 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
                         "recipients": recipients,
                         "subject": $scope.subject,
                         "message": $scope.message,
+                        "email": $scope.emailSelected.email
                     },
                     "taskType": $scope.taskType,
                     "taskRepeat": $scope.taskRepeat,
@@ -185,4 +197,73 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter) {
     $scope.open1 = function() {
         $scope.open = !$scope.open;
     };
+
+    function loadModel(id) {
+        $http.get(basePath+'/_teacher/schedulerTasks/getModel?id='+id).
+        then(function (response) {
+            $scope.model = response.data;
+            parameters = JSON.parse($scope.model.parameters);
+            var recipients  = parameters.recipients;
+            $scope.newsletterType = parameters.type;
+            switch ($scope.newsletterType){
+                case 'users':
+                    $scope.selectedRecipients = [];
+                    for (var item in recipients){
+                        $scope.selectedRecipients.push({email:recipients[item]});
+                    }
+                    break;
+                case 'groups':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getGroupsById',
+                        data: $jq.param({groups:recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    })
+                    break;
+                case 'subGroups':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getSubGroupsById',
+                        data: $jq.param({subGroups:recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    })
+                    break;
+                case 'roles':
+                    $http({
+                        method: 'POST',
+                        url: basePath + '/_teacher/newsletter/getRolesById',
+                        data: $jq.param({roles:recipients}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).success(function (response) {
+                        $scope.selectedRecipients = response;
+                    });
+                    break;
+            }
+            $scope.emailSelected.email = parameters.email;
+            $scope.subject = parameters.subject;
+            $scope.message = parameters.message;
+        });
+    }
+
+    if ($state.is('scheduler/task/:id') || $state.is('scheduler/task/edit/:id')){
+        if ($state.is('scheduler/task/edit/:id'))
+        {
+            getUserMailboxes();
+        }
+        loadModel($stateParams.id);
+    }
+    else {
+        getUserMailboxes();
+        init();
+    };
+
+    $scope.editNewsletter = function(modelId){
+        $state.go('scheduler/task/edit/:id',{id:modelId});
+    }
+
+
 }

@@ -92,7 +92,7 @@
                     <label>Кориcтувачі</label>
                     <br>
                     <oi-select
-                        oi-options="user.email for user in getUsers($query)"
+                        oi-options="user.email for user in getUsers($query, $selectedAs)"
                         ng-model="selectedRecipients"
                         multiple
                         placeholder="Кому"
@@ -103,7 +103,13 @@
                      }"
                     ></oi-select>
                 </div>
-
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Електронна пошта для розсилки</label>
+                    <select class="form-control" id="selectSchedulerType"
+                            ng-model="emailSelected"
+                            ng-options="emailSelected.email for emailSelected in userEmails track by emailSelected.email">
+                    </select>
+                </div>
                 <div class="form-group col-md-8" id="receiver">
                 </div>
                 <div class="form-group col-md-8">
@@ -163,7 +169,7 @@
                             ng-click="cancel()">
                         Скасувати
                     </button>
-                    <button type="reset" class="btn btn-default"
+                    <button class="btn btn-default"
                             ng-bootbox-title="Оберіть шаблон повідомлення"
                             ng-bootbox-custom-dialog
                             ng-bootbox-class-name="mailTemplate"

@@ -16,6 +16,7 @@ interface IPaymentCalculator {
     public function getSumma(IBillableObject $payObject);
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate);
     public function getInvoicesList(IBillableObject $payObject,  DateTime $startDate);
+    public function getDuration(DateTime $startDate);
 
     /**
      * Returns discount, payments count, translates

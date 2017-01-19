@@ -47,7 +47,10 @@
                     }
                 }
                 ?>
-                <td class="examCell" title=<?php echo Course::getMessage($message, 'exam') ?>>E</td>
+                <td class="examCell<?php echo $modules[$i]->moduleInCourse->lastLecture()->lectureTypeSymbol() ?>"
+                    title='<?php echo $modules[$i]->moduleInCourse->lastLecture()->lectureTypeTooltip() ?>'>
+                    <?php echo $modules[$i]->moduleInCourse->lastLecture()->lectureTypeSymbol() ?>
+                </td>
                 <?php
                 if (Course::getCourseDuration($tableCells) == $j) {
                     ?>

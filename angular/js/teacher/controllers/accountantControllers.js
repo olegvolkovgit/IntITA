@@ -75,15 +75,15 @@ angular
         'userService',
         'operationsService',
         'externalPaymentsService',
-        function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments) {
-
+        'ngToast',
+        function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments, ngToast) {
             $scope.typeaheadProviders = {
                 user: {
                     name: 'користувачу',
                     searchField: 'email',
                     provider: user,
                     label: function (user) {
-                        return user ? ((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ', ' + (user.email || '')) : '';
+                        return user ? (((user.firstName || '' ) + ' ' + (user.middleName || '') + ' ' + (user.secondName || '') + ' <' + (user.email || ''))+'>').trim(): '';
                     },
                     onSelect: function ($model) {
                         $scope.operation.userId = $model.id;
@@ -104,6 +104,7 @@ angular
                         return agreements ? ((agreements.number || '') + ' від ' + (agreements.create_date || '')) : '';
                     },
                     onSelect: function ($model) {
+                        $scope.clearOperation();
                         $scope.operation.agreementId = $model.id;
                         $scope.operation.userId = $model.user_id.user_id;
                         $scope.updateUserData({id: $model.user_id.user_id});
@@ -117,7 +118,8 @@ angular
                     searchField: 'number',
                     provider: invoices,
                     label: function (invoice) {
-                        return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '')) : '';
+                        return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '') +
+                        ' (погашено: ' +invoice.paidAmount+ ')') : '';
                     },
                     onSelect: function ($model) {
                         $scope.operation.invoiceId = $model.id;
@@ -140,6 +142,7 @@ angular
                 },
                 removeInvoice: function removeInvoice(id) {
                     _.remove($scope.operation.invoices, function (item) {
+                        $scope.operation.sum=$scope.operation.sum-item.amount;
                         return item.id == id
                     });
                 }
@@ -158,28 +161,57 @@ angular
                 $scope.agreementsList = [];
                 $scope.invoicesList = [];
                 $scope.selected = '';
-                $scope.messages = [];
+                $scope.toastMessages = [];
             };
             $scope.initData();
 
             $scope.clearDocument = function clearDocument($event, $selectedIndex) {
                 $scope.externalPayment = {};
             };
+            $scope.clearOperation = function() {
+                $scope.operation.invoiceId = null;
+                $scope.operation.invoices = [];
+                $scope.operation.sum = 0;
+            };
 
             $scope.invoicesSum = function () {
                 return $scope.operation.invoices.reduce(function (sum, item) {
-                    return sum += Number(item.amount)
+                    $scope.operation.sum=sum += Number(item.amount);
+                    return $scope.operation.sum;
                 }, 0);
             };
 
             $scope.cleanUp = function cleanUp() {
                 $scope.initData();
+                angular.element(document.querySelector('#selectedPayment')).val('');
             };
 
             $scope.invoiceById = function invoiceById(id) {
                 return $scope.invoicesList.filter(function (item) {
                     return item.id == id
                 })[0];
+            };
+
+            $scope.externalPaymentsReload = function (externalPaymentId) {
+                externalPayments
+                    .getById({id:externalPaymentId})
+                    .$promise
+                    .then(function (data) {
+                        data.amount=Number(data.amount);
+                        $scope.externalPayment=data;
+                    })
+            };
+
+            $scope.updateOperationInvoicesData = function () {
+                $scope.operation.invoices.forEach(function(item, key) {
+                    if (_.find($scope.operation.invoices, ['id', item.id]) && _.find($scope.invoicesList, ['id', item.id])) {
+                        $scope.operation.invoices[key]=_.find($scope.invoicesList, ['id', item.id]);
+                    }
+                });
+                $scope.operation.invoices.forEach(function(item, key) {
+                    if($scope.operation.invoices[key].paidAmount==$scope.operation.invoices[key].summa)
+                        $scope.operation.removeInvoice($scope.operation.invoices[key].id);
+                });
             };
 
             $scope.$watch('providerId', function (newValue, oldValue) {
@@ -191,12 +223,21 @@ angular
 
             $scope.$watch('operation.agreementId', function (newValue, oldValue) {
                 if (newValue != oldValue && newValue != null) {
-                    $scope.updateInvoiceData({'extraParams[agreement_id]': newValue});
+                    $scope.clearOperation();
+                    $scope.updateInvoiceData({'extraParams[agreement_id]': newValue})
+                        .then(function (data) {
+                            data.forEach(function(invoice) {
+                                if(invoice.paidAmount!=invoice.summa)
+                                    $scope.operation.addInvoice(invoice.id);
+                            })
+
+                    });
                 }
             });
 
             $scope.$watch('operation.userId', function (newValue, oldValue) {
                 if (newValue != oldValue && newValue != null) {
+                    $scope.clearOperation();
                     $scope.updateAgreementData({'extraParams[user_id]': newValue});
                 }
             });
@@ -222,7 +263,15 @@ angular
                             if (data.status && data.status == 'error') {
                                 return $q.reject(data);
                             } else {
-                                return data
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'success',
+                                    content:'Нове надходження коштів успішно створено'
+                                });
+                                $scope.formDirty=false;
+                                $scope.externalPayment = {};
+                                return data;
                             }
                         })
                 } else {
@@ -231,54 +280,92 @@ angular
             };
 
             $scope.createOperation = function createOperation() {
-                $scope.messages = [];
+                $scope.toastMessages='';
+                ngToast.dismiss();
                 $scope.loaderControl.show();
                 var sendData = {};
                 sendData.userId = $scope.operation.userId;
                 sendData.agreementId = $scope.operation.agreementId;
                 sendData.invoices = $scope.operation.invoices.map(function (item) {
-                    return {id: item.id, amount: item.summa}
+                    return {id: item.id, amount: item.amount}
                 });
 
                 $scope.getExternalPayment()
                     .then(
                         function success(data) {
-                            sendData.sourceId = data.id;
-                            sendData.amount = data.amount;
-                            return operations
-                                .create(null, sendData)
-                                .$promise;
+                            if(sendData.agreementId){
+                                sendData.sourceId = data.id;
+                                sendData.amount = $scope.operation.sum;
+                                return operations
+                                    .create(null, sendData)
+                                    .$promise;
+                            }
                         }
                     )
                     .then(
                         function (response) {
-                            if (response.status !== 'error') {
-                                if (response.message) {
-                                    if (_.isArray(response.message)) {
-                                        response.message.forEach(function(item) {
-                                            $scope.messages.push({type: 'success', message: item});
-                                        });
-                                    } else {
-                                        $scope.messages.push({type: 'success', message: 'Операція пройшла успішно'});
+                            if($scope.externalPayment.id)
+                                $scope.externalPaymentsReload($scope.externalPayment.id);
+                            if($scope.operation.agreementId)
+                                $scope.updateInvoiceData({'extraParams[agreement_id]': $scope.operation.agreementId})
+                                    .then(
+                                        function success() {
+                                            $scope.updateOperationInvoicesData();
+                                        }
+                                    )
+                            if(response){
+                                if (response.status !== 'error') {
+                                    if (response.message && response.message.length) {
+                                        if (_.isArray(response.message)) {
+                                            response.message.forEach(function(item) {
+                                                $scope.toastMessages+=item+'<br>';
+                                            });
+                                            ngToast.create({
+                                                dismissOnTimeout:false,
+                                                dismissButton:true,
+                                                className:'success',
+                                                content:response.message
+                                            });
+                                        } else {
+                                            ngToast.create({
+                                                dismissOnTimeout:false,
+                                                dismissButton:true,
+                                                className:'success',
+                                                content:'Операція пройшла успішно'
+                                            });
+                                        }
                                     }
+                                } else {
+                                    ngToast.create({
+                                        dismissOnTimeout:false,
+                                        dismissButton:true,
+                                        className:'danger',
+                                        content:response.message
+                                    })
                                 }
-                            } else {
-                                $scope.messages.push({type: 'danger', message: response.message});
                             }
                             $scope.loaderControl.hide();
                         })
                     .catch(
                         function (response) {
                             if (response.message) {
-                                if (_.isArray(response.message)) {
-                                    response.message.forEach(function(item) {
-                                        $scope.messages.push({type: 'danger', message: item});
-                                    });
-                                } else {
-                                    $scope.messages.push({type: 'danger', message: response.message});
-                                }
+                                $scope.formDirty=true;
+                                response.message.forEach(function(item) {
+                                    $scope.toastMessages+=item+'<br>';
+                                });
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'danger',
+                                    content : $scope.toastMessages,
+                                })
                             } else {
-                                $scope.messages.push({type: 'danger', message: 'Невдачка'});
+                                ngToast.create({
+                                    dismissOnTimeout:false,
+                                    dismissButton:true,
+                                    className:'danger',
+                                    content:"Виникла помилка"
+                                })
                             }
                             $scope.loaderControl.hide();
                         });
@@ -318,8 +405,12 @@ angular
                     .$promise
                     .then(function (data) {
                         $scope.invoicesList = data.rows.map(function (item) {
+                            item.paidAmount=0;
                             item.summa = Number(item.summa);
-                            item.amount = Number(item.summa);
+                            item.internalPayment.forEach(function(pays) {
+                                item.paidAmount=Number(item.paidAmount)+Number(pays.summa);
+                            });
+                            item.amount = item.summa-item.paidAmount;
                             return item;
                         });
                         defer.resolve(data.rows);
@@ -338,10 +429,6 @@ angular
                 if (id) {
                     $state.go('accountant/invoice/', {invoiceId: id});
                 }
-            };
-
-            $scope.closeMessage = function closeMessage(index) {
-                $scope.messages.splice(index, 1);
             };
         }])
 
@@ -500,14 +587,37 @@ angular
         }
     })
 
-    .controller('externalSourcesCtrl', function ($scope) {
-        $jq('#externalSources').DataTable({
-                "autoWidth": false,
-                language: {
-                    "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                }
+    .controller('externalSourcesTableCtrl', function ($scope, externalSourcesService, NgTableParams, $http) {
+        $scope.changePageHeader('Джерела зовнішніх коштів');
+
+        $scope.externalSourcesParams = new NgTableParams({}, {
+            getData: function (params) {
+                return externalSourcesService
+                    .getExternalSourcesList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
             }
-        );
+        });
+
+        $scope.deleteExternalSources=function (id){
+            bootbox.confirm('Ви впевнені що хочете видалити зовнішнє джерело коштів?', function(result) {
+                if (result) {
+                    $http({
+                        url: basePath+'/_teacher/_accountant/externalSources/delete',
+                        method: "POST",
+                        data: $jq.param({id: id}),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                    }).then(function successCallback(response) {
+                        $scope.externalSourcesParams.reload();
+                    }, function errorCallback() {
+                        bootbox.alert("Операцію не вдалося виконати.");
+                    });
+                }
+            });
+        }
     })
 
     .controller('cancelReasonTypeCtrl', function ($scope) {
@@ -594,7 +704,71 @@ angular
                 }
             }
         ]
-    );
+    )
+
+    .controller('externalSourceCtrl', function ($scope, $http, $stateParams, externalSourcesService) {
+        $scope.loadExternalSourceData=function(id){
+            externalSourcesService.externalSource({'id':id}).$promise
+                .then(function successCallback(response) {
+                    $scope.source=response;
+                    $scope.source.cash=Number($scope.source.cash);
+                }, function errorCallback() {
+                    bootbox.alert("Отримати дані джерела коштів не вдалося");
+                });
+        };
+        
+        if($stateParams.id){
+            $scope.modelId=$stateParams.id;
+            $scope.loadExternalSourceData($scope.modelId);
+        }
+        $scope.sendExternalSourceForm= function (scenario, name, cash, modelId) {
+            if(scenario=='create') $scope.createExternalSource(name, cash);
+            else if(scenario=='update') $scope.updateExternalSource(modelId, name, cash);
+        };
+
+        $scope.clearForm = function () {
+            $scope.source.name=null;
+            $scope.externalSourceForm.name.$setPristine();
+        };
+        
+        $scope.createExternalSource= function (name, cash) {
+            $http({
+                url: basePath+'/_teacher/_accountant/externalSources/createExternalSource',
+                method: "POST",
+                data: $jq.param({
+                    name: name,
+                    cash: cash
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+                $scope.clearForm();
+            }, function errorCallback() {
+                bootbox.alert("Створити зовнішнє джерело не вдалося. Помилка сервера.");
+            });
+        };
+
+        $scope.updateExternalSource= function (id, name, cash) {
+            $http({
+                url: basePath+'/_teacher/_accountant/externalSources/updateExternalSource',
+                method: "POST",
+                data: $jq.param({
+                    id:id,
+                    name: name,
+                    cash: cash
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.addUIHandlers(response.data);
+            }, function errorCallback() {
+                bootbox.alert("Оновити зовнішнє джерело не вдалося. Помилка сервера.");
+            });
+        };
+    })
+
+    .controller('datePickerCtrl', function ($scope) {
+        $scope.startDateOptions = new ExternalPaymentDateOptions();
+    })
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
@@ -612,5 +786,14 @@ function DateOptions () {
 }
 
 DateOptions.prototype.open = function () {
+    this.popupOpened = true;
+};
+
+function ExternalPaymentDateOptions () {
+    this.popupOpened = false;
+    this.startingDay = 1;
+}
+
+ExternalPaymentDateOptions.prototype.open = function () {
     this.popupOpened = true;
 };

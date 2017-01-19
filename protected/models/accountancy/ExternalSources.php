@@ -30,6 +30,7 @@ class ExternalSources extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
+			array('name', 'unique', 'message' => 'Джерело з такою назвою вже існує'),
 			array('cash', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>512),
 			// The following rule is used by search().
@@ -45,7 +46,7 @@ class ExternalSources extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'externalPays' => array(self::HAS_MANY, 'ExternalPays', 'source_id'),
+			'externalPays' => array(self::HAS_MANY, 'ExternalPays', 'sourceId'),
 		);
 	}
 
@@ -105,4 +106,14 @@ class ExternalSources extends CActiveRecord
         else
             return false;
     }
+
+	public function getValidationErrors() {
+		$errors=[];
+		foreach($this->getErrors() as $key=>$attribute){
+			foreach($attribute as $error){
+				array_push($errors,$error);
+			}
+		}
+		return implode(", ", $errors);
+	}
 }

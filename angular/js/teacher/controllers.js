@@ -14,10 +14,6 @@ angular
 
 angular
     .module('teacherApp')
-    .controller('studentCtrl', studentCtrl);
-
-angular
-    .module('teacherApp')
     .controller('contentManagerCtrl', contentManagerCtrl);
 
 angular
@@ -26,6 +22,10 @@ angular
 angular
     .module('teacherApp')
     .controller('editTeacherRoleCtrl', editTeacherRoleCtrl);
+
+angular
+    .module('teacherApp')
+    .controller('mailCtrl', mailCtrl);
 
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
@@ -257,7 +257,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 }).success(function(response){
                     if (response == 'success'){
-                        bootbox.alert('Опрерацію успішно виконано',function(){
+                        bootbox.alert('Операцію успішно виконано',function(){
                             $scope.receivedMessagesTable.reload().then(function successCallback() {
                                 if(!$scope.receivedMessagesTable.data.length){
                                     $state.reload();
@@ -506,10 +506,6 @@ function addressCtrl($scope, $http, $resource, NgTableParams, $state) {
     }
 }
 
-function studentCtrl($scope, $location) {
-    $scope.changePageHeader('Студент');
-}
-
 function contentManagerCtrl($scope, $location) {
     $scope.changePageHeader('Контент менеджер');
 }
@@ -652,5 +648,32 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
         }
 
     };
+}
+
+function mailCtrl($scope, $http, $stateParams, $ngBootbox) {
+    $scope.hideMailError = function () {
+        $scope.usernameError = undefined;
+    }
+    $scope.addCorpAddress = function () {
+        if ($scope.mailForm.mailAddress.$dirty && $scope.mailForm.mailAddress.$valid)
+        {
+            $http({
+                method: 'POST',
+                url: basePath+"/_teacher/user/addCorpMail",
+                data: $jq.param({userId: $stateParams.id, address: $scope.address}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response) {
+                    if (response.error == undefined) {
+                        $scope.$emit('mailAddressCreated', response);
+                        $ngBootbox.hideAll();
+                    }
+                    else{
+                        $scope.usernameError = response.error.username[0];
+                    }
+            })
+        }
+
+    };
+
 }
 

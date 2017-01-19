@@ -54,8 +54,27 @@ config(function ($stateProvider) {
             url: "/configuration/siteconfig/edit/:paramId",
             cache: false,
             templateUrl: function ($stateParams) {
-                console.log($stateParams.paramId);
                 return basePath+"/_teacher/_admin/config/update/id/"+$stateParams.paramId;
-        }
+            }
+        })
+        .state('configuration/careers', {
+            url: "/configuration/careers",
+            cache: false,
+            controller: 'careerStartTableCtrl',
+            templateUrl: basePath + "/_teacher/_admin/config/careers",
+        })
+        .state('configuration/careers/update/:id', {
+            url: "/configuration/careers/update/:id",
+            cache: false,
+            controller: 'careerStartCtrl',
+            templateUrl: function ($stateParams) {
+                return basePath + "/_teacher/_admin/config/careerUpdate/id/"+$stateParams.id;
+            }
+        })
+        .state('configuration/createcareer', {
+            url: "/configuration/createcareer",
+            cache: false,
+            controller: 'careerStartTableCtrl',
+            templateUrl: basePath + "/_teacher/_admin/config/careerCreate"
         })
 });

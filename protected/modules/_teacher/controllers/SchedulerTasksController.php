@@ -4,7 +4,14 @@ class SchedulerTasksController extends TeacherCabinetController
 {
 
     public function hasRole(){
-        return (Yii::app()->user->model->isAdmin() || Yii::app()->user->model->isContentManager());
+        return (Yii::app()->user->model->isAdmin()
+            || Yii::app()->user->model->isAccountant()
+            || Yii::app()->user->model->isTrainer()
+            || Yii::app()->user->model->isAuthor()
+            || Yii::app()->user->model->isContentManager()
+            || Yii::app()->user->model->isTeacherConsultant()
+            || Yii::app()->user->model->isSuperVisor()
+        );
     }
 	/**
 	 * Displays a particular model.
@@ -12,11 +19,36 @@ class SchedulerTasksController extends TeacherCabinetController
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+        $_model = $this->loadModel($id);
+        switch ($_model->type){
+            case 1:
+                $this->renderPartial('_newsletter');
+                break;
+        }
 	}
 
+    public function actionEdit($id)
+    {
+        $model = $this->loadModel($id);
+        switch ($model->type){
+            case 1:
+                if ($model->status==SchedulerTasks::STATUSNEW){
+                    $model->status = SchedulerTasks::STATUSCANCEL;
+                    $model->save();
+                };
+
+                Yii::app()->runController('_teacher/newsletter/index');
+                break;
+        }
+    }
+
+	public function actionGetModel(){
+        if (isset($_GET['id'])){
+            $_model = $this->loadModel($_GET['id']);
+            echo json_encode($_model->attributes);
+        }
+
+    }
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -65,43 +97,11 @@ class SchedulerTasksController extends TeacherCabinetController
 	}
 
 	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
 	 * Lists all models.
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('SchedulerTasks');
-		$this->renderPartial('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new SchedulerTasks('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SchedulerTasks']))
-			$model->attributes=$_GET['SchedulerTasks'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		$this->renderPartial('index');
 	}
 
 	/**
@@ -135,5 +135,18 @@ class SchedulerTasksController extends TeacherCabinetController
 	public function actionGetTasksList(){
         $adapter = new NgTableAdapter('SchedulerTasks',$_GET);
         echo json_encode($adapter->getData());
+    }
+
+    public function actionCancelTask(){
+        if (isset($_POST['id'])){
+            $task = $this->loadModel($_POST['id']);
+            $task->status = SchedulerTasks::STATUSCANCEL;
+            if ($task->save()){
+                echo 'success';
+            }
+            else
+                echo 'error';
+        }
+
     }
 }

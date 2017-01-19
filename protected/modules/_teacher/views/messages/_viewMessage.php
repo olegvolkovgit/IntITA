@@ -2,13 +2,14 @@
 /* @var $message UserMessages*/
 $url = Yii::app()->createUrl('/_teacher/messages/form');
 ?>
-<div class="panel panel-default" ng-controller="messagesCtrl">
+<div class="panel panel-default" ng-controller="messagesCtrl" xmlns="http://www.w3.org/1999/html">
     <div class="panel-heading">
+        <a href="javascript:void(0)" onclick="window.open('/profile/<?=$message->message0->sender0->id?>')">
+        <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
+             style="height:24px"/>
+        <strong><?= $message->message0->sender0->userName(); ?></strong> </a>
         <a data-toggle="collapse" href="javascript:void(0)" ng-click="collapse('#collapse<?= $message->id_message; ?>')" id="messageBlock">
-            <img src="<?= $message->message0->sender0->avatarPath(); ?>" id="avatar"
-                 style="height:24px"/>
-            <strong><?= $message->message0->sender0->userName(); ?></strong>
-            <em><?= CHtml::encode($message->subject()) . "..."; ?></em>
+            <em><?= CHtml::encode($message->subject()); ?></em>
         </a>
         <div class="pull-right">
             <em><?= CommonHelper::formatMessageDate($message->message0->create_date);?></em>

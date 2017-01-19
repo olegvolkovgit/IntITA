@@ -29,6 +29,7 @@ class PayController extends TeacherCabinetController
         $moduleId = Yii::app()->request->getPost('module');
         $userId = Yii::app()->request->getPost('user');
 
+        $registeredUser= RegisteredUser::userById($userId);
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
         $module = Module::model()->findByPk($moduleId);
@@ -38,8 +39,8 @@ class PayController extends TeacherCabinetController
             $resultText = PayModules::getExistPayModuleText($userName);
         } else {
 
-            if(!Yii::app()->user->model->isStudent()){
-                Yii::app()->user->model->setRole(UserRoles::STUDENT);
+            if(!$registeredUser->isStudent()){
+                $registeredUser->setRole(UserRoles::STUDENT);
             }
 
             $permission = new PayModules();
@@ -67,6 +68,7 @@ class PayController extends TeacherCabinetController
         $courseId = Yii::app()->request->getPost('course');
         $userId = Yii::app()->request->getPost('user');
 
+        $registeredUser= RegisteredUser::userById($userId);
         $user = StudentReg::model()->findByPk($userId);
         $userName = $user->getNameOrEmail();
 
@@ -75,8 +77,8 @@ class PayController extends TeacherCabinetController
             $resultText = 'У ' . $userName . ' вже <strong>Є</strong> доступ до цього курсу';
         } else {
 
-            if(!Yii::app()->user->model->isStudent()){
-                Yii::app()->user->model->setRole(UserRoles::STUDENT);
+            if(!$registeredUser->isStudent()){
+                $registeredUser->setRole(UserRoles::STUDENT);
             }
 
             $permission = new PayCourses();

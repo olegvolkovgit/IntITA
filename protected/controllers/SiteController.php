@@ -134,16 +134,6 @@ class SiteController extends Controller
             }
         }
 
-        if ($id) {
-            $forumUser = ForumUser::model()->findByPk($id);
-
-            if ($forumUser) {
-                $forumUser->user_lang = $new_lang;
-                $forumUser->save();
-            } else
-                throw new \application\components\Exceptions\ForumException('In forum user not change language');
-        }
-
         $app = Yii::app();
         if (isset($_GET['lg'])) {
             $app->session['lg'] = $_GET['lg'];
@@ -195,25 +185,6 @@ class SiteController extends Controller
             if ($statusmodel->status == 1) {
                 if ($model->login()) {
                   // TrackController::actionLogin();
-
-                    $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                    Forum login
-
-                    if (!ForumUser::login($userModel))
-                        throw new ForumException('Forum user not save!!!');
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    if (!isset($_COOKIE['cookie_key'])) {
-                        foreach ($_SESSION as $key => $value) {
-                            if (strpos($key, '__id')) {
-                                $cookie_key = substr($key, 0, strpos($key, '_'));
-                                setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
-                                break;
-                            }
-                        }
-                    };
-
                     if (isset($_SERVER["HTTP_REFERER"])) {
                         if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                         if (isset($_GET['dialog'])) $this->redirect(Yii::app()->homeUrl);
@@ -247,8 +218,6 @@ class SiteController extends Controller
             }
         }
 
-        ForumUser::logout();
-
         Yii::app()->user->logout();
 
         /*delete cookies*/
@@ -279,8 +248,6 @@ class SiteController extends Controller
                 $this->setNetworkData($user, $model);
                 if ($model->validate()) $model->save();
 
-                $this->forumAuthentication($model);
-
                 if (isset($_SERVER["HTTP_REFERER"])) {
                     if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                     $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -299,7 +266,6 @@ class SiteController extends Controller
                 $modelId = $model->findByAttributes(array('email' => $model->email))->id;
                 $model->updateByPk($modelId, array($user['network'] => $user['profile']));
             }
-            $this->forumAuthentication($model);
 
             if (isset($_SERVER["HTTP_REFERER"])) {
                 if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
@@ -314,8 +280,6 @@ class SiteController extends Controller
                 $model = new StudentReg();
                 $model->email = $user['email'];
                 if ($model->socialLogin()) {
-                    $this->forumAuthentication($model);
-
                     if (isset($_SERVER["HTTP_REFERER"])) {
                         if ($_SERVER["HTTP_REFERER"] == Config::getOpenDialogPath()) $this->redirect(Yii::app()->homeUrl);
                         $this->redirect($_SERVER["HTTP_REFERER"]);
@@ -324,7 +288,6 @@ class SiteController extends Controller
             }
 
         }
-
     }
 
     /* Checking the existence of a token  and lifetime*/
@@ -533,24 +496,6 @@ class SiteController extends Controller
         ));
     }
 
-    public function forumAuthentication($model)
-    {
-        $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
-
-        if (!ForumUser::login($userModel))
-            throw new \application\components\Exceptions\ForumException('Forum user not save !!!');
-
-        if (!isset($_COOKIE['cookie_key']) || !$_COOKIE['cookie_key']) {
-            foreach ($_SESSION as $key => $value) {
-                if (strpos($key, '__id')) {
-                    $cookie_key = substr($key, 0, strpos($key, '_'));
-                    setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
-                    break;
-                }
-            }
-        };
-    }
-
     private static function setToken($model)
     {
         $getToken = rand(0, 99999);
@@ -658,7 +603,6 @@ class SiteController extends Controller
         if (isset($user['first_name'])) $model->firstName = $user['first_name'];
         if (isset($user['last_name'])) $model->secondName = $user['last_name'];
         if (isset($user['nickname'])) $model->nickname = $user['nickname'];
-        if (isset($user['bdate'])) $model->birthday = $user['bdate'];
         if (isset($user['phone'])) $model->phone = $user['phone'];
         if (isset($user['photo_big'])) {
             $arrContextOptions = array(
@@ -693,7 +637,6 @@ class SiteController extends Controller
                     break;
             }
         }
-
         return $model;
     }
 
@@ -703,7 +646,7 @@ class SiteController extends Controller
         $signMode = Yii::app()->request->getPost('signMode');
         $extended = Yii::app()->request->getPost('isExtended');
         $formId = Yii::app()->request->getPost('formId');
-        $callBack = Yii::app()->request->getPost('callBack');
+        $offlineForm=Yii::app()->request->getPost('educationForm');
 
         $model = new StudentReg();
         if ($signMode == 'signUp') //            SignUp
@@ -718,6 +661,12 @@ class SiteController extends Controller
             }
             if (isset($post)) {
                 $model->attributes = $post;
+                if($offlineForm){
+                    $model->educform=3;
+                    $model->education_shift=3;
+                }else{
+                    $model->educform=1;
+                }
                 $getToken = rand(0, 99999);
                 $getTime = date("Y-m-d H:i:s");
                 $model->token = sha1($getToken . $getTime);
@@ -748,7 +697,6 @@ class SiteController extends Controller
                 $statusmodel = StudentReg::model()->findByAttributes(array('email' => $model->email));
                 if ($statusmodel->status == 1) {
                     if ($model->login()) {
-                        $userModel = StudentReg::model()->findByPk(Yii::app()->user->getId());
                         $event = 'LogIn';
                         $lesson = Yii::app()->request->getPost('lesson',0);
                         $part = Yii::app()->request->getPost('page',0);
@@ -756,19 +704,6 @@ class SiteController extends Controller
 
                         $Model = EventsFactory::trackEvent($event);
                         $Model->trackEvent($user_id,$lesson,$part);
-                        //                        Forum login
-                        if (!ForumUser::login($userModel))
-                            throw new ForumException('Forum user not save!!!');
-                        if (!isset($_COOKIE['cookie_key'])) {
-                            foreach ($_SESSION as $key => $value) {
-                                if (strpos($key, '__id')) {
-                                    $cookie_key = substr($key, 0, strpos($key, '_'));
-                                    setcookie("cookie_key", $cookie_key, time() + (10 * 365 * 24 * 60 * 60), "/");
-                                    break;
-                                }
-                            }
-                        };
-//                                                Forum login
                         if (!empty($callBack)) {
                             $this->redirect($callBack);
                         }

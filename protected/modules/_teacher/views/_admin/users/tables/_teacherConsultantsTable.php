@@ -3,6 +3,9 @@
     <a type="button" class="btn btn-primary" ng-href="#/admin/users/addrole/teacher_consultant">
         Призначити викладача
     </a>
+    <a title="Експорт" class="glyphicon glyphicon-floppy-disk btn btn-primary pull-right" style="margin: 5px;"
+       href="/_teacher/_admin/users/export/type/consultants">
+    </a>
     <br>
     <br>
     <div class="panel panel-default">

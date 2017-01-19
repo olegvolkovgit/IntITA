@@ -12,7 +12,7 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a href="#/students/courses">Курси / модулі</a>
+                    <li><a href="#/students/courses">Доступні курси/модулі</a>
                     </li>
                     <li><a href="#/students/consultations">Консультації</a>
                     </li>

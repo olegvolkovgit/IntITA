@@ -34,7 +34,7 @@ class Operations {
 
             foreach ($unpaidInvoices as $invoice) {
                 if ($invoice->getUnpaidSum() <= $_invoices[$invoice->id]['amount']) {
-                    throw new Exception("Invoice $invoice->number already payed");
+                    throw new Exception("Рахунок $invoice->number вже оплачений");
                 }
             }
 
@@ -81,12 +81,18 @@ class Operations {
         $result = ['status'=>'ok', 'message'=>[]];
         try {
             $externalPayment = ExternalPays::model()->with('internalPays')->findByPk($operation['sourceId']);
+            $operation['amount']=$operation['amount']<0?0:$operation['amount'];
             $amount = min($operation['amount'], $externalPayment->getUnallocatedAmount());
             $operationInvoices = $this->getUnpaidInvoices($operation['agreementId'], $operation['invoices'], $amount);
             $lastPaidInVoice = null;
 
+            usort($operationInvoices, function($a, $b){
+                return ($a['id'] - $b['id']);
+            });
+
             foreach ($operationInvoices as $invoice){
-                $paymentAmount = min($invoice->summa, $amount, $externalPayment->amount);
+                $paymentAmount = min($invoice->getUnpaidSum(), $amount, $externalPayment->amount);
+                if($paymentAmount==0) continue;
                 $resultMakePayment = $invoice->makePayment($externalPayment, $paymentAmount, $user);
                 if ($resultMakePayment!== true) {
                     throw new Exception('Internal payment error ' . json_encode($resultMakePayment));
