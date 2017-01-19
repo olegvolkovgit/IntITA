@@ -198,3 +198,17 @@ span.spoilerTriangle {
     .graduateName, .graduateDate{display: none}
     .graduateInfo{display: block;width:inherit}
 }
+
+/*celebre*/
+div .diploma_link_style {
+}
+div .diploma_link_style>div{
+    display: inline-block;
+}
+div .diploma_link_style>div:first-child {
+    vertical-align: top;
+}
+div .diploma_link_style>div a {
+    display: block;
+}
+/*celebre*/

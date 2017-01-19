@@ -53,10 +53,16 @@
                     }
                     ?>
                 </div>
-                <div>
-                    <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
-                    <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
+
+                <div class="diploma_link_style">
+                    <div>
+                        <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
+                    </div>
+                        <div>
+                            <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
                        target="_blank"> <?php echo $data->course->getTitle(); ?></a>
+                            <a href="#" data-toggle="modal" data-target="#myModal">Диплом</a>
+                        </div>
                     <?php }?>
                 </div>
             </div>
