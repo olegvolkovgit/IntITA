@@ -58,12 +58,13 @@
                     <div>
                         <?php if(!empty($data->courses_page)){ echo Yii::t('graduates', '0318'); ?>
                     </div>
-                        <div>
-                            <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
+                    <div>
+                        <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
                        target="_blank"> <?php echo $data->course->getTitle(); ?></a>
-                            <a href="#" data-toggle="modal" data-target="#myModal">Диплом</a>
-                        </div>
+                        <a href="" onclick="diploma_dialog()">Диплом</a>
+                    </div>
                     <?php }?>
+
                 </div>
             </div>
             <?php echo $this->renderPartial('_educateHistory', array('data' => $data)); ?>

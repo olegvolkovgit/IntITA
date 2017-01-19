@@ -202,7 +202,7 @@ span.spoilerTriangle {
 /*celebre*/
 div .diploma_link_style {
 }
-div .diploma_link_style>div{
+div .diploma_link_style>div {
     display: inline-block;
 }
 div .diploma_link_style>div:first-child {

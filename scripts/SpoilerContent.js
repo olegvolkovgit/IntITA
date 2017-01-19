@@ -11,8 +11,20 @@ $(document).ready(function() {
             var b=document.getElementById('id2').value;
             $(this).html(b + "\u25BC");
         }
-
     });
+    // celebre
+    $('.modal').click(function(){
+        dialog.modal('hide');
+    });
+
+    document.body.onclick = function (e) {
+        e = e || event;
+        target = e.target || e.srcElement;
+        if (target.className != "text-center") {
+            dialog.modal('hide');
+        }
+    }
+    // celebre
 });
 function hideRecall(spoiler){
     $(spoiler).parent().prev('.spoiler-title').toggleClass('opened').toggleClass('closed').next().slideToggle();
@@ -25,3 +37,16 @@ function hideRecall(spoiler){
         $(spoiler).parent().prev('.spoiler-title').html(b + "\u25BC");
     }
 }
+
+// celebre
+function  diploma_dialog() {
+
+    var dialog = bootbox.dialog({
+        message: '<p class="text-center">Please wait while we do something...</p>',
+        closeButton: false
+    });
+// // do something in the background
+    //dialog.modal('hide');
+
+}
+// celebre
