@@ -61,8 +61,15 @@
                     <div>
                         <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
                        target="_blank"> <?php echo $data->course->getTitle(); ?></a>
-                        <a href="" onclick="diploma_dialog()">Диплом</a>
+                        <a href="#openModal" onclick="diploma_dialog()">Диплом</a>
                     </div>
+<!--                    <div id="openModal" class="modalDialog">-->
+<!--                        <div>-->
+<!--                            <h2>Модальное окно</h2>-->
+<!--                            <p>Пример простого модального окна, которое может быть создано с использованием CSS3.</p>-->
+<!--                            <p>Его можно использовать в широком диапазоне, начиная от вывода сообщений и заканчивая формой регистрации.</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <?php }?>
 
                 </div>

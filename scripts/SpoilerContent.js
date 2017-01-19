@@ -13,17 +13,27 @@ $(document).ready(function() {
         }
     });
     // celebre
-    $('.modal').click(function(){
-        dialog.modal('hide');
-    });
 
-    document.body.onclick = function (e) {
-        e = e || event;
-        target = e.target || e.srcElement;
-        if (target.className != "text-center") {
-            dialog.modal('hide');
-        }
-    }
+
+    // $(document).mouseup(function (e) {
+    //     var container = $(".text-center");
+    //     if (container.has(e.target).length === 0){
+    //         container.hide();
+    //     }
+    // });
+
+        $(document).mouseup(function (e){ // событие клика по веб-документу
+            var div = $(".text-center"); // тут указываем ID элемента
+            if (!div.is(e.target) // если клик был не по нашему блоку
+                && div.has(e.target).length === 0) { // и не по его дочерним элементам
+                div.hide(); // скрываем его
+            }
+        });
+        // $(document).click(function(event) {
+        //     if ($(event.target).closest('.text-center').length) return;
+        //     $("p").hide("slow");
+        //     event.stopPropagation();
+        // });
     // celebre
 });
 function hideRecall(spoiler){
@@ -47,6 +57,5 @@ function  diploma_dialog() {
     });
 // // do something in the background
     //dialog.modal('hide');
-
 }
 // celebre
