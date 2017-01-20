@@ -126,4 +126,15 @@ class NewsletterController extends TeacherCabinetController
             echo json_encode($result);
         }
     }
+
+    public function actionGetEmails(){
+
+        $userEmails = [];
+        array_push($userEmails,array('email'=>Config::getNewsletterMailAddress()));
+        $mail = Teacher::model()->findByPk(Yii::app()->user->id)->corporate_mail;
+        if ($mail)
+            array_push($userEmails,array('email'=>$mail));
+        echo json_encode($userEmails);
+
+    }
 }

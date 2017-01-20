@@ -103,7 +103,13 @@
                      }"
                     ></oi-select>
                 </div>
-
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Електронна пошта для розсилки</label>
+                    <select class="form-control" id="selectSchedulerType"
+                            ng-model="emailSelected"
+                            ng-options="emailSelected.email for emailSelected in userEmails track by emailSelected.email">
+                    </select>
+                </div>
                 <div class="form-group col-md-8" id="receiver">
                 </div>
                 <div class="form-group col-md-8">

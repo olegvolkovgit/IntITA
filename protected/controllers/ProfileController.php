@@ -130,13 +130,13 @@ class ProfileController extends Controller
 
     public function actionActivateMail(){
         $model = Teacher::model()->findByPk(Yii::app()->user->id);
-        if (isset($_POST['Teacher'])) {
+        if (isset($_POST['password']) && isset($_POST['passwordRepeat'])) {
             $model->scenario = 'mailActivation';
-            $model->mail_password = $_POST['Teacher']['mail_password'];
-            $model->mail_password_repeat = $_POST['Teacher']['mail_password_repeat'];
+            $model->mail_password = $_POST['password'];
+            $model->mail_password_repeat = $_POST['passwordRepeat'];
             if($model->validate())
             {
-                $model->mail_password = urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $model->mail_password_repeat, MCRYPT_MODE_ECB)));
+                $model->mail_password = urlencode(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, Yii::app()->params['secretKey'], $model->mail_password, MCRYPT_MODE_ECB)));
                 $model->mailActive = true;
                 $model->save(false);
                 $mailbox = Mailbox::model()->find('username="'.$model->corporate_mail.'"');
@@ -145,8 +145,13 @@ class ProfileController extends Controller
                 $this->redirect(Yii::app()->createUrl('studentreg/profile', array('idUser' => $model->user_id)));
             }
             else
-                echo CActiveForm::validate($model);
+                Yii::app()->end();
+
         }
+        if (!$model->mailActive)
             return $this->render('_mailpassword', array('model'=>$model));
+        else
+            throw new CHttpException(400,'Електронну скриньку вже активовано!');
+
     }
 }

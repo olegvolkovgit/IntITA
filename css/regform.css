@@ -44,7 +44,7 @@ div.image{margin:0 auto;max-width:444px;width:100%}
 .passEye input::-ms-reveal, .passEye input::-ms-clear{display:none}
 .passEye .eye{position:absolute;right:10px;top:50%;margin-top:0;display:block;height:10px;width:18px;cursor:pointer;background:url('images/passEye.png') no-repeat left 2px;}
 .passEye .openEye{background-position:left bottom;}
-.signIn,.signUp{text-align:center;}
+.signIn,.signUp,.mailPassword{text-align:center;}
 .signInEmailM{margin-top:0;}
 .signInPassM{margin-top:8px;}
 .authLinks{margin:0 auto;width:448px;overflow:hidden;padding-bottom:5px;margin-top:5px}
