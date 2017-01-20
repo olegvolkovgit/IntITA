@@ -26,29 +26,29 @@ function hideRecall(spoiler){
 }
 
 // celebre
-function  diploma_dialog() {
+function  diploma_dialog(name, course) {
 
     bootbox.alert({
         message:'<div class="diploma-container">'+
                     '<div class="diploma-logo" >'+
-                        '<img src="pictures/logo_diploma_intita.png" alt="logo_diploma_intita">'+
+                        '<img src="images/diploma/logo_diploma_intita.png" alt="logo_diploma_intita">'+
                         '<div class="logo-academy">'+'it academy'+'</div>'+
                     '</div>'+
                     '<h1 class="diploma-header">'+'diploma'+'</h1>'+
                     '<p class="certificate">'+'This Sertifies That:'+'</p>'+
-                    '<h2 class="diploma-owner-name">'+'Ihor Morgunov'+'</h2>'+
+                    '<h2 class="diploma-owner-name">'+name+'</h2>'+
                     '<p class="student_achievements">'+'has successfully completed the requirements for the'+
                         '<br>'+'<span>'+'certificate program'+'</span>'+
-                        '<br>'+'in'+'<span>'+'information technologies'+'</span>'+
+                        '<br>'+'in '+'<span>'+'information technologies'+'</span>'+
                         '<br>'+ 'and meets strong junior level of programmer'+'</p>'+
                     '<p class="course">'+'course:'+'</p>'+
-                    '<h2 class="diploma-owner-name">'+'Web developer'+'('+'<span>'+'php'+'</span>'+')'+'</h2>'+
+                    '<h2 class="diploma-owner-name">'+course+'</h2>'+
                     '<div class="sign">'+
                         '<ul>'+
                             '<li>'+'CEO: Roman Melnyk'+'</li>'+
                             '<li>'+'Date: December, 27, 2017'+'</li>'+
                         '</ul>'+
-                        '<img src="pictures/sign.png" alt="director_sign">'+
+                        '<img src="images/diploma/sign.png" alt="director_sign">'+
                         '<p class="diplom-number">'+'A11 № 000002-001'+'</p>'+
                     '</div>'+
                 '</div>',
@@ -59,5 +59,10 @@ function  diploma_dialog() {
     $('.modal-footer').css('border-top', 'none');
     $('.modal-body').css('padding', '0');
     $('.modal-footer').css('padding', '0');
+    $('.close').css({'color' : '#fff',
+                    'font-size' : '25px',
+                    'margin-top' : '0',
+                    'margin-right' : '-20px'
+                })
 }
 // celebre

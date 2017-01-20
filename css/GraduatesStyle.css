@@ -211,6 +211,16 @@ div .diploma_link_style>div:first-child {
 div .diploma_link_style>div a {
     display: block;
 }
+/*.modal-body, .modal-footer {*/
+    /*padding: 0; !important;*/
+/*}*/
+
+/*button .close {*/
+    /*color: #fff !important;*/
+    /*font-size: 25px !important;*/
+    /*margin-top: 0 !important;*/
+    /*margin-right: -20px !important;*/
+/*}*/
 .diploma-container {
     color: #3f7896;
     background: url('../images/diploma/background_top.png') 100% 0 no-repeat,
@@ -236,6 +246,7 @@ div .diploma_link_style>div a {
     font-size: 55px;
 }
 .certificate {
+    color: #3f7896;
     text-align: center;
     font-size: 25px;
 }
@@ -250,6 +261,7 @@ div .diploma_link_style>div a {
     text-transform: uppercase;
 }
 .student_achievements, .course {
+    color: #3f7896;
     font-style: italic;
     margin-top: 60px;
     font-size: 25px;
@@ -276,7 +288,8 @@ div .diploma_link_style>div a {
     font-size: 20px;
 }
 .diplom-number {
-    padding-right: 150px;
+    color: #3f7896;
+    padding-right: 50px;
     margin-bottom: 270px;
 }
 /*celebre*/

@@ -61,7 +61,8 @@
                     <div>
                         <a href="<?php echo Yii::app()->createUrl('course/index', array('id' => $data->courses_page)); ?>"
                        target="_blank"> <?php echo $data->course->getTitle(); ?></a>
-                        <a href="#openModal" onclick="diploma_dialog('<?php ?>')">Диплом</a>
+                        <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
+                                                                        '<?php echo $data->course->getTitle()?>')">Диплом</a>
                     </div>
 <!--                    <div id="openModal" class="modalDialog">-->
 <!--                        <div>-->
