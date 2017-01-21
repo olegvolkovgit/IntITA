@@ -24,8 +24,7 @@ function hideRecall(spoiler){
         $(spoiler).parent().prev('.spoiler-title').html(b + "\u25BC");
     }
 }
-
-// celebre
+//celebre
 function  diploma_dialog(name, course) {
 
     bootbox.alert({
@@ -56,13 +55,5 @@ function  diploma_dialog(name, course) {
     });
 // // do something in the background
    $('.modal-footer > .btn').hide();
-    $('.modal-footer').css('border-top', 'none');
-    $('.modal-body').css('padding', '0');
-    $('.modal-footer').css('padding', '0');
-    $('.close').css({'color' : '#fff',
-                    'font-size' : '25px',
-                    'margin-top' : '0',
-                    'margin-right' : '-20px'
-                })
 }
 // celebre

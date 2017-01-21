@@ -211,16 +211,20 @@ div .diploma_link_style>div:first-child {
 div .diploma_link_style>div a {
     display: block;
 }
-/*.modal-body, .modal-footer {*/
-    /*padding: 0; !important;*/
-/*}*/
-
-/*button .close {*/
-    /*color: #fff !important;*/
-    /*font-size: 25px !important;*/
-    /*margin-top: 0 !important;*/
-    /*margin-right: -20px !important;*/
-/*}*/
+div.modal-body, div.modal-footer {
+    padding: 0;
+}
+div.modal-footer {
+    border-top: none;
+}
+.modal-body>button.close {
+    color: #000;
+    font-size: 30px;
+    /*margin-top: 0;*/
+    margin-right: -20px;
+    font-weight: 100;
+    text-shadow: none;
+}
 .diploma-container {
     color: #3f7896;
     background: url('../images/diploma/background_top.png') 100% 0 no-repeat,
