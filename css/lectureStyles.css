@@ -1789,3 +1789,73 @@ a.cke_dialog_ui_fileButton{
         margin-left:0;
     }
 }
+/*celebre - this block is owned by FullScreen JavaScript API*/
+.fullScreen, .smallScreen {
+    width: 24px;
+    height: 24px;
+    float: right;
+    border: none;
+    z-index: 100;
+    background: url("../images/icons/maximization.png");
+}
+
+.fullScreen:hover {
+    opacity: 0.5;
+}
+.smallScreen {
+    background: url("../images/icons/minimazation.png");
+}
+
+:-webkit-full-screen.fullScreen {
+    border: 1px solid #000;
+}
+:-webkit-full-screen{
+    background: black;
+}
+
+:-moz-full-screen {
+    background: black;
+}
+
+:-webkit-full-screen#text {
+    width:100%;
+    height: 100%;
+}
+
+:-moz-full-screen#text{
+    width:100%;
+    height: 100%;
+}
+
+:-webkit-full-screen#fs_section_img.fs_section #i1{
+    display:none;
+}
+
+:-moz-full-screen#fs_section_img.fs_section #i1{
+    display:none;
+}
+
+:-webkit-full-screen#fs_section_img.fs_section #i2{
+    display:block;
+    z-index:1;
+}
+
+:-moz-full-screen#fs_section_img.fs_section #i2{
+    display:block;
+    z-index:1;
+}
+
+:-webkit-full-screen#fs_section_img.fs_section #i3{
+    opacity:1;
+    display:block;
+    z-index:2;
+    -webkit-transition: all 2s 2s ease-in-out;
+}
+
+:-moz-full-screen#fs_section_img.fs_section #i3{
+    opacity:1;
+    display:block;
+    z-index:2;
+    -moz-transition:    all 2s 2s ease-in-out;
+}
+/*celebre - this block is owned by FullScreen JavaScript API*/

@@ -31,7 +31,6 @@ function  diploma_dialog(name, course) {
         message:'<div class="diploma-container">'+
                     '<div class="diploma-logo" >'+
                         '<img src="images/diploma/logo_diploma_intita.png" alt="logo_diploma_intita">'+
-                        '<div class="logo-academy">'+'it academy'+'</div>'+
                     '</div>'+
                     '<h1 class="diploma-header">'+'diploma'+'</h1>'+
                     '<p class="certificate">'+'This Sertifies That:'+'</p>'+
