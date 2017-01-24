@@ -14,8 +14,8 @@ if (isset($message)){
         function onFullScreenExit() {
             console.log("Exit fullscreen initiated from iframe");
         };
-
         document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen;
+
         function enterFullscreen(id) {
             onFullScreenEnter(id);
             var el =  document.getElementById(id);

@@ -1790,7 +1790,7 @@ a.cke_dialog_ui_fileButton{
     }
 }
 /*celebre - this block is owned by FullScreen JavaScript API*/
-.fullScreen, .smallScreen {
+.fullScreen {
     width: 24px;
     height: 24px;
     float: right;
@@ -1802,12 +1802,13 @@ a.cke_dialog_ui_fileButton{
 .fullScreen:hover {
     opacity: 0.5;
 }
-.smallScreen {
-    background: url("../images/icons/minimazation.png");
-}
+/*.smallScreen {*/
+    /*background: url("../images/icons/minimization.png");*/
+/*}*/
 
-:-webkit-full-screen.fullScreen {
-    border: 1px solid #000;
+
+:-webkit-full-screen#text #changeColor {
+    background-image: url("../images/icons/minimization.png");
 }
 :-webkit-full-screen{
     background: black;
@@ -1826,36 +1827,11 @@ a.cke_dialog_ui_fileButton{
     width:100%;
     height: 100%;
 }
-
-:-webkit-full-screen#fs_section_img.fs_section #i1{
-    display:none;
+:-moz-full-screen#text#changeColor{
+    background-image: url("../images/icons/minimization.png");
 }
 
-:-moz-full-screen#fs_section_img.fs_section #i1{
-    display:none;
-}
-
-:-webkit-full-screen#fs_section_img.fs_section #i2{
-    display:block;
-    z-index:1;
-}
-
-:-moz-full-screen#fs_section_img.fs_section #i2{
-    display:block;
-    z-index:1;
-}
-
-:-webkit-full-screen#fs_section_img.fs_section #i3{
-    opacity:1;
-    display:block;
-    z-index:2;
-    -webkit-transition: all 2s 2s ease-in-out;
-}
-
-:-moz-full-screen#fs_section_img.fs_section #i3{
-    opacity:1;
-    display:block;
-    z-index:2;
-    -moz-transition:    all 2s 2s ease-in-out;
+:-webkit-full-screen#text#changeColor {
+    background-image: url("../images/icons/minimization.png");
 }
 /*celebre - this block is owned by FullScreen JavaScript API*/
