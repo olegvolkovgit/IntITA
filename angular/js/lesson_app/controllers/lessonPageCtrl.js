@@ -66,3 +66,63 @@ function lessonPageCtrl($rootScope,$scope, ipCookie,openDialogsService) {
 
        }
 }
+// celebre
+document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen;
+
+// function getInternetExplorerVersion()
+// {
+//     var rv = -1;
+//     if (navigator.appName == 'Microsoft Internet Explorer')
+//     {
+//         var ua = navigator.userAgent;
+//         var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+//         if (re.exec(ua) != null)
+//             rv = parseFloat( RegExp.$1 );
+//     }
+//     else if (navigator.appName == 'Netscape')
+//     {
+//         var ua = navigator.userAgent;
+//         var re  = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+//         if (re.exec(ua) != null)
+//             rv = parseFloat( RegExp.$1 );
+//     }
+//     return rv;
+// }
+//
+// if(getInternetExplorerVersion()!==-1){
+//     //Значит это IE
+//     $('#changeColor .fullScreen').hide();
+//     alert($('#changeColor .fullScreen').css('display', 'none'));
+// }
+
+function enterFullscreen(id) {
+    var el =  document.getElementById(id);
+    var onfullscreenchange =  function(e){
+        var fullscreenElement = document.fullscreenElement || document.mozFullscreenElement || document.webkitFullscreenElement;
+        var fullscreenEnabled = document.fullscreenEnabled || document.mozFullscreenEnabled || document.webkitFullscreenEnabled;
+
+    }
+
+    el.addEventListener("webkitfullscreenchange", onfullscreenchange);
+    el.addEventListener("mozfullscreenchange",     onfullscreenchange);
+    el.addEventListener("fullscreenchange",             onfullscreenchange);
+
+    if (el.webkitRequestFullScreen) {
+        el.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+    } else {
+        el.mozRequestFullScreen();
+    }
+    document.querySelector('#'+id + ' button').onclick = function(){
+        exitFullscreen(id);
+    }
+}
+
+function exitFullscreen(id) {
+    document.cancelFullScreen();
+    document.querySelector('#'+id + ' button').onclick = function(){
+        enterFullscreen(id);
+    }
+}
+// celebre
+
+
