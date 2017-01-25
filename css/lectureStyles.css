@@ -1802,10 +1802,6 @@ a.cke_dialog_ui_fileButton{
 .fullScreen:hover {
     opacity: 0.5;
 }
-/*.smallScreen {*/
-    /*background: url("../images/icons/minimization.png");*/
-/*}*/
-
 
 :-webkit-full-screen#text #changeColor {
     background-image: url("../images/icons/minimization.png");
