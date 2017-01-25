@@ -1834,7 +1834,4 @@ a.cke_dialog_ui_fileButton{
 :-webkit-full-screen#text#changeColor {
     background-image: url("../images/icons/minimization.png");
 }
-:root #changeColor {
-    display: none;
-}
 /*celebre - this block is owned by FullScreen JavaScript API*/
