@@ -222,8 +222,8 @@ class StudentController extends TeacherCabinetController
                 throw new \application\components\Exceptions\IntItaException(400);
             }
 
-            $this->renderPartial('/_student/agreement/_payModuleForm', array(
-                'model' => $model,
+            $this->renderPartial('/_student/agreement/payModuleForm', array(
+                'module' => $model,
                 'offerScenario' => Config::offerScenario()
             ));
         }
@@ -296,7 +296,9 @@ class StudentController extends TeacherCabinetController
         else if($educationForm=='offline') $educationForm=EducationForm::OFFLINE;
         else $educationForm=EducationForm::ONLINE;
 
-        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, 1, $educationForm);
+        $schemaNum = Yii::app()->request->getPost('payment', '0');
+
+        $agreement = UserAgreements::agreementByParams('Module', $user, $module, $course, $schemaNum, $educationForm);
 
         echo ($agreement)?$agreement->id:0;
     }

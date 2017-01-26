@@ -215,14 +215,27 @@ class CourseController extends Controller
         echo CJSON::encode($data);
     }
 
-    public function actionGetPaymentSchemas($courseId, $educationFormId=EducationForm::ONLINE) {
-        $course = Course::model()->findByPk($courseId);
+    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE) {
         $educationForm = EducationForm::model()->findByPk($educationFormId);
+        switch ($service){
+            case 'module':
+                $service = ModuleService::model()->getService($contentId, $educationForm);
+                break;
+            case 'course':
+                $service = CourseService::model()->getService($contentId, $educationForm);
+                break;
+            default :
+                $service = null;
+                break;
+        }
+  
         $result=[];
-        $result['schemes']=$course->getPaymentSchemas($educationForm);
+        $result['schemes']=$service->getPaymentSchemas($educationForm);
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');
+        $result['translates']['inCourse']=Yii::t('module', '0223');
+
         $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($result)]);
     }
 

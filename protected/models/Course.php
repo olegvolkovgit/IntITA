@@ -1000,34 +1000,6 @@ class Course extends CActiveRecord implements IBillableObject
     }
 
     /**
-     * @param EducationForm $educationForm
-     * @return array
-     */
-    public function getPaymentSchemas(EducationForm $educationForm) {
-
-        $service = $this->getService($educationForm);
-        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
-        $paymentSchemas = PaymentScheme::model()->getPaymentScheme($user, $service);
-
-        $result = [];
-        foreach ($paymentSchemas as $paymentSchema) {
-            $calculator = $paymentSchema->getSchemaCalculator($educationForm);
-            $payment = $calculator->getPaymentProperties();
-            $totalPayment = $calculator->getSumma($this);
-            $paymentsCount = key_exists('paymentsCount', $payment) ? (int) $payment['paymentsCount'] : 1;
-
-            $payment['fullPrice'] = $educationForm->id==EducationForm::ONLINE?sprintf("%01.2f",$this->getBasePrice()):sprintf("%01.2f",$this->getBasePrice()*Config::getCoeffModuleOffline());
-            $payment['price'] = sprintf ("%01.2f",$totalPayment);
-            $payment['approxMonthPayment'] = round($totalPayment / $paymentsCount, 2);
-            $payment['educForm'] = $educationForm->id==EducationForm::ONLINE?'online':'offline';
-            $payment['schemeId'] = $paymentSchema->id;
-
-            $result[] = $payment;
-        }
-        return $result;
-    }
-
-    /**
      * Function check user's access to course based on user's payments
      * @param $userId
      * @return bool

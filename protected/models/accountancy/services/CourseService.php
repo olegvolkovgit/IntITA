@@ -193,4 +193,30 @@ class CourseService extends AbstractIntITAService
     public function getEducationForm(){
         return $this->educForm;
     }
+
+    /**
+     * @param EducationForm $educationForm
+     * @return array
+     */
+    public function getPaymentSchemas(EducationForm $educationForm) {
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $paymentSchemas = PaymentScheme::model()->getPaymentScheme($user, $this);
+        $calculator = $paymentSchemas->getSchemaCalculator($educationForm);
+        $result = [];
+
+        foreach ($calculator as $schema) {
+            $payment = $schema->getPaymentProperties();
+            $totalPayment = $schema->getSumma($this->courseModel);
+            $paymentsCount = key_exists('paymentsCount', $payment) ? (int) $payment['paymentsCount'] : 1;
+            $payment['fullPrice'] = $educationForm->id==EducationForm::ONLINE?sprintf("%01.2f",$this->courseModel->getBasePrice()):sprintf("%01.2f",$this->courseModel->getBasePrice()*Config::getCoeffModuleOffline());
+            $payment['price'] = sprintf ("%01.2f",$totalPayment);
+            $payment['approxMonthPayment'] = round($totalPayment / $paymentsCount, 2);
+            $payment['educForm'] = $educationForm->id==EducationForm::ONLINE?'online':'offline';
+            $payment['schemeId'] = $schema->id;
+
+            $result[] = $payment;
+        }
+
+        return $result;
+    }
 }

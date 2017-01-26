@@ -1,19 +1,16 @@
 <?php
 
 /**
- * This is the model class for table "acc_user_special_offer_payment".
- *
- * The followings are the available columns in table 'acc_user_special_offer_payment':
  * @property integer $id
  * @property integer $id_template
  * @property integer $serviceId
+ * @property integer $serviceType
  * @property string $userId
  * @property string $startDate
  * @property string $endDate
  *
- * @property Service $service
  */
-class UserSpecialOffer extends ASpecialOffer {
+class UserSpecialOfferForAllServices extends ASpecialOffer {
 
     use WithGetSchemaCalculator;
 
@@ -24,12 +21,12 @@ class UserSpecialOffer extends ASpecialOffer {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('userId, serviceId, id_template', 'required'),
+            array('userId, id_template, serviceType', 'required'),
             array('userId, serviceId', 'numerical', 'integerOnly' => true),
             array('startDate, endDate', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, id_template, userId, serviceId, startDate, endDate', 'safe', 'on' => 'search'),
+            array('id, id_template, userId, serviceId, serviceType, startDate, endDate', 'safe', 'on' => 'search'),
         );
     }
 
@@ -40,7 +37,6 @@ class UserSpecialOffer extends ASpecialOffer {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-            'service' => [self::HAS_ONE, 'Service', '', 'on' => 't.serviceId = service.service_id'],
             'user' => [self::HAS_ONE, 'StudentReg', '', 'on' => 't.userId = user.id'],
             'schemes' => array(self::HAS_MANY, 'TemplateSchemes', ['id_template'=>'id_template'], 'order' => 'schemes.pay_count'),
         ];
@@ -55,6 +51,7 @@ class UserSpecialOffer extends ASpecialOffer {
             'id_template' => 'ID template',
             'userId' => 'User',
             'serviceId' => 'Id service',
+            'serviceType' => 'Service Type',
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
         );
@@ -81,6 +78,7 @@ class UserSpecialOffer extends ASpecialOffer {
         $criteria->compare('id_template', $this->id_template);
         $criteria->compare('userId', $this->userId);
         $criteria->compare('serviceId', $this->serviceId);
+        $criteria->compare('serviceType', $this->serviceType);
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate, true);
 
@@ -101,17 +99,21 @@ class UserSpecialOffer extends ASpecialOffer {
 
     protected function getConditionCriteria($params) {
         $criteria = null;
-
+        $serviceType=null;
         if (key_exists('schemeId', $params) && !empty($params['schemeId'])) {
             $criteria = new CDbCriteria();
             $criteria->addCondition("id=" . $params["schemeId"]);
         }
 
-        if (key_exists('user', $params) && !empty($params['user']) &&
-            key_exists('service', $params) && !empty($params['service'])) {
+        if (isset($params['service']->course_id)) {
+            $serviceType=PaymentScheme::COURSE_SERVICE;
+        } else if (isset($params['service']->module_id)) {
+            $serviceType=PaymentScheme::MODULE_SERVICE;
+        }
+
+        if (key_exists('user', $params) && !empty($params['user'])) {
             $criteria = new CDbCriteria();
-            $criteria->addCondition("userId=" . $params["user"]->id);
-            $criteria->addCondition("serviceId=" . $params['service']->service_id);
+            $criteria->addCondition("userId=" . $params["user"]->id."  and serviceType=".$serviceType);
             $criteria->addCondition('NOW() BETWEEN startDate and endDate');
         }
 
@@ -120,7 +122,7 @@ class UserSpecialOffer extends ASpecialOffer {
 
     protected function getTableScope() {
         return [
-            'condition' => 'userId IS NOT NULL'
+            'condition' => 'userId IS NOT NULL AND serviceType IS NOT NULL'
         ];
     }
 }
