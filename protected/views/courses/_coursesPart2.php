@@ -91,7 +91,7 @@
                     </div>
                     <div class="coursePriceBox">
                         <?php echo Yii::t('courses', '0147');
-                        $schema = PaymentScheme::getSchema(PaymentScheme::ADVANCE, EducationForm::ONLINE);
+                        $schema = PaymentScheme::getActualAdvancePaymentSchema($val[0]->course_ID, EducationForm::ONLINE);
                         $price = round($schema->getSumma($val[0]));
                         if ($price == 0) {?>
                             <span class="colorGreen"><?=Yii::t('module', '0421');?></span>
@@ -101,7 +101,7 @@
                             <span id="coursePriceStatus1"><?= round($val[0]->getBasePrice()) .Yii::t('courses', '0322');?></span>
                             &nbsp<span id="coursePriceStatus2"><?=$price.
                                 Yii::t('courses', '0322');?></span>
-                            <span class="discount">(<?=Yii::t('courses', '0144');?> - 30%)</span>
+                            <span class="discount">(<?=Yii::t('courses', '0144').' - '.$schema->discount?>%)</span>
                             <?php
                         }
                         ?>

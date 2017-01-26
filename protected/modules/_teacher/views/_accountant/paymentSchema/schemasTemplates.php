@@ -1,14 +1,21 @@
-<?php
-/* @var $types array */
-/* @var $model OperationType */
-?>
 <div class="col-lg-12" ng-controller="paymentsSchemaTemplateTableCtrl">
-    <br>
-    <a ng-href="#/accountant/paymentSchemas/schemas/template/create" class="btn btn-primary">
-        Додати шаблон схем
-    </a>
-    <br>
-    <br>
+    <ul class="list-inline">
+        <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/createTemplate" class="btn btn-primary">
+                Додати шаблон схем
+            </a>
+        </li>
+        <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/apply" class="btn btn-primary">
+                Застосувати шаблон схем
+            </a>
+        </li>
+        <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/appliedTemplates" class="btn btn-primary">
+                Список застосованих шаблонів
+            </a>
+        </li>
+    </ul>
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="dataTable_wrapper">

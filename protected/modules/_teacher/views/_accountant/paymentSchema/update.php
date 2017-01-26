@@ -14,6 +14,7 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th>id схеми</th>
                         <th>Кількість проплат</th>
                         <th>Назва схеми</th>
                         <th>Відсоток знижки</th>
@@ -28,6 +29,9 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="scheme in schemes track by $index">
+                        <td>
+                            {{schemes[$index].id}}
+                        </td>
                         <td>
                             <select
                                 class="form-control"
@@ -58,7 +62,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" ng-click="createTemplate(template)" ng-disabled="!template.name || !template.schemes.length">
+                <button type="submit" class="btn btn-primary" ng-click="updateTemplate(template)" ng-disabled="!template.name || !template.schemes.length">
                     Зберегти
                 </button>
                 <a type="button" class="btn btn-default" ng-click='back()'>

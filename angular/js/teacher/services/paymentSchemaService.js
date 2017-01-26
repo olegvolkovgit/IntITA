@@ -42,6 +42,21 @@ angular
                     schemesTemplatesList : {
                         url: url + '/getPaymentSchemasTemplatesNgTable'
                     },
+                    mainAppliedTemplatesList : {
+                        url: url + '/getMainAppliedTemplatesNgTable'
+                    },
+                    servicesAppliedTemplatesList : {
+                        url: url + '/getServicesAppliedTemplatesNgTable'
+                    },
+                    usersAppliedTemplatesList : {
+                        url: url + '/getUsersAppliedTemplatesNgTable'
+                    },
+                    applyTemplate : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/applySchemesTemplate',
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }])
 ;

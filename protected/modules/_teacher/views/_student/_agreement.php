@@ -8,7 +8,7 @@
     <h4>Вартість: <?php echo $agreement->summa==0?'безкоштовно':$agreement->summa.' грн.'; ?></h4>
     <h4>Форма
         навчання: <?= AbstractIntITAService::getServiceById($agreement->service->service_id)->getEducationForm()->title_ua ?></h4>
-    <h4>Схема проплат: <?= PaymentScheme::model()->getName($agreement->payment_schema); ?></h4>
+    <h4>Схема проплат: <?= PaymentScheme::getPaymentName($agreement); ?></h4>
 </div>
 <div class="panel panel-default">
     <div class="panel-body" >

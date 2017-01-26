@@ -53,6 +53,21 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('schemasTemplates',array(),false,true);
     }
 
+    public function actionApplyTemplateView()
+    {
+        $this->renderPartial('applyTemplateView',array(),false,true);
+    }
+
+    public function actionAppliedTemplatesList()
+    {
+        $this->renderPartial('appliedTemplatesList',array(),false,true);
+    }
+    
+    public function actionViewSchemasTemplate($id)
+    {
+        $this->renderPartial('update', array(), false, true);
+    }
+    
     public function actionTemplateCreate()
     {
         $this->renderPartial('create',array('scenario'=>'create'),false,true);
@@ -63,15 +78,77 @@ class PaymentSchemaController extends TeacherCabinetController
         $template=json_decode(Yii::app()->request->getParam('template'));
         $templateModel= new PaymentSchemeTemplate();
         $templateModel->template_name=$template->name;
-        if($templateModel->save()){
-            foreach ($template->schemes as $scheme){
-                $model= new TemplateSchemes();
-                $model->id_template=$templateModel->id;
-                $model->pay_count=$scheme->pay_count;
-                $model->discount=$scheme->discount;
-                $model->loan=$scheme->loan;
-                $model->save();
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
+            if($templateModel->save()){
+                foreach ($template->schemes as $scheme){
+                    $model= new TemplateSchemes();
+                    $model->id_template=$templateModel->id;
+                    $model->pay_count=$scheme->pay_count;
+                    $model->discount=$scheme->discount;
+                    $model->loan=$scheme->loan;
+                    $model->save();
+                }
+                if(!TemplateSchemes::model()->findByAttributes(array('id_template'=>$templateModel->id,'pay_count'=>1))){
+                    throw new \application\components\Exceptions\IntItaException(500, "Шаблон повинен містити 'проплату наперід'");
+                }
+
             }
+            $transaction->commit();
+            echo "Шаблон схем успішно створено";
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Створити шаблон схем не вдалося");
+        }
+    }
+
+    public function actionUpdateSchemeTemplate()
+    {
+        $template=json_decode(Yii::app()->request->getParam('template'));
+        $templateModel= PaymentSchemeTemplate::model()->findByPk($template->id);
+        $templateModel->template_name=$template->name;
+        $templateModel->update();
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
+//            delete not actual scheme
+            foreach ($templateModel->schemes as $modelScheme){
+                $isInActualModel=false;
+                foreach ($template->schemes as $key=>$scheme){
+                    if(isset($scheme->id)) {
+                        if ($modelScheme->id == $scheme->id) {
+                            $isInActualModel = true;
+                            break;
+                        }
+                    }
+                }
+                if(!$isInActualModel) {
+                    $modelScheme->delete();
+                }
+            }
+//            update old scheme
+            foreach ($template->schemes as $scheme){
+                if(isset($scheme->id)){
+                    TemplateSchemes::model()->updateByPk($scheme->id,
+                        array('pay_count'=>$scheme->pay_count,'discount'=>$scheme->discount,'loan'=>$scheme->loan));
+                }else{
+                    $newScheme=new TemplateSchemes();
+                    $newScheme->id_template=$templateModel->id;
+                    $newScheme->pay_count=$scheme->pay_count;
+                    $newScheme->discount=$scheme->discount;
+                    $newScheme->loan=$scheme->loan;
+                    $newScheme->save();
+                }
+            }
+            if(!TemplateSchemes::model()->findByAttributes(array('id_template'=>$templateModel->id,'pay_count'=>1))){
+                throw new \application\components\Exceptions\IntItaException(500, "Шаблон повинен містити 'проплату наперід'");
+            }
+            $transaction->commit();
+            echo "Шаблон схем успішно оновлено";
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Оновити шаблон схем не вдалося");
         }
     }
 
@@ -82,5 +159,171 @@ class PaymentSchemaController extends TeacherCabinetController
         $result = $ngTable->getData();
 
         echo json_encode($result);
+    }
+
+    public function actionGetMainAppliedTemplatesNgTable()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('PaymentScheme', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 't.id ='.PaymentScheme::DEFAULT_COURSE_SCHEME.' OR t.id ='.PaymentScheme::PROMOTIONAL_COURSE_SCHEME.' 
+        OR t.id ='.PaymentScheme::DEFAULT_MODULE_SCHEME.' OR t.id ='.PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+
+        echo json_encode($result);
+    }
+
+    public function actionGetServicesAppliedTemplatesNgTable()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('PaymentScheme', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 't.serviceId IS NOT NULL and t.userId IS NULL';
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+
+        echo json_encode($result);
+    }
+
+    public function actionGetUsersAppliedTemplatesNgTable()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('PaymentScheme', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->condition = 't.userId IS NOT NULL';
+        $ngTable->mergeCriteriaWith($criteria);
+
+        $result = $ngTable->getData();
+
+        echo json_encode($result);
+    }
+    
+    public function actionGetSchemesTemplate()
+    {
+        $schemesTemplate=PaymentSchemeTemplate::model()->with(PaymentSchemeTemplate::model()->relations())->findByPk(Yii::app()->request->getParam('templateId'));
+        $result=ActiveRecordToJSON::toAssocArray($schemesTemplate);
+        foreach ($result['schemes'] as $key=>$scheme){
+            $result['schemes'][$key]['name']=$schemesTemplate->schemes[$key]->schemeName->course_title_ua;
+        }
+        echo json_encode($result);
+    }
+
+    public function actionCancelPaymentScheme()
+    {
+        $id=Yii::app()->request->getParam('id');
+        $paymentScheme=PaymentScheme::model()->findByPk($id);
+        $params=array(
+            'id_template'=>$paymentScheme->id_template,
+            'userId'=>$paymentScheme->userId,
+            'serviceId'=>$paymentScheme->serviceId
+        );
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            if($paymentScheme->serviceId){
+                if($paymentScheme->service->courseServices){
+                    $educationForm=$paymentScheme->service->courseServices->education_form!=EducationForm::ONLINE?
+                        EducationForm::ONLINE:EducationForm::OFFLINE;
+                    $service = CourseService::model()->findByAttributes(array(
+                        'course_id' => $paymentScheme->service->courseServices->course_id,
+                        'education_form' => $educationForm
+                    ));
+                    if($service){
+                        $params['serviceId']=$service->service_id;
+                        $secondPaymentScheme=PaymentScheme::model()->findByAttributes($params);
+                        if($secondPaymentScheme) $secondPaymentScheme->delete();
+                    }
+                }else if($paymentScheme->service->moduleServices){
+                    $educationForm=$paymentScheme->service->moduleServices->education_form!=EducationForm::ONLINE?
+                        EducationForm::ONLINE:EducationForm::OFFLINE;
+                    $service = ModuleService::model()->findByAttributes(array(
+                        'module_id' => $paymentScheme->service->moduleServices->module_id,
+                        'education_form' => $educationForm
+                    ));
+                    if($service){
+                        $params['serviceId']=$service->service_id;
+                        $secondPaymentScheme=PaymentScheme::model()->findByAttributes($params);
+                        if($secondPaymentScheme) $secondPaymentScheme->delete();
+                    }
+                }
+            }
+
+            $paymentScheme->delete();
+
+            $transaction->commit();
+            echo "Успішно видалено";
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new \application\components\Exceptions\IntItaException(500, "Видалити не вдалося");
+        }
+    }
+
+    public function actionGetSchemesTemplatesList()
+    {
+        $schemesTemplates=PaymentSchemeTemplate::model()->with()->findAll();
+        $result=ActiveRecordToJSON::toAssocArray($schemesTemplates);
+
+        echo json_encode($result);
+    }
+
+    public function actionApplySchemesTemplate () {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_filter($_POST);
+            $params['id_template'] = $params['id'];
+            unset($params['id']);
+
+            $services = array();
+            $educationForms = EducationForm::model()->findAllByPk(array(EducationForm::ONLINE,EducationForm::OFFLINE));
+
+            $user = null;
+            if (key_exists('courseId', $params)) {
+                foreach ($educationForms as $form){
+                    array_push($services,CourseService::model()->getService($params['courseId'], $form));
+                }
+            } else if (key_exists('moduleId', $params)) {
+                foreach ($educationForms as $form) {
+                    array_push($services, ModuleService::model()->getService($params['moduleId'], $form));
+                }
+            }
+
+            if (key_exists('userId', $params)) {
+                $user = StudentReg::model()->findByPk($params['userId']);
+            }
+
+            $offer = null;
+            if(empty($services)) $services=array(null);
+
+            foreach ($services as $service) {
+                $soFactory = new SpecialOfferFactory($user, $service);
+                $offer = $soFactory->createSpecialOffer($params);
+
+                if ($offer === null) {
+                    if ($params['serviceType']==PaymentScheme::COURSE_SERVICE) {
+                        $id=PaymentScheme::PROMOTIONAL_COURSE_SCHEME;
+                    } else if ($params['serviceType']==PaymentScheme::MODULE_SERVICE) {
+                        $id=PaymentScheme::PROMOTIONAL_MODULE_SCHEME;
+                    }
+                    $offer = PaymentScheme::model()->findByPk($id);
+                    $offer->setAttributes($params);
+                    $offer->save();
+
+                    if (count($offer->getErrors())) {
+                        throw new Exception(json_encode($offer->getErrors()));
+                    }
+                }
+            }
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 }

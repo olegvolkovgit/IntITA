@@ -771,21 +771,108 @@ angular
     })
 
     .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService',
-            function ($scope, $stateParams, NgTableParams,paymentSchemaService) {
-        $scope.schemesTemplateTableParams = new NgTableParams({}, {
-            getData: function (params) {
-                return paymentSchemaService
-                    .schemesTemplatesList(params.url())
-                    .$promise
-                    .then(function (data) {
-                        params.total(data.count);
-                        return data.rows;
-                    });
-            }
-        });
+        function ($scope, $stateParams, NgTableParams,paymentSchemaService) {
+            $scope.changePageHeader('Шаблони схем');
+
+            $scope.schemesTemplateTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return paymentSchemaService
+                        .schemesTemplatesList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
     }])
 
-    .controller('paymentsSchemaTemplateCtrl', ['$scope', 'lodash', '$http', function ($scope, _, $http) {
+    .controller('paymentsSchemesTableCtrl', ['$scope', 'NgTableParams','paymentSchemaService','$http',
+        function ($scope, NgTableParams,paymentSchemaService, $http) {
+            $scope.changePageHeader('Список застосованих шаблонів');
+
+            $scope.mainTemplateTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return paymentSchemaService
+                        .mainAppliedTemplatesList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+            $scope.servicesTemplateTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return paymentSchemaService
+                        .servicesAppliedTemplatesList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+            $scope.usersTemplateTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return paymentSchemaService
+                        .usersAppliedTemplatesList(params.url())
+                        .$promise
+                        .then(function (data) {
+                            params.total(data.count);
+                            return data.rows;
+                        });
+                }
+            });
+
+            $scope.cancelPaymentScheme=function(id){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/cancelPaymentScheme',
+                    method: "POST",
+                    data: $jq.param({
+                        id:id,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback() {
+                    $scope.servicesTemplateTableParams.reload();
+                    $scope.usersTemplateTableParams.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Скасувати не вдалося");
+                });
+            }
+        }])
+    
+    .controller('paymentsSchemaTemplateCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams', function ($scope, _, $http, $state, $stateParams) {
+        $scope.changePageHeader('Створення та редагування шаблонів схем');
+        $scope.loadSchemesTemplate=function(templateId){
+            $http({
+                url: basePath+'/_teacher/_accountant/paymentSchema/getSchemesTemplate',
+                method: "POST",
+                data: $jq.param({
+                    templateId:templateId,
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+            }).then(function successCallback(response) {
+                $scope.schemes=response.data.schemes;
+                $scope.schemes.forEach(function(item) {
+                    item.discount=Number(item.discount);
+                    item.loan=Number(item.loan);
+                    item.pay_count=Number(item.pay_count);
+                });
+                $scope.template={
+                    id:response.data.id,
+                    name:response.data.template_name,
+                    schemes:$scope.schemes,
+                };
+            }, function errorCallback() {
+                bootbox.alert("Отримати дані шаблона схем не вдалося");
+            });
+        };
+
+        if($stateParams.id) {
+            $scope.loadSchemesTemplate($stateParams.id);
+        }
+        
         $scope.schemes = [
             {pay_count:1,discount:30,loan:0,name:'Проплата наперед'},
             {pay_count:2,discount:10,loan:0,name:'2 проплати'},
@@ -805,6 +892,7 @@ angular
         $scope.payCount = [
             {value: 1, name: 'Проплата наперед'},
             {value: 2, name: '2 проплати'},
+            {value: 3, name: '3 проплати'},
             {value: 4, name: '4 проплати'},
             {value: 6, name: '6 проплат'},
             {value: 12, name: 'Оплата за рік помісячно'},
@@ -835,21 +923,138 @@ angular
         };
 
         $scope.createTemplate= function (template) {
-            $http({
-                url: basePath+'/_teacher/_accountant/paymentSchema/createSchemeTemplate',
-                method: "POST",
-                data: $jq.param({
-                    template: JSON.stringify(template),
-                }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-            }).then(function successCallback(response) {
-                bootbox.alert(response.data, function(){
-                    // $state.go("accountant/paymentSchemas/schemas/template", {}, {reload: true});
-                });
-            }, function errorCallback() {
-                bootbox.alert("Створити шаблон схем не вдалося. Помилка сервера.");
+            var check=true;
+            var msgError='';
+            if(_.filter(template.schemes, ['pay_count', 1]).length==0){
+                msgError='Шаблон схем обов\'язково має містити схему "проплата наперід"';
+                check=false;
+            }
+            template.schemes.forEach(function(item) {
+                if(_.filter(template.schemes, ['pay_count', item.pay_count]).length>1){
+                    msgError='Шаблон схем не може містити схеми з однаковою кількість проплат';
+                    check=false;
+                    return false;
+                }
             });
+            if(check) {
+                $http({
+                    url: basePath + '/_teacher/_accountant/paymentSchema/createSchemeTemplate',
+                    method: "POST",
+                    data: $jq.param({
+                        template: JSON.stringify(template),
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    bootbox.alert(response.data, function () {
+                        $state.go("accountant/paymentSchemas/schemas/template", {}, {reload: true});
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Створити шаблон схем не вдалося. Помилка сервера.");
+                });
+            }else{
+                bootbox.alert(msgError);
+            }
         };
+
+        $scope.updateTemplate= function (template) {
+            var check=true;
+            var msgError='';
+            if(_.filter(template.schemes, ['pay_count', 1]).length==0){
+                msgError='Шаблон схем обов\'язково має містити схему "проплата наперід"';
+                check=false;
+            }
+            template.schemes.forEach(function(item) {
+                if(_.filter(template.schemes, ['pay_count', item.pay_count]).length>1){
+                    msgError='Шаблон схем не може містити схеми з однаковою кількість проплат';
+                    check=false;
+                    return false;
+                }
+            });
+            if(check){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/updateSchemeTemplate',
+                    method: "POST",
+                    data: $jq.param({
+                        template: JSON.stringify(template),
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    bootbox.alert(response.data, function () {
+                        $state.reload();
+                    });
+                }, function errorCallback() {
+                    bootbox.alert("Оновити шаблон схем не вдалося. Помилка сервера.");
+                });
+            }else{
+                bootbox.alert(msgError);
+            }
+        };
+    }])
+
+    .controller('paymentsSchemaTemplateApplyCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService', 
+        function ($scope, _, $http, $state, $stateParams, paymentSchemaService) {
+            $scope.changePageHeader('Застосування шаблону схем');
+
+            $scope.loadTemplates=function(){
+                $http({
+                    url: basePath+'/_teacher/_accountant/paymentSchema/getSchemesTemplatesList',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    $scope.templates=response.data;
+                }, function errorCallback() {
+                    bootbox.alert("Отримати шаблони схем не вдалося");
+                });
+            };
+            $scope.loadTemplates();
+            
+            $scope.startDateOptions = new DateOptions();
+            $scope.endDateOptions = new DateOptions();
+
+            $scope.onSelectCourse = function ($item) {
+                $scope.paymentSchema['courseId'] = $item.id;
+            };
+            $scope.reloadCourse = function(){
+                $scope.paymentSchema['courseId']=null;
+            };
+            $scope.onSelectModule = function ($item) {
+                $scope.paymentSchema['moduleId'] = $item.id;
+            };
+            $scope.reloadModule = function(){
+                $scope.paymentSchema['moduleId']=null;
+            };
+            $scope.onSelectUser = function ($item) {
+                $scope.paymentSchema['userId'] = $item.id;
+            };
+            $scope.reloadUser = function(){
+                $scope.paymentSchema['userId']=null;
+            };
+
+            $scope.applyTemplate = function () {
+                paymentSchemaService
+                    .applyTemplate($scope.paymentSchema)
+                    .$promise
+                    .then(function (data) {
+                        if (data.message === 'OK') {
+                            bootbox.alert('Шаблон схем успішно застосовано',function () {
+                                $state.reload();
+                            });
+                        } else {
+                            bootbox.alert('Під час застосування шаблону схеми виникла помилка');
+                        }
+                    });
+            }
+
+            $scope.services = [
+                {
+                    name: 'Курси',
+                    value: 1
+                },
+                {
+                    name: 'Модулі',
+                    value: 2
+                }
+            ];
     }]);
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {

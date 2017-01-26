@@ -43,6 +43,7 @@ class TemplateSchemes extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'template' => array(self::BELONGS_TO, 'PaymentSchemeTemplate', 'id_template'),
+            'schemeName' => array(self::BELONGS_TO, 'SchemesName', 'pay_count'),
         );
     }
 

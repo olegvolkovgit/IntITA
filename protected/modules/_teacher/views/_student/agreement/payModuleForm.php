@@ -1,10 +1,10 @@
 <?php
 /**
- * @var $course Course
+ * @var $module Module
  * @var $type string
  * @var $offerScenario string
  */
-$price = $course->getBasePrice();
+$price = $module->getBasePrice();
 ?>
 <div class="panel panel-default" ng-controller="paymentsCtrl">
     <div class="panel-body">
@@ -39,10 +39,10 @@ $price = $course->getBasePrice();
             <div style="width:96%">
                 <button class="schemesBlockButton btn btn-primary" type="button"
                         ng-click="createAccount(
-                            '<?php echo Yii::app()->createUrl('/_teacher/_student/student/newCourseAgreement'); ?>',
-                            '<?php echo $course->course_ID; ?>',
+                            '<?php echo Yii::app()->createUrl('/_teacher/_student/student/newModuleAgreement'); ?>',
                             '0',
-                            'Course',
+                            '<?php echo $module->module_ID; ?>',
+                            'Module',
                             '<?= $offerScenario ?>',
                             '',
                             '',
@@ -52,5 +52,3 @@ $price = $course->getBasePrice();
         </div>
     </div>
 </div>
-
-
