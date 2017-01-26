@@ -20,6 +20,9 @@ function moduleCtrl($scope, $http) {
             location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/'+$scope.educationForm+'/scheme/'+$scope.schemeId;   
         }
     };
+    $scope.redirectToCabinet=function (scenario,id,selectedScheme) {
+        location.href = basePath + '/cabinet#/'+scenario+'/'+id+'/'+selectedScheme.educForm+'/scheme/'+selectedScheme.schemeId;
+    };
 
     $scope.loadLecturesList=function () {
         var promise = $http({

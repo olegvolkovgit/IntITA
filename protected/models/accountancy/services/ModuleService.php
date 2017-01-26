@@ -192,4 +192,37 @@ class ModuleService extends AbstractIntITAService
     public function getEducationForm(){
         return $this->educForm;
     }
+
+    /**
+     * @param EducationForm $educationForm
+     * @return array
+     */
+    public function getPaymentSchemas(EducationForm $educationForm) {
+        $user = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $paymentSchemas = PaymentScheme::model()->getPaymentScheme($user, $this);
+        $calculator = $paymentSchemas->getSchemaCalculator($educationForm,'module');
+        $result = [];
+
+        foreach ($calculator as $schema) {
+            $payment = $schema->getPaymentProperties();
+            $totalPayment = $schema->getSumma($this->moduleModel);
+            $paymentsCount = key_exists('paymentsCount', $payment) ? (int) $payment['paymentsCount'] : 1;
+            $payment['fullPrice'] = $educationForm->id==EducationForm::ONLINE?sprintf("%01.2f",$this->moduleModel->getBasePrice()):sprintf("%01.2f",$this->moduleModel->getBasePrice()*Config::getCoeffModuleOffline());
+            $payment['price'] = sprintf ("%01.2f",$totalPayment);
+            $payment['approxMonthPayment'] = round($totalPayment / $paymentsCount, 2);
+            $payment['educForm'] = $educationForm->id==EducationForm::ONLINE?'online':'offline';
+            $payment['schemeId'] = $schema->id;
+            if($schema->payCount==PaymentScheme::ADVANCE){
+                if($educationForm->id==EducationForm::ONLINE){
+                    $payment['inCourse']=$this->moduleModel->modulePrice(1);
+                }else{
+                    $payment['inCourse']=$this->moduleModel->modulePrice(1)*$educationForm->getCoefficient();
+                }
+            }
+            
+            $result[] = $payment;
+        }
+
+        return $result;
+    }
 }

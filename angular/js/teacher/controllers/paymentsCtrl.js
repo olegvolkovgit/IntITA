@@ -3,13 +3,12 @@ angular
     .controller('paymentsCtrl', paymentsCtrl);
 
 function paymentsCtrl($scope, $stateParams, $http,  $state) {
+    $scope.contentId= $stateParams.id;
     if($stateParams.scenario=='payCourse'){
-        $scope.courseId= $stateParams.id;
-        $scope.moduleId= 0;
+        $scope.serviceType='course';
     }
     if($stateParams.scenario=='payModule'){
-        $scope.moduleId= $stateParams.id;
-        $scope.courseId= 0;
+        $scope.serviceType='module';
     }
     $scope.setForm=$stateParams.form;
     $scope.schemeId=$stateParams.schemeId;
@@ -24,10 +23,8 @@ function paymentsCtrl($scope, $stateParams, $http,  $state) {
                 $scope.schemeId=selectedScheme.schemeId;
             }
         } else if(scenario=="Module"){
-            $scope.educationForm=educationForm==1?'online':'offline';
-            //todo
-            // $scope.schemeType=1;
-            $scope.schemeId=1;
+            $scope.educationForm=selectedScheme.educForm;
+            $scope.schemeId=selectedScheme.schemeId;
         }
 
         if ($scope.schemeId == 0) {

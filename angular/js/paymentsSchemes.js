@@ -22,7 +22,7 @@ angular
             $scope.form=attrs.educationForm;
             if(attrs.educationForm=='online'){
                 paymentsService
-                    .scheme({courseId: $scope.courseId,educationFormId:1})
+                    .scheme({service:$scope.serviceType, contentId: $scope.contentId,educationFormId:1})
                     .$promise
                     .then(function (data) {
                         $scope.schemes=data;
@@ -34,7 +34,7 @@ angular
                     });
             } else if(attrs.educationForm=='offline'){
                 paymentsService
-                    .scheme({courseId: $scope.courseId,educationFormId:2})
+                    .scheme({service:$scope.serviceType, contentId: $scope.contentId,educationFormId:2})
                     .$promise
                     .then(function (data) {
                         $scope.schemes=data;
@@ -58,17 +58,23 @@ angular
                 }
                 return false;
             }
+
+            $scope.getContentUrl = function() {
+                if($scope.serviceType=='course')
+                    return basePath + '/angular/js/templates/paymentsSchemes.html';
+                else return basePath + '/angular/js/templates/modulesPaymentsSchemes.html';
+            }
         }
         return {
             scope: {
                 'setScheme':'=setScheme',
                 'setForm':'=setForm',
-                'moduleId':'=moduleId',
-                'courseId':'=courseId',
+                'contentId':'=contentId',
+                'serviceType':'=serviceType',
                 'selectedModelScheme':'=selectedModelScheme',
                 'schemes':'=schemes',
             },
             link: link,
-            templateUrl: basePath + '/angular/js/templates/paymentsSchemes.html'
+            template: '<div ng-include="getContentUrl()"></div>'
         };
     }

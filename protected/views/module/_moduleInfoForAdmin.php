@@ -154,8 +154,7 @@
             ?>
         </div>
         <div>
-            <span id="titleModule"><?php echo Yii::t('module', '0221'); ?></span>
-            <?php $this->renderPartial('_price', array()); ?>
+            <?php $this->renderPartial('_price', array('model'=>$post)); ?>
         </div>
         <br>
 

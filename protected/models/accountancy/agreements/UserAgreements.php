@@ -203,7 +203,7 @@ class UserAgreements extends CActiveRecord
         $agreement = null;
         switch ($type){
             case 'Module':
-                $agreement = UserAgreements::moduleAgreement($user, $module, 1, $educForm);
+                $agreement = UserAgreements::moduleAgreement($user, $module, $schemaNum, $educForm);
                 break;
             case 'Course':
                 $agreement = UserAgreements::courseAgreement($user, $course, $schemaNum, $educForm);
@@ -276,11 +276,12 @@ class UserAgreements extends CActiveRecord
         $billableObject = $serviceModel->getBillableObject();
 
         $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);
-        $schema = array_filter($schemas, function($item) use ($schemaId) {
+        $calculators = $schemas->getSchemaCalculator($educForm);
+
+        $calculator = array_filter($calculators, function($item) use ($schemaId) {
             return $item->id == $schemaId;
         });
-        $schema = array_values($schema)[0];
-        $calculator = $schema->getSchemaCalculator($educForm);
+        $calculator = array_values($calculator)[0];
 
         $model = new UserAgreements();
         $model->user_id = $userId;
