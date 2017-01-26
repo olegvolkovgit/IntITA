@@ -39,7 +39,7 @@ foreach ($teachers as $teacher) {
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
                 </td>
                 <td class="teacherBoxRight">
-                    <h2><?php echo Yii::t('module', '0227'); ?></h2>
+                    <h2><?php echo $teacher->getRolesTeacherInModule(); ?></h2>
 
                     <div style="line-height: 1.2;word-break: break-word;">
                         <?php echo $teacher->getLastFirstName(); ?>

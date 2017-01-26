@@ -1789,3 +1789,45 @@ a.cke_dialog_ui_fileButton{
         margin-left:0;
     }
 }
+/*celebre - this block is owned by FullScreen JavaScript API*/
+.fullScreen {
+    width: 24px;
+    height: 24px;
+    float: right;
+    border: none;
+    z-index: 100;
+    background: url("../images/icons/maximization.png");
+}
+
+.fullScreen:hover {
+    opacity: 0.5;
+}
+
+:-webkit-full-screen#text #changeColor {
+    background-image: url("../images/icons/minimization.png");
+}
+:-webkit-full-screen{
+    background: black;
+}
+
+:-moz-full-screen {
+    background: black;
+}
+
+:-webkit-full-screen#text {
+    width:100%;
+    height: 100%;
+}
+
+:-moz-full-screen#text{
+    width:100%;
+    height: 100%;
+}
+:-moz-full-screen#text#changeColor{
+    background-image: url("../images/icons/minimization.png");
+}
+
+:-webkit-full-screen#text#changeColor {
+    background-image: url("../images/icons/minimization.png");
+}
+/*celebre - this block is owned by FullScreen JavaScript API*/
