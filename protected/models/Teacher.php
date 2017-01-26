@@ -385,7 +385,7 @@ class Teacher extends CActiveRecord
                 if ($this->first_name_ru != '' && $this->first_name_ru != 'не указано') $first = $this->first_name_ru;
             }
         }
-        return $last . " " . $first;
+        return $first . " " . $last;
     }
 
     public function firstName()
