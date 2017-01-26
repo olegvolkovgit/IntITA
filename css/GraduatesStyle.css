@@ -231,8 +231,8 @@ div.modal-footer {
 }
 .diploma-container {
     color: #3f7896;
-    background: url('../images/diploma/background_top_certificate.png') 100% 0 no-repeat,
-    url('../images/diploma/background_bottom_certifacate.png') 0 100% no-repeat;
+    background: url('../images/diploma/intita_diploma1.png') 100% 0 no-repeat;
+    background-size: 100% 100%;
     width:100%;
     height:100%;
 }
@@ -282,11 +282,13 @@ div.modal-footer {
     margin-top: 30px;
 }
 .sign {
-    margin-top: 200px;
+    margin-top: 25%;
     text-align: right;
+    margin-right: 50px;
 }
 .sign ul {
     display: inline-block;
+    margin-right: 30px;
     list-style-type: none;
     text-align: left;
     vertical-align: bottom;
@@ -298,17 +300,6 @@ div.modal-footer {
 .diplom-number {
     color: #3f7896;
     padding-right: 50px;
-    margin-bottom: 270px;
-}
-@media screen and (max-width: 1024px) {
-    .modal-content {
-        min-width: 700px;
-    }
-    .diploma-container {
-        background: url('../images/diploma/background_top_certificate.png') 100% 0 no-repeat,
-        url('../images/diploma/background_bottom_certifacate.png') 0 100% no-repeat;
-        width:100%;
-        height:100%;
-    }
+    margin-bottom: 20%;
 }
 /*celebre*/
