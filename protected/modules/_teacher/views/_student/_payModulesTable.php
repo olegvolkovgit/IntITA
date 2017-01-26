@@ -4,7 +4,9 @@
             <tr ng-repeat="row in $data" ng-if="row.module">
                 <td data-title="'Назва'">
                     <div ng-if="!row.module.cancelled">
-                        <a href="/module/{{row.module.language}}/{{row.id_module}}" target="_blank">{{row.module.title_ua}}</a>
+                        <a href="" ng-click="moduleLink(row.module.module_ID)" target="_blank">
+                            {{row.module.title_ua}}
+                        </a>
                     </div>
                     <div ng-if="row.module.cancelled">{{row.module.title_ua}} (скасований)</div>
                 </td>

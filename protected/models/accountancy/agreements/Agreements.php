@@ -5,7 +5,7 @@ class Agreements {
     private $agreementRelationMapping = [
         'user_id' => 'user.fullName',
         'approval_user' => 'approvalUser.fullName',
-        'payment_schema' => 'paymentSchema.name',
+//        'payment_schema' => 'paymentSchema.name',
         'cancel_user' => 'cancelUser.fullName',
         'service_id' => 'service.description'
     ];
