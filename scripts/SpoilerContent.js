@@ -46,7 +46,7 @@ function  diploma_dialog(name, course) {
                             '<li>'+'CEO: Roman Melnyk'+'</li>'+
                             '<li>'+'Date: December, 27, 2017'+'</li>'+
                         '</ul>'+
-                        '<img src="images/diploma/sign_intita.png" alt="director_sign">'+
+                        '<img src="images/diploma/sing_intita.png" alt="director_sign">'+
                         '<p class="diplom-number">'+'A11 № 000002-001'+'</p>'+
                     '</div>'+
                 '</div>',
