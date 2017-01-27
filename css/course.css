@@ -570,9 +570,10 @@ input[type="submit"][disabled]#submitButton {
     div.courseShortInfoTable {
         width:inherit;
     }
-    .courseLevelInfo{white-space: nowrap}
+    .courseLevelInfo {white-space: nowrap}
     .courseDetail span {
-         white-space: inherit;
+        white-space: inherit;
+        vertical-align: top;
     }
-    .courseShortInfoTable{display:inline-block}
+    .courseShortInfoTable {display:inline-block}
 }
