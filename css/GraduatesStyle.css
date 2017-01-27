@@ -302,6 +302,15 @@ div.modal-footer {
     padding-right: 50px;
     margin-bottom: 20%;
 }
+/*style for pagination*/
 
-
+.pager {
+    width: 200px;
+    height: 50px;
+    float: right;
+}
+.one {
+    margin-bottom: 60px;
+}
+/*style for pagination*/
 /*celebre*/
