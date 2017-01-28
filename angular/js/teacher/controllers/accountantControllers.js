@@ -119,7 +119,7 @@ angular
                     provider: invoices,
                     label: function (invoice) {
                         return invoice ? ((invoice.number || '') + ' від ' + (invoice.date_created || '') + ' сума ' + (invoice.summa || '') +
-                        ' (погашено: ' +invoice.paidAmount+ ')') : '';
+                        ' (погашено: ' +(invoice.paidAmount || '0')+ ')') : '';
                     },
                     onSelect: function ($model) {
                         $scope.operation.invoiceId = $model.id;

@@ -102,8 +102,15 @@ class PlainTaskMarks extends CActiveRecord
 	}
 
     public static function isTaskDone($user, $idTask){
-		return PlainTaskAnswer::model()->exists('id_student =:user and quiz_uid =:task',
-			array(':user' => $user, ':task' => $idTask));
+		$taskAnswers=PlainTaskAnswer::model()->findAllByAttributes(array('id_student'=>$user,'quiz_uid'=>$idTask));
+
+		foreach ($taskAnswers as $taskAnswer) {
+			$taskMark=PlainTaskMarks::model()->findByAttributes(array('id_user'=>$user,'id_answer'=>$taskAnswer->id));
+			if(!$taskMark || ($taskMark && $taskMark->mark)){
+				return true;
+			}
+		}
+		return false;
     }
 
     public static function taskTime($user, $answer){
