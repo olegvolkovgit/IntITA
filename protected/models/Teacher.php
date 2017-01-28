@@ -637,8 +637,10 @@ class Teacher extends CActiveRecord
         $result=array();
         $roles = AllRolesDataSource::roles();
         $value_to_delete = 'student' ; //Элемент с этим значением нужно удалить
+        $value_1_to_delete = 'admin';
         $roles = array_flip($roles); //Меняем местами ключи и значения
         unset ($roles[$value_to_delete]) ; //Удаляем элемент массива
+        unset ($roles[$value_1_to_delete]) ; //Удаляем элемент массива
         $roles = array_flip($roles); //Меняем местами ключи и значения
         foreach($roles as $role){
             if($model->hasRole($role))
