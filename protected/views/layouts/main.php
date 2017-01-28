@@ -319,5 +319,214 @@ $header = new Header();
     ga('send', 'pageview');
 
 </script>
+
+<!---->
+<!--<script type="text/javascript" src = "https://qa.intita.com/crmChat/lib/angular-dnd.js"></script>-->
+<!---->
+<!--<script type="text/javascript">-->
+<!--    var app = angular.module('mainApp', ['dnd']);-->
+<!---->
+<!--    app.controller('chat-controller', function($scope){-->
+<!---->
+<!--        this.dragstart = function(){-->
+<!--            console.log('dragstart', arguments);-->
+<!--            var res_elem = $('.draggable');-->
+<!--            res_elem.toggleClass("disable-animation");-->
+<!--        };-->
+<!---->
+<!--        this.drag = function(){-->
+<!--            console.log('drag', arguments);-->
+<!--        };-->
+<!---->
+<!--        this.dragend = function(){-->
+<!--            console.log('dragend', arguments);-->
+<!--            if(!arguments[0]) this.dropped = false;-->
+<!--            var res_elem = $('.draggable');-->
+<!--            res_elem.toggleClass("disable-animation");-->
+<!--        };-->
+<!---->
+<!--        this.dragenter = function(dropmodel){-->
+<!--            console.log('dragenter', arguments);-->
+<!--            this.active = dropmodel;-->
+<!--        };-->
+<!---->
+<!--        this.dragover = function(){-->
+<!--            console.log('dragover', arguments);-->
+<!--        };-->
+<!---->
+<!--        this.dragleave = function(){-->
+<!--            console.log('dragleave', arguments);-->
+<!--            this.active = undefined;-->
+<!--        };-->
+<!---->
+<!--        this.drop = function(dragmodel, model){-->
+<!--            console.log('drop', arguments);-->
+<!--            this.dropped = model;-->
+<!--        };-->
+<!---->
+<!--        this.isDropped = function(model){-->
+<!--            return this.dropped === model;-->
+<!--        };-->
+<!---->
+<!--        this.isActive = function(model){-->
+<!--            return this.active === model;-->
+<!--        };-->
+<!--        $scope.minimizete = function(){-->
+<!--            if($scope.state == 1)-->
+<!--            {-->
+<!--                $scope.state = 0;-->
+<!--                return;-->
+<!--            }-->
+<!--            $scope.state = 1;-->
+<!--        }-->
+<!--        $scope.fullScreen = function(){-->
+<!--            if($scope.state == 2)-->
+<!--            {-->
+<!--                $scope.state = 0;-->
+<!--                return;-->
+<!--            }-->
+<!--            $scope.state = 2;-->
+<!--        }-->
+<!---->
+<!--        function resizeFunc(e){-->
+<!--            var elem = $(window);-->
+<!--            var res_elem = $('.draggable');-->
+<!--            res_elem.css({ top: (elem.height() - 600) + 'px' });-->
+<!--            res_elem.css({ left: (elem.width() - 450) + 'px' });-->
+<!---->
+<!--        }-->
+<!--        $( window ).resize(resizeFunc);-->
+<!--        $( document ).ready(resizeFunc);-->
+<!---->
+<!---->
+<!--        $scope.state = 1;-->
+<!---->
+<!--        if(localStorage.getItem("chatState") == undefined)-->
+<!--            $scope.state = 0;-->
+<!--        else-->
+<!--        {-->
+<!--            $scope.state = parseInt(localStorage.getItem("chatState"));-->
+<!--            if($scope.state != 1)-->
+<!--            {-->
+<!--                $(".chat").removeClass("mini");-->
+<!--            }-->
+<!--        }-->
+<!---->
+<!--        $scope.$watch('state', function(){-->
+<!--            localStorage.setItem("chatState", $scope.state);-->
+<!--        })-->
+<!--        $scope.init = true;-->
+<!---->
+<!---->
+<!--    });-->
+<!---->
+<!---->
+<!---->
+<!--</script>-->
+<!--<!-- http://www.freeformatter.com/javascript-escape.html#ad-output $('body').append();-->-->
+<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>-->
+<!--<style type="text/css">-->
+<!--    .dnd-container{-->
+<!--        position: fixed; z-index: 99999999;top: 0px;left: 0px;width: 100%;height: 100%;transform: none;pointer-events: none;-->
+<!--    }-->
+<!--    .dnd-container .chat{-->
+<!--        width: 100%;-->
+<!--        height: 100%;-->
+<!--        max-height: 600px;-->
+<!--        max-width: 450px;-->
+<!--        top: calc(100% - 600px);-->
+<!--        left: calc(100% - 450px);-->
+<!--        bottom: 0;-->
+<!--        right: 0;-->
+<!--        position: absolute;transform: none;pointer-events: all;-->
+<!--        -webkit-transition: all .5s ease-in-out;-->
+<!--        -moz-transition: all .5s ease-in-out;-->
+<!--        -o-transition: all .5s ease-in-out;-->
+<!--        transition: all .5s ease-in-out;-->
+<!--        margin: 0;-->
+<!--    }-->
+<!--    .dnd-container .chat.mini{-->
+<!--        max-height: 65px;-->
+<!--        max-width: 450px;-->
+<!--        top: calc(100% - 65px) !important;-->
+<!--        left: calc(100% - 450px) !important;-->
+<!--    }-->
+<!--    .dnd-container .chat.full{-->
+<!--        max-height: 100%;-->
+<!--        max-width: 950px;-->
+<!--        right: 0px;-->
+<!--        bottom: 0px;-->
+<!--        top: 0 !important;-->
+<!--        left: 0 !important;-->
+<!--        margin: auto;-->
+<!--    }-->
+<!--    .dnd-container .chat.disable-animation{-->
+<!--        -webkit-transition: initial;-->
+<!--        -moz-transition: initial;-->
+<!--        -o-transition: initial;-->
+<!--        transition: initial;-->
+<!--    }-->
+<!--    .dnd-container .chat .logo{-->
+<!--        background-color: white;-->
+<!--        background-image: url(https://qa.intita.com/images/mainpage/Logo_small.png);-->
+<!--        background-repeat: no-repeat;-->
+<!--        background-size: contain;-->
+<!--        width: 110px;-->
+<!--        height: 30px;-->
+<!--        position: absolute;-->
+<!--        top: 18px;-->
+<!--        left: 25px;-->
+<!--        max-width: 0;-->
+<!--    }-->
+<!--    .dnd-container .chat.mini .logo{-->
+<!--        max-width: 100%;-->
+<!--    }-->
+<!--    .window_panel > *{-->
+<!--        display: inline-block;-->
+<!--        width: 20px; height: 35px;-->
+<!--        color: #425569;-->
+<!--        line-height: 35px;-->
+<!--    }-->
+<!--    .window_panel{-->
+<!--        position:absolute;top: 15px;right: 10px;width: 90px;height: 35px;background: none;color:#fff;-->
+<!--    }-->
+<!--    .handle{-->
+<!--        position:absolute;top: 15px;left: 60px;width: calc(100% - 250px);height: 35px;background: none;color:#fff;cursor: move;-->
+<!--    }-->
+<!--    .dnd-container .chat.mini .handle,-->
+<!--    .dnd-container .chat.full .handle{-->
+<!--        cursor: initial;-->
+<!--    }-->
+<!--    .material-icons{-->
+<!--        -webkit-transition: color .25s ease-in-out;-->
+<!--        -moz-transition: color .25s ease-in-out;-->
+<!--        -o-transition: color .25s ease-in-out;-->
+<!--        transition: color .25s ease-in-out;-->
+<!--    }-->
+<!--    .material-icons:hover{-->
+<!--        cursor: pointer;-->
+<!--        color: #4b75a4;-->
+<!--    }-->
+<!--    @media screen and (min-width:900px) {-->
+<!--        .window_panel{-->
+<!--            top: 15px;right: 10px;-->
+<!--        }-->
+<!--    }-->
+<!--</style>-->
+<!---->
+<!--<div ng-controller="chat-controller as main" class="dnd-container">-->
+<!--    <div ng-show="init" class="draggable chat mini ng-class:{mini: state==1, full: state==2}" ng-click="click(!$dragged &amp;&amp; !$resized &amp;&amp; !$rotated, $dropmodel)" dnd-draggable="state == 0" dnd-draggable-opts="{layer: 'layer1', handle: '.handle'}" dnd-on-dragstart="main.dragstart()" dnd-on-drag="main.drag($dropmodel)" dnd-on-dragend="main.dragend($dropmodel)" dnd-containment="'.dnd-container'" dnd-rect="main.rect3" dnd-model="main.dragmodel">-->
+<!--        <div class="logo"></div>-->
+<!--        <iframe style="width: 100%;height: 100%;border: none;" src="https://qa.intita.com/crmChat"></iframe>-->
+<!--        <div class="window_panel" style="">-->
+<!--            <div id="minimize_btn" class="material-icons" ng-click="minimizete()">indeterminate_check_box</div>-->
+<!--            <div id="fullscreen_btn" class="material-icons" ng-click="fullScreen()">web_asset</div>-->
+<!--            <div id="close_btn" class="material-icons" ng-click="state = -1">close</div>-->
+<!--        </div>-->
+<!--        <div class="handle" dnd-draggable-handle="" style=""></div>-->
+<!---->
+<!---->
+<!--    </div>-->
+<!--</div>-->
 </body>
 </html>

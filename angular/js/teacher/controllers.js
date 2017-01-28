@@ -91,6 +91,21 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
         $location.path(view);
 
     };
+    //redirect to lecture page
+    $scope.lectureLink = function (idLecture, idCourse) {
+        $http
+            .get(basePath + '/lesson/getLectureLink', {
+                params: {
+                    idLecture: idLecture,
+                    idCourse: idCourse
+                }
+            })
+            .then(function successCallback(response) {
+                window.open(response.data);
+            }, function errorCallback() {
+                return false;
+            });
+    };
     //redirect to module page
     $scope.moduleLink = function (id) {
         $http({

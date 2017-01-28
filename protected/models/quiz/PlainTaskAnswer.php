@@ -48,8 +48,12 @@ class PlainTaskAnswer extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'plainTask' => array(self::BELONGS_TO, 'PlainTask', 'quiz_uid'),
+            'plainTask' => array(self::BELONGS_TO, 'PlainTask', ['quiz_uid'=>'uid']),
             'user' => array(self::BELONGS_TO, 'StudentReg', 'id_student'),
+            'plainTaskMark' => array(self::BELONGS_TO, 'PlainTaskMarks', ['id'=>'id_answer']),
+            'plainTaskQuestion' => array(self::BELONGS_TO, 'LectureElement', array('block_element'=>'id_block'), 'through' => 'plainTask'),
+            'plainTaskLecture' => array(self::BELONGS_TO, 'Lecture', array('id_lecture'=>'id'), 'through' => 'plainTaskQuestion'),
+            'plainTaskModule' => array(self::BELONGS_TO, 'Module', array('idModule'=>'module_ID'), 'through' => 'plainTaskLecture'),
         );
     }
 

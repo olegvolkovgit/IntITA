@@ -18,6 +18,8 @@
                     </li>
                     <li><a href="#/students/finances">Фінанси</a>
                     </li>
+                    <li><a href="#/students/plainTasks">Завдання з розгорнутою відповідю</a>
+                    </li>
                     <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>
                     <li>
                         <a href="#/students/offlineEducation">

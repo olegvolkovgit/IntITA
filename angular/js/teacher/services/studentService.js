@@ -15,5 +15,9 @@ angular
                         url: url + '/getInvoicesByAgreement',
                         method: 'GET',
                     },
+                    studentPlainTasksAnswers: {
+                        url: url + '/getStudentPlainTasksAnswers',
+                        method: 'GET',
+                    },
                 });
         }]);
