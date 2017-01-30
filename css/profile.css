@@ -945,3 +945,29 @@ body .grid-view table.items td{
     #spoilerContent{display: block!important;}
     #spoilerContentMini{display: block!important;}
 }
+
+
+/*celebre - profileActivity*/
+.profileActivity {
+    padding: 15px 15px 15px 30px;
+    border: 1px solid #d8d8d8;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 14px;
+    overflow: hidden;
+}
+#lineProgress ul{
+    margin: 10px 0;
+}
+#lineProgress ul li{
+    display: inline-block;
+    list-style-type: none;
+    background: grey;
+    margin-right: 0.6%;
+    width: 4%;
+    height: 7px;
+}
+.percentOfProgress, #lineProgress {
+    text-align: left;
+}
+/*celebre - profileActivity*/

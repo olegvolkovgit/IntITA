@@ -185,8 +185,50 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
             </div>
         </div>
     </div>
+    <div class="profileActivity filling_profile">
+        <div class="percentOfProgress">Ваш профіль заповнено на <span id="percentProgress"></span> %</div>
+        <div id="lineProgress"></div>
+        <div id="gridBlock1" ng-show="loadProgress">
+            <div id="gridProgress1">
+                <img id='fullGrid1'
+                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid1.png'); ?>'>
+                <img id='gridMask1'
+                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid.png'); ?>'>
+            </div>
+            <div id="crowns1">
+                <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
+            </div>
+        </div>
+    </div>
 </div><!-- form -->
 <!-- Scripts for open tabs-->
+<script>
+    function percentDefinition(percentageFilling) {
+
+        var progressInPercent = percentageFilling/10*100;
+        var percentProgress = document.getElementById('percentProgress');
+        percentProgress.innerHTML = progressInPercent;
+        return progressInPercent;
+    }
+
+    function determinColorSheme() {
+        var counter = percentDefinition(1);
+        var lineProgress = document.getElementById('lineProgress');
+        var ul = document.createElement('ul');
+        var i = 0;
+        for(i; i<10; i++)
+        {
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(' '));
+            ul.appendChild(li);
+            if(counter >= i*10) {
+                li.style.background = 'blue';
+            }
+        }
+        lineProgress.appendChild(ul); // затем в документ
+    }
+    determinColorSheme();
+</script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openProfileTab.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>
