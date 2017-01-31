@@ -128,7 +128,10 @@ class PlainTaskMarks extends CActiveRecord
 
     public static function saveMark($answerId, $mark, $comment, $userId)
     {
-        $plainMark = new PlainTaskMarks();
+		$plainMark = PlainTaskMarks::model()->findByAttributes(array('id_user'=>$userId,'id_answer'=>$answerId));
+        if(!$plainMark){
+			$plainMark = new PlainTaskMarks();
+		}
 
         $plainMark->comment = $comment;
         $plainMark->id_answer = (int)$answerId;
