@@ -80,4 +80,58 @@ function profileCtrl($http,$scope) {
         $('#'+el).toggle('normal');
         return false;
     }
+
+    $scope.getProgressData=function (userId) {
+        var promise = $http({
+            url: basePath+'/studentreg/getProgressData',
+            method: "POST",
+            data: $.param({id: userId}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            return false;
+        });
+        return promise;
+    };
+    $scope.getProgressData(userId).then(function (response) {
+        console.log(response);
+
+        determinColorSheme(response.total, response.fill_cell);
+
+    });
+    function determinColorSheme() {
+        var counter = percentDefinition(4);
+        var lineProgress = document.getElementById('lineProgress');
+        var i = 0;
+        j = 0;
+        var count = 0;
+
+        for(i; i<10; i++)
+        {
+            var ul = document.createElement('ul');
+
+            for (j; j < 10; j++) {
+                count++;
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(' '));
+                ul.appendChild(li);
+                if(count > counter) {
+                    li.style.background = '#d9e4ee';
+                }
+            }
+            j = 0;
+            lineProgress.insertBefore(ul, lineProgress.firstChild);
+        }
+    }
+
+    function percentDefinition(percentageFilling) {
+
+        var progressInPercent = percentageFilling/10*100;
+        var percentProgress = document.getElementById('percentProgress');
+        percentProgress.innerHTML = progressInPercent;
+        return progressInPercent;
+    }
+
+
 }
