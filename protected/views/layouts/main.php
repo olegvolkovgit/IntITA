@@ -320,8 +320,8 @@ $header = new Header();
 
 </script>
 
-
 <script type="text/javascript" src = "https://qa.intita.com/crmChat/lib/angular-dnd.js"></script>
+<?php if (!Yii::app()->user->isGuest) { ?>
 
 <script type="text/javascript">
     angular
@@ -528,5 +528,6 @@ $header = new Header();
 
     </div>
 </div>
+<?php } ?>
 </body>
 </html>

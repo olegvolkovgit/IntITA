@@ -33,11 +33,16 @@
                         <span ng-if="row.plainTaskMark && !row.plainTaskMark.mark">не зарах.</span>
                         <span ng-if="!row.plainTaskMark">не перевірено</span>
                     </td>
-                    <td data-title="'Коментар'" filter="{'plainTaskMark.comment': 'text'}" sortable="'plainTaskMark.comment'">
+                    <td data-title="'Коментар'" filter="{'plainTaskMark.comment': 'text'}">
                         {{row.plainTaskMark.comment  | textToShotPlaintext}}
                     </td>
-                    <td data-title="'Викладач'">
-<!--                        {{row.plainTaskMark.comment}}-->
+                    <td data-title="'Викладач'" filter="{'markedBy.fullName': 'text'}">
+                        <a href="/profile/{{row.markedBy.id}}" target="_blank">
+                            {{row.markedBy.fullName}} {{row.markedBy.email}}
+                        </a>
+                        <a class="btnChat" ng-if="row.markedBy.id" ng-href="#/newmessages/receiver/{{row.markedBy.id}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                            <i class="fa fa-envelope fa-fw"></i>
+                        </a>
                     </td>
                     <td data-title="'Дата оцінювання'" filter="{'plainTaskMark.time': 'text'}" sortable="'plainTaskMark.time'">
                         {{row.plainTaskMark.time}}

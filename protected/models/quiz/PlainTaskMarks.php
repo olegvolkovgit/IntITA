@@ -10,6 +10,8 @@
  * @property integer $mark
  * @property string $comment
  * @property string $time
+ * @property integer $read_mark
+ * @property integer $marked_by
  */
 class PlainTaskMarks extends CActiveRecord
 {
@@ -29,10 +31,10 @@ class PlainTaskMarks extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_user, id_answer, mark', 'required'),
-			array('id_user, id_answer, mark', 'numerical', 'integerOnly'=>true),
+			array('id_user, id_answer, mark, read_mark', 'required'),
+			array('id_user, id_answer, mark, read_mark, marked_by', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			array('id, id_user, id_answer, mark, comment, time', 'safe', 'on'=>'search'),
+			array('id, id_user, id_answer, mark, comment, time, read_mark, marked_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +61,8 @@ class PlainTaskMarks extends CActiveRecord
 			'mark' => 'Mark',
 			'comment' => 'Comment',
 			'time' => 'Time',
+			'read_mark' => 'Read mark',
+			'marked_by' => 'Marked by',
 		);
 	}
 
@@ -84,7 +88,9 @@ class PlainTaskMarks extends CActiveRecord
 		$criteria->compare('mark',$this->mark);
 		$criteria->compare('comment',$this->comment,true);
 		$criteria->compare('time',$this->time,true);
-
+		$criteria->compare('read_mark',$this->read_mark,true);
+		$criteria->compare('marked_by',$this->marked_by,true);
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -128,7 +134,8 @@ class PlainTaskMarks extends CActiveRecord
         $plainMark->id_answer = (int)$answerId;
         $plainMark->id_user = (int)$userId;
         $plainMark->mark = (int)$mark;
-
+		$plainMark->marked_by = Yii::app()->user->getId();
+		
         if($plainMark->save())
             return true;
         else return false;

@@ -19,5 +19,13 @@ angular
                         url: url + '/getStudentPlainTasksAnswers',
                         method: 'GET',
                     },
+                    newPlainTasksMarks: {
+                        url: url + '/getNewPlainTasksMarksCount',
+                        method: 'GET',
+                    },
+                    readNewPlainTasksMarks: {
+                        url: url + '/readNewPlainTasksMarks',
+                        method: 'GET',
+                    },
                 });
         }]);

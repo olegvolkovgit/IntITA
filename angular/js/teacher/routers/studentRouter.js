@@ -73,5 +73,10 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 return basePath+"/_teacher/_student/student/plainTask/id/"+$stateParams.id;
             }
         })
+        .state('students/contacts', {
+            url: "/students/contacts",
+            cache         : false,
+            templateUrl: basePath+"/_teacher/_student/student/contacts",
+        })
 });
 
