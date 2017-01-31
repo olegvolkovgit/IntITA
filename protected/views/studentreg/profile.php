@@ -186,15 +186,9 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         </div>
     </div>
     <div class="profileActivity filling_profile">
-        <div class="percentOfProgress">Ваш профіль заповнено на <span id="percentProgress"></span> %</div>
+        <div class="percentOfProgress">Профіль заповнено на <span id="percentProgress"></span> %</div>
         <div id="lineProgress"></div>
         <div id="gridBlock1" ng-show="loadProgress">
-            <div id="gridProgress1">
-                <img id='fullGrid1'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid1.png'); ?>'>
-                <img id='gridMask1'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid.png'); ?>'>
-            </div>
             <div id="crowns1">
                 <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
             </div>
@@ -212,20 +206,28 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
     }
 
     function determinColorSheme() {
-        var counter = percentDefinition(1);
+        var counter = percentDefinition(4);
         var lineProgress = document.getElementById('lineProgress');
-        var ul = document.createElement('ul');
         var i = 0;
+        j = 0;
+        var count = 0;
+
         for(i; i<10; i++)
         {
-            var li = document.createElement('li');
-            li.appendChild(document.createTextNode(' '));
-            ul.appendChild(li);
-            if(counter >= i*10) {
-                li.style.background = 'blue';
+            var ul = document.createElement('ul');
+
+            for (j; j < 10; j++) {
+                count++;
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(' '));
+                ul.appendChild(li);
+                if(count > counter) {
+                    li.style.background = '#d9e4ee';
+                }
             }
+            j = 0;
+            lineProgress.insertBefore(ul, lineProgress.firstChild);
         }
-        lineProgress.appendChild(ul); // затем в документ
     }
     determinColorSheme();
 </script>
