@@ -97,7 +97,7 @@ function profileCtrl($http,$scope) {
     $scope.getProgressData(userId).then(function (response) {
         console.log(response);
 
-        determinColorSheme(response.total, response.fill_cell);
+        determinColorSheme(response.count_total_cell, response.count_full_cell);
 
     });
     function determinColorSheme() {

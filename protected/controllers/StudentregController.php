@@ -382,4 +382,29 @@ class StudentRegController extends Controller
     {
         echo Careers::careersList();
     }
+//    celebre
+    public function actionGetProgressData()
+    {
+        $id = Yii::app()->request->getPost('id', 0);
+        $model = RegisteredUser::userById($id);
+        $count_full_cell  = 0;
+        $count_total_cell = 0;
+        $student_attributes = ['firstName', 'middleName', 'secondName', 'nickname',
+                               'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
+                               'vkontakte', 'twitter', 'phone', 'address', 'education',
+                                'educform', 'interests', 'aboutUs', 'aboutMy', 'avatar',
+                                'skype', 'country', 'sity', 'prev_job'];
+
+        foreach ($model->attributes as $key => $attribute){
+            if(in_array($key, $student_attributes)) {
+                $count_total_cell++;
+                if (!empty($attribute)) {
+                    $count_full_cell++;
+                }
+            }
+        }
+//        var_dump($count_full_cell, $count_total_cell); die;
+        $data=array($count_full_cell, $count_total_cell);
+        print_r($data);
+    }
 }

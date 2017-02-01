@@ -937,14 +937,16 @@ body .grid-view table.items td{
         border-radius: inherit;
         margin-top: 0;
     }
+    /*celebre*/
+    #lineProgress ul li{
+        margin-right: 2px;
+        width: 20px;
+    }
+    /*celebre*/
 }
 @media only screen and (min-width: 361px) {
     #spoilerContentMini {
         display: block!important;
-    }
-    #lineProgress ul li{
-        margin-right: 2px;
-        width: 20px;
     }
 }
 @media only screen and (min-width: 801px) {
