@@ -23,6 +23,14 @@
                         <span ng-if="row.plainTaskMark && !row.plainTaskMark.mark">не зарах.</span>
                         <span ng-if="!row.plainTaskMark">не перевірено</span>
                     </td>
+                    <td data-title="'Викладач'" >
+                        <a href="/profile/{{row.markedBy.id}}" target="_blank">
+                            {{row.markedBy.fullName}} {{row.markedBy.email}}
+                        </a>
+                        <a class="btnChat" ng-if="row.markedBy.id" ng-href="#/newmessages/receiver/{{row.markedBy.id}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                            <i class="fa fa-envelope fa-fw"></i>
+                        </a>
+                    </td>
                 </tr>
             </table>
             <div class="form-group">

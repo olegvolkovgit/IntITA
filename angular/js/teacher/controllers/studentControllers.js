@@ -40,9 +40,18 @@ angular
         };
     })
 
-function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) {
-
-
+function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state, studentService) {
+    $scope.getNewPlainTasksMarks=function(){
+        studentService.newPlainTasksMarks()
+            .$promise
+            .then(function successCallback(response) {
+                $rootScope.countOfNewPlainTasksMarks=response.data;
+            }, function errorCallback() {
+                console.log("Отримати дані про нові оцінки по простих завданнях не вдалося");
+            });
+    };
+    $scope.getNewPlainTasksMarks();
+    
     $scope.getTodayConsultations = function() {
         initTodayConsultationsTable();
 
@@ -223,12 +232,27 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     });
 }
 
-function studentPlainTasksCtrl($scope, NgTableParams, $stateParams, studentService) {
+function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {
     $scope.changePageHeader('Завдання з розгорнутою відповідю');
+    //set new plain task marks as read
+    $scope.readNewPlainTasksMarks=function(){
+        studentService.readNewPlainTasksMarks()
+            .$promise
+            .then(function successCallback() {
+                $rootScope.countOfNewPlainTasksMarks=0;
+            }, function errorCallback() {
+                console.log("Виникла помилка при спробі відмітити нові оцінки на прості задачі, як переглянуті");
+            });
+    };
+    $scope.readNewPlainTasksMarks();
 
     $scope.marks = [{id:'0', title:'не зарах.'}, {id:'1', title:'зарах.'}, {id:'null', title:'не перевірено'}];
 
-    $scope.studentPlainTasksAnswersTable = new NgTableParams({}, {
+    $scope.studentPlainTasksAnswersTable = new NgTableParams({
+        sorting: {
+            'plainTaskMark.time': 'desc'
+        },
+    }, {
         getData: function (params) {
             return studentService
                 .studentPlainTasksAnswers(params.url())

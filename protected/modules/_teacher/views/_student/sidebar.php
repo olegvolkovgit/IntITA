@@ -5,7 +5,9 @@
 ?>
 <li>
     <a href="#/students" ng-controller="studentCtrl" ng-click="changeView('students')">
-        <i class="fa fa-bar-chart-o fa-fw"></i>Студент<span class="fa arrow"></span></a>
+        <i class="fa fa-bar-chart-o fa-fw"></i>Студент<span class="fa arrow"></span>
+        <span ng-cloak class="label label-success" ng-if="countOfNewPlainTasksMarks > 0">{{countOfNewPlainTasksMarks}}</span>
+    </a>
     <ul class="nav nav-second-level">
         <li>
             <a href="#/students/courses">
@@ -25,6 +27,12 @@
         <li>
             <a href="#/students/plainTasks">
                 Завдання з розгорнутою відповідю
+                <span ng-cloak class="label label-success" ng-if="countOfNewPlainTasksMarks > 0">{{countOfNewPlainTasksMarks}}</span>
+            </a>
+        </li>
+        <li>
+            <a href="#/students/сontacts">
+                Контакти
             </a>
         </li>
         <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>

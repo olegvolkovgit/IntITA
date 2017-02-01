@@ -45,6 +45,13 @@ angular
                             "&type=" + $stateParams.scenario + "&form=" + $stateParams.form + "&schema=" + $stateParams.schemeId;
                     }
                 })
+                .state('users/profile/:id', {
+                    url: "/users/profile/:id",
+                    cache         : false,
+                    templateUrl: function ($stateParams) {
+                        return basePath+"/_teacher/user/index?id="+$stateParams.id;
+                    }
+                })
     }
     );
 

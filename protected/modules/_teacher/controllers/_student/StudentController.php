@@ -12,9 +12,12 @@ class StudentController extends TeacherCabinetController
     public function actionIndex($id)
     {
         $student = RegisteredUser::userById($id);
-
+        $role = new Student();
+        $teachersByModule = $role->getTeachersForModules($student->registrationData);
+        
         $this->renderPartial('/_student/index', array(
-            'student' => $student
+            'student' => $student,
+            'teachersByModule' => $teachersByModule,
         ), false, true);
     }
 
@@ -371,5 +374,24 @@ class StudentController extends TeacherCabinetController
         }
 
         echo json_encode($subgroups);
+    }
+
+    public function actionGetNewPlainTasksMarksCount()
+    {
+        $model=PlainTaskMarks::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'read_mark'=>false));
+        $result=array('data'=>count($model));
+        echo json_encode($result);
+    }
+
+    public function actionReadNewPlainTasksMarks()
+    {
+        PlainTaskMarks::model()->updateAll(array('read_mark'=>true), 'read_mark = 0');
+    }
+
+    public function actionContacts()
+    {
+        $student = RegisteredUser::userById(Yii::app()->user->getId());
+        $trainer=$student->registrationData->trainer->trainer0;
+        $this->renderPartial('/_student/contacts', array('trainer' => $trainer), false, true);
     }
 }

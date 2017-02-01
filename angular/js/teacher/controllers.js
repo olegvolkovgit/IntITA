@@ -27,6 +27,10 @@ angular
     .module('teacherApp')
     .controller('mailCtrl', mailCtrl);
 
+angular
+    .module('teacherApp')
+    .controller('mainTeacherConsultantCtrl', mainTeacherConsultantCtrl);
+
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -692,3 +696,17 @@ function mailCtrl($scope, $http, $stateParams, $ngBootbox) {
 
 }
 
+function mainTeacherConsultantCtrl($scope, $rootScope, $http) {
+    $scope.getNewPlainTasksAnswers=function(){
+        $http({
+            method:'POST',
+            url:basePath + '/_teacher/_teacher_consultant/teacherConsultant/getNewPlainTasksAnswersCount',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(response){;
+            $rootScope.countOfNewPlainTasksAnswers=response;
+        }).error(function(){
+            console.log("Отримати дані про нові відповіді по простих завданнях не вдалося");
+        })
+    };
+    $scope.getNewPlainTasksAnswers();
+}

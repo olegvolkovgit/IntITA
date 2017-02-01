@@ -14,31 +14,35 @@ angular
             );
         });
     })
-    .controller('teacherConsultantTasksCtrl', function ($scope, $http, $templateCache, $state) {
-        $jq(document).ready(function () {
-            $jq('#tasksTable').DataTable({
-                    "autoWidth": false,
-                    language: {
-                        "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json"
-                    },
-                    "columns": [
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        {
-                            "type": "de_date", targets: 1,
-                        },
-                        null,
-                    ],
-                    "order": [[6, "asc"], [5, "desc"]]
-                }
-            );
+    .controller('teacherConsultantTasksCtrl', function ($scope, $rootScope, $http, NgTableParams, $templateCache, $state, teacherConsultantService) {
+        //set new plain task answers as read
+        $scope.readNewPlainTasksAnswers=function(){
+            $http({
+                method:'POST',
+                url:basePath + '/_teacher/_teacher_consultant/teacherConsultant/readNewPlainTasksAnswers',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function(){
+                $rootScope.countOfNewPlainTasksAnswers=0;
+            }).error(function(){
+                console.log("Виникла помилка при спробі відмітити нові відповіді на прості задачі, як переглянуті");
+            })
+        };
+        $scope.readNewPlainTasksAnswers();
+
+        $scope.marks = [{id:'0', title:'не зарах.'}, {id:'1', title:'зарах.'}, {id:'null', title:'не перевірено'}];
+        $scope.tasksTableParams = new NgTableParams({filter:{'plainTaskMark.mark':'null'}}, {
+            getData: function (params) {
+                return teacherConsultantService
+                    .plainTasksList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
         });
 
         $scope.markTask = function () {
-            console.log('ddd');
             var id = $jq('#plainTaskId').val();
             var mark = $jq('#mark').val();
             var comment = $jq('[name = comment]').val();

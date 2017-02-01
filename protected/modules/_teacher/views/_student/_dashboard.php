@@ -18,7 +18,15 @@
                     </li>
                     <li><a href="#/students/finances">Фінанси</a>
                     </li>
-                    <li><a href="#/students/plainTasks">Завдання з розгорнутою відповідю</a>
+                    <li>
+                        <a href="#/students/plainTasks">Завдання з розгорнутою відповідю
+                            <span ng-cloak class="label label-success" ng-if="countOfNewPlainTasksMarks > 0">{{countOfNewPlainTasksMarks}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#/students/contacts">
+                            Контакти
+                        </a>
                     </li>
                     <?php if(UserStudent::studentHasSubgroup(Yii::app()->user->getId())) { ?>
                     <li>
