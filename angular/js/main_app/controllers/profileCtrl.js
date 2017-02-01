@@ -97,11 +97,11 @@ function profileCtrl($http,$scope) {
     $scope.getProgressData(userId).then(function (response) {
         console.log(response);
 
-        determinColorSheme(response.count_total_cell, response.count_full_cell);
+        $scope.determinColorSheme(response.count_total_cell, response.count_full_cell);
 
     });
-    function determinColorSheme() {
-        var counter = percentDefinition(4);
+    $scope.determinColorSheme = function(total, full_cell) {
+        var counter = $scope.percentDefinition(total, full_cell);
         var lineProgress = document.getElementById('lineProgress');
         var i = 0;
         j = 0;
@@ -125,9 +125,11 @@ function profileCtrl($http,$scope) {
         }
     }
 
-    function percentDefinition(percentageFilling) {
+    $scope.percentDefinition = function(total, full_cell) {
 
-        var progressInPercent = percentageFilling/10*100;
+        console.log(total, full_cell);
+        var progressInPercent = Math.round(full_cell/total*100).toFixed(0);
+        console.log(progressInPercent);
         var percentProgress = document.getElementById('percentProgress');
         percentProgress.innerHTML = progressInPercent;
         return progressInPercent;

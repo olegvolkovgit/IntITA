@@ -105,6 +105,7 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             for (var key in $scope.dataForm) {
                 if($scope.dataForm[key].trim()!='')
                     $scope.progress++;
+                console.log(key);
             }
             if(typeof  $scope.form.selectedCountry!='undefined')
                 $scope.progress++;

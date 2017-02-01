@@ -388,12 +388,13 @@ class StudentRegController extends Controller
         $id = Yii::app()->request->getPost('id', 0);
         $model = RegisteredUser::userById($id);
         $count_full_cell  = 0;
-        $count_total_cell = 0;
+        $count_total_cell = 2; // add $model->startCareers preferSpecializations
         $student_attributes = ['firstName', 'middleName', 'secondName', 'nickname',
                                'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
                                'vkontakte', 'twitter', 'phone', 'address', 'education',
-                                'educform', 'interests', 'aboutUs', 'aboutMy', 'avatar',
-                                'skype', 'country', 'city', 'prev_job'];
+                                'interests', 'aboutUs', 'aboutMy', 'avatar',
+                                'skype', 'country', 'city', 'prev_job',
+                                'document_issued_date', 'inn', 'passport_issued', 'current_job'];
 
         foreach ($model->attributes as $key => $attribute){
             if(in_array($key, $student_attributes)) {
@@ -402,8 +403,17 @@ class StudentRegController extends Controller
                     $count_full_cell++;
                 }
             }
+            if($key === 'avatar' && $attribute === 'noname.png') {
+                $count_full_cell--;
+            }
         }
-        $data=array('count_total_cell'=>$count_full_cell, 'count_full_cell'=>$count_total_cell);
+        if(count($model->startCareers)) {
+            $count_full_cell++;
+        }
+        if(count($model->preferSpecializations)) {
+            $count_full_cell++;
+        }
+        $data=array('count_total_cell'=>$count_total_cell, 'count_full_cell'=>$count_full_cell);
         echo json_encode($data);
     }
 }
