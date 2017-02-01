@@ -393,7 +393,7 @@ class StudentRegController extends Controller
                                'birthday', 'email', 'facebook', 'googleplus', 'linkedin',
                                'vkontakte', 'twitter', 'phone', 'address', 'education',
                                 'educform', 'interests', 'aboutUs', 'aboutMy', 'avatar',
-                                'skype', 'country', 'sity', 'prev_job'];
+                                'skype', 'country', 'city', 'prev_job'];
 
         foreach ($model->attributes as $key => $attribute){
             if(in_array($key, $student_attributes)) {
@@ -403,8 +403,7 @@ class StudentRegController extends Controller
                 }
             }
         }
-//        var_dump($count_full_cell, $count_total_cell); die;
-        $data=array($count_full_cell, $count_total_cell);
-        print_r($data);
+        $data=array('count_total_cell'=>$count_full_cell, 'count_full_cell'=>$count_total_cell);
+        echo json_encode($data);
     }
 }
