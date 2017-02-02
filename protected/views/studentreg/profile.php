@@ -188,49 +188,11 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
     <div class="profileActivity filling_profile">
         <div class="percentOfProgress">Профіль заповнено на <span id="percentProgress"></span> %</div>
         <div id="lineProgress"></div>
-        <div id="gridBlock1" ng-show="loadProgress">
-            <div id="crowns1">
-                <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
-            </div>
-        </div>
+        <span class="corona"></span>
     </div>
 </div><!-- form -->
 <!-- Scripts for open tabs-->
-<!--<script>-->
-<!--    function percentDefinition(percentageFilling) {-->
-<!---->
-<!--        var progressInPercent = percentageFilling/10*100;-->
-<!--        var percentProgress = document.getElementById('percentProgress');-->
-<!--        percentProgress.innerHTML = progressInPercent;-->
-<!--        return progressInPercent;-->
-<!--    }-->
-<!---->
-<!--    function determinColorSheme() {-->
-<!--        var counter = percentDefinition(4);-->
-<!--        var lineProgress = document.getElementById('lineProgress');-->
-<!--        var i = 0;-->
-<!--        j = 0;-->
-<!--        var count = 0;-->
-<!---->
-<!--        for(i; i<10; i++)-->
-<!--        {-->
-<!--            var ul = document.createElement('ul');-->
-<!---->
-<!--            for (j; j < 10; j++) {-->
-<!--                count++;-->
-<!--                var li = document.createElement('li');-->
-<!--                li.appendChild(document.createTextNode(' '));-->
-<!--                ul.appendChild(li);-->
-<!--                if(count > counter) {-->
-<!--                    li.style.background = '#d9e4ee';-->
-<!--                }-->
-<!--            }-->
-<!--            j = 0;-->
-<!--            lineProgress.insertBefore(ul, lineProgress.firstChild);-->
-<!--        }-->
-<!--    }-->
-<!--    determinColorSheme();-->
-<!--</script>-->
+
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openProfileTab.js"></script>
 <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openTab.js"></script>

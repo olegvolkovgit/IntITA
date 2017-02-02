@@ -1014,8 +1014,12 @@ body .grid-view table.items td{
 .percentOfProgress {
     text-align: left;
 }
-
 #lineProgress {
     margin-left: -40px;
+    float: left;
+}
+.corona {
+    padding: 0 13px;
+    background: url("../images/icons/crowns.png") -25px 0;
 }
 /*celebre - profileActivity*/

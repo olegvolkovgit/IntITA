@@ -123,17 +123,17 @@ function profileCtrl($http,$scope) {
             j = 0;
             lineProgress.insertBefore(ul, lineProgress.firstChild);
         }
+
+        var corona = document.getElementsByClassName('corona')[0];
+        corona.style.backgroundPositionX = -Math.ceil(counter/10)*25 + 'px';
     }
 
     $scope.percentDefinition = function(total, full_cell) {
 
-        console.log(total, full_cell);
         var progressInPercent = Math.round(full_cell/total*100).toFixed(0);
-        console.log(progressInPercent);
         var percentProgress = document.getElementById('percentProgress');
         percentProgress.innerHTML = progressInPercent;
         return progressInPercent;
     }
-
 
 }

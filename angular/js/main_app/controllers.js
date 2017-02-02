@@ -105,7 +105,6 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             for (var key in $scope.dataForm) {
                 if($scope.dataForm[key].trim()!='')
                     $scope.progress++;
-                console.log($scope.dataForm.length);
             }
             if(typeof  $scope.form.selectedCountry!='undefined')
                 $scope.progress++;
@@ -120,7 +119,6 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             }
 
             var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length+1))).toFixed(0);
-            console.log($scope.modelsArr.length);
 
             var percentForGrid = percent - 1;
             var maskMargin = Math.round(percent / 10).toFixed(0) * 30;
