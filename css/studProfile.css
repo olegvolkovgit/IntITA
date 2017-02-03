@@ -231,6 +231,7 @@ table.profileInfo {
     border-radius: 5px;
     text-align: center;
     padding-bottom: 20px;
+    margin-bottom: 40px;
 }
 .profileActivity{
     display:inline-block;
@@ -619,39 +620,39 @@ table#emptyFieldList td{
     text-align: left;
     padding: 0 5px;
 }
-#gridProgress{
-    display: inline-block;
-    position: relative;
-    margin: 0 auto;
-    margin-top: 50px;
-    width:300px;
-    height: 100px;
-    overflow: hidden;
-}
-#fullGrid{
-    position: absolute;
-    top:0;
-    left:0;
-}
-#gridMask{
-    position: absolute;
-    top:0;
-    left:-300px;
-}
-#progressBar{
-    display: none;
-}
-#gridBlock{
-    display:none;
-    text-align: center;
-    margin-top: 50px;
-}
-#crowns,#twoCrowns{
-    display: inline-block;
-    width: 25px;
-    height: 21px;
-    overflow: hidden;
-}
+/*#gridProgress{*/
+    /*display: inline-block;*/
+    /*position: relative;*/
+    /*margin: 0 auto;*/
+    /*margin-top: 50px;*/
+    /*width:300px;*/
+    /*height: 100px;*/
+    /*overflow: hidden;*/
+/*}*/
+/*#fullGrid{*/
+    /*position: absolute;*/
+    /*top:0;*/
+    /*left:0;*/
+/*}*/
+/*#gridMask{*/
+    /*position: absolute;*/
+    /*top:0;*/
+    /*left:-300px;*/
+/*}*/
+/*#progressBar{*/
+    /*display: none;*/
+/*}*/
+/*#gridBlock{*/
+    /*display:none;*/
+    /*text-align: center;*/
+    /*margin-top: 50px;*/
+/*}*/
+/*#crowns,#twoCrowns{*/
+    /*display: inline-block;*/
+    /*width: 25px;*/
+    /*height: 21px;*/
+    /*overflow: hidden;*/
+/*}*/
 .rowbuttons{text-align: right;padding-right: 6%}
 .studProf .clientValidationError{
     margin-left: 33%;
@@ -805,3 +806,66 @@ table#emptyFieldList td{
         margin-left: 0;
     }
 }
+
+#gridProgress ul{
+    margin: 10px 0;
+}
+#gridProgress ul li{
+    display: inline-block;
+    list-style-type: none;
+    background: grey;
+    margin-right: 3px;
+    width: 25px;
+    height: 7px;
+}
+#gridProgress ul {
+    margin-bottom: -27px;
+}
+#gridProgress {
+    margin-bottom: 23px;
+}
+#gridProgress ul:first-child {
+    margin-top: 20px;
+}
+#gridProgress ul:first-child li {
+    background: #780000;
+}
+#gridProgress ul:nth-child(2) li {
+    background: #ee0000;
+}
+#gridProgress ul:nth-child(3) li {
+    background: #ff3030;
+}
+#gridProgress ul:nth-child(4) li {
+    background: #e76600;
+}
+#gridProgress ul:nth-child(5) li {
+    background: #009aff;
+}
+#gridProgress ul:nth-child(6) li {
+    background: #30309d;
+}
+#gridProgress ul:nth-child(7) li {
+    background: #009a00;
+}
+#gridProgress ul:nth-child(8) li {
+    background: #00cd0d;
+}
+#gridProgress ul:nth-child(9) li {
+    background: #00ff00;
+}
+#gridProgress ul:last-child li {
+    background: #ffcd0d;
+}
+#gridProgress {
+    margin-left: -60px;
+}
+#crowns {
+    padding: 0 12px;
+    background: url("../images/icons/crowns.png") -25px 0;
+    margin-left: 305px;
+    position: relative;
+    top: -25px;
+}
+
+/*celebre - profileActivity*/

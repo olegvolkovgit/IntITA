@@ -128,15 +128,8 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
             </div>
         </div>
         <div id="gridBlock" ng-show="loadProgress">
-            <div id="gridProgress">
-                <img id='fullGrid'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid1.png'); ?>'>
-                <img id='gridMask'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid.png'); ?>'>
-            </div>
-            <div id="crowns">
-                <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
-            </div>
+            <div id="gridProgress"></div>
+            <span id="crowns"></span>
         </div>
     </div>
     <div class="studProf">

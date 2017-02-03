@@ -186,7 +186,7 @@ $this->breadcrumbs = array(Yii::t('breadcrumbs', '0054'));
         </div>
     </div>
     <div class="profileActivity filling_profile">
-        <div class="percentOfProgress">Профіль заповнено на <span id="percentProgress"></span> %</div>
+        <div class="percentOfProgress"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percentProgress"></span> %</div>
         <div id="lineProgress"></div>
         <span class="corona"></span>
     </div>
