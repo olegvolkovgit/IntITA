@@ -1016,10 +1016,30 @@ body .grid-view table.items td{
 }
 #lineProgress {
     margin-left: -40px;
-    float: left;
+    position: relative;
 }
 .corona {
     padding: 0 13px;
     background: url("../images/icons/crowns.png") -25px 0;
+    margin-left: 285px;
+    position: relative;
+    top: -25px;
+}
+
+@media only screen and (max-width: 345px) {
+    #lineProgress ul li{
+        margin-right: 2px;
+        width: 20px;
+        height: 6px;
+    }
+    .corona {
+        margin-left: 225px;
+    }
+    #lineProgress ul {
+        margin-bottom: -25px;
+    }
+    #lineProgress {
+        margin-bottom: 25px;
+    }
 }
 /*celebre - profileActivity*/
