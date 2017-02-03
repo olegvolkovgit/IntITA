@@ -48,7 +48,12 @@
                                ng-click="selectedRecipients = null">
                         Розсилка по окремих користувачах
                     </label>
-
+                    <br>
+                    <label>
+                        <input type="radio" ng-model="newsletterType"  value="emailsFromDatabase"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по базі email'ів
+                    </label>
                 </div>
                 <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='roles'">
                     <label>Кому</label>

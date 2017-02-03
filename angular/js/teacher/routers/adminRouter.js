@@ -276,7 +276,11 @@ config(function ($stateProvider) {
                 return basePath+"/_teacher/_admin/coursemanage/addLinkedCourse/course/"+$stateParams.course+"/lang/"+$stateParams.lang;
             }
         })
-    
+        .state('admin/usersemail', {
+            url: "/admin/usersemail",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_admin/users/usersemail",
+        })
 });
 
 

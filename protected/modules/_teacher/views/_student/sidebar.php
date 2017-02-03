@@ -31,7 +31,7 @@
             </a>
         </li>
         <li>
-            <a href="#/students/сontacts">
+            <a href="#/students/contacts">
                 Контакти
             </a>
         </li>
