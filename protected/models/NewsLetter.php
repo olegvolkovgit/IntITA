@@ -106,6 +106,14 @@ class NewsLetter implements ITask
                     }
                 }
                 break;
+            case "emailsFromDatabase":
+                $models = UsersEmailDatabase::model()->findAll();
+                if (isset($models)) {
+                    foreach ($models as $user) {
+                        array_push($mailList, $user->email);
+                    }
+                }
+                break;
         }
         return array_unique($mailList);
     }

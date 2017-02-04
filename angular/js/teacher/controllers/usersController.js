@@ -14,6 +14,7 @@ angular
     .controller('authorsTableCtrl', authorsTableCtrl)
     .controller('offlineStudentsTableCtrl', offlineStudentsTableCtrl)
     .controller('userProfileCtrl',userProfileCtrl)
+    .controller('usersEmailCtrl',usersEmailCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({}, {
@@ -638,6 +639,85 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
     $scope.collapse=function (el) {
         $jq(el).toggle("medium");
     };
-
-
 }
+
+function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
+    $scope.usersEmailTableParams = new NgTableParams({}, {
+        getData: function (params) {
+            return usersService
+                .usersEmailList(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+    
+    $scope.uploadFile =function (files) {
+        $scope.isFile=true;
+        var file_data = files[0];
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        $jq.ajax({
+            url: basePath+"/_teacher/_admin/users/saveExcelFile", // point to server-side PHP script
+            dataType: 'text',  // what to expect back from the PHP script, if anything
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function(){
+                bootbox.alert('Файл завантажено');
+            }
+        });
+    };
+
+    $scope.importExcel=function () {
+        $http({
+            method: 'POST',
+            url: basePath+"/_teacher/_admin/users/importExcel",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback() {
+            $scope.usersEmailTableParams.reload();
+            $scope.isFile=false;
+        }, function errorCallback() {
+            $scope.isFile=false;
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    }
+
+    $scope.removeEmail=function (email) {
+        bootbox.confirm('Видалити email?', function (result) {
+            if (result) {
+                $http({
+                    method: 'POST',
+                    data: $jq.param({email: email}),
+                    url: basePath + "/_teacher/_admin/users/removeEmail",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback() {
+                    $scope.usersEmailTableParams.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    }
+
+    $scope.truncateEmailsTable=function (email) {
+        bootbox.confirm("Очистити базу email'ів?", function (result) {
+            if (result) {
+                $http({
+                    method: 'POST',
+                    data: $jq.param({email: email}),
+                    url: basePath + "/_teacher/_admin/users/truncateEmailsTable",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback() {
+                    $scope.usersEmailTableParams.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    }
+};
