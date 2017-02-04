@@ -144,6 +144,9 @@ function editProfileController($scope, $http, countryCity, careerService, specia
 
             var crown = document.getElementById('crowns');
             crown.style.backgroundPositionX = -Math.ceil(percent/10)*25 + 'px';
+            var percentInStudentProfile = document.getElementById('percent').innerHTML = percent;
+
+
 
             $scope.loadProgress=true;
         });

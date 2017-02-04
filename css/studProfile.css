@@ -647,12 +647,12 @@ table#emptyFieldList td{
     /*text-align: center;*/
     /*margin-top: 50px;*/
 /*}*/
-/*#crowns,#twoCrowns{*/
-    /*display: inline-block;*/
-    /*width: 25px;*/
-    /*height: 21px;*/
-    /*overflow: hidden;*/
-/*}*/
+#twoCrowns {
+    padding: 0 13px;
+    background: url("../images/icons/crown.png") 0 0;
+    position: relative;
+    top: -4px;
+}
 .rowbuttons{text-align: right;padding-right: 6%}
 .studProf .clientValidationError{
     margin-left: 33%;
