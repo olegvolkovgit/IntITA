@@ -53,16 +53,19 @@ class ExcelImporter extends PHPExcel
             // Перебираем столбцы листа Excel
             for ($column = 0; $column < $columns_count; $column++) {
                 $cell = $worksheet->getCellByColumnAndRow($column, $row);
-                $value_str .= "'" . $cell->getCalculatedValue() . "',";
+                if(!empty($cell->getCalculatedValue())) {
+                    $value_str .= "'" . $cell->getCalculatedValue() . "',";
+                }
             }
 
             // Обрезаем строку, убирая запятую в конце
             $value_str = substr($value_str, 0, -1);
 
             // Добавляем строку в таблицу MySQLb.
-
-            $sql = "INSERT IGNORE INTO " . $this->table_name . " (" . $columns_str . ") VALUES (" . $value_str . ")";
-            Yii::app()->db->createCommand($sql)->execute();
+            if($value_str){
+                $sql = "INSERT IGNORE INTO " . $this->table_name . " (" . $columns_str . ") VALUES (" . $value_str . ")";
+                Yii::app()->db->createCommand($sql)->execute();
+            }
         }
 
         return true;
