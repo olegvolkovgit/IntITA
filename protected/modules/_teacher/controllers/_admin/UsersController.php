@@ -570,8 +570,8 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionSaveExcelFile(){
-        if (!file_exists(Yii::app()->basePath . "/../files/emailsBase")) {
-            mkdir(Yii::app()->basePath . "/../files/emailsBase");
+        if (!file_exists(Yii::app()->basePath . "/files/emailsBase")) {
+            mkdir(Yii::app()->basePath . "/files/emailsBase");
         }
         if ( 0 < $_FILES['file']['error'] ) {
             echo 'Error: ' . $_FILES['file']['error'] . '<br>';
