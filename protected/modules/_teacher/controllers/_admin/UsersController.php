@@ -570,19 +570,19 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionSaveExcelFile(){
-        if (!file_exists(Yii::app()->basePath . "/../usersMails")) {
-            mkdir(Yii::app()->basePath . "/../usersMails");
+        if (!file_exists(Yii::app()->basePath . "/../files/emailsBase")) {
+            mkdir(Yii::app()->basePath . "/../files/emailsBase");
         }
         if ( 0 < $_FILES['file']['error'] ) {
             echo 'Error: ' . $_FILES['file']['error'] . '<br>';
         }
         else {
-            move_uploaded_file($_FILES['file']['tmp_name'], Yii::getpathOfAlias('webroot').'/usersMails/email_base.xlsx');
+            move_uploaded_file($_FILES['file']['tmp_name'], Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx');
         }
     }
 
     public function actionImportExcel(){
-        $filepath=Yii::getpathOfAlias('webroot').'/usersMails/email_base.xlsx';
+        $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx';
         $exporter = new ExcelImporter('users_email',1,$filepath);
         $exporter->importExcelToMySQL();
     }
