@@ -117,37 +117,62 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             if($scope.form.specializations.length){
                 $scope.progress++;
             }
+            var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length + 1))).toFixed(0);
+            var percentInStudentProfile = document.getElementById('percent').innerHTML = percent;
 
-            var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length+1))).toFixed(0);
+            $scope.writeRatingTable = function(percent) {
+                var lineProgress = document.getElementById('gridProgress');
+                var i = 0;
+                j = 0;
+                var count = 0;
 
-            var lineProgress = document.getElementById('gridProgress');
-            var i = 0;
-            j = 0;
-            var count = 0;
+                for (i; i < 10; i++) {
+                    var ul = document.createElement('ul');
 
-            for(i; i<10; i++)
-            {
+                    for (j; j < 10; j++) {
+                        count++;
+                        var li = document.createElement('li');
+                        li.appendChild(document.createTextNode(' '));
+                        ul.appendChild(li);
+                        if (count > percent) {
+                            li.style.background = '#d9e4ee';
+                        }
+                    }
+                    j = 0;
+                    lineProgress.insertBefore(ul, lineProgress.firstChild);
+                }
+
+                var crown = document.getElementById('crowns');
+                crown.style.backgroundPositionX = -Math.ceil(percent / 10) * 25 + 'px';
+
+            }
+
+            $scope.writeRatingLine = function(percent) {
+
+                var progresssLine = document.getElementById('progressLine');
+                console.log(progresssLine);
+                var i = 0;
+                var count = 0;
                 var ul = document.createElement('ul');
-
-                for (j; j < 10; j++) {
-                    count++;
+                for (i; i < 10; i++) {
+                    count+=10;
                     var li = document.createElement('li');
                     li.appendChild(document.createTextNode(' '));
                     ul.appendChild(li);
-                    if(count > percent) {
-                        li.style.background = '#d9e4ee';
+
+                    if (count < percent) {
+                        li.style.background = 'blue';
                     }
                 }
-                j = 0;
-                lineProgress.insertBefore(ul, lineProgress.firstChild);
+                progressLine.appendChild(ul);
+
+                var crown = document.getElementById('twoCrowns');
+                if(percent === 100) {
+                    crown.style.backgroundPositionX = '-25px';
+                }
             }
-
-            var crown = document.getElementById('crowns');
-            crown.style.backgroundPositionX = -Math.ceil(percent/10)*25 + 'px';
-            var percentInStudentProfile = document.getElementById('percent').innerHTML = percent;
-
-
-
+            $scope.writeRatingTable(percent);
+            $scope.writeRatingLine(percent);
             $scope.loadProgress=true;
         });
     });

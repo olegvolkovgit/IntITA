@@ -95,7 +95,7 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <?php echo $form->error($model, 'avatar'); ?>
             </div>
             <div id="progressBar" ng-show="loadProgress">
-                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span>%</div>
+                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span> %</div>
                 <div id="progressLine"></div>
                 <span id="twoCrowns"></span>
                 <div>

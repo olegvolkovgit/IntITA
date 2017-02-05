@@ -600,16 +600,7 @@ p.courseLevLang{
     height: 8px;
     overflow: hidden;
 }
-#progressMask{
-    position: absolute;
-    top:0;
-    left:-300px;
-}
-#progressLine{
-    position: absolute;
-    top:0;
-    left:0;
-}
+
 table#emptyFieldList{
     margin: 0 auto;
 }
@@ -620,38 +611,24 @@ table#emptyFieldList td{
     text-align: left;
     padding: 0 5px;
 }
-/*#gridProgress{*/
-    /*display: inline-block;*/
-    /*position: relative;*/
-    /*margin: 0 auto;*/
-    /*margin-top: 50px;*/
-    /*width:300px;*/
-    /*height: 100px;*/
-    /*overflow: hidden;*/
-/*}*/
-/*#fullGrid{*/
-    /*position: absolute;*/
-    /*top:0;*/
-    /*left:0;*/
-/*}*/
-/*#gridMask{*/
-    /*position: absolute;*/
-    /*top:0;*/
-    /*left:-300px;*/
-/*}*/
-/*#progressBar{*/
-    /*display: none;*/
-/*}*/
-/*#gridBlock{*/
-    /*display:none;*/
-    /*text-align: center;*/
-    /*margin-top: 50px;*/
-/*}*/
+#progressLine {
+    margin-left: -50px;
+    position: relative;
+}
+#progressLine ul li{
+    display: inline-block;
+    list-style-type: none;
+    background: #d9e4ee;
+    margin-right: 3px;
+    width: 25px;
+    height: 7px;
+}
 #twoCrowns {
     padding: 0 13px;
     background: url("../images/icons/crown.png") 0 0;
     position: relative;
-    top: -4px;
+    left: 160px;
+    top: -40px;
 }
 .rowbuttons{text-align: right;padding-right: 6%}
 .studProf .clientValidationError{
