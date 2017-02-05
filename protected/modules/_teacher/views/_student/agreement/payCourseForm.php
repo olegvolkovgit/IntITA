@@ -12,8 +12,8 @@ $price = $course->getBasePrice();
             <div class="schemesBlock">
                 <h3>Навчання онлайн</h3>
                 <payments-scheme
-                    data-course-id="courseId"
-                    data-module-id="moduleId"
+                    data-content-id="contentId"
+                    data-service-type="serviceType"
                     data-education-form="online"
                     data-schemes="onlineSchemeData"
                     data-selected-model-scheme="selectedScheme"
@@ -25,8 +25,8 @@ $price = $course->getBasePrice();
             <div class="schemesBlock">
                 <h3>Навчання офлайн</h3>
                 <payments-scheme
-                    data-course-id="courseId"
-                    data-module-id="moduleId"
+                    data-content-id="contentId"
+                    data-service-type="serviceType"
                     data-education-form="offline"
                     data-schemes="offlineSchemeData"
                     data-selected-model-scheme="selectedScheme"

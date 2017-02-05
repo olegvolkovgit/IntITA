@@ -35,7 +35,7 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: function($scope){
                 $scope.changePageHeader('Всі задачі');
             },
-            templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList/idTeacher/"+user,
+            templateUrl: basePath+"/_teacher/_teacher_consultant/teacherConsultant/showTeacherPlainTaskList",
         })
         .state('teacherConsultant/task/:taskId', {
             url: "/teacherConsultant/task/:taskId",

@@ -23,6 +23,14 @@ angular
     .module('teacherApp')
     .controller('editTeacherRoleCtrl', editTeacherRoleCtrl);
 
+angular
+    .module('teacherApp')
+    .controller('mailCtrl', mailCtrl);
+
+angular
+    .module('teacherApp')
+    .controller('mainTeacherConsultantCtrl', mainTeacherConsultantCtrl);
+
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -86,6 +94,21 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.changeView = function (view) {
         $location.path(view);
 
+    };
+    //redirect to lecture page
+    $scope.lectureLink = function (idLecture, idCourse) {
+        $http
+            .get(basePath + '/lesson/getLectureLink', {
+                params: {
+                    idLecture: idLecture,
+                    idCourse: idCourse
+                }
+            })
+            .then(function successCallback(response) {
+                window.open(response.data);
+            }, function errorCallback() {
+                return false;
+            });
     };
     //redirect to module page
     $scope.moduleLink = function (id) {
@@ -253,7 +276,7 @@ function messagesCtrl($http, $scope, $state, $compile, NgTableParams, $resource,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                 }).success(function(response){
                     if (response == 'success'){
-                        bootbox.alert('Опрерацію успішно виконано',function(){
+                        bootbox.alert('Операцію успішно виконано',function(){
                             $scope.receivedMessagesTable.reload().then(function successCallback() {
                                 if(!$scope.receivedMessagesTable.data.length){
                                     $state.reload();
@@ -646,3 +669,44 @@ function editTeacherRoleCtrl($scope, DTOptionsBuilder, teacherService, $statePar
     };
 }
 
+function mailCtrl($scope, $http, $stateParams, $ngBootbox) {
+    $scope.hideMailError = function () {
+        $scope.usernameError = undefined;
+    }
+    $scope.addCorpAddress = function () {
+        if ($scope.mailForm.mailAddress.$dirty && $scope.mailForm.mailAddress.$valid)
+        {
+            $http({
+                method: 'POST',
+                url: basePath+"/_teacher/user/addCorpMail",
+                data: $jq.param({userId: $stateParams.id, address: $scope.address}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response) {
+                    if (response.error == undefined) {
+                        $scope.$emit('mailAddressCreated', response);
+                        $ngBootbox.hideAll();
+                    }
+                    else{
+                        $scope.usernameError = response.error.username[0];
+                    }
+            })
+        }
+
+    };
+
+}
+
+function mainTeacherConsultantCtrl($scope, $rootScope, $http) {
+    $scope.getNewPlainTasksAnswers=function(){
+        $http({
+            method:'POST',
+            url:basePath + '/_teacher/_teacher_consultant/teacherConsultant/getNewPlainTasksAnswersCount',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(response){;
+            $rootScope.countOfNewPlainTasksAnswers=response;
+        }).error(function(){
+            console.log("Отримати дані про нові відповіді по простих завданнях не вдалося");
+        })
+    };
+    $scope.getNewPlainTasksAnswers();
+}

@@ -12,7 +12,9 @@ trait GracefulDivision
             $arrayInvoiceSumma[] = min($pay, $summa);
             $summa -= $pay;
         }
-
+        if(count($arrayInvoiceSumma)){
+            $arrayInvoiceSumma[count($arrayInvoiceSumma)-1]=round($arrayInvoiceSumma[count($arrayInvoiceSumma)-1],2);
+        }
         return  $arrayInvoiceSumma;
     }
 }

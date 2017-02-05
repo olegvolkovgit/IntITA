@@ -627,3 +627,4 @@ div.loader > div {
     border: 1px solid #ccc;
 }
 /*for payment operations forms directive*/
+.ng-table-filters select{padding:0}

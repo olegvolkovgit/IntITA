@@ -162,7 +162,6 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
         usort($skipTaskAnswers, function ($a, $b) {
             return $a->answer_order-$b->answer_order;
         });
-
         for ($i = 0; $i < count($skipTaskAnswers); $i++) {
             $answer = $answers[$i][0];
             $taskAnswer = $skipTaskAnswers[$i]->answer;
@@ -170,7 +169,6 @@ class RevisionSkipTaskAnswers extends CActiveRecord {
                 $answer = mb_convert_case($answer, MB_CASE_UPPER, "UTF-8");
                 $taskAnswer = mb_convert_case($taskAnswer, MB_CASE_UPPER, "UTF-8");
             }
-
             if (strcmp($answer, $taskAnswer) != 0) {
                 $isDone = false;
                 break;

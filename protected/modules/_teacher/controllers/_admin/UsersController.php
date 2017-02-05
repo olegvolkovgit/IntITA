@@ -40,6 +40,11 @@ class UsersController extends TeacherCabinetController
         ), false, true);
     }
 
+    public function actionUsersEmail()
+    {
+        $this->renderPartial('usersEmail', array(), false, true);
+    }
+    
     public function actionRenderAddRoleForm($role)
     {
         if($role == ""){
@@ -124,8 +129,6 @@ class UsersController extends TeacherCabinetController
         $ngTable = new NgTableAdapter('StudentReg', $requestParams,array(
             'country0'=>true,
             'city0'=>true,
-            'payModules'=>true,
-            'payCourses'=>true,
             'studentTrainer'=>true));
 
         $criteria =  new CDbCriteria();
@@ -566,4 +569,39 @@ class UsersController extends TeacherCabinetController
 
     }
 
+    public function actionSaveExcelFile(){
+        if (!file_exists(Yii::app()->basePath . "/files/emailsBase")) {
+            mkdir(Yii::app()->basePath . "/files/emailsBase");
+        }
+        if ( 0 < $_FILES['file']['error'] ) {
+            echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+        }
+        else {
+            move_uploaded_file($_FILES['file']['tmp_name'], Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx');
+        }
+    }
+
+    public function actionImportExcel(){
+        $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx';
+        $exporter = new ExcelImporter('users_email',1,$filepath);
+        $exporter->importExcelToMySQL();
+    }
+
+    public function actionGetUsersEmailList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UsersEmailDatabase', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionRemoveEmail(){
+        $email = Yii::app()->request->getPost('email');
+        $model= UsersEmailDatabase::model()->findByAttributes(array('email'=>$email));
+        $model->delete();
+    }
+
+    public function actionTruncateEmailsTable(){
+        UsersEmailDatabase::model()->deleteAll();
+    }
 }

@@ -13,7 +13,9 @@ class SpecialOfferFactory {
 
     const SPECIAL_OFFERS = [
         'UserSpecialOffer',
-        'ServiceSpecialOffer'
+        'UserSpecialOfferForAllServices',
+        'ServiceSpecialOffer',
+        'PromotionServiceSpecialOffer',
     ];
 
     function __construct($user, $service, $schemeId = null) {
@@ -24,14 +26,16 @@ class SpecialOfferFactory {
     
     public function getSpecialOffer() {
         $specialOffer = null;
+
         $params = ['user' => $this->user, 'service' => $this->service, 'schemeId' => $this->schemeId];
-        foreach (self::SPECIAL_OFFERS as $offerClass) {
+        foreach (self::SPECIAL_OFFERS as $key=>$offerClass) {
             $model = $offerClass::model();
             $specialOffer = $model->getActualOffer($params);
             if (!empty($specialOffer)) {
                 break;
             }
         }
+
         return $specialOffer;
     }
 
@@ -40,14 +44,29 @@ class SpecialOfferFactory {
         $params = $this->pickPaymentSchemaParams($attributes);
 
         if ($this->user && $this->service) {
-            $offer = new UserSpecialOffer();
             $params['userId'] = $this->user->id;
-        } else if ($this->service) {
-            $offer = new ServiceSpecialOffer();
+            $params['serviceId'] = $this->service->service_id;
+            $offer=UserSpecialOffer::model()->findByAttributes(array('userId'=>$params['userId'],'serviceId'=>$params['serviceId']));
+            if(!$offer){
+                $offer = new UserSpecialOffer();
+            }
+        } else if($this->user && !$this->service) {
+            $params['userId'] = $this->user->id;
+            $offer=UserSpecialOfferForAllServices::model()->findByAttributes(
+                array('userId'=>$params['userId'],'serviceId'=>null, 'serviceType'=>$params['serviceType'])
+            );
+            if(!$offer){
+                $offer = new UserSpecialOfferForAllServices();
+            }
+        }else if ($this->service) {
+            $params['serviceId'] = $this->service->service_id;
+            $offer=ServiceSpecialOffer::model()->findByAttributes(array('userId'=>null,'serviceId'=>$params['serviceId']));
+            if(!$offer){
+                $offer = new ServiceSpecialOffer();
+            }
         }
 
         if (!empty($offer)) {
-            $params['serviceId'] = $this->service->service_id;
             $offer->setAttributes($params);
             $offer->save();
         }
@@ -57,10 +76,8 @@ class SpecialOfferFactory {
 
     private function pickPaymentSchemaParams($params) {
         $paymentSchemaParams = [
-            'discount' => true,
-            'loan' => true,
-            'name' => true,
-            'monthpay' => true,
+            'id_template' => true,
+            'serviceType' => true,
             'startDate' => true,
             'endDate' => true
         ];

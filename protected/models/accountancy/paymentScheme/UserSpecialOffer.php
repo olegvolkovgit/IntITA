@@ -5,13 +5,9 @@
  *
  * The followings are the available columns in table 'acc_user_special_offer_payment':
  * @property integer $id
- * @property integer $userId
+ * @property integer $id_template
  * @property integer $serviceId
- * @property string $discount
- * @property integer $payCount
- * @property string $loan
- * @property string $name
- * @property integer $monthpay
+ * @property string $userId
  * @property string $startDate
  * @property string $endDate
  *
@@ -28,14 +24,12 @@ class UserSpecialOffer extends ASpecialOffer {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('userId, serviceId', 'required'),
-            array('userId, payCount, monthpay', 'numerical', 'integerOnly' => true),
-            array('discount, loan', 'length', 'max' => 10),
-            array('name', 'length', 'max' => 512),
+            array('userId, serviceId, id_template', 'required'),
+            array('userId, serviceId', 'numerical', 'integerOnly' => true),
             array('startDate, endDate', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, userId, serviceId, discount, payCount, loan, name, monthpay, startDate, endDate', 'safe', 'on' => 'search'),
+            array('id, id_template, userId, serviceId, startDate, endDate', 'safe', 'on' => 'search'),
         );
     }
 
@@ -48,6 +42,7 @@ class UserSpecialOffer extends ASpecialOffer {
         return [
             'service' => [self::HAS_ONE, 'Service', '', 'on' => 't.serviceId = service.service_id'],
             'user' => [self::HAS_ONE, 'StudentReg', '', 'on' => 't.userId = user.id'],
+            'schemes' => array(self::HAS_MANY, 'TemplateSchemes', ['id_template'=>'id_template'], 'order' => 'schemes.pay_count'),
         ];
     }
 
@@ -57,14 +52,9 @@ class UserSpecialOffer extends ASpecialOffer {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
+            'id_template' => 'ID template',
             'userId' => 'User',
-            'courseId' => 'Course',
-            'moduleId' => 'Module',
-            'discount' => 'Discount',
-            'payCount' => 'Pay Count',
-            'loan' => 'Loan',
-            'name' => 'Name',
-            'monthpay' => 'Monthpay',
+            'serviceId' => 'Id service',
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
         );
@@ -88,13 +78,9 @@ class UserSpecialOffer extends ASpecialOffer {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
+        $criteria->compare('id_template', $this->id_template);
         $criteria->compare('userId', $this->userId);
         $criteria->compare('serviceId', $this->serviceId);
-        $criteria->compare('discount', $this->discount, true);
-        $criteria->compare('payCount', $this->payCount);
-        $criteria->compare('loan', $this->loan, true);
-        $criteria->compare('name', $this->name, true);
-        $criteria->compare('monthpay', $this->monthpay);
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate, true);
 

@@ -888,4 +888,34 @@ class Lecture extends CActiveRecord
         $this->removeOldTemplatesDirectory();
     }
 
+    public function lectureTypeSymbol()
+    {
+        switch ($this->idType) {
+            case '2':
+                return 'E';
+                break;
+            case '3':
+            case '4':
+                return 'P';
+                break;
+            default:
+                return 'E';
+                break;
+        };
+    }
+
+    public function lectureTypeTooltip()
+    {
+        $param=Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
+        switch ($this->idType) {
+            case '2':
+            case '3':
+            case '4':
+                return $this->type->$param;
+                break;
+            default:
+                return LectureType::model()->findByPk(2)->$param;
+                break;
+        };
+    }
 }

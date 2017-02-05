@@ -180,13 +180,13 @@ class Graduate extends CActiveRecord
     public function name(){
         if(isset(Yii::app()->session['lg'])){
             if(Yii::app()->session['lg'] == 'en'  && $this->last_name_en != 'не указано' && $this->last_name_en != ''){
-                return $this->last_name_en."&nbsp;".$this->first_name_en;
+                return $this->first_name_en."&nbsp;".$this->last_name_en;
             }
             if(Yii::app()->session['lg'] == 'ru'  && $this->last_name_ru != 'не указано' && $this->last_name_ru != ''){
-                return $this->last_name_ru."&nbsp;".$this->first_name_ru;
+                return $this->first_name_ru."&nbsp;".$this->last_name_ru;
             }
         }
-        return $this->last_name."&nbsp;".$this->first_name;
+        return $this->first_name."&nbsp;".$this->last_name;
     }
 
 	public static function graduatesList(){
@@ -195,8 +195,8 @@ class Graduate extends CActiveRecord
 
         foreach ($graduates as $record) {
             $row = array();
-            $row["name"]["title"] = $record->last_name." ".$record->first_name;
-			$row["name"]["header"] = addslashes($record->last_name." ".$record->first_name);
+            $row["name"]["title"] = $record->first_name." ".$record->last_name;
+			$row["name"]["header"] = addslashes($record->first_name." ".$record->last_name);
             $row["avatar"] = StaticFilesHelper::createPath('image', 'graduates', $record->avatar);
             $row["position"] = CHtml::encode($record->position);
             $row["workPlace"] = CHtml::encode($record->work_place);

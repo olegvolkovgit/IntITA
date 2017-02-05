@@ -20,7 +20,7 @@ if (!Yii::app()->user->isGuest) {
         <div class="paymentsButtons">
             <div class="startModule">
                 <a ng-if="module.canPayModule" id="paymentButtonModule"
-                   ng-click="payService('payModule',module.module.module_ID,'<?php echo Yii::app()->user->isGuest ?>')">
+                   ng-click="redirectToCabinet('payModule',module.module.module_ID,selectedScheme)">
                     <?php echo Yii::t('module', '0279'); ?>
                 </a>
             </div>

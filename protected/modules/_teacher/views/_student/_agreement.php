@@ -8,7 +8,7 @@
     <h4>Вартість: <?php echo $agreement->summa==0?'безкоштовно':$agreement->summa.' грн.'; ?></h4>
     <h4>Форма
         навчання: <?= AbstractIntITAService::getServiceById($agreement->service->service_id)->getEducationForm()->title_ua ?></h4>
-    <h4>Схема проплат: <?= $agreement->getPaymentSchema()->name; ?></h4>
+    <h4>Схема проплат: <?= PaymentScheme::getPaymentName($agreement); ?></h4>
 </div>
 <div class="panel panel-default">
     <div class="panel-body" >
@@ -19,7 +19,7 @@
                 </td>
                 <td data-title="'Загальна сума, грн.'">{{row.summa}}</td>
                 <td data-title="'Сплачено, грн.'">{{row.paidAmount}}</td>
-                <td data-title="'Сплатити до'">{{$index==0 ? row.expiration_date : row.payment_date}}</td>
+                <td data-title="'Сплатити до'">{{row.payment_date}}</td>
                 <td data-title="'Надрукувати'">
                     <a href="{{invoiceUrl}}{{row.id}}/?nolayout=1">переглянути</a>
                 </td>

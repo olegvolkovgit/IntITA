@@ -229,25 +229,4 @@ class PayCourses extends CActiveRecord
             <br />Тепер у '.$userName.' є доступ до усіх занять цього курсу.';
         return $result;
     }
-
-    public static function getPayCoursesListByUser(){
-        $criteria = new CDbCriteria;
-        $criteria->addCondition('id_user=' . Yii::app()->user->getId());
-        $modules = PayCourses::model()->findAll($criteria);
-        $return = array('data' => array());
-
-        foreach ($modules as $record) {
-            $row = array();
-
-            $row["title"]["name"] = $record->course->cancelled?$record->course->getTitle().'(скасований)':$record->course->getTitle();
-            $row["title"]["url"] = $record->course->cancelled?'':Yii::app()->createAbsoluteUrl("course/index", array("id" =>$record->course->course_ID));
-            $row["summa"] = ($record->course->getBasePrice() != 0)? number_format(CommonHelper::getPriceUah($record->course->getBasePrice()), 2, ",","&nbsp;"): "безкоштовно";
-            //$row["schema"] = CHtml::encode($record->paymentSchema->name);
-            //$row["invoicesUrl"] = "'".Yii::app()->createUrl("payment/agreement", array("id" =>$record->id))."'";
-
-            array_push($return['data'], $row);
-        }
-
-        return json_encode($return);
-    }
 }

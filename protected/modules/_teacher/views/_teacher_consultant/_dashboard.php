@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="mainTeacherConsultantCtrl">
     <div class="col-lg-12">
         Викладач
     </div>
@@ -13,7 +13,7 @@
                         <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php //echo $teacher->countNotCheckedPlainTask(); ?></div>
+                        <div  ng-cloak class="huge" ng-if="countOfNewPlainTasksAnswers > 0">{{countOfNewPlainTasksAnswers}}</div>
                         <div>Задачі до перегляду</div>
                     </div>
                 </div>
@@ -27,8 +27,4 @@
             </a>
         </div>
     </div>
-</div>
-<div class="row">
-    <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
-    <?php $this->renderPartial('application.modules._teacher.views.schedulerTasks._schedulerDashboardItem');?>
 </div>

@@ -91,4 +91,4 @@ function entityToText(specialText) {
     var d = document.createElement("div");
     d.innerHTML = specialText;
     return d.firstChild.nodeValue;
-}
+    }

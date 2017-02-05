@@ -23,9 +23,6 @@
                             <label>Підрупа: </label> {{subgroup.name}}
                         </li>
                         <li class="list-group-item">
-                            <label>Куратор: </label> <a ng-href="#/supervisor/userProfile/{{subgroup.id_user_curator}}">{{selectedCurator.name}}</a>
-                        </li>
-                        <li class="list-group-item">
                             <label>Тренер в групі: </label>
                             <a ng-href="#/supervisor/userProfile/{{subgroupTrainer.id}}">{{subgroupTrainer.fullName}}</a>
                         </li>
@@ -37,9 +34,9 @@
                 <uib-tab index="1" heading="Студенти">
                     <?php $this->renderPartial('/_supervisor/tables/_offlineStudents', array());?>
                 </uib-tab>
-                <uib-tab  index="2" heading="Атрибути підгрупи">
-                    <?php $this->renderPartial('/_supervisor/_subgroupTeacherConsultants', array());?>
-                </uib-tab>
+<!--                <uib-tab  index="2" heading="Атрибути підгрупи">-->
+<!--                    --><?php //$this->renderPartial('/_supervisor/_subgroupTeacherConsultants', array());?>
+<!--                </uib-tab>-->
             </uib-tabset>
         </div>
     </div>

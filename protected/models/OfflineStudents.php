@@ -132,7 +132,7 @@ class OfflineStudents extends CActiveRecord
 			$data["subgroupName"] = $model->subgroupName->name;
 			$data["idGroup"] = $model->group->id;
 			$data["groupName"] = $model->group->name;
-			$data["specialization"] = $model->group->specializationName->name;
+			$data["specialization"] = $model->group->specializationName->title_ua;
 		}
 		return $data;
 	}

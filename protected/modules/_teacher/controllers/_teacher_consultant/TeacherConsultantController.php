@@ -28,18 +28,9 @@ class TeacherConsultantController extends TeacherCabinetController
         }
     }
 
-    public function actionShowTeacherPlainTaskList($idTeacher)
+    public function actionShowTeacherPlainTaskList()
     {
-        if ($idTeacher == 0) {
-            throw new \application\components\Exceptions\IntItaException(400, 'Неправильний запит.');
-        }
-
-
-        $tasksList = PlainTaskAnswer::plainTaskListByTeacher($idTeacher);
-
-        return $this->renderPartial('/_teacher_consultant/teacherPlainTaskList', array(
-            'teacherPlainTasks' => $tasksList,
-        ));
+        return $this->renderPartial('/_teacher_consultant/teacherPlainTaskList',array());
     }
 
     public function actionModules($id){
@@ -199,5 +190,25 @@ class TeacherConsultantController extends TeacherCabinetController
         $user = RegisteredUser::userById(Yii::app()->user->getId());
         if ($model->deleteConsultation($user))
             echo 'success';
+    }
+
+    public function actionGetNewPlainTasksAnswersCount()
+    {
+        $newAnswersCount = count(PlainTaskAnswer::newPlainTaskListByTeacher(Yii::app()->user->getId()));
+        echo $newAnswersCount;
+    }
+
+    public function actionReadNewPlainTasksAnswers()
+    {
+        $newAnswers=PlainTaskAnswer::newPlainTaskListByTeacher(Yii::app()->user->getId());
+        foreach ($newAnswers as $newAnswer){
+            $newAnswer->read_answer=true;
+            $newAnswer->update();
+        }
+    }
+
+    public function actionPlainTaskListByTeacher()
+    {
+        echo PlainTaskAnswer::plainTaskListByTeacher();
     }
 }

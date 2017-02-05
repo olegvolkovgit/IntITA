@@ -16,6 +16,7 @@ class EducationForm extends CActiveRecord
 {
     const ONLINE = 1;
     const OFFLINE = 2;
+	const ONLINE_OFFLINE = 3;
 
 	/**
 	 * @return string the associated database table name

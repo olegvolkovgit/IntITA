@@ -45,6 +45,13 @@ $courses = $student->getAttributesByRole(UserRoles::STUDENT)[1]["value"];
                                        target="_blank">
                                         <?=$module["title_ua"]." (".$module["lang"].")";?>
                                     </a>
+                                    <?php
+                                    if (isset($teachersByModule[$module["id"]])) {
+                                        ?>
+                                        <em>(викладач - <?= $teachersByModule[$module["id"]]; ?>)</em>
+                                    <?php } else { ?>
+                                        <span class="warningMessage"><em>викладача не призначено</em></span>
+                                    <?php } ?>
                                 </li>
                             <?php } else {?>
                                 <li>

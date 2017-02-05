@@ -29,12 +29,15 @@ class NewsLetter implements ITask
      */
     private $message;
 
-    public function __construct($type, $recipients, $subject, $message)
+    private $email;
+
+    public function __construct($type, $recipients, $subject, $message, $email)
     {
         $this->type = $type;
         $this->recipients = $recipients;
         $this->subject = $subject;
         $this->message = $message;
+        $this->email = $email;
     }
 
     /**
@@ -103,13 +106,25 @@ class NewsLetter implements ITask
                     }
                 }
                 break;
+            case "emailsFromDatabase":
+                $models = UsersEmailDatabase::model()->findAll();
+                if (isset($models)) {
+                    foreach ($models as $user) {
+                        array_push($mailList, $user->email);
+                    }
+                }
+                break;
         }
         return array_unique($mailList);
     }
 
     private function sendMail($recipients){
-        
-        $headers = "From: IntITA <".Config::getNewsletterMailAddress().">\n"
+        $fromName = 'IntITA';
+        if ($this->email != Config::getNewsletterMailAddress()){
+            $model = Teacher::model()->with('user')->findByAttributes(array('corporate_mail'=>$this->email));
+            $fromName = "{$model->user->firstName} {$model->user->middleName} {$model->user->secondName}";
+        }
+        $headers = "From: {$fromName} <{$this->email}>\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/html;charset=\"utf-8\"" . "\n";
         mail($recipients, mb_encode_mimeheader($this->subject,"UTF-8"),$this->message,$headers);

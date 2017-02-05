@@ -4,7 +4,8 @@
 angular
     .module('teacherApp')
     .controller('coursesTableCtrl',coursesTableCtrl)
-    .controller('coursemanageCtrl',coursemanageCtrl);
+    .controller('coursemanageCtrl',coursemanageCtrl)
+    .controller('mandatoryModulesCtrl',mandatoryModulesCtrl);
 
 function coursesTableCtrl ($scope, NgTableParams, $resource){
     /* Sorting params  */
@@ -145,4 +146,30 @@ function coursemanageCtrl ($http, $scope, $stateParams, $state ,$templateCache){
             else bootbox.alert("Операцію відмінено.")
         })
     };
+}
+
+function mandatoryModulesCtrl ($scope, $http,$state,$templateCache){
+    $scope.addMandatory=function (url) {
+        var mandatory = $jq("select[name=mandatory] option:selected").val();
+        var courseId = $jq("input[name=course]").val();
+        var moduleId = $jq("input[name=module]").val();
+        if (mandatory && courseId && moduleId) {
+            $http({
+                method: "POST",
+                url:  url,
+                data: $jq.param({'module': moduleId, 'course': courseId, 'mandatory': mandatory}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                cache: false
+            })
+                .success(function(data){
+                    bootbox.alert(data, function () {
+                        $templateCache.remove(basePath+"/_teacher/_admin/coursemanage/update/id/"+courseId);
+                        $state.go('course/edit/:id',{'id':courseId},{reload: true});
+                    })
+                })
+                .error(function (){
+                bootbox.alert("Операцію не вдалося виконати.")
+            })
+        }
+    }
 }

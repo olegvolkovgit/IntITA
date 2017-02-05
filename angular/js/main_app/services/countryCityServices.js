@@ -29,7 +29,7 @@ angular
 
                     return list;
                 }, function errorCallback() {
-                    alert("Виникла помилка при завантажені списку країн. Зв'яжіться з адміністратором сайту.");
+                    console.log("Виникла помилка при завантажені списку країн. Зв'яжіться з адміністратором сайту.");
                 });
                 return promise;
             };
@@ -43,7 +43,7 @@ angular
                 }).then(function successCallback(response) {
                     return response.data;
                 }, function errorCallback() {
-                    alert("Виникла помилка при завантажені списку міст. Зв'яжіться з адміністратором сайту.");
+                    console.log("Виникла помилка при завантажені списку міст. Зв'яжіться з адміністратором сайту.");
                 });
                 return promise;
             };

@@ -87,24 +87,19 @@
             <div class="panel-body">
                 <ul>
                     <li>
-                        <a href="#/accountant/paymentSchemas/default">Стандартні схеми проплат</a>
+                        <a href="#/accountant/paymentSchemas/schemas/template">Шаблони схем</a>
                     </li>
                     <li>
-                        <a href="#/accountant/paymentSchemas/course">Курси</a>
+                        <a href="#/accountant/paymentSchemas/schemas/apply">Застосувати шаблон схем</a>
                     </li>
                     <li>
-                        <a href="#/accountant/paymentSchemas/module">Модулі</a>
-                    </li>
-                    <li>
-                        <a href="#/accountant/paymentSchemas/user">Користувачі</a>
+                        <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів схем</a>
                     </li>
                 </ul>
             </div>
             <div class="panel-footer">
-                <em>Схеми оплат</em>
+                <em>Схеми оплат(індивідуальні скидки, акції тощо)</em>
             </div>
         </div>
     </div>
-    <?php $this->renderPartial('application.modules._teacher.views.newsletter._newsletterDashboardItem');?>
-    <?php $this->renderPartial('application.modules._teacher.views.schedulerTasks._schedulerDashboardItem');?>
 </div>

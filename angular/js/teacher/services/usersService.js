@@ -66,5 +66,9 @@ angular
                         url: url + '/getSuperVisorsList',
                         method: 'GET'
                     },
+                    usersEmailList: {
+                        url: url + '/getUsersEmailList',
+                        method: 'GET'
+                    },
                 });
         }]);

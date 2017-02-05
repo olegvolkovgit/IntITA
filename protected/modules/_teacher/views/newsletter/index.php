@@ -48,7 +48,12 @@
                                ng-click="selectedRecipients = null">
                         Розсилка по окремих користувачах
                     </label>
-
+                    <br>
+                    <label>
+                        <input type="radio" ng-model="newsletterType"  value="emailsFromDatabase"
+                               ng-click="selectedRecipients = null">
+                        Розсилка по базі email'ів
+                    </label>
                 </div>
                 <div class="form-group col-md-8" id="receiver" ng-show="newsletterType=='roles'">
                     <label>Кому</label>
@@ -103,7 +108,13 @@
                      }"
                     ></oi-select>
                 </div>
-
+                <div class="form-group col-md-8">
+                    <label for="selectSchedulerType">Електронна пошта для розсилки</label>
+                    <select class="form-control" id="selectSchedulerType"
+                            ng-model="emailSelected"
+                            ng-options="emailSelected.email for emailSelected in userEmails track by emailSelected.email">
+                    </select>
+                </div>
                 <div class="form-group col-md-8" id="receiver">
                 </div>
                 <div class="form-group col-md-8">
