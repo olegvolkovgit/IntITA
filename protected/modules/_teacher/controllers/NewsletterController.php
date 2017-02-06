@@ -137,4 +137,9 @@ class NewsletterController extends TeacherCabinetController
         echo json_encode($userEmails);
 
     }
+
+    public function actionGetEmailsCategoryList()
+    {
+        echo  CJSON::encode(EmailsCategory::model()->findAll());
+    }
 }

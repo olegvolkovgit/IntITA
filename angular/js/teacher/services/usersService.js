@@ -70,5 +70,14 @@ angular
                         url: url + '/getUsersEmailList',
                         method: 'GET'
                     },
+                    emailsCategoryList: {
+                        url: url + '/getEmailsCategoryList',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    emailCategoryData: {
+                        url: url + '/getEmailCategoryData',
+                        method: 'GET',
+                    },
                 });
         }]);

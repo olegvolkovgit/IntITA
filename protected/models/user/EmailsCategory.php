@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "users_email".
+ * This is the model class for table "emails_category".
  *
- * The followings are the available columns in table 'users_email':
- * @property string $email
- * @property integer $category
+ * The followings are the available columns in table 'emails_category':
+ * @property integer $id
+ * @property string $title
  *
  */
-class UsersEmailDatabase extends CActiveRecord
+class EmailsCategory extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_email';
+		return 'emails_category';
 	}
 	/**
 	 * @return array validation rules for model attributes.
@@ -25,11 +25,11 @@ class UsersEmailDatabase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email, category', 'required'),
-			array('email, category', 'safe'),
+			array('title', 'required'),
+			array('id, title', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('email, category', 'safe', 'on'=>'search'),
+			array('id, title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -41,7 +41,6 @@ class UsersEmailDatabase extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'emailCategory' => array(self::BELONGS_TO, 'EmailsCategory', array('category'=>'id')),
 		);
 	}
 
@@ -51,8 +50,8 @@ class UsersEmailDatabase extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'email' => 'Email',
-			'category' => 'Category',
+			'id' => 'ID',
+			'title' => 'Title',
 		);
 	}
 
@@ -72,8 +71,8 @@ class UsersEmailDatabase extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('category',$this->category,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('title',$this->title,true);
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -84,14 +83,10 @@ class UsersEmailDatabase extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersEmailDatabase the static model class
+	 * @return EmailsCategory the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	public function primaryKey(){
-		return array('email','category');
 	}
 }
