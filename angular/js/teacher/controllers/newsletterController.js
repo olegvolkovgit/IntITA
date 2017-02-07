@@ -166,7 +166,10 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         break;
                 }
             });
-            if($scope.newsletterType=='emailsFromDatabase' && typeof $scope.selectedEmailCategory=='undefined'){
+            if(typeof $scope.selectedEmailCategory=='undefined'){
+                $scope.selectedEmailCategory=null;
+            }
+            if($scope.newsletterType=='emailsFromDatabase' && $scope.selectedEmailCategory===null){
                 bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
                 return;
             }
