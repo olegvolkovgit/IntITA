@@ -12,6 +12,7 @@
  * @property string $item3Link
  * @property string $item4Link
  */
+//todo - write function, which will determinate page through id-controller and action
 class Header extends CActiveRecord
 {
 

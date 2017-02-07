@@ -612,8 +612,9 @@ table#emptyFieldList td{
     padding: 0 5px;
 }
 #progressLine {
-    margin-left: -50px;
-    position: relative;
+    margin-left: -30px;
+    margin-top: 4px;
+    display: inline-block;
 }
 #progressLine ul li{
     display: inline-block;
@@ -621,14 +622,12 @@ table#emptyFieldList td{
     background: #d9e4ee;
     margin-right: 3px;
     width: 25px;
-    height: 7px;
+    height: 8px;
 }
 #twoCrowns {
     padding: 0 13px;
     background: url("../images/icons/crown.png") 0 0;
-    position: relative;
-    left: 160px;
-    top: -40px;
+    vertical-align: top;
 }
 .rowbuttons{text-align: right;padding-right: 6%}
 .studProf .clientValidationError{
@@ -783,9 +782,15 @@ table#emptyFieldList td{
         margin-left: 0;
     }
 }
-
+#gridProgress {
+    display: inline-block;
+    margin-left: -20px;
+    margin-top: -20px;
+    text-align: center;
+}
 #gridProgress ul{
     margin: 10px 0;
+    margin-bottom: -27px;
 }
 #gridProgress ul li{
     display: inline-block;
@@ -794,12 +799,6 @@ table#emptyFieldList td{
     margin-right: 3px;
     width: 25px;
     height: 7px;
-}
-#gridProgress ul {
-    margin-bottom: -27px;
-}
-#gridProgress {
-    margin-bottom: 23px;
 }
 #gridProgress ul:first-child {
     margin-top: 20px;
@@ -834,15 +833,19 @@ table#emptyFieldList td{
 #gridProgress ul:last-child li {
     background: #ffcd0d;
 }
-#gridProgress {
-    margin-left: -60px;
-}
+
 #crowns {
     padding: 0 12px;
     background: url("../images/icons/crowns.png") -25px 0;
-    margin-left: 305px;
-    position: relative;
-    top: -25px;
 }
-
+@media only screen and (max-width: 940px) {
+    #gridProgress {
+        margin-left: -30px;
+    }
+}
+@media only screen and (max-width: 800px) {
+    #gridProgress {
+        display: none;
+    }
+}
 /*celebre - profileActivity*/

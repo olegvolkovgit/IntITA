@@ -159,9 +159,10 @@ function editProfileController($scope, $http, countryCity, careerService, specia
                     var li = document.createElement('li');
                     li.appendChild(document.createTextNode(' '));
                     ul.appendChild(li);
+                    var temp = count - percent;
 
-                    if (count < percent) {
-                        li.style.background = 'blue';
+                    if (count < percent || (temp < 5 && temp > 0)) {
+                        li.style.background = '#4b75b4';
                     }
                 }
                 progressLine.appendChild(ul);

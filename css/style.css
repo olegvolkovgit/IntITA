@@ -20,7 +20,8 @@ p{font-family:"MyriadPro";color:#666666;}
 #navigation.downmain ul{float:none;display:inline-block;margin:0 auto;margin-top:16px;}
 #navigation li{display:inline;}
 #navigation li a{white-space:nowrap}
-#navigation ul a{text-decoration:none;font-family:"MyriadPro";font-size:18px;font-weight:normal;color:black;padding:10px;}
+#navigation ul a{text-decoration:none;font-family:"MyriadPro";font-size:18px;font-weight:normal;color:black;padding:10px 8px;}
+/*#navigation ul li:last-child a{padding-right:0;}*/
 #navigation ul a:hover{color:#003399;}
 #logo_img{margin-top:13px;padding-left:10px;padding-right: 10px}
 #logo_img img{max-width:232px;max-height:75px;}
