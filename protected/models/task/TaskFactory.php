@@ -23,7 +23,7 @@ class TaskFactory
                 $subject = urldecode($params['subject']);
                 $message = urldecode($params['message']);
                 $email = $params['email'];
-                $emailBaseCategory = $params['emailBaseCategory'];
+                $emailBaseCategory = isset($params['emailBaseCategory'])?$params['emailBaseCategory']:null;
                 return new NewsLetter($type,$recipients,$subject,$message,$email,$emailBaseCategory);
         }
         return null;
