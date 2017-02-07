@@ -391,7 +391,7 @@ class StudentController extends TeacherCabinetController
     public function actionContacts()
     {
         $student = RegisteredUser::userById(Yii::app()->user->getId());
-        $trainer=$student->registrationData->trainer->trainer0;
+        $trainer=$student->registrationData->trainer?$student->registrationData->trainer->trainer0:null;
         $this->renderPartial('/_student/contacts', array('trainer' => $trainer), false, true);
     }
 }
