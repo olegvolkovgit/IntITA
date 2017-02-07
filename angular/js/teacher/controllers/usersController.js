@@ -15,6 +15,8 @@ angular
     .controller('offlineStudentsTableCtrl', offlineStudentsTableCtrl)
     .controller('userProfileCtrl',userProfileCtrl)
     .controller('usersEmailCtrl',usersEmailCtrl)
+    .controller('emailCategoryTableCtrl',emailCategoryTableCtrl)
+    .controller('emailCategoryCtrl',emailCategoryCtrl)
 
 function blockedUsersCtrl ($http, $scope, usersService, NgTableParams) {
     $scope.blockedUsersTable = new NgTableParams({}, {
@@ -642,6 +644,16 @@ function userProfileCtrl ($http, $scope, $stateParams, roleService, $rootScope){
 }
 
 function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
+    $scope.loadEmailCategory=function(){
+        return usersService
+            .emailsCategoryList()
+            .$promise
+            .then(function (data) {
+                $scope.emailsCategory=data;
+            });
+    };
+    $scope.loadEmailCategory();
+
     $scope.usersEmailTableParams = new NgTableParams({}, {
         getData: function (params) {
             return usersService
@@ -655,7 +667,15 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
     });
     
     $scope.uploadFile =function (files) {
-        $scope.isFile=true;
+        $scope.errormsg='';
+        $scope.error=false;
+        var filesExt = ['xlsx', 'xls'];
+        var parts = files[0].name.split('.');
+        if(filesExt.join().search(parts[parts.length - 1]) == -1){
+            $scope.error=true;
+            $scope.errormsg='Неправильний тип файлу';
+        }
+
         var file_data = files[0];
         var form_data = new FormData();
         form_data.append('file', file_data);
@@ -669,24 +689,42 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
             type: 'post',
             success: function(){
                 bootbox.alert('Файл завантажено');
+                $scope.isFile=true;
             }
         });
     };
 
-    $scope.importExcel=function () {
+    $scope.importExcel=function (emailCategory) {
         $http({
             method: 'POST',
             url: basePath+"/_teacher/_admin/users/importExcel",
+            data: $jq.param({categoryId: emailCategory}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback() {
             $scope.usersEmailTableParams.reload();
-            $scope.isFile=false;
         }, function errorCallback() {
             $scope.isFile=false;
             bootbox.alert("Операцію не вдалося виконати");
         });
     }
 
+    $scope.addNewEmail=function (email,emailCategory) {
+        $http({
+            method: 'POST',
+            url: basePath+"/_teacher/_admin/users/addNewEmail",
+            data: $jq.param({
+                email: email,
+                categoryId:emailCategory
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback() {
+            $scope.usersEmailTableParams.reload();
+            $scope.newEmail=null;
+        }, function errorCallback() {
+            bootbox.alert("Операцію не вдалося виконати");
+        });
+    }
+    
     $scope.removeEmail=function (email) {
         bootbox.confirm('Видалити email?', function (result) {
             if (result) {
@@ -704,12 +742,12 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
         });
     }
 
-    $scope.truncateEmailsTable=function (email) {
-        bootbox.confirm("Очистити базу email'ів?", function (result) {
+    $scope.truncateEmailsTable=function (emailCategory) {
+        bootbox.confirm("Очистити базу email'ів вибраної категорії?", function (result) {
             if (result) {
                 $http({
                     method: 'POST',
-                    data: $jq.param({email: email}),
+                    data: $jq.param({categoryId:emailCategory}),
                     url: basePath + "/_teacher/_admin/users/truncateEmailsTable",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback() {
@@ -720,4 +758,82 @@ function usersEmailCtrl ($http, $scope,  usersService, NgTableParams) {
             }
         });
     }
+};
+
+function emailCategoryTableCtrl ($scope,  usersService, $http) {
+    $scope.loadEmailCategory=function(){
+        return usersService
+            .emailsCategoryList()
+            .$promise
+            .then(function (data) {
+                $scope.emailsCategory=data;
+            });
+    };
+    $scope.loadEmailCategory();
+
+    $scope.removeEmailCategory=function (categoryId) {
+        bootbox.confirm("При видаленні цієї категорії буде видалено всі email'и які в неї входять. Ви впевнені, що хочите видалити?", function (result) {
+            if (result) {
+                $http({
+                    method: 'POST',
+                    data: $jq.param({categoryId: categoryId}),
+                    url: basePath + "/_teacher/_admin/users/removeEmailCategory",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback() {
+                    location.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Операцію не вдалося виконати");
+                });
+            }
+        });
+    }
+};
+
+function emailCategoryCtrl ($http, $scope,  usersService, $stateParams, $state) {
+    $scope.loadEmailCategory=function(id){
+        usersService.emailCategoryData({'id':id})
+            .$promise
+            .then(function successCallback(response) {
+                $scope.emailCategory=response;
+            }, function errorCallback() {
+                bootbox.alert("Отримати дані не вдалося");
+            });
+    };
+    if($stateParams.id){
+        $scope.loadEmailCategory($stateParams.id);
+    }
+
+    $scope.sendEmailCategory= function (scenario) {
+        if(scenario=='new') $scope.createEmailCategory();
+        else $scope.editEmailCategory();
+    };
+    $scope.createEmailCategory= function () {
+        $http({
+            url: basePath + "/_teacher/_admin/users/createEmailCategory",
+            method: "POST",
+            data: $jq.param({
+                name: $scope.emailCategory.title,
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            $state.go("admin/emailscategory", {}, {reload: true});
+        }, function errorCallback() {
+            bootbox.alert("Створити категорію емейлів не вдалося. Помилка сервера.");
+        });
+    };
+    $scope.editEmailCategory= function () {
+        $http({
+            url: basePath + "/_teacher/_admin/users/updateEmailCategory",
+            method: "POST",
+            data: $jq.param({
+                id:$stateParams.id,
+                name: $scope.emailCategory.title,
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback() {
+            $state.go("admin/emailscategory", {}, {reload: true});
+        }, function errorCallback() {
+            bootbox.alert("Оновити дані не вдалося. Помилка сервера.");
+        });
+    };
 };

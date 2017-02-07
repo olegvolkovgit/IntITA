@@ -44,6 +44,19 @@ class UsersController extends TeacherCabinetController
     {
         $this->renderPartial('usersEmail', array(), false, true);
     }
+
+    public function actionEmailsCategory()
+    {
+        $this->renderPartial('emailsCategory', array(), false, true);
+    }
+    public function actionEmailsCategoryCreate()
+    {
+        $this->renderPartial('emailCategoryForm', array('scenario'=>'new'), false, true);
+    }
+    public function actionEmailsCategoryUpdate()
+    {
+        $this->renderPartial('emailCategoryForm', array('scenario'=>'update'), false, true);
+    }
     
     public function actionRenderAddRoleForm($role)
     {
@@ -570,8 +583,8 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionSaveExcelFile(){
-        if (!file_exists(Yii::app()->basePath . "/files/emailsBase")) {
-            mkdir(Yii::app()->basePath . "/files/emailsBase");
+        if (!file_exists(Yii::app()->basePath . "/../files/emailsBase")) {
+            mkdir(Yii::app()->basePath . "/../files/emailsBase");
         }
         if ( 0 < $_FILES['file']['error'] ) {
             echo 'Error: ' . $_FILES['file']['error'] . '<br>';
@@ -582,9 +595,19 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionImportExcel(){
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
         $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx';
-        $exporter = new ExcelImporter('users_email',1,$filepath);
+        $exporter = new ExcelImporter('users_email',1,$filepath, $emailsCategory);
         $exporter->importExcelToMySQL();
+    }
+
+    public function actionAddNewEmail(){
+        $email = Yii::app()->request->getPost('email');
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        $userEmail= new UsersEmailDatabase();
+        $userEmail->email=$email;
+        $userEmail->category=$emailsCategory;
+        $userEmail->save();
     }
 
     public function actionGetUsersEmailList()
@@ -602,6 +625,43 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionTruncateEmailsTable(){
-        UsersEmailDatabase::model()->deleteAll();
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategory));
+    }
+
+    public function actionRemoveEmailCategory(){
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        if(UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategory))){
+            EmailsCategory::model()->deleteByPk($emailsCategory);
+        }
+    }
+
+    public function actionGetEmailsCategoryList()
+    {
+        echo  CJSON::encode(EmailsCategory::model()->findAll());
+    }
+
+    public function actionGetEmailCategoryData($id)
+    {
+        echo CJSON::encode(EmailsCategory::model()->findByPk($id));
+    }
+
+    public function actionCreateEmailCategory()
+    {
+        $title=Yii::app()->request->getParam('name');
+
+        $emailCategory= new EmailsCategory();
+        $emailCategory->title=$title;
+        $emailCategory->save();
+    }
+
+    public function actionUpdateEmailCategory()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $title=Yii::app()->request->getPost('name');
+
+        $emailCategory=EmailsCategory::model()->findByPk($id);
+        $emailCategory->title=$title;
+        $emailCategory->save();
     }
 }

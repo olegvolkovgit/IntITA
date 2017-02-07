@@ -281,6 +281,23 @@ config(function ($stateProvider) {
             cache: false,
             templateUrl: basePath+"/_teacher/_admin/users/usersemail",
         })
+        .state('admin/emailscategory', {
+            url: "/admin/emailscategory",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_admin/users/emailscategory",
+        })
+        .state('admin/emailscategorycreate', {
+            url: "/admin/emailscategorycreate",
+            cache: false,
+            templateUrl: basePath+"/_teacher/_admin/users/emailscategorycreate",
+        })
+        .state('admin/emailscategoryupdate/:id', {
+            url: "/admin/emailscategoryupdate/:id",
+            cache: false,
+            templateUrl: function ($stateParams) {
+                return basePath+"/_teacher/_admin/users/emailscategoryupdate/id/"+$stateParams.id;
+            }
+        })
 });
 
 

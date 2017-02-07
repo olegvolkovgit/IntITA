@@ -31,13 +31,16 @@ class NewsLetter implements ITask
 
     private $email;
 
-    public function __construct($type, $recipients, $subject, $message, $email)
+    private $emailBaseCategory;
+
+    public function __construct($type, $recipients, $subject, $message, $email, $emailBaseCategory=null)
     {
         $this->type = $type;
         $this->recipients = $recipients;
         $this->subject = $subject;
         $this->message = $message;
         $this->email = $email;
+        $this->emailBaseCategory = $emailBaseCategory;
     }
 
     /**
@@ -107,7 +110,14 @@ class NewsLetter implements ITask
                 }
                 break;
             case "emailsFromDatabase":
-                $models = UsersEmailDatabase::model()->findAll();
+                $criteria = new CDbCriteria();
+                if(intval($this->emailBaseCategory)===0){
+                    $criteria->distinct = true;
+                    $criteria->select = "email";
+                }else{
+                    $criteria->addCondition('category='.$this->emailBaseCategory);
+                }
+                $models = UsersEmailDatabase::model()->findAll($criteria);
                 if (isset($models)) {
                     foreach ($models as $user) {
                         array_push($mailList, $user->email);
