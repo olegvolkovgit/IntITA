@@ -2,6 +2,7 @@
 /**
  * @var $teacher Teacher
  * @var $teachers array
+ * @var $idModule
  */
 foreach ($teachers as $teacher) {
     ?>
@@ -39,7 +40,7 @@ foreach ($teachers as $teacher) {
                             src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
                 </td>
                 <td class="teacherBoxRight">
-                    <h2><?php echo $teacher->getRolesTeacherInModule(); ?></h2>
+                    <h2><?php echo $teacher->getRolesTeacherInModule($idModule); ?></h2>
 
                     <div style="line-height: 1.2;word-break: break-word;">
                         <?php echo $teacher->getLastFirstName(); ?>
