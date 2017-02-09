@@ -12,7 +12,7 @@
  * @property string $item3Link
  * @property string $item4Link
  */
-//todo - write function, which will determinate page through id-controller and action
+
 class Header extends CActiveRecord
 {
 
@@ -117,5 +117,21 @@ class Header extends CActiveRecord
 
     public function getLogoutButton(){
         return Yii::t('header', '0020');
+    }
+//todo - write function, which will determinate page through id-controller and action
+    public function currentPage() {
+        $array_url_name = ['/courses', '/teachers', '/graduate', '/aboutus', ];
+        $url_name = Config::getBaseUrl();
+        $active = false;
+
+        foreach ($array_url_name as $item) {
+            $stroka = strstr($url_name, $item);
+            if($stroka) {
+                $active = true;
+            }
+        }
+
+        $data = $active;
+        echo json_encode($data);
     }
 }
