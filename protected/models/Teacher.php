@@ -649,14 +649,14 @@ class Teacher extends CActiveRecord
         return implode(", ", $result);
     }
 
-    public function getRolesTeacherInModule() {
+    public function getRolesTeacherInModule($idModule) {
         $model=RegisteredUser::userById($this->user_id);
         $result=array();
-        $roles=[UserRoles::TEACHER_CONSULTANT,UserRoles::AUTHOR];
-        foreach($roles as $role){
-            if($model->hasRole($role))
-                array_push($result,Role::getInstance($role)->title());
-        }
+        if($model->isAuthorModule($idModule))
+            array_push($result,Role::getInstance(UserRoles::AUTHOR)->title());
+        if($model->isTeacherConsultantModule($idModule))
+            array_push($result,Role::getInstance(UserRoles::TEACHER_CONSULTANT)->title());
+
         return implode(", ", $result);
     }
 }

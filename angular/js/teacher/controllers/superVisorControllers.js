@@ -474,6 +474,18 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             $state.go('supervisor/offlineSubgroup/:id', {id:$stateParams.id}, {reload: true});
         }
     };
+
+    $scope.updateSubgroupChat=function(id){
+        $http({
+            url: basePath+'/group_operations/update/'+id,
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            console.log(response);
+        }, function errorCallback() {
+            bootbox.alert("Оновити чат підгрупи не вдалося. Помилка сервера.");
+        });
+    };
 }
 
 function usersSVTableCtrl ($scope, superVisorService, NgTableParams){

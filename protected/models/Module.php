@@ -101,12 +101,9 @@ class Module extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
 
         return array(
-           // 'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
             'Course' => array(self::MANY_MANY, 'Course', 'course_modules(id_module,id_course)'),
             'lectures' => array(self::HAS_MANY, 'Lecture', 'idModule',
                 'order' => 'lectures.order ASC'),
-            'teacher' => array(self::MANY_MANY, 'Teacher', 'teacher_module(idModule,idTeacher)',
-                'on' => 'teacher.isPrint=1', 'condition' => 'end_time IS NULL'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
@@ -1154,5 +1151,21 @@ class Module extends CActiveRecord implements IBillableObject
         } while ($nextMandatory);
 
         return true;
+    }
+
+    //    teacher who are teacher_consultant and author if this module
+    public function getModuleTeachers()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 't';
+        $criteria->join = 'left join user_teacher_consultant utc ON utc.id_user = t.user_id';
+        $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
+        $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
+        $criteria->addCondition('t.isPrint = 1 and (tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
+        or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL)');
+        $criteria->params = array(':module'=>$this->module_ID);
+        $criteria->group = 't.teacher_id';
+        return Teacher::model()->findAll($criteria);
     }
 }
