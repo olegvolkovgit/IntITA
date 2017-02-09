@@ -79,15 +79,15 @@
 }
 .window_panel > *{
     display: inline-block;
-    width: 24px; height: 35px;
+    width: 20px; height: 35px;
     color: #fff;
     line-height: 35px;
 }
 .window_panel{
     position:absolute;top: 15px;right: 10px;width: 60px;height: 35px;background: none;color:#fff; text-align: center;
 }
-.handle{
-    position:absolute;top: 15px;left: 50px;width: calc(100% - 120px);height: 35px;background: none;color:#fff;cursor: move;
+.dnd-container .chat .handle{
+    position:absolute;top: 15px;left: 50px;width: calc(100% - 160px);height: 35px;background: none;color:#fff;cursor: move;
 }
 .dnd-container .chat.mini .handle{
     cursor: pointer;
@@ -104,13 +104,14 @@
 .dnd-container .chat.full .window_panel{
     top: 15px;right: 10px;
 }
-.material-icons{
+.dnd-container .material-icons{
     -webkit-transition: color .25s ease-in-out;
     -moz-transition: color .25s ease-in-out;
     -o-transition: color .25s ease-in-out;
     transition: color .25s ease-in-out;
+    font-size: 20px;
 }
-.material-icons:hover{
+.dnd-container .material-icons:hover{
     cursor: pointer;
     color: #a3c6e2;
 }
@@ -118,7 +119,23 @@
     pointer-events: none;
 }
 @media only screen and (min-width:900px) {
-    .dnd-container .chat.full .window_panel{
-        top: 15px;right: 25px;
+    .dnd-container .chat.full .window_panel {
+        top: 15px;
+        right: 25px;
     }
 }
+    @media only screen and (max-width:899px) {
+        .dnd-container .chat{
+            max-height: 100%;
+            max-width: 950px;
+            height: 100% !important;
+            width: 100% !important;
+            right: 0px !important;
+            bottom: 0px !important;
+            top: 0 !important;
+            left: 0 !important;
+            margin: auto;
+            -webkit-transition-property: none;
+            transition-property: none;
+        }
+    }
