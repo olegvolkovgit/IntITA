@@ -321,3 +321,20 @@ div.modal-dialog {
     /*footer*/
 }
 /*adaptive*/
+
+/*style in active page*/
+#menulist .current_page_active a {
+    color: #999;
+}
+#menulist .current_page_active a:hover {
+    cursor: default;
+    color: #999;
+}
+#mainfooter .footermenu .current_page_active a {
+    color: #666;
+}
+#mainfooter .footermenu .current_page_active a:hover {
+    cursor: default;
+    color: #666;
+}
+/*style in active page*/
