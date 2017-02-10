@@ -38,7 +38,17 @@
     <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
+
+    <!--IntITAMessenger-->
+    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+    <?php if (!Yii::app()->user->isGuest) { ?>
+<!--        <div ita-messenger="" path="--><?php //echo Config::getBaseUrl()."crmChat" ?><!--" class="dnd-container"></div>-->
+                <div ita-messenger="" path ="https://qa.intita.com/crmChat" class="dnd-container"></div>
+    <?php } ?>
+    <!--IntITAMessenger-->
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
     <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
     <!-- jQuery -->
@@ -51,7 +61,7 @@
     <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
 </head>
 
-<body style="overflow-y: scroll" itemscope itemtype="https://schema.org/Product">
+<body style="overflow-y: scroll" itemscope itemtype="https://schema.org/Product" ng-app="lessonApp">
 
 <div id="contentBoxMain">
     <?php echo $content; ?>
