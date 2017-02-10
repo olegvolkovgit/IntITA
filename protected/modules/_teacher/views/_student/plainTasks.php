@@ -1,7 +1,7 @@
-<div class="panel-body">
-    <div ng-controller="teacherConsultantTasksCtrl">
-        <form autocomplete="off">
-            <table ng-table="tasksTableParams" class="table table-bordered table-striped table-condensed">
+<div class="panel panel-default" ng-controller="studentPlainTasksCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table ng-table="studentPlainTasksAnswersTable" class="table table-striped table-bordered table-hover">
                 <tr ng-repeat="row in $data track by $index" ng-class="{success: row.plainTaskMark.mark, danger: row.plainTaskMark && !row.plainTaskMark.mark}">
                     <td data-title="'Модуль'" filter="{'plainTaskModule.title_ua': 'text'}" sortable="'plainTaskModule.title_ua'">
                         <a ng-if="row.plainTaskModule.title_ua" href="javascript:void(0);" ng-click="moduleLink(row.plainTaskModule.module_ID)">
@@ -16,16 +16,13 @@
                         <span ng-if="!row.plainTaskLecture.title_ua">скасовано</span>
                     </td>
                     <td data-title="'Завдання'" filter="{'plainTaskQuestion.html_block': 'text'}">
-                        {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
-                    </td>
-                    <td data-title="'Студент'" filter="{'user.fullName': 'text'}" sortable="'user.fullName'">
-                        <a ng-href="#/users/profile/{{row.user.id}}">
-                            {{row.user.fullName}} {{row.user.email}}
+                        <a ng-href="#/students/plainTask/{{row.id}}">
+                            {{row.plainTaskQuestion.html_block | htmlToShotPlaintext}}
                         </a>
                     </td>
                     <td data-title="'Відповідь'" filter="{'answer': 'text'}">
-                        <a ng-href="#/teacherConsultant/task/{{row.id}}">
-                            {{row.answer | textToShotPlaintext}}
+                        <a ng-href="#/students/plainTask/{{row.id}}">
+                         {{row.answer | textToShotPlaintext}}
                         </a>
                     </td>
                     <td data-title="'Дата'" filter="{'date': 'text'}" sortable="'date'">
@@ -40,13 +37,18 @@
                         {{row.plainTaskMark.comment  | textToShotPlaintext}}
                     </td>
                     <td data-title="'Викладач'" filter="{'markedBy.fullName': 'text'}">
-                        {{row.markedBy.fullName}} {{row.markedBy.email}}
+                        <a href="/profile/{{row.markedBy.id}}" target="_blank">
+                            {{row.markedBy.fullName}} {{row.markedBy.email}}
+                        </a>
+                        <a class="btnChat" ng-if="row.markedBy.id" ng-href="#/newmessages/receiver/{{row.markedBy.id}}"  data-toggle="tooltip" data-placement="top" title="Приватне повідомлення">
+                            <i class="fa fa-envelope fa-fw"></i>
+                        </a>
                     </td>
                     <td data-title="'Дата оцінювання'" filter="{'plainTaskMark.time': 'text'}" sortable="'plainTaskMark.time'">
                         {{row.plainTaskMark.time}}
                     </td>
                 </tr>
             </table>
-        </form>
+        </div>
     </div>
 </div>

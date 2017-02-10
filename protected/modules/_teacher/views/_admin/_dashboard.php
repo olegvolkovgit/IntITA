@@ -106,12 +106,15 @@
             </div>
             <div class="panel-body">
                 <ul>
-                    <li><a ng-href="#/admin/users">Користувачі
-                        </a>
+                    <li>
+                        <a ng-href="#/admin/users">Користувачі</a>
                     </li>
-                    <br>
-                    <br>
-                    <br>
+                    <li>
+                        <a ng-href="#/admin/usersemail">База email'ів</a>
+                    </li>
+                    <li>
+                        <a ng-href="#/admin/emailscategory">Категорії email</a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-footer">

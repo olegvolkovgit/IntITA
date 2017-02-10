@@ -61,5 +61,22 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: 'offlineEducationCtrl',
             templateUrl: basePath+"/_teacher/_student/student/offlineEducation"
         })
+        .state('students/plainTasks', {
+            url: "/students/plainTasks",
+            cache         : false,
+            templateUrl: basePath+"/_teacher/_student/student/plainTasks",
+        })
+        .state('students/plainTask/:id', {
+            url: "/students/plainTask/:id",
+            cache         : false,
+            templateUrl: function($stateParams){
+                return basePath+"/_teacher/_student/student/plainTask/id/"+$stateParams.id;
+            }
+        })
+        .state('students/contacts', {
+            url: "/students/contacts",
+            cache         : false,
+            templateUrl: basePath+"/_teacher/_student/student/contacts",
+        })
 });
 

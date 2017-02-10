@@ -39,7 +39,16 @@ angular
 ;
 
 function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $stateParams) {
-
+    $scope.loadEmailCategory=function(){
+        $resource(basePath+'/_teacher/newsletter/getEmailsCategoryList').query()
+            .$promise
+            .then(function (data) {
+                $scope.emailsCategory=data;
+                $scope.emailsCategory.push({id:0,title:'Вся база email'})
+            });
+    };
+    $scope.loadEmailCategory();
+    
     $scope.taskTypes = [{
         name: 'Негайно',
         value: '0'
@@ -157,6 +166,13 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         break;
                 }
             });
+            if(typeof $scope.selectedEmailCategory=='undefined'){
+                $scope.selectedEmailCategory=null;
+            }
+            if($scope.newsletterType=='emailsFromDatabase' && $scope.selectedEmailCategory===null){
+                bootbox.alert('Виберіть категорію, якщо робите розсилку по базі email');
+                return;
+            }
             $http({
                 method: 'POST',
                 url: basePath + '/_teacher/newsletter/sendLetter',
@@ -166,7 +182,8 @@ function newsletterCtrl($rootScope,$scope, $http, $resource, $state, $filter, $s
                         "recipients": recipients,
                         "subject": $scope.subject,
                         "message": $scope.message,
-                        "email": $scope.emailSelected.email
+                        "email": $scope.emailSelected.email,
+                        "emailBaseCategory":$scope.selectedEmailCategory,
                     },
                     "taskType": $scope.taskType,
                     "taskRepeat": $scope.taskRepeat,

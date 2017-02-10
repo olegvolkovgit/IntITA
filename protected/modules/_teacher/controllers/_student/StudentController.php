@@ -12,9 +12,12 @@ class StudentController extends TeacherCabinetController
     public function actionIndex($id)
     {
         $student = RegisteredUser::userById($id);
-
+        $role = new Student();
+        $teachersByModule = $role->getTeachersForModules($student->registrationData);
+        
         $this->renderPartial('/_student/index', array(
-            'student' => $student
+            'student' => $student,
+            'teachersByModule' => $teachersByModule,
         ), false, true);
     }
 
@@ -252,6 +255,16 @@ class StudentController extends TeacherCabinetController
         ));
     }
 
+    public function actionPlainTasks()
+    {
+        $this->renderPartial('/_student/plainTasks', array());
+    }
+
+    public function actionPlainTask($id)
+    {
+        $this->renderPartial('/_student/plainTaskView', array($id));
+    }
+    
     public function actionGetInvoicesByAgreement()
     {
         $requestParams = $_GET;
@@ -259,6 +272,38 @@ class StudentController extends TeacherCabinetController
 
         $criteria =  new CDbCriteria();
         $criteria->condition = "agreement_id= ".$_GET['id'];
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionGetStudentPlainTasksAnswers()
+    {
+        $requestParams = $_GET;
+        $untested=false;
+
+        if(isset($requestParams['filter']['plainTaskMark.mark']) && $requestParams['filter']['plainTaskMark.mark']=='null'){
+            unset($requestParams['filter']['plainTaskMark.mark']);
+            $untested=true;
+        }
+        $ngTable = new NgTableAdapter('PlainTaskAnswer', $requestParams);
+
+
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 't';
+        if($untested){
+            $criteria->join = ' LEFT JOIN plain_task_marks ptm ON t.id = ptm.id_answer';
+            $criteria->addCondition('ptm.id_answer IS NULL');
+        }
+        if(isset($requestParams['id'])){
+            $criteria->join = ' LEFT JOIN plain_task_marks ptm ON t.id = ptm.id_answer';
+            $criteria->addCondition('t.id='.$requestParams['id']);
+        }
+
+        $criteria->addCondition('t.id_student =:id');
+        $criteria->params = array(':id' => Yii::app()->user->getId());
+        $criteria->group = 't.id DESC';
         $ngTable->mergeCriteriaWith($criteria);
         $result = $ngTable->getData();
         echo json_encode($result);
@@ -329,5 +374,24 @@ class StudentController extends TeacherCabinetController
         }
 
         echo json_encode($subgroups);
+    }
+
+    public function actionGetNewPlainTasksMarksCount()
+    {
+        $model=PlainTaskMarks::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'read_mark'=>false));
+        $result=array('data'=>count($model));
+        echo json_encode($result);
+    }
+
+    public function actionReadNewPlainTasksMarks()
+    {
+        PlainTaskMarks::model()->updateAll(array('read_mark'=>true), 'read_mark = 0');
+    }
+
+    public function actionContacts()
+    {
+        $student = RegisteredUser::userById(Yii::app()->user->getId());
+        $trainer=$student->registrationData->trainer?$student->registrationData->trainer->trainer0:null;
+        $this->renderPartial('/_student/contacts', array('trainer' => $trainer), false, true);
     }
 }

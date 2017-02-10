@@ -82,6 +82,9 @@ return array(
 
         'clientScript' => array(
             'class' => 'system.web.CClientScript',
+            'scriptMap'=>array(
+                'jquery.min.js'=>'https://code.jquery.com/jquery-2.2.4.min.js',
+            )
         ),
 
         'cache' => array(

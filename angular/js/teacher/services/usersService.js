@@ -66,5 +66,18 @@ angular
                         url: url + '/getSuperVisorsList',
                         method: 'GET'
                     },
+                    usersEmailList: {
+                        url: url + '/getUsersEmailList',
+                        method: 'GET'
+                    },
+                    emailsCategoryList: {
+                        url: url + '/getEmailsCategoryList',
+                        method: 'GET',
+                        isArray:true,
+                    },
+                    emailCategoryData: {
+                        url: url + '/getEmailCategoryData',
+                        method: 'GET',
+                    },
                 });
         }]);

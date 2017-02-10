@@ -6,11 +6,13 @@ class UserController extends TeacherCabinetController {
         $allowedAccountantActions=['loadJsonUserModel','getRolesHistory','index'];
         $allowedContentManagerActions=['loadJsonUserModel','getRolesHistory','index'];
         $allowedSupervisorActions=['loadJsonUserModel','getRolesHistory','setStudentEducForm', 'setStudentShift'];
+        $allowedProfileActions=['loadJsonUserModel','index'];
         return Yii::app()->user->model->isAdmin() ||
         Yii::app()->user->model->isTrainer() ||
         (Yii::app()->user->model->isContentManager() && in_array(Yii::app()->controller->action->id,$allowedContentManagerActions)) ||
         (Yii::app()->user->model->isSuperVisor() && in_array(Yii::app()->controller->action->id,$allowedSupervisorActions)) ||
-        (Yii::app()->user->model->isAccountant() && in_array(Yii::app()->controller->action->id,$allowedAccountantActions));
+        (Yii::app()->user->model->isAccountant() && in_array(Yii::app()->controller->action->id,$allowedAccountantActions)) ||
+        (Yii::app()->user->model->isTeacher() && in_array(Yii::app()->controller->action->id,$allowedProfileActions));
     }
 
     public function actionIndex($id)

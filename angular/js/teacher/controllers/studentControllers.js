@@ -6,10 +6,52 @@ angular
     .controller('studentCtrl', studentCtrl)
     .controller('offlineEducationCtrl', offlineEducationCtrl)
     .controller('invoicesByAgreement', invoicesByAgreement)
+    .controller('studentPlainTasksCtrl', studentPlainTasksCtrl)
+    .controller('studentPlainTaskViewCtrl', studentPlainTaskViewCtrl)
+    .filter('htmlToShotPlaintext', function() {
+        return function(text) {
+            if(text){
+                var str=String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').trim();
+                if(str.length>50){
+                    return str.substr(0, 50)+"..."
+                }else{
+                    return str;
+                }
+            }else return '';
+        };
+    })
+    .filter('textToShotPlaintext', function() {
+        return function(text) {
+            if(text){
+                var str=String(text).trim();
+                if(str.length>50){
+                    return str.substr(0, 50)+"..."
+                }else{
+                    return str;
+                }
+            }else return '';
+        };
+    })
+    .filter('htmlToPlaintext', function() {
+        return function(text) {
+            if(text){
+                return String(text).replace(/<[^>]+>/gm, '').replace(/&nbsp;/gi,'').trim();
+            }else return '';
+        };
+    })
 
-function studentCtrl($scope, $http, NgTableParams,$resource, $state, $location) {
-
-
+function studentCtrl($scope, $rootScope, $http, NgTableParams,$resource, $state, studentService) {
+    $scope.getNewPlainTasksMarks=function(){
+        studentService.newPlainTasksMarks()
+            .$promise
+            .then(function successCallback(response) {
+                $rootScope.countOfNewPlainTasksMarks=response.data;
+            }, function errorCallback() {
+                console.log("Отримати дані про нові оцінки по простих завданнях не вдалося");
+            });
+    };
+    $scope.getNewPlainTasksMarks();
+    
     $scope.getTodayConsultations = function() {
         initTodayConsultationsTable();
 
@@ -184,6 +226,57 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
                         });
                         row.paidAmount=paid;
                     });
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function studentPlainTasksCtrl($scope, $rootScope, NgTableParams, studentService) {
+    $scope.changePageHeader('Завдання з розгорнутою відповідю');
+    //set new plain task marks as read
+    $scope.readNewPlainTasksMarks=function(){
+        studentService.readNewPlainTasksMarks()
+            .$promise
+            .then(function successCallback() {
+                $rootScope.countOfNewPlainTasksMarks=0;
+            }, function errorCallback() {
+                console.log("Виникла помилка при спробі відмітити нові оцінки на прості задачі, як переглянуті");
+            });
+    };
+    $scope.readNewPlainTasksMarks();
+
+    $scope.marks = [{id:'0', title:'не зарах.'}, {id:'1', title:'зарах.'}, {id:'null', title:'не перевірено'}];
+
+    $scope.studentPlainTasksAnswersTable = new NgTableParams({
+        sorting: {
+            'plainTaskMark.time': 'desc'
+        },
+    }, {
+        getData: function (params) {
+            return studentService
+                .studentPlainTasksAnswers(params.url())
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
+                    return data.rows;
+                });
+        }
+    });
+}
+
+function studentPlainTaskViewCtrl($scope, NgTableParams, $stateParams, studentService) {
+    $scope.changePageHeader('Завдання з розгорнутою відповідю');
+
+    $scope.studentPlainTasksAnswersTable = new NgTableParams({}, {
+        getData: function (params) {
+            $scope.params=params.url();
+            $scope.params.id=$stateParams.id;
+            return studentService
+                .studentPlainTasksAnswers($scope.params)
+                .$promise
+                .then(function (data) {
+                    params.total(data.count);
                     return data.rows;
                 });
         }

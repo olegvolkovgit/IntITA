@@ -7,7 +7,6 @@
 <script>
     scenario = '<?=$scenario;?>';
 </script>
-<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '_teacher/messages.css'); ?>"/>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -34,13 +33,13 @@
                 <textarea class="form-control" rows="6" id="text" placeholder="Лист" required></textarea>
             </div>
             <div class="col-md-8">
-            <button type="submit" class="btn btn-primary"
-                    ng-click="sendMessage('<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>');">
-                Написати
-            </button>
+                <button type="submit" class="btn btn-primary"
+                        ng-click="sendMessage('<?php echo Yii::app()->createUrl('/_teacher/messages/sendUserMessage'); ?>');">
+                    Написати
+                </button>
                 <button type="reset" class="btn btn-default"
-                        ng-click="loadMessagesIndex()">
-                    Скасувати
+                        ng-click="back()">
+                    Назад
                 </button>
             </div>
         </form>

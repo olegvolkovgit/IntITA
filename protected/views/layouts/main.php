@@ -32,7 +32,6 @@ $header = new Header();
           href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
     <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
           type="image/x-icon"/>
-    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
     <!--[if lte IE 8]>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
@@ -330,5 +329,23 @@ $header = new Header();
     ga('send', 'pageview');
 
 </script>
+
+<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', '../IntITAMessenger/chat.js'); ?>"></script>
+<?php if (!Yii::app()->user->isGuest) { ?>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '../IntITAMessenger/main.css'); ?>"/>
+
+    <div ng-controller="chat-controller as main" class="dnd-container">
+        <div ng-show="init" class="draggable disable-animation chat mini ng-class:{mini: state==1, full: state==2}" ng-click="" >
+            <iframe style="width: 100%;height: 100%;border: none;" src="https://qa.intita.com/crmChat"></iframe>
+<!--            <iframe style="width: 100%;height: 100%;border: none;" src="--><?php //echo Config::getBaseUrl()."/crmChat" ?><!--"></iframe>-->
+            <div class="window_panel ignore" style="">
+                <div id="minimize_btn" class="material-icons" ng-click="minimizete()">indeterminate_check_box</div>
+                <div id="fullscreen_btn" class="material-icons" ng-click="fullScreen()">web_asset</div>
+            </div>
+            <div class="handle" ng-mouseup="minimizeteMin()" style=""></div>
+        </div>
+    </div>
+<?php } ?>
 </body>
 </html>

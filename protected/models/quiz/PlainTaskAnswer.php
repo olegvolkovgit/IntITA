@@ -11,6 +11,7 @@
  * @property string $date
  * @property int $consultant
  * @property integer $quiz_uid
+ * @property integer $read_answer
  *
  * @property PlainTask $plainTask
  * @property StudentReg $user
@@ -36,7 +37,7 @@ class PlainTaskAnswer extends CActiveRecord
             array('id_student, id_plain_task, quiz_uid', 'required'),
             array('id_student, id_plain_task, quiz_uid', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, answer, id_student, id_plain_task, date, quiz_uid', 'safe', 'on' => 'search'),
+            array('id, answer, id_student, id_plain_task, date, quiz_uid, read_answer', 'safe', 'on' => 'search'),
         );
     }
 
@@ -48,8 +49,13 @@ class PlainTaskAnswer extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'plainTask' => array(self::BELONGS_TO, 'PlainTask', 'quiz_uid'),
+            'plainTask' => array(self::BELONGS_TO, 'PlainTask', ['quiz_uid'=>'uid']),
             'user' => array(self::BELONGS_TO, 'StudentReg', 'id_student'),
+            'plainTaskMark' => array(self::BELONGS_TO, 'PlainTaskMarks', ['id'=>'id_answer']),
+            'plainTaskQuestion' => array(self::BELONGS_TO, 'LectureElement', array('block_element'=>'id_block'), 'through' => 'plainTask'),
+            'plainTaskLecture' => array(self::BELONGS_TO, 'Lecture', array('id_lecture'=>'id'), 'through' => 'plainTaskQuestion'),
+            'plainTaskModule' => array(self::BELONGS_TO, 'Module', array('idModule'=>'module_ID'), 'through' => 'plainTaskLecture'),
+            'markedBy' => array(self::BELONGS_TO, 'StudentReg', array('marked_by'=>'id'), 'through' => 'plainTaskMark'),
         );
     }
 
@@ -64,7 +70,8 @@ class PlainTaskAnswer extends CActiveRecord
             'id_student' => 'Id Student',
             'id_plain_task' => 'Id Plain Task',
             'consultant' => 'Consultant',
-            'quiz_uid' => 'quiz_uid'
+            'quiz_uid' => 'Quiz uid',
+            'read_answer' => 'Read answer'
         );
     }
 
@@ -91,7 +98,7 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->compare('date', $this->date);
         $criteria->compare('consultant', $this->consultant);
         $criteria->compare('quiz_uid', $this->quiz_uid);
-
+        $criteria->compare('read_answer', $this->read_answer);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -193,7 +200,39 @@ class PlainTaskAnswer extends CActiveRecord
         return $result;
     }
 
-    public static function plainTaskListByTeacher($id)
+    public static function plainTaskListByTeacher()
+    {
+        $requestParams = $_GET;
+        $untested=false;
+        if(isset($requestParams['filter']['plainTaskMark.mark']) && $requestParams['filter']['plainTaskMark.mark']=='null'){
+            unset($requestParams['filter']['plainTaskMark.mark']);
+            $untested=true;
+        }
+
+        $ngTable = new NgTableAdapter('PlainTaskAnswer', $requestParams);
+
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->alias = 't';
+        $criteria->join = ' LEFT JOIN plain_task pt ON t.quiz_uid = pt.uid';
+        $criteria->join .= ' LEFT JOIN lecture_element le ON pt.block_element = le.id_block';
+        $criteria->join .= ' LEFT JOIN lectures l ON le.id_lecture = l.id';
+        $criteria->join .= ' RIGHT JOIN teacher_consultant_student tcs ON t.id_student = tcs.id_student and l.idModule = tcs.id_module';
+        $criteria->join .= ' RIGHT JOIN teacher_consultant_module tcm ON l.idModule = tcm.id_module';
+        if($untested){
+            $criteria->join .= ' LEFT JOIN plain_task_marks ptm ON t.id = ptm.id_answer';
+            $criteria->addCondition('ptm.id_answer IS NULL');
+        }
+        $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
+        and tcm.end_date IS NULL and tcm.id_teacher=:id');
+        $criteria->params = array(':id' => Yii::app()->user->getId());
+        $criteria->group = 't.id DESC';
+        $ngTable->mergeCriteriaWith($criteria);
+        $result = $ngTable->getData();
+        return json_encode($result);
+    }
+
+    public static function newPlainTaskListByTeacher($id)
     {
         $criteria = new CDbCriteria();
         $criteria->select = '*';
@@ -205,10 +244,9 @@ class PlainTaskAnswer extends CActiveRecord
         $criteria->join .= ' RIGHT JOIN teacher_consultant_student tcs ON ans.id_student = tcs.id_student and l.idModule = tcs.id_module';
         $criteria->join .= ' RIGHT JOIN teacher_consultant_module tcm ON l.idModule = tcm.id_module';
         $criteria->addCondition('tcs.id_teacher =:id and tcs.end_date IS NULL 
-        and tcm.end_date IS NULL and tcm.id_teacher=:id');
+        and tcm.end_date IS NULL and tcm.id_teacher=:id and ans.read_answer=0');
         $criteria->params = array(':id' => $id);
-        $criteria->group = 'ans.id DESC';
-        
+
         return PlainTaskAnswer::model()->findAll($criteria);
     }
 

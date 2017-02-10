@@ -21,7 +21,7 @@
                     ?>
                     <tr>
                         <td>
-                            <a ng-href="#/admin/users/user/<?php echo $item["id"] ?>" >
+                            <a ng-href="#/users/profile/<?php echo $item["id"] ?>" >
                                 <?= $item["title"]." (".$item["email"].")"; ?>
                             </a>
                         </td>

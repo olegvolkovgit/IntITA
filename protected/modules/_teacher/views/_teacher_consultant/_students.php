@@ -15,8 +15,7 @@
                         <?php foreach ($students as $student) {
                             ?>
                             <li>
-                                <a href="<?= Yii::app()->createUrl("studentreg/profile", array("idUser" => $student->id)); ?>"
-                                   target="_blank">
+                                <a ng-href="#/users/profile/<?php echo $student->id ?>">
                                     <?= $student->userName() . " (" . $student->email . ")"; ?>
                                 </a>
                             </li>
