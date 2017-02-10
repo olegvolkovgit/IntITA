@@ -65,6 +65,7 @@ $header = new Header();
 </head>
 
 <body itemscope itemtype="https://schema.org/Product">
+<?php $switch_navigation = Header::model()->currentPage(); ?>
 
 <div id="main-wrapper" >
     <div id="mainheader">
@@ -80,18 +81,18 @@ $header = new Header();
                     </td>
                     <td id="menulist">
                         <ul>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::COURSES_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a>
                             </li>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::TEACHERS_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a>
                             </li>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                             </li>
                             <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
                                    target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-                            <li>
+                            <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?> >
                                 <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                             </li>
                             <?php if (!Yii::app()->user->isGuest) { ?>
@@ -256,18 +257,18 @@ $header = new Header();
 
             <div class="footermenu">
                 <ul>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::COURSES_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/courses'; ?>"><?php echo Yii::t('header', '0016'); ?></a>
                     </li>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::TEACHERS_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/teachers'; ?>"><?php echo Yii::t('header', '0021'); ?></a>
                     </li>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::GRADUATES_ACTIVE)? 'current_page_active': ''?> >
                         <a href="<?php echo Config::getBaseUrl() . '/graduate'; ?>"><?php echo Yii::t('header', '0137'); ?></a>
                     </li>
                     <li><a href="<?php echo Config::getBaseUrl() . '/crmForum'; ?>"
                            target="_blank"><?php echo Yii::t('header', '0017'); ?></a></li>
-                    <li>
+                    <li class = <?php echo ($switch_navigation == Header::ABOUTUS_ACTIVE)? 'current_page_active': ''?>>
                         <a href="<?php echo Config::getBaseUrl() . '/aboutus'; ?>"><?php echo Yii::t('header', '0018'); ?></a>
                     </li>
                     <?php if (!Yii::app()->user->isGuest) { ?>

@@ -15,7 +15,10 @@
 
 class Header extends CActiveRecord
 {
-
+    const COURSES_ACTIVE = 1;
+    const TEACHERS_ACTIVE = 2;
+    const GRADUATES_ACTIVE = 3;
+    const ABOUTUS_ACTIVE = 4;
 
 	/**
 	 * @return string the associated database table name
@@ -119,19 +122,27 @@ class Header extends CActiveRecord
         return Yii::t('header', '0020');
     }
 //todo - write function, which will determinate page through id-controller and action
-    public function currentPage() {
-        $array_url_name = ['/courses', '/teachers', '/graduate', '/aboutus', ];
-        $url_name = Config::getBaseUrl();
-        $active = false;
 
-        foreach ($array_url_name as $item) {
-            $stroka = strstr($url_name, $item);
-            if($stroka) {
-                $active = true;
-            }
-        }
+    public function currentPage()
+    {
+        $element = 0;
+        switch (true) {
+            case (Yii::app()->controller->id == 'courses') :
+                $element = Header::COURSES_ACTIVE;
+                break;
+            case (Yii::app()->controller->id == 'teachers') :
+                $element = Header::TEACHERS_ACTIVE;
+                break;
+            case (Yii::app()->controller->id == 'graduate') :
+                $element = Header::GRADUATES_ACTIVE;
+                break;
+            case (Yii::app()->controller->id == 'aboutus') :
+                $element = Header::ABOUTUS_ACTIVE;
+                break;
+            default:
+                break;
 
-        $data = $active;
-        echo json_encode($data);
+        };
+        return $element;
     }
 }

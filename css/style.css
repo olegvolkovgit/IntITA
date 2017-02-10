@@ -325,6 +325,7 @@ div.modal-dialog {
 /*style in active page*/
 #menulist .current_page_active a {
     color: #999;
+    pointer-events: none;
 }
 #menulist .current_page_active a:hover {
     cursor: default;
@@ -332,6 +333,7 @@ div.modal-dialog {
 }
 #mainfooter .footermenu .current_page_active a {
     color: #666;
+    pointer-events: none;
 }
 #mainfooter .footermenu .current_page_active a:hover {
     cursor: default;
