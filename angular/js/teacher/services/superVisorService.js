@@ -60,4 +60,30 @@ angular
                         method: 'GET',
                     },
                 });
-        }]);
+        }])
+    .service('chatIntITAMessenger', ['$http',
+        function($http) {
+            this.updateGroup = function (id) {
+                var url=baseChatPath+'/group_operations/update/'+id;
+                var promise = $http({url: url, method: "GET", headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                   console.log(response);
+                }, function errorCallback(response) {
+                    console.log(response);
+                    alert('Оновити чат групи не вдалося');
+                });
+                return promise;
+            };
+            this.updateSubgroup = function (id) {
+                var url=baseChatPath+'/sub_group_operations/update/'+id;
+                var promise = $http({url: url, method: "GET", headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+                }).then(function successCallback(response) {
+                    return response;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    alert('Оновити чат підгрупи не вдалося');
+                });
+                return promise;
+            };
+        }
+    ]);

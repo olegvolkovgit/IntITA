@@ -59,6 +59,7 @@
 
     <script>
         basePath = '<?=Config::getBaseUrl()?>';
+        baseChatPath = '<?=Config::getFullChatPath()?>';
         var $jq = jQuery.noConflict();
     </script>
 
@@ -83,8 +84,7 @@
     <!--IntITAMessenger-->
     <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITACabinet.js" ?>"></script>
     <?php if (!Yii::app()->user->isGuest) { ?>
-        <div ita-messenger="" path="<?php echo Config::getBaseUrl()."crmChat" ?>" class="dnd-container"></div>
-<!--        <div ita-messenger="" path ="https://qa.intita.com/crmChat" class="dnd-container"></div>-->
+        <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
     <?php } ?>
     <!--IntITAMessenger-->
 
