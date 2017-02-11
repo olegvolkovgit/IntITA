@@ -33,6 +33,7 @@ $header = new Header();
     <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
           type="image/x-icon"/>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <!--[if lte IE 8]>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
@@ -56,6 +57,14 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-resource/angular-resource.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-animate/angular-animate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
+
+    <!--IntITAMessenger-->
+    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+    <?php if (!Yii::app()->user->isGuest) { ?>
+        <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
+    <?php } ?>
+    <!--IntITAMessenger-->
+
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-1.3.3.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -316,25 +325,6 @@ $header = new Header();
 
     ga('create', 'UA-83801032-1', 'auto');
     ga('send', 'pageview');
-
 </script>
-
-<script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', '../IntITAMessenger/chat.js'); ?>"></script>
-<?php if (!Yii::app()->user->isGuest) { ?>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', '../IntITAMessenger/main.css'); ?>"/>
-
-    <div ng-controller="chat-controller as main" class="dnd-container">
-        <div ng-show="init" class="draggable disable-animation chat mini ng-class:{mini: state==1, full: state==2}" ng-click="" >
-            <iframe style="width: 100%;height: 100%;border: none;" src="https://qa.intita.com/crmChat"></iframe>
-<!--            <iframe style="width: 100%;height: 100%;border: none;" src="--><?php //echo Config::getBaseUrl()."/crmChat" ?><!--"></iframe>-->
-            <div class="window_panel ignore" style="">
-                <div id="minimize_btn" class="material-icons" ng-click="minimizete()">indeterminate_check_box</div>
-                <div id="fullscreen_btn" class="material-icons" ng-click="fullScreen()">web_asset</div>
-            </div>
-            <div class="handle" ng-mouseup="minimizeteMin()" style=""></div>
-        </div>
-    </div>
-<?php } ?>
 </body>
 </html>

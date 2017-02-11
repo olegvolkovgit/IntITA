@@ -163,6 +163,10 @@ class Config extends CActiveRecord
         return Yii::app()->config->get('chatPath');
     }
 
+	public static function getFullChatPath(){
+		return Yii::app()->config->get('fullChatPath');
+	}
+	
     public static function getMinLengthResponse(){
         return Yii::app()->config->get('minLengthResponse');
     }

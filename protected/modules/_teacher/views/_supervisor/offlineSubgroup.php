@@ -11,10 +11,12 @@
                     Група підгрупи
                 </a>
             </li>
+            <li>
+                <a type="button" class="btn btn-success" ng-href="" ng-click="updateSubgroupChat(subgroup.id)">
+                    Оновити чат підгрупи
+                </a>
+            </li>
         </ul>
-<!--        <a type="button" class="btn btn-primary" ng-href="" ng-click="updateSubgroupChat(subgroup.id)">-->
-<!--            Оновити чат підгрупи-->
-<!--        </a>-->
         <div class="panel-body" style="padding:15px 0 0 0">
             <uib-tabset active="0" >
                 <uib-tab index="0" heading="Головне">
