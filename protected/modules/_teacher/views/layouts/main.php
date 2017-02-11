@@ -82,7 +82,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('angular', 'css/angular-datatables.css') ?>">
 
     <!--IntITAMessenger-->
-    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITACabinet.js" ?>"></script>
+    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
     <?php if (!Yii::app()->user->isGuest) { ?>
         <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
     <?php } ?>

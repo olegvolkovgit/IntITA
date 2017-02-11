@@ -16,18 +16,18 @@ var chatIntITAMessenger = angular.module('chatIntITAMessenger', []).directive('i
                     busy = true;
                 });
                 console.log('dragstart', arguments);
-                var res_elem = $('.draggable');
+                var res_elem = jQuery('.draggable');
                 res_elem.addClass("disable-animation");
-                $("iframe").addClass("disable-mouse");
+                jQuery("iframe").addClass("disable-mouse");
             };
 
             $scope.dragend = function() {
                 console.log('dragend', arguments);
                 if (!arguments[0]) this.dropped = false;
-                var res_elem = $('.draggable');
+                var res_elem = jQuery('.draggable');
                 res_elem.removeClass("disable-animation");
-                $("iframe").removeClass("disable-mouse");
-                var res_elem = $('.draggable');
+                jQuery("iframe").removeClass("disable-mouse");
+                var res_elem = jQuery('.draggable');
                 localStorage.setItem("chatX", res_elem.css("left"));
                 localStorage.setItem("chatY", res_elem.css("top"));
 
@@ -62,18 +62,18 @@ var chatIntITAMessenger = angular.module('chatIntITAMessenger', []).directive('i
 
             }
 
-            var elem = $(".dnd-container");
-            var res_elem = $('.draggable');
+            var elem = jQuery(".dnd-container");
+            var res_elem = jQuery('.draggable');
 
 
 
             var reinitElemPos = function() {
-                var elem = $(".dnd-container");
-                var res_elem = $('.draggable');
+                var elem = jQuery(".dnd-container");
+                var res_elem = jQuery('.draggable');
                 var x = localStorage.getItem("chatX");
                 var y = localStorage.getItem("chatY");
                 if (x == undefined || y == undefined) {
-                    var elem = $(".dnd-container");
+                    var elem = jQuery(".dnd-container");
                     res_elem.css({ top: (elem.height() - 600) + 'px' });
                     res_elem.css({ left: (elem.width() - 400) + 'px' });
                 } else {
@@ -95,24 +95,24 @@ var chatIntITAMessenger = angular.module('chatIntITAMessenger', []).directive('i
                 return true;
             }
 
-            $(document).ready(reinitElemPos);
-            $(window).resize(reinitElemPos);
+            jQuery(document).ready(reinitElemPos);
+            jQuery(window).resize(reinitElemPos);
 
             var myElement =  document.getElementById('chat_mini');
             addResizeListener(myElement, reinitElemPos);
 
 
-            $(document).ready(function() {
+            jQuery(document).ready(function() {
                 $scope.state = 0;
-                var elem = $(".dnd-container");
-                var res_elem = $('.draggable');
+                var elem = jQuery(".dnd-container");
+                var res_elem = jQuery('.draggable');
 
 
                 $scope.$apply(function() {
-                    //   $('.draggable').bind( 'resize', reinitElemPos);
+                    //   jQuery('.draggable').bind( 'resize', reinitElemPos);
                     $scope.$watch('state', function() {
                         localStorage.setItem("chatState", $scope.state);
-                        var res_elem = $('.draggable');
+                        var res_elem = jQuery('.draggable');
                         if ($scope.state == 2) {
                             res_elem.removeClass("normal");
                         } else {
@@ -125,19 +125,19 @@ var chatIntITAMessenger = angular.module('chatIntITAMessenger', []).directive('i
 
                     if (localStorage.getItem("chatState") == undefined) {
                         $scope.state = 0;
-                        $(".chat").removeClass("mini");
+                        jQuery(".chat").removeClass("mini");
                     } else {
                         $scope.state = parseInt(localStorage.getItem("chatState"));
                         if ($scope.state != 1) {
                             {
-                                $(".chat").removeClass("mini");
+                                jQuery(".chat").removeClass("mini");
                                 reinitElemPos();
                             }
                         }
                     }
 
                     setTimeout(function() { res_elem.removeClass("disable-animation"); }, 100);
-                    $(".chat").draggable({ /*handle: ".handle"*/ cancel: ".ignore", containment: "parent", start: $scope.dragstart, stop: $scope.dragend });
+                    jQuery(".chat").draggable({ /*handle: ".handle"*/ cancel: ".ignore", containment: "parent", start: $scope.dragstart, stop: $scope.dragend });
                     $scope.init = true;
                 });
                 reinitElemPos();
