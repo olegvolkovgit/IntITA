@@ -43,6 +43,11 @@ input.paymentPlan_value{
 .colorGreen{
     color: green;
 }
+.paymentsOnlineSpoiler, .paymentsOfflineSpoiler {
+    text-decoration: underline;
+    color: #4b75a4;
+    cursor: pointer;
+}
 @media only screen and (max-width: 800px) {
     .discount{
         margin-left:20px;

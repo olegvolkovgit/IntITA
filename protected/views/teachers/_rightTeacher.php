@@ -44,16 +44,16 @@
                                 src="<?php echo StaticFilesHelper::createPath('image', 'teachers', 'mail.png'); ?>"></a>
                     </div>
                     <div class="teacherName">
-                        <h2><?php echo $teacherValue->lastName(); ?>
-                        <?php echo $teacherValue->firstName(); ?>
-                        <?php echo $teacherValue->middleName(); ?></h2>
+                        <h2><?php echo $teacherValue->firstName(); ?>
+                        <?php echo $teacherValue->middleName(); ?>
+                        <?php echo $teacherValue->lastName(); ?></h2>
                         <div><em><?php echo $roles ?></em></div>
                     </div>
                     <div class="teacherInfo">
                         <div class="adaptiveTeacherName">
-                            <h2><?php echo $teacherValue->lastName(); ?>
-                            <?php echo $teacherValue->firstName(); ?>
-                            <?php echo $teacherValue->middleName(); ?></h2>
+                            <h2><?php echo $teacherValue->firstName(); ?>
+                            <?php echo $teacherValue->middleName(); ?>
+                            <?php echo $teacherValue->lastName(); ?></h2>
                             <div><em><?php echo $roles ?></em></div>
                         </div>
                         <?php echo $teacherValue->profile_text_short ?>

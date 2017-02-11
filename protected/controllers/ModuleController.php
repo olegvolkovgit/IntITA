@@ -16,6 +16,7 @@ class ModuleController extends Controller
     public function actionIndex($idModule, $idCourse=0)
     {
         $model = Module::model()->findByPk($idModule);
+        $moduleTeachers = $model->getModuleTeachers();
 
         $this->checkModelInstance($model);
 
@@ -25,7 +26,7 @@ class ModuleController extends Controller
         
         $this->render('index', array(
             'post' => $model,
-            'teachers' => $model->teacher,
+            'teachers' => $moduleTeachers,
             'idCourse' => $idCourse,
         ));
     }
@@ -394,7 +395,6 @@ class ModuleController extends Controller
 
     public function actionEditModuleTags()
     {
-        $module = new Module;
         $idModule = Yii::app()->request->getPost('idModule');
         $moduleTags = Yii::app()->request->getPost('moduleTags');
 

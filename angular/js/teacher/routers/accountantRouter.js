@@ -103,15 +103,42 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"representative/viewRepresentative/?id="+$stateParams.id;
             }
         })
-        .state('accountant/paymentSchemas', {
-            url: '/accountant/paymentSchemas/:schemeType',
+        // .state('accountant/paymentSchemas', {
+        //     url: '/accountant/paymentSchemas/:schemeType',
+        //     cache         : false,
+        //     templateUrl: accountantUrl+"specialOffer/index"
+        // })
+        // .state('accountant/paymentSchemas/add', {
+        //     url: '/accountant/paymentSchemas/add/:schemeType',
+        //     cache         : false,
+        //     templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
+        // })
+        .state('accountant/paymentSchemas/schemas/template', {
+            url: '/accountant/paymentSchemas/schemas/template',
             cache         : false,
-            templateUrl: accountantUrl+"specialOffer/index"
+            templateUrl: accountantUrl+"paymentSchema/schemasTemplates"
         })
-        .state('accountant/paymentSchemas/add', {
-            url: '/accountant/paymentSchemas/add/:schemeType',
+        .state('accountant/paymentSchemas/schemas/apply', {
+            url: '/accountant/paymentSchemas/schemas/apply',
             cache         : false,
-            templateUrl: basePath +"/angular/js/teacher/templates/accountancy/addPaymentSchema.html"
+            templateUrl: accountantUrl+"paymentSchema/applyTemplateView"
+        })
+        .state('accountant/paymentSchemas/schemas/appliedTemplates', {
+            url: '/accountant/paymentSchemas/schemas/appliedTemplates',
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/appliedTemplatesList"
+        })
+        .state('accountant/paymentSchemas/schemas/template/:id', {
+            url: '/accountant/paymentSchemas/schemas/template/:id',
+            cache         : false,
+            templateUrl: function ($stateParams) {
+                return accountantUrl+"paymentSchema/viewSchemasTemplate/?id="+$stateParams.id;
+            }
+        })
+        .state('accountant/paymentSchemas/schemas/createTemplate', {
+            url: '/accountant/paymentSchemas/schemas/createTemplate',
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/templateCreate"
         })
         .state('accountant/externalsource/create', {
             url: "/accountant/externalsource/create",

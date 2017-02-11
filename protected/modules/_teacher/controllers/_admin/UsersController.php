@@ -40,6 +40,24 @@ class UsersController extends TeacherCabinetController
         ), false, true);
     }
 
+    public function actionUsersEmail()
+    {
+        $this->renderPartial('usersEmail', array(), false, true);
+    }
+
+    public function actionEmailsCategory()
+    {
+        $this->renderPartial('emailsCategory', array(), false, true);
+    }
+    public function actionEmailsCategoryCreate()
+    {
+        $this->renderPartial('emailCategoryForm', array('scenario'=>'new'), false, true);
+    }
+    public function actionEmailsCategoryUpdate()
+    {
+        $this->renderPartial('emailCategoryForm', array('scenario'=>'update'), false, true);
+    }
+    
     public function actionRenderAddRoleForm($role)
     {
         if($role == ""){
@@ -564,4 +582,86 @@ class UsersController extends TeacherCabinetController
 
     }
 
+    public function actionSaveExcelFile(){
+        if (!file_exists(Yii::app()->basePath . "/../files/emailsBase")) {
+            mkdir(Yii::app()->basePath . "/../files/emailsBase");
+        }
+        if ( 0 < $_FILES['file']['error'] ) {
+            echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+        }
+        else {
+            move_uploaded_file($_FILES['file']['tmp_name'], Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx');
+        }
+    }
+
+    public function actionImportExcel(){
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx';
+        $exporter = new ExcelImporter('users_email',1,$filepath, $emailsCategory);
+        $exporter->importExcelToMySQL();
+    }
+
+    public function actionAddNewEmail(){
+        $email = Yii::app()->request->getPost('email');
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        $userEmail= new UsersEmailDatabase();
+        $userEmail->email=$email;
+        $userEmail->category=$emailsCategory;
+        $userEmail->save();
+    }
+
+    public function actionGetUsersEmailList()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('UsersEmailDatabase', $requestParams);
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
+    public function actionRemoveEmail(){
+        $email = Yii::app()->request->getPost('email');
+        $model= UsersEmailDatabase::model()->findByAttributes(array('email'=>$email));
+        $model->delete();
+    }
+
+    public function actionTruncateEmailsTable(){
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategory));
+    }
+
+    public function actionRemoveEmailCategory(){
+        $emailsCategory = Yii::app()->request->getPost('categoryId');
+        if(UsersEmailDatabase::model()->deleteAllByAttributes(array('category'=>$emailsCategory))){
+            EmailsCategory::model()->deleteByPk($emailsCategory);
+        }
+    }
+
+    public function actionGetEmailsCategoryList()
+    {
+        echo  CJSON::encode(EmailsCategory::model()->findAll());
+    }
+
+    public function actionGetEmailCategoryData($id)
+    {
+        echo CJSON::encode(EmailsCategory::model()->findByPk($id));
+    }
+
+    public function actionCreateEmailCategory()
+    {
+        $title=Yii::app()->request->getParam('name');
+
+        $emailCategory= new EmailsCategory();
+        $emailCategory->title=$title;
+        $emailCategory->save();
+    }
+
+    public function actionUpdateEmailCategory()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $title=Yii::app()->request->getPost('name');
+
+        $emailCategory=EmailsCategory::model()->findByPk($id);
+        $emailCategory->title=$title;
+        $emailCategory->save();
+    }
 }

@@ -32,8 +32,8 @@ $header = new Header();
           href="<?php echo StaticFilesHelper::fullPathTo('css', 'hamburgerMenu.css'); ?>"/>
     <link rel="shortcut icon" href="<?php echo StaticFilesHelper::fullPathTo('css', 'images/favicon.ico'); ?>"
           type="image/x-icon"/>
-    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery-1.8.3.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <!--[if lte IE 8]>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
@@ -57,6 +57,14 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-resource/angular-resource.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-animate/angular-animate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
+
+    <!--IntITAMessenger-->
+    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+    <?php if (!Yii::app()->user->isGuest) { ?>
+        <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
+    <?php } ?>
+    <!--IntITAMessenger-->
+
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-1.3.3.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -317,7 +325,6 @@ $header = new Header();
 
     ga('create', 'UA-83801032-1', 'auto');
     ga('send', 'pageview');
-
 </script>
 </body>
 </html>

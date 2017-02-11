@@ -27,9 +27,7 @@ abstract class ASpecialOffer extends CActiveRecord implements ISpecialOffer{
         $criteria = $this->getConditionCriteria($params);
 
         if (!empty($criteria)) {
-            $paymentSchemas = array_map(function($offer) {
-                return $offer;
-            }, $this->findAll($criteria));
+            $paymentSchemas = $this->find($criteria);
         }
 
         return !empty($paymentSchemas) ? $paymentSchemas : null;

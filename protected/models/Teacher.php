@@ -632,14 +632,31 @@ class Teacher extends CActiveRecord
     }
 
     public function getRoles(){
-//        AllRolesDataSource::roles();
+
         $model=RegisteredUser::userById($this->user_id);
         $result=array();
-        $roles=[UserRoles::TEACHER_CONSULTANT,UserRoles::TRAINER];
+        $roles = AllRolesDataSource::roles();
+        $value_to_delete = 'student' ; //Элемент с этим значением нужно удалить
+        $value_1_to_delete = 'admin';
+        $roles = array_flip($roles); //Меняем местами ключи и значения
+        unset ($roles[$value_to_delete]) ; //Удаляем элемент массива
+        unset ($roles[$value_1_to_delete]) ; //Удаляем элемент массива
+        $roles = array_flip($roles); //Меняем местами ключи и значения
         foreach($roles as $role){
             if($model->hasRole($role))
                 array_push($result,Role::getInstance($role)->title());
         }
+        return implode(", ", $result);
+    }
+
+    public function getRolesTeacherInModule($idModule) {
+        $model=RegisteredUser::userById($this->user_id);
+        $result=array();
+        if($model->isAuthorModule($idModule))
+            array_push($result,Role::getInstance(UserRoles::AUTHOR)->title());
+        if($model->isTeacherConsultantModule($idModule))
+            array_push($result,Role::getInstance(UserRoles::TEACHER_CONSULTANT)->title());
+
         return implode(", ", $result);
     }
 }

@@ -27,6 +27,10 @@ angular
     .module('teacherApp')
     .controller('mailCtrl', mailCtrl);
 
+angular
+    .module('teacherApp')
+    .controller('mainTeacherConsultantCtrl', mainTeacherConsultantCtrl);
+
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -90,6 +94,21 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.changeView = function (view) {
         $location.path(view);
 
+    };
+    //redirect to lecture page
+    $scope.lectureLink = function (idLecture, idCourse) {
+        $http
+            .get(basePath + '/lesson/getLectureLink', {
+                params: {
+                    idLecture: idLecture,
+                    idCourse: idCourse
+                }
+            })
+            .then(function successCallback(response) {
+                window.open(response.data);
+            }, function errorCallback() {
+                return false;
+            });
     };
     //redirect to module page
     $scope.moduleLink = function (id) {
@@ -677,3 +696,17 @@ function mailCtrl($scope, $http, $stateParams, $ngBootbox) {
 
 }
 
+function mainTeacherConsultantCtrl($scope, $rootScope, $http) {
+    $scope.getNewPlainTasksAnswers=function(){
+        $http({
+            method:'POST',
+            url:basePath + '/_teacher/_teacher_consultant/teacherConsultant/getNewPlainTasksAnswersCount',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(response){;
+            $rootScope.countOfNewPlainTasksAnswers=response;
+        }).error(function(){
+            console.log("Отримати дані про нові відповіді по простих завданнях не вдалося");
+        })
+    };
+    $scope.getNewPlainTasksAnswers();
+}

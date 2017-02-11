@@ -16,8 +16,8 @@ if ($model->isReady()   ) { ?>
             </div>
             <div  ng-show="isOpenOnlineSchema">
                 <payments-scheme
-                    data-course-id="<?php echo $model->course_ID ?>"
-                    data-module-id="0"
+                    data-content-id="<?php echo $model->course_ID ?>"
+                    data-service-type="'course'"
                     data-education-form="online"
                     data-schemes="onlineSchemeData"
                     data-selected-model-scheme="selectedScheme"
@@ -40,8 +40,8 @@ if ($model->isReady()   ) { ?>
             </div>
             <div  ng-show="isOpenOfflineSchema">
                 <payments-scheme
-                    data-course-id="<?php echo $model->course_ID ?>"
-                    data-module-id="0"
+                    data-content-id="<?php echo $model->course_ID ?>"
+                    data-service-type="'course'"
                     data-education-form="offline"
                     data-schemes="offlineSchemeData"
                     data-selected-model-scheme="selectedScheme"

@@ -9,19 +9,26 @@
 class AdvancePaymentSchema implements IPaymentCalculator{
 
     use GracefulDivision;
+    public $id;
     public $payCount;
     public $discount;
     private $educForm;
+    public $name;
+    public $loanValue;
 
-    function __construct($discount, $payCount, $educForm){
+    function __construct($discount, $loan, $payCount, $educForm, $id, $name){
+        $this->id = $id;
         $this->discount = min($discount, 100);
+        $this->loanValue = $loan;
         $this->payCount = $payCount;
         $this->educForm = $educForm;
+        $this->name = $name;
     }
 
     public function getSumma(IBillableObject $payObject){
         $basePrice = $payObject->getBasePrice() * $this->educForm->getCoefficient();
-        return $basePrice * (1 - $this->discount/100);
+        $coeff =  pow((1 + $this->loanValue/100), $this->payCount/12);
+        return round($basePrice * (1 - $this->discount/100)*$coeff);
     }
 
     public function getCloseDate(IBillableObject $payObject,  DateTime $startDate){
@@ -29,7 +36,7 @@ class AdvancePaymentSchema implements IPaymentCalculator{
         $closeDate = $startDate->add($interval);
         return $closeDate;
     }
-
+    //month
     public function getDuration(DateTime $startDate){
         $endDate = clone $startDate;
         if($this->payCount>12){
@@ -64,12 +71,13 @@ class AdvancePaymentSchema implements IPaymentCalculator{
     public function getPaymentProperties() {
         return [
             'discount' => $this->discount,
+            'loan' => $this->loanValue,
             'paymentsCount' => $this->payCount,
             'type'=>PaymentScheme::getPaymentType($this->payCount),
             'ico'=>PaymentScheme::getPaymentIco($this->payCount, false),
             'icoCheck'=>PaymentScheme::getPaymentIco($this->payCount, true),
             'translates' => [
-                'title' => $this->payCount == 1 ? Yii::t('course', '0197') : $this->payCount . ' ' . Yii::t('course', '0198'),
+                'title' => $this->name,
                 'currencySymbol' => Yii::t('courses', '0322'),
                 'discount' => Yii::t('courses', '0144'),
                 'payment' => Yii::t('course', '0323'),

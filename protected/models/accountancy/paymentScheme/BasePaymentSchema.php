@@ -8,12 +8,16 @@
  */
 class BasePaymentSchema implements IPaymentCalculator {
 
+    public $id;
     public $payCount;
     private $educForm;
-
-    function __construct($payCount, $educForm) {
+    private $name;
+    
+    function __construct($payCount, $educForm, $id, $name) {
+        $this->id = $id;
         $this->payCount = $payCount;
         $this->educForm = $educForm;
+        $this->name = $name;
     }
 
     public function getSumma(IBillableObject $payObject) {

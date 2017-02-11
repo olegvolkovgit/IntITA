@@ -178,7 +178,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter){
+function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter, chatIntITAMessenger){
     $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
@@ -358,9 +358,13 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     $scope.getCities = function(value){
         return typeAhead.getData(citiesTypeaheadUrl,{query : value});
     };
+
+    $scope.updateGroupChat=function(groupId){
+        chatIntITAMessenger.updateGroup(groupId);
+    };
 }
 
-function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
+function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, chatIntITAMessenger){
     $scope.onSelectCurator = function ($item) {
         $scope.selectedCurator = $item;
     };
@@ -460,6 +464,7 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
+            chatIntITAMessenger.updateSubgroup(subgroupId);
             bootbox.alert(response.data, function(){
                 $state.go("supervisor/offlineSubgroup/:id", {id:$scope.subgroupId}, {reload: true});
             });
@@ -473,6 +478,10 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
         } else if($stateParams.id) {
             $state.go('supervisor/offlineSubgroup/:id', {id:$stateParams.id}, {reload: true});
         }
+    };
+    
+    $scope.updateSubgroupChat=function(subgroupId){
+        chatIntITAMessenger.updateSubgroup(subgroupId);
     };
 }
 
@@ -673,7 +682,7 @@ function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){
     };
 }
 
-function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $stateParams, $filter){
+function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $stateParams, $filter, chatIntITAMessenger){
     $scope.onSelectUser = function ($item) {
         $scope.selectedUser = $item;
     };
@@ -779,6 +788,8 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
                 data: $jq.param({userId: idUser, subgroupId: idSubgroup, startDate: startDate}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
+                chatIntITAMessenger.updateSubgroup(idSubgroup);
+
                 $scope.addUIHandlers(response.data);
                 if($stateParams.subgroupId){
                     $scope.reloadUser();
@@ -806,6 +817,8 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
                 modelId: modelId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
+            chatIntITAMessenger.updateSubgroup(idSubgroup);
+
             $scope.addUIHandlers(response.data);
             $scope.loadOfflineStudentModel($scope.studentModelId);
         }, function errorCallback() {
@@ -820,6 +833,8 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
+            chatIntITAMessenger.updateSubgroup(idSubgroup);
+
             $scope.loadOfflineStudentModel($scope.studentModelId);
             $scope.addUIHandlers(response.data);
         }, function errorCallback() {

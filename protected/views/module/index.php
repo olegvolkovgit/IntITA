@@ -6,6 +6,7 @@
  */
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/gridview/styles.css' ?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'schemes.css'); ?>"/>
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'module.css'); ?>" />
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleCtrl.js'); ?>"></script>
 <script>
@@ -32,7 +33,7 @@ if($idCourse != 0) {
     <?php $this->renderPartial('_leftModule', array('post' => $post, "idCourse"=>$idCourse));?>
 
     <div class="rightModule">
-         <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>
+         <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers,'idModule'=>$post->module_ID));?>
     </div>
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>

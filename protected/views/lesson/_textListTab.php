@@ -4,7 +4,12 @@ if (isset($message)){
 } else {
     $emptyText = Yii::t('lecture', '0422');
 }
+?>
+    <!--[if !IE]><!-->
+    <button id="changeColor" class="fullScreen" onclick="enterFullscreen('text')" title="Розгорнути"></button>
+    <!--<![endif]-->
 
+<?php
 $this->widget('zii.widgets.CListView', array(
     'dataProvider'=>$dataProvider,
     'itemView'=>'/lesson/_textTab',
@@ -14,3 +19,5 @@ $this->widget('zii.widgets.CListView', array(
     'ajaxUpdate' => true,
     'id'=>"blocks_list",
 ));
+
+?>

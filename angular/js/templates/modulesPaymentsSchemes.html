@@ -1,0 +1,41 @@
+<div class="paymentsForm">
+    <div class="rowRadio">
+        <div ng-repeat="scheme in schemes.schemes track by $index" ng-class-odd="'paymentsListOdd'" ng-class-even="'paymentsListEven'" ng-hide="scheme.fullPrice==0 && $index!=0">
+            <div>
+                <label class="priceLabel" >
+                    <input type="radio" class="paymentPlan_value" name="payment" ng-click="setSchema($event,$parent.selectedModelScheme)" ng-model="$parent.selectedModelScheme" ng-value=scheme>
+                    <div ng-if="scheme.fullPrice==0" class="mainPay">
+                        {{schemes.translates.price}} <span class="colorGreen">{{schemes.translates.free}}</span>
+                    </div>
+                    <div ng-hide="scheme.fullPrice==0 && $index==0" class="mainPay">
+                        <div class="icoPay">
+                            <img ng-src="{{scheme == selectedModelScheme && scheme.icoCheck || scheme.ico}}">
+                        </div>
+                        <div class="priceBlock">
+                            <div ng-class="{basePayment: scheme.type==2 || scheme.type==3}">{{scheme.translates.title}}</div>
+                            <div class="numbers">
+                                <span ng-if="scheme.paymentsCount<12">
+                                    <span ng-if="scheme.discount>0 && scheme.loan==0" class="coursePriceStatus">{{scheme.translates.currencySymbol}}{{scheme.fullPrice}}</span>
+                                    <span ng-if="scheme.discount>0 && scheme.loan==0">&nbsp</span>
+                                    <span ng-class="{coursePriceStatus1: !scheme.inCourse, coursePriceStatus: scheme.inCourse}" class=" coursePriceStatus">{{scheme.translates.currencySymbol}}{{scheme.price}}</span>
+                                    <span ng-if="scheme.inCourse">({{scheme.inCourse}}$ {{schemes.translates.inCourse}})</span>
+                                    <span ng-if="scheme.paymentsCount!=1">&asymp; {{scheme.approxMonthPayment}}{{scheme.translates.currencySymbol}} x {{scheme.paymentsCount}} {{scheme.translates.payment}}</span>
+                                </span>
+                                <span ng-if="scheme.paymentsCount>=12">
+                                    <span ng-if="scheme.discount>0 && scheme.loan==0" class="coursePriceStatus">{{scheme.translates.currencySymbol}}{{scheme.fullPrice}}</span>
+                                    <span ng-if="scheme.discount>0 && scheme.loan==0">&nbsp</span>
+                                    {{scheme.translates.currencySymbol}}{{scheme.approxMonthPayment}} / {{scheme.translates.month}}  х {{scheme.paymentsCount}} {{scheme.translate.payment}}
+                                    &asymp; <b>{{scheme.price}}{{scheme.translates.currencySymbol}}</b>
+                                </span>
+                            </div>
+                            <span class="discount" ng-if="scheme.discount>0">
+                                <img ng-src="{{schemes.icons.discountIco}}"/>
+                                <span class="discountColor">({{scheme.translates.discount}} - {{scheme.discount}}%)</span>
+                            </span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
