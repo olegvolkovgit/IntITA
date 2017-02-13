@@ -1162,8 +1162,8 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
         $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
         $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
-        $criteria->addCondition('t.isPrint = 1 and (tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
-        or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL)');
+        $criteria->addCondition('t.isPrint = 1 and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
+        or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL))');
         $criteria->params = array(':module'=>$this->module_ID);
         $criteria->group = 't.teacher_id';
         return Teacher::model()->findAll($criteria);
