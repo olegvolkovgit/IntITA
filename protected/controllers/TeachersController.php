@@ -67,13 +67,31 @@ class TeachersController extends Controller
 
     private function renderIndex($teacherLetter)
     {
+//        $criteria = Teacher::getTeacherAsPrint();
+//        $dataProvider = new CActiveDataProvider('Teacher', array(
+//            'criteria' => $criteria,
+//            'sort' => array(
+//                'defaultOrder' => 'rating DESC',
+//            ),
+//            'pagination' => array(
+//                'pageSize' => 20,
+//            ),
+//        ));
         $dataProvider = Teacher::getTeacherAsPrint();
         $teachers = Teacher::getAllTeachersId();
 
         $this->render('index', array(
-            'post' => $dataProvider->getData(),
+            'post' => $dataProvider,
             'teachers' => $teachers,
             'teacherletter' => $teacherLetter
+
         ));
+
+//        $this->render('index', array(
+//            'dataProvider' => $dataProvider,
+////            'lang'=>$lang,
+////            'selector'=>$selector,
+////            'counters' => $counters,
+//        ));
     }
 }
