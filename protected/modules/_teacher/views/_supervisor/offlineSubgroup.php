@@ -28,7 +28,7 @@
                             <label>Підрупа: </label> {{subgroup.name}}
                         </li>
                         <li class="list-group-item">
-                            <label>Тренер в групі: </label>
+                            <label>Тренер в підгрупі: </label>
                             <a ng-href="#/supervisor/userProfile/{{subgroupTrainer.id}}">{{subgroupTrainer.fullName}}</a>
                         </li>
                         <li class="list-group-item">
