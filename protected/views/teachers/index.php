@@ -18,7 +18,7 @@
     <div class="titleTeachers">
         <h1><?php echo Yii::t('teachers', '0058'); ?></h1>
     </div>
-    <?php $this->renderPartial('_teacherList', array('dataProvider'=>$post));  ?>
+    <?php $this->renderPartial('_teacherList', array('dataProvider'=>$post, 'teacherletter'=>$teacherletter));  ?>
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>

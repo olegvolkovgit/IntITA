@@ -4,11 +4,12 @@
  */
 $roles = $data->getRoles();
 ?>
-
-<div class="leftTeacher">
-<!--    <div class="teacherForm" id="minTeacherForm">-->
-<!--        --><?php //$this->renderPartial('_ifYouTeachers', array('post' => $post,'teacherletter'=>$teacherletter)); ?>
-<!--    </div>-->
+<div class="teacherForm" id="minTeacherForm">
+    <?php $this->renderPartial('_ifYouTeachers', array('teacherletter'=>$teacherletter)); ?>
+</div>
+<div class="teacherForm" id="maxTeacherForm">
+    <?php $this->renderPartial('_ifYouTeachers', array('teacherletter'=>$teacherletter)); ?>
+</div>
             <div class="teacherBlock">
                 <div class="teacherTable">
                     <div class="profileTeacher" >
@@ -88,5 +89,4 @@ $roles = $data->getRoles();
                         <?php echo Yii::t('teachers', '0063'); ?> &#187;
                     </a>
                 </div>
-            </div>
 </div>

@@ -116,7 +116,7 @@ div.titleTeachers {
 /*teacher Profile Block*/
 .teacherBlock {
     margin-bottom: 40px;
-    clear: both;
+    /*clear: both;*/
 }
 .teacherTable{
     display: table;
@@ -234,3 +234,33 @@ div.aboutMore{
         border-bottom: 1px solid #d8d8d8;
     }
 }
+/*celebre - edit design when create _teacherBlock from _rightTeacher and _leftTeacher*/
+.one {
+    float: left;
+    width: 49%;
+}
+.two{
+    float: right;
+    width: 49%;
+}
+#maxTeacherForm .ifYouTeachers {
+    display: none;
+}
+.two.column #maxTeacherForm:nth-child(2) .ifYouTeachers{
+    width: 100%;
+    display: block;
+}
+.teacherBlock {
+    width: 100%;
+    margin-bottom: 40px;
+    display: inline-block;
+}
+.list-view .pager {
+    clear: both;
+    padding: 15px 0;
+}
+/*.teacherAvatar {*/
+    /*width: 50px;*/
+    /*height: 150px;*/
+/*}*/
+/*celebre*/
