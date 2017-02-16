@@ -50,7 +50,6 @@ config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('students/agreement/:agreementId', {
             url: "/students/agreement/:agreementId",
             cache         : false,
-            controller: 'invoicesByAgreement',
             templateUrl: function($stateParams){
                 return basePath+"/_teacher/_student/student/agreement/id/"+$stateParams.agreementId;
             }

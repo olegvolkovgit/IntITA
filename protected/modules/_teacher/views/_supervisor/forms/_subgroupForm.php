@@ -23,7 +23,7 @@
                         <input name="data" class="form-control" ng-model="subgroup.data" size="128">
                     </div>
                     <div class="form-group">
-                        <label>Тренер в групі*:</label>
+                        <label>Тренер в підгрупі*:</label>
                         <input name="trainer" class="form-control" type="text" ng-model="trainerEntered" ng-model-options="{ debounce: 1000 }"
                                placeholder="Виберіть тренера" size="50"
                                uib-typeahead="item.name for item in getTrainers($viewValue) | limitTo : 10"

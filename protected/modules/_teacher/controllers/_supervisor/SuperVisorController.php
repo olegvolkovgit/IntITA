@@ -343,6 +343,8 @@ class SuperVisorController extends TeacherCabinetController
     
     public function actionCreateOfflineGroup()
     {
+        $result=array();
+
         $name=Yii::app()->request->getParam('name');
         $startDate=Yii::app()->request->getParam('date');
         $specializationId=Yii::app()->request->getParam('specialization');
@@ -358,14 +360,17 @@ class SuperVisorController extends TeacherCabinetController
         $group->chat_author_id=$chatAuthorId;
         if($group->validate()){
             $group->save();
-            echo 'Офлайн групу успішно створено';
+            $result['message']='Офлайн групу успішно створено';
+            $result['idGroup']= $group->getPrimaryKey();
         }else{
-            echo $group->getValidationErrors();
+            $result['message']=$group->getValidationErrors();
         }
+        echo json_encode($result);
     }
 
     public function actionAddSubgroup()
     {
+        $result=array();
         $name=Yii::app()->request->getParam('name');
         $group=Yii::app()->request->getParam('group');
         $data=Yii::app()->request->getParam('data');
@@ -379,11 +384,12 @@ class SuperVisorController extends TeacherCabinetController
         $subgroup->id_trainer=$trainerId;
 
         if($subgroup->save()){
-            echo 'Підгрупу успішно додано';
+            $result['message']='Підгрупу успішно додано';
+            $result['idSubgroup']= $subgroup->getPrimaryKey();
         }else{
-            echo 'Створити підгрупу не вдалося. Введені не вірні дані';
+            $result['message']='Створити підгрупу не вдалося. Введені не вірні дані';
         }
-
+        echo json_encode($result);
     }
 
     public function actionUpdateOfflineGroup()
@@ -520,6 +526,7 @@ class SuperVisorController extends TeacherCabinetController
 
     public function actionUpdateOfflineStudent()
     {
+        $result=array();
         $modelId = Yii::app()->request->getPost('modelId');
         $userId = Yii::app()->request->getPost('userId');
         $subgroupId = Yii::app()->request->getPost('subgroupId');
@@ -530,9 +537,10 @@ class SuperVisorController extends TeacherCabinetController
         if($student){
             if($student->id_subgroup!=$subgroupId){
                 $newSubgroup=$subgroupId;
+                $result['oldSubgroup']= $student->id_subgroup;
                 $student->id_subgroup=$subgroupId;
                 if(OfflineStudents::model()->findByAttributes(array('id_user'=>$userId, 'end_date'=>null,'id_subgroup'=>$subgroupId))){
-                    echo 'Студент уже входить в дану підгрупу';
+                    $result['message']='Студент уже входить в дану підгрупу';
                     return;
                 }
             }
@@ -546,13 +554,14 @@ class SuperVisorController extends TeacherCabinetController
                         $student->setTrainer($subgroup->id_trainer);
                     }
                 }
-                echo 'Дані оновлено';
+                $result['message']='Дані оновлено';
             }else{
-                echo 'Оновити дані не вдалося';
+                $result['message']='Оновити дані не вдалося';
             }
         }else{
-            echo 'Студента в даній підгрупі не знайдено';
+            $result['message']='Студента в даній підгрупі не знайдено';
         }
+        echo json_encode($result);
     }
 
     public function actionCancelStudentFromSubgroup()

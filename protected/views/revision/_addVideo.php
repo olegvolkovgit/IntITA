@@ -17,4 +17,3 @@
     </form>
     <button onclick='cancelAddVideo()'><?php echo Yii::t('lecture', '0707'); ?></button>
 </div>
-<script src="<?php echo StaticFilesHelper::fullPathTo('js', 'titleValidation.js'); ?>"></script>

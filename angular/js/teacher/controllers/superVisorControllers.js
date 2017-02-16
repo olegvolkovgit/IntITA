@@ -290,8 +290,14 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroups", {}, {reload: true});
+            bootbox.alert(response.data.message, function(){
+                if(response.data.idSubgroup){
+                    chatIntITAMessenger.updateGroup(response.data.idGroup).then(function () {
+                        $state.go("supervisor/offlineGroups", {}, {reload: true});
+                    });
+                }else{
+                    $state.go("supervisor/offlineGroups", {}, {reload: true});
+                }
             });
         }, function errorCallback() {
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
@@ -316,10 +322,12 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroup/:id", {id:$stateParams.id}, {reload: true});
+                chatIntITAMessenger.updateGroup($stateParams.id).then(function () {
+                    $state.go("supervisor/offlineGroup/:id", {id:$stateParams.id}, {reload: true});
+                });
             });
         }, function errorCallback() {
-            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
+            bootbox.alert("Оновити групу не вдалося. Помилка сервера.");
         });
     };
 
@@ -445,8 +453,14 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+            bootbox.alert(response.data.message, function(){
+                if(response.data.idSubgroup){
+                    chatIntITAMessenger.updateSubgroup(response.data.idSubgroup).then(function () {
+                        $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+                    });
+                }else{
+                    $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+                }
             });
         }, function errorCallback() {
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
@@ -464,9 +478,10 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            chatIntITAMessenger.updateSubgroup(subgroupId);
             bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineSubgroup/:id", {id:$scope.subgroupId}, {reload: true});
+                chatIntITAMessenger.updateSubgroup(subgroupId).then(function () {
+                    $state.go("supervisor/offlineSubgroup/:id", {id:$scope.subgroupId}, {reload: true});
+                });
             });
         }, function errorCallback() {
             bootbox.alert("Редагувати підгрупу не вдалося. Помилка сервера.");
@@ -818,8 +833,11 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
             chatIntITAMessenger.updateSubgroup(idSubgroup);
+            if(response.data.oldSubgroup){
+                chatIntITAMessenger.updateSubgroup(response.data.oldSubgroup);
+            }
 
-            $scope.addUIHandlers(response.data);
+            $scope.addUIHandlers(response.data.message);
             $scope.loadOfflineStudentModel($scope.studentModelId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");

@@ -17,7 +17,7 @@ angular.module('directive.loading', [])
                 {
                     if(v){
                         elm.css('display', 'block');
-                        $(elm).centerLoader();
+                        elm.centerLoader();
                     }else{
                         elm.css('display', 'none');
                     }
