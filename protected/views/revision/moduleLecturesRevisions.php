@@ -46,7 +46,11 @@
             <div ng-show="isOpenLecture">
                 <?php $this->renderPartial('_addLessonForm', array('idModule'=>$idModule)); ?>
             </div>
+            <?php } else{?>
+                <br>
+                <em>Створити ревізію нового заняття може лише автор</em>
             <?php } ?>
+
             <?php
             $this->renderPartial('_revisionsTree');
             ?>
