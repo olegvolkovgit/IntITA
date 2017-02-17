@@ -13,7 +13,7 @@ class ModuleController extends TeacherCabinetController
         return (Yii::app()->user->model->isAdmin() ||  Yii::app()->user->model->isContentManager());
     }
 
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $this->renderPartial('index', array(), false, true);
     }

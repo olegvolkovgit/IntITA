@@ -115,4 +115,31 @@ class Tags extends CActiveRecord
 
 		return json_encode($data);
 	}
+
+	public function getTagWithLang($lang) {
+        $param = "tag_" . $lang;
+        $attr = $this->getAttributes(['id', $param]);
+        return [
+            'id' => $attr['id'],
+            'tag' => $attr[$param]
+        ];
+    }
+
+    public function findOrCreateTag($id, $tagTitle = null) {
+        $tag = null;
+        if ($id != -1) {
+            $tag = $this->findByPk($id);
+        } else if ($tagTitle) {
+            $tag = $this->find("tag_ua LIKE :tagTitle OR tag_ru LIKE :tagTitle OR tag_en LIKE :tagTitle", ['tagTitle' => $tagTitle]);
+        }
+        if (empty($tag)) {
+            $tag = new Tags();
+            $tag->tag_en = $tagTitle;
+            $tag->tag_ua = $tagTitle;
+            $tag->tag_ru = $tagTitle;
+            $tag->save();
+        }
+        return $tag;
+    }
+
 }
