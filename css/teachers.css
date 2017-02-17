@@ -237,7 +237,6 @@ div.aboutMore{
 }
 .teacherBlock {
     width: 100%;
-    margin-bottom: 40px;
     display: inline-block;
 }
 .list-view .pager {
@@ -272,9 +271,5 @@ div.aboutMore{
         float:inherit;
         border-bottom: 1px solid #d8d8d8;
     }
-}
-.teacherAvatar {
-    width: 50px;
-    height: 150px;
 }
 /*celebre*/
