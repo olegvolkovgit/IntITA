@@ -8,7 +8,7 @@
 <div class="formMargin">
     <div class="form-group">
         <?php echo $form->labelEx($model, 'module_number'); ?>
-        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled'=>Yii::app()->user->model->isAdmin()?false:true)); ?>
+        <?php echo $form->textField($model, 'module_number', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'disabled' => Yii::app()->user->model->isAdmin() ? false : true)); ?>
         <?php echo $form->error($model, 'module_number'); ?>
     </div>
 
@@ -21,7 +21,7 @@
     <div class="form-group">
         <?php echo $form->labelEx($model, 'language'); ?>
         <?php echo $form->dropDownList($model, 'language', array('ua' => 'українською', 'ru' => 'російською',
-            'en' => 'англійською'), array('class' => 'form-control', 'disabled'=>$model->isNewRecord?false:true)); ?>
+            'en' => 'англійською'), array('class' => 'form-control', 'disabled' => $model->isNewRecord ? false : true)); ?>
         <?php echo $form->error($model, 'language'); ?>
     </div>
 
@@ -60,22 +60,26 @@
         <?php echo $form->textField($model, 'days_in_week', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'days_in_week'); ?>
     </div>
-    <div>
-        <div ng-show="tagsLoaded">
-            <label>Додайте до модуля теги, котрі відповідають його категорії</label>
-            <div class="tagCloud">
-                <ul class="select-search-list">
-                    <li ng-repeat="tag in tags track by $index">
-                        <span ng-click="addTag(tag,$index)">{{tag.tag}}<span class="close select-search-list-item_selection-remove">+</span></span>
-                    </li>
-                </ul>
-            </div>
+    <div ng-if="moduleId">
+        <div>
             <label>Категорії модуля:</label>
             <div class="tagCloud">
                 <ul class="select-search-list">
-                    <li ng-repeat="moduleTag in moduleTags track by $index">
-                        <span ng-click="removeTag(moduleTag,$index)">{{moduleTag.tag}}
+                    <li ng-repeat="moduleTag in moduleTags track by $index" ng-click="removeTag(moduleTag,$index)">
+                        <span>{{moduleTag.tag}}
                             <span class="close select-search-list-item_selection-remove">×</span>
+                        </span>
+                    </li>
+                    <li ng-show="newTag.visible">
+                        <span>
+                            <input ng-model="newTag.text" class="addTag" type="text" value="" title="Новий тег">
+                            <span ng-click="newTag.save()" class="glyphicon glyphicon-ok"> </span>
+                            <span ng-click="newTag.discard()" class="glyphicon glyphicon-remove"> </span>
+                        </span>
+                    </li>
+                    <li ng-show="!newTag.visible" ng-click="newTag.show()">
+                        <span>
+                            <span class="close select-search-list-item_selection-remove">+</span>
                         </span>
                     </li>
                 </ul>

@@ -535,6 +535,12 @@ div#loading-bar-spinner{
 .tagCloud li:hover{
     background: #ccc;
 }
+
+.tagCloud .addTag {
+    border: none;
+    padding: 0 3px
+}
+
 .tags li{
     display: inline-block;
     background: #efefef;
