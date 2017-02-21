@@ -4,12 +4,24 @@
  */
 $roles = $data->getRoles();
 ?>
+<?php
+    if($widget->dataProvider->pagination->currentPage == 0 && $index == 0)  {
+?>
 <div class="teacherForm" id="minTeacherForm">
     <?php $this->renderPartial('_ifYouTeachers', array('teacherletter'=>$teacherletter)); ?>
 </div>
+<?php
+    }
+?>
+<?php
+    if($widget->dataProvider->pagination->currentPage == 0 && $index == 1)  {
+?>
 <div class="teacherForm" id="maxTeacherForm">
     <?php $this->renderPartial('_ifYouTeachers', array('teacherletter'=>$teacherletter)); ?>
 </div>
+<?php
+    }
+?>
             <div class="teacherBlock">
                 <div class="teacherTable">
                     <div class="profileTeacher" >

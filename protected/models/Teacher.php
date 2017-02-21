@@ -332,7 +332,7 @@ class Teacher extends CActiveRecord
                 'defaultOrder' => 'rating DESC',
             ),
             'pagination' => array(
-                'pageSize' => 40,
+                'pageSize' => 20,
             ),
         ));
 
