@@ -404,12 +404,11 @@ class ModuleController extends Controller
         $tags = Yii::app()->request->getPost('tag');
         $module = Module::model()->findByPk($moduleId);
         $addedTagsArray = [];
-        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         if ($module) {
             foreach ($tags as $tag) {
                 $tag = Tags::model()->findOrCreateTag($tag['id'], $tag['tag']);
                 $module->addTag($tag);
-                array_push($addedTagsArray, $tag->getTagWithLang($lang));
+                array_push($addedTagsArray, $tag->getTagAttrs());
             }
         }
         $this->renderPartial('//ajax/json', ['statusCode' => 201, 'body' => json_encode($addedTagsArray)]);
@@ -423,7 +422,7 @@ class ModuleController extends Controller
         $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
         $response = [];
         if ($module->removeTag($tag)) {
-            $response[] = $tag->getTagWithLang($lang);
+            $response[] = $tag->getTagAttrs($lang);
         };
         $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($response)]);
     }
