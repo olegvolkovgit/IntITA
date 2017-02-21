@@ -95,16 +95,9 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
                 <?php echo $form->error($model, 'avatar'); ?>
             </div>
             <div id="progressBar" ng-show="loadProgress">
-                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span>%</div>
-                <div id="indicators">
-                    <img id='progressLine'
-                         src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline0.png'); ?>'>
-                    <img id='progressMask'
-                         src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressline1.png'); ?>'>
-                </div>
-                <div id="twoCrowns">
-                    <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crown.png'); ?>'>
-                </div>
+                <div id="profileIndicator"><?php echo Yii::t('edit', '0618') . ' '; ?><span id="percent"></span> %</div>
+                <div id="progressLine"></div>
+                <span id="twoCrowns"></span>
                 <div>
                     <table id="emptyFieldList">
                         <tr ng-repeat="model in modelsArr track by $index" ng-hide="{{model.name}} || (model.name=='form.selectedCity' && !form.selectedCountry)">
@@ -128,15 +121,8 @@ $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua"
             </div>
         </div>
         <div id="gridBlock" ng-show="loadProgress">
-            <div id="gridProgress">
-                <img id='fullGrid'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid1.png'); ?>'>
-                <img id='gridMask'
-                     src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'progressgrid.png'); ?>'>
-            </div>
-            <div id="crowns">
-                <img src='<?php echo StaticFilesHelper::createPath('image', 'icons', 'crowns.png'); ?>'>
-            </div>
+            <div id="gridProgress"></div>
+            <span id="crowns"></span>
         </div>
     </div>
     <div class="studProf">

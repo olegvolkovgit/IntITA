@@ -117,23 +117,63 @@ function editProfileController($scope, $http, countryCity, careerService, specia
             if($scope.form.specializations.length){
                 $scope.progress++;
             }
+            var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length + 1))).toFixed(0);
+            var percentInStudentProfile = document.getElementById('percent').innerHTML = percent;
 
-            var percent = Math.round($scope.progress * (100 / ($scope.modelsArr.length+1))).toFixed(0);
-            var percentForGrid = percent - 1;
-            var maskMargin = Math.round(percent / 10).toFixed(0) * 30;
-            $('#percent').text(percent);
-            $("#progressMask").css('margin-left', maskMargin);
-            $("#indicators").append("<img src='"+basePath+"/images/icons/crown.png'>");
-            var gridML = (percent % 10) * 30;
-            var gridMT = (percent - (percent % 10));
-            var marginCrowns = (percentForGrid - (percentForGrid % 10)) / 10 * 25 + 25;
-            if (percent == 100) {
-                $("#twoCrowns img").css('margin-left', -25);
-                marginCrowns = 250;
+            $scope.writeRatingTable = function(percent) {
+                var lineProgress = document.getElementById('gridProgress');
+                var i = 0;
+                j = 0;
+                var count = 0;
+
+                for (i; i < 10; i++) {
+                    var ul = document.createElement('ul');
+
+                    for (j; j < 10; j++) {
+                        count++;
+                        var li = document.createElement('li');
+                        li.appendChild(document.createTextNode(' '));
+                        ul.appendChild(li);
+                        if (count > percent) {
+                            li.style.background = '#d9e4ee';
+                        }
+                    }
+                    j = 0;
+                    lineProgress.insertBefore(ul, lineProgress.firstChild);
+                }
+
+                var crown = document.getElementById('crowns');
+                crown.style.backgroundPositionX = -Math.ceil(percent / 10) * 25 + 'px';
+
             }
-            $("#gridMask").css('margin-left', gridML).css('margin-top', -gridMT);
-            $("#crowns img").css('margin-left', -marginCrowns);
 
+            $scope.writeRatingLine = function(percent) {
+
+                var progresssLine = document.getElementById('progressLine');
+                console.log(progresssLine);
+                var i = 0;
+                var count = 0;
+                var ul = document.createElement('ul');
+                for (i; i < 10; i++) {
+                    count+=10;
+                    var li = document.createElement('li');
+                    li.appendChild(document.createTextNode(' '));
+                    ul.appendChild(li);
+                    var temp = count - percent;
+
+                    if (count < percent || (temp < 5 && temp > 0)) {
+                        li.style.background = '#4b75b4';
+                    }
+                }
+                progressLine.appendChild(ul);
+
+                var crown = document.getElementById('twoCrowns');
+                if(percent === 100) {
+                    crown.style.backgroundPositionX = '-25px';
+                }
+            }
+            $scope.writeRatingTable(percent);
+            $scope.writeRatingLine(percent);
             $scope.loadProgress=true;
         });
     });

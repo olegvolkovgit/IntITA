@@ -325,12 +325,15 @@ class Teacher extends CActiveRecord
     public static function getTeacherAsPrint()
     {
         $criteria = new CDbCriteria;
-        $criteria->alias = 'teacher';
-        $criteria->order = 'rating DESC';
         $criteria->condition = 'isPrint=1';
         $dataProvider = new CActiveDataProvider('Teacher', array(
             'criteria' => $criteria,
-            'Pagination' => false,
+            'sort' => array(
+                'defaultOrder' => 'rating DESC',
+            ),
+            'pagination' => array(
+                'pageSize' => 40,
+            ),
         ));
 
         return $dataProvider;
