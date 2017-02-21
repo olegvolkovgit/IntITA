@@ -133,14 +133,17 @@ img.mask{
     display: none;
 }
 
-#editIco, #requestBth, #viewIco{
+#editIco, #viewIco{
     float:right;
     margin-top: 20px;
     margin-right: 40px;
 }
 #requestBth{
+    float:right;
+    margin-top: 20px;
+}
+#requestBth{
     height: 33px;
-    width: 100px;
     background: #4b70a3;
     border-radius:   10px;
     border: 2px solid #ffffff;

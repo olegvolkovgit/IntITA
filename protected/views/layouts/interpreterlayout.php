@@ -1,55 +1,32 @@
 <!DOCTYPE html>
-<html ng-app="mainApp" xmlns:og="https://ogp.me/ns#">
+<html xmlns:og="https://ogp.me/ns#">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="en">
-    <!-- for tabs -->
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="<?php echo Config::getBaseUrl(); ?>">
+    <meta name="twitter:image"
+          content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
+    <meta property="og:image"
+          content="<?php echo StaticFilesHelper::createPath('image', 'mainpage', 'intitaLogo.jpg'); ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- for tabs -->
-    <!-- fonts -->
     <link rel="stylesheet" href="<?php echo Config::getBaseUrl(); ?>/css/fontface.css"/>
-    <!-- fonts -->
-    <!-- layouts style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/style.css"/>
-    <!--   hamburger menu style -->
     <link rel="stylesheet" type="text/css" href="<?php echo Config::getBaseUrl(); ?>/css/hamburgerMenu.css"/>
     <link rel="shortcut icon" href="<?php echo Config::getBaseUrl(); ?>/css/images/favicon.ico" type="image/x-icon"/>
-    <!--[if lte IE 8]>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/json3.min.js'); ?>"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
-    <script>
-        document.createElement('ng-include');
-        document.createElement('ng-switch');
-        document.createElement('ng-if');
-        document.createElement('ng-pluralize');
-        document.createElement('ng-view');
-
-        // needed to enable CSS reference
-        document.createElement('ng:view');
-    </script>
-    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'labelForIe.js'); ?>"></script>
-    <![endif]-->
+    <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-1.3.3.js'); ?>"></script>
-    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
+    <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/app.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
     <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
-    <!-- jQuery -->
-    <!-- passEye, jQuery -->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
-    <!-- passEye, jQuery -->
-    <!-- trimEmail-->
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/trimField.js"></script>
-    <!-- trimEmail -->
-    <!-- Placeholder for old browser -->
-    <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/placeholder.min.js"></script>
-    <!-- Placeholder for old browser -->
     <title><?php echo CHtml::encode(Yii::app()->name); ?></title>
 </head>
 
-<body style="overflow-y: scroll" itemscope itemtype="https://schema.org/Product">
+<body style="overflow-y: scroll" itemscope itemtype="https://schema.org/Product" ng-app="interpreterApp">
 
 <div id="contentBoxMain">
     <?php echo $content; ?>
@@ -83,5 +60,13 @@
     ga('send', 'pageview');
 
 </script>
+
+<!--IntITAMessenger-->
+<script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+<?php if (!Yii::app()->user->isGuest) { ?>
+    <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
+<?php } ?>
+<!--IntITAMessenger-->
+
 </body>
 </html>

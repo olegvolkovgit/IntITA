@@ -178,7 +178,7 @@ function specializationCtrl ($scope, $state, $http, $stateParams){
     };
 }
 
-function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter){
+function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, $filter, chatIntITAMessenger){
     $scope.changePageHeader('Офлайн група');
     if($stateParams.id){
         $scope.groupId=$stateParams.id;
@@ -290,8 +290,14 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroups", {}, {reload: true});
+            bootbox.alert(response.data.message, function(){
+                if(response.data.idSubgroup){
+                    chatIntITAMessenger.updateGroup(response.data.idGroup).then(function () {
+                        $state.go("supervisor/offlineGroups", {}, {reload: true});
+                    });
+                }else{
+                    $state.go("supervisor/offlineGroups", {}, {reload: true});
+                }
             });
         }, function errorCallback() {
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
@@ -316,10 +322,12 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroup/:id", {id:$stateParams.id}, {reload: true});
+                chatIntITAMessenger.updateGroup($stateParams.id).then(function () {
+                    $state.go("supervisor/offlineGroup/:id", {id:$stateParams.id}, {reload: true});
+                });
             });
         }, function errorCallback() {
-            bootbox.alert("Створити групу не вдалося. Помилка сервера.");
+            bootbox.alert("Оновити групу не вдалося. Помилка сервера.");
         });
     };
 
@@ -358,9 +366,13 @@ function offlineGroupCtrl ($scope, $state, $http, $stateParams, superVisorServic
     $scope.getCities = function(value){
         return typeAhead.getData(citiesTypeaheadUrl,{query : value});
     };
+
+    $scope.updateGroupChat=function(groupId){
+        chatIntITAMessenger.updateGroup(groupId);
+    };
 }
 
-function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead){
+function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorService, NgTableParams, typeAhead, chatIntITAMessenger){
     $scope.onSelectCurator = function ($item) {
         $scope.selectedCurator = $item;
     };
@@ -441,8 +453,14 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
-            bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+            bootbox.alert(response.data.message, function(){
+                if(response.data.idSubgroup){
+                    chatIntITAMessenger.updateSubgroup(response.data.idSubgroup).then(function () {
+                        $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+                    });
+                }else{
+                    $state.go("supervisor/offlineGroup/:id", {id:$scope.groupId}, {reload: true});
+                }
             });
         }, function errorCallback() {
             bootbox.alert("Створити групу не вдалося. Помилка сервера.");
@@ -461,7 +479,9 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
         }).then(function successCallback(response) {
             bootbox.alert(response.data, function(){
-                $state.go("supervisor/offlineSubgroup/:id", {id:$scope.subgroupId}, {reload: true});
+                chatIntITAMessenger.updateSubgroup(subgroupId).then(function () {
+                    $state.go("supervisor/offlineSubgroup/:id", {id:$scope.subgroupId}, {reload: true});
+                });
             });
         }, function errorCallback() {
             bootbox.alert("Редагувати підгрупу не вдалося. Помилка сервера.");
@@ -474,17 +494,9 @@ function offlineSubgroupCtrl ($scope, $state, $http, $stateParams, superVisorSer
             $state.go('supervisor/offlineSubgroup/:id', {id:$stateParams.id}, {reload: true});
         }
     };
-
-    $scope.updateSubgroupChat=function(id){
-        $http({
-            url: basePath+'/group_operations/update/'+id,
-            method: "POST",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-        }).then(function successCallback(response) {
-            console.log(response);
-        }, function errorCallback() {
-            bootbox.alert("Оновити чат підгрупи не вдалося. Помилка сервера.");
-        });
+    
+    $scope.updateSubgroupChat=function(subgroupId){
+        chatIntITAMessenger.updateSubgroup(subgroupId);
     };
 }
 
@@ -685,7 +697,7 @@ function groupAccessCtrl ($scope, $http, $stateParams, superVisorService){
     };
 }
 
-function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $stateParams, $filter){
+function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $stateParams, $filter, chatIntITAMessenger){
     $scope.onSelectUser = function ($item) {
         $scope.selectedUser = $item;
     };
@@ -791,6 +803,8 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
                 data: $jq.param({userId: idUser, subgroupId: idSubgroup, startDate: startDate}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
+                chatIntITAMessenger.updateSubgroup(idSubgroup);
+
                 $scope.addUIHandlers(response.data);
                 if($stateParams.subgroupId){
                     $scope.reloadUser();
@@ -818,7 +832,12 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
                 modelId: modelId}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            $scope.addUIHandlers(response.data);
+            chatIntITAMessenger.updateSubgroup(idSubgroup);
+            if(response.data.oldSubgroup){
+                chatIntITAMessenger.updateSubgroup(response.data.oldSubgroup);
+            }
+
+            $scope.addUIHandlers(response.data.message);
             $scope.loadOfflineStudentModel($scope.studentModelId);
         }, function errorCallback() {
             bootbox.alert("Операцію не вдалося виконати");
@@ -832,6 +851,8 @@ function offlineStudentSubgroupCtrl ($scope, $http, superVisorService, $statePar
             data: $jq.param({userId: idUser, subgroupId: idSubgroup}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
+            chatIntITAMessenger.updateSubgroup(idSubgroup);
+
             $scope.loadOfflineStudentModel($scope.studentModelId);
             $scope.addUIHandlers(response.data);
         }, function errorCallback() {

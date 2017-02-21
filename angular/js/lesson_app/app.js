@@ -5,4 +5,4 @@
 
 /* App Module */
 angular
-    .module('lessonApp', ['ui.bootstrap', 'ipCookie','ui.router','hljs','ui.codemirror']);
+    .module('lessonApp', ['ui.bootstrap', 'ipCookie','ui.router','hljs','ui.codemirror','chatIntITAMessenger']);

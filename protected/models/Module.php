@@ -1,5 +1,8 @@
 <?php
 
+const EDITOR_ENABLED = 1;
+const EDITOR_DISABLED = 0;
+
 /**
  * This is the model class for table "module".
  *
@@ -33,9 +36,6 @@
  * @property ModuleService $moduleServiceOnline
  * @property ModuleService $moduleServiceOffline
  */
-
-const EDITOR_ENABLED = 1;
-const EDITOR_DISABLED = 0;
 
 class Module extends CActiveRecord implements IBillableObject
 {
@@ -1162,10 +1162,26 @@ class Module extends CActiveRecord implements IBillableObject
         $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
         $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
         $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
-        $criteria->addCondition('t.isPrint = 1 and (tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
-        or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL)');
+        $criteria->addCondition('t.isPrint = 1 and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
+        or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL))');
         $criteria->params = array(':module'=>$this->module_ID);
         $criteria->group = 't.teacher_id';
         return Teacher::model()->findAll($criteria);
+    }
+
+    public function addTag(Tags $tag) {
+        $moduleTag = ModuleTags::model()->find('id_module = :moduleId AND id_tag = :tagId', ['moduleId' => $this->module_ID, 'tagId' => $tag->id]);
+        if (empty($moduleTag)) {
+            $moduleTag = new ModuleTags();
+            $moduleTag->id_module = $this->module_ID;
+            $moduleTag->id_tag = $tag->id;
+            $moduleTag->save();
+        }
+        return $moduleTag;
+    }
+
+    public function removeTag(Tags $tag) {
+        $affectedRows = ModuleTags::model()->deleteAll('id_tag = :tagId AND id_module = :moduleId', ['tagId' => $tag->id, 'moduleId' => $this->module_ID]);
+        return $affectedRows > 0;
     }
 }
