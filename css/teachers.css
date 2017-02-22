@@ -228,13 +228,6 @@ div.aboutMore{
     float: right;
     width: 49%;
 }
-/*#maxTeacherForm .ifYouTeachers {*/
-    /*display: none;*/
-/*}*/
-/*.two.column #maxTeacherForm:nth-child(2) .ifYouTeachers{*/
-    /*width: 100%;*/
-    /*display: block;*/
-/*}*/
 .teacherBlock {
     width: 100%;
     display: inline-block;
