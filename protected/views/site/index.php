@@ -67,31 +67,10 @@ $this->pageTitle = $mainpage->getTitle();
 }
 ?>
 <?php
-//$this->renderPartial('/site/_shareMetaTagMain', array(
-//    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-//    'title'=>Yii::t('sharing','0643'),
-//    'description'=>Yii::t('sharing','0644'),
-//));
-
-//$this->renderPartial('/site/_shareMetaTagMain', array(
-//    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
-//    'title'=>Yii::t('sharing','0643'),
-//    'description'=>Yii::t('sharing','0644'),
-//));
+$this->renderPartial('/site/_shareMetaTagMain', array(
+    'url'=>Yii::app()->createAbsoluteUrl(Yii::app()->request->url),
+    'title'=>Yii::t('sharing','0643'),
+    'description'=>Yii::t('sharing','0644'),
+));
 ?>
-<!--Yii::app()->clientScript->registerMetaTag($url, null, null, array('property' => "og:url"));-->
-<!--Yii::app()->clientScript->registerMetaTag($title, null, null, array('property' => "og:title"));-->
-<!--Yii::app()->clientScript->registerMetaTag($description, null, null, array('property' => "og:description"));-->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.8";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-<div class="fb-share-button" data-href="https://qa.intita.com/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fqa.intita.com%2F&amp;src=sdkpreparse">Поделиться</a></div>
-
-
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'es5-shim.js'); ?>"></script>
