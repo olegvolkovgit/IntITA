@@ -37,7 +37,7 @@ class CoursesController extends Controller
                     'defaultOrder' => 'module_ID DESC',
                 ),
                 'pagination' => array(
-                    'pageSize' => 50,
+                    'pageSize' => 20,
                 ),
             ));
             if (!Yii::app()->session['lg'] || Yii::app()->session['lg']=='ua')

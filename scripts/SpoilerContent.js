@@ -28,9 +28,11 @@ function hideRecall(spoiler){
 function  diploma_dialog(name, course) {
 
     bootbox.alert({
-        message:'<div class="diploma-container">'+
+        message: '<div id="editor">'+'</div>'+
+        '<button id="print-diploma">'+'Save'+'</button>'+
+                '<div class="diploma-container">'+
                     '<div class="diploma-logo" >'+
-                        '<img src="images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
+                        '<img class="img-diploma" src="images/diploma/logo_diplom.png" alt="logo_diploma_intita">'+
                     '</div>'+
                     '<h1 class="diploma-header">'+'diploma'+'</h1>'+
                     '<p class="certificate">'+'This Sertifies That:'+'</p>'+
@@ -46,7 +48,7 @@ function  diploma_dialog(name, course) {
                             '<li>'+'CEO: Roman Melnyk'+'</li>'+
                             '<li>'+'Date: December, 27, 2017'+'</li>'+
                         '</ul>'+
-                        '<img src="images/diploma/sing_intita.png" alt="director_sign">'+
+                        '<img class="img-diploma" src="images/diploma/sing_intita.png" alt="director_sign">'+
                         '<p class="diplom-number">'+'A11 № 000002-001'+'</p>'+
                     '</div>'+
                 '</div>',
@@ -55,4 +57,19 @@ function  diploma_dialog(name, course) {
 // // do something in the background
    $('.modal-footer > .btn').hide();
 }
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+        '#editor': function (element, renderer) {
+            return true;
+        }
+    };
+    $('.print-diploma').click(function () {
+        doc.fromHTML($('.diploma-container').html(), 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
+    });
+
+
 // celebre

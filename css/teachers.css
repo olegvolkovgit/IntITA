@@ -116,7 +116,7 @@ div.titleTeachers {
 /*teacher Profile Block*/
 .teacherBlock {
     margin-bottom: 40px;
-    clear: both;
+    /*clear: both;*/
 }
 .teacherTable{
     display: table;
@@ -219,10 +219,41 @@ div.aboutMore{
 #send_btn:disabled{
     background: #B4ACAC;
 }
+/*celebre - edit design when create _teacherBlock from _rightTeacher and _leftTeacher*/
+.one {
+    float: left;
+    width: 49%;
+}
+.two{
+    float: right;
+    width: 49%;
+}
+.teacherBlock {
+    width: 100%;
+    display: inline-block;
+}
+.list-view .pager {
+    clear: both;
+    padding: 15px 0;
+}
 @media only screen and (max-width: 800px) {
-    .leftTeacher,.rightTeacher{width: 98%}
-    #minTeacherForm{display:block}
-    #maxTeacherForm{display:none}
+    .one {
+        display: block;
+        width: 98%;
+    }
+    .two {
+        display: block;
+        width: 100%;
+    }
+    .teacherBlock {
+        width: 98%;
+    }
+    #maxTeacherForm {
+        display:none;
+    }
+    .one.column #minTeacherForm:first-child {
+        display: block;
+    }
 }
 @media only screen and (max-width: 360px) {
     .teacherTable>div {display: inline-block}
@@ -234,3 +265,4 @@ div.aboutMore{
         border-bottom: 1px solid #d8d8d8;
     }
 }
+/*celebre*/
