@@ -219,21 +219,6 @@ div.aboutMore{
 #send_btn:disabled{
     background: #B4ACAC;
 }
-/*@media only screen and (max-width: 800px) {*/
-    /*.leftTeacher,.rightTeacher{width: 98%}*/
-    /*#minTeacherForm{display:block}*/
-    /*#maxTeacherForm{display:none}*/
-/*}*/
-@media only screen and (max-width: 360px) {
-    .teacherTable>div {display: inline-block}
-    .teacherTable .teacherName,.teacherTable .profileTeacher{display: table-cell}
-    .teacherTable{display: inherit}
-    .adaptiveTeacherName, div.ifYouTeachers{display:none}
-    div.aboutMore{
-        float:inherit;
-        border-bottom: 1px solid #d8d8d8;
-    }
-}
 /*celebre - edit design when create _teacherBlock from _rightTeacher and _leftTeacher*/
 .one {
     float: left;
@@ -243,16 +228,8 @@ div.aboutMore{
     float: right;
     width: 49%;
 }
-#maxTeacherForm .ifYouTeachers {
-    display: none;
-}
-.two.column #maxTeacherForm:nth-child(2) .ifYouTeachers{
-    width: 100%;
-    display: block;
-}
 .teacherBlock {
     width: 100%;
-    margin-bottom: 40px;
     display: inline-block;
 }
 .list-view .pager {
@@ -287,9 +264,5 @@ div.aboutMore{
         float:inherit;
         border-bottom: 1px solid #d8d8d8;
     }
-}
-.teacherAvatar {
-    width: 50px;
-    height: 150px;
 }
 /*celebre*/

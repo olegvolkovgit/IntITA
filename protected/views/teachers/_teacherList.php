@@ -3,7 +3,7 @@
 $this->widget('application.components.ColumnListView', array(
     'dataProvider' => $dataProvider,
     'itemView' => '_teacherBlock',
-    'viewData'=>array('teacherletter'=>$teacherletter),
+    'viewData'=>array('teacherletter'=>$teacherletter, 'page'=>$dataProvider->pagination->currentPage),
     'summaryText' => '',
     'columns' => array("one", "two"),
     'pager' => array(
@@ -12,6 +12,7 @@ $this->widget('application.components.ColumnListView', array(
         'prevPageLabel' => '&#171;',
         'nextPageLabel' => '&#187;',
         'header' => '',
+        'maxButtonCount' => 6,
         'cssFile' => Config::getBaseUrl() . '/css/pager.css'
     ),
 ));

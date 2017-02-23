@@ -64,13 +64,6 @@
                         <a href="#openModal" onclick="diploma_dialog('<?php echo $data->first_name_en.' '.' '.$data->last_name_en?>',
                                                                         '<?php echo $data->course->title_en?>')">Диплом</a>
                     </div>
-<!--                    <div id="openModal" class="modalDialog">-->
-<!--                        <div>-->
-<!--                            <h2>Модальное окно</h2>-->
-<!--                            <p>Пример простого модального окна, которое может быть создано с использованием CSS3.</p>-->
-<!--                            <p>Его можно использовать в широком диапазоне, начиная от вывода сообщений и заканчивая формой регистрации.</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <?php }?>
 
                 </div>
@@ -79,3 +72,4 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
