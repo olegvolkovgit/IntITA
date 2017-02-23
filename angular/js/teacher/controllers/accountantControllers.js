@@ -1055,7 +1055,48 @@ angular
                     value: 2
                 }
             ];
-    }]);
+    }])
+    .controller('documentsCtrl', ['$scope', '$stateParams','NgTableParams','accountantService','$http', function ($scope, $stateParams,NgTableParams,accountantService, $http) {
+        $scope.changePageHeader('Копії документів');
+
+        $scope.docStatus = [{id:0, title:'не перевірені'}, {id:1, title:'перевірені'}];
+        $scope.documentsTableParams = new NgTableParams({filter:{'check':0}}, {
+            getData: function (params) {
+                return accountantService
+                    .documentsList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+
+        $scope.createDocumentsFolder=function () {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_accountant/accountant/createDocumentsFolder',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                bootbox.alert("Папку створено");
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+
+        $scope.changeDocStatus=function (id) {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_accountant/accountant/changeDocumentStatus',
+                data: $jq.param({id: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                $scope.documentsTableParams.reload();
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+    }])
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];
