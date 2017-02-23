@@ -1,6 +1,6 @@
-/**
- * Created by Quicks on 15.12.2015.
- */
+'use strict';
+angular.module('chatIntITAMessenger', []);
+
 angular
     .module('teacherApp', [
         'datatables',

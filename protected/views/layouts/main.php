@@ -60,14 +60,6 @@ $header = new Header();
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-resource/angular-resource.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-animate/angular-animate.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/lodash/lodash.min.js'); ?>"></script>
-
-    <!--IntITAMessenger-->
-    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
-    <?php if (!Yii::app()->user->isGuest) { ?>
-        <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
-    <?php } ?>
-    <!--IntITAMessenger-->
-
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/app.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls-1.3.3.js'); ?>"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -341,5 +333,11 @@ $header = new Header();
     ga('create', 'UA-83801032-1', 'auto');
     ga('send', 'pageview');
 </script>
+<!--IntITAMessenger-->
+<script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+<?php if (!Yii::app()->user->isGuest) { ?>
+    <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
+<?php } ?>
+<!--IntITAMessenger-->
 </body>
 </html>
