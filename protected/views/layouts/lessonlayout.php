@@ -41,6 +41,7 @@
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
+    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'bower_components/angular-bootstrap/ui-bootstrap-tpls_0_13_0.js'); ?>"></script>
     <link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
@@ -122,7 +123,6 @@
     ga('send', 'pageview');
 </script>
 <!--IntITAMessenger-->
-<script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
 <?php if (!Yii::app()->user->isGuest) { ?>
     <div ita-messenger="" path="<?php echo Config::getFullChatPath() ?>" class="dnd-container"></div>
 <?php } ?>
