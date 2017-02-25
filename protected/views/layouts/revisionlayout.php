@@ -27,7 +27,9 @@ $header = new Header();
         <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
         <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/revisionApp.js'); ?>"></script>
-        <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+        <?php if (!Yii::app()->user->isGuest) { ?>
+            <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+        <?php } ?>
         <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'openDialog.js'); ?>"></script>
         <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
         <script async src="<?php echo StaticFilesHelper::fullPathTo('js', 'trimField.js'); ?>"></script>

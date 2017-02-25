@@ -369,6 +369,11 @@ class UsersController extends TeacherCabinetController
 
     public function actionExport($type)
     {
+        $phpExcelPath = Yii::getPathOfAlias('ext.PHPExcel');
+        spl_autoload_unregister(array('YiiBase','autoload'));
+        include($phpExcelPath . DIRECTORY_SEPARATOR . 'PHPExcel.php');
+        spl_autoload_register(array('YiiBase','autoload'));
+
         switch ($type) {
             case 'all': {
                 $fieldsToExport = ['firstName' => 'Ім\'я',
@@ -595,6 +600,11 @@ class UsersController extends TeacherCabinetController
     }
 
     public function actionImportExcel(){
+        $phpExcelPath = Yii::getPathOfAlias('ext.PHPExcel');
+        spl_autoload_unregister(array('YiiBase','autoload'));
+        include($phpExcelPath . DIRECTORY_SEPARATOR . 'PHPExcel.php');
+        spl_autoload_register(array('YiiBase','autoload'));
+
         $emailsCategory = Yii::app()->request->getPost('categoryId');
         $filepath=Yii::getpathOfAlias('webroot').'/files/emailsBase/email_base.xlsx';
         $exporter = new ExcelImporter('users_email',1,$filepath, $emailsCategory);

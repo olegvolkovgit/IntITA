@@ -19,7 +19,9 @@
     <script type="text/javascript" src="<?php echo StaticFilesHelper::fullPathTo('js', 'jquery.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular.min.js'); ?>"></script>
     <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/app.js'); ?>"></script>
-    <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+    <?php if (!Yii::app()->user->isGuest) { ?>
+        <script src="<?php echo Config::getBaseUrl()."/crmChat/js/ITA.js" ?>"></script>
+    <?php } ?>
     <script type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/openDialog.js"></script>
     <link rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'regform.css');; ?>"/>
     <script async type="text/javascript" src="<?php echo Config::getBaseUrl(); ?>/scripts/jquery.passEye.js"></script>
