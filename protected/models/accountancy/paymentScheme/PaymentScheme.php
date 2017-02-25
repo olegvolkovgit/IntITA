@@ -23,19 +23,19 @@ class PaymentScheme extends CActiveRecord {
     const PROMOTIONAL_COURSE_SCHEME = 2;
     const DEFAULT_MODULE_SCHEME = 3;
     const PROMOTIONAL_MODULE_SCHEME = 4;
-
+    
     const ADVANCE = 1;
     const BASE_TWO_PAYS = 2;
-    const BASE_FOUR_PAYS = 3;
-    const MONTHLY = 4;
-    const CREDIT_TWO_YEARS = 5;
-    const CREDIT_THREE_YEARS = 6;
-    const CREDIT_FOUR_YEARS = 7;
-    const CREDIT_FIVE_YEARS = 8;
-    const BASE_THREE_PAYS = 9;
-    const BASE_SIX_PAYS = 10;
-
-
+    const BASE_THREE_PAYS = 3;
+    const BASE_FOUR_PAYS = 4;
+    const BASE_SIX_PAYS = 6;
+    const MONTHLY = 12;
+    const CREDIT_TWO_YEARS = 24;
+    const CREDIT_THREE_YEARS = 36;
+    const CREDIT_FOUR_YEARS = 48;
+    const CREDIT_FIVE_YEARS = 60;
+   
+   
     /**
      * @return string the associated database table name
      */
