@@ -5,9 +5,7 @@
  *
  * The followings are the available columns in table 'tags':
  * @property integer $id
- * @property string $tag_ua
- * @property string $tag_ru
- * @property string $tag_en
+ * @property string $tag
  *
  * The followings are the available model relations:
  * @property Module[] $modules
@@ -30,10 +28,10 @@ class Tags extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('tag_ua, tag_ru, tag_en', 'required'),
-			array('tag_ua, tag_ru, tag_en', 'length', 'max'=>50),
+			array('tag', 'required'),
+			array('tag', 'length', 'max'=>50),
 			// The following rule is used by search().
-			array('id, tag_ua, tag_ru, tag_en', 'safe', 'on'=>'search'),
+			array('id, tag', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,9 +54,7 @@ class Tags extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'tag_ua' => 'Tag Ua',
-			'tag_ru' => 'Tag Ru',
-			'tag_en' => 'Tag En',
+			'tag' => 'Tag',
 		);
 	}
 
@@ -79,9 +75,7 @@ class Tags extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('tag_ua',$this->tag_ua,true);
-		$criteria->compare('tag_ru',$this->tag_ru,true);
-		$criteria->compare('tag_en',$this->tag_en,true);
+		$criteria->compare('tag',$this->tag_ua,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -104,15 +98,32 @@ class Tags extends CActiveRecord
 	}
 
 	public static function tagsList(){
-		$lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-		$param = "tag_" . $lang;
-		$tags=Tags::model()->findAll(array('order'=>$param));
-		$data=array();
+		$tags=Tags::model()->findAll();
+		$data=[];
 		foreach ($tags as $key=>$tag) {
 			$data[$key]['id']=$tag['id'];
-			$data[$key]['tag']=$tag[$param];
+			$data[$key]['tag']=$tag['tag'];
 		}
-
 		return json_encode($data);
 	}
+
+	public function getTagAttrs() {
+        return $this->getAttributes(['id', 'tag']);
+    }
+
+    public function findOrCreateTag($id, $tagTitle = null) {
+        $tag = null;
+        if ($id != -1) {
+            $tag = $this->findByPk($id);
+        } else if ($tagTitle) {
+            $tag = $this->find("tag LIKE :tagTitle", ['tagTitle' => $tagTitle]);
+        }
+        if (empty($tag)) {
+            $tag = new Tags();
+            $tag->tag = $tagTitle;
+            $tag->save();
+        }
+        return $tag;
+    }
+
 }

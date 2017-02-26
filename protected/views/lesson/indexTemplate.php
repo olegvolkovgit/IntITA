@@ -15,7 +15,6 @@
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/angular-ui-router.min.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/paramService.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/accessLecturesService.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/lesson_app/services/pagesDataUpdateService.js'); ?>"></script>
@@ -80,7 +79,7 @@ $finishedLecture = $lecture->isFinished($user);
 <div id="lessonHumMenu">
     <?php $this->renderPartial('/lesson/_lessonHamburgerMenu', array('idCourse' => $idCourse,  'module' => $lecture->module)); ?>
 </div>
-<div ng-cloak class="lessonBlock" id="lessonBlock"  ng-app="lessonApp" >
+<div ng-cloak class="lessonBlock" id="lessonBlock">
     <div ng-controller="lessonPageCtrl">
         <div class="lectureHeaderMini">
             <div class="sidebarMini">

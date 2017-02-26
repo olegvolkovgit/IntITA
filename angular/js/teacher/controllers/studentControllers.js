@@ -212,7 +212,7 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     $scope.invoicesTable = new NgTableParams({}, {
         getData: function (params) {
             $scope.params=params.url();
-            $scope.params.id=$stateParams.agreementId;
+            $scope.params.id=$stateParams.agreementId?$stateParams.agreementId:$scope.agreementId;
             return studentService
                 .invoicesByAgreement($scope.params)
                 .$promise

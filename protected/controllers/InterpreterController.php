@@ -8,7 +8,7 @@
  */
 class InterpreterController extends Controller
 {
-    public $layout = 'lessonlayout';
+    public $layout = 'interpreterlayout';
 
     public function initialize($idRevision, $task)
     {

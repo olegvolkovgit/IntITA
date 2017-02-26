@@ -16,6 +16,7 @@ class ModuleController extends Controller
     public function actionIndex($idModule, $idCourse=0)
     {
         $model = Module::model()->findByPk($idModule);
+        $moduleTeachers = $model->getModuleTeachers();
 
         $this->checkModelInstance($model);
 
@@ -25,7 +26,7 @@ class ModuleController extends Controller
         
         $this->render('index', array(
             'post' => $model,
-            'teachers' => $model->teacher,
+            'teachers' => $moduleTeachers,
             'idCourse' => $idCourse,
         ));
     }
@@ -338,10 +339,9 @@ class ModuleController extends Controller
         echo Tags::tagsList();
     }
 
-    public function actionGetModuleTags()
-    {
+    public function actionGetModuleTags() {
         $idModule = Yii::app()->request->getPost('idModule');
-        $module=Module::model()->findByPk($idModule);
+        $module = Module::model()->findByPk($idModule);
         echo $module->moduleTags();
     }
     
@@ -394,11 +394,37 @@ class ModuleController extends Controller
 
     public function actionEditModuleTags()
     {
-        $module = new Module;
         $idModule = Yii::app()->request->getPost('idModule');
         $moduleTags = Yii::app()->request->getPost('moduleTags');
-
         ModuleTags::model()->editModuleTags($moduleTags,$idModule);
+    }
+
+    public function actionAddTag() {
+        $moduleId = Yii::app()->request->getPost('idModule');
+        $tags = Yii::app()->request->getPost('tag');
+        $module = Module::model()->findByPk($moduleId);
+        $addedTagsArray = [];
+        if ($module) {
+            foreach ($tags as $tag) {
+                $tag = Tags::model()->findOrCreateTag($tag['id'], $tag['tag']);
+                $module->addTag($tag);
+                array_push($addedTagsArray, $tag->getTagAttrs());
+            }
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => 201, 'body' => json_encode($addedTagsArray)]);
+    }
+
+    public function actionRemoveTag() {
+        $moduleId = Yii::app()->request->getPost('idModule');
+        $tagId = Yii::app()->request->getPost('tagId');
+        $module = Module::model()->findByPk($moduleId);
+        $tag = Tags::model()->findByPk($tagId);
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $response = [];
+        if ($module->removeTag($tag)) {
+            $response[] = $tag->getTagAttrs($lang);
+        };
+        $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($response)]);
     }
 
     public function actionGetTypeahead($query) {

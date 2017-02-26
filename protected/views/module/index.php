@@ -33,7 +33,7 @@ if($idCourse != 0) {
     <?php $this->renderPartial('_leftModule', array('post' => $post, "idCourse"=>$idCourse));?>
 
     <div class="rightModule">
-         <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers));?>
+         <?php $this->renderPartial('_teacherBox', array('teachers' => $teachers,'idModule'=>$post->module_ID));?>
     </div>
 </div>
 <script src="<?php echo StaticFilesHelper::fullPathTo('js', 'module.js'); ?>"></script>

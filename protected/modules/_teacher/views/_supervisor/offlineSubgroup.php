@@ -11,6 +11,11 @@
                     Група підгрупи
                 </a>
             </li>
+            <li>
+                <a type="button" class="btn btn-success" ng-href="" ng-click="updateSubgroupChat(subgroup.id)">
+                    Оновити чат підгрупи
+                </a>
+            </li>
         </ul>
         <div class="panel-body" style="padding:15px 0 0 0">
             <uib-tabset active="0" >
@@ -23,7 +28,7 @@
                             <label>Підрупа: </label> {{subgroup.name}}
                         </li>
                         <li class="list-group-item">
-                            <label>Тренер в групі: </label>
+                            <label>Тренер в підгрупі: </label>
                             <a ng-href="#/supervisor/userProfile/{{subgroupTrainer.id}}">{{subgroupTrainer.fullName}}</a>
                         </li>
                         <li class="list-group-item">

@@ -7,7 +7,6 @@
  */
 ?>
 <?php header('Access-Control-Allow-Origin: *'); ?>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/app.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/controllers/interpreterCtrl.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/sendTaskJsonService.js'); ?>"></script>
 <script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/interpreter_app/services/getTaskJson.js'); ?>"></script>
@@ -38,7 +37,6 @@
 <input type="hidden" ng-init='lang="<?php echo $task->language; ?>"' ng-model="lang" />
 <input type="hidden" ng-init='task="<?php echo $task->uid; ?>"' ng-model="task" />
 <input type="hidden" ng-init="interpreterServer=<?php echo htmlspecialchars(json_encode(Config::getInterpreterServer())); ?>" ng-model="interpreterServer" />
-<body ng-app="interpreterApp">
 <div ng-controller="interpreterCtrl">
     <form id="interpreterForm" name="interpreterForm" ng-cloak>
         <label>Пам'ятка: <input type="checkbox" ng-model="legend" ng-init="legend=false" /></label><br/>
@@ -633,4 +631,3 @@
         </div>
     </form>
 </div>
-</body>

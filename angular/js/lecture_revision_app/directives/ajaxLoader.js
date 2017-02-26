@@ -16,10 +16,10 @@ angular.module('directive.loading', [])
                 scope.$watch(scope.isLoading, function (v)
                 {
                     if(v){
-                        elm.show();
-                        $(elm).centerLoader();
+                        elm.css('display', 'block');
+                        elm.centerLoader();
                     }else{
-                        elm.hide();
+                        elm.css('display', 'none');
                     }
                 });
             }

@@ -35,7 +35,8 @@ angular
         'oi.select',
         'ngCkeditor',
         'schedulerTasks',
-        'paymentsSchemes.directives'
+        'paymentsSchemes.directives',
+        'chatIntITAMessenger'
     ])
     .filter('shortDate', [
             '$filter', function($filter) {

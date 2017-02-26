@@ -4,18 +4,20 @@ class ExcelImporter extends PHPExcel
 {
     private $table_name;
     private $columns_name_line;
-    private $filepath;
+    private $file_path;
+    private $emails_category;
     private $criteria;
 
     // Функция преобразования листа Excel в таблицу MySQL, с учетом объединенных строк и столбцов.
     // Значения берутся уже вычисленными. Параметры:
     //     $table_name - имя таблицы MySQL
     //     $columns_name_line - строка с которой начинаем читать столбец
-    public function __construct($table_name,$columns_name_line,$filepath)
+    public function __construct($table_name,$columns_name_line,$file_path, $emails_category)
     {
         $this->table_name = $table_name;
         $this->columns_name_line = $columns_name_line;
-        $this->filepath = $filepath;
+        $this->file_path = $file_path;
+        $this->emails_category = $emails_category;
         parent::__construct();
     }
 
@@ -24,7 +26,7 @@ class ExcelImporter extends PHPExcel
     }
 
     public function importExcelToMySQL(){
-        $PHPExcel_file = PHPExcel_IOFactory::load($this->filepath);
+        $PHPExcel_file = PHPExcel_IOFactory::load($this->file_path);
         //     $worksheet - 1-й лист Excel
         foreach ($PHPExcel_file->getWorksheetIterator() as $page) {
             $worksheet=$page;
@@ -42,6 +44,8 @@ class ExcelImporter extends PHPExcel
 
         // Обрезаем строку, убирая запятую в конце
         $columns_str = substr($columns_str, 0, -1);
+        // Добавляем поле категории email - category
+        $columns_str = $columns_str.",".'category';
         // Количество строк на листе Excel
         $rows_count = $worksheet->getHighestRow();
 
@@ -63,6 +67,8 @@ class ExcelImporter extends PHPExcel
 
             // Добавляем строку в таблицу MySQLb.
             if($value_str){
+                // Добавляем значение категории email
+                $value_str = $value_str.",'".$this->emails_category."'";
                 $sql = "INSERT IGNORE INTO " . $this->table_name . " (" . $columns_str . ") VALUES (" . $value_str . ")";
                 Yii::app()->db->createCommand($sql)->execute();
             }

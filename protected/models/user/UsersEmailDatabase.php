@@ -5,9 +5,8 @@
  *
  * The followings are the available columns in table 'users_email':
  * @property string $email
+ * @property integer $category
  *
- * The followings are the available model relations:
- * @property ChatUser $chatUser
  */
 class UsersEmailDatabase extends CActiveRecord
 {
@@ -26,11 +25,11 @@ class UsersEmailDatabase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email', 'required'),
-			array('email', 'safe'),
+			array('email, category', 'required'),
+			array('email, category', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('email', 'safe', 'on'=>'search'),
+			array('email, category', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -42,6 +41,7 @@ class UsersEmailDatabase extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'emailCategory' => array(self::BELONGS_TO, 'EmailsCategory', array('category'=>'id')),
 		);
 	}
 
@@ -52,6 +52,7 @@ class UsersEmailDatabase extends CActiveRecord
 	{
 		return array(
 			'email' => 'Email',
+			'category' => 'Category',
 		);
 	}
 
@@ -72,7 +73,8 @@ class UsersEmailDatabase extends CActiveRecord
 		$criteria=new CDbCriteria;
 		
 		$criteria->compare('email',$this->email,true);
-
+		$criteria->compare('category',$this->category,true);
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -87,5 +89,9 @@ class UsersEmailDatabase extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function primaryKey(){
+		return array('email','category');
 	}
 }

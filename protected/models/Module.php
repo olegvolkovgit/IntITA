@@ -1,5 +1,8 @@
 <?php
 
+const EDITOR_ENABLED = 1;
+const EDITOR_DISABLED = 0;
+
 /**
  * This is the model class for table "module".
  *
@@ -32,10 +35,9 @@
  * @property Teacher $teacher
  * @property ModuleService $moduleServiceOnline
  * @property ModuleService $moduleServiceOffline
+ * @property ModuleTags $moduleTags
+ * @property Tags[] $tags
  */
-
-const EDITOR_ENABLED = 1;
-const EDITOR_DISABLED = 0;
 
 class Module extends CActiveRecord implements IBillableObject
 {
@@ -101,15 +103,13 @@ class Module extends CActiveRecord implements IBillableObject
         // class name for the relations automatically generated below.
 
         return array(
-           // 'ModuleId' => array(self::BELONGS_TO, 'Lecture', 'idModule'),
             'Course' => array(self::MANY_MANY, 'Course', 'course_modules(id_module,id_course)'),
             'lectures' => array(self::HAS_MANY, 'Lecture', 'idModule',
                 'order' => 'lectures.order ASC'),
-            'teacher' => array(self::MANY_MANY, 'Teacher', 'teacher_module(idModule,idTeacher)',
-                'on' => 'teacher.isPrint=1', 'condition' => 'end_time IS NULL'),
             'level0' => array(self::BELONGS_TO, 'Level', 'level'),
             'inCourses' => array(self::MANY_MANY, 'CourseModules', 'course_modules(id_course,id_module)'),
             'moduleTags' => array(self::HAS_MANY, 'ModuleTags', ['id_module'=>'module_ID']),
+            'tags' => [self::HAS_MANY, 'Tags', ['id_tag' => 'id'], 'through' => 'moduleTags'],
             'revisions' => array(self::HAS_MANY, 'RevisionModule', ['id_module'=>'module_ID']),
             'moduleServiceOnline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOnline.education_form='.EducationForm::ONLINE],
             'moduleServiceOffline' => [self::HAS_ONE, 'ModuleService', 'module_id', 'on' => 'moduleServiceOffline.education_form='.EducationForm::OFFLINE]
@@ -1058,14 +1058,10 @@ class Module extends CActiveRecord implements IBillableObject
     }
 
     public function moduleTags(){
-        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
-        $param = "tag_" . $lang;
-        $data=array();
-        foreach ($this->moduleTags as $key=>$tag) {
-            $data[$key]['id']=$tag->tag['id'];
-            $data[$key]['tag']=$tag->tag[$param];
+        $data = [];
+        foreach ($this->tags as $tag) {
+            $data[] = $tag->getTagAttrs();
         }
-
         return json_encode($data);
     }
 
@@ -1154,5 +1150,37 @@ class Module extends CActiveRecord implements IBillableObject
         } while ($nextMandatory);
 
         return true;
+    }
+
+    //    teacher who are teacher_consultant and author if this module
+    public function getModuleTeachers()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = 't';
+        $criteria->join = 'left join user_teacher_consultant utc ON utc.id_user = t.user_id';
+        $criteria->join .= ' inner join teacher_consultant_module tcm on t.user_id=tcm.id_teacher';
+        $criteria->join .= ' left join user_author ua on ua.id_user=t.user_id';
+        $criteria->join .= ' inner join teacher_module tm on t.user_id=tm.idTeacher';
+        $criteria->addCondition('t.isPrint = 1 and ((tcm.id_module=:module and tcm.end_date IS NULL and utc.end_date IS NULL) 
+        or (tm.idModule=:module and tm.end_time IS NULL and ua.end_date IS NULL))');
+        $criteria->params = array(':module'=>$this->module_ID);
+        $criteria->group = 't.teacher_id';
+        return Teacher::model()->findAll($criteria);
+    }
+
+    public function addTag(Tags $tag) {
+        $moduleTag = ModuleTags::model()->find('id_module = :moduleId AND id_tag = :tagId', ['moduleId' => $this->module_ID, 'tagId' => $tag->id]);
+        if (empty($moduleTag)) {
+            $moduleTag = new ModuleTags();
+            $moduleTag->id_module = $this->module_ID;
+            $moduleTag->id_tag = $tag->id;
+            $moduleTag->save();
+        }
+        return $moduleTag;
+    }
+
+    public function removeTag(Tags $tag) {
+        $affectedRows = ModuleTags::model()->deleteAll('id_tag = :tagId AND id_module = :moduleId', ['tagId' => $tag->id, 'moduleId' => $this->module_ID]);
+        return $affectedRows > 0;
     }
 }
