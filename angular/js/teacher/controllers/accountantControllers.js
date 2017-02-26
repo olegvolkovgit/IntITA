@@ -4,15 +4,36 @@
 
 angular
     .module('teacherApp')
-    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams',
-        function ($scope, agreements, paymentSchema, NgTableParams) {
-            $scope.agreementsTableParams = new NgTableParams({}, {
+    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams','lodash','$filter',
+        function ($scope, agreements, paymentSchema, NgTableParams, _,$filter) {
+            $scope.currentDate = currentDate;
+            $scope.agreementsTableParams = new NgTableParams({sorting: { create_date: "desc" } }, {
                 getData: function (params) {
                     return agreements
                         .list(params.url())
                         .$promise
                         .then(function (data) {
                             params.total(data.count);
+                            data.rows.forEach(function(row) {
+                                var paid=0;
+                                //get paid sum for agreement
+                                row.internalPayment.forEach(function (pay) {
+                                    paid = paid+Number(pay.summa);
+                                });
+                                row.paidAmount=paid;
+                                //get agreement payment_date and expiration_date
+                                for (var index = 0; index < row.invoice.length; ++index) {
+                                    var invoicePaid=0;
+                                    _.filter(row.internalPayment, ['invoice_id', row.invoice[index].id]).forEach(function (pay) {
+                                        invoicePaid = invoicePaid+Number(pay.summa);
+                                    });
+                                    if(invoicePaid<row.invoice[index].summa){
+                                        row.payment_date=row.invoice[index].payment_date;
+                                        row.expiration_date=row.invoice[index].expiration_date;
+                                        break;
+                                    }
+                                }
+                            });
                             return data.rows;
                         });
                 }
@@ -29,13 +50,17 @@ angular
             };
 
             $scope.cancel = function (id) {
-                return agreements
-                    .cancel({id: id})
-                    .$promise
-                    .then(function (data) {
-                        $scope.agreementsTableParams.reload();
-                        return data;
-                    });
+                bootbox.confirm('Ви впевнені, що хочете скасувати договір?', function(result) {
+                    if(result){
+                        return agreements
+                            .cancel({id: id})
+                            .$promise
+                            .then(function (data) {
+                                $scope.agreementsTableParams.reload();
+                                return data;
+                            });
+                    }
+                });
             };
 
             $scope.getSchemas = paymentSchema
@@ -43,7 +68,7 @@ angular
                 .$promise
                 .then(function (data) {
                     return data.map(function (item) {
-                        return {id: item.id, title: item.name}
+                        return {id: item.pay_count, title: item.title_ua}
                     })
                 });
         }])
@@ -1055,7 +1080,48 @@ angular
                     value: 2
                 }
             ];
-    }]);
+    }])
+    .controller('documentsCtrl', ['$scope', '$stateParams','NgTableParams','accountantService','$http', function ($scope, $stateParams,NgTableParams,accountantService, $http) {
+        $scope.changePageHeader('Копії документів');
+
+        $scope.docStatus = [{id:0, title:'не перевірені'}, {id:1, title:'перевірені'}];
+        $scope.documentsTableParams = new NgTableParams({filter:{'check':0}}, {
+            getData: function (params) {
+                return accountantService
+                    .documentsList(params.url())
+                    .$promise
+                    .then(function (data) {
+                        params.total(data.count);
+                        return data.rows;
+                    });
+            }
+        });
+
+        $scope.createDocumentsFolder=function () {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_accountant/accountant/createDocumentsFolder',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                bootbox.alert("Папку створено");
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+
+        $scope.changeDocStatus=function (id) {
+            $http({
+                method: 'POST',
+                url: basePath+'/_teacher/_accountant/accountant/changeDocumentStatus',
+                data: $jq.param({id: id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback() {
+                $scope.documentsTableParams.reload();
+            }, function errorCallback() {
+                bootbox.alert("Операцію не вдалося виконати");
+            });
+        }
+    }])
 
 function selectFromTypeahead(context, field, modelField, $item, $model, $label, $event) {
     context[field] = $model[modelField];

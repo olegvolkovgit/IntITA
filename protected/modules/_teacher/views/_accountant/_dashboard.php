@@ -102,4 +102,24 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                Документи користувачів
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <a href="#/accountant/documents">Копії документів</a>
+                    </li>
+                </ul>
+                <br>
+                <br>
+            </div>
+            <div class="panel-footer">
+                <em>Копії документів користувачів</em>
+            </div>
+        </div>
+    </div>
 </div>

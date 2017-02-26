@@ -168,5 +168,10 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"externalSources/view/id/"+$stateParams.id;
             }
         })
+        .state('accountant/documents', {
+            url: "/accountant/documents",
+            cache         : false,
+            templateUrl: accountantUrl+"accountant/usersDocuments"
+        })
     }
 );

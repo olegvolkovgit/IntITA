@@ -422,4 +422,30 @@ class StudentRegController extends Controller
         $data=array('count_total_cell'=>$count_total_cell, 'count_full_cell'=>$count_full_cell);
         echo json_encode($data);
     }
+
+    public function actionUploadDocuments($type)
+    {
+        UserDocuments::model()->uploadUserDocuments($type);
+    }
+
+    public function actionGetUploadedDocuments()
+    {
+        $data=array();
+        $documents=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'passport'));
+        $inn=UserDocuments::model()->findAllByAttributes(array('id_user'=>Yii::app()->user->getId(),'type'=>'inn'));
+        $data['documents']=$documents;
+        $data['inn']=$inn;
+        $data['docPath']=StaticFilesHelper::fullPathToFiles('documents');
+        echo CJSON::encode($data);
+    }
+
+    public function actionRemoveUserDocument()
+    {
+        $idFile=Yii::app()->request->getPost('id');
+        $model=UserDocuments::model()->findByPk($idFile);
+        $file=Yii::getpathOfAlias('webroot').'/files/documents/'.Yii::app()->user->getId().'/'.$model->type.'/'.$model->file_name;
+        if (is_file($file))
+            unlink($file);
+        $model->delete();
+    }
 }
