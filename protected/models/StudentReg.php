@@ -1431,6 +1431,11 @@ class StudentReg extends CActiveRecord
         foreach($model->preferSpecializations as $key=>$specialization){
             $result['specializations'][$key]=$specialization->specialization->title_ua;
         }
+
+        if (Yii::app()->user->model->isAccountant()){
+            $result['documents']['passport']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'passport'));
+            $result['documents']['inn']=UserDocuments::model()->findAllByAttributes(array('id_user'=>$id,'type'=>'inn'));
+        }
         return $result;
     }
 

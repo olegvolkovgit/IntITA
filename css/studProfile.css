@@ -849,3 +849,18 @@ table#emptyFieldList td{
     }
 }
 /*celebre - profileActivity*/
+
+.uploadDocuments,#documents_wrap, #code_wrap{
+    display:inline-block;
+}
+.uploadDocuments input, #documents_wrap input, #code_wrap input{
+    width: inherit;
+    padding-left:inherit;
+    height:inherit;
+    border:inherit;
+    border-radius:inherit;
+}
+.uploadDocuments ul {
+    padding-left:0;
+    list-style-type: none;
+}

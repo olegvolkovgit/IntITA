@@ -610,6 +610,15 @@ div.loader > div {
     float: right;
     width: 100%;
 }
+.table-striped>tbody>tr.bg-danger {
+    background-color: #d95265;
+}
+.table-striped>tbody>tr.bg-warning {
+    background-color: #f0b370;
+}
+.table-striped>tbody>tr.bg-success {
+    background-color: #81b874;
+}
 .list-group-item .groupList{
     margin-bottom:0;
     background-color:inherit;

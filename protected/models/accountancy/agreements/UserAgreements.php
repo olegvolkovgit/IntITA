@@ -76,8 +76,9 @@ class UserAgreements extends CActiveRecord
             'user' => array(self::BELONGS_TO, 'StudentReg','user_id'),
             'approvalUser' => array(self::BELONGS_TO, 'StudentReg','approval_user'),
             'cancelUser' => array(self::BELONGS_TO, 'StudentReg','cancel_user'),
-            'paymentSchema' => array(self::BELONGS_TO, 'PaymentScheme', 'payment_schema'),
-            'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status')
+            'paymentSchema' => array(self::BELONGS_TO, 'SchemesName', 'payment_schema'),
+            'status0' => array(self::BELONGS_TO, 'UserAgreementStatus', 'status'),
+            'internalPayment' => [self::HAS_MANY, 'InternalPays', array('id'=>'invoice_id'), 'through' => 'invoice', 'order' => 'internalPayment.create_date DESC']
         );
     }
 
@@ -185,7 +186,7 @@ class UserAgreements extends CActiveRecord
      * @return bool
      */
     public function cancel($user) {
-        if ($this->approval_date != null) {
+        if ($this->canBeCanceled()) {
             $this->cancel_date = new CDbExpression('NOW()');
             $this->cancel_user = $user->getId();
             if ($this->save()) {
@@ -549,6 +550,22 @@ class UserAgreements extends CActiveRecord
             $firstInvoice=$this->invoice[0];
         
         return $firstInvoice;
+    }
+
+    public function getAgreementPaidSum() {
+        $sum=0;
+        foreach ($this->invoice as $invoice) {
+            $sum=$sum+$invoice->getPaidSum();
+        }
+        return $sum;
+    }
+
+    public function canBeCanceled() {
+        if ($this->getAgreementPaidSum()==0) {
+           return true;
+        } else {
+            return false;
+        }
     }
 }
 

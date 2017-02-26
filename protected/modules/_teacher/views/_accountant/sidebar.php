@@ -37,17 +37,8 @@
         <li>
             <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів схем</a>
         </li>
-<!--        <li>-->
-<!--            <a href="#/accountant/paymentSchemas/default">Стандартні схеми проплат</a>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <a href="#/accountant/paymentSchemas/course">Курси</a>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <a href="#/accountant/paymentSchemas/module">Модулі</a>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--            <a href="#/accountant/paymentSchemas/user">Користувачі</a>-->
-<!--        </li>-->
+        <li>
+            <a href="#/accountant/documents">Копії документів</a>
+        </li>
     </ul>
 </li>
