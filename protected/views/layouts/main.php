@@ -68,6 +68,7 @@ $header = new Header();
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     <script>
         lang = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
+        basePath = '<?php echo Config::getBaseUrl(); ?>';
     </script>
 </head>
 

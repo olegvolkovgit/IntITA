@@ -20,22 +20,22 @@
         <div class="col-md-10">
             <h4>Сервіси курсів:</h4>
             <span class="control-label">Шаблон схем по замовчуванню для курсів:</span>
-            <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_COURSE_SCHEME)->schemesTemplate->template_name ?></b>
+            <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_COURSE_SCHEME)->schemesTemplate->template_name_ua ?></b>
         </div>
         <div class="col-md-10">
             <span class="control-label">Актуальний шаблон схем на всі курси:</span>
-            <b><?php echo PaymentScheme::getCourseActualSchemeTemplate()->schemesTemplate->template_name; ?></b>
+            <b><?php echo PaymentScheme::getCourseActualSchemeTemplate()->schemesTemplate->template_name_ua; ?></b>
             <span class="control-label"><br>Діє до: <?php echo PaymentScheme::getCourseActualSchemeTemplate()->endDate ?></span>
         </div>
         <br>
         <div class="col-md-10">
             <h4>Сервіси модулів:</h4>
             <span class="control-label">Шаблон схем по замовчуванню для модулів:</span>
-            <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_MODULE_SCHEME)->schemesTemplate->template_name ?></b>
+            <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_MODULE_SCHEME)->schemesTemplate->template_name_ua ?></b>
         </div>
         <div class="col-md-10">
             <span class="control-label">Актуальний шаблон схем на всі модулі:</span>
-            <b><?php echo PaymentScheme::getModuleActualSchemeTemplate()->schemesTemplate->template_name; ?></b>
+            <b><?php echo PaymentScheme::getModuleActualSchemeTemplate()->schemesTemplate->template_name_ua; ?></b>
             <span class="control-label"><br>Діє до: <?php echo PaymentScheme::getModuleActualSchemeTemplate()->endDate ?></span>
         </div>
     </div>
@@ -48,7 +48,7 @@
                 required="required"
                 class="form-control"
                 ng-model="paymentSchema.template"
-                ng-options="template as template.template_name for template in templates">
+                ng-options="template as template.template_name_ua for template in templates">
                 <option style="display:none" value="">--Виберіть шаблон схем--</option>
             </select>
         </div>

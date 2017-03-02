@@ -19,16 +19,18 @@ if (!Yii::app()->user->isGuest) {
         ?>
         <div class="paymentsButtons">
             <div class="startModule">
-                <a ng-if="module.canPayModule" id="paymentButtonModule"
-                   ng-click="redirectToCabinet('payModule',module.module.module_ID,selectedScheme)">
-                    <?php echo Yii::t('module', '0279'); ?>
-                </a>
+                <input ng-if="module.canPayModule && !((moduleStatus=='payable') || (moduleStatus=='paid') && (moduleStatus!='no_agreement'))"
+                       type="button" ng-cloak
+                       ng-class="{'expired': (moduleStatus=='expired'), 'warning': (moduleStatus=='delay'), 'paymentButton' : true}"
+                       ng-click="redirectToCabinet('payModule',module.module.module_ID,selectedScheme)"
+                       ng-value="(moduleStatus=='delay' || moduleStatus=='expired')? 'ПРОДОВЖИТИ МОДУЛЬ />':'<?php echo Yii::t('module', '0279'); ?>'">
             </div>
             <div  class="startCourse">
-                <a ng-if="module.canPayCourse" id="paymentButtonCourse"
-                   ng-click="payService('payCourse',module.idCourse,'<?php echo Yii::app()->user->isGuest ?>')">
-                    <?php echo Yii::t('course', '0328'); ?>
-                </a>
+                <input ng-if="module.canPayCourse && !((courseStatus=='payable') || (courseStatus=='paid') && (courseStatus!='no_agreement'))"
+                       type="button" ng-cloak
+                       ng-class="{'expired': (courseStatus=='expired'), 'warning': (courseStatus=='delay'), 'paymentButton' : true}"
+                       ng-click="payService('payCourse',module.idCourse,'<?php echo Yii::app()->user->isGuest ?>')"
+                       ng-value="(courseStatus=='delay' || courseStatus=='expired')? 'ПРОДОВЖИТИ КУРС />':'<?php echo Yii::t('course', '0328'); ?>'">
             </div>
         </div>
         <?php $this->renderPartial('_lectures', array('module' => $post,"idCourse" => $idCourse)); ?>

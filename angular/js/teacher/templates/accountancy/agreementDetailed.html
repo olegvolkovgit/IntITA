@@ -9,8 +9,23 @@
         <td>{{agreementData.number}}</td>
     </tr>
     <tr>
-        <th>Service:</th>
+        <th>Сервіс:</th>
         <td>{{agreementData.service_id.description}}</td>
+    </tr>
+    <tr ng-if="agreementData">
+        <th>Статус:</th>
+        <td ng-class="{'bg-warning': (agreementData.currentDate>=(agreementData.payment_date  | shortDate:'yyyy-MM-dd') && agreementData.currentDate<=(agreementData.expiration_date  | shortDate:'yyyy-MM-dd')),
+        'bg-danger': (agreementData.currentDate>(agreementData.expiration_date  | shortDate:'yyyy-MM-dd') || agreementData.cancel_date),
+        'bg-success': (agreementData.summa==agreementData.paidAmount)}">
+            <span ng-if="agreementData.cancel_date">Скасовано</span>
+            <div ng-if="!agreementData.cancel_date">
+                <span ng-if="(agreementData.summa==agreementData.paidAmount)">Проплачено</span>
+                <div ng-if="!(agreementData.summa==agreementData.paidAmount)">
+                    <span ng-if="(agreementData.currentDate>=(agreementData.payment_date  | shortDate:'yyyy-MM-dd') && agreementData.currentDate<=(agreementData.expiration_date  | shortDate:'yyyy-MM-dd'))">Збігає термін проплати</span>
+                    <span ng-if="(agreementData.currentDate>(agreementData.expiration_date  | shortDate:'yyyy-MM-dd'))">Термін проплати збіг</span>
+                </div>
+            </div>
+        </td>
     </tr>
     <tr>
         <th>Дата створення:</th>
@@ -18,11 +33,26 @@
     </tr>
     <tr>
         <th>Користувач:</th>
-        <td>{{agreementData.user_id.fullName}}</td>
+        <td>
+            <a ng-href="#/users/profile/{{agreementData.user_id.user_id}}">{{agreementData.user_id.fullName}} {{agreementData.user.email}}</a>
+        </td>
     </tr>
     <tr>
         <th>Сума:</th>
         <td>{{agreementData.summa}}</td>
+    </tr>
+    <tr>
+        <th>Сплачено:</th>
+        <td>{{agreementData.paidAmount}}</td>
+    </tr>
+    <tr>
+        <th>Наступна проплата до:</th>
+        <td>{{agreementData.payment_date  | shortDate:'dd.MM.yyyy'}}</td>
+
+    </tr>
+    <tr>
+        <th>Крайній термін сплати</th>
+        <td>{{agreementData.expiration_date  | shortDate:'dd.MM.yyyy'}}</td>
     </tr>
     <tr>
         <th>Підтверджено користувачем:</th>
@@ -46,11 +76,19 @@
     </tr>
     <tr>
         <th>Схема оплати:</th>
-        <td>{{agreementData.payment_schema.name}}</td>
+        <td>{{agreementData.paymentSchema.title_ua}}</td>
     </tr>
     <tr>
         <th>Причина закриття:</th>
         <td>{{agreementData.cancel_reason_type}}</td>
+    </tr>
+    <tr data-title="'Управління'" style="text-align: center">
+        <th>Скасувати:</th>
+        <td>
+            <a href="" ng-if="!agreementData.cancel_date && !agreementData.paidAmount" ng-click="cancel(agreementData.id)">
+                <i class="fa fa-trash fa-fw"></i>
+            </a>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -22,6 +22,11 @@ class InvoicesController extends TeacherCabinetController
     public function actionGetInvoices() {
         $requestParams = $_GET;
         $ngTable = new NgTableAdapter('Invoice', $requestParams);
+
+        $criteria =  new CDbCriteria();
+        $criteria->order = 't.id ASC';
+        $ngTable->mergeCriteriaWith($criteria);
+
         $result = $ngTable->getData();
         echo json_encode($result);
     }

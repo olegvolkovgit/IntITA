@@ -4,8 +4,9 @@
 
 angular
     .module('teacherApp')
-    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams','lodash','$filter',
-        function ($scope, agreements, paymentSchema, NgTableParams, _,$filter) {
+    .controller('agreementsCtrl', ['$scope', 'agreementsService', 'paymentSchemaService', 'NgTableParams','lodash',
+        function ($scope, agreements, paymentSchema, NgTableParams, _) {
+            $scope.changePageHeader('Список договорів');
             $scope.currentDate = currentDate;
             $scope.agreementsTableParams = new NgTableParams({sorting: { create_date: "desc" } }, {
                 getData: function (params) {
@@ -74,14 +75,17 @@ angular
         }])
 
     .controller('agreementDetailCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.changePageHeader('Договір та його рахунки');
         $scope.agreementId = $stateParams.agreementId;
     }])
 
     .controller('invoiceDetailCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.changePageHeader('Рахунок');
         $scope.invoiceId = $stateParams.invoiceId;
     }])
 
     .controller('invoicesCtrl', ['$scope', 'invoicesService', 'NgTableParams', function ($scope, invoicesService, NgTableParams) {
+        $scope.changePageHeader('Рахунки');
     }])
 
     .controller('operationCtrl', ['$scope', '$state', function ($scope, $state) {
@@ -795,8 +799,8 @@ angular
         $scope.startDateOptions = new ExternalPaymentDateOptions();
     })
 
-    .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService',
-        function ($scope, $stateParams, NgTableParams,paymentSchemaService) {
+    .controller('paymentsSchemaTemplateTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService','$http',
+        function ($scope, $stateParams, NgTableParams,paymentSchemaService,$http) {
             $scope.changePageHeader('Шаблони схем');
 
             $scope.schemesTemplateTableParams = new NgTableParams({}, {
@@ -810,6 +814,22 @@ angular
                         });
                 }
             });
+
+            $scope.changePrintPromotion= function(service, id) {
+                $http({
+                    method: 'POST',
+                    url: basePath+'/_teacher/_accountant/paymentSchema/changePrintPromotion',
+                    data: $jq.param({
+                        service:service,
+                        id: id,
+                    }),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function successCallback() {
+                    $scope.schemesTemplateTableParams.reload();
+                }, function errorCallback() {
+                    bootbox.alert("Виникла помилка");
+                });
+            }
     }])
 
     .controller('paymentsSchemesTableCtrl', ['$scope', 'NgTableParams','paymentSchemaService','$http',
@@ -886,7 +906,12 @@ angular
                 });
                 $scope.template={
                     id:response.data.id,
-                    name:response.data.template_name,
+                    name_ua:response.data.template_name_ua,
+                    name_ru:response.data.template_name_ru,
+                    name_en:response.data.template_name_en,
+                    description_ua:response.data.description_ua,
+                    description_ru:response.data.description_ru,
+                    description_en:response.data.description_en,
                     schemes:$scope.schemes,
                 };
             }, function errorCallback() {

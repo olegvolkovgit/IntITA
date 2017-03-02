@@ -10,12 +10,14 @@
  * @var $countNewMessages int
  */
 ?>
+<?php date_default_timezone_set(Config::getServerTimezone()); ?>
 <script>
     user = '<?=Yii::app()->user->getId()?>';
     scenario = '<?=$scenario?>';
     adminEmail = '<?=Config::getAdminEmail();?>';
     <!-- kludge -->
     currentLanguage = '<?php echo (Yii::app()->session['lg'] == NULL) ? 'ua' : Yii::app()->session['lg'];?>';
+    currentDate='<?php echo date("Y-m-d");?>';
 </script>
 
 

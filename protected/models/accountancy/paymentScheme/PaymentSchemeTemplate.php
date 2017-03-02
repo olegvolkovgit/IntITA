@@ -5,7 +5,16 @@
  *
  * The followings are the available columns in table 'acc_payment_schema_template':
  * @property integer $id
- * @property integer $template_name
+ * @property string $template_name_ua
+ * @property string $template_name_ru
+ * @property string $template_name_en
+ * @property string $description_ua
+ * @property string $description_ru
+ * @property string $description_en
+ * @property boolean $printPromotionForCourse
+ * @property boolean $printPromotionForModule
+ * @property string $startDate
+ * @property string $endDate
  */
 class PaymentSchemeTemplate extends CActiveRecord {
 
@@ -23,10 +32,13 @@ class PaymentSchemeTemplate extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('template_name', 'required'),
+            array('template_name_ua', 'required'),
             // The following rule is used by search().
+            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en
+            printPromotionForCourse,printPromotionForModule, startDate, endDate', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, template_name', 'safe', 'on' => 'search'),
+            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en
+            printPromotionForCourse,printPromotionForModule, startDate, endDate', 'safe', 'on' => 'search'),
         );
     }
 
@@ -37,7 +49,7 @@ class PaymentSchemeTemplate extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'schemes' => array(self::HAS_MANY, 'TemplateSchemes', 'id_template'),
+            'schemes' => array(self::HAS_MANY, 'TemplateSchemes', 'id_template', 'order' => 'schemes.pay_count'),
         );
     }
 
@@ -47,7 +59,16 @@ class PaymentSchemeTemplate extends CActiveRecord {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'template_name' => 'назва шаблону',
+            'template_name_ua' => 'назва шаблону ua',
+            'template_name_ru' => 'назва шаблону ru',
+            'template_name_en' => 'назва шаблону en',
+            'description_ua' => 'опис ua',
+            'description_ru' => 'опис ru',
+            'description_en' => 'опис en',
+            'printPromotionForCourse' => 'відображати для курсів',
+            'printPromotionForModule' => 'відображати для модулів',
+            'startDate'=>'початок дії акційного шаблону схем, по замовчуванню',
+            'endDate'=>'закінчення дії акційного шаблону схем, по замовчуванню',
         );
     }
 
@@ -69,8 +90,17 @@ class PaymentSchemeTemplate extends CActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
-        $criteria->compare('template_name', $this->template_name, true);
-
+        $criteria->compare('template_name_ua', $this->template_name_ua, true);
+        $criteria->compare('template_name_ru', $this->template_name_ru, true);
+        $criteria->compare('template_name_en', $this->template_name_en, true);
+        $criteria->compare('description_ua', $this->description_ua, true);
+        $criteria->compare('description_ru', $this->description_ru, true);
+        $criteria->compare('description_en', $this->description_en, true);
+        $criteria->compare('printPromotionForCourse', $this->printPromotionForCourse, true);
+        $criteria->compare('printPromotionForModule', $this->printPromotionForModule, true);
+        $criteria->compare('startDate', $this->startDate, true);
+        $criteria->compare('endDate', $this->endDate, true);
+        
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
@@ -84,5 +114,31 @@ class PaymentSchemeTemplate extends CActiveRecord {
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
+    }
+
+    public function getSchemaCalculator(EducationForm $educationForm) {
+        $schemes= array();
+
+        $param = Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
+        foreach ($this->schemes as $scheme){
+            $schema = new AdvancePaymentSchema($scheme->discount, $scheme->loan, $scheme->pay_count, $educationForm, $scheme->id, $scheme->schemeName->$param);
+            array_push($schemes,$schema);
+        }
+
+        return $schemes;
+    }
+
+    public function getName()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "template_name_" . $lang;
+        return CHtml::encode($this->$title)?CHtml::encode($this->$title):CHtml::encode($this->template_name_ua);
+    }
+
+    public function getDescription()
+    {
+        $lang = (Yii::app()->session['lg']) ? Yii::app()->session['lg'] : 'ua';
+        $title = "description_" . $lang;
+        return CHtml::encode($this->$title)?CHtml::encode($this->$title):CHtml::encode($this->description_ua);
     }
 }

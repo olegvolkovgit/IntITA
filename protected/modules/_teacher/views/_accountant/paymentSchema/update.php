@@ -6,9 +6,25 @@
         <div class="formMargin">
             <div class="col-lg-8">
                 <div class="form-group">
-                    <label>Назва шаблону схеми*</label>
-                    <input name="name" class="form-control" ng-model="template.name" required maxlength="64" size="50">
+                    <label>Назва шаблону схеми ua*</label>
+                    <input name="name_ua" class="form-control" ng-model="template.name_ua" required maxlength="64" size="50">
+                    <label>Назва шаблону схеми ru</label>
+                    <input name="name_ru" class="form-control" ng-model="template.name_ru" maxlength="64" size="50">
+                    <label>Назва шаблону схеми en</label>
+                    <input name="name_en" class="form-control" ng-model="template.name_en" maxlength="64" size="50">
                 </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <label>Опис ua</label>
+                    <input name="description_ua" class="form-control" ng-model="template.description_ua" >
+                    <label>Опис ru</label>
+                    <input name="description_ru" class="form-control" ng-model="template.description_ru">
+                    <label>Опис en</label>
+                    <input name="description_en" class="form-control" ng-model="template.description_en">
+                </div>
+                *Опис буде відображатися для користувачів, якщо шаблон встановлений як акційна схема проплат
+                (умови застосування схем; перелік документів, потрібних для активації даних схем і т.д.)
             </div>
             <div>
                 <table class="table">
@@ -62,7 +78,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" ng-click="updateTemplate(template)" ng-disabled="!template.name || !template.schemes.length">
+                <button type="submit" class="btn btn-primary" ng-click="updateTemplate(template)" ng-disabled="!template.name_ua || !template.schemes.length">
                     Зберегти
                 </button>
                 <a type="button" class="btn btn-default" ng-click='back()'>

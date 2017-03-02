@@ -77,7 +77,12 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
         $templateModel= new PaymentSchemeTemplate();
-        $templateModel->template_name=$template->name;
+        $templateModel->template_name_ua=$template->name_ua;
+        $templateModel->template_name_ru=isset($template->name_ru)?$template->name_ru:null;
+        $templateModel->template_name_en=isset($template->name_en)?$template->name_en:null;
+        $templateModel->description_ua=isset($template->description_ua)?$template->description_ua:null;
+        $templateModel->description_ru=isset($template->description_ru)?$template->description_ru:null;
+        $templateModel->description_en=isset($template->description_en)?$template->description_en:null;
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
@@ -107,7 +112,12 @@ class PaymentSchemaController extends TeacherCabinetController
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
         $templateModel= PaymentSchemeTemplate::model()->findByPk($template->id);
-        $templateModel->template_name=$template->name;
+        $templateModel->template_name_ua=$template->name_ua;
+        $templateModel->template_name_ru=isset($template->name_ru)?$template->name_ru:null;
+        $templateModel->template_name_en=isset($template->name_en)?$template->name_en:null;
+        $templateModel->description_ua=isset($template->description_ua)?$template->description_ua:null;
+        $templateModel->description_ru=isset($template->description_ru)?$template->description_ru:null;
+        $templateModel->description_en=isset($template->description_en)?$template->description_en:null;
         $templateModel->update();
         $transaction = Yii::app()->db->beginTransaction();
 
@@ -209,7 +219,7 @@ class PaymentSchemaController extends TeacherCabinetController
         $schemesTemplate=PaymentSchemeTemplate::model()->with(PaymentSchemeTemplate::model()->relations())->findByPk(Yii::app()->request->getParam('templateId'));
         $result=ActiveRecordToJSON::toAssocArray($schemesTemplate);
         foreach ($result['schemes'] as $key=>$scheme){
-            $result['schemes'][$key]['name']=$schemesTemplate->schemes[$key]->schemeName->course_title_ua;
+            $result['schemes'][$key]['name']=$schemesTemplate->schemes[$key]->schemeName->title_ua;
         }
         echo json_encode($result);
     }
@@ -325,5 +335,23 @@ class PaymentSchemaController extends TeacherCabinetController
             $result = ['message' => 'error', 'reason' => $error->getMessage()];
         }
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionChangePrintPromotion()
+    {
+        $id=Yii::app()->request->getParam('id');
+        $service=Yii::app()->request->getParam('service');
+        $paymentSchemeTemplate=PaymentSchemeTemplate::model()->findByPk($id);
+        switch ($service){
+            case 'module':
+                $paymentSchemeTemplate->printPromotionForModule=!$paymentSchemeTemplate->printPromotionForModule;
+                $paymentSchemeTemplate->update();
+                break;
+            case 'course':
+                $paymentSchemeTemplate->printPromotionForCourse=!$paymentSchemeTemplate->printPromotionForCourse;
+                $paymentSchemeTemplate->update();
+                break;
+        }
+
     }
 }
