@@ -34,6 +34,20 @@ class CourseController extends Controller
 
     }
 
+
+    public function actionSchemes($id)
+    {
+        $model = Course::model()->findByPk($id);
+        if ($model->cancelled == Course::DELETED) {
+            throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
+        }
+        
+        $this->render('schemes', array(
+            'model' => $model,
+        ));
+
+    }
+    
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -215,7 +229,7 @@ class CourseController extends Controller
         echo CJSON::encode($data);
     }
 
-    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE) {
+    public function actionGetPaymentSchemas($service, $contentId, $educationFormId=EducationForm::ONLINE, $templateId=null) {
         $educationForm = EducationForm::model()->findByPk($educationFormId);
         switch ($service){
             case 'module':
@@ -230,11 +244,16 @@ class CourseController extends Controller
         }
   
         $result=[];
-        $result['schemes']=$service->getPaymentSchemas($educationForm);
+        if($templateId){
+            $result['schemes']=$service->getPaymentSchemasByTemplate($educationForm, $templateId);
+        }else{
+            $result['schemes']=$service->getPaymentSchemas($educationForm);
+        }
         $result['icons']['discountIco']=StaticFilesHelper::createPath('image', 'course', 'pig.png');
         $result['translates']['price']=Yii::t('courses', '0147');
         $result['translates']['free']=Yii::t('module', '0421');
         $result['translates']['inCourse']=Yii::t('module', '0223');
+        $result['translates']['loan']='кредит';
 
         $this->renderPartial('//ajax/json', ['statusCode' => 200, 'body' => json_encode($result)]);
     }
@@ -243,6 +262,13 @@ class CourseController extends Controller
         $models = TypeAheadHelper::getTypeahead($query, 'Course', ['title_ua', 'title_ru', 'title_en']);
         $array = ActiveRecordToJSON::toAssocArray($models);
         $this->renderPartial('//ajax/json', ['body' => json_encode($array)]);
+    }
+
+    public function actionGetPaymentServiceStatus()
+    {
+        $id=Yii::app()->request->getPost('id');
+        $service=Yii::app()->request->getPost('service');
+        echo UserAgreements::paymentServiceStatus(Yii::app()->user->getId(), $id, $service);
     }
 
 }

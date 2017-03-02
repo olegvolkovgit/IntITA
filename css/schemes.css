@@ -1,3 +1,21 @@
+.mainContent {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 95%;
+    border-top: 1px solid #d8d8d8;
+    color: #666666;
+    overflow: hidden;
+}
+div.courseShortInfoTable {
+    vertical-align: top;
+    margin-top: 10px;
+    float: left;
+    width: 70%;
+    max-width: 500px;
+}
+.courseShortInfoTable, .courseImg {
+    display: table-cell;
+}
 .paymentsListEven{
     height: 75px;
     background: #ececec;

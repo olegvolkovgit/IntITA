@@ -211,6 +211,7 @@ function invoicesByAgreement($scope, NgTableParams, $stateParams, studentService
     
     $scope.invoicesTable = new NgTableParams({}, {
         getData: function (params) {
+            $scope.currentDate = currentDate;
             $scope.params=params.url();
             $scope.params.id=$stateParams.agreementId?$stateParams.agreementId:$scope.agreementId;
             return studentService

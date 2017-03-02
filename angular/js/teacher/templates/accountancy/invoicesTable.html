@@ -1,16 +1,22 @@
 <table ng-table="invoiceTableParams" class="table table-bordered table-striped table-condensed">
-    <tr ng-repeat="row in $data track by row.id">
+    <tr ng-repeat="row in $data track by row.id"
+        ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
+                    'bg-danger': (currentDate>(row.expiration_date  | shortDate:'yyyy-MM-dd')),
+                    'bg-success': (row.summa==row.paidAmount)}">
         <td data-title="'Номер рахунку'" filter="{'number': 'text'}" sortable="'number'">
             <a href="#/accountant/invoice/{{row.id}}">{{row.number}}</a>
         </td>
         <td data-title="'Договір'" filter="{'agreement.number': 'text'}" sortable="'agreement.number'">
             <a href="#/accountant/agreement/{{row.agreement.id}}">{{row.agreement.number}}</a>
         </td>
+        <td data-title="'Користувач'" filter="{'userCreated.fullName': 'text'}" sortable="'userCreated.fullName'">
+            <a ng-href="#/users/profile/{{row.user_created}}">{{row.userCreated.fullName}} {{row.userCreated.email}}</a>
+        </td>
         <td data-title="'Дата заведення'" filter="{'date_created': 'text'}" sortable="'date_created'">{{row.date_created}}</td>
-        <td data-title="'Дата сплати'" filter="{'payment_date': 'text'}" sortable="'payment_date'">{{row.payment_date}}</td>
-        <td data-title="'Користувач'" filter="{'userCreated.fullName': 'text'}" sortable="'userCreated.fullName'">{{row.userCreated.fullName}}</td>
-        <td data-title="'Оплатити до'" filter="{'payment_date': 'text'}" sortable="'payment_date'">{{row.payment_date}}</td>
-        <td data-title="'Дійсний до'" filter="{'pay_date': 'text'}" sortable="'pay_date'">{{row.pay_date}}</td>
-        <td data-title="'Відмінив'" filter="{'userCancelled.fullName': 'text'}" sortable="'number'">{{row.userCancelled.fullName}}</td>
+        <td data-title="'Сума до сплати'" filter="{summa: 'text'}" sortable="'summa'">{{row.summa}}</td>
+        <td data-title="'Сплачено'">{{row.paidAmount}}</td>
+        <td data-title="'Наступна проплата до'" filter="{'payment_date': 'text'}" sortable="'payment_date'">{{row.payment_date}}</td>
+        <td data-title="'Крайній термін сплати'" filter="{'expiration_date': 'text'}" sortable="'expiration_date'">{{row.expiration_date}}</td>
+        <td data-title="'Дата останньої проплати'" filter="{'pay_date': 'text'}" sortable="'pay_date'">{{row.pay_date}}</td>
     </tr>
 </table>

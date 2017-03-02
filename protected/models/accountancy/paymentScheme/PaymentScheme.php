@@ -210,12 +210,7 @@ class PaymentScheme extends CActiveRecord {
     }
 
     public static function getPaymentName($agreement) {
-        if(isset($agreement->service->getConcreteServiceModel()->module_id)){
-            $service='module';
-        }else{
-            $service='course';
-        }
-        $param=Yii::app()->session["lg"]?$service."_title_".Yii::app()->session["lg"]:$service."_title_ua";
+        $param=Yii::app()->session["lg"]?"title_".Yii::app()->session["lg"]:"title_ua";
         $payCount=TemplateSchemes::model()->findByPk($agreement->payment_schema)->pay_count;
         return SchemesName::model()->findByPk($payCount)->$param;
     }

@@ -31,6 +31,19 @@ class ModuleController extends Controller
         ));
     }
 
+    public function actionSchemes($id)
+    {
+        $model = Module::model()->findByPk($id);
+        if ($model->cancelled == Module::DELETED) {
+            throw new \application\components\Exceptions\IntItaException('410', Yii::t('error', '0786'));
+        }
+
+        $this->render('schemes', array(
+            'model' => $model,
+        ));
+
+    }
+
     public function actionModuleData()
     {
         $data=array();

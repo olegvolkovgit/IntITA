@@ -2,6 +2,11 @@
 /* @var $agreement UserAgreements */
 ?>
 <div class="titleAgreement">
+    <?php if($agreement->cancel_date){ ?>
+    <em style="font-weight: bold;color:red">
+        Договір скасований, проплати здійснені по договру не є актуальними
+    </em>
+    <?php } ?>
     <h4>Рахунки до сплати за договором №<?php echo $agreement->number; ?> від
         <?= date("d.m.Y", strtotime($agreement->create_date));?></h4>
     <h4>
@@ -24,18 +29,29 @@
     <div class="panel panel-default" ng-controller="invoicesByAgreement">
         <div class="panel-body" >
             <table ng-table="invoicesTable" class="table table-striped table-bordered table-hover">
-                <tr ng-repeat="row in $data track by $index">
+                <tr ng-repeat="row in $data track by $index"
+                    ng-class="{'bg-warning': (currentDate>=(row.payment_date  | shortDate:'yyyy-MM-dd') && currentDate<=(row.expiration_date  | shortDate:'yyyy-MM-dd')),
+                    'bg-danger': (currentDate>(row.expiration_date  | shortDate:'yyyy-MM-dd')),
+                    'bg-success': (row.summa==row.paidAmount)}">
                     <td data-title="'Рахунок'">
-                        <a href="{{invoiceUrl}}{{row.id}}">Рахунок № {{row.number}}</a>
+                        <span ng-if="(row.date_cancelled || row.agreement.cancel_date)">Рахунок № {{row.number}}</span>
+                        <a ng-if="!(row.date_cancelled || row.agreement.cancel_date)" href="{{invoiceUrl}}{{row.id}}">Рахунок № {{row.number}}</a>
                     </td>
                     <td data-title="'Загальна сума, грн.'">{{row.summa}}</td>
                     <td data-title="'Сплачено, грн.'">{{row.paidAmount}}</td>
-                    <td data-title="'Сплатити до'">{{row.payment_date}}</td>
-                    <td data-title="'Надрукувати'">
-                        <a href="{{invoiceUrl}}{{row.id}}/?nolayout=1">переглянути</a>
+                    <td data-title="'Сплатити до'">{{row.payment_date | shortDate:'dd.MM.yyyy'}}</td>
+                    <td data-title="'Крайній термін'">{{row.expiration_date | shortDate:'dd.MM.yyyy'}}</td>
+                    <td data-title="'Статус'">{{(row.date_cancelled || row.agreement.cancel_date)?'скасований':'актуальний'}}</td>
+                    <td data-title="'Надрукувати'" >
+                        <a ng-if="!(row.date_cancelled || row.agreement.cancel_date)" href="{{invoiceUrl}}{{row.id}}/?nolayout=1">переглянути</a>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
+    <em style="color:red">Доступ до контента надається після повного погашення першого рахунку по договору і діє до крайнього терміна оплати наступного рахунку, якщо такий є.
+        Якщо наступний рахунок не погашений повністю до крайнього терміну оплати, доступ до контента скасовується до повної проплати рахунку</em><br>
+    <span style="background-color: rgba(92,184,92,.6);">Проплачений повністю</span><br>
+    <span style="background-color: #f0b370">Збігає термін проплати</span><br>
+    <span style="background-color: rgba(217,82,82,.6)">Термін проплати збіг</span><br>
 </div>

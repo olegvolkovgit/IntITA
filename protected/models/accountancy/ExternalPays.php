@@ -10,7 +10,7 @@
  * @property string $sourceId
  * @property integer $userId
  * @property string $documentDate
- * @property string $amount
+ * @property float $amount
  * @property string $documentPurpose
  * @property string $documentNumber
  * @property string $comment
@@ -147,6 +147,6 @@ class ExternalPays extends CActiveRecord
 		foreach ($internalPays as $pay){
 			$sum=$sum+$pay->summa;
 		}
-		return $this->amount-$sum;
+		return round(floatval($this->amount)-$sum,2);
 	}
 }

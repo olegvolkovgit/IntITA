@@ -18,6 +18,8 @@
  */
 class ModuleService extends AbstractIntITAService
 {
+    const MODULE_SERVICE='module';
+    
     public $module;
     public $service;
 
@@ -224,5 +226,9 @@ class ModuleService extends AbstractIntITAService
         }
 
         return $result;
+    }
+
+    public function getServiceType(){
+        return ModuleService::MODULE_SERVICE;
     }
 }

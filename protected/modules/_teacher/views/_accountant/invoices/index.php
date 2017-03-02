@@ -8,5 +8,8 @@
         <div class="panel-body">
             <invoice-table></invoice-table>
         </div>
+        <a type="button" class="btn btn-default" ng-click='back()'>
+            Назад
+        </a>
     </div>
 </div>
