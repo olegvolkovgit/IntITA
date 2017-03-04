@@ -270,5 +270,27 @@ class CourseController extends Controller
         $service=Yii::app()->request->getPost('service');
         echo UserAgreements::paymentServiceStatus(Yii::app()->user->getId(), $id, $service);
     }
-
+    
+    public function actionGetPromotionSchemes()
+    {
+        $data=array();
+        $id=Yii::app()->request->getPost('id');
+        $service=Yii::app()->request->getPost('service');
+        if($service=='course'){
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'courseId='.$id.' or serviceType=1';
+        }else{
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'moduleId='.$id.' or serviceType=2';
+        }
+         $criteria->addCondition('((showDate IS NOT NULL && NOW()>=showDate && endDate IS NOT NULL && NOW()<=endDate) or 
+            (showDate IS NULL && endDate IS NULL) or (showDate IS NOT NULL && NOW()>=showDate && endDate IS NULL))');
+        $promotions=PromotionPaymentScheme::model()->findAll($criteria);
+        foreach ($promotions as $key=>$promotion){
+            $data[$key]['promotion']=$promotion;
+            $data[$key]['template']['name']=$promotion->schemesTemplate->getName();
+            $data[$key]['template']['description']=$promotion->schemesTemplate->getDescription();
+        }
+        echo CJSON::encode($data);
+    }
 }

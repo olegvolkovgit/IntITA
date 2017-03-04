@@ -38,6 +38,16 @@
             <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів схем</a>
         </li>
         <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion">
+                Застосування акцій до сервісів
+            </a>
+        </li>
+        <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotionlist">
+                Список застосованих акцій
+            </a>
+        </li>
+        <li>
             <a href="#/accountant/documents">Копії документів</a>
         </li>
     </ul>

@@ -95,6 +95,16 @@
                     <li>
                         <a href="#/accountant/paymentSchemas/schemas/appliedTemplates">Список застосованних шаблонів схем</a>
                     </li>
+                    <li>
+                        <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion">
+                            Застосування акцій до сервісів
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotionlist">
+                            Список застосованих акцій
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="panel-footer">

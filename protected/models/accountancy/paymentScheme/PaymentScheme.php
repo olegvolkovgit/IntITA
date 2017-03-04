@@ -8,7 +8,7 @@
  * @property integer $id_template
  * @property integer $userId
  * @property integer $serviceId
- * @property integer $payCount
+ * @property integer $serviceType
  * @property string $startDate
  * @property string $endDate
  */
@@ -53,9 +53,9 @@ class PaymentScheme extends CActiveRecord {
             array('id_template', 'required'),
             array('userId, serviceId, id_template', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
-            array('id, userId, serviceId, id_template, endDate, startDate', 'safe'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, userId, serviceId, id_template, endDate, startDate', 'safe', 'on' => 'search'),
+            array('id, userId, serviceId, id_template, endDate, startDate, serviceType', 'safe', 'on' => 'search'),
         );
     }
 
@@ -92,6 +92,7 @@ class PaymentScheme extends CActiveRecord {
             'serviceId' => 'Id сервіса',
             'endDate' => 'Закінчення дії шаблону схем',
             'startDate' => 'Початок дії шаблону схем',
+            'serviceType' => 'Тип сервісу, на який застосовується шаблон'
         );
     }
 
@@ -118,6 +119,7 @@ class PaymentScheme extends CActiveRecord {
         $criteria->compare('serviceId', $this->serviceId, true);
         $criteria->compare('startDate', $this->startDate, true);
         $criteria->compare('endDate', $this->endDate);
+        $criteria->compare('serviceType', $this->serviceType);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

@@ -48,6 +48,9 @@ angular
                     servicesAppliedTemplatesList : {
                         url: url + '/getServicesAppliedTemplatesNgTable'
                     },
+                    promotionPaymentsSchemaList : {
+                        url: url + '/getPromotionAppliedTemplatesNgTable'
+                    },
                     usersAppliedTemplatesList : {
                         url: url + '/getUsersAppliedTemplatesNgTable'
                     },
@@ -55,6 +58,18 @@ angular
                         method: 'POST',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
                         url: url + '/applySchemesTemplate',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    applyPromotionTemplate : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/applyPromotionSchemesForService',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    updatePromotionTemplate : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/updatePromotionSchemesForService',
                         transformRequest : transformRequest.bind(null)
                     },
                 });

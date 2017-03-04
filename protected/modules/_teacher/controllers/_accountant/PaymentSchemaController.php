@@ -73,6 +73,24 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('create',array('scenario'=>'create'),false,true);
     }
 
+    public function actionDisplayPromotionSchemes()
+    {
+        $this->renderPartial('displayPromotionSchemesView',array('scenario'=>'create'),false,true);
+    }
+
+    public function actionDisplayPromotionSchemesList()
+    {
+        $this->renderPartial('displayPromotionSchemesList',array(),false,true);
+    }
+
+    public function actionPromotionUpdate($id)
+    {
+        $promotion = PromotionPaymentScheme::model()->findByPk($id);
+        if(!$promotion)
+            throw new \application\components\Exceptions\IntItaException('404', 'Данного акційного предложення не існує');
+        $this->renderPartial('displayPromotionSchemesView',array('scenario'=>'update'),false,true);
+    }
+    
     public function actionCreateSchemeTemplate()
     {
         $template=json_decode(Yii::app()->request->getParam('template'));
@@ -200,6 +218,15 @@ class PaymentSchemaController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionGetPromotionAppliedTemplatesNgTable()
+    {
+        $requestParams = $_GET;
+        $ngTable = new NgTableAdapter('PromotionPaymentScheme', $requestParams);
+        $result = $ngTable->getData();
+
+        echo json_encode($result);
+    }
+    
     public function actionGetUsersAppliedTemplatesNgTable()
     {
         $requestParams = $_GET;
@@ -274,6 +301,13 @@ class PaymentSchemaController extends TeacherCabinetController
         }
     }
 
+    public function actionCancelPromotionPaymentScheme()
+    {
+        $id=Yii::app()->request->getParam('id');
+        $promotionPaymentScheme=PromotionPaymentScheme::model()->findByPk($id);
+        $promotionPaymentScheme->delete();
+    }
+
     public function actionGetSchemesTemplatesList()
     {
         $schemesTemplates=PaymentSchemeTemplate::model()->with()->findAll();
@@ -337,21 +371,66 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
 
-    public function actionChangePrintPromotion()
-    {
-        $id=Yii::app()->request->getParam('id');
-        $service=Yii::app()->request->getParam('service');
-        $paymentSchemeTemplate=PaymentSchemeTemplate::model()->findByPk($id);
-        switch ($service){
-            case 'module':
-                $paymentSchemeTemplate->printPromotionForModule=!$paymentSchemeTemplate->printPromotionForModule;
-                $paymentSchemeTemplate->update();
-                break;
-            case 'course':
-                $paymentSchemeTemplate->printPromotionForCourse=!$paymentSchemeTemplate->printPromotionForCourse;
-                $paymentSchemeTemplate->update();
-                break;
-        }
+    public function actionApplyPromotionSchemesForService () {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_filter($_POST);
+            $params['id_template'] = $params['template']['id'];
+            unset($params['template']);
 
+            if(isset($params['courseId']) && isset($params['moduleId']))
+                unset($params['moduleId']);
+            if((isset($params['courseId']) || isset($params['moduleId'])) && isset($params['serviceType']))
+                unset($params['serviceType']);
+
+            $promotion = new PromotionPaymentScheme();
+            $promotion->setAttributes($params);
+            $promotion->save();
+
+            if (count($promotion->getErrors())) {
+                throw new Exception(json_encode($promotion->getErrors()));
+            }
+
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
     }
+
+    public function actionUpdatePromotionSchemesForService () {
+        $result = ['message' => 'OK'];
+        $statusCode = 201;
+        try {
+            $params = array_filter($_POST);
+            $params['id_template'] = $params['template']['id'];
+            unset($params['template']);
+
+            if(isset($params['courseId']) && isset($params['moduleId']))
+                unset($params['moduleId']);
+            if((isset($params['courseId']) || isset($params['moduleId'])) && isset($params['serviceType']))
+                unset($params['serviceType']);
+
+            $promotion = PromotionPaymentScheme::model()->findByPk($params['id']);
+            $promotion->setAttributes($params);
+            $promotion->update();
+
+            if (count($promotion->getErrors())) {
+                throw new Exception(json_encode($promotion->getErrors()));
+            }
+
+        } catch (Exception $error) {
+            $statusCode = 500;
+            $result = ['message' => 'error', 'reason' => $error->getMessage()];
+        }
+        $this->renderPartial('//ajax/json', ['statusCode' => $statusCode, 'body' => json_encode($result)]);
+    }
+
+    public function actionGetPromotionSchemeData() {
+        $id=Yii::app()->request->getParam('id');
+        $model = PromotionPaymentScheme::model()->findByPk($id);
+        echo CJSON::encode($model);
+    }
+
 }
