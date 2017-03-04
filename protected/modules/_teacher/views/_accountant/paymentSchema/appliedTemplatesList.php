@@ -16,6 +16,16 @@
                     Застосувати шаблон схем
                 </a>
             </li>
+            <li>
+                <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion" class="btn btn-primary">
+                    Застосування акцій до сервісів
+                </a>
+            </li>
+            <li>
+                <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotionlist" class="btn btn-primary">
+                    Список застосованих акцій
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <uib-tabset>

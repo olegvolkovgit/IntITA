@@ -15,6 +15,16 @@
                 Список застосованих шаблонів
             </a>
         </li>
+        <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion" class="btn btn-primary">
+                Застосування акцій до сервісів
+            </a>
+        </li>
+        <li>
+            <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotionlist" class="btn btn-primary">
+                Список застосованих акцій
+            </a>
+        </li>
     </ul>
     <div class="panel panel-default">
         <div class="panel-body">
@@ -26,14 +36,6 @@
                         </td>
                         <td data-title="'Назва шаблону'">
                             <a ng-href="#/accountant/paymentSchemas/schemas/template/{{row.id}}">{{row.template_name_ua}}</a>
-                        </td>
-                        <td data-title="'Відображати для курсів(як спец.пропозиція)'">
-                            <a ng-class="{'bg-success': (row.printPromotionForCourse==1)}"
-                               ng-click="changePrintPromotion('course',row.id)">{{row.printPromotionForCourse==1  ? "приховати" : "показати"}}</a>
-                        </td>
-                        <td data-title="'Відображати для модулів(як спец.пропозиція)'">
-                            <a ng-class="{'bg-success': (row.printPromotionForModule==1)}"
-                               ng-click="changePrintPromotion('module',row.id)">{{row.printPromotionForModule==1  ? "приховати" : "показати"}}</a>
                         </td>
                         <td data-title="'Опис, умови'">
                            {{row.description_ua}}

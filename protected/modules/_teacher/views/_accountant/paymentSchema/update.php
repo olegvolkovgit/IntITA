@@ -16,12 +16,12 @@
             </div>
             <div class="col-lg-8">
                 <div class="form-group">
-                    <label>Опис ua</label>
-                    <input name="description_ua" class="form-control" ng-model="template.description_ua" >
-                    <label>Опис ru</label>
-                    <input name="description_ru" class="form-control" ng-model="template.description_ru">
-                    <label>Опис en</label>
-                    <input name="description_en" class="form-control" ng-model="template.description_en">
+                    <label>Опис, умови, перелік документів (ua)</label>
+                    <textarea name="description_ua" class="form-control" ng-model="template.description_ua" style="resize:none"></textarea>
+                    <label>Опис, умови, перелік документів (ru)</label>
+                    <textarea name="description_ru" class="form-control" ng-model="template.description_ru" style="resize:none"></textarea>
+                    <label>Опис, умови, перелік документів (en)</label>
+                    <textarea name="description_en" class="form-control" ng-model="template.description_en" style="resize:none"></textarea>
                 </div>
                 *Опис буде відображатися для користувачів, якщо шаблон встановлений як акційна схема проплат
                 (умови застосування схем; перелік документів, потрібних для активації даних схем і т.д.)

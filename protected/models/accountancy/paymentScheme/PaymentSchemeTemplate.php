@@ -11,10 +11,6 @@
  * @property string $description_ua
  * @property string $description_ru
  * @property string $description_en
- * @property boolean $printPromotionForCourse
- * @property boolean $printPromotionForModule
- * @property string $startDate
- * @property string $endDate
  */
 class PaymentSchemeTemplate extends CActiveRecord {
 
@@ -34,11 +30,9 @@ class PaymentSchemeTemplate extends CActiveRecord {
         return array(
             array('template_name_ua', 'required'),
             // The following rule is used by search().
-            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en
-            printPromotionForCourse,printPromotionForModule, startDate, endDate', 'safe'),
+            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en', 'safe'),
             // @todo Please remove those attributes that should not be searched.
-            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en
-            printPromotionForCourse,printPromotionForModule, startDate, endDate', 'safe', 'on' => 'search'),
+            array('id, template_name_ua, template_name_ru, template_name_en, description_ua,description_ru, description_en', 'safe', 'on' => 'search'),
         );
     }
 
@@ -65,10 +59,6 @@ class PaymentSchemeTemplate extends CActiveRecord {
             'description_ua' => 'опис ua',
             'description_ru' => 'опис ru',
             'description_en' => 'опис en',
-            'printPromotionForCourse' => 'відображати для курсів',
-            'printPromotionForModule' => 'відображати для модулів',
-            'startDate'=>'початок дії акційного шаблону схем, по замовчуванню',
-            'endDate'=>'закінчення дії акційного шаблону схем, по замовчуванню',
         );
     }
 
@@ -96,10 +86,6 @@ class PaymentSchemeTemplate extends CActiveRecord {
         $criteria->compare('description_ua', $this->description_ua, true);
         $criteria->compare('description_ru', $this->description_ru, true);
         $criteria->compare('description_en', $this->description_en, true);
-        $criteria->compare('printPromotionForCourse', $this->printPromotionForCourse, true);
-        $criteria->compare('printPromotionForModule', $this->printPromotionForModule, true);
-        $criteria->compare('startDate', $this->startDate, true);
-        $criteria->compare('endDate', $this->endDate, true);
         
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

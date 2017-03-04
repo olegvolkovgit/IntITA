@@ -1,4 +1,7 @@
-<div ng-controller="paymentsSchemaTemplateApplyCtrl">
+<?php
+/* @var $scenario */
+?>
+<div ng-controller="displayPromotionSchemesCtrl">
     <ul class="list-inline">
         <li>
             <a ng-href="#/accountant/paymentSchemas/schemas/template" class="btn btn-primary">
@@ -11,13 +14,13 @@
             </a>
         </li>
         <li>
-            <a ng-href="#/accountant/paymentSchemas/schemas/appliedTemplates" class="btn btn-primary">
-                Список застосованих шаблонів
+            <a ng-href="#/accountant/paymentSchemas/schemas/apply" class="btn btn-primary">
+                Застосувати шаблон схем
             </a>
         </li>
         <li>
-            <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion" class="btn btn-primary">
-                Застосування акцій до сервісів
+            <a ng-href="#/accountant/paymentSchemas/schemas/appliedTemplates" class="btn btn-primary">
+                Список застосованих шаблонів
             </a>
         </li>
         <li>
@@ -26,29 +29,6 @@
             </a>
         </li>
     </ul>
-    <div class="row m-b-20">
-        <div class="col-md-10">
-            <h4>Сервіси курсів:</h4>
-            <span class="control-label">Шаблон схем по замовчуванню для курсів:</span>
-            <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_COURSE_SCHEME)->schemesTemplate->template_name_ua ?></b>
-        </div>
-        <div class="col-md-10">
-            <span class="control-label">Актуальний шаблон схем на всі курси:</span>
-            <b><?php echo PaymentScheme::getCourseActualSchemeTemplate()->schemesTemplate->template_name_ua; ?></b>
-            <span class="control-label"><br>Діє до: <?php echo PaymentScheme::getCourseActualSchemeTemplate()->endDate ?></span>
-        </div>
-        <br>
-        <div class="col-md-10">
-            <h4>Сервіси модулів:</h4>
-            <span class="control-label">Шаблон схем по замовчуванню для модулів:</span>
-            <b><?php echo PaymentScheme::model()->findByPk(PaymentScheme::DEFAULT_MODULE_SCHEME)->schemesTemplate->template_name_ua ?></b>
-        </div>
-        <div class="col-md-10">
-            <span class="control-label">Актуальний шаблон схем на всі модулі:</span>
-            <b><?php echo PaymentScheme::getModuleActualSchemeTemplate()->schemesTemplate->template_name_ua; ?></b>
-            <span class="control-label"><br>Діє до: <?php echo PaymentScheme::getModuleActualSchemeTemplate()->endDate ?></span>
-        </div>
-    </div>
     <div class="row m-b-20">
         <div class="col-md-4">
             <span class="control-label">Шаблон схем*</span>
@@ -73,30 +53,6 @@
                     ng-init="paymentSchema.serviceType = services[0].value"
                     ng-options="service.value as service.name for service in services" >
             </select>
-        </div>
-    </div>
-    <!--user typeahead -->
-    <div class="row m-b-20">
-        <div class="col-md-4">
-            <span class="control-label">Користувач</span>
-        </div>
-        <div class="col-md-8">
-            <div class="input-group">
-                <span ng-show="!user.loading && !noResultsStudent" class="input-group-addon">
-                    <i class="glyphicon glyphicon-pencil"></i>
-                </span>
-                <span ng-show="user.loading" class="input-group-addon">
-                    <i class="glyphicon glyphicon-refresh"></i>
-                </span>
-                <span ng-show="noResultsStudent" class="input-group-addon">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </span>
-                <input ng-disabled="!paymentSchema.template" type="text" name="student" size="50" ng-model="userSelected"  ng-model-options="{ debounce: 1000 }"
-                       placeholder="Користувач" uib-typeahead="item.email for item in getUsers($viewValue) | limitTo : 10"
-                       typeahead-loading="user.loading"
-                       typeahead-no-results="noResultsStudent"  typeahead-template-url="customTemplate.html"
-                       typeahead-on-select="onSelectUser($item)" ng-change="reloadUser()" class="form-control"/>
-            </div>
         </div>
     </div>
 
@@ -147,17 +103,40 @@
             </div>
         </div>
     </div>
-
+    <div class="row m-d-20">
+        <div class="col-md-4">
+            <span class="control-label">Дата початку відображення акційної пропозиції</span>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="startShowOptions.open()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       uib-datepicker-popup
+                       ng-model="paymentSchema.showDate"
+                       is-open="startShowOptions.popupOpened"
+                       datepicker-options="openDateOptions"
+                       clear-text='Очистити'
+                       close-text='Закрити'
+                       current-text='Сьогодні'>
+            </div>
+        </div>
+    </div>
     <div class="row m-b-20">
         <div class="col-md-4">
             <span class="control-label">Дати початку і завершення</span>
         </div>
         <div class="col-md-4">
             <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default" ng-click="startDateOptions.open()"><i
-                        class="glyphicon glyphicon-calendar"></i></span>
-            </span>
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="startDateOptions.open()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </span>
                 <input type="text"
                        class="form-control"
                        uib-datepicker-popup
@@ -171,10 +150,11 @@
         </div>
         <div class="col-md-4">
             <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default" ng-click="endDateOptions.open()"><i
-                        class="glyphicon glyphicon-calendar"></i></span>
-            </span>
+                <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="endDateOptions.open()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </span>
                 <input type="text"
                        class="form-control"
                        uib-datepicker-popup
@@ -191,20 +171,10 @@
     <div class="row m-b-20">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <input type="button" class="btn btn-primary btn-block" value="Застосувати шаблон" ng-click="applyTemplate()" ng-disabled="!paymentSchema.template"/>
+            <input type="button" class="btn btn-primary btn-block"
+                   value="Застосувати акційний шаблон" ng-click="sendFormPromotion('<?php echo $scenario ?>');"
+                   ng-disabled="!paymentSchema.template"/>
         </div>
-    </div>
-    <div style="border-radius: 5px; border:1px solid #ccc;padding: 5px">
-        <em>
-            *Якщо застосувати шаблон схем без вибору користувача, курсу та модуля - буде замінено стандартний шаблон схем на вибраний.<br>
-            Якщо застосувати шаблон схем до конкретного користувача без вибору курса або модуля - буде застосовано цей шаблон до усіх курсів та модулів
-            для цього користувача.
-            Якщо застосувати шаблон схем до курсу або модуля - шаблон схем буде діяти для вибраного курсу або модуля.
-            <br>
-            Приорітет відображення схем для користувача:
-            <br>
-            <b>1.Індивідуальні схеми на конкретний курс/модуль 2.Індивідуальні схеми на всі курси/модулі 3.Схеми на конкретний курс/модуль 4.Схеми за замовчуванням</b>
-        </em>
     </div>
 </div>
 
