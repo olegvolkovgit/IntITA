@@ -446,4 +446,9 @@ class ModuleController extends Controller
         echo json_encode($array);
     }
 
+    public function actionGetModuleTitle($id)
+    {
+        $model=Module::model()->findByPk($id);
+        echo $model->title_ua.' ('.$model->language.')';
+    }
 }

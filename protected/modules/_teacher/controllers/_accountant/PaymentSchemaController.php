@@ -53,8 +53,13 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('schemasTemplates',array(),false,true);
     }
 
-    public function actionApplyTemplateView()
+    public function actionApplyTemplateView($request=null)
     {
+        if($request){
+            if(!MessagesServiceSchemesRequest::model()->findByPk($request)->isApprovable())
+                throw new Exception('Статус запиту не дозволяє його застосувати');
+        }
+       
         $this->renderPartial('applyTemplateView',array(),false,true);
     }
 
@@ -83,6 +88,11 @@ class PaymentSchemaController extends TeacherCabinetController
         $this->renderPartial('displayPromotionSchemesList',array(),false,true);
     }
 
+    public function actionSchemesRequests()
+    {
+        $this->renderPartial('schemesrequests',array(),false,true);
+    }
+    
     public function actionPromotionUpdate($id)
     {
         $promotion = PromotionPaymentScheme::model()->findByPk($id);
@@ -240,7 +250,24 @@ class PaymentSchemaController extends TeacherCabinetController
 
         echo json_encode($result);
     }
-    
+
+    public function actionGetSchemesRequestsNgTable()
+    {
+        $requestParams = $_GET;
+        if(isset($requestParams['filter']['status']) && $requestParams['filter']['status']=='4'){
+            $criteria =  new CDbCriteria();
+            $criteria->condition = 't.status='.MessagesServiceSchemesRequest::NEW_REQUEST.' or t.status='.MessagesServiceSchemesRequest::IN_PROCESS;
+            unset($requestParams['filter']);
+            $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
+            $ngTable->mergeCriteriaWith($criteria);
+        }else{
+            $ngTable = new NgTableAdapter('MessagesServiceSchemesRequest', $requestParams);
+        }
+
+        $result = $ngTable->getData();
+        echo json_encode($result);
+    }
+
     public function actionGetSchemesTemplate()
     {
         $schemesTemplate=PaymentSchemeTemplate::model()->with(PaymentSchemeTemplate::model()->relations())->findByPk(Yii::app()->request->getParam('templateId'));
@@ -293,6 +320,10 @@ class PaymentSchemaController extends TeacherCabinetController
 
             $paymentScheme->delete();
 
+            if($paymentScheme->userId){
+                $this->cancelSchemaTemplateNotify($paymentScheme);
+            }
+            
             $transaction->commit();
             echo "Успішно видалено";
         } catch (Exception $e) {
@@ -316,12 +347,39 @@ class PaymentSchemaController extends TeacherCabinetController
         echo json_encode($result);
     }
 
+    public function actionRejectSchemaRequest()
+    {
+        $params = array_filter($_POST);
+        $model=MessagesServiceSchemesRequest::model()->findByPk($params['id_message']);
+        $model->setCancelled($params['reject_comment']);
+    }
+
+    public function actionSetRequestStatus()
+    {
+        $idMessage=Yii::app()->request->getParam('idMessage');
+        $status=Yii::app()->request->getParam('status');
+        $model=MessagesServiceSchemesRequest::model()->findByPk($idMessage);
+        $model->setStatus($status);
+    }
+    
+    public function actionSetRequestComment()
+    {
+        $model=MessagesServiceSchemesRequest::model()->findByPk($_POST['id_message']);
+        $model->setComment($_POST['comment']);
+    }
+    
+    public function actionGetSchemesRequest()
+    {
+        $params = array_filter($_POST);
+        echo CJSON::encode(MessagesServiceSchemesRequest::model()->findByPk($params['id_message']));
+    }
+    
     public function actionApplySchemesTemplate () {
         $result = ['message' => 'OK'];
         $statusCode = 201;
         try {
             $params = array_filter($_POST);
-            $params['id_template'] = $params['id'];
+            $params['id_template'] =$params['template']['id'];
             unset($params['id']);
 
             $services = array();
@@ -329,7 +387,7 @@ class PaymentSchemaController extends TeacherCabinetController
 
             $user = null;
             if (key_exists('courseId', $params)) {
-                foreach ($educationForms as $form){
+                foreach ($educationForms as $key=>$form){
                     array_push($services,CourseService::model()->getService($params['courseId'], $form));
                 }
             } else if (key_exists('moduleId', $params)) {
@@ -363,6 +421,14 @@ class PaymentSchemaController extends TeacherCabinetController
                         throw new Exception(json_encode($offer->getErrors()));
                     }
                 }
+            }
+
+            if(isset($params['request']) && $user){
+                if(MessagesServiceSchemesRequest::model()->findByPk($params['request'])->approve()){
+                    $this->approvedNotify($offer);
+                };
+            }else if($user){
+                $this->approvedNotify($offer);
             }
         } catch (Exception $error) {
             $statusCode = 500;
@@ -400,21 +466,25 @@ class PaymentSchemaController extends TeacherCabinetController
     }
 
     public function actionUpdatePromotionSchemesForService () {
+        function valueNull($value) {
+            return !$value?null:$value;
+        }
+
         $result = ['message' => 'OK'];
         $statusCode = 201;
         try {
-            $params = array_filter($_POST);
+            $params = array_map("valueNull", $_POST);
             $params['id_template'] = $params['template']['id'];
             unset($params['template']);
 
             if(isset($params['courseId']) && isset($params['moduleId']))
-                unset($params['moduleId']);
+                $params['moduleId']=null;
             if((isset($params['courseId']) || isset($params['moduleId'])) && isset($params['serviceType']))
-                unset($params['serviceType']);
+                $params['serviceType']=null;
 
             $promotion = PromotionPaymentScheme::model()->findByPk($params['id']);
             $promotion->setAttributes($params);
-            $promotion->update();
+            $promotion->save();
 
             if (count($promotion->getErrors())) {
                 throw new Exception(json_encode($promotion->getErrors()));
@@ -433,4 +503,88 @@ class PaymentSchemaController extends TeacherCabinetController
         echo CJSON::encode($model);
     }
 
+    public function actionGetServiceContent()
+    {
+        $data=array();
+        $id=Yii::app()->request->getParam('serviceId');
+        $service=Service::model()->findByPk($id);
+        $data['courseId']=$service->courseServices?$service->courseServices->course_id:null;
+        $data['moduleId']=$service->moduleServices?$service->moduleServices->module_id:null;
+        echo json_encode($data);
+    }
+
+    public function actionGetActualSchemesRequestsCount()
+    {
+         echo count(MessagesServiceSchemesRequest::model()->findAllByAttributes(array('status'=>MessagesServiceSchemesRequest::NEW_REQUEST)));
+    }
+
+    public static function approvedNotify($offer)
+    {
+        $serviceType=null;
+        $content=null;
+        $user = RegisteredUser::userById($offer->userId);
+        $service=Service::model()->findByPk($offer->serviceId);
+        if($offer->serviceType){
+            $serviceType=$offer->serviceType==Service::COURSE?'КУРСИ':'МОДУЛІ';
+        }else if($service){
+            if($service->courseServices)
+                $content=$service->courseServices->courseModel->title_ua.' ('.$service->courseServices->courseModel->language.')';
+            if($service->moduleServices)
+                $content=$service->moduleServices->moduleModel->title_ua.' ('.$service->moduleServices->moduleModel->language.')';
+        }
+        $schemesTemplate=PaymentSchemeTemplate::model()->findByPk($offer->id_template);
+
+        self::notify($user->registrationData, 'Призначено схему проплат',
+            'accountant'. DIRECTORY_SEPARATOR . '_approveSchemesTemplateRequest',
+            array($serviceType, $service, $content, $schemesTemplate, $offer->startDate, $offer->endDate));
+        return "Операцію успішно виконано.";
+    }
+
+    public static function cancelSchemaTemplateNotify($paymentScheme)
+    {
+        $serviceType=null;
+        $content=null;
+        $user = RegisteredUser::userById($paymentScheme->userId);
+        $service=Service::model()->findByPk($paymentScheme->serviceId);
+        if($paymentScheme->serviceType){
+            $serviceType=$paymentScheme->serviceType==Service::COURSE?'КУРСИ':'МОДУЛІ';
+        }else if($service){
+            if($service->courseServices)
+                $content=$service->courseServices->courseModel->title_ua.' ('.$service->courseServices->courseModel->language.')';
+            if($service->moduleServices)
+                $content=$service->moduleServices->moduleModel->title_ua.' ('.$service->moduleServices->moduleModel->language.')';
+        }
+        $schemesTemplate=PaymentSchemeTemplate::model()->findByPk($paymentScheme->id_template);
+        self::notify($user->registrationData, 'Скасовано схему проплат',
+            'accountant'. DIRECTORY_SEPARATOR . '_cancelSchemesTemplate',
+            array($serviceType, $service, $content, $schemesTemplate));
+        return "Операцію успішно виконано.";
+    }
+    
+    public function notify(StudentReg $user, $subject, $template, $params)
+    {
+        $connection = Yii::app()->db;
+        $transaction = null;
+        if ($connection->getCurrentTransaction() == null) {
+            $transaction = $connection->beginTransaction();
+        }
+
+        try {
+            $message = new MessagesNotifications();
+            $sender = new MailTransport();
+            $sender->renderBodyTemplate($template, $params);
+            $message->build($subject, $sender->template(), array($user), StudentReg::getAdminModel());
+            $message->create();
+
+            $message->send($sender);
+            if ($transaction != null) {
+                $transaction->commit();
+            }
+        } catch (Exception $e) {
+            if ($transaction != null) {
+                $transaction->rollback();
+            }
+            throw new \application\components\Exceptions\IntItaException(500, "Повідомлення не вдалося надіслати.");
+        }
+    }
 }

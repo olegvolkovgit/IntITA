@@ -72,6 +72,27 @@ angular
                         url: url + '/updatePromotionSchemesForService',
                         transformRequest : transformRequest.bind(null)
                     },
+                    schemesRequestsList : {
+                        url: url + '/getSchemesRequestsNgTable'
+                    },
+                    rejectSchemesRequest : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/rejectSchemaRequest',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    setRequestComment : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/setRequestComment',
+                        transformRequest : transformRequest.bind(null)
+                    },
+                    getSchemesRequest : {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'},
+                        url: url + '/getSchemesRequest',
+                        transformRequest : transformRequest.bind(null)
+                    },
                 });
         }])
 ;

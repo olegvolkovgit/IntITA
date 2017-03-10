@@ -193,5 +193,17 @@ config(function ($stateProvider, $urlRouterProvider) {
                 return accountantUrl+"paymentSchema/promotionupdate/id/" + $stateParams.id;
             }
         })
+        .state('accountant/schemesrequests', {
+            url: "/accountant/schemesrequests",
+            cache         : false,
+            templateUrl: accountantUrl+"paymentSchema/schemesrequests"
+        })
+        .state('accountant/paymentSchemas/schemas/apply/request/:request', {
+            url: "/accountant/paymentSchemas/schemas/apply/request/:request",
+            cache         : false,
+            templateUrl: function ($stateParams) {
+                return accountantUrl + "paymentSchema/applyTemplateView/request/" + $stateParams.request;
+            }
+        })
     }
 );
