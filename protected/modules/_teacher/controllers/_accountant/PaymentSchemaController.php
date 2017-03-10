@@ -349,9 +349,9 @@ class PaymentSchemaController extends TeacherCabinetController
 
     public function actionRejectSchemaRequest()
     {
-        $params = array_filter($_POST);
-        $model=MessagesServiceSchemesRequest::model()->findByPk($params['id_message']);
-        $model->setCancelled($params['reject_comment']);
+        $comment=$_POST['reject_comment']?$_POST['reject_comment']:null;
+        $model=MessagesServiceSchemesRequest::model()->findByPk($_POST['id_message']);
+        $model->setCancelled($comment);
     }
 
     public function actionSetRequestStatus()

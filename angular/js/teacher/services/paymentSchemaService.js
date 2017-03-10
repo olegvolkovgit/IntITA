@@ -93,6 +93,9 @@ angular
                         url: url + '/getSchemesRequest',
                         transformRequest : transformRequest.bind(null)
                     },
+                    getActualSchemesRequests: {
+                        url: url + '/getActualSchemesRequestsCount',
+                    },
                 });
         }])
 ;

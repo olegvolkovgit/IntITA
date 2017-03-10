@@ -1025,8 +1025,8 @@ angular
         };
     }])
 
-    .controller('paymentsSchemaTemplateApplyCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService','$q',
-        function ($scope, _, $http, $state, $stateParams, paymentSchemaService, $q) {
+    .controller('paymentsSchemaTemplateApplyCtrl', ['$scope', 'lodash', '$http', '$state','$stateParams','paymentSchemaService','$q','$rootScope',
+        function ($scope, _, $http, $state, $stateParams, paymentSchemaService, $q,$rootScope) {
             $scope.changePageHeader('Застосування шаблону схем');
 
             $scope.loadService=function (id) {
@@ -1127,7 +1127,10 @@ angular
                         if (data.message === 'OK') {
                             bootbox.alert('Шаблон схем успішно застосовано',function () {
                                 if($stateParams.request){
-                                    $state.go("accountant/schemesrequests", {}, {reload: true});
+                                    paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+                                        $rootScope.countOfActualSchemesRequests=response[0];
+                                        $state.go("accountant/schemesrequests", {}, {reload: true});
+                                    });
                                 }else{
                                     $state.reload();
                                 }
@@ -1408,8 +1411,8 @@ angular
                 }
             ];
         }])
-    .controller('schemesRequestsTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService','$http',
-        function ($scope, $stateParams, NgTableParams,paymentSchemaService,$http) {
+    .controller('schemesRequestsTableCtrl', ['$scope', '$stateParams', 'NgTableParams','paymentSchemaService','$http','$rootScope',
+        function ($scope, $stateParams, NgTableParams,paymentSchemaService,$http,$rootScope) {
             $scope.changePageHeader('Запити на застосування схем проплат');
 
             $scope.status = [
@@ -1439,7 +1442,10 @@ angular
                     data: $jq.param({idMessage: idMessage,status:status}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
                 }).then(function successCallback() {
-                    $scope.schemesRequestsTableParams.reload();
+                    paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+                        $rootScope.countOfActualSchemesRequests=response[0];
+                        $scope.schemesRequestsTableParams.reload();
+                    });
                 }, function errorCallback() {
                     bootbox.alert("Змінити статус не вдалося");
                 });
@@ -1456,6 +1462,9 @@ angular
                                 var comment = $jq('#rejectMessageText').val();
                                 paymentSchemaService.rejectSchemesRequest({id_message:idMessage,reject_comment:comment}).$promise.then(function(){
                                     $scope.schemesRequestsTableParams.reload();
+                                });
+                                paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+                                    $rootScope.countOfActualSchemesRequests=response[0];
                                 });
                             }
                         },

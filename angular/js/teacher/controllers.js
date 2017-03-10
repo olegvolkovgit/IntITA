@@ -728,17 +728,8 @@ function mainTeacherConsultantCtrl($scope, $rootScope, $http) {
     $scope.getNewPlainTasksAnswers();
 }
 
-function mainAccountantCtrl($scope, $rootScope, $http) {
-    $scope.getActualSchemesRequests=function(){
-        $http({
-            method:'POST',
-            url:basePath + '/_teacher/_accountant/paymentSchema/getActualSchemesRequestsCount',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).success(function(response){;
-            $rootScope.countOfActualSchemesRequests=response;
-        }).error(function(){
-            console.log("Отримати дані про актуальні запити на застосування схем не вдалося");
-        })
-    };
-    $scope.getActualSchemesRequests();
+function mainAccountantCtrl($rootScope, paymentSchemaService) {
+    paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+        $rootScope.countOfActualSchemesRequests=response[0];
+    });
 }
