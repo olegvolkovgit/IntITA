@@ -106,6 +106,7 @@ angular
         'externalPaymentsService',
         'ngToast',
         function ($scope, $state, $q, _, agreements, invoices, user, operations, externalPayments, ngToast) {
+            $scope.Math = window.Math;
             $scope.typeaheadProviders = {
                 user: {
                     name: 'користувачу',
