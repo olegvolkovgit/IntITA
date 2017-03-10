@@ -19,7 +19,7 @@ function agreementDetailed(agreements, _) {
                         paid = paid+Number($scope.agreementData.internalPayment[index].summa);
                     }
                 }
-                $scope.agreementData.paidAmount=paid;
+                $scope.agreementData.paidAmount=paid.toFixed(2);
                 //get agreement payment_date and expiration_date
                 if($scope.agreementData.invoice){
                     for (var index = 0; index < Object.keys($scope.agreementData.invoice).length; ++index) {
