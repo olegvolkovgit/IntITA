@@ -136,6 +136,13 @@ class UserController extends TeacherCabinetController {
         echo  CJSON::encode(StudentReg::userData($id));
     }
 
+    public function actionLoadUserName()
+    {
+        $model=StudentReg::model()->findByPk(Yii::app()->request->getParam('userId'));
+        $name=trim($model->secondName . " " . $model->firstName . " " . $model->email);
+        echo $name;
+    }
+    
     public function actionGetRolesHistory($id){
 
         $historyAdmin =  UserAdmin::model()->with('assigned_by_user','cancelled_by_user')->findAll('id_user=:id', array(':id'=>$id));

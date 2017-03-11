@@ -11,11 +11,14 @@
     );
 ?>
 <script type="text/javascript">
-    idCourse = <?php echo $model->course_ID;?>;
+    basePath = '<?php echo Config::getBaseUrl(); ?>';
+    id = <?php echo $model->course_ID;?>;
+    service='course';
 </script>
+
 <link type="text/css" rel="stylesheet" href="<?php echo StaticFilesHelper::fullPathTo('css', 'schemes.css'); ?>"/>
-<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers/moduleListCtrl.js'); ?>"></script>
-<div class="mainContent" ng-controller="promotionSchemesCtrl" ng-cloak>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/main_app/controllers.js'); ?>"></script>
+<div class="mainContent promotion" ng-controller="promotionSchemesCtrl" ng-cloak>
     <div ng-repeat="item in promotions track by $index">
         <div style="overflow: hidden;">
             <div ng-if="onlineSchemeData && offlineSchemeData" style="text-align: center;clear:both">
@@ -55,5 +58,18 @@
                 </payments-scheme-by-template>
             </div>
         </div>
+        <div ng-if="onlineSchemeData && offlineSchemeData && !item.template.isRequestOpen">
+            Якщо ти виконав усі умови для отримання даної акційної схеми, відправ запит для отримання схеми,
+            та чекай повідомлення про її активацію в найближчий час
+            <div style="text-align: right;">
+                <input style="margin: 5px" type="button" class="paymentButton"
+                       ng-click="sendSchemaRequest('<?php echo $model->course_ID ?>',1,item.promotion.id_template)"
+                       value="ОТРИМАТИ СХЕМУ />">
+            </div>
+        </div>
     </div>
 </div>
+<script src="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo StaticFilesHelper::fullPathTo('angular', 'js/bootbox.min.js'); ?>"></script>
+<link href="<?php echo StaticFilesHelper::fullPathTo('css', 'bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<?php echo StaticFilesHelper::fullPathTo('css', 'bootstrapRewrite.css') ?>"/>

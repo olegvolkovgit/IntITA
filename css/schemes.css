@@ -23,6 +23,9 @@ div.courseShortInfoTable {
 .paymentsListOdd{
     height: 75px;
 }
+.promotion .paymentsListOdd{
+    background: #f8f8f8;
+}
 .mainPay{
     display: inline-block;
 }
@@ -64,6 +67,22 @@ input.paymentPlan_value{
 .paymentsOnlineSpoiler, .paymentsOfflineSpoiler {
     text-decoration: underline;
     color: #4b75a4;
+    cursor: pointer;
+}
+.paymentButton {
+    display: inline-block;
+    position: relative;
+    border-radius: 7px;
+    border: none;
+    border-top: 1px solid #9fb5ce;
+    color: #ffffff;
+    background: #4b75a4;
+    box-shadow: 0px 2px 0px #7f7f7f;
+    font: normal 400 28px/50px "MyriadPro2";
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 32px;
+    text-decoration: none;
     cursor: pointer;
 }
 @media only screen and (max-width: 800px) {

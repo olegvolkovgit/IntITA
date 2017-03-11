@@ -31,6 +31,10 @@ angular
     .module('teacherApp')
     .controller('mainTeacherConsultantCtrl', mainTeacherConsultantCtrl);
 
+angular
+    .module('teacherApp')
+    .controller('mainAccountantCtrl', mainAccountantCtrl);
+
 function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootScope, typeAhead, roleAttributeService) {
     //function back() redirect to prev link
     $rootScope.back = function () {
@@ -127,6 +131,19 @@ function cabinetCtrl($http, $scope, $compile, $location, $state, $timeout,$rootS
     $scope.courseLink = function (id) {
         $http({
             url: basePath + '/_teacher/cabinet/getCourseLink',
+            method: "POST",
+            data: $jq.param({id: id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            window.open(response.data);
+        }, function errorCallback() {
+            return false;
+        });
+    };
+    //redirect to service content
+    $scope.serviceLink = function (id) {
+        $http({
+            url: basePath + '/_teacher/cabinet/getServiceLink',
             method: "POST",
             data: $jq.param({id: id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -709,4 +726,10 @@ function mainTeacherConsultantCtrl($scope, $rootScope, $http) {
         })
     };
     $scope.getNewPlainTasksAnswers();
+}
+
+function mainAccountantCtrl($rootScope, paymentSchemaService) {
+    paymentSchemaService.getActualSchemesRequests().$promise.then(function(response){
+        $rootScope.countOfActualSchemesRequests=response[0];
+    });
 }

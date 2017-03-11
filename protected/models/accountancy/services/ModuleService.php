@@ -21,7 +21,7 @@ class ModuleService extends AbstractIntITAService
     const MODULE_SERVICE='module';
     
     public $module;
-    public $service;
+//    public $service;
 
     /**
      * @return string the associated database table name
@@ -230,5 +230,10 @@ class ModuleService extends AbstractIntITAService
 
     public function getServiceType(){
         return ModuleService::MODULE_SERVICE;
+    }
+
+    public function getContentLink()
+    {
+        return Yii::app()->createAbsoluteUrl('module/index', array('idModule' => $this->module_id));
     }
 }

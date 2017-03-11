@@ -277,9 +277,11 @@ class CourseController extends Controller
         $id=Yii::app()->request->getPost('id');
         $service=Yii::app()->request->getPost('service');
         if($service=='course'){
+            $serviceId=CourseService::model()->findByPk(array('course_id'=>$id, 'education_form'=>1))->service_id;
             $criteria = new CDbCriteria;
             $criteria->condition = 'courseId='.$id.' or serviceType=1';
         }else{
+            $serviceId=ModuleService::model()->findByPk(array('module_id'=>$id, 'education_form'=>1))->service_id;
             $criteria = new CDbCriteria;
             $criteria->condition = 'moduleId='.$id.' or serviceType=2';
         }
@@ -290,7 +292,47 @@ class CourseController extends Controller
             $data[$key]['promotion']=$promotion;
             $data[$key]['template']['name']=$promotion->schemesTemplate->getName();
             $data[$key]['template']['description']=$promotion->schemesTemplate->getDescription();
+            $data[$key]['template']['isRequestOpen']=MessagesServiceSchemesRequest::model()->isRequestOpen(
+                array('service'=>$serviceId,'schemaTemplate'=>$promotion->schemesTemplate->id,'user'=>Yii::app()->user->getId())
+            );
         }
         echo CJSON::encode($data);
+    }
+
+    public function actionGetCourseTitle($id)
+    {
+        $model=Course::model()->findByPk($id);
+        echo $model->title_ua.' ('.$model->language.')';
+    }
+
+    public function actionSendSchemaRequest($contentId, $serviceType, $schemesTemplateId){
+        switch ($serviceType){
+            case Service::MODULE:
+                $service=Module::model()->findByPk($contentId)->moduleServiceOnline->service;
+                break;
+            case Service::COURSE:
+                $service=Course::model()->findByPk($contentId)->courseServiceOnline->service;
+                break;
+            default :
+                $service = null;
+                break;
+        }
+        $model = StudentReg::model()->findByPk(Yii::app()->user->getId());
+        $schemesTemplate= PaymentSchemeTemplate::model()->findByPk($schemesTemplateId);
+        if($model && $service){
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $message = new MessagesServiceSchemesRequest();
+                $message->build($service, $schemesTemplate, $model);
+                $message->create();
+                $sender = new MailTransport();
+                $message->send($sender);
+                $transaction->commit();
+                echo "Запит на застосування акційної схеми успішно відправлено. Зачекайте, поки ваш запит буде оброблено";
+            } catch (Exception $e){
+                $transaction->rollback();
+                throw new \application\components\Exceptions\IntItaException(500, "Запит на застосування акційної схеми не вдалося надіслати.");
+            }
+        }
     }
 }

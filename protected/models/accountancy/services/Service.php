@@ -15,6 +15,8 @@
  * @property ModuleService $moduleServices
  */
 class Service extends CActiveRecord {
+    const COURSE=1;
+    const MODULE=2;
     /**
      * @return string the associated database table name
      */
@@ -114,5 +116,9 @@ class Service extends CActiveRecord {
     public function provideAccess($userId, $endDate) {
         $service = $this->getConcreteServiceModel();
         $service->access->grantServiceAccess($userId, $endDate);
+    }
+
+    public function serviceLink() {
+        return $this->getConcreteServiceModel()->getContentLink();
     }
 }

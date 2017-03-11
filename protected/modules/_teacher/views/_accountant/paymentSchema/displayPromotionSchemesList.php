@@ -52,7 +52,7 @@
                     <td data-title="'діє до'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                     <td data-title="'Навігація'">
                         <a title="скасувати" href="" ng-click="cancelPromotionPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
-<!--                        <a title="редагувати" ng-href="#/accountant/paymentSchemas/schemas/promotionupdate/{{row.id}}"><i class="fa fa-pencil-square-o fa-fw"></i></a>-->
+                        <a title="редагувати" ng-href="#/accountant/paymentSchemas/schemas/promotionupdate/{{row.id}}"><i class="fa fa-pencil-square-o fa-fw"></i></a>
                     </td>
                 </tr>
             </table>

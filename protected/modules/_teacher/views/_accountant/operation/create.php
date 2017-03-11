@@ -160,7 +160,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Доступна сума:</label>
                             <div class="col-md-9">
-                                <input type="number" class="form-control form-inline text-right" ng-value="(externalPayment.remainder-operation.sum)<0?0:(externalPayment.remainder-operation.sum)" readonly/>
+                                <input type="number" class="form-control form-inline text-right" ng-value="(externalPayment.remainder-operation.sum)<0?0:(externalPayment.remainder-operation.sum).toFixed(2)" readonly/>
                             </div>
                         </div>
                         <span style="color:red">*</span>При спробі погасити більше одного рахунку одночасно, <b><em>сума погашення</em></b>

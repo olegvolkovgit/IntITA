@@ -91,7 +91,8 @@ class Operations {
             });
 
             foreach ($operationInvoices as $invoice){
-                $paymentAmount = min($invoice->getUnpaidSum(), $amount, $externalPayment->amount);
+                //            todo round
+                $paymentAmount = round(min($invoice->getUnpaidSum(), $amount, $externalPayment->amount),2);
                 if($paymentAmount==0) continue;
                 $resultMakePayment = $invoice->makePayment($externalPayment, $paymentAmount, $user);
                 if ($resultMakePayment!== true) {
