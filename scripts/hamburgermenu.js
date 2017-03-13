@@ -4,7 +4,7 @@
 $(document).ready(function(){
     if ($(window).scrollTop() > 80 || $(window).width() <= '800') {
         if($(window).height()<$("#hambMenu").height()){
-            $("#v").css("overflow-y", "scroll");
+            $("#hambMenu").css("overflow-y", "scroll");
             $("#hambMenu").css({height: 100+'%'});
         }else{
             $("#hambMenu").css("overflow-y", "visible");
