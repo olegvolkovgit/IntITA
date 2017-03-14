@@ -110,12 +110,6 @@ span.spoilerTriangle {
     font-size: 14px;
     color: #666666;
     margin-bottom: 5px;
-    height: 0;
-    transition: heigth 2s;
-}
-div.spoiler-body.opened {
-    height: auto;
-    text-decoration: none;
 }
 .spoiler-body img{
     float: right;

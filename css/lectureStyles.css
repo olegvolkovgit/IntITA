@@ -1804,7 +1804,7 @@ div.fullScreen_button_container {
 #changeColor {
     position: absolute;
     right: -18px;
-    margin-top: -30px;
+    margin-top: -25px;
 }
 .fullScreen:hover {
     opacity: 0.5;
@@ -1812,6 +1812,14 @@ div.fullScreen_button_container {
 
 :-webkit-full-screen#text #changeColor {
     background-image: url("../images/icons/min.png");
+    right: 0;
+    margin-top: 5px;
+}
+:-moz-full-screen#text #changeColor{
+    background-image: url("../images/icons/min.png");
+    position: absolute;
+    right: 0;
+    margin-top: 5px;
 }
 :-webkit-full-screen{
     background: black;
@@ -1830,17 +1838,5 @@ div.fullScreen_button_container {
     width:100%;
     height: 100%;
 }
-:-moz-full-screen#text#changeColor{
-    background-image: url("../images/icons/min.png");
-    position: absolute;
-    right: -18px;
-    margin-top: 0px;
-}
 
-:-webkit-full-screen#text#changeColor {
-    background-image: url("../images/icons/min.png");
-    position: absolute;
-    right: -18px;
-    margin-top: 0;
-}
 /*celebre - this block is owned by FullScreen JavaScript API*/
