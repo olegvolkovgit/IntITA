@@ -1,6 +1,3 @@
-<!--<div class="fullScreen_button_container">-->
-<!--    <button id="changeColor" class="fullScreen" onclick="enterFullscreen('video')" title="Розгорнути"></button>-->
-<!--</div>-->
 <?php
 /* @var $page LecturePage*/
 if ($page->video){
@@ -16,4 +13,3 @@ if ($page->video){
         echo Yii::t('lecture', '0639');
     }
 }?>
-

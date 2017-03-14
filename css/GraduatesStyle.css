@@ -110,6 +110,12 @@ span.spoilerTriangle {
     font-size: 14px;
     color: #666666;
     margin-bottom: 5px;
+    height: 0;
+    transition: heigth 2s;
+}
+div.spoiler-body.opened {
+    height: auto;
+    text-decoration: none;
 }
 .spoiler-body img{
     float: right;
@@ -124,13 +130,17 @@ span.spoilerTriangle {
     padding-bottom: 5px;
     font-size: 14px;
     cursor:pointer;
-    text-decoration:underline;
+    text-decoration:none;
     color:#4b75a4;
+}
+.spoiler-title span{
+    text-decoration: underline;
 }
 .spoiler-title:hover{
     color: #666666;
 }
 .opened {
+    display: block;
 }
 .closed {
 }

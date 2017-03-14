@@ -1,29 +1,29 @@
 /**------------------recall-------------------------*/
-$(document).ready(function() {
-    $('.spoiler-body').hide();
-    $('.spoiler-title').click(function(){
-        $(this).toggleClass('opened').toggleClass('closed').next().slideToggle();
-        if($(this).hasClass('opened')) {
-            var a=document.getElementById('id1').value;
-            $(this).html(a + "\u25B2");
-        }
-        else {
-            var b=document.getElementById('id2').value;
-            $(this).html(b + "\u25BC");
-        }
-    });
-});
-function hideRecall(spoiler){
-    $(spoiler).parent().prev('.spoiler-title').toggleClass('opened').toggleClass('closed').next().slideToggle();
-    if($(spoiler).parent().prev('.spoiler-title').hasClass('opened')) {
-        var a=document.getElementById('id1').value;
-        $(spoiler).parent().prev('.spoiler-title').html(a + "\u25B2");
-    }
-    else {
-        var b=document.getElementById('id2').value;
-        $(spoiler).parent().prev('.spoiler-title').html(b + "\u25BC");
-    }
-}
+// $(document).ready(function() {
+//     $('.spoiler-body').hide();
+//     $('.spoiler-title').click(function(){
+//         $(this).toggleClass('opened').toggleClass('closed').next().slideToggle();
+//         if($(this).hasClass('opened')) {
+//             var a=document.getElementById('id1').value;
+//             $(this).html(a + "\u25B2");
+//         }
+//         else {
+//             var b=document.getElementById('id2').value;
+//             $(this).html(b + "\u25BC");
+//         }
+//     });
+// });
+// function hideRecall(spoiler){
+//     $(spoiler).parent().prev('.spoiler-title').toggleClass('opened').toggleClass('closed').next().slideToggle();
+//     if($(spoiler).parent().prev('.spoiler-title').hasClass('opened')) {
+//         var a=document.getElementById('id1').value;
+//         $(spoiler).parent().prev('.spoiler-title').html(a + "\u25B2");
+//     }
+//     else {
+//         var b=document.getElementById('id2').value;
+//         $(spoiler).parent().prev('.spoiler-title').html(b + "\u25BC");
+//     }
+// }
 //celebre
 function  diploma_dialog(name, course) {
 
@@ -71,5 +71,22 @@ function  diploma_dialog(name, course) {
         doc.save('sample-file.pdf');
     });
 
+// open comment with click
+function openComment(elem) {
+    var bodyElem = elem.querySelector('.spoiler-body');
+    elem.classList.toggle('opened');
+    bodyElem.classList.toggle('opened');
+    var maximize = elem.querySelector('.maximize').value;
+    var minimize = elem.querySelector('.minimize').value;
 
+    (function selectData() {
+        var title = elem.querySelector('span');
+        if (elem.classList.contains('opened')) {
+            title.innerHTML = maximize + "\u25B2";
+        } else {
+            title.innerHTML = minimize + "\u25BC";
+        }
+    })();
+}
+// open comment with click
 // celebre

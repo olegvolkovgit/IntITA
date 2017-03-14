@@ -6,9 +6,6 @@
  * Time: 16:57
  */
 ?>
-<!--<div class="fullScreen_button_container">-->
-<!--    <button id="changeColor" class="fullScreen" onclick="enterFullscreen('quiz')" title="Розгорнути"></button>-->
-<!--</div>-->
 <?php
 /* @var $page LecturePage*/
 if (!is_null($page->quiz)) {
@@ -57,4 +54,3 @@ if (!is_null($page->quiz)) {
     }
 }
 ?>
-
