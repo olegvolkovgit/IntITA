@@ -74,8 +74,11 @@ function  diploma_dialog(name, course) {
 // open comment with click
 function openComment(elem) {
     var bodyElem = elem.querySelector('.spoiler-body');
+    $(document).ready(function() {
+        $(bodyElem).slideToggle().toggleClass('opened');
+    })
     elem.classList.toggle('opened');
-    bodyElem.classList.toggle('opened');
+    // bodyElem.classList.toggle('opened');
     var maximize = elem.querySelector('.maximize').value;
     var minimize = elem.querySelector('.minimize').value;
 
@@ -88,5 +91,6 @@ function openComment(elem) {
         }
     })();
 }
+
 // open comment with click
 // celebre
