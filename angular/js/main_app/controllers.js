@@ -5,7 +5,8 @@ angular
     .controller('registrationFormController',registrationFormController)
     .controller('aboutUsCtrl',aboutUsCtrl)
     .controller('sendTeacherLetter',sendTeacherLetter)
-    .controller('teacherResponse', teacherResponse);
+    .controller('teacherResponse', teacherResponse)
+    .controller('promotionSchemesCtrl',promotionSchemesCtrl)
 
 
 /* Controllers */
@@ -639,3 +640,37 @@ angular.module('mainApp.directives', [])
             }
         };
     });
+
+function promotionSchemesCtrl($scope, $http) {
+    $scope.getPromotionSchemes=function (id, service) {
+        var promise = $http({
+            url: basePath+'/course/getPromotionSchemes',
+            method: "POST",
+            data: $.param({id: id, service: service}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            return response.data;
+        }, function errorCallback() {
+            return false;
+        });
+        return promise;
+    };
+
+    $scope.getPromotionSchemes(id, service).then(function (response) {
+        $scope.promotions=response;
+    });
+
+    $scope.sendSchemaRequest=function(id,serviceType,schemesTemplate){
+        $http({
+            url: basePath+'/course/sendSchemaRequest?contentId='+id+'&serviceType='+serviceType+'&schemesTemplateId='+schemesTemplate,
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+        }).then(function successCallback(response) {
+            bootbox.alert(response.data, function(){
+                location.reload();
+            });
+        }, function errorCallback() {
+            bootbox.alert("Запит не вдалося надіслати.");
+        });
+    }
+}

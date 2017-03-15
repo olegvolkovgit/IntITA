@@ -70,13 +70,15 @@ class CabinetController extends TeacherCabinetController
             array_push($newRequests,$req);
         }
         foreach ($newReceivedMessages as $key=>$record) {
-            $message = $record->message();
-            $mes['senderId'] = $message->sender0->id;
-            $mes['userId'] = $model->id;
-            ($message->sender0->userName() == "")?$mes['user'] = $message->sender0->email:$mes['user'] = $message->sender0->userName();
-            $mes['date'] = date("h:m, d F", strtotime($message->create_date));
-            $mes['subject'] = $record->subject();
-            array_push($newMessages,$mes);
+            if($record){
+                $message = $record->message();
+                $mes['senderId'] = $message->sender0->id;
+                $mes['userId'] = $model->id;
+                ($message->sender0->userName() == "")?$mes['user'] = $message->sender0->email:$mes['user'] = $message->sender0->userName();
+                $mes['date'] = date("h:m, d F", strtotime($message->create_date));
+                $mes['subject'] = $record->subject();
+                array_push($newMessages,$mes);
+            }
         }
         if ($model->isTeacher())
             echo json_encode(['requests' => ['countOfRequests' => count($newRequests), 'newRequests' => $newRequests], 'messages' => ['countOfNewMessages' => count($newMessages), 'newMessages' => $newMessages, 'imapMessages'=>$imapMessages]]);
@@ -343,6 +345,10 @@ class CabinetController extends TeacherCabinetController
     public function actionGetCourseLink()
     {
         echo Yii::app()->createUrl('course/index', array('id' => Yii::app()->request->getPost('id')));
+    }
+    public function actionGetServiceLink()
+    {
+        echo Service::model()->findByPk(Yii::app()->request->getPost('id'))->serviceLink();
     }
 
     public function actionMail(){

@@ -21,7 +21,7 @@ class CourseService extends AbstractIntITAService
     const COURSE_SERVICE='course';
     
     public $course;
-    public $service;
+//    public $service;
 
 	/**
 	 * @return string the associated database table name
@@ -198,5 +198,10 @@ class CourseService extends AbstractIntITAService
 
     public function getServiceType(){
         return CourseService::COURSE_SERVICE;
+    }
+
+    public function getContentLink()
+    {
+        return Yii::app()->createAbsoluteUrl('course/index', array('id' => $this->course_id));;
     }
 }

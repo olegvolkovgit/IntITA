@@ -16,6 +16,8 @@ class MessagesFactory
                 return MessagesRejectModuleRevision::model()->findByPk($model->id);
             case MessagesType::NOTIFICATION:
                 return MessagesNotifications::model()->findByPk($model->id);
+            case MessagesType::SERVICE_SCHEMES_REQUEST:
+                return MessagesServiceSchemesRequest::model()->findByPk($model->id);
         }
         return null;
     }

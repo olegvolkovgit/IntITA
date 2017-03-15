@@ -3,7 +3,7 @@
  */
 angular
     .module('mainApp')
-    .controller('moduleCtrl',moduleCtrl);
+    .controller('moduleCtrl',moduleCtrl)
 
 function moduleCtrl($scope, $http) {
     $scope.finishedPrevLectureMsg=finishedPrevLectureMsg;

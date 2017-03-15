@@ -284,15 +284,13 @@ class UserAgreements extends CActiveRecord
 
         $schemas = PaymentScheme::model()->getPaymentScheme($user, $serviceModel);
         $calculators = $schemas->getSchemaCalculator($educForm);
-
         $calculator = array_filter($calculators, function($item) use ($schemaId) {
             return $item->id == $schemaId;
         });
         $calculator = array_values($calculator)[0];
-
         $model = new UserAgreements();
         $model->user_id = $userId;
-        $model->payment_schema = $schemaId;
+        $model->payment_schema = $calculator->payCount;
         $model->service_id = $serviceModel->service_id;
 
         //create fantom billableObject model for converting object's price to UAH

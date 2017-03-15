@@ -16,6 +16,16 @@
                     Застосувати шаблон схем
                 </a>
             </li>
+            <li>
+                <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotion" class="btn btn-primary">
+                    Застосування акцій до сервісів
+                </a>
+            </li>
+            <li>
+                <a ng-href="#/accountant/paymentSchemas/schemas/displaypromotionlist" class="btn btn-primary">
+                    Список застосованих акцій
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <uib-tabset>
@@ -49,7 +59,7 @@
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                             <td data-title="'Скасувати'">
-                                <a ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+                                <a href="" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
                             </td>
                         </tr>
                     </table>
@@ -73,7 +83,7 @@
                             <td data-title="'Початок'" filter="{'startDate': 'text'}" sortable="'startDate'">{{row.startDate}}</td>
                             <td data-title="'Закінчення'" filter="{'endDate': 'text'}" sortable="'endDate'">{{row.endDate}}</td>
                             <td data-title="'Скасувати'">
-                                <a ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
+                                <a href="" ng-click="cancelPaymentScheme(row.id)"><i class="fa fa-trash fa-fw"></i></a>
                             </td>
                         </tr>
                     </table>
